@@ -29,36 +29,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 /** Every value accepts `null`, so a form seeded from a previous response can round-trip unset fields unchanged. */
 export interface CreateVerificationRequestBodyCase0Address {
@@ -924,6 +952,17 @@ export interface UpdateVerificationResponse {
   /** When the verification profile was last updated, as an ISO 8601 timestamp. */
   updated_at?: string | undefined;
 }
+export interface V1ErrorResponseError {
+  /** Machine-readable reason for this specific refusal, such as `bank_warning_not_acknowledged`. Only present when the error carries one. */
+  code?: string | undefined;
+  /** Human-readable error message. */
+  message: string;
+  /** Machine-readable error code. */
+  type: string;
+}
+export interface V1ErrorResponse {
+  error: V1ErrorResponseError;
+}
 export type CreateVerificationError = BadRequest | Forbidden | NotFound | Conflict | WhopOpError;
 /** Create Verification Starts a hosted verification session for an account or user, or returns the active session when one already exists. Any fields you include in the request body are used to prefill the session. Send `documents` (with `document_type`) to instead verify the person from identity documents included in this request -- no hosted session involved. Send `share_token` to reuse a verification another Sumsub account has already completed for this person, instead of verifying them again. Send `verification_id` to reuse a verification the signed-in user already completed on Whop. Every mode except `verification_id` is rejected once the account has an `approved` verification -- unlink it first to start a new one -- while `verification_id` replaces whichever verification of that kind the account currently has. */
 export const createVerification: API.OperationMethod<
@@ -932,8 +971,8 @@ export const createVerification: API.OperationMethod<
   CreateVerificationError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateVerificationRequest>,
-  output: __S(28, __c1, 12) as any as S.Schema<CreateVerificationResponse>,
+  input: __S(16, __c1, 0) as any as S.Schema<CreateVerificationRequest>,
+  output: __S(44, __c2, 12) as any as S.Schema<CreateVerificationResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -949,8 +988,8 @@ export const getVerification: API.OperationMethod<
   GetVerificationError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<GetVerificationRequest>,
-  output: __S(28, __c1, 12) as any as S.Schema<GetVerificationResponse>,
+  input: __S(48, __c3, 0) as any as S.Schema<GetVerificationRequest>,
+  output: __S(44, __c2, 12) as any as S.Schema<GetVerificationResponse>,
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -966,8 +1005,8 @@ export const listVerifications: API.OperationMethod<
   ListVerificationsError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<ListVerificationsRequest>,
-  output: __S(50, __c3, 2) as any as S.Schema<ListVerificationsResponse>,
+  input: __S(64, __c4, 0) as any as S.Schema<ListVerificationsRequest>,
+  output: __S(66, __c4, 2) as any as S.Schema<ListVerificationsResponse>,
   errors: [BadRequest, Forbidden],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -983,8 +1022,8 @@ export const updateVerification: API.OperationMethod<
   UpdateVerificationError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<UpdateVerificationRequest>,
-  output: __S(28, __c1, 12) as any as S.Schema<UpdateVerificationResponse>,
+  input: __S(80, __c5, 0) as any as S.Schema<UpdateVerificationRequest>,
+  output: __S(44, __c2, 12) as any as S.Schema<UpdateVerificationResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -998,6 +1037,24 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          code: S.optional(S.String),
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "V1ErrorResponseError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "V1ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           account_id: S.optional(S.String.pipe(T.Query())),
           user_id: S.optional(S.String.pipe(T.Query())),
           body: S.optional(S.Unknown.pipe(T.HttpBody())),
@@ -1006,7 +1063,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateVerificationRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1029,7 +1086,7 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "CreateVerificationResponseRequestedInformationItemErrorsItem" });
     case 3:
-      return S.Array(__S(18, __c1, 2));
+      return S.Array(__S(34, __c2, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -1038,7 +1095,7 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "FileMultipartUrl" });
     case 5:
-      return S.Array(__S(20, __c1, 4));
+      return S.Array(__S(36, __c2, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -1048,7 +1105,7 @@ function __c1(j: number): any {
           id: S.String,
           multipart_chunk_size: S.optional(S.NullOr(S.Number)),
           multipart_upload_id: S.optional(S.NullOr(S.String)),
-          multipart_upload_urls: S.optional(S.NullOr(__S(21, __c1, 5))),
+          multipart_upload_urls: S.optional(S.NullOr(__S(37, __c2, 5))),
           object: S.String,
           size: S.NullOr(S.Number),
           upload_headers: S.optional(S.Unknown),
@@ -1059,31 +1116,31 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "File" });
     case 7:
-      return S.Array(__S(22, __c1, 6));
+      return S.Array(__S(38, __c2, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           action_url: S.optional(S.String),
           details_label: S.optional(S.String),
           details_required: S.optional(S.Boolean),
-          details_visible_for: S.optional(__S(17, __c1, 1)),
-          errors: S.optional(__S(19, __c1, 3)),
+          details_visible_for: S.optional(__S(33, __c2, 1)),
+          errors: S.optional(__S(35, __c2, 3)),
           id: S.String,
           label: S.String,
           optional: S.optional(S.Boolean),
-          options: S.optional(__S(17, __c1, 1)),
+          options: S.optional(__S(33, __c2, 1)),
           requirement: S.String,
           response_type: S.optional(S.String),
           selection_mode: S.optional(S.String),
-          supporting_documents: S.optional(__S(23, __c1, 7)),
+          supporting_documents: S.optional(__S(39, __c2, 7)),
           supporting_files_explanation_allowed: S.optional(S.Boolean),
           supporting_files_required: S.optional(S.Boolean),
-          supporting_files_visible_for: S.optional(__S(17, __c1, 1)),
+          supporting_files_visible_for: S.optional(__S(33, __c2, 1)),
           type: S.String,
         }),
       ).annotate({ identifier: "CreateVerificationResponseRequestedInformationItem" });
     case 9:
-      return S.Array(__S(24, __c1, 8));
+      return S.Array(__S(40, __c2, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
@@ -1093,11 +1150,11 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "CreateVerificationResponseRequiredDocumentsItem" });
     case 11:
-      return S.Array(__S(26, __c1, 10));
+      return S.Array(__S(42, __c2, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
-          address: S.optional(S.NullOr(__S(16, __c1, 0))),
+          address: S.optional(S.NullOr(__S(32, __c2, 0))),
           business_name: S.optional(S.NullOr(S.String)),
           business_structure: S.optional(S.NullOr(S.String)),
           country: S.optional(S.NullOr(S.String)),
@@ -1109,8 +1166,8 @@ function __c1(j: number): any {
           kind: S.optional(S.String),
           last_name: S.optional(S.NullOr(S.String)),
           phone: S.optional(S.NullOr(S.String)),
-          requested_information: S.optional(__S(25, __c1, 9)),
-          required_documents: S.optional(__S(27, __c1, 11)),
+          requested_information: S.optional(__S(41, __c2, 9)),
+          required_documents: S.optional(__S(43, __c2, 11)),
           session_url: S.optional(S.NullOr(S.String)),
           status: S.optional(S.String),
           updated_at: S.optional(S.String),
@@ -1118,7 +1175,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "CreateVerificationResponse" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1128,7 +1185,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GetVerificationRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1140,16 +1197,16 @@ function __c3(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/verifications", code: 200 })),
       ).annotate({ identifier: "ListVerificationsRequest" });
     case 1:
-      return S.Array(__S(28, __c1, 12));
+      return S.Array(__S(44, __c2, 12));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(49, __c3, 1)),
+          data: S.optional(__S(65, __c4, 1)),
         }),
       ).annotate({ identifier: "ListVerificationsResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

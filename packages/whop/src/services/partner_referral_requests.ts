@@ -30,36 +30,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export interface AcceptPartnerReferralRequestRequest {
   /** Partner referral request ID, prefixed `prfr_`. */
@@ -245,6 +273,17 @@ export interface ListPartnerReferralRequestsResponse {
   data: ListPartnerReferralRequestsResponseDataList;
   page_info: ListPartnerReferralRequestsResponsePageInfo;
 }
+export interface V1ErrorResponseError {
+  /** Machine-readable reason for this specific refusal, such as `bank_warning_not_acknowledged`. Only present when the error carries one. */
+  code?: string | undefined;
+  /** Human-readable error message. */
+  message: string;
+  /** Machine-readable error code. */
+  type: string;
+}
+export interface V1ErrorResponse {
+  error: V1ErrorResponseError;
+}
 export type AcceptPartnerReferralRequestError = Forbidden | NotFound | Conflict | WhopOpError;
 /** Accept a partner referral request Accepts a pending attribution request as the receiving user or business owner, assigning the requesting partner as that user's or business's referrer. */
 export const acceptPartnerReferralRequest: API.OperationMethod<
@@ -253,8 +292,8 @@ export const acceptPartnerReferralRequest: API.OperationMethod<
   AcceptPartnerReferralRequestError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<AcceptPartnerReferralRequestRequest>,
-  output: __S(14, __c1, 6) as any as S.Schema<PartnerReferralRequest>,
+  input: __S(8, __c1, 0) as any as S.Schema<AcceptPartnerReferralRequestRequest>,
+  output: __S(22, __c2, 6) as any as S.Schema<PartnerReferralRequest>,
   errors: [Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -270,8 +309,8 @@ export const cancelPartnerReferralRequest: API.OperationMethod<
   CancelPartnerReferralRequestError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<CancelPartnerReferralRequestRequest>,
-  output: __S(14, __c1, 6) as any as S.Schema<PartnerReferralRequest>,
+  input: __S(24, __c3, 0) as any as S.Schema<CancelPartnerReferralRequestRequest>,
+  output: __S(22, __c2, 6) as any as S.Schema<PartnerReferralRequest>,
   errors: [Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -292,8 +331,8 @@ export const createPartnerReferralRequest: API.OperationMethod<
   CreatePartnerReferralRequestError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<CreatePartnerReferralRequestRequest>,
-  output: __S(14, __c1, 6) as any as S.Schema<PartnerReferralRequest>,
+  input: __S(32, __c4, 0) as any as S.Schema<CreatePartnerReferralRequestRequest>,
+  output: __S(22, __c2, 6) as any as S.Schema<PartnerReferralRequest>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -309,8 +348,8 @@ export const declinePartnerReferralRequest: API.OperationMethod<
   DeclinePartnerReferralRequestError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<DeclinePartnerReferralRequestRequest>,
-  output: __S(14, __c1, 6) as any as S.Schema<PartnerReferralRequest>,
+  input: __S(40, __c5, 0) as any as S.Schema<DeclinePartnerReferralRequestRequest>,
+  output: __S(22, __c2, 6) as any as S.Schema<PartnerReferralRequest>,
   errors: [Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -326,8 +365,8 @@ export const getPartnerReferralRequest: API.OperationMethod<
   GetPartnerReferralRequestError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<GetPartnerReferralRequestRequest>,
-  output: __S(14, __c1, 6) as any as S.Schema<PartnerReferralRequest>,
+  input: __S(48, __c6, 0) as any as S.Schema<GetPartnerReferralRequestRequest>,
+  output: __S(22, __c2, 6) as any as S.Schema<PartnerReferralRequest>,
   errors: [Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -345,8 +384,8 @@ export const listPartnerReferralRequests: API.PaginatedOperationMethod<
   PartnerReferralRequest
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(48, __c6, 0) as any as S.Schema<ListPartnerReferralRequestsRequest>,
-    output: __S(51, __c6, 3) as any as S.Schema<ListPartnerReferralRequestsResponse>,
+    input: __S(56, __c7, 0) as any as S.Schema<ListPartnerReferralRequestsRequest>,
+    output: __S(59, __c7, 3) as any as S.Schema<ListPartnerReferralRequestsResponse>,
     errors: [BadRequest, Forbidden],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -370,6 +409,24 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          code: S.optional(S.String),
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "V1ErrorResponseError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "V1ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           id: S.String.pipe(T.Label()),
           idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
@@ -378,7 +435,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "AcceptPartnerReferralRequestRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -398,7 +455,7 @@ function __c1(j: number): any {
         S.Struct({
           id: S.String,
           name: S.NullOr(S.String),
-          profile_picture: __S(9, __c1, 1),
+          profile_picture: __S(17, __c2, 1),
           username: S.String,
         }),
       ).annotate({ identifier: "UserSummary" });
@@ -416,33 +473,33 @@ function __c1(j: number): any {
         S.Struct({
           bot_qualification_type: S.NullOr(S.String),
           id: S.String,
-          qualification_amount: __S(11, __c1, 3),
+          qualification_amount: __S(19, __c2, 3),
           recipient: S.NullOr(S.String),
           recipient_id: S.NullOr(S.String),
-          reward_amount: __S(11, __c1, 3),
+          reward_amount: __S(19, __c2, 3),
         }),
       ).annotate({ identifier: "PartnerReferralReward" });
     case 5:
-      return S.Array(__S(12, __c1, 4));
+      return S.Array(__S(20, __c2, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          account: S.NullOr(__S(8, __c1, 0)),
+          account: S.NullOr(__S(16, __c2, 0)),
           code: S.NullOr(S.String),
           created_at: S.String,
           id: S.String,
           max_redemptions: S.NullOr(S.Number),
-          partner: __S(10, __c1, 2),
+          partner: __S(18, __c2, 2),
           request_type: S.String,
-          rewards: __S(13, __c1, 5),
+          rewards: __S(21, __c2, 5),
           status: S.NullOr(S.String),
           updated_at: S.String,
-          user: S.NullOr(__S(10, __c1, 2)),
+          user: S.NullOr(__S(18, __c2, 2)),
         }),
       ).annotate({ identifier: "PartnerReferralRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -455,7 +512,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "CancelPartnerReferralRequestRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -466,7 +523,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "CreatePartnerReferralRequestRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -479,7 +536,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "DeclinePartnerReferralRequestRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -489,7 +546,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GetPartnerReferralRequestRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -508,7 +565,7 @@ function __c6(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/partner_referral_requests", code: 200 })),
       ).annotate({ identifier: "ListPartnerReferralRequestsRequest" });
     case 1:
-      return S.Array(__S(14, __c1, 6));
+      return S.Array(__S(22, __c2, 6));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -521,8 +578,8 @@ function __c6(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(49, __c6, 1),
-          page_info: __S(50, __c6, 2),
+          data: __S(57, __c7, 1),
+          page_info: __S(58, __c7, 2),
         }),
       ).annotate({ identifier: "ListPartnerReferralRequestsResponse" });
   }

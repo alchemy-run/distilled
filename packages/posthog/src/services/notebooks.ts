@@ -30,36 +30,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: WidgetError | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: WidgetError | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: WidgetError | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: WidgetError | string;
+}
 
 export interface AttachNotebooksWidgetRequestInputBindingsValue {
   source: string;
@@ -1438,6 +1466,12 @@ export interface UpdateNotebooksPartialRequest {
   variables?: UpdateNotebooksPartialRequestVariablesList | undefined;
   _create_in_folder?: string | undefined;
 }
+export interface WidgetError {
+  /** Stable machine-readable error code. */
+  code: string;
+  /** Actionable error detail. */
+  detail: string;
+}
 export type AttachNotebooksWidgetError = BadRequest | NotFound | Conflict | PosthogOpError;
 /** The API for interacting with Notebooks. This feature is in early access and the API can have breaking changes without announcement. */
 export const attachNotebooksWidget: API.OperationMethod<
@@ -1446,8 +1480,8 @@ export const attachNotebooksWidget: API.OperationMethod<
   AttachNotebooksWidgetError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<AttachNotebooksWidgetRequest>,
-  output: __S(321, __c40, 1) as any as S.Schema<WidgetStatus>,
+  input: __S(280, __c35, 0) as any as S.Schema<AttachNotebooksWidgetRequest>,
+  output: __S(329, __c41, 1) as any as S.Schema<WidgetStatus>,
   errors: [BadRequest, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1463,8 +1497,8 @@ export const cancelNotebooksWidget: API.OperationMethod<
   CancelNotebooksWidgetError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c52, 0) as any as S.Schema<CancelNotebooksWidgetRequest>,
-  output: __S(424, __c53, 0) as any as S.Schema<CancelNotebooksWidgetResponse>,
+  input: __S(424, __c53, 0) as any as S.Schema<CancelNotebooksWidgetRequest>,
+  output: __S(432, __c54, 0) as any as S.Schema<CancelNotebooksWidgetResponse>,
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1480,8 +1514,8 @@ export const createNotebook: API.OperationMethod<
   CreateNotebookError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c56, 0) as any as S.Schema<CreateNotebookRequest>,
-  output: __S(473, __c59, 1) as any as S.Schema<NotebookOutput>,
+  input: __S(456, __c57, 0) as any as S.Schema<CreateNotebookRequest>,
+  output: __S(481, __c60, 1) as any as S.Schema<NotebookOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1497,8 +1531,8 @@ export const createNotebooksCollabMarkdownSave: API.OperationMethod<
   CreateNotebooksCollabMarkdownSaveError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c60, 0) as any as S.Schema<CreateNotebooksCollabMarkdownSaveRequest>,
-  output: __S(424, __c53, 0) as any as S.Schema<CreateNotebooksCollabMarkdownSaveResponse>,
+  input: __S(488, __c61, 0) as any as S.Schema<CreateNotebooksCollabMarkdownSaveRequest>,
+  output: __S(432, __c54, 0) as any as S.Schema<CreateNotebooksCollabMarkdownSaveResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1514,8 +1548,8 @@ export const createNotebooksCollabPresence: API.OperationMethod<
   CreateNotebooksCollabPresenceError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c62, 0) as any as S.Schema<CreateNotebooksCollabPresenceRequest>,
-  output: __S(424, __c53, 0) as any as S.Schema<CreateNotebooksCollabPresenceResponse>,
+  input: __S(504, __c63, 0) as any as S.Schema<CreateNotebooksCollabPresenceRequest>,
+  output: __S(432, __c54, 0) as any as S.Schema<CreateNotebooksCollabPresenceResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1531,8 +1565,8 @@ export const createNotebooksCollabSave: API.OperationMethod<
   CreateNotebooksCollabSaveError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(504, __c63, 0) as any as S.Schema<CreateNotebooksCollabSaveRequest>,
-  output: __S(424, __c53, 0) as any as S.Schema<CreateNotebooksCollabSaveResponse>,
+  input: __S(512, __c64, 0) as any as S.Schema<CreateNotebooksCollabSaveRequest>,
+  output: __S(432, __c54, 0) as any as S.Schema<CreateNotebooksCollabSaveResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1548,8 +1582,8 @@ export const createNotebooksKernelComplete: API.OperationMethod<
   CreateNotebooksKernelCompleteError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateNotebooksKernelCompleteRequest>,
-  output: __S(3, __c0, 3) as any as S.Schema<NotebookKernelCompleteResponse>,
+  input: __S(8, __c1, 0) as any as S.Schema<CreateNotebooksKernelCompleteRequest>,
+  output: __S(11, __c1, 3) as any as S.Schema<NotebookKernelCompleteResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1565,8 +1599,8 @@ export const createNotebooksKernelConfig: API.OperationMethod<
   CreateNotebooksKernelConfigError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<CreateNotebooksKernelConfigRequest>,
-  output: __S(9, __c1, 1) as any as S.Schema<NotebookKernelConfigResponse>,
+  input: __S(16, __c2, 0) as any as S.Schema<CreateNotebooksKernelConfigRequest>,
+  output: __S(17, __c2, 1) as any as S.Schema<NotebookKernelConfigResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1582,8 +1616,8 @@ export const createNotebooksKernelInspect: API.OperationMethod<
   CreateNotebooksKernelInspectError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<CreateNotebooksKernelInspectRequest>,
-  output: __S(17, __c2, 1) as any as S.Schema<NotebookKernelInspectResponse>,
+  input: __S(24, __c3, 0) as any as S.Schema<CreateNotebooksKernelInspectRequest>,
+  output: __S(25, __c3, 1) as any as S.Schema<NotebookKernelInspectResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1599,8 +1633,8 @@ export const createNotebooksRun: API.OperationMethod<
   CreateNotebooksRunError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<CreateNotebooksRunRequest>,
-  output: __S(25, __c3, 1) as any as S.Schema<NotebookRunStartResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<CreateNotebooksRunRequest>,
+  output: __S(33, __c4, 1) as any as S.Schema<NotebookRunStartResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1616,8 +1650,8 @@ export const createNotebooksRunsInterrupt: API.OperationMethod<
   CreateNotebooksRunsInterruptError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<CreateNotebooksRunsInterruptRequest>,
-  output: __S(33, __c4, 1) as any as S.Schema<NotebookRunInterruptResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<CreateNotebooksRunsInterruptRequest>,
+  output: __S(41, __c5, 1) as any as S.Schema<NotebookRunInterruptResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1633,8 +1667,8 @@ export const createNotebooksSharingPassword: API.OperationMethod<
   CreateNotebooksSharingPasswordError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<CreateNotebooksSharingPasswordRequest>,
-  output: __S(50, __c6, 2) as any as S.Schema<SharingConfiguration>,
+  input: __S(48, __c6, 0) as any as S.Schema<CreateNotebooksSharingPasswordRequest>,
+  output: __S(58, __c7, 2) as any as S.Schema<SharingConfiguration>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1650,8 +1684,8 @@ export const createNotebooksSqlV2Run: API.OperationMethod<
   CreateNotebooksSqlV2RunError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(58, __c7, 2) as any as S.Schema<CreateNotebooksSqlV2RunRequest>,
-  output: __S(59, __c7, 3) as any as S.Schema<NotebookSQLV2RunResponse>,
+  input: __S(66, __c8, 2) as any as S.Schema<CreateNotebooksSqlV2RunRequest>,
+  output: __S(67, __c8, 3) as any as S.Schema<NotebookSQLV2RunResponse>,
   errors: [Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1667,8 +1701,8 @@ export const createNotebooksSqlV2RunsInterrupt: API.OperationMethod<
   CreateNotebooksSqlV2RunsInterruptError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<CreateNotebooksSqlV2RunsInterruptRequest>,
-  output: __S(65, __c8, 1) as any as S.Schema<NotebookSQLV2InterruptResponse>,
+  input: __S(72, __c9, 0) as any as S.Schema<CreateNotebooksSqlV2RunsInterruptRequest>,
+  output: __S(73, __c9, 1) as any as S.Schema<NotebookSQLV2InterruptResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1684,8 +1718,8 @@ export const createNotebooksWidgetSnapshot: API.OperationMethod<
   CreateNotebooksWidgetSnapshotError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<CreateNotebooksWidgetSnapshotRequest>,
-  output: __S(80, __c10, 0) as any as S.Schema<WidgetSnapshot>,
+  input: __S(80, __c10, 0) as any as S.Schema<CreateNotebooksWidgetSnapshotRequest>,
+  output: __S(88, __c11, 0) as any as S.Schema<WidgetSnapshot>,
   errors: [BadRequest, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1701,8 +1735,8 @@ export const forkNotebooksWidget: API.OperationMethod<
   ForkNotebooksWidgetError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<ForkNotebooksWidgetRequest>,
-  output: __S(321, __c40, 1) as any as S.Schema<WidgetStatus>,
+  input: __S(96, __c12, 0) as any as S.Schema<ForkNotebooksWidgetRequest>,
+  output: __S(329, __c41, 1) as any as S.Schema<WidgetStatus>,
   errors: [BadRequest, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1723,8 +1757,8 @@ export const generateNotebooksWidget: API.OperationMethod<
   GenerateNotebooksWidgetError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<GenerateNotebooksWidgetRequest>,
-  output: __S(424, __c53, 0) as any as S.Schema<GenerateNotebooksWidgetResponse>,
+  input: __S(104, __c13, 0) as any as S.Schema<GenerateNotebooksWidgetRequest>,
+  output: __S(432, __c54, 0) as any as S.Schema<GenerateNotebooksWidgetResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1740,8 +1774,8 @@ export const getNotebook: API.OperationMethod<
   GetNotebookError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<GetNotebookRequest>,
-  output: __S(473, __c59, 1) as any as S.Schema<NotebookOutput>,
+  input: __S(112, __c14, 0) as any as S.Schema<GetNotebookRequest>,
+  output: __S(481, __c60, 1) as any as S.Schema<NotebookOutput>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1757,8 +1791,8 @@ export const getNotebooksActivity: API.OperationMethod<
   GetNotebooksActivityError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<GetNotebooksActivityRequest>,
-  output: __S(424, __c53, 0) as any as S.Schema<GetNotebooksActivityResponse>,
+  input: __S(120, __c15, 0) as any as S.Schema<GetNotebooksActivityRequest>,
+  output: __S(432, __c54, 0) as any as S.Schema<GetNotebooksActivityResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1774,8 +1808,8 @@ export const getNotebooksAllActivity: API.OperationMethod<
   GetNotebooksAllActivityError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<GetNotebooksAllActivityRequest>,
-  output: __S(424, __c53, 0) as any as S.Schema<GetNotebooksAllActivityResponse>,
+  input: __S(128, __c16, 0) as any as S.Schema<GetNotebooksAllActivityRequest>,
+  output: __S(432, __c54, 0) as any as S.Schema<GetNotebooksAllActivityResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1791,8 +1825,8 @@ export const getNotebooksCollabStream: API.OperationMethod<
   GetNotebooksCollabStreamError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<GetNotebooksCollabStreamRequest>,
-  output: __S(424, __c53, 0) as any as S.Schema<GetNotebooksCollabStreamResponse>,
+  input: __S(136, __c17, 0) as any as S.Schema<GetNotebooksCollabStreamRequest>,
+  output: __S(432, __c54, 0) as any as S.Schema<GetNotebooksCollabStreamResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1808,8 +1842,8 @@ export const getNotebooksKernelComputeOption: API.OperationMethod<
   GetNotebooksKernelComputeOptionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<GetNotebooksKernelComputeOptionRequest>,
-  output: __S(140, __c17, 4) as any as S.Schema<NotebookComputeOptionsResponse>,
+  input: __S(144, __c18, 0) as any as S.Schema<GetNotebooksKernelComputeOptionRequest>,
+  output: __S(148, __c18, 4) as any as S.Schema<NotebookComputeOptionsResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1825,8 +1859,8 @@ export const getNotebooksKernelStatus: API.OperationMethod<
   GetNotebooksKernelStatusError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<GetNotebooksKernelStatusRequest>,
-  output: __S(145, __c18, 1) as any as S.Schema<NotebookKernelStatusResponse>,
+  input: __S(152, __c19, 0) as any as S.Schema<GetNotebooksKernelStatusRequest>,
+  output: __S(153, __c19, 1) as any as S.Schema<NotebookKernelStatusResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1842,8 +1876,8 @@ export const getNotebooksRecordingComment: API.OperationMethod<
   GetNotebooksRecordingCommentError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<GetNotebooksRecordingCommentRequest>,
-  output: __S(424, __c53, 0) as any as S.Schema<GetNotebooksRecordingCommentResponse>,
+  input: __S(168, __c21, 0) as any as S.Schema<GetNotebooksRecordingCommentRequest>,
+  output: __S(432, __c54, 0) as any as S.Schema<GetNotebooksRecordingCommentResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1859,8 +1893,8 @@ export const getNotebooksRun: API.OperationMethod<
   GetNotebooksRunError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<GetNotebooksRunRequest>,
-  output: __S(171, __c21, 3) as any as S.Schema<NotebookRunStatusResponse>,
+  input: __S(176, __c22, 0) as any as S.Schema<GetNotebooksRunRequest>,
+  output: __S(179, __c22, 3) as any as S.Schema<NotebookRunStatusResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1876,8 +1910,8 @@ export const getNotebooksSqlV2Run: API.OperationMethod<
   GetNotebooksSqlV2RunError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<GetNotebooksSqlV2RunRequest>,
-  output: __S(181, __c22, 5) as any as S.Schema<NotebookSQLV2RunStatusResponse>,
+  input: __S(184, __c23, 0) as any as S.Schema<GetNotebooksSqlV2RunRequest>,
+  output: __S(189, __c23, 5) as any as S.Schema<NotebookSQLV2RunStatusResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1893,8 +1927,8 @@ export const getNotebooksSqlV2State: API.OperationMethod<
   GetNotebooksSqlV2StateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<GetNotebooksSqlV2StateRequest>,
-  output: __S(198, __c24, 6) as any as S.Schema<NotebookSQLV2StateResponse>,
+  input: __S(200, __c25, 0) as any as S.Schema<GetNotebooksSqlV2StateRequest>,
+  output: __S(206, __c25, 6) as any as S.Schema<NotebookSQLV2StateResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1910,8 +1944,8 @@ export const getNotebooksWidgetSnapshot: API.OperationMethod<
   GetNotebooksWidgetSnapshotError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<GetNotebooksWidgetSnapshotRequest>,
-  output: __S(80, __c10, 0) as any as S.Schema<WidgetSnapshot>,
+  input: __S(208, __c26, 0) as any as S.Schema<GetNotebooksWidgetSnapshotRequest>,
+  output: __S(88, __c11, 0) as any as S.Schema<WidgetSnapshot>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1927,8 +1961,8 @@ export const listNotebooks: API.OperationMethod<
   ListNotebooksError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c26, 0) as any as S.Schema<ListNotebooksRequest>,
-  output: __S(211, __c26, 3) as any as S.Schema<PaginatedNotebookMinimalListOutput>,
+  input: __S(216, __c27, 0) as any as S.Schema<ListNotebooksRequest>,
+  output: __S(219, __c27, 3) as any as S.Schema<PaginatedNotebookMinimalListOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1943,8 +1977,8 @@ export const listNotebooksSharing: API.OperationMethod<
   ListNotebooksSharingError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<ListNotebooksSharingRequest>,
-  output: __S(218, __c27, 2) as any as S.Schema<ListNotebooksSharingResponse>,
+  input: __S(224, __c28, 0) as any as S.Schema<ListNotebooksSharingRequest>,
+  output: __S(226, __c28, 2) as any as S.Schema<ListNotebooksSharingResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1960,8 +1994,8 @@ export const notebooksDestroy: API.OperationMethod<
   NotebooksDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c28, 0) as any as S.Schema<NotebooksDestroyRequest>,
-  output: __S(424, __c53, 0) as any as S.Schema<NotebooksDestroyResponse>,
+  input: __S(232, __c29, 0) as any as S.Schema<NotebooksDestroyRequest>,
+  output: __S(432, __c54, 0) as any as S.Schema<NotebooksDestroyResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1977,8 +2011,8 @@ export const notebooksKernelExecuteCreate: API.OperationMethod<
   NotebooksKernelExecuteCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<NotebooksKernelExecuteCreateRequest>,
-  output: __S(424, __c53, 0) as any as S.Schema<NotebooksKernelExecuteCreateResponse>,
+  input: __S(240, __c30, 0) as any as S.Schema<NotebooksKernelExecuteCreateRequest>,
+  output: __S(432, __c54, 0) as any as S.Schema<NotebooksKernelExecuteCreateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1994,8 +2028,8 @@ export const notebooksKernelRestartCreate: API.OperationMethod<
   NotebooksKernelRestartCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c30, 0) as any as S.Schema<NotebooksKernelRestartCreateRequest>,
-  output: __S(424, __c53, 0) as any as S.Schema<NotebooksKernelRestartCreateResponse>,
+  input: __S(248, __c31, 0) as any as S.Schema<NotebooksKernelRestartCreateRequest>,
+  output: __S(432, __c54, 0) as any as S.Schema<NotebooksKernelRestartCreateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2011,8 +2045,8 @@ export const notebooksKernelStartCreate: API.OperationMethod<
   NotebooksKernelStartCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(248, __c31, 0) as any as S.Schema<NotebooksKernelStartCreateRequest>,
-  output: __S(424, __c53, 0) as any as S.Schema<NotebooksKernelStartCreateResponse>,
+  input: __S(256, __c32, 0) as any as S.Schema<NotebooksKernelStartCreateRequest>,
+  output: __S(432, __c54, 0) as any as S.Schema<NotebooksKernelStartCreateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2028,8 +2062,8 @@ export const notebooksKernelStopCreate: API.OperationMethod<
   NotebooksKernelStopCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c32, 0) as any as S.Schema<NotebooksKernelStopCreateRequest>,
-  output: __S(424, __c53, 0) as any as S.Schema<NotebooksKernelStopCreateResponse>,
+  input: __S(264, __c33, 0) as any as S.Schema<NotebooksKernelStopCreateRequest>,
+  output: __S(432, __c54, 0) as any as S.Schema<NotebooksKernelStopCreateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2045,8 +2079,8 @@ export const notebooksSharingPasswordsDestroy: API.OperationMethod<
   NotebooksSharingPasswordsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(264, __c33, 0) as any as S.Schema<NotebooksSharingPasswordsDestroyRequest>,
-  output: __S(424, __c53, 0) as any as S.Schema<NotebooksSharingPasswordsDestroyResponse>,
+  input: __S(272, __c34, 0) as any as S.Schema<NotebooksSharingPasswordsDestroyRequest>,
+  output: __S(432, __c54, 0) as any as S.Schema<NotebooksSharingPasswordsDestroyResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2061,8 +2095,8 @@ export const notebooksSharingRefreshCreate: API.OperationMethod<
   NotebooksSharingRefreshCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(328, __c41, 0) as any as S.Schema<NotebooksSharingRefreshCreateRequest>,
-  output: __S(50, __c6, 2) as any as S.Schema<SharingConfiguration>,
+  input: __S(336, __c42, 0) as any as S.Schema<NotebooksSharingRefreshCreateRequest>,
+  output: __S(58, __c7, 2) as any as S.Schema<SharingConfiguration>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2078,8 +2112,8 @@ export const notebooksWidgetFrame: API.OperationMethod<
   NotebooksWidgetFrameError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c42, 0) as any as S.Schema<NotebooksWidgetFrameRequest>,
-  output: __S(344, __c43, 0) as any as S.Schema<WidgetFrame>,
+  input: __S(344, __c43, 0) as any as S.Schema<NotebooksWidgetFrameRequest>,
+  output: __S(352, __c44, 0) as any as S.Schema<WidgetFrame>,
   errors: [Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2095,8 +2129,8 @@ export const notebooksWidgetRevert: API.OperationMethod<
   NotebooksWidgetRevertError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c44, 0) as any as S.Schema<NotebooksWidgetRevertRequest>,
-  output: __S(321, __c40, 1) as any as S.Schema<WidgetStatus>,
+  input: __S(360, __c45, 0) as any as S.Schema<NotebooksWidgetRevertRequest>,
+  output: __S(329, __c41, 1) as any as S.Schema<WidgetStatus>,
   errors: [BadRequest, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2112,8 +2146,8 @@ export const notebooksWidgetSnapshotFrame: API.OperationMethod<
   NotebooksWidgetSnapshotFrameError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(360, __c45, 0) as any as S.Schema<NotebooksWidgetSnapshotFrameRequest>,
-  output: __S(344, __c43, 0) as any as S.Schema<WidgetFrame>,
+  input: __S(368, __c46, 0) as any as S.Schema<NotebooksWidgetSnapshotFrameRequest>,
+  output: __S(352, __c44, 0) as any as S.Schema<WidgetFrame>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2129,8 +2163,8 @@ export const notebooksWidgetSource: API.OperationMethod<
   NotebooksWidgetSourceError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c46, 0) as any as S.Schema<NotebooksWidgetSourceRequest>,
-  output: __S(369, __c46, 1) as any as S.Schema<WidgetSource>,
+  input: __S(376, __c47, 0) as any as S.Schema<NotebooksWidgetSourceRequest>,
+  output: __S(377, __c47, 1) as any as S.Schema<WidgetSource>,
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2146,8 +2180,8 @@ export const notebooksWidgetStatus: API.OperationMethod<
   NotebooksWidgetStatusError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(376, __c47, 0) as any as S.Schema<NotebooksWidgetStatusRequest>,
-  output: __S(321, __c40, 1) as any as S.Schema<WidgetStatus>,
+  input: __S(384, __c48, 0) as any as S.Schema<NotebooksWidgetStatusRequest>,
+  output: __S(329, __c41, 1) as any as S.Schema<WidgetStatus>,
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2163,8 +2197,8 @@ export const notebooksWidgetVersions: API.OperationMethod<
   NotebooksWidgetVersionsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c48, 0) as any as S.Schema<NotebooksWidgetVersionsRequest>,
-  output: __S(387, __c48, 3) as any as S.Schema<WidgetVersionPage>,
+  input: __S(392, __c49, 0) as any as S.Schema<NotebooksWidgetVersionsRequest>,
+  output: __S(395, __c49, 3) as any as S.Schema<WidgetVersionPage>,
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2180,8 +2214,8 @@ export const pinNotebooksWidget: API.OperationMethod<
   PinNotebooksWidgetError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(392, __c49, 0) as any as S.Schema<PinNotebooksWidgetRequest>,
-  output: __S(321, __c40, 1) as any as S.Schema<WidgetStatus>,
+  input: __S(400, __c50, 0) as any as S.Schema<PinNotebooksWidgetRequest>,
+  output: __S(329, __c41, 1) as any as S.Schema<WidgetStatus>,
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2202,8 +2236,8 @@ export const publishNotebooksWidget: API.OperationMethod<
   PublishNotebooksWidgetError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c50, 0) as any as S.Schema<PublishNotebooksWidgetRequest>,
-  output: __S(402, __c50, 2) as any as S.Schema<ReusableWidgetDetail>,
+  input: __S(408, __c51, 0) as any as S.Schema<PublishNotebooksWidgetRequest>,
+  output: __S(410, __c51, 2) as any as S.Schema<ReusableWidgetDetail>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2219,8 +2253,8 @@ export const publishNotebooksWidgetSnapshot: API.OperationMethod<
   PublishNotebooksWidgetSnapshotError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(408, __c51, 0) as any as S.Schema<PublishNotebooksWidgetSnapshotRequest>,
-  output: __S(80, __c10, 0) as any as S.Schema<WidgetSnapshot>,
+  input: __S(416, __c52, 0) as any as S.Schema<PublishNotebooksWidgetSnapshotRequest>,
+  output: __S(88, __c11, 0) as any as S.Schema<WidgetSnapshot>,
   errors: [BadRequest, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2236,8 +2270,8 @@ export const updateNotebook: API.OperationMethod<
   UpdateNotebookError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c54, 0) as any as S.Schema<UpdateNotebookRequest>,
-  output: __S(473, __c59, 1) as any as S.Schema<NotebookOutput>,
+  input: __S(440, __c55, 0) as any as S.Schema<UpdateNotebookRequest>,
+  output: __S(481, __c60, 1) as any as S.Schema<NotebookOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2253,8 +2287,8 @@ export const updateNotebooksPartial: API.OperationMethod<
   UpdateNotebooksPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(440, __c55, 0) as any as S.Schema<UpdateNotebooksPartialRequest>,
-  output: __S(473, __c59, 1) as any as S.Schema<NotebookOutput>,
+  input: __S(448, __c56, 0) as any as S.Schema<UpdateNotebooksPartialRequest>,
+  output: __S(481, __c60, 1) as any as S.Schema<NotebookOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2264,6 +2298,17 @@ export const updateNotebooksPartial: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.String,
+          detail: S.String,
+        }),
+      ).annotate({ identifier: "WidgetError" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2288,18 +2333,18 @@ function __c0(j: number): any {
         }),
       ).annotate({ identifier: "NotebookKernelCompletion" });
     case 2:
-      return S.Array(__S(1, __c0, 1));
+      return S.Array(__S(9, __c1, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          matches: __S(2, __c0, 2),
+          matches: __S(10, __c1, 2),
           cursor_start: S.Number,
           cursor_end: S.Number,
         }),
       ).annotate({ identifier: "NotebookKernelCompleteResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2331,7 +2376,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "NotebookKernelConfigResponse" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2358,7 +2403,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "NotebookKernelInspectResponse" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2366,7 +2411,7 @@ function __c3(j: number): any {
           project_id: S.String.pipe(T.Label()),
           short_id: S.String.pipe(T.Label()),
           include_prepared_insights: S.optional(S.Boolean),
-          variables: S.optional(__S(457, __c57, 1)),
+          variables: S.optional(__S(465, __c58, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2386,7 +2431,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "NotebookRunStartResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2411,7 +2456,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "NotebookRunInterruptResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2431,7 +2476,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "CreateNotebooksSharingPasswordRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2444,7 +2489,7 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "SharePassword" });
     case 1:
-      return S.Array(__S(48, __c6, 0));
+      return S.Array(__S(56, __c7, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -2453,14 +2498,14 @@ function __c6(j: number): any {
           access_token: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           settings: S.optional(S.Unknown),
           password_required: S.optional(S.Boolean),
-          share_passwords: S.optional(__S(49, __c6, 1)),
+          share_passwords: S.optional(__S(57, __c7, 1)),
           user_access_level: S.optional(S.NullOr(S.String)),
           has_relevant_access_controls: S.Boolean,
         }),
       ).annotate({ identifier: "SharingConfiguration" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2470,7 +2515,7 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "NotebookSQLV2Ref" });
     case 1:
-      return S.Record(S.String, __S(56, __c7, 0));
+      return S.Record(S.String, __S(64, __c8, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -2481,8 +2526,8 @@ function __c7(j: number): any {
           node_type: S.optional(S.String),
           code: S.String,
           output_name: S.optional(S.String),
-          refs: S.optional(__S(57, __c7, 1)),
-          variables: S.optional(__S(457, __c57, 1)),
+          refs: S.optional(__S(65, __c8, 1)),
+          variables: S.optional(__S(465, __c58, 1)),
           connection_id: S.optional(S.NullOr(S.String)),
           send_raw_query: S.optional(S.Boolean),
         }).pipe(
@@ -2503,7 +2548,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "NotebookSQLV2RunResponse" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2528,7 +2573,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "NotebookSQLV2InterruptResponse" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2549,7 +2594,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "CreateNotebooksWidgetSnapshotRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2558,17 +2603,17 @@ function __c10(j: number): any {
           node_id: S.String,
           version_id: S.String,
           created_at: S.String,
-          frame_names: __S(280, __c35, 0),
-          input_bindings: __S(313, __c39, 1),
-          input_contract: __S(305, __c38, 1),
+          frame_names: __S(288, __c36, 0),
+          input_bindings: __S(321, __c40, 1),
+          input_contract: __S(313, __c39, 1),
           artifact_url: S.NullOr(S.String),
           build_hash: S.NullOr(S.String),
-          security_review: S.NullOr(__S(298, __c37, 2)),
+          security_review: S.NullOr(__S(306, __c38, 2)),
         }),
       ).annotate({ identifier: "WidgetSnapshot" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2587,7 +2632,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "ForkNotebooksWidgetRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2610,7 +2655,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GenerateNotebooksWidgetRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2627,7 +2672,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetNotebookRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2644,7 +2689,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetNotebooksActivityRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2660,7 +2705,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GetNotebooksAllActivityRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2677,7 +2722,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GetNotebooksCollabStreamRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2703,7 +2748,7 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "NotebookComputePreset" });
     case 2:
-      return S.Array(__S(137, __c17, 1));
+      return S.Array(__S(145, __c18, 1));
     case 3:
       return S.Array(S.Number);
     case 4:
@@ -2713,15 +2758,15 @@ function __c17(j: number): any {
           cpu_rate_per_core_hour: S.Number,
           memory_rate_per_gb_hour: S.Number,
           default_preset_key: S.String,
-          presets: __S(138, __c17, 2),
-          allowed_cpu_cores: __S(139, __c17, 3),
-          allowed_memory_gb: __S(139, __c17, 3),
-          allowed_idle_timeout_seconds: __S(139, __c17, 3),
+          presets: __S(146, __c18, 2),
+          allowed_cpu_cores: __S(147, __c18, 3),
+          allowed_memory_gb: __S(147, __c18, 3),
+          allowed_idle_timeout_seconds: __S(147, __c18, 3),
         }),
       ).annotate({ identifier: "NotebookComputeOptionsResponse" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2747,7 +2792,7 @@ function __c18(j: number): any {
           kernel_id: S.optional(S.NullOr(S.String)),
           kernel_pid: S.optional(S.NullOr(S.Number)),
           sandbox_id: S.optional(S.NullOr(S.String)),
-          frames: __S(154, __c19, 2),
+          frames: __S(162, __c20, 2),
           cpu_cores: S.Number,
           memory_gb: S.Number,
           disk_size_gb: S.optional(S.NullOr(S.Number)),
@@ -2758,25 +2803,25 @@ function __c18(j: number): any {
       ).annotate({ identifier: "NotebookKernelStatusResponse" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(280, __c35, 0));
+      return S.Array(__S(288, __c36, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           kind: S.String,
-          columns: S.optional(__S(152, __c19, 0)),
+          columns: S.optional(__S(160, __c20, 0)),
           row_count: S.optional(S.NullOr(S.Number)),
           row_count_is_estimate: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "NotebookSQLV2Frame" });
     case 2:
-      return S.Array(__S(153, __c19, 1));
+      return S.Array(__S(161, __c20, 1));
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2792,7 +2837,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "GetNotebooksRecordingCommentRequest" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2820,27 +2865,27 @@ function __c21(j: number): any {
         }),
       ).annotate({ identifier: "NotebookRunCell" });
     case 2:
-      return S.Array(__S(169, __c21, 1));
+      return S.Array(__S(177, __c22, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           run_id: S.String,
           status: S.String,
           trigger: S.String,
-          variables: __S(457, __c57, 1),
+          variables: __S(465, __c58, 1),
           cell_count: S.Number,
           current_index: S.Number,
           current_node_id: S.optional(S.NullOr(S.String)),
           failed_node_id: S.optional(S.NullOr(S.String)),
           error: S.optional(S.NullOr(S.String)),
-          cells: __S(170, __c21, 2),
+          cells: __S(178, __c22, 2),
           created_at: S.String,
           finished_at: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "NotebookRunStatusResponse" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2864,46 +2909,46 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "NotebookSQLV2Media" });
     case 2:
-      return S.Array(__S(177, __c22, 1));
+      return S.Array(__S(185, __c23, 1));
     case 3:
       return S.Record(S.String, S.Number);
     case 4:
       return S.suspend(() =>
         S.Struct({
           status: S.String,
-          frames: S.optional(__S(154, __c19, 2)),
+          frames: S.optional(__S(162, __c20, 2)),
           stdout: S.optional(S.String),
           stderr: S.optional(S.String),
-          media: S.optional(__S(178, __c22, 2)),
+          media: S.optional(__S(186, __c23, 2)),
           result_text: S.optional(S.String),
-          columns: S.optional(__S(280, __c35, 0)),
-          types: S.optional(__S(152, __c19, 0)),
+          columns: S.optional(__S(288, __c36, 0)),
+          types: S.optional(__S(160, __c20, 0)),
           row_count: S.optional(S.Number),
           has_more: S.optional(S.Boolean),
-          first_page: S.optional(__S(184, __c23, 0)),
+          first_page: S.optional(__S(192, __c24, 0)),
           result_id: S.optional(S.NullOr(S.String)),
           error: S.optional(S.NullOr(S.String)),
-          timings: S.optional(__S(179, __c22, 3)),
+          timings: S.optional(__S(187, __c23, 3)),
         }),
       ).annotate({ identifier: "NotebookSQLV2Envelope" });
     case 5:
       return S.suspend(() =>
         S.Struct({
           status: S.String,
-          result: S.optional(S.NullOr(__S(180, __c22, 4))),
+          result: S.optional(S.NullOr(__S(188, __c23, 4))),
           error: S.optional(S.NullOr(S.String)),
-          rows: S.optional(__S(184, __c23, 0)),
+          rows: S.optional(__S(192, __c24, 0)),
         }),
       ).annotate({ identifier: "NotebookSQLV2RunStatusResponse" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(512, __c64, 0));
+      return S.Array(__S(520, __c65, 0));
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2934,7 +2979,7 @@ function __c24(j: number): any {
           status: S.String,
           finished_at: S.String,
           row_count: S.optional(S.NullOr(S.Number)),
-          columns: S.optional(S.NullOr(__S(280, __c35, 0))),
+          columns: S.optional(S.NullOr(__S(288, __c36, 0))),
           error: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "NotebookCellLastRun" });
@@ -2943,7 +2988,7 @@ function __c24(j: number): any {
         S.Struct({
           display: S.String,
           x_axis: S.NullOr(S.String),
-          y_axis: S.NullOr(__S(280, __c35, 0)),
+          y_axis: S.NullOr(__S(288, __c36, 0)),
           series_breakdown: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "NotebookCellVisualization" });
@@ -2957,14 +3002,14 @@ function __c24(j: number): any {
           start: S.Number,
           end: S.Number,
           status: S.String,
-          depends_on: __S(280, __c35, 0),
-          dependents: __S(280, __c35, 0),
-          last_run: S.optional(S.NullOr(__S(194, __c24, 2))),
-          visualization: S.optional(S.NullOr(__S(195, __c24, 3))),
+          depends_on: __S(288, __c36, 0),
+          dependents: __S(288, __c36, 0),
+          last_run: S.optional(S.NullOr(__S(202, __c25, 2))),
+          visualization: S.optional(S.NullOr(__S(203, __c25, 3))),
         }),
       ).annotate({ identifier: "NotebookCellState" });
     case 5:
-      return S.Array(__S(196, __c24, 4));
+      return S.Array(__S(204, __c25, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -2973,14 +3018,14 @@ function __c24(j: number): any {
           version: S.NullOr(S.Number),
           markdown: S.NullOr(S.String),
           content: S.optional(S.Unknown),
-          kernel: __S(193, __c24, 1),
-          variables: __S(457, __c57, 1),
-          cells: __S(197, __c24, 5),
+          kernel: __S(201, __c25, 1),
+          variables: __S(465, __c58, 1),
+          cells: __S(205, __c25, 5),
         }),
       ).annotate({ identifier: "NotebookSQLV2StateResponse" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2998,7 +3043,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "GetNotebooksWidgetSnapshotRequest" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3021,26 +3066,26 @@ function __c26(j: number): any {
           title: S.optional(S.NullOr(S.String)),
           deleted: S.optional(S.Boolean),
           created_at: S.optional(S.String),
-          created_by: S.optional(S.NullOr(__S(465, __c58, 1))),
+          created_by: S.optional(S.NullOr(__S(473, __c59, 1))),
           last_modified_at: S.optional(S.String),
-          last_modified_by: S.optional(S.NullOr(__S(465, __c58, 1))),
+          last_modified_by: S.optional(S.NullOr(__S(473, __c59, 1))),
           user_access_level: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "NotebookMinimalOutput" });
     case 2:
-      return S.Array(__S(209, __c26, 1));
+      return S.Array(__S(217, __c27, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(210, __c26, 2)),
+          results: S.optional(__S(218, __c27, 2)),
         }),
       ).annotate({ identifier: "PaginatedNotebookMinimalListOutput" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3056,14 +3101,14 @@ function __c27(j: number): any {
         ),
       ).annotate({ identifier: "ListNotebooksSharingRequest" });
     case 1:
-      return S.Array(__S(50, __c6, 2));
+      return S.Array(__S(58, __c7, 2));
     case 2:
-      return S.suspend(() => __S(217, __c27, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(225, __c28, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListNotebooksSharingResponse",
       });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3080,30 +3125,6 @@ function __c28(j: number): any {
       ).annotate({ identifier: "NotebooksDestroyRequest" });
   }
 }
-function __c29(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          short_id: S.String.pipe(T.Label()),
-          title: S.optional(S.NullOr(S.String)),
-          content: S.optional(S.Unknown),
-          text_content: S.optional(S.NullOr(S.String)),
-          version: S.optional(S.Number),
-          deleted: S.optional(S.Boolean),
-          variables: S.optional(__S(457, __c57, 1)),
-          _create_in_folder: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/notebooks/{short_id}/kernel/execute/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "NotebooksKernelExecuteCreateRequest" });
-  }
-}
 function __c30(j: number): any {
   switch (j) {
     case 0:
@@ -3116,16 +3137,16 @@ function __c30(j: number): any {
           text_content: S.optional(S.NullOr(S.String)),
           version: S.optional(S.Number),
           deleted: S.optional(S.Boolean),
-          variables: S.optional(__S(457, __c57, 1)),
+          variables: S.optional(__S(465, __c58, 1)),
           _create_in_folder: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
-            uri: "/api/projects/{project_id}/notebooks/{short_id}/kernel/restart/",
+            uri: "/api/projects/{project_id}/notebooks/{short_id}/kernel/execute/",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "NotebooksKernelRestartCreateRequest" });
+      ).annotate({ identifier: "NotebooksKernelExecuteCreateRequest" });
   }
 }
 function __c31(j: number): any {
@@ -3140,16 +3161,16 @@ function __c31(j: number): any {
           text_content: S.optional(S.NullOr(S.String)),
           version: S.optional(S.Number),
           deleted: S.optional(S.Boolean),
-          variables: S.optional(__S(457, __c57, 1)),
+          variables: S.optional(__S(465, __c58, 1)),
           _create_in_folder: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
-            uri: "/api/projects/{project_id}/notebooks/{short_id}/kernel/start/",
+            uri: "/api/projects/{project_id}/notebooks/{short_id}/kernel/restart/",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "NotebooksKernelStartCreateRequest" });
+      ).annotate({ identifier: "NotebooksKernelRestartCreateRequest" });
   }
 }
 function __c32(j: number): any {
@@ -3164,7 +3185,31 @@ function __c32(j: number): any {
           text_content: S.optional(S.NullOr(S.String)),
           version: S.optional(S.Number),
           deleted: S.optional(S.Boolean),
-          variables: S.optional(__S(457, __c57, 1)),
+          variables: S.optional(__S(465, __c58, 1)),
+          _create_in_folder: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/notebooks/{short_id}/kernel/start/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "NotebooksKernelStartCreateRequest" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          short_id: S.String.pipe(T.Label()),
+          title: S.optional(S.NullOr(S.String)),
+          content: S.optional(S.Unknown),
+          text_content: S.optional(S.NullOr(S.String)),
+          version: S.optional(S.Number),
+          deleted: S.optional(S.Boolean),
+          variables: S.optional(__S(465, __c58, 1)),
           _create_in_folder: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -3176,7 +3221,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "NotebooksKernelStopCreateRequest" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3194,7 +3239,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "NotebooksSharingPasswordsDestroyRequest" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3204,7 +3249,7 @@ function __c34(j: number): any {
           node_id: S.String.pipe(T.Label()),
           widget_id: S.String,
           version_id: S.optional(S.NullOr(S.String)),
-          input_bindings: S.optional(__S(313, __c39, 1)),
+          input_bindings: S.optional(__S(321, __c40, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3215,13 +3260,13 @@ function __c34(j: number): any {
       ).annotate({ identifier: "AttachNotebooksWidgetRequest" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3231,10 +3276,10 @@ function __c36(j: number): any {
         }),
       ).annotate({ identifier: "WidgetInputContractColumn" });
     case 1:
-      return S.Array(__S(288, __c36, 0));
+      return S.Array(__S(296, __c37, 0));
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3245,13 +3290,13 @@ function __c37(j: number): any {
         }),
       ).annotate({ identifier: "WidgetSecurityFinding" });
     case 1:
-      return S.Array(__S(296, __c37, 0));
+      return S.Array(__S(304, __c38, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           severity: S.String,
           summary: S.String,
-          findings: __S(297, __c37, 1),
+          findings: __S(305, __c38, 1),
           model: S.String,
           review_version: S.String,
           reviewed_at: S.String,
@@ -3259,22 +3304,22 @@ function __c37(j: number): any {
       ).annotate({ identifier: "WidgetSecurityReview" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           slot: S.String,
           sourceName: S.String,
-          columns: S.optional(__S(289, __c36, 1)),
+          columns: S.optional(__S(297, __c37, 1)),
           schemaHash: S.String,
         }),
       ).annotate({ identifier: "WidgetInputContractItem" });
     case 1:
-      return S.Array(__S(304, __c38, 0));
+      return S.Array(__S(312, __c39, 0));
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3284,10 +3329,10 @@ function __c39(j: number): any {
         }),
       ).annotate({ identifier: "AttachNotebooksWidgetRequestInputBindingsValue" });
     case 1:
-      return S.Record(S.String, __S(312, __c39, 0));
+      return S.Record(S.String, __S(320, __c40, 0));
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3308,23 +3353,23 @@ function __c40(j: number): any {
           error_code: S.optional(S.NullOr(S.String)),
           failure_phase: S.optional(S.NullOr(S.String)),
           artifact_url: S.optional(S.NullOr(S.String)),
-          frame_names: __S(280, __c35, 0),
-          input_bindings: __S(313, __c39, 1),
-          input_contract: __S(305, __c38, 1),
+          frame_names: __S(288, __c36, 0),
+          input_bindings: __S(321, __c40, 1),
+          input_contract: __S(313, __c39, 1),
           current_version_id: S.NullOr(S.String),
           pinned_version_id: S.NullOr(S.String),
           widget_id: S.NullOr(S.String),
           instance_id: S.NullOr(S.String),
           has_versions: S.Boolean,
-          active_job: S.NullOr(__S(320, __c40, 0)),
-          security_review: S.NullOr(__S(298, __c37, 2)),
+          active_job: S.NullOr(__S(328, __c41, 0)),
+          security_review: S.NullOr(__S(306, __c38, 2)),
           is_reusable: S.Boolean,
           build_hash: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "WidgetStatus" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3344,7 +3389,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "NotebooksSharingRefreshCreateRequest" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3367,15 +3412,15 @@ function __c42(j: number): any {
       ).annotate({ identifier: "NotebooksWidgetFrameRequest" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           runId: S.String,
-          columns: __S(289, __c36, 1),
-          rows: __S(184, __c23, 0),
+          columns: __S(297, __c37, 1),
+          rows: __S(192, __c24, 0),
           totalRowCount: S.Number,
           includedRowCount: S.Number,
           offset: S.Number,
@@ -3385,7 +3430,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "WidgetFrame" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3405,7 +3450,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "NotebooksWidgetRevertRequest" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3428,7 +3473,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "NotebooksWidgetSnapshotFrameRequest" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3453,7 +3498,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "WidgetSource" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3471,7 +3516,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "NotebooksWidgetStatusRequest" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3503,27 +3548,27 @@ function __c48(j: number): any {
           created_at: S.String,
           build_status: S.NullOr(S.String),
           artifact_url: S.NullOr(S.String),
-          frame_names: __S(280, __c35, 0),
+          frame_names: __S(288, __c36, 0),
           is_current: S.Boolean,
-          security_review: S.NullOr(__S(298, __c37, 2)),
+          security_review: S.NullOr(__S(306, __c38, 2)),
           build_hash: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "WidgetVersion" });
     case 2:
-      return S.Array(__S(385, __c48, 1));
+      return S.Array(__S(393, __c49, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           next: S.NullOr(S.String),
           previous: S.NullOr(S.String),
-          results: __S(386, __c48, 2),
+          results: __S(394, __c49, 2),
           count: S.Number,
           next_offset: S.NullOr(S.Number),
         }),
       ).annotate({ identifier: "WidgetVersionPage" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3542,7 +3587,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "PinNotebooksWidgetRequest" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3552,7 +3597,7 @@ function __c50(j: number): any {
           node_id: S.String.pipe(T.Label()),
           name: S.String,
           description: S.optional(S.String),
-          tags: S.optional(__S(280, __c35, 0)),
+          tags: S.optional(__S(288, __c36, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3573,9 +3618,9 @@ function __c50(j: number): any {
           artifact_url: S.NullOr(S.String),
           build_status: S.NullOr(S.String),
           build_hash: S.NullOr(S.String),
-          frame_names: __S(280, __c35, 0),
-          input_contract: __S(305, __c38, 1),
-          security_review: S.NullOr(__S(298, __c37, 2)),
+          frame_names: __S(288, __c36, 0),
+          input_contract: __S(313, __c39, 1),
+          security_review: S.NullOr(__S(306, __c38, 2)),
           has_demo_data: S.Boolean,
           created_at: S.String,
         }),
@@ -3586,10 +3631,10 @@ function __c50(j: number): any {
           id: S.String,
           name: S.String,
           description: S.String,
-          tags: __S(280, __c35, 0),
+          tags: __S(288, __c36, 0),
           publication_status: S.String,
-          current_version: __S(401, __c50, 1),
-          pending_version: S.NullOr(__S(401, __c50, 1)),
+          current_version: __S(409, __c51, 1),
+          pending_version: S.NullOr(__S(409, __c51, 1)),
           version_count: S.Number,
           instance_count: S.Number,
           created_at: S.String,
@@ -3599,7 +3644,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "ReusableWidgetDetail" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3623,7 +3668,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "PublishNotebooksWidgetSnapshotRequest" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3642,36 +3687,12 @@ function __c52(j: number): any {
       ).annotate({ identifier: "CancelNotebooksWidgetRequest" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
         identifier: "CancelNotebooksWidgetResponse",
       });
-  }
-}
-function __c54(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          short_id: S.String.pipe(T.Label()),
-          title: S.optional(S.NullOr(S.String)),
-          content: S.optional(S.Unknown),
-          text_content: S.optional(S.NullOr(S.String)),
-          version: S.optional(S.Number),
-          deleted: S.optional(S.Boolean),
-          variables: S.optional(__S(457, __c57, 1)),
-          _create_in_folder: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/api/projects/{project_id}/notebooks/{short_id}/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateNotebookRequest" });
   }
 }
 function __c55(j: number): any {
@@ -3686,7 +3707,31 @@ function __c55(j: number): any {
           text_content: S.optional(S.NullOr(S.String)),
           version: S.optional(S.Number),
           deleted: S.optional(S.Boolean),
-          variables: S.optional(__S(457, __c57, 1)),
+          variables: S.optional(__S(465, __c58, 1)),
+          _create_in_folder: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/api/projects/{project_id}/notebooks/{short_id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateNotebookRequest" });
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          short_id: S.String.pipe(T.Label()),
+          title: S.optional(S.NullOr(S.String)),
+          content: S.optional(S.Unknown),
+          text_content: S.optional(S.NullOr(S.String)),
+          version: S.optional(S.Number),
+          deleted: S.optional(S.Boolean),
+          variables: S.optional(__S(465, __c58, 1)),
           _create_in_folder: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -3698,7 +3743,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "UpdateNotebooksPartialRequest" });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3709,7 +3754,7 @@ function __c56(j: number): any {
           text_content: S.optional(S.NullOr(S.String)),
           version: S.optional(S.Number),
           deleted: S.optional(S.Boolean),
-          variables: S.optional(__S(457, __c57, 1)),
+          variables: S.optional(__S(465, __c58, 1)),
           _create_in_folder: S.optional(S.String),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/projects/{project_id}/notebooks/", code: 200 }),
@@ -3717,7 +3762,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "CreateNotebookRequest" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3728,10 +3773,10 @@ function __c57(j: number): any {
         }),
       ).annotate({ identifier: "NotebookVariable" });
     case 1:
-      return S.Array(__S(456, __c57, 0));
+      return S.Array(__S(464, __c58, 0));
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
@@ -3745,13 +3790,13 @@ function __c58(j: number): any {
           last_name: S.optional(S.String),
           email: S.optional(S.String),
           is_email_verified: S.optional(S.NullOr(S.Boolean)),
-          hedgehog_config: S.optional(S.NullOr(__S(464, __c58, 0))),
+          hedgehog_config: S.optional(S.NullOr(__S(472, __c59, 0))),
           role_at_organization: S.optional(S.NullOr(S.Unknown)),
         }),
       ).annotate({ identifier: "UserBasic" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3771,17 +3816,17 @@ function __c59(j: number): any {
           version: S.optional(S.Number),
           deleted: S.optional(S.Boolean),
           created_at: S.optional(S.String),
-          created_by: S.optional(S.NullOr(__S(465, __c58, 1))),
+          created_by: S.optional(S.NullOr(__S(473, __c59, 1))),
           last_modified_at: S.optional(S.String),
-          last_modified_by: S.optional(S.NullOr(__S(465, __c58, 1))),
+          last_modified_by: S.optional(S.NullOr(__S(473, __c59, 1))),
           user_access_level: S.optional(S.NullOr(S.String)),
-          parent_resource: S.optional(S.NullOr(__S(472, __c59, 0))),
-          variables: S.optional(__S(457, __c57, 1)),
+          parent_resource: S.optional(S.NullOr(__S(480, __c60, 0))),
+          variables: S.optional(__S(465, __c58, 1)),
         }),
       ).annotate({ identifier: "NotebookOutput" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3793,7 +3838,7 @@ function __c60(j: number): any {
           content: S.Unknown,
           text_content: S.optional(S.String),
           title: S.optional(S.String),
-          cursor: S.optional(__S(488, __c61, 0)),
+          cursor: S.optional(__S(496, __c62, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3804,7 +3849,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "CreateNotebooksCollabMarkdownSaveRequest" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3817,7 +3862,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "NotebookCollabCursor" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3826,7 +3871,7 @@ function __c62(j: number): any {
           short_id: S.String.pipe(T.Label()),
           client_id: S.String,
           version: S.Number,
-          cursor: __S(488, __c61, 0),
+          cursor: __S(496, __c62, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3837,7 +3882,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "CreateNotebooksCollabPresenceRequest" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3846,7 +3891,7 @@ function __c63(j: number): any {
           short_id: S.String.pipe(T.Label()),
           client_id: S.optional(S.String),
           version: S.optional(S.Number),
-          steps: S.optional(__S(512, __c64, 0)),
+          steps: S.optional(__S(520, __c65, 0)),
           content: S.optional(S.Unknown),
           text_content: S.optional(S.String),
           title: S.optional(S.String),
@@ -3861,7 +3906,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "CreateNotebooksCollabSaveRequest" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);

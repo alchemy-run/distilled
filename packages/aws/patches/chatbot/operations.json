@@ -1,0 +1,54 @@
+{
+  "description": "chatbot: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.chatbot#GetMicrosoftTeamsChannelConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.chatbot#ResourceNotFoundException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.chatbot#ListAssociations/errors/-",
+      "value": {
+        "target": "com.amazonaws.chatbot#InvalidRequestException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.chatbot#AssociateToConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.chatbot#ResourceNotFoundException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.chatbot#DisassociateFromConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.chatbot#ResourceNotFoundException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.chatbot#CreateSlackChannelConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.chatbot#SlackWorkspaceNotAuthorized"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.chatbot#CreateMicrosoftTeamsChannelConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.chatbot#MicrosoftTeamsTeamNotConfigured"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.chatbot#DeleteMicrosoftTeamsConfiguredTeam/errors/-",
+      "value": {
+        "target": "com.amazonaws.chatbot#ResourceNotFoundException"
+      }
+    }
+  ]
+}

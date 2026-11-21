@@ -29,9 +29,16 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export type ListApiLogsRequestHttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 export type ListApiLogsRequestStatus = "success" | "error";
@@ -86,6 +93,17 @@ export interface ListApiLogsResponse {
   data: ListApiLogsResponseDataList;
   page_info: ListApiLogsResponsePageInfo;
 }
+export interface V1ErrorResponseError {
+  /** Machine-readable reason for this specific refusal, such as `bank_warning_not_acknowledged`. Only present when the error carries one. */
+  code?: string | undefined;
+  /** Human-readable error message. */
+  message: string;
+  /** Machine-readable error code. */
+  type: string;
+}
+export interface V1ErrorResponse {
+  error: V1ErrorResponseError;
+}
 export type ListApiLogsError = Forbidden | WhopOpError;
 /** List Api Logs Lists the requests served by Whop's API with the account's API keys, newest first -- every surface (GraphQL, REST, and native /api/v1), reads and failed requests included. */
 export const listApiLogs: API.PaginatedOperationMethod<
@@ -96,8 +114,8 @@ export const listApiLogs: API.PaginatedOperationMethod<
   ListApiLogsResponseDataItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(0, __c0, 0) as any as S.Schema<ListApiLogsRequest>,
-    output: __S(4, __c0, 4) as any as S.Schema<ListApiLogsResponse>,
+    input: __S(8, __c1, 0) as any as S.Schema<ListApiLogsRequest>,
+    output: __S(12, __c1, 4) as any as S.Schema<ListApiLogsResponse>,
     errors: [Forbidden],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -117,6 +135,24 @@ export const listApiLogs: API.PaginatedOperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "V1ErrorResponseError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "V1ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -152,7 +188,7 @@ function __c0(j: number): any {
         }),
       ).annotate({ identifier: "ListApiLogsResponseDataItem" });
     case 2:
-      return S.Array(__S(1, __c0, 1));
+      return S.Array(__S(9, __c1, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -165,8 +201,8 @@ function __c0(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2, __c0, 2),
-          page_info: __S(3, __c0, 3),
+          data: __S(10, __c1, 2),
+          page_info: __S(11, __c1, 3),
         }),
       ).annotate({ identifier: "ListApiLogsResponse" });
   }

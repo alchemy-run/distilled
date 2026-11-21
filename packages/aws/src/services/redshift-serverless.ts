@@ -3820,7 +3820,7 @@ function __c42(j: number): any {
         S.Struct({
           token: S.optional(SensitiveString),
           expirationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-        }).pipe(S.encodeKeys({ token: "Token", expirationTime: "ExpirationTime" })),
+        }),
       ).annotate({ identifier: "GetIdentityCenterAuthTokenResponse" });
   }
 }

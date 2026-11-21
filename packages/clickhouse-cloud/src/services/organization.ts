@@ -36,6 +36,8 @@ export class FeatureUnavailable
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<FeatureUnavailable>()("FeatureUnavailable", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403, message: { includes: "Not a byoc organization" } }],
   ) {}
@@ -155,7 +157,7 @@ export type ByocConfigRegionId =
 export type ByocConfigCloudProvider = "gcp" | "aws" | "azure";
 export interface ByocConfig {
   /** Unique identifier of the BYOC configuration */
-  id?: string | undefined;
+  id: string;
   /** State of the infrastructure */
   state?: ByocConfigState | undefined;
   /** Cloud account ID the BYOC infrastructure is bound to: AWS account ID, GCP project ID, or Azure subscription ID */
@@ -1156,7 +1158,7 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
+          id: S.String,
           state: S.optional(S.String),
           accountId: S.optional(S.String),
           accountName: S.optional(S.String),

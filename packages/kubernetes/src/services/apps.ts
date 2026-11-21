@@ -34,6 +34,8 @@ export class Conflict
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
   ) {}
@@ -43,6 +45,8 @@ export class NotFound
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
@@ -52,6 +56,8 @@ export class UnprocessableEntity
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
   ) {}
@@ -3032,6 +3038,12 @@ export interface ListAppsV1StatefulSetForAllNamespacesRequest {
   /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
   watch?: boolean | undefined;
 }
+/** How the server applies a PATCH body. */
+export type PatchType =
+  | "application/json-patch+json"
+  | "application/merge-patch+json"
+  | "application/strategic-merge-patch+json"
+  | "application/apply-patch+yaml";
 export interface PatchAppsV1NamespacedControllerRevisionRequest {
   /** object name and auth scope, such as for teams and projects */
   namespace: string;
@@ -3047,6 +3059,20 @@ export interface PatchAppsV1NamespacedControllerRevisionRequest {
   fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
   force?: boolean | undefined;
+  /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
+  contentType: PatchType | (string & {});
+  /** A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead. */
+  patch?: unknown | undefined;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string | undefined;
+  /** data is the serialized representation of the state. */
+  data?: unknown | undefined;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string | undefined;
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  metadata?: T.MergePatch<IoK8sApimachineryPkgApisMetaV1ObjectMeta> | undefined;
+  /** revision indicates the revision of the state represented by Data. */
+  revision?: number | undefined;
 }
 export interface PatchAppsV1NamespacedDaemonSetRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -3063,6 +3089,20 @@ export interface PatchAppsV1NamespacedDaemonSetRequest {
   fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
   force?: boolean | undefined;
+  /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
+  contentType: PatchType | (string & {});
+  /** A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead. */
+  patch?: unknown | undefined;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string | undefined;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string | undefined;
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  metadata?: T.MergePatch<IoK8sApimachineryPkgApisMetaV1ObjectMeta> | undefined;
+  /** spec defines the desired behavior of this daemon set. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  spec?: T.MergePatch<IoK8sApiAppsV1DaemonSetSpec> | undefined;
+  /** status is the current status of this daemon set. This data may be out of date by some window of time. Populated by the system. Read-only. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  status?: T.MergePatch<IoK8sApiAppsV1DaemonSetStatus> | undefined;
 }
 export interface PatchAppsV1NamespacedDaemonSetStatusRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -3079,6 +3119,20 @@ export interface PatchAppsV1NamespacedDaemonSetStatusRequest {
   fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
   force?: boolean | undefined;
+  /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
+  contentType: PatchType | (string & {});
+  /** A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead. */
+  patch?: unknown | undefined;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string | undefined;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string | undefined;
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  metadata?: T.MergePatch<IoK8sApimachineryPkgApisMetaV1ObjectMeta> | undefined;
+  /** spec defines the desired behavior of this daemon set. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  spec?: T.MergePatch<IoK8sApiAppsV1DaemonSetSpec> | undefined;
+  /** status is the current status of this daemon set. This data may be out of date by some window of time. Populated by the system. Read-only. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  status?: T.MergePatch<IoK8sApiAppsV1DaemonSetStatus> | undefined;
 }
 export interface PatchAppsV1NamespacedDeploymentRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -3095,6 +3149,32 @@ export interface PatchAppsV1NamespacedDeploymentRequest {
   fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
   force?: boolean | undefined;
+  /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
+  contentType: PatchType | (string & {});
+  /** A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead. */
+  patch?: unknown | undefined;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string | undefined;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string | undefined;
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  metadata?: T.MergePatch<IoK8sApimachineryPkgApisMetaV1ObjectMeta> | undefined;
+  /** spec defines the desired behavior of the Deployment. */
+  spec?: T.MergePatch<IoK8sApiAppsV1DeploymentSpec> | undefined;
+  /** status is the most recently observed status of the Deployment. */
+  status?: T.MergePatch<IoK8sApiAppsV1DeploymentStatus> | undefined;
+}
+/** ScaleSpec describes the attributes of a scale subresource. */
+export interface IoK8sApiAutoscalingV1ScaleSpec {
+  /** replicas is the desired number of instances for the scaled object. */
+  replicas?: number | undefined;
+}
+/** ScaleStatus represents the current status of a scale subresource. */
+export interface IoK8sApiAutoscalingV1ScaleStatus {
+  /** replicas is the actual number of observed instances of the scaled object. */
+  replicas: number;
+  /** selector is the label query over pods that should match the replicas count. This is same as the label selector but in the string format to avoid introspection by clients. The string will be in the same format as the query-param syntax. More info about label selectors: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/ */
+  selector?: string | undefined;
 }
 export interface PatchAppsV1NamespacedDeploymentScaleRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -3111,18 +3191,20 @@ export interface PatchAppsV1NamespacedDeploymentScaleRequest {
   fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
   force?: boolean | undefined;
-}
-/** ScaleSpec describes the attributes of a scale subresource. */
-export interface IoK8sApiAutoscalingV1ScaleSpec {
-  /** replicas is the desired number of instances for the scaled object. */
-  replicas?: number | undefined;
-}
-/** ScaleStatus represents the current status of a scale subresource. */
-export interface IoK8sApiAutoscalingV1ScaleStatus {
-  /** replicas is the actual number of observed instances of the scaled object. */
-  replicas: number;
-  /** selector is the label query over pods that should match the replicas count. This is same as the label selector but in the string format to avoid introspection by clients. The string will be in the same format as the query-param syntax. More info about label selectors: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/ */
-  selector?: string | undefined;
+  /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
+  contentType: PatchType | (string & {});
+  /** A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead. */
+  patch?: unknown | undefined;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string | undefined;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string | undefined;
+  /** metadata is the standard object metadata; More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata. */
+  metadata?: T.MergePatch<IoK8sApimachineryPkgApisMetaV1ObjectMeta> | undefined;
+  /** spec defines the behavior of the scale. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status. */
+  spec?: T.MergePatch<IoK8sApiAutoscalingV1ScaleSpec> | undefined;
+  /** status is the current status of the scale. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status. Read-only. */
+  status?: T.MergePatch<IoK8sApiAutoscalingV1ScaleStatus> | undefined;
 }
 /** Scale represents a scaling request for a resource. */
 export interface IoK8sApiAutoscalingV1Scale {
@@ -3152,6 +3234,20 @@ export interface PatchAppsV1NamespacedDeploymentStatusRequest {
   fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
   force?: boolean | undefined;
+  /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
+  contentType: PatchType | (string & {});
+  /** A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead. */
+  patch?: unknown | undefined;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string | undefined;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string | undefined;
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  metadata?: T.MergePatch<IoK8sApimachineryPkgApisMetaV1ObjectMeta> | undefined;
+  /** spec defines the desired behavior of the Deployment. */
+  spec?: T.MergePatch<IoK8sApiAppsV1DeploymentSpec> | undefined;
+  /** status is the most recently observed status of the Deployment. */
+  status?: T.MergePatch<IoK8sApiAppsV1DeploymentStatus> | undefined;
 }
 export interface PatchAppsV1NamespacedReplicaSetRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -3168,6 +3264,20 @@ export interface PatchAppsV1NamespacedReplicaSetRequest {
   fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
   force?: boolean | undefined;
+  /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
+  contentType: PatchType | (string & {});
+  /** A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead. */
+  patch?: unknown | undefined;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string | undefined;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string | undefined;
+  /** metadata is the standard object metadata. If the Labels of a ReplicaSet are empty, they are defaulted to be the same as the Pod(s) that the ReplicaSet manages. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  metadata?: T.MergePatch<IoK8sApimachineryPkgApisMetaV1ObjectMeta> | undefined;
+  /** spec defines the specification of the desired behavior of the ReplicaSet. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  spec?: T.MergePatch<IoK8sApiAppsV1ReplicaSetSpec> | undefined;
+  /** status is the most recently observed status of the ReplicaSet. This data may be out of date by some window of time. Populated by the system. Read-only. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  status?: T.MergePatch<IoK8sApiAppsV1ReplicaSetStatus> | undefined;
 }
 export interface PatchAppsV1NamespacedReplicaSetScaleRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -3184,6 +3294,20 @@ export interface PatchAppsV1NamespacedReplicaSetScaleRequest {
   fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
   force?: boolean | undefined;
+  /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
+  contentType: PatchType | (string & {});
+  /** A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead. */
+  patch?: unknown | undefined;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string | undefined;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string | undefined;
+  /** metadata is the standard object metadata; More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata. */
+  metadata?: T.MergePatch<IoK8sApimachineryPkgApisMetaV1ObjectMeta> | undefined;
+  /** spec defines the behavior of the scale. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status. */
+  spec?: T.MergePatch<IoK8sApiAutoscalingV1ScaleSpec> | undefined;
+  /** status is the current status of the scale. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status. Read-only. */
+  status?: T.MergePatch<IoK8sApiAutoscalingV1ScaleStatus> | undefined;
 }
 export interface PatchAppsV1NamespacedReplicaSetStatusRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -3200,6 +3324,20 @@ export interface PatchAppsV1NamespacedReplicaSetStatusRequest {
   fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
   force?: boolean | undefined;
+  /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
+  contentType: PatchType | (string & {});
+  /** A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead. */
+  patch?: unknown | undefined;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string | undefined;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string | undefined;
+  /** metadata is the standard object metadata. If the Labels of a ReplicaSet are empty, they are defaulted to be the same as the Pod(s) that the ReplicaSet manages. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  metadata?: T.MergePatch<IoK8sApimachineryPkgApisMetaV1ObjectMeta> | undefined;
+  /** spec defines the specification of the desired behavior of the ReplicaSet. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  spec?: T.MergePatch<IoK8sApiAppsV1ReplicaSetSpec> | undefined;
+  /** status is the most recently observed status of the ReplicaSet. This data may be out of date by some window of time. Populated by the system. Read-only. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  status?: T.MergePatch<IoK8sApiAppsV1ReplicaSetStatus> | undefined;
 }
 export interface PatchAppsV1NamespacedStatefulSetRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -3216,6 +3354,20 @@ export interface PatchAppsV1NamespacedStatefulSetRequest {
   fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
   force?: boolean | undefined;
+  /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
+  contentType: PatchType | (string & {});
+  /** A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead. */
+  patch?: unknown | undefined;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string | undefined;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string | undefined;
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  metadata?: T.MergePatch<IoK8sApimachineryPkgApisMetaV1ObjectMeta> | undefined;
+  /** spec defines the desired identities of pods in this set. */
+  spec?: T.MergePatch<IoK8sApiAppsV1StatefulSetSpec> | undefined;
+  /** status is the current status of Pods in this StatefulSet. This data may be out of date by some window of time. */
+  status?: T.MergePatch<IoK8sApiAppsV1StatefulSetStatus> | undefined;
 }
 export interface PatchAppsV1NamespacedStatefulSetScaleRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -3232,6 +3384,20 @@ export interface PatchAppsV1NamespacedStatefulSetScaleRequest {
   fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
   force?: boolean | undefined;
+  /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
+  contentType: PatchType | (string & {});
+  /** A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead. */
+  patch?: unknown | undefined;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string | undefined;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string | undefined;
+  /** metadata is the standard object metadata; More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata. */
+  metadata?: T.MergePatch<IoK8sApimachineryPkgApisMetaV1ObjectMeta> | undefined;
+  /** spec defines the behavior of the scale. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status. */
+  spec?: T.MergePatch<IoK8sApiAutoscalingV1ScaleSpec> | undefined;
+  /** status is the current status of the scale. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status. Read-only. */
+  status?: T.MergePatch<IoK8sApiAutoscalingV1ScaleStatus> | undefined;
 }
 export interface PatchAppsV1NamespacedStatefulSetStatusRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -3248,6 +3414,20 @@ export interface PatchAppsV1NamespacedStatefulSetStatusRequest {
   fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
   force?: boolean | undefined;
+  /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
+  contentType: PatchType | (string & {});
+  /** A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead. */
+  patch?: unknown | undefined;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string | undefined;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string | undefined;
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  metadata?: T.MergePatch<IoK8sApimachineryPkgApisMetaV1ObjectMeta> | undefined;
+  /** spec defines the desired identities of pods in this set. */
+  spec?: T.MergePatch<IoK8sApiAppsV1StatefulSetSpec> | undefined;
+  /** status is the current status of Pods in this StatefulSet. This data may be out of date by some window of time. */
+  status?: T.MergePatch<IoK8sApiAppsV1StatefulSetStatus> | undefined;
 }
 export interface ReadAppsV1NamespacedControllerRevisionRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -6238,6 +6418,13 @@ function __c29(j: number): any {
           fieldManager: S.optional(S.String.pipe(T.Query())),
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+          apiVersion: S.optional(S.String),
+          data: S.optional(S.Unknown),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(901, __c28, 5)),
+          revision: S.optional(S.Number),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6260,6 +6447,13 @@ function __c30(j: number): any {
           fieldManager: S.optional(S.String.pipe(T.Query())),
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(901, __c28, 5)),
+          spec: S.optional(__S(1312, __c41, 0)),
+          status: S.optional(__S(1313, __c41, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6282,6 +6476,13 @@ function __c31(j: number): any {
           fieldManager: S.optional(S.String.pipe(T.Query())),
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(901, __c28, 5)),
+          spec: S.optional(__S(1312, __c41, 0)),
+          status: S.optional(__S(1313, __c41, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6304,6 +6505,13 @@ function __c32(j: number): any {
           fieldManager: S.optional(S.String.pipe(T.Query())),
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(901, __c28, 5)),
+          spec: S.optional(__S(1920, __c60, 0)),
+          status: S.optional(__S(1923, __c60, 3)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6326,6 +6534,13 @@ function __c33(j: number): any {
           fieldManager: S.optional(S.String.pipe(T.Query())),
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(901, __c28, 5)),
+          spec: S.optional(__S(1088, __c34, 0)),
+          status: S.optional(__S(1089, __c34, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6375,6 +6590,13 @@ function __c35(j: number): any {
           fieldManager: S.optional(S.String.pipe(T.Query())),
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(901, __c28, 5)),
+          spec: S.optional(__S(1920, __c60, 0)),
+          status: S.optional(__S(1923, __c60, 3)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6397,6 +6619,13 @@ function __c36(j: number): any {
           fieldManager: S.optional(S.String.pipe(T.Query())),
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(901, __c28, 5)),
+          spec: S.optional(__S(2304, __c72, 0)),
+          status: S.optional(__S(2305, __c72, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6419,6 +6648,13 @@ function __c37(j: number): any {
           fieldManager: S.optional(S.String.pipe(T.Query())),
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(901, __c28, 5)),
+          spec: S.optional(__S(1088, __c34, 0)),
+          status: S.optional(__S(1089, __c34, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6441,6 +6677,13 @@ function __c38(j: number): any {
           fieldManager: S.optional(S.String.pipe(T.Query())),
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(901, __c28, 5)),
+          spec: S.optional(__S(2304, __c72, 0)),
+          status: S.optional(__S(2305, __c72, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6463,6 +6706,13 @@ function __c39(j: number): any {
           fieldManager: S.optional(S.String.pipe(T.Query())),
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(901, __c28, 5)),
+          spec: S.optional(__S(2733, __c85, 13)),
+          status: S.optional(__S(2734, __c85, 14)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7664,6 +7914,13 @@ function __c49(j: number): any {
           fieldManager: S.optional(S.String.pipe(T.Query())),
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(901, __c28, 5)),
+          spec: S.optional(__S(1088, __c34, 0)),
+          status: S.optional(__S(1089, __c34, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7686,6 +7943,13 @@ function __c50(j: number): any {
           fieldManager: S.optional(S.String.pipe(T.Query())),
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(901, __c28, 5)),
+          spec: S.optional(__S(2733, __c85, 13)),
+          status: S.optional(__S(2734, __c85, 14)),
         }).pipe(
           T.Http({
             method: "PATCH",

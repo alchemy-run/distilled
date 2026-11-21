@@ -120,7 +120,7 @@ export class RequestTimeoutException
     "RequestTimeoutException",
     { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(408),
-  ).pipe(C.withTimeoutError) {}
+  ).pipe(C.withTimeoutError, C.withRetryableError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",

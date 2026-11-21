@@ -29,36 +29,72 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(16, __c1, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ReviewHogSettingsError | ReviewTriggerError | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(16, __c1, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: ReviewHogSettingsError | ReviewTriggerError | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ReviewTriggerError | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(16, __c1, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: ReviewHogSettingsError | string;
+}
 
 /** * `all` - All repositories * `selected` - Only selected repositories */
 export type ReviewInstallationClaimScopeEnum = "all" | "selected";
@@ -1067,6 +1103,20 @@ export interface UpdateReviewHogValidatorsPartialRequest {
   /** Set true to make this the single validator that runs on the user's PR reviews. Only true is accepted -- validators are single-active, so you switch by selecting a different one, not by deactivating the current one. */
   active?: boolean | undefined;
 }
+export interface ReviewHogSettingsError {
+  /** Why the request was rejected. */
+  error: string;
+  /** The project that already holds the repository or the installation, if any. */
+  conflicting_project: ReviewProjectRef | null;
+}
+/** * `flash_after_full` - Standard after a published Deep review * `resolution_not_opted_in` - The pull request owner has not opted in to resolution */
+export type ReviewRequestRefusalEnum = "flash_after_full" | "resolution_not_opted_in";
+export interface ReviewTriggerError {
+  /** Human-readable explanation of why the trigger was rejected. */
+  error: string;
+  /** Why the request was refused, for a client that shows its own reason: 'flash_after_full' (the PR already has a published Deep review), 'resolution_not_opted_in' (the PR owner has not turned on resolving comments). Absent for other errors. * `flash_after_full` - Standard after a published Deep review * `resolution_not_opted_in` - The pull request owner has not opted in to resolution */
+  code?: ReviewRequestRefusalEnum | undefined;
+}
 export type CreateReviewHogInstallationClaimError = BadRequest | Conflict | PosthogOpError;
 /** Claim a GitHub installation Choose which repositories of a connected GitHub installation this project reviews. */
 export const createReviewHogInstallationClaim: API.OperationMethod<
@@ -1075,8 +1125,8 @@ export const createReviewHogInstallationClaim: API.OperationMethod<
   CreateReviewHogInstallationClaimError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<CreateReviewHogInstallationClaimRequest>,
-  output: __S(544, __c34, 0) as any as S.Schema<ReviewInstallationClaim>,
+  input: __S(576, __c36, 0) as any as S.Schema<CreateReviewHogInstallationClaimRequest>,
+  output: __S(592, __c37, 0) as any as S.Schema<ReviewInstallationClaim>,
   errors: [BadRequest, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1092,8 +1142,8 @@ export const createReviewHogProjectSettingsPerson: API.OperationMethod<
   CreateReviewHogProjectSettingsPersonError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<CreateReviewHogProjectSettingsPersonRequest>,
-  output: __S(626, __c39, 2) as any as S.Schema<ReviewProjectSettings>,
+  input: __S(624, __c39, 0) as any as S.Schema<CreateReviewHogProjectSettingsPersonRequest>,
+  output: __S(658, __c41, 2) as any as S.Schema<ReviewProjectSettings>,
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1109,8 +1159,8 @@ export const createReviewHogRepositoriesPerson: API.OperationMethod<
   CreateReviewHogRepositoriesPersonError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<CreateReviewHogRepositoriesPersonRequest>,
-  output: __S(656, __c41, 0) as any as S.Schema<ReviewRepository>,
+  input: __S(672, __c42, 0) as any as S.Schema<CreateReviewHogRepositoriesPersonRequest>,
+  output: __S(688, __c43, 0) as any as S.Schema<ReviewRepository>,
   errors: [BadRequest, Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1126,8 +1176,8 @@ export const createReviewHogRepository: API.OperationMethod<
   CreateReviewHogRepositoryError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<CreateReviewHogRepositoryRequest>,
-  output: __S(673, __c42, 1) as any as S.Schema<ReviewRepositoryWriteResponse>,
+  input: __S(704, __c44, 0) as any as S.Schema<CreateReviewHogRepositoryRequest>,
+  output: __S(705, __c44, 1) as any as S.Schema<ReviewRepositoryWriteResponse>,
   errors: [BadRequest, Forbidden, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1143,8 +1193,8 @@ export const createReviewHogRepositoryChoice: API.OperationMethod<
   CreateReviewHogRepositoryChoiceError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<CreateReviewHogRepositoryChoiceRequest>,
-  output: __S(689, __c43, 1) as any as S.Schema<ReviewRepositoryChoiceWriteResponse>,
+  input: __S(720, __c45, 0) as any as S.Schema<CreateReviewHogRepositoryChoiceRequest>,
+  output: __S(721, __c45, 1) as any as S.Schema<ReviewRepositoryChoiceWriteResponse>,
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1160,8 +1210,8 @@ export const getReviewHogProjectSettings: API.OperationMethod<
   GetReviewHogProjectSettingsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<GetReviewHogProjectSettingsRequest>,
-  output: __S(626, __c39, 2) as any as S.Schema<ReviewProjectSettings>,
+  input: __S(768, __c48, 0) as any as S.Schema<GetReviewHogProjectSettingsRequest>,
+  output: __S(658, __c41, 2) as any as S.Schema<ReviewProjectSettings>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1177,8 +1227,8 @@ export const getReviewHogRepositoryOverview: API.OperationMethod<
   GetReviewHogRepositoryOverviewError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetReviewHogRepositoryOverviewRequest>,
-  output: __S(4, __c0, 4) as any as S.Schema<ReviewRepositoryOverview>,
+  input: __S(48, __c3, 0) as any as S.Schema<GetReviewHogRepositoryOverviewRequest>,
+  output: __S(52, __c3, 4) as any as S.Schema<ReviewRepositoryOverview>,
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1194,8 +1244,8 @@ export const getReviewHogReview: API.OperationMethod<
   GetReviewHogReviewError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<GetReviewHogReviewRequest>,
-  output: __S(42, __c2, 10) as any as S.Schema<ReviewDetail>,
+  input: __S(80, __c5, 0) as any as S.Schema<GetReviewHogReviewRequest>,
+  output: __S(90, __c5, 10) as any as S.Schema<ReviewDetail>,
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1211,8 +1261,8 @@ export const getReviewHogReviewsPerspectiveStat: API.OperationMethod<
   GetReviewHogReviewsPerspectiveStatError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<GetReviewHogReviewsPerspectiveStatRequest>,
-  output: __S(83, __c5, 3) as any as S.Schema<ReviewPerspectiveStats>,
+  input: __S(128, __c8, 0) as any as S.Schema<GetReviewHogReviewsPerspectiveStatRequest>,
+  output: __S(131, __c8, 3) as any as S.Schema<ReviewPerspectiveStats>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1228,8 +1278,8 @@ export const getReviewHogReviewsPrStatus: API.OperationMethod<
   GetReviewHogReviewsPrStatusError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<GetReviewHogReviewsPrStatusRequest>,
-  output: __S(99, __c6, 3) as any as S.Schema<ReviewPRStatus>,
+  input: __S(144, __c9, 0) as any as S.Schema<GetReviewHogReviewsPrStatusRequest>,
+  output: __S(147, __c9, 3) as any as S.Schema<ReviewPRStatus>,
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1245,8 +1295,8 @@ export const getReviewHogReviewsTable: API.OperationMethod<
   GetReviewHogReviewsTableError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<GetReviewHogReviewsTableRequest>,
-  output: __S(113, __c7, 1) as any as S.Schema<ReviewReviewsTablePage>,
+  input: __S(160, __c10, 0) as any as S.Schema<GetReviewHogReviewsTableRequest>,
+  output: __S(161, __c10, 1) as any as S.Schema<ReviewReviewsTablePage>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1262,8 +1312,8 @@ export const listReviewHogBlindSpots: API.OperationMethod<
   ListReviewHogBlindSpotsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<ListReviewHogBlindSpotsRequest>,
-  output: __S(161, __c10, 1) as any as S.Schema<ListReviewHogBlindSpotsResponse>,
+  input: __S(192, __c12, 0) as any as S.Schema<ListReviewHogBlindSpotsRequest>,
+  output: __S(209, __c13, 1) as any as S.Schema<ListReviewHogBlindSpotsResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1279,8 +1329,8 @@ export const listReviewHogInstallationClaims: API.OperationMethod<
   ListReviewHogInstallationClaimsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<ListReviewHogInstallationClaimsRequest>,
-  output: __S(194, __c12, 2) as any as S.Schema<ListReviewHogInstallationClaimsResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<ListReviewHogInstallationClaimsRequest>,
+  output: __S(242, __c15, 2) as any as S.Schema<ListReviewHogInstallationClaimsResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1296,8 +1346,8 @@ export const listReviewHogPerspectives: API.OperationMethod<
   ListReviewHogPerspectivesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<ListReviewHogPerspectivesRequest>,
-  output: __S(210, __c13, 2) as any as S.Schema<ListReviewHogPerspectivesResponse>,
+  input: __S(256, __c16, 0) as any as S.Schema<ListReviewHogPerspectivesRequest>,
+  output: __S(258, __c16, 2) as any as S.Schema<ListReviewHogPerspectivesResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1313,8 +1363,8 @@ export const listReviewHogRepositories: API.OperationMethod<
   ListReviewHogRepositoriesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<ListReviewHogRepositoriesRequest>,
-  output: __S(242, __c15, 2) as any as S.Schema<ListReviewHogRepositoriesResponse>,
+  input: __S(288, __c18, 0) as any as S.Schema<ListReviewHogRepositoriesRequest>,
+  output: __S(290, __c18, 2) as any as S.Schema<ListReviewHogRepositoriesResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1330,8 +1380,8 @@ export const listReviewHogRepositoryChoices: API.OperationMethod<
   ListReviewHogRepositoryChoicesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<ListReviewHogRepositoryChoicesRequest>,
-  output: __S(258, __c16, 2) as any as S.Schema<ListReviewHogRepositoryChoicesResponse>,
+  input: __S(304, __c19, 0) as any as S.Schema<ListReviewHogRepositoryChoicesRequest>,
+  output: __S(306, __c19, 2) as any as S.Schema<ListReviewHogRepositoryChoicesResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1347,8 +1397,8 @@ export const listReviewHogResolution: API.OperationMethod<
   ListReviewHogResolutionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<ListReviewHogResolutionRequest>,
-  output: __S(161, __c10, 1) as any as S.Schema<ListReviewHogResolutionResponse>,
+  input: __S(320, __c20, 0) as any as S.Schema<ListReviewHogResolutionRequest>,
+  output: __S(209, __c13, 1) as any as S.Schema<ListReviewHogResolutionResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1364,8 +1414,8 @@ export const listReviewHogReviews: API.OperationMethod<
   ListReviewHogReviewsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<ListReviewHogReviewsRequest>,
-  output: __S(289, __c18, 1) as any as S.Schema<ReviewRecentReviewsPage>,
+  input: __S(336, __c21, 0) as any as S.Schema<ListReviewHogReviewsRequest>,
+  output: __S(337, __c21, 1) as any as S.Schema<ReviewRecentReviewsPage>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1381,8 +1431,8 @@ export const listReviewHogValidators: API.OperationMethod<
   ListReviewHogValidatorsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<ListReviewHogValidatorsRequest>,
-  output: __S(161, __c10, 1) as any as S.Schema<ListReviewHogValidatorsResponse>,
+  input: __S(352, __c22, 0) as any as S.Schema<ListReviewHogValidatorsRequest>,
+  output: __S(209, __c13, 1) as any as S.Schema<ListReviewHogValidatorsResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1398,8 +1448,8 @@ export const reviewHogInstallationClaimsDestroy: API.OperationMethod<
   ReviewHogInstallationClaimsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<ReviewHogInstallationClaimsDestroyRequest>,
-  output: __S(336, __c21, 0) as any as S.Schema<ReviewHogInstallationClaimsDestroyResponse>,
+  input: __S(368, __c23, 0) as any as S.Schema<ReviewHogInstallationClaimsDestroyRequest>,
+  output: __S(384, __c24, 0) as any as S.Schema<ReviewHogInstallationClaimsDestroyResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1415,8 +1465,8 @@ export const reviewHogProjectSettingsPeopleDestroy: API.OperationMethod<
   ReviewHogProjectSettingsPeopleDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<ReviewHogProjectSettingsPeopleDestroyRequest>,
-  output: __S(626, __c39, 2) as any as S.Schema<ReviewProjectSettings>,
+  input: __S(400, __c25, 0) as any as S.Schema<ReviewHogProjectSettingsPeopleDestroyRequest>,
+  output: __S(658, __c41, 2) as any as S.Schema<ReviewProjectSettings>,
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1432,8 +1482,8 @@ export const reviewHogRepositoriesDestroy: API.OperationMethod<
   ReviewHogRepositoriesDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<ReviewHogRepositoriesDestroyRequest>,
-  output: __S(336, __c21, 0) as any as S.Schema<ReviewHogRepositoriesDestroyResponse>,
+  input: __S(416, __c26, 0) as any as S.Schema<ReviewHogRepositoriesDestroyRequest>,
+  output: __S(384, __c24, 0) as any as S.Schema<ReviewHogRepositoriesDestroyResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1449,8 +1499,8 @@ export const reviewHogRepositoriesPeopleDestroy: API.OperationMethod<
   ReviewHogRepositoriesPeopleDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<ReviewHogRepositoriesPeopleDestroyRequest>,
-  output: __S(656, __c41, 0) as any as S.Schema<ReviewRepository>,
+  input: __S(432, __c27, 0) as any as S.Schema<ReviewHogRepositoriesPeopleDestroyRequest>,
+  output: __S(688, __c43, 0) as any as S.Schema<ReviewRepository>,
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1466,8 +1516,8 @@ export const reviewHogRepositoryChoicesDestroy: API.OperationMethod<
   ReviewHogRepositoryChoicesDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<ReviewHogRepositoryChoicesDestroyRequest>,
-  output: __S(336, __c21, 0) as any as S.Schema<ReviewHogRepositoryChoicesDestroyResponse>,
+  input: __S(448, __c28, 0) as any as S.Schema<ReviewHogRepositoryChoicesDestroyRequest>,
+  output: __S(384, __c24, 0) as any as S.Schema<ReviewHogRepositoryChoicesDestroyResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1483,8 +1533,8 @@ export const reviewHogReviewsTriggerCreate: API.OperationMethod<
   ReviewHogReviewsTriggerCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<ReviewHogReviewsTriggerCreateRequest>,
-  output: __S(417, __c26, 1) as any as S.Schema<ReviewTriggerResponse>,
+  input: __S(464, __c29, 0) as any as S.Schema<ReviewHogReviewsTriggerCreateRequest>,
+  output: __S(465, __c29, 1) as any as S.Schema<ReviewTriggerResponse>,
   errors: [BadRequest, Forbidden, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1500,8 +1550,8 @@ export const updateReviewHogBlindSpotsPartial: API.OperationMethod<
   UpdateReviewHogBlindSpotsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<UpdateReviewHogBlindSpotsPartialRequest>,
-  output: __S(176, __c11, 0) as any as S.Schema<ReviewBlindSpotsConfig>,
+  input: __S(480, __c30, 0) as any as S.Schema<UpdateReviewHogBlindSpotsPartialRequest>,
+  output: __S(224, __c14, 0) as any as S.Schema<ReviewBlindSpotsConfig>,
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1517,8 +1567,8 @@ export const updateReviewHogInstallationClaimsPartial: API.OperationMethod<
   UpdateReviewHogInstallationClaimsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<UpdateReviewHogInstallationClaimsPartialRequest>,
-  output: __S(544, __c34, 0) as any as S.Schema<ReviewInstallationClaim>,
+  input: __S(496, __c31, 0) as any as S.Schema<UpdateReviewHogInstallationClaimsPartialRequest>,
+  output: __S(592, __c37, 0) as any as S.Schema<ReviewInstallationClaim>,
   errors: [Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1534,8 +1584,8 @@ export const updateReviewHogPerspectivesPartial: API.OperationMethod<
   UpdateReviewHogPerspectivesPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<UpdateReviewHogPerspectivesPartialRequest>,
-  output: __S(224, __c14, 0) as any as S.Schema<ReviewPerspectiveConfig>,
+  input: __S(512, __c32, 0) as any as S.Schema<UpdateReviewHogPerspectivesPartialRequest>,
+  output: __S(272, __c17, 0) as any as S.Schema<ReviewPerspectiveConfig>,
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1551,8 +1601,8 @@ export const updateReviewHogProjectSettingsPartial: API.OperationMethod<
   UpdateReviewHogProjectSettingsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<UpdateReviewHogProjectSettingsPartialRequest>,
-  output: __S(626, __c39, 2) as any as S.Schema<ReviewProjectSettings>,
+  input: __S(528, __c33, 0) as any as S.Schema<UpdateReviewHogProjectSettingsPartialRequest>,
+  output: __S(658, __c41, 2) as any as S.Schema<ReviewProjectSettings>,
   errors: [BadRequest, Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1568,8 +1618,8 @@ export const updateReviewHogResolutionPartial: API.OperationMethod<
   UpdateReviewHogResolutionPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<UpdateReviewHogResolutionPartialRequest>,
-  output: __S(176, __c11, 0) as any as S.Schema<ReviewResolutionConfig>,
+  input: __S(544, __c34, 0) as any as S.Schema<UpdateReviewHogResolutionPartialRequest>,
+  output: __S(224, __c14, 0) as any as S.Schema<ReviewResolutionConfig>,
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1585,8 +1635,8 @@ export const updateReviewHogValidatorsPartial: API.OperationMethod<
   UpdateReviewHogValidatorsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<UpdateReviewHogValidatorsPartialRequest>,
-  output: __S(176, __c11, 0) as any as S.Schema<ReviewValidatorConfig>,
+  input: __S(560, __c35, 0) as any as S.Schema<UpdateReviewHogValidatorsPartialRequest>,
+  output: __S(224, __c14, 0) as any as S.Schema<ReviewValidatorConfig>,
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1596,6 +1646,39 @@ export const updateReviewHogValidatorsPartial: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          error: S.String,
+          code: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ReviewTriggerError" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          error: S.String,
+          conflicting_project: S.NullOr(__S(32, __c2, 0)),
+        }),
+      ).annotate({ identifier: "ReviewHogSettingsError" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.NullOr(S.Number),
+          name: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "ReviewProjectRef" });
+  }
+}
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1618,7 +1701,7 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           flash_for: S.String,
-          people: __S(593, __c37, 1),
+          people: __S(641, __c40, 1),
         }),
       ).annotate({ identifier: "ReviewRepositoryException" });
     case 2:
@@ -1627,45 +1710,45 @@ function __c0(j: number): any {
           full_name: S.String,
           github_repo_id: S.NullOr(S.Number),
           owner: S.String,
-          owner_project: S.NullOr(__S(608, __c38, 0)),
+          owner_project: S.NullOr(__S(32, __c2, 0)),
           in_project: S.Boolean,
           selected: S.Boolean,
           repository_id: S.NullOr(S.String),
-          exception: S.NullOr(__S(1, __c0, 1)),
+          exception: S.NullOr(__S(49, __c3, 1)),
           review_drafts: S.Boolean,
           my_choice: S.NullOr(S.String),
           my_choice_id: S.NullOr(S.String),
-          my_result: __S(704, __c44, 0),
-          inherited_result: __S(704, __c44, 0),
-          repository_result: __S(704, __c44, 0),
+          my_result: __S(736, __c46, 0),
+          inherited_result: __S(736, __c46, 0),
+          repository_result: __S(736, __c46, 0),
         }),
       ).annotate({ identifier: "ReviewRepositoryOverviewEntry" });
     case 3:
-      return S.Array(__S(2, __c0, 2));
+      return S.Array(__S(50, __c3, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           installation_id: S.String,
           claim_scope: S.NullOr(S.String),
-          results: __S(3, __c0, 3),
+          results: __S(51, __c3, 3),
           total: S.Number,
           has_more: S.Boolean,
           next_offset: S.NullOr(S.Number),
           folded: S.Number,
-          folded_preview: __S(16, __c1, 0),
-          folded_result: S.NullOr(__S(704, __c44, 0)),
+          folded_preview: __S(64, __c4, 0),
+          folded_result: S.NullOr(__S(736, __c46, 0)),
           my_choices_unlike_default: S.Number,
         }),
       ).annotate({ identifier: "ReviewRepositoryOverview" });
   }
 }
-function __c1(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c2(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1686,19 +1769,19 @@ function __c2(j: number): any {
         S.Struct({
           chunk_id: S.Number,
           chunk_type: S.NullOr(S.String),
-          files: __S(16, __c1, 0),
-          perspectives: __S(16, __c1, 0),
-          skipped: __S(16, __c1, 0),
+          files: __S(64, __c4, 0),
+          perspectives: __S(64, __c4, 0),
+          skipped: __S(64, __c4, 0),
           reason: S.String,
         }),
       ).annotate({ identifier: "ReviewSelectionChunk" });
     case 2:
-      return S.Array(__S(33, __c2, 1));
+      return S.Array(__S(81, __c5, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          roster: __S(16, __c1, 0),
-          chunks: __S(34, __c2, 2),
+          roster: __S(64, __c4, 0),
+          chunks: __S(82, __c5, 2),
         }),
       ).annotate({ identifier: "ReviewPerspectiveSelection" });
     case 4:
@@ -1709,13 +1792,13 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "ReviewFindingLineRange" });
     case 5:
-      return S.Array(__S(36, __c2, 4));
+      return S.Array(__S(84, __c5, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           title: S.String,
           file: S.String,
-          lines: __S(37, __c2, 5),
+          lines: __S(85, __c5, 5),
           body: S.String,
           suggestion: S.String,
           effective_priority: S.String,
@@ -1726,13 +1809,13 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "ReviewFinding" });
     case 7:
-      return S.Array(__S(38, __c2, 6));
+      return S.Array(__S(86, __c5, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           title: S.String,
           file: S.String,
-          lines: __S(37, __c2, 5),
+          lines: __S(85, __c5, 5),
           body: S.String,
           suggestion: S.String,
           priority: S.String,
@@ -1744,7 +1827,7 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "ReviewDroppedFinding" });
     case 9:
-      return S.Array(__S(40, __c2, 8));
+      return S.Array(__S(88, __c5, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
@@ -1767,9 +1850,9 @@ function __c2(j: number): any {
           status_comment_url: S.NullOr(S.String),
           full_review_published: S.Boolean,
           in_progress: S.Boolean,
-          progress: S.NullOr(__S(64, __c4, 0)),
-          resolution: S.NullOr(__S(65, __c4, 1)),
-          latest_resolution: S.NullOr(__S(48, __c3, 0)),
+          progress: S.NullOr(__S(112, __c7, 0)),
+          resolution: S.NullOr(__S(113, __c7, 1)),
+          latest_resolution: S.NullOr(__S(96, __c6, 0)),
           must_fix_count: S.Number,
           should_fix_count: S.Number,
           consider_count: S.Number,
@@ -1782,17 +1865,17 @@ function __c2(j: number): any {
           blind_spot_issue_count: S.NullOr(S.Number),
           run_index: S.Number,
           head_sha: S.NullOr(S.String),
-          perspective_selection: S.NullOr(__S(35, __c2, 3)),
+          perspective_selection: S.NullOr(__S(83, __c5, 3)),
           report_markdown: S.NullOr(S.String),
           run_urgency_threshold: S.NullOr(S.String),
-          findings: __S(39, __c2, 7),
-          dismissed_findings: __S(39, __c2, 7),
-          dropped_findings: __S(41, __c2, 9),
+          findings: __S(87, __c5, 7),
+          dismissed_findings: __S(87, __c5, 7),
+          dropped_findings: __S(89, __c5, 9),
         }),
       ).annotate({ identifier: "ReviewDetail" });
   }
 }
-function __c3(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1803,12 +1886,12 @@ function __c3(j: number): any {
           total: S.Number,
           fixed: S.Number,
           needs_attention: S.Number,
-          commits: __S(16, __c1, 0),
+          commits: __S(64, __c4, 0),
         }),
       ).annotate({ identifier: "ReviewLatestResolution" });
   }
 }
-function __c4(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1831,7 +1914,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "ReviewResolutionStatus" });
   }
 }
-function __c5(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1856,17 +1939,17 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "ReviewPerspectiveStatItem" });
     case 2:
-      return S.Array(__S(81, __c5, 1));
+      return S.Array(__S(129, __c8, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           report_count: S.Number,
-          perspectives: __S(82, __c5, 2),
+          perspectives: __S(130, __c8, 2),
         }),
       ).annotate({ identifier: "ReviewPerspectiveStats" });
   }
 }
-function __c6(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1915,14 +1998,14 @@ function __c6(j: number): any {
           pr_number: S.Number,
           report_id: S.NullOr(S.String),
           state: S.String,
-          latest_review: S.NullOr(__S(97, __c6, 1)),
-          latest_resolution: S.NullOr(__S(48, __c3, 0)),
-          request_outcome: S.NullOr(__S(98, __c6, 2)),
+          latest_review: S.NullOr(__S(145, __c9, 1)),
+          latest_resolution: S.NullOr(__S(96, __c6, 0)),
+          request_outcome: S.NullOr(__S(146, __c9, 2)),
         }),
       ).annotate({ identifier: "ReviewPRStatus" });
   }
 }
-function __c7(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1950,12 +2033,12 @@ function __c7(j: number): any {
           previous: S.NullOr(S.String),
           count: S.Number,
           running_count: S.Number,
-          results: __S(129, __c8, 1),
+          results: __S(177, __c11, 1),
         }),
       ).annotate({ identifier: "ReviewReviewsTablePage" });
   }
 }
-function __c8(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1979,9 +2062,9 @@ function __c8(j: number): any {
           status_comment_url: S.NullOr(S.String),
           full_review_published: S.Boolean,
           in_progress: S.Boolean,
-          progress: S.NullOr(__S(64, __c4, 0)),
-          resolution: S.NullOr(__S(65, __c4, 1)),
-          latest_resolution: S.NullOr(__S(48, __c3, 0)),
+          progress: S.NullOr(__S(112, __c7, 0)),
+          resolution: S.NullOr(__S(113, __c7, 1)),
+          latest_resolution: S.NullOr(__S(96, __c6, 0)),
           must_fix_count: S.Number,
           should_fix_count: S.Number,
           consider_count: S.Number,
@@ -1995,10 +2078,10 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "ReviewRecentReview" });
     case 1:
-      return S.Array(__S(128, __c8, 0));
+      return S.Array(__S(176, __c11, 0));
   }
 }
-function __c9(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2014,17 +2097,17 @@ function __c9(j: number): any {
       ).annotate({ identifier: "ListReviewHogBlindSpotsRequest" });
   }
 }
-function __c10(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(176, __c11, 0));
+      return S.Array(__S(224, __c14, 0));
     case 1:
-      return S.suspend(() => __S(160, __c10, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(208, __c13, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListReviewHogBlindSpotsResponse",
       });
   }
 }
-function __c11(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2037,7 +2120,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "ReviewBlindSpotsConfig" });
   }
 }
-function __c12(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2052,14 +2135,14 @@ function __c12(j: number): any {
         ),
       ).annotate({ identifier: "ListReviewHogInstallationClaimsRequest" });
     case 1:
-      return S.Array(__S(544, __c34, 0));
+      return S.Array(__S(592, __c37, 0));
     case 2:
-      return S.suspend(() => __S(193, __c12, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(241, __c15, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListReviewHogInstallationClaimsResponse",
       });
   }
 }
-function __c13(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2074,14 +2157,14 @@ function __c13(j: number): any {
         ),
       ).annotate({ identifier: "ListReviewHogPerspectivesRequest" });
     case 1:
-      return S.Array(__S(224, __c14, 0));
+      return S.Array(__S(272, __c17, 0));
     case 2:
-      return S.suspend(() => __S(209, __c13, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(257, __c16, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListReviewHogPerspectivesResponse",
       });
   }
 }
-function __c14(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2094,7 +2177,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "ReviewPerspectiveConfig" });
   }
 }
-function __c15(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2109,14 +2192,14 @@ function __c15(j: number): any {
         ),
       ).annotate({ identifier: "ListReviewHogRepositoriesRequest" });
     case 1:
-      return S.Array(__S(656, __c41, 0));
+      return S.Array(__S(688, __c43, 0));
     case 2:
-      return S.suspend(() => __S(241, __c15, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(289, __c18, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListReviewHogRepositoriesResponse",
       });
   }
 }
-function __c16(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2131,14 +2214,14 @@ function __c16(j: number): any {
         ),
       ).annotate({ identifier: "ListReviewHogRepositoryChoicesRequest" });
     case 1:
-      return S.Array(__S(720, __c45, 0));
+      return S.Array(__S(752, __c47, 0));
     case 2:
-      return S.suspend(() => __S(257, __c16, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(305, __c19, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListReviewHogRepositoryChoicesResponse",
       });
   }
 }
-function __c17(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2154,7 +2237,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "ListReviewHogResolutionRequest" });
   }
 }
-function __c18(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2173,13 +2256,13 @@ function __c18(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          results: __S(129, __c8, 1),
+          results: __S(177, __c11, 1),
           has_more: S.Boolean,
         }),
       ).annotate({ identifier: "ReviewRecentReviewsPage" });
   }
 }
-function __c19(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2195,7 +2278,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "ListReviewHogValidatorsRequest" });
   }
 }
-function __c20(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2212,7 +2295,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "ReviewHogInstallationClaimsDestroyRequest" });
   }
 }
-function __c21(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -2220,7 +2303,7 @@ function __c21(j: number): any {
       });
   }
 }
-function __c22(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2237,7 +2320,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "ReviewHogProjectSettingsPeopleDestroyRequest" });
   }
 }
-function __c23(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2254,7 +2337,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "ReviewHogRepositoriesDestroyRequest" });
   }
 }
-function __c24(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2272,7 +2355,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "ReviewHogRepositoriesPeopleDestroyRequest" });
   }
 }
-function __c25(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2289,7 +2372,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "ReviewHogRepositoryChoicesDestroyRequest" });
   }
 }
-function __c26(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2322,7 +2405,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "ReviewTriggerResponse" });
   }
 }
-function __c27(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2340,7 +2423,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "UpdateReviewHogBlindSpotsPartialRequest" });
   }
 }
-function __c28(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2358,7 +2441,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "UpdateReviewHogInstallationClaimsPartialRequest" });
   }
 }
-function __c29(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2376,7 +2459,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "UpdateReviewHogPerspectivesPartialRequest" });
   }
 }
-function __c30(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2396,7 +2479,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "UpdateReviewHogProjectSettingsPartialRequest" });
   }
 }
-function __c31(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2414,7 +2497,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "UpdateReviewHogResolutionPartialRequest" });
   }
 }
-function __c32(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2432,7 +2515,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "UpdateReviewHogValidatorsPartialRequest" });
   }
 }
-function __c33(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2450,7 +2533,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "CreateReviewHogInstallationClaimRequest" });
   }
 }
-function __c34(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2459,13 +2542,13 @@ function __c34(j: number): any {
           installation_id: S.String,
           scope: S.String,
           account_name: S.String,
-          created_by: S.NullOr(__S(561, __c35, 1)),
+          created_by: S.NullOr(__S(609, __c38, 1)),
           created_at: S.String,
         }),
       ).annotate({ identifier: "ReviewInstallationClaim" });
   }
 }
-function __c35(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
@@ -2479,13 +2562,13 @@ function __c35(j: number): any {
           last_name: S.optional(S.String),
           email: S.String,
           is_email_verified: S.optional(S.NullOr(S.Boolean)),
-          hedgehog_config: S.NullOr(__S(560, __c35, 0)),
+          hedgehog_config: S.NullOr(__S(608, __c38, 0)),
           role_at_organization: S.optional(S.NullOr(S.Unknown)),
         }),
       ).annotate({ identifier: "UserBasic" });
   }
 }
-function __c36(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2503,46 +2586,35 @@ function __c36(j: number): any {
       ).annotate({ identifier: "CreateReviewHogProjectSettingsPersonRequest" });
   }
 }
-function __c37(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          user: __S(561, __c35, 1),
+          user: __S(609, __c38, 1),
           kind: S.String,
         }),
       ).annotate({ identifier: "ReviewRepositoryPerson" });
     case 1:
-      return S.Array(__S(592, __c37, 0));
+      return S.Array(__S(640, __c40, 0));
   }
 }
-function __c38(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.NullOr(S.Number),
-          name: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "ReviewProjectRef" });
-  }
-}
-function __c39(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           installation_id: S.String,
           account_name: S.String,
-          connected_by: S.NullOr(__S(561, __c35, 1)),
+          connected_by: S.NullOr(__S(609, __c38, 1)),
           claim_id: S.NullOr(S.String),
           scope: S.NullOr(S.String),
-          all_taken_by_project: S.NullOr(__S(608, __c38, 0)),
+          all_taken_by_project: S.NullOr(__S(32, __c2, 0)),
         }),
       ).annotate({ identifier: "ReviewInstallation" });
     case 1:
-      return S.Array(__S(624, __c39, 0));
+      return S.Array(__S(656, __c41, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -2550,14 +2622,14 @@ function __c39(j: number): any {
           bot_prs: S.optional(S.String),
           urgency_threshold: S.optional(S.String),
           celebrate_clean_reviews: S.optional(S.Boolean),
-          people: __S(593, __c37, 1),
-          installations: __S(625, __c39, 1),
+          people: __S(641, __c40, 1),
+          installations: __S(657, __c41, 1),
           can_edit: S.Boolean,
         }),
       ).annotate({ identifier: "ReviewProjectSettings" });
   }
 }
-function __c40(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2576,7 +2648,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "CreateReviewHogRepositoriesPersonRequest" });
   }
 }
-function __c41(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2588,14 +2660,14 @@ function __c41(j: number): any {
           selected: S.Boolean,
           flash_for: S.NullOr(S.String),
           review_drafts: S.Boolean,
-          people: __S(593, __c37, 1),
-          created_by: S.NullOr(__S(561, __c35, 1)),
+          people: __S(641, __c40, 1),
+          created_by: S.NullOr(__S(609, __c38, 1)),
           created_at: S.String,
         }),
       ).annotate({ identifier: "ReviewRepository" });
   }
 }
-function __c42(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2618,13 +2690,13 @@ function __c42(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          repository: S.NullOr(__S(656, __c41, 0)),
-          taken_from_project: S.NullOr(__S(608, __c38, 0)),
+          repository: S.NullOr(__S(688, __c43, 0)),
+          taken_from_project: S.NullOr(__S(32, __c2, 0)),
         }),
       ).annotate({ identifier: "ReviewRepositoryWriteResponse" });
   }
 }
-function __c43(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2645,13 +2717,13 @@ function __c43(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          choice: S.NullOr(__S(720, __c45, 0)),
-          my_result: __S(704, __c44, 0),
+          choice: S.NullOr(__S(752, __c47, 0)),
+          my_result: __S(736, __c46, 0),
         }),
       ).annotate({ identifier: "ReviewRepositoryChoiceWriteResponse" });
   }
 }
-function __c44(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2662,7 +2734,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "AutomaticReviewDecision" });
   }
 }
-function __c45(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2676,7 +2748,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "ReviewRepositoryChoice" });
   }
 }
-function __c46(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

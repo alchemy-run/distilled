@@ -31,36 +31,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 /** Custom metadata to attach to the setup intent. Returned on the setup intent and its webhooks. */
 export type CreateSetupIntentRequestMetadataMap = { [key: string]: string | undefined };
@@ -555,6 +583,17 @@ export interface UpdateReturnUrlSetupIntentRequest {
   /** Where the buyer continues after completing an off-site step. Must be an absolute https URL without credentials (http is allowed for localhost), at most 2,048 characters. */
   return_url: string;
 }
+export interface V1ErrorResponseError {
+  /** Machine-readable reason for this specific refusal, such as `bank_warning_not_acknowledged`. Only present when the error carries one. */
+  code?: string | undefined;
+  /** Human-readable error message. */
+  message: string;
+  /** Machine-readable error code. */
+  type: string;
+}
+export interface V1ErrorResponse {
+  error: V1ErrorResponseError;
+}
 export type CreateSetupIntentError = BadRequest | Forbidden | NotFound | Conflict | WhopOpError;
 /** Create Setup Intent Saves a buyer's payment method for later without charging it. Pass a `confirmation_token` for a method the buyer just supplied through the payment elements in setup mode, or a `payment_method_id` already on file to re-verify it. The response is the setup intent as created, not its outcome: while it is `requires_action` the buyer still has a step, so hand `client_secret` to the elements' `handleNextAction` or poll Retrieve setup status. A buyer's own token holding `member:payment_methods:use` may create a setup intent for itself from a confirmation token. */
 export const createSetupIntent: API.OperationMethod<
@@ -563,8 +602,8 @@ export const createSetupIntent: API.OperationMethod<
   CreateSetupIntentError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1, __c0, 1) as any as S.Schema<CreateSetupIntentRequest>,
-  output: __S(23, __c2, 7) as any as S.Schema<SetupIntent>,
+  input: __S(9, __c1, 1) as any as S.Schema<CreateSetupIntentRequest>,
+  output: __S(31, __c3, 7) as any as S.Schema<SetupIntent>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -580,8 +619,8 @@ export const getSetupIntent: API.OperationMethod<
   GetSetupIntentError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<GetSetupIntentRequest>,
-  output: __S(23, __c2, 7) as any as S.Schema<SetupIntent>,
+  input: __S(32, __c4, 0) as any as S.Schema<GetSetupIntentRequest>,
+  output: __S(31, __c3, 7) as any as S.Schema<SetupIntent>,
   errors: [Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -597,8 +636,8 @@ export const getStatusSetupIntent: API.OperationMethod<
   GetStatusSetupIntentError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<GetStatusSetupIntentRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<SetupStatus>,
+  input: __S(40, __c5, 0) as any as S.Schema<GetStatusSetupIntentRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<SetupStatus>,
   errors: [Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -616,8 +655,8 @@ export const listSetupIntents: API.PaginatedOperationMethod<
   SetupIntent
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(48, __c6, 0) as any as S.Schema<ListSetupIntentsRequest>,
-    output: __S(51, __c6, 3) as any as S.Schema<ListSetupIntentsResponse>,
+    input: __S(56, __c7, 0) as any as S.Schema<ListSetupIntentsRequest>,
+    output: __S(59, __c7, 3) as any as S.Schema<ListSetupIntentsResponse>,
     errors: [BadRequest, Forbidden],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -643,8 +682,8 @@ export const updateReturnUrlSetupIntent: API.OperationMethod<
   UpdateReturnUrlSetupIntentError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<UpdateReturnUrlSetupIntentRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<SetupStatus>,
+  input: __S(64, __c8, 0) as any as S.Schema<UpdateReturnUrlSetupIntentRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<SetupStatus>,
   errors: [BadRequest, Forbidden],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -656,6 +695,24 @@ export const updateReturnUrlSetupIntent: API.OperationMethod<
 function __c0(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "V1ErrorResponseError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "V1ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
       return S.Record(S.String, S.String);
     case 1:
       return S.suspend(() =>
@@ -664,7 +721,7 @@ function __c0(j: number): any {
           confirmation_token: S.optional(S.NullOr(S.String)),
           currency: S.optional(S.NullOr(S.String)),
           email: S.optional(S.NullOr(S.String)),
-          metadata: S.optional(S.NullOr(__S(0, __c0, 0))),
+          metadata: S.optional(S.NullOr(__S(8, __c1, 0))),
           payment_method_id: S.optional(S.NullOr(S.String)),
           purpose: S.optional(S.NullOr(S.String)),
           return_url: S.optional(S.NullOr(S.String)),
@@ -673,7 +730,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateSetupIntentRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -684,7 +741,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "SetupLastSetupError" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -708,23 +765,23 @@ function __c2(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          dark: __S(17, __c2, 1),
-          light: __S(17, __c2, 1),
+          dark: __S(25, __c3, 1),
+          light: __S(25, __c3, 1),
         }),
       ).annotate({ identifier: "PaymentMethodIconVariants" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          card: __S(18, __c2, 2),
-          square: __S(18, __c2, 2),
+          card: __S(26, __c3, 2),
+          square: __S(26, __c3, 2),
         }),
       ).annotate({ identifier: "PaymentMethodIcons" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          card: S.NullOr(__S(16, __c2, 0)),
+          card: S.NullOr(__S(24, __c3, 0)),
           display_name: S.String,
-          icons: __S(19, __c2, 3),
+          icons: __S(27, __c3, 3),
           installment_count: S.NullOr(S.Number),
           payment_method_type: S.String,
         }),
@@ -740,7 +797,7 @@ function __c2(j: number): any {
         S.Struct({
           id: S.String,
           name: S.NullOr(S.String),
-          profile_picture: __S(21, __c2, 5),
+          profile_picture: __S(29, __c3, 5),
           username: S.String,
         }),
       ).annotate({ identifier: "UserSummary" });
@@ -752,22 +809,22 @@ function __c2(j: number): any {
           client_secret: S.NullOr(S.String).pipe(T.SensitiveValue({})),
           created_at: S.String,
           id: S.String,
-          last_setup_error: S.NullOr(__S(8, __c1, 0)),
+          last_setup_error: S.NullOr(__S(16, __c2, 0)),
           member_id: S.NullOr(S.String),
           metadata: S.NullOr(S.Unknown),
-          payment_instrument: S.NullOr(__S(20, __c2, 4)),
+          payment_instrument: S.NullOr(__S(28, __c3, 4)),
           payment_method_id: S.NullOr(S.String),
           payment_method_type: S.NullOr(S.String),
           return_url: S.NullOr(S.String),
           status: S.String,
           three_ds_verified: S.Boolean,
           updated_at: S.String,
-          user: S.NullOr(__S(22, __c2, 6)),
+          user: S.NullOr(__S(30, __c3, 6)),
         }),
       ).annotate({ identifier: "SetupIntent" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -777,7 +834,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GetSetupIntentRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -789,13 +846,13 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetStatusSetupIntentRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          last_setup_error: S.NullOr(__S(8, __c1, 0)),
+          last_setup_error: S.NullOr(__S(16, __c2, 0)),
           next_action: S.NullOr(S.Unknown),
           object: S.String,
           return_url: S.NullOr(S.String),
@@ -804,7 +861,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "SetupStatus" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -822,7 +879,7 @@ function __c6(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/setup_intents", code: 200 })),
       ).annotate({ identifier: "ListSetupIntentsRequest" });
     case 1:
-      return S.Array(__S(23, __c2, 7));
+      return S.Array(__S(31, __c3, 7));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -835,13 +892,13 @@ function __c6(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(49, __c6, 1),
-          page_info: __S(50, __c6, 2),
+          data: __S(57, __c7, 1),
+          page_info: __S(58, __c7, 2),
         }),
       ).annotate({ identifier: "ListSetupIntentsResponse" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

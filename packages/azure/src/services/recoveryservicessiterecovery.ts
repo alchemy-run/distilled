@@ -32,11 +32,130 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
-/** Add Disks provider specific input. */
-export interface AddDisksProviderSpecificInput {
-  /** The class type. */
-  instanceType: string;
+/** The class type. */
+export type A2AAddDisksInputInstanceType = "A2A";
+/** A2A disk input details. */
+export interface A2AVmDiskInputDetails {
+  /** The disk Uri. */
+  diskUri: string;
+  /** The recovery VHD storage account Id. */
+  recoveryAzureStorageAccountId: string;
+  /** The primary staging storage account Id. */
+  primaryStagingAzureStorageAccountId: string;
 }
+/** The list of vm disk details. */
+export type A2AAddDisksInputVmDisksList = Array<A2AVmDiskInputDetails>;
+/** Disk Encryption Key Information (BitLocker Encryption Key (BEK) on Windows). */
+export interface DiskEncryptionKeyInfo {
+  /** The secret url / identifier. */
+  secretIdentifier?: string | undefined;
+  /** The KeyVault resource ARM id for secret. */
+  keyVaultResourceArmId?: string | undefined;
+}
+/** Key Encryption Key (KEK) information. */
+export interface KeyEncryptionKeyInfo {
+  /** The key URL / identifier. */
+  keyIdentifier?: string | undefined;
+  /** The KeyVault resource ARM Id for key. */
+  keyVaultResourceArmId?: string | undefined;
+}
+/** Recovery disk encryption info (BEK and KEK). */
+export interface DiskEncryptionInfo {
+  /** The recovery KeyVault reference for secret. */
+  diskEncryptionKeyInfo?: DiskEncryptionKeyInfo | undefined;
+  /** The recovery KeyVault reference for key. */
+  keyEncryptionKeyInfo?: KeyEncryptionKeyInfo | undefined;
+}
+/** The network access policy for managed disks. */
+export type DiskNetworkAccessPolicy = "AllowAll" | "AllowPrivate" | "DenyAll";
+/** The public network access setting for managed disks. */
+export type DiskPublicNetworkAccess = "Enabled" | "Disabled";
+/** Confidential disk encryption info for an A2A CMK confidential VM managed disk. Specifies the confidential disk encryption set ID for the replica disk used during replication and the confidential disk encryption set ID for the target disk used after failover. */
+export interface ConfidentialDiskEncryptionInfo {
+  /** The Azure resource ID of the confidential disk encryption set used for the replica disk. Applicable to CMK confidential VMs. */
+  recoveryReplicaConfidentialDiskEncryptionSetId?: string | undefined;
+  /** The Azure resource ID of the confidential disk encryption set used for the target disk after failover. Applicable to CMK confidential VMs. */
+  recoveryTargetConfidentialDiskEncryptionSetId?: string | undefined;
+}
+/** A2A managed disk input details. */
+export interface A2AVmManagedDiskInputDetails {
+  /** The disk Id. */
+  diskId: string;
+  /** The primary staging storage account Arm Id. */
+  primaryStagingAzureStorageAccountId: string;
+  /** The target resource group Arm Id. */
+  recoveryResourceGroupId: string;
+  /** The replica disk type. Its an optional value and will be same as source disk type if not user provided. */
+  recoveryReplicaDiskAccountType?: string | undefined;
+  /** The target disk type after failover. Its an optional value and will be same as source disk type if not user provided. */
+  recoveryTargetDiskAccountType?: string | undefined;
+  /** The recovery disk encryption set Id. */
+  recoveryDiskEncryptionSetId?: string | undefined;
+  /** The recovery disk encryption information (for one / single pass flows). */
+  diskEncryptionInfo?: DiskEncryptionInfo | undefined;
+  /** The network access policy for the recovery managed disk. */
+  recoveryNetworkAccessPolicy?: DiskNetworkAccessPolicy | (string & {}) | undefined;
+  /** The recovery disk access Arm Id. */
+  recoveryDiskAccessId?: string | undefined;
+  /** The public network access setting for the recovery managed disk. */
+  recoveryPublicNetworkAccess?: DiskPublicNetworkAccess | (string & {}) | undefined;
+  /** The confidential disk encryption info for the managed disk. Applicable to CMK confidential VMs. */
+  confidentialDiskEncryptionInfo?: ConfidentialDiskEncryptionInfo | undefined;
+}
+/** The list of vm managed disk details. */
+export type A2AAddDisksInputVmManagedDisksList = Array<A2AVmManagedDiskInputDetails>;
+/** A2A add disk(s) input. */
+export interface A2AAddDisksInput {
+  /** The class type. */
+  instanceType: A2AAddDisksInputInstanceType;
+  /** The list of vm disk details. */
+  vmDisks?: A2AAddDisksInputVmDisksList | undefined;
+  /** The list of vm managed disk details. */
+  vmManagedDisks?: A2AAddDisksInputVmManagedDisksList | undefined;
+}
+/** The class type. */
+export type InMageRcmAddDisksInputInstanceType = "InMageRcm";
+/** The disk type. */
+export type DiskAccountType =
+  | "Standard_LRS"
+  | "Premium_LRS"
+  | "StandardSSD_LRS"
+  | "PremiumV2_LRS"
+  | "UltraSSD_LRS"
+  | "StandardSSD_ZRS"
+  | "Premium_ZRS";
+/** InMageRcm disk input. */
+export interface InMageRcmDiskInput {
+  /** The disk Id. */
+  diskId: string;
+  /** The log storage account ARM Id. */
+  logStorageAccountId: string;
+  /** The disk type. */
+  diskType: DiskAccountType | (string & {});
+  /** The DiskEncryptionSet ARM Id. */
+  diskEncryptionSetId?: string | undefined;
+  /** The ConfidentialDiskEncryptionSet ARM Id. */
+  confidentialDiskEncryptionSetId?: string | undefined;
+  /** The logical sector size (in bytes), 512 by default. */
+  sectorSizeInBytes?: number | undefined;
+  /** The number of IOPS allowed for Premium V2 and Ultra disks. */
+  iops?: number | undefined;
+  /** The total throughput in Mbps for Premium V2 and Ultra disks. */
+  throughputInMbps?: number | undefined;
+  /** The target disk size in GB. */
+  diskSizeInGB?: number | undefined;
+}
+/** The list of disk details. */
+export type InMageRcmAddDisksInputDisksList = Array<InMageRcmDiskInput>;
+/** InMageRcm add disk(s) input. */
+export interface InMageRcmAddDisksInput {
+  /** The class type. */
+  instanceType: InMageRcmAddDisksInputInstanceType;
+  /** The list of disk details. */
+  disks: InMageRcmAddDisksInputDisksList;
+}
+/** Add Disks provider specific input. */
+export type AddDisksProviderSpecificInput = A2AAddDisksInput | InMageRcmAddDisksInput;
 /** Add Disks input properties. */
 export interface AddDisksInputProperties {
   /** The ReplicationProviderInput. For HyperVReplicaAzure provider, it will be AzureEnableProtectionInput object. For San provider, it will be SanEnableProtectionInput object. For HyperVReplicaAzure provider, it can be null. */
@@ -158,6 +277,1849 @@ export interface CurrentScenarioDetails {
   /** Start time of the workflow. */
   startTime?: string | undefined;
 }
+/** Gets the Instance type. */
+export type A2ACrossClusterMigrationReplicationDetailsInstanceType = "A2ACrossClusterMigration";
+/** A2A provider specific settings. */
+export interface A2ACrossClusterMigrationReplicationDetails {
+  /** Gets the Instance type. */
+  instanceType: A2ACrossClusterMigrationReplicationDetailsInstanceType;
+  /** The fabric specific object Id of the virtual machine. */
+  fabricObjectId?: string | undefined;
+  /** Primary fabric location. */
+  primaryFabricLocation?: string | undefined;
+  /** The type of operating system. */
+  osType?: string | undefined;
+  /** The protection state for the vm. */
+  vmProtectionState?: string | undefined;
+  /** The protection state description for the vm. */
+  vmProtectionStateDescription?: string | undefined;
+  /** An id associated with the PE that survives actions like switch protection which change the backing PE/CPE objects internally.The lifecycle id gets carried forward to have a link/continuity in being able to have an Id that denotes the "same" protected item even though other internal Ids/ARM Id might be changing. */
+  lifecycleId?: string | undefined;
+}
+/** Gets the Instance type. */
+export type A2AReplicationDetailsInstanceType = "A2A";
+/** The extended location type. */
+export type ExtendedLocationType = "EdgeZone";
+/** Extended location of the resource. */
+export interface ExtendedLocation {
+  /** The name of the extended location. */
+  name: string;
+  /** The extended location type. */
+  type: ExtendedLocationType | (string & {});
+}
+/** Whether Multi VM group is auto created or specified by user. */
+export type MultiVmGroupCreateOption = "AutoCreated" | "UserSpecified";
+/** The disk level operations list. */
+export type A2AProtectedDiskDetailsAllowedDiskLevelOperationList = Array<string>;
+/** A2A protected disk details. */
+export interface A2AProtectedDiskDetails {
+  /** The disk uri. */
+  diskUri?: string | undefined;
+  /** The recovery disk storage account. */
+  recoveryAzureStorageAccountId?: string | undefined;
+  /** The primary disk storage account. */
+  primaryDiskAzureStorageAccountId?: string | undefined;
+  /** Recovery disk uri. */
+  recoveryDiskUri?: string | undefined;
+  /** The disk name. */
+  diskName?: string | undefined;
+  /** The disk capacity in bytes. */
+  diskCapacityInBytes?: number | undefined;
+  /** The primary staging storage account. */
+  primaryStagingAzureStorageAccountId?: string | undefined;
+  /** The type of disk. */
+  diskType?: string | undefined;
+  /** A value indicating whether resync is required for this disk. */
+  resyncRequired?: boolean | undefined;
+  /** The percentage of the monitoring job. The type of the monitoring job is defined by MonitoringJobType property. */
+  monitoringPercentageCompletion?: number | undefined;
+  /** The type of the monitoring job. The progress is contained in MonitoringPercentageCompletion property. */
+  monitoringJobType?: string | undefined;
+  /** The data pending for replication in MB at staging account. */
+  dataPendingInStagingStorageAccountInMB?: number | undefined;
+  /** The data pending at source virtual machine in MB. */
+  dataPendingAtSourceAgentInMB?: number | undefined;
+  /** The disk state. */
+  diskState?: string | undefined;
+  /** The disk level operations list. */
+  allowedDiskLevelOperation?: A2AProtectedDiskDetailsAllowedDiskLevelOperationList | undefined;
+  /** A value indicating whether vm has encrypted os disk or not. */
+  isDiskEncrypted?: boolean | undefined;
+  /** The secret URL / identifier (BEK). */
+  secretIdentifier?: string | undefined;
+  /** The KeyVault resource id for secret (BEK). */
+  dekKeyVaultArmId?: string | undefined;
+  /** A value indicating whether disk key got encrypted or not. */
+  isDiskKeyEncrypted?: boolean | undefined;
+  /** The key URL / identifier (KEK). */
+  keyIdentifier?: string | undefined;
+  /** The KeyVault resource id for key (KEK). */
+  kekKeyVaultArmId?: string | undefined;
+  /** The failover name for the managed disk. */
+  failoverDiskName?: string | undefined;
+  /** The test failover name for the managed disk. */
+  tfoDiskName?: string | undefined;
+}
+/** The list of protected disks. */
+export type A2AReplicationDetailsProtectedDisksList = Array<A2AProtectedDiskDetails>;
+/** A value indicating whether the auto protection is enabled. */
+export type AutoProtectionOfDataDisk = "Disabled" | "Enabled";
+/** A2A unprotected disk details. */
+export interface A2AUnprotectedDiskDetails {
+  /** The source lun Id for the data disk. */
+  diskLunId?: number | undefined;
+  /** A value indicating whether the disk auto protection is enabled. */
+  diskAutoProtectionStatus?: AutoProtectionOfDataDisk | (string & {}) | undefined;
+}
+/** The list of unprotected disks. */
+export type A2AReplicationDetailsUnprotectedDisksList = Array<A2AUnprotectedDiskDetails>;
+/** The disk level operations list. */
+export type A2AProtectedManagedDiskDetailsAllowedDiskLevelOperationList = Array<string>;
+/** A2A protected managed disk details. */
+export interface A2AProtectedManagedDiskDetails {
+  /** The managed disk Arm id. */
+  diskId?: string | undefined;
+  /** The recovery disk resource group Arm Id. */
+  recoveryResourceGroupId?: string | undefined;
+  /** Recovery target disk Arm Id. */
+  recoveryTargetDiskId?: string | undefined;
+  /** Recovery replica disk Arm Id. */
+  recoveryReplicaDiskId?: string | undefined;
+  /** Recovery original target disk Arm Id. */
+  recoveryOrignalTargetDiskId?: string | undefined;
+  /** The replica disk type. Its an optional value and will be same as source disk type if not user provided. */
+  recoveryReplicaDiskAccountType?: string | undefined;
+  /** The target disk type after failover. Its an optional value and will be same as source disk type if not user provided. */
+  recoveryTargetDiskAccountType?: string | undefined;
+  /** The recovery disk encryption set Id. */
+  recoveryDiskEncryptionSetId?: string | undefined;
+  /** The primary disk encryption set Id. */
+  primaryDiskEncryptionSetId?: string | undefined;
+  /** The disk name. */
+  diskName?: string | undefined;
+  /** The disk capacity in bytes. */
+  diskCapacityInBytes?: number | undefined;
+  /** The primary staging storage account. */
+  primaryStagingAzureStorageAccountId?: string | undefined;
+  /** The type of disk. */
+  diskType?: string | undefined;
+  /** A value indicating whether resync is required for this disk. */
+  resyncRequired?: boolean | undefined;
+  /** The percentage of the monitoring job. The type of the monitoring job is defined by MonitoringJobType property. */
+  monitoringPercentageCompletion?: number | undefined;
+  /** The type of the monitoring job. The progress is contained in MonitoringPercentageCompletion property. */
+  monitoringJobType?: string | undefined;
+  /** The data pending for replication in MB at staging account. */
+  dataPendingInStagingStorageAccountInMB?: number | undefined;
+  /** The data pending at source virtual machine in MB. */
+  dataPendingAtSourceAgentInMB?: number | undefined;
+  /** The disk state. */
+  diskState?: string | undefined;
+  /** The disk level operations list. */
+  allowedDiskLevelOperation?:
+    | A2AProtectedManagedDiskDetailsAllowedDiskLevelOperationList
+    | undefined;
+  /** A value indicating whether vm has encrypted os disk or not. */
+  isDiskEncrypted?: boolean | undefined;
+  /** The secret URL / identifier (BEK). */
+  secretIdentifier?: string | undefined;
+  /** The KeyVault resource id for secret (BEK). */
+  dekKeyVaultArmId?: string | undefined;
+  /** A value indicating whether disk key got encrypted or not. */
+  isDiskKeyEncrypted?: boolean | undefined;
+  /** The key URL / identifier (KEK). */
+  keyIdentifier?: string | undefined;
+  /** The KeyVault resource id for key (KEK). */
+  kekKeyVaultArmId?: string | undefined;
+  /** The failover name for the managed disk. */
+  failoverDiskName?: string | undefined;
+  /** The test failover name for the managed disk. */
+  tfoDiskName?: string | undefined;
+  /** The network access policy for the recovery managed disk. */
+  recoveryNetworkAccessPolicy?: DiskNetworkAccessPolicy | (string & {}) | undefined;
+  /** The recovery disk access Arm Id. */
+  recoveryDiskAccessId?: string | undefined;
+  /** The public network access setting for the recovery managed disk. */
+  recoveryPublicNetworkAccess?: DiskPublicNetworkAccess | (string & {}) | undefined;
+  /** The confidential disk encryption info for the managed disk. Applicable to CMK confidential VMs. */
+  confidentialDiskEncryptionInfo?: ConfidentialDiskEncryptionInfo | undefined;
+}
+/** The list of protected managed disks. */
+export type A2AReplicationDetailsProtectedManagedDisksList = Array<A2AProtectedManagedDiskDetails>;
+export type IPConfigDetailsRecoveryLBBackendAddressPoolIdsList = Array<string>;
+export type IPConfigDetailsTfoLBBackendAddressPoolIdsList = Array<string>;
+/** The IP version (address family) of an ip-config. */
+export type IPVersion = "IPv4" | "IPv6";
+export interface IPConfigDetails {
+  name?: string | undefined;
+  isPrimary?: boolean | undefined;
+  subnetName?: string | undefined;
+  staticIPAddress?: string | undefined;
+  ipAddressType?: string | undefined;
+  isSeletedForFailover?: boolean | undefined;
+  recoverySubnetName?: string | undefined;
+  recoveryStaticIPAddress?: string | undefined;
+  recoveryIPAddressType?: string | undefined;
+  recoveryPublicIPAddressId?: string | undefined;
+  recoveryLBBackendAddressPoolIds?: IPConfigDetailsRecoveryLBBackendAddressPoolIdsList | undefined;
+  tfoSubnetName?: string | undefined;
+  tfoStaticIPAddress?: string | undefined;
+  tfoPublicIPAddressId?: string | undefined;
+  tfoLBBackendAddressPoolIds?: IPConfigDetailsTfoLBBackendAddressPoolIdsList | undefined;
+  /** The IP version (IPv4 / IPv6) of the ip-config, as reported by the service. Read-only - it reflects the discovered NIC configuration and cannot be set by the caller. Orthogonal to the allocation type (static / dynamic). Omitted when IPv6 support is not enabled. */
+  ipVersion?: IPVersion | undefined;
+}
+/** The IP configurations of the NIC. */
+export type VMNicDetailsIpConfigsList = Array<IPConfigDetails>;
+/** Hyper V VM network details. */
+export interface VMNicDetails {
+  /** The nic Id. */
+  nicId?: string | undefined;
+  /** The replica nic Id. */
+  replicaNicId?: string | undefined;
+  /** The source nic ARM Id. */
+  sourceNicArmId?: string | undefined;
+  /** VM network name. */
+  vMNetworkName?: string | undefined;
+  /** Recovery VM network Id. */
+  recoveryVMNetworkId?: string | undefined;
+  /** The IP configurations of the NIC. */
+  ipConfigs?: VMNicDetailsIpConfigsList | undefined;
+  /** Selection type for failover. */
+  selectionType?: string | undefined;
+  /** The id of the NSG associated with the NIC. */
+  recoveryNetworkSecurityGroupId?: string | undefined;
+  /** A value indicating whether the NIC has accelerated networking enabled. */
+  enableAcceleratedNetworkingOnRecovery?: boolean | undefined;
+  /** The network to be used by NIC during test failover. */
+  tfoVMNetworkId?: string | undefined;
+  /** The NSG to be used by NIC during test failover. */
+  tfoNetworkSecurityGroupId?: string | undefined;
+  /** Whether the TFO NIC has accelerated networking enabled. */
+  enableAcceleratedNetworkingOnTfo?: boolean | undefined;
+  /** The name of the NIC to be used when creating target NICs. */
+  recoveryNicName?: string | undefined;
+  /** The resource group of the NIC to be used when creating target NICs. */
+  recoveryNicResourceGroupName?: string | undefined;
+  /** A value indicating whether an existing NIC is allowed to be reused during failover subject to availability. */
+  reuseExistingNic?: boolean | undefined;
+  /** The name of the NIC to be used when creating target NICs in TFO. */
+  tfoRecoveryNicName?: string | undefined;
+  /** The resource group of the NIC to be used when creating target NICs in TFO. */
+  tfoRecoveryNicResourceGroupName?: string | undefined;
+  /** A value indicating whether an existing NIC is allowed to be reused during test failover subject to availability. */
+  tfoReuseExistingNic?: boolean | undefined;
+  /** Target NIC name. */
+  targetNicName?: string | undefined;
+}
+/** The virtual machine nic details. */
+export type A2AReplicationDetailsVmNicsList = Array<VMNicDetails>;
+/** The Azure VM tags. */
+export type AzureToAzureVmSyncedConfigDetailsTagsMap = { [key: string]: string | undefined };
+export interface InputEndpoint {
+  endpointName?: string | undefined;
+  privatePort?: number | undefined;
+  publicPort?: number | undefined;
+  protocol?: string | undefined;
+}
+/** The Azure VM input endpoints. */
+export type AzureToAzureVmSyncedConfigDetailsInputEndpointsList = Array<InputEndpoint>;
+/** Azure to Azure VM synced configuration details. */
+export interface AzureToAzureVmSyncedConfigDetails {
+  /** The Azure VM tags. */
+  tags?: AzureToAzureVmSyncedConfigDetailsTagsMap | undefined;
+  /** The Azure VM input endpoints. */
+  inputEndpoints?: AzureToAzureVmSyncedConfigDetailsInputEndpointsList | undefined;
+}
+/** The encryption type of the VM. */
+export type VmEncryptionType = "NotEncrypted" | "OnePassEncrypted" | "TwoPassEncrypted";
+/** A value indicating the churn option selected by user. */
+export type ChurnOptionSelected = "Normal" | "High";
+/** error message parameters. */
+export type A2AAgentReinstallBlockingErrorDetailsErrorMessageParametersMap = {
+  [key: string]: string | undefined;
+};
+/** error tags. */
+export type A2AAgentReinstallBlockingErrorDetailsErrorTagsMap = {
+  [key: string]: string | undefined;
+};
+/** A2A source agent reinstall blocking error details. */
+export interface A2AAgentReinstallBlockingErrorDetails {
+  /** error code. */
+  errorCode?: string | undefined;
+  /** error message. */
+  errorMessage?: string | undefined;
+  /** possible causes. */
+  possibleCauses?: string | undefined;
+  /** recommended action. */
+  recommendedAction?: string | undefined;
+  /** error message parameters. */
+  errorMessageParameters?:
+    | A2AAgentReinstallBlockingErrorDetailsErrorMessageParametersMap
+    | undefined;
+  /** error tags. */
+  errorTags?: A2AAgentReinstallBlockingErrorDetailsErrorTagsMap | undefined;
+}
+/** whether reinstall is possible or not. */
+export type A2AReplicationDetailsReasonsBlockingReinstallDetailsList =
+  Array<A2AAgentReinstallBlockingErrorDetails>;
+/** A2A provider specific settings. */
+export interface A2AReplicationDetails {
+  /** Gets the Instance type. */
+  instanceType: A2AReplicationDetailsInstanceType;
+  /** The fabric specific object Id of the virtual machine. */
+  fabricObjectId?: string | undefined;
+  /** The initial primary availability zone. */
+  initialPrimaryZone?: string | undefined;
+  /** The initial primary fabric location. */
+  initialPrimaryFabricLocation?: string | undefined;
+  /** The initial recovery availability zone. */
+  initialRecoveryZone?: string | undefined;
+  /** The initial primary extended location. */
+  initialPrimaryExtendedLocation?: ExtendedLocation | undefined;
+  /** The initial recovery extended location. */
+  initialRecoveryExtendedLocation?: ExtendedLocation | undefined;
+  /** The initial recovery fabric location. */
+  initialRecoveryFabricLocation?: string | undefined;
+  /** The multi vm group Id. */
+  multiVmGroupId?: string | undefined;
+  /** The multi vm group name. */
+  multiVmGroupName?: string | undefined;
+  /** Whether Multi VM group is auto created or specified by user. */
+  multiVmGroupCreateOption?: MultiVmGroupCreateOption | undefined;
+  /** The management Id. */
+  managementId?: string | undefined;
+  /** The replication protection cluster Id. */
+  protectionClusterId?: string | undefined;
+  /** A value indicating if the cluster infra is ready or not. */
+  isClusterInfraReady?: boolean | undefined;
+  /** The list of protected disks. */
+  protectedDisks?: A2AReplicationDetailsProtectedDisksList | undefined;
+  /** The list of unprotected disks. */
+  unprotectedDisks?: A2AReplicationDetailsUnprotectedDisksList | undefined;
+  /** The list of protected managed disks. */
+  protectedManagedDisks?: A2AReplicationDetailsProtectedManagedDisksList | undefined;
+  /** The recovery boot diagnostic storage account Arm Id. */
+  recoveryBootDiagStorageAccountId?: string | undefined;
+  /** Primary fabric location. */
+  primaryFabricLocation?: string | undefined;
+  /** The recovery fabric location. */
+  recoveryFabricLocation?: string | undefined;
+  /** The type of operating system. */
+  osType?: string | undefined;
+  /** The size of recovery virtual machine. */
+  recoveryAzureVMSize?: string | undefined;
+  /** The name of recovery virtual machine. */
+  recoveryAzureVMName?: string | undefined;
+  /** The recovery resource group. */
+  recoveryAzureResourceGroupId?: string | undefined;
+  /** The recovery cloud service. */
+  recoveryCloudService?: string | undefined;
+  /** The recovery availability set. */
+  recoveryAvailabilitySet?: string | undefined;
+  /** The recovery virtual network. */
+  selectedRecoveryAzureNetworkId?: string | undefined;
+  /** The test failover virtual network. */
+  selectedTfoAzureNetworkId?: string | undefined;
+  /** The virtual machine nic details. */
+  vmNics?: A2AReplicationDetailsVmNicsList | undefined;
+  /** The synced configuration details. */
+  vmSyncedConfigDetails?: AzureToAzureVmSyncedConfigDetails | undefined;
+  /** The percentage of the monitoring job. The type of the monitoring job is defined by MonitoringJobType property. */
+  monitoringPercentageCompletion?: number | undefined;
+  /** The type of the monitoring job. The progress is contained in MonitoringPercentageCompletion property. */
+  monitoringJobType?: string | undefined;
+  /** The last heartbeat received from the source server. */
+  lastHeartbeat?: string | undefined;
+  /** The agent version. */
+  agentVersion?: string | undefined;
+  /** Agent expiry date. */
+  agentExpiryDate?: string | undefined;
+  /** A value indicating whether replication agent update is required. */
+  isReplicationAgentUpdateRequired?: boolean | undefined;
+  /** Agent certificate expiry date. */
+  agentCertificateExpiryDate?: string | undefined;
+  /** A value indicating whether agent certificate update is required. */
+  isReplicationAgentCertificateUpdateRequired?: boolean | undefined;
+  /** The recovery fabric object Id. */
+  recoveryFabricObjectId?: string | undefined;
+  /** The protection state for the vm. */
+  vmProtectionState?: string | undefined;
+  /** The protection state description for the vm. */
+  vmProtectionStateDescription?: string | undefined;
+  /** An id associated with the PE that survives actions like switch protection which change the backing PE/CPE objects internally.The lifecycle id gets carried forward to have a link/continuity in being able to have an Id that denotes the "same" protected item even though other internal Ids/ARM Id might be changing. */
+  lifecycleId?: string | undefined;
+  /** The test failover fabric object Id. */
+  testFailoverRecoveryFabricObjectId?: string | undefined;
+  /** The last RPO value in seconds. */
+  rpoInSeconds?: number | undefined;
+  /** The time (in UTC) when the last RPO value was calculated by Protection Service. */
+  lastRpoCalculatedTime?: string | undefined;
+  /** The primary availability zone. */
+  primaryAvailabilityZone?: string | undefined;
+  /** The recovery availability zone. */
+  recoveryAvailabilityZone?: string | undefined;
+  /** The primary Extended Location. */
+  primaryExtendedLocation?: ExtendedLocation | undefined;
+  /** The recovery Extended Location. */
+  recoveryExtendedLocation?: ExtendedLocation | undefined;
+  /** The encryption type of the VM. */
+  vmEncryptionType?: VmEncryptionType | undefined;
+  /** The test failover vm name. */
+  tfoAzureVMName?: string | undefined;
+  /** The recovery azure generation. */
+  recoveryAzureGeneration?: string | undefined;
+  /** The recovery proximity placement group Id. */
+  recoveryProximityPlacementGroupId?: string | undefined;
+  /** A value indicating whether the auto protection is enabled. */
+  autoProtectionOfDataDisk?: AutoProtectionOfDataDisk | undefined;
+  /** The recovery virtual machine scale set id. */
+  recoveryVirtualMachineScaleSetId?: string | undefined;
+  /** The recovery capacity reservation group Id. */
+  recoveryCapacityReservationGroupId?: string | undefined;
+  /** A value indicating the churn option selected by user. */
+  churnOptionSelected?: ChurnOptionSelected | undefined;
+  /** The agent version to which last agent reinstall was attempted. */
+  agentReinstallAttemptToVersion?: string | undefined;
+  /** The OS family name. */
+  osFamilyName?: string | undefined;
+  /** The distro name. */
+  distroName?: string | undefined;
+  /** The agent os name last agent reinstall was attempted. */
+  distroNameForWhichAgentIsInstalled?: string | undefined;
+  /** A value indicating whether replication agent upgradeable. */
+  isAgentUpgradeable?: boolean | undefined;
+  /** A value indicating whether replication agent reinstallation is required. */
+  isAgentReinstallRequired?: boolean | undefined;
+  /** value for reason blocking reinstall. */
+  reasonsBlockingReInstall?: string | undefined;
+  /** whether reinstall is possible or not. */
+  reasonsBlockingReinstallDetails?:
+    | A2AReplicationDetailsReasonsBlockingReinstallDetailsList
+    | undefined;
+  /** A value indicating whether replication agent Upgrade is In-Progress. */
+  isAgentUpgradeInProgress?: boolean | undefined;
+  /** auto agent upgrade retry count. */
+  autoAgentUpgradeRetryCount?: number | undefined;
+  /** A value indicating whether replication agent Upgrade retry exhausted. */
+  isAgentUpgradeRetryThresholdExhausted?: boolean | undefined;
+  /** the platform fault domain. */
+  platformFaultDomain?: number | undefined;
+  /** The Azure resource ID of the confidential data disk encryption user-assigned identity. Applicable to CMK confidential VM data disks. */
+  recoveryConfidentialDataDiskEncryptionIdentity?: string | undefined;
+}
+/** Gets the Instance type. */
+export type HyperVReplicaAzureReplicationDetailsInstanceType = "HyperVReplicaAzure";
+/** Disk details for E2A provider. */
+export interface AzureVmDiskDetails {
+  /** VHD type. */
+  vhdType?: string | undefined;
+  /** The VHD id. */
+  vhdId?: string | undefined;
+  /** The disk resource id. */
+  diskId?: string | undefined;
+  /** VHD name. */
+  vhdName?: string | undefined;
+  /** Max side in MB. */
+  maxSizeMB?: string | undefined;
+  /** Blob uri of the Azure disk. */
+  targetDiskLocation?: string | undefined;
+  /** The target Azure disk name. */
+  targetDiskName?: string | undefined;
+  /** Ordinal\LunId of the disk for the Azure VM. */
+  lunId?: string | undefined;
+  /** The DiskEncryptionSet ARM ID. */
+  diskEncryptionSetId?: string | undefined;
+  /** The custom target Azure disk name. */
+  customTargetDiskName?: string | undefined;
+}
+/** Azure VM Disk details. */
+export type HyperVReplicaAzureReplicationDetailsAzureVmDiskDetailsList = Array<AzureVmDiskDetails>;
+/** Initial replication details. */
+export interface InitialReplicationDetails {
+  /** Initial replication type. */
+  initialReplicationType?: string | undefined;
+  /** The initial replication progress percentage. */
+  initialReplicationProgressPercentage?: string | undefined;
+}
+/** The PE Network details. */
+export type HyperVReplicaAzureReplicationDetailsVmNicsList = Array<VMNicDetails>;
+/** Disk Details. */
+export interface OSDetails {
+  /** VM Disk details. */
+  osType?: string | undefined;
+  /** Product type. */
+  productType?: string | undefined;
+  /** The OSEdition. */
+  osEdition?: string | undefined;
+  /** The OS Version. */
+  oSVersion?: string | undefined;
+  /** The OS Major Version. */
+  oSMajorVersion?: string | undefined;
+  /** The OS Minor Version. */
+  oSMinorVersion?: string | undefined;
+  /** The OS name selected by user. */
+  userSelectedOSName?: string | undefined;
+}
+/** The license type for Linux VM's. */
+export type LinuxLicenseType = "NotSpecified" | "NoLicenseType" | "LinuxServer";
+/** The target VM tags. */
+export type HyperVReplicaAzureReplicationDetailsTargetVmTagsMap = {
+  [key: string]: string | undefined;
+};
+/** The tags for the seed managed disks. */
+export type HyperVReplicaAzureReplicationDetailsSeedManagedDiskTagsMap = {
+  [key: string]: string | undefined;
+};
+/** The tags for the target managed disks. */
+export type HyperVReplicaAzureReplicationDetailsTargetManagedDiskTagsMap = {
+  [key: string]: string | undefined;
+};
+/** The tags for the target NICs. */
+export type HyperVReplicaAzureReplicationDetailsTargetNicTagsMap = {
+  [key: string]: string | undefined;
+};
+/** Hyper-V Managed disk details. */
+export interface HyperVReplicaAzureManagedDiskDetails {
+  /** The disk Id. */
+  diskId?: string | undefined;
+  /** Seed managed disk Id. */
+  seedManagedDiskId?: string | undefined;
+  /** The replica disk type. */
+  replicaDiskType?: string | undefined;
+  /** The disk encryption set ARM Id. */
+  diskEncryptionSetId?: string | undefined;
+  /** The disk type. */
+  targetDiskAccountType?: DiskAccountType | undefined;
+  /** The logical sector size (in bytes), 512 by default. */
+  sectorSizeInBytes?: number | undefined;
+  /** The number of IOPS allowed for Premium V2 and Ultra disks. */
+  iops?: number | undefined;
+  /** The total throughput in Mbps for Premium V2 and Ultra disks. */
+  throughputInMbps?: number | undefined;
+  /** The target disk size in GB. */
+  diskSizeInGB?: number | undefined;
+}
+/** The list of protected managed disks. */
+export type HyperVReplicaAzureReplicationDetailsProtectedManagedDisksList =
+  Array<HyperVReplicaAzureManagedDiskDetails>;
+/** The target OS version names. */
+export type OSUpgradeSupportedVersionsSupportedTargetOsVersionsList = Array<string>;
+/** Supported OS upgrade versions. */
+export interface OSUpgradeSupportedVersions {
+  /** The source OS version name. */
+  supportedSourceOsVersion?: string | undefined;
+  /** The target OS version names. */
+  supportedTargetOsVersions?: OSUpgradeSupportedVersionsSupportedTargetOsVersionsList | undefined;
+}
+/** A value indicating all available inplace OS Upgrade configurations. */
+export type HyperVReplicaAzureReplicationDetailsAllAvailableOSUpgradeConfigurationsList =
+  Array<OSUpgradeSupportedVersions>;
+/** The target VM security type. */
+export type SecurityType = "None" | "TrustedLaunch" | "ConfidentialVM";
+/** Security configuration state. */
+export type SecurityConfiguration = "Disabled" | "Enabled";
+/** Security profile input. */
+export interface SecurityProfileProperties {
+  /** The target VM security type. */
+  targetVmSecurityType?: SecurityType | (string & {}) | undefined;
+  /** A value indicating whether secure boot to be enabled. */
+  targetVmSecureBoot?: SecurityConfiguration | (string & {}) | undefined;
+  /** A value indicating whether trusted platform module to be enabled. */
+  targetVmTpm?: SecurityConfiguration | (string & {}) | undefined;
+  /** A value indicating whether integrity monitoring to be enabled. */
+  targetVmMonitoring?: SecurityConfiguration | (string & {}) | undefined;
+  /** A value indicating whether confidential compute encryption to be enabled. */
+  targetVmConfidentialEncryption?: SecurityConfiguration | (string & {}) | undefined;
+}
+/** Hyper V Replica Azure provider specific settings. */
+export interface HyperVReplicaAzureReplicationDetails {
+  /** Gets the Instance type. */
+  instanceType: HyperVReplicaAzureReplicationDetailsInstanceType;
+  /** Azure VM Disk details. */
+  azureVmDiskDetails?: HyperVReplicaAzureReplicationDetailsAzureVmDiskDetailsList | undefined;
+  /** Recovery Azure given name. */
+  recoveryAzureVmName?: string | undefined;
+  /** The Recovery Azure VM size. */
+  recoveryAzureVMSize?: string | undefined;
+  /** The recovery Azure storage account. */
+  recoveryAzureStorageAccount?: string | undefined;
+  /** The ARM id of the log storage account used for replication. This will be set to null if no log storage account was provided during enable protection. */
+  recoveryAzureLogStorageAccountId?: string | undefined;
+  /** The Last replication time. */
+  lastReplicatedTime?: string | undefined;
+  /** Last RPO value. */
+  rpoInSeconds?: number | undefined;
+  /** The last RPO calculated time. */
+  lastRpoCalculatedTime?: string | undefined;
+  /** The virtual machine Id. */
+  vmId?: string | undefined;
+  /** The protection state for the vm. */
+  vmProtectionState?: string | undefined;
+  /** The protection state description for the vm. */
+  vmProtectionStateDescription?: string | undefined;
+  /** Initial replication details. */
+  initialReplicationDetails?: InitialReplicationDetails | undefined;
+  /** The PE Network details. */
+  vmNics?: HyperVReplicaAzureReplicationDetailsVmNicsList | undefined;
+  /** The selected recovery azure network Id. */
+  selectedRecoveryAzureNetworkId?: string | undefined;
+  /** The selected source nic Id which will be used as the primary nic during failover. */
+  selectedSourceNicId?: string | undefined;
+  /** The encryption info. */
+  encryption?: string | undefined;
+  /** The operating system info. */
+  oSDetails?: OSDetails | undefined;
+  /** The RAM size of the VM on the primary side. */
+  sourceVmRamSizeInMB?: number | undefined;
+  /** The CPU count of the VM on the primary side. */
+  sourceVmCpuCount?: number | undefined;
+  /** The selected option to enable RDP\SSH on target vm after failover. String value of SrsDataContract.EnableRDPOnTargetOption enum. */
+  enableRdpOnTargetOption?: string | undefined;
+  /** The target resource group Id. */
+  recoveryAzureResourceGroupId?: string | undefined;
+  /** The recovery availability set Id. */
+  recoveryAvailabilitySetId?: string | undefined;
+  /** The target availability zone. */
+  targetAvailabilityZone?: string | undefined;
+  /** The target proximity placement group Id. */
+  targetProximityPlacementGroupId?: string | undefined;
+  /** A value indicating whether managed disks should be used during failover. */
+  useManagedDisks?: string | undefined;
+  /** License Type of the VM to be used. */
+  licenseType?: string | undefined;
+  /** The SQL Server license type. */
+  sqlServerLicenseType?: string | undefined;
+  /** The license type for Linux VM's. */
+  linuxLicenseType?: LinuxLicenseType | undefined;
+  /** The last recovery point received time. */
+  lastRecoveryPointReceived?: string | undefined;
+  /** The target VM tags. */
+  targetVmTags?: HyperVReplicaAzureReplicationDetailsTargetVmTagsMap | undefined;
+  /** The tags for the seed managed disks. */
+  seedManagedDiskTags?: HyperVReplicaAzureReplicationDetailsSeedManagedDiskTagsMap | undefined;
+  /** The tags for the target managed disks. */
+  targetManagedDiskTags?: HyperVReplicaAzureReplicationDetailsTargetManagedDiskTagsMap | undefined;
+  /** The tags for the target NICs. */
+  targetNicTags?: HyperVReplicaAzureReplicationDetailsTargetNicTagsMap | undefined;
+  /** The list of protected managed disks. */
+  protectedManagedDisks?: HyperVReplicaAzureReplicationDetailsProtectedManagedDisksList | undefined;
+  /** A value indicating all available inplace OS Upgrade configurations. */
+  allAvailableOSUpgradeConfigurations?:
+    | HyperVReplicaAzureReplicationDetailsAllAvailableOSUpgradeConfigurationsList
+    | undefined;
+  /** The target VM security profile. */
+  targetVmSecurityProfile?: SecurityProfileProperties | undefined;
+  /** The target capacity reservation group ARM Id. */
+  targetCapacityReservationGroupId?: string | undefined;
+}
+/** Gets the Instance type. */
+export type HyperVReplicaBaseReplicationDetailsInstanceType = "HyperVReplicaBaseReplicationDetails";
+/** The PE Network details. */
+export type HyperVReplicaBaseReplicationDetailsVmNicsList = Array<VMNicDetails>;
+/** Onprem disk details data. */
+export interface DiskDetails {
+  /** The hard disk max size in MB. */
+  maxSizeMB?: number | undefined;
+  /** The type of the volume. */
+  vhdType?: string | undefined;
+  /** The VHD Id. */
+  vhdId?: string | undefined;
+  /** The VHD name. */
+  vhdName?: string | undefined;
+}
+/** VM disk details. */
+export type HyperVReplicaBaseReplicationDetailsVMDiskDetailsList = Array<DiskDetails>;
+/** Hyper V replica provider specific settings base class. */
+export interface HyperVReplicaBaseReplicationDetails {
+  /** Gets the Instance type. */
+  instanceType: HyperVReplicaBaseReplicationDetailsInstanceType;
+  /** The Last replication time. */
+  lastReplicatedTime?: string | undefined;
+  /** The PE Network details. */
+  vmNics?: HyperVReplicaBaseReplicationDetailsVmNicsList | undefined;
+  /** The virtual machine Id. */
+  vmId?: string | undefined;
+  /** The protection state for the vm. */
+  vmProtectionState?: string | undefined;
+  /** The protection state description for the vm. */
+  vmProtectionStateDescription?: string | undefined;
+  /** Initial replication details. */
+  initialReplicationDetails?: InitialReplicationDetails | undefined;
+  /** VM disk details. */
+  vMDiskDetails?: HyperVReplicaBaseReplicationDetailsVMDiskDetailsList | undefined;
+}
+/** Gets the Instance type. */
+export type HyperVReplicaBlueReplicationDetailsInstanceType = "HyperVReplica2012R2";
+/** The PE Network details. */
+export type HyperVReplicaBlueReplicationDetailsVmNicsList = Array<VMNicDetails>;
+/** VM disk details. */
+export type HyperVReplicaBlueReplicationDetailsVMDiskDetailsList = Array<DiskDetails>;
+/** HyperV replica 2012 R2 (Blue) replication details. */
+export interface HyperVReplicaBlueReplicationDetails {
+  /** Gets the Instance type. */
+  instanceType: HyperVReplicaBlueReplicationDetailsInstanceType;
+  /** The Last replication time. */
+  lastReplicatedTime?: string | undefined;
+  /** The PE Network details. */
+  vmNics?: HyperVReplicaBlueReplicationDetailsVmNicsList | undefined;
+  /** The virtual machine Id. */
+  vmId?: string | undefined;
+  /** The protection state for the vm. */
+  vmProtectionState?: string | undefined;
+  /** The protection state description for the vm. */
+  vmProtectionStateDescription?: string | undefined;
+  /** Initial replication details. */
+  initialReplicationDetails?: InitialReplicationDetails | undefined;
+  /** VM disk details. */
+  vMDiskDetails?: HyperVReplicaBlueReplicationDetailsVMDiskDetailsList | undefined;
+}
+/** Gets the Instance type. */
+export type HyperVReplicaReplicationDetailsInstanceType = "HyperVReplica2012";
+/** The PE Network details. */
+export type HyperVReplicaReplicationDetailsVmNicsList = Array<VMNicDetails>;
+/** VM disk details. */
+export type HyperVReplicaReplicationDetailsVMDiskDetailsList = Array<DiskDetails>;
+/** HyperV replica 2012 replication details. */
+export interface HyperVReplicaReplicationDetails {
+  /** Gets the Instance type. */
+  instanceType: HyperVReplicaReplicationDetailsInstanceType;
+  /** The Last replication time. */
+  lastReplicatedTime?: string | undefined;
+  /** The PE Network details. */
+  vmNics?: HyperVReplicaReplicationDetailsVmNicsList | undefined;
+  /** The virtual machine Id. */
+  vmId?: string | undefined;
+  /** The protection state for the vm. */
+  vmProtectionState?: string | undefined;
+  /** The protection state description for the vm. */
+  vmProtectionStateDescription?: string | undefined;
+  /** Initial replication details. */
+  initialReplicationDetails?: InitialReplicationDetails | undefined;
+  /** VM disk details. */
+  vMDiskDetails?: HyperVReplicaReplicationDetailsVMDiskDetailsList | undefined;
+}
+/** Gets the Instance type. */
+export type InMageAzureV2ReplicationDetailsInstanceType = "InMageAzureV2";
+/** InMageAzureV2 protected disk details. */
+export interface InMageAzureV2ProtectedDiskDetails {
+  /** The disk id. */
+  diskId?: string | undefined;
+  /** The disk name. */
+  diskName?: string | undefined;
+  /** The protection stage. */
+  protectionStage?: string | undefined;
+  /** The health error code for the disk. */
+  healthErrorCode?: string | undefined;
+  /** The RPO in seconds. */
+  rpoInSeconds?: number | undefined;
+  /** A value indicating whether resync is required for this disk. */
+  resyncRequired?: string | undefined;
+  /** The resync progress percentage. */
+  resyncProgressPercentage?: number | undefined;
+  /** The resync duration in seconds. */
+  resyncDurationInSeconds?: number | undefined;
+  /** The disk capacity in bytes. */
+  diskCapacityInBytes?: number | undefined;
+  /** The disk file system capacity in bytes. */
+  fileSystemCapacityInBytes?: number | undefined;
+  /** The source data transit in MB. */
+  sourceDataInMegaBytes?: number | undefined;
+  /** The PS data transit in MB. */
+  psDataInMegaBytes?: number | undefined;
+  /** The target data transit in MB. */
+  targetDataInMegaBytes?: number | undefined;
+  /** A value indicating whether disk is resized. */
+  diskResized?: string | undefined;
+  /** The last RPO calculated time. */
+  lastRpoCalculatedTime?: string | undefined;
+  /** The resync processed bytes. */
+  resyncProcessedBytes?: number | undefined;
+  /** The resync total transferred bytes. */
+  resyncTotalTransferredBytes?: number | undefined;
+  /** The resync last 15 minutes transferred bytes. */
+  resyncLast15MinutesTransferredBytes?: number | undefined;
+  /** The last data transfer time in UTC. */
+  resyncLastDataTransferTimeUTC?: string | undefined;
+  /** The resync start time. */
+  resyncStartTime?: string | undefined;
+  /** The Progress Health. */
+  progressHealth?: string | undefined;
+  /** The Progress Status. */
+  progressStatus?: string | undefined;
+  /** The seconds to take for switch provider. */
+  secondsToTakeSwitchProvider?: number | undefined;
+}
+/** The list of protected disks. */
+export type InMageAzureV2ReplicationDetailsProtectedDisksList =
+  Array<InMageAzureV2ProtectedDiskDetails>;
+/** Azure VM Disk details. */
+export type InMageAzureV2ReplicationDetailsAzureVMDiskDetailsList = Array<AzureVmDiskDetails>;
+/** The PE Network details. */
+export type InMageAzureV2ReplicationDetailsVmNicsList = Array<VMNicDetails>;
+/** The datastores of the on-premise machine. Value can be list of strings that contain datastore names. */
+export type InMageAzureV2ReplicationDetailsDatastoresList = Array<string>;
+/** The validation errors of the on-premise machine Value can be list of validation errors. */
+export type InMageAzureV2ReplicationDetailsValidationErrorsList = Array<HealthError>;
+/** InMageAzureV2 Managed disk details. */
+export interface InMageAzureV2ManagedDiskDetails {
+  /** The disk id. */
+  diskId?: string | undefined;
+  /** Seed managed disk Id. */
+  seedManagedDiskId?: string | undefined;
+  /** The replica disk type. */
+  replicaDiskType?: string | undefined;
+  /** The DiskEncryptionSet ARM ID. */
+  diskEncryptionSetId?: string | undefined;
+  /** The target disk name. */
+  targetDiskName?: string | undefined;
+}
+/** The list of protected managed disks. */
+export type InMageAzureV2ReplicationDetailsProtectedManagedDisksList =
+  Array<InMageAzureV2ManagedDiskDetails>;
+/** The target VM tags. */
+export type InMageAzureV2ReplicationDetailsTargetVmTagsMap = { [key: string]: string | undefined };
+/** The tags for the seed managed disks. */
+export type InMageAzureV2ReplicationDetailsSeedManagedDiskTagsMap = {
+  [key: string]: string | undefined;
+};
+/** The tags for the target managed disks. */
+export type InMageAzureV2ReplicationDetailsTargetManagedDiskTagsMap = {
+  [key: string]: string | undefined;
+};
+/** The tags for the target NICs. */
+export type InMageAzureV2ReplicationDetailsTargetNicTagsMap = { [key: string]: string | undefined };
+/** The error message parameters. */
+export type InMageAzureV2SwitchProviderBlockingErrorDetailsErrorMessageParametersMap = {
+  [key: string]: string | undefined;
+};
+/** The error tags. */
+export type InMageAzureV2SwitchProviderBlockingErrorDetailsErrorTagsMap = {
+  [key: string]: string | undefined;
+};
+/** InMageAzureV2 switch provider blocking error details. */
+export interface InMageAzureV2SwitchProviderBlockingErrorDetails {
+  /** The error code. */
+  errorCode?: string | undefined;
+  /** The error message. */
+  errorMessage?: string | undefined;
+  /** The possible causes. */
+  possibleCauses?: string | undefined;
+  /** The recommended action. */
+  recommendedAction?: string | undefined;
+  /** The error message parameters. */
+  errorMessageParameters?:
+    | InMageAzureV2SwitchProviderBlockingErrorDetailsErrorMessageParametersMap
+    | undefined;
+  /** The error tags. */
+  errorTags?: InMageAzureV2SwitchProviderBlockingErrorDetailsErrorTagsMap | undefined;
+}
+/** The switch provider blocking error information. */
+export type InMageAzureV2ReplicationDetailsSwitchProviderBlockingErrorDetailsList =
+  Array<InMageAzureV2SwitchProviderBlockingErrorDetails>;
+/** InMageAzureV2 switch provider details. */
+export interface InMageAzureV2SwitchProviderDetails {
+  /** The target vault Id. */
+  targetVaultId?: string | undefined;
+  /** The target resource Id. */
+  targetResourceId?: string | undefined;
+  /** The target fabric Id. */
+  targetFabricId?: string | undefined;
+  /** The target appliance Id. */
+  targetApplianceId?: string | undefined;
+}
+/** A value indicating the inplace OS Upgrade version. */
+export type InMageAzureV2ReplicationDetailsSupportedOSVersionsList = Array<string>;
+/** A value indicating all available inplace OS Upgrade configurations. */
+export type InMageAzureV2ReplicationDetailsAllAvailableOSUpgradeConfigurationsList =
+  Array<OSUpgradeSupportedVersions>;
+/** InMageAzureV2 provider specific settings. */
+export interface InMageAzureV2ReplicationDetails {
+  /** Gets the Instance type. */
+  instanceType: InMageAzureV2ReplicationDetailsInstanceType;
+  /** The infrastructure VM Id. */
+  infrastructureVmId?: string | undefined;
+  /** The vCenter infrastructure Id. */
+  vCenterInfrastructureId?: string | undefined;
+  /** The protection stage. */
+  protectionStage?: string | undefined;
+  /** The virtual machine Id. */
+  vmId?: string | undefined;
+  /** The protection state for the vm. */
+  vmProtectionState?: string | undefined;
+  /** The protection state description for the vm. */
+  vmProtectionStateDescription?: string | undefined;
+  /** The resync progress percentage. */
+  resyncProgressPercentage?: number | undefined;
+  /** The RPO in seconds. */
+  rpoInSeconds?: number | undefined;
+  /** The compressed data change rate in MB. */
+  compressedDataRateInMB?: number | undefined;
+  /** The uncompressed data change rate in MB. */
+  uncompressedDataRateInMB?: number | undefined;
+  /** The source IP address. */
+  ipAddress?: string | undefined;
+  /** The agent version. */
+  agentVersion?: string | undefined;
+  /** Agent expiry date. */
+  agentExpiryDate?: string | undefined;
+  /** A value indicating whether installed agent needs to be updated. */
+  isAgentUpdateRequired?: string | undefined;
+  /** A value indicating whether the source server requires a restart after update. */
+  isRebootAfterUpdateRequired?: string | undefined;
+  /** The last heartbeat received from the source server. */
+  lastHeartbeat?: string | undefined;
+  /** The process server Id. */
+  processServerId?: string | undefined;
+  /** The process server name. */
+  processServerName?: string | undefined;
+  /** The multi vm group Id. */
+  multiVmGroupId?: string | undefined;
+  /** The multi vm group name. */
+  multiVmGroupName?: string | undefined;
+  /** A value indicating whether multi vm sync is enabled or disabled. */
+  multiVmSyncStatus?: string | undefined;
+  /** The list of protected disks. */
+  protectedDisks?: InMageAzureV2ReplicationDetailsProtectedDisksList | undefined;
+  /** A value indicating whether any disk is resized for this VM. */
+  diskResized?: string | undefined;
+  /** The master target Id. */
+  masterTargetId?: string | undefined;
+  /** The CPU count of the VM on the primary side. */
+  sourceVmCpuCount?: number | undefined;
+  /** The RAM size of the VM on the primary side. */
+  sourceVmRamSizeInMB?: number | undefined;
+  /** The type of the OS on the VM. */
+  osType?: string | undefined;
+  /** The OS disk VHD name. */
+  vhdName?: string | undefined;
+  /** The id of the disk containing the OS. */
+  osDiskId?: string | undefined;
+  /** Azure VM Disk details. */
+  azureVMDiskDetails?: InMageAzureV2ReplicationDetailsAzureVMDiskDetailsList | undefined;
+  /** Recovery Azure given name. */
+  recoveryAzureVMName?: string | undefined;
+  /** The Recovery Azure VM size. */
+  recoveryAzureVMSize?: string | undefined;
+  /** The recovery Azure storage account. */
+  recoveryAzureStorageAccount?: string | undefined;
+  /** The ARM id of the log storage account used for replication. This will be set to null if no log storage account was provided during enable protection. */
+  recoveryAzureLogStorageAccountId?: string | undefined;
+  /** The PE Network details. */
+  vmNics?: InMageAzureV2ReplicationDetailsVmNicsList | undefined;
+  /** The selected recovery azure network Id. */
+  selectedRecoveryAzureNetworkId?: string | undefined;
+  /** The test failover virtual network. */
+  selectedTfoAzureNetworkId?: string | undefined;
+  /** The selected source nic Id which will be used as the primary nic during failover. */
+  selectedSourceNicId?: string | undefined;
+  /** A value indicating the discovery type of the machine. Value can be vCenter or physical. */
+  discoveryType?: string | undefined;
+  /** The selected option to enable RDP\SSH on target vm after failover. String value of SrsDataContract.EnableRDPOnTargetOption enum. */
+  enableRdpOnTargetOption?: string | undefined;
+  /** The datastores of the on-premise machine. Value can be list of strings that contain datastore names. */
+  datastores?: InMageAzureV2ReplicationDetailsDatastoresList | undefined;
+  /** The ARM Id of the target Azure VM. This value will be null until the VM is failed over. Only after failure it will be populated with the ARM Id of the Azure VM. */
+  targetVmId?: string | undefined;
+  /** The target resource group Id. */
+  recoveryAzureResourceGroupId?: string | undefined;
+  /** The recovery availability set Id. */
+  recoveryAvailabilitySetId?: string | undefined;
+  /** The target availability zone. */
+  targetAvailabilityZone?: string | undefined;
+  /** The target proximity placement group Id. */
+  targetProximityPlacementGroupId?: string | undefined;
+  /** A value indicating whether managed disks should be used during failover. */
+  useManagedDisks?: string | undefined;
+  /** License Type of the VM to be used. */
+  licenseType?: string | undefined;
+  /** The SQL Server license type. */
+  sqlServerLicenseType?: string | undefined;
+  /** The validation errors of the on-premise machine Value can be list of validation errors. */
+  validationErrors?: InMageAzureV2ReplicationDetailsValidationErrorsList | undefined;
+  /** The last RPO calculated time. */
+  lastRpoCalculatedTime?: string | undefined;
+  /** The last update time received from on-prem components. */
+  lastUpdateReceivedTime?: string | undefined;
+  /** The replica id of the protected item. */
+  replicaId?: string | undefined;
+  /** The OS Version of the protected item. */
+  osVersion?: string | undefined;
+  /** The list of protected managed disks. */
+  protectedManagedDisks?: InMageAzureV2ReplicationDetailsProtectedManagedDisksList | undefined;
+  /** The last recovery point received time. */
+  lastRecoveryPointReceived?: string | undefined;
+  /** The firmware type of this protected item. */
+  firmwareType?: string | undefined;
+  /** The target generation for this protected item. */
+  azureVmGeneration?: string | undefined;
+  /** A value indicating whether additional IR stats are available or not. */
+  isAdditionalStatsAvailable?: boolean | undefined;
+  /** The total transferred data in bytes. */
+  totalDataTransferred?: number | undefined;
+  /** The progress health. */
+  totalProgressHealth?: string | undefined;
+  /** The target VM tags. */
+  targetVmTags?: InMageAzureV2ReplicationDetailsTargetVmTagsMap | undefined;
+  /** The tags for the seed managed disks. */
+  seedManagedDiskTags?: InMageAzureV2ReplicationDetailsSeedManagedDiskTagsMap | undefined;
+  /** The tags for the target managed disks. */
+  targetManagedDiskTags?: InMageAzureV2ReplicationDetailsTargetManagedDiskTagsMap | undefined;
+  /** The tags for the target NICs. */
+  targetNicTags?: InMageAzureV2ReplicationDetailsTargetNicTagsMap | undefined;
+  /** The switch provider blocking error information. */
+  switchProviderBlockingErrorDetails?:
+    | InMageAzureV2ReplicationDetailsSwitchProviderBlockingErrorDetailsList
+    | undefined;
+  /** The switch provider blocking error information. */
+  switchProviderDetails?: InMageAzureV2SwitchProviderDetails | undefined;
+  /** A value indicating the inplace OS Upgrade version. */
+  supportedOSVersions?: InMageAzureV2ReplicationDetailsSupportedOSVersionsList | undefined;
+  /** A value indicating all available inplace OS Upgrade configurations. */
+  allAvailableOSUpgradeConfigurations?:
+    | InMageAzureV2ReplicationDetailsAllAvailableOSUpgradeConfigurationsList
+    | undefined;
+  /** The name of the OS on the VM. */
+  osName?: string | undefined;
+}
+/** Gets the Instance type. */
+export type InMageRcmFailbackReplicationDetailsInstanceType = "InMageRcmFailback";
+/** The initial replication progress health. */
+export type VmReplicationProgressHealth = "None" | "InProgress" | "SlowProgress" | "NoProgress";
+/** The resync state. */
+export type ResyncState = "None" | "PreparedForResynchronization" | "StartedResynchronization";
+/** The progress health. */
+export type DiskReplicationProgressHealth =
+  | "None"
+  | "InProgress"
+  | "SlowProgress"
+  | "NoProgress"
+  | "Queued";
+/** InMageRcmFailback disk level sync details. */
+export interface InMageRcmFailbackSyncDetails {
+  /** The progress health. */
+  progressHealth?: DiskReplicationProgressHealth | undefined;
+  /** The transferred bytes from source VM to azure for the disk. */
+  transferredBytes?: number | undefined;
+  /** The bytes transferred in last 15 minutes from source VM to target. */
+  last15MinutesTransferredBytes?: number | undefined;
+  /** The time of the last data transfer from source VM to target. */
+  lastDataTransferTimeUtc?: string | undefined;
+  /** The total processed bytes. This includes bytes that are transferred from source VM to target and matched bytes. */
+  processedBytes?: number | undefined;
+  /** The start time. */
+  startTime?: string | undefined;
+  /** The last refresh time. */
+  lastRefreshTime?: string | undefined;
+  /** Progress in percentage. Progress percentage is calculated based on processed bytes. */
+  progressPercentage?: number | undefined;
+}
+/** InMageRcmFailback protected disk details. */
+export interface InMageRcmFailbackProtectedDiskDetails {
+  /** The disk Id (reported by source agent). */
+  diskId?: string | undefined;
+  /** The disk name. */
+  diskName?: string | undefined;
+  /** A value indicating whether the disk is the OS disk. */
+  isOSDisk?: string | undefined;
+  /** The disk capacity in bytes. */
+  capacityInBytes?: number | undefined;
+  /** The disk Uuid (reported by vCenter). */
+  diskUuid?: string | undefined;
+  /** The data pending in log data store in MB. */
+  dataPendingInLogDataStoreInMB?: number | undefined;
+  /** The data pending at source agent in MB. */
+  dataPendingAtSourceAgentInMB?: number | undefined;
+  /** A value indicating whether initial replication is complete or not. */
+  isInitialReplicationComplete?: string | undefined;
+  /** The initial replication details. */
+  irDetails?: InMageRcmFailbackSyncDetails | undefined;
+  /** The resync details. */
+  resyncDetails?: InMageRcmFailbackSyncDetails | undefined;
+  /** The last sync time. */
+  lastSyncTime?: string | undefined;
+}
+/** The list of protected disks. */
+export type InMageRcmFailbackReplicationDetailsProtectedDisksList =
+  Array<InMageRcmFailbackProtectedDiskDetails>;
+export type AgentUpgradeBlockedReason =
+  | "AlreadyOnLatestVersion"
+  | "RebootRequired"
+  | "AgentNoHeartbeat"
+  | "RcmProxyNoHeartbeat"
+  | "ProcessServerNoHeartbeat"
+  | "IncompatibleApplianceVersion"
+  | "NotProtected"
+  | "UnsupportedProtectionScenario"
+  | "DistroIsNotReported"
+  | "DistroNotSupportedForUpgrade"
+  | "MissingUpgradePath"
+  | "InvalidAgentVersion"
+  | "InvalidDriverVersion"
+  | "ReInstallRequired"
+  | "Unknown";
+/** The whether update is possible or not. */
+export type InMageRcmFailbackMobilityAgentDetailsReasonsBlockingUpgradeList =
+  Array<AgentUpgradeBlockedReason>;
+/** InMageRcmFailback mobility agent details. */
+export interface InMageRcmFailbackMobilityAgentDetails {
+  /** The agent version. */
+  version?: string | undefined;
+  /** The latest agent version available. */
+  latestVersion?: string | undefined;
+  /** The driver version. */
+  driverVersion?: string | undefined;
+  /** The latest upgradeable version available without reboot. */
+  latestUpgradableVersionWithoutReboot?: string | undefined;
+  /** The agent version expiry date. */
+  agentVersionExpiryDate?: string | undefined;
+  /** The driver version expiry date. */
+  driverVersionExpiryDate?: string | undefined;
+  /** The time of the last heartbeat received from the agent. */
+  lastHeartbeatUtc?: string | undefined;
+  /** The whether update is possible or not. */
+  reasonsBlockingUpgrade?:
+    | InMageRcmFailbackMobilityAgentDetailsReasonsBlockingUpgradeList
+    | undefined;
+  /** A value indicating whether agent is upgradeable or not. */
+  isUpgradeable?: string | undefined;
+}
+/** InMageRcmFailback NIC details. */
+export interface InMageRcmFailbackNicDetails {
+  /** The mac address. */
+  macAddress?: string | undefined;
+  /** The network name. */
+  networkName?: string | undefined;
+  /** The adapter type. */
+  adapterType?: string | undefined;
+  /** The IP address. */
+  sourceIpAddress?: string | undefined;
+}
+/** The network details. */
+export type InMageRcmFailbackReplicationDetailsVmNicsList = Array<InMageRcmFailbackNicDetails>;
+/** The last planned failover status. */
+export type PlannedFailoverStatus = "Succeeded" | "Failed" | "Cancelled" | "Unknown";
+/** The list of datastores. */
+export type InMageRcmFailbackDiscoveredProtectedVmDetailsDatastoresList = Array<string>;
+/** The list of IP addresses. */
+export type InMageRcmFailbackDiscoveredProtectedVmDetailsIpAddressesList = Array<string>;
+/** InMageRcmFailback discovered VM details. */
+export interface InMageRcmFailbackDiscoveredProtectedVmDetails {
+  /** The VCenter Id. */
+  vCenterId?: string | undefined;
+  /** The VCenter fqdn. */
+  vCenterFqdn?: string | undefined;
+  /** The list of datastores. */
+  datastores?: InMageRcmFailbackDiscoveredProtectedVmDetailsDatastoresList | undefined;
+  /** The list of IP addresses. */
+  ipAddresses?: InMageRcmFailbackDiscoveredProtectedVmDetailsIpAddressesList | undefined;
+  /** The VMware tools status. */
+  vmwareToolsStatus?: string | undefined;
+  /** The VM power status. */
+  powerStatus?: string | undefined;
+  /** The VM fqdn. */
+  vmFqdn?: string | undefined;
+  /** The VM's OS name. */
+  osName?: string | undefined;
+  /** The SDS created timestamp. */
+  createdTimestamp?: string | undefined;
+  /** The SDS updated timestamp. */
+  updatedTimestamp?: string | undefined;
+  /** A value indicating whether the VM is deleted. */
+  isDeleted?: boolean | undefined;
+  /** The last time when SDS information discovered in SRS. */
+  lastDiscoveryTimeInUtc?: string | undefined;
+}
+/** InMageRcmFailback provider specific details. */
+export interface InMageRcmFailbackReplicationDetails {
+  /** Gets the Instance type. */
+  instanceType: InMageRcmFailbackReplicationDetailsInstanceType;
+  /** The virtual machine internal identifier. */
+  internalIdentifier?: string | undefined;
+  /** The ARM Id of the azure VM. */
+  azureVirtualMachineId?: string | undefined;
+  /** The multi VM group name. */
+  multiVmGroupName?: string | undefined;
+  /** The reprotect agent Id. */
+  reprotectAgentId?: string | undefined;
+  /** The reprotect agent name. */
+  reprotectAgentName?: string | undefined;
+  /** The type of the OS on the VM. */
+  osType?: string | undefined;
+  /** The log storage account ARM Id. */
+  logStorageAccountId?: string | undefined;
+  /** The target vCenter Id. */
+  targetvCenterId?: string | undefined;
+  /** The target datastore name. */
+  targetDataStoreName?: string | undefined;
+  /** The target VM name. */
+  targetVmName?: string | undefined;
+  /** The initial replication progress percentage. */
+  initialReplicationProgressPercentage?: number | undefined;
+  /** The initial replication processed bytes. This includes sum of total bytes transferred and matched bytes on all selected disks in source VM. */
+  initialReplicationProcessedBytes?: number | undefined;
+  /** The initial replication transferred bytes from source VM to target for all selected disks on source VM. */
+  initialReplicationTransferredBytes?: number | undefined;
+  /** The initial replication progress health. */
+  initialReplicationProgressHealth?: VmReplicationProgressHealth | undefined;
+  /** The resync progress percentage. */
+  resyncProgressPercentage?: number | undefined;
+  /** The resync processed bytes. This includes sum of total bytes transferred and matched bytes on all selected disks in source VM. */
+  resyncProcessedBytes?: number | undefined;
+  /** The resync transferred bytes from source VM to target for all selected disks on source VM. */
+  resyncTransferredBytes?: number | undefined;
+  /** The resync progress health. */
+  resyncProgressHealth?: VmReplicationProgressHealth | undefined;
+  /** A value indicating whether resync is required. */
+  resyncRequired?: string | undefined;
+  /** The resync state. */
+  resyncState?: ResyncState | undefined;
+  /** The list of protected disks. */
+  protectedDisks?: InMageRcmFailbackReplicationDetailsProtectedDisksList | undefined;
+  /** The mobility agent information. */
+  mobilityAgentDetails?: InMageRcmFailbackMobilityAgentDetails | undefined;
+  /** The network details. */
+  vmNics?: InMageRcmFailbackReplicationDetailsVmNicsList | undefined;
+  /** The last planned failover start time. */
+  lastPlannedFailoverStartTime?: string | undefined;
+  /** The last planned failover status. */
+  lastPlannedFailoverStatus?: PlannedFailoverStatus | undefined;
+  /** The discovered VM information. */
+  discoveredVmDetails?: InMageRcmFailbackDiscoveredProtectedVmDetails | undefined;
+  /** The policy Id used by the forward replication. */
+  lastUsedPolicyId?: string | undefined;
+  /** The policy friendly name used by the forward replication. */
+  lastUsedPolicyFriendlyName?: string | undefined;
+  /** A value indicating whether agent registration was successful after failover. */
+  isAgentRegistrationSuccessfulAfterFailover?: boolean | undefined;
+}
+/** Gets the Instance type. */
+export type InMageRcmReplicationDetailsInstanceType = "InMageRcm";
+/** The agent auto upgrade state. */
+export type MobilityAgentUpgradeState = "None" | "Started" | "Completed" | "Commit";
+/** The disk state. */
+export type DiskState =
+  | "Unavailable"
+  | "InitialReplicationPending"
+  | "InitialReplicationFailed"
+  | "Protected";
+/** InMageRcm disk level sync details. */
+export interface InMageRcmSyncDetails {
+  /** The progress health. */
+  progressHealth?: DiskReplicationProgressHealth | undefined;
+  /** The transferred bytes from source VM to azure for the disk. */
+  transferredBytes?: number | undefined;
+  /** The bytes transferred in last 15 minutes from source VM to azure. */
+  last15MinutesTransferredBytes?: number | undefined;
+  /** The time of the last data transfer from source VM to azure. */
+  lastDataTransferTimeUtc?: string | undefined;
+  /** The total processed bytes. This includes bytes that are transferred from source VM to azure and matched bytes. */
+  processedBytes?: number | undefined;
+  /** The start time. */
+  startTime?: string | undefined;
+  /** The last refresh time. */
+  lastRefreshTime?: string | undefined;
+  /** Progress in percentage. Progress percentage is calculated based on processed bytes. */
+  progressPercentage?: number | undefined;
+}
+/** InMageRcm protected disk details. */
+export interface InMageRcmProtectedDiskDetails {
+  /** The disk Id. */
+  diskId?: string | undefined;
+  /** The disk name. */
+  diskName?: string | undefined;
+  /** A value indicating whether the disk is the OS disk. */
+  isOSDisk?: string | undefined;
+  /** The disk capacity in bytes. */
+  capacityInBytes?: number | undefined;
+  /** The disk state. */
+  diskState?: DiskState | undefined;
+  /** The log storage account ARM Id. */
+  logStorageAccountId?: string | undefined;
+  /** The DiskEncryptionSet ARM Id. */
+  diskEncryptionSetId?: string | undefined;
+  /** The ConfidentialDiskEncryptionSet ARM Id. */
+  confidentialDiskEncryptionSetId?: string | undefined;
+  /** The ARM Id of the seed managed disk. */
+  seedManagedDiskId?: string | undefined;
+  /** The uri of the seed blob. */
+  seedBlobUri?: string | undefined;
+  /** The ARM Id of the target managed disk. */
+  targetManagedDiskId?: string | undefined;
+  /** The disk type. */
+  diskType?: DiskAccountType | undefined;
+  /** The data pending in log data store in MB. */
+  dataPendingInLogDataStoreInMB?: number | undefined;
+  /** The data pending at source agent in MB. */
+  dataPendingAtSourceAgentInMB?: number | undefined;
+  /** A value indicating whether initial replication is complete or not. */
+  isInitialReplicationComplete?: string | undefined;
+  /** The initial replication details. */
+  irDetails?: InMageRcmSyncDetails | undefined;
+  /** The resync details. */
+  resyncDetails?: InMageRcmSyncDetails | undefined;
+  /** The custom target Azure disk name. */
+  customTargetDiskName?: string | undefined;
+  /** The logical sector size (in bytes), 512 by default. */
+  sectorSizeInBytes?: number | undefined;
+  /** The number of IOPS allowed for Premium V2 and Ultra disks. */
+  iops?: number | undefined;
+  /** The total throughput in Mbps for Premium V2 and Ultra disks. */
+  throughputInMbps?: number | undefined;
+  /** The target disk size in GB. */
+  diskSizeInGB?: number | undefined;
+}
+/** The list of protected disks. */
+export type InMageRcmReplicationDetailsProtectedDisksList = Array<InMageRcmProtectedDiskDetails>;
+/** InMageRcm un-protected disk details. */
+export interface InMageRcmUnProtectedDiskDetails {
+  /** The disk Id. */
+  diskId?: string | undefined;
+  /** The disk name. */
+  diskName?: string | undefined;
+  /** The disk capacity in bytes. */
+  capacityInBytes?: number | undefined;
+}
+/** The list of unprotected disks. */
+export type InMageRcmReplicationDetailsUnprotectedDisksList =
+  Array<InMageRcmUnProtectedDiskDetails>;
+/** The whether update is possible or not. */
+export type InMageRcmMobilityAgentDetailsReasonsBlockingUpgradeList =
+  Array<AgentUpgradeBlockedReason>;
+export type MobilityAgentReinstallType = "UserTriggered" | "AutoTriggered";
+export type AgentReinstallBlockedReason = "DistroNotSupported" | "AgentNoHeartbeat" | "Unknown";
+/** whether reinstall is possible or not. */
+export type InMageRcmMobilityAgentDetailsReasonsBlockingReinstallList =
+  Array<AgentReinstallBlockedReason>;
+/** error message parameters. */
+export type InMageRcmAgentReinstallBlockingErrorDetailsErrorMessageParametersMap = {
+  [key: string]: string | undefined;
+};
+/** error tags. */
+export type InMageRcmAgentReinstallBlockingErrorDetailsErrorTagsMap = {
+  [key: string]: string | undefined;
+};
+/** InMageRcm source agent reinstall blocking error details. */
+export interface InMageRcmAgentReinstallBlockingErrorDetails {
+  /** error code. */
+  errorCode?: string | undefined;
+  /** error message. */
+  errorMessage?: string | undefined;
+  /** possible causes. */
+  possibleCauses?: string | undefined;
+  /** recommended action. */
+  recommendedAction?: string | undefined;
+  /** error message parameters. */
+  errorMessageParameters?:
+    | InMageRcmAgentReinstallBlockingErrorDetailsErrorMessageParametersMap
+    | undefined;
+  /** error tags. */
+  errorTags?: InMageRcmAgentReinstallBlockingErrorDetailsErrorTagsMap | undefined;
+}
+/** whether reinstall is possible or not. */
+export type InMageRcmMobilityAgentDetailsReasonsBlockingReinstallDetailsList =
+  Array<InMageRcmAgentReinstallBlockingErrorDetails>;
+/** InMageRcm mobility agent details. */
+export interface InMageRcmMobilityAgentDetails {
+  /** The agent version. */
+  version?: string | undefined;
+  /** The latest agent version available. */
+  latestVersion?: string | undefined;
+  /** The latest agent version release date. */
+  latestAgentReleaseDate?: string | undefined;
+  /** The driver version. */
+  driverVersion?: string | undefined;
+  /** The latest upgradeable version available without reboot. */
+  latestUpgradableVersionWithoutReboot?: string | undefined;
+  /** The agent version expiry date. */
+  agentVersionExpiryDate?: string | undefined;
+  /** The driver version expiry date. */
+  driverVersionExpiryDate?: string | undefined;
+  /** The time of the last heartbeat received from the agent. */
+  lastHeartbeatUtc?: string | undefined;
+  /** The whether update is possible or not. */
+  reasonsBlockingUpgrade?: InMageRcmMobilityAgentDetailsReasonsBlockingUpgradeList | undefined;
+  /** A value indicating whether agent is upgradeable or not. */
+  isUpgradeable?: string | undefined;
+  /** The agent auto reinstall state. */
+  agentReinstallState?: MobilityAgentReinstallType | undefined;
+  /** The last agent reinstall type. */
+  lastAgentReinstallType?: string | undefined;
+  /** The agent reinstall job Id. */
+  agentReinstallJobId?: string | undefined;
+  /** The last agent reinstall type. */
+  agentReinstallAttemptToVersion?: string | undefined;
+  /** The OS family name. */
+  osFamilyName?: string | undefined;
+  /** The distro name. */
+  distroName?: string | undefined;
+  /** Distro name for which agent is installed. */
+  distroNameForWhichAgentIsInstalled?: string | undefined;
+  /** A value indicating whether replication agent upgradeable. */
+  isAgentUpgradeable?: boolean | undefined;
+  /** A value indicating whether replication agent reinstallation is required. */
+  isAgentReinstallRequired?: boolean | undefined;
+  /** A value indicating whether replication agent reinstallation is required. */
+  isLastReinstallSuccessful?: boolean | undefined;
+  /** whether reinstall is possible or not. */
+  reasonsBlockingReinstall?: InMageRcmMobilityAgentDetailsReasonsBlockingReinstallList | undefined;
+  /** whether reinstall is possible or not. */
+  reasonsBlockingReinstallDetails?:
+    | InMageRcmMobilityAgentDetailsReasonsBlockingReinstallDetailsList
+    | undefined;
+}
+/** The error message parameters. */
+export type InMageRcmLastAgentUpgradeErrorDetailsErrorMessageParametersMap = {
+  [key: string]: string | undefined;
+};
+/** The error tags. */
+export type InMageRcmLastAgentUpgradeErrorDetailsErrorTagsMap = {
+  [key: string]: string | undefined;
+};
+/** InMageRcm last source agent upgrade error details. */
+export interface InMageRcmLastAgentUpgradeErrorDetails {
+  /** The error code. */
+  errorCode?: string | undefined;
+  /** The error message. */
+  errorMessage?: string | undefined;
+  /** The possible causes. */
+  possibleCauses?: string | undefined;
+  /** The recommended action. */
+  recommendedAction?: string | undefined;
+  /** The error message parameters. */
+  errorMessageParameters?:
+    | InMageRcmLastAgentUpgradeErrorDetailsErrorMessageParametersMap
+    | undefined;
+  /** The error tags. */
+  errorTags?: InMageRcmLastAgentUpgradeErrorDetailsErrorTagsMap | undefined;
+}
+/** The last agent upgrade error information. */
+export type InMageRcmReplicationDetailsLastAgentUpgradeErrorDetailsList =
+  Array<InMageRcmLastAgentUpgradeErrorDetails>;
+/** The error message parameters. */
+export type InMageRcmAgentUpgradeBlockingErrorDetailsErrorMessageParametersMap = {
+  [key: string]: string | undefined;
+};
+/** The error tags. */
+export type InMageRcmAgentUpgradeBlockingErrorDetailsErrorTagsMap = {
+  [key: string]: string | undefined;
+};
+/** InMageRcm source agent upgrade blocking error details. */
+export interface InMageRcmAgentUpgradeBlockingErrorDetails {
+  /** The error code. */
+  errorCode?: string | undefined;
+  /** The error message. */
+  errorMessage?: string | undefined;
+  /** The possible causes. */
+  possibleCauses?: string | undefined;
+  /** The recommended action. */
+  recommendedAction?: string | undefined;
+  /** The error message parameters. */
+  errorMessageParameters?:
+    | InMageRcmAgentUpgradeBlockingErrorDetailsErrorMessageParametersMap
+    | undefined;
+  /** The error tags. */
+  errorTags?: InMageRcmAgentUpgradeBlockingErrorDetailsErrorTagsMap | undefined;
+}
+/** The agent upgrade blocking error information. */
+export type InMageRcmReplicationDetailsAgentUpgradeBlockingErrorDetailsList =
+  Array<InMageRcmAgentUpgradeBlockingErrorDetails>;
+/** The source IP address type. */
+export type EthernetAddressType = "Dynamic" | "Static";
+/** InMageRcm NIC details. */
+export interface InMageRcmNicDetails {
+  /** The NIC Id. */
+  nicId?: string | undefined;
+  /** A value indicating whether this is the primary NIC. */
+  isPrimaryNic?: string | undefined;
+  /** A value indicating whether this NIC is selected for failover. */
+  isSelectedForFailover?: string | undefined;
+  /** The source IP address. */
+  sourceIPAddress?: string | undefined;
+  /** The source IP address type. */
+  sourceIPAddressType?: EthernetAddressType | undefined;
+  /** Source network Id. */
+  sourceNetworkId?: string | undefined;
+  /** Source subnet name. */
+  sourceSubnetName?: string | undefined;
+  /** The target IP address. */
+  targetIPAddress?: string | undefined;
+  /** The target IP address type. */
+  targetIPAddressType?: EthernetAddressType | undefined;
+  /** Target subnet name. */
+  targetSubnetName?: string | undefined;
+  /** Test subnet name. */
+  testSubnetName?: string | undefined;
+  /** The test IP address. */
+  testIPAddress?: string | undefined;
+  /** The test IP address type. */
+  testIPAddressType?: EthernetAddressType | undefined;
+  /** The target NIC name. */
+  targetNicName?: string | undefined;
+}
+/** The network details. */
+export type InMageRcmReplicationDetailsVmNicsList = Array<InMageRcmNicDetails>;
+/** The list of datastores. */
+export type InMageRcmDiscoveredProtectedVmDetailsDatastoresList = Array<string>;
+/** The list of IP addresses. */
+export type InMageRcmDiscoveredProtectedVmDetailsIpAddressesList = Array<string>;
+/** InMageRcm discovered protected VM details. */
+export interface InMageRcmDiscoveredProtectedVmDetails {
+  /** The VCenter Id. */
+  vCenterId?: string | undefined;
+  /** The VCenter fqdn. */
+  vCenterFqdn?: string | undefined;
+  /** The list of datastores. */
+  datastores?: InMageRcmDiscoveredProtectedVmDetailsDatastoresList | undefined;
+  /** The list of IP addresses. */
+  ipAddresses?: InMageRcmDiscoveredProtectedVmDetailsIpAddressesList | undefined;
+  /** The VMware tools status. */
+  vmwareToolsStatus?: string | undefined;
+  /** The VM power status. */
+  powerStatus?: string | undefined;
+  /** The VM fqdn. */
+  vmFqdn?: string | undefined;
+  /** The VM's OS name. */
+  osName?: string | undefined;
+  /** The SDS created timestamp. */
+  createdTimestamp?: string | undefined;
+  /** The SDS updated timestamp. */
+  updatedTimestamp?: string | undefined;
+  /** A value indicating whether the VM is deleted. */
+  isDeleted?: boolean | undefined;
+  /** The last time when SDS information discovered in SRS. */
+  lastDiscoveryTimeInUtc?: string | undefined;
+}
+/** Resource tag input. */
+export interface UserCreatedResourceTag {
+  /** The tag name. Please read for more information: https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/tag-resources#limitations */
+  tagName?: string | undefined;
+  /** The tag value. Please read her for more information: https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/tag-resources#limitations */
+  tagValue?: string | undefined;
+}
+/** The target VM tags. */
+export type InMageRcmReplicationDetailsTargetVmTagsList = Array<UserCreatedResourceTag>;
+/** The tags for the seed managed disks. */
+export type InMageRcmReplicationDetailsSeedManagedDiskTagsList = Array<UserCreatedResourceTag>;
+/** The tags for the target managed disks. */
+export type InMageRcmReplicationDetailsTargetManagedDiskTagsList = Array<UserCreatedResourceTag>;
+/** The tags for the target NICs. */
+export type InMageRcmReplicationDetailsTargetNicTagsList = Array<UserCreatedResourceTag>;
+/** A value indicating the inplace OS Upgrade version. */
+export type InMageRcmReplicationDetailsSupportedOSVersionsList = Array<string>;
+/** InMageRcm provider specific details. */
+export interface InMageRcmReplicationDetails {
+  /** Gets the Instance type. */
+  instanceType: InMageRcmReplicationDetailsInstanceType;
+  /** The virtual machine internal identifier. */
+  internalIdentifier?: string | undefined;
+  /** The ARM Id of the discovered VM. */
+  fabricDiscoveryMachineId?: string | undefined;
+  /** The multi VM group name. */
+  multiVmGroupName?: string | undefined;
+  /** The type of the discovered VM. */
+  discoveryType?: string | undefined;
+  /** The process server Id. */
+  processServerId?: string | undefined;
+  /** The processor core count. */
+  processorCoreCount?: number | undefined;
+  /** The allocated memory in MB. */
+  allocatedMemoryInMB?: number | undefined;
+  /** The process server name. */
+  processServerName?: string | undefined;
+  /** The run-as account Id. */
+  runAsAccountId?: string | undefined;
+  /** The type of the OS on the VM. */
+  osType?: string | undefined;
+  /** The firmware type. */
+  firmwareType?: string | undefined;
+  /** The IP address of the primary network interface. */
+  primaryNicIpAddress?: string | undefined;
+  /** The target generation. */
+  targetGeneration?: string | undefined;
+  /** License Type of the VM to be used. */
+  licenseType?: string | undefined;
+  /** The license type for Linux VM's. */
+  linuxLicenseType?: LinuxLicenseType | undefined;
+  /** The replication storage account ARM Id. This is applicable only for the blob based replication test hook. */
+  storageAccountId?: string | undefined;
+  /** Target VM name. */
+  targetVmName?: string | undefined;
+  /** The target VM size. */
+  targetVmSize?: string | undefined;
+  /** The target resource group Id. */
+  targetResourceGroupId?: string | undefined;
+  /** The target location. */
+  targetLocation?: string | undefined;
+  /** The target availability set Id. */
+  targetAvailabilitySetId?: string | undefined;
+  /** The target availability zone. */
+  targetAvailabilityZone?: string | undefined;
+  /** The target extended location. */
+  targetExtendedLocation?: ExtendedLocation | undefined;
+  /** The target proximity placement group Id. */
+  targetProximityPlacementGroupId?: string | undefined;
+  /** The target boot diagnostics storage account ARM Id. */
+  targetBootDiagnosticsStorageAccountId?: string | undefined;
+  /** The target network Id. */
+  targetNetworkId?: string | undefined;
+  /** The test network Id. */
+  testNetworkId?: string | undefined;
+  /** The recovery point Id to which the VM was failed over. */
+  failoverRecoveryPointId?: string | undefined;
+  /** The last recovery point received time. */
+  lastRecoveryPointReceived?: string | undefined;
+  /** The last recovery point objective value. */
+  lastRpoInSeconds?: number | undefined;
+  /** The last recovery point objective calculated time. */
+  lastRpoCalculatedTime?: string | undefined;
+  /** The last recovery point Id. */
+  lastRecoveryPointId?: string | undefined;
+  /** The initial replication progress percentage. This is calculated based on total bytes processed for all disks in the source VM. */
+  initialReplicationProgressPercentage?: number | undefined;
+  /** The initial replication processed bytes. This includes sum of total bytes transferred and matched bytes on all selected disks in source VM. */
+  initialReplicationProcessedBytes?: number | undefined;
+  /** The initial replication transferred bytes from source VM to azure for all selected disks on source VM. */
+  initialReplicationTransferredBytes?: number | undefined;
+  /** The initial replication progress health. */
+  initialReplicationProgressHealth?: VmReplicationProgressHealth | undefined;
+  /** The resync progress percentage. This is calculated based on total bytes processed for all disks in the source VM. */
+  resyncProgressPercentage?: number | undefined;
+  /** The resync processed bytes. This includes sum of total bytes transferred and matched bytes on all selected disks in source VM. */
+  resyncProcessedBytes?: number | undefined;
+  /** The resync transferred bytes from source VM to azure for all selected disks on source VM. */
+  resyncTransferredBytes?: number | undefined;
+  /** The resync progress health. */
+  resyncProgressHealth?: VmReplicationProgressHealth | undefined;
+  /** A value indicating whether resync is required. */
+  resyncRequired?: string | undefined;
+  /** The resync state. */
+  resyncState?: ResyncState | undefined;
+  /** The agent auto upgrade state. */
+  agentUpgradeState?: MobilityAgentUpgradeState | undefined;
+  /** The last agent upgrade type. */
+  lastAgentUpgradeType?: string | undefined;
+  /** The agent upgrade job Id. */
+  agentUpgradeJobId?: string | undefined;
+  /** The agent version to which last agent upgrade was attempted. */
+  agentUpgradeAttemptToVersion?: string | undefined;
+  /** The list of protected disks. */
+  protectedDisks?: InMageRcmReplicationDetailsProtectedDisksList | undefined;
+  /** The list of unprotected disks. */
+  unprotectedDisks?: InMageRcmReplicationDetailsUnprotectedDisksList | undefined;
+  /** A value indicating whether last agent upgrade was successful or not. */
+  isLastUpgradeSuccessful?: string | undefined;
+  /** A value indicating whether agent registration was successful after failover. */
+  isAgentRegistrationSuccessfulAfterFailover?: boolean | undefined;
+  /** The mobility agent information. */
+  mobilityAgentDetails?: InMageRcmMobilityAgentDetails | undefined;
+  /** The last agent upgrade error information. */
+  lastAgentUpgradeErrorDetails?:
+    | InMageRcmReplicationDetailsLastAgentUpgradeErrorDetailsList
+    | undefined;
+  /** The agent upgrade blocking error information. */
+  agentUpgradeBlockingErrorDetails?:
+    | InMageRcmReplicationDetailsAgentUpgradeBlockingErrorDetailsList
+    | undefined;
+  /** The network details. */
+  vmNics?: InMageRcmReplicationDetailsVmNicsList | undefined;
+  /** The discovered VM details. */
+  discoveredVmDetails?: InMageRcmDiscoveredProtectedVmDetails | undefined;
+  /** The target VM tags. */
+  targetVmTags?: InMageRcmReplicationDetailsTargetVmTagsList | undefined;
+  /** The tags for the seed managed disks. */
+  seedManagedDiskTags?: InMageRcmReplicationDetailsSeedManagedDiskTagsList | undefined;
+  /** The tags for the target managed disks. */
+  targetManagedDiskTags?: InMageRcmReplicationDetailsTargetManagedDiskTagsList | undefined;
+  /** The tags for the target NICs. */
+  targetNicTags?: InMageRcmReplicationDetailsTargetNicTagsList | undefined;
+  /** The SQL Server license type. */
+  sqlServerLicenseType?: string | undefined;
+  /** A value indicating the inplace OS Upgrade version. */
+  supportedOSVersions?: InMageRcmReplicationDetailsSupportedOSVersionsList | undefined;
+  /** The OS name associated with VM. */
+  osName?: string | undefined;
+  /** The target VM security profile. */
+  targetVmSecurityProfile?: SecurityProfileProperties | undefined;
+  /** The target capacity reservation group ARM Id. */
+  targetCapacityReservationGroupId?: string | undefined;
+}
+/** Gets the Instance type. */
+export type InMageReplicationDetailsInstanceType = "InMage";
+/** Details of the OS Disk. */
+export interface OSDiskDetails {
+  /** The id of the disk containing the OS. */
+  osVhdId?: string | undefined;
+  /** The type of the OS on the VM. */
+  osType?: string | undefined;
+  /** The OS disk VHD name. */
+  vhdName?: string | undefined;
+}
+/** InMage protected disk details. */
+export interface InMageProtectedDiskDetails {
+  /** The disk id. */
+  diskId?: string | undefined;
+  /** The disk name. */
+  diskName?: string | undefined;
+  /** The protection stage. */
+  protectionStage?: string | undefined;
+  /** The health error code for the disk. */
+  healthErrorCode?: string | undefined;
+  /** The RPO in seconds. */
+  rpoInSeconds?: number | undefined;
+  /** A value indicating whether resync is required for this disk. */
+  resyncRequired?: string | undefined;
+  /** The resync progress percentage. */
+  resyncProgressPercentage?: number | undefined;
+  /** The resync duration in seconds. */
+  resyncDurationInSeconds?: number | undefined;
+  /** The disk capacity in bytes. */
+  diskCapacityInBytes?: number | undefined;
+  /** The file system capacity in bytes. */
+  fileSystemCapacityInBytes?: number | undefined;
+  /** The source data transit in MB. */
+  sourceDataInMB?: number | undefined;
+  /** The PS data transit in MB. */
+  psDataInMB?: number | undefined;
+  /** The target data transit in MB. */
+  targetDataInMB?: number | undefined;
+  /** A value indicating whether disk is resized. */
+  diskResized?: string | undefined;
+  /** The last RPO calculated time. */
+  lastRpoCalculatedTime?: string | undefined;
+  /** The resync processed bytes. */
+  resyncProcessedBytes?: number | undefined;
+  /** The resync total transferred bytes. */
+  resyncTotalTransferredBytes?: number | undefined;
+  /** The resync last 15 minutes transferred bytes. */
+  resyncLast15MinutesTransferredBytes?: number | undefined;
+  /** The last data transfer time in UTC. */
+  resyncLastDataTransferTimeUTC?: string | undefined;
+  /** The resync start time. */
+  resyncStartTime?: string | undefined;
+  /** The Progress Health. */
+  progressHealth?: string | undefined;
+  /** The Progress Status. */
+  progressStatus?: string | undefined;
+}
+/** The list of protected disks. */
+export type InMageReplicationDetailsProtectedDisksList = Array<InMageProtectedDiskDetails>;
+/** The collection of Consistency points. */
+export type InMageReplicationDetailsConsistencyPointsMap = { [key: string]: string | undefined };
+/** The details of the InMage agent. */
+export interface InMageAgentDetails {
+  /** The agent version. */
+  agentVersion?: string | undefined;
+  /** A value indicating whether installed agent needs to be updated. */
+  agentUpdateStatus?: string | undefined;
+  /** A value indicating whether reboot is required after update is applied. */
+  postUpdateRebootStatus?: string | undefined;
+  /** Agent expiry date. */
+  agentExpiryDate?: string | undefined;
+}
+/** The PE Network details. */
+export type InMageReplicationDetailsVmNicsList = Array<VMNicDetails>;
+/** The datastores of the on-premise machine Value can be list of strings that contain datastore names. */
+export type InMageReplicationDetailsDatastoresList = Array<string>;
+/** The validation errors of the on-premise machine Value can be list of validation errors. */
+export type InMageReplicationDetailsValidationErrorsList = Array<HealthError>;
+/** InMage provider specific settings. */
+export interface InMageReplicationDetails {
+  /** Gets the Instance type. */
+  instanceType: InMageReplicationDetailsInstanceType;
+  /** The active location of the VM. If the VM is being protected from Azure, this field will take values from { Azure, OnPrem }. If the VM is being protected between two data-centers, this field will be OnPrem always. */
+  activeSiteType?: string | undefined;
+  /** The CPU count of the VM on the primary side. */
+  sourceVmCpuCount?: number | undefined;
+  /** The RAM size of the VM on the primary side. */
+  sourceVmRamSizeInMB?: number | undefined;
+  /** The OS details. */
+  osDetails?: OSDiskDetails | undefined;
+  /** The protection stage. */
+  protectionStage?: string | undefined;
+  /** The virtual machine Id. */
+  vmId?: string | undefined;
+  /** The protection state for the vm. */
+  vmProtectionState?: string | undefined;
+  /** The protection state description for the vm. */
+  vmProtectionStateDescription?: string | undefined;
+  /** The resync details of the machine. */
+  resyncDetails?: InitialReplicationDetails | undefined;
+  /** The retention window start time. */
+  retentionWindowStart?: string | undefined;
+  /** The retention window end time. */
+  retentionWindowEnd?: string | undefined;
+  /** The compressed data change rate in MB. */
+  compressedDataRateInMB?: number | undefined;
+  /** The uncompressed data change rate in MB. */
+  uncompressedDataRateInMB?: number | undefined;
+  /** The RPO in seconds. */
+  rpoInSeconds?: number | undefined;
+  /** The list of protected disks. */
+  protectedDisks?: InMageReplicationDetailsProtectedDisksList | undefined;
+  /** The source IP address. */
+  ipAddress?: string | undefined;
+  /** The last heartbeat received from the source server. */
+  lastHeartbeat?: string | undefined;
+  /** The process server Id. */
+  processServerId?: string | undefined;
+  /** The master target Id. */
+  masterTargetId?: string | undefined;
+  /** The collection of Consistency points. */
+  consistencyPoints?: InMageReplicationDetailsConsistencyPointsMap | undefined;
+  /** A value indicating whether any disk is resized for this VM. */
+  diskResized?: string | undefined;
+  /** A value indicating whether the source server requires a restart after update. */
+  rebootAfterUpdateStatus?: string | undefined;
+  /** The multi vm group Id, if any. */
+  multiVmGroupId?: string | undefined;
+  /** The multi vm group name, if any. */
+  multiVmGroupName?: string | undefined;
+  /** A value indicating whether the multi vm sync is enabled or disabled. */
+  multiVmSyncStatus?: string | undefined;
+  /** The agent details. */
+  agentDetails?: InMageAgentDetails | undefined;
+  /** The vCenter infrastructure Id. */
+  vCenterInfrastructureId?: string | undefined;
+  /** The infrastructure VM Id. */
+  infrastructureVmId?: string | undefined;
+  /** The PE Network details. */
+  vmNics?: InMageReplicationDetailsVmNicsList | undefined;
+  /** A value indicating the discovery type of the machine. */
+  discoveryType?: string | undefined;
+  /** A value indicating the underlying Azure storage account. If the VM is not running in Azure, this value shall be set to null. */
+  azureStorageAccountId?: string | undefined;
+  /** The datastores of the on-premise machine Value can be list of strings that contain datastore names. */
+  datastores?: InMageReplicationDetailsDatastoresList | undefined;
+  /** The validation errors of the on-premise machine Value can be list of validation errors. */
+  validationErrors?: InMageReplicationDetailsValidationErrorsList | undefined;
+  /** The last RPO calculated time. */
+  lastRpoCalculatedTime?: string | undefined;
+  /** The last update time received from on-prem components. */
+  lastUpdateReceivedTime?: string | undefined;
+  /** The replica id of the protected item. */
+  replicaId?: string | undefined;
+  /** The OS Version of the protected item. */
+  osVersion?: string | undefined;
+  /** A value indicating whether additional IR stats are available or not. */
+  isAdditionalStatsAvailable?: boolean | undefined;
+  /** The total transferred data in bytes. */
+  totalDataTransferred?: number | undefined;
+  /** The progress health. */
+  totalProgressHealth?: string | undefined;
+}
+/** Replication provider specific settings. */
+export type ReplicationProviderSpecificSettings =
+  | A2ACrossClusterMigrationReplicationDetails
+  | A2AReplicationDetails
+  | HyperVReplicaAzureReplicationDetails
+  | HyperVReplicaBaseReplicationDetails
+  | HyperVReplicaBlueReplicationDetails
+  | HyperVReplicaReplicationDetails
+  | InMageAzureV2ReplicationDetails
+  | InMageRcmFailbackReplicationDetails
+  | InMageRcmReplicationDetails
+  | InMageReplicationDetails;
 /** Replication protected item custom data details. */
 export interface ReplicationProtectedItemProperties {
   /** The name. */
@@ -214,8 +2176,8 @@ export interface ReplicationProtectedItemProperties {
   currentScenario?: CurrentScenarioDetails | undefined;
   /** The recovery point ARM Id to which the Vm was failed over. */
   failoverRecoveryPointId?: string | undefined;
-  /** The Replication provider custom settings. Polymorphic on `instanceType` (e.g. `{ instanceType: "A2A", ... }`). */
-  providerSpecificDetails?: unknown | undefined;
+  /** The Replication provider custom settings. */
+  providerSpecificDetails?: ReplicationProviderSpecificSettings | undefined;
   /** The recovery container Id. */
   recoveryContainerId?: string | undefined;
   /** The correlation Id for events associated with this protected item. */
@@ -239,14 +2201,61 @@ export interface AddReplicationProtectedItemDisksResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number | undefined;
 }
+/** The class type. */
+export type A2AApplyRecoveryPointInputInstanceType = "A2A";
 /** Provider specific input for apply recovery point. */
-export type ApplyRecoveryPointProviderSpecificInput = AddDisksProviderSpecificInput;
+export interface A2AApplyRecoveryPointInput {
+  /** The class type. */
+  instanceType: A2AApplyRecoveryPointInputInstanceType;
+}
+/** The class type. */
+export type A2ACrossClusterMigrationApplyRecoveryPointInputInstanceType =
+  "A2ACrossClusterMigration";
+/** Provider specific input for apply recovery point. */
+export interface A2ACrossClusterMigrationApplyRecoveryPointInput {
+  /** The class type. */
+  instanceType: A2ACrossClusterMigrationApplyRecoveryPointInputInstanceType;
+}
+/** The class type. */
+export type HyperVReplicaAzureApplyRecoveryPointInputInstanceType = "HyperVReplicaAzure";
+/** ApplyRecoveryPoint input specific to HyperVReplicaAzure provider. */
+export interface HyperVReplicaAzureApplyRecoveryPointInput {
+  /** The class type. */
+  instanceType: HyperVReplicaAzureApplyRecoveryPointInputInstanceType;
+  /** The primary kek certificate pfx. */
+  primaryKekCertificatePfx?: string | undefined;
+  /** The secondary kek certificate pfx. */
+  secondaryKekCertificatePfx?: string | undefined;
+}
+/** The class type. */
+export type InMageAzureV2ApplyRecoveryPointInputInstanceType = "InMageAzureV2";
+/** Provider specific input for apply recovery point. */
+export interface InMageAzureV2ApplyRecoveryPointInput {
+  /** The class type. */
+  instanceType: InMageAzureV2ApplyRecoveryPointInputInstanceType;
+}
+/** The class type. */
+export type InMageRcmApplyRecoveryPointInputInstanceType = "InMageRcm";
+/** ApplyRecoveryPoint input specific to InMageRcm provider. */
+export interface InMageRcmApplyRecoveryPointInput {
+  /** The class type. */
+  instanceType: InMageRcmApplyRecoveryPointInputInstanceType;
+  /** The recovery point Id. */
+  recoveryPointId: string;
+}
+/** Provider specific input for apply recovery point. */
+export type ApplyRecoveryPointProviderSpecificInput =
+  | A2AApplyRecoveryPointInput
+  | A2ACrossClusterMigrationApplyRecoveryPointInput
+  | HyperVReplicaAzureApplyRecoveryPointInput
+  | InMageAzureV2ApplyRecoveryPointInput
+  | InMageRcmApplyRecoveryPointInput;
 /** Input properties to apply recovery point. */
 export interface ApplyRecoveryPointInputProperties {
   /** The recovery point Id. */
   recoveryPointId?: string | undefined;
   /** Provider specific input for applying recovery point. */
-  providerSpecificDetails: AddDisksProviderSpecificInput;
+  providerSpecificDetails: ApplyRecoveryPointProviderSpecificInput;
 }
 export interface ApplyReplicationProtectedItemRecoveryPointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -285,8 +2294,13 @@ export interface ApplyReplicationProtectedItemRecoveryPointResponse {
 /** The list of individual node recovery points. */
 export type ApplyClusterRecoveryPointInputPropertiesIndividualNodeRecoveryPointsList =
   Array<string>;
+/** The class type. */
+export type A2AApplyClusterRecoveryPointInputInstanceType = "A2A";
 /** Provider specific input for apply cluster recovery point. */
-export type ApplyClusterRecoveryPointProviderSpecificInput = AddDisksProviderSpecificInput;
+export interface A2AApplyClusterRecoveryPointInput {
+  /** The class type. */
+  instanceType: A2AApplyClusterRecoveryPointInputInstanceType | (string & {});
+}
 /** Input definition for apply cluster recovery point properties. */
 export interface ApplyClusterRecoveryPointInputProperties {
   /** The cluster recovery point id to be passed to failover to a particular recovery point. */
@@ -296,7 +2310,7 @@ export interface ApplyClusterRecoveryPointInputProperties {
     | ApplyClusterRecoveryPointInputPropertiesIndividualNodeRecoveryPointsList
     | undefined;
   /** The provider specific input for applying cluster recovery point. */
-  providerSpecificDetails: AddDisksProviderSpecificInput;
+  providerSpecificDetails: A2AApplyClusterRecoveryPointInput;
 }
 export interface ApplyReplicationProtectionClusterRecoveryPointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -336,14 +2350,106 @@ export interface RegisteredClusterNodes {
 /** The registered node details. */
 export type ReplicationProtectionClusterPropertiesClusterRegisteredNodesList =
   Array<RegisteredClusterNodes>;
+/** Gets the Instance type. */
+export type A2AReplicationProtectionClusterDetailsInstanceType = "A2A";
+/** A2A provider specific settings. */
+export interface A2AReplicationProtectionClusterDetails {
+  /** Gets the Instance type. */
+  instanceType: A2AReplicationProtectionClusterDetailsInstanceType | (string & {});
+  /** The multi vm group Id. */
+  multiVmGroupId?: string | undefined;
+  /** The multi vm group name. */
+  multiVmGroupName?: string | undefined;
+  /** Whether Multi VM group is auto created or specified by user. */
+  multiVmGroupCreateOption?: MultiVmGroupCreateOption | (string & {}) | undefined;
+  /** Primary fabric location. */
+  primaryFabricLocation?: string | undefined;
+  /** The recovery fabric location. */
+  recoveryFabricLocation?: string | undefined;
+  /** The recovery point Id to which the cluster was failed over. */
+  failoverRecoveryPointId?: string | undefined;
+  /** The cluster management Id. */
+  clusterManagementId?: string | undefined;
+  /** The last RPO value in seconds. */
+  rpoInSeconds?: number | undefined;
+  /** The time (in UTC) when the last RPO value was calculated by Protection Service. */
+  lastRpoCalculatedTime?: string | undefined;
+  /** The initial primary availability zone. */
+  initialPrimaryZone?: string | undefined;
+  /** The initial primary fabric location. */
+  initialPrimaryFabricLocation?: string | undefined;
+  /** The initial recovery availability zone. */
+  initialRecoveryZone?: string | undefined;
+  /** The initial recovery fabric location. */
+  initialRecoveryFabricLocation?: string | undefined;
+  /** The initial primary extended location. */
+  initialPrimaryExtendedLocation?: ExtendedLocation | undefined;
+  /** The initial recovery extended location. */
+  initialRecoveryExtendedLocation?: ExtendedLocation | undefined;
+  /** The primary availability zone. */
+  primaryAvailabilityZone?: string | undefined;
+  /** The recovery availability zone. */
+  recoveryAvailabilityZone?: string | undefined;
+  /** The primary Extended Location. */
+  primaryExtendedLocation?: ExtendedLocation | undefined;
+  /** The recovery Extended Location. */
+  recoveryExtendedLocation?: ExtendedLocation | undefined;
+  /** An id that survives actions like switch protection which change the backing PE/CPE objects internally.The lifecycle id gets carried forward to have a link/continuity in being able to have an Id that denotes the "same" protected cluster even though other internal Ids/ARM Id might be changing. */
+  lifecycleId?: string | undefined;
+}
 /** The allowed operations on the Replication protected item. */
 export type SharedDiskReplicationItemPropertiesAllowedOperationsList = Array<string>;
 /** List of health errors. */
 export type SharedDiskReplicationItemPropertiesHealthErrorsList = Array<HealthError>;
-/** Replication provider specific settings. */
-export interface SharedDiskReplicationProviderSpecificSettings {
+/** Gets the Instance type. */
+export type A2ASharedDiskReplicationDetailsInstanceType = "A2A";
+/** The list of unprotected disks. */
+export type A2ASharedDiskReplicationDetailsUnprotectedDisksList = Array<A2AUnprotectedDiskDetails>;
+/** The list of protected managed disks. */
+export type A2ASharedDiskReplicationDetailsProtectedManagedDisksList =
+  Array<A2AProtectedManagedDiskDetails>;
+/** Extended location of the resource. */
+export interface A2ASharedDiskIRErrorDetails {
+  /** The error code. */
+  errorCode?: string | undefined;
+  /** The error code enum. */
+  errorCodeEnum?: string | undefined;
+  /** The error message. */
+  errorMessage?: string | undefined;
+  /** The possible causes. */
+  possibleCauses?: string | undefined;
+  /** The recommended action. */
+  recommendedAction?: string | undefined;
+}
+/** The IR Errors. */
+export type A2ASharedDiskReplicationDetailsSharedDiskIRErrorsList =
+  Array<A2ASharedDiskIRErrorDetails>;
+/** A2A provider specific settings. */
+export interface A2ASharedDiskReplicationDetails {
   /** Gets the Instance type. */
-  instanceType: string;
+  instanceType: A2ASharedDiskReplicationDetailsInstanceType;
+  /** The management Id. */
+  managementId?: string | undefined;
+  /** The list of unprotected disks. */
+  unprotectedDisks?: A2ASharedDiskReplicationDetailsUnprotectedDisksList | undefined;
+  /** The list of protected managed disks. */
+  protectedManagedDisks?: A2ASharedDiskReplicationDetailsProtectedManagedDisksList | undefined;
+  /** Primary fabric location. */
+  primaryFabricLocation?: string | undefined;
+  /** The recovery fabric location. */
+  recoveryFabricLocation?: string | undefined;
+  /** The recovery point id to which the Virtual node was failed over. */
+  failoverRecoveryPointId?: string | undefined;
+  /** The percentage of the monitoring job. The type of the monitoring job is defined by MonitoringJobType property. */
+  monitoringPercentageCompletion?: number | undefined;
+  /** The type of the monitoring job. The progress is contained in MonitoringPercentageCompletion property. */
+  monitoringJobType?: string | undefined;
+  /** The last RPO value in seconds. */
+  rpoInSeconds?: number | undefined;
+  /** The time (in UTC) when the last RPO value was calculated by Protection Service. */
+  lastRpoCalculatedTime?: string | undefined;
+  /** The IR Errors. */
+  sharedDiskIRErrors?: A2ASharedDiskReplicationDetailsSharedDiskIRErrorsList | undefined;
 }
 /** Shared Disk Replication item custom data details. */
 export interface SharedDiskReplicationItemProperties {
@@ -362,7 +2468,7 @@ export interface SharedDiskReplicationItemProperties {
   /** The current scenario. */
   currentScenario?: CurrentScenarioDetails | undefined;
   /** The Replication provider custom settings. */
-  sharedDiskProviderSpecificDetails?: SharedDiskReplicationProviderSpecificSettings | undefined;
+  sharedDiskProviderSpecificDetails?: A2ASharedDiskReplicationDetails | undefined;
 }
 /** Replication protection cluster custom data details. */
 export interface ReplicationProtectionClusterProperties {
@@ -424,8 +2530,8 @@ export interface ReplicationProtectionClusterProperties {
   clusterRegisteredNodes?:
     | ReplicationProtectionClusterPropertiesClusterRegisteredNodesList
     | undefined;
-  /** The Replication cluster provider custom settings. Polymorphic on `instanceType` (e.g. `{ instanceType: "A2A", ... }`). */
-  providerSpecificDetails?: unknown | undefined;
+  /** The Replication cluster provider custom settings. */
+  providerSpecificDetails?: A2AReplicationProtectionClusterDetails | undefined;
   /** The shared disk properties. */
   sharedDiskProperties?: SharedDiskReplicationItemProperties | undefined;
   /** The Policy Id. */
@@ -461,20 +2567,183 @@ export interface CancelReplicationJobRequest {
 }
 /** The state/actions applicable on this task. */
 export type ASRTaskAllowedActionsList = Array<string>;
+/** The type of task details. */
+export type AutomationRunbookTaskDetailsInstanceType = "AutomationRunbookTaskDetails";
+/** This class represents the task details for an automation runbook. */
+export interface AutomationRunbookTaskDetails {
+  /** The type of task details. */
+  instanceType: AutomationRunbookTaskDetailsInstanceType;
+  /** The recovery plan task name. */
+  name?: string | undefined;
+  /** The cloud service of the automation runbook account. */
+  cloudServiceName?: string | undefined;
+  /** The subscription Id of the automation runbook account. */
+  subscriptionId?: string | undefined;
+  /** The automation account name of the runbook. */
+  accountName?: string | undefined;
+  /** The runbook Id. */
+  runbookId?: string | undefined;
+  /** The runbook name. */
+  runbookName?: string | undefined;
+  /** The job Id of the runbook execution. */
+  jobId?: string | undefined;
+  /** The execution output of the runbook. */
+  jobOutput?: string | undefined;
+  /** A value indicating whether it is a primary side script or not. */
+  isPrimarySideScript?: boolean | undefined;
+}
+/** The type of task details. */
+export type ConsistencyCheckTaskDetailsInstanceType = "ConsistencyCheckTaskDetails";
+/** The list of details regarding state of the Protected Entity in SRS and On prem. */
+export type InconsistentVmDetailsDetailsList = Array<string>;
+/** The list of error ids. */
+export type InconsistentVmDetailsErrorIdsList = Array<string>;
+/** This class stores the monitoring details for consistency check of inconsistent Protected Entity. */
+export interface InconsistentVmDetails {
+  /** The Vm name. */
+  vmName?: string | undefined;
+  /** The Cloud name. */
+  cloudName?: string | undefined;
+  /** The list of details regarding state of the Protected Entity in SRS and On prem. */
+  details?: InconsistentVmDetailsDetailsList | undefined;
+  /** The list of error ids. */
+  errorIds?: InconsistentVmDetailsErrorIdsList | undefined;
+}
+/** The list of inconsistent Vm details. */
+export type ConsistencyCheckTaskDetailsVmDetailsList = Array<InconsistentVmDetails>;
+/** This class contains monitoring details of all the inconsistent Protected Entities in Vmm. */
+export interface ConsistencyCheckTaskDetails {
+  /** The type of task details. */
+  instanceType: ConsistencyCheckTaskDetailsInstanceType;
+  /** The list of inconsistent Vm details. */
+  vmDetails?: ConsistencyCheckTaskDetailsVmDetailsList | undefined;
+}
+/** The type of task details. */
+export type FabricReplicationGroupTaskDetailsInstanceType = "FabricReplicationGroupTaskDetails";
+/** This class contains the minimal job details required to navigate to the desired drill down. */
+export interface JobEntity {
+  /** The job id. */
+  jobId?: string | undefined;
+  /** The job display name. */
+  jobFriendlyName?: string | undefined;
+  /** The object id. */
+  targetObjectId?: string | undefined;
+  /** The object name. */
+  targetObjectName?: string | undefined;
+  /** The workflow affected object type. */
+  targetInstanceType?: string | undefined;
+  /** The job name. Enum type ScenarioName. */
+  jobScenarioName?: string | undefined;
+}
+/** This class represents the fabric replication group task details. */
+export interface FabricReplicationGroupTaskDetails {
+  /** The type of task details. */
+  instanceType: FabricReplicationGroupTaskDetailsInstanceType;
+  /** The job entity. */
+  jobTask?: JobEntity | undefined;
+  /** The skipped reason. */
+  skippedReason?: string | undefined;
+  /** The skipped reason string. */
+  skippedReasonString?: string | undefined;
+}
+/** The type of task details. */
+export type VirtualMachineTaskDetailsInstanceType = "VirtualMachineTaskDetails";
+/** This class represents the virtual machine task details. */
+export interface VirtualMachineTaskDetails {
+  /** The type of task details. */
+  instanceType: VirtualMachineTaskDetailsInstanceType;
+  /** The job entity. */
+  jobTask?: JobEntity | undefined;
+  /** The skipped reason. */
+  skippedReason?: string | undefined;
+  /** The skipped reason string. */
+  skippedReasonString?: string | undefined;
+}
+/** The type of task details. */
+export type ManualActionTaskDetailsInstanceType = "ManualActionTaskDetails";
+/** This class represents the manual action task details. */
+export interface ManualActionTaskDetails {
+  /** The type of task details. */
+  instanceType: ManualActionTaskDetailsInstanceType;
+  /** The name. */
+  name?: string | undefined;
+  /** The instructions. */
+  instructions?: string | undefined;
+  /** The observation. */
+  observation?: string | undefined;
+}
+/** The type of task details. */
+export type ScriptActionTaskDetailsInstanceType = "ScriptActionTaskDetails";
+/** This class represents the script action task details. */
+export interface ScriptActionTaskDetails {
+  /** The type of task details. */
+  instanceType: ScriptActionTaskDetailsInstanceType;
+  /** The name. */
+  name?: string | undefined;
+  /** The path. */
+  path?: string | undefined;
+  /** The output. */
+  output?: string | undefined;
+  /** A value indicating whether it is a primary side script or not. */
+  isPrimarySideScript?: boolean | undefined;
+}
+/** The type of task details. */
+export type VmNicUpdatesTaskDetailsInstanceType = "VmNicUpdatesTaskDetails";
+/** This class represents the vm NicUpdates task details. */
+export interface VmNicUpdatesTaskDetails {
+  /** The type of task details. */
+  instanceType: VmNicUpdatesTaskDetailsInstanceType;
+  /** Virtual machine Id. */
+  vmId?: string | undefined;
+  /** Nic Id. */
+  nicId?: string | undefined;
+  /** Name of the Nic. */
+  name?: string | undefined;
+}
 /** Task details based on specific task type. */
-export interface TaskTypeDetails {
-  /** The type of task details. */
-  instanceType: string;
-}
+export type TaskTypeDetails =
+  | AutomationRunbookTaskDetails
+  | ConsistencyCheckTaskDetails
+  | FabricReplicationGroupTaskDetails
+  | VirtualMachineTaskDetails
+  | ManualActionTaskDetails
+  | ScriptActionTaskDetails
+  | VmNicUpdatesTaskDetails;
+/** The type of task details. */
+export type InlineWorkflowTaskDetailsInstanceType = "InlineWorkflowTaskDetails";
 /** The child tasks. */
-export type GroupTaskDetailsChildTasksList = Array<ASRTask>;
-/** This class represents the group task details when parent child relationship exists in the drill down. */
-export interface GroupTaskDetails {
+export type InlineWorkflowTaskDetailsChildTasksList = Array<ASRTask>;
+/** The list of child workflow ids. */
+export type InlineWorkflowTaskDetailsWorkflowIdsList = Array<string>;
+/** This class represents the inline workflow task details. */
+export interface InlineWorkflowTaskDetails {
   /** The type of task details. */
-  instanceType: string;
+  instanceType: InlineWorkflowTaskDetailsInstanceType;
   /** The child tasks. */
-  childTasks?: GroupTaskDetailsChildTasksList | undefined;
+  childTasks?: InlineWorkflowTaskDetailsChildTasksList | undefined;
+  /** The list of child workflow ids. */
+  workflowIds?: InlineWorkflowTaskDetailsWorkflowIdsList | undefined;
 }
+/** The type of task details. */
+export type RecoveryPlanShutdownGroupTaskDetailsInstanceType =
+  "RecoveryPlanShutdownGroupTaskDetails";
+/** The child tasks. */
+export type RecoveryPlanShutdownGroupTaskDetailsChildTasksList = Array<ASRTask>;
+/** This class represents the recovery plan group task. */
+export interface RecoveryPlanShutdownGroupTaskDetails {
+  /** The type of task details. */
+  instanceType: RecoveryPlanShutdownGroupTaskDetailsInstanceType;
+  /** The child tasks. */
+  childTasks?: RecoveryPlanShutdownGroupTaskDetailsChildTasksList | undefined;
+  /** The name. */
+  name?: string | undefined;
+  /** The group identifier. */
+  groupId?: string | undefined;
+  /** The group type. */
+  rpGroupType?: string | undefined;
+}
+/** This class represents the group task details when parent child relationship exists in the drill down. */
+export type GroupTaskDetails = InlineWorkflowTaskDetails | RecoveryPlanShutdownGroupTaskDetails;
 /** ASR error model. */
 export interface ServiceError {
   /** Error code. */
@@ -549,15 +2818,181 @@ export type JobPropertiesTasksList = Array<ASRTask>;
 export type JobPropertiesErrorsList = Array<JobErrorDetails>;
 /** The Allowed action the job. */
 export type JobPropertiesAllowedActionsList = Array<string>;
+/** Gets the type of job details (see JobDetailsTypes enum for possible values). */
+export type AsrJobDetailsInstanceType = "AsrJobDetails";
 /** The affected object properties like source server, source cloud, target server, target cloud etc. based on the workflow object details. */
-export type JobDetailsAffectedObjectDetailsMap = { [key: string]: string | undefined };
+export type AsrJobDetailsAffectedObjectDetailsMap = { [key: string]: string | undefined };
 /** Job details based on specific job type. */
-export interface JobDetails {
+export interface AsrJobDetails {
   /** Gets the type of job details (see JobDetailsTypes enum for possible values). */
-  instanceType: string;
+  instanceType: AsrJobDetailsInstanceType;
   /** The affected object properties like source server, source cloud, target server, target cloud etc. based on the workflow object details. */
-  affectedObjectDetails?: JobDetailsAffectedObjectDetailsMap | undefined;
+  affectedObjectDetails?: AsrJobDetailsAffectedObjectDetailsMap | undefined;
 }
+/** Gets the type of job details (see JobDetailsTypes enum for possible values). */
+export type ClusterFailoverJobDetailsInstanceType = "ClusterFailoverJobDetails";
+/** The affected object properties like source server, source cloud, target server, target cloud etc. based on the workflow object details. */
+export type ClusterFailoverJobDetailsAffectedObjectDetailsMap = {
+  [key: string]: string | undefined;
+};
+/** Failover details for a replication protected item. */
+export interface FailoverReplicationProtectedItemDetails {
+  /** The name. */
+  name?: string | undefined;
+  /** The friendly name. */
+  friendlyName?: string | undefined;
+  /** The test Vm name. */
+  testVmName?: string | undefined;
+  /** The test Vm friendly name. */
+  testVmFriendlyName?: string | undefined;
+  /** The network connection status. */
+  networkConnectionStatus?: string | undefined;
+  /** The network friendly name. */
+  networkFriendlyName?: string | undefined;
+  /** The network subnet. */
+  subnet?: string | undefined;
+  /** The recovery point Id. */
+  recoveryPointId?: string | undefined;
+  /** The recovery point time. */
+  recoveryPointTime?: string | undefined;
+}
+/** The test VM details. */
+export type ClusterFailoverJobDetailsProtectedItemDetailsList =
+  Array<FailoverReplicationProtectedItemDetails>;
+/** This class represents the details for a failover job of cluster. */
+export interface ClusterFailoverJobDetails {
+  /** Gets the type of job details (see JobDetailsTypes enum for possible values). */
+  instanceType: ClusterFailoverJobDetailsInstanceType;
+  /** The affected object properties like source server, source cloud, target server, target cloud etc. based on the workflow object details. */
+  affectedObjectDetails?: ClusterFailoverJobDetailsAffectedObjectDetailsMap | undefined;
+  /** The test VM details. */
+  protectedItemDetails?: ClusterFailoverJobDetailsProtectedItemDetailsList | undefined;
+}
+/** Gets the type of job details (see JobDetailsTypes enum for possible values). */
+export type ClusterSwitchProtectionJobDetailsInstanceType = "ClusterSwitchProtectionJobDetails";
+/** The affected object properties like source server, source cloud, target server, target cloud etc. based on the workflow object details. */
+export type ClusterSwitchProtectionJobDetailsAffectedObjectDetailsMap = {
+  [key: string]: string | undefined;
+};
+/** This class represents details for switch cluster protection job. */
+export interface ClusterSwitchProtectionJobDetails {
+  /** Gets the type of job details (see JobDetailsTypes enum for possible values). */
+  instanceType: ClusterSwitchProtectionJobDetailsInstanceType;
+  /** The affected object properties like source server, source cloud, target server, target cloud etc. based on the workflow object details. */
+  affectedObjectDetails?: ClusterSwitchProtectionJobDetailsAffectedObjectDetailsMap | undefined;
+  /** ARM Id of the new replication protection cluster. */
+  newReplicationProtectionClusterId?: string | undefined;
+}
+/** Gets the type of job details (see JobDetailsTypes enum for possible values). */
+export type ClusterTestFailoverJobDetailsInstanceType = "ClusterTestFailoverJobDetails";
+/** The affected object properties like source server, source cloud, target server, target cloud etc. based on the workflow object details. */
+export type ClusterTestFailoverJobDetailsAffectedObjectDetailsMap = {
+  [key: string]: string | undefined;
+};
+/** The test VM details. */
+export type ClusterTestFailoverJobDetailsProtectedItemDetailsList =
+  Array<FailoverReplicationProtectedItemDetails>;
+/** This class represents the details for a test failover job of cluster. */
+export interface ClusterTestFailoverJobDetails {
+  /** Gets the type of job details (see JobDetailsTypes enum for possible values). */
+  instanceType: ClusterTestFailoverJobDetailsInstanceType;
+  /** The affected object properties like source server, source cloud, target server, target cloud etc. based on the workflow object details. */
+  affectedObjectDetails?: ClusterTestFailoverJobDetailsAffectedObjectDetailsMap | undefined;
+  /** The test failover status. */
+  testFailoverStatus?: string | undefined;
+  /** The test failover comments. */
+  comments?: string | undefined;
+  /** The test network name. */
+  networkName?: string | undefined;
+  /** The test network friendly name. */
+  networkFriendlyName?: string | undefined;
+  /** The test network type (see TestFailoverInput enum for possible values). */
+  networkType?: string | undefined;
+  /** The test VM details. */
+  protectedItemDetails?: ClusterTestFailoverJobDetailsProtectedItemDetailsList | undefined;
+}
+/** Gets the type of job details (see JobDetailsTypes enum for possible values). */
+export type ExportJobDetailsInstanceType = "ExportJobDetails";
+/** The affected object properties like source server, source cloud, target server, target cloud etc. based on the workflow object details. */
+export type ExportJobDetailsAffectedObjectDetailsMap = { [key: string]: string | undefined };
+/** This class represents details for export jobs workflow. */
+export interface ExportJobDetails {
+  /** Gets the type of job details (see JobDetailsTypes enum for possible values). */
+  instanceType: ExportJobDetailsInstanceType;
+  /** The affected object properties like source server, source cloud, target server, target cloud etc. based on the workflow object details. */
+  affectedObjectDetails?: ExportJobDetailsAffectedObjectDetailsMap | undefined;
+  /** BlobUri of the exported jobs. */
+  blobUri?: string | undefined;
+  /** The sas token to access blob. */
+  sasToken?: string | undefined;
+}
+/** Gets the type of job details (see JobDetailsTypes enum for possible values). */
+export type FailoverJobDetailsInstanceType = "FailoverJobDetails";
+/** The affected object properties like source server, source cloud, target server, target cloud etc. based on the workflow object details. */
+export type FailoverJobDetailsAffectedObjectDetailsMap = { [key: string]: string | undefined };
+/** The test VM details. */
+export type FailoverJobDetailsProtectedItemDetailsList =
+  Array<FailoverReplicationProtectedItemDetails>;
+/** This class represents the details for a failover job. */
+export interface FailoverJobDetails {
+  /** Gets the type of job details (see JobDetailsTypes enum for possible values). */
+  instanceType: FailoverJobDetailsInstanceType;
+  /** The affected object properties like source server, source cloud, target server, target cloud etc. based on the workflow object details. */
+  affectedObjectDetails?: FailoverJobDetailsAffectedObjectDetailsMap | undefined;
+  /** The test VM details. */
+  protectedItemDetails?: FailoverJobDetailsProtectedItemDetailsList | undefined;
+}
+/** Gets the type of job details (see JobDetailsTypes enum for possible values). */
+export type SwitchProtectionJobDetailsInstanceType = "SwitchProtectionJobDetails";
+/** The affected object properties like source server, source cloud, target server, target cloud etc. based on the workflow object details. */
+export type SwitchProtectionJobDetailsAffectedObjectDetailsMap = {
+  [key: string]: string | undefined;
+};
+/** This class represents details for switch protection job. */
+export interface SwitchProtectionJobDetails {
+  /** Gets the type of job details (see JobDetailsTypes enum for possible values). */
+  instanceType: SwitchProtectionJobDetailsInstanceType;
+  /** The affected object properties like source server, source cloud, target server, target cloud etc. based on the workflow object details. */
+  affectedObjectDetails?: SwitchProtectionJobDetailsAffectedObjectDetailsMap | undefined;
+  /** ARM Id of the new replication protected item. */
+  newReplicationProtectedItemId?: string | undefined;
+}
+/** Gets the type of job details (see JobDetailsTypes enum for possible values). */
+export type TestFailoverJobDetailsInstanceType = "TestFailoverJobDetails";
+/** The affected object properties like source server, source cloud, target server, target cloud etc. based on the workflow object details. */
+export type TestFailoverJobDetailsAffectedObjectDetailsMap = { [key: string]: string | undefined };
+/** The test VM details. */
+export type TestFailoverJobDetailsProtectedItemDetailsList =
+  Array<FailoverReplicationProtectedItemDetails>;
+/** This class represents the details for a test failover job. */
+export interface TestFailoverJobDetails {
+  /** Gets the type of job details (see JobDetailsTypes enum for possible values). */
+  instanceType: TestFailoverJobDetailsInstanceType;
+  /** The affected object properties like source server, source cloud, target server, target cloud etc. based on the workflow object details. */
+  affectedObjectDetails?: TestFailoverJobDetailsAffectedObjectDetailsMap | undefined;
+  /** The test failover status. */
+  testFailoverStatus?: string | undefined;
+  /** The test failover comments. */
+  comments?: string | undefined;
+  /** The test network name. */
+  networkName?: string | undefined;
+  /** The test network friendly name. */
+  networkFriendlyName?: string | undefined;
+  /** The test network type (see TestFailoverInput enum for possible values). */
+  networkType?: string | undefined;
+  /** The test VM details. */
+  protectedItemDetails?: TestFailoverJobDetailsProtectedItemDetailsList | undefined;
+}
+/** Job details based on specific job type. */
+export type JobDetails =
+  | AsrJobDetails
+  | ClusterFailoverJobDetails
+  | ClusterSwitchProtectionJobDetails
+  | ClusterTestFailoverJobDetails
+  | ExportJobDetails
+  | FailoverJobDetails
+  | SwitchProtectionJobDetails
+  | TestFailoverJobDetails;
 /** Job custom data details. */
 export interface JobProperties {
   /** The activity id. */
@@ -690,6 +3125,49 @@ export type PossibleOperationsDirections = "PrimaryToRecovery" | "RecoveryToPrim
 export type RecoveryPlanActionFailoverDirectionsList = Array<
   PossibleOperationsDirections | (string & {})
 >;
+/** Gets the type of action details (see RecoveryPlanActionDetailsTypes enum for possible values). */
+export type RecoveryPlanAutomationRunbookActionDetailsInstanceType =
+  "AutomationRunbookActionDetails";
+/** The fabric location. */
+export type RecoveryPlanActionLocation = "Primary" | "Recovery";
+/** Recovery plan Automation runbook action details. */
+export interface RecoveryPlanAutomationRunbookActionDetails {
+  /** Gets the type of action details (see RecoveryPlanActionDetailsTypes enum for possible values). */
+  instanceType: RecoveryPlanAutomationRunbookActionDetailsInstanceType;
+  /** The runbook ARM Id. */
+  runbookId?: string | undefined;
+  /** The runbook timeout. */
+  timeout?: string | undefined;
+  /** The fabric location. */
+  fabricLocation: RecoveryPlanActionLocation | (string & {});
+}
+/** Gets the type of action details (see RecoveryPlanActionDetailsTypes enum for possible values). */
+export type RecoveryPlanManualActionDetailsInstanceType = "ManualActionDetails";
+/** Recovery plan manual action details. */
+export interface RecoveryPlanManualActionDetails {
+  /** Gets the type of action details (see RecoveryPlanActionDetailsTypes enum for possible values). */
+  instanceType: RecoveryPlanManualActionDetailsInstanceType;
+  /** The manual action description. */
+  description?: string | undefined;
+}
+/** Gets the type of action details (see RecoveryPlanActionDetailsTypes enum for possible values). */
+export type RecoveryPlanScriptActionDetailsInstanceType = "ScriptActionDetails";
+/** Recovery plan script action details. */
+export interface RecoveryPlanScriptActionDetails {
+  /** Gets the type of action details (see RecoveryPlanActionDetailsTypes enum for possible values). */
+  instanceType: RecoveryPlanScriptActionDetailsInstanceType;
+  /** The script path. */
+  path: string;
+  /** The script timeout. */
+  timeout?: string | undefined;
+  /** The fabric location. */
+  fabricLocation: RecoveryPlanActionLocation | (string & {});
+}
+/** Recovery plan action custom details. */
+export type RecoveryPlanActionDetails =
+  | RecoveryPlanAutomationRunbookActionDetails
+  | RecoveryPlanManualActionDetails
+  | RecoveryPlanScriptActionDetails;
 /** Recovery plan action details. */
 export interface RecoveryPlanAction {
   /** The action name. */
@@ -698,8 +3176,8 @@ export interface RecoveryPlanAction {
   failoverTypes: RecoveryPlanActionFailoverTypesList;
   /** The list of failover directions. */
   failoverDirections: RecoveryPlanActionFailoverDirectionsList;
-  /** The custom details. Polymorphic on `instanceType` (e.g. `{ instanceType: "A2A", ... }`). */
-  customDetails: unknown;
+  /** The custom details. */
+  customDetails: RecoveryPlanActionDetails;
 }
 /** The start group actions. */
 export type RecoveryPlanGroupStartGroupActionsList = Array<RecoveryPlanAction>;
@@ -718,6 +3196,23 @@ export interface RecoveryPlanGroup {
 }
 /** The recovery plan groups. */
 export type RecoveryPlanPropertiesGroupsList = Array<RecoveryPlanGroup>;
+/** Gets the Instance type. */
+export type RecoveryPlanA2ADetailsInstanceType = "A2A";
+/** Recovery plan A2A specific details. */
+export interface RecoveryPlanA2ADetails {
+  /** Gets the Instance type. */
+  instanceType: RecoveryPlanA2ADetailsInstanceType;
+  /** The primary zone. */
+  primaryZone?: string | undefined;
+  /** The recovery zone. */
+  recoveryZone?: string | undefined;
+  /** The primary extended location. */
+  primaryExtendedLocation?: ExtendedLocation | undefined;
+  /** The recovery extended location. */
+  recoveryExtendedLocation?: ExtendedLocation | undefined;
+}
+/** The provider id and provider specific details. */
+export type RecoveryPlanPropertiesProviderSpecificDetailsList = Array<RecoveryPlanA2ADetails>;
 /** Recovery plan properties. */
 export interface RecoveryPlanProperties {
   /** The friendly name. */
@@ -750,8 +3245,8 @@ export interface RecoveryPlanProperties {
   currentScenarioStatusDescription?: string | undefined;
   /** The recovery plan groups. */
   groups?: RecoveryPlanPropertiesGroupsList | undefined;
-  /** The provider id and provider specific details. Polymorphic on `instanceType` (list of provider-specific objects, e.g. `[{ instanceType: "A2A", ... }]`). */
-  providerSpecificDetails?: unknown | undefined;
+  /** The provider id and provider specific details. */
+  providerSpecificDetails?: RecoveryPlanPropertiesProviderSpecificDetailsList | undefined;
 }
 export interface CancelReplicationRecoveryPlansFailoverResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -790,6 +3285,736 @@ export interface EncryptionDetails {
   /** The key encryption key certificate expiry date. */
   kekCertExpiryDate?: string | undefined;
 }
+/** Gets the class type. Overridden in derived classes. */
+export type AzureFabricSpecificDetailsInstanceType = "Azure";
+/** The container Ids for the Azure fabric. */
+export type AzureFabricSpecificDetailsContainerIdsList = Array<string>;
+/** Zone details data. */
+export interface A2AZoneDetails {
+  /** Source zone info. */
+  source?: string | undefined;
+  /** The target zone info. */
+  target?: string | undefined;
+}
+/** The zones. */
+export type AzureFabricSpecificDetailsZonesList = Array<A2AZoneDetails>;
+/** ExtendedLocation details data. */
+export interface A2AExtendedLocationDetails {
+  /** The primary ExtendedLocation. */
+  primaryExtendedLocation?: ExtendedLocation | undefined;
+  /** The recovery ExtendedLocation. */
+  recoveryExtendedLocation?: ExtendedLocation | undefined;
+}
+/** The ExtendedLocations. */
+export type AzureFabricSpecificDetailsExtendedLocationsList = Array<A2AExtendedLocationDetails>;
+/** ExtendedLocation details data. */
+export interface A2AFabricSpecificLocationDetails {
+  /** The initial source zone info. */
+  initialPrimaryZone?: string | undefined;
+  /** The initial target zone info. */
+  initialRecoveryZone?: string | undefined;
+  /** The initial primary ExtendedLocation. */
+  initialPrimaryExtendedLocation?: ExtendedLocation | undefined;
+  /** The initial recovery ExtendedLocation. */
+  initialRecoveryExtendedLocation?: ExtendedLocation | undefined;
+  /** Initial primary fabric location info. */
+  initialPrimaryFabricLocation?: string | undefined;
+  /** The initial recovery fabric location info. */
+  initialRecoveryFabricLocation?: string | undefined;
+  /** Source zone info. */
+  primaryZone?: string | undefined;
+  /** The target zone info. */
+  recoveryZone?: string | undefined;
+  /** The primary ExtendedLocation. */
+  primaryExtendedLocation?: ExtendedLocation | undefined;
+  /** The recovery ExtendedLocation. */
+  recoveryExtendedLocation?: ExtendedLocation | undefined;
+  /** Primary fabric location info. */
+  primaryFabricLocation?: string | undefined;
+  /** The recovery fabric location info. */
+  recoveryFabricLocation?: string | undefined;
+}
+/** The location details. */
+export type AzureFabricSpecificDetailsLocationDetailsList = Array<A2AFabricSpecificLocationDetails>;
+/** Azure Fabric Specific Details. */
+export interface AzureFabricSpecificDetails {
+  /** Gets the class type. Overridden in derived classes. */
+  instanceType: AzureFabricSpecificDetailsInstanceType;
+  /** The Location for the Azure fabric. */
+  location?: string | undefined;
+  /** The container Ids for the Azure fabric. */
+  containerIds?: AzureFabricSpecificDetailsContainerIdsList | undefined;
+  /** The zones. */
+  zones?: AzureFabricSpecificDetailsZonesList | undefined;
+  /** The ExtendedLocations. */
+  extendedLocations?: AzureFabricSpecificDetailsExtendedLocationsList | undefined;
+  /** The location details. */
+  locationDetails?: AzureFabricSpecificDetailsLocationDetailsList | undefined;
+}
+/** Gets the class type. Overridden in derived classes. */
+export type HyperVSiteDetailsInstanceType = "HyperVSite";
+/** Hyper-V host details. */
+export interface HyperVHostDetails {
+  /** The Hyper-V host Id. */
+  id?: string | undefined;
+  /** The Hyper-V host name. */
+  name?: string | undefined;
+  /** The Mars agent version. */
+  marsAgentVersion?: string | undefined;
+}
+/** The list of Hyper-V hosts associated with the fabric. */
+export type HyperVSiteDetailsHyperVHostsList = Array<HyperVHostDetails>;
+/** HyperVSite fabric specific details. */
+export interface HyperVSiteDetails {
+  /** Gets the class type. Overridden in derived classes. */
+  instanceType: HyperVSiteDetailsInstanceType;
+  /** The list of Hyper-V hosts associated with the fabric. */
+  hyperVHosts?: HyperVSiteDetailsHyperVHostsList | undefined;
+}
+/** Gets the class type. Overridden in derived classes. */
+export type InMageRcmFabricSpecificDetailsInstanceType = "InMageRcm";
+/** Identity provider details. */
+export interface IdentityProviderDetails {
+  /** The tenant Id for the service principal with which the on-premise management/data plane components would communicate with our Azure services. */
+  tenantId?: string | undefined;
+  /** The application/client Id for the service principal with which the on-premise management/data plane components would communicate with our Azure services. */
+  applicationId?: string | undefined;
+  /** The object Id of the service principal with which the on-premise management/data plane components would communicate with our Azure services. */
+  objectId?: string | undefined;
+  /** The intended Audience of the service principal with which the on-premise management/data plane components would communicate with our Azure services. */
+  audience?: string | undefined;
+  /** The base authority for Azure Active Directory authentication. */
+  aadAuthority?: string | undefined;
+}
+/** The list of IP addresses for communicating with the RCM component. */
+export type ProcessServerDetailsIpAddressesList = Array<string>;
+/** The throughput status. */
+export type RcmComponentStatus = "Healthy" | "Warning" | "Critical" | "Unknown";
+/** The health. */
+export type ProtectionHealth = "None" | "Normal" | "Warning" | "Critical";
+/** The health errors. */
+export type ProcessServerDetailsHealthErrorsList = Array<HealthError>;
+/** Process server details. */
+export interface ProcessServerDetails {
+  /** The process server Id. */
+  id?: string | undefined;
+  /** The process server name. */
+  name?: string | undefined;
+  /** The process server Bios Id. */
+  biosId?: string | undefined;
+  /** The fabric object Id. */
+  fabricObjectId?: string | undefined;
+  /** The process server Fqdn. */
+  fqdn?: string | undefined;
+  /** The list of IP addresses for communicating with the RCM component. */
+  ipAddresses?: ProcessServerDetailsIpAddressesList | undefined;
+  /** The version. */
+  version?: string | undefined;
+  /** The last heartbeat received from the process server. */
+  lastHeartbeatUtc?: string | undefined;
+  /** The total memory. */
+  totalMemoryInBytes?: number | undefined;
+  /** The available memory. */
+  availableMemoryInBytes?: number | undefined;
+  /** The used memory. */
+  usedMemoryInBytes?: number | undefined;
+  /** The memory usage percentage. */
+  memoryUsagePercentage?: number | undefined;
+  /** The total disk space. */
+  totalSpaceInBytes?: number | undefined;
+  /** The available disk space. */
+  availableSpaceInBytes?: number | undefined;
+  /** The used disk space. */
+  usedSpaceInBytes?: number | undefined;
+  /** The free disk space percentage. */
+  freeSpacePercentage?: number | undefined;
+  /** The uploading pending data in bytes. */
+  throughputUploadPendingDataInBytes?: number | undefined;
+  /** The throughput in bytes. */
+  throughputInBytes?: number | undefined;
+  /** The processor usage percentage. */
+  processorUsagePercentage?: number | undefined;
+  /** The throughput status. */
+  throughputStatus?: RcmComponentStatus | undefined;
+  /** The system load. */
+  systemLoad?: number | undefined;
+  /** The system load status. */
+  systemLoadStatus?: RcmComponentStatus | undefined;
+  /** The disk usage status. */
+  diskUsageStatus?: RcmComponentStatus | undefined;
+  /** The memory usage status. */
+  memoryUsageStatus?: RcmComponentStatus | undefined;
+  /** The processor usage status. */
+  processorUsageStatus?: RcmComponentStatus | undefined;
+  /** The health of the process server. */
+  health?: ProtectionHealth | undefined;
+  /** The health errors. */
+  healthErrors?: ProcessServerDetailsHealthErrorsList | undefined;
+  /** The protected item count. */
+  protectedItemCount?: number | undefined;
+  /** The historic health of the process server based on the health in last 24 hours. */
+  historicHealth?: ProtectionHealth | undefined;
+}
+/** The list of process servers. */
+export type InMageRcmFabricSpecificDetailsProcessServersList = Array<ProcessServerDetails>;
+/** The health errors. */
+export type RcmProxyDetailsHealthErrorsList = Array<HealthError>;
+/** RCM proxy details. */
+export interface RcmProxyDetails {
+  /** The RCM proxy Id. */
+  id?: string | undefined;
+  /** The RCM proxy name. */
+  name?: string | undefined;
+  /** The RCM proxy Bios Id. */
+  biosId?: string | undefined;
+  /** The fabric object Id. */
+  fabricObjectId?: string | undefined;
+  /** The RCM proxy Fqdn. */
+  fqdn?: string | undefined;
+  /** The client authentication type. */
+  clientAuthenticationType?: string | undefined;
+  /** The version. */
+  version?: string | undefined;
+  /** The last heartbeat received from the RCM proxy. */
+  lastHeartbeatUtc?: string | undefined;
+  /** The health of the RCM proxy. */
+  health?: ProtectionHealth | undefined;
+  /** The health errors. */
+  healthErrors?: RcmProxyDetailsHealthErrorsList | undefined;
+}
+/** The list of RCM proxies. */
+export type InMageRcmFabricSpecificDetailsRcmProxiesList = Array<RcmProxyDetails>;
+/** The health errors. */
+export type PushInstallerDetailsHealthErrorsList = Array<HealthError>;
+/** Push installer details. */
+export interface PushInstallerDetails {
+  /** The push installer Id. */
+  id?: string | undefined;
+  /** The push installer name. */
+  name?: string | undefined;
+  /** The push installer Bios Id. */
+  biosId?: string | undefined;
+  /** The fabric object Id. */
+  fabricObjectId?: string | undefined;
+  /** The push installer Fqdn. */
+  fqdn?: string | undefined;
+  /** The version. */
+  version?: string | undefined;
+  /** The last heartbeat received from the push installer. */
+  lastHeartbeatUtc?: string | undefined;
+  /** The health of the push installer. */
+  health?: ProtectionHealth | undefined;
+  /** The health errors. */
+  healthErrors?: PushInstallerDetailsHealthErrorsList | undefined;
+}
+/** The list of push installers. */
+export type InMageRcmFabricSpecificDetailsPushInstallersList = Array<PushInstallerDetails>;
+/** The health errors. */
+export type ReplicationAgentDetailsHealthErrorsList = Array<HealthError>;
+/** Replication agent details. */
+export interface ReplicationAgentDetails {
+  /** The replication agent Id. */
+  id?: string | undefined;
+  /** The replication agent name. */
+  name?: string | undefined;
+  /** The replication agent Bios Id. */
+  biosId?: string | undefined;
+  /** The fabric object Id. */
+  fabricObjectId?: string | undefined;
+  /** The replication agent Fqdn. */
+  fqdn?: string | undefined;
+  /** The version. */
+  version?: string | undefined;
+  /** The last heartbeat received from the replication agent. */
+  lastHeartbeatUtc?: string | undefined;
+  /** The health of the replication agent. */
+  health?: ProtectionHealth | undefined;
+  /** The health errors. */
+  healthErrors?: ReplicationAgentDetailsHealthErrorsList | undefined;
+}
+/** The list of replication agents. */
+export type InMageRcmFabricSpecificDetailsReplicationAgentsList = Array<ReplicationAgentDetails>;
+/** The health errors. */
+export type ReprotectAgentDetailsHealthErrorsList = Array<HealthError>;
+/** The list of accessible datastores fetched from discovery. */
+export type ReprotectAgentDetailsAccessibleDatastoresList = Array<string>;
+/** Reprotect agent details. */
+export interface ReprotectAgentDetails {
+  /** The reprotect agent Id. */
+  id?: string | undefined;
+  /** The reprotect agent name. */
+  name?: string | undefined;
+  /** The reprotect agent Bios Id. */
+  biosId?: string | undefined;
+  /** The fabric object Id. */
+  fabricObjectId?: string | undefined;
+  /** The reprotect agent Fqdn. */
+  fqdn?: string | undefined;
+  /** The version. */
+  version?: string | undefined;
+  /** The last heartbeat received from the reprotect agent. */
+  lastHeartbeatUtc?: string | undefined;
+  /** The health of the reprotect agent. */
+  health?: ProtectionHealth | undefined;
+  /** The health errors. */
+  healthErrors?: ReprotectAgentDetailsHealthErrorsList | undefined;
+  /** The protected item count. */
+  protectedItemCount?: number | undefined;
+  /** The list of accessible datastores fetched from discovery. */
+  accessibleDatastores?: ReprotectAgentDetailsAccessibleDatastoresList | undefined;
+  /** The Vcenter Id. */
+  vcenterId?: string | undefined;
+  /** The last time when SDS information discovered in SRS. */
+  lastDiscoveryInUtc?: string | undefined;
+}
+/** The list of reprotect agents. */
+export type InMageRcmFabricSpecificDetailsReprotectAgentsList = Array<ReprotectAgentDetails>;
+/** The health errors. */
+export type MarsAgentDetailsHealthErrorsList = Array<HealthError>;
+/** Mars agent details. */
+export interface MarsAgentDetails {
+  /** The Mars agent Id. */
+  id?: string | undefined;
+  /** The Mars agent name. */
+  name?: string | undefined;
+  /** The Mars agent Bios Id. */
+  biosId?: string | undefined;
+  /** The fabric object Id. */
+  fabricObjectId?: string | undefined;
+  /** The Mars agent Fqdn. */
+  fqdn?: string | undefined;
+  /** The version. */
+  version?: string | undefined;
+  /** The last heartbeat received from the Mars agent. */
+  lastHeartbeatUtc?: string | undefined;
+  /** The health of the Mars agent. */
+  health?: ProtectionHealth | undefined;
+  /** The health errors. */
+  healthErrors?: MarsAgentDetailsHealthErrorsList | undefined;
+}
+/** The list of Mars agents. */
+export type InMageRcmFabricSpecificDetailsMarsAgentsList = Array<MarsAgentDetails>;
+/** The health errors. */
+export type DraDetailsHealthErrorsList = Array<HealthError>;
+/** DRA details. */
+export interface DraDetails {
+  /** The DRA Id. */
+  id?: string | undefined;
+  /** The DRA name. */
+  name?: string | undefined;
+  /** The DRA Bios Id. */
+  biosId?: string | undefined;
+  /** The version. */
+  version?: string | undefined;
+  /** The last heartbeat received from the DRA. */
+  lastHeartbeatUtc?: string | undefined;
+  /** The health. */
+  health?: ProtectionHealth | undefined;
+  /** The health errors. */
+  healthErrors?: DraDetailsHealthErrorsList | undefined;
+  /** The count of protected items which are protected in forward direction. */
+  forwardProtectedItemCount?: number | undefined;
+  /** The count of protected items which are protected in reverse direction. */
+  reverseProtectedItemCount?: number | undefined;
+}
+/** The list of DRAs. */
+export type InMageRcmFabricSpecificDetailsDrasList = Array<DraDetails>;
+/** Agent disk details. */
+export interface AgentDiskDetails {
+  /** The disk Id. */
+  diskId?: string | undefined;
+  /** The disk name. */
+  diskName?: string | undefined;
+  /** A value indicating whether the disk is the OS disk. */
+  isOSDisk?: string | undefined;
+  /** The disk capacity in bytes. */
+  capacityInBytes?: number | undefined;
+  /** The lun of disk. */
+  lunId?: number | undefined;
+}
+/** The disks. */
+export type AgentDetailsDisksList = Array<AgentDiskDetails>;
+/** Agent details. */
+export interface AgentDetails {
+  /** The Id of the agent running on the server. */
+  agentId?: string | undefined;
+  /** The Id of the machine to which the agent is registered. */
+  machineId?: string | undefined;
+  /** The machine BIOS Id. */
+  biosId?: string | undefined;
+  /** The machine FQDN. */
+  fqdn?: string | undefined;
+  /** The disks. */
+  disks?: AgentDetailsDisksList | undefined;
+}
+/** The list of agent details. */
+export type InMageRcmFabricSpecificDetailsAgentDetailsList = Array<AgentDetails>;
+/** InMageRcm fabric specific details. */
+export interface InMageRcmFabricSpecificDetails {
+  /** Gets the class type. Overridden in derived classes. */
+  instanceType: InMageRcmFabricSpecificDetailsInstanceType;
+  /** The ARM Id of the VMware site. */
+  vmwareSiteId?: string | undefined;
+  /** The ARM Id of the physical site. */
+  physicalSiteId?: string | undefined;
+  /** The service endpoint. */
+  serviceEndpoint?: string | undefined;
+  /** The service resource Id. */
+  serviceResourceId?: string | undefined;
+  /** The service container Id. */
+  serviceContainerId?: string | undefined;
+  /** The data plane Uri. */
+  dataPlaneUri?: string | undefined;
+  /** The control plane Uri. */
+  controlPlaneUri?: string | undefined;
+  /** The source agent identity details. */
+  sourceAgentIdentityDetails?: IdentityProviderDetails | undefined;
+  /** The list of process servers. */
+  processServers?: InMageRcmFabricSpecificDetailsProcessServersList | undefined;
+  /** The list of RCM proxies. */
+  rcmProxies?: InMageRcmFabricSpecificDetailsRcmProxiesList | undefined;
+  /** The list of push installers. */
+  pushInstallers?: InMageRcmFabricSpecificDetailsPushInstallersList | undefined;
+  /** The list of replication agents. */
+  replicationAgents?: InMageRcmFabricSpecificDetailsReplicationAgentsList | undefined;
+  /** The list of reprotect agents. */
+  reprotectAgents?: InMageRcmFabricSpecificDetailsReprotectAgentsList | undefined;
+  /** The list of Mars agents. */
+  marsAgents?: InMageRcmFabricSpecificDetailsMarsAgentsList | undefined;
+  /** The list of DRAs. */
+  dras?: InMageRcmFabricSpecificDetailsDrasList | undefined;
+  /** The list of agent details. */
+  agentDetails?: InMageRcmFabricSpecificDetailsAgentDetailsList | undefined;
+}
+/** Gets the class type. Overridden in derived classes. */
+export type VMwareDetailsInstanceType = "VMware";
+/** The Mobility Service update details. */
+export interface MobilityServiceUpdate {
+  /** The version of the latest update. */
+  version?: string | undefined;
+  /** The reboot status of the update - whether it is required or not. */
+  rebootStatus?: string | undefined;
+  /** The OS type. */
+  osType?: string | undefined;
+}
+/** The list of the mobility service updates available on the Process Server. */
+export type ProcessServerMobilityServiceUpdatesList = Array<MobilityServiceUpdate>;
+/** Health errors. */
+export type ProcessServerHealthErrorsList = Array<HealthError>;
+/** A value indicating whether security update required. */
+export type AgentVersionStatus =
+  | "Supported"
+  | "NotSupported"
+  | "Deprecated"
+  | "UpdateRequired"
+  | "SecurityUpdateRequired";
+/** Version related details. */
+export interface VersionDetails {
+  /** The agent version. */
+  version?: string | undefined;
+  /** Version expiry date. */
+  expiryDate?: string | undefined;
+  /** A value indicating whether security update required. */
+  status?: AgentVersionStatus | undefined;
+}
+/** Details of the Process Server. */
+export interface ProcessServer {
+  /** The Process Server's friendly name. */
+  friendlyName?: string | undefined;
+  /** The Process Server Id. */
+  id?: string | undefined;
+  /** The IP address of the server. */
+  ipAddress?: string | undefined;
+  /** The OS type of the server. */
+  osType?: string | undefined;
+  /** The version of the scout component on the server. */
+  agentVersion?: string | undefined;
+  /** The last heartbeat received from the server. */
+  lastHeartbeat?: string | undefined;
+  /** Version status. */
+  versionStatus?: string | undefined;
+  /** The list of the mobility service updates available on the Process Server. */
+  mobilityServiceUpdates?: ProcessServerMobilityServiceUpdatesList | undefined;
+  /** The agent generated Id. */
+  hostId?: string | undefined;
+  /** The servers configured with this PS. */
+  machineCount?: string | undefined;
+  /** The number of replication pairs configured in this PS. */
+  replicationPairCount?: string | undefined;
+  /** The percentage of the system load. */
+  systemLoad?: string | undefined;
+  /** The system load status. */
+  systemLoadStatus?: string | undefined;
+  /** The percentage of the CPU load. */
+  cpuLoad?: string | undefined;
+  /** The CPU load status. */
+  cpuLoadStatus?: string | undefined;
+  /** The total memory. */
+  totalMemoryInBytes?: number | undefined;
+  /** The available memory. */
+  availableMemoryInBytes?: number | undefined;
+  /** The memory usage status. */
+  memoryUsageStatus?: string | undefined;
+  /** The total space. */
+  totalSpaceInBytes?: number | undefined;
+  /** The available space. */
+  availableSpaceInBytes?: number | undefined;
+  /** The space usage status. */
+  spaceUsageStatus?: string | undefined;
+  /** The PS service status. */
+  psServiceStatus?: string | undefined;
+  /** The PS SSL cert expiry date. */
+  sslCertExpiryDate?: string | undefined;
+  /** CS SSL cert expiry date. */
+  sslCertExpiryRemainingDays?: number | undefined;
+  /** OS Version of the process server. Note: This will get populated if user has CS version greater than 9.12.0.0. */
+  osVersion?: string | undefined;
+  /** Health errors. */
+  healthErrors?: ProcessServerHealthErrorsList | undefined;
+  /** Agent expiry date. */
+  agentExpiryDate?: string | undefined;
+  /** The agent version details. */
+  agentVersionDetails?: VersionDetails | undefined;
+  /** The health of Process Server. */
+  health?: ProtectionHealth | undefined;
+  /** The process server stats refresh time. */
+  psStatsRefreshTime?: string | undefined;
+  /** The uploading pending data in bytes. */
+  throughputUploadPendingDataInBytes?: number | undefined;
+  /** The throughput in MBps. */
+  throughputInMBps?: number | undefined;
+  /** The throughput in bytes. */
+  throughputInBytes?: number | undefined;
+  /** The throughput status. */
+  throughputStatus?: string | undefined;
+  /** The MARS communication status. */
+  marsCommunicationStatus?: string | undefined;
+  /** The MARS registration status. */
+  marsRegistrationStatus?: string | undefined;
+}
+/** The list of Process Servers associated with the fabric. */
+export type VMwareDetailsProcessServersList = Array<ProcessServer>;
+/** The retention details of the MT. */
+export interface RetentionVolume {
+  /** The volume name. */
+  volumeName?: string | undefined;
+  /** The volume capacity. */
+  capacityInBytes?: number | undefined;
+  /** The free space available in this volume. */
+  freeSpaceInBytes?: number | undefined;
+  /** The threshold percentage. */
+  thresholdPercentage?: number | undefined;
+}
+/** The retention volumes of Master target Server. */
+export type MasterTargetServerRetentionVolumesList = Array<RetentionVolume>;
+/** The datastore details of the MT. */
+export interface DataStore {
+  /** The symbolic name of data store. */
+  symbolicName?: string | undefined;
+  /** The uuid of data store. */
+  uuid?: string | undefined;
+  /** The capacity of data store in GBs. */
+  capacity?: string | undefined;
+  /** The free space of data store in GBs. */
+  freeSpace?: string | undefined;
+  /** The type of data store. */
+  type?: string | undefined;
+}
+/** The list of data stores in the fabric. */
+export type MasterTargetServerDataStoresList = Array<DataStore>;
+/** Validation errors. */
+export type MasterTargetServerValidationErrorsList = Array<HealthError>;
+/** Health errors. */
+export type MasterTargetServerHealthErrorsList = Array<HealthError>;
+/** Details of a Master Target Server. */
+export interface MasterTargetServer {
+  /** The server Id. */
+  id?: string | undefined;
+  /** The IP address of the server. */
+  ipAddress?: string | undefined;
+  /** The server name. */
+  name?: string | undefined;
+  /** The OS type of the server. */
+  osType?: string | undefined;
+  /** The version of the scout component on the server. */
+  agentVersion?: string | undefined;
+  /** The last heartbeat received from the server. */
+  lastHeartbeat?: string | undefined;
+  /** Version status. */
+  versionStatus?: string | undefined;
+  /** The retention volumes of Master target Server. */
+  retentionVolumes?: MasterTargetServerRetentionVolumesList | undefined;
+  /** The list of data stores in the fabric. */
+  dataStores?: MasterTargetServerDataStoresList | undefined;
+  /** Validation errors. */
+  validationErrors?: MasterTargetServerValidationErrorsList | undefined;
+  /** Health errors. */
+  healthErrors?: MasterTargetServerHealthErrorsList | undefined;
+  /** Disk count of the master target. */
+  diskCount?: number | undefined;
+  /** OS Version of the master target. */
+  osVersion?: string | undefined;
+  /** Agent expiry date. */
+  agentExpiryDate?: string | undefined;
+  /** MARS agent version. */
+  marsAgentVersion?: string | undefined;
+  /** MARS agent expiry date. */
+  marsAgentExpiryDate?: string | undefined;
+  /** Agent version details. */
+  agentVersionDetails?: VersionDetails | undefined;
+  /** Mars agent version details. */
+  marsAgentVersionDetails?: VersionDetails | undefined;
+}
+/** The list of Master Target servers associated with the fabric. */
+export type VMwareDetailsMasterTargetServersList = Array<MasterTargetServer>;
+/** CS Accounts Details. */
+export interface RunAsAccount {
+  /** The CS RunAs account Id. */
+  accountId?: string | undefined;
+  /** The CS RunAs account name. */
+  accountName?: string | undefined;
+}
+/** The list of run as accounts created on the server. */
+export type VMwareDetailsRunAsAccountsList = Array<RunAsAccount>;
+/** The error message parameters. */
+export type InMageFabricSwitchProviderBlockingErrorDetailsErrorMessageParametersMap = {
+  [key: string]: string | undefined;
+};
+/** The error tags. */
+export type InMageFabricSwitchProviderBlockingErrorDetailsErrorTagsMap = {
+  [key: string]: string | undefined;
+};
+/** InMageFabric switch provider blocking error details. */
+export interface InMageFabricSwitchProviderBlockingErrorDetails {
+  /** The error code. */
+  errorCode?: string | undefined;
+  /** The error message. */
+  errorMessage?: string | undefined;
+  /** The possible causes. */
+  possibleCauses?: string | undefined;
+  /** The recommended action. */
+  recommendedAction?: string | undefined;
+  /** The error message parameters. */
+  errorMessageParameters?:
+    | InMageFabricSwitchProviderBlockingErrorDetailsErrorMessageParametersMap
+    | undefined;
+  /** The error tags. */
+  errorTags?: InMageFabricSwitchProviderBlockingErrorDetailsErrorTagsMap | undefined;
+}
+/** The switch provider blocking error information. */
+export type VMwareDetailsSwitchProviderBlockingErrorDetailsList =
+  Array<InMageFabricSwitchProviderBlockingErrorDetails>;
+/** Store the fabric details specific to the VMware fabric. */
+export interface VMwareDetails {
+  /** Gets the class type. Overridden in derived classes. */
+  instanceType: VMwareDetailsInstanceType;
+  /** The list of Process Servers associated with the fabric. */
+  processServers?: VMwareDetailsProcessServersList | undefined;
+  /** The list of Master Target servers associated with the fabric. */
+  masterTargetServers?: VMwareDetailsMasterTargetServersList | undefined;
+  /** The list of run as accounts created on the server. */
+  runAsAccounts?: VMwareDetailsRunAsAccountsList | undefined;
+  /** The number of replication pairs configured in this CS. */
+  replicationPairCount?: string | undefined;
+  /** The number of process servers. */
+  processServerCount?: string | undefined;
+  /** The number of source and target servers configured to talk to this CS. */
+  agentCount?: string | undefined;
+  /** The number of protected servers. */
+  protectedServers?: string | undefined;
+  /** The percentage of the system load. */
+  systemLoad?: string | undefined;
+  /** The system load status. */
+  systemLoadStatus?: string | undefined;
+  /** The percentage of the CPU load. */
+  cpuLoad?: string | undefined;
+  /** The CPU load status. */
+  cpuLoadStatus?: string | undefined;
+  /** The total memory. */
+  totalMemoryInBytes?: number | undefined;
+  /** The available memory. */
+  availableMemoryInBytes?: number | undefined;
+  /** The memory usage status. */
+  memoryUsageStatus?: string | undefined;
+  /** The total space. */
+  totalSpaceInBytes?: number | undefined;
+  /** The available space. */
+  availableSpaceInBytes?: number | undefined;
+  /** The space usage status. */
+  spaceUsageStatus?: string | undefined;
+  /** The web load. */
+  webLoad?: string | undefined;
+  /** The web load status. */
+  webLoadStatus?: string | undefined;
+  /** The database server load. */
+  databaseServerLoad?: string | undefined;
+  /** The database server load status. */
+  databaseServerLoadStatus?: string | undefined;
+  /** The CS service status. */
+  csServiceStatus?: string | undefined;
+  /** The IP address. */
+  ipAddress?: string | undefined;
+  /** The agent Version. */
+  agentVersion?: string | undefined;
+  /** The host name. */
+  hostName?: string | undefined;
+  /** The last heartbeat received from CS server. */
+  lastHeartbeat?: string | undefined;
+  /** Version status. */
+  versionStatus?: string | undefined;
+  /** CS SSL cert expiry date. */
+  sslCertExpiryDate?: string | undefined;
+  /** CS SSL cert expiry date. */
+  sslCertExpiryRemainingDays?: number | undefined;
+  /** PS template version. */
+  psTemplateVersion?: string | undefined;
+  /** Agent expiry date. */
+  agentExpiryDate?: string | undefined;
+  /** The agent version details. */
+  agentVersionDetails?: VersionDetails | undefined;
+  /** The switch provider blocking error information. */
+  switchProviderBlockingErrorDetails?:
+    | VMwareDetailsSwitchProviderBlockingErrorDetailsList
+    | undefined;
+}
+/** Gets the class type. Overridden in derived classes. */
+export type VMwareV2FabricSpecificDetailsInstanceType = "VMwareV2";
+/** The list of process servers. */
+export type VMwareV2FabricSpecificDetailsProcessServersList = Array<ProcessServerDetails>;
+/** VMwareV2 fabric specific details. */
+export interface VMwareV2FabricSpecificDetails {
+  /** Gets the class type. Overridden in derived classes. */
+  instanceType: VMwareV2FabricSpecificDetailsInstanceType;
+  /** The ARM Id of the VMware site. */
+  vmwareSiteId?: string | undefined;
+  /** The ARM Id of the physical site. */
+  physicalSiteId?: string | undefined;
+  /** The Migration solution ARM Id. */
+  migrationSolutionId?: string | undefined;
+  /** The service endpoint. */
+  serviceEndpoint?: string | undefined;
+  /** The service resource Id. */
+  serviceResourceId?: string | undefined;
+  /** The service container Id. */
+  serviceContainerId?: string | undefined;
+  /** The list of process servers. */
+  processServers?: VMwareV2FabricSpecificDetailsProcessServersList | undefined;
+}
+/** Gets the class type. Overridden in derived classes. */
+export type VmmDetailsInstanceType = "VMM";
+/** Fabric specific details. */
+export interface VmmDetails {
+  /** Gets the class type. Overridden in derived classes. */
+  instanceType: VmmDetailsInstanceType;
+}
+/** Fabric specific details. */
+export type FabricSpecificDetails =
+  | AzureFabricSpecificDetails
+  | HyperVSiteDetails
+  | InMageRcmFabricSpecificDetails
+  | VMwareDetails
+  | VMwareV2FabricSpecificDetails
+  | VmmDetails;
 /** Fabric health error details. */
 export type FabricPropertiesHealthErrorDetailsList = Array<HealthError>;
 /** Fabric properties. */
@@ -804,8 +4029,8 @@ export interface FabricProperties {
   internalIdentifier?: string | undefined;
   /** BCDR state of the fabric. */
   bcdrState?: string | undefined;
-  /** Fabric specific settings. Polymorphic on `instanceType` (e.g. `{ instanceType: "A2A", ... }`). */
-  customDetails?: unknown | undefined;
+  /** Fabric specific settings. */
+  customDetails?: FabricSpecificDetails | undefined;
   /** Fabric health error details. */
   healthErrorDetails?: FabricPropertiesHealthErrorDetailsList | undefined;
   /** Health of fabric. */
@@ -969,10 +4194,63 @@ export interface CreateReplicationAlertSettingsResponse {
   /** Resource Location */
   location?: string | undefined;
 }
+/** Gets the class type. */
+export type AzureFabricCreationInputInstanceType = "Azure";
+/** Fabric provider specific settings. */
+export interface AzureFabricCreationInput {
+  /** Gets the class type. */
+  instanceType: AzureFabricCreationInputInstanceType;
+  /** The Location. */
+  location?: string | undefined;
+}
+/** Gets the class type. */
+export type InMageRcmFabricCreationInputInstanceType = "InMageRcm";
+/** Identity provider input. */
+export interface IdentityProviderInput {
+  /** The tenant Id for the service principal with which the on-premise management/data plane components would communicate with our Azure services. */
+  tenantId: string;
+  /** The application/client Id for the service principal with which the on-premise management/data plane components would communicate with our Azure services. */
+  applicationId: string;
+  /** The object Id of the service principal with which the on-premise management/data plane components would communicate with our Azure services. */
+  objectId: string;
+  /** The intended Audience of the service principal with which the on-premise management/data plane components would communicate with our Azure services. */
+  audience: string;
+  /** The base authority for Azure Active Directory authentication. */
+  aadAuthority: string;
+}
+/** InMageRcm fabric provider specific settings. */
+export interface InMageRcmFabricCreationInput {
+  /** Gets the class type. */
+  instanceType: InMageRcmFabricCreationInputInstanceType;
+  /** The ARM Id of the VMware site. */
+  vmwareSiteId: string;
+  /** The ARM Id of the physical site. */
+  physicalSiteId: string;
+  /** The identity provider input for source agent authentication. */
+  sourceAgentIdentity: IdentityProviderInput;
+}
+/** Gets the class type. */
+export type VMwareV2FabricCreationInputInstanceType = "VMwareV2";
+/** VMwareV2 fabric provider specific settings. */
+export interface VMwareV2FabricCreationInput {
+  /** Gets the class type. */
+  instanceType: VMwareV2FabricCreationInputInstanceType;
+  /** The ARM Id of the VMware site. */
+  vmwareSiteId?: string | undefined;
+  /** The ARM Id of the physical site. */
+  physicalSiteId?: string | undefined;
+  /** The ARM Id of the migration solution. */
+  migrationSolutionId: string;
+}
+/** Fabric provider specific settings. */
+export type FabricSpecificCreationInput =
+  | AzureFabricCreationInput
+  | InMageRcmFabricCreationInput
+  | VMwareV2FabricCreationInput;
 /** Properties of site details provided during the time of site creation. */
 export interface FabricCreationInputProperties {
-  /** Fabric provider specific creation input. Polymorphic on `instanceType` (e.g. `{ instanceType: "A2A", ... }`). */
-  customDetails?: unknown | undefined;
+  /** Fabric provider specific creation input. */
+  customDetails?: FabricSpecificCreationInput | undefined;
 }
 export interface CreateReplicationFabricRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1004,14 +4282,127 @@ export interface CreateReplicationFabricResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number | undefined;
 }
-/** Enable migration provider specific input. */
-export type EnableMigrationProviderSpecificInput = AddDisksProviderSpecificInput;
+/** The class type. */
+export type VMwareCbtEnableMigrationInputInstanceType = "VMwareCbt";
+/** VMwareCbt disk input. */
+export interface VMwareCbtDiskInput {
+  /** The disk Id. */
+  diskId: string;
+  /** The disk type. */
+  diskType?: DiskAccountType | (string & {}) | undefined;
+  /** A value indicating whether the disk is the OS disk. */
+  isOSDisk: string;
+  /** The log storage account ARM Id. */
+  logStorageAccountId: string;
+  /** The key vault secret name of the log storage account. */
+  logStorageAccountSasSecretName: string;
+  /** The DiskEncryptionSet ARM Id. */
+  diskEncryptionSetId?: string | undefined;
+  /** The ConfidentialDiskEncryptionSet ARM Id. */
+  confidentialDiskEncryptionSetId?: string | undefined;
+  /** The logical sector size (in bytes), 512 by default. */
+  sectorSizeInBytes?: number | undefined;
+  /** The number of IOPS allowed for Premium V2 and Ultra disks. */
+  iops?: number | undefined;
+  /** The total throughput in Mbps for Premium V2 and Ultra disks. */
+  throughputInMbps?: number | undefined;
+  /** The target disk size in GB. */
+  diskSizeInGB?: number | undefined;
+}
+/** The disks to include list. */
+export type VMwareCbtEnableMigrationInputDisksToIncludeList = Array<VMwareCbtDiskInput>;
+/** License type. */
+export type LicenseType = "NotSpecified" | "NoLicenseType" | "WindowsServer";
+/** The SQL Server license type. */
+export type SqlServerLicenseType = "NotSpecified" | "NoLicenseType" | "PAYG" | "AHUB";
+/** VMwareCbt security profile input. */
+export interface VMwareCbtSecurityProfileProperties {
+  /** The target VM security type. */
+  targetVmSecurityType?: SecurityType | (string & {}) | undefined;
+  /** A value indicating whether secure boot to be enabled. */
+  isTargetVmSecureBootEnabled?: string | undefined;
+  /** A value indicating whether trusted platform module to be enabled. */
+  isTargetVmTpmEnabled?: string | undefined;
+  /** A value indicating whether integrity monitoring to be enabled. */
+  isTargetVmIntegrityMonitoringEnabled?: string | undefined;
+  /** A value indicating whether confidential compute encryption to be enabled. */
+  isTargetVmConfidentialEncryptionEnabled?: string | undefined;
+}
+/** The target VM tags. */
+export type VMwareCbtEnableMigrationInputTargetVmTagsMap = { [key: string]: string | undefined };
+/** The tags for the seed disks. */
+export type VMwareCbtEnableMigrationInputSeedDiskTagsMap = { [key: string]: string | undefined };
+/** The tags for the target disks. */
+export type VMwareCbtEnableMigrationInputTargetDiskTagsMap = { [key: string]: string | undefined };
+/** The tags for the target NICs. */
+export type VMwareCbtEnableMigrationInputTargetNicTagsMap = { [key: string]: string | undefined };
+/** VMwareCbt specific enable migration input. */
+export interface VMwareCbtEnableMigrationInput {
+  /** The class type. */
+  instanceType: VMwareCbtEnableMigrationInputInstanceType | (string & {});
+  /** The ARM Id of the VM discovered in VMware. */
+  vmwareMachineId: string;
+  /** The disks to include list. */
+  disksToInclude: VMwareCbtEnableMigrationInputDisksToIncludeList;
+  /** License type. */
+  licenseType?: LicenseType | (string & {}) | undefined;
+  /** The SQL Server license type. */
+  sqlServerLicenseType?: SqlServerLicenseType | (string & {}) | undefined;
+  /** The license type for Linux VM's. */
+  linuxLicenseType?: LinuxLicenseType | (string & {}) | undefined;
+  /** A value indicating whether bulk SQL RP registration to be done. */
+  performSqlBulkRegistration?: string | undefined;
+  /** The data mover run as account Id. */
+  dataMoverRunAsAccountId: string;
+  /** The snapshot run as account Id. */
+  snapshotRunAsAccountId: string;
+  /** The target VM name. */
+  targetVmName?: string | undefined;
+  /** The target VM size. */
+  targetVmSize?: string | undefined;
+  /** The target resource group ARM Id. */
+  targetResourceGroupId: string;
+  /** The target network ARM Id. */
+  targetNetworkId: string;
+  /** The selected test network ARM Id. */
+  testNetworkId?: string | undefined;
+  /** The target subnet name. */
+  targetSubnetName?: string | undefined;
+  /** The selected test subnet name. */
+  testSubnetName?: string | undefined;
+  /** The target availability set ARM Id. */
+  targetAvailabilitySetId?: string | undefined;
+  /** The target availability zone. */
+  targetAvailabilityZone?: string | undefined;
+  /** The target proximity placement group ARM Id. */
+  targetProximityPlacementGroupId?: string | undefined;
+  /** The confidential VM key vault Id for ADE installation. */
+  confidentialVmKeyVaultId?: string | undefined;
+  /** The target VM security profile. */
+  targetVmSecurityProfile?: VMwareCbtSecurityProfileProperties | undefined;
+  /** The target boot diagnostics storage account ARM Id. */
+  targetBootDiagnosticsStorageAccountId?: string | undefined;
+  /** A value indicating whether auto resync is to be done. */
+  performAutoResync?: string | undefined;
+  /** The target VM tags. */
+  targetVmTags?: VMwareCbtEnableMigrationInputTargetVmTagsMap | undefined;
+  /** The tags for the seed disks. */
+  seedDiskTags?: VMwareCbtEnableMigrationInputSeedDiskTagsMap | undefined;
+  /** The tags for the target disks. */
+  targetDiskTags?: VMwareCbtEnableMigrationInputTargetDiskTagsMap | undefined;
+  /** The tags for the target NICs. */
+  targetNicTags?: VMwareCbtEnableMigrationInputTargetNicTagsMap | undefined;
+  /** The OS name selected by user. */
+  userSelectedOSName?: string | undefined;
+  /** The target capacity reservation group ARM Id. */
+  targetCapacityReservationGroupId?: string | undefined;
+}
 /** Enable migration input properties. */
 export interface EnableMigrationInputProperties {
   /** The policy Id. */
   policyId: string;
   /** The provider specific details. */
-  providerSpecificDetails: AddDisksProviderSpecificInput;
+  providerSpecificDetails: VMwareCbtEnableMigrationInput;
 }
 export interface CreateReplicationMigrationItemRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1057,8 +4448,6 @@ export type TestMigrationState =
   | "TestMigrationCleanupInProgress"
   | "TestMigrationCompletedWithInformation"
   | "TestMigrationPartiallySucceeded";
-/** The health. */
-export type ProtectionHealth = "None" | "Normal" | "Warning" | "Critical";
 /** The list of health errors. */
 export type MigrationItemPropertiesHealthErrorsList = Array<HealthError>;
 /** The allowed operations on the migration item based on the current migration state of the item. */
@@ -1094,10 +4483,258 @@ export interface CriticalJobHistoryDetails {
 }
 /** The critical past job details. */
 export type MigrationItemPropertiesCriticalJobHistoryList = Array<CriticalJobHistoryDetails>;
-/** Migration provider specific settings. */
-export interface MigrationProviderSpecificSettings {
+/** Gets the instance type. */
+export type VMwareCbtMigrationDetailsInstanceType = "VMwareCbt";
+/** The target VM tags. */
+export type VMwareCbtMigrationDetailsTargetVmTagsMap = { [key: string]: string | undefined };
+/** A value indicating the datastore collection. */
+export type GatewayOperationDetailsDataStoresList = Array<string>;
+/** Details of the gateway operation. */
+export interface GatewayOperationDetails {
+  /** A value indicating the state of gateway operation. */
+  state?: string | undefined;
+  /** A value indicating the progress percentage of gateway operation. */
+  progressPercentage?: number | undefined;
+  /** A value indicating the time elapsed for the operation in milliseconds. */
+  timeElapsed?: number | undefined;
+  /** A value indicating the time remaining for the operation in milliseconds. */
+  timeRemaining?: number | undefined;
+  /** A value indicating the upload speed in bytes per second. */
+  uploadSpeed?: number | undefined;
+  /** A value indicating the ESXi host name. */
+  hostName?: string | undefined;
+  /** A value indicating the datastore collection. */
+  dataStores?: GatewayOperationDetailsDataStoresList | undefined;
+  /** A value indicating the VMware read throughput in bytes per second. */
+  vmwareReadThroughput?: number | undefined;
+}
+/** VMwareCbt protected disk details. */
+export interface VMwareCbtProtectedDiskDetails {
+  /** The disk id. */
+  diskId?: string | undefined;
+  /** The disk name. */
+  diskName?: string | undefined;
+  /** The disk type. */
+  diskType?: DiskAccountType | undefined;
+  /** The disk path. */
+  diskPath?: string | undefined;
+  /** A value indicating whether the disk is the OS disk. */
+  isOSDisk?: string | undefined;
+  /** The disk capacity in bytes. */
+  capacityInBytes?: number | undefined;
+  /** The log storage account ARM Id. */
+  logStorageAccountId?: string | undefined;
+  /** The key vault secret name of the log storage account. */
+  logStorageAccountSasSecretName?: string | undefined;
+  /** The DiskEncryptionSet ARM Id. */
+  diskEncryptionSetId?: string | undefined;
+  /** The ConfidentialDiskEncryptionSet ARM Id. */
+  confidentialDiskEncryptionSetId?: string | undefined;
+  /** The ARM Id of the seed managed disk. */
+  seedManagedDiskId?: string | undefined;
+  /** The uri of the seed blob. */
+  seedBlobUri?: string | undefined;
+  /** The ARM Id of the target managed disk. */
+  targetManagedDiskId?: string | undefined;
+  /** The uri of the target blob. */
+  targetBlobUri?: string | undefined;
+  /** The name for the target managed disk. */
+  targetDiskName?: string | undefined;
+  /** A value indicating the gateway operation details. */
+  gatewayOperationDetails?: GatewayOperationDetails | undefined;
+  /** The logical sector size (in bytes), 512 by default. */
+  sectorSizeInBytes?: number | undefined;
+  /** The number of IOPS allowed for Premium V2 and Ultra disks. */
+  iops?: number | undefined;
+  /** The total throughput in Mbps for Premium V2 and Ultra disks. */
+  throughputInMbps?: number | undefined;
+  /** The target disk size in GB. */
+  diskSizeInGB?: number | undefined;
+}
+/** The list of protected disks. */
+export type VMwareCbtMigrationDetailsProtectedDisksList = Array<VMwareCbtProtectedDiskDetails>;
+/** VMwareCbt NIC details. */
+export interface VMwareCbtNicDetails {
+  /** The NIC Id. */
+  nicId?: string | undefined;
+  /** A value indicating whether this is the primary NIC. */
+  isPrimaryNic?: string | undefined;
+  /** The source IP address. */
+  sourceIPAddress?: string | undefined;
+  /** The source IP address type. */
+  sourceIPAddressType?: EthernetAddressType | undefined;
+  /** Source network Id. */
+  sourceNetworkId?: string | undefined;
+  /** The target IP address. */
+  targetIPAddress?: string | undefined;
+  /** The target IP address type. */
+  targetIPAddressType?: EthernetAddressType | undefined;
+  /** Target subnet name. */
+  targetSubnetName?: string | undefined;
+  /** Source network Id. */
+  testNetworkId?: string | undefined;
+  /** Test subnet name. */
+  testSubnetName?: string | undefined;
+  /** The test IP address. */
+  testIPAddress?: string | undefined;
+  /** The test IP address type. */
+  testIPAddressType?: EthernetAddressType | undefined;
+  /** Target NIC name. */
+  targetNicName?: string | undefined;
+  /** A value indicating whether this NIC is selected for migration. */
+  isSelectedForMigration?: string | undefined;
+}
+/** The network details. */
+export type VMwareCbtMigrationDetailsVmNicsList = Array<VMwareCbtNicDetails>;
+/** The tags for the target NICs. */
+export type VMwareCbtMigrationDetailsTargetNicTagsMap = { [key: string]: string | undefined };
+/** The tags for the seed disks. */
+export type VMwareCbtMigrationDetailsSeedDiskTagsMap = { [key: string]: string | undefined };
+/** The tags for the target disks. */
+export type VMwareCbtMigrationDetailsTargetDiskTagsMap = { [key: string]: string | undefined };
+/** A value indicating the inplace OS Upgrade version. */
+export type VMwareCbtMigrationDetailsSupportedOSVersionsList = Array<string>;
+/** Details of the appliance resource. */
+export interface ApplianceResourceDetails {
+  /** A value indicating the total capacity of appliance resource. */
+  capacity?: number | undefined;
+  /** A value indicating the utilization percentage by gateway agent on appliance. */
+  processUtilization?: number | undefined;
+  /** A value indicating the total utilization percentage for all processes on the appliance. */
+  totalUtilization?: number | undefined;
+  /** A value indicating the status of appliance resource. */
+  status?: string | undefined;
+}
+/** Details of the appliance resource. */
+export interface DataStoreUtilizationDetails {
+  /** The total count of snapshots supported by the datastore. */
+  totalSnapshotsSupported?: number | undefined;
+  /** The total snapshots created for server migration in the datastore. */
+  totalSnapshotsCreated?: number | undefined;
+  /** The datastore name. */
+  dataStoreName?: string | undefined;
+}
+/** The appliance datastore snapshot details. */
+export type ApplianceMonitoringDetailsDatastoreSnapshotList = Array<DataStoreUtilizationDetails>;
+/** Appliance details of the migration item. */
+export interface ApplianceMonitoringDetails {
+  /** The appliance CPU details. */
+  cpuDetails?: ApplianceResourceDetails | undefined;
+  /** The appliance RAM details. */
+  ramDetails?: ApplianceResourceDetails | undefined;
+  /** The appliance datastore snapshot details. */
+  datastoreSnapshot?: ApplianceMonitoringDetailsDatastoreSnapshotList | undefined;
+  /** The disk replication details. */
+  disksReplicationDetails?: ApplianceResourceDetails | undefined;
+  /** The ESXi NFC buffer details. */
+  esxiNfcBuffer?: ApplianceResourceDetails | undefined;
+  /** The appliance network bandwidth details. */
+  networkBandwidth?: ApplianceResourceDetails | undefined;
+}
+/** VMwareCbt provider specific settings. */
+export interface VMwareCbtMigrationDetails {
   /** Gets the instance type. */
-  instanceType: string;
+  instanceType: VMwareCbtMigrationDetailsInstanceType;
+  /** The ARM Id of the VM discovered in VMware. */
+  vmwareMachineId?: string | undefined;
+  /** The type of the OS on the VM. */
+  osType?: string | undefined;
+  /** The name of the OS on the VM. */
+  osName?: string | undefined;
+  /** The firmware type. */
+  firmwareType?: string | undefined;
+  /** The target generation. */
+  targetGeneration?: string | undefined;
+  /** License Type of the VM to be used. */
+  licenseType?: string | undefined;
+  /** The SQL Server license type. */
+  sqlServerLicenseType?: string | undefined;
+  /** The license type for Linux VM's. */
+  linuxLicenseType?: LinuxLicenseType | undefined;
+  /** The data mover run as account Id. */
+  dataMoverRunAsAccountId?: string | undefined;
+  /** The snapshot run as account Id. */
+  snapshotRunAsAccountId?: string | undefined;
+  /** The replication storage account ARM Id. This is applicable only for the blob based replication test hook. */
+  storageAccountId?: string | undefined;
+  /** Target VM name. */
+  targetVmName?: string | undefined;
+  /** The target VM size. */
+  targetVmSize?: string | undefined;
+  /** The target location. */
+  targetLocation?: string | undefined;
+  /** The target resource group Id. */
+  targetResourceGroupId?: string | undefined;
+  /** The target availability set Id. */
+  targetAvailabilitySetId?: string | undefined;
+  /** The target availability zone. */
+  targetAvailabilityZone?: string | undefined;
+  /** The target proximity placement group Id. */
+  targetProximityPlacementGroupId?: string | undefined;
+  /** The confidential VM key vault Id for ADE installation. */
+  confidentialVmKeyVaultId?: string | undefined;
+  /** The target VM security profile. */
+  targetVmSecurityProfile?: VMwareCbtSecurityProfileProperties | undefined;
+  /** The target boot diagnostics storage account ARM Id. */
+  targetBootDiagnosticsStorageAccountId?: string | undefined;
+  /** The target VM tags. */
+  targetVmTags?: VMwareCbtMigrationDetailsTargetVmTagsMap | undefined;
+  /** The list of protected disks. */
+  protectedDisks?: VMwareCbtMigrationDetailsProtectedDisksList | undefined;
+  /** The target network Id. */
+  targetNetworkId?: string | undefined;
+  /** The test network Id. */
+  testNetworkId?: string | undefined;
+  /** The network details. */
+  vmNics?: VMwareCbtMigrationDetailsVmNicsList | undefined;
+  /** The tags for the target NICs. */
+  targetNicTags?: VMwareCbtMigrationDetailsTargetNicTagsMap | undefined;
+  /** The recovery point Id to which the VM was migrated. */
+  migrationRecoveryPointId?: string | undefined;
+  /** The last recovery point received time. */
+  lastRecoveryPointReceived?: string | undefined;
+  /** The last recovery point Id. */
+  lastRecoveryPointId?: string | undefined;
+  /** The initial seeding progress percentage. */
+  initialSeedingProgressPercentage?: number | undefined;
+  /** The migration progress percentage. */
+  migrationProgressPercentage?: number | undefined;
+  /** The resync progress percentage. */
+  resyncProgressPercentage?: number | undefined;
+  /** The resume progress percentage. */
+  resumeProgressPercentage?: number | undefined;
+  /** The delta sync progress percentage. */
+  deltaSyncProgressPercentage?: number | undefined;
+  /** A value indicating whether checksum resync cycle is in progress. */
+  isCheckSumResyncCycle?: string | undefined;
+  /** The initial seeding retry count. */
+  initialSeedingRetryCount?: number | undefined;
+  /** The resync retry count. */
+  resyncRetryCount?: number | undefined;
+  /** The resume retry count. */
+  resumeRetryCount?: number | undefined;
+  /** The delta sync retry count. */
+  deltaSyncRetryCount?: number | undefined;
+  /** A value indicating whether resync is required. */
+  resyncRequired?: string | undefined;
+  /** The resync state. */
+  resyncState?: ResyncState | undefined;
+  /** A value indicating whether auto resync is to be done. */
+  performAutoResync?: string | undefined;
+  /** The tags for the seed disks. */
+  seedDiskTags?: VMwareCbtMigrationDetailsSeedDiskTagsMap | undefined;
+  /** The tags for the target disks. */
+  targetDiskTags?: VMwareCbtMigrationDetailsTargetDiskTagsMap | undefined;
+  /** A value indicating the inplace OS Upgrade version. */
+  supportedOSVersions?: VMwareCbtMigrationDetailsSupportedOSVersionsList | undefined;
+  /** A value indicating the appliance monitoring details. */
+  applianceMonitoringDetails?: ApplianceMonitoringDetails | undefined;
+  /** A value indicating the gateway operation details. */
+  gatewayOperationDetails?: GatewayOperationDetails | undefined;
+  /** A value indicating the SRS operation name. */
+  operationName?: string | undefined;
+  /** The target capacity reservation group ARM Id. */
+  targetCapacityReservationGroupId?: string | undefined;
 }
 /** Migration item properties. */
 export interface MigrationItemProperties {
@@ -1140,7 +4777,7 @@ export interface MigrationItemProperties {
   /** The correlation Id for events associated with this migration item. */
   eventCorrelationId?: string | undefined;
   /** The migration provider custom settings. */
-  providerSpecificDetails?: MigrationProviderSpecificSettings | undefined;
+  providerSpecificDetails?: VMwareCbtMigrationDetails | undefined;
 }
 export interface CreateReplicationMigrationItemResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1160,14 +4797,42 @@ export interface CreateReplicationMigrationItemResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number | undefined;
 }
+/** The instance type. */
+export type AzureToAzureCreateNetworkMappingInputInstanceType = "AzureToAzure";
+/** Create network mappings input properties/behavior specific to Azure to Azure Network mapping. */
+export interface AzureToAzureCreateNetworkMappingInput {
+  /** The instance type. */
+  instanceType: AzureToAzureCreateNetworkMappingInputInstanceType;
+  /** The primary azure vnet Id. */
+  primaryNetworkId: string;
+}
+/** The instance type. */
+export type VmmToAzureCreateNetworkMappingInputInstanceType = "VmmToAzure";
+/** Input details specific to fabrics during Network Mapping. */
+export interface VmmToAzureCreateNetworkMappingInput {
+  /** The instance type. */
+  instanceType: VmmToAzureCreateNetworkMappingInputInstanceType;
+}
+/** The instance type. */
+export type VmmToVmmCreateNetworkMappingInputInstanceType = "VmmToVmm";
+/** Input details specific to fabrics during Network Mapping. */
+export interface VmmToVmmCreateNetworkMappingInput {
+  /** The instance type. */
+  instanceType: VmmToVmmCreateNetworkMappingInputInstanceType;
+}
+/** Input details specific to fabrics during Network Mapping. */
+export type FabricSpecificCreateNetworkMappingInput =
+  | AzureToAzureCreateNetworkMappingInput
+  | VmmToAzureCreateNetworkMappingInput
+  | VmmToVmmCreateNetworkMappingInput;
 /** Common input details for network mapping operation. */
 export interface CreateNetworkMappingInputProperties {
   /** Recovery fabric Name. */
   recoveryFabricName?: string | undefined;
   /** Recovery network Id. */
   recoveryNetworkId: string;
-  /** Fabric specific input properties. Polymorphic on `instanceType` (e.g. `{ instanceType: "A2A", ... }`). */
-  fabricSpecificDetails?: unknown | undefined;
+  /** Fabric specific input properties. */
+  fabricSpecificDetails?: FabricSpecificCreateNetworkMappingInput | undefined;
 }
 export interface CreateReplicationNetworkMappingRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1185,6 +4850,36 @@ export interface CreateReplicationNetworkMappingRequest {
   /** Input properties for creating network mapping. */
   properties: CreateNetworkMappingInputProperties;
 }
+/** Gets the Instance type. */
+export type AzureToAzureNetworkMappingSettingsInstanceType = "AzureToAzure";
+/** A2A Network Mapping fabric specific settings. */
+export interface AzureToAzureNetworkMappingSettings {
+  /** Gets the Instance type. */
+  instanceType: AzureToAzureNetworkMappingSettingsInstanceType;
+  /** The primary fabric location. */
+  primaryFabricLocation?: string | undefined;
+  /** The recovery fabric location. */
+  recoveryFabricLocation?: string | undefined;
+}
+/** Gets the Instance type. */
+export type VmmToAzureNetworkMappingSettingsInstanceType = "VmmToAzure";
+/** Network Mapping fabric specific settings. */
+export interface VmmToAzureNetworkMappingSettings {
+  /** Gets the Instance type. */
+  instanceType: VmmToAzureNetworkMappingSettingsInstanceType;
+}
+/** Gets the Instance type. */
+export type VmmToVmmNetworkMappingSettingsInstanceType = "VmmToVmm";
+/** Network Mapping fabric specific settings. */
+export interface VmmToVmmNetworkMappingSettings {
+  /** Gets the Instance type. */
+  instanceType: VmmToVmmNetworkMappingSettingsInstanceType;
+}
+/** Network Mapping fabric specific settings. */
+export type NetworkMappingFabricSpecificSettings =
+  | AzureToAzureNetworkMappingSettings
+  | VmmToAzureNetworkMappingSettings
+  | VmmToVmmNetworkMappingSettings;
 /** Network Mapping Properties. */
 export interface NetworkMappingProperties {
   /** The pairing state for network mapping. */
@@ -1203,8 +4898,8 @@ export interface NetworkMappingProperties {
   recoveryFabricArmId?: string | undefined;
   /** The recovery fabric friendly name. */
   recoveryFabricFriendlyName?: string | undefined;
-  /** The fabric specific settings. Polymorphic on `instanceType` (e.g. `{ instanceType: "A2A", ... }`). */
-  fabricSpecificSettings?: unknown | undefined;
+  /** The fabric specific settings. */
+  fabricSpecificSettings?: NetworkMappingFabricSpecificSettings | undefined;
 }
 export interface CreateReplicationNetworkMappingResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1224,10 +4919,164 @@ export interface CreateReplicationNetworkMappingResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number | undefined;
 }
+/** The class type. */
+export type A2ACrossClusterMigrationPolicyCreationInputInstanceType = "A2ACrossClusterMigration";
+/** Base class for provider specific input. */
+export interface A2ACrossClusterMigrationPolicyCreationInput {
+  /** The class type. */
+  instanceType: A2ACrossClusterMigrationPolicyCreationInputInstanceType;
+}
+/** The class type. */
+export type A2APolicyCreationInputInstanceType = "A2A";
+/** A value indicating whether multi-VM sync has to be enabled. Value should be 'Enabled' or 'Disabled'. */
+export type SetMultiVmSyncStatus = "Enable" | "Disable";
+/** A2A Policy creation input. */
+export interface A2APolicyCreationInput {
+  /** The class type. */
+  instanceType: A2APolicyCreationInputInstanceType;
+  /** The duration in minutes until which the recovery points need to be stored. */
+  recoveryPointHistory?: number | undefined;
+  /** The crash consistent snapshot frequency (in minutes). */
+  crashConsistentFrequencyInMinutes?: number | undefined;
+  /** The app consistent snapshot frequency (in minutes). */
+  appConsistentFrequencyInMinutes?: number | undefined;
+  /** A value indicating whether multi-VM sync has to be enabled. Value should be 'Enabled' or 'Disabled'. */
+  multiVmSyncStatus: SetMultiVmSyncStatus | (string & {});
+}
+/** The class type. */
+export type HyperVReplicaAzurePolicyInputInstanceType = "HyperVReplicaAzure";
+/** The list of storage accounts to which the VMs in the primary cloud can replicate to. */
+export type HyperVReplicaAzurePolicyInputStorageAccountsList = Array<string>;
+/** Hyper-V Replica Azure specific input for creating a protection profile. */
+export interface HyperVReplicaAzurePolicyInput {
+  /** The class type. */
+  instanceType: HyperVReplicaAzurePolicyInputInstanceType;
+  /** The duration (in hours) to which point the recovery history needs to be maintained. */
+  recoveryPointHistoryDuration?: number | undefined;
+  /** The interval (in hours) at which Hyper-V Replica should create an application consistent snapshot within the VM. */
+  applicationConsistentSnapshotFrequencyInHours?: number | undefined;
+  /** The replication interval. */
+  replicationInterval?: number | undefined;
+  /** The scheduled start time for the initial replication. If this parameter is Null, the initial replication starts immediately. */
+  onlineReplicationStartTime?: string | undefined;
+  /** The list of storage accounts to which the VMs in the primary cloud can replicate to. */
+  storageAccounts?: HyperVReplicaAzurePolicyInputStorageAccountsList | undefined;
+}
+/** The class type. */
+export type HyperVReplicaBluePolicyInputInstanceType = "HyperVReplica2012R2";
+/** HyperV Replica Blue policy input. */
+export interface HyperVReplicaBluePolicyInput {
+  /** The class type. */
+  instanceType: HyperVReplicaBluePolicyInputInstanceType;
+  /** A value indicating the number of recovery points. */
+  recoveryPoints?: number | undefined;
+  /** A value indicating the application consistent frequency. */
+  applicationConsistentSnapshotFrequencyInHours?: number | undefined;
+  /** A value indicating whether compression has to be enabled. */
+  compression?: string | undefined;
+  /** A value indicating whether IR is online. */
+  initialReplicationMethod?: string | undefined;
+  /** A value indicating the online IR start time. */
+  onlineReplicationStartTime?: string | undefined;
+  /** A value indicating the offline IR import path. */
+  offlineReplicationImportPath?: string | undefined;
+  /** A value indicating the offline IR export path. */
+  offlineReplicationExportPath?: string | undefined;
+  /** A value indicating the recovery HTTPS port. */
+  replicationPort?: number | undefined;
+  /** A value indicating the authentication type. */
+  allowedAuthenticationType?: number | undefined;
+  /** A value indicating whether the VM has to be auto deleted. */
+  replicaDeletion?: string | undefined;
+  /** A value indicating the replication interval. */
+  replicationFrequencyInSeconds?: number | undefined;
+}
+/** The class type. */
+export type InMageAzureV2PolicyInputInstanceType = "InMageAzureV2";
+/** VMWare Azure specific policy Input. */
+export interface InMageAzureV2PolicyInput {
+  /** The class type. */
+  instanceType: InMageAzureV2PolicyInputInstanceType;
+  /** The recovery point threshold in minutes. */
+  recoveryPointThresholdInMinutes?: number | undefined;
+  /** The duration in minutes until which the recovery points need to be stored. */
+  recoveryPointHistory?: number | undefined;
+  /** The crash consistent snapshot frequency (in minutes). */
+  crashConsistentFrequencyInMinutes?: number | undefined;
+  /** The app consistent snapshot frequency (in minutes). */
+  appConsistentFrequencyInMinutes?: number | undefined;
+  /** A value indicating whether multi-VM sync has to be enabled. Value should be 'Enabled' or 'Disabled'. */
+  multiVmSyncStatus: SetMultiVmSyncStatus | (string & {});
+}
+/** The class type. */
+export type InMagePolicyInputInstanceType = "InMage";
+/** VMWare Azure specific protection profile Input. */
+export interface InMagePolicyInput {
+  /** The class type. */
+  instanceType: InMagePolicyInputInstanceType;
+  /** The recovery point threshold in minutes. */
+  recoveryPointThresholdInMinutes?: number | undefined;
+  /** The duration in minutes until which the recovery points need to be stored. */
+  recoveryPointHistory?: number | undefined;
+  /** The app consistent snapshot frequency (in minutes). */
+  appConsistentFrequencyInMinutes?: number | undefined;
+  /** A value indicating whether multi-VM sync has to be enabled. Value should be 'Enabled' or 'Disabled'. */
+  multiVmSyncStatus: SetMultiVmSyncStatus | (string & {});
+}
+/** The class type. */
+export type InMageRcmFailbackPolicyCreationInputInstanceType = "InMageRcmFailback";
+/** InMageRcmFailback policy creation input. */
+export interface InMageRcmFailbackPolicyCreationInput {
+  /** The class type. */
+  instanceType: InMageRcmFailbackPolicyCreationInputInstanceType;
+  /** The crash consistent snapshot frequency (in minutes). */
+  crashConsistentFrequencyInMinutes?: number | undefined;
+  /** The app consistent snapshot frequency (in minutes). */
+  appConsistentFrequencyInMinutes?: number | undefined;
+}
+/** The class type. */
+export type InMageRcmPolicyCreationInputInstanceType = "InMageRcm";
+/** InMageRcm policy creation input. */
+export interface InMageRcmPolicyCreationInput {
+  /** The class type. */
+  instanceType: InMageRcmPolicyCreationInputInstanceType;
+  /** The duration in minutes until which the recovery points need to be stored. */
+  recoveryPointHistoryInMinutes?: number | undefined;
+  /** The crash consistent snapshot frequency (in minutes). */
+  crashConsistentFrequencyInMinutes?: number | undefined;
+  /** The app consistent snapshot frequency (in minutes). */
+  appConsistentFrequencyInMinutes?: number | undefined;
+  /** A value indicating whether multi-VM sync has to be enabled. */
+  enableMultiVmSync?: string | undefined;
+}
+/** The class type. */
+export type VMwareCbtPolicyCreationInputInstanceType = "VMwareCbt";
+/** VMware Cbt policy creation input. */
+export interface VMwareCbtPolicyCreationInput {
+  /** The class type. */
+  instanceType: VMwareCbtPolicyCreationInputInstanceType;
+  /** The duration in minutes until which the recovery points need to be stored. */
+  recoveryPointHistoryInMinutes?: number | undefined;
+  /** The crash consistent snapshot frequency (in minutes). */
+  crashConsistentFrequencyInMinutes?: number | undefined;
+  /** The app consistent snapshot frequency (in minutes). */
+  appConsistentFrequencyInMinutes?: number | undefined;
+}
+/** Base class for provider specific input. */
+export type PolicyProviderSpecificInput =
+  | A2ACrossClusterMigrationPolicyCreationInput
+  | A2APolicyCreationInput
+  | HyperVReplicaAzurePolicyInput
+  | HyperVReplicaBluePolicyInput
+  | InMageAzureV2PolicyInput
+  | InMagePolicyInput
+  | InMageRcmFailbackPolicyCreationInput
+  | InMageRcmPolicyCreationInput
+  | VMwareCbtPolicyCreationInput;
 /** Policy creation properties. */
 export interface CreatePolicyInputProperties {
-  /** The ReplicationProviderSettings. Polymorphic on `instanceType` (e.g. `{ instanceType: "A2A", ... }`). */
-  providerSpecificInput?: unknown | undefined;
+  /** The ReplicationProviderSettings. */
+  providerSpecificInput?: PolicyProviderSpecificInput | undefined;
 }
 export interface CreateReplicationPolicyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1241,12 +5090,230 @@ export interface CreateReplicationPolicyRequest {
   /** Policy creation properties. */
   properties?: CreatePolicyInputProperties | undefined;
 }
+/** Gets the class type. Overridden in derived classes. */
+export type A2APolicyDetailsInstanceType = "A2A";
+/** A2A specific policy details. */
+export interface A2APolicyDetails {
+  /** Gets the class type. Overridden in derived classes. */
+  instanceType: A2APolicyDetailsInstanceType;
+  /** The recovery point threshold in minutes. */
+  recoveryPointThresholdInMinutes?: number | undefined;
+  /** The duration in minutes until which the recovery points need to be stored. */
+  recoveryPointHistory?: number | undefined;
+  /** The app consistent snapshot frequency in minutes. */
+  appConsistentFrequencyInMinutes?: number | undefined;
+  /** A value indicating whether multi-VM sync has to be enabled. */
+  multiVmSyncStatus?: string | undefined;
+  /** The crash consistent snapshot frequency in minutes. */
+  crashConsistentFrequencyInMinutes?: number | undefined;
+}
+/** Gets the class type. Overridden in derived classes. */
+export type HyperVReplicaAzurePolicyDetailsInstanceType = "HyperVReplicaAzure";
+/** Hyper-V Replica Azure specific protection profile details. */
+export interface HyperVReplicaAzurePolicyDetails {
+  /** Gets the class type. Overridden in derived classes. */
+  instanceType: HyperVReplicaAzurePolicyDetailsInstanceType;
+  /** The duration (in hours) to which point the recovery history needs to be maintained. */
+  recoveryPointHistoryDurationInHours?: number | undefined;
+  /** The interval (in hours) at which Hyper-V Replica should create an application consistent snapshot within the VM. */
+  applicationConsistentSnapshotFrequencyInHours?: number | undefined;
+  /** The replication interval. */
+  replicationInterval?: number | undefined;
+  /** The scheduled start time for the initial replication. If this parameter is Null, the initial replication starts immediately. */
+  onlineReplicationStartTime?: string | undefined;
+  /** A value indicating whether encryption is enabled for virtual machines in this cloud. */
+  encryption?: string | undefined;
+  /** The active storage account Id. */
+  activeStorageAccountId?: string | undefined;
+}
+/** Gets the class type. Overridden in derived classes. */
+export type HyperVReplicaBasePolicyDetailsInstanceType = "HyperVReplicaBasePolicyDetails";
+/** Base class for HyperVReplica policy details. */
+export interface HyperVReplicaBasePolicyDetails {
+  /** Gets the class type. Overridden in derived classes. */
+  instanceType: HyperVReplicaBasePolicyDetailsInstanceType;
+  /** A value indicating the number of recovery points. */
+  recoveryPoints?: number | undefined;
+  /** A value indicating the application consistent frequency. */
+  applicationConsistentSnapshotFrequencyInHours?: number | undefined;
+  /** A value indicating whether compression has to be enabled. */
+  compression?: string | undefined;
+  /** A value indicating whether IR is online. */
+  initialReplicationMethod?: string | undefined;
+  /** A value indicating the online IR start time. */
+  onlineReplicationStartTime?: string | undefined;
+  /** A value indicating the offline IR import path. */
+  offlineReplicationImportPath?: string | undefined;
+  /** A value indicating the offline IR export path. */
+  offlineReplicationExportPath?: string | undefined;
+  /** A value indicating the recovery HTTPS port. */
+  replicationPort?: number | undefined;
+  /** A value indicating the authentication type. */
+  allowedAuthenticationType?: number | undefined;
+  /** A value indicating whether the VM has to be auto deleted. Supported Values: String.Empty, None, OnRecoveryCloud. */
+  replicaDeletionOption?: string | undefined;
+}
+/** Gets the class type. Overridden in derived classes. */
+export type HyperVReplicaBluePolicyDetailsInstanceType = "HyperVReplica2012R2";
+/** Hyper-V Replica Blue specific protection profile details. */
+export interface HyperVReplicaBluePolicyDetails {
+  /** Gets the class type. Overridden in derived classes. */
+  instanceType: HyperVReplicaBluePolicyDetailsInstanceType;
+  /** A value indicating the replication interval. */
+  replicationFrequencyInSeconds?: number | undefined;
+  /** A value indicating the number of recovery points. */
+  recoveryPoints?: number | undefined;
+  /** A value indicating the application consistent frequency. */
+  applicationConsistentSnapshotFrequencyInHours?: number | undefined;
+  /** A value indicating whether compression has to be enabled. */
+  compression?: string | undefined;
+  /** A value indicating whether IR is online. */
+  initialReplicationMethod?: string | undefined;
+  /** A value indicating the online IR start time. */
+  onlineReplicationStartTime?: string | undefined;
+  /** A value indicating the offline IR import path. */
+  offlineReplicationImportPath?: string | undefined;
+  /** A value indicating the offline IR export path. */
+  offlineReplicationExportPath?: string | undefined;
+  /** A value indicating the recovery HTTPS port. */
+  replicationPort?: number | undefined;
+  /** A value indicating the authentication type. */
+  allowedAuthenticationType?: number | undefined;
+  /** A value indicating whether the VM has to be auto deleted. Supported Values: String.Empty, None, OnRecoveryCloud */
+  replicaDeletionOption?: string | undefined;
+}
+/** Gets the class type. Overridden in derived classes. */
+export type HyperVReplicaPolicyDetailsInstanceType = "HyperVReplica2012";
+/** Hyper-V Replica Blue specific protection profile details. */
+export interface HyperVReplicaPolicyDetails {
+  /** Gets the class type. Overridden in derived classes. */
+  instanceType: HyperVReplicaPolicyDetailsInstanceType;
+  /** A value indicating the number of recovery points. */
+  recoveryPoints?: number | undefined;
+  /** A value indicating the application consistent frequency. */
+  applicationConsistentSnapshotFrequencyInHours?: number | undefined;
+  /** A value indicating whether compression has to be enabled. */
+  compression?: string | undefined;
+  /** A value indicating whether IR is online. */
+  initialReplicationMethod?: string | undefined;
+  /** A value indicating the online IR start time. */
+  onlineReplicationStartTime?: string | undefined;
+  /** A value indicating the offline IR import path. */
+  offlineReplicationImportPath?: string | undefined;
+  /** A value indicating the offline IR export path. */
+  offlineReplicationExportPath?: string | undefined;
+  /** A value indicating the recovery HTTPS port. */
+  replicationPort?: number | undefined;
+  /** A value indicating the authentication type. */
+  allowedAuthenticationType?: number | undefined;
+  /** A value indicating whether the VM has to be auto deleted. Supported Values: String.Empty, None, OnRecoveryCloud */
+  replicaDeletionOption?: string | undefined;
+}
+/** Gets the class type. Overridden in derived classes. */
+export type InMageAzureV2PolicyDetailsInstanceType = "InMageAzureV2";
+/** InMage Azure v2 specific protection profile details. */
+export interface InMageAzureV2PolicyDetails {
+  /** Gets the class type. Overridden in derived classes. */
+  instanceType: InMageAzureV2PolicyDetailsInstanceType;
+  /** The crash consistent snapshot frequency in minutes. */
+  crashConsistentFrequencyInMinutes?: number | undefined;
+  /** The recovery point threshold in minutes. */
+  recoveryPointThresholdInMinutes?: number | undefined;
+  /** The duration in minutes until which the recovery points need to be stored. */
+  recoveryPointHistory?: number | undefined;
+  /** The app consistent snapshot frequency in minutes. */
+  appConsistentFrequencyInMinutes?: number | undefined;
+  /** A value indicating whether multi-VM sync has to be enabled. */
+  multiVmSyncStatus?: string | undefined;
+}
+/** Gets the class type. Overridden in derived classes. */
+export type InMageBasePolicyDetailsInstanceType = "InMageBasePolicyDetails";
+/** Base class for the policies of providers using InMage replication. */
+export interface InMageBasePolicyDetails {
+  /** Gets the class type. Overridden in derived classes. */
+  instanceType: InMageBasePolicyDetailsInstanceType;
+  /** The recovery point threshold in minutes. */
+  recoveryPointThresholdInMinutes?: number | undefined;
+  /** The duration in minutes until which the recovery points need to be stored. */
+  recoveryPointHistory?: number | undefined;
+  /** The app consistent snapshot frequency in minutes. */
+  appConsistentFrequencyInMinutes?: number | undefined;
+  /** A value indicating whether multi-VM sync has to be enabled. */
+  multiVmSyncStatus?: string | undefined;
+}
+/** Gets the class type. Overridden in derived classes. */
+export type InMagePolicyDetailsInstanceType = "InMage";
+/** InMage specific protection profile details. */
+export interface InMagePolicyDetails {
+  /** Gets the class type. Overridden in derived classes. */
+  instanceType: InMagePolicyDetailsInstanceType;
+  /** The recovery point threshold in minutes. */
+  recoveryPointThresholdInMinutes?: number | undefined;
+  /** The duration in minutes until which the recovery points need to be stored. */
+  recoveryPointHistory?: number | undefined;
+  /** The app consistent snapshot frequency in minutes. */
+  appConsistentFrequencyInMinutes?: number | undefined;
+  /** A value indicating whether multi-VM sync has to be enabled. */
+  multiVmSyncStatus?: string | undefined;
+}
+/** Gets the class type. Overridden in derived classes. */
+export type InMageRcmFailbackPolicyDetailsInstanceType = "InMageRcmFailback";
+/** InMageRcm failback specific policy details. */
+export interface InMageRcmFailbackPolicyDetails {
+  /** Gets the class type. Overridden in derived classes. */
+  instanceType: InMageRcmFailbackPolicyDetailsInstanceType;
+  /** The app consistent snapshot frequency in minutes. */
+  appConsistentFrequencyInMinutes?: number | undefined;
+  /** The crash consistent snapshot frequency in minutes. */
+  crashConsistentFrequencyInMinutes?: number | undefined;
+}
+/** Gets the class type. Overridden in derived classes. */
+export type InMageRcmPolicyDetailsInstanceType = "InMageRcm";
+/** InMageRcm specific policy details. */
+export interface InMageRcmPolicyDetails {
+  /** Gets the class type. Overridden in derived classes. */
+  instanceType: InMageRcmPolicyDetailsInstanceType;
+  /** The duration in minutes until which the recovery points need to be stored. */
+  recoveryPointHistoryInMinutes?: number | undefined;
+  /** The app consistent snapshot frequency in minutes. */
+  appConsistentFrequencyInMinutes?: number | undefined;
+  /** The crash consistent snapshot frequency in minutes. */
+  crashConsistentFrequencyInMinutes?: number | undefined;
+  /** A value indicating whether multi-VM sync has to be enabled. */
+  enableMultiVmSync?: string | undefined;
+}
+/** Gets the class type. Overridden in derived classes. */
+export type VmwareCbtPolicyDetailsInstanceType = "VMwareCbt";
+/** VMware Cbt specific policy details. */
+export interface VmwareCbtPolicyDetails {
+  /** Gets the class type. Overridden in derived classes. */
+  instanceType: VmwareCbtPolicyDetailsInstanceType;
+  /** The duration in minutes until which the recovery points need to be stored. */
+  recoveryPointHistoryInMinutes?: number | undefined;
+  /** The app consistent snapshot frequency in minutes. */
+  appConsistentFrequencyInMinutes?: number | undefined;
+  /** The crash consistent snapshot frequency in minutes. */
+  crashConsistentFrequencyInMinutes?: number | undefined;
+}
+/** Base class for Provider specific details for policies. */
+export type PolicyProviderSpecificDetails =
+  | A2APolicyDetails
+  | HyperVReplicaAzurePolicyDetails
+  | HyperVReplicaBasePolicyDetails
+  | HyperVReplicaBluePolicyDetails
+  | HyperVReplicaPolicyDetails
+  | InMageAzureV2PolicyDetails
+  | InMageBasePolicyDetails
+  | InMagePolicyDetails
+  | InMageRcmFailbackPolicyDetails
+  | InMageRcmPolicyDetails
+  | VmwareCbtPolicyDetails;
 /** Protection profile custom data details. */
 export interface PolicyProperties {
   /** The FriendlyName. */
   friendlyName?: string | undefined;
-  /** The ReplicationChannelSetting. Polymorphic on `instanceType` (e.g. `{ instanceType: "A2A", ... }`). */
-  providerSpecificDetails?: unknown | undefined;
+  /** The ReplicationChannelSetting. */
+  providerSpecificDetails?: PolicyProviderSpecificDetails | undefined;
 }
 export interface CreateReplicationPolicyResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1266,14 +5333,437 @@ export interface CreateReplicationPolicyResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number | undefined;
 }
+/** The class type. */
+export type A2ACrossClusterMigrationEnableProtectionInputInstanceType = "A2ACrossClusterMigration";
+/** A2A Cross-Cluster Migration enable protection input. */
+export interface A2ACrossClusterMigrationEnableProtectionInput {
+  /** The class type. */
+  instanceType: A2ACrossClusterMigrationEnableProtectionInputInstanceType;
+  /** The fabric specific object Id of the virtual machine. */
+  fabricObjectId?: string | undefined;
+  /** The recovery container Id. */
+  recoveryContainerId?: string | undefined;
+}
+/** The class type. */
+export type A2AEnableProtectionInputInstanceType = "A2A";
+/** The list of vm disk details. */
+export type A2AEnableProtectionInputVmDisksList = Array<A2AVmDiskInputDetails>;
+/** The list of vm managed disk details. */
+export type A2AEnableProtectionInputVmManagedDisksList = Array<A2AVmManagedDiskInputDetails>;
+/** A2A enable protection input. */
+export interface A2AEnableProtectionInput {
+  /** The class type. */
+  instanceType: A2AEnableProtectionInputInstanceType;
+  /** The fabric specific object Id of the virtual machine. */
+  fabricObjectId: string;
+  /** The recovery container Id. */
+  recoveryContainerId?: string | undefined;
+  /** The recovery resource group Id. Valid for V2 scenarios. */
+  recoveryResourceGroupId?: string | undefined;
+  /** The recovery cloud service Id. Valid for V1 scenarios. */
+  recoveryCloudServiceId?: string | undefined;
+  /** The recovery availability set Id. */
+  recoveryAvailabilitySetId?: string | undefined;
+  /** The recovery proximity placement group Id. */
+  recoveryProximityPlacementGroupId?: string | undefined;
+  /** The list of vm disk details. */
+  vmDisks?: A2AEnableProtectionInputVmDisksList | undefined;
+  /** The list of vm managed disk details. */
+  vmManagedDisks?: A2AEnableProtectionInputVmManagedDisksList | undefined;
+  /** The multi vm group name. */
+  multiVmGroupName?: string | undefined;
+  /** The multi vm group id. */
+  multiVmGroupId?: string | undefined;
+  /** The replication protection cluster Id. */
+  protectionClusterId?: string | undefined;
+  /** The boot diagnostic storage account. */
+  recoveryBootDiagStorageAccountId?: string | undefined;
+  /** The recovery disk encryption information (for two pass flows). */
+  diskEncryptionInfo?: DiskEncryptionInfo | undefined;
+  /** The recovery availability zone. */
+  recoveryAvailabilityZone?: string | undefined;
+  /** The recovery extended location. */
+  recoveryExtendedLocation?: ExtendedLocation | undefined;
+  /** The recovery Azure virtual network ARM id. */
+  recoveryAzureNetworkId?: string | undefined;
+  /** The recovery subnet name. */
+  recoverySubnetName?: string | undefined;
+  /** The virtual machine scale set Id. */
+  recoveryVirtualMachineScaleSetId?: string | undefined;
+  /** The recovery capacity reservation group Id. */
+  recoveryCapacityReservationGroupId?: string | undefined;
+  /** the platform fault domain. */
+  platformFaultDomain?: number | undefined;
+  /** A value indicating whether the auto protection is enabled. */
+  autoProtectionOfDataDisk?: AutoProtectionOfDataDisk | (string & {}) | undefined;
+  /** The Azure resource ID of the confidential data disk encryption user-assigned identity. Applicable to CMK confidential VM data disks. */
+  recoveryConfidentialDataDiskEncryptionIdentity?: string | undefined;
+}
+/** The class type. */
+export type HyperVReplicaAzureEnableProtectionInputInstanceType = "HyperVReplicaAzure";
+/** The list of VHD Ids of disks to be protected. */
+export type HyperVReplicaAzureEnableProtectionInputDisksToIncludeList = Array<string>;
+/** Disk input details. */
+export interface HyperVReplicaAzureDiskInputDetails {
+  /** The DiskId. */
+  diskId?: string | undefined;
+  /** The LogStorageAccountId. */
+  logStorageAccountId?: string | undefined;
+  /** The disk type. */
+  diskType?: DiskAccountType | (string & {}) | undefined;
+  /** The DiskEncryptionSet ARM ID. */
+  diskEncryptionSetId?: string | undefined;
+  /** The logical sector size (in bytes), 512 by default. */
+  sectorSizeInBytes?: number | undefined;
+  /** The number of IOPS allowed for Premium V2 and Ultra disks. */
+  iops?: number | undefined;
+  /** The total throughput in Mbps for Premium V2 and Ultra disks. */
+  throughputInMbps?: number | undefined;
+  /** The target disk size in GB. */
+  diskSizeInGB?: number | undefined;
+}
+/** The disks to include list for managed disks. */
+export type HyperVReplicaAzureEnableProtectionInputDisksToIncludeForManagedDisksList =
+  Array<HyperVReplicaAzureDiskInputDetails>;
+/** The target VM tags. */
+export type HyperVReplicaAzureEnableProtectionInputTargetVmTagsMap = {
+  [key: string]: string | undefined;
+};
+/** The tags for the seed managed disks. */
+export type HyperVReplicaAzureEnableProtectionInputSeedManagedDiskTagsMap = {
+  [key: string]: string | undefined;
+};
+/** The tags for the target managed disks. */
+export type HyperVReplicaAzureEnableProtectionInputTargetManagedDiskTagsMap = {
+  [key: string]: string | undefined;
+};
+/** The tags for the target NICs. */
+export type HyperVReplicaAzureEnableProtectionInputTargetNicTagsMap = {
+  [key: string]: string | undefined;
+};
+/** HyperVReplicaAzure specific enable protection input. */
+export interface HyperVReplicaAzureEnableProtectionInput {
+  /** The class type. */
+  instanceType: HyperVReplicaAzureEnableProtectionInputInstanceType;
+  /** The Hyper-V host VM Id. */
+  hvHostVmId?: string | undefined;
+  /** The VM Name. */
+  vmName?: string | undefined;
+  /** The OS type associated with VM. */
+  osType?: string | undefined;
+  /** The OS name selected by user. */
+  userSelectedOSName?: string | undefined;
+  /** The OS disk VHD id associated with VM. */
+  vhdId?: string | undefined;
+  /** The storage account Id. */
+  targetStorageAccountId?: string | undefined;
+  /** The selected target Azure network Id. */
+  targetAzureNetworkId?: string | undefined;
+  /** The selected target Azure subnet Id. */
+  targetAzureSubnetId?: string | undefined;
+  /** The selected option to enable RDP\SSH on target vm after failover. String value of SrsDataContract.EnableRDPOnTargetOption enum. */
+  enableRdpOnTargetOption?: string | undefined;
+  /** The target azure VM Name. */
+  targetAzureVmName?: string | undefined;
+  /** The storage account to be used for logging during replication. */
+  logStorageAccountId?: string | undefined;
+  /** The list of VHD Ids of disks to be protected. */
+  disksToInclude?: HyperVReplicaAzureEnableProtectionInputDisksToIncludeList | undefined;
+  /** The Id of the target resource group (for classic deployment) in which the failover VM is to be created. */
+  targetAzureV1ResourceGroupId?: string | undefined;
+  /** The Id of the target resource group (for resource manager deployment) in which the failover VM is to be created. */
+  targetAzureV2ResourceGroupId?: string | undefined;
+  /** A value indicating whether managed disks should be used during failover. */
+  useManagedDisks?: string | undefined;
+  /** The target availability set ARM Id for resource manager deployment. */
+  targetAvailabilitySetId?: string | undefined;
+  /** The target availability zone. */
+  targetAvailabilityZone?: string | undefined;
+  /** License type. */
+  licenseType?: LicenseType | (string & {}) | undefined;
+  /** The SQL Server license type. */
+  sqlServerLicenseType?: SqlServerLicenseType | (string & {}) | undefined;
+  /** The license type for Linux VM's. */
+  linuxLicenseType?: LinuxLicenseType | (string & {}) | undefined;
+  /** The target VM security profile. */
+  targetVmSecurityProfile?: SecurityProfileProperties | undefined;
+  /** The target VM size. */
+  targetVmSize?: string | undefined;
+  /** The proximity placement group ARM Id. */
+  targetProximityPlacementGroupId?: string | undefined;
+  /** A value indicating whether managed disks should be used during replication. */
+  useManagedDisksForReplication?: string | undefined;
+  /** The disk type. */
+  diskType?: DiskAccountType | (string & {}) | undefined;
+  /** The disks to include list for managed disks. */
+  disksToIncludeForManagedDisks?:
+    | HyperVReplicaAzureEnableProtectionInputDisksToIncludeForManagedDisksList
+    | undefined;
+  /** The DiskEncryptionSet ARM Id. */
+  diskEncryptionSetId?: string | undefined;
+  /** The target VM tags. */
+  targetVmTags?: HyperVReplicaAzureEnableProtectionInputTargetVmTagsMap | undefined;
+  /** The tags for the seed managed disks. */
+  seedManagedDiskTags?: HyperVReplicaAzureEnableProtectionInputSeedManagedDiskTagsMap | undefined;
+  /** The tags for the target managed disks. */
+  targetManagedDiskTags?:
+    | HyperVReplicaAzureEnableProtectionInputTargetManagedDiskTagsMap
+    | undefined;
+  /** The tags for the target NICs. */
+  targetNicTags?: HyperVReplicaAzureEnableProtectionInputTargetNicTagsMap | undefined;
+  /** The target capacity reservation group ARM Id. */
+  targetCapacityReservationGroupId?: string | undefined;
+}
+/** The class type. */
+export type InMageAzureV2EnableProtectionInputInstanceType = "InMageAzureV2";
+/** Disk input details. */
+export interface InMageAzureV2DiskInputDetails {
+  /** The DiskId. */
+  diskId?: string | undefined;
+  /** The LogStorageAccountId. */
+  logStorageAccountId?: string | undefined;
+  /** The disk type. */
+  diskType?: DiskAccountType | (string & {}) | undefined;
+  /** The DiskEncryptionSet ARM ID. */
+  diskEncryptionSetId?: string | undefined;
+}
+/** The disks to include list. */
+export type InMageAzureV2EnableProtectionInputDisksToIncludeList =
+  Array<InMageAzureV2DiskInputDetails>;
+/** The target VM tags. */
+export type InMageAzureV2EnableProtectionInputTargetVmTagsMap = {
+  [key: string]: string | undefined;
+};
+/** The tags for the seed managed disks. */
+export type InMageAzureV2EnableProtectionInputSeedManagedDiskTagsMap = {
+  [key: string]: string | undefined;
+};
+/** The tags for the target managed disks. */
+export type InMageAzureV2EnableProtectionInputTargetManagedDiskTagsMap = {
+  [key: string]: string | undefined;
+};
+/** The tags for the target NICs. */
+export type InMageAzureV2EnableProtectionInputTargetNicTagsMap = {
+  [key: string]: string | undefined;
+};
+/** VMware Azure specific enable protection input. */
+export interface InMageAzureV2EnableProtectionInput {
+  /** The class type. */
+  instanceType: InMageAzureV2EnableProtectionInputInstanceType;
+  /** The Master target Id. */
+  masterTargetId?: string | undefined;
+  /** The Process Server Id. */
+  processServerId?: string | undefined;
+  /** The storage account Id. */
+  storageAccountId?: string | undefined;
+  /** The CS account Id. */
+  runAsAccountId?: string | undefined;
+  /** The multi VM group Id. */
+  multiVmGroupId?: string | undefined;
+  /** The multi VM group name. */
+  multiVmGroupName?: string | undefined;
+  /** The disks to include list. */
+  disksToInclude?: InMageAzureV2EnableProtectionInputDisksToIncludeList | undefined;
+  /** The selected target Azure network Id. */
+  targetAzureNetworkId?: string | undefined;
+  /** The selected target Azure subnet Id. */
+  targetAzureSubnetId?: string | undefined;
+  /** The selected option to enable RDP\SSH on target VM after failover. String value of SrsDataContract.EnableRDPOnTargetOption enum. */
+  enableRdpOnTargetOption?: string | undefined;
+  /** The target azure VM Name. */
+  targetAzureVmName?: string | undefined;
+  /** The storage account to be used for logging during replication. */
+  logStorageAccountId?: string | undefined;
+  /** The Id of the target resource group (for classic deployment) in which the failover VM is to be created. */
+  targetAzureV1ResourceGroupId?: string | undefined;
+  /** The Id of the target resource group (for resource manager deployment) in which the failover VM is to be created. */
+  targetAzureV2ResourceGroupId?: string | undefined;
+  /** The disk type. */
+  diskType?: DiskAccountType | (string & {}) | undefined;
+  /** The target availability set ARM Id for resource manager deployment. */
+  targetAvailabilitySetId?: string | undefined;
+  /** The target availability zone. */
+  targetAvailabilityZone?: string | undefined;
+  /** The proximity placement group ARM Id. */
+  targetProximityPlacementGroupId?: string | undefined;
+  /** License type. */
+  licenseType?: LicenseType | (string & {}) | undefined;
+  /** The SQL Server license type. */
+  sqlServerLicenseType?: SqlServerLicenseType | (string & {}) | undefined;
+  /** The target VM size. */
+  targetVmSize?: string | undefined;
+  /** The DiskEncryptionSet ARM Id. */
+  diskEncryptionSetId?: string | undefined;
+  /** The target VM tags. */
+  targetVmTags?: InMageAzureV2EnableProtectionInputTargetVmTagsMap | undefined;
+  /** The tags for the seed managed disks. */
+  seedManagedDiskTags?: InMageAzureV2EnableProtectionInputSeedManagedDiskTagsMap | undefined;
+  /** The tags for the target managed disks. */
+  targetManagedDiskTags?: InMageAzureV2EnableProtectionInputTargetManagedDiskTagsMap | undefined;
+  /** The tags for the target NICs. */
+  targetNicTags?: InMageAzureV2EnableProtectionInputTargetNicTagsMap | undefined;
+}
+/** The class type. */
+export type InMageEnableProtectionInputInstanceType = "InMage";
+/** Guest disk signature based disk exclusion option when doing enable protection of virtual machine in InMage provider. */
+export interface InMageVolumeExclusionOptions {
+  /** The volume label. The disk having any volume with this label will be excluded from replication. */
+  volumeLabel?: string | undefined;
+  /** The value indicating whether to exclude multi volume disk or not. If a disk has multiple volumes and one of the volume has label matching with VolumeLabel this disk will be excluded from replication if OnlyExcludeIfSingleVolume is false. */
+  onlyExcludeIfSingleVolume?: string | undefined;
+}
+/** The volume label based option for disk exclusion. */
+export type InMageDiskExclusionInputVolumeOptionsList = Array<InMageVolumeExclusionOptions>;
+/** Guest disk signature based disk exclusion option when doing enable protection of virtual machine in InMage provider. */
+export interface InMageDiskSignatureExclusionOptions {
+  /** The guest signature of disk to be excluded from replication. */
+  diskSignature?: string | undefined;
+}
+/** The guest disk signature based option for disk exclusion. */
+export type InMageDiskExclusionInputDiskSignatureOptionsList =
+  Array<InMageDiskSignatureExclusionOptions>;
+/** DiskExclusionInput when doing enable protection of virtual machine in InMage provider. */
+export interface InMageDiskExclusionInput {
+  /** The volume label based option for disk exclusion. */
+  volumeOptions?: InMageDiskExclusionInputVolumeOptionsList | undefined;
+  /** The guest disk signature based option for disk exclusion. */
+  diskSignatureOptions?: InMageDiskExclusionInputDiskSignatureOptionsList | undefined;
+}
+/** The disks to include list. */
+export type InMageEnableProtectionInputDisksToIncludeList = Array<string>;
+/** VMware Azure specific enable protection input. */
+export interface InMageEnableProtectionInput {
+  /** The class type. */
+  instanceType: InMageEnableProtectionInputInstanceType;
+  /** The VM Name. */
+  vmFriendlyName?: string | undefined;
+  /** The Master Target Id. */
+  masterTargetId: string;
+  /** The Process Server Id. */
+  processServerId: string;
+  /** The retention drive to use on the MT. */
+  retentionDrive: string;
+  /** The CS account Id. */
+  runAsAccountId?: string | undefined;
+  /** The multi VM group Id. */
+  multiVmGroupId: string;
+  /** The multi VM group name. */
+  multiVmGroupName: string;
+  /** The target datastore name. */
+  datastoreName?: string | undefined;
+  /** The enable disk exclusion input. */
+  diskExclusionInput?: InMageDiskExclusionInput | undefined;
+  /** The disks to include list. */
+  disksToInclude?: InMageEnableProtectionInputDisksToIncludeList | undefined;
+}
+/** The class type. */
+export type InMageRcmEnableProtectionInputInstanceType = "InMageRcm";
+/** The disks to include list. */
+export type InMageRcmEnableProtectionInputDisksToIncludeList = Array<InMageRcmDiskInput>;
+/** InMageRcm disk input. */
+export interface InMageRcmDisksDefaultInput {
+  /** The log storage account ARM Id. */
+  logStorageAccountId: string;
+  /** The disk type. */
+  diskType: DiskAccountType | (string & {});
+  /** The DiskEncryptionSet ARM Id. */
+  diskEncryptionSetId?: string | undefined;
+  /** The ConfidentialDiskEncryptionSet ARM Id. */
+  confidentialDiskEncryptionSetId?: string | undefined;
+  /** The logical sector size (in bytes), 512 by default. */
+  sectorSizeInBytes?: number | undefined;
+  /** The number of IOPS allowed for Premium V2 and Ultra disks. */
+  iops?: number | undefined;
+  /** The total throughput in Mbps for Premium V2 and Ultra disks. */
+  throughputInMbps?: number | undefined;
+  /** The target disk size in GB. */
+  diskSizeInGB?: number | undefined;
+}
+/** The target VM tags. */
+export type InMageRcmEnableProtectionInputTargetVmTagsList = Array<UserCreatedResourceTag>;
+/** The tags for the seed managed disks. */
+export type InMageRcmEnableProtectionInputSeedManagedDiskTagsList = Array<UserCreatedResourceTag>;
+/** The tags for the target managed disks. */
+export type InMageRcmEnableProtectionInputTargetManagedDiskTagsList = Array<UserCreatedResourceTag>;
+/** The tags for the target NICs. */
+export type InMageRcmEnableProtectionInputTargetNicTagsList = Array<UserCreatedResourceTag>;
+/** InMageRcm specific enable protection input. */
+export interface InMageRcmEnableProtectionInput {
+  /** The class type. */
+  instanceType: InMageRcmEnableProtectionInputInstanceType;
+  /** The ARM Id of discovered machine. */
+  fabricDiscoveryMachineId: string;
+  /** The disks to include list. */
+  disksToInclude?: InMageRcmEnableProtectionInputDisksToIncludeList | undefined;
+  /** The default disk input. */
+  disksDefault?: InMageRcmDisksDefaultInput | undefined;
+  /** The target resource group ARM Id. */
+  targetResourceGroupId: string;
+  /** The selected target network ARM Id. */
+  targetNetworkId?: string | undefined;
+  /** The selected test network ARM Id. */
+  testNetworkId?: string | undefined;
+  /** The selected target subnet name. */
+  targetSubnetName?: string | undefined;
+  /** The selected test subnet name. */
+  testSubnetName?: string | undefined;
+  /** The target VM name. */
+  targetVmName?: string | undefined;
+  /** The target VM size. */
+  targetVmSize?: string | undefined;
+  /** The license type. */
+  licenseType?: LicenseType | (string & {}) | undefined;
+  /** The target availability set ARM Id. */
+  targetAvailabilitySetId?: string | undefined;
+  /** The target availability zone. */
+  targetAvailabilityZone?: string | undefined;
+  /** The target proximity placement group Id. */
+  targetProximityPlacementGroupId?: string | undefined;
+  /** The target boot diagnostics storage account ARM Id. */
+  targetBootDiagnosticsStorageAccountId?: string | undefined;
+  /** The run-as account Id. */
+  runAsAccountId?: string | undefined;
+  /** The process server Id. */
+  processServerId: string;
+  /** The multi VM group name. */
+  multiVmGroupName?: string | undefined;
+  /** The SQL Server license type. */
+  sqlServerLicenseType?: SqlServerLicenseType | (string & {}) | undefined;
+  /** The license type for Linux VM's. */
+  linuxLicenseType?: LinuxLicenseType | (string & {}) | undefined;
+  /** The target VM tags. */
+  targetVmTags?: InMageRcmEnableProtectionInputTargetVmTagsList | undefined;
+  /** The tags for the seed managed disks. */
+  seedManagedDiskTags?: InMageRcmEnableProtectionInputSeedManagedDiskTagsList | undefined;
+  /** The tags for the target managed disks. */
+  targetManagedDiskTags?: InMageRcmEnableProtectionInputTargetManagedDiskTagsList | undefined;
+  /** The tags for the target NICs. */
+  targetNicTags?: InMageRcmEnableProtectionInputTargetNicTagsList | undefined;
+  /** The OS name selected by user. */
+  userSelectedOSName?: string | undefined;
+  /** The target VM security profile. */
+  targetVmSecurityProfile?: SecurityProfileProperties | undefined;
+  /** The target capacity reservation group ARM Id. */
+  targetCapacityReservationGroupId?: string | undefined;
+  /** The target extended location. */
+  targetExtendedLocation?: ExtendedLocation | undefined;
+}
+/** Enable protection provider specific input. */
+export type EnableProtectionProviderSpecificInput =
+  | A2ACrossClusterMigrationEnableProtectionInput
+  | A2AEnableProtectionInput
+  | HyperVReplicaAzureEnableProtectionInput
+  | InMageAzureV2EnableProtectionInput
+  | InMageEnableProtectionInput
+  | InMageRcmEnableProtectionInput;
 /** Enable protection input properties. */
 export interface EnableProtectionInputProperties {
   /** The Policy Id. */
   policyId?: string | undefined;
   /** The protectable item Id. */
   protectableItemId?: string | undefined;
-  /** The ReplicationProviderInput. For HyperVReplicaAzure provider, it will be AzureEnableProtectionInput object. For San provider, it will be SanEnableProtectionInput object. For HyperVReplicaAzure provider, it can be null. Polymorphic on `instanceType` (e.g. `{ instanceType: "A2A", ... }`). */
-  providerSpecificDetails?: unknown | undefined;
+  /** The ReplicationProviderInput. For HyperVReplicaAzure provider, it will be AzureEnableProtectionInput object. For San provider, it will be SanEnableProtectionInput object. For HyperVReplicaAzure provider, it can be null. */
+  providerSpecificDetails?: EnableProtectionProviderSpecificInput | undefined;
 }
 export interface CreateReplicationProtectedItemRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1320,6 +5810,69 @@ export type ReplicationProtectionClusterPropertiesInputClusterProtectedItemIdsLi
 /** The registered node details. */
 export type ReplicationProtectionClusterPropertiesInputClusterRegisteredNodesList =
   Array<RegisteredClusterNodes>;
+/** The allowed operations on the Replication protected item. */
+export type SharedDiskReplicationItemPropertiesInputAllowedOperationsList = Array<string>;
+/** List of health errors. */
+export type SharedDiskReplicationItemPropertiesInputHealthErrorsList = Array<HealthError>;
+/** Gets the Instance type. */
+export type A2ASharedDiskReplicationDetailsInputInstanceType = "A2A";
+/** The list of unprotected disks. */
+export type A2ASharedDiskReplicationDetailsInputUnprotectedDisksList =
+  Array<A2AUnprotectedDiskDetails>;
+/** The list of protected managed disks. */
+export type A2ASharedDiskReplicationDetailsInputProtectedManagedDisksList =
+  Array<A2AProtectedManagedDiskDetails>;
+/** Extended location of the resource. */
+export interface A2ASharedDiskIRErrorDetailsInput {}
+/** The IR Errors. */
+export type A2ASharedDiskReplicationDetailsInputSharedDiskIRErrorsList =
+  Array<A2ASharedDiskIRErrorDetailsInput>;
+/** A2A provider specific settings. */
+export interface A2ASharedDiskReplicationDetailsInput {
+  /** Gets the Instance type. */
+  instanceType: A2ASharedDiskReplicationDetailsInputInstanceType | (string & {});
+  /** The management Id. */
+  managementId?: string | undefined;
+  /** The list of unprotected disks. */
+  unprotectedDisks?: A2ASharedDiskReplicationDetailsInputUnprotectedDisksList | undefined;
+  /** The list of protected managed disks. */
+  protectedManagedDisks?: A2ASharedDiskReplicationDetailsInputProtectedManagedDisksList | undefined;
+  /** Primary fabric location. */
+  primaryFabricLocation?: string | undefined;
+  /** The recovery fabric location. */
+  recoveryFabricLocation?: string | undefined;
+  /** The recovery point id to which the Virtual node was failed over. */
+  failoverRecoveryPointId?: string | undefined;
+  /** The percentage of the monitoring job. The type of the monitoring job is defined by MonitoringJobType property. */
+  monitoringPercentageCompletion?: number | undefined;
+  /** The type of the monitoring job. The progress is contained in MonitoringPercentageCompletion property. */
+  monitoringJobType?: string | undefined;
+  /** The last RPO value in seconds. */
+  rpoInSeconds?: number | undefined;
+  /** The time (in UTC) when the last RPO value was calculated by Protection Service. */
+  lastRpoCalculatedTime?: string | undefined;
+  /** The IR Errors. */
+  sharedDiskIRErrors?: A2ASharedDiskReplicationDetailsInputSharedDiskIRErrorsList | undefined;
+}
+/** Shared Disk Replication item custom data details. */
+export interface SharedDiskReplicationItemPropertiesInput {
+  /** The protection state of shared disk. */
+  protectionState?: string | undefined;
+  /** The tfo state of shared disk. */
+  testFailoverState?: string | undefined;
+  /** The Current active location of the PE. */
+  activeLocation?: string | undefined;
+  /** The allowed operations on the Replication protected item. */
+  allowedOperations?: SharedDiskReplicationItemPropertiesInputAllowedOperationsList | undefined;
+  /** The consolidated protection health for the VM taking any issues with SRS as well as all the replication units associated with the VM's replication group into account. This is a string representation of the ProtectionHealth enumeration. */
+  replicationHealth?: string | undefined;
+  /** List of health errors. */
+  healthErrors?: SharedDiskReplicationItemPropertiesInputHealthErrorsList | undefined;
+  /** The current scenario. */
+  currentScenario?: CurrentScenarioDetails | undefined;
+  /** The Replication provider custom settings. */
+  sharedDiskProviderSpecificDetails?: A2ASharedDiskReplicationDetailsInput | undefined;
+}
 /** Replication protection cluster custom data details. */
 export interface ReplicationProtectionClusterPropertiesInput {
   /** The type of protection cluster type. */
@@ -1378,10 +5931,10 @@ export interface ReplicationProtectionClusterPropertiesInput {
   clusterRegisteredNodes?:
     | ReplicationProtectionClusterPropertiesInputClusterRegisteredNodesList
     | undefined;
-  /** The Replication cluster provider custom settings. Polymorphic on `instanceType` (e.g. `{ instanceType: "A2A", ... }`). */
-  providerSpecificDetails?: unknown | undefined;
+  /** The Replication cluster provider custom settings. */
+  providerSpecificDetails?: A2AReplicationProtectionClusterDetails | undefined;
   /** The shared disk properties. */
-  sharedDiskProperties?: SharedDiskReplicationItemProperties | undefined;
+  sharedDiskProperties?: SharedDiskReplicationItemPropertiesInput | undefined;
   /** The Policy Id. */
   policyId?: string | undefined;
 }
@@ -1419,10 +5972,41 @@ export interface CreateReplicationProtectionClusterResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number | undefined;
 }
+/** The class type. */
+export type A2AContainerCreationInputInstanceType = "A2A";
+/** Provider specific input for container creation operation. */
+export interface A2AContainerCreationInput {
+  /** The class type. */
+  instanceType: A2AContainerCreationInputInstanceType;
+}
+/** The class type. */
+export type A2ACrossClusterMigrationContainerCreationInputInstanceType = "A2ACrossClusterMigration";
+/** Provider specific input for container creation operation. */
+export interface A2ACrossClusterMigrationContainerCreationInput {
+  /** The class type. */
+  instanceType: A2ACrossClusterMigrationContainerCreationInputInstanceType;
+}
+/** The class type. */
+export type VMwareCbtContainerCreationInputInstanceType = "VMwareCbt";
+/** Provider specific input for container creation operation. */
+export interface VMwareCbtContainerCreationInput {
+  /** The class type. */
+  instanceType: VMwareCbtContainerCreationInputInstanceType;
+}
+/** Provider specific input for container creation operation. */
+export type ReplicationProviderSpecificContainerCreationInput =
+  | A2AContainerCreationInput
+  | A2ACrossClusterMigrationContainerCreationInput
+  | VMwareCbtContainerCreationInput;
+/** Provider specific inputs for container creation. */
+export type CreateProtectionContainerInputPropertiesProviderSpecificInputList =
+  Array<ReplicationProviderSpecificContainerCreationInput>;
 /** Create protection container input properties. */
 export interface CreateProtectionContainerInputProperties {
-  /** Provider specific inputs for container creation. Polymorphic on `instanceType` (list of provider-specific objects, e.g. `[{ instanceType: "A2A", ... }]`). */
-  providerSpecificInput?: unknown | undefined;
+  /** Provider specific inputs for container creation. */
+  providerSpecificInput?:
+    | CreateProtectionContainerInputPropertiesProviderSpecificInputList
+    | undefined;
 }
 export interface CreateReplicationProtectionContainerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1473,14 +6057,59 @@ export interface CreateReplicationProtectionContainerResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number | undefined;
 }
+/** The class type. */
+export type A2AContainerMappingInputInstanceType = "A2A";
+/** A value indicating whether the auto update is enabled. */
+export type AgentAutoUpdateStatus = "Disabled" | "Enabled";
+/** A value indicating the type authentication to use for automation Account. */
+export type A2AContainerMappingInputAutomationAccountAuthenticationType =
+  | "RunAsAccount"
+  | "SystemAssignedIdentity";
+/** A2A container mapping input. */
+export interface A2AContainerMappingInput {
+  /** The class type. */
+  instanceType: A2AContainerMappingInputInstanceType;
+  /** A value indicating whether the auto update is enabled. */
+  agentAutoUpdateStatus?: AgentAutoUpdateStatus | (string & {}) | undefined;
+  /** The automation account arm id. */
+  automationAccountArmId?: string | undefined;
+  /** A value indicating the type authentication to use for automation Account. */
+  automationAccountAuthenticationType?:
+    | A2AContainerMappingInputAutomationAccountAuthenticationType
+    | (string & {})
+    | undefined;
+}
+/** The class type. */
+export type VMwareCbtContainerMappingInputInstanceType = "VMwareCbt";
+/** VMwareCbt container mapping input. */
+export interface VMwareCbtContainerMappingInput {
+  /** The class type. */
+  instanceType: VMwareCbtContainerMappingInputInstanceType;
+  /** The target key vault ARM Id. */
+  keyVaultId?: string | undefined;
+  /** The target key vault URL. */
+  keyVaultUri?: string | undefined;
+  /** The storage account ARM Id. */
+  storageAccountId: string;
+  /** The secret name of the storage account. */
+  storageAccountSasSecretName?: string | undefined;
+  /** The secret name of the service bus connection string. */
+  serviceBusConnectionStringSecretName?: string | undefined;
+  /** The target location. */
+  targetLocation: string;
+}
+/** Provider specific input for pairing operations. */
+export type ReplicationProviderSpecificContainerMappingInput =
+  | A2AContainerMappingInput
+  | VMwareCbtContainerMappingInput;
 /** Configure pairing input properties. */
 export interface CreateProtectionContainerMappingInputProperties {
   /** The target unique protection container name. */
   targetProtectionContainerId?: string | undefined;
   /** Applicable policy. */
   policyId?: string | undefined;
-  /** Provider specific input for pairing. Polymorphic on `instanceType` (e.g. `{ instanceType: "A2A", ... }`). */
-  providerSpecificInput?: unknown | undefined;
+  /** Provider specific input for pairing. */
+  providerSpecificInput?: ReplicationProviderSpecificContainerMappingInput | undefined;
 }
 export interface CreateReplicationProtectionContainerMappingRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1498,6 +6127,74 @@ export interface CreateReplicationProtectionContainerMappingRequest {
   /** Configure protection input properties. */
   properties?: CreateProtectionContainerMappingInputProperties | undefined;
 }
+/** Gets the class type. Overridden in derived classes. */
+export type A2AProtectionContainerMappingDetailsInstanceType = "A2A";
+/** A value indicating the type authentication to use for automation Account. */
+export type A2AProtectionContainerMappingDetailsAutomationAccountAuthenticationType =
+  | "RunAsAccount"
+  | "SystemAssignedIdentity";
+/** A2A provider specific settings. */
+export interface A2AProtectionContainerMappingDetails {
+  /** Gets the class type. Overridden in derived classes. */
+  instanceType: A2AProtectionContainerMappingDetailsInstanceType;
+  /** A value indicating whether the auto update is enabled. */
+  agentAutoUpdateStatus?: AgentAutoUpdateStatus | undefined;
+  /** The automation account arm id. */
+  automationAccountArmId?: string | undefined;
+  /** A value indicating the type authentication to use for automation Account. */
+  automationAccountAuthenticationType?:
+    | A2AProtectionContainerMappingDetailsAutomationAccountAuthenticationType
+    | undefined;
+  /** The schedule arm name. */
+  scheduleName?: string | undefined;
+  /** The job schedule arm name. */
+  jobScheduleName?: string | undefined;
+}
+/** Gets the class type. Overridden in derived classes. */
+export type InMageRcmProtectionContainerMappingDetailsInstanceType = "InMageRcm";
+/** InMageRcm provider specific container mapping details. */
+export interface InMageRcmProtectionContainerMappingDetails {
+  /** Gets the class type. Overridden in derived classes. */
+  instanceType: InMageRcmProtectionContainerMappingDetailsInstanceType;
+  /** A value indicating whether the flag for enable agent auto upgrade. */
+  enableAgentAutoUpgrade?: string | undefined;
+}
+/** Gets the class type. Overridden in derived classes. */
+export type VMwareCbtProtectionContainerMappingDetailsInstanceType = "VMwareCbt";
+/** The role size to NIC count map. */
+export type VMwareCbtProtectionContainerMappingDetailsRoleSizeToNicCountMapMap = {
+  [key: string]: number | undefined;
+};
+/** The SKUs to be excluded. */
+export type VMwareCbtProtectionContainerMappingDetailsExcludedSkusList = Array<string>;
+/** VMwareCbt provider specific container mapping details. */
+export interface VMwareCbtProtectionContainerMappingDetails {
+  /** Gets the class type. Overridden in derived classes. */
+  instanceType: VMwareCbtProtectionContainerMappingDetailsInstanceType;
+  /** The target key vault ARM Id. */
+  keyVaultId?: string | undefined;
+  /** The target key vault URI. */
+  keyVaultUri?: string | undefined;
+  /** The storage account ARM Id. */
+  storageAccountId?: string | undefined;
+  /** The secret name of the storage account. */
+  storageAccountSasSecretName?: string | undefined;
+  /** The secret name of the service bus connection string. */
+  serviceBusConnectionStringSecretName?: string | undefined;
+  /** The target location. */
+  targetLocation?: string | undefined;
+  /** The role size to NIC count map. */
+  roleSizeToNicCountMap?:
+    | VMwareCbtProtectionContainerMappingDetailsRoleSizeToNicCountMapMap
+    | undefined;
+  /** The SKUs to be excluded. */
+  excludedSkus?: VMwareCbtProtectionContainerMappingDetailsExcludedSkusList | undefined;
+}
+/** Container mapping provider specific details. */
+export type ProtectionContainerMappingProviderSpecificDetails =
+  | A2AProtectionContainerMappingDetails
+  | InMageRcmProtectionContainerMappingDetails
+  | VMwareCbtProtectionContainerMappingDetails;
 /** Health error. */
 export type ProtectionContainerMappingPropertiesHealthErrorDetailsList = Array<HealthError>;
 /** Protection container mapping properties. */
@@ -1506,8 +6203,8 @@ export interface ProtectionContainerMappingProperties {
   targetProtectionContainerId?: string | undefined;
   /** Friendly name of paired container. */
   targetProtectionContainerFriendlyName?: string | undefined;
-  /** Provider specific provider details. Polymorphic on `instanceType` (e.g. `{ instanceType: "A2A", ... }`). */
-  providerSpecificDetails?: unknown | undefined;
+  /** Provider specific provider details. */
+  providerSpecificDetails?: ProtectionContainerMappingProviderSpecificDetails | undefined;
   /** Health of pairing. */
   health?: string | undefined;
   /** Health error. */
@@ -1543,12 +6240,191 @@ export interface CreateReplicationProtectionContainerMappingResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number | undefined;
 }
-/** Create protection intent provider specific input. */
-export type CreateProtectionIntentProviderSpecificDetails = AddDisksProviderSpecificInput;
+/** The class type. */
+export type A2ACreateProtectionIntentInputInstanceType = "A2A";
+/** The recovery availability type of the virtual machine. */
+export type A2ARecoveryAvailabilityType = "Single" | "AvailabilitySet" | "AvailabilityZone";
+/** The class type. */
+export type ExistingProtectionProfileResourceType = "Existing";
+/** Existing storage account input. */
+export interface ExistingProtectionProfile {
+  /** The class type. */
+  resourceType: ExistingProtectionProfileResourceType;
+  /** The protection profile Arm Id. Throw error, if resource does not exists. */
+  protectionProfileId: string;
+}
+/** The class type. */
+export type NewProtectionProfileResourceType = "New";
+/** New Protection profile input. */
+export interface NewProtectionProfile {
+  /** The class type. */
+  resourceType: NewProtectionProfileResourceType;
+  /** The protection profile input. */
+  policyName: string;
+  /** The duration in minutes until which the recovery points need to be stored. */
+  recoveryPointHistory?: number | undefined;
+  /** The crash consistent snapshot frequency (in minutes). */
+  crashConsistentFrequencyInMinutes?: number | undefined;
+  /** The app consistent snapshot frequency (in minutes). */
+  appConsistentFrequencyInMinutes?: number | undefined;
+  /** A value indicating whether multi-VM sync has to be enabled. Value should be 'Enabled' or 'Disabled'. */
+  multiVmSyncStatus: SetMultiVmSyncStatus | (string & {});
+}
+/** Protection Profile custom input. */
+export type ProtectionProfileCustomDetails = ExistingProtectionProfile | NewProtectionProfile;
+/** The class type. */
+export type ExistingStorageAccountResourceType = "Existing";
+/** Existing storage account input. */
+export interface ExistingStorageAccount {
+  /** The class type. */
+  resourceType: ExistingStorageAccountResourceType | (string & {});
+  /** The storage account Arm Id. Throw error, if resource does not exists. */
+  azureStorageAccountId: string;
+}
+/** The class type. */
+export type ExistingRecoveryAvailabilitySetResourceType = "Existing";
+/** Existing recovery availability set input. */
+export interface ExistingRecoveryAvailabilitySet {
+  /** The class type. */
+  resourceType: ExistingRecoveryAvailabilitySetResourceType | (string & {});
+  /** The recovery availability set Id. Will throw error, if resource does not exist. */
+  recoveryAvailabilitySetId?: string | undefined;
+}
+/** The class type. */
+export type ExistingRecoveryVirtualNetworkResourceType = "Existing";
+/** Existing recovery virtual network input. */
+export interface ExistingRecoveryVirtualNetwork {
+  /** The class type. */
+  resourceType: ExistingRecoveryVirtualNetworkResourceType;
+  /** The recovery virtual network Id. Will throw error, if resource does not exist. */
+  recoveryVirtualNetworkId: string;
+  /** The recovery subnet name. */
+  recoverySubnetName?: string | undefined;
+}
+/** The class type. */
+export type NewRecoveryVirtualNetworkResourceType = "New";
+/** Recovery virtual network input to create new virtual network from given source network. */
+export interface NewRecoveryVirtualNetwork {
+  /** The class type. */
+  resourceType: NewRecoveryVirtualNetworkResourceType;
+  /** The name of the resource group to be used to create the recovery virtual network. If absent, target network would be created in the same resource group as target VM. */
+  recoveryVirtualNetworkResourceGroupName?: string | undefined;
+  /** The recovery virtual network name. */
+  recoveryVirtualNetworkName?: string | undefined;
+}
+/** Recovery Virtual network custom input. */
+export type RecoveryVirtualNetworkCustomDetails =
+  | ExistingRecoveryVirtualNetwork
+  | NewRecoveryVirtualNetwork;
+/** The class type. */
+export type ExistingRecoveryProximityPlacementGroupResourceType = "Existing";
+/** Existing recovery proximity placement group input. */
+export interface ExistingRecoveryProximityPlacementGroup {
+  /** The class type. */
+  resourceType: ExistingRecoveryProximityPlacementGroupResourceType | (string & {});
+  /** The recovery proximity placement group Id. Will throw error, if resource does not exist. */
+  recoveryProximityPlacementGroupId?: string | undefined;
+}
+/** Azure VM unmanaged disk input details. */
+export interface A2AProtectionIntentDiskInputDetails {
+  /** The disk Uri. */
+  diskUri: string;
+  /** The recovery VHD storage account input. */
+  recoveryAzureStorageAccountCustomInput?: ExistingStorageAccount | undefined;
+  /** The primary staging storage account input. */
+  primaryStagingStorageAccountCustomInput?: ExistingStorageAccount | undefined;
+}
+/** The list of vm disk inputs. */
+export type A2ACreateProtectionIntentInputVmDisksList = Array<A2AProtectionIntentDiskInputDetails>;
+/** The class type. */
+export type ExistingRecoveryRecoveryResourceGroupResourceType = "Existing";
+/** Existing recovery resource group input. */
+export interface ExistingRecoveryRecoveryResourceGroup {
+  /** The class type. */
+  resourceType: ExistingRecoveryRecoveryResourceGroupResourceType | (string & {});
+  /** The recovery resource group Id. Valid for V2 scenarios. */
+  recoveryResourceGroupId?: string | undefined;
+}
+/** Azure VM managed disk input details. */
+export interface A2AProtectionIntentManagedDiskInputDetails {
+  /** The disk Id. */
+  diskId: string;
+  /** The primary staging storage account input. */
+  primaryStagingStorageAccountCustomInput?: ExistingStorageAccount | undefined;
+  /** The recovery resource group input. */
+  recoveryResourceGroupCustomInput?: ExistingRecoveryRecoveryResourceGroup | undefined;
+  /** The replica disk type. Its an optional value and will be same as source disk type if not user provided. */
+  recoveryReplicaDiskAccountType?: string | undefined;
+  /** The target disk type after failover. Its an optional value and will be same as source disk type if not user provided. */
+  recoveryTargetDiskAccountType?: string | undefined;
+  /** The recovery disk encryption set Id. */
+  recoveryDiskEncryptionSetId?: string | undefined;
+  /** The recovery disk encryption information (for one / single pass flows). */
+  diskEncryptionInfo?: DiskEncryptionInfo | undefined;
+}
+/** The list of vm managed disk inputs. */
+export type A2ACreateProtectionIntentInputVmManagedDisksList =
+  Array<A2AProtectionIntentManagedDiskInputDetails>;
+/** A value indicating the authentication type for automation account. The default value is "RunAsAccount". */
+export type A2ACreateProtectionIntentInputAutomationAccountAuthenticationType =
+  | "RunAsAccount"
+  | "SystemAssignedIdentity";
+/** A2A create protection intent input. */
+export interface A2ACreateProtectionIntentInput {
+  /** The class type. */
+  instanceType: A2ACreateProtectionIntentInputInstanceType | (string & {});
+  /** The fabric specific object Id of the virtual machine. */
+  fabricObjectId: string;
+  /** The primary location for the virtual machine. */
+  primaryLocation: string;
+  /** The recovery location for the virtual machine. */
+  recoveryLocation: string;
+  /** The recovery subscription Id of the virtual machine. */
+  recoverySubscriptionId: string;
+  /** The recovery availability type of the virtual machine. */
+  recoveryAvailabilityType: A2ARecoveryAvailabilityType | (string & {});
+  /** The protection profile custom inputs. */
+  protectionProfileCustomInput?: ProtectionProfileCustomDetails | undefined;
+  /** The recovery resource group Id. Valid for V2 scenarios. */
+  recoveryResourceGroupId: string;
+  /** The primary staging storage account input. */
+  primaryStagingStorageAccountCustomInput?: ExistingStorageAccount | undefined;
+  /** The recovery availability set input. */
+  recoveryAvailabilitySetCustomInput?: ExistingRecoveryAvailabilitySet | undefined;
+  /** The recovery virtual network input. */
+  recoveryVirtualNetworkCustomInput?: RecoveryVirtualNetworkCustomDetails | undefined;
+  /** The recovery proximity placement group custom input. */
+  recoveryProximityPlacementGroupCustomInput?: ExistingRecoveryProximityPlacementGroup | undefined;
+  /** A value indicating whether the auto protection is enabled. */
+  autoProtectionOfDataDisk?: AutoProtectionOfDataDisk | (string & {}) | undefined;
+  /** The list of vm disk inputs. */
+  vmDisks?: A2ACreateProtectionIntentInputVmDisksList | undefined;
+  /** The list of vm managed disk inputs. */
+  vmManagedDisks?: A2ACreateProtectionIntentInputVmManagedDisksList | undefined;
+  /** The multi vm group name. */
+  multiVmGroupName?: string | undefined;
+  /** The multi vm group id. */
+  multiVmGroupId?: string | undefined;
+  /** The boot diagnostic storage account. */
+  recoveryBootDiagStorageAccount?: ExistingStorageAccount | undefined;
+  /** The recovery disk encryption information (for two pass flows). */
+  diskEncryptionInfo?: DiskEncryptionInfo | undefined;
+  /** The recovery availability zone. */
+  recoveryAvailabilityZone?: string | undefined;
+  /** A value indicating whether the auto update is enabled. */
+  agentAutoUpdateStatus?: AgentAutoUpdateStatus | (string & {}) | undefined;
+  /** A value indicating the authentication type for automation account. The default value is "RunAsAccount". */
+  automationAccountAuthenticationType?:
+    | A2ACreateProtectionIntentInputAutomationAccountAuthenticationType
+    | (string & {})
+    | undefined;
+  /** The automation account arm id. */
+  automationAccountArmId?: string | undefined;
+}
 /** Create protection intent input properties. */
 export interface CreateProtectionIntentProperties {
   /** The ReplicationProviderInput. For A2A provider, it will be A2ACreateProtectionIntentInput object. */
-  providerSpecificDetails?: AddDisksProviderSpecificInput | undefined;
+  providerSpecificDetails?: A2ACreateProtectionIntentInput | undefined;
 }
 export interface CreateReplicationProtectionIntentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1562,9 +6438,68 @@ export interface CreateReplicationProtectionIntentRequest {
   /** Create protection intent input properties. */
   properties?: CreateProtectionIntentProperties | undefined;
 }
-/** Replication provider specific settings. */
-export type ReplicationProtectionIntentProviderSpecificSettings =
-  SharedDiskReplicationProviderSpecificSettings;
+/** Gets the Instance type. */
+export type A2AReplicationIntentDetailsInstanceType = "A2A";
+/** The list of vm disk details. */
+export type A2AReplicationIntentDetailsVmDisksList = Array<A2AProtectionIntentDiskInputDetails>;
+/** The list of vm managed disk details. */
+export type A2AReplicationIntentDetailsVmManagedDisksList =
+  Array<A2AProtectionIntentManagedDiskInputDetails>;
+/** A value indicating the type authentication to use for automation Account. */
+export type A2AReplicationIntentDetailsAutomationAccountAuthenticationType =
+  | "RunAsAccount"
+  | "SystemAssignedIdentity";
+/** A2A provider specific settings. */
+export interface A2AReplicationIntentDetails {
+  /** Gets the Instance type. */
+  instanceType: A2AReplicationIntentDetailsInstanceType;
+  /** The fabric specific object Id of the virtual machine. */
+  fabricObjectId?: string | undefined;
+  /** The primary location for the virtual machine. */
+  primaryLocation?: string | undefined;
+  /** The recovery location for the virtual machine. */
+  recoveryLocation?: string | undefined;
+  /** The recovery subscription Id of the virtual machine. */
+  recoverySubscriptionId?: string | undefined;
+  /** The list of vm disk details. */
+  vmDisks?: A2AReplicationIntentDetailsVmDisksList | undefined;
+  /** The list of vm managed disk details. */
+  vmManagedDisks?: A2AReplicationIntentDetailsVmManagedDisksList | undefined;
+  /** The recovery resource group id. */
+  recoveryResourceGroupId?: string | undefined;
+  /** The protection profile custom details. */
+  protectionProfile?: ProtectionProfileCustomDetails | undefined;
+  /** The primary staging storage account details. */
+  primaryStagingStorageAccount?: ExistingStorageAccount | undefined;
+  /** The recovery availability set details. */
+  recoveryAvailabilitySet?: ExistingRecoveryAvailabilitySet | undefined;
+  /** The recovery virtual network details. */
+  recoveryVirtualNetwork?: RecoveryVirtualNetworkCustomDetails | undefined;
+  /** The recovery proximity placement group custom details. */
+  recoveryProximityPlacementGroup?: ExistingRecoveryProximityPlacementGroup | undefined;
+  /** A value indicating whether the auto protection is enabled. */
+  autoProtectionOfDataDisk?: AutoProtectionOfDataDisk | undefined;
+  /** The multi vm group name. */
+  multiVmGroupName?: string | undefined;
+  /** The multi vm group id. */
+  multiVmGroupId?: string | undefined;
+  /** The boot diagnostic storage account. */
+  recoveryBootDiagStorageAccount?: ExistingStorageAccount | undefined;
+  /** The recovery disk encryption information (for two pass flows). */
+  diskEncryptionInfo?: DiskEncryptionInfo | undefined;
+  /** The recovery availability zone. */
+  recoveryAvailabilityZone?: string | undefined;
+  /** The recovery availability type of the virtual machine. */
+  recoveryAvailabilityType: string;
+  /** A value indicating whether the auto update is enabled. */
+  agentAutoUpdateStatus?: AgentAutoUpdateStatus | undefined;
+  /** The automation account arm id. */
+  automationAccountArmId?: string | undefined;
+  /** A value indicating the type authentication to use for automation Account. */
+  automationAccountAuthenticationType?:
+    | A2AReplicationIntentDetailsAutomationAccountAuthenticationType
+    | undefined;
+}
 /** Replication protection intent custom data details. */
 export interface ReplicationProtectionIntentProperties {
   /** The name. */
@@ -1578,7 +6513,7 @@ export interface ReplicationProtectionIntentProperties {
   /** The creation time in UTC. */
   creationTimeUTC?: string | undefined;
   /** The Replication provider custom settings. */
-  providerSpecificDetails?: SharedDiskReplicationProviderSpecificSettings | undefined;
+  providerSpecificDetails?: A2AReplicationIntentDetails | undefined;
 }
 export interface CreateReplicationProtectionIntentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1598,6 +6533,24 @@ export interface CreateReplicationProtectionIntentResponse {
 export type FailoverDeploymentModel = "NotApplicable" | "Classic" | "ResourceManager";
 /** The recovery plan groups. */
 export type CreateRecoveryPlanInputPropertiesGroupsList = Array<RecoveryPlanGroup>;
+/** Gets the Instance type. */
+export type RecoveryPlanA2AInputInstanceType = "A2A";
+/** Recovery plan A2A input. */
+export interface RecoveryPlanA2AInput {
+  /** Gets the Instance type. */
+  instanceType: RecoveryPlanA2AInputInstanceType | (string & {});
+  /** The primary zone. */
+  primaryZone?: string | undefined;
+  /** The recovery zone. */
+  recoveryZone?: string | undefined;
+  /** The primary extended location. */
+  primaryExtendedLocation?: ExtendedLocation | undefined;
+  /** The recovery extended location. */
+  recoveryExtendedLocation?: ExtendedLocation | undefined;
+}
+/** The provider specific input. */
+export type CreateRecoveryPlanInputPropertiesProviderSpecificInputList =
+  Array<RecoveryPlanA2AInput>;
 /** Recovery plan creation properties. */
 export interface CreateRecoveryPlanInputProperties {
   /** The primary fabric Id. */
@@ -1608,8 +6561,8 @@ export interface CreateRecoveryPlanInputProperties {
   failoverDeploymentModel?: FailoverDeploymentModel | (string & {}) | undefined;
   /** The recovery plan groups. */
   groups: CreateRecoveryPlanInputPropertiesGroupsList;
-  /** The provider specific input. Polymorphic on `instanceType` (list of provider-specific objects, e.g. `[{ instanceType: "A2A", ... }]`). */
-  providerSpecificInput?: unknown | undefined;
+  /** The provider specific input. */
+  providerSpecificInput?: CreateRecoveryPlanInputPropertiesProviderSpecificInputList | undefined;
 }
 export interface CreateReplicationRecoveryPlanRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1640,19 +6593,6 @@ export interface CreateReplicationRecoveryPlanResponse {
   locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number | undefined;
-}
-/** Identity provider input. */
-export interface IdentityProviderInput {
-  /** The tenant Id for the service principal with which the on-premise management/data plane components would communicate with our Azure services. */
-  tenantId: string;
-  /** The application/client Id for the service principal with which the on-premise management/data plane components would communicate with our Azure services. */
-  applicationId: string;
-  /** The object Id of the service principal with which the on-premise management/data plane components would communicate with our Azure services. */
-  objectId: string;
-  /** The intended Audience of the service principal with which the on-premise management/data plane components would communicate with our Azure services. */
-  audience: string;
-  /** The base authority for Azure Active Directory authentication. */
-  aadAuthority: string;
 }
 /** The properties of an add provider request. */
 export interface AddRecoveryServicesProviderInputProperties {
@@ -1687,35 +6627,6 @@ export interface CreateReplicationRecoveryServicesProviderRequest {
 export type RecoveryServicesProviderPropertiesAllowedScenariosList = Array<string>;
 /** The recovery services provider health error details. */
 export type RecoveryServicesProviderPropertiesHealthErrorDetailsList = Array<HealthError>;
-/** Identity provider details. */
-export interface IdentityProviderDetails {
-  /** The tenant Id for the service principal with which the on-premise management/data plane components would communicate with our Azure services. */
-  tenantId?: string | undefined;
-  /** The application/client Id for the service principal with which the on-premise management/data plane components would communicate with our Azure services. */
-  applicationId?: string | undefined;
-  /** The object Id of the service principal with which the on-premise management/data plane components would communicate with our Azure services. */
-  objectId?: string | undefined;
-  /** The intended Audience of the service principal with which the on-premise management/data plane components would communicate with our Azure services. */
-  audience?: string | undefined;
-  /** The base authority for Azure Active Directory authentication. */
-  aadAuthority?: string | undefined;
-}
-/** A value indicating whether security update required. */
-export type AgentVersionStatus =
-  | "Supported"
-  | "NotSupported"
-  | "Deprecated"
-  | "UpdateRequired"
-  | "SecurityUpdateRequired";
-/** Version related details. */
-export interface VersionDetails {
-  /** The agent version. */
-  version?: string | undefined;
-  /** Version expiry date. */
-  expiryDate?: string | undefined;
-  /** A value indicating whether security update required. */
-  status?: AgentVersionStatus | undefined;
-}
 /** Recovery services provider properties. */
 export interface RecoveryServicesProviderProperties {
   /** Type of the site. */
@@ -2019,12 +6930,21 @@ export interface DeleteReplicationPolicyResponse {
 }
 /** Disable protection reason. It can have values NotSpecified/MigrationComplete. */
 export type DisableProtectionReason = "NotSpecified" | "MigrationComplete";
+/** The class type. */
+export type InMageDisableProtectionProviderSpecificInputInstanceType = "InMage";
+/** InMage disable protection provider specific input. */
+export interface InMageDisableProtectionProviderSpecificInput {
+  /** The class type. */
+  instanceType: InMageDisableProtectionProviderSpecificInputInstanceType | (string & {});
+  /** A value indicating whether the replica VM should be destroyed or retained. Values from Delete and Retain. */
+  replicaVmDeletionStatus?: string | undefined;
+}
 /** Disable protection input properties. */
 export interface DisableProtectionInputProperties {
   /** Disable protection reason. It can have values NotSpecified/MigrationComplete. */
   disableProtectionReason?: DisableProtectionReason | (string & {}) | undefined;
-  /** Replication provider specific input. Polymorphic on `instanceType` (e.g. `{ instanceType: "A2A", ... }`). */
-  replicationProviderInput?: unknown | undefined;
+  /** Replication provider specific input. */
+  replicationProviderInput?: InMageDisableProtectionProviderSpecificInput | undefined;
 }
 export interface DeleteReplicationProtectedItemRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2227,10 +7147,20 @@ export interface GetClusterRecoveryPointRequest {
 }
 /** The recovery point type. */
 export type ClusterRecoveryPointType = "NotSpecified" | "ApplicationConsistent" | "CrashConsistent";
-/** Replication provider specific cluster recovery point details. */
-export interface ClusterProviderSpecificRecoveryPointDetails {
+/** Gets the provider type. */
+export type A2AClusterRecoveryPointDetailsInstanceType = "A2A";
+/** A value indicating whether the recovery point is multi VM consistent. */
+export type RecoveryPointSyncType = "MultiVmSyncRecoveryPoint" | "PerVmRecoveryPoint";
+/** The list of nodes representing the cluster. */
+export type A2AClusterRecoveryPointDetailsNodesList = Array<string>;
+/** A2A provider specific cluster recovery point details. */
+export interface A2AClusterRecoveryPointDetails {
   /** Gets the provider type. */
-  instanceType: string;
+  instanceType: A2AClusterRecoveryPointDetailsInstanceType;
+  /** A value indicating whether the recovery point is multi VM consistent. */
+  recoveryPointSyncType?: RecoveryPointSyncType | undefined;
+  /** The list of nodes representing the cluster. */
+  nodes?: A2AClusterRecoveryPointDetailsNodesList | undefined;
 }
 /** Cluster recovery point properties. */
 export interface ClusterRecoveryPointProperties {
@@ -2239,7 +7169,7 @@ export interface ClusterRecoveryPointProperties {
   /** The recovery point type. */
   recoveryPointType?: ClusterRecoveryPointType | undefined;
   /** The provider specific details for the recovery point. */
-  providerSpecificDetails?: ClusterProviderSpecificRecoveryPointDetails | undefined;
+  providerSpecificDetails?: A2AClusterRecoveryPointDetails | undefined;
 }
 /** Recovery point. */
 export interface ClusterRecoveryPoint {
@@ -2310,8 +7240,42 @@ export interface GetRecoveryPointRequest {
   /** The recovery point name. */
   recoveryPointName: string;
 }
+/** Gets the provider type. */
+export type A2ARecoveryPointDetailsInstanceType = "A2A";
+/** List of disk ids representing a recovery point. */
+export type A2ARecoveryPointDetailsDisksList = Array<string>;
+/** A2A provider specific recovery point details. */
+export interface A2ARecoveryPointDetails {
+  /** Gets the provider type. */
+  instanceType: A2ARecoveryPointDetailsInstanceType;
+  /** A value indicating whether the recovery point is multi VM consistent. */
+  recoveryPointSyncType?: RecoveryPointSyncType | undefined;
+  /** List of disk ids representing a recovery point. */
+  disks?: A2ARecoveryPointDetailsDisksList | undefined;
+}
+/** Gets the provider type. */
+export type InMageAzureV2RecoveryPointDetailsInstanceType = "InMageAzureV2";
+/** InMage Azure V2 provider specific recovery point details. */
+export interface InMageAzureV2RecoveryPointDetails {
+  /** Gets the provider type. */
+  instanceType: InMageAzureV2RecoveryPointDetailsInstanceType;
+  /** A value indicating whether the recovery point is multi VM consistent. */
+  isMultiVmSyncPoint?: string | undefined;
+}
+/** Gets the provider type. */
+export type InMageRcmRecoveryPointDetailsInstanceType = "InMageRcm";
+/** InMageRcm provider specific recovery point details. */
+export interface InMageRcmRecoveryPointDetails {
+  /** Gets the provider type. */
+  instanceType: InMageRcmRecoveryPointDetailsInstanceType;
+  /** A value indicating whether the recovery point is multi VM consistent. */
+  isMultiVmSyncPoint?: string | undefined;
+}
 /** Replication provider specific recovery point details. */
-export type ProviderSpecificRecoveryPointDetails = ClusterProviderSpecificRecoveryPointDetails;
+export type ProviderSpecificRecoveryPointDetails =
+  | A2ARecoveryPointDetails
+  | InMageAzureV2RecoveryPointDetails
+  | InMageRcmRecoveryPointDetails;
 /** Recovery point properties. */
 export interface RecoveryPointProperties {
   /** The recovery point time. */
@@ -2319,7 +7283,7 @@ export interface RecoveryPointProperties {
   /** The recovery point type: ApplicationConsistent, CrashConsistent. */
   recoveryPointType?: string | undefined;
   /** The provider specific details for the recovery point. */
-  providerSpecificDetails?: ClusterProviderSpecificRecoveryPointDetails | undefined;
+  providerSpecificDetails?: ProviderSpecificRecoveryPointDetails | undefined;
 }
 export interface GetRecoveryPointResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2412,13 +7376,179 @@ export interface GetReplicationEventRequest {
   /** The name of the Azure Site Recovery event. */
   eventName: string;
 }
-/** Model class for provider specific details for an event. */
-export interface EventProviderSpecificDetails {
+/** Gets the class type. Overridden in derived classes. */
+export type A2AEventDetailsInstanceType = "A2A";
+/** Model class for event details of a A2A event. */
+export interface A2AEventDetails {
   /** Gets the class type. Overridden in derived classes. */
-  instanceType: string;
+  instanceType: A2AEventDetailsInstanceType;
+  /** The protected item arm name. */
+  protectedItemName?: string | undefined;
+  /** The azure vm arm id. */
+  fabricObjectId?: string | undefined;
+  /** Fabric arm name. */
+  fabricName?: string | undefined;
+  /** The fabric location. */
+  fabricLocation?: string | undefined;
+  /** Remote fabric arm name. */
+  remoteFabricName?: string | undefined;
+  /** Remote fabric location. */
+  remoteFabricLocation?: string | undefined;
 }
-/** Model class for event specific details for an event. */
-export type EventSpecificDetails = EventProviderSpecificDetails;
+/** Gets the class type. Overridden in derived classes. */
+export type HyperVReplica2012EventDetailsInstanceType = "HyperVReplica2012";
+/** Model class for event details of a HyperVReplica E2E event. */
+export interface HyperVReplica2012EventDetails {
+  /** Gets the class type. Overridden in derived classes. */
+  instanceType: HyperVReplica2012EventDetailsInstanceType;
+  /** The container friendly name. */
+  containerName?: string | undefined;
+  /** The fabric friendly name. */
+  fabricName?: string | undefined;
+  /** The remote container name. */
+  remoteContainerName?: string | undefined;
+  /** The remote fabric name. */
+  remoteFabricName?: string | undefined;
+}
+/** Gets the class type. Overridden in derived classes. */
+export type HyperVReplica2012R2EventDetailsInstanceType = "HyperVReplica2012R2";
+/** Model class for event details of a HyperVReplica blue E2E event. */
+export interface HyperVReplica2012R2EventDetails {
+  /** Gets the class type. Overridden in derived classes. */
+  instanceType: HyperVReplica2012R2EventDetailsInstanceType;
+  /** The container friendly name. */
+  containerName?: string | undefined;
+  /** The fabric friendly name. */
+  fabricName?: string | undefined;
+  /** The remote container name. */
+  remoteContainerName?: string | undefined;
+  /** The remote fabric name. */
+  remoteFabricName?: string | undefined;
+}
+/** Gets the class type. Overridden in derived classes. */
+export type HyperVReplicaAzureEventDetailsInstanceType = "HyperVReplicaAzure";
+/** Model class for event details of a HyperVReplica E2A event. */
+export interface HyperVReplicaAzureEventDetails {
+  /** Gets the class type. Overridden in derived classes. */
+  instanceType: HyperVReplicaAzureEventDetailsInstanceType;
+  /** The container friendly name. */
+  containerName?: string | undefined;
+  /** The fabric friendly name. */
+  fabricName?: string | undefined;
+  /** The remote container name. */
+  remoteContainerName?: string | undefined;
+}
+/** Gets the class type. Overridden in derived classes. */
+export type HyperVReplicaBaseEventDetailsInstanceType = "HyperVReplicaBaseEventDetails";
+/** Abstract model class for event details of a HyperVReplica E2E event. */
+export interface HyperVReplicaBaseEventDetails {
+  /** Gets the class type. Overridden in derived classes. */
+  instanceType: HyperVReplicaBaseEventDetailsInstanceType;
+  /** The container friendly name. */
+  containerName?: string | undefined;
+  /** The fabric friendly name. */
+  fabricName?: string | undefined;
+  /** The remote container name. */
+  remoteContainerName?: string | undefined;
+  /** The remote fabric name. */
+  remoteFabricName?: string | undefined;
+}
+/** Gets the class type. Overridden in derived classes. */
+export type InMageAzureV2EventDetailsInstanceType = "InMageAzureV2";
+/** Model class for event details of a VMwareAzureV2 event. */
+export interface InMageAzureV2EventDetails {
+  /** Gets the class type. Overridden in derived classes. */
+  instanceType: InMageAzureV2EventDetailsInstanceType;
+  /** InMage Event type. Takes one of the values of InMageDataContract.InMageMonitoringEventType. */
+  eventType?: string | undefined;
+  /** InMage Event Category. */
+  category?: string | undefined;
+  /** InMage Event Component. */
+  component?: string | undefined;
+  /** Corrective Action string for the event. */
+  correctiveAction?: string | undefined;
+  /** InMage Event Details. */
+  details?: string | undefined;
+  /** InMage Event Summary. */
+  summary?: string | undefined;
+  /** VMware Site name. */
+  siteName?: string | undefined;
+}
+/** Gets the class type. Overridden in derived classes. */
+export type InMageRcmEventDetailsInstanceType = "InMageRcm";
+/** Event details for InMageRcm provider. */
+export interface InMageRcmEventDetails {
+  /** Gets the class type. Overridden in derived classes. */
+  instanceType: InMageRcmEventDetailsInstanceType;
+  /** The protected item name. */
+  protectedItemName?: string | undefined;
+  /** The protected item name. */
+  vmName?: string | undefined;
+  /** The latest agent version. */
+  latestAgentVersion?: string | undefined;
+  /** The job Id. */
+  jobId?: string | undefined;
+  /** The fabric name. */
+  fabricName?: string | undefined;
+  /** The appliance name. */
+  applianceName?: string | undefined;
+  /** The server type. */
+  serverType?: string | undefined;
+  /** The component display name. */
+  componentDisplayName?: string | undefined;
+}
+/** Gets the class type. Overridden in derived classes. */
+export type InMageRcmFailbackEventDetailsInstanceType = "InMageRcmFailback";
+/** Event details for InMageRcmFailback provider. */
+export interface InMageRcmFailbackEventDetails {
+  /** Gets the class type. Overridden in derived classes. */
+  instanceType: InMageRcmFailbackEventDetailsInstanceType;
+  /** The protected item name. */
+  protectedItemName?: string | undefined;
+  /** The protected item name. */
+  vmName?: string | undefined;
+  /** The appliance name. */
+  applianceName?: string | undefined;
+  /** The server type. */
+  serverType?: string | undefined;
+  /** The component display name. */
+  componentDisplayName?: string | undefined;
+}
+/** Gets the class type. Overridden in derived classes. */
+export type VMwareCbtEventDetailsInstanceType = "VMwareCbt";
+/** Event details for VMwareCbt provider. */
+export interface VMwareCbtEventDetails {
+  /** Gets the class type. Overridden in derived classes. */
+  instanceType: VMwareCbtEventDetailsInstanceType;
+  /** The migration item name. */
+  migrationItemName?: string | undefined;
+}
+/** Model class for provider specific details for an event. */
+export type EventProviderSpecificDetails =
+  | A2AEventDetails
+  | HyperVReplica2012EventDetails
+  | HyperVReplica2012R2EventDetails
+  | HyperVReplicaAzureEventDetails
+  | HyperVReplicaBaseEventDetails
+  | InMageAzureV2EventDetails
+  | InMageRcmEventDetails
+  | InMageRcmFailbackEventDetails
+  | VMwareCbtEventDetails;
+/** Gets the class type. Overridden in derived classes. */
+export type JobStatusEventDetailsInstanceType = "JobStatus";
+/** Model class for event details of a job status event. */
+export interface JobStatusEventDetails {
+  /** Gets the class type. Overridden in derived classes. */
+  instanceType: JobStatusEventDetailsInstanceType;
+  /** Job arm id for the event. */
+  jobId?: string | undefined;
+  /** JobName for the Event. */
+  jobFriendlyName?: string | undefined;
+  /** JobStatus for the Event. */
+  jobStatus?: string | undefined;
+  /** AffectedObjectType for the event. */
+  affectedObjectType?: string | undefined;
+}
 /** The list of errors / warnings capturing details associated with the issue(s). */
 export type EventPropertiesHealthErrorsList = Array<HealthError>;
 /** The properties of a monitoring event. */
@@ -2442,7 +7572,7 @@ export interface EventProperties {
   /** The provider specific settings. */
   providerSpecificDetails?: EventProviderSpecificDetails | undefined;
   /** The event specific settings. */
-  eventSpecificDetails?: EventProviderSpecificDetails | undefined;
+  eventSpecificDetails?: JobStatusEventDetails | undefined;
   /** The list of errors / warnings capturing details associated with the issue(s). */
   healthErrors?: EventPropertiesHealthErrorsList | undefined;
 }
@@ -2695,8 +7825,100 @@ export interface GetReplicationProtectableItemRequest {
 export type ProtectableItemPropertiesProtectionReadinessErrorsList = Array<string>;
 /** The list of replication providers supported for the protectable item. */
 export type ProtectableItemPropertiesSupportedReplicationProvidersList = Array<string>;
+/** Gets the class type. Overridden in derived classes. */
+export type VmmVirtualMachineDetailsInstanceType = "VmmVirtualMachine";
+/** The Last successful failover time. */
+export type VmmVirtualMachineDetailsDiskDetailsList = Array<DiskDetails>;
+/** A value indicating whether the VM has a physical disk attached. String value of SrsDataContract.PresenceStatus enum. */
+export type PresenceStatus = "Unknown" | "Present" | "NotPresent";
+/** Single Host fabric provider specific VM settings. */
+export interface VmmVirtualMachineDetails {
+  /** Gets the class type. Overridden in derived classes. */
+  instanceType: VmmVirtualMachineDetailsInstanceType;
+  /** The source id of the object. */
+  sourceItemId?: string | undefined;
+  /** The id of the object in fabric. */
+  generation?: string | undefined;
+  /** The Last replication time. */
+  osDetails?: OSDetails | undefined;
+  /** The Last successful failover time. */
+  diskDetails?: VmmVirtualMachineDetailsDiskDetailsList | undefined;
+  /** A value indicating whether the VM has a physical disk attached. String value of SrsDataContract.PresenceStatus enum. */
+  hasPhysicalDisk?: PresenceStatus | undefined;
+  /** A value indicating whether the VM has a fibre channel adapter attached. String value of SrsDataContract.PresenceStatus enum. */
+  hasFibreChannelAdapter?: PresenceStatus | undefined;
+  /** A value indicating whether the VM has a shared VHD attached. String value of SrsDataContract.PresenceStatus enum. */
+  hasSharedVhd?: PresenceStatus | undefined;
+  /** The Id of the hyper-v host in fabric. */
+  hyperVHostId?: string | undefined;
+}
+/** Gets the class type. Overridden in derived classes. */
+export type ReplicationGroupDetailsInstanceType = "ReplicationGroupDetails";
 /** Replication provider specific settings. */
-export type ConfigurationSettings = EventProviderSpecificDetails;
+export interface ReplicationGroupDetails {
+  /** Gets the class type. Overridden in derived classes. */
+  instanceType: ReplicationGroupDetailsInstanceType;
+}
+/** Gets the class type. Overridden in derived classes. */
+export type VMwareVirtualMachineDetailsInstanceType = "VMwareVirtualMachine";
+/** Volume details. */
+export interface DiskVolumeDetails {
+  /** The volume label. */
+  label?: string | undefined;
+  /** The volume name. */
+  name?: string | undefined;
+}
+/** Volumes of the disk. */
+export type InMageDiskDetailsVolumeListList = Array<DiskVolumeDetails>;
+/** VMware/Physical specific Disk Details. */
+export interface InMageDiskDetails {
+  /** The disk Id. */
+  diskId?: string | undefined;
+  /** The disk name. */
+  diskName?: string | undefined;
+  /** The disk size in MB. */
+  diskSizeInMB?: string | undefined;
+  /** Whether disk is system disk or data disk. */
+  diskType?: string | undefined;
+  /** Whether disk is dynamic disk or basic disk. */
+  diskConfiguration?: string | undefined;
+  /** Volumes of the disk. */
+  volumeList?: InMageDiskDetailsVolumeListList | undefined;
+}
+/** The disk details. */
+export type VMwareVirtualMachineDetailsDiskDetailsList = Array<InMageDiskDetails>;
+/** The validation errors. */
+export type VMwareVirtualMachineDetailsValidationErrorsList = Array<HealthError>;
+/** VMware provider specific settings. */
+export interface VMwareVirtualMachineDetails {
+  /** Gets the class type. Overridden in derived classes. */
+  instanceType: VMwareVirtualMachineDetailsInstanceType;
+  /** The ID generated by the InMage agent after it gets installed on guest. This is the ID to be used during InMage CreateProtection. */
+  agentGeneratedId?: string | undefined;
+  /** The value indicating if InMage scout agent is installed on guest. */
+  agentInstalled?: string | undefined;
+  /** The OsType installed on VM. */
+  osType?: string | undefined;
+  /** The agent version. */
+  agentVersion?: string | undefined;
+  /** The IP address. */
+  ipAddress?: string | undefined;
+  /** The value indicating whether VM is powered on. */
+  poweredOn?: string | undefined;
+  /** The VCenter infrastructure Id. */
+  vCenterInfrastructureId?: string | undefined;
+  /** A value indicating the discovery type of the machine. Value can be vCenter or physical. */
+  discoveryType?: string | undefined;
+  /** The disk details. */
+  diskDetails?: VMwareVirtualMachineDetailsDiskDetailsList | undefined;
+  /** The validation errors. */
+  validationErrors?: VMwareVirtualMachineDetailsValidationErrorsList | undefined;
+}
+/** Replication provider specific settings. */
+export type ConfigurationSettings =
+  | VmmVirtualMachineDetails
+  | ReplicationGroupDetails
+  | VMwareVirtualMachineDetails;
 /** Replication protected item custom data details. */
 export interface ProtectableItemProperties {
   /** The name. */
@@ -2714,7 +7936,7 @@ export interface ProtectableItemProperties {
     | ProtectableItemPropertiesSupportedReplicationProvidersList
     | undefined;
   /** The Replication provider custom settings. */
-  customDetails?: EventProviderSpecificDetails | undefined;
+  customDetails?: ConfigurationSettings | undefined;
 }
 export interface GetReplicationProtectableItemResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3369,12 +8591,76 @@ export interface ListReplicationAppliancesRequest {
   /** OData filter options. */
   _filter?: string | undefined;
 }
-/** Appliance specific details. */
-export type ApplianceSpecificDetails = EventProviderSpecificDetails;
+/** Gets the class type. Overridden in derived classes. */
+export type InMageRcmApplianceSpecificDetailsInstanceType = "InMageRcm";
+/** The error message parameters. */
+export type InMageRcmFabricSwitchProviderBlockingErrorDetailsErrorMessageParametersMap = {
+  [key: string]: string | undefined;
+};
+/** The error tags. */
+export type InMageRcmFabricSwitchProviderBlockingErrorDetailsErrorTagsMap = {
+  [key: string]: string | undefined;
+};
+/** InMageRcmFabric switch provider blocking error details. */
+export interface InMageRcmFabricSwitchProviderBlockingErrorDetails {
+  /** The error code. */
+  errorCode?: string | undefined;
+  /** The error message. */
+  errorMessage?: string | undefined;
+  /** The possible causes. */
+  possibleCauses?: string | undefined;
+  /** The recommended action. */
+  recommendedAction?: string | undefined;
+  /** The error message parameters. */
+  errorMessageParameters?:
+    | InMageRcmFabricSwitchProviderBlockingErrorDetailsErrorMessageParametersMap
+    | undefined;
+  /** The error tags. */
+  errorTags?: InMageRcmFabricSwitchProviderBlockingErrorDetailsErrorTagsMap | undefined;
+}
+/** The switch provider blocking error information. */
+export type InMageRcmApplianceDetailsSwitchProviderBlockingErrorDetailsList =
+  Array<InMageRcmFabricSwitchProviderBlockingErrorDetails>;
+/** InMageRcm appliance details. */
+export interface InMageRcmApplianceDetails {
+  /** The appliance Id. */
+  id?: string | undefined;
+  /** The appliance name. */
+  name?: string | undefined;
+  /** The fabric ARM Id. */
+  fabricArmId?: string | undefined;
+  /** The process server. */
+  processServer?: ProcessServerDetails | undefined;
+  /** The of RCM proxy. */
+  rcmProxy?: RcmProxyDetails | undefined;
+  /** The push installer. */
+  pushInstaller?: PushInstallerDetails | undefined;
+  /** The replication agent. */
+  replicationAgent?: ReplicationAgentDetails | undefined;
+  /** The reprotect agent. */
+  reprotectAgent?: ReprotectAgentDetails | undefined;
+  /** The Mars agent. */
+  marsAgent?: MarsAgentDetails | undefined;
+  /** The DRA. */
+  dra?: DraDetails | undefined;
+  /** The switch provider blocking error information. */
+  switchProviderBlockingErrorDetails?:
+    | InMageRcmApplianceDetailsSwitchProviderBlockingErrorDetailsList
+    | undefined;
+}
+/** The list of appliances. */
+export type InMageRcmApplianceSpecificDetailsAppliancesList = Array<InMageRcmApplianceDetails>;
+/** InMageRcm appliance specific details. */
+export interface InMageRcmApplianceSpecificDetails {
+  /** Gets the class type. Overridden in derived classes. */
+  instanceType: InMageRcmApplianceSpecificDetailsInstanceType;
+  /** The list of appliances. */
+  appliances?: InMageRcmApplianceSpecificDetailsAppliancesList | undefined;
+}
 /** Replication appliance properties. */
 export interface ReplicationApplianceProperties {
   /** Provider specific settings. */
-  providerSpecificDetails?: EventProviderSpecificDetails | undefined;
+  providerSpecificDetails?: InMageRcmApplianceSpecificDetails | undefined;
 }
 /** Replication appliance definition. */
 export interface ReplicationAppliance {
@@ -4302,12 +9588,36 @@ export interface MigrateReplicationFabricToAadResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number | undefined;
 }
-/** Migrate provider specific input. */
-export type MigrateProviderSpecificInput = AddDisksProviderSpecificInput;
+/** The class type. */
+export type VMwareCbtMigrateInputInstanceType = "VMwareCbt";
+/** Managed RunCommand script input */
+export interface ManagedRunCommandScriptInput {
+  /** The step name. */
+  stepName: string;
+  /** The script url. */
+  scriptUrl: string;
+  /** The script parameters. */
+  scriptParameters: string;
+}
+/** The managed run command script input. */
+export type VMwareCbtMigrateInputPostMigrationStepsList = Array<ManagedRunCommandScriptInput>;
+/** VMwareCbt specific migrate input. */
+export interface VMwareCbtMigrateInput {
+  /** The class type. */
+  instanceType: VMwareCbtMigrateInputInstanceType | (string & {});
+  /** A value indicating whether VM is to be shutdown. */
+  performShutdown: string;
+  /** A value indicating the inplace OS Upgrade version. */
+  osUpgradeVersion?: string | undefined;
+  /** The managed run command script input. */
+  postMigrationSteps?: VMwareCbtMigrateInputPostMigrationStepsList | undefined;
+  /** The target capacity reservation group ARM Id. */
+  targetCapacityReservationGroupId?: string | undefined;
+}
 /** Migrate input properties. */
 export interface MigrateInputProperties {
   /** The provider specific details. */
-  providerSpecificDetails: AddDisksProviderSpecificInput;
+  providerSpecificDetails: VMwareCbtMigrateInput;
 }
 export interface MigrateReplicationMigrationItemRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4343,10 +9653,51 @@ export interface MigrateReplicationMigrationItemResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number | undefined;
 }
-/** Test migrate provider specific input. */
-export type TestMigrateProviderSpecificInput = AddDisksProviderSpecificInput;
+/** The class type. */
+export type VMwareCbtTestMigrateInputInstanceType = "VMwareCbt";
+/** VMwareCbt NIC input. */
+export interface VMwareCbtNicInput {
+  /** The NIC Id. */
+  nicId: string;
+  /** A value indicating whether this is the primary NIC. */
+  isPrimaryNic: string;
+  /** Target subnet name. */
+  targetSubnetName?: string | undefined;
+  /** The static IP address. */
+  targetStaticIPAddress?: string | undefined;
+  /** A value indicating whether this NIC is selected for migration. */
+  isSelectedForMigration?: string | undefined;
+  /** Target NIC name. */
+  targetNicName?: string | undefined;
+  /** The test subnet name. */
+  testSubnetName?: string | undefined;
+  /** The test static IP address. */
+  testStaticIPAddress?: string | undefined;
+}
+/** The list of NIC details. */
+export type VMwareCbtTestMigrateInputVmNicsList = Array<VMwareCbtNicInput>;
+/** The managed run command script input. */
+export type VMwareCbtTestMigrateInputPostMigrationStepsList = Array<ManagedRunCommandScriptInput>;
+/** VMwareCbt specific test migrate input. */
+export interface VMwareCbtTestMigrateInput {
+  /** The class type. */
+  instanceType: VMwareCbtTestMigrateInputInstanceType | (string & {});
+  /** The recovery point Id. */
+  recoveryPointId: string;
+  /** The test network Id. */
+  networkId: string;
+  /** The list of NIC details. */
+  vmNics?: VMwareCbtTestMigrateInputVmNicsList | undefined;
+  /** A value indicating the inplace OS Upgrade version. */
+  osUpgradeVersion?: string | undefined;
+  /** The managed run command script input. */
+  postMigrationSteps?: VMwareCbtTestMigrateInputPostMigrationStepsList | undefined;
+}
 /** Test migrate input properties. */
-export type TestMigrateInputProperties = MigrateInputProperties;
+export interface TestMigrateInputProperties {
+  /** The provider specific details. */
+  providerSpecificDetails: VMwareCbtTestMigrateInput;
+}
 export interface MigrateReplicationMigrationItemsTestRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -4361,7 +9712,7 @@ export interface MigrateReplicationMigrationItemsTestRequest {
   /** Migration item name. */
   migrationItemName: string;
   /** Test migrate input properties. */
-  properties: MigrateInputProperties;
+  properties: TestMigrateInputProperties;
 }
 export interface MigrateReplicationMigrationItemsTestResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -4382,7 +9733,10 @@ export interface MigrateReplicationMigrationItemsTestResponse {
   retryAfter?: number | undefined;
 }
 /** Pause replication input properties. */
-export type PauseReplicationInputProperties = AddDisksProviderSpecificInput;
+export interface PauseReplicationInputProperties {
+  /** The class type. */
+  instanceType: string;
+}
 export interface PauseReplicationMigrationItemReplicationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -4397,7 +9751,7 @@ export interface PauseReplicationMigrationItemReplicationRequest {
   /** Migration item name. */
   migrationItemName: string;
   /** Pause replication input properties. */
-  properties: AddDisksProviderSpecificInput;
+  properties: PauseReplicationInputProperties;
 }
 export interface PauseReplicationMigrationItemReplicationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -4585,12 +9939,25 @@ export interface RemoveReplicationFabricInfraResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number | undefined;
 }
-/** Remove Disk provider specific input. */
-export type RemoveDisksProviderSpecificInput = AddDisksProviderSpecificInput;
+/** The class type. */
+export type A2ARemoveDisksInputInstanceType = "A2A";
+/** The list of vm disk vhd URIs. */
+export type A2ARemoveDisksInputVmDisksUrisList = Array<string>;
+/** The list of vm managed disk Ids. */
+export type A2ARemoveDisksInputVmManagedDisksIdsList = Array<string>;
+/** A2A remove disk(s) input. */
+export interface A2ARemoveDisksInput {
+  /** The class type. */
+  instanceType: A2ARemoveDisksInputInstanceType | (string & {});
+  /** The list of vm disk vhd URIs. */
+  vmDisksUris?: A2ARemoveDisksInputVmDisksUrisList | undefined;
+  /** The list of vm managed disk Ids. */
+  vmManagedDisksIds?: A2ARemoveDisksInputVmManagedDisksIdsList | undefined;
+}
 /** Remove Disk input properties. */
 export interface RemoveDisksInputProperties {
   /** The ReplicationProviderInput. For HyperVReplicaAzure provider, it will be AzureEnableProtectionInput object. For San provider, it will be SanEnableProtectionInput object. For HyperVReplicaAzure provider, it can be null. */
-  providerSpecificDetails?: AddDisksProviderSpecificInput | undefined;
+  providerSpecificDetails?: A2ARemoveDisksInput | undefined;
 }
 export interface RemoveReplicationProtectedItemDisksRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4706,10 +10073,20 @@ export interface ReplicationFabricsReassociateGatewayResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number | undefined;
 }
-/** Resync provider specific input. */
-export type ResyncProviderSpecificInput = AddDisksProviderSpecificInput;
+/** The class type. */
+export type VMwareCbtResyncInputInstanceType = "VMwareCbt";
+/** VMwareCbt specific resync input. */
+export interface VMwareCbtResyncInput {
+  /** The class type. */
+  instanceType: VMwareCbtResyncInputInstanceType | (string & {});
+  /** A value indicating whether CBT is to be reset. */
+  skipCbtReset: string;
+}
 /** Resync input properties. */
-export type ResyncInputProperties = MigrateInputProperties;
+export interface ResyncInputProperties {
+  /** The provider specific details. */
+  providerSpecificDetails: VMwareCbtResyncInput;
+}
 export interface ReplicationMigrationItemsResyncRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -4724,7 +10101,7 @@ export interface ReplicationMigrationItemsResyncRequest {
   /** Migration item name. */
   migrationItemName: string;
   /** Resync input properties. */
-  properties: MigrateInputProperties;
+  properties: ResyncInputProperties;
 }
 export interface ReplicationMigrationItemsResyncResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -4783,14 +10160,58 @@ export interface ReplicationMigrationItemsTestMigrateCleanupResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number | undefined;
 }
+/** The class type. */
+export type HyperVReplicaAzureFailbackProviderInputInstanceType = "HyperVReplicaAzureFailback";
+/** HyperVReplicaAzureFailback specific planned failover input. */
+export interface HyperVReplicaAzureFailbackProviderInput {
+  /** The class type. */
+  instanceType: HyperVReplicaAzureFailbackProviderInputInstanceType;
+  /** Data sync option. */
+  dataSyncOption?: string | undefined;
+  /** ALR options to create alternate recovery. */
+  recoveryVmCreationOption?: string | undefined;
+  /** Provider Id for alternate location. */
+  providerIdForAlternateRecovery?: string | undefined;
+}
+/** The class type. */
+export type HyperVReplicaAzurePlannedFailoverProviderInputInstanceType = "HyperVReplicaAzure";
+/** HyperVReplicaAzure specific planned failover input. */
+export interface HyperVReplicaAzurePlannedFailoverProviderInput {
+  /** The class type. */
+  instanceType: HyperVReplicaAzurePlannedFailoverProviderInputInstanceType;
+  /** Primary kek certificate pfx. */
+  primaryKekCertificatePfx?: string | undefined;
+  /** Secondary kek certificate pfx. */
+  secondaryKekCertificatePfx?: string | undefined;
+  /** The recovery point id to be passed to failover to a particular recovery point. In case of latest recovery point, null should be passed. */
+  recoveryPointId?: string | undefined;
+  /** A value indicating the inplace OS Upgrade version. */
+  osUpgradeVersion?: string | undefined;
+  /** The target capacity reservation group ARM Id. */
+  targetCapacityReservationGroupId?: string | undefined;
+}
+/** The class type. */
+export type InMageRcmFailbackPlannedFailoverProviderInputInstanceType = "InMageRcmFailback";
+/** The recovery point type. */
+export type InMageRcmFailbackRecoveryPointType = "ApplicationConsistent" | "CrashConsistent";
+/** Provider specific input for InMageRcmFailback failover. */
+export interface InMageRcmFailbackPlannedFailoverProviderInput {
+  /** The class type. */
+  instanceType: InMageRcmFailbackPlannedFailoverProviderInputInstanceType;
+  /** The recovery point type. */
+  recoveryPointType: InMageRcmFailbackRecoveryPointType | (string & {});
+}
 /** Provider specific failover input. */
-export type PlannedFailoverProviderSpecificFailoverInput = AddDisksProviderSpecificInput;
+export type PlannedFailoverProviderSpecificFailoverInput =
+  | HyperVReplicaAzureFailbackProviderInput
+  | HyperVReplicaAzurePlannedFailoverProviderInput
+  | InMageRcmFailbackPlannedFailoverProviderInput;
 /** Input definition for planned failover input properties. */
 export interface PlannedFailoverInputProperties {
   /** Failover direction. */
   failoverDirection?: string | undefined;
   /** Provider specific settings. */
-  providerSpecificDetails?: AddDisksProviderSpecificInput | undefined;
+  providerSpecificDetails?: PlannedFailoverProviderSpecificFailoverInput | undefined;
 }
 export interface ReplicationProtectedItemsPlannedFailoverRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4897,14 +10318,136 @@ export interface ReplicationProtectedItemsRepairReplicationResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number | undefined;
 }
+/** The class type. */
+export type A2AReprotectInputInstanceType = "A2A";
+/** The list of vm disk details. */
+export type A2AReprotectInputVmDisksList = Array<A2AVmDiskInputDetails>;
+/** Azure specific reprotect input. */
+export interface A2AReprotectInput {
+  /** The class type. */
+  instanceType: A2AReprotectInputInstanceType;
+  /** The recovery container Id. */
+  recoveryContainerId?: string | undefined;
+  /** The list of vm disk details. */
+  vmDisks?: A2AReprotectInputVmDisksList | undefined;
+  /** The recovery resource group Id. Valid for V2 scenarios. */
+  recoveryResourceGroupId?: string | undefined;
+  /** The recovery cloud service Id. Valid for V1 scenarios. */
+  recoveryCloudServiceId?: string | undefined;
+  /** The recovery availability set. */
+  recoveryAvailabilitySetId?: string | undefined;
+  /** The Policy Id. */
+  policyId?: string | undefined;
+}
+/** The class type. */
+export type HyperVReplicaAzureReprotectInputInstanceType = "HyperVReplicaAzure";
+/** Azure specific reprotect input. */
+export interface HyperVReplicaAzureReprotectInput {
+  /** The class type. */
+  instanceType: HyperVReplicaAzureReprotectInputInstanceType;
+  /** The Hyper-V host Vm Id. */
+  hvHostVmId?: string | undefined;
+  /** The Vm Name. */
+  vmName?: string | undefined;
+  /** The OS type associated with vm. */
+  osType?: string | undefined;
+  /** The OS disk VHD id associated with vm. */
+  vHDId?: string | undefined;
+  /** The storage account name. */
+  storageAccountId?: string | undefined;
+  /** The storage account to be used for logging during replication. */
+  logStorageAccountId?: string | undefined;
+}
+/** The class type. */
+export type InMageAzureV2ReprotectInputInstanceType = "InMageAzureV2";
+/** The disks to include list. */
+export type InMageAzureV2ReprotectInputDisksToIncludeList = Array<string>;
+/** InMageAzureV2 specific provider input. */
+export interface InMageAzureV2ReprotectInput {
+  /** The class type. */
+  instanceType: InMageAzureV2ReprotectInputInstanceType;
+  /** The Master target Id. */
+  masterTargetId?: string | undefined;
+  /** The Process Server Id. */
+  processServerId?: string | undefined;
+  /** The storage account id. */
+  storageAccountId?: string | undefined;
+  /** The CS account Id. */
+  runAsAccountId?: string | undefined;
+  /** The Policy Id. */
+  policyId?: string | undefined;
+  /** The storage account to be used for logging during replication. */
+  logStorageAccountId?: string | undefined;
+  /** The disks to include list. */
+  disksToInclude?: InMageAzureV2ReprotectInputDisksToIncludeList | undefined;
+}
+/** The class type. */
+export type InMageRcmFailbackReprotectInputInstanceType = "InMageRcmFailback";
+/** InMageRcmFailback specific provider input. */
+export interface InMageRcmFailbackReprotectInput {
+  /** The class type. */
+  instanceType: InMageRcmFailbackReprotectInputInstanceType;
+  /** The process server Id. */
+  processServerId: string;
+  /** The run as account Id. */
+  runAsAccountId?: string | undefined;
+  /** The Policy Id. */
+  policyId: string;
+}
+/** The class type. */
+export type InMageRcmReprotectInputInstanceType = "InMageRcm";
+/** InMageRcm specific provider input. */
+export interface InMageRcmReprotectInput {
+  /** The class type. */
+  instanceType: InMageRcmReprotectInputInstanceType;
+  /** The reprotect agent Id. */
+  reprotectAgentId: string;
+  /** The target datastore name. */
+  datastoreName: string;
+  /** The log storage account ARM Id. */
+  logStorageAccountId: string;
+  /** The Policy Id. */
+  policyId?: string | undefined;
+}
+/** The class type. */
+export type InMageReprotectInputInstanceType = "InMage";
+/** The disks to include list. */
+export type InMageReprotectInputDisksToIncludeList = Array<string>;
+/** InMageAzureV2 specific provider input. */
+export interface InMageReprotectInput {
+  /** The class type. */
+  instanceType: InMageReprotectInputInstanceType;
+  /** The Master Target Id. */
+  masterTargetId: string;
+  /** The Process Server Id. */
+  processServerId: string;
+  /** The retention drive to use on the MT. */
+  retentionDrive: string;
+  /** The CS account Id. */
+  runAsAccountId?: string | undefined;
+  /** The target datastore name. */
+  datastoreName?: string | undefined;
+  /** The enable disk exclusion input. */
+  diskExclusionInput?: InMageDiskExclusionInput | undefined;
+  /** The Policy Id. */
+  profileId: string;
+  /** The disks to include list. */
+  disksToInclude?: InMageReprotectInputDisksToIncludeList | undefined;
+}
 /** Provider specific reverse replication input. */
-export type ReverseReplicationProviderSpecificInput = AddDisksProviderSpecificInput;
+export type ReverseReplicationProviderSpecificInput =
+  | A2AReprotectInput
+  | HyperVReplicaAzureReprotectInput
+  | InMageAzureV2ReprotectInput
+  | InMageRcmFailbackReprotectInput
+  | InMageRcmReprotectInput
+  | InMageReprotectInput;
 /** Reverse replication input properties. */
 export interface ReverseReplicationInputProperties {
   /** Failover direction. */
   failoverDirection?: string | undefined;
   /** Provider specific reverse replication input. */
-  providerSpecificDetails?: AddDisksProviderSpecificInput | undefined;
+  providerSpecificDetails?: ReverseReplicationProviderSpecificInput | undefined;
 }
 export interface ReplicationProtectedItemsReprotectRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4986,14 +10529,25 @@ export interface ReplicationProtectedItemsResolveHealthErrorsResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number | undefined;
 }
-/** Provider specific switch provider input. */
-export type SwitchProviderProviderSpecificInput = AddDisksProviderSpecificInput;
+/** The class type. */
+export type InMageAzureV2SwitchProviderProviderInputInstanceType = "InMageAzureV2";
+/** Provider specific input for InMageAzureV2 switch provider. */
+export interface InMageAzureV2SwitchProviderProviderInput {
+  /** The class type. */
+  instanceType: InMageAzureV2SwitchProviderProviderInputInstanceType | (string & {});
+  /** The target vault Id. */
+  targetVaultID: string;
+  /** The target fabric Id. */
+  targetFabricID: string;
+  /** The target appliance Id. */
+  targetApplianceID: string;
+}
 /** Input definition for switch provider input properties. */
 export interface SwitchProviderInputProperties {
   /** Target provider type. */
   targetInstanceType?: string | undefined;
   /** Provider specific settings. */
-  providerSpecificDetails?: AddDisksProviderSpecificInput | undefined;
+  providerSpecificDetails?: InMageAzureV2SwitchProviderProviderInput | undefined;
 }
 export interface ReplicationProtectedItemsSwitchProviderRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5029,8 +10583,76 @@ export interface ReplicationProtectedItemsSwitchProviderResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number | undefined;
 }
+/** The class type. */
+export type A2AUnplannedFailoverInputInstanceType = "A2A";
+/** A2A provider specific input for unplanned failover. */
+export interface A2AUnplannedFailoverInput {
+  /** The class type. */
+  instanceType: A2AUnplannedFailoverInputInstanceType;
+  /** The recovery point id to be passed to failover to a particular recovery point. In case of latest recovery point, null should be passed. */
+  recoveryPointId?: string | undefined;
+  /** A value indicating whether to use recovery cloud service for failover or not. */
+  cloudServiceCreationOption?: string | undefined;
+}
+/** The class type. */
+export type HyperVReplicaAzureUnplannedFailoverInputInstanceType = "HyperVReplicaAzure";
+/** HvrA provider specific input for unplanned failover. */
+export interface HyperVReplicaAzureUnplannedFailoverInput {
+  /** The class type. */
+  instanceType: HyperVReplicaAzureUnplannedFailoverInputInstanceType;
+  /** Primary kek certificate pfx. */
+  primaryKekCertificatePfx?: string | undefined;
+  /** Secondary kek certificate pfx. */
+  secondaryKekCertificatePfx?: string | undefined;
+  /** The recovery point id to be passed to failover to a particular recovery point. In case of latest recovery point, null should be passed. */
+  recoveryPointId?: string | undefined;
+}
+/** The class type. */
+export type InMageAzureV2UnplannedFailoverInputInstanceType = "InMageAzureV2";
+/** InMageAzureV2 provider specific input for unplanned failover. */
+export interface InMageAzureV2UnplannedFailoverInput {
+  /** The class type. */
+  instanceType: InMageAzureV2UnplannedFailoverInputInstanceType;
+  /** The recovery point id to be passed to failover to a particular recovery point. In case of latest recovery point, null should be passed. */
+  recoveryPointId?: string | undefined;
+  /** A value indicating the inplace OS Upgrade version. */
+  osUpgradeVersion?: string | undefined;
+}
+/** The class type. */
+export type InMageRcmUnplannedFailoverInputInstanceType = "InMageRcm";
+/** InMageRcm provider specific input for unplanned failover. */
+export interface InMageRcmUnplannedFailoverInput {
+  /** The class type. */
+  instanceType: InMageRcmUnplannedFailoverInputInstanceType;
+  /** A value indicating whether VM is to be shutdown. */
+  performShutdown: string;
+  /** The recovery point id to be passed to failover to a particular recovery point. In case of latest recovery point, null should be passed. */
+  recoveryPointId?: string | undefined;
+  /** A value indicating the inplace OS Upgrade version. */
+  osUpgradeVersion?: string | undefined;
+  /** The target capacity reservation group ARM Id. */
+  targetCapacityReservationGroupId?: string | undefined;
+}
+/** The class type. */
+export type InMageUnplannedFailoverInputInstanceType = "InMage";
+/** The recovery point type. Values from LatestTime, LatestTag or Custom. In the case of custom, the recovery point provided by RecoveryPointId will be used. In the other two cases, recovery point id will be ignored. */
+export type RecoveryPointType = "LatestTime" | "LatestTag" | "Custom";
+/** Provider specific input for InMage unplanned failover. */
+export interface InMageUnplannedFailoverInput {
+  /** The class type. */
+  instanceType: InMageUnplannedFailoverInputInstanceType;
+  /** The recovery point type. Values from LatestTime, LatestTag or Custom. In the case of custom, the recovery point provided by RecoveryPointId will be used. In the other two cases, recovery point id will be ignored. */
+  recoveryPointType?: RecoveryPointType | (string & {}) | undefined;
+  /** The recovery point id to be passed to failover to a particular recovery point. In case of latest recovery point, null should be passed. */
+  recoveryPointId?: string | undefined;
+}
 /** Provider specific unplanned failover input. */
-export type UnplannedFailoverProviderSpecificInput = AddDisksProviderSpecificInput;
+export type UnplannedFailoverProviderSpecificInput =
+  | A2AUnplannedFailoverInput
+  | HyperVReplicaAzureUnplannedFailoverInput
+  | InMageAzureV2UnplannedFailoverInput
+  | InMageRcmUnplannedFailoverInput
+  | InMageUnplannedFailoverInput;
 /** Input definition for unplanned failover input properties. */
 export interface UnplannedFailoverInputProperties {
   /** Failover direction. */
@@ -5038,7 +10660,7 @@ export interface UnplannedFailoverInputProperties {
   /** Source site operations status. */
   sourceSiteOperations?: string | undefined;
   /** Provider specific settings. */
-  providerSpecificDetails?: AddDisksProviderSpecificInput | undefined;
+  providerSpecificDetails?: UnplannedFailoverProviderSpecificInput | undefined;
 }
 export interface ReplicationProtectedItemsUnplannedFailoverRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5106,10 +10728,30 @@ export interface ReplicationProtectionClustersRepairReplicationResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number | undefined;
 }
-/** Provider specific unplanned cluster failover input. */
-export type ClusterUnplannedFailoverProviderSpecificInput = AddDisksProviderSpecificInput;
+/** The class type. */
+export type A2AClusterUnplannedFailoverInputInstanceType = "A2A";
+/** The list of individual node recovery points. */
+export type A2AClusterUnplannedFailoverInputIndividualNodeRecoveryPointsList = Array<string>;
+/** A2A provider specific input for unplanned cluster failover. */
+export interface A2AClusterUnplannedFailoverInput {
+  /** The class type. */
+  instanceType: A2AClusterUnplannedFailoverInputInstanceType | (string & {});
+  /** The cluster recovery point id to be passed to failover to a particular recovery point. */
+  clusterRecoveryPointId?: string | undefined;
+  /** The list of individual node recovery points. */
+  individualNodeRecoveryPoints?:
+    | A2AClusterUnplannedFailoverInputIndividualNodeRecoveryPointsList
+    | undefined;
+}
 /** Input definition for unplanned failover input properties. */
-export type ClusterUnplannedFailoverInputProperties = UnplannedFailoverInputProperties;
+export interface ClusterUnplannedFailoverInputProperties {
+  /** Failover direction. */
+  failoverDirection?: string | undefined;
+  /** Source site operations status. */
+  sourceSiteOperations?: string | undefined;
+  /** Provider specific settings. */
+  providerSpecificDetails?: A2AClusterUnplannedFailoverInput | undefined;
+}
 export interface ReplicationProtectionClustersUnplannedFailoverRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -5124,7 +10766,7 @@ export interface ReplicationProtectionClustersUnplannedFailoverRequest {
   /** Replication protection cluster name. */
   replicationProtectionClusterName: string;
   /** Unplanned failover input properties. */
-  properties: UnplannedFailoverInputProperties;
+  properties: ClusterUnplannedFailoverInputProperties;
 }
 export interface ReplicationProtectionClustersUnplannedFailoverResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -5185,15 +10827,73 @@ export interface ReplicationProtectionContainersDiscoverProtectableItemResponse 
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number | undefined;
 }
-/** Provider specific switch cluster protection input. */
-export type SwitchClusterProtectionProviderSpecificInput =
-  SharedDiskReplicationProviderSpecificSettings;
+/** Gets the Instance type. */
+export type A2ASwitchClusterProtectionInputInstanceType = "A2A";
+/** A2A managed disk input details for cluster switch protection. */
+export interface A2AClusterVmManagedDiskInputDetails {
+  /** The disk Id. */
+  diskId: string;
+  /** The primary staging storage account Arm Id. */
+  primaryStagingAzureStorageAccountId: string;
+  /** The target resource group Arm Id. */
+  recoveryResourceGroupId: string;
+  /** The replica disk type. Its an optional value and will be same as source disk type if not user provided. */
+  recoveryReplicaDiskAccountType?: string | undefined;
+  /** The target disk type after failover. Its an optional value and will be same as source disk type if not user provided. */
+  recoveryTargetDiskAccountType?: string | undefined;
+  /** The recovery disk encryption set Id. */
+  recoveryDiskEncryptionSetId?: string | undefined;
+  /** The recovery disk encryption information (for one / single pass flows). */
+  diskEncryptionInfo?: DiskEncryptionInfo | undefined;
+  /** The network access policy for the recovery managed disk. */
+  recoveryNetworkAccessPolicy?: DiskNetworkAccessPolicy | (string & {}) | undefined;
+  /** The recovery disk access Arm Id. */
+  recoveryDiskAccessId?: string | undefined;
+  /** The public network access setting for the recovery managed disk. */
+  recoveryPublicNetworkAccess?: DiskPublicNetworkAccess | (string & {}) | undefined;
+}
+/** The list of vm managed disk details. */
+export type A2AProtectedItemDetailVmManagedDisksList = Array<A2AClusterVmManagedDiskInputDetails>;
+/** A2A specific switch cluster protection input. */
+export interface A2AProtectedItemDetail {
+  /** The list of vm managed disk details. */
+  vmManagedDisks?: A2AProtectedItemDetailVmManagedDisksList | undefined;
+  /** The recovery resource group Id. */
+  recoveryResourceGroupId?: string | undefined;
+  /** The recovery availability set. */
+  recoveryAvailabilitySetId?: string | undefined;
+  /** The boot diagnostic storage account. */
+  recoveryBootDiagStorageAccountId?: string | undefined;
+  /** The recovery availability zone. */
+  recoveryAvailabilityZone?: string | undefined;
+  /** The recovery proximity placement group Id. */
+  recoveryProximityPlacementGroupId?: string | undefined;
+  /** The virtual machine scale set id. */
+  recoveryVirtualMachineScaleSetId?: string | undefined;
+  /** The recovery capacity reservation group Id. */
+  recoveryCapacityReservationGroupId?: string | undefined;
+  /** The recovery disk encryption information. */
+  diskEncryptionInfo?: DiskEncryptionInfo | undefined;
+  /** The Replication Protected item name. */
+  replicationProtectedItemName?: string | undefined;
+}
+export type A2ASwitchClusterProtectionInputProtectedItemsDetailList = Array<A2AProtectedItemDetail>;
+/** A2A specific switch cluster protection input. */
+export interface A2ASwitchClusterProtectionInput {
+  /** Gets the Instance type. */
+  instanceType: A2ASwitchClusterProtectionInputInstanceType | (string & {});
+  /** The recovery container Id. */
+  recoveryContainerId?: string | undefined;
+  /** The Policy Id. */
+  policyId?: string | undefined;
+  protectedItemsDetail?: A2ASwitchClusterProtectionInputProtectedItemsDetailList | undefined;
+}
 /** Switch cluster protection input properties. */
 export interface SwitchClusterProtectionInputProperties {
   /** The unique replication protection cluster name. */
   replicationProtectionClusterName?: string | undefined;
   /** Provider specific switch protection input. */
-  providerSpecificDetails?: SharedDiskReplicationProviderSpecificSettings | undefined;
+  providerSpecificDetails?: A2ASwitchClusterProtectionInput | undefined;
 }
 export interface ReplicationProtectionContainersSwitchClusterProtectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5229,14 +10929,53 @@ export interface ReplicationProtectionContainersSwitchClusterProtectionResponse 
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number | undefined;
 }
-/** Provider specific switch protection input. */
-export type SwitchProtectionProviderSpecificInput = SharedDiskReplicationProviderSpecificSettings;
+/** Gets the Instance type. */
+export type A2ASwitchProtectionInputInstanceType = "A2A";
+/** The list of vm disk details. */
+export type A2ASwitchProtectionInputVmDisksList = Array<A2AVmDiskInputDetails>;
+/** The list of vm managed disk details. */
+export type A2ASwitchProtectionInputVmManagedDisksList = Array<A2AVmManagedDiskInputDetails>;
+/** A2A specific switch protection input. */
+export interface A2ASwitchProtectionInput {
+  /** Gets the Instance type. */
+  instanceType: A2ASwitchProtectionInputInstanceType | (string & {});
+  /** The recovery container Id. */
+  recoveryContainerId?: string | undefined;
+  /** The list of vm disk details. */
+  vmDisks?: A2ASwitchProtectionInputVmDisksList | undefined;
+  /** The list of vm managed disk details. */
+  vmManagedDisks?: A2ASwitchProtectionInputVmManagedDisksList | undefined;
+  /** The recovery resource group Id. Valid for V2 scenarios. */
+  recoveryResourceGroupId?: string | undefined;
+  /** The recovery cloud service Id. Valid for V1 scenarios. */
+  recoveryCloudServiceId?: string | undefined;
+  /** The recovery availability set. */
+  recoveryAvailabilitySetId?: string | undefined;
+  /** The Policy Id. */
+  policyId?: string | undefined;
+  /** The boot diagnostic storage account. */
+  recoveryBootDiagStorageAccountId?: string | undefined;
+  /** The recovery availability zone. */
+  recoveryAvailabilityZone?: string | undefined;
+  /** The recovery proximity placement group Id. */
+  recoveryProximityPlacementGroupId?: string | undefined;
+  /** The virtual machine scale set id. */
+  recoveryVirtualMachineScaleSetId?: string | undefined;
+  /** The recovery capacity reservation group Id. */
+  recoveryCapacityReservationGroupId?: string | undefined;
+  /** the platform fault domain. */
+  platformFaultDomain?: number | undefined;
+  /** The recovery disk encryption information. */
+  diskEncryptionInfo?: DiskEncryptionInfo | undefined;
+  /** The Azure resource ID of the confidential data disk encryption user-assigned identity. Applicable to CMK confidential VM data disks. */
+  recoveryConfidentialDataDiskEncryptionIdentity?: string | undefined;
+}
 /** Switch protection input properties. */
 export interface SwitchProtectionInputProperties {
   /** The unique replication protected item name. */
   replicationProtectedItemName?: string | undefined;
   /** Provider specific switch protection input. */
-  providerSpecificDetails?: SharedDiskReplicationProviderSpecificSettings | undefined;
+  providerSpecificDetails?: A2ASwitchProtectionInput | undefined;
 }
 export interface ReplicationProtectionContainersSwitchProtectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5272,11 +11011,128 @@ export interface ReplicationProtectionContainersSwitchProtectionResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number | undefined;
 }
+/** The class type. */
+export type RecoveryPlanA2AFailoverInputInstanceType = "A2A";
+/** The recovery point type. */
+export type A2ARpRecoveryPointType =
+  | "Latest"
+  | "LatestApplicationConsistent"
+  | "LatestCrashConsistent"
+  | "LatestProcessed";
+/** A value indicating whether multi VM sync enabled VMs should use multi VM sync points for failover. */
+export type MultiVmSyncPointOption = "UseMultiVmSyncRecoveryPoint" | "UsePerVmRecoveryPoint";
+/** Recovery plan A2A failover input. */
+export interface RecoveryPlanA2AFailoverInput {
+  /** The class type. */
+  instanceType: RecoveryPlanA2AFailoverInputInstanceType;
+  /** The recovery point type. */
+  recoveryPointType: A2ARpRecoveryPointType | (string & {});
+  /** A value indicating whether to use recovery cloud service for TFO or not. */
+  cloudServiceCreationOption?: string | undefined;
+  /** A value indicating whether multi VM sync enabled VMs should use multi VM sync points for failover. */
+  multiVmSyncPointOption?: MultiVmSyncPointOption | (string & {}) | undefined;
+}
+/** The class type. */
+export type RecoveryPlanHyperVReplicaAzureFailbackInputInstanceType = "HyperVReplicaAzureFailback";
+/** The data sync option. */
+export type DataSyncStatus = "ForDownTime" | "ForSynchronization";
+/** The ALR option. */
+export type AlternateLocationRecoveryOption = "CreateVmIfNotFound" | "NoAction";
+/** Recovery plan HVR Azure failback input. */
+export interface RecoveryPlanHyperVReplicaAzureFailbackInput {
+  /** The class type. */
+  instanceType: RecoveryPlanHyperVReplicaAzureFailbackInputInstanceType;
+  /** The data sync option. */
+  dataSyncOption: DataSyncStatus | (string & {});
+  /** The ALR option. */
+  recoveryVmCreationOption: AlternateLocationRecoveryOption | (string & {});
+}
+/** The class type. */
+export type RecoveryPlanHyperVReplicaAzureFailoverInputInstanceType = "HyperVReplicaAzure";
+/** The recovery point type. */
+export type HyperVReplicaAzureRpRecoveryPointType =
+  | "Latest"
+  | "LatestApplicationConsistent"
+  | "LatestProcessed";
+/** Recovery plan HVR Azure failover input. */
+export interface RecoveryPlanHyperVReplicaAzureFailoverInput {
+  /** The class type. */
+  instanceType: RecoveryPlanHyperVReplicaAzureFailoverInputInstanceType;
+  /** The primary KEK certificate PFX. */
+  primaryKekCertificatePfx?: string | undefined;
+  /** The secondary KEK certificate PFX. */
+  secondaryKekCertificatePfx?: string | undefined;
+  /** The recovery point type. */
+  recoveryPointType?: HyperVReplicaAzureRpRecoveryPointType | (string & {}) | undefined;
+}
+/** The class type. */
+export type RecoveryPlanInMageAzureV2FailoverInputInstanceType = "InMageAzureV2";
+/** The recovery point type. */
+export type InMageV2RpRecoveryPointType =
+  | "Latest"
+  | "LatestApplicationConsistent"
+  | "LatestCrashConsistent"
+  | "LatestProcessed";
+/** Recovery plan InMageAzureV2 failover input. */
+export interface RecoveryPlanInMageAzureV2FailoverInput {
+  /** The class type. */
+  instanceType: RecoveryPlanInMageAzureV2FailoverInputInstanceType;
+  /** The recovery point type. */
+  recoveryPointType: InMageV2RpRecoveryPointType | (string & {});
+  /** A value indicating whether multi VM sync enabled VMs should use multi VM sync points for failover. */
+  useMultiVmSyncPoint?: string | undefined;
+}
+/** The class type. */
+export type RecoveryPlanInMageFailoverInputInstanceType = "InMage";
+/** The recovery point type. */
+export type RpInMageRecoveryPointType = "LatestTime" | "LatestTag" | "Custom";
+/** Recovery plan InMage failover input. */
+export interface RecoveryPlanInMageFailoverInput {
+  /** The class type. */
+  instanceType: RecoveryPlanInMageFailoverInputInstanceType;
+  /** The recovery point type. */
+  recoveryPointType: RpInMageRecoveryPointType | (string & {});
+}
+/** The class type. */
+export type RecoveryPlanInMageRcmFailbackFailoverInputInstanceType = "InMageRcmFailback";
+/** Recovery plan InMageRcmFailback failover input. */
+export interface RecoveryPlanInMageRcmFailbackFailoverInput {
+  /** The class type. */
+  instanceType: RecoveryPlanInMageRcmFailbackFailoverInputInstanceType;
+  /** The recovery point type. */
+  recoveryPointType: InMageRcmFailbackRecoveryPointType | (string & {});
+  /** A value indicating whether multi VM sync enabled VMs should use multi VM sync points for failover. */
+  useMultiVmSyncPoint?: string | undefined;
+}
+/** The class type. */
+export type RecoveryPlanInMageRcmFailoverInputInstanceType = "InMageRcm";
+/** The recovery point type. */
+export type RecoveryPlanPointType =
+  | "Latest"
+  | "LatestApplicationConsistent"
+  | "LatestCrashConsistent"
+  | "LatestProcessed";
+/** Recovery plan InMageRcm failover input. */
+export interface RecoveryPlanInMageRcmFailoverInput {
+  /** The class type. */
+  instanceType: RecoveryPlanInMageRcmFailoverInputInstanceType;
+  /** The recovery point type. */
+  recoveryPointType: RecoveryPlanPointType | (string & {});
+  /** A value indicating whether multi VM sync enabled VMs should use multi VM sync points for failover. */
+  useMultiVmSyncPoint?: string | undefined;
+}
 /** Recovery plan provider specific failover input. */
-export type RecoveryPlanProviderSpecificFailoverInput = AddDisksProviderSpecificInput;
+export type RecoveryPlanProviderSpecificFailoverInput =
+  | RecoveryPlanA2AFailoverInput
+  | RecoveryPlanHyperVReplicaAzureFailbackInput
+  | RecoveryPlanHyperVReplicaAzureFailoverInput
+  | RecoveryPlanInMageAzureV2FailoverInput
+  | RecoveryPlanInMageFailoverInput
+  | RecoveryPlanInMageRcmFailbackFailoverInput
+  | RecoveryPlanInMageRcmFailoverInput;
 /** The provider specific properties. */
 export type RecoveryPlanPlannedFailoverInputPropertiesProviderSpecificDetailsList =
-  Array<AddDisksProviderSpecificInput>;
+  Array<RecoveryPlanProviderSpecificFailoverInput>;
 /** Recovery plan planned failover input properties. */
 export interface RecoveryPlanPlannedFailoverInputProperties {
   /** The failover direction. */
@@ -5348,7 +11204,7 @@ export interface ReplicationRecoveryPlansReprotectResponse {
 export type SourceSiteOperations = "Required" | "NotRequired";
 /** The provider specific properties. */
 export type RecoveryPlanUnplannedFailoverInputPropertiesProviderSpecificDetailsList =
-  Array<AddDisksProviderSpecificInput>;
+  Array<RecoveryPlanProviderSpecificFailoverInput>;
 /** Recovery plan unplanned failover input properties. */
 export interface RecoveryPlanUnplannedFailoverInputProperties {
   /** The failover direction. */
@@ -5453,12 +11309,19 @@ export interface ResumeReplicationJobResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number | undefined;
 }
-/** Resume replication provider specific input. */
-export type ResumeReplicationProviderSpecificInput = AddDisksProviderSpecificInput;
+/** The class type. */
+export type VMwareCbtResumeReplicationInputInstanceType = "VMwareCbt";
+/** VMwareCbt specific resume replication input. */
+export interface VMwareCbtResumeReplicationInput {
+  /** The class type. */
+  instanceType: VMwareCbtResumeReplicationInputInstanceType | (string & {});
+  /** A value indicating whether Migration resources to be deleted. */
+  deleteMigrationResources?: string | undefined;
+}
 /** Resume replication input properties. */
 export interface ResumeReplicationInputProperties {
   /** The provider specific input for resume replication. */
-  providerSpecificDetails: AddDisksProviderSpecificInput;
+  providerSpecificDetails: VMwareCbtResumeReplicationInput;
 }
 export interface ResumeReplicationMigrationItemReplicationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5494,8 +11357,74 @@ export interface ResumeReplicationMigrationItemReplicationResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number | undefined;
 }
+/** The class type. */
+export type A2ATestFailoverInputInstanceType = "A2A";
+/** A2A provider specific input for test failover. */
+export interface A2ATestFailoverInput {
+  /** The class type. */
+  instanceType: A2ATestFailoverInputInstanceType;
+  /** The recovery point id to be passed to test failover to a particular recovery point. In case of latest recovery point, null should be passed. */
+  recoveryPointId?: string | undefined;
+  /** A value indicating whether to use recovery cloud service for TFO or not. */
+  cloudServiceCreationOption?: string | undefined;
+}
+/** The class type. */
+export type HyperVReplicaAzureTestFailoverInputInstanceType = "HyperVReplicaAzure";
+/** HvrA provider specific input for test failover. */
+export interface HyperVReplicaAzureTestFailoverInput {
+  /** The class type. */
+  instanceType: HyperVReplicaAzureTestFailoverInputInstanceType;
+  /** Primary kek certificate pfx. */
+  primaryKekCertificatePfx?: string | undefined;
+  /** Secondary kek certificate pfx. */
+  secondaryKekCertificatePfx?: string | undefined;
+  /** The recovery point id to be passed to test failover to a particular recovery point. In case of latest recovery point, null should be passed. */
+  recoveryPointId?: string | undefined;
+  /** A value indicating the inplace OS Upgrade version. */
+  osUpgradeVersion?: string | undefined;
+}
+/** The class type. */
+export type InMageAzureV2TestFailoverInputInstanceType = "InMageAzureV2";
+/** InMageAzureV2 provider specific input for test failover. */
+export interface InMageAzureV2TestFailoverInput {
+  /** The class type. */
+  instanceType: InMageAzureV2TestFailoverInputInstanceType;
+  /** The recovery point id to be passed to test failover to a particular recovery point. In case of latest recovery point, null should be passed. */
+  recoveryPointId?: string | undefined;
+  /** A value indicating the inplace OS Upgrade version. */
+  osUpgradeVersion?: string | undefined;
+}
+/** The class type. */
+export type InMageRcmTestFailoverInputInstanceType = "InMageRcm";
+/** InMageRcm provider specific input for test failover. */
+export interface InMageRcmTestFailoverInput {
+  /** The class type. */
+  instanceType: InMageRcmTestFailoverInputInstanceType;
+  /** The test network Id. */
+  networkId?: string | undefined;
+  /** The recovery point id to be passed to test failover to a particular recovery point. In case of latest recovery point, null should be passed. */
+  recoveryPointId?: string | undefined;
+  /** A value indicating the inplace OS Upgrade version. */
+  osUpgradeVersion?: string | undefined;
+}
+/** The class type. */
+export type InMageTestFailoverInputInstanceType = "InMage";
+/** Provider specific input for InMage test failover. */
+export interface InMageTestFailoverInput {
+  /** The class type. */
+  instanceType: InMageTestFailoverInputInstanceType;
+  /** The recovery point type. Values from LatestTime, LatestTag or Custom. In the case of custom, the recovery point provided by RecoveryPointId will be used. In the other two cases, recovery point id will be ignored. */
+  recoveryPointType?: RecoveryPointType | (string & {}) | undefined;
+  /** The recovery point id to be passed to test failover to a particular recovery point. In case of latest recovery point, null should be passed. */
+  recoveryPointId?: string | undefined;
+}
 /** Provider specific test failover input. */
-export type TestFailoverProviderSpecificInput = AddDisksProviderSpecificInput;
+export type TestFailoverProviderSpecificInput =
+  | A2ATestFailoverInput
+  | HyperVReplicaAzureTestFailoverInput
+  | InMageAzureV2TestFailoverInput
+  | InMageRcmTestFailoverInput
+  | InMageTestFailoverInput;
 /** Input definition for test failover input properties. */
 export interface TestFailoverInputProperties {
   /** Test failover direction. */
@@ -5505,7 +11434,7 @@ export interface TestFailoverInputProperties {
   /** The id of the network to be used for test failover. */
   networkId?: string | undefined;
   /** Provider specific settings. */
-  providerSpecificDetails?: AddDisksProviderSpecificInput | undefined;
+  providerSpecificDetails?: TestFailoverProviderSpecificInput | undefined;
 }
 export interface TestReplicationProtectedItemFailoverRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5582,8 +11511,21 @@ export interface TestReplicationProtectedItemFailoverCleanupResponse {
 }
 /** Failover direction. */
 export type FailoverDirection = "PrimaryToRecovery" | "RecoveryToPrimary";
-/** Provider specific test cluster failover input. */
-export type ClusterTestFailoverProviderSpecificInput = AddDisksProviderSpecificInput;
+/** The class type. */
+export type A2AClusterTestFailoverInputInstanceType = "A2A";
+/** The list of individual node recovery points. */
+export type A2AClusterTestFailoverInputIndividualNodeRecoveryPointsList = Array<string>;
+/** A2A provider specific input for test cluster failover. */
+export interface A2AClusterTestFailoverInput {
+  /** The class type. */
+  instanceType: A2AClusterTestFailoverInputInstanceType | (string & {});
+  /** The cluster recovery point id to be passed to failover to a particular recovery point. */
+  clusterRecoveryPointId?: string | undefined;
+  /** The list of individual node recovery points. */
+  individualNodeRecoveryPoints?:
+    | A2AClusterTestFailoverInputIndividualNodeRecoveryPointsList
+    | undefined;
+}
 /** Input definition for test failover input properties. */
 export interface ClusterTestFailoverInputProperties {
   /** Failover direction. */
@@ -5593,7 +11535,7 @@ export interface ClusterTestFailoverInputProperties {
   /** The id of the network to be used for test failover. */
   networkId?: string | undefined;
   /** Provider specific settings. */
-  providerSpecificDetails?: AddDisksProviderSpecificInput | undefined;
+  providerSpecificDetails?: A2AClusterTestFailoverInput | undefined;
 }
 export interface TestReplicationProtectionClusterFailoverRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5667,7 +11609,7 @@ export interface TestReplicationProtectionClusterFailoverCleanupResponse {
 }
 /** The provider specific properties. */
 export type RecoveryPlanTestFailoverInputPropertiesProviderSpecificDetailsList =
-  Array<AddDisksProviderSpecificInput>;
+  Array<RecoveryPlanProviderSpecificFailoverInput>;
 /** Recovery plan test failover input properties. */
 export interface RecoveryPlanTestFailoverInputProperties {
   /** The failover direction. */
@@ -5746,12 +11688,88 @@ export interface TestReplicationRecoveryPlanFailoverCleanupResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number | undefined;
 }
-/** Update migration item provider specific input. */
-export type UpdateMigrationItemProviderSpecificInput = AddDisksProviderSpecificInput;
+/** The class type. */
+export type VMwareCbtUpdateMigrationItemInputInstanceType = "VMwareCbt";
+/** The list of NIC details. */
+export type VMwareCbtUpdateMigrationItemInputVmNicsList = Array<VMwareCbtNicInput>;
+/** VMwareCbt disk input for update. */
+export interface VMwareCbtUpdateDiskInput {
+  /** The disk Id. */
+  diskId: string;
+  /** The target disk name. */
+  targetDiskName?: string | undefined;
+  /** A value indicating whether the disk is the OS disk. */
+  isOSDisk?: string | undefined;
+  /** The number of IOPS allowed for Premium V2 and Ultra disks. */
+  iops?: number | undefined;
+  /** The total throughput in Mbps for Premium V2 and Ultra disks. */
+  throughputInMbps?: number | undefined;
+  /** The target disk size in GB. */
+  diskSizeInGB?: number | undefined;
+}
+/** The list of disk update properties. */
+export type VMwareCbtUpdateMigrationItemInputVmDisksList = Array<VMwareCbtUpdateDiskInput>;
+/** The target VM tags. */
+export type VMwareCbtUpdateMigrationItemInputTargetVmTagsMap = {
+  [key: string]: string | undefined;
+};
+/** The tags for the target disks. */
+export type VMwareCbtUpdateMigrationItemInputTargetDiskTagsMap = {
+  [key: string]: string | undefined;
+};
+/** The tags for the target NICs. */
+export type VMwareCbtUpdateMigrationItemInputTargetNicTagsMap = {
+  [key: string]: string | undefined;
+};
+/** VMwareCbt specific update migration item input. */
+export interface VMwareCbtUpdateMigrationItemInput {
+  /** The class type. */
+  instanceType: VMwareCbtUpdateMigrationItemInputInstanceType | (string & {});
+  /** The target VM name. */
+  targetVmName?: string | undefined;
+  /** The target VM size. */
+  targetVmSize?: string | undefined;
+  /** The target resource group ARM Id. */
+  targetResourceGroupId?: string | undefined;
+  /** The target availability set ARM Id. */
+  targetAvailabilitySetId?: string | undefined;
+  /** The target availability zone. */
+  targetAvailabilityZone?: string | undefined;
+  /** The target proximity placement group ARM Id. */
+  targetProximityPlacementGroupId?: string | undefined;
+  /** The target boot diagnostics storage account ARM Id. */
+  targetBootDiagnosticsStorageAccountId?: string | undefined;
+  /** The target network ARM Id. */
+  targetNetworkId?: string | undefined;
+  /** The test network ARM Id. */
+  testNetworkId?: string | undefined;
+  /** The list of NIC details. */
+  vmNics?: VMwareCbtUpdateMigrationItemInputVmNicsList | undefined;
+  /** The list of disk update properties. */
+  vmDisks?: VMwareCbtUpdateMigrationItemInputVmDisksList | undefined;
+  /** The license type. */
+  licenseType?: LicenseType | (string & {}) | undefined;
+  /** The SQL Server license type. */
+  sqlServerLicenseType?: SqlServerLicenseType | (string & {}) | undefined;
+  /** The license type for Linux VM's. */
+  linuxLicenseType?: LinuxLicenseType | (string & {}) | undefined;
+  /** The OS name selected by user. */
+  userSelectedOSName?: string | undefined;
+  /** A value indicating whether auto resync is to be done. */
+  performAutoResync?: string | undefined;
+  /** The target VM tags. */
+  targetVmTags?: VMwareCbtUpdateMigrationItemInputTargetVmTagsMap | undefined;
+  /** The tags for the target disks. */
+  targetDiskTags?: VMwareCbtUpdateMigrationItemInputTargetDiskTagsMap | undefined;
+  /** The tags for the target NICs. */
+  targetNicTags?: VMwareCbtUpdateMigrationItemInputTargetNicTagsMap | undefined;
+  /** The target capacity reservation group ARM Id. */
+  targetCapacityReservationGroupId?: string | undefined;
+}
 /** Update migration item input properties. */
 export interface UpdateMigrationItemInputProperties {
   /** The provider specific input to update migration item. */
-  providerSpecificDetails: AddDisksProviderSpecificInput;
+  providerSpecificDetails: VMwareCbtUpdateMigrationItemInput;
 }
 export interface UpdateReplicationMigrationItemRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5787,14 +11805,42 @@ export interface UpdateReplicationMigrationItemResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number | undefined;
 }
+/** The instance type. */
+export type AzureToAzureUpdateNetworkMappingInputInstanceType = "AzureToAzure";
+/** Updates network mappings input. */
+export interface AzureToAzureUpdateNetworkMappingInput {
+  /** The instance type. */
+  instanceType: AzureToAzureUpdateNetworkMappingInputInstanceType;
+  /** The primary azure vnet Id. */
+  primaryNetworkId?: string | undefined;
+}
+/** The instance type. */
+export type VmmToAzureUpdateNetworkMappingInputInstanceType = "VmmToAzure";
+/** Input details specific to fabrics during Network Mapping. */
+export interface VmmToAzureUpdateNetworkMappingInput {
+  /** The instance type. */
+  instanceType: VmmToAzureUpdateNetworkMappingInputInstanceType;
+}
+/** The instance type. */
+export type VmmToVmmUpdateNetworkMappingInputInstanceType = "VmmToVmm";
+/** Input details specific to fabrics during Network Mapping. */
+export interface VmmToVmmUpdateNetworkMappingInput {
+  /** The instance type. */
+  instanceType: VmmToVmmUpdateNetworkMappingInputInstanceType;
+}
+/** Input details specific to fabrics during Network Mapping. */
+export type FabricSpecificUpdateNetworkMappingInput =
+  | AzureToAzureUpdateNetworkMappingInput
+  | VmmToAzureUpdateNetworkMappingInput
+  | VmmToVmmUpdateNetworkMappingInput;
 /** Common input details for network mapping operation. */
 export interface UpdateNetworkMappingInputProperties {
   /** Recovery fabric name. */
   recoveryFabricName?: string | undefined;
   /** Recovery network Id. */
   recoveryNetworkId?: string | undefined;
-  /** Fabrics specific input network Id. Polymorphic on `instanceType` (e.g. `{ instanceType: "A2A", ... }`). */
-  fabricSpecificDetails?: unknown | undefined;
+  /** Fabrics specific input network Id. */
+  fabricSpecificDetails?: FabricSpecificUpdateNetworkMappingInput | undefined;
 }
 export interface UpdateReplicationNetworkMappingRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5832,8 +11878,8 @@ export interface UpdateReplicationNetworkMappingResponse {
 }
 /** Policy update properties. */
 export interface UpdatePolicyInputProperties {
-  /** The ReplicationProviderSettings. Polymorphic on `instanceType` (e.g. `{ instanceType: "A2A", ... }`). */
-  replicationProviderSettings?: unknown | undefined;
+  /** The ReplicationProviderSettings. */
+  replicationProviderSettings?: PolicyProviderSpecificInput | undefined;
 }
 export interface UpdateReplicationPolicyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5917,8 +11963,264 @@ export interface VMNicInputDetails {
 }
 /** The list of VM nic details. */
 export type UpdateReplicationProtectedItemInputPropertiesVmNicsList = Array<VMNicInputDetails>;
-/** License type. */
-export type LicenseType = "NotSpecified" | "NoLicenseType" | "WindowsServer";
+/** The class type. */
+export type A2AUpdateReplicationProtectedItemInputInstanceType = "A2A";
+/** Confidential disk encryption info used while updating replication of a CMK confidential VM managed disk. */
+export interface UpdateConfidentialDiskEncryptionInfo {
+  /** The Azure resource ID of the confidential disk encryption set used for the target disk after failover. Applicable to CMK confidential VMs. */
+  recoveryTargetConfidentialDiskEncryptionSetId?: string | undefined;
+}
+/** A2A Vm managed disk update details. */
+export interface A2AVmManagedDiskUpdateDetails {
+  /** The disk Id. */
+  diskId?: string | undefined;
+  /** The target disk type before failover. */
+  recoveryTargetDiskAccountType?: string | undefined;
+  /** The replica disk type before failover. */
+  recoveryReplicaDiskAccountType?: string | undefined;
+  /** The recovery os disk encryption information. */
+  diskEncryptionInfo?: DiskEncryptionInfo | undefined;
+  /** The target disk name for unplanned failover operation. */
+  failoverDiskName?: string | undefined;
+  /** The target disk name for test failover operation. */
+  tfoDiskName?: string | undefined;
+  /** The confidential disk encryption info to update for the managed disk. Only the recovery target confidential disk encryption set can be changed through this update operation. Applicable to A2A CMK confidential VMs. */
+  confidentialDiskEncryptionInfo?: UpdateConfidentialDiskEncryptionInfo | undefined;
+}
+/** Managed disk update details. */
+export type A2AUpdateReplicationProtectedItemInputManagedDiskUpdateDetailsList =
+  Array<A2AVmManagedDiskUpdateDetails>;
+/** InMage Azure V2 input to update replication protected item. */
+export interface A2AUpdateReplicationProtectedItemInput {
+  /** The class type. */
+  instanceType: A2AUpdateReplicationProtectedItemInputInstanceType;
+  /** The target cloud service ARM Id (for V1). */
+  recoveryCloudServiceId?: string | undefined;
+  /** The target resource group ARM Id (for V2). */
+  recoveryResourceGroupId?: string | undefined;
+  /** Managed disk update details. */
+  managedDiskUpdateDetails?:
+    | A2AUpdateReplicationProtectedItemInputManagedDiskUpdateDetailsList
+    | undefined;
+  /** The boot diagnostic storage account. */
+  recoveryBootDiagStorageAccountId?: string | undefined;
+  /** The recovery os disk encryption information. */
+  diskEncryptionInfo?: DiskEncryptionInfo | undefined;
+  /** The user given name for Test Failover VM. */
+  tfoAzureVMName?: string | undefined;
+  /** The recovery proximity placement group Id. */
+  recoveryProximityPlacementGroupId?: string | undefined;
+  /** The recovery virtual machine scale set Id. */
+  recoveryVirtualMachineScaleSetId?: string | undefined;
+  /** The recovery capacity reservation group Id. */
+  recoveryCapacityReservationGroupId?: string | undefined;
+  /** The recovery availability zone. */
+  recoveryAvailabilityZone?: string | undefined;
+  /** The platform fault domain. */
+  platformFaultDomain?: number | undefined;
+  /** The Azure resource ID of the confidential data disk encryption user-assigned identity. Applicable to CMK confidential VM data disks. */
+  recoveryConfidentialDataDiskEncryptionIdentity?: string | undefined;
+}
+/** The class type. */
+export type HyperVReplicaAzureUpdateReplicationProtectedItemInputInstanceType =
+  "HyperVReplicaAzure";
+/** The dictionary of disk resource Id to disk encryption set ARM Id. */
+export type HyperVReplicaAzureUpdateReplicationProtectedItemInputDiskIdToDiskEncryptionMapMap = {
+  [key: string]: string | undefined;
+};
+/** The target VM tags. */
+export type HyperVReplicaAzureUpdateReplicationProtectedItemInputTargetVmTagsMap = {
+  [key: string]: string | undefined;
+};
+/** The tags for the target managed disks. */
+export type HyperVReplicaAzureUpdateReplicationProtectedItemInputTargetManagedDiskTagsMap = {
+  [key: string]: string | undefined;
+};
+/** The tags for the target NICs. */
+export type HyperVReplicaAzureUpdateReplicationProtectedItemInputTargetNicTagsMap = {
+  [key: string]: string | undefined;
+};
+/** Disk input for update. */
+export interface UpdateDiskInput {
+  /** The disk Id. */
+  diskId: string;
+  /** The target disk name. */
+  targetDiskName?: string | undefined;
+  /** The number of IOPS allowed for Premium V2 and Ultra disks. */
+  iops?: number | undefined;
+  /** The total throughput in Mbps for Premium V2 and Ultra disks. */
+  throughputInMbps?: number | undefined;
+  /** The target disk size in GB. */
+  diskSizeInGB?: number | undefined;
+}
+/** The list of disk update properties. */
+export type HyperVReplicaAzureUpdateReplicationProtectedItemInputVmDisksList =
+  Array<UpdateDiskInput>;
+/** HyperV replica Azure input to update replication protected item. */
+export interface HyperVReplicaAzureUpdateReplicationProtectedItemInput {
+  /** The class type. */
+  instanceType: HyperVReplicaAzureUpdateReplicationProtectedItemInputInstanceType;
+  /** The recovery Azure resource group Id for classic deployment. */
+  recoveryAzureV1ResourceGroupId?: string | undefined;
+  /** The recovery Azure resource group Id for resource manager deployment. */
+  recoveryAzureV2ResourceGroupId?: string | undefined;
+  /** A value indicating whether managed disks should be used during failover. */
+  useManagedDisks?: string | undefined;
+  /** The dictionary of disk resource Id to disk encryption set ARM Id. */
+  diskIdToDiskEncryptionMap?:
+    | HyperVReplicaAzureUpdateReplicationProtectedItemInputDiskIdToDiskEncryptionMapMap
+    | undefined;
+  /** The target proximity placement group Id. */
+  targetProximityPlacementGroupId?: string | undefined;
+  /** The target availability zone. */
+  targetAvailabilityZone?: string | undefined;
+  /** The target VM tags. */
+  targetVmTags?: HyperVReplicaAzureUpdateReplicationProtectedItemInputTargetVmTagsMap | undefined;
+  /** The tags for the target managed disks. */
+  targetManagedDiskTags?:
+    | HyperVReplicaAzureUpdateReplicationProtectedItemInputTargetManagedDiskTagsMap
+    | undefined;
+  /** The tags for the target NICs. */
+  targetNicTags?: HyperVReplicaAzureUpdateReplicationProtectedItemInputTargetNicTagsMap | undefined;
+  /** The SQL Server license type. */
+  sqlServerLicenseType?: SqlServerLicenseType | (string & {}) | undefined;
+  /** The license type for Linux VM's. */
+  linuxLicenseType?: LinuxLicenseType | (string & {}) | undefined;
+  /** The OS name selected by user. */
+  userSelectedOSName?: string | undefined;
+  /** The list of disk update properties. */
+  vmDisks?: HyperVReplicaAzureUpdateReplicationProtectedItemInputVmDisksList | undefined;
+  /** The target capacity reservation group ARM Id. */
+  targetCapacityReservationGroupId?: string | undefined;
+}
+/** The class type. */
+export type InMageAzureV2UpdateReplicationProtectedItemInputInstanceType = "InMageAzureV2";
+/** The target VM tags. */
+export type InMageAzureV2UpdateReplicationProtectedItemInputTargetVmTagsMap = {
+  [key: string]: string | undefined;
+};
+/** The tags for the target managed disks. */
+export type InMageAzureV2UpdateReplicationProtectedItemInputTargetManagedDiskTagsMap = {
+  [key: string]: string | undefined;
+};
+/** The tags for the target NICs. */
+export type InMageAzureV2UpdateReplicationProtectedItemInputTargetNicTagsMap = {
+  [key: string]: string | undefined;
+};
+/** The list of disk update properties. */
+export type InMageAzureV2UpdateReplicationProtectedItemInputVmDisksList = Array<UpdateDiskInput>;
+/** InMage Azure V2 input to update replication protected item. */
+export interface InMageAzureV2UpdateReplicationProtectedItemInput {
+  /** The class type. */
+  instanceType: InMageAzureV2UpdateReplicationProtectedItemInputInstanceType;
+  /** The recovery Azure resource group Id for classic deployment. */
+  recoveryAzureV1ResourceGroupId?: string | undefined;
+  /** The recovery Azure resource group Id for resource manager deployment. */
+  recoveryAzureV2ResourceGroupId?: string | undefined;
+  /** A value indicating whether managed disks should be used during failover. */
+  useManagedDisks?: string | undefined;
+  /** The target proximity placement group Id. */
+  targetProximityPlacementGroupId?: string | undefined;
+  /** The target availability zone. */
+  targetAvailabilityZone?: string | undefined;
+  /** The target VM tags. */
+  targetVmTags?: InMageAzureV2UpdateReplicationProtectedItemInputTargetVmTagsMap | undefined;
+  /** The tags for the target managed disks. */
+  targetManagedDiskTags?:
+    | InMageAzureV2UpdateReplicationProtectedItemInputTargetManagedDiskTagsMap
+    | undefined;
+  /** The tags for the target NICs. */
+  targetNicTags?: InMageAzureV2UpdateReplicationProtectedItemInputTargetNicTagsMap | undefined;
+  /** The SQL Server license type. */
+  sqlServerLicenseType?: SqlServerLicenseType | (string & {}) | undefined;
+  /** The list of disk update properties. */
+  vmDisks?: InMageAzureV2UpdateReplicationProtectedItemInputVmDisksList | undefined;
+}
+/** The class type. */
+export type InMageRcmUpdateReplicationProtectedItemInputInstanceType = "InMageRcm";
+/** InMageRcm NIC input. */
+export interface InMageRcmNicInput {
+  /** The NIC Id. */
+  nicId: string;
+  /** A value indicating whether this is the primary NIC. */
+  isPrimaryNic: string;
+  /** A value indicating whether this NIC is selected for failover. */
+  isSelectedForFailover?: string | undefined;
+  /** Target subnet name. */
+  targetSubnetName?: string | undefined;
+  /** The target static IP address. */
+  targetStaticIPAddress?: string | undefined;
+  /** The test subnet name. */
+  testSubnetName?: string | undefined;
+  /** The test static IP address. */
+  testStaticIPAddress?: string | undefined;
+  /** The target NIC name. */
+  targetNicName?: string | undefined;
+}
+/** The list of NIC details. */
+export type InMageRcmUpdateReplicationProtectedItemInputVmNicsList = Array<InMageRcmNicInput>;
+/** The target VM tags. */
+export type InMageRcmUpdateReplicationProtectedItemInputTargetVmTagsList =
+  Array<UserCreatedResourceTag>;
+/** The tags for the target managed disks. */
+export type InMageRcmUpdateReplicationProtectedItemInputTargetManagedDiskTagsList =
+  Array<UserCreatedResourceTag>;
+/** The tags for the target NICs. */
+export type InMageRcmUpdateReplicationProtectedItemInputTargetNicTagsList =
+  Array<UserCreatedResourceTag>;
+/** The list of disk update properties. */
+export type InMageRcmUpdateReplicationProtectedItemInputVmDisksList = Array<UpdateDiskInput>;
+/** InMageRcm provider specific input to update replication protected item. */
+export interface InMageRcmUpdateReplicationProtectedItemInput {
+  /** The class type. */
+  instanceType: InMageRcmUpdateReplicationProtectedItemInputInstanceType;
+  /** The target VM name. */
+  targetVmName?: string | undefined;
+  /** The target VM size. */
+  targetVmSize?: string | undefined;
+  /** The target resource group ARM Id. */
+  targetResourceGroupId?: string | undefined;
+  /** The target availability set ARM Id. */
+  targetAvailabilitySetId?: string | undefined;
+  /** The target availability zone. */
+  targetAvailabilityZone?: string | undefined;
+  /** The target proximity placement group Id. */
+  targetProximityPlacementGroupId?: string | undefined;
+  /** The target boot diagnostics storage account ARM Id. */
+  targetBootDiagnosticsStorageAccountId?: string | undefined;
+  /** The target network ARM Id. */
+  targetNetworkId?: string | undefined;
+  /** The test network ARM Id. */
+  testNetworkId?: string | undefined;
+  /** The list of NIC details. */
+  vmNics?: InMageRcmUpdateReplicationProtectedItemInputVmNicsList | undefined;
+  /** The license type. */
+  licenseType?: LicenseType | (string & {}) | undefined;
+  /** The SQL Server license type. */
+  sqlServerLicenseType?: SqlServerLicenseType | (string & {}) | undefined;
+  /** The license type for Linux VM's. */
+  linuxLicenseType?: LinuxLicenseType | (string & {}) | undefined;
+  /** The OS name selected by user. */
+  userSelectedOSName?: string | undefined;
+  /** The target VM tags. */
+  targetVmTags?: InMageRcmUpdateReplicationProtectedItemInputTargetVmTagsList | undefined;
+  /** The tags for the target managed disks. */
+  targetManagedDiskTags?:
+    | InMageRcmUpdateReplicationProtectedItemInputTargetManagedDiskTagsList
+    | undefined;
+  /** The tags for the target NICs. */
+  targetNicTags?: InMageRcmUpdateReplicationProtectedItemInputTargetNicTagsList | undefined;
+  /** The list of disk update properties. */
+  vmDisks?: InMageRcmUpdateReplicationProtectedItemInputVmDisksList | undefined;
+  /** The target capacity reservation group ARM Id. */
+  targetCapacityReservationGroupId?: string | undefined;
+}
+/** Update replication protected item provider specific input. */
+export type UpdateReplicationProtectedItemProviderInput =
+  | A2AUpdateReplicationProtectedItemInput
+  | HyperVReplicaAzureUpdateReplicationProtectedItemInput
+  | InMageAzureV2UpdateReplicationProtectedItemInput
+  | InMageRcmUpdateReplicationProtectedItemInput;
 /** Update protected item input properties. */
 export interface UpdateReplicationProtectedItemInputProperties {
   /** Target Azure VM name given by the user. */
@@ -5939,8 +12241,8 @@ export interface UpdateReplicationProtectedItemInputProperties {
   licenseType?: LicenseType | (string & {}) | undefined;
   /** The target availability set Id. */
   recoveryAvailabilitySetId?: string | undefined;
-  /** The provider specific input to update replication protected item. Polymorphic on `instanceType` (e.g. `{ instanceType: "A2A", ... }`). */
-  providerSpecificDetails?: unknown | undefined;
+  /** The provider specific input to update replication protected item. */
+  providerSpecificDetails?: UpdateReplicationProtectedItemProviderInput | undefined;
 }
 export interface UpdateReplicationProtectedItemRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5976,15 +12278,23 @@ export interface UpdateReplicationProtectedItemResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number | undefined;
 }
-/** Update replication protected item provider specific input. */
-export type UpdateApplianceForReplicationProtectedItemProviderSpecificInput =
-  AddDisksProviderSpecificInput;
+/** The class type. */
+export type InMageRcmUpdateApplianceForReplicationProtectedItemInputInstanceType = "InMageRcm";
+/** InMageRcm provider specific input to update appliance for replication protected item. */
+export interface InMageRcmUpdateApplianceForReplicationProtectedItemInput {
+  /** The class type. */
+  instanceType:
+    | InMageRcmUpdateApplianceForReplicationProtectedItemInputInstanceType
+    | (string & {});
+  /** The run as account Id. */
+  runAsAccountId?: string | undefined;
+}
 /** Update appliance for protected item input properties. */
 export interface UpdateApplianceForReplicationProtectedItemInputProperties {
   /** The target appliance Id. */
   targetApplianceId: string;
   /** The provider specific input to update replication protected item. */
-  providerSpecificDetails: AddDisksProviderSpecificInput;
+  providerSpecificDetails: InMageRcmUpdateApplianceForReplicationProtectedItemInput;
 }
 export interface UpdateReplicationProtectedItemApplianceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6056,10 +12366,43 @@ export interface UpdateReplicationProtectedItemMobilityServiceResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number | undefined;
 }
+/** The class type. */
+export type A2AUpdateContainerMappingInputInstanceType = "A2A";
+/** A value indicating the type authentication to use for automation Account. */
+export type A2AUpdateContainerMappingInputAutomationAccountAuthenticationType =
+  | "RunAsAccount"
+  | "SystemAssignedIdentity";
+/** A2A update protection container mapping. */
+export interface A2AUpdateContainerMappingInput {
+  /** The class type. */
+  instanceType: A2AUpdateContainerMappingInputInstanceType;
+  /** A value indicating whether the auto update is enabled. */
+  agentAutoUpdateStatus?: AgentAutoUpdateStatus | (string & {}) | undefined;
+  /** The automation account arm id. */
+  automationAccountArmId?: string | undefined;
+  /** A value indicating the type authentication to use for automation Account. */
+  automationAccountAuthenticationType?:
+    | A2AUpdateContainerMappingInputAutomationAccountAuthenticationType
+    | (string & {})
+    | undefined;
+}
+/** The class type. */
+export type InMageRcmUpdateContainerMappingInputInstanceType = "InMageRcm";
+/** InMageRcm update protection container mapping. */
+export interface InMageRcmUpdateContainerMappingInput {
+  /** The class type. */
+  instanceType: InMageRcmUpdateContainerMappingInputInstanceType;
+  /** A value indicating whether agent auto upgrade has to be enabled. */
+  enableAgentAutoUpgrade: string;
+}
+/** Provider specific input for update pairing operations. */
+export type ReplicationProviderSpecificUpdateContainerMappingInput =
+  | A2AUpdateContainerMappingInput
+  | InMageRcmUpdateContainerMappingInput;
 /** Container pairing update input. */
 export interface UpdateProtectionContainerMappingInputProperties {
-  /** Provider specific input for updating protection container mapping. Polymorphic on `instanceType` (e.g. `{ instanceType: "A2A", ... }`). */
-  providerSpecificInput?: unknown | undefined;
+  /** Provider specific input for updating protection container mapping. */
+  providerSpecificInput?: ReplicationProviderSpecificUpdateContainerMappingInput | undefined;
 }
 export interface UpdateReplicationProtectionContainerMappingRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6185,8 +12528,8 @@ export const AddReplicationProtectedItemDisks: API.OperationMethod<
   AddReplicationProtectedItemDisksError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<AddReplicationProtectedItemDisksRequest>,
-  output: __S(96, __c6, 0) as any as S.Schema<AddReplicationProtectedItemDisksResponse>,
+  input: __S(4, __c0, 4) as any as S.Schema<AddReplicationProtectedItemDisksRequest>,
+  output: __S(352, __c11, 0) as any as S.Schema<AddReplicationProtectedItemDisksResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6202,8 +12545,8 @@ export const ApplyReplicationProtectedItemRecoveryPoint: API.OperationMethod<
   ApplyReplicationProtectedItemRecoveryPointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(145, __c9, 1) as any as S.Schema<ApplyReplicationProtectedItemRecoveryPointRequest>,
-  output: __S(96, __c6, 0) as any as S.Schema<ApplyReplicationProtectedItemRecoveryPointResponse>,
+  input: __S(612, __c19, 4) as any as S.Schema<ApplyReplicationProtectedItemRecoveryPointRequest>,
+  output: __S(352, __c11, 0) as any as S.Schema<ApplyReplicationProtectedItemRecoveryPointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6220,13 +12563,13 @@ export const ApplyReplicationProtectionClusterRecoveryPoint: API.OperationMethod
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1521,
-    __c95,
+    3521,
+    __c110,
     1,
   ) as any as S.Schema<ApplyReplicationProtectionClusterRecoveryPointRequest>,
   output: __S(
-    1536,
-    __c96,
+    3552,
+    __c111,
     0,
   ) as any as S.Schema<ApplyReplicationProtectionClusterRecoveryPointResponse>,
   errors: [UnknownAzureError],
@@ -6244,8 +12587,8 @@ export const CancelReplicationJob: API.OperationMethod<
   CancelReplicationJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1840, __c115, 0) as any as S.Schema<CancelReplicationJobRequest>,
-  output: __S(1856, __c116, 0) as any as S.Schema<CancelReplicationJobResponse>,
+  input: __S(4160, __c130, 0) as any as S.Schema<CancelReplicationJobRequest>,
+  output: __S(4192, __c131, 0) as any as S.Schema<CancelReplicationJobResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6261,8 +12604,8 @@ export const CancelReplicationProtectedItemsFailover: API.OperationMethod<
   CancelReplicationProtectedItemsFailoverError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2096, __c131, 0) as any as S.Schema<CancelReplicationProtectedItemsFailoverRequest>,
-  output: __S(96, __c6, 0) as any as S.Schema<CancelReplicationProtectedItemsFailoverResponse>,
+  input: __S(4672, __c146, 0) as any as S.Schema<CancelReplicationProtectedItemsFailoverRequest>,
+  output: __S(352, __c11, 0) as any as S.Schema<CancelReplicationProtectedItemsFailoverResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6278,8 +12621,8 @@ export const CancelReplicationRecoveryPlansFailover: API.OperationMethod<
   CancelReplicationRecoveryPlansFailoverError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2416, __c151, 0) as any as S.Schema<CancelReplicationRecoveryPlansFailoverRequest>,
-  output: __S(2448, __c153, 0) as any as S.Schema<CancelReplicationRecoveryPlansFailoverResponse>,
+  input: __S(5312, __c166, 0) as any as S.Schema<CancelReplicationRecoveryPlansFailoverRequest>,
+  output: __S(5344, __c167, 0) as any as S.Schema<CancelReplicationRecoveryPlansFailoverResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6295,8 +12638,8 @@ export const CheckReplicationFabricConsistency: API.OperationMethod<
   CheckReplicationFabricConsistencyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2768, __c173, 0) as any as S.Schema<CheckReplicationFabricConsistencyRequest>,
-  output: __S(2784, __c174, 0) as any as S.Schema<CheckReplicationFabricConsistencyResponse>,
+  input: __S(5984, __c187, 0) as any as S.Schema<CheckReplicationFabricConsistencyRequest>,
+  output: __S(6016, __c188, 0) as any as S.Schema<CheckReplicationFabricConsistencyResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6312,8 +12655,8 @@ export const CommitReplicationProtectedItemsFailover: API.OperationMethod<
   CommitReplicationProtectedItemsFailoverError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c190, 0) as any as S.Schema<CommitReplicationProtectedItemsFailoverRequest>,
-  output: __S(96, __c6, 0) as any as S.Schema<CommitReplicationProtectedItemsFailoverResponse>,
+  input: __S(6624, __c207, 0) as any as S.Schema<CommitReplicationProtectedItemsFailoverRequest>,
+  output: __S(352, __c11, 0) as any as S.Schema<CommitReplicationProtectedItemsFailoverResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6330,13 +12673,13 @@ export const CommitReplicationProtectionClustersFailover: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3264,
-    __c204,
+    7072,
+    __c221,
     0,
   ) as any as S.Schema<CommitReplicationProtectionClustersFailoverRequest>,
   output: __S(
-    1536,
-    __c96,
+    3552,
+    __c111,
     0,
   ) as any as S.Schema<CommitReplicationProtectionClustersFailoverResponse>,
   errors: [UnknownAzureError],
@@ -6354,8 +12697,8 @@ export const CommitReplicationRecoveryPlansFailover: API.OperationMethod<
   CommitReplicationRecoveryPlansFailoverError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3504, __c219, 0) as any as S.Schema<CommitReplicationRecoveryPlansFailoverRequest>,
-  output: __S(2448, __c153, 0) as any as S.Schema<CommitReplicationRecoveryPlansFailoverResponse>,
+  input: __S(7552, __c236, 0) as any as S.Schema<CommitReplicationRecoveryPlansFailoverRequest>,
+  output: __S(5344, __c167, 0) as any as S.Schema<CommitReplicationRecoveryPlansFailoverResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6371,8 +12714,8 @@ export const CreateReplicationAlertSettings: API.OperationMethod<
   CreateReplicationAlertSettingsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<CreateReplicationAlertSettingsRequest>,
-  output: __S(177, __c11, 1) as any as S.Schema<CreateReplicationAlertSettingsResponse>,
+  input: __S(672, __c21, 0) as any as S.Schema<CreateReplicationAlertSettingsRequest>,
+  output: __S(705, __c22, 1) as any as S.Schema<CreateReplicationAlertSettingsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6388,8 +12731,8 @@ export const CreateReplicationFabric: API.OperationMethod<
   CreateReplicationFabricError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(369, __c23, 1) as any as S.Schema<CreateReplicationFabricRequest>,
-  output: __S(2784, __c174, 0) as any as S.Schema<CreateReplicationFabricResponse>,
+  input: __S(1157, __c36, 5) as any as S.Schema<CreateReplicationFabricRequest>,
+  output: __S(6016, __c188, 0) as any as S.Schema<CreateReplicationFabricResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6405,8 +12748,8 @@ export const CreateReplicationMigrationItem: API.OperationMethod<
   CreateReplicationMigrationItemError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(545, __c34, 1) as any as S.Schema<CreateReplicationMigrationItemRequest>,
-  output: __S(560, __c35, 0) as any as S.Schema<CreateReplicationMigrationItemResponse>,
+  input: __S(1540, __c48, 4) as any as S.Schema<CreateReplicationMigrationItemRequest>,
+  output: __S(1568, __c49, 0) as any as S.Schema<CreateReplicationMigrationItemResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6422,8 +12765,8 @@ export const CreateReplicationNetworkMapping: API.OperationMethod<
   CreateReplicationNetworkMappingError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(817, __c51, 1) as any as S.Schema<CreateReplicationNetworkMappingRequest>,
-  output: __S(832, __c52, 0) as any as S.Schema<CreateReplicationNetworkMappingResponse>,
+  input: __S(2115, __c66, 3) as any as S.Schema<CreateReplicationNetworkMappingRequest>,
+  output: __S(2144, __c67, 0) as any as S.Schema<CreateReplicationNetworkMappingResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6439,8 +12782,8 @@ export const CreateReplicationPolicy: API.OperationMethod<
   CreateReplicationPolicyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c66, 0) as any as S.Schema<CreateReplicationPolicyRequest>,
-  output: __S(1072, __c67, 0) as any as S.Schema<CreateReplicationPolicyResponse>,
+  input: __S(2593, __c81, 1) as any as S.Schema<CreateReplicationPolicyRequest>,
+  output: __S(2633, __c82, 9) as any as S.Schema<CreateReplicationPolicyResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6456,8 +12799,8 @@ export const CreateReplicationProtectedItem: API.OperationMethod<
   CreateReplicationProtectedItemError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1281, __c80, 1) as any as S.Schema<CreateReplicationProtectedItemRequest>,
-  output: __S(96, __c6, 0) as any as S.Schema<CreateReplicationProtectedItemResponse>,
+  input: __S(3021, __c94, 13) as any as S.Schema<CreateReplicationProtectedItemRequest>,
+  output: __S(352, __c11, 0) as any as S.Schema<CreateReplicationProtectedItemResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6473,8 +12816,8 @@ export const CreateReplicationProtectionCluster: API.OperationMethod<
   CreateReplicationProtectionClusterError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1361, __c85, 1) as any as S.Schema<CreateReplicationProtectionClusterRequest>,
-  output: __S(1536, __c96, 0) as any as S.Schema<CreateReplicationProtectionClusterResponse>,
+  input: __S(3205, __c100, 5) as any as S.Schema<CreateReplicationProtectionClusterRequest>,
+  output: __S(3552, __c111, 0) as any as S.Schema<CreateReplicationProtectionClusterResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6490,8 +12833,8 @@ export const CreateReplicationProtectionContainer: API.OperationMethod<
   CreateReplicationProtectionContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c86, 0) as any as S.Schema<CreateReplicationProtectionContainerRequest>,
-  output: __S(1392, __c87, 0) as any as S.Schema<CreateReplicationProtectionContainerResponse>,
+  input: __S(3235, __c101, 3) as any as S.Schema<CreateReplicationProtectionContainerRequest>,
+  output: __S(3264, __c102, 0) as any as S.Schema<CreateReplicationProtectionContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6507,11 +12850,15 @@ export const CreateReplicationProtectionContainerMapping: API.OperationMethod<
   CreateReplicationProtectionContainerMappingError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1425, __c89, 1) as any as S.Schema<CreateReplicationProtectionContainerMappingRequest>,
+  input: __S(
+    3331,
+    __c104,
+    3,
+  ) as any as S.Schema<CreateReplicationProtectionContainerMappingRequest>,
   output: __S(
-    1440,
-    __c90,
-    0,
+    3361,
+    __c105,
+    1,
   ) as any as S.Schema<CreateReplicationProtectionContainerMappingResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -6528,8 +12875,8 @@ export const CreateReplicationProtectionIntent: API.OperationMethod<
   CreateReplicationProtectionIntentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c92, 0) as any as S.Schema<CreateReplicationProtectionIntentRequest>,
-  output: __S(1489, __c93, 1) as any as S.Schema<CreateReplicationProtectionIntentResponse>,
+  input: __S(3458, __c108, 2) as any as S.Schema<CreateReplicationProtectionIntentRequest>,
+  output: __S(3504, __c109, 16) as any as S.Schema<CreateReplicationProtectionIntentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6545,8 +12892,8 @@ export const CreateReplicationRecoveryPlan: API.OperationMethod<
   CreateReplicationRecoveryPlanError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1569, __c98, 1) as any as S.Schema<CreateReplicationRecoveryPlanRequest>,
-  output: __S(2448, __c153, 0) as any as S.Schema<CreateReplicationRecoveryPlanResponse>,
+  input: __S(3617, __c113, 1) as any as S.Schema<CreateReplicationRecoveryPlanRequest>,
+  output: __S(5344, __c167, 0) as any as S.Schema<CreateReplicationRecoveryPlanResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6562,10 +12909,10 @@ export const CreateReplicationRecoveryServicesProvider: API.OperationMethod<
   CreateReplicationRecoveryServicesProviderError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1586, __c99, 2) as any as S.Schema<CreateReplicationRecoveryServicesProviderRequest>,
+  input: __S(3649, __c114, 1) as any as S.Schema<CreateReplicationRecoveryServicesProviderRequest>,
   output: __S(
-    1600,
-    __c100,
+    3680,
+    __c115,
     0,
   ) as any as S.Schema<CreateReplicationRecoveryServicesProviderResponse>,
   errors: [UnknownAzureError],
@@ -6584,13 +12931,13 @@ export const CreateReplicationStorageClassificationMapping: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1632,
-    __c102,
+    3744,
+    __c117,
     0,
   ) as any as S.Schema<CreateReplicationStorageClassificationMappingRequest>,
   output: __S(
-    1633,
-    __c102,
+    3745,
+    __c117,
     1,
   ) as any as S.Schema<CreateReplicationStorageClassificationMappingResponse>,
   errors: [UnknownAzureError],
@@ -6608,8 +12955,8 @@ export const CreateReplicationVaultSetting: API.OperationMethod<
   CreateReplicationVaultSettingError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c104, 0) as any as S.Schema<CreateReplicationVaultSettingRequest>,
-  output: __S(1665, __c104, 1) as any as S.Schema<CreateReplicationVaultSettingResponse>,
+  input: __S(3808, __c119, 0) as any as S.Schema<CreateReplicationVaultSettingRequest>,
+  output: __S(3809, __c119, 1) as any as S.Schema<CreateReplicationVaultSettingResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6625,8 +12972,8 @@ export const CreateReplicationvCenter: API.OperationMethod<
   CreateReplicationvCenterError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c106, 0) as any as S.Schema<CreateReplicationvCenterRequest>,
-  output: __S(1713, __c107, 1) as any as S.Schema<CreateReplicationvCenterResponse>,
+  input: __S(3872, __c121, 0) as any as S.Schema<CreateReplicationvCenterRequest>,
+  output: __S(3905, __c122, 1) as any as S.Schema<CreateReplicationvCenterResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6642,8 +12989,8 @@ export const DeleteReplicationFabric: API.OperationMethod<
   DeleteReplicationFabricError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1744, __c109, 0) as any as S.Schema<DeleteReplicationFabricRequest>,
-  output: __S(1760, __c110, 0) as any as S.Schema<DeleteReplicationFabricResponse>,
+  input: __S(3968, __c124, 0) as any as S.Schema<DeleteReplicationFabricRequest>,
+  output: __S(4000, __c125, 0) as any as S.Schema<DeleteReplicationFabricResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6659,8 +13006,8 @@ export const DeleteReplicationMigrationItem: API.OperationMethod<
   DeleteReplicationMigrationItemError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1776, __c111, 0) as any as S.Schema<DeleteReplicationMigrationItemRequest>,
-  output: __S(1760, __c110, 0) as any as S.Schema<DeleteReplicationMigrationItemResponse>,
+  input: __S(4032, __c126, 0) as any as S.Schema<DeleteReplicationMigrationItemRequest>,
+  output: __S(4000, __c125, 0) as any as S.Schema<DeleteReplicationMigrationItemResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6676,8 +13023,8 @@ export const DeleteReplicationNetworkMapping: API.OperationMethod<
   DeleteReplicationNetworkMappingError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c112, 0) as any as S.Schema<DeleteReplicationNetworkMappingRequest>,
-  output: __S(1760, __c110, 0) as any as S.Schema<DeleteReplicationNetworkMappingResponse>,
+  input: __S(4064, __c127, 0) as any as S.Schema<DeleteReplicationNetworkMappingRequest>,
+  output: __S(4000, __c125, 0) as any as S.Schema<DeleteReplicationNetworkMappingResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6693,8 +13040,8 @@ export const DeleteReplicationPolicy: API.OperationMethod<
   DeleteReplicationPolicyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1808, __c113, 0) as any as S.Schema<DeleteReplicationPolicyRequest>,
-  output: __S(1760, __c110, 0) as any as S.Schema<DeleteReplicationPolicyResponse>,
+  input: __S(4096, __c128, 0) as any as S.Schema<DeleteReplicationPolicyRequest>,
+  output: __S(4000, __c125, 0) as any as S.Schema<DeleteReplicationPolicyResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6710,8 +13057,8 @@ export const DeleteReplicationProtectedItem: API.OperationMethod<
   DeleteReplicationProtectedItemError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1825, __c114, 1) as any as S.Schema<DeleteReplicationProtectedItemRequest>,
-  output: __S(1760, __c110, 0) as any as S.Schema<DeleteReplicationProtectedItemResponse>,
+  input: __S(4130, __c129, 2) as any as S.Schema<DeleteReplicationProtectedItemRequest>,
+  output: __S(4000, __c125, 0) as any as S.Schema<DeleteReplicationProtectedItemResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6727,8 +13074,8 @@ export const DeleteReplicationProtectionContainer: API.OperationMethod<
   DeleteReplicationProtectionContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c118, 0) as any as S.Schema<DeleteReplicationProtectionContainerRequest>,
-  output: __S(1760, __c110, 0) as any as S.Schema<DeleteReplicationProtectionContainerResponse>,
+  input: __S(4256, __c133, 0) as any as S.Schema<DeleteReplicationProtectionContainerRequest>,
+  output: __S(4000, __c125, 0) as any as S.Schema<DeleteReplicationProtectionContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6745,13 +13092,13 @@ export const DeleteReplicationProtectionContainerMapping: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1904,
-    __c119,
-    0,
+    4289,
+    __c134,
+    1,
   ) as any as S.Schema<DeleteReplicationProtectionContainerMappingRequest>,
   output: __S(
-    1760,
-    __c110,
+    4000,
+    __c125,
     0,
   ) as any as S.Schema<DeleteReplicationProtectionContainerMappingResponse>,
   errors: [UnknownAzureError],
@@ -6769,8 +13116,8 @@ export const DeleteReplicationRecoveryPlan: API.OperationMethod<
   DeleteReplicationRecoveryPlanError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c120, 0) as any as S.Schema<DeleteReplicationRecoveryPlanRequest>,
-  output: __S(1760, __c110, 0) as any as S.Schema<DeleteReplicationRecoveryPlanResponse>,
+  input: __S(4320, __c135, 0) as any as S.Schema<DeleteReplicationRecoveryPlanRequest>,
+  output: __S(4000, __c125, 0) as any as S.Schema<DeleteReplicationRecoveryPlanResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6786,10 +13133,10 @@ export const DeleteReplicationRecoveryServicesProvider: API.OperationMethod<
   DeleteReplicationRecoveryServicesProviderError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1936, __c121, 0) as any as S.Schema<DeleteReplicationRecoveryServicesProviderRequest>,
+  input: __S(4352, __c136, 0) as any as S.Schema<DeleteReplicationRecoveryServicesProviderRequest>,
   output: __S(
-    1760,
-    __c110,
+    4000,
+    __c125,
     0,
   ) as any as S.Schema<DeleteReplicationRecoveryServicesProviderResponse>,
   errors: [UnknownAzureError],
@@ -6808,13 +13155,13 @@ export const DeleteReplicationStorageClassificationMapping: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1952,
-    __c122,
+    4384,
+    __c137,
     0,
   ) as any as S.Schema<DeleteReplicationStorageClassificationMappingRequest>,
   output: __S(
-    1760,
-    __c110,
+    4000,
+    __c125,
     0,
   ) as any as S.Schema<DeleteReplicationStorageClassificationMappingResponse>,
   errors: [UnknownAzureError],
@@ -6832,8 +13179,8 @@ export const DeleteReplicationvCenter: API.OperationMethod<
   DeleteReplicationvCenterError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1968, __c123, 0) as any as S.Schema<DeleteReplicationvCenterRequest>,
-  output: __S(1760, __c110, 0) as any as S.Schema<DeleteReplicationvCenterResponse>,
+  input: __S(4416, __c138, 0) as any as S.Schema<DeleteReplicationvCenterRequest>,
+  output: __S(4000, __c125, 0) as any as S.Schema<DeleteReplicationvCenterResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6849,8 +13196,8 @@ export const ExportReplicationJob: API.OperationMethod<
   ExportReplicationJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c124, 0) as any as S.Schema<ExportReplicationJobRequest>,
-  output: __S(1856, __c116, 0) as any as S.Schema<ExportReplicationJobResponse>,
+  input: __S(4448, __c139, 0) as any as S.Schema<ExportReplicationJobRequest>,
+  output: __S(4192, __c131, 0) as any as S.Schema<ExportReplicationJobResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6866,8 +13213,8 @@ export const GetClusterRecoveryPoint: API.OperationMethod<
   GetClusterRecoveryPointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2000, __c125, 0) as any as S.Schema<GetClusterRecoveryPointRequest>,
-  output: __S(2017, __c126, 1) as any as S.Schema<ClusterRecoveryPoint>,
+  input: __S(4480, __c140, 0) as any as S.Schema<GetClusterRecoveryPointRequest>,
+  output: __S(4514, __c141, 2) as any as S.Schema<ClusterRecoveryPoint>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6883,8 +13230,8 @@ export const GetMigrationRecoveryPoint: API.OperationMethod<
   GetMigrationRecoveryPointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2032, __c127, 0) as any as S.Schema<GetMigrationRecoveryPointRequest>,
-  output: __S(2049, __c128, 1) as any as S.Schema<GetMigrationRecoveryPointResponse>,
+  input: __S(4544, __c142, 0) as any as S.Schema<GetMigrationRecoveryPointRequest>,
+  output: __S(4577, __c143, 1) as any as S.Schema<GetMigrationRecoveryPointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6900,8 +13247,8 @@ export const GetRecoveryPoint: API.OperationMethod<
   GetRecoveryPointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2064, __c129, 0) as any as S.Schema<GetRecoveryPointRequest>,
-  output: __S(2081, __c130, 1) as any as S.Schema<GetRecoveryPointResponse>,
+  input: __S(4608, __c144, 0) as any as S.Schema<GetRecoveryPointRequest>,
+  output: __S(4644, __c145, 4) as any as S.Schema<GetRecoveryPointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6917,8 +13264,8 @@ export const GetReplicationAlertSettings: API.OperationMethod<
   GetReplicationAlertSettingsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c132, 0) as any as S.Schema<GetReplicationAlertSettingsRequest>,
-  output: __S(177, __c11, 1) as any as S.Schema<GetReplicationAlertSettingsResponse>,
+  input: __S(4704, __c147, 0) as any as S.Schema<GetReplicationAlertSettingsRequest>,
+  output: __S(705, __c22, 1) as any as S.Schema<GetReplicationAlertSettingsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6934,8 +13281,8 @@ export const GetReplicationEligibilityResult: API.OperationMethod<
   GetReplicationEligibilityResultError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2128, __c133, 0) as any as S.Schema<GetReplicationEligibilityResultRequest>,
-  output: __S(2147, __c134, 3) as any as S.Schema<GetReplicationEligibilityResultResponse>,
+  input: __S(4736, __c148, 0) as any as S.Schema<GetReplicationEligibilityResultRequest>,
+  output: __S(4771, __c149, 3) as any as S.Schema<GetReplicationEligibilityResultResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6951,8 +13298,8 @@ export const GetReplicationEvent: API.OperationMethod<
   GetReplicationEventError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2160, __c135, 0) as any as S.Schema<GetReplicationEventRequest>,
-  output: __S(2177, __c136, 1) as any as S.Schema<GetReplicationEventResponse>,
+  input: __S(4800, __c150, 0) as any as S.Schema<GetReplicationEventRequest>,
+  output: __S(4842, __c151, 10) as any as S.Schema<GetReplicationEventResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6968,8 +13315,8 @@ export const GetReplicationFabric: API.OperationMethod<
   GetReplicationFabricError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2192, __c137, 0) as any as S.Schema<GetReplicationFabricRequest>,
-  output: __S(2208, __c138, 0) as any as S.Schema<GetReplicationFabricResponse>,
+  input: __S(4864, __c152, 0) as any as S.Schema<GetReplicationFabricRequest>,
+  output: __S(4896, __c153, 0) as any as S.Schema<GetReplicationFabricResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6985,8 +13332,8 @@ export const GetReplicationJob: API.OperationMethod<
   GetReplicationJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2224, __c139, 0) as any as S.Schema<GetReplicationJobRequest>,
-  output: __S(2240, __c140, 0) as any as S.Schema<GetReplicationJobResponse>,
+  input: __S(4928, __c154, 0) as any as S.Schema<GetReplicationJobRequest>,
+  output: __S(4960, __c155, 0) as any as S.Schema<GetReplicationJobResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7002,8 +13349,8 @@ export const GetReplicationLogicalNetwork: API.OperationMethod<
   GetReplicationLogicalNetworkError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2256, __c141, 0) as any as S.Schema<GetReplicationLogicalNetworkRequest>,
-  output: __S(2273, __c142, 1) as any as S.Schema<GetReplicationLogicalNetworkResponse>,
+  input: __S(4992, __c156, 0) as any as S.Schema<GetReplicationLogicalNetworkRequest>,
+  output: __S(5025, __c157, 1) as any as S.Schema<GetReplicationLogicalNetworkResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7019,8 +13366,8 @@ export const GetReplicationMigrationItem: API.OperationMethod<
   GetReplicationMigrationItemError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2288, __c143, 0) as any as S.Schema<GetReplicationMigrationItemRequest>,
-  output: __S(2304, __c144, 0) as any as S.Schema<GetReplicationMigrationItemResponse>,
+  input: __S(5056, __c158, 0) as any as S.Schema<GetReplicationMigrationItemRequest>,
+  output: __S(5088, __c159, 0) as any as S.Schema<GetReplicationMigrationItemResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7036,8 +13383,8 @@ export const GetReplicationNetwork: API.OperationMethod<
   GetReplicationNetworkError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2320, __c145, 0) as any as S.Schema<GetReplicationNetworkRequest>,
-  output: __S(2339, __c146, 3) as any as S.Schema<GetReplicationNetworkResponse>,
+  input: __S(5120, __c160, 0) as any as S.Schema<GetReplicationNetworkRequest>,
+  output: __S(5155, __c161, 3) as any as S.Schema<GetReplicationNetworkResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7053,8 +13400,8 @@ export const GetReplicationNetworkMapping: API.OperationMethod<
   GetReplicationNetworkMappingError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2352, __c147, 0) as any as S.Schema<GetReplicationNetworkMappingRequest>,
-  output: __S(2368, __c148, 0) as any as S.Schema<GetReplicationNetworkMappingResponse>,
+  input: __S(5184, __c162, 0) as any as S.Schema<GetReplicationNetworkMappingRequest>,
+  output: __S(5216, __c163, 0) as any as S.Schema<GetReplicationNetworkMappingResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7070,8 +13417,8 @@ export const GetReplicationPolicy: API.OperationMethod<
   GetReplicationPolicyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2384, __c149, 0) as any as S.Schema<GetReplicationPolicyRequest>,
-  output: __S(2400, __c150, 0) as any as S.Schema<GetReplicationPolicyResponse>,
+  input: __S(5248, __c164, 0) as any as S.Schema<GetReplicationPolicyRequest>,
+  output: __S(5280, __c165, 0) as any as S.Schema<GetReplicationPolicyResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7087,8 +13434,8 @@ export const GetReplicationProtectableItem: API.OperationMethod<
   GetReplicationProtectableItemError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2480, __c155, 0) as any as S.Schema<GetReplicationProtectableItemRequest>,
-  output: __S(2497, __c156, 1) as any as S.Schema<GetReplicationProtectableItemResponse>,
+  input: __S(5408, __c169, 0) as any as S.Schema<GetReplicationProtectableItemRequest>,
+  output: __S(5448, __c170, 8) as any as S.Schema<GetReplicationProtectableItemResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7104,8 +13451,8 @@ export const GetReplicationProtectedItem: API.OperationMethod<
   GetReplicationProtectedItemError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2512, __c157, 0) as any as S.Schema<GetReplicationProtectedItemRequest>,
-  output: __S(2528, __c158, 0) as any as S.Schema<GetReplicationProtectedItemResponse>,
+  input: __S(5472, __c171, 0) as any as S.Schema<GetReplicationProtectedItemRequest>,
+  output: __S(5504, __c172, 0) as any as S.Schema<GetReplicationProtectedItemResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7121,8 +13468,8 @@ export const GetReplicationProtectionCluster: API.OperationMethod<
   GetReplicationProtectionClusterError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2544, __c159, 0) as any as S.Schema<GetReplicationProtectionClusterRequest>,
-  output: __S(2560, __c160, 0) as any as S.Schema<GetReplicationProtectionClusterResponse>,
+  input: __S(5536, __c173, 0) as any as S.Schema<GetReplicationProtectionClusterRequest>,
+  output: __S(5568, __c174, 0) as any as S.Schema<GetReplicationProtectionClusterResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7139,13 +13486,13 @@ export const GetReplicationProtectionClusterOperationResults: API.OperationMetho
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2576,
-    __c161,
+    5600,
+    __c175,
     0,
   ) as any as S.Schema<GetReplicationProtectionClusterOperationResultsRequest>,
   output: __S(
-    2560,
-    __c160,
+    5568,
+    __c174,
     0,
   ) as any as S.Schema<GetReplicationProtectionClusterOperationResultsResponse>,
   errors: [UnknownAzureError],
@@ -7163,8 +13510,8 @@ export const GetReplicationProtectionContainer: API.OperationMethod<
   GetReplicationProtectionContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c162, 0) as any as S.Schema<GetReplicationProtectionContainerRequest>,
-  output: __S(2608, __c163, 0) as any as S.Schema<GetReplicationProtectionContainerResponse>,
+  input: __S(5632, __c176, 0) as any as S.Schema<GetReplicationProtectionContainerRequest>,
+  output: __S(5664, __c177, 0) as any as S.Schema<GetReplicationProtectionContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7180,8 +13527,8 @@ export const GetReplicationProtectionContainerMapping: API.OperationMethod<
   GetReplicationProtectionContainerMappingError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c164, 0) as any as S.Schema<GetReplicationProtectionContainerMappingRequest>,
-  output: __S(2640, __c165, 0) as any as S.Schema<GetReplicationProtectionContainerMappingResponse>,
+  input: __S(5696, __c178, 0) as any as S.Schema<GetReplicationProtectionContainerMappingRequest>,
+  output: __S(5728, __c179, 0) as any as S.Schema<GetReplicationProtectionContainerMappingResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7197,8 +13544,8 @@ export const GetReplicationProtectionIntent: API.OperationMethod<
   GetReplicationProtectionIntentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c166, 0) as any as S.Schema<GetReplicationProtectionIntentRequest>,
-  output: __S(1489, __c93, 1) as any as S.Schema<GetReplicationProtectionIntentResponse>,
+  input: __S(5760, __c180, 0) as any as S.Schema<GetReplicationProtectionIntentRequest>,
+  output: __S(3504, __c109, 16) as any as S.Schema<GetReplicationProtectionIntentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7214,8 +13561,8 @@ export const GetReplicationRecoveryPlan: API.OperationMethod<
   GetReplicationRecoveryPlanError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2672, __c167, 0) as any as S.Schema<GetReplicationRecoveryPlanRequest>,
-  output: __S(2688, __c168, 0) as any as S.Schema<GetReplicationRecoveryPlanResponse>,
+  input: __S(5792, __c181, 0) as any as S.Schema<GetReplicationRecoveryPlanRequest>,
+  output: __S(5824, __c182, 0) as any as S.Schema<GetReplicationRecoveryPlanResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7231,8 +13578,8 @@ export const GetReplicationRecoveryServicesProvider: API.OperationMethod<
   GetReplicationRecoveryServicesProviderError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2704, __c169, 0) as any as S.Schema<GetReplicationRecoveryServicesProviderRequest>,
-  output: __S(2720, __c170, 0) as any as S.Schema<GetReplicationRecoveryServicesProviderResponse>,
+  input: __S(5856, __c183, 0) as any as S.Schema<GetReplicationRecoveryServicesProviderRequest>,
+  output: __S(5888, __c184, 0) as any as S.Schema<GetReplicationRecoveryServicesProviderResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7248,8 +13595,8 @@ export const GetReplicationStorageClassification: API.OperationMethod<
   GetReplicationStorageClassificationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2736, __c171, 0) as any as S.Schema<GetReplicationStorageClassificationRequest>,
-  output: __S(2753, __c172, 1) as any as S.Schema<GetReplicationStorageClassificationResponse>,
+  input: __S(5920, __c185, 0) as any as S.Schema<GetReplicationStorageClassificationRequest>,
+  output: __S(5953, __c186, 1) as any as S.Schema<GetReplicationStorageClassificationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7265,10 +13612,10 @@ export const GetReplicationStorageClassificationMapping: API.OperationMethod<
   GetReplicationStorageClassificationMappingError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c176, 0) as any as S.Schema<GetReplicationStorageClassificationMappingRequest>,
+  input: __S(6176, __c193, 0) as any as S.Schema<GetReplicationStorageClassificationMappingRequest>,
   output: __S(
-    2832,
-    __c177,
+    6208,
+    __c194,
     0,
   ) as any as S.Schema<GetReplicationStorageClassificationMappingResponse>,
   errors: [UnknownAzureError],
@@ -7286,8 +13633,8 @@ export const GetReplicationVaultHealth: API.OperationMethod<
   GetReplicationVaultHealthError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c178, 0) as any as S.Schema<GetReplicationVaultHealthRequest>,
-  output: __S(2849, __c178, 1) as any as S.Schema<GetReplicationVaultHealthResponse>,
+  input: __S(6240, __c195, 0) as any as S.Schema<GetReplicationVaultHealthRequest>,
+  output: __S(6241, __c195, 1) as any as S.Schema<GetReplicationVaultHealthResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7303,8 +13650,8 @@ export const GetReplicationVaultSetting: API.OperationMethod<
   GetReplicationVaultSettingError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c180, 0) as any as S.Schema<GetReplicationVaultSettingRequest>,
-  output: __S(2896, __c181, 0) as any as S.Schema<GetReplicationVaultSettingResponse>,
+  input: __S(6304, __c197, 0) as any as S.Schema<GetReplicationVaultSettingRequest>,
+  output: __S(6336, __c198, 0) as any as S.Schema<GetReplicationVaultSettingResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7320,8 +13667,8 @@ export const GetReplicationvCenter: API.OperationMethod<
   GetReplicationvCenterError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c182, 0) as any as S.Schema<GetReplicationvCenterRequest>,
-  output: __S(2928, __c183, 0) as any as S.Schema<GetReplicationvCenterResponse>,
+  input: __S(6368, __c199, 0) as any as S.Schema<GetReplicationvCenterRequest>,
+  output: __S(6400, __c200, 0) as any as S.Schema<GetReplicationvCenterResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7337,8 +13684,8 @@ export const GetSupportedOperatingSystem: API.OperationMethod<
   GetSupportedOperatingSystemError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c184, 0) as any as S.Schema<GetSupportedOperatingSystemRequest>,
-  output: __S(2952, __c184, 8) as any as S.Schema<GetSupportedOperatingSystemResponse>,
+  input: __S(6432, __c201, 0) as any as S.Schema<GetSupportedOperatingSystemRequest>,
+  output: __S(6440, __c201, 8) as any as S.Schema<GetSupportedOperatingSystemResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7355,11 +13702,11 @@ export const ListClusterRecoveryPointByReplicationProtectionCluster: API.Operati
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2960,
-    __c185,
+    6464,
+    __c202,
     0,
   ) as any as S.Schema<ListClusterRecoveryPointByReplicationProtectionClusterRequest>,
-  output: __S(2962, __c185, 2) as any as S.Schema<ClusterRecoveryPointCollection>,
+  output: __S(6466, __c202, 2) as any as S.Schema<ClusterRecoveryPointCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7376,11 +13723,11 @@ export const ListMigrationRecoveryPointByReplicationMigrationItems: API.Operatio
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2976,
-    __c186,
+    6496,
+    __c203,
     0,
   ) as any as S.Schema<ListMigrationRecoveryPointByReplicationMigrationItemsRequest>,
-  output: __S(2978, __c186, 2) as any as S.Schema<MigrationRecoveryPointCollection>,
+  output: __S(6498, __c203, 2) as any as S.Schema<MigrationRecoveryPointCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7396,8 +13743,8 @@ export const ListOperations: API.OperationMethod<
   ListOperationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2992, __c187, 0) as any as S.Schema<ListOperationsRequest>,
-  output: __S(2996, __c187, 4) as any as S.Schema<OperationsDiscoveryCollection>,
+  input: __S(6528, __c204, 0) as any as S.Schema<ListOperationsRequest>,
+  output: __S(6532, __c204, 4) as any as S.Schema<OperationsDiscoveryCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7414,11 +13761,11 @@ export const ListRecoveryPointByReplicationProtectedItems: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3008,
-    __c188,
+    6560,
+    __c205,
     0,
   ) as any as S.Schema<ListRecoveryPointByReplicationProtectedItemsRequest>,
-  output: __S(3010, __c188, 2) as any as S.Schema<RecoveryPointCollection>,
+  output: __S(6562, __c205, 2) as any as S.Schema<RecoveryPointCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7434,8 +13781,8 @@ export const ListReplicationAlertSettings: API.OperationMethod<
   ListReplicationAlertSettingsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3024, __c189, 0) as any as S.Schema<ListReplicationAlertSettingsRequest>,
-  output: __S(3026, __c189, 2) as any as S.Schema<AlertCollection>,
+  input: __S(6592, __c206, 0) as any as S.Schema<ListReplicationAlertSettingsRequest>,
+  output: __S(6594, __c206, 2) as any as S.Schema<AlertCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7451,8 +13798,8 @@ export const ListReplicationAppliances: API.OperationMethod<
   ListReplicationAppliancesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3056, __c191, 0) as any as S.Schema<ListReplicationAppliancesRequest>,
-  output: __S(3059, __c191, 3) as any as S.Schema<ApplianceCollection>,
+  input: __S(6656, __c208, 0) as any as S.Schema<ListReplicationAppliancesRequest>,
+  output: __S(6663, __c208, 7) as any as S.Schema<ApplianceCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7468,8 +13815,8 @@ export const ListReplicationEligibilityResults: API.OperationMethod<
   ListReplicationEligibilityResultsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c192, 0) as any as S.Schema<ListReplicationEligibilityResultsRequest>,
-  output: __S(3074, __c192, 2) as any as S.Schema<ReplicationEligibilityResultsCollection>,
+  input: __S(6688, __c209, 0) as any as S.Schema<ListReplicationEligibilityResultsRequest>,
+  output: __S(6690, __c209, 2) as any as S.Schema<ReplicationEligibilityResultsCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7485,8 +13832,8 @@ export const ListReplicationEvents: API.OperationMethod<
   ListReplicationEventsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3088, __c193, 0) as any as S.Schema<ListReplicationEventsRequest>,
-  output: __S(3090, __c193, 2) as any as S.Schema<EventCollection>,
+  input: __S(6720, __c210, 0) as any as S.Schema<ListReplicationEventsRequest>,
+  output: __S(6722, __c210, 2) as any as S.Schema<EventCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7502,8 +13849,8 @@ export const ListReplicationFabrics: API.OperationMethod<
   ListReplicationFabricsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c194, 0) as any as S.Schema<ListReplicationFabricsRequest>,
-  output: __S(3106, __c194, 2) as any as S.Schema<FabricCollection>,
+  input: __S(6752, __c211, 0) as any as S.Schema<ListReplicationFabricsRequest>,
+  output: __S(6754, __c211, 2) as any as S.Schema<FabricCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7519,8 +13866,8 @@ export const ListReplicationJobs: API.OperationMethod<
   ListReplicationJobsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3120, __c195, 0) as any as S.Schema<ListReplicationJobsRequest>,
-  output: __S(3122, __c195, 2) as any as S.Schema<JobCollection>,
+  input: __S(6784, __c212, 0) as any as S.Schema<ListReplicationJobsRequest>,
+  output: __S(6786, __c212, 2) as any as S.Schema<JobCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7537,11 +13884,11 @@ export const ListReplicationLogicalNetworkByReplicationFabrics: API.OperationMet
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3136,
-    __c196,
+    6816,
+    __c213,
     0,
   ) as any as S.Schema<ListReplicationLogicalNetworkByReplicationFabricsRequest>,
-  output: __S(3138, __c196, 2) as any as S.Schema<LogicalNetworkCollection>,
+  output: __S(6818, __c213, 2) as any as S.Schema<LogicalNetworkCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7558,11 +13905,11 @@ export const ListReplicationMigrationItemByReplicationProtectionContainers: API.
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3152,
-    __c197,
+    6848,
+    __c214,
     0,
   ) as any as S.Schema<ListReplicationMigrationItemByReplicationProtectionContainersRequest>,
-  output: __S(3169, __c198, 1) as any as S.Schema<MigrationItemCollection>,
+  output: __S(6881, __c215, 1) as any as S.Schema<MigrationItemCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7578,8 +13925,8 @@ export const ListReplicationMigrationItems: API.OperationMethod<
   ListReplicationMigrationItemsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3184, __c199, 0) as any as S.Schema<ListReplicationMigrationItemsRequest>,
-  output: __S(3169, __c198, 1) as any as S.Schema<MigrationItemCollection>,
+  input: __S(6912, __c216, 0) as any as S.Schema<ListReplicationMigrationItemsRequest>,
+  output: __S(6881, __c215, 1) as any as S.Schema<MigrationItemCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7595,8 +13942,8 @@ export const ListReplicationNetworkByReplicationFabrics: API.OperationMethod<
   ListReplicationNetworkByReplicationFabricsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c200, 0) as any as S.Schema<ListReplicationNetworkByReplicationFabricsRequest>,
-  output: __S(3217, __c201, 1) as any as S.Schema<NetworkCollection>,
+  input: __S(6944, __c217, 0) as any as S.Schema<ListReplicationNetworkByReplicationFabricsRequest>,
+  output: __S(6977, __c218, 1) as any as S.Schema<NetworkCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7613,11 +13960,11 @@ export const ListReplicationNetworkMappingByReplicationNetworks: API.OperationMe
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3232,
-    __c202,
+    7008,
+    __c219,
     0,
   ) as any as S.Schema<ListReplicationNetworkMappingByReplicationNetworksRequest>,
-  output: __S(3249, __c203, 1) as any as S.Schema<NetworkMappingCollection>,
+  output: __S(7041, __c220, 1) as any as S.Schema<NetworkMappingCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7633,8 +13980,8 @@ export const ListReplicationNetworkMappings: API.OperationMethod<
   ListReplicationNetworkMappingsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3280, __c205, 0) as any as S.Schema<ListReplicationNetworkMappingsRequest>,
-  output: __S(3249, __c203, 1) as any as S.Schema<NetworkMappingCollection>,
+  input: __S(7104, __c222, 0) as any as S.Schema<ListReplicationNetworkMappingsRequest>,
+  output: __S(7041, __c220, 1) as any as S.Schema<NetworkMappingCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7650,8 +13997,8 @@ export const ListReplicationNetworks: API.OperationMethod<
   ListReplicationNetworksError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c206, 0) as any as S.Schema<ListReplicationNetworksRequest>,
-  output: __S(3217, __c201, 1) as any as S.Schema<NetworkCollection>,
+  input: __S(7136, __c223, 0) as any as S.Schema<ListReplicationNetworksRequest>,
+  output: __S(6977, __c218, 1) as any as S.Schema<NetworkCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7667,8 +14014,8 @@ export const ListReplicationPolicies: API.OperationMethod<
   ListReplicationPoliciesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3312, __c207, 0) as any as S.Schema<ListReplicationPoliciesRequest>,
-  output: __S(3314, __c207, 2) as any as S.Schema<PolicyCollection>,
+  input: __S(7168, __c224, 0) as any as S.Schema<ListReplicationPoliciesRequest>,
+  output: __S(7170, __c224, 2) as any as S.Schema<PolicyCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7685,11 +14032,11 @@ export const ListReplicationProtectableItemByReplicationProtectionContainers: AP
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3328,
-    __c208,
+    7200,
+    __c225,
     0,
   ) as any as S.Schema<ListReplicationProtectableItemByReplicationProtectionContainersRequest>,
-  output: __S(3330, __c208, 2) as any as S.Schema<ProtectableItemCollection>,
+  output: __S(7202, __c225, 2) as any as S.Schema<ProtectableItemCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7706,11 +14053,11 @@ export const ListReplicationProtectedItemByReplicationProtectionContainers: API.
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3344,
-    __c209,
+    7232,
+    __c226,
     0,
   ) as any as S.Schema<ListReplicationProtectedItemByReplicationProtectionContainersRequest>,
-  output: __S(3361, __c210, 1) as any as S.Schema<ReplicationProtectedItemCollection>,
+  output: __S(7265, __c227, 1) as any as S.Schema<ReplicationProtectedItemCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7726,8 +14073,8 @@ export const ListReplicationProtectedItems: API.OperationMethod<
   ListReplicationProtectedItemsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3376, __c211, 0) as any as S.Schema<ListReplicationProtectedItemsRequest>,
-  output: __S(3361, __c210, 1) as any as S.Schema<ReplicationProtectedItemCollection>,
+  input: __S(7296, __c228, 0) as any as S.Schema<ListReplicationProtectedItemsRequest>,
+  output: __S(7265, __c227, 1) as any as S.Schema<ReplicationProtectedItemCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7744,11 +14091,11 @@ export const ListReplicationProtectionClusterByReplicationProtectionContainers: 
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3392,
-    __c212,
+    7328,
+    __c229,
     0,
   ) as any as S.Schema<ListReplicationProtectionClusterByReplicationProtectionContainersRequest>,
-  output: __S(3409, __c213, 1) as any as S.Schema<ReplicationProtectionClusterCollection>,
+  output: __S(7361, __c230, 1) as any as S.Schema<ReplicationProtectionClusterCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7764,8 +14111,8 @@ export const ListReplicationProtectionClusters: API.OperationMethod<
   ListReplicationProtectionClustersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c214, 0) as any as S.Schema<ListReplicationProtectionClustersRequest>,
-  output: __S(3409, __c213, 1) as any as S.Schema<ReplicationProtectionClusterCollection>,
+  input: __S(7392, __c231, 0) as any as S.Schema<ListReplicationProtectionClustersRequest>,
+  output: __S(7361, __c230, 1) as any as S.Schema<ReplicationProtectionClusterCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7782,11 +14129,11 @@ export const ListReplicationProtectionContainerByReplicationFabrics: API.Operati
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3440,
-    __c215,
+    7424,
+    __c232,
     0,
   ) as any as S.Schema<ListReplicationProtectionContainerByReplicationFabricsRequest>,
-  output: __S(3457, __c216, 1) as any as S.Schema<ProtectionContainerCollection>,
+  output: __S(7457, __c233, 1) as any as S.Schema<ProtectionContainerCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7804,11 +14151,11 @@ export const ListReplicationProtectionContainerMappingByReplicationProtectionCon
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3472,
-    __c217,
+    7488,
+    __c234,
     0,
   ) as any as S.Schema<ListReplicationProtectionContainerMappingByReplicationProtectionContainersRequest>,
-  output: __S(3489, __c218, 1) as any as S.Schema<ProtectionContainerMappingCollection>,
+  output: __S(7521, __c235, 1) as any as S.Schema<ProtectionContainerMappingCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7824,8 +14171,8 @@ export const ListReplicationProtectionContainerMappings: API.OperationMethod<
   ListReplicationProtectionContainerMappingsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3520, __c220, 0) as any as S.Schema<ListReplicationProtectionContainerMappingsRequest>,
-  output: __S(3489, __c218, 1) as any as S.Schema<ProtectionContainerMappingCollection>,
+  input: __S(7584, __c237, 0) as any as S.Schema<ListReplicationProtectionContainerMappingsRequest>,
+  output: __S(7521, __c235, 1) as any as S.Schema<ProtectionContainerMappingCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7841,8 +14188,8 @@ export const ListReplicationProtectionContainers: API.OperationMethod<
   ListReplicationProtectionContainersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3536, __c221, 0) as any as S.Schema<ListReplicationProtectionContainersRequest>,
-  output: __S(3457, __c216, 1) as any as S.Schema<ProtectionContainerCollection>,
+  input: __S(7616, __c238, 0) as any as S.Schema<ListReplicationProtectionContainersRequest>,
+  output: __S(7457, __c233, 1) as any as S.Schema<ProtectionContainerCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7858,8 +14205,8 @@ export const ListReplicationProtectionIntents: API.OperationMethod<
   ListReplicationProtectionIntentsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c222, 0) as any as S.Schema<ListReplicationProtectionIntentsRequest>,
-  output: __S(3554, __c222, 2) as any as S.Schema<ReplicationProtectionIntentCollection>,
+  input: __S(7648, __c239, 0) as any as S.Schema<ListReplicationProtectionIntentsRequest>,
+  output: __S(7650, __c239, 2) as any as S.Schema<ReplicationProtectionIntentCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7875,8 +14222,8 @@ export const ListReplicationRecoveryPlans: API.OperationMethod<
   ListReplicationRecoveryPlansError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3568, __c223, 0) as any as S.Schema<ListReplicationRecoveryPlansRequest>,
-  output: __S(3570, __c223, 2) as any as S.Schema<RecoveryPlanCollection>,
+  input: __S(7680, __c240, 0) as any as S.Schema<ListReplicationRecoveryPlansRequest>,
+  output: __S(7682, __c240, 2) as any as S.Schema<RecoveryPlanCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7893,11 +14240,11 @@ export const ListReplicationRecoveryServicesProviderByReplicationFabrics: API.Op
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3584,
-    __c224,
+    7712,
+    __c241,
     0,
   ) as any as S.Schema<ListReplicationRecoveryServicesProviderByReplicationFabricsRequest>,
-  output: __S(3601, __c225, 1) as any as S.Schema<RecoveryServicesProviderCollection>,
+  output: __S(7745, __c242, 1) as any as S.Schema<RecoveryServicesProviderCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7913,8 +14260,8 @@ export const ListReplicationRecoveryServicesProviders: API.OperationMethod<
   ListReplicationRecoveryServicesProvidersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c226, 0) as any as S.Schema<ListReplicationRecoveryServicesProvidersRequest>,
-  output: __S(3601, __c225, 1) as any as S.Schema<RecoveryServicesProviderCollection>,
+  input: __S(7776, __c243, 0) as any as S.Schema<ListReplicationRecoveryServicesProvidersRequest>,
+  output: __S(7745, __c242, 1) as any as S.Schema<RecoveryServicesProviderCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7931,11 +14278,11 @@ export const ListReplicationStorageClassificationByReplicationFabrics: API.Opera
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3632,
-    __c227,
+    7808,
+    __c244,
     0,
   ) as any as S.Schema<ListReplicationStorageClassificationByReplicationFabricsRequest>,
-  output: __S(3649, __c228, 1) as any as S.Schema<StorageClassificationCollection>,
+  output: __S(7841, __c245, 1) as any as S.Schema<StorageClassificationCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7953,11 +14300,11 @@ export const ListReplicationStorageClassificationMappingByReplicationStorageClas
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3664,
-    __c229,
+    7872,
+    __c246,
     0,
   ) as any as S.Schema<ListReplicationStorageClassificationMappingByReplicationStorageClassificationsRequest>,
-  output: __S(3681, __c230, 1) as any as S.Schema<StorageClassificationMappingCollection>,
+  output: __S(7905, __c247, 1) as any as S.Schema<StorageClassificationMappingCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7974,11 +14321,11 @@ export const ListReplicationStorageClassificationMappings: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3696,
-    __c231,
+    7936,
+    __c248,
     0,
   ) as any as S.Schema<ListReplicationStorageClassificationMappingsRequest>,
-  output: __S(3681, __c230, 1) as any as S.Schema<StorageClassificationMappingCollection>,
+  output: __S(7905, __c247, 1) as any as S.Schema<StorageClassificationMappingCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7994,8 +14341,8 @@ export const ListReplicationStorageClassifications: API.OperationMethod<
   ListReplicationStorageClassificationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3712, __c232, 0) as any as S.Schema<ListReplicationStorageClassificationsRequest>,
-  output: __S(3649, __c228, 1) as any as S.Schema<StorageClassificationCollection>,
+  input: __S(7968, __c249, 0) as any as S.Schema<ListReplicationStorageClassificationsRequest>,
+  output: __S(7841, __c245, 1) as any as S.Schema<StorageClassificationCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8011,8 +14358,8 @@ export const ListReplicationVaultSetting: API.OperationMethod<
   ListReplicationVaultSettingError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<ListReplicationVaultSettingRequest>,
-  output: __S(194, __c12, 2) as any as S.Schema<VaultSettingCollection>,
+  input: __S(736, __c23, 0) as any as S.Schema<ListReplicationVaultSettingRequest>,
+  output: __S(738, __c23, 2) as any as S.Schema<VaultSettingCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8028,8 +14375,8 @@ export const ListReplicationvCenterByReplicationFabrics: API.OperationMethod<
   ListReplicationvCenterByReplicationFabricsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<ListReplicationvCenterByReplicationFabricsRequest>,
-  output: __S(225, __c14, 1) as any as S.Schema<VCenterCollection>,
+  input: __S(768, __c24, 0) as any as S.Schema<ListReplicationvCenterByReplicationFabricsRequest>,
+  output: __S(801, __c25, 1) as any as S.Schema<VCenterCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8045,8 +14392,8 @@ export const ListReplicationvCenters: API.OperationMethod<
   ListReplicationvCentersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<ListReplicationvCentersRequest>,
-  output: __S(225, __c14, 1) as any as S.Schema<VCenterCollection>,
+  input: __S(832, __c26, 0) as any as S.Schema<ListReplicationvCentersRequest>,
+  output: __S(801, __c25, 1) as any as S.Schema<VCenterCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8063,11 +14410,11 @@ export const ListTargetComputeSizByReplicationProtectedItems: API.OperationMetho
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    256,
-    __c16,
+    864,
+    __c27,
     0,
   ) as any as S.Schema<ListTargetComputeSizByReplicationProtectedItemsRequest>,
-  output: __S(262, __c16, 6) as any as S.Schema<TargetComputeSizeCollection>,
+  output: __S(870, __c27, 6) as any as S.Schema<TargetComputeSizeCollection>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8083,8 +14430,8 @@ export const MigrateReplicationFabricToAad: API.OperationMethod<
   MigrateReplicationFabricToAadError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<MigrateReplicationFabricToAadRequest>,
-  output: __S(1760, __c110, 0) as any as S.Schema<MigrateReplicationFabricToAadResponse>,
+  input: __S(896, __c28, 0) as any as S.Schema<MigrateReplicationFabricToAadRequest>,
+  output: __S(4000, __c125, 0) as any as S.Schema<MigrateReplicationFabricToAadResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8100,8 +14447,8 @@ export const MigrateReplicationMigrationItem: API.OperationMethod<
   MigrateReplicationMigrationItemError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<MigrateReplicationMigrationItemRequest>,
-  output: __S(560, __c35, 0) as any as S.Schema<MigrateReplicationMigrationItemResponse>,
+  input: __S(930, __c29, 2) as any as S.Schema<MigrateReplicationMigrationItemRequest>,
+  output: __S(1568, __c49, 0) as any as S.Schema<MigrateReplicationMigrationItemResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8117,8 +14464,8 @@ export const MigrateReplicationMigrationItemsTest: API.OperationMethod<
   MigrateReplicationMigrationItemsTestError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<MigrateReplicationMigrationItemsTestRequest>,
-  output: __S(560, __c35, 0) as any as S.Schema<MigrateReplicationMigrationItemsTestResponse>,
+  input: __S(994, __c31, 2) as any as S.Schema<MigrateReplicationMigrationItemsTestRequest>,
+  output: __S(1568, __c49, 0) as any as S.Schema<MigrateReplicationMigrationItemsTestResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8134,8 +14481,8 @@ export const PauseReplicationMigrationItemReplication: API.OperationMethod<
   PauseReplicationMigrationItemReplicationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<PauseReplicationMigrationItemReplicationRequest>,
-  output: __S(560, __c35, 0) as any as S.Schema<PauseReplicationMigrationItemReplicationResponse>,
+  input: __S(1057, __c33, 1) as any as S.Schema<PauseReplicationMigrationItemReplicationRequest>,
+  output: __S(1568, __c49, 0) as any as S.Schema<PauseReplicationMigrationItemReplicationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8151,8 +14498,8 @@ export const PurgeReplicationFabric: API.OperationMethod<
   PurgeReplicationFabricError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<PurgeReplicationFabricRequest>,
-  output: __S(1760, __c110, 0) as any as S.Schema<PurgeReplicationFabricResponse>,
+  input: __S(1088, __c34, 0) as any as S.Schema<PurgeReplicationFabricRequest>,
+  output: __S(4000, __c125, 0) as any as S.Schema<PurgeReplicationFabricResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8168,8 +14515,8 @@ export const PurgeReplicationProtectedItem: API.OperationMethod<
   PurgeReplicationProtectedItemError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<PurgeReplicationProtectedItemRequest>,
-  output: __S(1760, __c110, 0) as any as S.Schema<PurgeReplicationProtectedItemResponse>,
+  input: __S(1120, __c35, 0) as any as S.Schema<PurgeReplicationProtectedItemRequest>,
+  output: __S(4000, __c125, 0) as any as S.Schema<PurgeReplicationProtectedItemResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8185,8 +14532,8 @@ export const PurgeReplicationProtectionCluster: API.OperationMethod<
   PurgeReplicationProtectionClusterError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<PurgeReplicationProtectionClusterRequest>,
-  output: __S(385, __c24, 1) as any as S.Schema<PurgeReplicationProtectionClusterResponse>,
+  input: __S(1216, __c38, 0) as any as S.Schema<PurgeReplicationProtectionClusterRequest>,
+  output: __S(1217, __c38, 1) as any as S.Schema<PurgeReplicationProtectionClusterResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8202,10 +14549,10 @@ export const PurgeReplicationProtectionContainerMapping: API.OperationMethod<
   PurgeReplicationProtectionContainerMappingError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<PurgeReplicationProtectionContainerMappingRequest>,
+  input: __S(1248, __c39, 0) as any as S.Schema<PurgeReplicationProtectionContainerMappingRequest>,
   output: __S(
-    1760,
-    __c110,
+    4000,
+    __c125,
     0,
   ) as any as S.Schema<PurgeReplicationProtectionContainerMappingResponse>,
   errors: [UnknownAzureError],
@@ -8223,8 +14570,8 @@ export const PurgeReplicationRecoveryServicesProvider: API.OperationMethod<
   PurgeReplicationRecoveryServicesProviderError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<PurgeReplicationRecoveryServicesProviderRequest>,
-  output: __S(1760, __c110, 0) as any as S.Schema<PurgeReplicationRecoveryServicesProviderResponse>,
+  input: __S(1280, __c40, 0) as any as S.Schema<PurgeReplicationRecoveryServicesProviderRequest>,
+  output: __S(4000, __c125, 0) as any as S.Schema<PurgeReplicationRecoveryServicesProviderResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8241,13 +14588,13 @@ export const RefreshReplicationRecoveryServicesProviderProvider: API.OperationMe
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    432,
-    __c27,
+    1312,
+    __c41,
     0,
   ) as any as S.Schema<RefreshReplicationRecoveryServicesProviderProviderRequest>,
   output: __S(
-    1600,
-    __c100,
+    3680,
+    __c115,
     0,
   ) as any as S.Schema<RefreshReplicationRecoveryServicesProviderProviderResponse>,
   errors: [UnknownAzureError],
@@ -8265,8 +14612,8 @@ export const RefreshReplicationVaultHealth: API.OperationMethod<
   RefreshReplicationVaultHealthError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<RefreshReplicationVaultHealthRequest>,
-  output: __S(449, __c28, 1) as any as S.Schema<RefreshReplicationVaultHealthResponse>,
+  input: __S(1344, __c42, 0) as any as S.Schema<RefreshReplicationVaultHealthRequest>,
+  output: __S(1345, __c42, 1) as any as S.Schema<RefreshReplicationVaultHealthResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8282,8 +14629,8 @@ export const RemoveReplicationFabricInfra: API.OperationMethod<
   RemoveReplicationFabricInfraError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<RemoveReplicationFabricInfraRequest>,
-  output: __S(1760, __c110, 0) as any as S.Schema<RemoveReplicationFabricInfraResponse>,
+  input: __S(1376, __c43, 0) as any as S.Schema<RemoveReplicationFabricInfraRequest>,
+  output: __S(4000, __c125, 0) as any as S.Schema<RemoveReplicationFabricInfraResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8299,8 +14646,8 @@ export const RemoveReplicationProtectedItemDisks: API.OperationMethod<
   RemoveReplicationProtectedItemDisksError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<RemoveReplicationProtectedItemDisksRequest>,
-  output: __S(96, __c6, 0) as any as S.Schema<RemoveReplicationProtectedItemDisksResponse>,
+  input: __S(1410, __c44, 2) as any as S.Schema<RemoveReplicationProtectedItemDisksRequest>,
+  output: __S(352, __c11, 0) as any as S.Schema<RemoveReplicationProtectedItemDisksResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8316,8 +14663,8 @@ export const RenewReplicationFabricCertificate: API.OperationMethod<
   RenewReplicationFabricCertificateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(497, __c31, 1) as any as S.Schema<RenewReplicationFabricCertificateRequest>,
-  output: __S(2784, __c174, 0) as any as S.Schema<RenewReplicationFabricCertificateResponse>,
+  input: __S(1441, __c45, 1) as any as S.Schema<RenewReplicationFabricCertificateRequest>,
+  output: __S(6016, __c188, 0) as any as S.Schema<RenewReplicationFabricCertificateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8333,8 +14680,8 @@ export const ReplicationFabricsReassociateGateway: API.OperationMethod<
   ReplicationFabricsReassociateGatewayError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(513, __c32, 1) as any as S.Schema<ReplicationFabricsReassociateGatewayRequest>,
-  output: __S(2784, __c174, 0) as any as S.Schema<ReplicationFabricsReassociateGatewayResponse>,
+  input: __S(1473, __c46, 1) as any as S.Schema<ReplicationFabricsReassociateGatewayRequest>,
+  output: __S(6016, __c188, 0) as any as S.Schema<ReplicationFabricsReassociateGatewayResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8350,8 +14697,8 @@ export const ReplicationMigrationItemsResync: API.OperationMethod<
   ReplicationMigrationItemsResyncError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<ReplicationMigrationItemsResyncRequest>,
-  output: __S(560, __c35, 0) as any as S.Schema<ReplicationMigrationItemsResyncResponse>,
+  input: __S(1506, __c47, 2) as any as S.Schema<ReplicationMigrationItemsResyncRequest>,
+  output: __S(1568, __c49, 0) as any as S.Schema<ReplicationMigrationItemsResyncResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8367,10 +14714,10 @@ export const ReplicationMigrationItemsTestMigrateCleanup: API.OperationMethod<
   ReplicationMigrationItemsTestMigrateCleanupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<ReplicationMigrationItemsTestMigrateCleanupRequest>,
+  input: __S(1632, __c51, 0) as any as S.Schema<ReplicationMigrationItemsTestMigrateCleanupRequest>,
   output: __S(
-    560,
-    __c35,
+    1568,
+    __c49,
     0,
   ) as any as S.Schema<ReplicationMigrationItemsTestMigrateCleanupResponse>,
   errors: [UnknownAzureError],
@@ -8388,8 +14735,8 @@ export const ReplicationProtectedItemsPlannedFailover: API.OperationMethod<
   ReplicationProtectedItemsPlannedFailoverError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<ReplicationProtectedItemsPlannedFailoverRequest>,
-  output: __S(96, __c6, 0) as any as S.Schema<ReplicationProtectedItemsPlannedFailoverResponse>,
+  input: __S(1700, __c53, 4) as any as S.Schema<ReplicationProtectedItemsPlannedFailoverRequest>,
+  output: __S(352, __c11, 0) as any as S.Schema<ReplicationProtectedItemsPlannedFailoverResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8406,13 +14753,13 @@ export const ReplicationProtectedItemsReinstallMobilityService: API.OperationMet
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    656,
-    __c41,
+    1760,
+    __c55,
     0,
   ) as any as S.Schema<ReplicationProtectedItemsReinstallMobilityServiceRequest>,
   output: __S(
-    96,
-    __c6,
+    352,
+    __c11,
     0,
   ) as any as S.Schema<ReplicationProtectedItemsReinstallMobilityServiceResponse>,
   errors: [UnknownAzureError],
@@ -8430,8 +14777,8 @@ export const ReplicationProtectedItemsRepairReplication: API.OperationMethod<
   ReplicationProtectedItemsRepairReplicationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<ReplicationProtectedItemsRepairReplicationRequest>,
-  output: __S(96, __c6, 0) as any as S.Schema<ReplicationProtectedItemsRepairReplicationResponse>,
+  input: __S(1824, __c57, 0) as any as S.Schema<ReplicationProtectedItemsRepairReplicationRequest>,
+  output: __S(352, __c11, 0) as any as S.Schema<ReplicationProtectedItemsRepairReplicationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8447,8 +14794,8 @@ export const ReplicationProtectedItemsReprotect: API.OperationMethod<
   ReplicationProtectedItemsReprotectError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<ReplicationProtectedItemsReprotectRequest>,
-  output: __S(96, __c6, 0) as any as S.Schema<ReplicationProtectedItemsReprotectResponse>,
+  input: __S(1864, __c58, 8) as any as S.Schema<ReplicationProtectedItemsReprotectRequest>,
+  output: __S(352, __c11, 0) as any as S.Schema<ReplicationProtectedItemsReprotectResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8464,8 +14811,16 @@ export const ReplicationProtectedItemsResolveHealthErrors: API.OperationMethod<
   ReplicationProtectedItemsResolveHealthErrorsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(723, __c45, 3) as any as S.Schema<ReplicationProtectedItemsResolveHealthErrorsRequest>,
-  output: __S(96, __c6, 0) as any as S.Schema<ReplicationProtectedItemsResolveHealthErrorsResponse>,
+  input: __S(
+    1891,
+    __c59,
+    3,
+  ) as any as S.Schema<ReplicationProtectedItemsResolveHealthErrorsRequest>,
+  output: __S(
+    352,
+    __c11,
+    0,
+  ) as any as S.Schema<ReplicationProtectedItemsResolveHealthErrorsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8481,8 +14836,8 @@ export const ReplicationProtectedItemsSwitchProvider: API.OperationMethod<
   ReplicationProtectedItemsSwitchProviderError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(737, __c46, 1) as any as S.Schema<ReplicationProtectedItemsSwitchProviderRequest>,
-  output: __S(738, __c46, 2) as any as S.Schema<ReplicationProtectedItemsSwitchProviderResponse>,
+  input: __S(1922, __c60, 2) as any as S.Schema<ReplicationProtectedItemsSwitchProviderRequest>,
+  output: __S(1923, __c60, 3) as any as S.Schema<ReplicationProtectedItemsSwitchProviderResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8498,8 +14853,8 @@ export const ReplicationProtectedItemsUnplannedFailover: API.OperationMethod<
   ReplicationProtectedItemsUnplannedFailoverError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<ReplicationProtectedItemsUnplannedFailoverRequest>,
-  output: __S(96, __c6, 0) as any as S.Schema<ReplicationProtectedItemsUnplannedFailoverResponse>,
+  input: __S(1956, __c61, 4) as any as S.Schema<ReplicationProtectedItemsUnplannedFailoverRequest>,
+  output: __S(352, __c11, 0) as any as S.Schema<ReplicationProtectedItemsUnplannedFailoverResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8516,13 +14871,13 @@ export const ReplicationProtectionClustersRepairReplication: API.OperationMethod
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    784,
-    __c49,
+    2016,
+    __c63,
     0,
   ) as any as S.Schema<ReplicationProtectionClustersRepairReplicationRequest>,
   output: __S(
-    1536,
-    __c96,
+    3552,
+    __c111,
     0,
   ) as any as S.Schema<ReplicationProtectionClustersRepairReplicationResponse>,
   errors: [UnknownAzureError],
@@ -8541,13 +14896,13 @@ export const ReplicationProtectionClustersUnplannedFailover: API.OperationMethod
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    800,
-    __c50,
-    0,
+    2049,
+    __c64,
+    1,
   ) as any as S.Schema<ReplicationProtectionClustersUnplannedFailoverRequest>,
   output: __S(
-    1536,
-    __c96,
+    3552,
+    __c111,
     0,
   ) as any as S.Schema<ReplicationProtectionClustersUnplannedFailoverResponse>,
   errors: [UnknownAzureError],
@@ -8566,13 +14921,13 @@ export const ReplicationProtectionContainersDiscoverProtectableItem: API.Operati
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    865,
-    __c54,
+    2209,
+    __c69,
     1,
   ) as any as S.Schema<ReplicationProtectionContainersDiscoverProtectableItemRequest>,
   output: __S(
-    1392,
-    __c87,
+    3264,
+    __c102,
     0,
   ) as any as S.Schema<ReplicationProtectionContainersDiscoverProtectableItemResponse>,
   errors: [UnknownAzureError],
@@ -8591,13 +14946,13 @@ export const ReplicationProtectionContainersSwitchClusterProtection: API.Operati
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    881,
-    __c55,
-    1,
+    2246,
+    __c70,
+    6,
   ) as any as S.Schema<ReplicationProtectionContainersSwitchClusterProtectionRequest>,
   output: __S(
-    896,
-    __c56,
+    2272,
+    __c71,
     0,
   ) as any as S.Schema<ReplicationProtectionContainersSwitchClusterProtectionResponse>,
   errors: [UnknownAzureError],
@@ -8616,13 +14971,13 @@ export const ReplicationProtectionContainersSwitchProtection: API.OperationMetho
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    913,
-    __c57,
-    1,
+    2306,
+    __c72,
+    2,
   ) as any as S.Schema<ReplicationProtectionContainersSwitchProtectionRequest>,
   output: __S(
-    896,
-    __c56,
+    2272,
+    __c71,
     0,
   ) as any as S.Schema<ReplicationProtectionContainersSwitchProtectionResponse>,
   errors: [UnknownAzureError],
@@ -8640,8 +14995,8 @@ export const ReplicationRecoveryPlansPlannedFailover: API.OperationMethod<
   ReplicationRecoveryPlansPlannedFailoverError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(929, __c58, 1) as any as S.Schema<ReplicationRecoveryPlansPlannedFailoverRequest>,
-  output: __S(2448, __c153, 0) as any as S.Schema<ReplicationRecoveryPlansPlannedFailoverResponse>,
+  input: __S(2337, __c73, 1) as any as S.Schema<ReplicationRecoveryPlansPlannedFailoverRequest>,
+  output: __S(5344, __c167, 0) as any as S.Schema<ReplicationRecoveryPlansPlannedFailoverResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8657,8 +15012,8 @@ export const ReplicationRecoveryPlansReprotect: API.OperationMethod<
   ReplicationRecoveryPlansReprotectError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<ReplicationRecoveryPlansReprotectRequest>,
-  output: __S(2448, __c153, 0) as any as S.Schema<ReplicationRecoveryPlansReprotectResponse>,
+  input: __S(2400, __c75, 0) as any as S.Schema<ReplicationRecoveryPlansReprotectRequest>,
+  output: __S(5344, __c167, 0) as any as S.Schema<ReplicationRecoveryPlansReprotectResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8674,10 +15029,10 @@ export const ReplicationRecoveryPlansUnplannedFailover: API.OperationMethod<
   ReplicationRecoveryPlansUnplannedFailoverError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(977, __c61, 1) as any as S.Schema<ReplicationRecoveryPlansUnplannedFailoverRequest>,
+  input: __S(2433, __c76, 1) as any as S.Schema<ReplicationRecoveryPlansUnplannedFailoverRequest>,
   output: __S(
-    2448,
-    __c153,
+    5344,
+    __c167,
     0,
   ) as any as S.Schema<ReplicationRecoveryPlansUnplannedFailoverResponse>,
   errors: [UnknownAzureError],
@@ -8695,8 +15050,8 @@ export const RestartReplicationJob: API.OperationMethod<
   RestartReplicationJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<RestartReplicationJobRequest>,
-  output: __S(1856, __c116, 0) as any as S.Schema<RestartReplicationJobResponse>,
+  input: __S(2464, __c77, 0) as any as S.Schema<RestartReplicationJobRequest>,
+  output: __S(4192, __c131, 0) as any as S.Schema<RestartReplicationJobResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8712,8 +15067,8 @@ export const ResumeReplicationJob: API.OperationMethod<
   ResumeReplicationJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<ResumeReplicationJobRequest>,
-  output: __S(1856, __c116, 0) as any as S.Schema<ResumeReplicationJobResponse>,
+  input: __S(2496, __c78, 0) as any as S.Schema<ResumeReplicationJobRequest>,
+  output: __S(4192, __c131, 0) as any as S.Schema<ResumeReplicationJobResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8729,8 +15084,8 @@ export const ResumeReplicationMigrationItemReplication: API.OperationMethod<
   ResumeReplicationMigrationItemReplicationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<ResumeReplicationMigrationItemReplicationRequest>,
-  output: __S(560, __c35, 0) as any as S.Schema<ResumeReplicationMigrationItemReplicationResponse>,
+  input: __S(2530, __c79, 2) as any as S.Schema<ResumeReplicationMigrationItemReplicationRequest>,
+  output: __S(1568, __c49, 0) as any as S.Schema<ResumeReplicationMigrationItemReplicationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8746,8 +15101,8 @@ export const TestReplicationProtectedItemFailover: API.OperationMethod<
   TestReplicationProtectedItemFailoverError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1041, __c65, 1) as any as S.Schema<TestReplicationProtectedItemFailoverRequest>,
-  output: __S(96, __c6, 0) as any as S.Schema<TestReplicationProtectedItemFailoverResponse>,
+  input: __S(2564, __c80, 4) as any as S.Schema<TestReplicationProtectedItemFailoverRequest>,
+  output: __S(352, __c11, 0) as any as S.Schema<TestReplicationProtectedItemFailoverResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8763,8 +15118,12 @@ export const TestReplicationProtectedItemFailoverCleanup: API.OperationMethod<
   TestReplicationProtectedItemFailoverCleanupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c70, 0) as any as S.Schema<TestReplicationProtectedItemFailoverCleanupRequest>,
-  output: __S(96, __c6, 0) as any as S.Schema<TestReplicationProtectedItemFailoverCleanupResponse>,
+  input: __S(2688, __c84, 0) as any as S.Schema<TestReplicationProtectedItemFailoverCleanupRequest>,
+  output: __S(
+    352,
+    __c11,
+    0,
+  ) as any as S.Schema<TestReplicationProtectedItemFailoverCleanupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8780,8 +15139,8 @@ export const TestReplicationProtectionClusterFailover: API.OperationMethod<
   TestReplicationProtectionClusterFailoverError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1137, __c71, 1) as any as S.Schema<TestReplicationProtectionClusterFailoverRequest>,
-  output: __S(1536, __c96, 0) as any as S.Schema<TestReplicationProtectionClusterFailoverResponse>,
+  input: __S(2721, __c85, 1) as any as S.Schema<TestReplicationProtectionClusterFailoverRequest>,
+  output: __S(3552, __c111, 0) as any as S.Schema<TestReplicationProtectionClusterFailoverResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8798,13 +15157,13 @@ export const TestReplicationProtectionClusterFailoverCleanup: API.OperationMetho
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1152,
-    __c72,
+    2752,
+    __c86,
     0,
   ) as any as S.Schema<TestReplicationProtectionClusterFailoverCleanupRequest>,
   output: __S(
-    1536,
-    __c96,
+    3552,
+    __c111,
     0,
   ) as any as S.Schema<TestReplicationProtectionClusterFailoverCleanupResponse>,
   errors: [UnknownAzureError],
@@ -8822,8 +15181,8 @@ export const TestReplicationRecoveryPlanFailover: API.OperationMethod<
   TestReplicationRecoveryPlanFailoverError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1169, __c73, 1) as any as S.Schema<TestReplicationRecoveryPlanFailoverRequest>,
-  output: __S(2448, __c153, 0) as any as S.Schema<TestReplicationRecoveryPlanFailoverResponse>,
+  input: __S(2785, __c87, 1) as any as S.Schema<TestReplicationRecoveryPlanFailoverRequest>,
+  output: __S(5344, __c167, 0) as any as S.Schema<TestReplicationRecoveryPlanFailoverResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8839,10 +15198,10 @@ export const TestReplicationRecoveryPlanFailoverCleanup: API.OperationMethod<
   TestReplicationRecoveryPlanFailoverCleanupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c74, 0) as any as S.Schema<TestReplicationRecoveryPlanFailoverCleanupRequest>,
+  input: __S(2816, __c88, 0) as any as S.Schema<TestReplicationRecoveryPlanFailoverCleanupRequest>,
   output: __S(
-    2448,
-    __c153,
+    5344,
+    __c167,
     0,
   ) as any as S.Schema<TestReplicationRecoveryPlanFailoverCleanupResponse>,
   errors: [UnknownAzureError],
@@ -8860,8 +15219,8 @@ export const UpdateReplicationMigrationItem: API.OperationMethod<
   UpdateReplicationMigrationItemError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c75, 0) as any as S.Schema<UpdateReplicationMigrationItemRequest>,
-  output: __S(560, __c35, 0) as any as S.Schema<UpdateReplicationMigrationItemResponse>,
+  input: __S(2852, __c89, 4) as any as S.Schema<UpdateReplicationMigrationItemRequest>,
+  output: __S(1568, __c49, 0) as any as S.Schema<UpdateReplicationMigrationItemResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8877,8 +15236,8 @@ export const UpdateReplicationNetworkMapping: API.OperationMethod<
   UpdateReplicationNetworkMappingError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1217, __c76, 1) as any as S.Schema<UpdateReplicationNetworkMappingRequest>,
-  output: __S(832, __c52, 0) as any as S.Schema<UpdateReplicationNetworkMappingResponse>,
+  input: __S(2883, __c90, 3) as any as S.Schema<UpdateReplicationNetworkMappingRequest>,
+  output: __S(2144, __c67, 0) as any as S.Schema<UpdateReplicationNetworkMappingResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8894,8 +15253,8 @@ export const UpdateReplicationPolicy: API.OperationMethod<
   UpdateReplicationPolicyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1233, __c77, 1) as any as S.Schema<UpdateReplicationPolicyRequest>,
-  output: __S(1072, __c67, 0) as any as S.Schema<UpdateReplicationPolicyResponse>,
+  input: __S(2913, __c91, 1) as any as S.Schema<UpdateReplicationPolicyRequest>,
+  output: __S(2633, __c82, 9) as any as S.Schema<UpdateReplicationPolicyResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8911,8 +15270,8 @@ export const UpdateReplicationProtectedItem: API.OperationMethod<
   UpdateReplicationProtectedItemError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1253, __c78, 5) as any as S.Schema<UpdateReplicationProtectedItemRequest>,
-  output: __S(96, __c6, 0) as any as S.Schema<UpdateReplicationProtectedItemResponse>,
+  input: __S(2961, __c92, 17) as any as S.Schema<UpdateReplicationProtectedItemRequest>,
+  output: __S(352, __c11, 0) as any as S.Schema<UpdateReplicationProtectedItemResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8928,8 +15287,8 @@ export const UpdateReplicationProtectedItemAppliance: API.OperationMethod<
   UpdateReplicationProtectedItemApplianceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1265, __c79, 1) as any as S.Schema<UpdateReplicationProtectedItemApplianceRequest>,
-  output: __S(96, __c6, 0) as any as S.Schema<UpdateReplicationProtectedItemApplianceResponse>,
+  input: __S(2978, __c93, 2) as any as S.Schema<UpdateReplicationProtectedItemApplianceRequest>,
+  output: __S(352, __c11, 0) as any as S.Schema<UpdateReplicationProtectedItemApplianceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8946,13 +15305,13 @@ export const UpdateReplicationProtectedItemMobilityService: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1296,
-    __c81,
+    3072,
+    __c96,
     0,
   ) as any as S.Schema<UpdateReplicationProtectedItemMobilityServiceRequest>,
   output: __S(
-    96,
-    __c6,
+    352,
+    __c11,
     0,
   ) as any as S.Schema<UpdateReplicationProtectedItemMobilityServiceResponse>,
   errors: [UnknownAzureError],
@@ -8970,11 +15329,11 @@ export const UpdateReplicationProtectionContainerMapping: API.OperationMethod<
   UpdateReplicationProtectionContainerMappingError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c82, 0) as any as S.Schema<UpdateReplicationProtectionContainerMappingRequest>,
+  input: __S(3107, __c97, 3) as any as S.Schema<UpdateReplicationProtectionContainerMappingRequest>,
   output: __S(
-    1440,
-    __c90,
-    0,
+    3361,
+    __c105,
+    1,
   ) as any as S.Schema<UpdateReplicationProtectionContainerMappingResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -8991,8 +15350,8 @@ export const UpdateReplicationRecoveryPlan: API.OperationMethod<
   UpdateReplicationRecoveryPlanError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1329, __c83, 1) as any as S.Schema<UpdateReplicationRecoveryPlanRequest>,
-  output: __S(2448, __c153, 0) as any as S.Schema<UpdateReplicationRecoveryPlanResponse>,
+  input: __S(3137, __c98, 1) as any as S.Schema<UpdateReplicationRecoveryPlanRequest>,
+  output: __S(5344, __c167, 0) as any as S.Schema<UpdateReplicationRecoveryPlanResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9008,8 +15367,8 @@ export const UpdateReplicationvCenter: API.OperationMethod<
   UpdateReplicationvCenterError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c84, 0) as any as S.Schema<UpdateReplicationvCenterRequest>,
-  output: __S(1713, __c107, 1) as any as S.Schema<UpdateReplicationvCenterResponse>,
+  input: __S(3168, __c99, 0) as any as S.Schema<UpdateReplicationvCenterRequest>,
+  output: __S(3905, __c122, 1) as any as S.Schema<UpdateReplicationvCenterResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9023,13 +15382,36 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          instanceType: S.String,
+          vmDisks: S.optional(__S(513, __c16, 1)),
+          vmManagedDisks: S.optional(__S(545, __c17, 1)),
+        }),
+      ).annotate({ identifier: "A2AAddDisksInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          disks: __S(481, __c15, 1),
+        }),
+      ).annotate({ identifier: "InMageRcmAddDisksInput" });
+    case 2:
+      return S.Union([__S(0, __c0, 0), __S(1, __c0, 1)]);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          providerSpecificDetails: __S(2, __c0, 2),
+        }),
+      ).annotate({ identifier: "AddDisksInputProperties" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
           fabricName: S.String.pipe(T.Label()),
           protectionContainerName: S.String.pipe(T.Label()),
           replicatedProtectedItemName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(128, __c8, 0)),
+          properties: S.optional(__S(3, __c0, 3)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -9067,9 +15449,10 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          instanceType: S.String,
+          name: S.String,
+          type: S.String,
         }),
-      ).annotate({ identifier: "AddDisksProviderSpecificInput" });
+      ).annotate({ identifier: "ExtendedLocation" });
   }
 }
 function __c4(j: number): any {
@@ -9106,11 +15489,11 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "InnerHealthError" });
     case 1:
-      return S.Array(__S(80, __c5, 0));
+      return S.Array(__S(160, __c5, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          innerHealthErrors: S.optional(__S(81, __c5, 1)),
+          innerHealthErrors: S.optional(__S(161, __c5, 1)),
           errorSource: S.optional(S.String),
           errorType: S.optional(S.String),
           errorLevel: S.optional(S.String),
@@ -9128,7 +15511,7 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "HealthError" });
     case 3:
-      return S.Array(__S(82, __c5, 2));
+      return S.Array(__S(162, __c5, 2));
   }
 }
 function __c6(j: number): any {
@@ -9136,11 +15519,103 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          recoveryReplicaConfidentialDiskEncryptionSetId: S.optional(S.String),
+          recoveryTargetConfidentialDiskEncryptionSetId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ConfidentialDiskEncryptionInfo" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          diskLunId: S.optional(S.Number),
+          diskAutoProtectionStatus: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "A2AUnprotectedDiskDetails" });
+    case 1:
+      return S.Array(__S(224, __c7, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          diskId: S.optional(S.String),
+          recoveryResourceGroupId: S.optional(S.String),
+          recoveryTargetDiskId: S.optional(S.String),
+          recoveryReplicaDiskId: S.optional(S.String),
+          recoveryOrignalTargetDiskId: S.optional(S.String),
+          recoveryReplicaDiskAccountType: S.optional(S.String),
+          recoveryTargetDiskAccountType: S.optional(S.String),
+          recoveryDiskEncryptionSetId: S.optional(S.String),
+          primaryDiskEncryptionSetId: S.optional(S.String),
+          diskName: S.optional(S.String),
+          diskCapacityInBytes: S.optional(S.Number),
+          primaryStagingAzureStorageAccountId: S.optional(S.String),
+          diskType: S.optional(S.String),
+          resyncRequired: S.optional(S.Boolean),
+          monitoringPercentageCompletion: S.optional(S.Number),
+          monitoringJobType: S.optional(S.String),
+          dataPendingInStagingStorageAccountInMB: S.optional(S.Number),
+          dataPendingAtSourceAgentInMB: S.optional(S.Number),
+          diskState: S.optional(S.String),
+          allowedDiskLevelOperation: S.optional(__S(64, __c2, 0)),
+          isDiskEncrypted: S.optional(S.Boolean),
+          secretIdentifier: S.optional(S.String),
+          dekKeyVaultArmId: S.optional(S.String),
+          isDiskKeyEncrypted: S.optional(S.Boolean),
+          keyIdentifier: S.optional(S.String),
+          kekKeyVaultArmId: S.optional(S.String),
+          failoverDiskName: S.optional(S.String),
+          tfoDiskName: S.optional(S.String),
+          recoveryNetworkAccessPolicy: S.optional(S.String),
+          recoveryDiskAccessId: S.optional(S.String),
+          recoveryPublicNetworkAccess: S.optional(S.String),
+          confidentialDiskEncryptionInfo: S.optional(__S(192, __c6, 0)),
+        }),
+      ).annotate({ identifier: "A2AProtectedManagedDiskDetails" });
+    case 3:
+      return S.Array(__S(226, __c7, 2));
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.String);
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          errorCode: S.optional(S.String),
+          errorMessage: S.optional(S.String),
+          possibleCauses: S.optional(S.String),
+          recommendedAction: S.optional(S.String),
+          errorMessageParameters: S.optional(__S(256, __c8, 0)),
+          errorTags: S.optional(__S(256, __c8, 0)),
+        }),
+      ).annotate({ identifier: "A2AAgentReinstallBlockingErrorDetails" });
+    case 1:
+      return S.Array(__S(320, __c10, 0));
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(112, __c7, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(467, __c14, 19)),
           location: S.optional(S.String),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -9148,9 +15623,845 @@ function __c6(j: number): any {
       ).annotate({ identifier: "AddReplicationProtectedItemDisksResponse" });
   }
 }
-function __c7(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          osType: S.optional(S.String),
+          productType: S.optional(S.String),
+          osEdition: S.optional(S.String),
+          oSVersion: S.optional(S.String),
+          oSMajorVersion: S.optional(S.String),
+          oSMinorVersion: S.optional(S.String),
+          userSelectedOSName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OSDetails" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          maxSizeMB: S.optional(S.Number),
+          vhdType: S.optional(S.String),
+          vhdId: S.optional(S.String),
+          vhdName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DiskDetails" });
+    case 2:
+      return S.Array(__S(385, __c12, 1));
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          fabricObjectId: S.optional(S.String),
+          primaryFabricLocation: S.optional(S.String),
+          osType: S.optional(S.String),
+          vmProtectionState: S.optional(S.String),
+          vmProtectionStateDescription: S.optional(S.String),
+          lifecycleId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "A2ACrossClusterMigrationReplicationDetails" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          diskUri: S.optional(S.String),
+          recoveryAzureStorageAccountId: S.optional(S.String),
+          primaryDiskAzureStorageAccountId: S.optional(S.String),
+          recoveryDiskUri: S.optional(S.String),
+          diskName: S.optional(S.String),
+          diskCapacityInBytes: S.optional(S.Number),
+          primaryStagingAzureStorageAccountId: S.optional(S.String),
+          diskType: S.optional(S.String),
+          resyncRequired: S.optional(S.Boolean),
+          monitoringPercentageCompletion: S.optional(S.Number),
+          monitoringJobType: S.optional(S.String),
+          dataPendingInStagingStorageAccountInMB: S.optional(S.Number),
+          dataPendingAtSourceAgentInMB: S.optional(S.Number),
+          diskState: S.optional(S.String),
+          allowedDiskLevelOperation: S.optional(__S(64, __c2, 0)),
+          isDiskEncrypted: S.optional(S.Boolean),
+          secretIdentifier: S.optional(S.String),
+          dekKeyVaultArmId: S.optional(S.String),
+          isDiskKeyEncrypted: S.optional(S.Boolean),
+          keyIdentifier: S.optional(S.String),
+          kekKeyVaultArmId: S.optional(S.String),
+          failoverDiskName: S.optional(S.String),
+          tfoDiskName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "A2AProtectedDiskDetails" });
+    case 2:
+      return S.Array(__S(417, __c13, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          isPrimary: S.optional(S.Boolean),
+          subnetName: S.optional(S.String),
+          staticIPAddress: S.optional(S.String),
+          ipAddressType: S.optional(S.String),
+          isSeletedForFailover: S.optional(S.Boolean),
+          recoverySubnetName: S.optional(S.String),
+          recoveryStaticIPAddress: S.optional(S.String),
+          recoveryIPAddressType: S.optional(S.String),
+          recoveryPublicIPAddressId: S.optional(S.String),
+          recoveryLBBackendAddressPoolIds: S.optional(__S(64, __c2, 0)),
+          tfoSubnetName: S.optional(S.String),
+          tfoStaticIPAddress: S.optional(S.String),
+          tfoPublicIPAddressId: S.optional(S.String),
+          tfoLBBackendAddressPoolIds: S.optional(__S(64, __c2, 0)),
+          ipVersion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IPConfigDetails" });
+    case 4:
+      return S.Array(__S(419, __c13, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          nicId: S.optional(S.String),
+          replicaNicId: S.optional(S.String),
+          sourceNicArmId: S.optional(S.String),
+          vMNetworkName: S.optional(S.String),
+          recoveryVMNetworkId: S.optional(S.String),
+          ipConfigs: S.optional(__S(420, __c13, 4)),
+          selectionType: S.optional(S.String),
+          recoveryNetworkSecurityGroupId: S.optional(S.String),
+          enableAcceleratedNetworkingOnRecovery: S.optional(S.Boolean),
+          tfoVMNetworkId: S.optional(S.String),
+          tfoNetworkSecurityGroupId: S.optional(S.String),
+          enableAcceleratedNetworkingOnTfo: S.optional(S.Boolean),
+          recoveryNicName: S.optional(S.String),
+          recoveryNicResourceGroupName: S.optional(S.String),
+          reuseExistingNic: S.optional(S.Boolean),
+          tfoRecoveryNicName: S.optional(S.String),
+          tfoRecoveryNicResourceGroupName: S.optional(S.String),
+          tfoReuseExistingNic: S.optional(S.Boolean),
+          targetNicName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VMNicDetails" });
+    case 6:
+      return S.Array(__S(421, __c13, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          endpointName: S.optional(S.String),
+          privatePort: S.optional(S.Number),
+          publicPort: S.optional(S.Number),
+          protocol: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InputEndpoint" });
+    case 8:
+      return S.Array(__S(423, __c13, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          tags: S.optional(__S(256, __c8, 0)),
+          inputEndpoints: S.optional(__S(424, __c13, 8)),
+        }),
+      ).annotate({ identifier: "AzureToAzureVmSyncedConfigDetails" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          fabricObjectId: S.optional(S.String),
+          initialPrimaryZone: S.optional(S.String),
+          initialPrimaryFabricLocation: S.optional(S.String),
+          initialRecoveryZone: S.optional(S.String),
+          initialPrimaryExtendedLocation: S.optional(__S(96, __c3, 0)),
+          initialRecoveryExtendedLocation: S.optional(__S(96, __c3, 0)),
+          initialRecoveryFabricLocation: S.optional(S.String),
+          multiVmGroupId: S.optional(S.String),
+          multiVmGroupName: S.optional(S.String),
+          multiVmGroupCreateOption: S.optional(S.String),
+          managementId: S.optional(S.String),
+          protectionClusterId: S.optional(S.String),
+          isClusterInfraReady: S.optional(S.Boolean),
+          protectedDisks: S.optional(__S(418, __c13, 2)),
+          unprotectedDisks: S.optional(__S(225, __c7, 1)),
+          protectedManagedDisks: S.optional(__S(227, __c7, 3)),
+          recoveryBootDiagStorageAccountId: S.optional(S.String),
+          primaryFabricLocation: S.optional(S.String),
+          recoveryFabricLocation: S.optional(S.String),
+          osType: S.optional(S.String),
+          recoveryAzureVMSize: S.optional(S.String),
+          recoveryAzureVMName: S.optional(S.String),
+          recoveryAzureResourceGroupId: S.optional(S.String),
+          recoveryCloudService: S.optional(S.String),
+          recoveryAvailabilitySet: S.optional(S.String),
+          selectedRecoveryAzureNetworkId: S.optional(S.String),
+          selectedTfoAzureNetworkId: S.optional(S.String),
+          vmNics: S.optional(__S(422, __c13, 6)),
+          vmSyncedConfigDetails: S.optional(__S(425, __c13, 9)),
+          monitoringPercentageCompletion: S.optional(S.Number),
+          monitoringJobType: S.optional(S.String),
+          lastHeartbeat: S.optional(S.String),
+          agentVersion: S.optional(S.String),
+          agentExpiryDate: S.optional(S.String),
+          isReplicationAgentUpdateRequired: S.optional(S.Boolean),
+          agentCertificateExpiryDate: S.optional(S.String),
+          isReplicationAgentCertificateUpdateRequired: S.optional(S.Boolean),
+          recoveryFabricObjectId: S.optional(S.String),
+          vmProtectionState: S.optional(S.String),
+          vmProtectionStateDescription: S.optional(S.String),
+          lifecycleId: S.optional(S.String),
+          testFailoverRecoveryFabricObjectId: S.optional(S.String),
+          rpoInSeconds: S.optional(S.Number),
+          lastRpoCalculatedTime: S.optional(S.String),
+          primaryAvailabilityZone: S.optional(S.String),
+          recoveryAvailabilityZone: S.optional(S.String),
+          primaryExtendedLocation: S.optional(__S(96, __c3, 0)),
+          recoveryExtendedLocation: S.optional(__S(96, __c3, 0)),
+          vmEncryptionType: S.optional(S.String),
+          tfoAzureVMName: S.optional(S.String),
+          recoveryAzureGeneration: S.optional(S.String),
+          recoveryProximityPlacementGroupId: S.optional(S.String),
+          autoProtectionOfDataDisk: S.optional(S.String),
+          recoveryVirtualMachineScaleSetId: S.optional(S.String),
+          recoveryCapacityReservationGroupId: S.optional(S.String),
+          churnOptionSelected: S.optional(S.String),
+          agentReinstallAttemptToVersion: S.optional(S.String),
+          osFamilyName: S.optional(S.String),
+          distroName: S.optional(S.String),
+          distroNameForWhichAgentIsInstalled: S.optional(S.String),
+          isAgentUpgradeable: S.optional(S.Boolean),
+          isAgentReinstallRequired: S.optional(S.Boolean),
+          reasonsBlockingReInstall: S.optional(S.String),
+          reasonsBlockingReinstallDetails: S.optional(__S(321, __c10, 1)),
+          isAgentUpgradeInProgress: S.optional(S.Boolean),
+          autoAgentUpgradeRetryCount: S.optional(S.Number),
+          isAgentUpgradeRetryThresholdExhausted: S.optional(S.Boolean),
+          platformFaultDomain: S.optional(S.Number),
+          recoveryConfidentialDataDiskEncryptionIdentity: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "A2AReplicationDetails" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          vhdType: S.optional(S.String),
+          vhdId: S.optional(S.String),
+          diskId: S.optional(S.String),
+          vhdName: S.optional(S.String),
+          maxSizeMB: S.optional(S.String),
+          targetDiskLocation: S.optional(S.String),
+          targetDiskName: S.optional(S.String),
+          lunId: S.optional(S.String),
+          diskEncryptionSetId: S.optional(S.String),
+          customTargetDiskName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AzureVmDiskDetails" });
+    case 12:
+      return S.Array(__S(427, __c13, 11));
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          initialReplicationType: S.optional(S.String),
+          initialReplicationProgressPercentage: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InitialReplicationDetails" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          diskId: S.optional(S.String),
+          seedManagedDiskId: S.optional(S.String),
+          replicaDiskType: S.optional(S.String),
+          diskEncryptionSetId: S.optional(S.String),
+          targetDiskAccountType: S.optional(S.String),
+          sectorSizeInBytes: S.optional(S.Number),
+          iops: S.optional(S.Number),
+          throughputInMbps: S.optional(S.Number),
+          diskSizeInGB: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "HyperVReplicaAzureManagedDiskDetails" });
+    case 15:
+      return S.Array(__S(430, __c13, 14));
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          supportedSourceOsVersion: S.optional(S.String),
+          supportedTargetOsVersions: S.optional(__S(64, __c2, 0)),
+        }),
+      ).annotate({ identifier: "OSUpgradeSupportedVersions" });
+    case 17:
+      return S.Array(__S(432, __c13, 16));
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          targetVmSecurityType: S.optional(S.String),
+          targetVmSecureBoot: S.optional(S.String),
+          targetVmTpm: S.optional(S.String),
+          targetVmMonitoring: S.optional(S.String),
+          targetVmConfidentialEncryption: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SecurityProfileProperties" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          azureVmDiskDetails: S.optional(__S(428, __c13, 12)),
+          recoveryAzureVmName: S.optional(S.String),
+          recoveryAzureVMSize: S.optional(S.String),
+          recoveryAzureStorageAccount: S.optional(S.String),
+          recoveryAzureLogStorageAccountId: S.optional(S.String),
+          lastReplicatedTime: S.optional(S.String),
+          rpoInSeconds: S.optional(S.Number),
+          lastRpoCalculatedTime: S.optional(S.String),
+          vmId: S.optional(S.String),
+          vmProtectionState: S.optional(S.String),
+          vmProtectionStateDescription: S.optional(S.String),
+          initialReplicationDetails: S.optional(__S(429, __c13, 13)),
+          vmNics: S.optional(__S(422, __c13, 6)),
+          selectedRecoveryAzureNetworkId: S.optional(S.String),
+          selectedSourceNicId: S.optional(S.String),
+          encryption: S.optional(S.String),
+          oSDetails: S.optional(__S(384, __c12, 0)),
+          sourceVmRamSizeInMB: S.optional(S.Number),
+          sourceVmCpuCount: S.optional(S.Number),
+          enableRdpOnTargetOption: S.optional(S.String),
+          recoveryAzureResourceGroupId: S.optional(S.String),
+          recoveryAvailabilitySetId: S.optional(S.String),
+          targetAvailabilityZone: S.optional(S.String),
+          targetProximityPlacementGroupId: S.optional(S.String),
+          useManagedDisks: S.optional(S.String),
+          licenseType: S.optional(S.String),
+          sqlServerLicenseType: S.optional(S.String),
+          linuxLicenseType: S.optional(S.String),
+          lastRecoveryPointReceived: S.optional(S.String),
+          targetVmTags: S.optional(__S(256, __c8, 0)),
+          seedManagedDiskTags: S.optional(__S(256, __c8, 0)),
+          targetManagedDiskTags: S.optional(__S(256, __c8, 0)),
+          targetNicTags: S.optional(__S(256, __c8, 0)),
+          protectedManagedDisks: S.optional(__S(431, __c13, 15)),
+          allAvailableOSUpgradeConfigurations: S.optional(__S(433, __c13, 17)),
+          targetVmSecurityProfile: S.optional(__S(434, __c13, 18)),
+          targetCapacityReservationGroupId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HyperVReplicaAzureReplicationDetails" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          lastReplicatedTime: S.optional(S.String),
+          vmNics: S.optional(__S(422, __c13, 6)),
+          vmId: S.optional(S.String),
+          vmProtectionState: S.optional(S.String),
+          vmProtectionStateDescription: S.optional(S.String),
+          initialReplicationDetails: S.optional(__S(429, __c13, 13)),
+          vMDiskDetails: S.optional(__S(386, __c12, 2)),
+        }),
+      ).annotate({ identifier: "HyperVReplicaBaseReplicationDetails" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          diskId: S.optional(S.String),
+          diskName: S.optional(S.String),
+          protectionStage: S.optional(S.String),
+          healthErrorCode: S.optional(S.String),
+          rpoInSeconds: S.optional(S.Number),
+          resyncRequired: S.optional(S.String),
+          resyncProgressPercentage: S.optional(S.Number),
+          resyncDurationInSeconds: S.optional(S.Number),
+          diskCapacityInBytes: S.optional(S.Number),
+          fileSystemCapacityInBytes: S.optional(S.Number),
+          sourceDataInMegaBytes: S.optional(S.Number),
+          psDataInMegaBytes: S.optional(S.Number),
+          targetDataInMegaBytes: S.optional(S.Number),
+          diskResized: S.optional(S.String),
+          lastRpoCalculatedTime: S.optional(S.String),
+          resyncProcessedBytes: S.optional(S.Number),
+          resyncTotalTransferredBytes: S.optional(S.Number),
+          resyncLast15MinutesTransferredBytes: S.optional(S.Number),
+          resyncLastDataTransferTimeUTC: S.optional(S.String),
+          resyncStartTime: S.optional(S.String),
+          progressHealth: S.optional(S.String),
+          progressStatus: S.optional(S.String),
+          secondsToTakeSwitchProvider: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "InMageAzureV2ProtectedDiskDetails" });
+    case 22:
+      return S.Array(__S(437, __c13, 21));
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          diskId: S.optional(S.String),
+          seedManagedDiskId: S.optional(S.String),
+          replicaDiskType: S.optional(S.String),
+          diskEncryptionSetId: S.optional(S.String),
+          targetDiskName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InMageAzureV2ManagedDiskDetails" });
+    case 24:
+      return S.Array(__S(439, __c13, 23));
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          targetVaultId: S.optional(S.String),
+          targetResourceId: S.optional(S.String),
+          targetFabricId: S.optional(S.String),
+          targetApplianceId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InMageAzureV2SwitchProviderDetails" });
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          infrastructureVmId: S.optional(S.String),
+          vCenterInfrastructureId: S.optional(S.String),
+          protectionStage: S.optional(S.String),
+          vmId: S.optional(S.String),
+          vmProtectionState: S.optional(S.String),
+          vmProtectionStateDescription: S.optional(S.String),
+          resyncProgressPercentage: S.optional(S.Number),
+          rpoInSeconds: S.optional(S.Number),
+          compressedDataRateInMB: S.optional(S.Number),
+          uncompressedDataRateInMB: S.optional(S.Number),
+          ipAddress: S.optional(S.String),
+          agentVersion: S.optional(S.String),
+          agentExpiryDate: S.optional(S.String),
+          isAgentUpdateRequired: S.optional(S.String),
+          isRebootAfterUpdateRequired: S.optional(S.String),
+          lastHeartbeat: S.optional(S.String),
+          processServerId: S.optional(S.String),
+          processServerName: S.optional(S.String),
+          multiVmGroupId: S.optional(S.String),
+          multiVmGroupName: S.optional(S.String),
+          multiVmSyncStatus: S.optional(S.String),
+          protectedDisks: S.optional(__S(438, __c13, 22)),
+          diskResized: S.optional(S.String),
+          masterTargetId: S.optional(S.String),
+          sourceVmCpuCount: S.optional(S.Number),
+          sourceVmRamSizeInMB: S.optional(S.Number),
+          osType: S.optional(S.String),
+          vhdName: S.optional(S.String),
+          osDiskId: S.optional(S.String),
+          azureVMDiskDetails: S.optional(__S(428, __c13, 12)),
+          recoveryAzureVMName: S.optional(S.String),
+          recoveryAzureVMSize: S.optional(S.String),
+          recoveryAzureStorageAccount: S.optional(S.String),
+          recoveryAzureLogStorageAccountId: S.optional(S.String),
+          vmNics: S.optional(__S(422, __c13, 6)),
+          selectedRecoveryAzureNetworkId: S.optional(S.String),
+          selectedTfoAzureNetworkId: S.optional(S.String),
+          selectedSourceNicId: S.optional(S.String),
+          discoveryType: S.optional(S.String),
+          enableRdpOnTargetOption: S.optional(S.String),
+          datastores: S.optional(__S(64, __c2, 0)),
+          targetVmId: S.optional(S.String),
+          recoveryAzureResourceGroupId: S.optional(S.String),
+          recoveryAvailabilitySetId: S.optional(S.String),
+          targetAvailabilityZone: S.optional(S.String),
+          targetProximityPlacementGroupId: S.optional(S.String),
+          useManagedDisks: S.optional(S.String),
+          licenseType: S.optional(S.String),
+          sqlServerLicenseType: S.optional(S.String),
+          validationErrors: S.optional(__S(163, __c5, 3)),
+          lastRpoCalculatedTime: S.optional(S.String),
+          lastUpdateReceivedTime: S.optional(S.String),
+          replicaId: S.optional(S.String),
+          osVersion: S.optional(S.String),
+          protectedManagedDisks: S.optional(__S(440, __c13, 24)),
+          lastRecoveryPointReceived: S.optional(S.String),
+          firmwareType: S.optional(S.String),
+          azureVmGeneration: S.optional(S.String),
+          isAdditionalStatsAvailable: S.optional(S.Boolean),
+          totalDataTransferred: S.optional(S.Number),
+          totalProgressHealth: S.optional(S.String),
+          targetVmTags: S.optional(__S(256, __c8, 0)),
+          seedManagedDiskTags: S.optional(__S(256, __c8, 0)),
+          targetManagedDiskTags: S.optional(__S(256, __c8, 0)),
+          targetNicTags: S.optional(__S(256, __c8, 0)),
+          switchProviderBlockingErrorDetails: S.optional(__S(321, __c10, 1)),
+          switchProviderDetails: S.optional(__S(441, __c13, 25)),
+          supportedOSVersions: S.optional(__S(64, __c2, 0)),
+          allAvailableOSUpgradeConfigurations: S.optional(__S(433, __c13, 17)),
+          osName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InMageAzureV2ReplicationDetails" });
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          progressHealth: S.optional(S.String),
+          transferredBytes: S.optional(S.Number),
+          last15MinutesTransferredBytes: S.optional(S.Number),
+          lastDataTransferTimeUtc: S.optional(S.String),
+          processedBytes: S.optional(S.Number),
+          startTime: S.optional(S.String),
+          lastRefreshTime: S.optional(S.String),
+          progressPercentage: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "InMageRcmFailbackSyncDetails" });
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          diskId: S.optional(S.String),
+          diskName: S.optional(S.String),
+          isOSDisk: S.optional(S.String),
+          capacityInBytes: S.optional(S.Number),
+          diskUuid: S.optional(S.String),
+          dataPendingInLogDataStoreInMB: S.optional(S.Number),
+          dataPendingAtSourceAgentInMB: S.optional(S.Number),
+          isInitialReplicationComplete: S.optional(S.String),
+          irDetails: S.optional(__S(443, __c13, 27)),
+          resyncDetails: S.optional(__S(443, __c13, 27)),
+          lastSyncTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InMageRcmFailbackProtectedDiskDetails" });
+    case 29:
+      return S.Array(__S(444, __c13, 28));
+    case 30:
+      return S.suspend(() =>
+        S.Struct({
+          version: S.optional(S.String),
+          latestVersion: S.optional(S.String),
+          driverVersion: S.optional(S.String),
+          latestUpgradableVersionWithoutReboot: S.optional(S.String),
+          agentVersionExpiryDate: S.optional(S.String),
+          driverVersionExpiryDate: S.optional(S.String),
+          lastHeartbeatUtc: S.optional(S.String),
+          reasonsBlockingUpgrade: S.optional(__S(288, __c9, 0)),
+          isUpgradeable: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InMageRcmFailbackMobilityAgentDetails" });
+    case 31:
+      return S.suspend(() =>
+        S.Struct({
+          macAddress: S.optional(S.String),
+          networkName: S.optional(S.String),
+          adapterType: S.optional(S.String),
+          sourceIpAddress: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InMageRcmFailbackNicDetails" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(447, __c13, 31));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          vCenterId: S.optional(S.String),
+          vCenterFqdn: S.optional(S.String),
+          datastores: S.optional(__S(64, __c2, 0)),
+          ipAddresses: S.optional(__S(64, __c2, 0)),
+          vmwareToolsStatus: S.optional(S.String),
+          powerStatus: S.optional(S.String),
+          vmFqdn: S.optional(S.String),
+          osName: S.optional(S.String),
+          createdTimestamp: S.optional(S.String),
+          updatedTimestamp: S.optional(S.String),
+          isDeleted: S.optional(S.Boolean),
+          lastDiscoveryTimeInUtc: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InMageRcmFailbackDiscoveredProtectedVmDetails" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          internalIdentifier: S.optional(S.String),
+          azureVirtualMachineId: S.optional(S.String),
+          multiVmGroupName: S.optional(S.String),
+          reprotectAgentId: S.optional(S.String),
+          reprotectAgentName: S.optional(S.String),
+          osType: S.optional(S.String),
+          logStorageAccountId: S.optional(S.String),
+          targetvCenterId: S.optional(S.String),
+          targetDataStoreName: S.optional(S.String),
+          targetVmName: S.optional(S.String),
+          initialReplicationProgressPercentage: S.optional(S.Number),
+          initialReplicationProcessedBytes: S.optional(S.Number),
+          initialReplicationTransferredBytes: S.optional(S.Number),
+          initialReplicationProgressHealth: S.optional(S.String),
+          resyncProgressPercentage: S.optional(S.Number),
+          resyncProcessedBytes: S.optional(S.Number),
+          resyncTransferredBytes: S.optional(S.Number),
+          resyncProgressHealth: S.optional(S.String),
+          resyncRequired: S.optional(S.String),
+          resyncState: S.optional(S.String),
+          protectedDisks: S.optional(__S(445, __c13, 29)),
+          mobilityAgentDetails: S.optional(__S(446, __c13, 30)),
+          vmNics: S.optional(__S(448, __c14, 0)),
+          lastPlannedFailoverStartTime: S.optional(S.String),
+          lastPlannedFailoverStatus: S.optional(S.String),
+          discoveredVmDetails: S.optional(__S(449, __c14, 1)),
+          lastUsedPolicyId: S.optional(S.String),
+          lastUsedPolicyFriendlyName: S.optional(S.String),
+          isAgentRegistrationSuccessfulAfterFailover: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "InMageRcmFailbackReplicationDetails" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          diskId: S.optional(S.String),
+          diskName: S.optional(S.String),
+          isOSDisk: S.optional(S.String),
+          capacityInBytes: S.optional(S.Number),
+          diskState: S.optional(S.String),
+          logStorageAccountId: S.optional(S.String),
+          diskEncryptionSetId: S.optional(S.String),
+          confidentialDiskEncryptionSetId: S.optional(S.String),
+          seedManagedDiskId: S.optional(S.String),
+          seedBlobUri: S.optional(S.String),
+          targetManagedDiskId: S.optional(S.String),
+          diskType: S.optional(S.String),
+          dataPendingInLogDataStoreInMB: S.optional(S.Number),
+          dataPendingAtSourceAgentInMB: S.optional(S.Number),
+          isInitialReplicationComplete: S.optional(S.String),
+          irDetails: S.optional(__S(443, __c13, 27)),
+          resyncDetails: S.optional(__S(443, __c13, 27)),
+          customTargetDiskName: S.optional(S.String),
+          sectorSizeInBytes: S.optional(S.Number),
+          iops: S.optional(S.Number),
+          throughputInMbps: S.optional(S.Number),
+          diskSizeInGB: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "InMageRcmProtectedDiskDetails" });
+    case 4:
+      return S.Array(__S(451, __c14, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          diskId: S.optional(S.String),
+          diskName: S.optional(S.String),
+          capacityInBytes: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "InMageRcmUnProtectedDiskDetails" });
+    case 6:
+      return S.Array(__S(453, __c14, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          version: S.optional(S.String),
+          latestVersion: S.optional(S.String),
+          latestAgentReleaseDate: S.optional(S.String),
+          driverVersion: S.optional(S.String),
+          latestUpgradableVersionWithoutReboot: S.optional(S.String),
+          agentVersionExpiryDate: S.optional(S.String),
+          driverVersionExpiryDate: S.optional(S.String),
+          lastHeartbeatUtc: S.optional(S.String),
+          reasonsBlockingUpgrade: S.optional(__S(288, __c9, 0)),
+          isUpgradeable: S.optional(S.String),
+          agentReinstallState: S.optional(S.String),
+          lastAgentReinstallType: S.optional(S.String),
+          agentReinstallJobId: S.optional(S.String),
+          agentReinstallAttemptToVersion: S.optional(S.String),
+          osFamilyName: S.optional(S.String),
+          distroName: S.optional(S.String),
+          distroNameForWhichAgentIsInstalled: S.optional(S.String),
+          isAgentUpgradeable: S.optional(S.Boolean),
+          isAgentReinstallRequired: S.optional(S.Boolean),
+          isLastReinstallSuccessful: S.optional(S.Boolean),
+          reasonsBlockingReinstall: S.optional(__S(288, __c9, 0)),
+          reasonsBlockingReinstallDetails: S.optional(__S(321, __c10, 1)),
+        }),
+      ).annotate({ identifier: "InMageRcmMobilityAgentDetails" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          nicId: S.optional(S.String),
+          isPrimaryNic: S.optional(S.String),
+          isSelectedForFailover: S.optional(S.String),
+          sourceIPAddress: S.optional(S.String),
+          sourceIPAddressType: S.optional(S.String),
+          sourceNetworkId: S.optional(S.String),
+          sourceSubnetName: S.optional(S.String),
+          targetIPAddress: S.optional(S.String),
+          targetIPAddressType: S.optional(S.String),
+          targetSubnetName: S.optional(S.String),
+          testSubnetName: S.optional(S.String),
+          testIPAddress: S.optional(S.String),
+          testIPAddressType: S.optional(S.String),
+          targetNicName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InMageRcmNicDetails" });
+    case 9:
+      return S.Array(__S(456, __c14, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          tagName: S.optional(S.String),
+          tagValue: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UserCreatedResourceTag" });
+    case 11:
+      return S.Array(__S(458, __c14, 10));
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          internalIdentifier: S.optional(S.String),
+          fabricDiscoveryMachineId: S.optional(S.String),
+          multiVmGroupName: S.optional(S.String),
+          discoveryType: S.optional(S.String),
+          processServerId: S.optional(S.String),
+          processorCoreCount: S.optional(S.Number),
+          allocatedMemoryInMB: S.optional(S.Number),
+          processServerName: S.optional(S.String),
+          runAsAccountId: S.optional(S.String),
+          osType: S.optional(S.String),
+          firmwareType: S.optional(S.String),
+          primaryNicIpAddress: S.optional(S.String),
+          targetGeneration: S.optional(S.String),
+          licenseType: S.optional(S.String),
+          linuxLicenseType: S.optional(S.String),
+          storageAccountId: S.optional(S.String),
+          targetVmName: S.optional(S.String),
+          targetVmSize: S.optional(S.String),
+          targetResourceGroupId: S.optional(S.String),
+          targetLocation: S.optional(S.String),
+          targetAvailabilitySetId: S.optional(S.String),
+          targetAvailabilityZone: S.optional(S.String),
+          targetExtendedLocation: S.optional(__S(96, __c3, 0)),
+          targetProximityPlacementGroupId: S.optional(S.String),
+          targetBootDiagnosticsStorageAccountId: S.optional(S.String),
+          targetNetworkId: S.optional(S.String),
+          testNetworkId: S.optional(S.String),
+          failoverRecoveryPointId: S.optional(S.String),
+          lastRecoveryPointReceived: S.optional(S.String),
+          lastRpoInSeconds: S.optional(S.Number),
+          lastRpoCalculatedTime: S.optional(S.String),
+          lastRecoveryPointId: S.optional(S.String),
+          initialReplicationProgressPercentage: S.optional(S.Number),
+          initialReplicationProcessedBytes: S.optional(S.Number),
+          initialReplicationTransferredBytes: S.optional(S.Number),
+          initialReplicationProgressHealth: S.optional(S.String),
+          resyncProgressPercentage: S.optional(S.Number),
+          resyncProcessedBytes: S.optional(S.Number),
+          resyncTransferredBytes: S.optional(S.Number),
+          resyncProgressHealth: S.optional(S.String),
+          resyncRequired: S.optional(S.String),
+          resyncState: S.optional(S.String),
+          agentUpgradeState: S.optional(S.String),
+          lastAgentUpgradeType: S.optional(S.String),
+          agentUpgradeJobId: S.optional(S.String),
+          agentUpgradeAttemptToVersion: S.optional(S.String),
+          protectedDisks: S.optional(__S(452, __c14, 4)),
+          unprotectedDisks: S.optional(__S(454, __c14, 6)),
+          isLastUpgradeSuccessful: S.optional(S.String),
+          isAgentRegistrationSuccessfulAfterFailover: S.optional(S.Boolean),
+          mobilityAgentDetails: S.optional(__S(455, __c14, 7)),
+          lastAgentUpgradeErrorDetails: S.optional(__S(321, __c10, 1)),
+          agentUpgradeBlockingErrorDetails: S.optional(__S(321, __c10, 1)),
+          vmNics: S.optional(__S(457, __c14, 9)),
+          discoveredVmDetails: S.optional(__S(449, __c14, 1)),
+          targetVmTags: S.optional(__S(459, __c14, 11)),
+          seedManagedDiskTags: S.optional(__S(459, __c14, 11)),
+          targetManagedDiskTags: S.optional(__S(459, __c14, 11)),
+          targetNicTags: S.optional(__S(459, __c14, 11)),
+          sqlServerLicenseType: S.optional(S.String),
+          supportedOSVersions: S.optional(__S(64, __c2, 0)),
+          osName: S.optional(S.String),
+          targetVmSecurityProfile: S.optional(__S(434, __c13, 18)),
+          targetCapacityReservationGroupId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InMageRcmReplicationDetails" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          osVhdId: S.optional(S.String),
+          osType: S.optional(S.String),
+          vhdName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OSDiskDetails" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          diskId: S.optional(S.String),
+          diskName: S.optional(S.String),
+          protectionStage: S.optional(S.String),
+          healthErrorCode: S.optional(S.String),
+          rpoInSeconds: S.optional(S.Number),
+          resyncRequired: S.optional(S.String),
+          resyncProgressPercentage: S.optional(S.Number),
+          resyncDurationInSeconds: S.optional(S.Number),
+          diskCapacityInBytes: S.optional(S.Number),
+          fileSystemCapacityInBytes: S.optional(S.Number),
+          sourceDataInMB: S.optional(S.Number),
+          psDataInMB: S.optional(S.Number),
+          targetDataInMB: S.optional(S.Number),
+          diskResized: S.optional(S.String),
+          lastRpoCalculatedTime: S.optional(S.String),
+          resyncProcessedBytes: S.optional(S.Number),
+          resyncTotalTransferredBytes: S.optional(S.Number),
+          resyncLast15MinutesTransferredBytes: S.optional(S.Number),
+          resyncLastDataTransferTimeUTC: S.optional(S.String),
+          resyncStartTime: S.optional(S.String),
+          progressHealth: S.optional(S.String),
+          progressStatus: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InMageProtectedDiskDetails" });
+    case 15:
+      return S.Array(__S(462, __c14, 14));
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          agentVersion: S.optional(S.String),
+          agentUpdateStatus: S.optional(S.String),
+          postUpdateRebootStatus: S.optional(S.String),
+          agentExpiryDate: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InMageAgentDetails" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          activeSiteType: S.optional(S.String),
+          sourceVmCpuCount: S.optional(S.Number),
+          sourceVmRamSizeInMB: S.optional(S.Number),
+          osDetails: S.optional(__S(461, __c14, 13)),
+          protectionStage: S.optional(S.String),
+          vmId: S.optional(S.String),
+          vmProtectionState: S.optional(S.String),
+          vmProtectionStateDescription: S.optional(S.String),
+          resyncDetails: S.optional(__S(429, __c13, 13)),
+          retentionWindowStart: S.optional(S.String),
+          retentionWindowEnd: S.optional(S.String),
+          compressedDataRateInMB: S.optional(S.Number),
+          uncompressedDataRateInMB: S.optional(S.Number),
+          rpoInSeconds: S.optional(S.Number),
+          protectedDisks: S.optional(__S(463, __c14, 15)),
+          ipAddress: S.optional(S.String),
+          lastHeartbeat: S.optional(S.String),
+          processServerId: S.optional(S.String),
+          masterTargetId: S.optional(S.String),
+          consistencyPoints: S.optional(__S(256, __c8, 0)),
+          diskResized: S.optional(S.String),
+          rebootAfterUpdateStatus: S.optional(S.String),
+          multiVmGroupId: S.optional(S.String),
+          multiVmGroupName: S.optional(S.String),
+          multiVmSyncStatus: S.optional(S.String),
+          agentDetails: S.optional(__S(464, __c14, 16)),
+          vCenterInfrastructureId: S.optional(S.String),
+          infrastructureVmId: S.optional(S.String),
+          vmNics: S.optional(__S(422, __c13, 6)),
+          discoveryType: S.optional(S.String),
+          azureStorageAccountId: S.optional(S.String),
+          datastores: S.optional(__S(64, __c2, 0)),
+          validationErrors: S.optional(__S(163, __c5, 3)),
+          lastRpoCalculatedTime: S.optional(S.String),
+          lastUpdateReceivedTime: S.optional(S.String),
+          replicaId: S.optional(S.String),
+          osVersion: S.optional(S.String),
+          isAdditionalStatsAvailable: S.optional(S.Boolean),
+          totalDataTransferred: S.optional(S.Number),
+          totalProgressHealth: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InMageReplicationDetails" });
+    case 18:
+      return S.Union([
+        __S(416, __c13, 0),
+        __S(426, __c13, 10),
+        __S(435, __c13, 19),
+        __S(436, __c13, 20),
+        __S(436, __c13, 20),
+        __S(436, __c13, 20),
+        __S(442, __c13, 26),
+        __S(450, __c14, 2),
+        __S(460, __c14, 12),
+        __S(465, __c14, 17),
+      ]);
+    case 19:
       return S.suspend(() =>
         S.Struct({
           friendlyName: S.optional(S.String),
@@ -9170,43 +16481,137 @@ function __c7(j: number): any {
           testFailoverStateDescription: S.optional(S.String),
           switchProviderState: S.optional(S.String),
           switchProviderStateDescription: S.optional(S.String),
-          allowedOperations: S.optional(__S(32, __c2, 0)),
+          allowedOperations: S.optional(__S(64, __c2, 0)),
           replicationHealth: S.optional(S.String),
           failoverHealth: S.optional(S.String),
-          healthErrors: S.optional(__S(83, __c5, 3)),
+          healthErrors: S.optional(__S(163, __c5, 3)),
           policyId: S.optional(S.String),
           policyFriendlyName: S.optional(S.String),
           lastSuccessfulFailoverTime: S.optional(S.String),
           lastSuccessfulTestFailoverTime: S.optional(S.String),
-          currentScenario: S.optional(__S(64, __c4, 0)),
+          currentScenario: S.optional(__S(128, __c4, 0)),
           failoverRecoveryPointId: S.optional(S.String),
-          providerSpecificDetails: S.optional(S.Unknown),
+          providerSpecificDetails: S.optional(__S(466, __c14, 18)),
           recoveryContainerId: S.optional(S.String),
           eventCorrelationId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReplicationProtectedItemProperties" });
   }
 }
-function __c8(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          providerSpecificDetails: __S(48, __c3, 0),
+          diskId: S.String,
+          logStorageAccountId: S.String,
+          diskType: S.String,
+          diskEncryptionSetId: S.optional(S.String),
+          confidentialDiskEncryptionSetId: S.optional(S.String),
+          sectorSizeInBytes: S.optional(S.Number),
+          iops: S.optional(S.Number),
+          throughputInMbps: S.optional(S.Number),
+          diskSizeInGB: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "AddDisksInputProperties" });
+      ).annotate({ identifier: "InMageRcmDiskInput" });
+    case 1:
+      return S.Array(__S(480, __c15, 0));
   }
 }
-function __c9(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          diskUri: S.String,
+          recoveryAzureStorageAccountId: S.String,
+          primaryStagingAzureStorageAccountId: S.String,
+        }),
+      ).annotate({ identifier: "A2AVmDiskInputDetails" });
+    case 1:
+      return S.Array(__S(512, __c16, 0));
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          diskId: S.String,
+          primaryStagingAzureStorageAccountId: S.String,
+          recoveryResourceGroupId: S.String,
+          recoveryReplicaDiskAccountType: S.optional(S.String),
+          recoveryTargetDiskAccountType: S.optional(S.String),
+          recoveryDiskEncryptionSetId: S.optional(S.String),
+          diskEncryptionInfo: S.optional(__S(578, __c18, 2)),
+          recoveryNetworkAccessPolicy: S.optional(S.String),
+          recoveryDiskAccessId: S.optional(S.String),
+          recoveryPublicNetworkAccess: S.optional(S.String),
+          confidentialDiskEncryptionInfo: S.optional(__S(192, __c6, 0)),
+        }),
+      ).annotate({ identifier: "A2AVmManagedDiskInputDetails" });
+    case 1:
+      return S.Array(__S(544, __c17, 0));
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          secretIdentifier: S.optional(S.String),
+          keyVaultResourceArmId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DiskEncryptionKeyInfo" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          keyIdentifier: S.optional(S.String),
+          keyVaultResourceArmId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "KeyEncryptionKeyInfo" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          diskEncryptionKeyInfo: S.optional(__S(576, __c18, 0)),
+          keyEncryptionKeyInfo: S.optional(__S(577, __c18, 1)),
+        }),
+      ).annotate({ identifier: "DiskEncryptionInfo" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          primaryKekCertificatePfx: S.optional(S.String),
+          secondaryKekCertificatePfx: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HyperVReplicaAzureApplyRecoveryPointInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          recoveryPointId: S.String,
+        }),
+      ).annotate({ identifier: "InMageRcmApplyRecoveryPointInput" });
+    case 2:
+      return S.Union([
+        __S(640, __c20, 0),
+        __S(640, __c20, 0),
+        __S(608, __c19, 0),
+        __S(640, __c20, 0),
+        __S(609, __c19, 1),
+      ]);
+    case 3:
       return S.suspend(() =>
         S.Struct({
           recoveryPointId: S.optional(S.String),
-          providerSpecificDetails: __S(48, __c3, 0),
+          providerSpecificDetails: __S(610, __c19, 2),
         }),
       ).annotate({ identifier: "ApplyRecoveryPointInputProperties" });
-    case 1:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -9215,7 +16620,7 @@ function __c9(j: number): any {
           fabricName: S.String.pipe(T.Label()),
           protectionContainerName: S.String.pipe(T.Label()),
           replicatedProtectedItemName: S.String.pipe(T.Label()),
-          properties: __S(144, __c9, 0),
+          properties: __S(611, __c19, 3),
         }).pipe(
           T.Http({
             method: "POST",
@@ -9227,7 +16632,17 @@ function __c9(j: number): any {
       ).annotate({ identifier: "ApplyReplicationProtectedItemRecoveryPointRequest" });
   }
 }
-function __c10(j: number): any {
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+        }),
+      ).annotate({ identifier: "A2AApplyRecoveryPointInput" });
+  }
+}
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9236,7 +16651,7 @@ function __c10(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
           alertSettingName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(176, __c11, 0)),
+          properties: S.optional(__S(704, __c22, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -9248,13 +16663,13 @@ function __c10(j: number): any {
       ).annotate({ identifier: "CreateReplicationAlertSettingsRequest" });
   }
 }
-function __c11(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           sendToOwners: S.optional(S.String),
-          customEmailAddresses: S.optional(__S(32, __c2, 0)),
+          customEmailAddresses: S.optional(__S(64, __c2, 0)),
           locale: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConfigureAlertRequestProperties" });
@@ -9264,14 +16679,14 @@ function __c11(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(176, __c11, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(704, __c22, 0)),
           location: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateReplicationAlertSettingsResponse" });
   }
 }
-function __c12(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9289,17 +16704,17 @@ function __c12(j: number): any {
         ),
       ).annotate({ identifier: "ListReplicationVaultSettingRequest" });
     case 1:
-      return S.Array(__S(2896, __c181, 0));
+      return S.Array(__S(6336, __c198, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(193, __c12, 1),
+          value: __S(737, __c23, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "VaultSettingCollection" });
   }
 }
-function __c13(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9319,20 +16734,20 @@ function __c13(j: number): any {
       ).annotate({ identifier: "ListReplicationvCenterByReplicationFabricsRequest" });
   }
 }
-function __c14(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2928, __c183, 0));
+      return S.Array(__S(6400, __c200, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(224, __c14, 0),
+          value: __S(800, __c25, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "VCenterCollection" });
   }
 }
-function __c15(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9351,7 +16766,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "ListReplicationvCentersRequest" });
   }
 }
-function __c16(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9379,7 +16794,7 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "ComputeSizeErrorDetails" });
     case 2:
-      return S.Array(__S(257, __c16, 1));
+      return S.Array(__S(865, __c27, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -9390,9 +16805,9 @@ function __c16(j: number): any {
           memoryInGB: S.optional(S.Number),
           maxDataDiskCount: S.optional(S.Number),
           maxNicsCount: S.optional(S.Number),
-          errors: S.optional(__S(258, __c16, 2)),
+          errors: S.optional(__S(866, __c27, 2)),
           highIopsSupported: S.optional(S.String),
-          hyperVGenerations: S.optional(__S(32, __c2, 0)),
+          hyperVGenerations: S.optional(__S(64, __c2, 0)),
         }),
       ).annotate({ identifier: "TargetComputeSizeProperties" });
     case 4:
@@ -9401,21 +16816,21 @@ function __c16(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(259, __c16, 3)),
+          properties: S.optional(__S(867, __c27, 3)),
         }),
       ).annotate({ identifier: "TargetComputeSize" });
     case 5:
-      return S.Array(__S(260, __c16, 4));
+      return S.Array(__S(868, __c27, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          value: __S(261, __c16, 5),
+          value: __S(869, __c27, 5),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "TargetComputeSizeCollection" });
   }
 }
-function __c17(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9435,9 +16850,25 @@ function __c17(j: number): any {
       ).annotate({ identifier: "MigrateReplicationFabricToAadRequest" });
   }
 }
-function __c18(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          performShutdown: S.String,
+          osUpgradeVersion: S.optional(S.String),
+          postMigrationSteps: S.optional(__S(961, __c30, 1)),
+          targetCapacityReservationGroupId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VMwareCbtMigrateInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          providerSpecificDetails: __S(928, __c29, 0),
+        }),
+      ).annotate({ identifier: "MigrateInputProperties" });
+    case 2:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -9446,7 +16877,7 @@ function __c18(j: number): any {
           fabricName: S.String.pipe(T.Label()),
           protectionContainerName: S.String.pipe(T.Label()),
           migrationItemName: S.String.pipe(T.Label()),
-          properties: __S(128, __c8, 0),
+          properties: __S(929, __c29, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -9458,9 +16889,40 @@ function __c18(j: number): any {
       ).annotate({ identifier: "MigrateReplicationMigrationItemRequest" });
   }
 }
-function __c19(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          stepName: S.String,
+          scriptUrl: S.String,
+          scriptParameters: S.String,
+        }),
+      ).annotate({ identifier: "ManagedRunCommandScriptInput" });
+    case 1:
+      return S.Array(__S(960, __c30, 0));
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          recoveryPointId: S.String,
+          networkId: S.String,
+          vmNics: S.optional(__S(1025, __c32, 1)),
+          osUpgradeVersion: S.optional(S.String),
+          postMigrationSteps: S.optional(__S(961, __c30, 1)),
+        }),
+      ).annotate({ identifier: "VMwareCbtTestMigrateInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          providerSpecificDetails: __S(992, __c31, 0),
+        }),
+      ).annotate({ identifier: "TestMigrateInputProperties" });
+    case 2:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -9469,7 +16931,7 @@ function __c19(j: number): any {
           fabricName: S.String.pipe(T.Label()),
           protectionContainerName: S.String.pipe(T.Label()),
           migrationItemName: S.String.pipe(T.Label()),
-          properties: __S(128, __c8, 0),
+          properties: __S(993, __c31, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -9481,9 +16943,34 @@ function __c19(j: number): any {
       ).annotate({ identifier: "MigrateReplicationMigrationItemsTestRequest" });
   }
 }
-function __c20(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          nicId: S.String,
+          isPrimaryNic: S.String,
+          targetSubnetName: S.optional(S.String),
+          targetStaticIPAddress: S.optional(S.String),
+          isSelectedForMigration: S.optional(S.String),
+          targetNicName: S.optional(S.String),
+          testSubnetName: S.optional(S.String),
+          testStaticIPAddress: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VMwareCbtNicInput" });
+    case 1:
+      return S.Array(__S(1024, __c32, 0));
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+        }),
+      ).annotate({ identifier: "PauseReplicationInputProperties" });
+    case 1:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -9492,7 +16979,7 @@ function __c20(j: number): any {
           fabricName: S.String.pipe(T.Label()),
           protectionContainerName: S.String.pipe(T.Label()),
           migrationItemName: S.String.pipe(T.Label()),
-          properties: __S(48, __c3, 0),
+          properties: __S(1056, __c33, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -9504,7 +16991,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "PauseReplicationMigrationItemReplicationRequest" });
   }
 }
-function __c21(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9524,7 +17011,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "PurgeReplicationFabricRequest" });
   }
 }
-function __c22(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9546,22 +17033,49 @@ function __c22(j: number): any {
       ).annotate({ identifier: "PurgeReplicationProtectedItemRequest" });
   }
 }
-function __c23(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          customDetails: S.optional(S.Unknown),
+          instanceType: S.String,
+          location: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AzureFabricCreationInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          vmwareSiteId: S.String,
+          physicalSiteId: S.String,
+          sourceAgentIdentity: __S(1184, __c37, 0),
+        }),
+      ).annotate({ identifier: "InMageRcmFabricCreationInput" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          vmwareSiteId: S.optional(S.String),
+          physicalSiteId: S.optional(S.String),
+          migrationSolutionId: S.String,
+        }),
+      ).annotate({ identifier: "VMwareV2FabricCreationInput" });
+    case 3:
+      return S.Union([__S(1152, __c36, 0), __S(1153, __c36, 1), __S(1154, __c36, 2)]);
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          customDetails: S.optional(__S(1155, __c36, 3)),
         }),
       ).annotate({ identifier: "FabricCreationInputProperties" });
-    case 1:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
           fabricName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(368, __c23, 0)),
+          properties: S.optional(__S(1156, __c36, 4)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -9573,7 +17087,21 @@ function __c23(j: number): any {
       ).annotate({ identifier: "CreateReplicationFabricRequest" });
   }
 }
-function __c24(j: number): any {
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          tenantId: S.String,
+          applicationId: S.String,
+          objectId: S.String,
+          audience: S.String,
+          aadAuthority: S.String,
+        }),
+      ).annotate({ identifier: "IdentityProviderInput" });
+  }
+}
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9603,7 +17131,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "PurgeReplicationProtectionClusterResponse" });
   }
 }
-function __c25(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9625,7 +17153,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "PurgeReplicationProtectionContainerMappingRequest" });
   }
 }
-function __c26(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9646,7 +17174,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "PurgeReplicationRecoveryServicesProviderRequest" });
   }
 }
-function __c27(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9667,7 +17195,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "RefreshReplicationRecoveryServicesProviderProviderRequest" });
   }
 }
-function __c28(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9690,8 +17218,8 @@ function __c28(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(2868, __c179, 4)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(6275, __c196, 3)),
           location: S.optional(S.String),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -9699,7 +17227,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "RefreshReplicationVaultHealthResponse" });
   }
 }
-function __c29(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9719,9 +17247,23 @@ function __c29(j: number): any {
       ).annotate({ identifier: "RemoveReplicationFabricInfraRequest" });
   }
 }
-function __c30(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          vmDisksUris: S.optional(__S(64, __c2, 0)),
+          vmManagedDisksIds: S.optional(__S(64, __c2, 0)),
+        }),
+      ).annotate({ identifier: "A2ARemoveDisksInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          providerSpecificDetails: S.optional(__S(1408, __c44, 0)),
+        }),
+      ).annotate({ identifier: "RemoveDisksInputProperties" });
+    case 2:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -9730,7 +17272,7 @@ function __c30(j: number): any {
           fabricName: S.String.pipe(T.Label()),
           protectionContainerName: S.String.pipe(T.Label()),
           replicatedProtectedItemName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1504, __c94, 0)),
+          properties: S.optional(__S(1409, __c44, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -9742,7 +17284,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "RemoveReplicationProtectedItemDisksRequest" });
   }
 }
-function __c31(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9757,7 +17299,7 @@ function __c31(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
           fabricName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(496, __c31, 0)),
+          properties: S.optional(__S(1440, __c45, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -9769,7 +17311,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "RenewReplicationFabricCertificateRequest" });
   }
 }
-function __c32(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9777,7 +17319,7 @@ function __c32(j: number): any {
           containerName: S.optional(S.String),
           sourceProcessServerId: S.optional(S.String),
           targetProcessServerId: S.optional(S.String),
-          vmsToMigrate: S.optional(__S(32, __c2, 0)),
+          vmsToMigrate: S.optional(__S(64, __c2, 0)),
           updateType: S.optional(S.String),
         }),
       ).annotate({ identifier: "FailoverProcessServerRequestProperties" });
@@ -9788,7 +17330,7 @@ function __c32(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
           fabricName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(512, __c32, 0)),
+          properties: S.optional(__S(1472, __c46, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -9800,9 +17342,22 @@ function __c32(j: number): any {
       ).annotate({ identifier: "ReplicationFabricsReassociateGatewayRequest" });
   }
 }
-function __c33(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          skipCbtReset: S.String,
+        }),
+      ).annotate({ identifier: "VMwareCbtResyncInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          providerSpecificDetails: __S(1504, __c47, 0),
+        }),
+      ).annotate({ identifier: "ResyncInputProperties" });
+    case 2:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -9811,7 +17366,7 @@ function __c33(j: number): any {
           fabricName: S.String.pipe(T.Label()),
           protectionContainerName: S.String.pipe(T.Label()),
           migrationItemName: S.String.pipe(T.Label()),
-          properties: __S(128, __c8, 0),
+          properties: __S(1505, __c47, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -9823,16 +17378,68 @@ function __c33(j: number): any {
       ).annotate({ identifier: "ReplicationMigrationItemsResyncRequest" });
   }
 }
-function __c34(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          diskId: S.String,
+          diskType: S.optional(S.String),
+          isOSDisk: S.String,
+          logStorageAccountId: S.String,
+          logStorageAccountSasSecretName: S.String,
+          diskEncryptionSetId: S.optional(S.String),
+          confidentialDiskEncryptionSetId: S.optional(S.String),
+          sectorSizeInBytes: S.optional(S.Number),
+          iops: S.optional(S.Number),
+          throughputInMbps: S.optional(S.Number),
+          diskSizeInGB: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "VMwareCbtDiskInput" });
+    case 1:
+      return S.Array(__S(1536, __c48, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          vmwareMachineId: S.String,
+          disksToInclude: __S(1537, __c48, 1),
+          licenseType: S.optional(S.String),
+          sqlServerLicenseType: S.optional(S.String),
+          linuxLicenseType: S.optional(S.String),
+          performSqlBulkRegistration: S.optional(S.String),
+          dataMoverRunAsAccountId: S.String,
+          snapshotRunAsAccountId: S.String,
+          targetVmName: S.optional(S.String),
+          targetVmSize: S.optional(S.String),
+          targetResourceGroupId: S.String,
+          targetNetworkId: S.String,
+          testNetworkId: S.optional(S.String),
+          targetSubnetName: S.optional(S.String),
+          testSubnetName: S.optional(S.String),
+          targetAvailabilitySetId: S.optional(S.String),
+          targetAvailabilityZone: S.optional(S.String),
+          targetProximityPlacementGroupId: S.optional(S.String),
+          confidentialVmKeyVaultId: S.optional(S.String),
+          targetVmSecurityProfile: S.optional(__S(1600, __c50, 0)),
+          targetBootDiagnosticsStorageAccountId: S.optional(S.String),
+          performAutoResync: S.optional(S.String),
+          targetVmTags: S.optional(__S(256, __c8, 0)),
+          seedDiskTags: S.optional(__S(256, __c8, 0)),
+          targetDiskTags: S.optional(__S(256, __c8, 0)),
+          targetNicTags: S.optional(__S(256, __c8, 0)),
+          userSelectedOSName: S.optional(S.String),
+          targetCapacityReservationGroupId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VMwareCbtEnableMigrationInput" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
           policyId: S.String,
-          providerSpecificDetails: __S(48, __c3, 0),
+          providerSpecificDetails: __S(1538, __c48, 2),
         }),
       ).annotate({ identifier: "EnableMigrationInputProperties" });
-    case 1:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -9841,7 +17448,7 @@ function __c34(j: number): any {
           fabricName: S.String.pipe(T.Label()),
           protectionContainerName: S.String.pipe(T.Label()),
           migrationItemName: S.String.pipe(T.Label()),
-          properties: __S(544, __c34, 0),
+          properties: __S(1539, __c48, 3),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -9853,7 +17460,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "CreateReplicationMigrationItemRequest" });
   }
 }
-function __c35(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9861,8 +17468,8 @@ function __c35(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(579, __c36, 3)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(1614, __c50, 14)),
           location: S.optional(S.String),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -9870,9 +17477,19 @@ function __c35(j: number): any {
       ).annotate({ identifier: "CreateReplicationMigrationItemResponse" });
   }
 }
-function __c36(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          targetVmSecurityType: S.optional(S.String),
+          isTargetVmSecureBootEnabled: S.optional(S.String),
+          isTargetVmTpmEnabled: S.optional(S.String),
+          isTargetVmIntegrityMonitoringEnabled: S.optional(S.String),
+          isTargetVmConfidentialEncryptionEnabled: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VMwareCbtSecurityProfileProperties" });
+    case 1:
       return S.suspend(() =>
         S.Struct({
           jobName: S.optional(S.String),
@@ -9880,7 +17497,7 @@ function __c36(j: number): any {
           startTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "CurrentJobDetails" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           jobName: S.optional(S.String),
@@ -9889,9 +17506,156 @@ function __c36(j: number): any {
           jobStatus: S.optional(S.String),
         }),
       ).annotate({ identifier: "CriticalJobHistoryDetails" });
-    case 2:
-      return S.Array(__S(577, __c36, 1));
     case 3:
+      return S.Array(__S(1602, __c50, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          state: S.optional(S.String),
+          progressPercentage: S.optional(S.Number),
+          timeElapsed: S.optional(S.Number),
+          timeRemaining: S.optional(S.Number),
+          uploadSpeed: S.optional(S.Number),
+          hostName: S.optional(S.String),
+          dataStores: S.optional(__S(64, __c2, 0)),
+          vmwareReadThroughput: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GatewayOperationDetails" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          diskId: S.optional(S.String),
+          diskName: S.optional(S.String),
+          diskType: S.optional(S.String),
+          diskPath: S.optional(S.String),
+          isOSDisk: S.optional(S.String),
+          capacityInBytes: S.optional(S.Number),
+          logStorageAccountId: S.optional(S.String),
+          logStorageAccountSasSecretName: S.optional(S.String),
+          diskEncryptionSetId: S.optional(S.String),
+          confidentialDiskEncryptionSetId: S.optional(S.String),
+          seedManagedDiskId: S.optional(S.String),
+          seedBlobUri: S.optional(S.String),
+          targetManagedDiskId: S.optional(S.String),
+          targetBlobUri: S.optional(S.String),
+          targetDiskName: S.optional(S.String),
+          gatewayOperationDetails: S.optional(__S(1604, __c50, 4)),
+          sectorSizeInBytes: S.optional(S.Number),
+          iops: S.optional(S.Number),
+          throughputInMbps: S.optional(S.Number),
+          diskSizeInGB: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "VMwareCbtProtectedDiskDetails" });
+    case 6:
+      return S.Array(__S(1605, __c50, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          nicId: S.optional(S.String),
+          isPrimaryNic: S.optional(S.String),
+          sourceIPAddress: S.optional(S.String),
+          sourceIPAddressType: S.optional(S.String),
+          sourceNetworkId: S.optional(S.String),
+          targetIPAddress: S.optional(S.String),
+          targetIPAddressType: S.optional(S.String),
+          targetSubnetName: S.optional(S.String),
+          testNetworkId: S.optional(S.String),
+          testSubnetName: S.optional(S.String),
+          testIPAddress: S.optional(S.String),
+          testIPAddressType: S.optional(S.String),
+          targetNicName: S.optional(S.String),
+          isSelectedForMigration: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VMwareCbtNicDetails" });
+    case 8:
+      return S.Array(__S(1607, __c50, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          capacity: S.optional(S.Number),
+          processUtilization: S.optional(S.Number),
+          totalUtilization: S.optional(S.Number),
+          status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ApplianceResourceDetails" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          totalSnapshotsSupported: S.optional(S.Number),
+          totalSnapshotsCreated: S.optional(S.Number),
+          dataStoreName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DataStoreUtilizationDetails" });
+    case 11:
+      return S.Array(__S(1610, __c50, 10));
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          cpuDetails: S.optional(__S(1609, __c50, 9)),
+          ramDetails: S.optional(__S(1609, __c50, 9)),
+          datastoreSnapshot: S.optional(__S(1611, __c50, 11)),
+          disksReplicationDetails: S.optional(__S(1609, __c50, 9)),
+          esxiNfcBuffer: S.optional(__S(1609, __c50, 9)),
+          networkBandwidth: S.optional(__S(1609, __c50, 9)),
+        }),
+      ).annotate({ identifier: "ApplianceMonitoringDetails" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          vmwareMachineId: S.optional(S.String),
+          osType: S.optional(S.String),
+          osName: S.optional(S.String),
+          firmwareType: S.optional(S.String),
+          targetGeneration: S.optional(S.String),
+          licenseType: S.optional(S.String),
+          sqlServerLicenseType: S.optional(S.String),
+          linuxLicenseType: S.optional(S.String),
+          dataMoverRunAsAccountId: S.optional(S.String),
+          snapshotRunAsAccountId: S.optional(S.String),
+          storageAccountId: S.optional(S.String),
+          targetVmName: S.optional(S.String),
+          targetVmSize: S.optional(S.String),
+          targetLocation: S.optional(S.String),
+          targetResourceGroupId: S.optional(S.String),
+          targetAvailabilitySetId: S.optional(S.String),
+          targetAvailabilityZone: S.optional(S.String),
+          targetProximityPlacementGroupId: S.optional(S.String),
+          confidentialVmKeyVaultId: S.optional(S.String),
+          targetVmSecurityProfile: S.optional(__S(1600, __c50, 0)),
+          targetBootDiagnosticsStorageAccountId: S.optional(S.String),
+          targetVmTags: S.optional(__S(256, __c8, 0)),
+          protectedDisks: S.optional(__S(1606, __c50, 6)),
+          targetNetworkId: S.optional(S.String),
+          testNetworkId: S.optional(S.String),
+          vmNics: S.optional(__S(1608, __c50, 8)),
+          targetNicTags: S.optional(__S(256, __c8, 0)),
+          migrationRecoveryPointId: S.optional(S.String),
+          lastRecoveryPointReceived: S.optional(S.String),
+          lastRecoveryPointId: S.optional(S.String),
+          initialSeedingProgressPercentage: S.optional(S.Number),
+          migrationProgressPercentage: S.optional(S.Number),
+          resyncProgressPercentage: S.optional(S.Number),
+          resumeProgressPercentage: S.optional(S.Number),
+          deltaSyncProgressPercentage: S.optional(S.Number),
+          isCheckSumResyncCycle: S.optional(S.String),
+          initialSeedingRetryCount: S.optional(S.Number),
+          resyncRetryCount: S.optional(S.Number),
+          resumeRetryCount: S.optional(S.Number),
+          deltaSyncRetryCount: S.optional(S.Number),
+          resyncRequired: S.optional(S.String),
+          resyncState: S.optional(S.String),
+          performAutoResync: S.optional(S.String),
+          seedDiskTags: S.optional(__S(256, __c8, 0)),
+          targetDiskTags: S.optional(__S(256, __c8, 0)),
+          supportedOSVersions: S.optional(__S(64, __c2, 0)),
+          applianceMonitoringDetails: S.optional(__S(1612, __c50, 12)),
+          gatewayOperationDetails: S.optional(__S(1604, __c50, 4)),
+          operationName: S.optional(S.String),
+          targetCapacityReservationGroupId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VMwareCbtMigrationDetails" });
+    case 14:
       return S.suspend(() =>
         S.Struct({
           machineName: S.optional(S.String),
@@ -9908,17 +17672,17 @@ function __c36(j: number): any {
           testMigrateState: S.optional(S.String),
           testMigrateStateDescription: S.optional(S.String),
           health: S.optional(S.String),
-          healthErrors: S.optional(__S(83, __c5, 3)),
-          allowedOperations: S.optional(__S(2432, __c152, 0)),
-          currentJob: S.optional(__S(576, __c36, 0)),
-          criticalJobHistory: S.optional(__S(578, __c36, 2)),
+          healthErrors: S.optional(__S(163, __c5, 3)),
+          allowedOperations: S.optional(__S(288, __c9, 0)),
+          currentJob: S.optional(__S(1601, __c50, 1)),
+          criticalJobHistory: S.optional(__S(1603, __c50, 3)),
           eventCorrelationId: S.optional(S.String),
-          providerSpecificDetails: S.optional(__S(48, __c3, 0)),
+          providerSpecificDetails: S.optional(__S(1613, __c50, 13)),
         }),
       ).annotate({ identifier: "MigrationItemProperties" });
   }
 }
-function __c37(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9929,7 +17693,7 @@ function __c37(j: number): any {
           fabricName: S.String.pipe(T.Label()),
           protectionContainerName: S.String.pipe(T.Label()),
           migrationItemName: S.String.pipe(T.Label()),
-          properties: __S(608, __c38, 0),
+          properties: __S(1664, __c52, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -9941,7 +17705,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "ReplicationMigrationItemsTestMigrateCleanupRequest" });
   }
 }
-function __c38(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9951,9 +17715,38 @@ function __c38(j: number): any {
       ).annotate({ identifier: "TestMigrateCleanupInputProperties" });
   }
 }
-function __c39(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          dataSyncOption: S.optional(S.String),
+          recoveryVmCreationOption: S.optional(S.String),
+          providerIdForAlternateRecovery: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HyperVReplicaAzureFailbackProviderInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          primaryKekCertificatePfx: S.optional(S.String),
+          secondaryKekCertificatePfx: S.optional(S.String),
+          recoveryPointId: S.optional(S.String),
+          osUpgradeVersion: S.optional(S.String),
+          targetCapacityReservationGroupId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HyperVReplicaAzurePlannedFailoverProviderInput" });
+    case 2:
+      return S.Union([__S(1696, __c53, 0), __S(1697, __c53, 1), __S(1728, __c54, 0)]);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          failoverDirection: S.optional(S.String),
+          providerSpecificDetails: S.optional(__S(1698, __c53, 2)),
+        }),
+      ).annotate({ identifier: "PlannedFailoverInputProperties" });
+    case 4:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -9962,7 +17755,7 @@ function __c39(j: number): any {
           fabricName: S.String.pipe(T.Label()),
           protectionContainerName: S.String.pipe(T.Label()),
           replicatedProtectedItemName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(640, __c40, 0)),
+          properties: S.optional(__S(1699, __c53, 3)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -9974,18 +17767,18 @@ function __c39(j: number): any {
       ).annotate({ identifier: "ReplicationProtectedItemsPlannedFailoverRequest" });
   }
 }
-function __c40(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          failoverDirection: S.optional(S.String),
-          providerSpecificDetails: S.optional(__S(48, __c3, 0)),
+          instanceType: S.String,
+          recoveryPointType: S.String,
         }),
-      ).annotate({ identifier: "PlannedFailoverInputProperties" });
+      ).annotate({ identifier: "InMageRcmFailbackPlannedFailoverProviderInput" });
   }
 }
-function __c41(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9996,7 +17789,7 @@ function __c41(j: number): any {
           fabricName: S.String.pipe(T.Label()),
           protectionContainerName: S.String.pipe(T.Label()),
           replicatedProtectedItemName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(672, __c42, 0)),
+          properties: S.optional(__S(1792, __c56, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10008,7 +17801,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "ReplicationProtectedItemsReinstallMobilityServiceRequest" });
   }
 }
-function __c42(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10018,7 +17811,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "ReinstallMobilityServiceRequestProperties" });
   }
 }
-function __c43(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10040,9 +17833,95 @@ function __c43(j: number): any {
       ).annotate({ identifier: "ReplicationProtectedItemsRepairReplicationRequest" });
   }
 }
-function __c44(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          recoveryContainerId: S.optional(S.String),
+          vmDisks: S.optional(__S(513, __c16, 1)),
+          recoveryResourceGroupId: S.optional(S.String),
+          recoveryCloudServiceId: S.optional(S.String),
+          recoveryAvailabilitySetId: S.optional(S.String),
+          policyId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "A2AReprotectInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          hvHostVmId: S.optional(S.String),
+          vmName: S.optional(S.String),
+          osType: S.optional(S.String),
+          vHDId: S.optional(S.String),
+          storageAccountId: S.optional(S.String),
+          logStorageAccountId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HyperVReplicaAzureReprotectInput" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          masterTargetId: S.optional(S.String),
+          processServerId: S.optional(S.String),
+          storageAccountId: S.optional(S.String),
+          runAsAccountId: S.optional(S.String),
+          policyId: S.optional(S.String),
+          logStorageAccountId: S.optional(S.String),
+          disksToInclude: S.optional(__S(64, __c2, 0)),
+        }),
+      ).annotate({ identifier: "InMageAzureV2ReprotectInput" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          processServerId: S.String,
+          runAsAccountId: S.optional(S.String),
+          policyId: S.String,
+        }),
+      ).annotate({ identifier: "InMageRcmFailbackReprotectInput" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          reprotectAgentId: S.String,
+          datastoreName: S.String,
+          logStorageAccountId: S.String,
+          policyId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InMageRcmReprotectInput" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          masterTargetId: S.String,
+          processServerId: S.String,
+          retentionDrive: S.String,
+          runAsAccountId: S.optional(S.String),
+          datastoreName: S.optional(S.String),
+          diskExclusionInput: S.optional(__S(3044, __c95, 4)),
+          profileId: S.String,
+          disksToInclude: S.optional(__S(64, __c2, 0)),
+        }),
+      ).annotate({ identifier: "InMageReprotectInput" });
+    case 6:
+      return S.Union([
+        __S(1856, __c58, 0),
+        __S(1857, __c58, 1),
+        __S(1858, __c58, 2),
+        __S(1859, __c58, 3),
+        __S(1860, __c58, 4),
+        __S(1861, __c58, 5),
+      ]);
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          failoverDirection: S.optional(S.String),
+          providerSpecificDetails: S.optional(__S(1862, __c58, 6)),
+        }),
+      ).annotate({ identifier: "ReverseReplicationInputProperties" });
+    case 8:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -10051,7 +17930,7 @@ function __c44(j: number): any {
           fabricName: S.String.pipe(T.Label()),
           protectionContainerName: S.String.pipe(T.Label()),
           replicatedProtectedItemName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(640, __c40, 0)),
+          properties: S.optional(__S(1863, __c58, 7)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10063,7 +17942,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "ReplicationProtectedItemsReprotectRequest" });
   }
 }
-function __c45(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10072,11 +17951,11 @@ function __c45(j: number): any {
         }),
       ).annotate({ identifier: "ResolveHealthError" });
     case 1:
-      return S.Array(__S(720, __c45, 0));
+      return S.Array(__S(1888, __c59, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          healthErrors: S.optional(__S(721, __c45, 1)),
+          healthErrors: S.optional(__S(1889, __c59, 1)),
         }),
       ).annotate({ identifier: "ResolveHealthInputProperties" });
     case 3:
@@ -10088,7 +17967,7 @@ function __c45(j: number): any {
           fabricName: S.String.pipe(T.Label()),
           protectionContainerName: S.String.pipe(T.Label()),
           replicatedProtectedItemName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(722, __c45, 2)),
+          properties: S.optional(__S(1890, __c59, 2)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10100,16 +17979,25 @@ function __c45(j: number): any {
       ).annotate({ identifier: "ReplicationProtectedItemsResolveHealthErrorsRequest" });
   }
 }
-function __c46(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          instanceType: S.String,
+          targetVaultID: S.String,
+          targetFabricID: S.String,
+          targetApplianceID: S.String,
+        }),
+      ).annotate({ identifier: "InMageAzureV2SwitchProviderProviderInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           targetInstanceType: S.optional(S.String),
-          providerSpecificDetails: S.optional(__S(48, __c3, 0)),
+          providerSpecificDetails: S.optional(__S(1920, __c60, 0)),
         }),
       ).annotate({ identifier: "SwitchProviderInputProperties" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -10118,7 +18006,7 @@ function __c46(j: number): any {
           fabricName: S.String.pipe(T.Label()),
           protectionContainerName: S.String.pipe(T.Label()),
           replicatedProtectedItemName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(736, __c46, 0)),
+          properties: S.optional(__S(1921, __c60, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10128,14 +18016,14 @@ function __c46(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ReplicationProtectedItemsSwitchProviderRequest" });
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(112, __c7, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(467, __c14, 19)),
           location: S.optional(S.String),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -10143,9 +18031,44 @@ function __c46(j: number): any {
       ).annotate({ identifier: "ReplicationProtectedItemsSwitchProviderResponse" });
   }
 }
-function __c47(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          primaryKekCertificatePfx: S.optional(S.String),
+          secondaryKekCertificatePfx: S.optional(S.String),
+          recoveryPointId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HyperVReplicaAzureUnplannedFailoverInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          performShutdown: S.String,
+          recoveryPointId: S.optional(S.String),
+          osUpgradeVersion: S.optional(S.String),
+          targetCapacityReservationGroupId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InMageRcmUnplannedFailoverInput" });
+    case 2:
+      return S.Union([
+        __S(1984, __c62, 0),
+        __S(1952, __c61, 0),
+        __S(1985, __c62, 1),
+        __S(1953, __c61, 1),
+        __S(1986, __c62, 2),
+      ]);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          failoverDirection: S.optional(S.String),
+          sourceSiteOperations: S.optional(S.String),
+          providerSpecificDetails: S.optional(__S(1954, __c61, 2)),
+        }),
+      ).annotate({ identifier: "UnplannedFailoverInputProperties" });
+    case 4:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -10154,7 +18077,7 @@ function __c47(j: number): any {
           fabricName: S.String.pipe(T.Label()),
           protectionContainerName: S.String.pipe(T.Label()),
           replicatedProtectedItemName: S.String.pipe(T.Label()),
-          properties: __S(768, __c48, 0),
+          properties: __S(1955, __c61, 3),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10166,19 +18089,35 @@ function __c47(j: number): any {
       ).annotate({ identifier: "ReplicationProtectedItemsUnplannedFailoverRequest" });
   }
 }
-function __c48(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          failoverDirection: S.optional(S.String),
-          sourceSiteOperations: S.optional(S.String),
-          providerSpecificDetails: S.optional(__S(48, __c3, 0)),
+          instanceType: S.String,
+          recoveryPointId: S.optional(S.String),
+          cloudServiceCreationOption: S.optional(S.String),
         }),
-      ).annotate({ identifier: "UnplannedFailoverInputProperties" });
+      ).annotate({ identifier: "A2AUnplannedFailoverInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          recoveryPointId: S.optional(S.String),
+          osUpgradeVersion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InMageAzureV2UnplannedFailoverInput" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          recoveryPointType: S.optional(S.String),
+          recoveryPointId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InMageUnplannedFailoverInput" });
   }
 }
-function __c49(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10200,9 +18139,17 @@ function __c49(j: number): any {
       ).annotate({ identifier: "ReplicationProtectionClustersRepairReplicationRequest" });
   }
 }
-function __c50(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          failoverDirection: S.optional(S.String),
+          sourceSiteOperations: S.optional(S.String),
+          providerSpecificDetails: S.optional(__S(2080, __c65, 0)),
+        }),
+      ).annotate({ identifier: "ClusterUnplannedFailoverInputProperties" });
+    case 1:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -10211,7 +18158,7 @@ function __c50(j: number): any {
           fabricName: S.String.pipe(T.Label()),
           protectionContainerName: S.String.pipe(T.Label()),
           replicationProtectionClusterName: S.String.pipe(T.Label()),
-          properties: __S(768, __c48, 0),
+          properties: __S(2048, __c64, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10223,17 +18170,38 @@ function __c50(j: number): any {
       ).annotate({ identifier: "ReplicationProtectionClustersUnplannedFailoverRequest" });
   }
 }
-function __c51(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          instanceType: S.String,
+          clusterRecoveryPointId: S.optional(S.String),
+          individualNodeRecoveryPoints: S.optional(__S(64, __c2, 0)),
+        }),
+      ).annotate({ identifier: "A2AClusterUnplannedFailoverInput" });
+  }
+}
+function __c66(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          primaryNetworkId: S.String,
+        }),
+      ).annotate({ identifier: "AzureToAzureCreateNetworkMappingInput" });
+    case 1:
+      return S.Union([__S(2112, __c66, 0), __S(640, __c20, 0), __S(640, __c20, 0)]);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
           recoveryFabricName: S.optional(S.String),
           recoveryNetworkId: S.String,
-          fabricSpecificDetails: S.optional(S.Unknown),
+          fabricSpecificDetails: S.optional(__S(2113, __c66, 1)),
         }),
       ).annotate({ identifier: "CreateNetworkMappingInputProperties" });
-    case 1:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -10242,7 +18210,7 @@ function __c51(j: number): any {
           fabricName: S.String.pipe(T.Label()),
           networkName: S.String.pipe(T.Label()),
           networkMappingName: S.String.pipe(T.Label()),
-          properties: __S(816, __c51, 0),
+          properties: __S(2114, __c66, 2),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -10254,7 +18222,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "CreateReplicationNetworkMappingRequest" });
   }
 }
-function __c52(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10262,8 +18230,8 @@ function __c52(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(848, __c53, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(2178, __c68, 2)),
           location: S.optional(S.String),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -10271,9 +18239,19 @@ function __c52(j: number): any {
       ).annotate({ identifier: "CreateReplicationNetworkMappingResponse" });
   }
 }
-function __c53(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          primaryFabricLocation: S.optional(S.String),
+          recoveryFabricLocation: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AzureToAzureNetworkMappingSettings" });
+    case 1:
+      return S.Union([__S(2176, __c68, 0), __S(640, __c20, 0), __S(640, __c20, 0)]);
+    case 2:
       return S.suspend(() =>
         S.Struct({
           state: S.optional(S.String),
@@ -10284,12 +18262,12 @@ function __c53(j: number): any {
           recoveryNetworkId: S.optional(S.String),
           recoveryFabricArmId: S.optional(S.String),
           recoveryFabricFriendlyName: S.optional(S.String),
-          fabricSpecificSettings: S.optional(S.Unknown),
+          fabricSpecificSettings: S.optional(__S(2177, __c68, 1)),
         }),
       ).annotate({ identifier: "NetworkMappingProperties" });
   }
 }
-function __c54(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10307,7 +18285,7 @@ function __c54(j: number): any {
           resourceName: S.String.pipe(T.Label()),
           fabricName: S.String.pipe(T.Label()),
           protectionContainerName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(864, __c54, 0)),
+          properties: S.optional(__S(2208, __c69, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10319,16 +18297,59 @@ function __c54(j: number): any {
       ).annotate({ identifier: "ReplicationProtectionContainersDiscoverProtectableItemRequest" });
   }
 }
-function __c55(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          diskId: S.String,
+          primaryStagingAzureStorageAccountId: S.String,
+          recoveryResourceGroupId: S.String,
+          recoveryReplicaDiskAccountType: S.optional(S.String),
+          recoveryTargetDiskAccountType: S.optional(S.String),
+          recoveryDiskEncryptionSetId: S.optional(S.String),
+          diskEncryptionInfo: S.optional(__S(578, __c18, 2)),
+          recoveryNetworkAccessPolicy: S.optional(S.String),
+          recoveryDiskAccessId: S.optional(S.String),
+          recoveryPublicNetworkAccess: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "A2AClusterVmManagedDiskInputDetails" });
+    case 1:
+      return S.Array(__S(2240, __c70, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          vmManagedDisks: S.optional(__S(2241, __c70, 1)),
+          recoveryResourceGroupId: S.optional(S.String),
+          recoveryAvailabilitySetId: S.optional(S.String),
+          recoveryBootDiagStorageAccountId: S.optional(S.String),
+          recoveryAvailabilityZone: S.optional(S.String),
+          recoveryProximityPlacementGroupId: S.optional(S.String),
+          recoveryVirtualMachineScaleSetId: S.optional(S.String),
+          recoveryCapacityReservationGroupId: S.optional(S.String),
+          diskEncryptionInfo: S.optional(__S(578, __c18, 2)),
+          replicationProtectedItemName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "A2AProtectedItemDetail" });
+    case 3:
+      return S.Array(__S(2242, __c70, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          recoveryContainerId: S.optional(S.String),
+          policyId: S.optional(S.String),
+          protectedItemsDetail: S.optional(__S(2243, __c70, 3)),
+        }),
+      ).annotate({ identifier: "A2ASwitchClusterProtectionInput" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
           replicationProtectionClusterName: S.optional(S.String),
-          providerSpecificDetails: S.optional(__S(48, __c3, 0)),
+          providerSpecificDetails: S.optional(__S(2244, __c70, 4)),
         }),
       ).annotate({ identifier: "SwitchClusterProtectionInputProperties" });
-    case 1:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -10336,7 +18357,7 @@ function __c55(j: number): any {
           resourceName: S.String.pipe(T.Label()),
           fabricName: S.String.pipe(T.Label()),
           protectionContainerName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(880, __c55, 0)),
+          properties: S.optional(__S(2245, __c70, 5)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10348,7 +18369,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "ReplicationProtectionContainersSwitchClusterProtectionRequest" });
   }
 }
-function __c56(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10356,8 +18377,8 @@ function __c56(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(1408, __c88, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(3296, __c103, 0)),
           location: S.optional(S.String),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
@@ -10366,16 +18387,37 @@ function __c56(j: number): any {
       ).annotate({ identifier: "ReplicationProtectionContainersSwitchClusterProtectionResponse" });
   }
 }
-function __c57(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          instanceType: S.String,
+          recoveryContainerId: S.optional(S.String),
+          vmDisks: S.optional(__S(513, __c16, 1)),
+          vmManagedDisks: S.optional(__S(545, __c17, 1)),
+          recoveryResourceGroupId: S.optional(S.String),
+          recoveryCloudServiceId: S.optional(S.String),
+          recoveryAvailabilitySetId: S.optional(S.String),
+          policyId: S.optional(S.String),
+          recoveryBootDiagStorageAccountId: S.optional(S.String),
+          recoveryAvailabilityZone: S.optional(S.String),
+          recoveryProximityPlacementGroupId: S.optional(S.String),
+          recoveryVirtualMachineScaleSetId: S.optional(S.String),
+          recoveryCapacityReservationGroupId: S.optional(S.String),
+          platformFaultDomain: S.optional(S.Number),
+          diskEncryptionInfo: S.optional(__S(578, __c18, 2)),
+          recoveryConfidentialDataDiskEncryptionIdentity: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "A2ASwitchProtectionInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           replicationProtectedItemName: S.optional(S.String),
-          providerSpecificDetails: S.optional(__S(48, __c3, 0)),
+          providerSpecificDetails: S.optional(__S(2304, __c72, 0)),
         }),
       ).annotate({ identifier: "SwitchProtectionInputProperties" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -10383,7 +18425,7 @@ function __c57(j: number): any {
           resourceName: S.String.pipe(T.Label()),
           fabricName: S.String.pipe(T.Label()),
           protectionContainerName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(912, __c57, 0)),
+          properties: S.optional(__S(2305, __c72, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10395,13 +18437,13 @@ function __c57(j: number): any {
       ).annotate({ identifier: "ReplicationProtectionContainersSwitchProtectionRequest" });
   }
 }
-function __c58(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           failoverDirection: S.String,
-          providerSpecificDetails: S.optional(__S(944, __c59, 0)),
+          providerSpecificDetails: S.optional(__S(2373, __c74, 5)),
         }),
       ).annotate({ identifier: "RecoveryPlanPlannedFailoverInputProperties" });
     case 1:
@@ -10411,7 +18453,7 @@ function __c58(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
           recoveryPlanName: S.String.pipe(T.Label()),
-          properties: __S(928, __c58, 0),
+          properties: __S(2336, __c73, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10423,13 +18465,57 @@ function __c58(j: number): any {
       ).annotate({ identifier: "ReplicationRecoveryPlansPlannedFailoverRequest" });
   }
 }
-function __c59(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(48, __c3, 0));
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          recoveryPointType: S.String,
+          cloudServiceCreationOption: S.optional(S.String),
+          multiVmSyncPointOption: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RecoveryPlanA2AFailoverInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          dataSyncOption: S.String,
+          recoveryVmCreationOption: S.String,
+        }),
+      ).annotate({ identifier: "RecoveryPlanHyperVReplicaAzureFailbackInput" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          primaryKekCertificatePfx: S.optional(S.String),
+          secondaryKekCertificatePfx: S.optional(S.String),
+          recoveryPointType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RecoveryPlanHyperVReplicaAzureFailoverInput" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          recoveryPointType: S.String,
+          useMultiVmSyncPoint: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RecoveryPlanInMageAzureV2FailoverInput" });
+    case 4:
+      return S.Union([
+        __S(2368, __c74, 0),
+        __S(2369, __c74, 1),
+        __S(2370, __c74, 2),
+        __S(2371, __c74, 3),
+        __S(1728, __c54, 0),
+        __S(2371, __c74, 3),
+        __S(2371, __c74, 3),
+      ]);
+    case 5:
+      return S.Array(__S(2372, __c74, 4));
   }
 }
-function __c60(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10449,14 +18535,14 @@ function __c60(j: number): any {
       ).annotate({ identifier: "ReplicationRecoveryPlansReprotectRequest" });
   }
 }
-function __c61(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           failoverDirection: S.String,
           sourceSiteOperations: S.String,
-          providerSpecificDetails: S.optional(__S(944, __c59, 0)),
+          providerSpecificDetails: S.optional(__S(2373, __c74, 5)),
         }),
       ).annotate({ identifier: "RecoveryPlanUnplannedFailoverInputProperties" });
     case 1:
@@ -10466,7 +18552,7 @@ function __c61(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
           recoveryPlanName: S.String.pipe(T.Label()),
-          properties: __S(976, __c61, 0),
+          properties: __S(2432, __c76, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10478,7 +18564,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "ReplicationRecoveryPlansUnplannedFailoverRequest" });
   }
 }
-function __c62(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10498,7 +18584,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "RestartReplicationJobRequest" });
   }
 }
-function __c63(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10507,7 +18593,7 @@ function __c63(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
           jobName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(608, __c38, 0)),
+          properties: S.optional(__S(1664, __c52, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10519,9 +18605,22 @@ function __c63(j: number): any {
       ).annotate({ identifier: "ResumeReplicationJobRequest" });
   }
 }
-function __c64(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          deleteMigrationResources: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VMwareCbtResumeReplicationInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          providerSpecificDetails: __S(2528, __c79, 0),
+        }),
+      ).annotate({ identifier: "ResumeReplicationInputProperties" });
+    case 2:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -10530,7 +18629,7 @@ function __c64(j: number): any {
           fabricName: S.String.pipe(T.Label()),
           protectionContainerName: S.String.pipe(T.Label()),
           migrationItemName: S.String.pipe(T.Label()),
-          properties: __S(128, __c8, 0),
+          properties: __S(2529, __c79, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10542,18 +18641,45 @@ function __c64(j: number): any {
       ).annotate({ identifier: "ResumeReplicationMigrationItemReplicationRequest" });
   }
 }
-function __c65(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          primaryKekCertificatePfx: S.optional(S.String),
+          secondaryKekCertificatePfx: S.optional(S.String),
+          recoveryPointId: S.optional(S.String),
+          osUpgradeVersion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HyperVReplicaAzureTestFailoverInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          networkId: S.optional(S.String),
+          recoveryPointId: S.optional(S.String),
+          osUpgradeVersion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InMageRcmTestFailoverInput" });
+    case 2:
+      return S.Union([
+        __S(1984, __c62, 0),
+        __S(2560, __c80, 0),
+        __S(1985, __c62, 1),
+        __S(2561, __c80, 1),
+        __S(1986, __c62, 2),
+      ]);
+    case 3:
       return S.suspend(() =>
         S.Struct({
           failoverDirection: S.optional(S.String),
           networkType: S.optional(S.String),
           networkId: S.optional(S.String),
-          providerSpecificDetails: S.optional(__S(48, __c3, 0)),
+          providerSpecificDetails: S.optional(__S(2562, __c80, 2)),
         }),
       ).annotate({ identifier: "TestFailoverInputProperties" });
-    case 1:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -10562,7 +18688,7 @@ function __c65(j: number): any {
           fabricName: S.String.pipe(T.Label()),
           protectionContainerName: S.String.pipe(T.Label()),
           replicatedProtectedItemName: S.String.pipe(T.Label()),
-          properties: __S(1040, __c65, 0),
+          properties: __S(2563, __c80, 3),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10574,16 +18700,22 @@ function __c65(j: number): any {
       ).annotate({ identifier: "TestReplicationProtectedItemFailoverRequest" });
   }
 }
-function __c66(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          providerSpecificInput: S.optional(__S(2632, __c82, 8)),
+        }),
+      ).annotate({ identifier: "CreatePolicyInputProperties" });
+    case 1:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
           policyName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1088, __c68, 0)),
+          properties: S.optional(__S(2592, __c81, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -10595,16 +18727,114 @@ function __c66(j: number): any {
       ).annotate({ identifier: "CreateReplicationPolicyRequest" });
   }
 }
-function __c67(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          recoveryPointHistory: S.optional(S.Number),
+          crashConsistentFrequencyInMinutes: S.optional(S.Number),
+          appConsistentFrequencyInMinutes: S.optional(S.Number),
+          multiVmSyncStatus: S.String,
+        }),
+      ).annotate({ identifier: "A2APolicyCreationInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          recoveryPointHistoryDuration: S.optional(S.Number),
+          applicationConsistentSnapshotFrequencyInHours: S.optional(S.Number),
+          replicationInterval: S.optional(S.Number),
+          onlineReplicationStartTime: S.optional(S.String),
+          storageAccounts: S.optional(__S(64, __c2, 0)),
+        }),
+      ).annotate({ identifier: "HyperVReplicaAzurePolicyInput" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          recoveryPoints: S.optional(S.Number),
+          applicationConsistentSnapshotFrequencyInHours: S.optional(S.Number),
+          compression: S.optional(S.String),
+          initialReplicationMethod: S.optional(S.String),
+          onlineReplicationStartTime: S.optional(S.String),
+          offlineReplicationImportPath: S.optional(S.String),
+          offlineReplicationExportPath: S.optional(S.String),
+          replicationPort: S.optional(S.Number),
+          allowedAuthenticationType: S.optional(S.Number),
+          replicaDeletion: S.optional(S.String),
+          replicationFrequencyInSeconds: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "HyperVReplicaBluePolicyInput" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          recoveryPointThresholdInMinutes: S.optional(S.Number),
+          recoveryPointHistory: S.optional(S.Number),
+          crashConsistentFrequencyInMinutes: S.optional(S.Number),
+          appConsistentFrequencyInMinutes: S.optional(S.Number),
+          multiVmSyncStatus: S.String,
+        }),
+      ).annotate({ identifier: "InMageAzureV2PolicyInput" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          recoveryPointThresholdInMinutes: S.optional(S.Number),
+          recoveryPointHistory: S.optional(S.Number),
+          appConsistentFrequencyInMinutes: S.optional(S.Number),
+          multiVmSyncStatus: S.String,
+        }),
+      ).annotate({ identifier: "InMagePolicyInput" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          crashConsistentFrequencyInMinutes: S.optional(S.Number),
+          appConsistentFrequencyInMinutes: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "InMageRcmFailbackPolicyCreationInput" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          recoveryPointHistoryInMinutes: S.optional(S.Number),
+          crashConsistentFrequencyInMinutes: S.optional(S.Number),
+          appConsistentFrequencyInMinutes: S.optional(S.Number),
+          enableMultiVmSync: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InMageRcmPolicyCreationInput" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          recoveryPointHistoryInMinutes: S.optional(S.Number),
+          crashConsistentFrequencyInMinutes: S.optional(S.Number),
+          appConsistentFrequencyInMinutes: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "VMwareCbtPolicyCreationInput" });
+    case 8:
+      return S.Union([
+        __S(640, __c20, 0),
+        __S(2624, __c82, 0),
+        __S(2625, __c82, 1),
+        __S(2626, __c82, 2),
+        __S(2627, __c82, 3),
+        __S(2628, __c82, 4),
+        __S(2629, __c82, 5),
+        __S(2630, __c82, 6),
+        __S(2631, __c82, 7),
+      ]);
+    case 9:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(1104, __c69, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(2666, __c83, 10)),
           location: S.optional(S.String),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -10612,28 +18842,136 @@ function __c67(j: number): any {
       ).annotate({ identifier: "CreateReplicationPolicyResponse" });
   }
 }
-function __c68(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          providerSpecificInput: S.optional(S.Unknown),
+          instanceType: S.String,
+          recoveryPointThresholdInMinutes: S.optional(S.Number),
+          recoveryPointHistory: S.optional(S.Number),
+          appConsistentFrequencyInMinutes: S.optional(S.Number),
+          multiVmSyncStatus: S.optional(S.String),
+          crashConsistentFrequencyInMinutes: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "CreatePolicyInputProperties" });
-  }
-}
-function __c69(j: number): any {
-  switch (j) {
-    case 0:
+      ).annotate({ identifier: "A2APolicyDetails" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          recoveryPointHistoryDurationInHours: S.optional(S.Number),
+          applicationConsistentSnapshotFrequencyInHours: S.optional(S.Number),
+          replicationInterval: S.optional(S.Number),
+          onlineReplicationStartTime: S.optional(S.String),
+          encryption: S.optional(S.String),
+          activeStorageAccountId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HyperVReplicaAzurePolicyDetails" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          recoveryPoints: S.optional(S.Number),
+          applicationConsistentSnapshotFrequencyInHours: S.optional(S.Number),
+          compression: S.optional(S.String),
+          initialReplicationMethod: S.optional(S.String),
+          onlineReplicationStartTime: S.optional(S.String),
+          offlineReplicationImportPath: S.optional(S.String),
+          offlineReplicationExportPath: S.optional(S.String),
+          replicationPort: S.optional(S.Number),
+          allowedAuthenticationType: S.optional(S.Number),
+          replicaDeletionOption: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HyperVReplicaBasePolicyDetails" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          replicationFrequencyInSeconds: S.optional(S.Number),
+          recoveryPoints: S.optional(S.Number),
+          applicationConsistentSnapshotFrequencyInHours: S.optional(S.Number),
+          compression: S.optional(S.String),
+          initialReplicationMethod: S.optional(S.String),
+          onlineReplicationStartTime: S.optional(S.String),
+          offlineReplicationImportPath: S.optional(S.String),
+          offlineReplicationExportPath: S.optional(S.String),
+          replicationPort: S.optional(S.Number),
+          allowedAuthenticationType: S.optional(S.Number),
+          replicaDeletionOption: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HyperVReplicaBluePolicyDetails" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          crashConsistentFrequencyInMinutes: S.optional(S.Number),
+          recoveryPointThresholdInMinutes: S.optional(S.Number),
+          recoveryPointHistory: S.optional(S.Number),
+          appConsistentFrequencyInMinutes: S.optional(S.Number),
+          multiVmSyncStatus: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InMageAzureV2PolicyDetails" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          recoveryPointThresholdInMinutes: S.optional(S.Number),
+          recoveryPointHistory: S.optional(S.Number),
+          appConsistentFrequencyInMinutes: S.optional(S.Number),
+          multiVmSyncStatus: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InMageBasePolicyDetails" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          appConsistentFrequencyInMinutes: S.optional(S.Number),
+          crashConsistentFrequencyInMinutes: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "InMageRcmFailbackPolicyDetails" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          recoveryPointHistoryInMinutes: S.optional(S.Number),
+          appConsistentFrequencyInMinutes: S.optional(S.Number),
+          crashConsistentFrequencyInMinutes: S.optional(S.Number),
+          enableMultiVmSync: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InMageRcmPolicyDetails" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          recoveryPointHistoryInMinutes: S.optional(S.Number),
+          appConsistentFrequencyInMinutes: S.optional(S.Number),
+          crashConsistentFrequencyInMinutes: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "VmwareCbtPolicyDetails" });
+    case 9:
+      return S.Union([
+        __S(2656, __c83, 0),
+        __S(2657, __c83, 1),
+        __S(2658, __c83, 2),
+        __S(2659, __c83, 3),
+        __S(2658, __c83, 2),
+        __S(2660, __c83, 4),
+        __S(2661, __c83, 5),
+        __S(2661, __c83, 5),
+        __S(2662, __c83, 6),
+        __S(2663, __c83, 7),
+        __S(2664, __c83, 8),
+      ]);
+    case 10:
       return S.suspend(() =>
         S.Struct({
           friendlyName: S.optional(S.String),
-          providerSpecificDetails: S.optional(S.Unknown),
+          providerSpecificDetails: S.optional(__S(2665, __c83, 9)),
         }),
       ).annotate({ identifier: "PolicyProperties" });
   }
 }
-function __c70(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10644,7 +18982,7 @@ function __c70(j: number): any {
           fabricName: S.String.pipe(T.Label()),
           protectionContainerName: S.String.pipe(T.Label()),
           replicatedProtectedItemName: S.String.pipe(T.Label()),
-          properties: __S(608, __c38, 0),
+          properties: __S(1664, __c52, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10656,7 +18994,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "TestReplicationProtectedItemFailoverCleanupRequest" });
   }
 }
-function __c71(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10664,7 +19002,7 @@ function __c71(j: number): any {
           failoverDirection: S.optional(S.String),
           networkType: S.optional(S.String),
           networkId: S.optional(S.String),
-          providerSpecificDetails: S.optional(__S(48, __c3, 0)),
+          providerSpecificDetails: S.optional(__S(2080, __c65, 0)),
         }),
       ).annotate({ identifier: "ClusterTestFailoverInputProperties" });
     case 1:
@@ -10676,7 +19014,7 @@ function __c71(j: number): any {
           fabricName: S.String.pipe(T.Label()),
           protectionContainerName: S.String.pipe(T.Label()),
           replicationProtectionClusterName: S.String.pipe(T.Label()),
-          properties: __S(1136, __c71, 0),
+          properties: __S(2720, __c85, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10688,7 +19026,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "TestReplicationProtectionClusterFailoverRequest" });
   }
 }
-function __c72(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10699,7 +19037,7 @@ function __c72(j: number): any {
           fabricName: S.String.pipe(T.Label()),
           protectionContainerName: S.String.pipe(T.Label()),
           replicationProtectionClusterName: S.String.pipe(T.Label()),
-          properties: __S(608, __c38, 0),
+          properties: __S(1664, __c52, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10711,7 +19049,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "TestReplicationProtectionClusterFailoverCleanupRequest" });
   }
 }
-function __c73(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10719,7 +19057,7 @@ function __c73(j: number): any {
           failoverDirection: S.String,
           networkType: S.String,
           networkId: S.optional(S.String),
-          providerSpecificDetails: S.optional(__S(944, __c59, 0)),
+          providerSpecificDetails: S.optional(__S(2373, __c74, 5)),
         }),
       ).annotate({ identifier: "RecoveryPlanTestFailoverInputProperties" });
     case 1:
@@ -10729,7 +19067,7 @@ function __c73(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
           recoveryPlanName: S.String.pipe(T.Label()),
-          properties: __S(1168, __c73, 0),
+          properties: __S(2784, __c87, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10741,7 +19079,7 @@ function __c73(j: number): any {
       ).annotate({ identifier: "TestReplicationRecoveryPlanFailoverRequest" });
   }
 }
-function __c74(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10750,7 +19088,7 @@ function __c74(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
           recoveryPlanName: S.String.pipe(T.Label()),
-          properties: __S(608, __c38, 0),
+          properties: __S(1664, __c52, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10762,9 +19100,54 @@ function __c74(j: number): any {
       ).annotate({ identifier: "TestReplicationRecoveryPlanFailoverCleanupRequest" });
   }
 }
-function __c75(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          diskId: S.String,
+          targetDiskName: S.optional(S.String),
+          isOSDisk: S.optional(S.String),
+          iops: S.optional(S.Number),
+          throughputInMbps: S.optional(S.Number),
+          diskSizeInGB: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "VMwareCbtUpdateDiskInput" });
+    case 1:
+      return S.Array(__S(2848, __c89, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          targetVmName: S.optional(S.String),
+          targetVmSize: S.optional(S.String),
+          targetResourceGroupId: S.optional(S.String),
+          targetAvailabilitySetId: S.optional(S.String),
+          targetAvailabilityZone: S.optional(S.String),
+          targetProximityPlacementGroupId: S.optional(S.String),
+          targetBootDiagnosticsStorageAccountId: S.optional(S.String),
+          targetNetworkId: S.optional(S.String),
+          testNetworkId: S.optional(S.String),
+          vmNics: S.optional(__S(1025, __c32, 1)),
+          vmDisks: S.optional(__S(2849, __c89, 1)),
+          licenseType: S.optional(S.String),
+          sqlServerLicenseType: S.optional(S.String),
+          linuxLicenseType: S.optional(S.String),
+          userSelectedOSName: S.optional(S.String),
+          performAutoResync: S.optional(S.String),
+          targetVmTags: S.optional(__S(256, __c8, 0)),
+          targetDiskTags: S.optional(__S(256, __c8, 0)),
+          targetNicTags: S.optional(__S(256, __c8, 0)),
+          targetCapacityReservationGroupId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VMwareCbtUpdateMigrationItemInput" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          providerSpecificDetails: __S(2850, __c89, 2),
+        }),
+      ).annotate({ identifier: "UpdateMigrationItemInputProperties" });
+    case 4:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -10773,7 +19156,7 @@ function __c75(j: number): any {
           fabricName: S.String.pipe(T.Label()),
           protectionContainerName: S.String.pipe(T.Label()),
           migrationItemName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(128, __c8, 0)),
+          properties: S.optional(__S(2851, __c89, 3)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -10785,17 +19168,26 @@ function __c75(j: number): any {
       ).annotate({ identifier: "UpdateReplicationMigrationItemRequest" });
   }
 }
-function __c76(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          instanceType: S.String,
+          primaryNetworkId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AzureToAzureUpdateNetworkMappingInput" });
+    case 1:
+      return S.Union([__S(2880, __c90, 0), __S(640, __c20, 0), __S(640, __c20, 0)]);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
           recoveryFabricName: S.optional(S.String),
           recoveryNetworkId: S.optional(S.String),
-          fabricSpecificDetails: S.optional(S.Unknown),
+          fabricSpecificDetails: S.optional(__S(2881, __c90, 1)),
         }),
       ).annotate({ identifier: "UpdateNetworkMappingInputProperties" });
-    case 1:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -10804,7 +19196,7 @@ function __c76(j: number): any {
           fabricName: S.String.pipe(T.Label()),
           networkName: S.String.pipe(T.Label()),
           networkMappingName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1216, __c76, 0)),
+          properties: S.optional(__S(2882, __c90, 2)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -10816,12 +19208,12 @@ function __c76(j: number): any {
       ).annotate({ identifier: "UpdateReplicationNetworkMappingRequest" });
   }
 }
-function __c77(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          replicationProviderSettings: S.optional(S.Unknown),
+          replicationProviderSettings: S.optional(__S(2632, __c82, 8)),
         }),
       ).annotate({ identifier: "UpdatePolicyInputProperties" });
     case 1:
@@ -10831,7 +19223,7 @@ function __c77(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
           policyName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1232, __c77, 0)),
+          properties: S.optional(__S(2912, __c91, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -10843,7 +19235,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "UpdateReplicationPolicyRequest" });
   }
 }
-function __c78(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10854,20 +19246,20 @@ function __c78(j: number): any {
           recoverySubnetName: S.optional(S.String),
           recoveryStaticIPAddress: S.optional(S.String),
           recoveryPublicIPAddressId: S.optional(S.String),
-          recoveryLBBackendAddressPoolIds: S.optional(__S(32, __c2, 0)),
+          recoveryLBBackendAddressPoolIds: S.optional(__S(64, __c2, 0)),
           tfoSubnetName: S.optional(S.String),
           tfoStaticIPAddress: S.optional(S.String),
           tfoPublicIPAddressId: S.optional(S.String),
-          tfoLBBackendAddressPoolIds: S.optional(__S(32, __c2, 0)),
+          tfoLBBackendAddressPoolIds: S.optional(__S(64, __c2, 0)),
         }),
       ).annotate({ identifier: "IPConfigInputDetails" });
     case 1:
-      return S.Array(__S(1248, __c78, 0));
+      return S.Array(__S(2944, __c92, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nicId: S.optional(S.String),
-          ipConfigs: S.optional(__S(1249, __c78, 1)),
+          ipConfigs: S.optional(__S(2945, __c92, 1)),
           selectionType: S.optional(S.String),
           recoveryNetworkSecurityGroupId: S.optional(S.String),
           enableAcceleratedNetworkingOnRecovery: S.optional(S.Boolean),
@@ -10883,8 +19275,141 @@ function __c78(j: number): any {
         }),
       ).annotate({ identifier: "VMNicInputDetails" });
     case 3:
-      return S.Array(__S(1250, __c78, 2));
+      return S.Array(__S(2946, __c92, 2));
     case 4:
+      return S.suspend(() =>
+        S.Struct({
+          recoveryTargetConfidentialDiskEncryptionSetId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UpdateConfidentialDiskEncryptionInfo" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          diskId: S.optional(S.String),
+          recoveryTargetDiskAccountType: S.optional(S.String),
+          recoveryReplicaDiskAccountType: S.optional(S.String),
+          diskEncryptionInfo: S.optional(__S(578, __c18, 2)),
+          failoverDiskName: S.optional(S.String),
+          tfoDiskName: S.optional(S.String),
+          confidentialDiskEncryptionInfo: S.optional(__S(2948, __c92, 4)),
+        }),
+      ).annotate({ identifier: "A2AVmManagedDiskUpdateDetails" });
+    case 6:
+      return S.Array(__S(2949, __c92, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          recoveryCloudServiceId: S.optional(S.String),
+          recoveryResourceGroupId: S.optional(S.String),
+          managedDiskUpdateDetails: S.optional(__S(2950, __c92, 6)),
+          recoveryBootDiagStorageAccountId: S.optional(S.String),
+          diskEncryptionInfo: S.optional(__S(578, __c18, 2)),
+          tfoAzureVMName: S.optional(S.String),
+          recoveryProximityPlacementGroupId: S.optional(S.String),
+          recoveryVirtualMachineScaleSetId: S.optional(S.String),
+          recoveryCapacityReservationGroupId: S.optional(S.String),
+          recoveryAvailabilityZone: S.optional(S.String),
+          platformFaultDomain: S.optional(S.Number),
+          recoveryConfidentialDataDiskEncryptionIdentity: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "A2AUpdateReplicationProtectedItemInput" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          diskId: S.String,
+          targetDiskName: S.optional(S.String),
+          iops: S.optional(S.Number),
+          throughputInMbps: S.optional(S.Number),
+          diskSizeInGB: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "UpdateDiskInput" });
+    case 9:
+      return S.Array(__S(2952, __c92, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          recoveryAzureV1ResourceGroupId: S.optional(S.String),
+          recoveryAzureV2ResourceGroupId: S.optional(S.String),
+          useManagedDisks: S.optional(S.String),
+          diskIdToDiskEncryptionMap: S.optional(__S(256, __c8, 0)),
+          targetProximityPlacementGroupId: S.optional(S.String),
+          targetAvailabilityZone: S.optional(S.String),
+          targetVmTags: S.optional(__S(256, __c8, 0)),
+          targetManagedDiskTags: S.optional(__S(256, __c8, 0)),
+          targetNicTags: S.optional(__S(256, __c8, 0)),
+          sqlServerLicenseType: S.optional(S.String),
+          linuxLicenseType: S.optional(S.String),
+          userSelectedOSName: S.optional(S.String),
+          vmDisks: S.optional(__S(2953, __c92, 9)),
+          targetCapacityReservationGroupId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HyperVReplicaAzureUpdateReplicationProtectedItemInput" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          recoveryAzureV1ResourceGroupId: S.optional(S.String),
+          recoveryAzureV2ResourceGroupId: S.optional(S.String),
+          useManagedDisks: S.optional(S.String),
+          targetProximityPlacementGroupId: S.optional(S.String),
+          targetAvailabilityZone: S.optional(S.String),
+          targetVmTags: S.optional(__S(256, __c8, 0)),
+          targetManagedDiskTags: S.optional(__S(256, __c8, 0)),
+          targetNicTags: S.optional(__S(256, __c8, 0)),
+          sqlServerLicenseType: S.optional(S.String),
+          vmDisks: S.optional(__S(2953, __c92, 9)),
+        }),
+      ).annotate({ identifier: "InMageAzureV2UpdateReplicationProtectedItemInput" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          nicId: S.String,
+          isPrimaryNic: S.String,
+          isSelectedForFailover: S.optional(S.String),
+          targetSubnetName: S.optional(S.String),
+          targetStaticIPAddress: S.optional(S.String),
+          testSubnetName: S.optional(S.String),
+          testStaticIPAddress: S.optional(S.String),
+          targetNicName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InMageRcmNicInput" });
+    case 13:
+      return S.Array(__S(2956, __c92, 12));
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          targetVmName: S.optional(S.String),
+          targetVmSize: S.optional(S.String),
+          targetResourceGroupId: S.optional(S.String),
+          targetAvailabilitySetId: S.optional(S.String),
+          targetAvailabilityZone: S.optional(S.String),
+          targetProximityPlacementGroupId: S.optional(S.String),
+          targetBootDiagnosticsStorageAccountId: S.optional(S.String),
+          targetNetworkId: S.optional(S.String),
+          testNetworkId: S.optional(S.String),
+          vmNics: S.optional(__S(2957, __c92, 13)),
+          licenseType: S.optional(S.String),
+          sqlServerLicenseType: S.optional(S.String),
+          linuxLicenseType: S.optional(S.String),
+          userSelectedOSName: S.optional(S.String),
+          targetVmTags: S.optional(__S(459, __c14, 11)),
+          targetManagedDiskTags: S.optional(__S(459, __c14, 11)),
+          targetNicTags: S.optional(__S(459, __c14, 11)),
+          vmDisks: S.optional(__S(2953, __c92, 9)),
+          targetCapacityReservationGroupId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InMageRcmUpdateReplicationProtectedItemInput" });
+    case 15:
+      return S.Union([
+        __S(2951, __c92, 7),
+        __S(2954, __c92, 10),
+        __S(2955, __c92, 11),
+        __S(2958, __c92, 14),
+      ]);
+    case 16:
       return S.suspend(() =>
         S.Struct({
           recoveryAzureVMName: S.optional(S.String),
@@ -10893,13 +19418,13 @@ function __c78(j: number): any {
           selectedTfoAzureNetworkId: S.optional(S.String),
           selectedSourceNicId: S.optional(S.String),
           enableRdpOnTargetOption: S.optional(S.String),
-          vmNics: S.optional(__S(1251, __c78, 3)),
+          vmNics: S.optional(__S(2947, __c92, 3)),
           licenseType: S.optional(S.String),
           recoveryAvailabilitySetId: S.optional(S.String),
-          providerSpecificDetails: S.optional(S.Unknown),
+          providerSpecificDetails: S.optional(__S(2959, __c92, 15)),
         }),
       ).annotate({ identifier: "UpdateReplicationProtectedItemInputProperties" });
-    case 5:
+    case 17:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -10908,7 +19433,7 @@ function __c78(j: number): any {
           fabricName: S.String.pipe(T.Label()),
           protectionContainerName: S.String.pipe(T.Label()),
           replicatedProtectedItemName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1252, __c78, 4)),
+          properties: S.optional(__S(2960, __c92, 16)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -10920,16 +19445,23 @@ function __c78(j: number): any {
       ).annotate({ identifier: "UpdateReplicationProtectedItemRequest" });
   }
 }
-function __c79(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          instanceType: S.String,
+          runAsAccountId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InMageRcmUpdateApplianceForReplicationProtectedItemInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           targetApplianceId: S.String,
-          providerSpecificDetails: __S(48, __c3, 0),
+          providerSpecificDetails: __S(2976, __c93, 0),
         }),
       ).annotate({ identifier: "UpdateApplianceForReplicationProtectedItemInputProperties" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -10938,7 +19470,7 @@ function __c79(j: number): any {
           fabricName: S.String.pipe(T.Label()),
           protectionContainerName: S.String.pipe(T.Label()),
           replicatedProtectedItemName: S.String.pipe(T.Label()),
-          properties: __S(1264, __c79, 0),
+          properties: __S(2977, __c93, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10950,17 +19482,221 @@ function __c79(j: number): any {
       ).annotate({ identifier: "UpdateReplicationProtectedItemApplianceRequest" });
   }
 }
-function __c80(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          instanceType: S.String,
+          fabricObjectId: S.optional(S.String),
+          recoveryContainerId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "A2ACrossClusterMigrationEnableProtectionInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          fabricObjectId: S.String,
+          recoveryContainerId: S.optional(S.String),
+          recoveryResourceGroupId: S.optional(S.String),
+          recoveryCloudServiceId: S.optional(S.String),
+          recoveryAvailabilitySetId: S.optional(S.String),
+          recoveryProximityPlacementGroupId: S.optional(S.String),
+          vmDisks: S.optional(__S(513, __c16, 1)),
+          vmManagedDisks: S.optional(__S(545, __c17, 1)),
+          multiVmGroupName: S.optional(S.String),
+          multiVmGroupId: S.optional(S.String),
+          protectionClusterId: S.optional(S.String),
+          recoveryBootDiagStorageAccountId: S.optional(S.String),
+          diskEncryptionInfo: S.optional(__S(578, __c18, 2)),
+          recoveryAvailabilityZone: S.optional(S.String),
+          recoveryExtendedLocation: S.optional(__S(96, __c3, 0)),
+          recoveryAzureNetworkId: S.optional(S.String),
+          recoverySubnetName: S.optional(S.String),
+          recoveryVirtualMachineScaleSetId: S.optional(S.String),
+          recoveryCapacityReservationGroupId: S.optional(S.String),
+          platformFaultDomain: S.optional(S.Number),
+          autoProtectionOfDataDisk: S.optional(S.String),
+          recoveryConfidentialDataDiskEncryptionIdentity: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "A2AEnableProtectionInput" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          diskId: S.optional(S.String),
+          logStorageAccountId: S.optional(S.String),
+          diskType: S.optional(S.String),
+          diskEncryptionSetId: S.optional(S.String),
+          sectorSizeInBytes: S.optional(S.Number),
+          iops: S.optional(S.Number),
+          throughputInMbps: S.optional(S.Number),
+          diskSizeInGB: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "HyperVReplicaAzureDiskInputDetails" });
+    case 3:
+      return S.Array(__S(3010, __c94, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          hvHostVmId: S.optional(S.String),
+          vmName: S.optional(S.String),
+          osType: S.optional(S.String),
+          userSelectedOSName: S.optional(S.String),
+          vhdId: S.optional(S.String),
+          targetStorageAccountId: S.optional(S.String),
+          targetAzureNetworkId: S.optional(S.String),
+          targetAzureSubnetId: S.optional(S.String),
+          enableRdpOnTargetOption: S.optional(S.String),
+          targetAzureVmName: S.optional(S.String),
+          logStorageAccountId: S.optional(S.String),
+          disksToInclude: S.optional(__S(64, __c2, 0)),
+          targetAzureV1ResourceGroupId: S.optional(S.String),
+          targetAzureV2ResourceGroupId: S.optional(S.String),
+          useManagedDisks: S.optional(S.String),
+          targetAvailabilitySetId: S.optional(S.String),
+          targetAvailabilityZone: S.optional(S.String),
+          licenseType: S.optional(S.String),
+          sqlServerLicenseType: S.optional(S.String),
+          linuxLicenseType: S.optional(S.String),
+          targetVmSecurityProfile: S.optional(__S(434, __c13, 18)),
+          targetVmSize: S.optional(S.String),
+          targetProximityPlacementGroupId: S.optional(S.String),
+          useManagedDisksForReplication: S.optional(S.String),
+          diskType: S.optional(S.String),
+          disksToIncludeForManagedDisks: S.optional(__S(3011, __c94, 3)),
+          diskEncryptionSetId: S.optional(S.String),
+          targetVmTags: S.optional(__S(256, __c8, 0)),
+          seedManagedDiskTags: S.optional(__S(256, __c8, 0)),
+          targetManagedDiskTags: S.optional(__S(256, __c8, 0)),
+          targetNicTags: S.optional(__S(256, __c8, 0)),
+          targetCapacityReservationGroupId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HyperVReplicaAzureEnableProtectionInput" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          diskId: S.optional(S.String),
+          logStorageAccountId: S.optional(S.String),
+          diskType: S.optional(S.String),
+          diskEncryptionSetId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InMageAzureV2DiskInputDetails" });
+    case 6:
+      return S.Array(__S(3013, __c94, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          masterTargetId: S.optional(S.String),
+          processServerId: S.optional(S.String),
+          storageAccountId: S.optional(S.String),
+          runAsAccountId: S.optional(S.String),
+          multiVmGroupId: S.optional(S.String),
+          multiVmGroupName: S.optional(S.String),
+          disksToInclude: S.optional(__S(3014, __c94, 6)),
+          targetAzureNetworkId: S.optional(S.String),
+          targetAzureSubnetId: S.optional(S.String),
+          enableRdpOnTargetOption: S.optional(S.String),
+          targetAzureVmName: S.optional(S.String),
+          logStorageAccountId: S.optional(S.String),
+          targetAzureV1ResourceGroupId: S.optional(S.String),
+          targetAzureV2ResourceGroupId: S.optional(S.String),
+          diskType: S.optional(S.String),
+          targetAvailabilitySetId: S.optional(S.String),
+          targetAvailabilityZone: S.optional(S.String),
+          targetProximityPlacementGroupId: S.optional(S.String),
+          licenseType: S.optional(S.String),
+          sqlServerLicenseType: S.optional(S.String),
+          targetVmSize: S.optional(S.String),
+          diskEncryptionSetId: S.optional(S.String),
+          targetVmTags: S.optional(__S(256, __c8, 0)),
+          seedManagedDiskTags: S.optional(__S(256, __c8, 0)),
+          targetManagedDiskTags: S.optional(__S(256, __c8, 0)),
+          targetNicTags: S.optional(__S(256, __c8, 0)),
+        }),
+      ).annotate({ identifier: "InMageAzureV2EnableProtectionInput" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          vmFriendlyName: S.optional(S.String),
+          masterTargetId: S.String,
+          processServerId: S.String,
+          retentionDrive: S.String,
+          runAsAccountId: S.optional(S.String),
+          multiVmGroupId: S.String,
+          multiVmGroupName: S.String,
+          datastoreName: S.optional(S.String),
+          diskExclusionInput: S.optional(__S(3044, __c95, 4)),
+          disksToInclude: S.optional(__S(64, __c2, 0)),
+        }),
+      ).annotate({ identifier: "InMageEnableProtectionInput" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          logStorageAccountId: S.String,
+          diskType: S.String,
+          diskEncryptionSetId: S.optional(S.String),
+          confidentialDiskEncryptionSetId: S.optional(S.String),
+          sectorSizeInBytes: S.optional(S.Number),
+          iops: S.optional(S.Number),
+          throughputInMbps: S.optional(S.Number),
+          diskSizeInGB: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "InMageRcmDisksDefaultInput" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          fabricDiscoveryMachineId: S.String,
+          disksToInclude: S.optional(__S(481, __c15, 1)),
+          disksDefault: S.optional(__S(3017, __c94, 9)),
+          targetResourceGroupId: S.String,
+          targetNetworkId: S.optional(S.String),
+          testNetworkId: S.optional(S.String),
+          targetSubnetName: S.optional(S.String),
+          testSubnetName: S.optional(S.String),
+          targetVmName: S.optional(S.String),
+          targetVmSize: S.optional(S.String),
+          licenseType: S.optional(S.String),
+          targetAvailabilitySetId: S.optional(S.String),
+          targetAvailabilityZone: S.optional(S.String),
+          targetProximityPlacementGroupId: S.optional(S.String),
+          targetBootDiagnosticsStorageAccountId: S.optional(S.String),
+          runAsAccountId: S.optional(S.String),
+          processServerId: S.String,
+          multiVmGroupName: S.optional(S.String),
+          sqlServerLicenseType: S.optional(S.String),
+          linuxLicenseType: S.optional(S.String),
+          targetVmTags: S.optional(__S(459, __c14, 11)),
+          seedManagedDiskTags: S.optional(__S(459, __c14, 11)),
+          targetManagedDiskTags: S.optional(__S(459, __c14, 11)),
+          targetNicTags: S.optional(__S(459, __c14, 11)),
+          userSelectedOSName: S.optional(S.String),
+          targetVmSecurityProfile: S.optional(__S(434, __c13, 18)),
+          targetCapacityReservationGroupId: S.optional(S.String),
+          targetExtendedLocation: S.optional(__S(96, __c3, 0)),
+        }),
+      ).annotate({ identifier: "InMageRcmEnableProtectionInput" });
+    case 11:
+      return S.Union([
+        __S(3008, __c94, 0),
+        __S(3009, __c94, 1),
+        __S(3012, __c94, 4),
+        __S(3015, __c94, 7),
+        __S(3016, __c94, 8),
+        __S(3018, __c94, 10),
+      ]);
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
           policyId: S.optional(S.String),
           protectableItemId: S.optional(S.String),
-          providerSpecificDetails: S.optional(S.Unknown),
+          providerSpecificDetails: S.optional(__S(3019, __c94, 11)),
         }),
       ).annotate({ identifier: "EnableProtectionInputProperties" });
-    case 1:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -10969,7 +19705,7 @@ function __c80(j: number): any {
           fabricName: S.String.pipe(T.Label()),
           protectionContainerName: S.String.pipe(T.Label()),
           replicatedProtectedItemName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1280, __c80, 0)),
+          properties: S.optional(__S(3020, __c94, 12)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -10981,7 +19717,35 @@ function __c80(j: number): any {
       ).annotate({ identifier: "CreateReplicationProtectedItemRequest" });
   }
 }
-function __c81(j: number): any {
+function __c95(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          volumeLabel: S.optional(S.String),
+          onlyExcludeIfSingleVolume: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InMageVolumeExclusionOptions" });
+    case 1:
+      return S.Array(__S(3040, __c95, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          diskSignature: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InMageDiskSignatureExclusionOptions" });
+    case 3:
+      return S.Array(__S(3042, __c95, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          volumeOptions: S.optional(__S(3041, __c95, 1)),
+          diskSignatureOptions: S.optional(__S(3043, __c95, 3)),
+        }),
+      ).annotate({ identifier: "InMageDiskExclusionInput" });
+  }
+}
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10992,7 +19756,7 @@ function __c81(j: number): any {
           fabricName: S.String.pipe(T.Label()),
           protectionContainerName: S.String.pipe(T.Label()),
           replicatedProtectedItemName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(672, __c42, 0)),
+          properties: S.optional(__S(1792, __c56, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -11004,9 +19768,24 @@ function __c81(j: number): any {
       ).annotate({ identifier: "UpdateReplicationProtectedItemMobilityServiceRequest" });
   }
 }
-function __c82(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          enableAgentAutoUpgrade: S.String,
+        }),
+      ).annotate({ identifier: "InMageRcmUpdateContainerMappingInput" });
+    case 1:
+      return S.Union([__S(3360, __c105, 0), __S(3104, __c97, 0)]);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          providerSpecificInput: S.optional(__S(3105, __c97, 1)),
+        }),
+      ).annotate({ identifier: "UpdateProtectionContainerMappingInputProperties" });
+    case 3:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -11015,7 +19794,7 @@ function __c82(j: number): any {
           fabricName: S.String.pipe(T.Label()),
           protectionContainerName: S.String.pipe(T.Label()),
           mappingName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1088, __c68, 0)),
+          properties: S.optional(__S(3106, __c97, 2)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -11027,12 +19806,12 @@ function __c82(j: number): any {
       ).annotate({ identifier: "UpdateReplicationProtectionContainerMappingRequest" });
   }
 }
-function __c83(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          groups: S.optional(__S(2469, __c154, 5)),
+          groups: S.optional(__S(5385, __c168, 9)),
         }),
       ).annotate({ identifier: "UpdateRecoveryPlanInputProperties" });
     case 1:
@@ -11042,7 +19821,7 @@ function __c83(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
           recoveryPlanName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1328, __c83, 0)),
+          properties: S.optional(__S(3136, __c98, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -11054,7 +19833,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "UpdateReplicationRecoveryPlanRequest" });
   }
 }
-function __c84(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11064,7 +19843,7 @@ function __c84(j: number): any {
           resourceName: S.String.pipe(T.Label()),
           fabricName: S.String.pipe(T.Label()),
           vcenterName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1712, __c107, 0)),
+          properties: S.optional(__S(3904, __c122, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -11076,9 +19855,45 @@ function __c84(j: number): any {
       ).annotate({ identifier: "UpdateReplicationvCenterRequest" });
   }
 }
-function __c85(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() => S.Struct({})).annotate({
+        identifier: "A2ASharedDiskIRErrorDetailsInput",
+      });
+    case 1:
+      return S.Array(__S(3200, __c100, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          managementId: S.optional(S.String),
+          unprotectedDisks: S.optional(__S(225, __c7, 1)),
+          protectedManagedDisks: S.optional(__S(227, __c7, 3)),
+          primaryFabricLocation: S.optional(S.String),
+          recoveryFabricLocation: S.optional(S.String),
+          failoverRecoveryPointId: S.optional(S.String),
+          monitoringPercentageCompletion: S.optional(S.Number),
+          monitoringJobType: S.optional(S.String),
+          rpoInSeconds: S.optional(S.Number),
+          lastRpoCalculatedTime: S.optional(S.String),
+          sharedDiskIRErrors: S.optional(__S(3201, __c100, 1)),
+        }),
+      ).annotate({ identifier: "A2ASharedDiskReplicationDetailsInput" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          protectionState: S.optional(S.String),
+          testFailoverState: S.optional(S.String),
+          activeLocation: S.optional(S.String),
+          allowedOperations: S.optional(__S(64, __c2, 0)),
+          replicationHealth: S.optional(S.String),
+          healthErrors: S.optional(__S(163, __c5, 3)),
+          currentScenario: S.optional(__S(128, __c4, 0)),
+          sharedDiskProviderSpecificDetails: S.optional(__S(3202, __c100, 2)),
+        }),
+      ).annotate({ identifier: "SharedDiskReplicationItemPropertiesInput" });
+    case 4:
       return S.suspend(() =>
         S.Struct({
           protectionClusterType: S.optional(S.String),
@@ -11093,26 +19908,26 @@ function __c85(j: number): any {
           activeLocation: S.optional(S.String),
           testFailoverState: S.optional(S.String),
           testFailoverStateDescription: S.optional(S.String),
-          allowedOperations: S.optional(__S(32, __c2, 0)),
+          allowedOperations: S.optional(__S(64, __c2, 0)),
           replicationHealth: S.optional(S.String),
-          healthErrors: S.optional(__S(83, __c5, 3)),
+          healthErrors: S.optional(__S(163, __c5, 3)),
           lastSuccessfulFailoverTime: S.optional(S.String),
           lastSuccessfulTestFailoverTime: S.optional(S.String),
           policyFriendlyName: S.optional(S.String),
-          currentScenario: S.optional(__S(64, __c4, 0)),
+          currentScenario: S.optional(__S(128, __c4, 0)),
           recoveryContainerId: S.optional(S.String),
           agentClusterId: S.optional(S.String),
           clusterFqdn: S.optional(S.String),
-          clusterNodeFqdns: S.optional(__S(32, __c2, 0)),
-          clusterProtectedItemIds: S.optional(__S(32, __c2, 0)),
+          clusterNodeFqdns: S.optional(__S(64, __c2, 0)),
+          clusterProtectedItemIds: S.optional(__S(64, __c2, 0)),
           areAllClusterNodesRegistered: S.optional(S.Boolean),
-          clusterRegisteredNodes: S.optional(__S(1553, __c97, 1)),
-          providerSpecificDetails: S.optional(S.Unknown),
-          sharedDiskProperties: S.optional(__S(1554, __c97, 2)),
+          clusterRegisteredNodes: S.optional(__S(3585, __c112, 1)),
+          providerSpecificDetails: S.optional(__S(3586, __c112, 2)),
+          sharedDiskProperties: S.optional(__S(3203, __c100, 3)),
           policyId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReplicationProtectionClusterPropertiesInput" });
-    case 1:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -11121,7 +19936,7 @@ function __c85(j: number): any {
           fabricName: S.String.pipe(T.Label()),
           protectionContainerName: S.String.pipe(T.Label()),
           replicationProtectionClusterName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1360, __c85, 0)),
+          properties: S.optional(__S(3204, __c100, 4)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11133,9 +19948,19 @@ function __c85(j: number): any {
       ).annotate({ identifier: "CreateReplicationProtectionClusterRequest" });
   }
 }
-function __c86(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
+      return S.Union([__S(640, __c20, 0), __S(640, __c20, 0), __S(640, __c20, 0)]);
+    case 1:
+      return S.Array(__S(3232, __c101, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          providerSpecificInput: S.optional(__S(3233, __c101, 1)),
+        }),
+      ).annotate({ identifier: "CreateProtectionContainerInputProperties" });
+    case 3:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -11143,7 +19968,7 @@ function __c86(j: number): any {
           resourceName: S.String.pipe(T.Label()),
           fabricName: S.String.pipe(T.Label()),
           protectionContainerName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1088, __c68, 0)),
+          properties: S.optional(__S(3234, __c101, 2)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11155,7 +19980,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "CreateReplicationProtectionContainerRequest" });
   }
 }
-function __c87(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11163,8 +19988,8 @@ function __c87(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(1408, __c88, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(3296, __c103, 0)),
           location: S.optional(S.String),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -11172,7 +19997,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "CreateReplicationProtectionContainerResponse" });
   }
 }
-function __c88(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11188,17 +20013,31 @@ function __c88(j: number): any {
       ).annotate({ identifier: "ProtectionContainerProperties" });
   }
 }
-function __c89(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          instanceType: S.String,
+          keyVaultId: S.optional(S.String),
+          keyVaultUri: S.optional(S.String),
+          storageAccountId: S.String,
+          storageAccountSasSecretName: S.optional(S.String),
+          serviceBusConnectionStringSecretName: S.optional(S.String),
+          targetLocation: S.String,
+        }),
+      ).annotate({ identifier: "VMwareCbtContainerMappingInput" });
+    case 1:
+      return S.Union([__S(3360, __c105, 0), __S(3328, __c104, 0)]);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
           targetProtectionContainerId: S.optional(S.String),
           policyId: S.optional(S.String),
-          providerSpecificInput: S.optional(S.Unknown),
+          providerSpecificInput: S.optional(__S(3329, __c104, 1)),
         }),
       ).annotate({ identifier: "CreateProtectionContainerMappingInputProperties" });
-    case 1:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -11207,7 +20046,7 @@ function __c89(j: number): any {
           fabricName: S.String.pipe(T.Label()),
           protectionContainerName: S.String.pipe(T.Label()),
           mappingName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1424, __c89, 0)),
+          properties: S.optional(__S(3330, __c104, 2)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11219,16 +20058,25 @@ function __c89(j: number): any {
       ).annotate({ identifier: "CreateReplicationProtectionContainerMappingRequest" });
   }
 }
-function __c90(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          agentAutoUpdateStatus: S.optional(S.String),
+          automationAccountArmId: S.optional(S.String),
+          automationAccountAuthenticationType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "A2AContainerMappingInput" });
+    case 1:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(1456, __c91, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(3428, __c107, 4)),
           location: S.optional(S.String),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -11236,16 +20084,56 @@ function __c90(j: number): any {
       ).annotate({ identifier: "CreateReplicationProtectionContainerMappingResponse" });
   }
 }
-function __c91(j: number): any {
+function __c106(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Number);
+  }
+}
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          instanceType: S.String,
+          agentAutoUpdateStatus: S.optional(S.String),
+          automationAccountArmId: S.optional(S.String),
+          automationAccountAuthenticationType: S.optional(S.String),
+          scheduleName: S.optional(S.String),
+          jobScheduleName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "A2AProtectionContainerMappingDetails" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          enableAgentAutoUpgrade: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InMageRcmProtectionContainerMappingDetails" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          keyVaultId: S.optional(S.String),
+          keyVaultUri: S.optional(S.String),
+          storageAccountId: S.optional(S.String),
+          storageAccountSasSecretName: S.optional(S.String),
+          serviceBusConnectionStringSecretName: S.optional(S.String),
+          targetLocation: S.optional(S.String),
+          roleSizeToNicCountMap: S.optional(__S(3392, __c106, 0)),
+          excludedSkus: S.optional(__S(64, __c2, 0)),
+        }),
+      ).annotate({ identifier: "VMwareCbtProtectionContainerMappingDetails" });
+    case 3:
+      return S.Union([__S(3424, __c107, 0), __S(3425, __c107, 1), __S(3426, __c107, 2)]);
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
           targetProtectionContainerId: S.optional(S.String),
           targetProtectionContainerFriendlyName: S.optional(S.String),
-          providerSpecificDetails: S.optional(S.Unknown),
+          providerSpecificDetails: S.optional(__S(3427, __c107, 3)),
           health: S.optional(S.String),
-          healthErrorDetails: S.optional(__S(83, __c5, 3)),
+          healthErrorDetails: S.optional(__S(163, __c5, 3)),
           policyId: S.optional(S.String),
           state: S.optional(S.String),
           sourceProtectionContainerFriendlyName: S.optional(S.String),
@@ -11256,16 +20144,50 @@ function __c91(j: number): any {
       ).annotate({ identifier: "ProtectionContainerMappingProperties" });
   }
 }
-function __c92(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          fabricObjectId: S.String,
+          primaryLocation: S.String,
+          recoveryLocation: S.String,
+          recoverySubscriptionId: S.String,
+          recoveryAvailabilityType: S.String,
+          protectionProfileCustomInput: S.optional(__S(3490, __c109, 2)),
+          recoveryResourceGroupId: S.String,
+          primaryStagingStorageAccountCustomInput: S.optional(__S(3491, __c109, 3)),
+          recoveryAvailabilitySetCustomInput: S.optional(__S(3492, __c109, 4)),
+          recoveryVirtualNetworkCustomInput: S.optional(__S(3495, __c109, 7)),
+          recoveryProximityPlacementGroupCustomInput: S.optional(__S(3496, __c109, 8)),
+          autoProtectionOfDataDisk: S.optional(S.String),
+          vmDisks: S.optional(__S(3498, __c109, 10)),
+          vmManagedDisks: S.optional(__S(3501, __c109, 13)),
+          multiVmGroupName: S.optional(S.String),
+          multiVmGroupId: S.optional(S.String),
+          recoveryBootDiagStorageAccount: S.optional(__S(3491, __c109, 3)),
+          diskEncryptionInfo: S.optional(__S(578, __c18, 2)),
+          recoveryAvailabilityZone: S.optional(S.String),
+          agentAutoUpdateStatus: S.optional(S.String),
+          automationAccountAuthenticationType: S.optional(S.String),
+          automationAccountArmId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "A2ACreateProtectionIntentInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          providerSpecificDetails: S.optional(__S(3456, __c108, 0)),
+        }),
+      ).annotate({ identifier: "CreateProtectionIntentProperties" });
+    case 2:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
           intentObjectName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1504, __c94, 0)),
+          properties: S.optional(__S(3457, __c108, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11277,9 +20199,127 @@ function __c92(j: number): any {
       ).annotate({ identifier: "CreateReplicationProtectionIntentRequest" });
   }
 }
-function __c93(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resourceType: S.String,
+          protectionProfileId: S.String,
+        }),
+      ).annotate({ identifier: "ExistingProtectionProfile" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          resourceType: S.String,
+          policyName: S.String,
+          recoveryPointHistory: S.optional(S.Number),
+          crashConsistentFrequencyInMinutes: S.optional(S.Number),
+          appConsistentFrequencyInMinutes: S.optional(S.Number),
+          multiVmSyncStatus: S.String,
+        }),
+      ).annotate({ identifier: "NewProtectionProfile" });
+    case 2:
+      return S.Union([__S(3488, __c109, 0), __S(3489, __c109, 1)]);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          resourceType: S.String,
+          azureStorageAccountId: S.String,
+        }),
+      ).annotate({ identifier: "ExistingStorageAccount" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          resourceType: S.String,
+          recoveryAvailabilitySetId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ExistingRecoveryAvailabilitySet" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          resourceType: S.String,
+          recoveryVirtualNetworkId: S.String,
+          recoverySubnetName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ExistingRecoveryVirtualNetwork" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          resourceType: S.String,
+          recoveryVirtualNetworkResourceGroupName: S.optional(S.String),
+          recoveryVirtualNetworkName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NewRecoveryVirtualNetwork" });
+    case 7:
+      return S.Union([__S(3493, __c109, 5), __S(3494, __c109, 6)]);
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          resourceType: S.String,
+          recoveryProximityPlacementGroupId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ExistingRecoveryProximityPlacementGroup" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          diskUri: S.String,
+          recoveryAzureStorageAccountCustomInput: S.optional(__S(3491, __c109, 3)),
+          primaryStagingStorageAccountCustomInput: S.optional(__S(3491, __c109, 3)),
+        }),
+      ).annotate({ identifier: "A2AProtectionIntentDiskInputDetails" });
+    case 10:
+      return S.Array(__S(3497, __c109, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          resourceType: S.String,
+          recoveryResourceGroupId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ExistingRecoveryRecoveryResourceGroup" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          diskId: S.String,
+          primaryStagingStorageAccountCustomInput: S.optional(__S(3491, __c109, 3)),
+          recoveryResourceGroupCustomInput: S.optional(__S(3499, __c109, 11)),
+          recoveryReplicaDiskAccountType: S.optional(S.String),
+          recoveryTargetDiskAccountType: S.optional(S.String),
+          recoveryDiskEncryptionSetId: S.optional(S.String),
+          diskEncryptionInfo: S.optional(__S(578, __c18, 2)),
+        }),
+      ).annotate({ identifier: "A2AProtectionIntentManagedDiskInputDetails" });
+    case 13:
+      return S.Array(__S(3500, __c109, 12));
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          fabricObjectId: S.optional(S.String),
+          primaryLocation: S.optional(S.String),
+          recoveryLocation: S.optional(S.String),
+          recoverySubscriptionId: S.optional(S.String),
+          vmDisks: S.optional(__S(3498, __c109, 10)),
+          vmManagedDisks: S.optional(__S(3501, __c109, 13)),
+          recoveryResourceGroupId: S.optional(S.String),
+          protectionProfile: S.optional(__S(3490, __c109, 2)),
+          primaryStagingStorageAccount: S.optional(__S(3491, __c109, 3)),
+          recoveryAvailabilitySet: S.optional(__S(3492, __c109, 4)),
+          recoveryVirtualNetwork: S.optional(__S(3495, __c109, 7)),
+          recoveryProximityPlacementGroup: S.optional(__S(3496, __c109, 8)),
+          autoProtectionOfDataDisk: S.optional(S.String),
+          multiVmGroupName: S.optional(S.String),
+          multiVmGroupId: S.optional(S.String),
+          recoveryBootDiagStorageAccount: S.optional(__S(3491, __c109, 3)),
+          diskEncryptionInfo: S.optional(__S(578, __c18, 2)),
+          recoveryAvailabilityZone: S.optional(S.String),
+          recoveryAvailabilityType: S.String,
+          agentAutoUpdateStatus: S.optional(S.String),
+          automationAccountArmId: S.optional(S.String),
+          automationAccountAuthenticationType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "A2AReplicationIntentDetails" });
+    case 15:
       return S.suspend(() =>
         S.Struct({
           friendlyName: S.optional(S.String),
@@ -11287,40 +20327,30 @@ function __c93(j: number): any {
           jobState: S.optional(S.String),
           isActive: S.optional(S.Boolean),
           creationTimeUTC: S.optional(S.String),
-          providerSpecificDetails: S.optional(__S(48, __c3, 0)),
+          providerSpecificDetails: S.optional(__S(3502, __c109, 14)),
         }),
       ).annotate({ identifier: "ReplicationProtectionIntentProperties" });
-    case 1:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(1488, __c93, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(3503, __c109, 15)),
           location: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateReplicationProtectionIntentResponse" });
   }
 }
-function __c94(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          providerSpecificDetails: S.optional(__S(48, __c3, 0)),
-        }),
-      ).annotate({ identifier: "CreateProtectionIntentProperties" });
-  }
-}
-function __c95(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           clusterRecoveryPointId: S.optional(S.String),
-          individualNodeRecoveryPoints: S.optional(__S(32, __c2, 0)),
-          providerSpecificDetails: __S(48, __c3, 0),
+          individualNodeRecoveryPoints: S.optional(__S(64, __c2, 0)),
+          providerSpecificDetails: __S(640, __c20, 0),
         }),
       ).annotate({ identifier: "ApplyClusterRecoveryPointInputProperties" });
     case 1:
@@ -11332,7 +20362,7 @@ function __c95(j: number): any {
           fabricName: S.String.pipe(T.Label()),
           protectionContainerName: S.String.pipe(T.Label()),
           replicationProtectionClusterName: S.String.pipe(T.Label()),
-          properties: __S(1520, __c95, 0),
+          properties: __S(3520, __c110, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -11344,7 +20374,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "ApplyReplicationProtectionClusterRecoveryPointRequest" });
   }
 }
-function __c96(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11352,8 +20382,8 @@ function __c96(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(1555, __c97, 3)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(3591, __c112, 7)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -11361,7 +20391,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "ApplyReplicationProtectionClusterRecoveryPointResponse" });
   }
 }
-function __c97(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11373,21 +20403,76 @@ function __c97(j: number): any {
         }),
       ).annotate({ identifier: "RegisteredClusterNodes" });
     case 1:
-      return S.Array(__S(1552, __c97, 0));
+      return S.Array(__S(3584, __c112, 0));
     case 2:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          multiVmGroupId: S.optional(S.String),
+          multiVmGroupName: S.optional(S.String),
+          multiVmGroupCreateOption: S.optional(S.String),
+          primaryFabricLocation: S.optional(S.String),
+          recoveryFabricLocation: S.optional(S.String),
+          failoverRecoveryPointId: S.optional(S.String),
+          clusterManagementId: S.optional(S.String),
+          rpoInSeconds: S.optional(S.Number),
+          lastRpoCalculatedTime: S.optional(S.String),
+          initialPrimaryZone: S.optional(S.String),
+          initialPrimaryFabricLocation: S.optional(S.String),
+          initialRecoveryZone: S.optional(S.String),
+          initialRecoveryFabricLocation: S.optional(S.String),
+          initialPrimaryExtendedLocation: S.optional(__S(96, __c3, 0)),
+          initialRecoveryExtendedLocation: S.optional(__S(96, __c3, 0)),
+          primaryAvailabilityZone: S.optional(S.String),
+          recoveryAvailabilityZone: S.optional(S.String),
+          primaryExtendedLocation: S.optional(__S(96, __c3, 0)),
+          recoveryExtendedLocation: S.optional(__S(96, __c3, 0)),
+          lifecycleId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "A2AReplicationProtectionClusterDetails" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          errorCode: S.optional(S.String),
+          errorCodeEnum: S.optional(S.String),
+          errorMessage: S.optional(S.String),
+          possibleCauses: S.optional(S.String),
+          recommendedAction: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "A2ASharedDiskIRErrorDetails" });
+    case 4:
+      return S.Array(__S(3587, __c112, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          managementId: S.optional(S.String),
+          unprotectedDisks: S.optional(__S(225, __c7, 1)),
+          protectedManagedDisks: S.optional(__S(227, __c7, 3)),
+          primaryFabricLocation: S.optional(S.String),
+          recoveryFabricLocation: S.optional(S.String),
+          failoverRecoveryPointId: S.optional(S.String),
+          monitoringPercentageCompletion: S.optional(S.Number),
+          monitoringJobType: S.optional(S.String),
+          rpoInSeconds: S.optional(S.Number),
+          lastRpoCalculatedTime: S.optional(S.String),
+          sharedDiskIRErrors: S.optional(__S(3588, __c112, 4)),
+        }),
+      ).annotate({ identifier: "A2ASharedDiskReplicationDetails" });
+    case 6:
       return S.suspend(() =>
         S.Struct({
           protectionState: S.optional(S.String),
           testFailoverState: S.optional(S.String),
           activeLocation: S.optional(S.String),
-          allowedOperations: S.optional(__S(32, __c2, 0)),
+          allowedOperations: S.optional(__S(64, __c2, 0)),
           replicationHealth: S.optional(S.String),
-          healthErrors: S.optional(__S(83, __c5, 3)),
-          currentScenario: S.optional(__S(64, __c4, 0)),
-          sharedDiskProviderSpecificDetails: S.optional(__S(48, __c3, 0)),
+          healthErrors: S.optional(__S(163, __c5, 3)),
+          currentScenario: S.optional(__S(128, __c4, 0)),
+          sharedDiskProviderSpecificDetails: S.optional(__S(3589, __c112, 5)),
         }),
       ).annotate({ identifier: "SharedDiskReplicationItemProperties" });
-    case 3:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           protectionClusterType: S.optional(S.String),
@@ -11402,29 +20487,29 @@ function __c97(j: number): any {
           activeLocation: S.optional(S.String),
           testFailoverState: S.optional(S.String),
           testFailoverStateDescription: S.optional(S.String),
-          allowedOperations: S.optional(__S(32, __c2, 0)),
+          allowedOperations: S.optional(__S(64, __c2, 0)),
           replicationHealth: S.optional(S.String),
-          healthErrors: S.optional(__S(83, __c5, 3)),
+          healthErrors: S.optional(__S(163, __c5, 3)),
           lastSuccessfulFailoverTime: S.optional(S.String),
           lastSuccessfulTestFailoverTime: S.optional(S.String),
           policyFriendlyName: S.optional(S.String),
-          currentScenario: S.optional(__S(64, __c4, 0)),
+          currentScenario: S.optional(__S(128, __c4, 0)),
           recoveryContainerId: S.optional(S.String),
           agentClusterId: S.optional(S.String),
           clusterFqdn: S.optional(S.String),
-          clusterNodeFqdns: S.optional(__S(32, __c2, 0)),
-          clusterProtectedItemIds: S.optional(__S(32, __c2, 0)),
+          clusterNodeFqdns: S.optional(__S(64, __c2, 0)),
+          clusterProtectedItemIds: S.optional(__S(64, __c2, 0)),
           provisioningState: S.optional(S.String),
           areAllClusterNodesRegistered: S.optional(S.Boolean),
-          clusterRegisteredNodes: S.optional(__S(1553, __c97, 1)),
-          providerSpecificDetails: S.optional(S.Unknown),
-          sharedDiskProperties: S.optional(__S(1554, __c97, 2)),
+          clusterRegisteredNodes: S.optional(__S(3585, __c112, 1)),
+          providerSpecificDetails: S.optional(__S(3586, __c112, 2)),
+          sharedDiskProperties: S.optional(__S(3590, __c112, 6)),
           policyId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReplicationProtectionClusterProperties" });
   }
 }
-function __c98(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11432,8 +20517,8 @@ function __c98(j: number): any {
           primaryFabricId: S.String,
           recoveryFabricId: S.String,
           failoverDeploymentModel: S.optional(S.String),
-          groups: __S(2469, __c154, 5),
-          providerSpecificInput: S.optional(S.Unknown),
+          groups: __S(5385, __c168, 9),
+          providerSpecificInput: S.optional(__S(5387, __c168, 11)),
         }),
       ).annotate({ identifier: "CreateRecoveryPlanInputProperties" });
     case 1:
@@ -11443,7 +20528,7 @@ function __c98(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
           recoveryPlanName: S.String.pipe(T.Label()),
-          properties: __S(1568, __c98, 0),
+          properties: __S(3616, __c113, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11455,30 +20540,20 @@ function __c98(j: number): any {
       ).annotate({ identifier: "CreateReplicationRecoveryPlanRequest" });
   }
 }
-function __c99(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          tenantId: S.String,
-          applicationId: S.String,
-          objectId: S.String,
-          audience: S.String,
-          aadAuthority: S.String,
-        }),
-      ).annotate({ identifier: "IdentityProviderInput" });
-    case 1:
       return S.suspend(() =>
         S.Struct({
           machineName: S.String,
           machineId: S.optional(S.String),
           biosId: S.optional(S.String),
-          authenticationIdentityInput: __S(1584, __c99, 0),
-          resourceAccessIdentityInput: __S(1584, __c99, 0),
-          dataPlaneAuthenticationIdentityInput: S.optional(__S(1584, __c99, 0)),
+          authenticationIdentityInput: __S(1184, __c37, 0),
+          resourceAccessIdentityInput: __S(1184, __c37, 0),
+          dataPlaneAuthenticationIdentityInput: S.optional(__S(1184, __c37, 0)),
         }),
       ).annotate({ identifier: "AddRecoveryServicesProviderInputProperties" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -11486,7 +20561,7 @@ function __c99(j: number): any {
           resourceName: S.String.pipe(T.Label()),
           fabricName: S.String.pipe(T.Label()),
           providerName: S.String.pipe(T.Label()),
-          properties: __S(1585, __c99, 1),
+          properties: __S(3648, __c114, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11498,7 +20573,7 @@ function __c99(j: number): any {
       ).annotate({ identifier: "CreateReplicationRecoveryServicesProviderRequest" });
   }
 }
-function __c100(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11506,8 +20581,8 @@ function __c100(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(1618, __c101, 2)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(3712, __c116, 0)),
           location: S.optional(S.String),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -11515,27 +20590,9 @@ function __c100(j: number): any {
       ).annotate({ identifier: "CreateReplicationRecoveryServicesProviderResponse" });
   }
 }
-function __c101(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          tenantId: S.optional(S.String),
-          applicationId: S.optional(S.String),
-          objectId: S.optional(S.String),
-          audience: S.optional(S.String),
-          aadAuthority: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "IdentityProviderDetails" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          version: S.optional(S.String),
-          expiryDate: S.optional(S.String),
-          status: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "VersionDetails" });
-    case 2:
       return S.suspend(() =>
         S.Struct({
           fabricType: S.optional(S.String),
@@ -11548,21 +20605,21 @@ function __c101(j: number): any {
           lastHeartBeat: S.optional(S.String),
           connectionStatus: S.optional(S.String),
           protectedItemCount: S.optional(S.Number),
-          allowedScenarios: S.optional(__S(32, __c2, 0)),
-          healthErrorDetails: S.optional(__S(83, __c5, 3)),
+          allowedScenarios: S.optional(__S(64, __c2, 0)),
+          healthErrorDetails: S.optional(__S(163, __c5, 3)),
           draIdentifier: S.optional(S.String),
           machineId: S.optional(S.String),
           machineName: S.optional(S.String),
           biosId: S.optional(S.String),
-          authenticationIdentityDetails: S.optional(__S(1616, __c101, 0)),
-          resourceAccessIdentityDetails: S.optional(__S(1616, __c101, 0)),
-          dataPlaneAuthenticationIdentityDetails: S.optional(__S(1616, __c101, 0)),
-          providerVersionDetails: S.optional(__S(1617, __c101, 1)),
+          authenticationIdentityDetails: S.optional(__S(6048, __c189, 0)),
+          resourceAccessIdentityDetails: S.optional(__S(6048, __c189, 0)),
+          dataPlaneAuthenticationIdentityDetails: S.optional(__S(6048, __c189, 0)),
+          providerVersionDetails: S.optional(__S(6049, __c189, 1)),
         }),
       ).annotate({ identifier: "RecoveryServicesProviderProperties" });
   }
 }
-function __c102(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11573,7 +20630,7 @@ function __c102(j: number): any {
           fabricName: S.String.pipe(T.Label()),
           storageClassificationName: S.String.pipe(T.Label()),
           storageClassificationMappingName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1648, __c103, 0)),
+          properties: S.optional(__S(3776, __c118, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11589,8 +20646,8 @@ function __c102(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(1648, __c103, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(3776, __c118, 0)),
           location: S.optional(S.String),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -11598,7 +20655,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "CreateReplicationStorageClassificationMappingResponse" });
   }
 }
-function __c103(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11608,7 +20665,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "StorageMappingInputProperties" });
   }
 }
-function __c104(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11617,7 +20674,7 @@ function __c104(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
           vaultSettingName: S.String.pipe(T.Label()),
-          properties: __S(1680, __c105, 0),
+          properties: __S(3840, __c120, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11633,8 +20690,8 @@ function __c104(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(1680, __c105, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(3840, __c120, 0)),
           location: S.optional(S.String),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -11642,7 +20699,7 @@ function __c104(j: number): any {
       ).annotate({ identifier: "CreateReplicationVaultSettingResponse" });
   }
 }
-function __c105(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11654,7 +20711,7 @@ function __c105(j: number): any {
       ).annotate({ identifier: "VaultSettingCreationInputProperties" });
   }
 }
-function __c106(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11664,7 +20721,7 @@ function __c106(j: number): any {
           resourceName: S.String.pipe(T.Label()),
           fabricName: S.String.pipe(T.Label()),
           vcenterName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1712, __c107, 0)),
+          properties: S.optional(__S(3904, __c122, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11676,7 +20733,7 @@ function __c106(j: number): any {
       ).annotate({ identifier: "CreateReplicationvCenterRequest" });
   }
 }
-function __c107(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11694,8 +20751,8 @@ function __c107(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(1728, __c108, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(3936, __c123, 0)),
           location: S.optional(S.String),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -11703,7 +20760,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "CreateReplicationvCenterResponse" });
   }
 }
-function __c108(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11718,12 +20775,12 @@ function __c108(j: number): any {
           port: S.optional(S.String),
           runAsAccountId: S.optional(S.String),
           fabricArmResourceName: S.optional(S.String),
-          healthErrors: S.optional(__S(83, __c5, 3)),
+          healthErrors: S.optional(__S(163, __c5, 3)),
         }),
       ).annotate({ identifier: "VCenterProperties" });
   }
 }
-function __c109(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11743,7 +20800,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "DeleteReplicationFabricRequest" });
   }
 }
-function __c110(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11754,7 +20811,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "DeleteReplicationFabricResponse" });
   }
 }
-function __c111(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11777,7 +20834,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "DeleteReplicationMigrationItemRequest" });
   }
 }
-function __c112(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11799,7 +20856,7 @@ function __c112(j: number): any {
       ).annotate({ identifier: "DeleteReplicationNetworkMappingRequest" });
   }
 }
-function __c113(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11819,16 +20876,23 @@ function __c113(j: number): any {
       ).annotate({ identifier: "DeleteReplicationPolicyRequest" });
   }
 }
-function __c114(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          instanceType: S.String,
+          replicaVmDeletionStatus: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InMageDisableProtectionProviderSpecificInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           disableProtectionReason: S.optional(S.String),
-          replicationProviderInput: S.optional(S.Unknown),
+          replicationProviderInput: S.optional(__S(4128, __c129, 0)),
         }),
       ).annotate({ identifier: "DisableProtectionInputProperties" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -11837,7 +20901,7 @@ function __c114(j: number): any {
           fabricName: S.String.pipe(T.Label()),
           protectionContainerName: S.String.pipe(T.Label()),
           replicatedProtectedItemName: S.String.pipe(T.Label()),
-          properties: __S(1824, __c114, 0),
+          properties: __S(4129, __c129, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -11849,7 +20913,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "DeleteReplicationProtectedItemRequest" });
   }
 }
-function __c115(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11869,7 +20933,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "CancelReplicationJobRequest" });
   }
 }
-function __c116(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11877,8 +20941,8 @@ function __c116(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(1882, __c117, 10)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(4253, __c132, 29)),
           location: S.optional(S.String),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -11886,18 +20950,122 @@ function __c116(j: number): any {
       ).annotate({ identifier: "CancelReplicationJobResponse" });
   }
 }
-function __c117(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(1878, __c117, 6)));
-    case 1:
       return S.suspend(() =>
         S.Struct({
           instanceType: S.String,
-          childTasks: S.optional(__S(1872, __c117, 0)),
+          name: S.optional(S.String),
+          cloudServiceName: S.optional(S.String),
+          subscriptionId: S.optional(S.String),
+          accountName: S.optional(S.String),
+          runbookId: S.optional(S.String),
+          runbookName: S.optional(S.String),
+          jobId: S.optional(S.String),
+          jobOutput: S.optional(S.String),
+          isPrimarySideScript: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "GroupTaskDetails" });
+      ).annotate({ identifier: "AutomationRunbookTaskDetails" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          vmName: S.optional(S.String),
+          cloudName: S.optional(S.String),
+          details: S.optional(__S(64, __c2, 0)),
+          errorIds: S.optional(__S(64, __c2, 0)),
+        }),
+      ).annotate({ identifier: "InconsistentVmDetails" });
     case 2:
+      return S.Array(__S(4225, __c132, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          vmDetails: S.optional(__S(4226, __c132, 2)),
+        }),
+      ).annotate({ identifier: "ConsistencyCheckTaskDetails" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          jobId: S.optional(S.String),
+          jobFriendlyName: S.optional(S.String),
+          targetObjectId: S.optional(S.String),
+          targetObjectName: S.optional(S.String),
+          targetInstanceType: S.optional(S.String),
+          jobScenarioName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "JobEntity" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          jobTask: S.optional(__S(4228, __c132, 4)),
+          skippedReason: S.optional(S.String),
+          skippedReasonString: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FabricReplicationGroupTaskDetails" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          name: S.optional(S.String),
+          instructions: S.optional(S.String),
+          observation: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ManualActionTaskDetails" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          name: S.optional(S.String),
+          path: S.optional(S.String),
+          output: S.optional(S.String),
+          isPrimarySideScript: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ScriptActionTaskDetails" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          vmId: S.optional(S.String),
+          nicId: S.optional(S.String),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VmNicUpdatesTaskDetails" });
+    case 9:
+      return S.Union([
+        __S(4224, __c132, 0),
+        __S(4227, __c132, 3),
+        __S(4229, __c132, 5),
+        __S(4229, __c132, 5),
+        __S(4230, __c132, 6),
+        __S(4231, __c132, 7),
+        __S(4232, __c132, 8),
+      ]);
+    case 10:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(4242, __c132, 18)));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          childTasks: S.optional(__S(4234, __c132, 10)),
+          workflowIds: S.optional(__S(64, __c2, 0)),
+        }),
+      ).annotate({ identifier: "InlineWorkflowTaskDetails" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          childTasks: S.optional(__S(4234, __c132, 10)),
+          name: S.optional(S.String),
+          groupId: S.optional(S.String),
+          rpGroupType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RecoveryPlanShutdownGroupTaskDetails" });
+    case 13:
+      return S.Union([__S(4235, __c132, 11), __S(4236, __c132, 12)]);
+    case 14:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.String),
@@ -11907,7 +21075,7 @@ function __c117(j: number): any {
           activityId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ServiceError" });
-    case 3:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           errorCode: S.optional(S.Number),
@@ -11917,47 +21085,118 @@ function __c117(j: number): any {
           recommendedAction: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProviderError" });
-    case 4:
+    case 16:
       return S.suspend(() =>
         S.Struct({
-          serviceErrorDetails: S.optional(__S(1874, __c117, 2)),
-          providerErrorDetails: S.optional(__S(1875, __c117, 3)),
+          serviceErrorDetails: S.optional(__S(4238, __c132, 14)),
+          providerErrorDetails: S.optional(__S(4239, __c132, 15)),
           errorLevel: S.optional(S.String),
           creationTime: S.optional(S.String),
           taskId: S.optional(S.String),
         }),
       ).annotate({ identifier: "JobErrorDetails" });
-    case 5:
-      return S.Array(__S(1876, __c117, 4));
-    case 6:
+    case 17:
+      return S.Array(__S(4240, __c132, 16));
+    case 18:
       return S.suspend(() =>
         S.Struct({
           taskId: S.optional(S.String),
           name: S.optional(S.String),
           startTime: S.optional(S.String),
           endTime: S.optional(S.String),
-          allowedActions: S.optional(__S(32, __c2, 0)),
+          allowedActions: S.optional(__S(64, __c2, 0)),
           friendlyName: S.optional(S.String),
           state: S.optional(S.String),
           stateDescription: S.optional(S.String),
           taskType: S.optional(S.String),
-          customDetails: S.optional(__S(48, __c3, 0)),
-          groupTaskCustomDetails: S.optional(__S(1873, __c117, 1)),
-          errors: S.optional(__S(1877, __c117, 5)),
+          customDetails: S.optional(__S(4233, __c132, 9)),
+          groupTaskCustomDetails: S.optional(__S(4237, __c132, 13)),
+          errors: S.optional(__S(4241, __c132, 17)),
         }),
       ).annotate({ identifier: "ASRTask" });
-    case 7:
-      return S.Array(__S(1878, __c117, 6));
-    case 8:
-      return S.Record(S.String, S.String);
-    case 9:
+    case 19:
+      return S.Array(__S(4242, __c132, 18));
+    case 20:
       return S.suspend(() =>
         S.Struct({
           instanceType: S.String,
-          affectedObjectDetails: S.optional(__S(1880, __c117, 8)),
+          affectedObjectDetails: S.optional(__S(256, __c8, 0)),
         }),
-      ).annotate({ identifier: "JobDetails" });
-    case 10:
+      ).annotate({ identifier: "AsrJobDetails" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          friendlyName: S.optional(S.String),
+          testVmName: S.optional(S.String),
+          testVmFriendlyName: S.optional(S.String),
+          networkConnectionStatus: S.optional(S.String),
+          networkFriendlyName: S.optional(S.String),
+          subnet: S.optional(S.String),
+          recoveryPointId: S.optional(S.String),
+          recoveryPointTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FailoverReplicationProtectedItemDetails" });
+    case 22:
+      return S.Array(__S(4245, __c132, 21));
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          affectedObjectDetails: S.optional(__S(256, __c8, 0)),
+          protectedItemDetails: S.optional(__S(4246, __c132, 22)),
+        }),
+      ).annotate({ identifier: "ClusterFailoverJobDetails" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          affectedObjectDetails: S.optional(__S(256, __c8, 0)),
+          newReplicationProtectionClusterId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ClusterSwitchProtectionJobDetails" });
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          affectedObjectDetails: S.optional(__S(256, __c8, 0)),
+          testFailoverStatus: S.optional(S.String),
+          comments: S.optional(S.String),
+          networkName: S.optional(S.String),
+          networkFriendlyName: S.optional(S.String),
+          networkType: S.optional(S.String),
+          protectedItemDetails: S.optional(__S(4246, __c132, 22)),
+        }),
+      ).annotate({ identifier: "ClusterTestFailoverJobDetails" });
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          affectedObjectDetails: S.optional(__S(256, __c8, 0)),
+          blobUri: S.optional(S.String),
+          sasToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ExportJobDetails" });
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          affectedObjectDetails: S.optional(__S(256, __c8, 0)),
+          newReplicationProtectedItemId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SwitchProtectionJobDetails" });
+    case 28:
+      return S.Union([
+        __S(4244, __c132, 20),
+        __S(4247, __c132, 23),
+        __S(4248, __c132, 24),
+        __S(4249, __c132, 25),
+        __S(4250, __c132, 26),
+        __S(4247, __c132, 23),
+        __S(4251, __c132, 27),
+        __S(4249, __c132, 25),
+      ]);
+    case 29:
       return S.suspend(() =>
         S.Struct({
           activityId: S.optional(S.String),
@@ -11965,20 +21204,20 @@ function __c117(j: number): any {
           friendlyName: S.optional(S.String),
           state: S.optional(S.String),
           stateDescription: S.optional(S.String),
-          tasks: S.optional(__S(1879, __c117, 7)),
-          errors: S.optional(__S(1877, __c117, 5)),
+          tasks: S.optional(__S(4243, __c132, 19)),
+          errors: S.optional(__S(4241, __c132, 17)),
           startTime: S.optional(S.String),
           endTime: S.optional(S.String),
-          allowedActions: S.optional(__S(32, __c2, 0)),
+          allowedActions: S.optional(__S(64, __c2, 0)),
           targetObjectId: S.optional(S.String),
           targetObjectName: S.optional(S.String),
           targetInstanceType: S.optional(S.String),
-          customDetails: S.optional(__S(1881, __c117, 9)),
+          customDetails: S.optional(__S(4252, __c132, 28)),
         }),
       ).annotate({ identifier: "JobProperties" });
   }
 }
-function __c118(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11999,9 +21238,15 @@ function __c118(j: number): any {
       ).annotate({ identifier: "DeleteReplicationProtectionContainerRequest" });
   }
 }
-function __c119(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          providerSpecificInput: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "RemoveProtectionContainerMappingInputProperties" });
+    case 1:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -12010,7 +21255,7 @@ function __c119(j: number): any {
           fabricName: S.String.pipe(T.Label()),
           protectionContainerName: S.String.pipe(T.Label()),
           mappingName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1088, __c68, 0)),
+          properties: S.optional(__S(4288, __c134, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -12022,7 +21267,7 @@ function __c119(j: number): any {
       ).annotate({ identifier: "DeleteReplicationProtectionContainerMappingRequest" });
   }
 }
-function __c120(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12042,7 +21287,7 @@ function __c120(j: number): any {
       ).annotate({ identifier: "DeleteReplicationRecoveryPlanRequest" });
   }
 }
-function __c121(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12063,7 +21308,7 @@ function __c121(j: number): any {
       ).annotate({ identifier: "DeleteReplicationRecoveryServicesProviderRequest" });
   }
 }
-function __c122(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12085,7 +21330,7 @@ function __c122(j: number): any {
       ).annotate({ identifier: "DeleteReplicationStorageClassificationMappingRequest" });
   }
 }
-function __c123(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12106,7 +21351,7 @@ function __c123(j: number): any {
       ).annotate({ identifier: "DeleteReplicationvCenterRequest" });
   }
 }
-function __c124(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12133,7 +21378,7 @@ function __c124(j: number): any {
       ).annotate({ identifier: "ExportReplicationJobRequest" });
   }
 }
-function __c125(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12156,28 +21401,36 @@ function __c125(j: number): any {
       ).annotate({ identifier: "GetClusterRecoveryPointRequest" });
   }
 }
-function __c126(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          instanceType: S.String,
+          recoveryPointSyncType: S.optional(S.String),
+          nodes: S.optional(__S(64, __c2, 0)),
+        }),
+      ).annotate({ identifier: "A2AClusterRecoveryPointDetails" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           recoveryPointTime: S.optional(S.String),
           recoveryPointType: S.optional(S.String),
-          providerSpecificDetails: S.optional(__S(48, __c3, 0)),
+          providerSpecificDetails: S.optional(__S(4512, __c141, 0)),
         }),
       ).annotate({ identifier: "ClusterRecoveryPointProperties" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(2016, __c126, 0)),
+          properties: S.optional(__S(4513, __c141, 1)),
         }),
       ).annotate({ identifier: "ClusterRecoveryPoint" });
   }
 }
-function __c127(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12200,7 +21453,7 @@ function __c127(j: number): any {
       ).annotate({ identifier: "GetMigrationRecoveryPointRequest" });
   }
 }
-function __c128(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12215,14 +21468,14 @@ function __c128(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(2048, __c128, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(4576, __c143, 0)),
           location: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetMigrationRecoveryPointResponse" });
   }
 }
-function __c129(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12245,30 +21498,47 @@ function __c129(j: number): any {
       ).annotate({ identifier: "GetRecoveryPointRequest" });
   }
 }
-function __c130(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          instanceType: S.String,
+          recoveryPointSyncType: S.optional(S.String),
+          disks: S.optional(__S(64, __c2, 0)),
+        }),
+      ).annotate({ identifier: "A2ARecoveryPointDetails" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          isMultiVmSyncPoint: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InMageAzureV2RecoveryPointDetails" });
+    case 2:
+      return S.Union([__S(4640, __c145, 0), __S(4641, __c145, 1), __S(4641, __c145, 1)]);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
           recoveryPointTime: S.optional(S.String),
           recoveryPointType: S.optional(S.String),
-          providerSpecificDetails: S.optional(__S(48, __c3, 0)),
+          providerSpecificDetails: S.optional(__S(4642, __c145, 2)),
         }),
       ).annotate({ identifier: "RecoveryPointProperties" });
-    case 1:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(2080, __c130, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(4643, __c145, 3)),
           location: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetRecoveryPointResponse" });
   }
 }
-function __c131(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12290,7 +21560,7 @@ function __c131(j: number): any {
       ).annotate({ identifier: "CancelReplicationProtectedItemsFailoverRequest" });
   }
 }
-function __c132(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12310,7 +21580,7 @@ function __c132(j: number): any {
       ).annotate({ identifier: "GetReplicationAlertSettingsRequest" });
   }
 }
-function __c133(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12329,7 +21599,7 @@ function __c133(j: number): any {
       ).annotate({ identifier: "GetReplicationEligibilityResultRequest" });
   }
 }
-function __c134(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12342,12 +21612,12 @@ function __c134(j: number): any {
         }),
       ).annotate({ identifier: "ReplicationEligibilityResultsErrorInfo" });
     case 1:
-      return S.Array(__S(2144, __c134, 0));
+      return S.Array(__S(4768, __c149, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           clientRequestId: S.optional(S.String),
-          errors: S.optional(__S(2145, __c134, 1)),
+          errors: S.optional(__S(4769, __c149, 1)),
         }),
       ).annotate({ identifier: "ReplicationEligibilityResultsProperties" });
     case 3:
@@ -12356,13 +21626,13 @@ function __c134(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(2146, __c134, 2)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(4770, __c149, 2)),
         }),
       ).annotate({ identifier: "GetReplicationEligibilityResultResponse" });
   }
 }
-function __c135(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12382,9 +21652,107 @@ function __c135(j: number): any {
       ).annotate({ identifier: "GetReplicationEventRequest" });
   }
 }
-function __c136(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          protectedItemName: S.optional(S.String),
+          fabricObjectId: S.optional(S.String),
+          fabricName: S.optional(S.String),
+          fabricLocation: S.optional(S.String),
+          remoteFabricName: S.optional(S.String),
+          remoteFabricLocation: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "A2AEventDetails" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          containerName: S.optional(S.String),
+          fabricName: S.optional(S.String),
+          remoteContainerName: S.optional(S.String),
+          remoteFabricName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HyperVReplica2012EventDetails" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          containerName: S.optional(S.String),
+          fabricName: S.optional(S.String),
+          remoteContainerName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HyperVReplicaAzureEventDetails" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          eventType: S.optional(S.String),
+          category: S.optional(S.String),
+          component: S.optional(S.String),
+          correctiveAction: S.optional(S.String),
+          details: S.optional(S.String),
+          summary: S.optional(S.String),
+          siteName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InMageAzureV2EventDetails" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          protectedItemName: S.optional(S.String),
+          vmName: S.optional(S.String),
+          latestAgentVersion: S.optional(S.String),
+          jobId: S.optional(S.String),
+          fabricName: S.optional(S.String),
+          applianceName: S.optional(S.String),
+          serverType: S.optional(S.String),
+          componentDisplayName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InMageRcmEventDetails" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          protectedItemName: S.optional(S.String),
+          vmName: S.optional(S.String),
+          applianceName: S.optional(S.String),
+          serverType: S.optional(S.String),
+          componentDisplayName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InMageRcmFailbackEventDetails" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          migrationItemName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VMwareCbtEventDetails" });
+    case 7:
+      return S.Union([
+        __S(4832, __c151, 0),
+        __S(4833, __c151, 1),
+        __S(4833, __c151, 1),
+        __S(4834, __c151, 2),
+        __S(4833, __c151, 1),
+        __S(4835, __c151, 3),
+        __S(4836, __c151, 4),
+        __S(4837, __c151, 5),
+        __S(4838, __c151, 6),
+      ]);
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          jobId: S.optional(S.String),
+          jobFriendlyName: S.optional(S.String),
+          jobStatus: S.optional(S.String),
+          affectedObjectType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "JobStatusEventDetails" });
+    case 9:
       return S.suspend(() =>
         S.Struct({
           eventCode: S.optional(S.String),
@@ -12395,25 +21763,25 @@ function __c136(j: number): any {
           severity: S.optional(S.String),
           timeOfOccurrence: S.optional(S.String),
           fabricId: S.optional(S.String),
-          providerSpecificDetails: S.optional(__S(48, __c3, 0)),
-          eventSpecificDetails: S.optional(__S(48, __c3, 0)),
-          healthErrors: S.optional(__S(83, __c5, 3)),
+          providerSpecificDetails: S.optional(__S(4839, __c151, 7)),
+          eventSpecificDetails: S.optional(__S(4840, __c151, 8)),
+          healthErrors: S.optional(__S(163, __c5, 3)),
         }),
       ).annotate({ identifier: "EventProperties" });
-    case 1:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(2176, __c136, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(4841, __c151, 9)),
           location: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetReplicationEventResponse" });
   }
 }
-function __c137(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12434,7 +21802,7 @@ function __c137(j: number): any {
       ).annotate({ identifier: "GetReplicationFabricRequest" });
   }
 }
-function __c138(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12442,14 +21810,14 @@ function __c138(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(2801, __c175, 1)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(6148, __c192, 4)),
           location: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetReplicationFabricResponse" });
   }
 }
-function __c139(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12469,7 +21837,7 @@ function __c139(j: number): any {
       ).annotate({ identifier: "GetReplicationJobRequest" });
   }
 }
-function __c140(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12477,14 +21845,14 @@ function __c140(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(1882, __c117, 10)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(4253, __c132, 29)),
           location: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetReplicationJobResponse" });
   }
 }
-function __c141(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12505,7 +21873,7 @@ function __c141(j: number): any {
       ).annotate({ identifier: "GetReplicationLogicalNetworkRequest" });
   }
 }
-function __c142(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12522,14 +21890,14 @@ function __c142(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(2272, __c142, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(5024, __c157, 0)),
           location: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetReplicationLogicalNetworkResponse" });
   }
 }
-function __c143(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12551,7 +21919,7 @@ function __c143(j: number): any {
       ).annotate({ identifier: "GetReplicationMigrationItemRequest" });
   }
 }
-function __c144(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12559,14 +21927,14 @@ function __c144(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(579, __c36, 3)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(1614, __c50, 14)),
           location: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetReplicationMigrationItemResponse" });
   }
 }
-function __c145(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12587,23 +21955,23 @@ function __c145(j: number): any {
       ).annotate({ identifier: "GetReplicationNetworkRequest" });
   }
 }
-function __c146(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           friendlyName: S.optional(S.String),
-          addressList: S.optional(__S(32, __c2, 0)),
+          addressList: S.optional(__S(64, __c2, 0)),
         }),
       ).annotate({ identifier: "Subnet" });
     case 1:
-      return S.Array(__S(2336, __c146, 0));
+      return S.Array(__S(5152, __c161, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           fabricType: S.optional(S.String),
-          subnets: S.optional(__S(2337, __c146, 1)),
+          subnets: S.optional(__S(5153, __c161, 1)),
           friendlyName: S.optional(S.String),
           networkType: S.optional(S.String),
         }),
@@ -12614,14 +21982,14 @@ function __c146(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(2338, __c146, 2)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(5154, __c161, 2)),
           location: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetReplicationNetworkResponse" });
   }
 }
-function __c147(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12643,7 +22011,7 @@ function __c147(j: number): any {
       ).annotate({ identifier: "GetReplicationNetworkMappingRequest" });
   }
 }
-function __c148(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12651,14 +22019,14 @@ function __c148(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(848, __c53, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(2178, __c68, 2)),
           location: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetReplicationNetworkMappingResponse" });
   }
 }
-function __c149(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12678,7 +22046,7 @@ function __c149(j: number): any {
       ).annotate({ identifier: "GetReplicationPolicyRequest" });
   }
 }
-function __c150(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12686,14 +22054,14 @@ function __c150(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(1104, __c69, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(2666, __c83, 10)),
           location: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetReplicationPolicyResponse" });
   }
 }
-function __c151(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12713,13 +22081,7 @@ function __c151(j: number): any {
       ).annotate({ identifier: "CancelReplicationRecoveryPlansFailoverRequest" });
   }
 }
-function __c152(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c153(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12727,8 +22089,8 @@ function __c153(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(2470, __c154, 6)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(5388, __c168, 12)),
           location: S.optional(S.String),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -12736,7 +22098,7 @@ function __c153(j: number): any {
       ).annotate({ identifier: "CancelReplicationRecoveryPlansFailoverResponse" });
   }
 }
-function __c154(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12746,30 +22108,69 @@ function __c154(j: number): any {
         }),
       ).annotate({ identifier: "RecoveryPlanProtectedItem" });
     case 1:
-      return S.Array(__S(2464, __c154, 0));
+      return S.Array(__S(5376, __c168, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          actionName: S.String,
-          failoverTypes: __S(2432, __c152, 0),
-          failoverDirections: __S(2432, __c152, 0),
-          customDetails: S.Unknown,
+          instanceType: S.String,
+          runbookId: S.optional(S.String),
+          timeout: S.optional(S.String),
+          fabricLocation: S.String,
         }),
-      ).annotate({ identifier: "RecoveryPlanAction" });
+      ).annotate({ identifier: "RecoveryPlanAutomationRunbookActionDetails" });
     case 3:
-      return S.Array(__S(2466, __c154, 2));
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RecoveryPlanManualActionDetails" });
     case 4:
       return S.suspend(() =>
         S.Struct({
+          instanceType: S.String,
+          path: S.String,
+          timeout: S.optional(S.String),
+          fabricLocation: S.String,
+        }),
+      ).annotate({ identifier: "RecoveryPlanScriptActionDetails" });
+    case 5:
+      return S.Union([__S(5378, __c168, 2), __S(5379, __c168, 3), __S(5380, __c168, 4)]);
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          actionName: S.String,
+          failoverTypes: __S(288, __c9, 0),
+          failoverDirections: __S(288, __c9, 0),
+          customDetails: __S(5381, __c168, 5),
+        }),
+      ).annotate({ identifier: "RecoveryPlanAction" });
+    case 7:
+      return S.Array(__S(5382, __c168, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
           groupType: S.String,
-          replicationProtectedItems: S.optional(__S(2465, __c154, 1)),
-          startGroupActions: S.optional(__S(2467, __c154, 3)),
-          endGroupActions: S.optional(__S(2467, __c154, 3)),
+          replicationProtectedItems: S.optional(__S(5377, __c168, 1)),
+          startGroupActions: S.optional(__S(5383, __c168, 7)),
+          endGroupActions: S.optional(__S(5383, __c168, 7)),
         }),
       ).annotate({ identifier: "RecoveryPlanGroup" });
-    case 5:
-      return S.Array(__S(2468, __c154, 4));
-    case 6:
+    case 9:
+      return S.Array(__S(5384, __c168, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          primaryZone: S.optional(S.String),
+          recoveryZone: S.optional(S.String),
+          primaryExtendedLocation: S.optional(__S(96, __c3, 0)),
+          recoveryExtendedLocation: S.optional(__S(96, __c3, 0)),
+        }),
+      ).annotate({ identifier: "RecoveryPlanA2ADetails" });
+    case 11:
+      return S.Array(__S(5386, __c168, 10));
+    case 12:
       return S.suspend(() =>
         S.Struct({
           friendlyName: S.optional(S.String),
@@ -12778,21 +22179,21 @@ function __c154(j: number): any {
           recoveryFabricId: S.optional(S.String),
           recoveryFabricFriendlyName: S.optional(S.String),
           failoverDeploymentModel: S.optional(S.String),
-          replicationProviders: S.optional(__S(32, __c2, 0)),
-          allowedOperations: S.optional(__S(32, __c2, 0)),
+          replicationProviders: S.optional(__S(64, __c2, 0)),
+          allowedOperations: S.optional(__S(64, __c2, 0)),
           lastPlannedFailoverTime: S.optional(S.String),
           lastUnplannedFailoverTime: S.optional(S.String),
           lastTestFailoverTime: S.optional(S.String),
-          currentScenario: S.optional(__S(64, __c4, 0)),
+          currentScenario: S.optional(__S(128, __c4, 0)),
           currentScenarioStatus: S.optional(S.String),
           currentScenarioStatusDescription: S.optional(S.String),
-          groups: S.optional(__S(2469, __c154, 5)),
-          providerSpecificDetails: S.optional(S.Unknown),
+          groups: S.optional(__S(5385, __c168, 9)),
+          providerSpecificDetails: S.optional(__S(5387, __c168, 11)),
         }),
       ).annotate({ identifier: "RecoveryPlanProperties" });
   }
 }
-function __c155(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12814,34 +22215,88 @@ function __c155(j: number): any {
       ).annotate({ identifier: "GetReplicationProtectableItemRequest" });
   }
 }
-function __c156(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          sourceItemId: S.optional(S.String),
+          generation: S.optional(S.String),
+          osDetails: S.optional(__S(384, __c12, 0)),
+          diskDetails: S.optional(__S(386, __c12, 2)),
+          hasPhysicalDisk: S.optional(S.String),
+          hasFibreChannelAdapter: S.optional(S.String),
+          hasSharedVhd: S.optional(S.String),
+          hyperVHostId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VmmVirtualMachineDetails" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          label: S.optional(S.String),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DiskVolumeDetails" });
+    case 2:
+      return S.Array(__S(5441, __c170, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          diskId: S.optional(S.String),
+          diskName: S.optional(S.String),
+          diskSizeInMB: S.optional(S.String),
+          diskType: S.optional(S.String),
+          diskConfiguration: S.optional(S.String),
+          volumeList: S.optional(__S(5442, __c170, 2)),
+        }),
+      ).annotate({ identifier: "InMageDiskDetails" });
+    case 4:
+      return S.Array(__S(5443, __c170, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          agentGeneratedId: S.optional(S.String),
+          agentInstalled: S.optional(S.String),
+          osType: S.optional(S.String),
+          agentVersion: S.optional(S.String),
+          ipAddress: S.optional(S.String),
+          poweredOn: S.optional(S.String),
+          vCenterInfrastructureId: S.optional(S.String),
+          discoveryType: S.optional(S.String),
+          diskDetails: S.optional(__S(5444, __c170, 4)),
+          validationErrors: S.optional(__S(163, __c5, 3)),
+        }),
+      ).annotate({ identifier: "VMwareVirtualMachineDetails" });
+    case 6:
+      return S.Union([__S(5440, __c170, 0), __S(640, __c20, 0), __S(5445, __c170, 5)]);
+    case 7:
       return S.suspend(() =>
         S.Struct({
           friendlyName: S.optional(S.String),
           protectionStatus: S.optional(S.String),
           replicationProtectedItemId: S.optional(S.String),
           recoveryServicesProviderId: S.optional(S.String),
-          protectionReadinessErrors: S.optional(__S(32, __c2, 0)),
-          supportedReplicationProviders: S.optional(__S(32, __c2, 0)),
-          customDetails: S.optional(__S(48, __c3, 0)),
+          protectionReadinessErrors: S.optional(__S(64, __c2, 0)),
+          supportedReplicationProviders: S.optional(__S(64, __c2, 0)),
+          customDetails: S.optional(__S(5446, __c170, 6)),
         }),
       ).annotate({ identifier: "ProtectableItemProperties" });
-    case 1:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(2496, __c156, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(5447, __c170, 7)),
           location: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetReplicationProtectableItemResponse" });
   }
 }
-function __c157(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12863,7 +22318,7 @@ function __c157(j: number): any {
       ).annotate({ identifier: "GetReplicationProtectedItemRequest" });
   }
 }
-function __c158(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12871,14 +22326,14 @@ function __c158(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(112, __c7, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(467, __c14, 19)),
           location: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetReplicationProtectedItemResponse" });
   }
 }
-function __c159(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12900,7 +22355,7 @@ function __c159(j: number): any {
       ).annotate({ identifier: "GetReplicationProtectionClusterRequest" });
   }
 }
-function __c160(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12908,13 +22363,13 @@ function __c160(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(1555, __c97, 3)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(3591, __c112, 7)),
         }),
       ).annotate({ identifier: "GetReplicationProtectionClusterResponse" });
   }
 }
-function __c161(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12937,7 +22392,7 @@ function __c161(j: number): any {
       ).annotate({ identifier: "GetReplicationProtectionClusterOperationResultsRequest" });
   }
 }
-function __c162(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12958,7 +22413,7 @@ function __c162(j: number): any {
       ).annotate({ identifier: "GetReplicationProtectionContainerRequest" });
   }
 }
-function __c163(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12966,14 +22421,14 @@ function __c163(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(1408, __c88, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(3296, __c103, 0)),
           location: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetReplicationProtectionContainerResponse" });
   }
 }
-function __c164(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12995,7 +22450,7 @@ function __c164(j: number): any {
       ).annotate({ identifier: "GetReplicationProtectionContainerMappingRequest" });
   }
 }
-function __c165(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13003,14 +22458,14 @@ function __c165(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(1456, __c91, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(3428, __c107, 4)),
           location: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetReplicationProtectionContainerMappingResponse" });
   }
 }
-function __c166(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13030,7 +22485,7 @@ function __c166(j: number): any {
       ).annotate({ identifier: "GetReplicationProtectionIntentRequest" });
   }
 }
-function __c167(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13050,7 +22505,7 @@ function __c167(j: number): any {
       ).annotate({ identifier: "GetReplicationRecoveryPlanRequest" });
   }
 }
-function __c168(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13058,14 +22513,14 @@ function __c168(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(2470, __c154, 6)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(5388, __c168, 12)),
           location: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetReplicationRecoveryPlanResponse" });
   }
 }
-function __c169(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13086,7 +22541,7 @@ function __c169(j: number): any {
       ).annotate({ identifier: "GetReplicationRecoveryServicesProviderRequest" });
   }
 }
-function __c170(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13094,14 +22549,14 @@ function __c170(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(1618, __c101, 2)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(3712, __c116, 0)),
           location: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetReplicationRecoveryServicesProviderResponse" });
   }
 }
-function __c171(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13122,7 +22577,7 @@ function __c171(j: number): any {
       ).annotate({ identifier: "GetReplicationStorageClassificationRequest" });
   }
 }
-function __c172(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13136,14 +22591,14 @@ function __c172(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(2752, __c172, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(5952, __c186, 0)),
           location: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetReplicationStorageClassificationResponse" });
   }
 }
-function __c173(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13163,7 +22618,7 @@ function __c173(j: number): any {
       ).annotate({ identifier: "CheckReplicationFabricConsistencyRequest" });
   }
 }
-function __c174(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13171,8 +22626,8 @@ function __c174(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(2801, __c175, 1)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(6148, __c192, 4)),
           location: S.optional(S.String),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -13180,7 +22635,128 @@ function __c174(j: number): any {
       ).annotate({ identifier: "CheckReplicationFabricConsistencyResponse" });
   }
 }
-function __c175(j: number): any {
+function __c189(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          tenantId: S.optional(S.String),
+          applicationId: S.optional(S.String),
+          objectId: S.optional(S.String),
+          audience: S.optional(S.String),
+          aadAuthority: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IdentityProviderDetails" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          version: S.optional(S.String),
+          expiryDate: S.optional(S.String),
+          status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VersionDetails" });
+  }
+}
+function __c190(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          biosId: S.optional(S.String),
+          fabricObjectId: S.optional(S.String),
+          fqdn: S.optional(S.String),
+          ipAddresses: S.optional(__S(64, __c2, 0)),
+          version: S.optional(S.String),
+          lastHeartbeatUtc: S.optional(S.String),
+          totalMemoryInBytes: S.optional(S.Number),
+          availableMemoryInBytes: S.optional(S.Number),
+          usedMemoryInBytes: S.optional(S.Number),
+          memoryUsagePercentage: S.optional(S.Number),
+          totalSpaceInBytes: S.optional(S.Number),
+          availableSpaceInBytes: S.optional(S.Number),
+          usedSpaceInBytes: S.optional(S.Number),
+          freeSpacePercentage: S.optional(S.Number),
+          throughputUploadPendingDataInBytes: S.optional(S.Number),
+          throughputInBytes: S.optional(S.Number),
+          processorUsagePercentage: S.optional(S.Number),
+          throughputStatus: S.optional(S.String),
+          systemLoad: S.optional(S.Number),
+          systemLoadStatus: S.optional(S.String),
+          diskUsageStatus: S.optional(S.String),
+          memoryUsageStatus: S.optional(S.String),
+          processorUsageStatus: S.optional(S.String),
+          health: S.optional(S.String),
+          healthErrors: S.optional(__S(163, __c5, 3)),
+          protectedItemCount: S.optional(S.Number),
+          historicHealth: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ProcessServerDetails" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          biosId: S.optional(S.String),
+          fabricObjectId: S.optional(S.String),
+          fqdn: S.optional(S.String),
+          clientAuthenticationType: S.optional(S.String),
+          version: S.optional(S.String),
+          lastHeartbeatUtc: S.optional(S.String),
+          health: S.optional(S.String),
+          healthErrors: S.optional(__S(163, __c5, 3)),
+        }),
+      ).annotate({ identifier: "RcmProxyDetails" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          biosId: S.optional(S.String),
+          fabricObjectId: S.optional(S.String),
+          fqdn: S.optional(S.String),
+          version: S.optional(S.String),
+          lastHeartbeatUtc: S.optional(S.String),
+          health: S.optional(S.String),
+          healthErrors: S.optional(__S(163, __c5, 3)),
+        }),
+      ).annotate({ identifier: "PushInstallerDetails" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          biosId: S.optional(S.String),
+          fabricObjectId: S.optional(S.String),
+          fqdn: S.optional(S.String),
+          version: S.optional(S.String),
+          lastHeartbeatUtc: S.optional(S.String),
+          health: S.optional(S.String),
+          healthErrors: S.optional(__S(163, __c5, 3)),
+          protectedItemCount: S.optional(S.Number),
+          accessibleDatastores: S.optional(__S(64, __c2, 0)),
+          vcenterId: S.optional(S.String),
+          lastDiscoveryInUtc: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ReprotectAgentDetails" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          biosId: S.optional(S.String),
+          version: S.optional(S.String),
+          lastHeartbeatUtc: S.optional(S.String),
+          health: S.optional(S.String),
+          healthErrors: S.optional(__S(163, __c5, 3)),
+          forwardProtectedItemCount: S.optional(S.Number),
+          reverseProtectedItemCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "DraDetails" });
+  }
+}
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13193,19 +22769,315 @@ function __c175(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          source: S.optional(S.String),
+          target: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "A2AZoneDetails" });
+    case 2:
+      return S.Array(__S(6113, __c191, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          primaryExtendedLocation: S.optional(__S(96, __c3, 0)),
+          recoveryExtendedLocation: S.optional(__S(96, __c3, 0)),
+        }),
+      ).annotate({ identifier: "A2AExtendedLocationDetails" });
+    case 4:
+      return S.Array(__S(6115, __c191, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          initialPrimaryZone: S.optional(S.String),
+          initialRecoveryZone: S.optional(S.String),
+          initialPrimaryExtendedLocation: S.optional(__S(96, __c3, 0)),
+          initialRecoveryExtendedLocation: S.optional(__S(96, __c3, 0)),
+          initialPrimaryFabricLocation: S.optional(S.String),
+          initialRecoveryFabricLocation: S.optional(S.String),
+          primaryZone: S.optional(S.String),
+          recoveryZone: S.optional(S.String),
+          primaryExtendedLocation: S.optional(__S(96, __c3, 0)),
+          recoveryExtendedLocation: S.optional(__S(96, __c3, 0)),
+          primaryFabricLocation: S.optional(S.String),
+          recoveryFabricLocation: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "A2AFabricSpecificLocationDetails" });
+    case 6:
+      return S.Array(__S(6117, __c191, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          location: S.optional(S.String),
+          containerIds: S.optional(__S(64, __c2, 0)),
+          zones: S.optional(__S(6114, __c191, 2)),
+          extendedLocations: S.optional(__S(6116, __c191, 4)),
+          locationDetails: S.optional(__S(6118, __c191, 6)),
+        }),
+      ).annotate({ identifier: "AzureFabricSpecificDetails" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          marsAgentVersion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HyperVHostDetails" });
+    case 9:
+      return S.Array(__S(6120, __c191, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          hyperVHosts: S.optional(__S(6121, __c191, 9)),
+        }),
+      ).annotate({ identifier: "HyperVSiteDetails" });
+    case 11:
+      return S.Array(__S(6080, __c190, 0));
+    case 12:
+      return S.Array(__S(6081, __c190, 1));
+    case 13:
+      return S.Array(__S(6082, __c190, 2));
+    case 14:
+      return S.Array(__S(6083, __c190, 3));
+    case 15:
+      return S.Array(__S(6084, __c190, 4));
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          diskId: S.optional(S.String),
+          diskName: S.optional(S.String),
+          isOSDisk: S.optional(S.String),
+          capacityInBytes: S.optional(S.Number),
+          lunId: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "AgentDiskDetails" });
+    case 17:
+      return S.Array(__S(6128, __c191, 16));
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          agentId: S.optional(S.String),
+          machineId: S.optional(S.String),
+          biosId: S.optional(S.String),
+          fqdn: S.optional(S.String),
+          disks: S.optional(__S(6129, __c191, 17)),
+        }),
+      ).annotate({ identifier: "AgentDetails" });
+    case 19:
+      return S.Array(__S(6130, __c191, 18));
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          vmwareSiteId: S.optional(S.String),
+          physicalSiteId: S.optional(S.String),
+          serviceEndpoint: S.optional(S.String),
+          serviceResourceId: S.optional(S.String),
+          serviceContainerId: S.optional(S.String),
+          dataPlaneUri: S.optional(S.String),
+          controlPlaneUri: S.optional(S.String),
+          sourceAgentIdentityDetails: S.optional(__S(6048, __c189, 0)),
+          processServers: S.optional(__S(6123, __c191, 11)),
+          rcmProxies: S.optional(__S(6124, __c191, 12)),
+          pushInstallers: S.optional(__S(6125, __c191, 13)),
+          replicationAgents: S.optional(__S(6125, __c191, 13)),
+          reprotectAgents: S.optional(__S(6126, __c191, 14)),
+          marsAgents: S.optional(__S(6125, __c191, 13)),
+          dras: S.optional(__S(6127, __c191, 15)),
+          agentDetails: S.optional(__S(6131, __c191, 19)),
+        }),
+      ).annotate({ identifier: "InMageRcmFabricSpecificDetails" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          version: S.optional(S.String),
+          rebootStatus: S.optional(S.String),
+          osType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MobilityServiceUpdate" });
+    case 22:
+      return S.Array(__S(6133, __c191, 21));
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
           friendlyName: S.optional(S.String),
-          encryptionDetails: S.optional(__S(2800, __c175, 0)),
-          rolloverEncryptionDetails: S.optional(__S(2800, __c175, 0)),
+          id: S.optional(S.String),
+          ipAddress: S.optional(S.String),
+          osType: S.optional(S.String),
+          agentVersion: S.optional(S.String),
+          lastHeartbeat: S.optional(S.String),
+          versionStatus: S.optional(S.String),
+          mobilityServiceUpdates: S.optional(__S(6134, __c191, 22)),
+          hostId: S.optional(S.String),
+          machineCount: S.optional(S.String),
+          replicationPairCount: S.optional(S.String),
+          systemLoad: S.optional(S.String),
+          systemLoadStatus: S.optional(S.String),
+          cpuLoad: S.optional(S.String),
+          cpuLoadStatus: S.optional(S.String),
+          totalMemoryInBytes: S.optional(S.Number),
+          availableMemoryInBytes: S.optional(S.Number),
+          memoryUsageStatus: S.optional(S.String),
+          totalSpaceInBytes: S.optional(S.Number),
+          availableSpaceInBytes: S.optional(S.Number),
+          spaceUsageStatus: S.optional(S.String),
+          psServiceStatus: S.optional(S.String),
+          sslCertExpiryDate: S.optional(S.String),
+          sslCertExpiryRemainingDays: S.optional(S.Number),
+          osVersion: S.optional(S.String),
+          healthErrors: S.optional(__S(163, __c5, 3)),
+          agentExpiryDate: S.optional(S.String),
+          agentVersionDetails: S.optional(__S(6049, __c189, 1)),
+          health: S.optional(S.String),
+          psStatsRefreshTime: S.optional(S.String),
+          throughputUploadPendingDataInBytes: S.optional(S.Number),
+          throughputInMBps: S.optional(S.Number),
+          throughputInBytes: S.optional(S.Number),
+          throughputStatus: S.optional(S.String),
+          marsCommunicationStatus: S.optional(S.String),
+          marsRegistrationStatus: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ProcessServer" });
+    case 24:
+      return S.Array(__S(6135, __c191, 23));
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          volumeName: S.optional(S.String),
+          capacityInBytes: S.optional(S.Number),
+          freeSpaceInBytes: S.optional(S.Number),
+          thresholdPercentage: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "RetentionVolume" });
+    case 26:
+      return S.Array(__S(6137, __c191, 25));
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          symbolicName: S.optional(S.String),
+          uuid: S.optional(S.String),
+          capacity: S.optional(S.String),
+          freeSpace: S.optional(S.String),
+          type: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DataStore" });
+    case 28:
+      return S.Array(__S(6139, __c191, 27));
+    case 29:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          ipAddress: S.optional(S.String),
+          name: S.optional(S.String),
+          osType: S.optional(S.String),
+          agentVersion: S.optional(S.String),
+          lastHeartbeat: S.optional(S.String),
+          versionStatus: S.optional(S.String),
+          retentionVolumes: S.optional(__S(6138, __c191, 26)),
+          dataStores: S.optional(__S(6140, __c191, 28)),
+          validationErrors: S.optional(__S(163, __c5, 3)),
+          healthErrors: S.optional(__S(163, __c5, 3)),
+          diskCount: S.optional(S.Number),
+          osVersion: S.optional(S.String),
+          agentExpiryDate: S.optional(S.String),
+          marsAgentVersion: S.optional(S.String),
+          marsAgentExpiryDate: S.optional(S.String),
+          agentVersionDetails: S.optional(__S(6049, __c189, 1)),
+          marsAgentVersionDetails: S.optional(__S(6049, __c189, 1)),
+        }),
+      ).annotate({ identifier: "MasterTargetServer" });
+    case 30:
+      return S.Array(__S(6141, __c191, 29));
+    case 31:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.optional(S.String),
+          accountName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RunAsAccount" });
+  }
+}
+function __c192(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(6143, __c191, 31));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          processServers: S.optional(__S(6136, __c191, 24)),
+          masterTargetServers: S.optional(__S(6142, __c191, 30)),
+          runAsAccounts: S.optional(__S(6144, __c192, 0)),
+          replicationPairCount: S.optional(S.String),
+          processServerCount: S.optional(S.String),
+          agentCount: S.optional(S.String),
+          protectedServers: S.optional(S.String),
+          systemLoad: S.optional(S.String),
+          systemLoadStatus: S.optional(S.String),
+          cpuLoad: S.optional(S.String),
+          cpuLoadStatus: S.optional(S.String),
+          totalMemoryInBytes: S.optional(S.Number),
+          availableMemoryInBytes: S.optional(S.Number),
+          memoryUsageStatus: S.optional(S.String),
+          totalSpaceInBytes: S.optional(S.Number),
+          availableSpaceInBytes: S.optional(S.Number),
+          spaceUsageStatus: S.optional(S.String),
+          webLoad: S.optional(S.String),
+          webLoadStatus: S.optional(S.String),
+          databaseServerLoad: S.optional(S.String),
+          databaseServerLoadStatus: S.optional(S.String),
+          csServiceStatus: S.optional(S.String),
+          ipAddress: S.optional(S.String),
+          agentVersion: S.optional(S.String),
+          hostName: S.optional(S.String),
+          lastHeartbeat: S.optional(S.String),
+          versionStatus: S.optional(S.String),
+          sslCertExpiryDate: S.optional(S.String),
+          sslCertExpiryRemainingDays: S.optional(S.Number),
+          psTemplateVersion: S.optional(S.String),
+          agentExpiryDate: S.optional(S.String),
+          agentVersionDetails: S.optional(__S(6049, __c189, 1)),
+          switchProviderBlockingErrorDetails: S.optional(__S(321, __c10, 1)),
+        }),
+      ).annotate({ identifier: "VMwareDetails" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          instanceType: S.String,
+          vmwareSiteId: S.optional(S.String),
+          physicalSiteId: S.optional(S.String),
+          migrationSolutionId: S.optional(S.String),
+          serviceEndpoint: S.optional(S.String),
+          serviceResourceId: S.optional(S.String),
+          serviceContainerId: S.optional(S.String),
+          processServers: S.optional(__S(6123, __c191, 11)),
+        }),
+      ).annotate({ identifier: "VMwareV2FabricSpecificDetails" });
+    case 3:
+      return S.Union([
+        __S(6119, __c191, 7),
+        __S(6122, __c191, 10),
+        __S(6132, __c191, 20),
+        __S(6145, __c192, 1),
+        __S(6146, __c192, 2),
+        __S(640, __c20, 0),
+      ]);
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          friendlyName: S.optional(S.String),
+          encryptionDetails: S.optional(__S(6112, __c191, 0)),
+          rolloverEncryptionDetails: S.optional(__S(6112, __c191, 0)),
           internalIdentifier: S.optional(S.String),
           bcdrState: S.optional(S.String),
-          customDetails: S.optional(S.Unknown),
-          healthErrorDetails: S.optional(__S(83, __c5, 3)),
+          customDetails: S.optional(__S(6147, __c192, 3)),
+          healthErrorDetails: S.optional(__S(163, __c5, 3)),
           health: S.optional(S.String),
         }),
       ).annotate({ identifier: "FabricProperties" });
   }
 }
-function __c176(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13227,7 +23099,7 @@ function __c176(j: number): any {
       ).annotate({ identifier: "GetReplicationStorageClassificationMappingRequest" });
   }
 }
-function __c177(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13235,14 +23107,14 @@ function __c177(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(1648, __c103, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(3776, __c118, 0)),
           location: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetReplicationStorageClassificationMappingResponse" });
   }
 }
-function __c178(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13265,14 +23137,14 @@ function __c178(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(2868, __c179, 4)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(6275, __c196, 3)),
           location: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetReplicationVaultHealthResponse" });
   }
 }
-function __c179(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13283,33 +23155,31 @@ function __c179(j: number): any {
           summaryMessage: S.optional(S.String),
           affectedResourceType: S.optional(S.String),
           affectedResourceSubtype: S.optional(S.String),
-          affectedResourceCorrelationIds: S.optional(__S(32, __c2, 0)),
+          affectedResourceCorrelationIds: S.optional(__S(64, __c2, 0)),
         }),
       ).annotate({ identifier: "HealthErrorSummary" });
     case 1:
-      return S.Array(__S(2864, __c179, 0));
+      return S.Array(__S(6272, __c196, 0));
     case 2:
-      return S.Record(S.String, S.Number);
-    case 3:
       return S.suspend(() =>
         S.Struct({
           resourceCount: S.optional(S.Number),
-          issues: S.optional(__S(2865, __c179, 1)),
-          categorizedResourceCounts: S.optional(__S(2866, __c179, 2)),
+          issues: S.optional(__S(6273, __c196, 1)),
+          categorizedResourceCounts: S.optional(__S(3392, __c106, 0)),
         }),
       ).annotate({ identifier: "ResourceHealthSummary" });
-    case 4:
+    case 3:
       return S.suspend(() =>
         S.Struct({
-          vaultErrors: S.optional(__S(83, __c5, 3)),
-          protectedItemsHealth: S.optional(__S(2867, __c179, 3)),
-          fabricsHealth: S.optional(__S(2867, __c179, 3)),
-          containersHealth: S.optional(__S(2867, __c179, 3)),
+          vaultErrors: S.optional(__S(163, __c5, 3)),
+          protectedItemsHealth: S.optional(__S(6274, __c196, 2)),
+          fabricsHealth: S.optional(__S(6274, __c196, 2)),
+          containersHealth: S.optional(__S(6274, __c196, 2)),
         }),
       ).annotate({ identifier: "VaultHealthProperties" });
   }
 }
-function __c180(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13329,7 +23199,7 @@ function __c180(j: number): any {
       ).annotate({ identifier: "GetReplicationVaultSettingRequest" });
   }
 }
-function __c181(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13337,14 +23207,14 @@ function __c181(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(1680, __c105, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(3840, __c120, 0)),
           location: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetReplicationVaultSettingResponse" });
   }
 }
-function __c182(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13365,7 +23235,7 @@ function __c182(j: number): any {
       ).annotate({ identifier: "GetReplicationvCenterRequest" });
   }
 }
-function __c183(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13373,14 +23243,14 @@ function __c183(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(1728, __c108, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(3936, __c123, 0)),
           location: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetReplicationvCenterResponse" });
   }
 }
-function __c184(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13406,30 +23276,30 @@ function __c184(j: number): any {
         }),
       ).annotate({ identifier: "OSVersionWrapper" });
     case 2:
-      return S.Array(__S(2945, __c184, 1));
+      return S.Array(__S(6433, __c201, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           osName: S.optional(S.String),
           osType: S.optional(S.String),
-          osVersions: S.optional(__S(2946, __c184, 2)),
+          osVersions: S.optional(__S(6434, __c201, 2)),
         }),
       ).annotate({ identifier: "SupportedOSDetails" });
     case 4:
-      return S.Array(__S(2947, __c184, 3));
+      return S.Array(__S(6435, __c201, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           instanceType: S.optional(S.String),
-          supportedOs: S.optional(__S(2948, __c184, 4)),
+          supportedOs: S.optional(__S(6436, __c201, 4)),
         }),
       ).annotate({ identifier: "SupportedOSProperty" });
     case 6:
-      return S.Array(__S(2949, __c184, 5));
+      return S.Array(__S(6437, __c201, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          supportedOsList: S.optional(__S(2950, __c184, 6)),
+          supportedOsList: S.optional(__S(6438, __c201, 6)),
         }),
       ).annotate({ identifier: "SupportedOSProperties" });
     case 8:
@@ -13438,14 +23308,14 @@ function __c184(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(2951, __c184, 7)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(6439, __c201, 7)),
           location: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetSupportedOperatingSystemResponse" });
   }
 }
-function __c185(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13466,17 +23336,17 @@ function __c185(j: number): any {
         ),
       ).annotate({ identifier: "ListClusterRecoveryPointByReplicationProtectionClusterRequest" });
     case 1:
-      return S.Array(__S(2017, __c126, 1));
+      return S.Array(__S(4514, __c141, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2961, __c185, 1),
+          value: __S(6465, __c202, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClusterRecoveryPointCollection" });
   }
 }
-function __c186(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13497,17 +23367,17 @@ function __c186(j: number): any {
         ),
       ).annotate({ identifier: "ListMigrationRecoveryPointByReplicationMigrationItemsRequest" });
     case 1:
-      return S.Array(__S(2049, __c128, 1));
+      return S.Array(__S(4577, __c143, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2977, __c186, 1),
+          value: __S(6497, __c203, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "MigrationRecoveryPointCollection" });
   }
 }
-function __c187(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13536,23 +23406,23 @@ function __c187(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          display: S.optional(__S(2993, __c187, 1)),
+          display: S.optional(__S(6529, __c204, 1)),
           origin: S.optional(S.String),
           properties: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "OperationsDiscovery" });
     case 3:
-      return S.Array(__S(2994, __c187, 2));
+      return S.Array(__S(6530, __c204, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2995, __c187, 3),
+          value: __S(6531, __c204, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OperationsDiscoveryCollection" });
   }
 }
-function __c188(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13573,17 +23443,17 @@ function __c188(j: number): any {
         ),
       ).annotate({ identifier: "ListRecoveryPointByReplicationProtectedItemsRequest" });
     case 1:
-      return S.Array(__S(2081, __c130, 1));
+      return S.Array(__S(4644, __c145, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(3009, __c188, 1),
+          value: __S(6561, __c205, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "RecoveryPointCollection" });
   }
 }
-function __c189(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13601,17 +23471,17 @@ function __c189(j: number): any {
         ),
       ).annotate({ identifier: "ListReplicationAlertSettingsRequest" });
     case 1:
-      return S.Array(__S(177, __c11, 1));
+      return S.Array(__S(705, __c22, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(3025, __c189, 1),
+          value: __S(6593, __c206, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AlertCollection" });
   }
 }
-function __c190(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13633,7 +23503,7 @@ function __c190(j: number): any {
       ).annotate({ identifier: "CommitReplicationProtectedItemsFailoverRequest" });
   }
 }
-function __c191(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13654,21 +23524,52 @@ function __c191(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(1504, __c94, 0)),
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          fabricArmId: S.optional(S.String),
+          processServer: S.optional(__S(6080, __c190, 0)),
+          rcmProxy: S.optional(__S(6081, __c190, 1)),
+          pushInstaller: S.optional(__S(6082, __c190, 2)),
+          replicationAgent: S.optional(__S(6082, __c190, 2)),
+          reprotectAgent: S.optional(__S(6083, __c190, 3)),
+          marsAgent: S.optional(__S(6082, __c190, 2)),
+          dra: S.optional(__S(6084, __c190, 4)),
+          switchProviderBlockingErrorDetails: S.optional(__S(321, __c10, 1)),
         }),
-      ).annotate({ identifier: "ReplicationAppliance" });
+      ).annotate({ identifier: "InMageRcmApplianceDetails" });
     case 2:
-      return S.Array(__S(3057, __c191, 1));
+      return S.Array(__S(6657, __c208, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          value: __S(3058, __c191, 2),
+          instanceType: S.String,
+          appliances: S.optional(__S(6658, __c208, 2)),
+        }),
+      ).annotate({ identifier: "InMageRcmApplianceSpecificDetails" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          providerSpecificDetails: S.optional(__S(6659, __c208, 3)),
+        }),
+      ).annotate({ identifier: "ReplicationApplianceProperties" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          properties: S.optional(__S(6660, __c208, 4)),
+        }),
+      ).annotate({ identifier: "ReplicationAppliance" });
+    case 6:
+      return S.Array(__S(6661, __c208, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(6662, __c208, 6),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApplianceCollection" });
   }
 }
-function __c192(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13686,16 +23587,16 @@ function __c192(j: number): any {
         ),
       ).annotate({ identifier: "ListReplicationEligibilityResultsRequest" });
     case 1:
-      return S.Array(__S(2147, __c134, 3));
+      return S.Array(__S(4771, __c149, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(3073, __c192, 1)),
+          value: S.optional(__S(6689, __c209, 1)),
         }),
       ).annotate({ identifier: "ReplicationEligibilityResultsCollection" });
   }
 }
-function __c193(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13714,17 +23615,17 @@ function __c193(j: number): any {
         ),
       ).annotate({ identifier: "ListReplicationEventsRequest" });
     case 1:
-      return S.Array(__S(2177, __c136, 1));
+      return S.Array(__S(4842, __c151, 10));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(3089, __c193, 1),
+          value: __S(6721, __c210, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "EventCollection" });
   }
 }
-function __c194(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13742,17 +23643,17 @@ function __c194(j: number): any {
         ),
       ).annotate({ identifier: "ListReplicationFabricsRequest" });
     case 1:
-      return S.Array(__S(2208, __c138, 0));
+      return S.Array(__S(4896, __c153, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(3105, __c194, 1),
+          value: __S(6753, __c211, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "FabricCollection" });
   }
 }
-function __c195(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13771,17 +23672,17 @@ function __c195(j: number): any {
         ),
       ).annotate({ identifier: "ListReplicationJobsRequest" });
     case 1:
-      return S.Array(__S(2240, __c140, 0));
+      return S.Array(__S(4960, __c155, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(3121, __c195, 1),
+          value: __S(6785, __c212, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "JobCollection" });
   }
 }
-function __c196(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13800,17 +23701,17 @@ function __c196(j: number): any {
         ),
       ).annotate({ identifier: "ListReplicationLogicalNetworkByReplicationFabricsRequest" });
     case 1:
-      return S.Array(__S(2273, __c142, 1));
+      return S.Array(__S(5025, __c157, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(3137, __c196, 1),
+          value: __S(6817, __c213, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "LogicalNetworkCollection" });
   }
 }
-function __c197(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13836,20 +23737,20 @@ function __c197(j: number): any {
       });
   }
 }
-function __c198(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2304, __c144, 0));
+      return S.Array(__S(5088, __c159, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(3168, __c198, 0),
+          value: __S(6880, __c215, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "MigrationItemCollection" });
   }
 }
-function __c199(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13871,7 +23772,7 @@ function __c199(j: number): any {
       ).annotate({ identifier: "ListReplicationMigrationItemsRequest" });
   }
 }
-function __c200(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13891,20 +23792,20 @@ function __c200(j: number): any {
       ).annotate({ identifier: "ListReplicationNetworkByReplicationFabricsRequest" });
   }
 }
-function __c201(j: number): any {
+function __c218(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2339, __c146, 3));
+      return S.Array(__S(5155, __c161, 3));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(3216, __c201, 0),
+          value: __S(6976, __c218, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "NetworkCollection" });
   }
 }
-function __c202(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13925,20 +23826,20 @@ function __c202(j: number): any {
       ).annotate({ identifier: "ListReplicationNetworkMappingByReplicationNetworksRequest" });
   }
 }
-function __c203(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2368, __c148, 0));
+      return S.Array(__S(5216, __c163, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(3248, __c203, 0),
+          value: __S(7040, __c220, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "NetworkMappingCollection" });
   }
 }
-function __c204(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13960,7 +23861,7 @@ function __c204(j: number): any {
       ).annotate({ identifier: "CommitReplicationProtectionClustersFailoverRequest" });
   }
 }
-function __c205(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13979,7 +23880,7 @@ function __c205(j: number): any {
       ).annotate({ identifier: "ListReplicationNetworkMappingsRequest" });
   }
 }
-function __c206(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13998,7 +23899,7 @@ function __c206(j: number): any {
       ).annotate({ identifier: "ListReplicationNetworksRequest" });
   }
 }
-function __c207(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14016,17 +23917,17 @@ function __c207(j: number): any {
         ),
       ).annotate({ identifier: "ListReplicationPoliciesRequest" });
     case 1:
-      return S.Array(__S(2400, __c150, 0));
+      return S.Array(__S(5280, __c165, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(3313, __c207, 1),
+          value: __S(7169, __c224, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PolicyCollection" });
   }
 }
-function __c208(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14051,17 +23952,17 @@ function __c208(j: number): any {
         identifier: "ListReplicationProtectableItemByReplicationProtectionContainersRequest",
       });
     case 1:
-      return S.Array(__S(2497, __c156, 1));
+      return S.Array(__S(5448, __c170, 8));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(3329, __c208, 1),
+          value: __S(7201, __c225, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProtectableItemCollection" });
   }
 }
-function __c209(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14084,20 +23985,20 @@ function __c209(j: number): any {
       });
   }
 }
-function __c210(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2528, __c158, 0));
+      return S.Array(__S(5504, __c172, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(3360, __c210, 0),
+          value: __S(7264, __c227, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReplicationProtectedItemCollection" });
   }
 }
-function __c211(j: number): any {
+function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14118,7 +24019,7 @@ function __c211(j: number): any {
       ).annotate({ identifier: "ListReplicationProtectedItemsRequest" });
   }
 }
-function __c212(j: number): any {
+function __c229(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14141,20 +24042,20 @@ function __c212(j: number): any {
       });
   }
 }
-function __c213(j: number): any {
+function __c230(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2560, __c160, 0));
+      return S.Array(__S(5568, __c174, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(3408, __c213, 0),
+          value: __S(7360, __c230, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReplicationProtectionClusterCollection" });
   }
 }
-function __c214(j: number): any {
+function __c231(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14175,7 +24076,7 @@ function __c214(j: number): any {
       ).annotate({ identifier: "ListReplicationProtectionClustersRequest" });
   }
 }
-function __c215(j: number): any {
+function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14195,20 +24096,20 @@ function __c215(j: number): any {
       ).annotate({ identifier: "ListReplicationProtectionContainerByReplicationFabricsRequest" });
   }
 }
-function __c216(j: number): any {
+function __c233(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2608, __c163, 0));
+      return S.Array(__S(5664, __c177, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(3456, __c216, 0),
+          value: __S(7456, __c233, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProtectionContainerCollection" });
   }
 }
-function __c217(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14232,20 +24133,20 @@ function __c217(j: number): any {
       });
   }
 }
-function __c218(j: number): any {
+function __c235(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2640, __c165, 0));
+      return S.Array(__S(5728, __c179, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(3488, __c218, 0),
+          value: __S(7520, __c235, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProtectionContainerMappingCollection" });
   }
 }
-function __c219(j: number): any {
+function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14265,7 +24166,7 @@ function __c219(j: number): any {
       ).annotate({ identifier: "CommitReplicationRecoveryPlansFailoverRequest" });
   }
 }
-function __c220(j: number): any {
+function __c237(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14284,7 +24185,7 @@ function __c220(j: number): any {
       ).annotate({ identifier: "ListReplicationProtectionContainerMappingsRequest" });
   }
 }
-function __c221(j: number): any {
+function __c238(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14303,7 +24204,7 @@ function __c221(j: number): any {
       ).annotate({ identifier: "ListReplicationProtectionContainersRequest" });
   }
 }
-function __c222(j: number): any {
+function __c239(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14323,17 +24224,17 @@ function __c222(j: number): any {
         ),
       ).annotate({ identifier: "ListReplicationProtectionIntentsRequest" });
     case 1:
-      return S.Array(__S(1489, __c93, 1));
+      return S.Array(__S(3504, __c109, 16));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(3553, __c222, 1),
+          value: __S(7649, __c239, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReplicationProtectionIntentCollection" });
   }
 }
-function __c223(j: number): any {
+function __c240(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14351,17 +24252,17 @@ function __c223(j: number): any {
         ),
       ).annotate({ identifier: "ListReplicationRecoveryPlansRequest" });
     case 1:
-      return S.Array(__S(2688, __c168, 0));
+      return S.Array(__S(5824, __c182, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(3569, __c223, 1),
+          value: __S(7681, __c240, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "RecoveryPlanCollection" });
   }
 }
-function __c224(j: number): any {
+function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14383,20 +24284,20 @@ function __c224(j: number): any {
       });
   }
 }
-function __c225(j: number): any {
+function __c242(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2720, __c170, 0));
+      return S.Array(__S(5888, __c184, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(3600, __c225, 0),
+          value: __S(7744, __c242, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "RecoveryServicesProviderCollection" });
   }
 }
-function __c226(j: number): any {
+function __c243(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14415,7 +24316,7 @@ function __c226(j: number): any {
       ).annotate({ identifier: "ListReplicationRecoveryServicesProvidersRequest" });
   }
 }
-function __c227(j: number): any {
+function __c244(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14435,20 +24336,20 @@ function __c227(j: number): any {
       ).annotate({ identifier: "ListReplicationStorageClassificationByReplicationFabricsRequest" });
   }
 }
-function __c228(j: number): any {
+function __c245(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2753, __c172, 1));
+      return S.Array(__S(5953, __c186, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(3648, __c228, 0),
+          value: __S(7840, __c245, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "StorageClassificationCollection" });
   }
 }
-function __c229(j: number): any {
+function __c246(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14472,20 +24373,20 @@ function __c229(j: number): any {
       });
   }
 }
-function __c230(j: number): any {
+function __c247(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2832, __c177, 0));
+      return S.Array(__S(6208, __c194, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(3680, __c230, 0),
+          value: __S(7904, __c247, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "StorageClassificationMappingCollection" });
   }
 }
-function __c231(j: number): any {
+function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14504,7 +24405,7 @@ function __c231(j: number): any {
       ).annotate({ identifier: "ListReplicationStorageClassificationMappingsRequest" });
   }
 }
-function __c232(j: number): any {
+function __c249(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

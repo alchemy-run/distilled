@@ -30,36 +30,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export interface GetIdentityProfileRequest {
   /** The unique identifier of the identity profile (idpf_xxx). */
@@ -313,6 +341,17 @@ export interface UnlinkIdentityProfileRequest {
   id: string;
   ledger_account_id: string;
 }
+export interface Error400BodyError {
+  /** A short string indicating the specific error code, e.g. 'parameter_missing', 'parameter_invalid', 'invalid_json' */
+  code?: string | null | undefined;
+  message: string;
+  /** The parameter that caused the error, if applicable */
+  param?: string | null | undefined;
+  type: string;
+}
+export interface Error400Body {
+  error: Error400BodyError;
+}
 export type GetIdentityProfileError =
   | BadRequest
   | Forbidden
@@ -326,8 +365,8 @@ export const getIdentityProfile: API.OperationMethod<
   GetIdentityProfileError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetIdentityProfileRequest>,
-  output: __S(11, __c2, 3) as any as S.Schema<IdentityProfile>,
+  input: __S(4, __c1, 0) as any as S.Schema<GetIdentityProfileRequest>,
+  output: __S(15, __c3, 3) as any as S.Schema<IdentityProfile>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -350,8 +389,8 @@ export const listIdentityProfile: API.PaginatedOperationMethod<
   IdentityProfileListItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(12, __c3, 0) as any as S.Schema<ListIdentityProfileRequest>,
-    output: __S(14, __c3, 2) as any as S.Schema<ListIdentityProfileResponse>,
+    input: __S(16, __c4, 0) as any as S.Schema<ListIdentityProfileRequest>,
+    output: __S(18, __c4, 2) as any as S.Schema<ListIdentityProfileResponse>,
     errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -384,8 +423,8 @@ export const listVerificationsIdentityProfile: API.PaginatedOperationMethod<
   IdentityProfileVerificationsItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(20, __c5, 0) as any as S.Schema<ListVerificationsIdentityProfileRequest>,
-    output: __S(21, __c5, 1) as any as S.Schema<ListVerificationsIdentityProfileResponse>,
+    input: __S(24, __c6, 0) as any as S.Schema<ListVerificationsIdentityProfileRequest>,
+    output: __S(25, __c6, 1) as any as S.Schema<ListVerificationsIdentityProfileResponse>,
     errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -416,8 +455,8 @@ export const unlinkIdentityProfile: API.OperationMethod<
   UnlinkIdentityProfileError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<UnlinkIdentityProfileRequest>,
-  output: __S(11, __c2, 3) as any as S.Schema<IdentityProfile>,
+  input: __S(28, __c7, 0) as any as S.Schema<UnlinkIdentityProfileRequest>,
+  output: __S(15, __c3, 3) as any as S.Schema<IdentityProfile>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -431,12 +470,31 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          code: S.optional(S.NullOr(S.String)),
+          message: S.String,
+          param: S.optional(S.NullOr(S.String)),
+          type: S.String,
+        }),
+      ).annotate({ identifier: "Error400BodyError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "Error400Body" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           id: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "GET", uri: "/identity_profiles/{id}", code: 200 })),
       ).annotate({ identifier: "GetIdentityProfileRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -450,10 +508,10 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "IdentityProfileVerificationsItem" });
     case 1:
-      return S.Array(__S(4, __c1, 0));
+      return S.Array(__S(8, __c2, 0));
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -474,11 +532,11 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "IdentityProfileLinkedCompaniesItem" });
     case 2:
-      return S.Array(__S(9, __c2, 1));
+      return S.Array(__S(13, __c3, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          business_address: S.NullOr(__S(8, __c2, 0)),
+          business_address: S.NullOr(__S(12, __c3, 0)),
           business_name: S.NullOr(S.String),
           business_structure: S.NullOr(S.String),
           country: S.NullOr(S.String),
@@ -488,20 +546,20 @@ function __c2(j: number): any {
           first_name: S.NullOr(S.String),
           id: S.String,
           last_name: S.NullOr(S.String),
-          linked_companies: __S(10, __c2, 2),
+          linked_companies: __S(14, __c3, 2),
           payout_status: S.String,
           payouts_enabled: S.Boolean,
-          personal_address: S.NullOr(__S(8, __c2, 0)),
+          personal_address: S.NullOr(__S(12, __c3, 0)),
           phone: S.NullOr(S.String),
           profile_type: S.String,
           status: S.String,
           updated_at: S.String,
-          verifications: __S(5, __c1, 1),
+          verifications: __S(9, __c2, 1),
         }),
       ).annotate({ identifier: "IdentityProfile" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -516,17 +574,17 @@ function __c3(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/identity_profiles", code: 200 })),
       ).annotate({ identifier: "ListIdentityProfileRequest" });
     case 1:
-      return S.Array(__S(11, __c2, 3));
+      return S.Array(__S(15, __c3, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(13, __c3, 1),
-          page_info: __S(16, __c4, 0),
+          data: __S(17, __c4, 1),
+          page_info: __S(20, __c5, 0),
         }),
       ).annotate({ identifier: "ListIdentityProfileResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -539,7 +597,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "PageInfo" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -554,13 +612,13 @@ function __c5(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(5, __c1, 1),
-          page_info: __S(16, __c4, 0),
+          data: __S(9, __c2, 1),
+          page_info: __S(20, __c5, 0),
         }),
       ).annotate({ identifier: "ListVerificationsIdentityProfileResponse" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

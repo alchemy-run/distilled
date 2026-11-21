@@ -108,12 +108,6 @@
       "worker": "./src/error-message.ts",
       "default": "./lib/error-message.js"
     },
-    "./patch/*": {
-      "types": "./lib/patch/*.d.ts",
-      "bun": "./src/patch/*.ts",
-      "worker": "./src/patch/*.ts",
-      "default": "./lib/patch/*.js"
-    },
     "./Protocol": {
       "types": "./lib/protocol.d.ts",
       "bun": "./src/protocol.ts",
@@ -168,7 +162,7 @@
     "effect": "catalog:"
   },
   "distilled": {
-    "generatedAt": "2026-11-12",
-    "specUpdatedAt": "2026-11-09"
+    "generatedAt": "2026-11-21",
+    "specUpdatedAt": "2026-11-20"
   }
 }

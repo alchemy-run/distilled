@@ -118,7 +118,7 @@ export class InternalServerException
     "InternalServerException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InvalidOperationException
   extends /*@__PURE__*/ S.TaggedError<InvalidOperationException>()("InvalidOperationException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
@@ -138,7 +138,7 @@ export class InvalidSequenceTokenException
 export class LimitExceededException
   extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()("LimitExceededException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
-  }).pipe(C.withQuotaError) {}
+  }).pipe(C.withQuotaError, C.withThrottlingError, C.withRetryableError) {}
 export class MalformedQueryException
   extends /*@__PURE__*/ S.TaggedError<MalformedQueryException>()("MalformedQueryException", {
     queryCompileError: /*@__PURE__*/ S.optional(

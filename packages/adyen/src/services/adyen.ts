@@ -31,27 +31,60 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: CheckoutErrorResponseEntity | ServiceError | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: CheckoutErrorResponseEntity | ServiceError | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  ) {}
+  )
+{
+  declare readonly body?: CheckoutErrorResponseEntity | ServiceError | string;
+}
 
 export interface CreateApplePaySessionRequest {
   /** A unique identifier for the message with a maximum of 64 characters (we recommend a UUID). */
@@ -5589,9 +5622,17 @@ export interface StoredPaymentMethodResource {
   /** The type of payment method. */
   type?: string | undefined;
 }
-export interface ShopperIdPaymentMethod {
-  type: string;
+export type PayToPaymentMethodType = "payTo";
+export interface PayToPaymentMethod {
+  type: PayToPaymentMethodType;
+  shopperReference?: string | undefined;
 }
+export type UPIPaymentMethodType = "upi_collect";
+export interface UPIPaymentMethod {
+  type: UPIPaymentMethodType;
+  virtualPaymentAddress?: string | undefined;
+}
+export type ShopperIdPaymentMethod = PayToPaymentMethod | UPIPaymentMethod;
 export interface CreateValidateShopperIdRequest {
   /** The merchant account identifier, with which you want to process the transaction. */
   merchantAccount: string;
@@ -5745,6 +5786,29 @@ export interface UpdateSessionRequest {
 export interface CheckoutSessionPatchSessionResponse {
   sessionData?: string | undefined;
 }
+export interface CheckoutErrorResponseEntity {
+  errorCode: string;
+  errorType: string;
+  message: string;
+  pspReference?: string | undefined;
+  status?: number | undefined;
+}
+/** Contains additional information about the payment. Some data fields are included only if you select them first. Go to **Customer Area** > **Developers** > **Additional data**. */
+export type ServiceErrorAdditionalDataMap = { [key: string]: string | undefined };
+export interface ServiceError {
+  /** Contains additional information about the payment. Some data fields are included only if you select them first. Go to **Customer Area** > **Developers** > **Additional data**. */
+  additionalData?: ServiceErrorAdditionalDataMap | undefined;
+  /** The error code mapped to the error message. */
+  errorCode?: string | undefined;
+  /** The category of the error. */
+  errorType?: string | undefined;
+  /** A short explanation of the issue. */
+  message?: string | undefined;
+  /** The PSP reference of the payment. */
+  pspReference?: string | undefined;
+  /** The HTTP response status. */
+  status?: number | undefined;
+}
 export type CreateApplePaySessionError = AdyenOpError;
 /** Get an Apple Pay session You need to use this endpoint if you have an API-only integration with Apple Pay which uses Adyen's Apple Pay certificate. The endpoint returns the Apple Pay session data which you need to complete the [Apple Pay session validation](https://docs.adyen.com/payment-methods/apple-pay/api-only?tab=adyen-certificate-validation_1#complete-apple-pay-session-validation). */
 export const createApplePaySession: API.OperationMethod<
@@ -5753,8 +5817,8 @@ export const createApplePaySession: API.OperationMethod<
   CreateApplePaySessionError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<CreateApplePaySessionRequest>,
-  output: __S(1057, __c33, 1) as any as S.Schema<ApplePaySessionResponse>,
+  input: __S(1120, __c35, 0) as any as S.Schema<CreateApplePaySessionRequest>,
+  output: __S(1121, __c35, 1) as any as S.Schema<ApplePaySessionResponse>,
   errors: [UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -5770,8 +5834,8 @@ export const createCalculateTax: API.OperationMethod<
   CreateCalculateTaxError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1186, __c37, 2) as any as S.Schema<CreateCalculateTaxRequest>,
-  output: __S(1190, __c37, 6) as any as S.Schema<CalculateTaxResponse>,
+  input: __S(1250, __c39, 2) as any as S.Schema<CreateCalculateTaxRequest>,
+  output: __S(1254, __c39, 6) as any as S.Schema<CalculateTaxResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -5787,8 +5851,8 @@ export const createCancel: API.OperationMethod<
   CreateCancelError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<CreateCancelRequest>,
-  output: __S(1249, __c39, 1) as any as S.Schema<StandalonePaymentCancelResponse>,
+  input: __S(1312, __c41, 0) as any as S.Schema<CreateCancelRequest>,
+  output: __S(1313, __c41, 1) as any as S.Schema<StandalonePaymentCancelResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -5804,8 +5868,8 @@ export const createCardDetail: API.OperationMethod<
   CreateCardDetailError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<CreateCardDetailRequest>,
-  output: __S(1315, __c41, 3) as any as S.Schema<CardDetailsResponse>,
+  input: __S(1376, __c43, 0) as any as S.Schema<CreateCardDetailRequest>,
+  output: __S(1379, __c43, 3) as any as S.Schema<CardDetailsResponse>,
   errors: [UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -5821,8 +5885,8 @@ export const createDonation: API.OperationMethod<
   CreateDonationError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<CreateDonationRequest>,
-  output: __S(1377, __c43, 1) as any as S.Schema<DonationPaymentResponse>,
+  input: __S(1440, __c45, 0) as any as S.Schema<CreateDonationRequest>,
+  output: __S(1441, __c45, 1) as any as S.Schema<DonationPaymentResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -5842,8 +5906,8 @@ export const createDonationCampaign: API.OperationMethod<
   CreateDonationCampaignError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<CreateDonationCampaignRequest>,
-  output: __S(1893, __c59, 5) as any as S.Schema<DonationCampaignsResponse>,
+  input: __S(1920, __c60, 0) as any as S.Schema<CreateDonationCampaignRequest>,
+  output: __S(1925, __c60, 5) as any as S.Schema<DonationCampaignsResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -5859,8 +5923,8 @@ export const createForward: API.OperationMethod<
   CreateForwardError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1956, __c61, 4) as any as S.Schema<CreateForwardRequest>,
-  output: __S(1960, __c61, 8) as any as S.Schema<CheckoutForwardResponse>,
+  input: __S(1988, __c62, 4) as any as S.Schema<CreateForwardRequest>,
+  output: __S(1992, __c62, 8) as any as S.Schema<CheckoutForwardResponse>,
   errors: [UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -5876,8 +5940,8 @@ export const createOrder: API.OperationMethod<
   CreateOrderError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateOrderRequest>,
-  output: __S(1, __c0, 1) as any as S.Schema<CreateOrderResponse>,
+  input: __S(64, __c2, 0) as any as S.Schema<CreateOrderRequest>,
+  output: __S(65, __c2, 1) as any as S.Schema<CreateOrderResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -5893,8 +5957,8 @@ export const createOrdersCancel: API.OperationMethod<
   CreateOrdersCancelError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c1, 0) as any as S.Schema<CreateOrdersCancelRequest>,
-  output: __S(33, __c1, 1) as any as S.Schema<CancelOrderResponse>,
+  input: __S(96, __c3, 0) as any as S.Schema<CreateOrdersCancelRequest>,
+  output: __S(97, __c3, 1) as any as S.Schema<CancelOrderResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -5910,8 +5974,8 @@ export const createPayment: API.OperationMethod<
   CreatePaymentError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(101, __c3, 5) as any as S.Schema<CreatePaymentRequest>,
-  output: __S(1441, __c45, 1) as any as S.Schema<PaymentResponse>,
+  input: __S(165, __c5, 5) as any as S.Schema<CreatePaymentRequest>,
+  output: __S(1505, __c47, 1) as any as S.Schema<PaymentResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -5931,8 +5995,8 @@ export const createPaymentAmountUpdate: API.OperationMethod<
   CreatePaymentAmountUpdateError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<CreatePaymentAmountUpdateRequest>,
-  output: __S(385, __c12, 1) as any as S.Schema<PaymentAmountUpdateResponse>,
+  input: __S(448, __c14, 0) as any as S.Schema<CreatePaymentAmountUpdateRequest>,
+  output: __S(449, __c14, 1) as any as S.Schema<PaymentAmountUpdateResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -5948,8 +6012,8 @@ export const createPaymentCancel: API.OperationMethod<
   CreatePaymentCancelError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<CreatePaymentCancelRequest>,
-  output: __S(448, __c14, 0) as any as S.Schema<PaymentCancelResponse>,
+  input: __S(480, __c15, 0) as any as S.Schema<CreatePaymentCancelRequest>,
+  output: __S(512, __c16, 0) as any as S.Schema<PaymentCancelResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -5965,8 +6029,8 @@ export const createPaymentCapture: API.OperationMethod<
   CreatePaymentCaptureError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<CreatePaymentCaptureRequest>,
-  output: __S(481, __c15, 1) as any as S.Schema<PaymentCaptureResponse>,
+  input: __S(544, __c17, 0) as any as S.Schema<CreatePaymentCaptureRequest>,
+  output: __S(545, __c17, 1) as any as S.Schema<PaymentCaptureResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -5982,8 +6046,8 @@ export const createPaymentLink: API.OperationMethod<
   CreatePaymentLinkError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<CreatePaymentLinkRequest>,
-  output: __S(578, __c18, 2) as any as S.Schema<PaymentLinkResponse>,
+  input: __S(576, __c18, 0) as any as S.Schema<CreatePaymentLinkRequest>,
+  output: __S(642, __c20, 2) as any as S.Schema<PaymentLinkResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -5999,8 +6063,8 @@ export const createPaymentMethod: API.OperationMethod<
   CreatePaymentMethodError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<CreatePaymentMethodRequest>,
-  output: __S(625, __c19, 17) as any as S.Schema<PaymentMethodsResponse>,
+  input: __S(672, __c21, 0) as any as S.Schema<CreatePaymentMethodRequest>,
+  output: __S(689, __c21, 17) as any as S.Schema<PaymentMethodsResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -6020,8 +6084,8 @@ export const createPaymentMethodsBalance: API.OperationMethod<
   CreatePaymentMethodsBalanceError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(642, __c20, 2) as any as S.Schema<CreatePaymentMethodsBalanceRequest>,
-  output: __S(643, __c20, 3) as any as S.Schema<BalanceCheckResponse>,
+  input: __S(706, __c22, 2) as any as S.Schema<CreatePaymentMethodsBalanceRequest>,
+  output: __S(707, __c22, 3) as any as S.Schema<BalanceCheckResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -6037,8 +6101,8 @@ export const createPaymentRefund: API.OperationMethod<
   CreatePaymentRefundError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<CreatePaymentRefundRequest>,
-  output: __S(673, __c21, 1) as any as S.Schema<PaymentRefundResponse>,
+  input: __S(736, __c23, 0) as any as S.Schema<CreatePaymentRefundRequest>,
+  output: __S(737, __c23, 1) as any as S.Schema<PaymentRefundResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -6058,8 +6122,8 @@ export const createPaymentReversal: API.OperationMethod<
   CreatePaymentReversalError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<CreatePaymentReversalRequest>,
-  output: __S(448, __c14, 0) as any as S.Schema<PaymentReversalResponse>,
+  input: __S(768, __c24, 0) as any as S.Schema<CreatePaymentReversalRequest>,
+  output: __S(512, __c16, 0) as any as S.Schema<PaymentReversalResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -6075,8 +6139,8 @@ export const createPaymentsDetail: API.OperationMethod<
   CreatePaymentsDetailError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(739, __c23, 3) as any as S.Schema<CreatePaymentsDetailRequest>,
-  output: __S(740, __c23, 4) as any as S.Schema<PaymentDetailsResponse>,
+  input: __S(803, __c25, 3) as any as S.Schema<CreatePaymentsDetailRequest>,
+  output: __S(804, __c25, 4) as any as S.Schema<PaymentDetailsResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -6096,8 +6160,8 @@ export const createPaypalUpdateOrder: API.OperationMethod<
   CreatePaypalUpdateOrderError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(771, __c24, 3) as any as S.Schema<CreatePaypalUpdateOrderRequest>,
-  output: __S(772, __c24, 4) as any as S.Schema<PaypalUpdateOrderResponse>,
+  input: __S(835, __c26, 3) as any as S.Schema<CreatePaypalUpdateOrderRequest>,
+  output: __S(836, __c26, 4) as any as S.Schema<PaypalUpdateOrderResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -6113,8 +6177,8 @@ export const createSession: API.OperationMethod<
   CreateSessionError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(802, __c25, 2) as any as S.Schema<CreateSessionRequest>,
-  output: __S(803, __c25, 3) as any as S.Schema<CreateCheckoutSessionResponse>,
+  input: __S(866, __c27, 2) as any as S.Schema<CreateSessionRequest>,
+  output: __S(867, __c27, 3) as any as S.Schema<CreateCheckoutSessionResponse>,
   errors: [UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -6130,8 +6194,8 @@ export const createStoredPaymentMethod: API.OperationMethod<
   CreateStoredPaymentMethodError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(833, __c26, 1) as any as S.Schema<CreateStoredPaymentMethodRequest>,
-  output: __S(865, __c27, 1) as any as S.Schema<StoredPaymentMethodResource>,
+  input: __S(897, __c28, 1) as any as S.Schema<CreateStoredPaymentMethodRequest>,
+  output: __S(929, __c29, 1) as any as S.Schema<StoredPaymentMethodResource>,
   errors: [UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -6151,8 +6215,8 @@ export const createValidateShopperId: API.OperationMethod<
   CreateValidateShopperIdError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(897, __c28, 1) as any as S.Schema<CreateValidateShopperIdRequest>,
-  output: __S(898, __c28, 2) as any as S.Schema<ValidateShopperIdResponse>,
+  input: __S(960, __c30, 0) as any as S.Schema<CreateValidateShopperIdRequest>,
+  output: __S(961, __c30, 1) as any as S.Schema<ValidateShopperIdResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -6172,8 +6236,8 @@ export const createVerifyShopperTaxIdentification: API.OperationMethod<
   CreateVerifyShopperTaxIdentificationError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(929, __c29, 1) as any as S.Schema<CreateVerifyShopperTaxIdentificationRequest>,
-  output: __S(931, __c29, 3) as any as S.Schema<VerifyShopperTaxIdentificationResponse>,
+  input: __S(993, __c31, 1) as any as S.Schema<CreateVerifyShopperTaxIdentificationRequest>,
+  output: __S(995, __c31, 3) as any as S.Schema<VerifyShopperTaxIdentificationResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -6189,8 +6253,8 @@ export const deleteStoredPaymentMethod: API.OperationMethod<
   DeleteStoredPaymentMethodError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<DeleteStoredPaymentMethodRequest>,
-  output: __S(961, __c30, 1) as any as S.Schema<DeleteStoredPaymentMethodResponse>,
+  input: __S(1024, __c32, 0) as any as S.Schema<DeleteStoredPaymentMethodRequest>,
+  output: __S(1025, __c32, 1) as any as S.Schema<DeleteStoredPaymentMethodResponse>,
   errors: [UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -6206,8 +6270,8 @@ export const getPaymentLink: API.OperationMethod<
   GetPaymentLinkError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<GetPaymentLinkRequest>,
-  output: __S(578, __c18, 2) as any as S.Schema<PaymentLinkResponse>,
+  input: __S(1056, __c33, 0) as any as S.Schema<GetPaymentLinkRequest>,
+  output: __S(642, __c20, 2) as any as S.Schema<PaymentLinkResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -6223,8 +6287,8 @@ export const getSession: API.OperationMethod<
   GetSessionError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<GetSessionRequest>,
-  output: __S(1027, __c32, 3) as any as S.Schema<SessionResultResponse>,
+  input: __S(1088, __c34, 0) as any as S.Schema<GetSessionRequest>,
+  output: __S(1091, __c34, 3) as any as S.Schema<SessionResultResponse>,
   errors: [UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -6240,8 +6304,8 @@ export const getStoredPaymentMethods: API.OperationMethod<
   GetStoredPaymentMethodsError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<GetStoredPaymentMethodsRequest>,
-  output: __S(1090, __c34, 2) as any as S.Schema<ListStoredPaymentMethodsResponse>,
+  input: __S(1152, __c36, 0) as any as S.Schema<GetStoredPaymentMethodsRequest>,
+  output: __S(1154, __c36, 2) as any as S.Schema<ListStoredPaymentMethodsResponse>,
   errors: [UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -6257,8 +6321,8 @@ export const updatePaymentLink: API.OperationMethod<
   UpdatePaymentLinkError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<UpdatePaymentLinkRequest>,
-  output: __S(578, __c18, 2) as any as S.Schema<PaymentLinkResponse>,
+  input: __S(1184, __c37, 0) as any as S.Schema<UpdatePaymentLinkRequest>,
+  output: __S(642, __c20, 2) as any as S.Schema<PaymentLinkResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -6274,8 +6338,8 @@ export const updateSession: API.OperationMethod<
   UpdateSessionError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<UpdateSessionRequest>,
-  output: __S(1153, __c36, 1) as any as S.Schema<CheckoutSessionPatchSessionResponse>,
+  input: __S(1216, __c38, 0) as any as S.Schema<UpdateSessionRequest>,
+  output: __S(1217, __c38, 1) as any as S.Schema<CheckoutSessionPatchSessionResponse>,
   errors: [UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -6289,8 +6353,39 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          errorCode: S.String,
+          errorType: S.String,
+          message: S.String,
+          pspReference: S.optional(S.String),
+          status: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "CheckoutErrorResponseEntity" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          additionalData: S.optional(__S(32, __c1, 0)),
+          errorCode: S.optional(S.String),
+          errorType: S.optional(S.String),
+          message: S.optional(S.String),
+          pspReference: S.optional(S.String),
+          status: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ServiceError" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.String);
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          amount: __S(1216, __c38, 0),
+          amount: __S(1280, __c40, 0),
           expiresAt: S.optional(S.String),
           merchantAccount: S.String,
           reference: S.String,
@@ -6299,28 +6394,28 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          additionalData: S.optional(__S(1856, __c58, 0)),
-          amount: __S(1216, __c38, 0),
+          additionalData: S.optional(__S(32, __c1, 0)),
+          amount: __S(1280, __c40, 0),
           expiresAt: S.String,
-          fraudResult: S.optional(__S(1410, __c44, 2)),
+          fraudResult: S.optional(__S(1474, __c46, 2)),
           orderData: S.String,
           pspReference: S.optional(S.String),
           reference: S.optional(S.String),
           refusalReason: S.optional(S.String),
-          remainingAmount: __S(1216, __c38, 0),
+          remainingAmount: __S(1280, __c40, 0),
           resultCode: S.String,
         }),
       ).annotate({ identifier: "CreateOrderResponse" });
   }
 }
-function __c1(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
           merchantAccount: S.String,
-          order: __S(64, __c2, 0),
+          order: __S(128, __c4, 0),
         }).pipe(T.Http({ method: "POST", uri: "/orders/cancel", code: 200 })),
       ).annotate({ identifier: "CreateOrdersCancelRequest" });
     case 1:
@@ -6332,7 +6427,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "CancelOrderResponse" });
   }
 }
-function __c2(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6343,7 +6438,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "EncryptedOrderData" });
   }
 }
-function __c3(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6369,7 +6464,7 @@ function __c3(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(__S(97, __c3, 1)),
+          name: S.optional(__S(161, __c5, 1)),
         }),
       ).annotate({ identifier: "PaymentValidations" });
     case 3:
@@ -6389,52 +6484,52 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          accountInfo: S.optional(__S(1664, __c52, 0)),
-          additionalAmount: S.optional(__S(1216, __c38, 0)),
-          additionalData: S.optional(__S(1856, __c58, 0)),
-          amount: __S(1216, __c38, 0),
-          applicationInfo: S.optional(__S(1284, __c40, 4)),
-          authenticationData: S.optional(__S(1825, __c57, 1)),
-          bankAccount: S.optional(__S(96, __c3, 0)),
-          billingAddress: S.optional(__S(1536, __c48, 0)),
-          browserInfo: S.optional(__S(1600, __c50, 0)),
+          accountInfo: S.optional(__S(1728, __c54, 0)),
+          additionalAmount: S.optional(__S(1280, __c40, 0)),
+          additionalData: S.optional(__S(32, __c1, 0)),
+          amount: __S(1280, __c40, 0),
+          applicationInfo: S.optional(__S(1348, __c42, 4)),
+          authenticationData: S.optional(__S(1889, __c59, 1)),
+          bankAccount: S.optional(__S(160, __c5, 0)),
+          billingAddress: S.optional(__S(1600, __c50, 0)),
+          browserInfo: S.optional(__S(1664, __c52, 0)),
           captureDelayHours: S.optional(S.Number),
           channel: S.optional(S.String),
           checkoutAttemptId: S.optional(S.String),
-          company: S.optional(__S(320, __c10, 0)),
+          company: S.optional(__S(384, __c12, 0)),
           countryCode: S.optional(S.String),
           dateOfBirth: S.optional(S.String),
-          dccQuote: S.optional(__S(288, __c9, 0)),
+          dccQuote: S.optional(__S(352, __c11, 0)),
           deliverAt: S.optional(S.String),
-          deliveryAddress: S.optional(__S(1792, __c56, 0)),
+          deliveryAddress: S.optional(__S(1856, __c58, 0)),
           deliveryDate: S.optional(S.String),
           deviceFingerprint: S.optional(S.String),
           enableOneClick: S.optional(S.Boolean),
           enablePayOut: S.optional(S.Boolean),
           enableRecurring: S.optional(S.Boolean),
-          enhancedSchemeData: S.optional(__S(246, __c7, 22)),
+          enhancedSchemeData: S.optional(__S(310, __c9, 22)),
           entityType: S.optional(S.String),
           fraudOffset: S.optional(S.Number),
-          fundOrigin: S.optional(__S(257, __c8, 1)),
-          fundRecipient: S.optional(__S(259, __c8, 3)),
+          fundOrigin: S.optional(__S(321, __c10, 1)),
+          fundRecipient: S.optional(__S(323, __c10, 3)),
           industryUsage: S.optional(S.String),
-          installments: S.optional(__S(289, __c9, 1)),
-          lineItems: S.optional(__S(1473, __c46, 1)),
-          localizedShopperStatement: S.optional(__S(1856, __c58, 0)),
-          mandate: S.optional(__S(321, __c10, 1)),
+          installments: S.optional(__S(353, __c11, 1)),
+          lineItems: S.optional(__S(1537, __c48, 1)),
+          localizedShopperStatement: S.optional(__S(32, __c1, 0)),
+          mandate: S.optional(__S(385, __c12, 1)),
           mcc: S.optional(S.String),
           merchantAccount: S.String,
           merchantOrderReference: S.optional(S.String),
-          merchantRiskIndicator: S.optional(__S(1632, __c51, 0)),
-          metadata: S.optional(__S(1856, __c58, 0)),
-          mpiData: S.optional(__S(1504, __c47, 0)),
-          opi: S.optional(__S(352, __c11, 0)),
-          order: S.optional(__S(64, __c2, 0)),
+          merchantRiskIndicator: S.optional(__S(1696, __c53, 0)),
+          metadata: S.optional(__S(32, __c1, 0)),
+          mpiData: S.optional(__S(1568, __c49, 0)),
+          opi: S.optional(__S(416, __c13, 0)),
+          order: S.optional(__S(128, __c4, 0)),
           orderReference: S.optional(S.String),
           origin: S.optional(S.String),
           paymentMethod: S.Unknown,
-          paymentValidations: S.optional(__S(98, __c3, 2)),
-          platformChargebackLogic: S.optional(__S(192, __c6, 0)),
+          paymentValidations: S.optional(__S(162, __c5, 2)),
+          platformChargebackLogic: S.optional(__S(256, __c8, 0)),
           recurringExpiry: S.optional(S.String),
           recurringFrequency: S.optional(S.String),
           recurringProcessingModel: S.optional(S.String),
@@ -6442,33 +6537,33 @@ function __c3(j: number): any {
           redirectToIssuerMethod: S.optional(S.String),
           reference: S.String,
           returnUrl: S.String,
-          riskData: S.optional(__S(260, __c8, 4)),
+          riskData: S.optional(__S(324, __c10, 4)),
           sessionValidity: S.optional(S.String),
           shopperConversionId: S.optional(S.String),
           shopperEmail: S.optional(S.String),
           shopperIP: S.optional(S.String),
           shopperInteraction: S.optional(S.String),
           shopperLocale: S.optional(S.String),
-          shopperName: S.optional(__S(1568, __c49, 0)),
+          shopperName: S.optional(__S(1632, __c51, 0)),
           shopperReference: S.optional(S.String),
           shopperStatement: S.optional(S.String),
-          shopperTaxInfo: S.optional(__S(99, __c3, 3)),
+          shopperTaxInfo: S.optional(__S(163, __c5, 3)),
           socialSecurityNumber: S.optional(S.String),
-          splits: S.optional(__S(130, __c4, 2)),
+          splits: S.optional(__S(194, __c6, 2)),
           store: S.optional(S.String),
           storePaymentMethod: S.optional(S.Boolean),
-          subMerchants: S.optional(__S(161, __c5, 1)),
-          surcharge: S.optional(__S(100, __c3, 4)),
+          subMerchants: S.optional(__S(225, __c7, 1)),
+          surcharge: S.optional(__S(164, __c5, 4)),
           telephoneNumber: S.optional(S.String),
-          thirdPartyTokenRedundancyInfo: S.optional(__S(322, __c10, 2)),
-          threeDS2RequestData: S.optional(__S(1440, __c45, 0)),
+          thirdPartyTokenRedundancyInfo: S.optional(__S(386, __c12, 2)),
+          threeDS2RequestData: S.optional(__S(1504, __c47, 0)),
           threeDSAuthenticationOnly: S.optional(S.Boolean),
           trustedShopper: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/payments", code: 200 })),
       ).annotate({ identifier: "CreatePaymentRequest" });
   }
 }
-function __c4(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6481,23 +6576,23 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           account: S.optional(S.String),
-          amount: S.optional(__S(128, __c4, 0)),
+          amount: S.optional(__S(192, __c6, 0)),
           description: S.optional(S.String),
           reference: S.optional(S.String),
           type: S.String,
         }),
       ).annotate({ identifier: "Split" });
     case 2:
-      return S.Array(__S(129, __c4, 1));
+      return S.Array(__S(193, __c6, 1));
   }
 }
-function __c5(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          address: S.optional(__S(1536, __c48, 0)),
-          amount: S.optional(__S(1216, __c38, 0)),
+          address: S.optional(__S(1600, __c50, 0)),
+          amount: S.optional(__S(1280, __c40, 0)),
           email: S.optional(S.String),
           id: S.optional(S.String),
           mcc: S.optional(S.String),
@@ -6509,10 +6604,10 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "SubMerchantInfo" });
     case 1:
-      return S.Array(__S(160, __c5, 0));
+      return S.Array(__S(224, __c7, 0));
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6524,7 +6619,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "PlatformChargebackLogic" });
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6548,7 +6643,7 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "Leg" });
     case 2:
-      return S.Array(__S(225, __c7, 1));
+      return S.Array(__S(289, __c9, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -6560,7 +6655,7 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "Passenger" });
     case 4:
-      return S.Array(__S(227, __c7, 3));
+      return S.Array(__S(291, __c9, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -6579,7 +6674,7 @@ function __c7(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          agency: S.optional(__S(224, __c7, 0)),
+          agency: S.optional(__S(288, __c9, 0)),
           boardingFee: S.optional(S.Number),
           code: S.optional(S.String),
           computerizedReservationSystem: S.optional(S.String),
@@ -6587,11 +6682,11 @@ function __c7(j: number): any {
           designatorCode: S.optional(S.String),
           documentType: S.optional(S.String),
           flightDate: S.optional(S.String),
-          legs: S.optional(__S(226, __c7, 2)),
+          legs: S.optional(__S(290, __c9, 2)),
           passengerName: S.String,
-          passengers: S.optional(__S(228, __c7, 4)),
-          ticket: S.optional(__S(229, __c7, 5)),
-          travelAgency: S.optional(__S(230, __c7, 6)),
+          passengers: S.optional(__S(292, __c9, 4)),
+          ticket: S.optional(__S(293, __c9, 5)),
+          travelAgency: S.optional(__S(294, __c9, 6)),
         }),
       ).annotate({ identifier: "Airline" });
     case 8:
@@ -6626,15 +6721,15 @@ function __c7(j: number): any {
         S.Struct({
           customerServicePhoneNumber: S.optional(S.String),
           noShow: S.optional(S.Boolean),
-          pickupInfo: S.optional(__S(232, __c7, 8)),
+          pickupInfo: S.optional(__S(296, __c9, 8)),
           rateType: S.optional(S.String),
           rentalAgreementNumber: S.optional(S.String),
           rentalClassId: S.optional(S.String),
           rentalDays: S.optional(S.Number),
           rentalRate: S.optional(S.Number),
-          rentalSurcharges: S.optional(__S(233, __c7, 9)),
+          rentalSurcharges: S.optional(__S(297, __c9, 9)),
           renterName: S.String,
-          returnInfo: S.optional(__S(234, __c7, 10)),
+          returnInfo: S.optional(__S(298, __c9, 10)),
           taxExempt: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CarRental" });
@@ -6670,15 +6765,15 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "ItemDetailLine" });
     case 15:
-      return S.Array(__S(238, __c7, 14));
+      return S.Array(__S(302, __c9, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
           customerReferenceNumber: S.optional(S.String),
-          destination: S.optional(__S(237, __c7, 13)),
+          destination: S.optional(__S(301, __c9, 13)),
           dutyAmount: S.optional(S.Number),
           freightAmount: S.optional(S.Number),
-          itemDetailLines: S.optional(__S(239, __c7, 15)),
+          itemDetailLines: S.optional(__S(303, __c9, 15)),
           orderDate: S.optional(S.String),
           shipFromPostalCode: S.optional(S.String),
           totalTaxAmount: S.optional(S.Number),
@@ -6699,7 +6794,7 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "Room" });
     case 19:
-      return S.Array(__S(242, __c7, 18));
+      return S.Array(__S(306, __c9, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
@@ -6707,14 +6802,14 @@ function __c7(j: number): any {
           checkOutDate: S.optional(S.String),
           customerServicePhoneNumber: S.optional(S.String),
           fireSafetyCompliance: S.optional(S.Boolean),
-          folio: S.optional(__S(241, __c7, 17)),
+          folio: S.optional(__S(305, __c9, 17)),
           foodBeverageCharges: S.optional(S.Number),
           lodgingChargeType: S.optional(S.String),
           noShow: S.optional(S.Boolean),
           prepaidExpenses: S.optional(S.Number),
           propertyPhoneNumber: S.optional(S.String),
           renterName: S.optional(S.String),
-          rooms: S.optional(__S(243, __c7, 19)),
+          rooms: S.optional(__S(307, __c9, 19)),
           totalRoomTax: S.optional(S.Number),
           totalTax: S.optional(S.Number),
         }),
@@ -6734,17 +6829,17 @@ function __c7(j: number): any {
     case 22:
       return S.suspend(() =>
         S.Struct({
-          airline: S.optional(__S(231, __c7, 7)),
-          carRental: S.optional(__S(235, __c7, 11)),
-          healthcare: S.optional(__S(236, __c7, 12)),
-          levelTwoThree: S.optional(__S(240, __c7, 16)),
-          lodging: S.optional(__S(244, __c7, 20)),
-          temporaryServices: S.optional(__S(245, __c7, 21)),
+          airline: S.optional(__S(295, __c9, 7)),
+          carRental: S.optional(__S(299, __c9, 11)),
+          healthcare: S.optional(__S(300, __c9, 12)),
+          levelTwoThree: S.optional(__S(304, __c9, 16)),
+          lodging: S.optional(__S(308, __c9, 20)),
+          temporaryServices: S.optional(__S(309, __c9, 21)),
         }),
       ).annotate({ identifier: "EnhancedSchemeData" });
   }
 }
-function __c8(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6782,9 +6877,9 @@ function __c8(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          billingAddress: S.optional(__S(1536, __c48, 0)),
+          billingAddress: S.optional(__S(1600, __c50, 0)),
           shopperEmail: S.optional(S.String),
-          shopperName: S.optional(__S(1568, __c49, 0)),
+          shopperName: S.optional(__S(1632, __c51, 0)),
           telephoneNumber: S.optional(S.String),
           walletIdentifier: S.optional(S.String),
         }),
@@ -6803,13 +6898,13 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           IBAN: S.optional(S.String),
-          billingAddress: S.optional(__S(1536, __c48, 0)),
-          paymentMethod: S.optional(__S(256, __c8, 0)),
+          billingAddress: S.optional(__S(1600, __c50, 0)),
+          paymentMethod: S.optional(__S(320, __c10, 0)),
           shopperEmail: S.optional(S.String),
-          shopperName: S.optional(__S(1568, __c49, 0)),
+          shopperName: S.optional(__S(1632, __c51, 0)),
           shopperReference: S.optional(S.String),
           storedPaymentMethodId: S.optional(S.String),
-          subMerchant: S.optional(__S(258, __c8, 2)),
+          subMerchant: S.optional(__S(322, __c10, 2)),
           telephoneNumber: S.optional(S.String),
           walletIdentifier: S.optional(S.String),
           walletOwnerTaxId: S.optional(S.String),
@@ -6820,26 +6915,26 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           clientData: S.optional(S.String),
-          customFields: S.optional(__S(1856, __c58, 0)),
+          customFields: S.optional(__S(32, __c1, 0)),
           fraudOffset: S.optional(S.Number),
           profileReference: S.optional(S.String),
         }),
       ).annotate({ identifier: "RiskData" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           account: S.optional(S.String),
           accountType: S.optional(S.String),
-          baseAmount: S.optional(__S(1216, __c38, 0)),
+          baseAmount: S.optional(__S(1280, __c40, 0)),
           basePoints: S.Number,
-          buy: S.optional(__S(1216, __c38, 0)),
-          interbank: S.optional(__S(1216, __c38, 0)),
+          buy: S.optional(__S(1280, __c40, 0)),
+          interbank: S.optional(__S(1280, __c40, 0)),
           reference: S.optional(S.String),
-          sell: S.optional(__S(1216, __c38, 0)),
+          sell: S.optional(__S(1280, __c40, 0)),
           signature: S.optional(S.String),
           source: S.optional(S.String),
           type: S.optional(S.String),
@@ -6856,7 +6951,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "Installments" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6886,13 +6981,13 @@ function __c10(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          requestParameters: S.optional(__S(1856, __c58, 0)),
+          requestParameters: S.optional(__S(32, __c1, 0)),
           requestTemplateCode: S.String,
         }),
       ).annotate({ identifier: "ThirdPartyTokenRedundancyInfo" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6903,7 +6998,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "OpiRequest" });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6912,14 +7007,14 @@ function __c12(j: number): any {
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
           adjustAuthType: S.optional(S.String),
           adjustAuthorisationData: S.optional(S.String),
-          amount: __S(1216, __c38, 0),
-          applicationInfo: S.optional(__S(1284, __c40, 4)),
+          amount: __S(1280, __c40, 0),
+          applicationInfo: S.optional(__S(1348, __c42, 4)),
           industryUsage: S.optional(S.String),
-          lineItems: S.optional(__S(1473, __c46, 1)),
+          lineItems: S.optional(__S(1537, __c48, 1)),
           merchantAccount: S.String,
-          mpiData: S.optional(__S(1504, __c47, 0)),
+          mpiData: S.optional(__S(1568, __c49, 0)),
           reference: S.optional(S.String),
-          splits: S.optional(__S(130, __c4, 2)),
+          splits: S.optional(__S(194, __c6, 2)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6932,27 +7027,27 @@ function __c12(j: number): any {
       return S.suspend(() =>
         S.Struct({
           adjustAuthorisationData: S.optional(S.String),
-          amount: __S(1216, __c38, 0),
+          amount: __S(1280, __c40, 0),
           industryUsage: S.optional(S.String),
-          lineItems: S.optional(__S(1473, __c46, 1)),
+          lineItems: S.optional(__S(1537, __c48, 1)),
           merchantAccount: S.String,
           paymentPspReference: S.String,
           pspReference: S.String,
           reference: S.String,
-          splits: S.optional(__S(130, __c4, 2)),
+          splits: S.optional(__S(194, __c6, 2)),
           status: S.String,
         }),
       ).annotate({ identifier: "PaymentAmountUpdateResponse" });
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           paymentPspReference: S.String.pipe(T.Label()),
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          applicationInfo: S.optional(__S(1284, __c40, 4)),
+          applicationInfo: S.optional(__S(1348, __c42, 4)),
           merchantAccount: S.String,
           reference: S.optional(S.String),
         }).pipe(
@@ -6961,7 +7056,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "CreatePaymentCancelRequest" });
   }
 }
-function __c14(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6975,22 +7070,22 @@ function __c14(j: number): any {
       ).annotate({ identifier: "PaymentCancelResponse" });
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           paymentPspReference: S.String.pipe(T.Label()),
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          amount: __S(1216, __c38, 0),
-          applicationInfo: S.optional(__S(1284, __c40, 4)),
-          enhancedSchemeData: S.optional(__S(246, __c7, 22)),
-          lineItems: S.optional(__S(1473, __c46, 1)),
+          amount: __S(1280, __c40, 0),
+          applicationInfo: S.optional(__S(1348, __c42, 4)),
+          enhancedSchemeData: S.optional(__S(310, __c9, 22)),
+          lineItems: S.optional(__S(1537, __c48, 1)),
           merchantAccount: S.String,
-          platformChargebackLogic: S.optional(__S(192, __c6, 0)),
+          platformChargebackLogic: S.optional(__S(256, __c8, 0)),
           reference: S.optional(S.String),
-          splits: S.optional(__S(130, __c4, 2)),
-          subMerchants: S.optional(__S(161, __c5, 1)),
+          splits: S.optional(__S(194, __c6, 2)),
+          subMerchants: S.optional(__S(225, __c7, 1)),
         }).pipe(
           T.Http({ method: "POST", uri: "/payments/{paymentPspReference}/captures", code: 200 }),
         ),
@@ -6998,83 +7093,18 @@ function __c15(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          amount: __S(1216, __c38, 0),
-          lineItems: S.optional(__S(1473, __c46, 1)),
+          amount: __S(1280, __c40, 0),
+          lineItems: S.optional(__S(1537, __c48, 1)),
           merchantAccount: S.String,
           paymentPspReference: S.String,
-          platformChargebackLogic: S.optional(__S(192, __c6, 0)),
+          platformChargebackLogic: S.optional(__S(256, __c8, 0)),
           pspReference: S.String,
           reference: S.optional(S.String),
-          splits: S.optional(__S(130, __c4, 2)),
+          splits: S.optional(__S(194, __c6, 2)),
           status: S.String,
-          subMerchants: S.optional(__S(161, __c5, 1)),
+          subMerchants: S.optional(__S(225, __c7, 1)),
         }),
       ).annotate({ identifier: "PaymentCaptureResponse" });
-  }
-}
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          allowedPaymentMethods: S.optional(__S(1344, __c42, 0)),
-          amount: __S(1216, __c38, 0),
-          applicationInfo: S.optional(__S(1284, __c40, 4)),
-          billingAddress: S.optional(__S(1536, __c48, 0)),
-          blockedPaymentMethods: S.optional(__S(1344, __c42, 0)),
-          captureDelayHours: S.optional(S.Number),
-          countryCode: S.optional(S.String),
-          dateOfBirth: S.optional(S.String),
-          deliverAt: S.optional(S.String),
-          deliveryAddress: S.optional(__S(1536, __c48, 0)),
-          description: S.optional(S.String),
-          expiresAt: S.optional(S.String),
-          fundOrigin: S.optional(__S(257, __c8, 1)),
-          fundRecipient: S.optional(__S(259, __c8, 3)),
-          installmentOptions: S.optional(__S(577, __c18, 1)),
-          lineItems: S.optional(__S(1473, __c46, 1)),
-          manualCapture: S.optional(S.Boolean),
-          mcc: S.optional(S.String),
-          merchantAccount: S.String,
-          merchantOrderReference: S.optional(S.String),
-          metadata: S.optional(__S(1856, __c58, 0)),
-          platformChargebackLogic: S.optional(__S(192, __c6, 0)),
-          recurringProcessingModel: S.optional(S.String),
-          reference: S.String,
-          requiredShopperFields: S.optional(__S(1569, __c49, 1)),
-          returnUrl: S.optional(S.String),
-          reusable: S.optional(S.Boolean),
-          riskData: S.optional(__S(260, __c8, 4)),
-          shopperEmail: S.optional(S.String),
-          shopperLocale: S.optional(S.String),
-          shopperName: S.optional(__S(1568, __c49, 0)),
-          shopperReference: S.optional(S.String),
-          shopperStatement: S.optional(S.String),
-          showRemovePaymentMethodButton: S.optional(S.Boolean),
-          socialSecurityNumber: S.optional(S.String),
-          splitCardFundingSources: S.optional(S.Boolean),
-          splits: S.optional(__S(130, __c4, 2)),
-          store: S.optional(S.String),
-          storePaymentMethodMode: S.optional(S.String),
-          telephoneNumber: S.optional(S.String),
-          themeId: S.optional(S.String),
-          threeDS2RequestData: S.optional(__S(544, __c17, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/paymentLinks", code: 200 })),
-      ).annotate({ identifier: "CreatePaymentLinkRequest" });
-  }
-}
-function __c17(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          homePhone: S.optional(__S(1570, __c49, 2)),
-          mobilePhone: S.optional(__S(1570, __c49, 2)),
-          threeDSRequestorChallengeInd: S.optional(S.String),
-          workPhone: S.optional(__S(1570, __c49, 2)),
-        }),
-      ).annotate({ identifier: "CheckoutSessionThreeDS2RequestData" });
   }
 }
 function __c18(j: number): any {
@@ -7082,65 +7112,51 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          maxValue: S.optional(S.Number),
-          plans: S.optional(__S(1569, __c49, 1)),
-          preselectedValue: S.optional(S.Number),
-          values: S.optional(__S(1920, __c60, 0)),
-        }),
-      ).annotate({ identifier: "InstallmentOption" });
-    case 1:
-      return S.Record(S.String, __S(576, __c18, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          allowedPaymentMethods: S.optional(__S(1344, __c42, 0)),
-          amount: __S(1216, __c38, 0),
-          applicationInfo: S.optional(__S(1284, __c40, 4)),
-          billingAddress: S.optional(__S(1536, __c48, 0)),
-          blockedPaymentMethods: S.optional(__S(1344, __c42, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          allowedPaymentMethods: S.optional(__S(1408, __c44, 0)),
+          amount: __S(1280, __c40, 0),
+          applicationInfo: S.optional(__S(1348, __c42, 4)),
+          billingAddress: S.optional(__S(1600, __c50, 0)),
+          blockedPaymentMethods: S.optional(__S(1408, __c44, 0)),
           captureDelayHours: S.optional(S.Number),
           countryCode: S.optional(S.String),
           dateOfBirth: S.optional(S.String),
           deliverAt: S.optional(S.String),
-          deliveryAddress: S.optional(__S(1536, __c48, 0)),
+          deliveryAddress: S.optional(__S(1600, __c50, 0)),
           description: S.optional(S.String),
           expiresAt: S.optional(S.String),
-          fundOrigin: S.optional(__S(257, __c8, 1)),
-          fundRecipient: S.optional(__S(259, __c8, 3)),
-          id: S.String,
-          installmentOptions: S.optional(__S(577, __c18, 1)),
-          lineItems: S.optional(__S(1473, __c46, 1)),
+          fundOrigin: S.optional(__S(321, __c10, 1)),
+          fundRecipient: S.optional(__S(323, __c10, 3)),
+          installmentOptions: S.optional(__S(641, __c20, 1)),
+          lineItems: S.optional(__S(1537, __c48, 1)),
           manualCapture: S.optional(S.Boolean),
           mcc: S.optional(S.String),
           merchantAccount: S.String,
           merchantOrderReference: S.optional(S.String),
-          metadata: S.optional(__S(1856, __c58, 0)),
-          platformChargebackLogic: S.optional(__S(192, __c6, 0)),
+          metadata: S.optional(__S(32, __c1, 0)),
+          platformChargebackLogic: S.optional(__S(256, __c8, 0)),
           recurringProcessingModel: S.optional(S.String),
           reference: S.String,
-          requiredShopperFields: S.optional(__S(1569, __c49, 1)),
+          requiredShopperFields: S.optional(__S(1633, __c51, 1)),
           returnUrl: S.optional(S.String),
           reusable: S.optional(S.Boolean),
-          riskData: S.optional(__S(260, __c8, 4)),
+          riskData: S.optional(__S(324, __c10, 4)),
           shopperEmail: S.optional(S.String),
           shopperLocale: S.optional(S.String),
-          shopperName: S.optional(__S(1568, __c49, 0)),
+          shopperName: S.optional(__S(1632, __c51, 0)),
           shopperReference: S.optional(S.String),
           shopperStatement: S.optional(S.String),
           showRemovePaymentMethodButton: S.optional(S.Boolean),
           socialSecurityNumber: S.optional(S.String),
           splitCardFundingSources: S.optional(S.Boolean),
-          splits: S.optional(__S(130, __c4, 2)),
-          status: S.String,
+          splits: S.optional(__S(194, __c6, 2)),
           store: S.optional(S.String),
           storePaymentMethodMode: S.optional(S.String),
           telephoneNumber: S.optional(S.String),
           themeId: S.optional(S.String),
-          threeDS2RequestData: S.optional(__S(544, __c17, 0)),
-          updatedAt: S.optional(S.String),
-          url: S.String,
-        }),
-      ).annotate({ identifier: "PaymentLinkResponse" });
+          threeDS2RequestData: S.optional(__S(608, __c19, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/paymentLinks", code: 200 })),
+      ).annotate({ identifier: "CreatePaymentLinkRequest" });
   }
 }
 function __c19(j: number): any {
@@ -7148,16 +7164,95 @@ function __c19(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          homePhone: S.optional(__S(1634, __c51, 2)),
+          mobilePhone: S.optional(__S(1634, __c51, 2)),
+          threeDSRequestorChallengeInd: S.optional(S.String),
+          workPhone: S.optional(__S(1634, __c51, 2)),
+        }),
+      ).annotate({ identifier: "CheckoutSessionThreeDS2RequestData" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          maxValue: S.optional(S.Number),
+          plans: S.optional(__S(1633, __c51, 1)),
+          preselectedValue: S.optional(S.Number),
+          values: S.optional(__S(1952, __c61, 0)),
+        }),
+      ).annotate({ identifier: "InstallmentOption" });
+    case 1:
+      return S.Record(S.String, __S(640, __c20, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          allowedPaymentMethods: S.optional(__S(1408, __c44, 0)),
+          amount: __S(1280, __c40, 0),
+          applicationInfo: S.optional(__S(1348, __c42, 4)),
+          billingAddress: S.optional(__S(1600, __c50, 0)),
+          blockedPaymentMethods: S.optional(__S(1408, __c44, 0)),
+          captureDelayHours: S.optional(S.Number),
+          countryCode: S.optional(S.String),
+          dateOfBirth: S.optional(S.String),
+          deliverAt: S.optional(S.String),
+          deliveryAddress: S.optional(__S(1600, __c50, 0)),
+          description: S.optional(S.String),
+          expiresAt: S.optional(S.String),
+          fundOrigin: S.optional(__S(321, __c10, 1)),
+          fundRecipient: S.optional(__S(323, __c10, 3)),
+          id: S.String,
+          installmentOptions: S.optional(__S(641, __c20, 1)),
+          lineItems: S.optional(__S(1537, __c48, 1)),
+          manualCapture: S.optional(S.Boolean),
+          mcc: S.optional(S.String),
+          merchantAccount: S.String,
+          merchantOrderReference: S.optional(S.String),
+          metadata: S.optional(__S(32, __c1, 0)),
+          platformChargebackLogic: S.optional(__S(256, __c8, 0)),
+          recurringProcessingModel: S.optional(S.String),
+          reference: S.String,
+          requiredShopperFields: S.optional(__S(1633, __c51, 1)),
+          returnUrl: S.optional(S.String),
+          reusable: S.optional(S.Boolean),
+          riskData: S.optional(__S(324, __c10, 4)),
+          shopperEmail: S.optional(S.String),
+          shopperLocale: S.optional(S.String),
+          shopperName: S.optional(__S(1632, __c51, 0)),
+          shopperReference: S.optional(S.String),
+          shopperStatement: S.optional(S.String),
+          showRemovePaymentMethodButton: S.optional(S.Boolean),
+          socialSecurityNumber: S.optional(S.String),
+          splitCardFundingSources: S.optional(S.Boolean),
+          splits: S.optional(__S(194, __c6, 2)),
+          status: S.String,
+          store: S.optional(S.String),
+          storePaymentMethodMode: S.optional(S.String),
+          telephoneNumber: S.optional(S.String),
+          themeId: S.optional(S.String),
+          threeDS2RequestData: S.optional(__S(608, __c19, 0)),
+          updatedAt: S.optional(S.String),
+          url: S.String,
+        }),
+      ).annotate({ identifier: "PaymentLinkResponse" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          additionalData: S.optional(__S(1856, __c58, 0)),
-          allowedPaymentMethods: S.optional(__S(1344, __c42, 0)),
-          amount: S.optional(__S(1216, __c38, 0)),
-          blockedPaymentMethods: S.optional(__S(1344, __c42, 0)),
-          browserInfo: S.optional(__S(1600, __c50, 0)),
+          additionalData: S.optional(__S(32, __c1, 0)),
+          allowedPaymentMethods: S.optional(__S(1408, __c44, 0)),
+          amount: S.optional(__S(1280, __c40, 0)),
+          blockedPaymentMethods: S.optional(__S(1408, __c44, 0)),
+          browserInfo: S.optional(__S(1664, __c52, 0)),
           channel: S.optional(S.String),
           countryCode: S.optional(S.String),
           merchantAccount: S.String,
-          order: S.optional(__S(64, __c2, 0)),
+          order: S.optional(__S(128, __c4, 0)),
           shopperConversionId: S.optional(S.String),
           shopperEmail: S.optional(S.String),
           shopperIP: S.optional(S.String),
@@ -7179,13 +7274,13 @@ function __c19(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          appIdentifierInfo: S.optional(__S(609, __c19, 1)),
+          appIdentifierInfo: S.optional(__S(673, __c21, 1)),
           id: S.String,
           name: S.String,
         }),
       ).annotate({ identifier: "PaymentMethodUPIApps" });
     case 3:
-      return S.Array(__S(610, __c19, 2));
+      return S.Array(__S(674, __c21, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -7202,12 +7297,12 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "Item" });
     case 6:
-      return S.Array(__S(613, __c19, 5));
+      return S.Array(__S(677, __c21, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          configuration: S.optional(__S(1856, __c58, 0)),
-          items: S.optional(__S(614, __c19, 6)),
+          configuration: S.optional(__S(32, __c1, 0)),
+          items: S.optional(__S(678, __c21, 6)),
           key: S.optional(S.String),
           optional: S.optional(S.Boolean),
           type: S.optional(S.String),
@@ -7215,15 +7310,15 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "SubInputDetail" });
     case 8:
-      return S.Array(__S(615, __c19, 7));
+      return S.Array(__S(679, __c21, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          configuration: S.optional(__S(1856, __c58, 0)),
-          details: S.optional(__S(616, __c19, 8)),
-          inputDetails: S.optional(__S(616, __c19, 8)),
+          configuration: S.optional(__S(32, __c1, 0)),
+          details: S.optional(__S(680, __c21, 8)),
+          inputDetails: S.optional(__S(680, __c21, 8)),
           itemSearchUrl: S.optional(S.String),
-          items: S.optional(__S(614, __c19, 6)),
+          items: S.optional(__S(678, __c21, 6)),
           key: S.optional(S.String),
           optional: S.optional(S.Boolean),
           type: S.optional(S.String),
@@ -7231,7 +7326,7 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "InputDetail" });
     case 10:
-      return S.Array(__S(617, __c19, 9));
+      return S.Array(__S(681, __c21, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
@@ -7241,25 +7336,25 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "PaymentMethodIssuer" });
     case 12:
-      return S.Array(__S(619, __c19, 11));
+      return S.Array(__S(683, __c21, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
-          apps: S.optional(__S(611, __c19, 3)),
+          apps: S.optional(__S(675, __c21, 3)),
           brand: S.optional(S.String),
-          brands: S.optional(__S(1344, __c42, 0)),
-          configuration: S.optional(__S(1856, __c58, 0)),
+          brands: S.optional(__S(1408, __c44, 0)),
+          configuration: S.optional(__S(32, __c1, 0)),
           fundingSource: S.optional(S.String),
-          group: S.optional(__S(612, __c19, 4)),
-          inputDetails: S.optional(__S(618, __c19, 10)),
-          issuers: S.optional(__S(620, __c19, 12)),
+          group: S.optional(__S(676, __c21, 4)),
+          inputDetails: S.optional(__S(682, __c21, 10)),
+          issuers: S.optional(__S(684, __c21, 12)),
           name: S.optional(S.String),
           promoted: S.optional(S.Boolean),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "PaymentMethod" });
     case 14:
-      return S.Array(__S(621, __c19, 13));
+      return S.Array(__S(685, __c21, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
@@ -7279,23 +7374,23 @@ function __c19(j: number): any {
           networkTxReference: S.optional(S.String),
           ownerName: S.optional(S.String),
           shopperEmail: S.optional(S.String),
-          supportedRecurringProcessingModels: S.optional(__S(1344, __c42, 0)),
-          supportedShopperInteractions: S.optional(__S(1344, __c42, 0)),
+          supportedRecurringProcessingModels: S.optional(__S(1408, __c44, 0)),
+          supportedShopperInteractions: S.optional(__S(1408, __c44, 0)),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "StoredPaymentMethod" });
     case 16:
-      return S.Array(__S(623, __c19, 15));
+      return S.Array(__S(687, __c21, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
-          paymentMethods: S.optional(__S(622, __c19, 14)),
-          storedPaymentMethods: S.optional(__S(624, __c19, 16)),
+          paymentMethods: S.optional(__S(686, __c21, 14)),
+          storedPaymentMethods: S.optional(__S(688, __c21, 16)),
         }),
       ).annotate({ identifier: "PaymentMethodsResponse" });
   }
 }
-function __c20(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7310,7 +7405,7 @@ function __c20(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          acctInfo: S.optional(__S(1633, __c51, 1)),
+          acctInfo: S.optional(__S(1697, __c53, 1)),
           acctType: S.optional(S.String),
           acquirerBIN: S.optional(S.String),
           acquirerMerchantID: S.optional(S.String),
@@ -7318,12 +7413,12 @@ function __c20(j: number): any {
           authenticationOnly: S.optional(S.Boolean),
           challengeIndicator: S.optional(S.String),
           deviceChannel: S.String,
-          deviceRenderOptions: S.optional(__S(1634, __c51, 2)),
-          homePhone: S.optional(__S(1570, __c49, 2)),
+          deviceRenderOptions: S.optional(__S(1698, __c53, 2)),
+          homePhone: S.optional(__S(1634, __c51, 2)),
           mcc: S.optional(S.String),
           merchantName: S.optional(S.String),
           messageVersion: S.optional(S.String),
-          mobilePhone: S.optional(__S(1570, __c49, 2)),
+          mobilePhone: S.optional(__S(1634, __c51, 2)),
           notificationURL: S.optional(S.String),
           payTokenInd: S.optional(S.Boolean),
           paymentAuthenticationUseCase: S.optional(S.String),
@@ -7332,53 +7427,53 @@ function __c20(j: number): any {
           recurringFrequency: S.optional(S.String),
           sdkAppID: S.optional(S.String),
           sdkEncData: S.optional(S.String),
-          sdkEphemPubKey: S.optional(__S(1635, __c51, 3)),
+          sdkEphemPubKey: S.optional(__S(1699, __c53, 3)),
           sdkMaxTimeout: S.optional(S.Number),
           sdkReferenceNumber: S.optional(S.String),
           sdkTransID: S.optional(S.String),
           sdkVersion: S.optional(S.String),
           threeDSCompInd: S.optional(S.String),
           threeDSRequestorAuthenticationInd: S.optional(S.String),
-          threeDSRequestorAuthenticationInfo: S.optional(__S(1636, __c51, 4)),
+          threeDSRequestorAuthenticationInfo: S.optional(__S(1700, __c53, 4)),
           threeDSRequestorChallengeInd: S.optional(S.String),
           threeDSRequestorID: S.optional(S.String),
           threeDSRequestorName: S.optional(S.String),
-          threeDSRequestorPriorAuthenticationInfo: S.optional(__S(1637, __c51, 5)),
+          threeDSRequestorPriorAuthenticationInfo: S.optional(__S(1701, __c53, 5)),
           threeDSRequestorURL: S.optional(S.String),
           transType: S.optional(S.String),
           transactionType: S.optional(S.String),
           whiteListStatus: S.optional(S.String),
-          workPhone: S.optional(__S(1570, __c49, 2)),
+          workPhone: S.optional(__S(1634, __c51, 2)),
         }),
       ).annotate({ identifier: "ThreeDS2RequestData" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          accountInfo: S.optional(__S(1664, __c52, 0)),
-          additionalAmount: S.optional(__S(1216, __c38, 0)),
-          additionalData: S.optional(__S(1856, __c58, 0)),
-          amount: __S(1216, __c38, 0),
-          applicationInfo: S.optional(__S(1284, __c40, 4)),
-          billingAddress: S.optional(__S(1536, __c48, 0)),
-          browserInfo: S.optional(__S(1600, __c50, 0)),
+          accountInfo: S.optional(__S(1728, __c54, 0)),
+          additionalAmount: S.optional(__S(1280, __c40, 0)),
+          additionalData: S.optional(__S(32, __c1, 0)),
+          amount: __S(1280, __c40, 0),
+          applicationInfo: S.optional(__S(1348, __c42, 4)),
+          billingAddress: S.optional(__S(1600, __c50, 0)),
+          browserInfo: S.optional(__S(1664, __c52, 0)),
           captureDelayHours: S.optional(S.Number),
           dateOfBirth: S.optional(S.String),
-          dccQuote: S.optional(__S(288, __c9, 0)),
-          deliveryAddress: S.optional(__S(1536, __c48, 0)),
+          dccQuote: S.optional(__S(352, __c11, 0)),
+          deliveryAddress: S.optional(__S(1600, __c50, 0)),
           deliveryDate: S.optional(S.String),
           deviceFingerprint: S.optional(S.String),
           fraudOffset: S.optional(S.Number),
-          installments: S.optional(__S(289, __c9, 1)),
-          localizedShopperStatement: S.optional(__S(1856, __c58, 0)),
+          installments: S.optional(__S(353, __c11, 1)),
+          localizedShopperStatement: S.optional(__S(32, __c1, 0)),
           mcc: S.optional(S.String),
           merchantAccount: S.String,
           merchantOrderReference: S.optional(S.String),
-          merchantRiskIndicator: S.optional(__S(1632, __c51, 0)),
-          metadata: S.optional(__S(1856, __c58, 0)),
+          merchantRiskIndicator: S.optional(__S(1696, __c53, 0)),
+          metadata: S.optional(__S(32, __c1, 0)),
           orderReference: S.optional(S.String),
-          paymentMethod: __S(1856, __c58, 0),
-          recurring: S.optional(__S(640, __c20, 0)),
+          paymentMethod: __S(32, __c1, 0),
+          recurring: S.optional(__S(704, __c22, 0)),
           recurringProcessingModel: S.optional(S.String),
           reference: S.optional(S.String),
           selectedBrand: S.optional(S.String),
@@ -7388,14 +7483,14 @@ function __c20(j: number): any {
           shopperIP: S.optional(S.String),
           shopperInteraction: S.optional(S.String),
           shopperLocale: S.optional(S.String),
-          shopperName: S.optional(__S(1568, __c49, 0)),
+          shopperName: S.optional(__S(1632, __c51, 0)),
           shopperReference: S.optional(S.String),
           shopperStatement: S.optional(S.String),
           socialSecurityNumber: S.optional(S.String),
-          splits: S.optional(__S(130, __c4, 2)),
+          splits: S.optional(__S(194, __c6, 2)),
           store: S.optional(S.String),
           telephoneNumber: S.optional(S.String),
-          threeDS2RequestData: S.optional(__S(641, __c20, 1)),
+          threeDS2RequestData: S.optional(__S(705, __c22, 1)),
           threeDSAuthenticationOnly: S.optional(S.Boolean),
           totalsGroup: S.optional(S.String),
           trustedShopper: S.optional(S.Boolean),
@@ -7404,33 +7499,33 @@ function __c20(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          additionalData: S.optional(__S(1856, __c58, 0)),
-          balance: __S(1216, __c38, 0),
-          fraudResult: S.optional(__S(1410, __c44, 2)),
+          additionalData: S.optional(__S(32, __c1, 0)),
+          balance: __S(1280, __c40, 0),
+          fraudResult: S.optional(__S(1474, __c46, 2)),
           pspReference: S.optional(S.String),
           refusalReason: S.optional(S.String),
           resultCode: S.String,
-          transactionLimit: S.optional(__S(1216, __c38, 0)),
+          transactionLimit: S.optional(__S(1280, __c40, 0)),
         }),
       ).annotate({ identifier: "BalanceCheckResponse" });
   }
 }
-function __c21(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           paymentPspReference: S.String.pipe(T.Label()),
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          amount: __S(1216, __c38, 0),
-          applicationInfo: S.optional(__S(1284, __c40, 4)),
+          amount: __S(1280, __c40, 0),
+          applicationInfo: S.optional(__S(1348, __c42, 4)),
           capturePspReference: S.optional(S.String),
-          enhancedSchemeData: S.optional(__S(246, __c7, 22)),
-          lineItems: S.optional(__S(1473, __c46, 1)),
+          enhancedSchemeData: S.optional(__S(310, __c9, 22)),
+          lineItems: S.optional(__S(1537, __c48, 1)),
           merchantAccount: S.String,
           merchantRefundReason: S.optional(S.NullOr(S.String)),
           reference: S.optional(S.String),
-          splits: S.optional(__S(130, __c4, 2)),
+          splits: S.optional(__S(194, __c6, 2)),
           store: S.optional(S.String),
         }).pipe(
           T.Http({ method: "POST", uri: "/payments/{paymentPspReference}/refunds", code: 200 }),
@@ -7439,29 +7534,29 @@ function __c21(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          amount: __S(1216, __c38, 0),
+          amount: __S(1280, __c40, 0),
           capturePspReference: S.optional(S.String),
-          lineItems: S.optional(__S(1473, __c46, 1)),
+          lineItems: S.optional(__S(1537, __c48, 1)),
           merchantAccount: S.String,
           merchantRefundReason: S.optional(S.NullOr(S.String)),
           paymentPspReference: S.String,
           pspReference: S.String,
           reference: S.optional(S.String),
-          splits: S.optional(__S(130, __c4, 2)),
+          splits: S.optional(__S(194, __c6, 2)),
           status: S.String,
           store: S.optional(S.String),
         }),
       ).annotate({ identifier: "PaymentRefundResponse" });
   }
 }
-function __c22(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           paymentPspReference: S.String.pipe(T.Label()),
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          applicationInfo: S.optional(__S(1284, __c40, 4)),
+          applicationInfo: S.optional(__S(1348, __c42, 4)),
           merchantAccount: S.String,
           reference: S.optional(S.String),
         }).pipe(
@@ -7470,7 +7565,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "CreatePaymentReversalRequest" });
   }
 }
-function __c23(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7519,8 +7614,8 @@ function __c23(j: number): any {
       return S.suspend(() =>
         S.Struct({
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          authenticationData: S.optional(__S(737, __c23, 1)),
-          details: __S(738, __c23, 2),
+          authenticationData: S.optional(__S(801, __c25, 1)),
+          details: __S(802, __c25, 2),
           paymentData: S.optional(S.String),
           threeDSAuthenticationOnly: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/payments/details", code: 200 })),
@@ -7528,34 +7623,34 @@ function __c23(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          action: S.optional(__S(736, __c23, 0)),
-          additionalData: S.optional(__S(1856, __c58, 0)),
-          amount: S.optional(__S(1216, __c38, 0)),
+          action: S.optional(__S(800, __c25, 0)),
+          additionalData: S.optional(__S(32, __c1, 0)),
+          amount: S.optional(__S(1280, __c40, 0)),
           donationToken: S.optional(S.String),
-          fraudResult: S.optional(__S(1410, __c44, 2)),
+          fraudResult: S.optional(__S(1474, __c46, 2)),
           merchantReference: S.optional(S.String),
-          opi: S.optional(__S(1728, __c54, 0)),
-          order: S.optional(__S(1696, __c53, 0)),
-          paymentMethod: S.optional(__S(1760, __c55, 0)),
-          paymentValidations: S.optional(__S(1700, __c53, 4)),
+          opi: S.optional(__S(1792, __c56, 0)),
+          order: S.optional(__S(1760, __c55, 0)),
+          paymentMethod: S.optional(__S(1824, __c57, 0)),
+          paymentValidations: S.optional(__S(1764, __c55, 4)),
           pspReference: S.optional(S.String),
           refusalReason: S.optional(S.String),
           refusalReasonCode: S.optional(S.String),
           resultCode: S.optional(S.String),
           shopperLocale: S.optional(S.String),
-          threeDS2ResponseData: S.optional(__S(1701, __c53, 5)),
-          threeDS2Result: S.optional(__S(1702, __c53, 6)),
+          threeDS2ResponseData: S.optional(__S(1765, __c55, 5)),
+          threeDS2Result: S.optional(__S(1766, __c55, 6)),
           threeDSPaymentData: S.optional(S.String),
         }),
       ).annotate({ identifier: "PaymentDetailsResponse" });
   }
 }
-function __c24(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          amount: S.optional(__S(1216, __c38, 0)),
+          amount: S.optional(__S(1280, __c40, 0)),
           description: S.optional(S.String),
           reference: S.optional(S.String),
           selected: S.optional(S.Boolean),
@@ -7563,26 +7658,26 @@ function __c24(j: number): any {
         }),
       ).annotate({ identifier: "DeliveryMethod" });
     case 1:
-      return S.Array(__S(768, __c24, 0));
+      return S.Array(__S(832, __c26, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          amount: S.optional(__S(1216, __c38, 0)),
+          amount: S.optional(__S(1280, __c40, 0)),
         }),
       ).annotate({ identifier: "TaxTotal" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          amount: S.optional(__S(1216, __c38, 0)),
-          deliveryAddress: S.optional(__S(1792, __c56, 0)),
-          deliveryMethods: S.optional(__S(769, __c24, 1)),
-          discountAmount: S.optional(__S(1216, __c38, 0)),
+          amount: S.optional(__S(1280, __c40, 0)),
+          deliveryAddress: S.optional(__S(1856, __c58, 0)),
+          deliveryMethods: S.optional(__S(833, __c26, 1)),
+          discountAmount: S.optional(__S(1280, __c40, 0)),
           paymentData: S.optional(S.String),
           pspReference: S.optional(S.String),
           sessionId: S.optional(S.String),
-          shippingAmount: S.optional(__S(1216, __c38, 0)),
-          taxTotal: S.optional(__S(770, __c24, 2)),
+          shippingAmount: S.optional(__S(1280, __c40, 0)),
+          taxTotal: S.optional(__S(834, __c26, 2)),
         }).pipe(T.Http({ method: "POST", uri: "/paypal/updateOrder", code: 200 })),
       ).annotate({ identifier: "CreatePaypalUpdateOrderRequest" });
     case 4:
@@ -7594,56 +7689,56 @@ function __c24(j: number): any {
       ).annotate({ identifier: "PaypalUpdateOrderResponse" });
   }
 }
-function __c25(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          plans: S.optional(__S(1569, __c49, 1)),
+          plans: S.optional(__S(1633, __c51, 1)),
           preselectedValue: S.optional(S.Number),
-          values: S.optional(__S(1920, __c60, 0)),
+          values: S.optional(__S(1952, __c61, 0)),
         }),
       ).annotate({ identifier: "CheckoutSessionInstallmentOption" });
     case 1:
-      return S.Record(S.String, __S(800, __c25, 0));
+      return S.Record(S.String, __S(864, __c27, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          accountInfo: S.optional(__S(1664, __c52, 0)),
-          additionalAmount: S.optional(__S(1216, __c38, 0)),
-          additionalData: S.optional(__S(1856, __c58, 0)),
-          allowedPaymentMethods: S.optional(__S(1344, __c42, 0)),
-          amount: __S(1216, __c38, 0),
-          applicationInfo: S.optional(__S(1284, __c40, 4)),
-          authenticationData: S.optional(__S(1825, __c57, 1)),
-          billingAddress: S.optional(__S(1536, __c48, 0)),
-          blockedPaymentMethods: S.optional(__S(1344, __c42, 0)),
+          accountInfo: S.optional(__S(1728, __c54, 0)),
+          additionalAmount: S.optional(__S(1280, __c40, 0)),
+          additionalData: S.optional(__S(32, __c1, 0)),
+          allowedPaymentMethods: S.optional(__S(1408, __c44, 0)),
+          amount: __S(1280, __c40, 0),
+          applicationInfo: S.optional(__S(1348, __c42, 4)),
+          authenticationData: S.optional(__S(1889, __c59, 1)),
+          billingAddress: S.optional(__S(1600, __c50, 0)),
+          blockedPaymentMethods: S.optional(__S(1408, __c44, 0)),
           captureDelayHours: S.optional(S.Number),
           channel: S.optional(S.String),
-          company: S.optional(__S(320, __c10, 0)),
+          company: S.optional(__S(384, __c12, 0)),
           countryCode: S.optional(S.String),
           dateOfBirth: S.optional(S.String),
           deliverAt: S.optional(S.String),
-          deliveryAddress: S.optional(__S(1792, __c56, 0)),
+          deliveryAddress: S.optional(__S(1856, __c58, 0)),
           enableOneClick: S.optional(S.Boolean),
           enablePayOut: S.optional(S.Boolean),
           enableRecurring: S.optional(S.Boolean),
-          enhancedSchemeData: S.optional(__S(246, __c7, 22)),
+          enhancedSchemeData: S.optional(__S(310, __c9, 22)),
           expiresAt: S.optional(S.String),
-          fundOrigin: S.optional(__S(257, __c8, 1)),
-          fundRecipient: S.optional(__S(259, __c8, 3)),
-          installmentOptions: S.optional(__S(801, __c25, 1)),
-          lineItems: S.optional(__S(1473, __c46, 1)),
-          mandate: S.optional(__S(321, __c10, 1)),
+          fundOrigin: S.optional(__S(321, __c10, 1)),
+          fundRecipient: S.optional(__S(323, __c10, 3)),
+          installmentOptions: S.optional(__S(865, __c27, 1)),
+          lineItems: S.optional(__S(1537, __c48, 1)),
+          mandate: S.optional(__S(385, __c12, 1)),
           mcc: S.optional(S.String),
           merchantAccount: S.String,
           merchantOrderReference: S.optional(S.String),
-          metadata: S.optional(__S(1856, __c58, 0)),
+          metadata: S.optional(__S(32, __c1, 0)),
           mode: S.optional(S.String),
-          mpiData: S.optional(__S(1504, __c47, 0)),
+          mpiData: S.optional(__S(1568, __c49, 0)),
           payable: S.optional(S.Boolean),
-          platformChargebackLogic: S.optional(__S(192, __c6, 0)),
+          platformChargebackLogic: S.optional(__S(256, __c8, 0)),
           recurringExpiry: S.optional(S.String),
           recurringFrequency: S.optional(S.String),
           recurringProcessingModel: S.optional(S.String),
@@ -7651,28 +7746,28 @@ function __c25(j: number): any {
           redirectToIssuerMethod: S.optional(S.String),
           reference: S.String,
           returnUrl: S.String,
-          riskData: S.optional(__S(260, __c8, 4)),
+          riskData: S.optional(__S(324, __c10, 4)),
           shopperConversionId: S.optional(S.String),
           shopperEmail: S.optional(S.String),
           shopperIP: S.optional(S.String),
           shopperInteraction: S.optional(S.String),
           shopperLocale: S.optional(S.String),
-          shopperName: S.optional(__S(1568, __c49, 0)),
+          shopperName: S.optional(__S(1632, __c51, 0)),
           shopperReference: S.optional(S.String),
           shopperStatement: S.optional(S.String),
           showInstallmentAmount: S.optional(S.Boolean),
           showRemovePaymentMethodButton: S.optional(S.Boolean),
           socialSecurityNumber: S.optional(S.String),
           splitCardFundingSources: S.optional(S.Boolean),
-          splits: S.optional(__S(130, __c4, 2)),
+          splits: S.optional(__S(194, __c6, 2)),
           store: S.optional(S.String),
           storeFiltrationMode: S.optional(S.String),
           storePaymentMethod: S.optional(S.Boolean),
           storePaymentMethodMode: S.optional(S.String),
           telephoneNumber: S.optional(S.String),
           themeId: S.optional(S.String),
-          thirdPartyTokenRedundancyInfo: S.optional(__S(322, __c10, 2)),
-          threeDS2RequestData: S.optional(__S(544, __c17, 0)),
+          thirdPartyTokenRedundancyInfo: S.optional(__S(386, __c12, 2)),
+          threeDS2RequestData: S.optional(__S(608, __c19, 0)),
           threeDSAuthenticationOnly: S.optional(S.Boolean),
           trustedShopper: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/sessions", code: 200 })),
@@ -7680,41 +7775,41 @@ function __c25(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          accountInfo: S.optional(__S(1664, __c52, 0)),
-          additionalAmount: S.optional(__S(1216, __c38, 0)),
-          additionalData: S.optional(__S(1856, __c58, 0)),
-          allowedPaymentMethods: S.optional(__S(1344, __c42, 0)),
-          amount: __S(1216, __c38, 0),
-          applicationInfo: S.optional(__S(1284, __c40, 4)),
-          authenticationData: S.optional(__S(1825, __c57, 1)),
-          billingAddress: S.optional(__S(1536, __c48, 0)),
-          blockedPaymentMethods: S.optional(__S(1344, __c42, 0)),
+          accountInfo: S.optional(__S(1728, __c54, 0)),
+          additionalAmount: S.optional(__S(1280, __c40, 0)),
+          additionalData: S.optional(__S(32, __c1, 0)),
+          allowedPaymentMethods: S.optional(__S(1408, __c44, 0)),
+          amount: __S(1280, __c40, 0),
+          applicationInfo: S.optional(__S(1348, __c42, 4)),
+          authenticationData: S.optional(__S(1889, __c59, 1)),
+          billingAddress: S.optional(__S(1600, __c50, 0)),
+          blockedPaymentMethods: S.optional(__S(1408, __c44, 0)),
           captureDelayHours: S.optional(S.Number),
           channel: S.optional(S.String),
-          company: S.optional(__S(320, __c10, 0)),
+          company: S.optional(__S(384, __c12, 0)),
           countryCode: S.optional(S.String),
           dateOfBirth: S.optional(S.String),
           deliverAt: S.optional(S.String),
-          deliveryAddress: S.optional(__S(1792, __c56, 0)),
+          deliveryAddress: S.optional(__S(1856, __c58, 0)),
           enableOneClick: S.optional(S.Boolean),
           enablePayOut: S.optional(S.Boolean),
           enableRecurring: S.optional(S.Boolean),
-          enhancedSchemeData: S.optional(__S(246, __c7, 22)),
+          enhancedSchemeData: S.optional(__S(310, __c9, 22)),
           expiresAt: S.String,
-          fundOrigin: S.optional(__S(257, __c8, 1)),
-          fundRecipient: S.optional(__S(259, __c8, 3)),
+          fundOrigin: S.optional(__S(321, __c10, 1)),
+          fundRecipient: S.optional(__S(323, __c10, 3)),
           id: S.String,
-          installmentOptions: S.optional(__S(801, __c25, 1)),
-          lineItems: S.optional(__S(1473, __c46, 1)),
-          mandate: S.optional(__S(321, __c10, 1)),
+          installmentOptions: S.optional(__S(865, __c27, 1)),
+          lineItems: S.optional(__S(1537, __c48, 1)),
+          mandate: S.optional(__S(385, __c12, 1)),
           mcc: S.optional(S.String),
           merchantAccount: S.String,
           merchantOrderReference: S.optional(S.String),
-          metadata: S.optional(__S(1856, __c58, 0)),
+          metadata: S.optional(__S(32, __c1, 0)),
           mode: S.optional(S.String),
-          mpiData: S.optional(__S(1504, __c47, 0)),
+          mpiData: S.optional(__S(1568, __c49, 0)),
           payable: S.optional(S.Boolean),
-          platformChargebackLogic: S.optional(__S(192, __c6, 0)),
+          platformChargebackLogic: S.optional(__S(256, __c8, 0)),
           recurringExpiry: S.optional(S.String),
           recurringFrequency: S.optional(S.String),
           recurringProcessingModel: S.optional(S.String),
@@ -7722,28 +7817,28 @@ function __c25(j: number): any {
           redirectToIssuerMethod: S.optional(S.String),
           reference: S.String,
           returnUrl: S.String,
-          riskData: S.optional(__S(260, __c8, 4)),
+          riskData: S.optional(__S(324, __c10, 4)),
           sessionData: S.optional(S.String),
           shopperEmail: S.optional(S.String),
           shopperIP: S.optional(S.String),
           shopperInteraction: S.optional(S.String),
           shopperLocale: S.optional(S.String),
-          shopperName: S.optional(__S(1568, __c49, 0)),
+          shopperName: S.optional(__S(1632, __c51, 0)),
           shopperReference: S.optional(S.String),
           shopperStatement: S.optional(S.String),
           showInstallmentAmount: S.optional(S.Boolean),
           showRemovePaymentMethodButton: S.optional(S.Boolean),
           socialSecurityNumber: S.optional(S.String),
           splitCardFundingSources: S.optional(S.Boolean),
-          splits: S.optional(__S(130, __c4, 2)),
+          splits: S.optional(__S(194, __c6, 2)),
           store: S.optional(S.String),
           storeFiltrationMode: S.optional(S.String),
           storePaymentMethod: S.optional(S.Boolean),
           storePaymentMethodMode: S.optional(S.String),
           telephoneNumber: S.optional(S.String),
           themeId: S.optional(S.String),
-          thirdPartyTokenRedundancyInfo: S.optional(__S(322, __c10, 2)),
-          threeDS2RequestData: S.optional(__S(544, __c17, 0)),
+          thirdPartyTokenRedundancyInfo: S.optional(__S(386, __c12, 2)),
+          threeDS2RequestData: S.optional(__S(608, __c19, 0)),
           threeDSAuthenticationOnly: S.optional(S.Boolean),
           trustedShopper: S.optional(S.Boolean),
           url: S.optional(S.String),
@@ -7751,7 +7846,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "CreateCheckoutSessionResponse" });
   }
 }
-function __c26(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7775,8 +7870,8 @@ function __c26(j: number): any {
         S.Struct({
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
           merchantAccount: S.String,
-          opi: S.optional(__S(352, __c11, 0)),
-          paymentMethod: __S(832, __c26, 0),
+          opi: S.optional(__S(416, __c13, 0)),
+          paymentMethod: __S(896, __c28, 0),
           recurringProcessingModel: S.String,
           shopperEmail: S.optional(S.String),
           shopperIP: S.optional(S.String),
@@ -7785,7 +7880,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "CreateStoredPaymentMethodRequest" });
   }
 }
-function __c27(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7819,7 +7914,7 @@ function __c27(j: number): any {
         S.Struct({
           alias: S.optional(S.String),
           aliasType: S.optional(S.String),
-          billingAddress: S.optional(__S(1536, __c48, 0)),
+          billingAddress: S.optional(__S(1600, __c50, 0)),
           brand: S.optional(S.String),
           cardBin: S.optional(S.String),
           createdAt: S.optional(S.String),
@@ -7833,38 +7928,32 @@ function __c27(j: number): any {
           id: S.optional(S.String),
           issuerName: S.optional(S.String),
           lastFour: S.optional(S.String),
-          mandate: S.optional(__S(864, __c27, 0)),
+          mandate: S.optional(__S(928, __c29, 0)),
           name: S.optional(S.String),
           networkTxReference: S.optional(S.String),
-          opi: S.optional(__S(1728, __c54, 0)),
+          opi: S.optional(__S(1792, __c56, 0)),
           ownerName: S.optional(S.String),
           shopperEmail: S.optional(S.String),
           shopperReference: S.optional(S.String),
-          supportedRecurringProcessingModels: S.optional(__S(1344, __c42, 0)),
+          supportedRecurringProcessingModels: S.optional(__S(1408, __c44, 0)),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "StoredPaymentMethodResource" });
   }
 }
-function __c28(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          type: S.String,
-        }),
-      ).annotate({ identifier: "ShopperIdPaymentMethod" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           merchantAccount: S.String,
-          paymentMethod: __S(896, __c28, 0),
+          paymentMethod: S.Unknown,
           shopperEmail: S.optional(S.String),
           shopperIP: S.optional(S.String),
           shopperReference: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/validateShopperId", code: 200 })),
       ).annotate({ identifier: "CreateValidateShopperIdRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           reason: S.optional(S.String),
@@ -7873,7 +7962,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "ValidateShopperIdResponse" });
   }
 }
-function __c29(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7888,7 +7977,7 @@ function __c29(j: number): any {
         S.Struct({
           merchantAccount: S.String,
           shopperReference: S.String,
-          shopperTaxIdentification: __S(928, __c29, 0),
+          shopperTaxIdentification: __S(992, __c31, 0),
         }).pipe(T.Http({ method: "POST", uri: "/verifyShopperTaxIdentification", code: 200 })),
       ).annotate({ identifier: "CreateVerifyShopperTaxIdentificationRequest" });
     case 2:
@@ -7906,13 +7995,13 @@ function __c29(j: number): any {
           reasonCode: S.optional(S.String),
           result: S.optional(S.String),
           taxVerificationReference: S.optional(S.String),
-          verifiedShopperTaxIdentification: S.optional(__S(930, __c29, 2)),
+          verifiedShopperTaxIdentification: S.optional(__S(994, __c31, 2)),
           verifiedShopperTaxIdentificationToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "VerifyShopperTaxIdentificationResponse" });
   }
 }
-function __c30(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7934,7 +8023,7 @@ function __c30(j: number): any {
       });
   }
 }
-function __c31(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7944,7 +8033,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "GetPaymentLinkRequest" });
   }
 }
-function __c32(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7956,27 +8045,27 @@ function __c32(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          amount: S.optional(__S(1216, __c38, 0)),
-          paymentMethod: S.optional(__S(1760, __c55, 0)),
+          amount: S.optional(__S(1280, __c40, 0)),
+          paymentMethod: S.optional(__S(1824, __c57, 0)),
           pspReference: S.optional(S.String),
           resultCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "Payment" });
     case 2:
-      return S.Array(__S(1025, __c32, 1));
+      return S.Array(__S(1089, __c34, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          additionalData: S.optional(__S(1856, __c58, 0)),
+          additionalData: S.optional(__S(32, __c1, 0)),
           id: S.optional(S.String),
-          payments: S.optional(__S(1026, __c32, 2)),
+          payments: S.optional(__S(1090, __c34, 2)),
           reference: S.optional(S.String),
           status: S.optional(S.String),
         }),
       ).annotate({ identifier: "SessionResultResponse" });
   }
 }
-function __c33(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7995,7 +8084,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "ApplePaySessionResponse" });
   }
 }
-function __c34(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8005,18 +8094,18 @@ function __c34(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/storedPaymentMethods", code: 200 })),
       ).annotate({ identifier: "GetStoredPaymentMethodsRequest" });
     case 1:
-      return S.Array(__S(865, __c27, 1));
+      return S.Array(__S(929, __c29, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           merchantAccount: S.optional(S.String),
           shopperReference: S.optional(S.String),
-          storedPaymentMethods: S.optional(__S(1089, __c34, 1)),
+          storedPaymentMethods: S.optional(__S(1153, __c36, 1)),
         }),
       ).annotate({ identifier: "ListStoredPaymentMethodsResponse" });
   }
 }
-function __c35(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8027,13 +8116,13 @@ function __c35(j: number): any {
       ).annotate({ identifier: "UpdatePaymentLinkRequest" });
   }
 }
-function __c36(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           sessionId: S.String.pipe(T.Label()),
-          amount: __S(1216, __c38, 0),
+          amount: __S(1280, __c40, 0),
           payable: S.optional(S.Boolean),
           sessionData: S.String,
         }).pipe(T.Http({ method: "PATCH", uri: "/sessions/{sessionId}", code: 200 })),
@@ -8046,7 +8135,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "CheckoutSessionPatchSessionResponse" });
   }
 }
-function __c37(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8059,7 +8148,7 @@ function __c37(j: number): any {
       return S.suspend(() =>
         S.Struct({
           calculationType: S.String,
-          lrs: __S(1184, __c37, 0),
+          lrs: __S(1248, __c39, 0),
           taxCountryCode: S.String,
         }),
       ).annotate({ identifier: "TaxCalculationContext" });
@@ -8067,41 +8156,41 @@ function __c37(j: number): any {
       return S.suspend(() =>
         S.Struct({
           merchantAccount: S.String,
-          taxCalculationContext: __S(1185, __c37, 1),
-          taxableAmount: __S(1216, __c38, 0),
+          taxCalculationContext: __S(1249, __c39, 1),
+          taxableAmount: __S(1280, __c40, 0),
         }).pipe(T.Http({ method: "POST", uri: "/calculateTax", code: 200 })),
       ).annotate({ identifier: "CreateCalculateTaxRequest" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          taxAmount: S.optional(__S(1216, __c38, 0)),
+          taxAmount: S.optional(__S(1280, __c40, 0)),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "TaxCalculationComponent" });
     case 4:
-      return S.Array(__S(1187, __c37, 3));
+      return S.Array(__S(1251, __c39, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           merchantAccount: S.optional(S.String),
-          taxCalculationContext: S.optional(__S(1185, __c37, 1)),
-          taxCalculations: S.optional(__S(1188, __c37, 4)),
-          taxableAmount: S.optional(__S(1216, __c38, 0)),
-          totalAmount: S.optional(__S(1216, __c38, 0)),
-          totalTaxAmount: S.optional(__S(1216, __c38, 0)),
+          taxCalculationContext: S.optional(__S(1249, __c39, 1)),
+          taxCalculations: S.optional(__S(1252, __c39, 4)),
+          taxableAmount: S.optional(__S(1280, __c40, 0)),
+          totalAmount: S.optional(__S(1280, __c40, 0)),
+          totalTaxAmount: S.optional(__S(1280, __c40, 0)),
         }),
       ).annotate({ identifier: "TaxCalculation" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          taxCalculation: S.optional(__S(1189, __c37, 5)),
+          taxCalculation: S.optional(__S(1253, __c39, 5)),
           taxCalculationReference: S.optional(S.String),
           taxCalculationToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "CalculateTaxResponse" });
   }
 }
-function __c38(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8112,13 +8201,13 @@ function __c38(j: number): any {
       ).annotate({ identifier: "TaxableAmount" });
   }
 }
-function __c39(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          applicationInfo: S.optional(__S(1284, __c40, 4)),
+          applicationInfo: S.optional(__S(1348, __c42, 4)),
           merchantAccount: S.String,
           paymentReference: S.String,
           reference: S.optional(S.String),
@@ -8136,7 +8225,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "StandalonePaymentCancelResponse" });
   }
 }
-function __c40(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8172,17 +8261,17 @@ function __c40(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          adyenLibrary: S.optional(__S(1280, __c40, 0)),
-          adyenPaymentSource: S.optional(__S(1280, __c40, 0)),
-          externalPlatform: S.optional(__S(1281, __c40, 1)),
-          merchantApplication: S.optional(__S(1280, __c40, 0)),
-          merchantDevice: S.optional(__S(1282, __c40, 2)),
-          shopperInteractionDevice: S.optional(__S(1283, __c40, 3)),
+          adyenLibrary: S.optional(__S(1344, __c42, 0)),
+          adyenPaymentSource: S.optional(__S(1344, __c42, 0)),
+          externalPlatform: S.optional(__S(1345, __c42, 1)),
+          merchantApplication: S.optional(__S(1344, __c42, 0)),
+          merchantDevice: S.optional(__S(1346, __c42, 2)),
+          shopperInteractionDevice: S.optional(__S(1347, __c42, 3)),
         }),
       ).annotate({ identifier: "ApplicationInfo" });
   }
 }
-function __c41(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8192,7 +8281,7 @@ function __c41(j: number): any {
           countryCode: S.optional(S.String),
           encryptedCardNumber: S.optional(S.String),
           merchantAccount: S.String,
-          supportedBrands: S.optional(__S(1344, __c42, 0)),
+          supportedBrands: S.optional(__S(1408, __c44, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/cardDetails", code: 200 })),
       ).annotate({ identifier: "CreateCardDetailRequest" });
     case 1:
@@ -8204,11 +8293,11 @@ function __c41(j: number): any {
         }),
       ).annotate({ identifier: "CardBrandDetails" });
     case 2:
-      return S.Array(__S(1313, __c41, 1));
+      return S.Array(__S(1377, __c43, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          brands: S.optional(__S(1314, __c41, 2)),
+          brands: S.optional(__S(1378, __c43, 2)),
           fundingSource: S.optional(S.String),
           isCardCommercial: S.optional(S.Boolean),
           issuingCountryCode: S.optional(S.String),
@@ -8216,39 +8305,39 @@ function __c41(j: number): any {
       ).annotate({ identifier: "CardDetailsResponse" });
   }
 }
-function __c42(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c43(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          accountInfo: S.optional(__S(1664, __c52, 0)),
-          amount: __S(1216, __c38, 0),
-          applicationInfo: S.optional(__S(1284, __c40, 4)),
-          authenticationData: S.optional(__S(1825, __c57, 1)),
-          billingAddress: S.optional(__S(1536, __c48, 0)),
-          browserInfo: S.optional(__S(1600, __c50, 0)),
+          accountInfo: S.optional(__S(1728, __c54, 0)),
+          amount: __S(1280, __c40, 0),
+          applicationInfo: S.optional(__S(1348, __c42, 4)),
+          authenticationData: S.optional(__S(1889, __c59, 1)),
+          billingAddress: S.optional(__S(1600, __c50, 0)),
+          browserInfo: S.optional(__S(1664, __c52, 0)),
           channel: S.optional(S.String),
           checkoutAttemptId: S.optional(S.String),
           countryCode: S.optional(S.String),
           dateOfBirth: S.optional(S.String),
-          deliveryAddress: S.optional(__S(1792, __c56, 0)),
+          deliveryAddress: S.optional(__S(1856, __c58, 0)),
           deviceFingerprint: S.optional(S.String),
           donationAccount: S.optional(S.String),
           donationCampaignId: S.optional(S.String),
           donationOriginalPspReference: S.optional(S.String),
           donationToken: S.optional(S.String),
-          lineItems: S.optional(__S(1473, __c46, 1)),
+          lineItems: S.optional(__S(1537, __c48, 1)),
           merchantAccount: S.String,
-          merchantRiskIndicator: S.optional(__S(1632, __c51, 0)),
-          metadata: S.optional(__S(1856, __c58, 0)),
-          mpiData: S.optional(__S(1504, __c47, 0)),
+          merchantRiskIndicator: S.optional(__S(1696, __c53, 0)),
+          metadata: S.optional(__S(32, __c1, 0)),
+          mpiData: S.optional(__S(1568, __c49, 0)),
           origin: S.optional(S.String),
           paymentMethod: S.optional(S.Unknown),
           recurringProcessingModel: S.optional(S.String),
@@ -8261,29 +8350,29 @@ function __c43(j: number): any {
           shopperIP: S.optional(S.String),
           shopperInteraction: S.optional(S.String),
           shopperLocale: S.optional(S.String),
-          shopperName: S.optional(__S(1568, __c49, 0)),
+          shopperName: S.optional(__S(1632, __c51, 0)),
           shopperReference: S.optional(S.String),
           socialSecurityNumber: S.optional(S.String),
           store: S.optional(S.String),
           telephoneNumber: S.optional(S.String),
-          threeDS2RequestData: S.optional(__S(1440, __c45, 0)),
+          threeDS2RequestData: S.optional(__S(1504, __c47, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/donations", code: 200 })),
       ).annotate({ identifier: "CreateDonationRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          amount: S.optional(__S(1216, __c38, 0)),
+          amount: S.optional(__S(1280, __c40, 0)),
           donationAccount: S.optional(S.String),
           id: S.optional(S.String),
           merchantAccount: S.optional(S.String),
-          payment: S.optional(__S(1441, __c45, 1)),
+          payment: S.optional(__S(1505, __c47, 1)),
           reference: S.optional(S.String),
           status: S.optional(S.String),
         }),
       ).annotate({ identifier: "DonationPaymentResponse" });
   }
 }
-function __c44(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8294,34 +8383,34 @@ function __c44(j: number): any {
         }),
       ).annotate({ identifier: "FraudCheckResult" });
     case 1:
-      return S.Array(__S(1408, __c44, 0));
+      return S.Array(__S(1472, __c46, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           accountScore: S.Number,
-          results: S.optional(__S(1409, __c44, 1)),
+          results: S.optional(__S(1473, __c46, 1)),
         }),
       ).annotate({ identifier: "FraudResult" });
   }
 }
-function __c45(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          acctInfo: S.optional(__S(1633, __c51, 1)),
+          acctInfo: S.optional(__S(1697, __c53, 1)),
           acctType: S.optional(S.String),
           acquirerBIN: S.optional(S.String),
           acquirerMerchantID: S.optional(S.String),
           addrMatch: S.optional(S.String),
           authenticationOnly: S.optional(S.Boolean),
           challengeIndicator: S.optional(S.String),
-          deviceRenderOptions: S.optional(__S(1634, __c51, 2)),
-          homePhone: S.optional(__S(1570, __c49, 2)),
+          deviceRenderOptions: S.optional(__S(1698, __c53, 2)),
+          homePhone: S.optional(__S(1634, __c51, 2)),
           mcc: S.optional(S.String),
           merchantName: S.optional(S.String),
           messageVersion: S.optional(S.String),
-          mobilePhone: S.optional(__S(1570, __c49, 2)),
+          mobilePhone: S.optional(__S(1634, __c51, 2)),
           notificationURL: S.optional(S.String),
           payTokenInd: S.optional(S.Boolean),
           paymentAuthenticationUseCase: S.optional(S.String),
@@ -8329,49 +8418,49 @@ function __c45(j: number): any {
           recurringExpiry: S.optional(S.String),
           recurringFrequency: S.optional(S.String),
           sdkAppID: S.optional(S.String),
-          sdkEphemPubKey: S.optional(__S(1635, __c51, 3)),
+          sdkEphemPubKey: S.optional(__S(1699, __c53, 3)),
           sdkMaxTimeout: S.optional(S.Number),
           sdkReferenceNumber: S.optional(S.String),
           sdkTransID: S.optional(S.String),
           threeDSCompInd: S.optional(S.String),
           threeDSRequestorAuthenticationInd: S.optional(S.String),
-          threeDSRequestorAuthenticationInfo: S.optional(__S(1636, __c51, 4)),
+          threeDSRequestorAuthenticationInfo: S.optional(__S(1700, __c53, 4)),
           threeDSRequestorChallengeInd: S.optional(S.String),
           threeDSRequestorID: S.optional(S.String),
           threeDSRequestorName: S.optional(S.String),
-          threeDSRequestorPriorAuthenticationInfo: S.optional(__S(1637, __c51, 5)),
+          threeDSRequestorPriorAuthenticationInfo: S.optional(__S(1701, __c53, 5)),
           threeDSRequestorURL: S.optional(S.String),
           transType: S.optional(S.String),
           transactionType: S.optional(S.String),
           whiteListStatus: S.optional(S.String),
-          workPhone: S.optional(__S(1570, __c49, 2)),
+          workPhone: S.optional(__S(1634, __c51, 2)),
         }),
       ).annotate({ identifier: "ThreeDS2RequestFields" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           action: S.optional(S.Unknown),
-          additionalData: S.optional(__S(1856, __c58, 0)),
-          amount: S.optional(__S(1216, __c38, 0)),
+          additionalData: S.optional(__S(32, __c1, 0)),
+          amount: S.optional(__S(1280, __c40, 0)),
           donationToken: S.optional(S.String),
-          fraudResult: S.optional(__S(1410, __c44, 2)),
+          fraudResult: S.optional(__S(1474, __c46, 2)),
           merchantReference: S.optional(S.String),
-          opi: S.optional(__S(1728, __c54, 0)),
-          order: S.optional(__S(1696, __c53, 0)),
-          paymentMethod: S.optional(__S(1760, __c55, 0)),
-          paymentValidations: S.optional(__S(1700, __c53, 4)),
+          opi: S.optional(__S(1792, __c56, 0)),
+          order: S.optional(__S(1760, __c55, 0)),
+          paymentMethod: S.optional(__S(1824, __c57, 0)),
+          paymentValidations: S.optional(__S(1764, __c55, 4)),
           pspReference: S.optional(S.String),
           refusalReason: S.optional(S.String),
           refusalReasonCode: S.optional(S.String),
           resultCode: S.optional(S.String),
-          threeDS2ResponseData: S.optional(__S(1701, __c53, 5)),
-          threeDS2Result: S.optional(__S(1702, __c53, 6)),
+          threeDS2ResponseData: S.optional(__S(1765, __c55, 5)),
+          threeDS2Result: S.optional(__S(1766, __c55, 6)),
           threeDSPaymentData: S.optional(S.String),
         }),
       ).annotate({ identifier: "PaymentResponse" });
   }
 }
-function __c46(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8405,10 +8494,10 @@ function __c46(j: number): any {
         }),
       ).annotate({ identifier: "LineItem" });
     case 1:
-      return S.Array(__S(1472, __c46, 0));
+      return S.Array(__S(1536, __c48, 0));
   }
 }
-function __c47(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8429,7 +8518,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "ThreeDSecureData" });
   }
 }
-function __c48(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8444,7 +8533,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "BillingAddress" });
   }
 }
-function __c49(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8464,7 +8553,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "Phone" });
   }
 }
-function __c50(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8482,7 +8571,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "BrowserInfo" });
   }
 }
-function __c51(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8492,7 +8581,7 @@ function __c51(j: number): any {
           deliveryEmail: S.optional(S.String),
           deliveryEmailAddress: S.optional(S.String),
           deliveryTimeframe: S.optional(S.String),
-          giftCardAmount: S.optional(__S(1216, __c38, 0)),
+          giftCardAmount: S.optional(__S(1280, __c40, 0)),
           giftCardCount: S.optional(S.Number),
           giftCardCurr: S.optional(S.String),
           preOrderDate: S.optional(S.String),
@@ -8528,7 +8617,7 @@ function __c51(j: number): any {
       return S.suspend(() =>
         S.Struct({
           sdkInterface: S.optional(S.String),
-          sdkUiType: S.optional(__S(1569, __c49, 1)),
+          sdkUiType: S.optional(__S(1633, __c51, 1)),
         }),
       ).annotate({ identifier: "DeviceRenderOptions" });
     case 3:
@@ -8559,7 +8648,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "ThreeDSRequestorPriorAuthenticationInfo" });
   }
 }
-function __c52(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8587,17 +8676,17 @@ function __c52(j: number): any {
       ).annotate({ identifier: "AccountInfo" });
   }
 }
-function __c53(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          amount: S.optional(__S(1216, __c38, 0)),
+          amount: S.optional(__S(1280, __c40, 0)),
           expiresAt: S.optional(S.String),
           orderData: S.optional(S.String),
           pspReference: S.String,
           reference: S.optional(S.String),
-          remainingAmount: S.optional(__S(1216, __c38, 0)),
+          remainingAmount: S.optional(__S(1280, __c40, 0)),
         }),
       ).annotate({ identifier: "CheckoutOrderResponse" });
     case 1:
@@ -8622,15 +8711,15 @@ function __c53(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          rawResponse: S.optional(__S(1697, __c53, 1)),
-          result: S.optional(__S(1698, __c53, 2)),
+          rawResponse: S.optional(__S(1761, __c55, 1)),
+          result: S.optional(__S(1762, __c55, 2)),
           status: S.optional(S.String),
         }),
       ).annotate({ identifier: "PaymentValidationsNameResponse" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(__S(1699, __c53, 3)),
+          name: S.optional(__S(1763, __c55, 3)),
         }),
       ).annotate({ identifier: "PaymentValidationsResponse" });
     case 5:
@@ -8678,7 +8767,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "ThreeDS2Result" });
   }
 }
-function __c54(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8689,7 +8778,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "OpiResponse" });
   }
 }
-function __c55(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8700,7 +8789,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "ResponsePaymentMethod" });
   }
 }
-function __c56(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8717,7 +8806,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "DeliveryAddress" });
   }
 }
-function __c57(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8733,18 +8822,12 @@ function __c57(j: number): any {
         S.Struct({
           attemptAuthentication: S.optional(S.String),
           authenticationOnly: S.optional(S.Boolean),
-          threeDSRequestData: S.optional(__S(1824, __c57, 0)),
+          threeDSRequestData: S.optional(__S(1888, __c59, 0)),
         }),
       ).annotate({ identifier: "AuthenticationData" });
   }
 }
-function __c58(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.String);
-  }
-}
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8761,7 +8844,7 @@ function __c59(j: number): any {
       return S.suspend(() =>
         S.Struct({
           currency: S.String,
-          values: __S(1920, __c60, 0),
+          values: __S(1952, __c61, 0),
         }),
       ).annotate({ identifier: "Amounts" });
     case 2:
@@ -8771,17 +8854,17 @@ function __c59(j: number): any {
           donationType: S.optional(S.String),
           maxRoundupAmount: S.optional(S.Number),
           type: S.String,
-          values: S.optional(__S(1920, __c60, 0)),
+          values: S.optional(__S(1952, __c61, 0)),
         }),
       ).annotate({ identifier: "Donation" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          amounts: S.optional(__S(1889, __c59, 1)),
+          amounts: S.optional(__S(1921, __c60, 1)),
           bannerUrl: S.optional(S.String),
           campaignName: S.optional(S.String),
           causeName: S.optional(S.String),
-          donation: S.optional(__S(1890, __c59, 2)),
+          donation: S.optional(__S(1922, __c60, 2)),
           id: S.optional(S.String),
           logoUrl: S.optional(S.String),
           nonprofitDescription: S.optional(S.String),
@@ -8791,22 +8874,22 @@ function __c59(j: number): any {
         }),
       ).annotate({ identifier: "DonationCampaign" });
     case 4:
-      return S.Array(__S(1891, __c59, 3));
+      return S.Array(__S(1923, __c60, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          donationCampaigns: S.optional(__S(1892, __c59, 4)),
+          donationCampaigns: S.optional(__S(1924, __c60, 4)),
         }),
       ).annotate({ identifier: "DonationCampaignsResponse" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8820,10 +8903,10 @@ function __c61(j: number): any {
         S.Struct({
           accountUpdate: S.optional(S.Boolean),
           dryRun: S.optional(S.Boolean),
-          networkToken: S.optional(__S(1952, __c61, 0)),
-          networkTxReferencePaths: S.optional(__S(1344, __c42, 0)),
+          networkToken: S.optional(__S(1984, __c62, 0)),
+          networkTxReferencePaths: S.optional(__S(1408, __c44, 0)),
           tokenize: S.optional(S.Boolean),
-          transactionLinkIdPaths: S.optional(__S(1344, __c42, 0)),
+          transactionLinkIdPaths: S.optional(__S(1408, __c44, 0)),
         }),
       ).annotate({ identifier: "CheckoutForwardRequestOptions" });
     case 2:
@@ -8846,7 +8929,7 @@ function __c61(j: number): any {
         S.Struct({
           body: S.String,
           credentials: S.optional(S.String),
-          headers: S.optional(__S(1856, __c58, 0)),
+          headers: S.optional(__S(32, __c1, 0)),
           httpMethod: S.String,
           urlSuffix: S.optional(S.String),
         }),
@@ -8855,13 +8938,13 @@ function __c61(j: number): any {
       return S.suspend(() =>
         S.Struct({
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          amount: S.optional(__S(1216, __c38, 0)),
+          amount: S.optional(__S(1280, __c40, 0)),
           baseUrl: S.String,
           merchantAccount: S.String,
           merchantReference: S.optional(S.String),
-          options: S.optional(__S(1953, __c61, 1)),
-          paymentMethod: S.optional(__S(1954, __c61, 2)),
-          request: __S(1955, __c61, 3),
+          options: S.optional(__S(1985, __c62, 1)),
+          paymentMethod: S.optional(__S(1986, __c62, 2)),
+          request: __S(1987, __c62, 3),
           shopperReference: S.String,
           storedPaymentMethodId: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/forward", code: 200 })),
@@ -8882,18 +8965,18 @@ function __c61(j: number): any {
       return S.suspend(() =>
         S.Struct({
           body: S.optional(S.String),
-          headers: S.optional(__S(1856, __c58, 0)),
+          headers: S.optional(__S(32, __c1, 0)),
           status: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CheckoutForwardResponseFromUrl" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          accountUpdate: S.optional(__S(1957, __c61, 5)),
+          accountUpdate: S.optional(__S(1989, __c62, 5)),
           merchantReference: S.optional(S.String),
-          networkToken: S.optional(__S(1958, __c61, 6)),
+          networkToken: S.optional(__S(1990, __c62, 6)),
           pspReference: S.optional(S.String),
-          response: __S(1959, __c61, 7),
+          response: __S(1991, __c62, 7),
           storedPaymentMethodId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CheckoutForwardResponse" });

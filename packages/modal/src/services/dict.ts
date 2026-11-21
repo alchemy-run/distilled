@@ -29,6 +29,8 @@ export class DictAlreadyExists
     /*@__PURE__*/ S.TaggedError<DictAlreadyExists>()("DictAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 6 }],
   ) {}
@@ -39,6 +41,8 @@ export class DictNotFound
     /*@__PURE__*/ S.TaggedError<DictNotFound>()("DictNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 5 }],
   ) {}
@@ -49,6 +53,8 @@ export class EnvironmentNotFound
     /*@__PURE__*/ S.TaggedError<EnvironmentNotFound>()("EnvironmentNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 5, message: { includes: "Environment" } }],
   ) {}

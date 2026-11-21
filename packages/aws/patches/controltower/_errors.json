@@ -1,0 +1,33 @@
+{
+  "description": "ControlTower: Error shapes the model does not declare, for the errors operations.json list; categories (distilled.errors#categories) the error traits do not express.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.controltower#UnauthorizedException",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.controltower#BadRequestException",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.controltower#UnauthorizedException/traits/distilled.errors#categories",
+      "value": ["AuthError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.controltower#BadRequestException/traits/distilled.errors#categories",
+      "value": ["BadRequestError"]
+    }
+  ]
+}

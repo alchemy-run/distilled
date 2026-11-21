@@ -137,7 +137,7 @@ export class InternalServerErrorException
       RequestID: /*@__PURE__*/ S.optional(S.String),
     },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class MethodNotAllowedException
   extends /*@__PURE__*/ S.TaggedError<MethodNotAllowedException>()(
     "MethodNotAllowedException",
@@ -173,7 +173,7 @@ export class TooManyRequestsException
       RequestID: /*@__PURE__*/ S.optional(S.String),
     },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export type MapOf__string = { [key: string]: string | undefined };
 export interface CreateApplicationRequest {
   Name?: string | undefined;

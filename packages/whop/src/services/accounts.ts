@@ -31,36 +31,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 /** Arbitrary key/value metadata to store on the account. */
 export type CreateAccountRequestMetadataMap = { [key: string]: unknown | undefined };
@@ -2904,6 +2932,17 @@ export interface UpdateAccountPreferencesResponse {
   /** What happens to a subscription once every retry of a renewal payment has failed. `cancel` (the default) cancels it. `none` leaves it past due and keeps billing it each period; access follows the account's past-due access setting. */
   subscription_failure_behavior: UpdateAccountPreferencesResponseSubscriptionFailureBehavior;
 }
+export interface V1ErrorResponseError {
+  /** Machine-readable reason for this specific refusal, such as `bank_warning_not_acknowledged`. Only present when the error carries one. */
+  code?: string | undefined;
+  /** Human-readable error message. */
+  message: string;
+  /** Machine-readable error code. */
+  type: string;
+}
+export interface V1ErrorResponse {
+  error: V1ErrorResponseError;
+}
 export type CreateAccountError = BadRequest | Forbidden | Conflict | WhopOpError;
 /** Create Account Creates an account. User tokens create business accounts; Account API keys create connected accounts. Tax fields (`tax_remitted_by`, `tax_type`, `product_tax_code_id`, `business_address`, `tax_identifiers`) are configured with Update Account, not at creation. */
 export const createAccount: API.OperationMethod<
@@ -2912,8 +2951,8 @@ export const createAccount: API.OperationMethod<
   CreateAccountError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<CreateAccountRequest>,
-  output: __S(433, __c13, 17) as any as S.Schema<Account>,
+  input: __S(288, __c9, 0) as any as S.Schema<CreateAccountRequest>,
+  output: __S(465, __c14, 17) as any as S.Schema<Account>,
   errors: [BadRequest, Forbidden, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -2929,8 +2968,8 @@ export const deleteAccount: API.OperationMethod<
   DeleteAccountError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<DeleteAccountRequest>,
-  output: __S(513, __c16, 1) as any as S.Schema<DeleteAccountResponse>,
+  input: __S(544, __c17, 0) as any as S.Schema<DeleteAccountRequest>,
+  output: __S(545, __c17, 1) as any as S.Schema<DeleteAccountResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -2946,8 +2985,8 @@ export const formCompany: API.OperationMethod<
   FormCompanyError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(548, __c17, 4) as any as S.Schema<FormCompanyRequest>,
-  output: __S(549, __c17, 5) as any as S.Schema<FormCompanyResponse>,
+  input: __S(580, __c18, 4) as any as S.Schema<FormCompanyRequest>,
+  output: __S(581, __c18, 5) as any as S.Schema<FormCompanyResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -2963,8 +3002,8 @@ export const getAccount: API.OperationMethod<
   GetAccountError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<GetAccountRequest>,
-  output: __S(433, __c13, 17) as any as S.Schema<Account>,
+  input: __S(608, __c19, 0) as any as S.Schema<GetAccountRequest>,
+  output: __S(465, __c14, 17) as any as S.Schema<Account>,
   errors: [Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -2980,8 +3019,8 @@ export const getAccountFees: API.OperationMethod<
   GetAccountFeesError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<GetAccountFeesRequest>,
-  output: __S(649, __c20, 9) as any as S.Schema<AccountFees>,
+  input: __S(640, __c20, 0) as any as S.Schema<GetAccountFeesRequest>,
+  output: __S(681, __c21, 9) as any as S.Schema<AccountFees>,
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -2997,8 +3036,8 @@ export const getAccountPreferences: API.OperationMethod<
   GetAccountPreferencesError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<GetAccountPreferencesRequest>,
-  output: __S(712, __c22, 8) as any as S.Schema<GetAccountPreferencesResponse>,
+  input: __S(704, __c22, 0) as any as S.Schema<GetAccountPreferencesRequest>,
+  output: __S(744, __c23, 8) as any as S.Schema<GetAccountPreferencesResponse>,
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -3014,8 +3053,8 @@ export const listAccountReserves: API.OperationMethod<
   ListAccountReservesError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<ListAccountReservesRequest>,
-  output: __S(5, __c0, 5) as any as S.Schema<ListAccountReservesResponse>,
+  input: __S(32, __c1, 0) as any as S.Schema<ListAccountReservesRequest>,
+  output: __S(37, __c1, 5) as any as S.Schema<ListAccountReservesResponse>,
   errors: [Forbidden],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -3033,8 +3072,8 @@ export const listAccounts: API.PaginatedOperationMethod<
   Account
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(32, __c1, 0) as any as S.Schema<ListAccountsRequest>,
-    output: __S(35, __c1, 3) as any as S.Schema<ListAccountsResponse>,
+    input: __S(64, __c2, 0) as any as S.Schema<ListAccountsRequest>,
+    output: __S(67, __c2, 3) as any as S.Schema<ListAccountsResponse>,
     errors: [BadRequest, Forbidden],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -3065,8 +3104,8 @@ export const retryAccountAdsPayment: API.OperationMethod<
   RetryAccountAdsPaymentError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<RetryAccountAdsPaymentRequest>,
-  output: __S(65, __c2, 1) as any as S.Schema<RetryAccountAdsPaymentResponse>,
+  input: __S(96, __c3, 0) as any as S.Schema<RetryAccountAdsPaymentRequest>,
+  output: __S(97, __c3, 1) as any as S.Schema<RetryAccountAdsPaymentResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -3082,8 +3121,8 @@ export const suspendAccount: API.OperationMethod<
   SuspendAccountError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c3, 0) as any as S.Schema<SuspendAccountRequest>,
-  output: __S(433, __c13, 17) as any as S.Schema<Account>,
+  input: __S(128, __c4, 0) as any as S.Schema<SuspendAccountRequest>,
+  output: __S(465, __c14, 17) as any as S.Schema<Account>,
   errors: [Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -3099,8 +3138,8 @@ export const transferAccountOwnership: API.OperationMethod<
   TransferAccountOwnershipError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<TransferAccountOwnershipRequest>,
-  output: __S(129, __c4, 1) as any as S.Schema<TransferAccountOwnershipResponse>,
+  input: __S(160, __c5, 0) as any as S.Schema<TransferAccountOwnershipRequest>,
+  output: __S(161, __c5, 1) as any as S.Schema<TransferAccountOwnershipResponse>,
   errors: [Forbidden, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -3116,8 +3155,8 @@ export const updateAccount: API.OperationMethod<
   UpdateAccountError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(166, __c5, 6) as any as S.Schema<UpdateAccountRequest>,
-  output: __S(433, __c13, 17) as any as S.Schema<Account>,
+  input: __S(198, __c6, 6) as any as S.Schema<UpdateAccountRequest>,
+  output: __S(465, __c14, 17) as any as S.Schema<Account>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -3133,8 +3172,8 @@ export const updateAccountFees: API.OperationMethod<
   UpdateAccountFeesError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c6, 8) as any as S.Schema<UpdateAccountFeesRequest>,
-  output: __S(649, __c20, 9) as any as S.Schema<AccountFees>,
+  input: __S(232, __c7, 8) as any as S.Schema<UpdateAccountFeesRequest>,
+  output: __S(681, __c21, 9) as any as S.Schema<AccountFees>,
   errors: [BadRequest, Forbidden],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -3155,8 +3194,8 @@ export const updateAccountPreferences: API.OperationMethod<
   UpdateAccountPreferencesError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(229, __c7, 5) as any as S.Schema<UpdateAccountPreferencesRequest>,
-  output: __S(712, __c22, 8) as any as S.Schema<UpdateAccountPreferencesResponse>,
+  input: __S(261, __c8, 5) as any as S.Schema<UpdateAccountPreferencesRequest>,
+  output: __S(744, __c23, 8) as any as S.Schema<UpdateAccountPreferencesResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -3166,6 +3205,24 @@ export const updateAccountPreferences: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "V1ErrorResponseError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "V1ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3183,27 +3240,27 @@ function __c0(j: number): any {
         }),
       ).annotate({ identifier: "AccountReserveType" });
     case 2:
-      return S.Array(__S(1, __c0, 1));
+      return S.Array(__S(33, __c1, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           amount: S.String,
-          by_type: __S(2, __c0, 2),
+          by_type: __S(34, __c1, 2),
           currency: S.String,
-          unlocks_by_date: __S(353, __c11, 1),
+          unlocks_by_date: __S(385, __c12, 1),
         }),
       ).annotate({ identifier: "AccountReserve" });
     case 4:
-      return S.Array(__S(3, __c0, 3));
+      return S.Array(__S(35, __c1, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          data: __S(4, __c0, 4),
+          data: __S(36, __c1, 4),
         }),
       ).annotate({ identifier: "ListAccountReservesResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3224,7 +3281,7 @@ function __c1(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/accounts", code: 200 })),
       ).annotate({ identifier: "ListAccountsRequest" });
     case 1:
-      return S.Array(__S(433, __c13, 17));
+      return S.Array(__S(465, __c14, 17));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -3237,13 +3294,13 @@ function __c1(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(33, __c1, 1),
-          page_info: __S(34, __c1, 2),
+          data: __S(65, __c2, 1),
+          page_info: __S(66, __c2, 2),
         }),
       ).annotate({ identifier: "ListAccountsResponse" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3261,7 +3318,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "RetryAccountAdsPaymentResponse" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3272,7 +3329,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "SuspendAccountRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3292,7 +3349,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "TransferAccountOwnershipResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3315,7 +3372,7 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "UpdateAccountRequestBusinessAddress" });
     case 2:
-      return S.Array(__S(288, __c9, 0));
+      return S.Array(__S(320, __c10, 0));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -3333,54 +3390,54 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "UpdateAccountRequestTaxIdentifiersItem" });
     case 5:
-      return S.Array(__S(164, __c5, 4));
+      return S.Array(__S(196, __c6, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           affiliate_application_required: S.optional(S.Boolean),
           affiliate_instructions: S.optional(S.NullOr(S.String)),
-          banner_image: S.optional(S.NullOr(__S(160, __c5, 0))),
-          business_address: S.optional(__S(161, __c5, 1)),
+          banner_image: S.optional(S.NullOr(__S(192, __c6, 0))),
+          business_address: S.optional(__S(193, __c6, 1)),
           business_name: S.optional(S.NullOr(S.String)),
           business_type: S.optional(S.NullOr(S.String)),
-          cancellation_policy: S.optional(S.NullOr(__S(160, __c5, 0))),
+          cancellation_policy: S.optional(S.NullOr(__S(192, __c6, 0))),
           collect_vat_id: S.optional(S.Boolean),
           country: S.optional(S.NullOr(S.String)),
           description: S.optional(S.NullOr(S.String)),
           dispute_fighter_enabled: S.optional(S.Boolean),
-          eula: S.optional(S.NullOr(__S(160, __c5, 0))),
+          eula: S.optional(S.NullOr(__S(192, __c6, 0))),
           featured_affiliate_product_id: S.optional(S.NullOr(S.String)),
-          home_preferences: S.optional(__S(320, __c10, 0)),
+          home_preferences: S.optional(__S(352, __c11, 0)),
           industry_group: S.optional(S.NullOr(S.String)),
           industry_type: S.optional(S.NullOr(S.String)),
           invoice_prefix: S.optional(S.NullOr(S.String)),
-          logo: S.optional(S.NullOr(__S(160, __c5, 0))),
-          metadata: S.optional(__S(288, __c9, 0)),
+          logo: S.optional(S.NullOr(__S(192, __c6, 0))),
+          metadata: S.optional(__S(320, __c10, 0)),
           onboarding_type: S.optional(S.NullOr(S.String)),
-          opengraph_image: S.optional(S.NullOr(__S(160, __c5, 0))),
+          opengraph_image: S.optional(S.NullOr(__S(192, __c6, 0))),
           opengraph_image_variant: S.optional(S.NullOr(S.String)),
           orchestration_enabled: S.optional(S.Boolean),
           other_business_description: S.optional(S.NullOr(S.String)),
           other_industry_description: S.optional(S.NullOr(S.String)),
-          privacy_policy: S.optional(S.NullOr(__S(160, __c5, 0))),
+          privacy_policy: S.optional(S.NullOr(__S(192, __c6, 0))),
           product_tax_code_id: S.optional(S.NullOr(S.String)),
           require_2fa: S.optional(S.Boolean),
-          return_policy: S.optional(S.NullOr(__S(160, __c5, 0))),
+          return_policy: S.optional(S.NullOr(__S(192, __c6, 0))),
           route: S.optional(S.NullOr(S.String)),
           send_customer_emails: S.optional(S.Boolean),
-          shipping_policy: S.optional(S.NullOr(__S(160, __c5, 0))),
+          shipping_policy: S.optional(S.NullOr(__S(192, __c6, 0))),
           show_joined_whops: S.optional(S.Boolean),
           show_reviews_dtc: S.optional(S.Boolean),
           show_user_directory: S.optional(S.Boolean),
-          social_links: S.optional(__S(162, __c5, 2)),
-          store_page_config: S.optional(S.NullOr(__S(163, __c5, 3))),
+          social_links: S.optional(__S(194, __c6, 2)),
+          store_page_config: S.optional(S.NullOr(__S(195, __c6, 3))),
           target_audience: S.optional(S.NullOr(S.String)),
-          tax_collection_enabled_states: S.optional(__S(320, __c10, 0)),
-          tax_identifiers: S.optional(__S(165, __c5, 5)),
+          tax_collection_enabled_states: S.optional(__S(352, __c11, 0)),
+          tax_identifiers: S.optional(__S(197, __c6, 5)),
           tax_remitted_by: S.optional(S.String),
           tax_type: S.optional(S.String),
-          terms_of_service: S.optional(S.NullOr(__S(160, __c5, 0))),
+          terms_of_service: S.optional(S.NullOr(__S(192, __c6, 0))),
           three_ds_level: S.optional(S.NullOr(S.String)),
           title: S.optional(S.NullOr(S.String)),
           use_logo_as_opengraph_image_fallback: S.optional(S.Boolean),
@@ -3389,7 +3446,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "UpdateAccountRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3399,13 +3456,13 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "UpdateAccountFeesRequestBankDepositRegionsValue" });
     case 1:
-      return S.Record(S.String, __S(192, __c6, 0));
+      return S.Record(S.String, __S(224, __c7, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           fixed: S.optional(S.NullOr(S.Number)),
           percentage: S.optional(S.NullOr(S.Number)),
-          regions: S.optional(__S(193, __c6, 1)),
+          regions: S.optional(__S(225, __c7, 1)),
         }),
       ).annotate({ identifier: "UpdateAccountFeesRequestBankDeposit" });
     case 3:
@@ -3416,16 +3473,16 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "UpdateAccountFeesRequestChildMarkupsCardSpend" });
     case 4:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(195, __c6, 3)));
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(227, __c7, 3)));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          card_spend: S.optional(S.NullOr(__S(195, __c6, 3))),
-          crypto_swaps: S.optional(S.NullOr(__S(195, __c6, 3))),
-          deposits: S.optional(__S(196, __c6, 4)),
-          payments: S.optional(S.NullOr(__S(195, __c6, 3))),
-          payouts: S.optional(__S(196, __c6, 4)),
-          transfers: S.optional(S.NullOr(__S(195, __c6, 3))),
+          card_spend: S.optional(S.NullOr(__S(227, __c7, 3))),
+          crypto_swaps: S.optional(S.NullOr(__S(227, __c7, 3))),
+          deposits: S.optional(__S(228, __c7, 4)),
+          payments: S.optional(S.NullOr(__S(227, __c7, 3))),
+          payouts: S.optional(__S(228, __c7, 4)),
+          transfers: S.optional(S.NullOr(__S(227, __c7, 3))),
         }),
       ).annotate({ identifier: "UpdateAccountFeesRequestChildMarkups" });
     case 6:
@@ -3440,46 +3497,46 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "UpdateAccountFeesRequestCoveredPayoutFees" });
     case 7:
-      return S.Record(S.String, __S(194, __c6, 2));
+      return S.Record(S.String, __S(226, __c7, 2));
     case 8:
       return S.suspend(() =>
         S.Struct({
           account_id: S.String.pipe(T.Label()),
-          bank_deposit: S.optional(__S(194, __c6, 2)),
-          billing: S.optional(__S(194, __c6, 2)),
-          buyer: S.optional(__S(194, __c6, 2)),
-          card_processing: S.optional(__S(194, __c6, 2)),
-          child_markups: S.optional(__S(197, __c6, 5)),
-          covered_payout_fees: S.optional(__S(198, __c6, 6)),
-          cross_border: S.optional(__S(194, __c6, 2)),
-          dispute: S.optional(__S(194, __c6, 2)),
-          dispute_alert: S.optional(__S(194, __c6, 2)),
-          dispute_alert_cdrn: S.optional(__S(194, __c6, 2)),
-          dispute_alert_ethoca: S.optional(__S(194, __c6, 2)),
-          dispute_alert_rdr: S.optional(__S(194, __c6, 2)),
-          dispute_representment: S.optional(__S(194, __c6, 2)),
-          foreign_exchange: S.optional(__S(194, __c6, 2)),
-          fraud_screening: S.optional(__S(194, __c6, 2)),
-          high_risk: S.optional(__S(194, __c6, 2)),
-          marketplace: S.optional(__S(194, __c6, 2)),
-          markups: S.optional(__S(197, __c6, 5)),
+          bank_deposit: S.optional(__S(226, __c7, 2)),
+          billing: S.optional(__S(226, __c7, 2)),
+          buyer: S.optional(__S(226, __c7, 2)),
+          card_processing: S.optional(__S(226, __c7, 2)),
+          child_markups: S.optional(__S(229, __c7, 5)),
+          covered_payout_fees: S.optional(__S(230, __c7, 6)),
+          cross_border: S.optional(__S(226, __c7, 2)),
+          dispute: S.optional(__S(226, __c7, 2)),
+          dispute_alert: S.optional(__S(226, __c7, 2)),
+          dispute_alert_cdrn: S.optional(__S(226, __c7, 2)),
+          dispute_alert_ethoca: S.optional(__S(226, __c7, 2)),
+          dispute_alert_rdr: S.optional(__S(226, __c7, 2)),
+          dispute_representment: S.optional(__S(226, __c7, 2)),
+          foreign_exchange: S.optional(__S(226, __c7, 2)),
+          fraud_screening: S.optional(__S(226, __c7, 2)),
+          high_risk: S.optional(__S(226, __c7, 2)),
+          marketplace: S.optional(__S(226, __c7, 2)),
+          markups: S.optional(__S(229, __c7, 5)),
           notes: S.optional(S.String),
-          orchestration: S.optional(__S(194, __c6, 2)),
-          payment_methods: S.optional(__S(199, __c6, 7)),
-          payouts: S.optional(__S(199, __c6, 7)),
-          pending_auto_topup: S.optional(__S(194, __c6, 2)),
-          platform_processing: S.optional(__S(194, __c6, 2)),
-          pool_payout: S.optional(__S(194, __c6, 2)),
-          revshare: S.optional(__S(194, __c6, 2)),
-          tax_calculation: S.optional(__S(194, __c6, 2)),
-          tax_service: S.optional(__S(194, __c6, 2)),
-          three_ds: S.optional(__S(194, __c6, 2)),
-          transfers: S.optional(__S(194, __c6, 2)),
+          orchestration: S.optional(__S(226, __c7, 2)),
+          payment_methods: S.optional(__S(231, __c7, 7)),
+          payouts: S.optional(__S(231, __c7, 7)),
+          pending_auto_topup: S.optional(__S(226, __c7, 2)),
+          platform_processing: S.optional(__S(226, __c7, 2)),
+          pool_payout: S.optional(__S(226, __c7, 2)),
+          revshare: S.optional(__S(226, __c7, 2)),
+          tax_calculation: S.optional(__S(226, __c7, 2)),
+          tax_service: S.optional(__S(226, __c7, 2)),
+          three_ds: S.optional(__S(226, __c7, 2)),
+          transfers: S.optional(__S(226, __c7, 2)),
         }).pipe(T.Http({ method: "PATCH", uri: "/accounts/{account_id}/fees", code: 200 })),
       ).annotate({ identifier: "UpdateAccountFeesRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3488,7 +3545,7 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "UpdateAccountPreferencesRequestAdsCertificationsValue" });
     case 1:
-      return S.Record(S.String, __S(224, __c7, 0));
+      return S.Record(S.String, __S(256, __c8, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -3499,8 +3556,8 @@ function __c7(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          backup: S.optional(__S(226, __c7, 2)),
-          primary: __S(226, __c7, 2),
+          backup: S.optional(__S(258, __c8, 2)),
+          primary: __S(258, __c8, 2),
         }),
       ).annotate({ identifier: "UpdateAccountPreferencesRequestAdsPaymentMethods" });
     case 4:
@@ -3514,11 +3571,11 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           account_id: S.String.pipe(T.Label()),
-          ads_certifications: S.optional(__S(225, __c7, 1)),
-          ads_payment_methods: S.optional(__S(227, __c7, 3)),
+          ads_certifications: S.optional(__S(257, __c8, 1)),
+          ads_payment_methods: S.optional(__S(259, __c8, 3)),
           ads_reporting_currency: S.optional(S.String),
           ads_scheduling_timezone: S.optional(S.String),
-          ads_triple_whale_integration: S.optional(__S(228, __c7, 4)),
+          ads_triple_whale_integration: S.optional(__S(260, __c8, 4)),
           cards_auto_top_up: S.optional(S.Boolean),
           cards_notifications: S.optional(S.Boolean),
           dispute_fighter_enabled: S.optional(S.Boolean),
@@ -3528,7 +3585,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "UpdateAccountPreferencesRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3538,7 +3595,7 @@ function __c8(j: number): any {
           country: S.optional(S.String),
           dispute_fighter_enabled: S.optional(S.Boolean),
           email: S.optional(S.String),
-          metadata: S.optional(__S(288, __c9, 0)),
+          metadata: S.optional(__S(320, __c10, 0)),
           orchestration_enabled: S.optional(S.Boolean),
           send_customer_emails: S.optional(S.Boolean),
           title: S.optional(S.String),
@@ -3548,19 +3605,19 @@ function __c8(j: number): any {
       ).annotate({ identifier: "CreateAccountRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3570,10 +3627,10 @@ function __c11(j: number): any {
         }),
       ).annotate({ identifier: "AccountBalanceSettlement" });
     case 1:
-      return S.Array(__S(352, __c11, 0));
+      return S.Array(__S(384, __c12, 0));
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3581,7 +3638,7 @@ function __c12(j: number): any {
           available: S.String,
           in_transit: S.String,
           pending: S.String,
-          pending_settlements: __S(353, __c11, 1),
+          pending_settlements: __S(385, __c12, 1),
           reserve: S.String,
         }),
       ).annotate({ identifier: "AccountBalanceBreakdown" });
@@ -3589,7 +3646,7 @@ function __c12(j: number): any {
       return S.suspend(() =>
         S.Struct({
           balance: S.String,
-          breakdown: __S(384, __c12, 0),
+          breakdown: __S(416, __c13, 0),
           icon_url: S.NullOr(S.String),
           name: S.String,
           price_usd: S.NullOr(S.Number),
@@ -3598,7 +3655,7 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "AccountBalanceToken" });
     case 2:
-      return S.Array(__S(385, __c12, 1));
+      return S.Array(__S(417, __c13, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -3607,7 +3664,7 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "FileMultipartUrl" });
     case 4:
-      return S.Array(__S(387, __c12, 3));
+      return S.Array(__S(419, __c13, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -3617,7 +3674,7 @@ function __c12(j: number): any {
           id: S.String,
           multipart_chunk_size: S.optional(S.NullOr(S.Number)),
           multipart_upload_id: S.optional(S.NullOr(S.String)),
-          multipart_upload_urls: S.optional(S.NullOr(__S(388, __c12, 4))),
+          multipart_upload_urls: S.optional(S.NullOr(__S(420, __c13, 4))),
           object: S.String,
           size: S.NullOr(S.Number),
           upload_headers: S.optional(S.Unknown),
@@ -3661,7 +3718,7 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "AccountCompanyFormationDocument" });
     case 9:
-      return S.Array(__S(392, __c12, 8));
+      return S.Array(__S(424, __c13, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
@@ -3674,8 +3731,8 @@ function __c12(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            form8821: S.optional(__S(394, __c12, 10)),
-            ss4: S.optional(__S(394, __c12, 10)),
+            form8821: S.optional(__S(426, __c13, 10)),
+            ss4: S.optional(__S(426, __c13, 10)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -3684,10 +3741,10 @@ function __c12(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            documents: S.optional(__S(393, __c12, 9)),
+            documents: S.optional(__S(425, __c13, 9)),
             ein_registered: S.optional(S.Boolean),
             legal_name: S.optional(S.NullOr(S.String)),
-            signatures: S.optional(__S(395, __c12, 11)),
+            signatures: S.optional(__S(427, __c13, 11)),
             state_registered: S.optional(S.Boolean),
             status: S.optional(S.String),
           }),
@@ -3705,7 +3762,7 @@ function __c12(j: number): any {
         S.Struct({
           id: S.String,
           name: S.NullOr(S.String),
-          profile_picture: __S(397, __c12, 13),
+          profile_picture: __S(429, __c13, 13),
           username: S.String,
         }),
       ).annotate({ identifier: "UserSummary" });
@@ -3717,11 +3774,11 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "AccountParentFeesValue" });
     case 16:
-      return S.Record(S.String, __S(399, __c12, 15));
+      return S.Record(S.String, __S(431, __c13, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
-          fees: S.optional(__S(400, __c12, 16)),
+          fees: S.optional(__S(432, __c13, 16)),
           id: S.String,
           logo_url: S.NullOr(S.String),
           route: S.String,
@@ -3734,7 +3791,7 @@ function __c12(j: number): any {
           email: S.NullOr(S.String),
           id: S.String,
           name: S.NullOr(S.String),
-          profile_picture: __S(397, __c12, 13),
+          profile_picture: __S(429, __c13, 13),
           username: S.String,
           whop_partner_verified_at: S.NullOr(S.String),
         }),
@@ -3773,25 +3830,25 @@ function __c12(j: number): any {
     case 23:
       return S.suspend(() =>
         S.Struct({
-          dispute_alert_auto_refund: __S(403, __c12, 19),
+          dispute_alert_auto_refund: __S(435, __c13, 19),
           dispute_alert_fee_usd: S.NullOr(S.Number),
           enforce_3ds: S.Boolean,
           financing_disabled: S.Boolean,
           high_risk_processing_fee_percentage: S.Number,
           pending_auto_topup_fee_percentage: S.Number,
           pending_balance_delay_days: S.Number,
-          reserve: __S(404, __c12, 20),
-          resolution_center_auto_refund: __S(405, __c12, 21),
-          restricted_payment_methods: __S(320, __c10, 0),
+          reserve: __S(436, __c13, 20),
+          resolution_center_auto_refund: __S(437, __c13, 21),
+          restricted_payment_methods: __S(352, __c11, 0),
           undated_pending_reason: S.NullOr(S.String),
-          withdrawal_schedule: __S(406, __c12, 22),
+          withdrawal_schedule: __S(438, __c13, 22),
         }),
       ).annotate({ identifier: "AccountPaymentControls" });
     case 24:
       return S.suspend(() =>
         S.Struct({
           action: S.String,
-          blocked_capabilities: __S(480, __c15, 0),
+          blocked_capabilities: __S(512, __c16, 0),
           cta: S.String,
           cta_label: S.String,
           description: S.String,
@@ -3803,12 +3860,12 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "AccountRecommendedAction" });
     case 25:
-      return S.Array(__S(408, __c12, 24));
+      return S.Array(__S(440, __c13, 24));
     case 26:
       return S.suspend(() =>
         S.Struct({
           action: S.String,
-          blocked_capabilities: __S(480, __c15, 0),
+          blocked_capabilities: __S(512, __c16, 0),
           cta: S.NullOr(S.String),
           cta_label: S.String,
           description: S.String,
@@ -3818,20 +3875,20 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "AccountRequiredAction" });
     case 27:
-      return S.Array(__S(410, __c12, 26));
+      return S.Array(__S(442, __c13, 26));
     case 28:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          qualification_amount: __S(448, __c14, 0),
-          qualification_progress: __S(448, __c14, 0),
+          qualification_amount: __S(480, __c15, 0),
+          qualification_progress: __S(480, __c15, 0),
           qualification_type: S.String,
-          reward_amount: __S(448, __c14, 0),
+          reward_amount: __S(480, __c15, 0),
           status: S.String,
         }),
       ).annotate({ identifier: "AccountPartnerReward" });
     case 29:
-      return S.Array(__S(412, __c12, 28));
+      return S.Array(__S(444, __c13, 28));
     case 30:
       return S.suspend(() =>
         S.Struct({
@@ -3842,10 +3899,10 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "AccountSocialLink" });
     case 31:
-      return S.Array(__S(414, __c12, 30));
+      return S.Array(__S(446, __c13, 30));
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3865,15 +3922,15 @@ function __c13(j: number): any {
         }),
       ).annotate({ identifier: "AccountTaxIdentifier" });
     case 2:
-      return S.Array(__S(417, __c13, 1));
+      return S.Array(__S(449, __c14, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          account_value: __S(448, __c14, 0),
-          total_margin_used: __S(448, __c14, 0),
-          total_position_notional: __S(448, __c14, 0),
-          total_raw_usd: __S(448, __c14, 0),
-          withdrawable: __S(448, __c14, 0),
+          account_value: __S(480, __c15, 0),
+          total_margin_used: __S(480, __c15, 0),
+          total_position_notional: __S(480, __c15, 0),
+          total_raw_usd: __S(480, __c15, 0),
+          withdrawable: __S(480, __c15, 0),
         }),
       ).annotate({ identifier: "TradingMarginSummary" });
     case 4:
@@ -3884,14 +3941,14 @@ function __c13(j: number): any {
         }),
       ).annotate({ identifier: "TradingWebsocketSubscription" });
     case 5:
-      return S.Array(__S(420, __c13, 4));
+      return S.Array(__S(452, __c14, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           address: S.String,
           builder_fee_bps: S.NullOr(S.String),
-          margin_summary: __S(419, __c13, 3),
-          websocket_subscriptions: __S(421, __c13, 5),
+          margin_summary: __S(451, __c14, 3),
+          websocket_subscriptions: __S(453, __c14, 5),
           websocket_url: S.String,
         }),
       ).annotate({ identifier: "TradingHyperliquidAccount" });
@@ -3899,7 +3956,7 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           reduce_only: S.NullOr(S.Boolean),
-          trigger_price: S.NullOr(__S(448, __c14, 0)),
+          trigger_price: S.NullOr(__S(480, __c15, 0)),
         }),
       ).annotate({ identifier: "TradingHyperliquidOrder" });
     case 8:
@@ -3907,13 +3964,13 @@ function __c13(j: number): any {
         S.Struct({
           client_order_id: S.NullOr(S.String),
           created_at: S.NullOr(S.String),
-          hyperliquid: S.NullOr(__S(423, __c13, 7)),
+          hyperliquid: S.NullOr(__S(455, __c14, 7)),
           id: S.String,
           market: S.String,
           object: S.String,
           order_type: S.String,
           original_size: S.NullOr(S.String),
-          price: __S(448, __c14, 0),
+          price: __S(480, __c15, 0),
           provider_order_id: S.NullOr(S.String),
           side: S.String,
           size: S.String,
@@ -3923,13 +3980,13 @@ function __c13(j: number): any {
         }),
       ).annotate({ identifier: "TradingOrder" });
     case 9:
-      return S.Array(__S(424, __c13, 8));
+      return S.Array(__S(456, __c14, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          all_time: S.NullOr(__S(448, __c14, 0)),
-          since_change: S.NullOr(__S(448, __c14, 0)),
-          since_open: S.NullOr(__S(448, __c14, 0)),
+          all_time: S.NullOr(__S(480, __c15, 0)),
+          since_change: S.NullOr(__S(480, __c15, 0)),
+          since_open: S.NullOr(__S(480, __c15, 0)),
         }),
       ).annotate({ identifier: "TradingCumulativeFunding" });
     case 11:
@@ -3942,38 +3999,38 @@ function __c13(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          cumulative_funding: __S(426, __c13, 10),
-          leverage: __S(427, __c13, 11),
-          liquidation_price: S.NullOr(__S(448, __c14, 0)),
-          margin_used: __S(448, __c14, 0),
+          cumulative_funding: __S(458, __c14, 10),
+          leverage: __S(459, __c14, 11),
+          liquidation_price: S.NullOr(__S(480, __c15, 0)),
+          margin_used: __S(480, __c15, 0),
           return_on_equity: S.String,
         }),
       ).annotate({ identifier: "TradingHyperliquidPosition" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          entry_price: S.NullOr(__S(448, __c14, 0)),
-          hyperliquid: S.NullOr(__S(428, __c13, 12)),
+          entry_price: S.NullOr(__S(480, __c15, 0)),
+          hyperliquid: S.NullOr(__S(460, __c14, 12)),
           id: S.String,
           market: S.String,
           object: S.String,
-          position_value: __S(448, __c14, 0),
+          position_value: __S(480, __c15, 0),
           side: S.String,
           size: S.String,
-          unrealized_pnl: __S(448, __c14, 0),
+          unrealized_pnl: __S(480, __c15, 0),
         }),
       ).annotate({ identifier: "TradingPosition" });
     case 14:
-      return S.Array(__S(429, __c13, 13));
+      return S.Array(__S(461, __c14, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
           account_id: S.NullOr(S.String),
-          hyperliquid: S.NullOr(__S(422, __c13, 6)),
+          hyperliquid: S.NullOr(__S(454, __c14, 6)),
           id: S.String,
           object: S.String,
-          open_orders: __S(425, __c13, 9),
-          positions: __S(430, __c13, 14),
+          open_orders: __S(457, __c14, 9),
+          positions: __S(462, __c14, 14),
           provider: S.String,
           user_id: S.NullOr(S.String),
         }),
@@ -3989,25 +4046,25 @@ function __c13(j: number): any {
     case 17:
       return S.suspend(() =>
         S.Struct({
-          balances: __S(386, __c12, 2),
+          balances: __S(418, __c13, 2),
           banner_image_url: S.NullOr(S.String),
           business_address: S.NullOr(S.Unknown),
           business_name: S.NullOr(S.String),
           business_type: S.NullOr(S.String),
           can_transfer_pending_balance_to_children: S.Boolean,
-          cancellation_policy: S.NullOr(__S(389, __c12, 5)),
-          capabilities: S.NullOr(__S(390, __c12, 6)),
-          cards: S.NullOr(__S(391, __c12, 7)),
+          cancellation_policy: S.NullOr(__S(421, __c13, 5)),
+          capabilities: S.NullOr(__S(422, __c13, 6)),
+          cards: S.NullOr(__S(423, __c13, 7)),
           collect_vat_id: S.Boolean,
-          company_formation: __S(396, __c12, 12),
+          company_formation: __S(428, __c13, 12),
           country: S.NullOr(S.String),
           created_at: S.String,
           description: S.NullOr(S.String),
           dispute_fighter_enabled: S.Boolean,
           economic_intelligence: S.Boolean,
           email: S.NullOr(S.String),
-          eula: S.NullOr(__S(389, __c12, 5)),
-          home_preferences: __S(320, __c10, 0),
+          eula: S.NullOr(__S(421, __c13, 5)),
+          home_preferences: __S(352, __c11, 0),
           id: S.String,
           industry_group: S.NullOr(S.String),
           industry_type: S.NullOr(S.String),
@@ -4020,49 +4077,49 @@ function __c13(j: number): any {
           orchestration_enabled: S.Boolean,
           other_business_description: S.NullOr(S.String),
           other_industry_description: S.NullOr(S.String),
-          owner: __S(398, __c12, 14),
-          parent_account: S.NullOr(__S(401, __c12, 17)),
-          partner: S.optional(S.NullOr(__S(402, __c12, 18))),
-          payment_controls: S.NullOr(__S(407, __c12, 23)),
-          privacy_policy: S.NullOr(__S(389, __c12, 5)),
+          owner: __S(430, __c13, 14),
+          parent_account: S.NullOr(__S(433, __c13, 17)),
+          partner: S.optional(S.NullOr(__S(434, __c13, 18))),
+          payment_controls: S.NullOr(__S(439, __c13, 23)),
+          privacy_policy: S.NullOr(__S(421, __c13, 5)),
           product_tax_code: S.NullOr(S.Unknown),
-          recommended_actions: S.NullOr(__S(409, __c12, 25)),
+          recommended_actions: S.NullOr(__S(441, __c13, 25)),
           require_2fa: S.Boolean,
-          required_actions: S.NullOr(__S(411, __c12, 27)),
-          return_policy: S.NullOr(__S(389, __c12, 5)),
-          rewards: S.optional(__S(413, __c12, 29)),
+          required_actions: S.NullOr(__S(443, __c13, 27)),
+          return_policy: S.NullOr(__S(421, __c13, 5)),
+          rewards: S.optional(__S(445, __c13, 29)),
           route: S.String,
           send_customer_emails: S.Boolean,
-          shipping_policy: S.NullOr(__S(389, __c12, 5)),
+          shipping_policy: S.NullOr(__S(421, __c13, 5)),
           show_joined_whops: S.Boolean,
           show_reviews_dtc: S.Boolean,
           show_user_directory: S.Boolean,
-          social_links: __S(415, __c12, 31),
+          social_links: __S(447, __c13, 31),
           stablecoin_rails: S.Boolean,
           status: S.NullOr(S.String),
           status_reason: S.NullOr(S.String),
-          store_page_config: __S(416, __c13, 0),
+          store_page_config: __S(448, __c14, 0),
           target_audience: S.NullOr(S.String),
-          tax_collection_enabled_states: __S(480, __c15, 0),
-          tax_identifiers: __S(418, __c13, 2),
+          tax_collection_enabled_states: __S(512, __c16, 0),
+          tax_identifiers: __S(450, __c14, 2),
           tax_remitted_by: S.NullOr(S.String),
           tax_type: S.NullOr(S.String),
-          terms_of_service: S.NullOr(__S(389, __c12, 5)),
+          terms_of_service: S.NullOr(__S(421, __c13, 5)),
           three_ds_level: S.NullOr(S.String),
           title: S.String,
           total_earned_usd: S.NullOr(S.Number),
           total_usd: S.NullOr(S.String),
-          trading: S.NullOr(__S(431, __c13, 15)),
+          trading: S.NullOr(__S(463, __c14, 15)),
           use_logo_as_opengraph_image_fallback: S.Boolean,
           verification: S.Unknown,
           volume_usd: S.NullOr(S.Number),
-          wallet: S.NullOr(__S(432, __c13, 16)),
+          wallet: S.NullOr(__S(464, __c14, 16)),
           website: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "Account" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4075,13 +4132,13 @@ function __c14(j: number): any {
       ).annotate({ identifier: "Money" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4098,7 +4155,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "DeleteAccountResponse" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4114,7 +4171,7 @@ function __c17(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          address: __S(544, __c17, 0),
+          address: __S(576, __c18, 0),
           date_of_birth: S.optional(S.String),
           email: S.String,
           first_name: S.String,
@@ -4122,12 +4179,12 @@ function __c17(j: number): any {
           last_name: S.String,
           ownership_percentage: S.optional(S.Number),
           phone: S.String,
-          roles: S.optional(__S(320, __c10, 0)),
+          roles: S.optional(__S(352, __c11, 0)),
           ssn: S.optional(S.String),
         }),
       ).annotate({ identifier: "FormCompanyRequestFoundersItem" });
     case 2:
-      return S.Array(__S(545, __c17, 1));
+      return S.Array(__S(577, __c18, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -4139,7 +4196,7 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          business_address: S.optional(__S(544, __c17, 0)),
+          business_address: S.optional(__S(576, __c18, 0)),
           business_name: S.String,
           business_phone: S.optional(S.String),
           business_type: S.String,
@@ -4148,10 +4205,10 @@ function __c17(j: number): any {
           entity_type: S.optional(S.String),
           expedite_ein: S.optional(S.Boolean),
           formation_state: S.String,
-          founders: __S(546, __c17, 2),
+          founders: __S(578, __c18, 2),
           industry_group: S.String,
           industry_type: S.String,
-          share_structure: S.optional(__S(547, __c17, 3)),
+          share_structure: S.optional(__S(579, __c18, 3)),
           use_registered_agent: S.optional(S.Boolean),
           idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(T.Http({ method: "POST", uri: "/accounts/{id}/form_company", code: 200 })),
@@ -4167,7 +4224,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "FormCompanyResponse" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4178,7 +4235,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetAccountRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4188,43 +4245,43 @@ function __c19(j: number): any {
       ).annotate({ identifier: "GetAccountFeesRequest" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          fixed: S.NullOr(__S(448, __c14, 0)),
+          fixed: S.NullOr(__S(480, __c15, 0)),
           percentage: S.NullOr(S.Number),
         }),
       ).annotate({ identifier: "AccountFeeRate" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          default: __S(640, __c20, 0),
-          fixed: S.NullOr(__S(448, __c14, 0)),
-          maximum: S.NullOr(__S(640, __c20, 0)),
-          minimum: S.NullOr(__S(640, __c20, 0)),
+          default: __S(672, __c21, 0),
+          fixed: S.NullOr(__S(480, __c15, 0)),
+          maximum: S.NullOr(__S(672, __c21, 0)),
+          minimum: S.NullOr(__S(672, __c21, 0)),
           percentage: S.NullOr(S.Number),
-          reset: __S(640, __c20, 0),
+          reset: __S(672, __c21, 0),
           source: S.String,
         }),
       ).annotate({ identifier: "AccountFeeRegionalRate" });
     case 2:
-      return S.Record(S.String, __S(641, __c20, 1));
+      return S.Record(S.String, __S(673, __c21, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           adjustable: S.Boolean,
           category: S.String,
-          default: __S(640, __c20, 0),
+          default: __S(672, __c21, 0),
           ends_at: S.NullOr(S.String),
-          fixed: S.NullOr(__S(448, __c14, 0)),
-          maximum: S.NullOr(__S(640, __c20, 0)),
-          minimum: S.NullOr(__S(640, __c20, 0)),
+          fixed: S.NullOr(__S(480, __c15, 0)),
+          maximum: S.NullOr(__S(672, __c21, 0)),
+          minimum: S.NullOr(__S(672, __c21, 0)),
           percentage: S.NullOr(S.Number),
           region: S.NullOr(S.String),
-          regions: __S(642, __c20, 2),
-          reset: __S(640, __c20, 0),
+          regions: __S(674, __c21, 2),
+          reset: __S(672, __c21, 0),
           source: S.String,
           unadjustable_reason: S.NullOr(S.String),
         }),
@@ -4233,25 +4290,25 @@ function __c20(j: number): any {
       return S.suspend(() =>
         S.Struct({
           adjustable: S.Boolean,
-          default: __S(640, __c20, 0),
-          fixed: __S(448, __c14, 0),
-          maximum: __S(640, __c20, 0),
+          default: __S(672, __c21, 0),
+          fixed: __S(480, __c15, 0),
+          maximum: __S(672, __c21, 0),
           percentage: S.Number,
           source: S.String,
           unadjustable_reason: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "AccountFeeMarkup" });
     case 5:
-      return S.Record(S.String, __S(644, __c20, 4));
+      return S.Record(S.String, __S(676, __c21, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          card_spend: __S(644, __c20, 4),
-          crypto_swaps: __S(644, __c20, 4),
-          deposits: __S(645, __c20, 5),
-          payments: __S(644, __c20, 4),
-          payouts: __S(645, __c20, 5),
-          transfers: __S(644, __c20, 4),
+          card_spend: __S(676, __c21, 4),
+          crypto_swaps: __S(676, __c21, 4),
+          deposits: __S(677, __c21, 5),
+          payments: __S(676, __c21, 4),
+          payouts: __S(677, __c21, 5),
+          transfers: __S(676, __c21, 4),
         }),
       ).annotate({ identifier: "AccountFeeMarkups" });
     case 7:
@@ -4266,46 +4323,46 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "AccountCoveredPayoutFees" });
     case 8:
-      return S.Record(S.String, __S(643, __c20, 3));
+      return S.Record(S.String, __S(675, __c21, 3));
     case 9:
       return S.suspend(() =>
         S.Struct({
           account_id: S.String,
-          bank_deposit: __S(643, __c20, 3),
-          billing: __S(643, __c20, 3),
-          buyer: __S(643, __c20, 3),
-          card_processing: __S(643, __c20, 3),
-          child_markups: S.NullOr(__S(646, __c20, 6)),
-          covered_payout_fees: __S(647, __c20, 7),
-          cross_border: __S(643, __c20, 3),
-          dispute: __S(643, __c20, 3),
-          dispute_alert: __S(643, __c20, 3),
-          dispute_alert_cdrn: __S(643, __c20, 3),
-          dispute_alert_ethoca: __S(643, __c20, 3),
-          dispute_alert_rdr: __S(643, __c20, 3),
-          dispute_representment: __S(643, __c20, 3),
-          foreign_exchange: __S(643, __c20, 3),
-          fraud_screening: __S(643, __c20, 3),
-          high_risk: __S(643, __c20, 3),
-          marketplace: __S(643, __c20, 3),
-          markups: S.NullOr(__S(646, __c20, 6)),
-          orchestration: __S(643, __c20, 3),
+          bank_deposit: __S(675, __c21, 3),
+          billing: __S(675, __c21, 3),
+          buyer: __S(675, __c21, 3),
+          card_processing: __S(675, __c21, 3),
+          child_markups: S.NullOr(__S(678, __c21, 6)),
+          covered_payout_fees: __S(679, __c21, 7),
+          cross_border: __S(675, __c21, 3),
+          dispute: __S(675, __c21, 3),
+          dispute_alert: __S(675, __c21, 3),
+          dispute_alert_cdrn: __S(675, __c21, 3),
+          dispute_alert_ethoca: __S(675, __c21, 3),
+          dispute_alert_rdr: __S(675, __c21, 3),
+          dispute_representment: __S(675, __c21, 3),
+          foreign_exchange: __S(675, __c21, 3),
+          fraud_screening: __S(675, __c21, 3),
+          high_risk: __S(675, __c21, 3),
+          marketplace: __S(675, __c21, 3),
+          markups: S.NullOr(__S(678, __c21, 6)),
+          orchestration: __S(675, __c21, 3),
           parent_account_id: S.NullOr(S.String),
-          payment_methods: __S(648, __c20, 8),
-          payouts: __S(648, __c20, 8),
-          pending_auto_topup: __S(643, __c20, 3),
-          platform_processing: __S(643, __c20, 3),
-          pool_payout: __S(643, __c20, 3),
-          revshare: __S(643, __c20, 3),
-          tax_calculation: __S(643, __c20, 3),
-          tax_service: __S(643, __c20, 3),
-          three_ds: __S(643, __c20, 3),
-          transfers: __S(643, __c20, 3),
+          payment_methods: __S(680, __c21, 8),
+          payouts: __S(680, __c21, 8),
+          pending_auto_topup: __S(675, __c21, 3),
+          platform_processing: __S(675, __c21, 3),
+          pool_payout: __S(675, __c21, 3),
+          revshare: __S(675, __c21, 3),
+          tax_calculation: __S(675, __c21, 3),
+          tax_service: __S(675, __c21, 3),
+          three_ds: __S(675, __c21, 3),
+          transfers: __S(675, __c21, 3),
         }),
       ).annotate({ identifier: "AccountFees" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4315,7 +4372,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "GetAccountPreferencesRequest" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4329,11 +4386,11 @@ function __c22(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          approved_countries: __S(480, __c15, 0),
+          approved_countries: __S(512, __c16, 0),
           business_name: S.NullOr(S.String),
           business_type: S.NullOr(S.String),
           certification_type: S.String,
-          countries: __S(480, __c15, 0),
+          countries: __S(512, __c16, 0),
           denial_reason: S.NullOr(S.String),
           request_id: S.NullOr(S.String),
           status: S.String,
@@ -4341,7 +4398,7 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "GetAccountPreferencesResponseAdsCertificationsItem" });
     case 2:
-      return S.Array(__S(705, __c22, 1));
+      return S.Array(__S(737, __c23, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -4358,8 +4415,8 @@ function __c22(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          backup: S.NullOr(__S(707, __c22, 3)),
-          primary: S.NullOr(__S(707, __c22, 3)),
+          backup: S.NullOr(__S(739, __c23, 3)),
+          primary: S.NullOr(__S(739, __c23, 3)),
         }),
       ).annotate({ identifier: "GetAccountPreferencesResponseAdsPaymentMethods" });
     case 5:
@@ -4381,23 +4438,23 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "GetAccountPreferencesResponseEconomicIntelligenceOffersItem" });
     case 7:
-      return S.Array(__S(710, __c22, 6));
+      return S.Array(__S(742, __c23, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          ads_agreement: __S(704, __c22, 0),
-          ads_certifications: __S(706, __c22, 2),
-          ads_payment_methods: S.NullOr(__S(708, __c22, 4)),
+          ads_agreement: __S(736, __c23, 0),
+          ads_certifications: __S(738, __c23, 2),
+          ads_payment_methods: S.NullOr(__S(740, __c23, 4)),
           ads_reporting_currency: S.String,
           ads_scheduling_timezone: S.String,
-          ads_triple_whale_integration: __S(709, __c22, 5),
+          ads_triple_whale_integration: __S(741, __c23, 5),
           cards_auto_top_up: S.Boolean,
           cards_notifications: S.Boolean,
           dispute_fighter_enabled: S.Boolean,
           economic_intelligence: S.Boolean,
           economic_intelligence_ends_at: S.NullOr(S.String),
           economic_intelligence_fee_percentage: S.NullOr(S.Number),
-          economic_intelligence_offers: S.NullOr(__S(711, __c22, 7)),
+          economic_intelligence_offers: S.NullOr(__S(743, __c23, 7)),
           subscription_failure_behavior: S.String,
         }),
       ).annotate({ identifier: "GetAccountPreferencesResponse" });

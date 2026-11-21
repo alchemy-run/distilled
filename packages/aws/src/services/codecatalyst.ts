@@ -4,6 +4,7 @@ import * as __L from "@distilled.cloud/core/schema-lite";
 import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
+import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
@@ -95,6 +96,42 @@ const TELEMETRY = {
   propagate: TxXray.propagate,
 } as const;
 
+export class AccessDeniedException
+  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
+    "AccessDeniedException",
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(403),
+  ).pipe(C.withAuthError) {}
+export class ConflictException
+  extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
+    "ConflictException",
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(409),
+  ).pipe(C.withConflictError) {}
+export class ResourceNotFoundException
+  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
+    "ResourceNotFoundException",
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(404),
+  ).pipe(C.withBadRequestError) {}
+export class ServiceQuotaExceededException
+  extends /*@__PURE__*/ S.TaggedError<ServiceQuotaExceededException>()(
+    "ServiceQuotaExceededException",
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(402),
+  ).pipe(C.withQuotaError) {}
+export class ThrottlingException
+  extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
+    "ThrottlingException",
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(/*@__PURE__*/ T.HttpError(429), /*@__PURE__*/ T.Retryable()),
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
+export class ValidationException
+  extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
+    "ValidationException",
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
+  ).pipe(C.withBadRequestError) {}
 export type AccessTokenName = string;
 export interface CreateAccessTokenRequest {
   name: string;
@@ -733,7 +770,14 @@ export interface VerifySessionRequest {}
 export interface VerifySessionResponse {
   identity?: string | undefined;
 }
-export type CreateAccessTokenError = CommonErrors;
+export type CreateAccessTokenError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a personal access token (PAT) for the current user. A personal access token (PAT) is similar to a password.
  * It is associated with your user identity for use across all spaces and projects in Amazon CodeCatalyst. You use PATs to access CodeCatalyst
@@ -747,9 +791,16 @@ export const createAccessToken: API.OperationMethod<
   CreateAccessTokenError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateAccessTokenRequest>,
-  output: __S(1, __c0, 1) as any as S.Schema<CreateAccessTokenResponse>,
-  errors: [],
+  input: __S(336, __c42, 0) as any as S.Schema<CreateAccessTokenRequest>,
+  output: __S(337, __c42, 1) as any as S.Schema<CreateAccessTokenResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccessToken",
@@ -757,7 +808,14 @@ export const createAccessToken: API.OperationMethod<
   span: "CreateAccessToken",
 }));
 
-export type CreateDevEnvironmentError = CommonErrors;
+export type CreateDevEnvironmentError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a Dev Environment in Amazon CodeCatalyst, a cloud-based development environment that you can use to quickly work on the code stored
  * in the source repositories of your project.
@@ -771,9 +829,16 @@ export const createDevEnvironment: API.OperationMethod<
   CreateDevEnvironmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<CreateDevEnvironmentRequest>,
-  output: __S(9, __c1, 1) as any as S.Schema<CreateDevEnvironmentResponse>,
-  errors: [],
+  input: __S(344, __c43, 0) as any as S.Schema<CreateDevEnvironmentRequest>,
+  output: __S(345, __c43, 1) as any as S.Schema<CreateDevEnvironmentResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDevEnvironment",
@@ -781,7 +846,14 @@ export const createDevEnvironment: API.OperationMethod<
   span: "CreateDevEnvironment",
 }));
 
-export type CreateProjectError = CommonErrors;
+export type CreateProjectError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a project in a specified space.
  */
@@ -791,9 +863,16 @@ export const createProject: API.OperationMethod<
   CreateProjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<CreateProjectRequest>,
-  output: __S(144, __c18, 0) as any as S.Schema<CreateProjectResponse>,
-  errors: [],
+  input: __S(368, __c46, 0) as any as S.Schema<CreateProjectRequest>,
+  output: __S(376, __c47, 0) as any as S.Schema<CreateProjectResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProject",
@@ -801,7 +880,14 @@ export const createProject: API.OperationMethod<
   span: "CreateProject",
 }));
 
-export type CreateSourceRepositoryError = CommonErrors;
+export type CreateSourceRepositoryError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates an empty Git-based source repository in a specified project. The repository is
  * created with an initial empty commit with a default branch named `main`.
@@ -812,9 +898,16 @@ export const createSourceRepository: API.OperationMethod<
   CreateSourceRepositoryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c32, 0) as any as S.Schema<CreateSourceRepositoryRequest>,
-  output: __S(257, __c32, 1) as any as S.Schema<CreateSourceRepositoryResponse>,
-  errors: [],
+  input: __S(384, __c48, 0) as any as S.Schema<CreateSourceRepositoryRequest>,
+  output: __S(385, __c48, 1) as any as S.Schema<CreateSourceRepositoryResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSourceRepository",
@@ -822,7 +915,14 @@ export const createSourceRepository: API.OperationMethod<
   span: "CreateSourceRepository",
 }));
 
-export type CreateSourceRepositoryBranchError = CommonErrors;
+export type CreateSourceRepositoryBranchError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a branch in a specified source repository in Amazon CodeCatalyst.
  *
@@ -834,9 +934,16 @@ export const createSourceRepositoryBranch: API.OperationMethod<
   CreateSourceRepositoryBranchError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(328, __c41, 0) as any as S.Schema<CreateSourceRepositoryBranchRequest>,
-  output: __S(336, __c42, 0) as any as S.Schema<CreateSourceRepositoryBranchResponse>,
-  errors: [],
+  input: __S(0, __c0, 0) as any as S.Schema<CreateSourceRepositoryBranchRequest>,
+  output: __S(8, __c1, 0) as any as S.Schema<CreateSourceRepositoryBranchResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSourceRepositoryBranch",
@@ -844,7 +951,14 @@ export const createSourceRepositoryBranch: API.OperationMethod<
   span: "CreateSourceRepositoryBranch",
 }));
 
-export type DeleteAccessTokenError = CommonErrors;
+export type DeleteAccessTokenError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a specified personal access token (PAT). A personal access token can only be deleted by the user who created it.
  */
@@ -854,9 +968,16 @@ export const deleteAccessToken: API.OperationMethod<
   DeleteAccessTokenError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(344, __c43, 0) as any as S.Schema<DeleteAccessTokenRequest>,
-  output: __S(352, __c44, 0) as any as S.Schema<DeleteAccessTokenResponse>,
-  errors: [],
+  input: __S(16, __c2, 0) as any as S.Schema<DeleteAccessTokenRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<DeleteAccessTokenResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccessToken",
@@ -864,7 +985,14 @@ export const deleteAccessToken: API.OperationMethod<
   span: "DeleteAccessToken",
 }));
 
-export type DeleteDevEnvironmentError = CommonErrors;
+export type DeleteDevEnvironmentError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a Dev Environment.
  */
@@ -874,9 +1002,16 @@ export const deleteDevEnvironment: API.OperationMethod<
   DeleteDevEnvironmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(360, __c45, 0) as any as S.Schema<DeleteDevEnvironmentRequest>,
-  output: __S(361, __c45, 1) as any as S.Schema<DeleteDevEnvironmentResponse>,
-  errors: [],
+  input: __S(32, __c4, 0) as any as S.Schema<DeleteDevEnvironmentRequest>,
+  output: __S(33, __c4, 1) as any as S.Schema<DeleteDevEnvironmentResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDevEnvironment",
@@ -884,7 +1019,14 @@ export const deleteDevEnvironment: API.OperationMethod<
   span: "DeleteDevEnvironment",
 }));
 
-export type DeleteProjectError = CommonErrors;
+export type DeleteProjectError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a project in a space.
  */
@@ -894,9 +1036,16 @@ export const deleteProject: API.OperationMethod<
   DeleteProjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c46, 0) as any as S.Schema<DeleteProjectRequest>,
-  output: __S(369, __c46, 1) as any as S.Schema<DeleteProjectResponse>,
-  errors: [],
+  input: __S(40, __c5, 0) as any as S.Schema<DeleteProjectRequest>,
+  output: __S(41, __c5, 1) as any as S.Schema<DeleteProjectResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProject",
@@ -904,7 +1053,14 @@ export const deleteProject: API.OperationMethod<
   span: "DeleteProject",
 }));
 
-export type DeleteSourceRepositoryError = CommonErrors;
+export type DeleteSourceRepositoryError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a source repository in Amazon CodeCatalyst. You cannot use this API to delete a linked repository. It can only be used to delete a Amazon CodeCatalyst source repository.
  */
@@ -914,9 +1070,16 @@ export const deleteSourceRepository: API.OperationMethod<
   DeleteSourceRepositoryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(376, __c47, 0) as any as S.Schema<DeleteSourceRepositoryRequest>,
-  output: __S(377, __c47, 1) as any as S.Schema<DeleteSourceRepositoryResponse>,
-  errors: [],
+  input: __S(48, __c6, 0) as any as S.Schema<DeleteSourceRepositoryRequest>,
+  output: __S(49, __c6, 1) as any as S.Schema<DeleteSourceRepositoryResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSourceRepository",
@@ -924,7 +1087,14 @@ export const deleteSourceRepository: API.OperationMethod<
   span: "DeleteSourceRepository",
 }));
 
-export type DeleteSpaceError = CommonErrors;
+export type DeleteSpaceError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes a space.
  *
@@ -936,9 +1106,16 @@ export const deleteSpace: API.OperationMethod<
   DeleteSpaceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c48, 0) as any as S.Schema<DeleteSpaceRequest>,
-  output: __S(385, __c48, 1) as any as S.Schema<DeleteSpaceResponse>,
-  errors: [],
+  input: __S(56, __c7, 0) as any as S.Schema<DeleteSpaceRequest>,
+  output: __S(57, __c7, 1) as any as S.Schema<DeleteSpaceResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSpace",
@@ -946,7 +1123,14 @@ export const deleteSpace: API.OperationMethod<
   span: "DeleteSpace",
 }));
 
-export type GetDevEnvironmentError = CommonErrors;
+export type GetDevEnvironmentError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about a Dev Environment for a source repository in a project. Dev Environments are specific to the user who creates them.
  */
@@ -956,9 +1140,16 @@ export const getDevEnvironment: API.OperationMethod<
   GetDevEnvironmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<GetDevEnvironmentRequest>,
-  output: __S(33, __c4, 1) as any as S.Schema<GetDevEnvironmentResponse>,
-  errors: [],
+  input: __S(64, __c8, 0) as any as S.Schema<GetDevEnvironmentRequest>,
+  output: __S(65, __c8, 1) as any as S.Schema<GetDevEnvironmentResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDevEnvironment",
@@ -966,7 +1157,14 @@ export const getDevEnvironment: API.OperationMethod<
   span: "GetDevEnvironment",
 }));
 
-export type GetProjectError = CommonErrors;
+export type GetProjectError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about a project.
  */
@@ -976,9 +1174,16 @@ export const getProject: API.OperationMethod<
   GetProjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<GetProjectRequest>,
-  output: __S(144, __c18, 0) as any as S.Schema<GetProjectResponse>,
-  errors: [],
+  input: __S(72, __c9, 0) as any as S.Schema<GetProjectRequest>,
+  output: __S(376, __c47, 0) as any as S.Schema<GetProjectResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProject",
@@ -986,7 +1191,14 @@ export const getProject: API.OperationMethod<
   span: "GetProject",
 }));
 
-export type GetSourceRepositoryError = CommonErrors;
+export type GetSourceRepositoryError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about a source repository.
  */
@@ -996,9 +1208,16 @@ export const getSourceRepository: API.OperationMethod<
   GetSourceRepositoryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<GetSourceRepositoryRequest>,
-  output: __S(49, __c6, 1) as any as S.Schema<GetSourceRepositoryResponse>,
-  errors: [],
+  input: __S(80, __c10, 0) as any as S.Schema<GetSourceRepositoryRequest>,
+  output: __S(81, __c10, 1) as any as S.Schema<GetSourceRepositoryResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSourceRepository",
@@ -1006,7 +1225,14 @@ export const getSourceRepository: API.OperationMethod<
   span: "GetSourceRepository",
 }));
 
-export type GetSourceRepositoryCloneUrlsError = CommonErrors;
+export type GetSourceRepositoryCloneUrlsError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about the URLs that can be used with a Git client to clone a source
  * repository.
@@ -1017,9 +1243,16 @@ export const getSourceRepositoryCloneUrls: API.OperationMethod<
   GetSourceRepositoryCloneUrlsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<GetSourceRepositoryCloneUrlsRequest>,
-  output: __S(57, __c7, 1) as any as S.Schema<GetSourceRepositoryCloneUrlsResponse>,
-  errors: [],
+  input: __S(88, __c11, 0) as any as S.Schema<GetSourceRepositoryCloneUrlsRequest>,
+  output: __S(89, __c11, 1) as any as S.Schema<GetSourceRepositoryCloneUrlsResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSourceRepositoryCloneUrls",
@@ -1027,7 +1260,14 @@ export const getSourceRepositoryCloneUrls: API.OperationMethod<
   span: "GetSourceRepositoryCloneUrls",
 }));
 
-export type GetSpaceError = CommonErrors;
+export type GetSpaceError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about an space.
  */
@@ -1037,9 +1277,16 @@ export const getSpace: API.OperationMethod<
   GetSpaceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<GetSpaceRequest>,
-  output: __S(72, __c9, 0) as any as S.Schema<GetSpaceResponse>,
-  errors: [],
+  input: __S(96, __c12, 0) as any as S.Schema<GetSpaceRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<GetSpaceResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSpace",
@@ -1047,7 +1294,14 @@ export const getSpace: API.OperationMethod<
   span: "GetSpace",
 }));
 
-export type GetSubscriptionError = CommonErrors;
+export type GetSubscriptionError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about the Amazon Web Services account used for billing purposes
  * and the billing plan for the space.
@@ -1058,9 +1312,16 @@ export const getSubscription: API.OperationMethod<
   GetSubscriptionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<GetSubscriptionRequest>,
-  output: __S(81, __c10, 1) as any as S.Schema<GetSubscriptionResponse>,
-  errors: [],
+  input: __S(112, __c14, 0) as any as S.Schema<GetSubscriptionRequest>,
+  output: __S(113, __c14, 1) as any as S.Schema<GetSubscriptionResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSubscription",
@@ -1068,7 +1329,14 @@ export const getSubscription: API.OperationMethod<
   span: "GetSubscription",
 }));
 
-export type GetUserDetailsError = CommonErrors;
+export type GetUserDetailsError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about a user.
  */
@@ -1078,9 +1346,16 @@ export const getUserDetails: API.OperationMethod<
   GetUserDetailsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<GetUserDetailsRequest>,
-  output: __S(90, __c11, 2) as any as S.Schema<GetUserDetailsResponse>,
-  errors: [],
+  input: __S(120, __c15, 0) as any as S.Schema<GetUserDetailsRequest>,
+  output: __S(122, __c15, 2) as any as S.Schema<GetUserDetailsResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUserDetails",
@@ -1088,7 +1363,14 @@ export const getUserDetails: API.OperationMethod<
   span: "GetUserDetails",
 }));
 
-export type GetWorkflowError = CommonErrors;
+export type GetWorkflowError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about a workflow.
  */
@@ -1098,9 +1380,16 @@ export const getWorkflow: API.OperationMethod<
   GetWorkflowError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<GetWorkflowRequest>,
-  output: __S(97, __c12, 1) as any as S.Schema<GetWorkflowResponse>,
-  errors: [],
+  input: __S(128, __c16, 0) as any as S.Schema<GetWorkflowRequest>,
+  output: __S(129, __c16, 1) as any as S.Schema<GetWorkflowResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkflow",
@@ -1108,7 +1397,14 @@ export const getWorkflow: API.OperationMethod<
   span: "GetWorkflow",
 }));
 
-export type GetWorkflowRunError = CommonErrors;
+export type GetWorkflowRunError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns information about a specified run of a workflow.
  */
@@ -1118,9 +1414,16 @@ export const getWorkflowRun: API.OperationMethod<
   GetWorkflowRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<GetWorkflowRunRequest>,
-  output: __S(113, __c14, 1) as any as S.Schema<GetWorkflowRunResponse>,
-  errors: [],
+  input: __S(144, __c18, 0) as any as S.Schema<GetWorkflowRunRequest>,
+  output: __S(145, __c18, 1) as any as S.Schema<GetWorkflowRunResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkflowRun",
@@ -1128,7 +1431,14 @@ export const getWorkflowRun: API.OperationMethod<
   span: "GetWorkflowRun",
 }));
 
-export type ListAccessTokensError = CommonErrors;
+export type ListAccessTokensError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all personal access tokens (PATs) associated with the user who calls the API. You can only list PATs associated with your Amazon Web Services Builder ID.
  */
@@ -1139,9 +1449,16 @@ export const listAccessTokens: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AccessTokenSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<ListAccessTokensRequest>,
-  output: __S(131, __c16, 3) as any as S.Schema<ListAccessTokensResponse>,
-  errors: [],
+  input: __S(160, __c20, 0) as any as S.Schema<ListAccessTokensRequest>,
+  output: __S(163, __c20, 3) as any as S.Schema<ListAccessTokensResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAccessTokens",
@@ -1155,7 +1472,14 @@ export const listAccessTokens: API.PaginatedOperationMethod<
   span: "ListAccessTokens",
 })) as any;
 
-export type ListDevEnvironmentsError = CommonErrors;
+export type ListDevEnvironmentsError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of Dev Environments in a project.
  */
@@ -1166,9 +1490,16 @@ export const listDevEnvironments: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DevEnvironmentSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<ListDevEnvironmentsRequest>,
-  output: __S(155, __c19, 3) as any as S.Schema<ListDevEnvironmentsResponse>,
-  errors: [],
+  input: __S(168, __c21, 0) as any as S.Schema<ListDevEnvironmentsRequest>,
+  output: __S(171, __c21, 3) as any as S.Schema<ListDevEnvironmentsResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDevEnvironments",
@@ -1182,7 +1513,14 @@ export const listDevEnvironments: API.PaginatedOperationMethod<
   span: "ListDevEnvironments",
 })) as any;
 
-export type ListDevEnvironmentSessionsError = CommonErrors;
+export type ListDevEnvironmentSessionsError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of active sessions for a Dev Environment in a project.
  */
@@ -1193,9 +1531,16 @@ export const listDevEnvironmentSessions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DevEnvironmentSessionSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<ListDevEnvironmentSessionsRequest>,
-  output: __S(179, __c22, 3) as any as S.Schema<ListDevEnvironmentSessionsResponse>,
-  errors: [],
+  input: __S(192, __c24, 0) as any as S.Schema<ListDevEnvironmentSessionsRequest>,
+  output: __S(195, __c24, 3) as any as S.Schema<ListDevEnvironmentSessionsResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDevEnvironmentSessions",
@@ -1209,7 +1554,14 @@ export const listDevEnvironmentSessions: API.PaginatedOperationMethod<
   span: "ListDevEnvironmentSessions",
 })) as any;
 
-export type ListEventLogsError = CommonErrors;
+export type ListEventLogsError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of events that occurred during a specific time in a space. You can
  * use these events to audit user and system activity in a space. For more information, see
@@ -1228,9 +1580,16 @@ export const listEventLogs: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   EventLogEntry
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<ListEventLogsRequest>,
-  output: __S(190, __c23, 6) as any as S.Schema<ListEventLogsResponse>,
-  errors: [],
+  input: __S(200, __c25, 0) as any as S.Schema<ListEventLogsRequest>,
+  output: __S(206, __c25, 6) as any as S.Schema<ListEventLogsResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListEventLogs",
@@ -1244,7 +1603,14 @@ export const listEventLogs: API.PaginatedOperationMethod<
   span: "ListEventLogs",
 })) as any;
 
-export type ListProjectsError = CommonErrors;
+export type ListProjectsError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of projects.
  */
@@ -1255,9 +1621,16 @@ export const listProjects: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ProjectSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<ListProjectsRequest>,
-  output: __S(195, __c24, 3) as any as S.Schema<ListProjectsResponse>,
-  errors: [],
+  input: __S(208, __c26, 0) as any as S.Schema<ListProjectsRequest>,
+  output: __S(211, __c26, 3) as any as S.Schema<ListProjectsResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProjects",
@@ -1271,7 +1644,14 @@ export const listProjects: API.PaginatedOperationMethod<
   span: "ListProjects",
 })) as any;
 
-export type ListSourceRepositoriesError = CommonErrors;
+export type ListSourceRepositoriesError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of source repositories in a project.
  */
@@ -1282,9 +1662,16 @@ export const listSourceRepositories: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ListSourceRepositoriesItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<ListSourceRepositoriesRequest>,
-  output: __S(203, __c25, 3) as any as S.Schema<ListSourceRepositoriesResponse>,
-  errors: [],
+  input: __S(216, __c27, 0) as any as S.Schema<ListSourceRepositoriesRequest>,
+  output: __S(219, __c27, 3) as any as S.Schema<ListSourceRepositoriesResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSourceRepositories",
@@ -1298,7 +1685,14 @@ export const listSourceRepositories: API.PaginatedOperationMethod<
   span: "ListSourceRepositories",
 })) as any;
 
-export type ListSourceRepositoryBranchesError = CommonErrors;
+export type ListSourceRepositoryBranchesError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of branches in a specified source repository.
  */
@@ -1309,9 +1703,16 @@ export const listSourceRepositoryBranches: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ListSourceRepositoryBranchesItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(208, __c26, 0) as any as S.Schema<ListSourceRepositoryBranchesRequest>,
-  output: __S(210, __c26, 2) as any as S.Schema<ListSourceRepositoryBranchesResponse>,
-  errors: [],
+  input: __S(224, __c28, 0) as any as S.Schema<ListSourceRepositoryBranchesRequest>,
+  output: __S(226, __c28, 2) as any as S.Schema<ListSourceRepositoryBranchesResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSourceRepositoryBranches",
@@ -1325,7 +1726,14 @@ export const listSourceRepositoryBranches: API.PaginatedOperationMethod<
   span: "ListSourceRepositoryBranches",
 })) as any;
 
-export type ListSpacesError = CommonErrors;
+export type ListSpacesError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of spaces.
  */
@@ -1336,9 +1744,16 @@ export const listSpaces: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   SpaceSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<ListSpacesRequest>,
-  output: __S(218, __c27, 2) as any as S.Schema<ListSpacesResponse>,
-  errors: [],
+  input: __S(232, __c29, 0) as any as S.Schema<ListSpacesRequest>,
+  output: __S(234, __c29, 2) as any as S.Schema<ListSpacesResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSpaces",
@@ -1347,7 +1762,14 @@ export const listSpaces: API.PaginatedOperationMethod<
   span: "ListSpaces",
 })) as any;
 
-export type ListWorkflowRunsError = CommonErrors;
+export type ListWorkflowRunsError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of workflow runs of a specified workflow.
  */
@@ -1358,9 +1780,16 @@ export const listWorkflowRuns: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   WorkflowRunSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(224, __c28, 0) as any as S.Schema<ListWorkflowRunsRequest>,
-  output: __S(227, __c28, 3) as any as S.Schema<ListWorkflowRunsResponse>,
-  errors: [],
+  input: __S(240, __c30, 0) as any as S.Schema<ListWorkflowRunsRequest>,
+  output: __S(243, __c30, 3) as any as S.Schema<ListWorkflowRunsResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListWorkflowRuns",
@@ -1374,7 +1803,14 @@ export const listWorkflowRuns: API.PaginatedOperationMethod<
   span: "ListWorkflowRuns",
 })) as any;
 
-export type ListWorkflowsError = CommonErrors;
+export type ListWorkflowsError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves a list of workflows in a specified project.
  */
@@ -1385,9 +1821,16 @@ export const listWorkflows: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   WorkflowSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<ListWorkflowsRequest>,
-  output: __S(235, __c29, 3) as any as S.Schema<ListWorkflowsResponse>,
-  errors: [],
+  input: __S(248, __c31, 0) as any as S.Schema<ListWorkflowsRequest>,
+  output: __S(251, __c31, 3) as any as S.Schema<ListWorkflowsResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListWorkflows",
@@ -1401,7 +1844,14 @@ export const listWorkflows: API.PaginatedOperationMethod<
   span: "ListWorkflows",
 })) as any;
 
-export type StartDevEnvironmentError = CommonErrors;
+export type StartDevEnvironmentError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Starts a specified Dev Environment and puts it into an active state.
  */
@@ -1411,9 +1861,16 @@ export const startDevEnvironment: API.OperationMethod<
   StartDevEnvironmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c30, 0) as any as S.Schema<StartDevEnvironmentRequest>,
-  output: __S(248, __c31, 0) as any as S.Schema<StartDevEnvironmentResponse>,
-  errors: [],
+  input: __S(256, __c32, 0) as any as S.Schema<StartDevEnvironmentRequest>,
+  output: __S(264, __c33, 0) as any as S.Schema<StartDevEnvironmentResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDevEnvironment",
@@ -1421,7 +1878,14 @@ export const startDevEnvironment: API.OperationMethod<
   span: "StartDevEnvironment",
 }));
 
-export type StartDevEnvironmentSessionError = CommonErrors;
+export type StartDevEnvironmentSessionError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Starts a session for a specified Dev Environment.
  */
@@ -1431,9 +1895,16 @@ export const startDevEnvironmentSession: API.OperationMethod<
   StartDevEnvironmentSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(266, __c33, 2) as any as S.Schema<StartDevEnvironmentSessionRequest>,
-  output: __S(268, __c33, 4) as any as S.Schema<StartDevEnvironmentSessionResponse>,
-  errors: [],
+  input: __S(274, __c34, 2) as any as S.Schema<StartDevEnvironmentSessionRequest>,
+  output: __S(276, __c34, 4) as any as S.Schema<StartDevEnvironmentSessionResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDevEnvironmentSession",
@@ -1441,7 +1912,14 @@ export const startDevEnvironmentSession: API.OperationMethod<
   span: "StartDevEnvironmentSession",
 }));
 
-export type StartWorkflowRunError = CommonErrors;
+export type StartWorkflowRunError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Begins a run of a specified workflow.
  */
@@ -1451,9 +1929,16 @@ export const startWorkflowRun: API.OperationMethod<
   StartWorkflowRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<StartWorkflowRunRequest>,
-  output: __S(273, __c34, 1) as any as S.Schema<StartWorkflowRunResponse>,
-  errors: [],
+  input: __S(280, __c35, 0) as any as S.Schema<StartWorkflowRunRequest>,
+  output: __S(281, __c35, 1) as any as S.Schema<StartWorkflowRunResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartWorkflowRun",
@@ -1461,7 +1946,14 @@ export const startWorkflowRun: API.OperationMethod<
   span: "StartWorkflowRun",
 }));
 
-export type StopDevEnvironmentError = CommonErrors;
+export type StopDevEnvironmentError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Pauses a specified Dev Environment and places it in a non-running state. Stopped Dev Environments do not consume compute minutes.
  */
@@ -1471,9 +1963,16 @@ export const stopDevEnvironment: API.OperationMethod<
   StopDevEnvironmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(280, __c35, 0) as any as S.Schema<StopDevEnvironmentRequest>,
-  output: __S(248, __c31, 0) as any as S.Schema<StopDevEnvironmentResponse>,
-  errors: [],
+  input: __S(288, __c36, 0) as any as S.Schema<StopDevEnvironmentRequest>,
+  output: __S(264, __c33, 0) as any as S.Schema<StopDevEnvironmentResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopDevEnvironment",
@@ -1481,7 +1980,14 @@ export const stopDevEnvironment: API.OperationMethod<
   span: "StopDevEnvironment",
 }));
 
-export type StopDevEnvironmentSessionError = CommonErrors;
+export type StopDevEnvironmentSessionError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Stops a session for a specified Dev Environment.
  */
@@ -1491,9 +1997,16 @@ export const stopDevEnvironmentSession: API.OperationMethod<
   StopDevEnvironmentSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c36, 0) as any as S.Schema<StopDevEnvironmentSessionRequest>,
-  output: __S(289, __c36, 1) as any as S.Schema<StopDevEnvironmentSessionResponse>,
-  errors: [],
+  input: __S(296, __c37, 0) as any as S.Schema<StopDevEnvironmentSessionRequest>,
+  output: __S(297, __c37, 1) as any as S.Schema<StopDevEnvironmentSessionResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopDevEnvironmentSession",
@@ -1501,7 +2014,14 @@ export const stopDevEnvironmentSession: API.OperationMethod<
   span: "StopDevEnvironmentSession",
 }));
 
-export type UpdateDevEnvironmentError = CommonErrors;
+export type UpdateDevEnvironmentError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Changes one or more values for a Dev Environment. Updating certain values of the Dev Environment will cause a restart.
  */
@@ -1511,9 +2031,16 @@ export const updateDevEnvironment: API.OperationMethod<
   UpdateDevEnvironmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(296, __c37, 0) as any as S.Schema<UpdateDevEnvironmentRequest>,
-  output: __S(297, __c37, 1) as any as S.Schema<UpdateDevEnvironmentResponse>,
-  errors: [],
+  input: __S(304, __c38, 0) as any as S.Schema<UpdateDevEnvironmentRequest>,
+  output: __S(305, __c38, 1) as any as S.Schema<UpdateDevEnvironmentResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDevEnvironment",
@@ -1521,7 +2048,14 @@ export const updateDevEnvironment: API.OperationMethod<
   span: "UpdateDevEnvironment",
 }));
 
-export type UpdateProjectError = CommonErrors;
+export type UpdateProjectError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Changes one or more values for a project.
  */
@@ -1531,9 +2065,16 @@ export const updateProject: API.OperationMethod<
   UpdateProjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c38, 0) as any as S.Schema<UpdateProjectRequest>,
-  output: __S(305, __c38, 1) as any as S.Schema<UpdateProjectResponse>,
-  errors: [],
+  input: __S(312, __c39, 0) as any as S.Schema<UpdateProjectRequest>,
+  output: __S(313, __c39, 1) as any as S.Schema<UpdateProjectResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProject",
@@ -1541,7 +2082,14 @@ export const updateProject: API.OperationMethod<
   span: "UpdateProject",
 }));
 
-export type UpdateSpaceError = CommonErrors;
+export type UpdateSpaceError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Changes one or more values for a space.
  */
@@ -1551,9 +2099,16 @@ export const updateSpace: API.OperationMethod<
   UpdateSpaceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(312, __c39, 0) as any as S.Schema<UpdateSpaceRequest>,
-  output: __S(313, __c39, 1) as any as S.Schema<UpdateSpaceResponse>,
-  errors: [],
+  input: __S(320, __c40, 0) as any as S.Schema<UpdateSpaceRequest>,
+  output: __S(321, __c40, 1) as any as S.Schema<UpdateSpaceResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSpace",
@@ -1561,7 +2116,14 @@ export const updateSpace: API.OperationMethod<
   span: "UpdateSpace",
 }));
 
-export type VerifySessionError = CommonErrors;
+export type VerifySessionError =
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Verifies whether the calling user has a valid Amazon CodeCatalyst login and session. If successful, this returns the ID of the user in Amazon CodeCatalyst.
  */
@@ -1571,9 +2133,16 @@ export const verifySession: API.OperationMethod<
   VerifySessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c40, 0) as any as S.Schema<VerifySessionRequest>,
-  output: __S(321, __c40, 1) as any as S.Schema<VerifySessionResponse>,
-  errors: [],
+  input: __S(328, __c41, 0) as any as S.Schema<VerifySessionRequest>,
+  output: __S(329, __c41, 1) as any as S.Schema<VerifySessionResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifySession",
@@ -1587,43 +2156,16 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String,
-          expiresTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-        }).pipe(
-          T.all(T.Http({ method: "PUT", uri: "/v1/accessTokens" }), svc, auth, proto, ver, rules),
-        ),
-      ).annotate({ identifier: "CreateAccessTokenRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          secret: SensitiveString,
-          name: S.String,
-          expiresTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-          accessTokenId: S.String,
-        }),
-      ).annotate({ identifier: "CreateAccessTokenResponse" });
-  }
-}
-function __c1(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           spaceName: S.String.pipe(T.HttpLabel("spaceName")),
           projectName: S.String.pipe(T.HttpLabel("projectName")),
-          repositories: S.optional(__S(17, __c2, 1)),
-          clientToken: S.optional(S.String),
-          alias: S.optional(S.String),
-          ides: S.optional(__S(25, __c3, 1)),
-          instanceType: S.String,
-          inactivityTimeoutMinutes: S.optional(S.Number),
-          persistentStorage: __S(18, __c2, 2),
-          vpcConnectionName: S.optional(S.String),
+          sourceRepositoryName: S.String.pipe(T.HttpLabel("sourceRepositoryName")),
+          name: S.String.pipe(T.HttpLabel("name")),
+          headCommitId: S.optional(S.String),
         }).pipe(
           T.all(
             T.Http({
               method: "PUT",
-              uri: "/v1/spaces/{spaceName}/projects/{projectName}/devEnvironments",
+              uri: "/v1/spaces/{spaceName}/projects/{projectName}/sourceRepositories/{sourceRepositoryName}/branches/{name}",
             }),
             svc,
             auth,
@@ -1632,43 +2174,147 @@ function __c1(j: number): any {
             rules,
           ),
         ),
-      ).annotate({ identifier: "CreateDevEnvironmentRequest" });
-    case 1:
+      ).annotate({ identifier: "CreateSourceRepositoryBranchRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
-          spaceName: S.String,
-          projectName: S.String,
-          id: S.String,
-          vpcConnectionName: S.optional(S.String),
+          ref: S.optional(S.String),
+          name: S.optional(S.String),
+          lastUpdatedTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          headCommitId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "CreateDevEnvironmentResponse" });
+      ).annotate({ identifier: "CreateSourceRepositoryBranchResponse" });
   }
 }
 function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ repositoryName: S.String, branchName: S.optional(S.String) }),
-      ).annotate({ identifier: "RepositoryInput" });
-    case 1:
-      return S.Array(__S(16, __c2, 0));
-    case 2:
-      return S.suspend(() => S.Struct({ sizeInGiB: S.Number })).annotate({
-        identifier: "PersistentStorageConfiguration",
-      });
+        S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/v1/accessTokens/{id}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteAccessTokenRequest" });
   }
 }
 function __c3(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({ runtime: S.optional(S.String), name: S.optional(S.String) }),
-      ).annotate({ identifier: "IdeConfiguration" });
-    case 1:
-      return S.Array(__S(24, __c3, 0));
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteAccessTokenResponse" });
   }
 }
 function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          spaceName: S.String.pipe(T.HttpLabel("spaceName")),
+          projectName: S.String.pipe(T.HttpLabel("projectName")),
+          id: S.String.pipe(T.HttpLabel("id")),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "DELETE",
+              uri: "/v1/spaces/{spaceName}/projects/{projectName}/devEnvironments/{id}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteDevEnvironmentRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ spaceName: S.String, projectName: S.String, id: S.String }),
+      ).annotate({ identifier: "DeleteDevEnvironmentResponse" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          spaceName: S.String.pipe(T.HttpLabel("spaceName")),
+          name: S.String.pipe(T.HttpLabel("name")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/v1/spaces/{spaceName}/projects/{name}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteProjectRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ spaceName: S.String, name: S.String, displayName: S.optional(S.String) }),
+      ).annotate({ identifier: "DeleteProjectResponse" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          spaceName: S.String.pipe(T.HttpLabel("spaceName")),
+          projectName: S.String.pipe(T.HttpLabel("projectName")),
+          name: S.String.pipe(T.HttpLabel("name")),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "DELETE",
+              uri: "/v1/spaces/{spaceName}/projects/{projectName}/sourceRepositories/{name}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteSourceRepositoryRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ spaceName: S.String, projectName: S.String, name: S.String }),
+      ).annotate({ identifier: "DeleteSourceRepositoryResponse" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ name: S.String.pipe(T.HttpLabel("name")) }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/v1/spaces/{name}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteSpaceRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ name: S.String, displayName: S.optional(S.String) }),
+      ).annotate({ identifier: "DeleteSpaceResponse" });
+  }
+}
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1700,18 +2346,18 @@ function __c4(j: number): any {
           creatorId: S.String,
           status: S.String,
           statusReason: S.optional(S.String),
-          repositories: __S(17, __c2, 1),
+          repositories: __S(353, __c44, 1),
           alias: S.optional(S.String),
-          ides: S.optional(__S(25, __c3, 1)),
+          ides: S.optional(__S(361, __c45, 1)),
           instanceType: S.String,
           inactivityTimeoutMinutes: S.Number,
-          persistentStorage: __S(18, __c2, 2),
+          persistentStorage: __S(354, __c44, 2),
           vpcConnectionName: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetDevEnvironmentResponse" });
   }
 }
-function __c5(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1731,7 +2377,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GetProjectRequest" });
   }
 }
-function __c6(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1766,7 +2412,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GetSourceRepositoryResponse" });
   }
 }
-function __c7(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1794,7 +2440,7 @@ function __c7(j: number): any {
       });
   }
 }
-function __c8(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1804,7 +2450,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetSpaceRequest" });
   }
 }
-function __c9(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1817,7 +2463,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GetSpaceResponse" });
   }
 }
-function __c10(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1845,7 +2491,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetSubscriptionResponse" });
   }
 }
-function __c11(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1866,13 +2512,13 @@ function __c11(j: number): any {
           userId: S.optional(S.String),
           userName: S.optional(S.String),
           displayName: S.optional(S.String),
-          primaryEmail: S.optional(__S(89, __c11, 1)),
+          primaryEmail: S.optional(__S(121, __c15, 1)),
           version: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetUserDetailsResponse" });
   }
 }
-function __c12(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1903,7 +2549,7 @@ function __c12(j: number): any {
           name: S.String,
           sourceRepositoryName: S.optional(S.String),
           sourceBranchName: S.optional(S.String),
-          definition: __S(104, __c13, 0),
+          definition: __S(136, __c17, 0),
           createdTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           lastUpdatedTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           runMode: S.String,
@@ -1912,7 +2558,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GetWorkflowResponse" });
   }
 }
-function __c13(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ path: S.String })).annotate({
@@ -1920,7 +2566,7 @@ function __c13(j: number): any {
       });
   }
 }
-function __c14(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1950,7 +2596,7 @@ function __c14(j: number): any {
           id: S.String,
           workflowId: S.String,
           status: S.String,
-          statusReasons: S.optional(__S(120, __c15, 0)),
+          statusReasons: S.optional(__S(152, __c19, 0)),
           startTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           lastUpdatedTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
@@ -1958,13 +2604,13 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetWorkflowRunResponse" });
   }
 }
-function __c15(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(352, __c44, 0));
+      return S.Array(__S(24, __c3, 0));
   }
 }
-function __c16(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1981,55 +2627,21 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "AccessTokenSummary" });
     case 2:
-      return S.Array(__S(129, __c16, 1));
+      return S.Array(__S(161, __c20, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ items: __S(130, __c16, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ items: __S(162, __c20, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListAccessTokensResponse" });
   }
 }
-function __c17(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          spaceName: S.String.pipe(T.HttpLabel("spaceName")),
-          displayName: S.String,
-          description: S.optional(S.String),
-        }).pipe(
-          T.all(
-            T.Http({ method: "PUT", uri: "/v1/spaces/{spaceName}/projects" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "CreateProjectRequest" });
-  }
-}
-function __c18(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          spaceName: S.optional(S.String),
-          name: S.String,
-          displayName: S.optional(S.String),
-          description: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateProjectResponse" });
-  }
-}
-function __c19(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           spaceName: S.String.pipe(T.HttpLabel("spaceName")),
           projectName: S.optional(S.String),
-          filters: S.optional(__S(161, __c20, 1)),
+          filters: S.optional(__S(177, __c22, 1)),
           nextToken: S.optional(S.String),
           maxResults: S.optional(S.Number),
         }).pipe(
@@ -2053,44 +2665,44 @@ function __c19(j: number): any {
           creatorId: S.String,
           status: S.String,
           statusReason: S.optional(S.String),
-          repositories: __S(17, __c2, 1),
+          repositories: __S(353, __c44, 1),
           alias: S.optional(S.String),
-          ides: S.optional(__S(25, __c3, 1)),
+          ides: S.optional(__S(361, __c45, 1)),
           instanceType: S.String,
           inactivityTimeoutMinutes: S.Number,
-          persistentStorage: __S(18, __c2, 2),
+          persistentStorage: __S(354, __c44, 2),
           vpcConnectionName: S.optional(S.String),
         }),
       ).annotate({ identifier: "DevEnvironmentSummary" });
     case 2:
-      return S.Array(__S(153, __c19, 1));
+      return S.Array(__S(169, __c21, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ items: __S(154, __c19, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ items: __S(170, __c21, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListDevEnvironmentsResponse" });
   }
 }
-function __c20(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           key: S.String,
-          values: __S(168, __c21, 0),
+          values: __S(184, __c23, 0),
           comparisonOperator: S.optional(S.String),
         }),
       ).annotate({ identifier: "Filter" });
     case 1:
-      return S.Array(__S(160, __c20, 0));
+      return S.Array(__S(176, __c22, 0));
   }
 }
-function __c21(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c22(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2125,14 +2737,14 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "DevEnvironmentSessionSummary" });
     case 2:
-      return S.Array(__S(177, __c22, 1));
+      return S.Array(__S(193, __c24, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ items: __S(178, __c22, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ items: __S(194, __c24, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListDevEnvironmentSessionsResponse" });
   }
 }
-function __c23(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2181,25 +2793,25 @@ function __c23(j: number): any {
           eventSource: S.String,
           eventTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           operationType: S.String,
-          userIdentity: __S(185, __c23, 1),
-          projectInformation: S.optional(__S(186, __c23, 2)),
+          userIdentity: __S(201, __c25, 1),
+          projectInformation: S.optional(__S(202, __c25, 2)),
           requestId: S.optional(S.String),
-          requestPayload: S.optional(__S(187, __c23, 3)),
-          responsePayload: S.optional(__S(187, __c23, 3)),
+          requestPayload: S.optional(__S(203, __c25, 3)),
+          responsePayload: S.optional(__S(203, __c25, 3)),
           errorCode: S.optional(S.String),
           sourceIpAddress: S.optional(S.String),
           userAgent: S.optional(S.String),
         }),
       ).annotate({ identifier: "EventLogEntry" });
     case 5:
-      return S.Array(__S(188, __c23, 4));
+      return S.Array(__S(204, __c25, 4));
     case 6:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), items: __S(189, __c23, 5) }),
+        S.Struct({ nextToken: S.optional(S.String), items: __S(205, __c25, 5) }),
       ).annotate({ identifier: "ListEventLogsResponse" });
   }
 }
-function __c24(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2207,7 +2819,7 @@ function __c24(j: number): any {
           spaceName: S.String.pipe(T.HttpLabel("spaceName")),
           nextToken: S.optional(S.String),
           maxResults: S.optional(S.Number),
-          filters: S.optional(__S(161, __c20, 1)),
+          filters: S.optional(__S(177, __c22, 1)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/v1/spaces/{spaceName}/projects" }),
@@ -2228,14 +2840,14 @@ function __c24(j: number): any {
         }),
       ).annotate({ identifier: "ProjectSummary" });
     case 2:
-      return S.Array(__S(193, __c24, 1));
+      return S.Array(__S(209, __c26, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), items: S.optional(__S(194, __c24, 2)) }),
+        S.Struct({ nextToken: S.optional(S.String), items: S.optional(__S(210, __c26, 2)) }),
       ).annotate({ identifier: "ListProjectsResponse" });
   }
 }
-function __c25(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2269,14 +2881,14 @@ function __c25(j: number): any {
         }),
       ).annotate({ identifier: "ListSourceRepositoriesItem" });
     case 2:
-      return S.Array(__S(201, __c25, 1));
+      return S.Array(__S(217, __c27, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ items: S.optional(__S(202, __c25, 2)), nextToken: S.optional(S.String) }),
+        S.Struct({ items: S.optional(__S(218, __c27, 2)), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListSourceRepositoriesResponse" });
   }
 }
-function __c26(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2301,14 +2913,14 @@ function __c26(j: number): any {
         ),
       ).annotate({ identifier: "ListSourceRepositoryBranchesRequest" });
     case 1:
-      return S.Array(__S(336, __c42, 0));
+      return S.Array(__S(8, __c1, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), items: __S(209, __c26, 1) }),
+        S.Struct({ nextToken: S.optional(S.String), items: __S(225, __c28, 1) }),
       ).annotate({ identifier: "ListSourceRepositoryBranchesResponse" });
   }
 }
-function __c27(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2317,14 +2929,14 @@ function __c27(j: number): any {
         ),
       ).annotate({ identifier: "ListSpacesRequest" });
     case 1:
-      return S.Array(__S(72, __c9, 0));
+      return S.Array(__S(104, __c13, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), items: S.optional(__S(217, __c27, 1)) }),
+        S.Struct({ nextToken: S.optional(S.String), items: S.optional(__S(233, __c29, 1)) }),
       ).annotate({ identifier: "ListSpacesResponse" });
   }
 }
-function __c28(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2334,7 +2946,7 @@ function __c28(j: number): any {
           projectName: S.String.pipe(T.HttpLabel("projectName")),
           nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
           maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-          sortBy: S.optional(__S(120, __c15, 0)),
+          sortBy: S.optional(__S(152, __c19, 0)),
         }).pipe(
           T.all(
             T.Http({
@@ -2356,21 +2968,21 @@ function __c28(j: number): any {
           workflowId: S.String,
           workflowName: S.String,
           status: S.String,
-          statusReasons: S.optional(__S(120, __c15, 0)),
+          statusReasons: S.optional(__S(152, __c19, 0)),
           startTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           lastUpdatedTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
         }),
       ).annotate({ identifier: "WorkflowRunSummary" });
     case 2:
-      return S.Array(__S(225, __c28, 1));
+      return S.Array(__S(241, __c30, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), items: S.optional(__S(226, __c28, 2)) }),
+        S.Struct({ nextToken: S.optional(S.String), items: S.optional(__S(242, __c30, 2)) }),
       ).annotate({ identifier: "ListWorkflowRunsResponse" });
   }
 }
-function __c29(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2379,7 +2991,7 @@ function __c29(j: number): any {
           projectName: S.String.pipe(T.HttpLabel("projectName")),
           nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
           maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-          sortBy: S.optional(__S(120, __c15, 0)),
+          sortBy: S.optional(__S(152, __c19, 0)),
         }).pipe(
           T.all(
             T.Http({
@@ -2401,7 +3013,7 @@ function __c29(j: number): any {
           name: S.String,
           sourceRepositoryName: S.String,
           sourceBranchName: S.String,
-          definition: __S(104, __c13, 0),
+          definition: __S(136, __c17, 0),
           createdTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           lastUpdatedTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           runMode: S.String,
@@ -2409,14 +3021,14 @@ function __c29(j: number): any {
         }),
       ).annotate({ identifier: "WorkflowSummary" });
     case 2:
-      return S.Array(__S(233, __c29, 1));
+      return S.Array(__S(249, __c31, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), items: S.optional(__S(234, __c29, 2)) }),
+        S.Struct({ nextToken: S.optional(S.String), items: S.optional(__S(250, __c31, 2)) }),
       ).annotate({ identifier: "ListWorkflowsResponse" });
   }
 }
-function __c30(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2424,7 +3036,7 @@ function __c30(j: number): any {
           spaceName: S.String.pipe(T.HttpLabel("spaceName")),
           projectName: S.String.pipe(T.HttpLabel("projectName")),
           id: S.String.pipe(T.HttpLabel("id")),
-          ides: S.optional(__S(25, __c3, 1)),
+          ides: S.optional(__S(361, __c45, 1)),
           instanceType: S.optional(S.String),
           inactivityTimeoutMinutes: S.optional(S.Number),
         }).pipe(
@@ -2443,7 +3055,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "StartDevEnvironmentRequest" });
   }
 }
-function __c31(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2451,51 +3063,17 @@ function __c31(j: number): any {
       ).annotate({ identifier: "StartDevEnvironmentResponse" });
   }
 }
-function __c32(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          spaceName: S.String.pipe(T.HttpLabel("spaceName")),
-          projectName: S.String.pipe(T.HttpLabel("projectName")),
-          name: S.String.pipe(T.HttpLabel("name")),
-          description: S.optional(S.String),
-        }).pipe(
-          T.all(
-            T.Http({
-              method: "PUT",
-              uri: "/v1/spaces/{spaceName}/projects/{projectName}/sourceRepositories/{name}",
-            }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "CreateSourceRepositoryRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          spaceName: S.String,
-          projectName: S.String,
-          name: S.String,
-          description: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateSourceRepositoryResponse" });
-  }
-}
-function __c33(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ command: S.String, arguments: S.optional(__S(168, __c21, 0)) }),
+        S.Struct({ command: S.String, arguments: S.optional(__S(184, __c23, 0)) }),
       ).annotate({ identifier: "ExecuteCommandSessionConfiguration" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           sessionType: S.String,
-          executeCommandSessionConfiguration: S.optional(__S(264, __c33, 0)),
+          executeCommandSessionConfiguration: S.optional(__S(272, __c34, 0)),
         }),
       ).annotate({ identifier: "DevEnvironmentSessionConfiguration" });
     case 2:
@@ -2504,7 +3082,7 @@ function __c33(j: number): any {
           spaceName: S.String.pipe(T.HttpLabel("spaceName")),
           projectName: S.String.pipe(T.HttpLabel("projectName")),
           id: S.String.pipe(T.HttpLabel("id")),
-          sessionConfiguration: __S(265, __c33, 1),
+          sessionConfiguration: __S(273, __c34, 1),
         }).pipe(
           T.all(
             T.Http({
@@ -2526,7 +3104,7 @@ function __c33(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          accessDetails: __S(267, __c33, 3),
+          accessDetails: __S(275, __c34, 3),
           sessionId: S.optional(S.String),
           spaceName: S.String,
           projectName: S.String,
@@ -2535,7 +3113,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "StartDevEnvironmentSessionResponse" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2569,7 +3147,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "StartWorkflowRunResponse" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2593,7 +3171,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "StopDevEnvironmentRequest" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2622,7 +3200,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "StopDevEnvironmentSessionResponse" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2631,7 +3209,7 @@ function __c37(j: number): any {
           projectName: S.String.pipe(T.HttpLabel("projectName")),
           id: S.String.pipe(T.HttpLabel("id")),
           alias: S.optional(S.String),
-          ides: S.optional(__S(25, __c3, 1)),
+          ides: S.optional(__S(361, __c45, 1)),
           instanceType: S.optional(S.String),
           inactivityTimeoutMinutes: S.optional(S.Number),
           clientToken: S.optional(S.String),
@@ -2656,7 +3234,7 @@ function __c37(j: number): any {
           spaceName: S.String,
           projectName: S.String,
           alias: S.optional(S.String),
-          ides: S.optional(__S(25, __c3, 1)),
+          ides: S.optional(__S(361, __c45, 1)),
           instanceType: S.optional(S.String),
           inactivityTimeoutMinutes: S.optional(S.Number),
           clientToken: S.optional(S.String),
@@ -2664,7 +3242,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "UpdateDevEnvironmentResponse" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2694,7 +3272,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "UpdateProjectResponse" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2722,7 +3300,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "UpdateSpaceResponse" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2736,81 +3314,48 @@ function __c40(j: number): any {
       });
   }
 }
-function __c41(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          spaceName: S.String.pipe(T.HttpLabel("spaceName")),
-          projectName: S.String.pipe(T.HttpLabel("projectName")),
-          sourceRepositoryName: S.String.pipe(T.HttpLabel("sourceRepositoryName")),
-          name: S.String.pipe(T.HttpLabel("name")),
-          headCommitId: S.optional(S.String),
-        }).pipe(
-          T.all(
-            T.Http({
-              method: "PUT",
-              uri: "/v1/spaces/{spaceName}/projects/{projectName}/sourceRepositories/{sourceRepositoryName}/branches/{name}",
-            }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "CreateSourceRepositoryBranchRequest" });
-  }
-}
 function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ref: S.optional(S.String),
-          name: S.optional(S.String),
-          lastUpdatedTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          headCommitId: S.optional(S.String),
+          name: S.String,
+          expiresTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+        }).pipe(
+          T.all(T.Http({ method: "PUT", uri: "/v1/accessTokens" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "CreateAccessTokenRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          secret: SensitiveString,
+          name: S.String,
+          expiresTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          accessTokenId: S.String,
         }),
-      ).annotate({ identifier: "CreateSourceRepositoryBranchResponse" });
+      ).annotate({ identifier: "CreateAccessTokenResponse" });
   }
 }
 function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
-          T.all(
-            T.Http({ method: "DELETE", uri: "/v1/accessTokens/{id}" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "DeleteAccessTokenRequest" });
-  }
-}
-function __c44(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteAccessTokenResponse" });
-  }
-}
-function __c45(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
         S.Struct({
           spaceName: S.String.pipe(T.HttpLabel("spaceName")),
           projectName: S.String.pipe(T.HttpLabel("projectName")),
-          id: S.String.pipe(T.HttpLabel("id")),
+          repositories: S.optional(__S(353, __c44, 1)),
+          clientToken: S.optional(S.String),
+          alias: S.optional(S.String),
+          ides: S.optional(__S(361, __c45, 1)),
+          instanceType: S.String,
+          inactivityTimeoutMinutes: S.optional(S.Number),
+          persistentStorage: __S(354, __c44, 2),
+          vpcConnectionName: S.optional(S.String),
         }).pipe(
           T.all(
             T.Http({
-              method: "DELETE",
-              uri: "/v1/spaces/{spaceName}/projects/{projectName}/devEnvironments/{id}",
+              method: "PUT",
+              uri: "/v1/spaces/{spaceName}/projects/{projectName}/devEnvironments",
             }),
             svc,
             auth,
@@ -2819,11 +3364,40 @@ function __c45(j: number): any {
             rules,
           ),
         ),
-      ).annotate({ identifier: "DeleteDevEnvironmentRequest" });
+      ).annotate({ identifier: "CreateDevEnvironmentRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ spaceName: S.String, projectName: S.String, id: S.String }),
-      ).annotate({ identifier: "DeleteDevEnvironmentResponse" });
+        S.Struct({
+          spaceName: S.String,
+          projectName: S.String,
+          id: S.String,
+          vpcConnectionName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateDevEnvironmentResponse" });
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ repositoryName: S.String, branchName: S.optional(S.String) }),
+      ).annotate({ identifier: "RepositoryInput" });
+    case 1:
+      return S.Array(__S(352, __c44, 0));
+    case 2:
+      return S.suspend(() => S.Struct({ sizeInGiB: S.Number })).annotate({
+        identifier: "PersistentStorageConfiguration",
+      });
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ runtime: S.optional(S.String), name: S.optional(S.String) }),
+      ).annotate({ identifier: "IdeConfiguration" });
+    case 1:
+      return S.Array(__S(360, __c45, 0));
   }
 }
 function __c46(j: number): any {
@@ -2832,10 +3406,11 @@ function __c46(j: number): any {
       return S.suspend(() =>
         S.Struct({
           spaceName: S.String.pipe(T.HttpLabel("spaceName")),
-          name: S.String.pipe(T.HttpLabel("name")),
+          displayName: S.String,
+          description: S.optional(S.String),
         }).pipe(
           T.all(
-            T.Http({ method: "DELETE", uri: "/v1/spaces/{spaceName}/projects/{name}" }),
+            T.Http({ method: "PUT", uri: "/v1/spaces/{spaceName}/projects" }),
             svc,
             auth,
             proto,
@@ -2843,11 +3418,7 @@ function __c46(j: number): any {
             rules,
           ),
         ),
-      ).annotate({ identifier: "DeleteProjectRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({ spaceName: S.String, name: S.String, displayName: S.optional(S.String) }),
-      ).annotate({ identifier: "DeleteProjectResponse" });
+      ).annotate({ identifier: "CreateProjectRequest" });
   }
 }
 function __c47(j: number): any {
@@ -2855,13 +3426,27 @@ function __c47(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          spaceName: S.optional(S.String),
+          name: S.String,
+          displayName: S.optional(S.String),
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateProjectResponse" });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           spaceName: S.String.pipe(T.HttpLabel("spaceName")),
           projectName: S.String.pipe(T.HttpLabel("projectName")),
           name: S.String.pipe(T.HttpLabel("name")),
+          description: S.optional(S.String),
         }).pipe(
           T.all(
             T.Http({
-              method: "DELETE",
+              method: "PUT",
               uri: "/v1/spaces/{spaceName}/projects/{projectName}/sourceRepositories/{name}",
             }),
             svc,
@@ -2871,32 +3456,16 @@ function __c47(j: number): any {
             rules,
           ),
         ),
-      ).annotate({ identifier: "DeleteSourceRepositoryRequest" });
+      ).annotate({ identifier: "CreateSourceRepositoryRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ spaceName: S.String, projectName: S.String, name: S.String }),
-      ).annotate({ identifier: "DeleteSourceRepositoryResponse" });
-  }
-}
-function __c48(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ name: S.String.pipe(T.HttpLabel("name")) }).pipe(
-          T.all(
-            T.Http({ method: "DELETE", uri: "/v1/spaces/{name}" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "DeleteSpaceRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({ name: S.String, displayName: S.optional(S.String) }),
-      ).annotate({ identifier: "DeleteSpaceResponse" });
+        S.Struct({
+          spaceName: S.String,
+          projectName: S.String,
+          name: S.String,
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateSourceRepositoryResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

@@ -30,27 +30,48 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorBADREQUEST | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorFORBIDDEN | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorNOTFOUND | string;
+}
 
 export type AnalyzeAiLogsRequestContext = "build" | "runtime";
 export interface AnalyzeAiLogsRequest {
@@ -143,6 +164,44 @@ export interface UpdateAiRequest {
   createdAt?: string | undefined;
 }
 export type UpdateAiResponse = unknown;
+export interface ErrorBADREQUESTIssuesItem {
+  message: string;
+}
+/** An array of issues that were responsible for the error */
+export type ErrorBADREQUESTIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorBADREQUEST {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorBADREQUESTIssuesList | undefined;
+}
+export type ErrorFORBIDDENIssuesItem = ErrorBADREQUESTIssuesItem;
+/** An array of issues that were responsible for the error */
+export type ErrorFORBIDDENIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorFORBIDDEN {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorFORBIDDENIssuesList | undefined;
+}
+export type ErrorNOTFOUNDIssuesItem = ErrorBADREQUESTIssuesItem;
+/** An array of issues that were responsible for the error */
+export type ErrorNOTFOUNDIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorNOTFOUND {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorNOTFOUNDIssuesList | undefined;
+}
 export type AnalyzeAiLogsError = BadRequest | Forbidden | DokployOpError;
 export const analyzeAiLogs: API.OperationMethod<
   AnalyzeAiLogsRequest,
@@ -150,8 +209,8 @@ export const analyzeAiLogs: API.OperationMethod<
   AnalyzeAiLogsError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<AnalyzeAiLogsRequest>,
-  output: __S(56, __c7, 0) as any as S.Schema<AnalyzeAiLogsResponse>,
+  input: __S(56, __c7, 0) as any as S.Schema<AnalyzeAiLogsRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<AnalyzeAiLogsResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -166,8 +225,8 @@ export const createAi: API.OperationMethod<
   CreateAiError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<CreateAiRequest>,
-  output: __S(56, __c7, 0) as any as S.Schema<CreateAiResponse>,
+  input: __S(72, __c9, 0) as any as S.Schema<CreateAiRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<CreateAiResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -182,8 +241,8 @@ export const deleteAi: API.OperationMethod<
   DeleteAiError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<DeleteAiRequest>,
-  output: __S(56, __c7, 0) as any as S.Schema<DeleteAiResponse>,
+  input: __S(80, __c10, 0) as any as S.Schema<DeleteAiRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<DeleteAiResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -198,8 +257,8 @@ export const deployAi: API.OperationMethod<
   DeployAiError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(84, __c10, 4) as any as S.Schema<DeployAiRequest>,
-  output: __S(56, __c7, 0) as any as S.Schema<DeployAiResponse>,
+  input: __S(92, __c11, 4) as any as S.Schema<DeployAiRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<DeployAiResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -210,8 +269,8 @@ export const deployAi: API.OperationMethod<
 export type GetAiError = BadRequest | Forbidden | NotFound | DokployOpError;
 export const getAi: API.OperationMethod<GetAiRequest, GetAiResponse, GetAiError, DokployOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(88, __c11, 0) as any as S.Schema<GetAiRequest>,
-    output: __S(56, __c7, 0) as any as S.Schema<GetAiResponse>,
+    input: __S(96, __c12, 0) as any as S.Schema<GetAiRequest>,
+    output: __S(64, __c8, 0) as any as S.Schema<GetAiResponse>,
     errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
     protocol: DokployProtocol,
     retry: Retry.Retry,
@@ -226,8 +285,8 @@ export const getAiCustomProviders: API.OperationMethod<
   GetAiCustomProvidersError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<GetAiCustomProvidersRequest>,
-  output: __S(56, __c7, 0) as any as S.Schema<GetAiCustomProvidersResponse>,
+  input: __S(104, __c13, 0) as any as S.Schema<GetAiCustomProvidersRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<GetAiCustomProvidersResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -242,8 +301,8 @@ export const getAiEnabledProviders: API.OperationMethod<
   GetAiEnabledProvidersError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<GetAiEnabledProvidersRequest>,
-  output: __S(56, __c7, 0) as any as S.Schema<GetAiEnabledProvidersResponse>,
+  input: __S(112, __c14, 0) as any as S.Schema<GetAiEnabledProvidersRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<GetAiEnabledProvidersResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -258,8 +317,8 @@ export const getAiModels: API.OperationMethod<
   GetAiModelsError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetAiModelsRequest>,
-  output: __S(56, __c7, 0) as any as S.Schema<GetAiModelsResponse>,
+  input: __S(8, __c1, 0) as any as S.Schema<GetAiModelsRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<GetAiModelsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -274,8 +333,8 @@ export const listAis: API.OperationMethod<
   ListAisError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<ListAisRequest>,
-  output: __S(56, __c7, 0) as any as S.Schema<ListAisResponse>,
+  input: __S(16, __c2, 0) as any as S.Schema<ListAisRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<ListAisResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -290,8 +349,8 @@ export const saveAiCustomProviders: API.OperationMethod<
   SaveAiCustomProvidersError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18, __c2, 2) as any as S.Schema<SaveAiCustomProvidersRequest>,
-  output: __S(56, __c7, 0) as any as S.Schema<SaveAiCustomProvidersResponse>,
+  input: __S(26, __c3, 2) as any as S.Schema<SaveAiCustomProvidersRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<SaveAiCustomProvidersResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -306,8 +365,8 @@ export const suggestAi: API.OperationMethod<
   SuggestAiError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<SuggestAiRequest>,
-  output: __S(56, __c7, 0) as any as S.Schema<SuggestAiResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<SuggestAiRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<SuggestAiResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -322,8 +381,8 @@ export const testAiConnection: API.OperationMethod<
   TestAiConnectionError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<TestAiConnectionRequest>,
-  output: __S(56, __c7, 0) as any as S.Schema<TestAiConnectionResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<TestAiConnectionRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<TestAiConnectionResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -338,8 +397,8 @@ export const updateAi: API.OperationMethod<
   UpdateAiError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<UpdateAiRequest>,
-  output: __S(56, __c7, 0) as any as S.Schema<UpdateAiResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<UpdateAiRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<UpdateAiResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -353,6 +412,26 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          message: S.String,
+        }),
+      ).annotate({ identifier: "ErrorBADREQUESTIssuesItem" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.String,
+          code: S.String,
+          issues: S.optional(__S(1, __c0, 1)),
+        }),
+      ).annotate({ identifier: "ErrorBADREQUEST" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           apiUrl: S.String.pipe(T.Query()),
           apiKey: S.String.pipe(T.Query()),
           aiId: S.optional(S.String.pipe(T.Query())),
@@ -360,7 +439,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "GetAiModelsRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -368,7 +447,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "ListAisRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -378,16 +457,16 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "SaveAiCustomProvidersRequestProvidersItem" });
     case 1:
-      return S.Array(__S(16, __c2, 0));
+      return S.Array(__S(24, __c3, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          providers: __S(17, __c2, 1),
+          providers: __S(25, __c3, 1),
         }).pipe(T.Http({ method: "POST", uri: "/ai.saveCustomProviders", code: 200 })),
       ).annotate({ identifier: "SaveAiCustomProvidersRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -399,7 +478,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "SuggestAiRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -412,7 +491,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "TestAiConnectionRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -428,7 +507,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "UpdateAiRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -440,7 +519,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "AnalyzeAiLogsRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -448,7 +527,7 @@ function __c7(j: number): any {
       });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -462,7 +541,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "CreateAiRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -472,7 +551,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "DeleteAiRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -483,7 +562,7 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "DeployAiRequestDomainsItem" });
     case 1:
-      return S.Array(__S(80, __c10, 0));
+      return S.Array(__S(88, __c11, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -492,7 +571,7 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "DeployAiRequestConfigFilesItem" });
     case 3:
-      return S.Array(__S(82, __c10, 2));
+      return S.Array(__S(90, __c11, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -503,13 +582,13 @@ function __c10(j: number): any {
           serverId: S.optional(S.String),
           name: S.String,
           description: S.String,
-          domains: S.optional(__S(81, __c10, 1)),
-          configFiles: S.optional(__S(83, __c10, 3)),
+          domains: S.optional(__S(89, __c11, 1)),
+          configFiles: S.optional(__S(91, __c11, 3)),
         }).pipe(T.Http({ method: "POST", uri: "/ai.deploy", code: 200 })),
       ).annotate({ identifier: "DeployAiRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -519,7 +598,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetAiRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -527,7 +606,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GetAiCustomProvidersRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

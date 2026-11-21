@@ -69,6 +69,8 @@ export class AccountNotFound
     /*@__PURE__*/ S.TaggedError<AccountNotFound>()("AccountNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 7003 }],
   ) {}
@@ -78,6 +80,8 @@ export class InputTooBig
     /*@__PURE__*/ S.TaggedError<InputTooBig>()("InputTooBig", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 400, message: { includes: "input too big" } }],
   ) {}
@@ -87,6 +91,8 @@ export class ModelNotFound
     /*@__PURE__*/ S.TaggedError<ModelNotFound>()("ModelNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 7003 }, { code: 7000 }],
   ) {}
@@ -96,6 +102,8 @@ export class ModelNotSupported
     /*@__PURE__*/ S.TaggedError<ModelNotSupported>()("ModelNotSupported", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1000 }],
   ) {}
@@ -105,6 +113,8 @@ export class ModelSchemaNotFound
     /*@__PURE__*/ S.TaggedError<ModelSchemaNotFound>()("ModelSchemaNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 6002 }],
   ) {}

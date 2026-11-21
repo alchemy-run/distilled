@@ -155,7 +155,7 @@ export class LimitExceededException
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     Type: /*@__PURE__*/ S.optional(S.String),
     Context: /*@__PURE__*/ S.optional(S.String),
-  }) {}
+  }).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class MissingParameterValueException
   extends /*@__PURE__*/ S.TaggedError<MissingParameterValueException>()(
     "MissingParameterValueException",
@@ -1158,6 +1158,8 @@ export type BackupVaultEvent =
   | "EKS_RESTORE_OBJECT_FAILED"
   | "EKS_RESTORE_OBJECT_SKIPPED"
   | "EKS_BACKUP_OBJECT_FAILED"
+  | "EKS_RESTORE_MODIFICATION_SUCCESS"
+  | "EKS_RESTORE_MODIFICATION_FAILED"
   | "ACCESS_POINT_AVAILABLE"
   | "ACCESS_POINT_CREATION_FAILED"
   | "ACCESS_POINT_DELETED"
@@ -8699,7 +8701,7 @@ function __c105(j: number): any {
         S.Struct({
           RecoveryPointArn: S.String.pipe(T.HttpQuery("RecoveryPointArn")),
           BackupVaultName: S.String.pipe(T.HttpQuery("BackupVaultName")),
-          ScanEndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(
+          ScanEndTime: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
             T.HttpQuery("ScanEndTime"),
           ),
           MalwareScanner: S.String.pipe(T.HttpQuery("MalwareScanner")),
@@ -9075,18 +9077,18 @@ function __c118(j: number): any {
           ByResourceArn: S.optional(S.String).pipe(T.HttpQuery("resourceArn")),
           ByState: S.optional(S.String).pipe(T.HttpQuery("state")),
           ByBackupVaultName: S.optional(S.String).pipe(T.HttpQuery("backupVaultName")),
-          ByCreatedBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          ByCreatedBefore: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("createdBefore"),
           ),
-          ByCreatedAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          ByCreatedAfter: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("createdAfter"),
           ),
           ByResourceType: S.optional(S.String).pipe(T.HttpQuery("resourceType")),
           ByAccountId: S.optional(S.String).pipe(T.HttpQuery("accountId")),
-          ByCompleteAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          ByCompleteAfter: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("completeAfter"),
           ),
-          ByCompleteBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          ByCompleteBefore: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("completeBefore"),
           ),
           ByParentJobId: S.optional(S.String).pipe(T.HttpQuery("parentJobId")),
@@ -9387,19 +9389,19 @@ function __c127(j: number): any {
           MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
           ByResourceArn: S.optional(S.String).pipe(T.HttpQuery("resourceArn")),
           ByState: S.optional(S.String).pipe(T.HttpQuery("state")),
-          ByCreatedBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          ByCreatedBefore: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("createdBefore"),
           ),
-          ByCreatedAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          ByCreatedAfter: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("createdAfter"),
           ),
           ByResourceType: S.optional(S.String).pipe(T.HttpQuery("resourceType")),
           ByDestinationVaultArn: S.optional(S.String).pipe(T.HttpQuery("destinationVaultArn")),
           ByAccountId: S.optional(S.String).pipe(T.HttpQuery("accountId")),
-          ByCompleteBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          ByCompleteBefore: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("completeBefore"),
           ),
-          ByCompleteAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          ByCompleteAfter: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("completeAfter"),
           ),
           ByParentJobId: S.optional(S.String).pipe(T.HttpQuery("parentJobId")),
@@ -9488,10 +9490,10 @@ function __c130(j: number): any {
           NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
           MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
           SourceResourceArn: S.optional(S.String).pipe(T.HttpQuery("sourceResourceArn")),
-          CreatedBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          CreatedBefore: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("createdBefore"),
           ),
-          CreatedAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          CreatedAfter: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("createdAfter"),
           ),
           ResourceType: S.optional(S.String).pipe(T.HttpQuery("resourceType")),
@@ -9629,10 +9631,10 @@ function __c135(j: number): any {
           ByResourceArn: S.optional(S.String).pipe(T.HttpQuery("resourceArn")),
           ByResourceType: S.optional(S.String).pipe(T.HttpQuery("resourceType")),
           ByBackupPlanId: S.optional(S.String).pipe(T.HttpQuery("backupPlanId")),
-          ByCreatedBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          ByCreatedBefore: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("createdBefore"),
           ),
-          ByCreatedAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          ByCreatedAfter: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("createdAfter"),
           ),
           ByParentRecoveryPointArn: S.optional(S.String).pipe(
@@ -9801,10 +9803,10 @@ function __c139(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ByReportPlanName: S.optional(S.String).pipe(T.HttpQuery("ReportPlanName")),
-          ByCreationBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          ByCreationBefore: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("CreationBefore"),
           ),
-          ByCreationAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          ByCreationAfter: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("CreationAfter"),
           ),
           ByStatus: S.optional(S.String).pipe(T.HttpQuery("Status")),
@@ -9903,17 +9905,17 @@ function __c142(j: number): any {
           MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
           ByAccountId: S.optional(S.String).pipe(T.HttpQuery("accountId")),
           ByResourceType: S.optional(S.String).pipe(T.HttpQuery("resourceType")),
-          ByCreatedBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          ByCreatedBefore: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("createdBefore"),
           ),
-          ByCreatedAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          ByCreatedAfter: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("createdAfter"),
           ),
           ByStatus: S.optional(S.String).pipe(T.HttpQuery("status")),
-          ByCompleteBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          ByCompleteBefore: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("completeBefore"),
           ),
-          ByCompleteAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          ByCompleteAfter: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("completeAfter"),
           ),
           ByRestoreTestingPlanArn: S.optional(S.String).pipe(T.HttpQuery("restoreTestingPlanArn")),
@@ -9973,10 +9975,10 @@ function __c144(j: number): any {
           ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
           ByStatus: S.optional(S.String).pipe(T.HttpQuery("status")),
           ByRecoveryPointCreationDateAfter: S.optional(
-            S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+            T.DateFromString.pipe(T.TimestampFormat("date-time")),
           ).pipe(T.HttpQuery("recoveryPointCreationDateAfter")),
           ByRecoveryPointCreationDateBefore: S.optional(
-            S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+            T.DateFromString.pipe(T.TimestampFormat("date-time")),
           ).pipe(T.HttpQuery("recoveryPointCreationDateBefore")),
           NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
           MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -10129,10 +10131,10 @@ function __c148(j: number): any {
         S.Struct({
           ByAccountId: S.optional(S.String).pipe(T.HttpQuery("ByAccountId")),
           ByBackupVaultName: S.optional(S.String).pipe(T.HttpQuery("ByBackupVaultName")),
-          ByCompleteAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          ByCompleteAfter: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("ByCompleteAfter"),
           ),
-          ByCompleteBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          ByCompleteBefore: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("ByCompleteBefore"),
           ),
           ByMalwareScanner: S.optional(S.String).pipe(T.HttpQuery("ByMalwareScanner")),

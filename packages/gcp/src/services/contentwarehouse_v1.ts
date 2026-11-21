@@ -37,9 +37,9 @@ export class BadRequest
       code: /*@__PURE__*/ S.optional(S.Number),
       message: S.String,
       status: /*@__PURE__*/ S.optional(S.String),
-      reason: /*@__PURE__*/ S.optional(S.String),
-      domain: /*@__PURE__*/ S.optional(S.String),
       details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
   ) {}
@@ -50,9 +50,9 @@ export class Conflict
       code: /*@__PURE__*/ S.optional(S.Number),
       message: S.String,
       status: /*@__PURE__*/ S.optional(S.String),
-      reason: /*@__PURE__*/ S.optional(S.String),
-      domain: /*@__PURE__*/ S.optional(S.String),
       details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
   ) {}
@@ -63,9 +63,9 @@ export class Forbidden
       code: /*@__PURE__*/ S.optional(S.Number),
       message: S.String,
       status: /*@__PURE__*/ S.optional(S.String),
-      reason: /*@__PURE__*/ S.optional(S.String),
-      domain: /*@__PURE__*/ S.optional(S.String),
       details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
   ) {}
@@ -76,9 +76,9 @@ export class NotFound
       code: /*@__PURE__*/ S.optional(S.Number),
       message: S.String,
       status: /*@__PURE__*/ S.optional(S.String),
-      reason: /*@__PURE__*/ S.optional(S.String),
-      domain: /*@__PURE__*/ S.optional(S.String),
       details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
@@ -90,9 +90,9 @@ export class ServiceDisabled
       code: /*@__PURE__*/ S.optional(S.Number),
       message: S.String,
       status: /*@__PURE__*/ S.optional(S.String),
-      reason: /*@__PURE__*/ S.optional(S.String),
-      domain: /*@__PURE__*/ S.optional(S.String),
       details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403, message: { includes: "has not been used in project" } }],
   ) {}
@@ -1150,11 +1150,9 @@ export interface GoogleCloudContentwarehouseV1CreateDocumentRequest {
   /** Required. The document to create. */
   document?: GoogleCloudContentwarehouseV1Document | undefined;
 }
-export interface CreateProjectsLocationsDocumentsRequest {
+export interface CreateProjectsLocationsDocumentsRequest extends GoogleCloudContentwarehouseV1CreateDocumentRequest {
   /** Required. The parent name. Format: projects/{project_number}/locations/{location}. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudContentwarehouseV1CreateDocumentRequest | undefined;
 }
 export type GoogleCloudContentwarehouseV1RuleTriggerTypeEnum =
   | "UNKNOWN"
@@ -1438,11 +1436,9 @@ export interface GoogleCloudContentwarehouseV1DocumentSchema {
   /** Document Type, true refers the document is a folder, otherwise it is a typical document. */
   documentIsFolder?: boolean | undefined;
 }
-export interface CreateProjectsLocationsDocumentSchemasRequest {
+export interface CreateProjectsLocationsDocumentSchemasRequest extends GoogleCloudContentwarehouseV1DocumentSchema {
   /** Required. The parent name. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudContentwarehouseV1DocumentSchema | undefined;
 }
 /** References to the documents. */
 export interface GoogleCloudContentwarehouseV1DocumentReference {
@@ -1493,11 +1489,9 @@ export interface GoogleCloudContentwarehouseV1CreateDocumentLinkRequest {
   /** The meta information collected about the document creator, used to enforce access control for the service. */
   requestMetadata?: GoogleCloudContentwarehouseV1RequestMetadata | undefined;
 }
-export interface CreateProjectsLocationsDocumentsDocumentLinksRequest {
+export interface CreateProjectsLocationsDocumentsDocumentLinksRequest extends GoogleCloudContentwarehouseV1CreateDocumentLinkRequest {
   /** Required. Parent of the document-link to be created. parent of document-link should be a document. Format: projects/{project_number}/locations/{location}/documents/{source_document_id}. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudContentwarehouseV1CreateDocumentLinkRequest | undefined;
 }
 /** Represents a set of rules from a single customer. */
 export interface GoogleCloudContentwarehouseV1RuleSet {
@@ -1510,11 +1504,9 @@ export interface GoogleCloudContentwarehouseV1RuleSet {
   /** The resource name of the rule set. Managed internally. Format: projects/{project_number}/locations/{location}/ruleSet/{rule_set_id}. The name is ignored when creating a rule set. */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsRuleSetsRequest {
+export interface CreateProjectsLocationsRuleSetsRequest extends GoogleCloudContentwarehouseV1RuleSet {
   /** Required. The parent name. Format: projects/{project_number}/locations/{location}. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudContentwarehouseV1RuleSet | undefined;
 }
 /** Represents a list of words given by the customer All these words are synonyms of each other. */
 export interface GoogleCloudContentwarehouseV1SynonymSetSynonym {
@@ -1532,22 +1524,18 @@ export interface GoogleCloudContentwarehouseV1SynonymSet {
   /** The resource name of the SynonymSet This is mandatory for google.api.resource. Format: projects/{project_number}/locations/{location}/synonymSets/{context}. */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsSynonymSetsRequest {
+export interface CreateProjectsLocationsSynonymSetsRequest extends GoogleCloudContentwarehouseV1SynonymSet {
   /** Required. The parent name. Format: projects/{project_number}/locations/{location}. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudContentwarehouseV1SynonymSet | undefined;
 }
 /** Request message for DocumentService.DeleteDocument. */
 export interface GoogleCloudContentwarehouseV1DeleteDocumentRequest {
   /** The meta information collected about the end user, used to enforce access control for the service. */
   requestMetadata?: GoogleCloudContentwarehouseV1RequestMetadata | undefined;
 }
-export interface DeleteProjectsLocationsDocumentsRequest {
+export interface DeleteProjectsLocationsDocumentsRequest extends GoogleCloudContentwarehouseV1DeleteDocumentRequest {
   /** Required. The name of the document to delete. Format: projects/{project_number}/locations/{location}/documents/{document_id} or projects/{project_number}/locations/{location}/documents/referenceId/{reference_id}. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudContentwarehouseV1DeleteDocumentRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface GoogleProtobufEmpty {}
@@ -1560,17 +1548,13 @@ export interface GoogleCloudContentwarehouseV1DeleteDocumentLinkRequest {
   /** The meta information collected about the document creator, used to enforce access control for the service. */
   requestMetadata?: GoogleCloudContentwarehouseV1RequestMetadata | undefined;
 }
-export interface DeleteProjectsLocationsDocumentsDocumentLinksRequest {
+export interface DeleteProjectsLocationsDocumentsDocumentLinksRequest extends GoogleCloudContentwarehouseV1DeleteDocumentLinkRequest {
   /** Required. The name of the document-link to be deleted. Format: projects/{project_number}/locations/{location}/documents/{source_document_id}/documentLinks/{document_link_id}. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudContentwarehouseV1DeleteDocumentLinkRequest | undefined;
 }
-export interface DeleteProjectsLocationsDocumentsReferenceIdRequest {
+export interface DeleteProjectsLocationsDocumentsReferenceIdRequest extends GoogleCloudContentwarehouseV1DeleteDocumentRequest {
   /** Required. The name of the document to delete. Format: projects/{project_number}/locations/{location}/documents/{document_id} or projects/{project_number}/locations/{location}/documents/referenceId/{reference_id}. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudContentwarehouseV1DeleteDocumentRequest | undefined;
 }
 export interface DeleteProjectsLocationsRuleSetsRequest {
   /** Required. The name of the rule set to delete. Format: projects/{project_number}/locations/{location}/ruleSets/{rule_set_id}. */
@@ -1587,11 +1571,9 @@ export interface GoogleCloudContentwarehouseV1FetchAclRequest {
   /** The meta information collected about the end user, used to enforce access control for the service. */
   requestMetadata?: GoogleCloudContentwarehouseV1RequestMetadata | undefined;
 }
-export interface FetchAclProjectsRequest {
+export interface FetchAclProjectsRequest extends GoogleCloudContentwarehouseV1FetchAclRequest {
   /** Required. REQUIRED: The resource for which the policy is being requested. Format for document: projects/{project_number}/locations/{location}/documents/{document_id}. Format for collection: projects/{project_number}/locations/{location}/collections/{collection_id}. Format for project: projects/{project_number}. */
   resource: string;
-  /** Request body */
-  body?: GoogleCloudContentwarehouseV1FetchAclRequest | undefined;
 }
 /** Response message for DocumentService.FetchAcl. */
 export interface GoogleCloudContentwarehouseV1FetchAclResponse {
@@ -1600,30 +1582,24 @@ export interface GoogleCloudContentwarehouseV1FetchAclResponse {
   /** Additional information for the API invocation, such as the request tracking id. */
   metadata?: GoogleCloudContentwarehouseV1ResponseMetadata | undefined;
 }
-export interface FetchAclProjectsLocationsDocumentsRequest {
+export interface FetchAclProjectsLocationsDocumentsRequest extends GoogleCloudContentwarehouseV1FetchAclRequest {
   /** Required. REQUIRED: The resource for which the policy is being requested. Format for document: projects/{project_number}/locations/{location}/documents/{document_id}. Format for collection: projects/{project_number}/locations/{location}/collections/{collection_id}. Format for project: projects/{project_number}. */
   resource: string;
-  /** Request body */
-  body?: GoogleCloudContentwarehouseV1FetchAclRequest | undefined;
 }
 /** Request message for DocumentService.GetDocument. */
 export type GoogleCloudContentwarehouseV1GetDocumentRequest =
   GoogleCloudContentwarehouseV1DeleteDocumentRequest;
-export interface GetProjectsLocationsDocumentsRequest {
+export interface GetProjectsLocationsDocumentsRequest extends GoogleCloudContentwarehouseV1DeleteDocumentRequest {
   /** Required. The name of the document to retrieve. Format: projects/{project_number}/locations/{location}/documents/{document_id} or projects/{project_number}/locations/{location}/documents/referenceId/{reference_id}. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudContentwarehouseV1DeleteDocumentRequest | undefined;
 }
 export interface GetProjectsLocationsDocumentSchemasRequest {
   /** Required. The name of the document schema to retrieve. */
   name: string;
 }
-export interface GetProjectsLocationsDocumentsReferenceIdRequest {
+export interface GetProjectsLocationsDocumentsReferenceIdRequest extends GoogleCloudContentwarehouseV1DeleteDocumentRequest {
   /** Required. The name of the document to retrieve. Format: projects/{project_number}/locations/{location}/documents/{document_id} or projects/{project_number}/locations/{location}/documents/referenceId/{reference_id}. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudContentwarehouseV1DeleteDocumentRequest | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -1710,11 +1686,9 @@ export interface GoogleCloudContentwarehouseV1InitializeProjectRequest {
   /** Optional. The KMS key used for CMEK encryption. It is required that the kms key is in the same region as the endpoint. The same key will be used for all provisioned resources, if encryption is available. If the kms_key is left empty, no encryption will be enforced. */
   kmsKey?: string | undefined;
 }
-export interface InitializeProjectsLocationsRequest {
+export interface InitializeProjectsLocationsRequest extends GoogleCloudContentwarehouseV1InitializeProjectRequest {
   /** Required. The location to be initialized Format: projects/{project_number}/locations/{location}. */
   location: string;
-  /** Request body */
-  body?: GoogleCloudContentwarehouseV1InitializeProjectRequest | undefined;
 }
 /** Response message for DocumentLinkService.ListLinkedSources. */
 export interface GoogleCloudContentwarehouseV1ListLinkedSourcesRequest {
@@ -1725,11 +1699,9 @@ export interface GoogleCloudContentwarehouseV1ListLinkedSourcesRequest {
   /** The maximum number of document-links to return. The service may return fewer than this value. If unspecified, at most 50 document-links will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number | undefined;
 }
-export interface LinkedSourcesProjectsLocationsDocumentsRequest {
+export interface LinkedSourcesProjectsLocationsDocumentsRequest extends GoogleCloudContentwarehouseV1ListLinkedSourcesRequest {
   /** Required. The name of the document, for which all source links are returned. Format: projects/{project_number}/locations/{location}/documents/{source_document_id}. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudContentwarehouseV1ListLinkedSourcesRequest | undefined;
 }
 export type GoogleCloudContentwarehouseV1DocumentLinkList =
   Array<GoogleCloudContentwarehouseV1DocumentLink>;
@@ -1743,11 +1715,9 @@ export interface GoogleCloudContentwarehouseV1ListLinkedSourcesResponse {
 /** Request message for DocumentLinkService.ListLinkedTargets. */
 export type GoogleCloudContentwarehouseV1ListLinkedTargetsRequest =
   GoogleCloudContentwarehouseV1DeleteDocumentLinkRequest;
-export interface LinkedTargetsProjectsLocationsDocumentsRequest {
+export interface LinkedTargetsProjectsLocationsDocumentsRequest extends GoogleCloudContentwarehouseV1DeleteDocumentLinkRequest {
   /** Required. The name of the document, for which all target links are returned. Format: projects/{project_number}/locations/{location}/documents/{target_document_id}. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudContentwarehouseV1DeleteDocumentLinkRequest | undefined;
 }
 /** Response message for DocumentLinkService.ListLinkedTargets. */
 export interface GoogleCloudContentwarehouseV1ListLinkedTargetsResponse {
@@ -1813,11 +1783,9 @@ export interface GoogleCloudContentwarehouseV1LockDocumentRequest {
   /** The collection the document connects to. */
   collectionId?: string | undefined;
 }
-export interface LockProjectsLocationsDocumentsRequest {
+export interface LockProjectsLocationsDocumentsRequest extends GoogleCloudContentwarehouseV1LockDocumentRequest {
   /** Required. The name of the document to lock. Format: projects/{project_number}/locations/{location}/documents/{document}. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudContentwarehouseV1LockDocumentRequest | undefined;
 }
 export type GoogleCloudContentwarehouseV1UpdateOptionsUpdateTypeEnum =
   | "UPDATE_TYPE_UNSPECIFIED"
@@ -1854,11 +1822,9 @@ export interface GoogleCloudContentwarehouseV1UpdateDocumentRequest {
   /** Options for the update operation. */
   updateOptions?: GoogleCloudContentwarehouseV1UpdateOptions | undefined;
 }
-export interface PatchProjectsLocationsDocumentsRequest {
+export interface PatchProjectsLocationsDocumentsRequest extends GoogleCloudContentwarehouseV1UpdateDocumentRequest {
   /** Required. The name of the document to update. Format: projects/{project_number}/locations/{location}/documents/{document_id} or projects/{project_number}/locations/{location}/documents/referenceId/{reference_id}. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudContentwarehouseV1UpdateDocumentRequest | undefined;
 }
 /** Response message for DocumentService.UpdateDocument. */
 export interface GoogleCloudContentwarehouseV1UpdateDocumentResponse {
@@ -1874,34 +1840,29 @@ export interface GoogleCloudContentwarehouseV1UpdateDocumentSchemaRequest {
   /** Required. The document schema to update with. */
   documentSchema?: GoogleCloudContentwarehouseV1DocumentSchema | undefined;
 }
-export interface PatchProjectsLocationsDocumentSchemasRequest {
+export interface PatchProjectsLocationsDocumentSchemasRequest extends GoogleCloudContentwarehouseV1UpdateDocumentSchemaRequest {
   /** Required. The name of the document schema to update. Format: projects/{project_number}/locations/{location}/documentSchemas/{document_schema_id}. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudContentwarehouseV1UpdateDocumentSchemaRequest | undefined;
 }
-export interface PatchProjectsLocationsDocumentsReferenceIdRequest {
+export interface PatchProjectsLocationsDocumentsReferenceIdRequest extends GoogleCloudContentwarehouseV1UpdateDocumentRequest {
   /** Required. The name of the document to update. Format: projects/{project_number}/locations/{location}/documents/{document_id} or projects/{project_number}/locations/{location}/documents/referenceId/{reference_id}. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudContentwarehouseV1UpdateDocumentRequest | undefined;
 }
 /** Request message for RuleSetService.UpdateRuleSet. */
 export interface GoogleCloudContentwarehouseV1UpdateRuleSetRequest {
   /** Required. The rule set to update. */
   ruleSet?: GoogleCloudContentwarehouseV1RuleSet | undefined;
 }
-export interface PatchProjectsLocationsRuleSetsRequest {
+export interface PatchProjectsLocationsRuleSetsRequest extends GoogleCloudContentwarehouseV1UpdateRuleSetRequest {
   /** Required. The name of the rule set to update. Format: projects/{project_number}/locations/{location}/ruleSets/{rule_set_id}. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudContentwarehouseV1UpdateRuleSetRequest | undefined;
 }
-export interface PatchProjectsLocationsSynonymSetsRequest {
+export interface PatchProjectsLocationsSynonymSetsRequest extends Omit<
+  GoogleCloudContentwarehouseV1SynonymSet,
+  "name"
+> {
   /** Required. The name of the synonymSet to update Format: projects/{project_number}/locations/{location}/synonymSets/{context}. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudContentwarehouseV1SynonymSet | undefined;
 }
 /** The DocAI processor information. */
 export interface GoogleCloudContentwarehouseV1ProcessorInfo {
@@ -1990,11 +1951,9 @@ export interface GoogleCloudContentwarehouseV1RunPipelineRequest {
   /** Export docuemnts from Document Warehouse to CDW for training purpose. */
   exportCdwPipeline?: GoogleCloudContentwarehouseV1ExportToCdwPipeline | undefined;
 }
-export interface RunPipelineProjectsLocationsRequest {
+export interface RunPipelineProjectsLocationsRequest extends GoogleCloudContentwarehouseV1RunPipelineRequest {
   /** Required. The resource name which owns the resources of the pipeline. Format: projects/{project_number}/locations/{location}. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudContentwarehouseV1RunPipelineRequest | undefined;
 }
 export interface GoogleCloudContentwarehouseV1PropertyFilter {
   /** The Document schema name Document.document_schema_name. Format: projects/{project_number}/locations/{location}/documentSchemas/{document_schema_id}. */
@@ -2130,11 +2089,9 @@ export interface GoogleCloudContentwarehouseV1SearchDocumentsRequest {
   /** An integer that specifies the current offset (that is, starting result location, amongst the documents deemed by the API as relevant) in search results. This field is only considered if page_token is unset. The maximum allowed value is 5000. Otherwise an error is thrown. For example, 0 means to return results starting from the first matching document, and 10 means to return from the 11th document. This can be used for pagination, (for example, pageSize = 10 and offset = 10 means to return from the second page). */
   offset?: number | undefined;
 }
-export interface SearchProjectsLocationsDocumentsRequest {
+export interface SearchProjectsLocationsDocumentsRequest extends GoogleCloudContentwarehouseV1SearchDocumentsRequest {
   /** Required. The parent, which owns this collection of documents. Format: projects/{project_number}/locations/{location}. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudContentwarehouseV1SearchDocumentsRequest | undefined;
 }
 /** Histogram result that matches HistogramQuery specified in searches. */
 export interface GoogleCloudContentwarehouseV1HistogramQueryResult {
@@ -2200,11 +2157,9 @@ export interface GoogleCloudContentwarehouseV1SetAclRequest {
   /** The meta information collected about the end user, used to enforce access control for the service. */
   requestMetadata?: GoogleCloudContentwarehouseV1RequestMetadata | undefined;
 }
-export interface SetAclProjectsRequest {
+export interface SetAclProjectsRequest extends GoogleCloudContentwarehouseV1SetAclRequest {
   /** Required. REQUIRED: The resource for which the policy is being requested. Format for document: projects/{project_number}/locations/{location}/documents/{document_id}. Format for collection: projects/{project_number}/locations/{location}/collections/{collection_id}. Format for project: projects/{project_number}. */
   resource: string;
-  /** Request body */
-  body?: GoogleCloudContentwarehouseV1SetAclRequest | undefined;
 }
 /** Response message for DocumentService.SetAcl. */
 export interface GoogleCloudContentwarehouseV1SetAclResponse {
@@ -2213,11 +2168,9 @@ export interface GoogleCloudContentwarehouseV1SetAclResponse {
   /** The policy will be attached to a resource (e.g. projecct, document). */
   policy?: GoogleIamV1Policy | undefined;
 }
-export interface SetAclProjectsLocationsDocumentsRequest {
+export interface SetAclProjectsLocationsDocumentsRequest extends GoogleCloudContentwarehouseV1SetAclRequest {
   /** Required. REQUIRED: The resource for which the policy is being requested. Format for document: projects/{project_number}/locations/{location}/documents/{document_id}. Format for collection: projects/{project_number}/locations/{location}/collections/{collection_id}. Format for project: projects/{project_number}. */
   resource: string;
-  /** Request body */
-  body?: GoogleCloudContentwarehouseV1SetAclRequest | undefined;
 }
 export type CreateProjectsLocationsDocumentsError =
   | NotFound
@@ -2244,6 +2197,7 @@ export const createProjectsLocationsDocuments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsDocuments",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsDocumentSchemasError =
@@ -2267,6 +2221,7 @@ export const createProjectsLocationsDocumentSchemas: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsDocumentSchemas",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsDocumentsDocumentLinksError =
@@ -2294,6 +2249,7 @@ export const createProjectsLocationsDocumentsDocumentLinks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsDocumentsDocumentLinks",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsRuleSetsError =
@@ -2317,6 +2273,7 @@ export const createProjectsLocationsRuleSets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsRuleSets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsSynonymSetsError =
@@ -2340,6 +2297,7 @@ export const createProjectsLocationsSynonymSets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsSynonymSets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsDocumentsError =
@@ -2363,6 +2321,7 @@ export const deleteProjectsLocationsDocuments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsDocuments",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsDocumentSchemasError =
@@ -2386,6 +2345,7 @@ export const deleteProjectsLocationsDocumentSchemas: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsDocumentSchemas",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsDocumentsDocumentLinksError =
@@ -2409,6 +2369,7 @@ export const deleteProjectsLocationsDocumentsDocumentLinks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsDocumentsDocumentLinks",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsDocumentsReferenceIdError =
@@ -2432,6 +2393,7 @@ export const deleteProjectsLocationsDocumentsReferenceId: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsDocumentsReferenceId",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsRuleSetsError =
@@ -2455,6 +2417,7 @@ export const deleteProjectsLocationsRuleSets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsRuleSets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsSynonymSetsError =
@@ -2478,6 +2441,7 @@ export const deleteProjectsLocationsSynonymSets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsSynonymSets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type FetchAclProjectsError =
@@ -2717,6 +2681,7 @@ export const linkedSourcesProjectsLocationsDocuments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "LinkedSourcesProjectsLocationsDocuments",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type LinkedTargetsProjectsLocationsDocumentsError =
@@ -2744,6 +2709,7 @@ export const linkedTargetsProjectsLocationsDocuments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "LinkedTargetsProjectsLocationsDocuments",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type ListProjectsLocationsDocumentSchemasError =
@@ -2871,6 +2837,7 @@ export const patchProjectsLocationsDocuments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsDocuments",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsDocumentSchemasError =
@@ -2894,6 +2861,7 @@ export const patchProjectsLocationsDocumentSchemas: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsDocumentSchemas",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsDocumentsReferenceIdError =
@@ -2921,6 +2889,7 @@ export const patchProjectsLocationsDocumentsReferenceId: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsDocumentsReferenceId",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsRuleSetsError =
@@ -2944,6 +2913,7 @@ export const patchProjectsLocationsRuleSets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsRuleSets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsSynonymSetsError =
@@ -2967,6 +2937,7 @@ export const patchProjectsLocationsSynonymSets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsSynonymSets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type RunPipelineProjectsLocationsError =
@@ -3017,6 +2988,7 @@ export const searchProjectsLocationsDocuments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchProjectsLocationsDocuments",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetAclProjectsError =
@@ -3040,6 +3012,7 @@ export const setAclProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetAclProjects",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetAclProjectsLocationsDocumentsError =
@@ -3063,6 +3036,7 @@ export const setAclProjectsLocationsDocuments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetAclProjectsLocationsDocuments",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
@@ -3070,10 +3044,12 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:delete",
@@ -3113,10 +3089,12 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:delete",
@@ -3130,10 +3108,12 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:delete",
@@ -3179,10 +3159,12 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(256, __c8, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(256, __c8, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:fetchAcl",
@@ -3214,10 +3196,12 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(256, __c8, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(256, __c8, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:fetchAcl",
@@ -3231,10 +3215,12 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:get",
@@ -3264,10 +3250,12 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:get",
@@ -3366,10 +3354,12 @@ function __c17(j: number): any {
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1InitializeProjectRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          location: S.String.pipe(T.Label()),
-          body: S.optional(__S(544, __c17, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(544, __c17, 0),
+          S.Struct({
+            location: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+location}:initialize",
@@ -3391,10 +3381,12 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1ListLinkedSourcesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(576, __c18, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(576, __c18, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/linkedSources",
@@ -3421,10 +3413,12 @@ function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/linkedTargets",
@@ -3533,10 +3527,12 @@ function __c24(j: number): any {
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1LockDocumentRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(768, __c24, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(768, __c24, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:lock",
@@ -3550,10 +3546,12 @@ function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(834, __c26, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(834, __c26, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3609,10 +3607,12 @@ function __c27(j: number): any {
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1UpdateDocumentSchemaRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(864, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(864, __c27, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3626,10 +3626,12 @@ function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(834, __c26, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(834, __c26, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3649,10 +3651,12 @@ function __c29(j: number): any {
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1UpdateRuleSetRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(928, __c29, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(928, __c29, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3666,10 +3670,12 @@ function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1890, __c59, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1890, __c59, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3753,10 +3759,12 @@ function __c31(j: number): any {
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1RunPipelineRequest" });
     case 8:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(999, __c31, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(999, __c31, 7),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:runPipeline",
@@ -3866,10 +3874,12 @@ function __c32(j: number): any {
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1SearchDocumentsRequest" });
     case 14:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1037, __c32, 13).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1037, __c32, 13),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/documents:search",
@@ -3932,10 +3942,12 @@ function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1088, __c34, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1088, __c34, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setAcl",
@@ -3968,10 +3980,12 @@ function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1088, __c34, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1088, __c34, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setAcl",
@@ -3995,10 +4009,12 @@ function __c36(j: number): any {
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1CreateDocumentRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1152, __c36, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1152, __c36, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/documents",
@@ -5047,10 +5063,12 @@ function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1702, __c53, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1702, __c53, 6),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/documentSchemas",
@@ -5141,10 +5159,12 @@ function __c54(j: number): any {
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1CreateDocumentLinkRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1728, __c54, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1728, __c54, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/documentLinks",
@@ -5188,10 +5208,12 @@ function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1824, __c57, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1824, __c57, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/ruleSets",
@@ -5218,10 +5240,12 @@ function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1890, __c59, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1890, __c59, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/synonymSets",

@@ -31,45 +31,80 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ConnectError | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: ConnectError | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ConnectError | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: ConnectError | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  ) {}
+  )
+{
+  declare readonly body?: ConnectError | string;
+}
 
 /** Intended key use: signing or encryption. */
 export type ConnectConnectorCreateDataCase0ServerConfigJwksKeysItemUse = "sig" | "enc";
@@ -2279,6 +2314,19 @@ export interface UpsertConnectorProjectConnectionRequest {
   /** One or more built-in environment names or stable custom environment IDs that belong to the project. Duplicate values are accepted and removed. */
   environments: UpsertConnectorProjectConnectionRequestEnvironmentsList;
 }
+/** Error details. */
+export interface ConnectErrorError {
+  /** Stable machine-readable error code. */
+  code: string;
+  /** Human-readable error message. */
+  message: string;
+  [key: string]: unknown;
+}
+/** Error response returned by a Connect API operation. */
+export interface ConnectError {
+  /** Error details. */
+  error: ConnectErrorError;
+}
 export type CreateConnectorError =
   | BadRequest
   | Forbidden
@@ -2293,8 +2341,8 @@ export const createConnector: API.OperationMethod<
   CreateConnectorError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(113, __c14, 1) as any as S.Schema<CreateConnectorRequest>,
-  output: __S(114, __c14, 2) as any as S.Schema<ConnectConnectorCreateResult>,
+  input: __S(121, __c15, 1) as any as S.Schema<CreateConnectorRequest>,
+  output: __S(122, __c15, 2) as any as S.Schema<ConnectConnectorCreateResult>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -2316,8 +2364,8 @@ export const createConnectorAuthorizationRequest: API.OperationMethod<
   CreateConnectorAuthorizationRequestError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<CreateConnectorAuthorizationRequestRequest>,
-  output: __S(154, __c19, 2) as any as S.Schema<CreateConnectorAuthorizationRequestResponse>,
+  input: __S(160, __c20, 0) as any as S.Schema<CreateConnectorAuthorizationRequestRequest>,
+  output: __S(162, __c20, 2) as any as S.Schema<CreateConnectorAuthorizationRequestResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -2339,8 +2387,8 @@ export const deleteConnector: API.OperationMethod<
   DeleteConnectorError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<DeleteConnectorRequest>,
-  output: __S(176, __c22, 0) as any as S.Schema<DeleteConnectorResponse>,
+  input: __S(176, __c22, 0) as any as S.Schema<DeleteConnectorRequest>,
+  output: __S(184, __c23, 0) as any as S.Schema<DeleteConnectorResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -2362,8 +2410,8 @@ export const deleteConnectorProjectConnection: API.OperationMethod<
   DeleteConnectorProjectConnectionError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<DeleteConnectorProjectConnectionRequest>,
-  output: __S(176, __c22, 0) as any as S.Schema<DeleteConnectorProjectConnectionResponse>,
+  input: __S(192, __c24, 0) as any as S.Schema<DeleteConnectorProjectConnectionRequest>,
+  output: __S(184, __c23, 0) as any as S.Schema<DeleteConnectorProjectConnectionResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -2385,8 +2433,8 @@ export const disconnectConnectorProjectEnvironment: API.OperationMethod<
   DisconnectConnectorProjectEnvironmentError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<DisconnectConnectorProjectEnvironmentRequest>,
-  output: __S(176, __c22, 0) as any as S.Schema<DisconnectConnectorProjectEnvironmentResponse>,
+  input: __S(200, __c25, 0) as any as S.Schema<DisconnectConnectorProjectEnvironmentRequest>,
+  output: __S(184, __c23, 0) as any as S.Schema<DisconnectConnectorProjectEnvironmentResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -2408,8 +2456,8 @@ export const ejectManagedConnector: API.OperationMethod<
   EjectManagedConnectorError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<EjectManagedConnectorRequest>,
-  output: __S(8, __c1, 0) as any as S.Schema<ConnectConnector>,
+  input: __S(8, __c1, 0) as any as S.Schema<EjectManagedConnectorRequest>,
+  output: __S(16, __c2, 0) as any as S.Schema<ConnectConnector>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -2431,8 +2479,8 @@ export const getConnector: API.OperationMethod<
   GetConnectorError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<GetConnectorRequest>,
-  output: __S(8, __c1, 0) as any as S.Schema<ConnectConnector>,
+  input: __S(24, __c3, 0) as any as S.Schema<GetConnectorRequest>,
+  output: __S(16, __c2, 0) as any as S.Schema<ConnectConnector>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -2453,8 +2501,8 @@ export const getConnectorProjectConnection: API.OperationMethod<
   GetConnectorProjectConnectionError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<GetConnectorProjectConnectionRequest>,
-  output: __S(36, __c4, 4) as any as S.Schema<ConnectProjectConnection>,
+  input: __S(32, __c4, 0) as any as S.Schema<GetConnectorProjectConnectionRequest>,
+  output: __S(44, __c5, 4) as any as S.Schema<ConnectProjectConnection>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -2476,8 +2524,8 @@ export const getConnectorToken: API.OperationMethod<
   GetConnectorTokenError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<GetConnectorTokenRequest>,
-  output: __S(42, __c5, 2) as any as S.Schema<GetConnectorTokenResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<GetConnectorTokenRequest>,
+  output: __S(50, __c6, 2) as any as S.Schema<GetConnectorTokenResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -2498,8 +2546,8 @@ export const listConnectorProjectConnections: API.OperationMethod<
   ListConnectorProjectConnectionsError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<ListConnectorProjectConnectionsRequest>,
-  output: __S(49, __c6, 1) as any as S.Schema<ConnectConnectorProjectConnectionList>,
+  input: __S(56, __c7, 0) as any as S.Schema<ListConnectorProjectConnectionsRequest>,
+  output: __S(57, __c7, 1) as any as S.Schema<ConnectConnectorProjectConnectionList>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -2521,8 +2569,8 @@ export const listConnectors: API.OperationMethod<
   ListConnectorsError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<ListConnectorsRequest>,
-  output: __S(74, __c9, 2) as any as S.Schema<ConnectConnectorList>,
+  input: __S(80, __c10, 0) as any as S.Schema<ListConnectorsRequest>,
+  output: __S(82, __c10, 2) as any as S.Schema<ConnectConnectorList>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -2542,8 +2590,8 @@ export const listProjectConnectorConnections: API.OperationMethod<
   ListProjectConnectorConnectionsError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<ListProjectConnectorConnectionsRequest>,
-  output: __S(81, __c10, 1) as any as S.Schema<ConnectProjectConnectorConnectionList>,
+  input: __S(88, __c11, 0) as any as S.Schema<ListProjectConnectorConnectionsRequest>,
+  output: __S(89, __c11, 1) as any as S.Schema<ConnectProjectConnectorConnectionList>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -2565,8 +2613,8 @@ export const replaceConnectorTriggerDestinations: API.OperationMethod<
   ReplaceConnectorTriggerDestinationsError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(89, __c11, 1) as any as S.Schema<ReplaceConnectorTriggerDestinationsRequest>,
-  output: __S(8, __c1, 0) as any as S.Schema<ConnectConnector>,
+  input: __S(97, __c12, 1) as any as S.Schema<ReplaceConnectorTriggerDestinationsRequest>,
+  output: __S(16, __c2, 0) as any as S.Schema<ConnectConnector>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -2588,8 +2636,8 @@ export const updateConnector: API.OperationMethod<
   UpdateConnectorError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<UpdateConnectorRequest>,
-  output: __S(101, __c12, 5) as any as S.Schema<ConnectConnectorUpdateResult>,
+  input: __S(104, __c13, 0) as any as S.Schema<UpdateConnectorRequest>,
+  output: __S(109, __c13, 5) as any as S.Schema<ConnectConnectorUpdateResult>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -2611,8 +2659,8 @@ export const upsertConnectorProjectConnection: API.OperationMethod<
   UpsertConnectorProjectConnectionError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(105, __c13, 1) as any as S.Schema<UpsertConnectorProjectConnectionRequest>,
-  output: __S(36, __c4, 4) as any as S.Schema<ConnectProjectConnection>,
+  input: __S(113, __c14, 1) as any as S.Schema<UpsertConnectorProjectConnectionRequest>,
+  output: __S(44, __c5, 4) as any as S.Schema<ConnectProjectConnection>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -2622,6 +2670,26 @@ export const upsertConnectorProjectConnection: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            code: S.String,
+            message: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ConnectErrorError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "ConnectError" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2638,13 +2706,13 @@ function __c0(j: number): any {
       ).annotate({ identifier: "EjectManagedConnectorRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           accentColor: S.optional(S.String),
-          appTokens: S.optional(__S(121, __c15, 1)),
+          appTokens: S.optional(__S(129, __c16, 1)),
           backgroundColor: S.optional(S.String),
           clientUrl: S.optional(S.NullOr(S.String)),
           connectionMethod: S.optional(S.String),
@@ -2655,40 +2723,40 @@ function __c1(j: number): any {
           devsite: S.optional(S.String),
           displayName: S.String,
           docsite: S.optional(S.String),
-          events: S.optional(__S(144, __c18, 0)),
+          events: S.optional(__S(152, __c19, 0)),
           hasMcpEventDeliveries: S.optional(S.Boolean),
           icon: S.optional(S.String),
           id: S.String,
           knownStale: S.optional(S.Boolean),
-          managed: S.optional(__S(122, __c15, 2)),
+          managed: S.optional(__S(130, __c16, 2)),
           mcpEventsUiVisibility: S.optional(S.String),
           name: S.String,
           redirectUri: S.optional(S.String),
           reinstallAt: S.optional(S.Number),
           service: S.String,
           serviceIcon: S.optional(S.String),
-          supportedSubjectTypes: __S(144, __c18, 0),
+          supportedSubjectTypes: __S(152, __c19, 0),
           supportsIcon: S.Unknown,
           supportsInstallation: S.Boolean,
           supportsManagedEjection: S.optional(S.Boolean),
           supportsRevocation: S.Boolean,
           supportsTriggers: S.Boolean,
           target: S.optional(S.String),
-          triggerDestinations: S.optional(__S(124, __c15, 4)),
-          triggers: S.optional(__S(120, __c15, 0)),
+          triggerDestinations: S.optional(__S(132, __c16, 4)),
+          triggers: S.optional(__S(128, __c16, 0)),
           type: S.String,
           typeIcon: S.optional(S.String),
           typeName: S.String,
           uid: S.String,
           updatedAt: S.Number,
           updatedBy: S.optional(S.Unknown),
-          userTokens: S.optional(__S(125, __c15, 5)),
+          userTokens: S.optional(__S(133, __c16, 5)),
           website: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConnectConnector" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2700,7 +2768,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GetConnectorRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2719,7 +2787,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GetConnectorProjectConnectionRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -2731,11 +2799,11 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "ConnectProjectConnectionProjectCustomEnvironmentsItem" });
     case 2:
-      return S.Array(__S(33, __c4, 1));
+      return S.Array(__S(41, __c5, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          customEnvironments: S.optional(__S(34, __c4, 2)),
+          customEnvironments: S.optional(__S(42, __c5, 2)),
           id: S.String,
           name: S.String,
         }),
@@ -2745,14 +2813,14 @@ function __c4(j: number): any {
         S.Struct({
           connectorId: S.String,
           createdAt: S.Number,
-          enabledEnvironments: __S(32, __c4, 0),
-          project: __S(35, __c4, 3),
+          enabledEnvironments: __S(40, __c5, 0),
+          project: __S(43, __c5, 3),
           updatedAt: S.Number,
         }),
       ).annotate({ identifier: "ConnectProjectConnection" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2760,10 +2828,10 @@ function __c5(j: number): any {
           connector: S.String.pipe(T.Label()),
           subject: S.optional(S.Unknown),
           installationId: S.optional(S.String),
-          audience: S.optional(__S(144, __c18, 0)),
-          scopes: S.optional(__S(144, __c18, 0)),
-          resources: S.optional(__S(144, __c18, 0)),
-          authorizationDetails: S.optional(__S(161, __c20, 1)),
+          audience: S.optional(__S(152, __c19, 0)),
+          scopes: S.optional(__S(152, __c19, 0)),
+          resources: S.optional(__S(152, __c19, 0)),
+          authorizationDetails: S.optional(__S(169, __c21, 1)),
           validityBufferMs: S.optional(S.Number),
         }).pipe(T.Http({ method: "POST", uri: "/v1/connect/token/{connector}", code: 200 })),
       ).annotate({ identifier: "GetConnectorTokenRequest" });
@@ -2780,12 +2848,12 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           authorizationId: S.optional(S.String),
-          claims: S.optional(__S(128, __c16, 0)),
-          connector: __S(41, __c5, 1),
+          claims: S.optional(__S(136, __c17, 0)),
+          connector: __S(49, __c6, 1),
           expiresAt: S.Number,
           externalSubject: S.optional(S.String),
           installationId: S.optional(S.String),
-          metadata: S.optional(__S(128, __c16, 0)),
+          metadata: S.optional(__S(136, __c17, 0)),
           name: S.optional(S.String),
           tenantId: S.optional(S.String),
           token: S.String,
@@ -2795,7 +2863,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GetConnectorTokenResponse" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2812,13 +2880,13 @@ function __c6(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          pagination: __S(56, __c7, 0),
-          projects: __S(64, __c8, 0),
+          pagination: __S(64, __c8, 0),
+          projects: __S(72, __c9, 0),
         }),
       ).annotate({ identifier: "ConnectConnectorProjectConnectionList" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2828,13 +2896,13 @@ function __c7(j: number): any {
       ).annotate({ identifier: "ConnectPagination" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(36, __c4, 4));
+      return S.Array(__S(44, __c5, 4));
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2851,17 +2919,17 @@ function __c9(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/connect/connectors", code: 200 })),
       ).annotate({ identifier: "ListConnectorsRequest" });
     case 1:
-      return S.Array(__S(8, __c1, 0));
+      return S.Array(__S(16, __c2, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          connectors: __S(73, __c9, 1),
-          pagination: __S(56, __c7, 0),
+          connectors: __S(81, __c10, 1),
+          pagination: __S(64, __c8, 0),
         }),
       ).annotate({ identifier: "ConnectConnectorList" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2878,13 +2946,13 @@ function __c10(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          connectors: __S(64, __c8, 0),
-          pagination: __S(56, __c7, 0),
+          connectors: __S(72, __c9, 0),
+          pagination: __S(64, __c8, 0),
         }),
       ).annotate({ identifier: "ConnectProjectConnectorConnectionList" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -2894,7 +2962,7 @@ function __c11(j: number): any {
           connector: S.String.pipe(T.Label()),
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
-          destinations: __S(88, __c11, 0),
+          destinations: __S(96, __c12, 0),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2905,7 +2973,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "ReplaceConnectorTriggerDestinationsRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2914,9 +2982,9 @@ function __c12(j: number): any {
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
           triggers: S.optional(S.Boolean),
-          triggerVerificationInput: S.optional(__S(128, __c16, 0)),
-          triggerRegistrationInput: S.optional(__S(128, __c16, 0)),
-          events: S.optional(__S(144, __c18, 0)),
+          triggerVerificationInput: S.optional(__S(136, __c17, 0)),
+          triggerRegistrationInput: S.optional(__S(136, __c17, 0)),
+          events: S.optional(__S(152, __c19, 0)),
           mcpEventsUiVisibility: S.optional(S.String),
           data: S.optional(S.Unknown),
           icon: S.optional(S.String),
@@ -2935,32 +3003,32 @@ function __c12(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          fields: S.optional(__S(144, __c18, 0)),
+          fields: S.optional(__S(152, __c19, 0)),
           message: S.String,
-          vendor: S.optional(__S(128, __c16, 0)),
+          vendor: S.optional(__S(136, __c17, 0)),
         }),
       ).annotate({ identifier: "ConnectServiceSyncError" });
     case 3:
-      return S.Array(__S(98, __c12, 2));
+      return S.Array(__S(106, __c13, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          errors: S.optional(__S(99, __c12, 3)),
+          errors: S.optional(__S(107, __c13, 3)),
           status: S.String,
         }),
       ).annotate({ identifier: "ConnectServiceSync" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          connector: __S(8, __c1, 0),
-          reconsentNeeded: S.optional(__S(97, __c12, 1)),
+          connector: __S(16, __c2, 0),
+          reconsentNeeded: S.optional(__S(105, __c13, 1)),
           reinstallNeeded: S.optional(S.Boolean),
-          serviceSync: S.optional(__S(100, __c12, 4)),
+          serviceSync: S.optional(__S(108, __c13, 4)),
         }),
       ).annotate({ identifier: "ConnectConnectorUpdateResult" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -2971,7 +3039,7 @@ function __c13(j: number): any {
           projectId: S.String.pipe(T.Label()),
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
-          environments: __S(104, __c13, 0),
+          environments: __S(112, __c14, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2982,7 +3050,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "UpsertConnectorProjectConnectionRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -2998,25 +3066,25 @@ function __c14(j: number): any {
           type: S.optional(S.String),
           service: S.optional(S.String),
           connectionMethod: S.optional(S.String),
-          params: S.optional(__S(136, __c17, 0)),
+          params: S.optional(__S(144, __c18, 0)),
           target: S.optional(S.String),
           uid: S.optional(S.String),
           name: S.optional(S.String),
           projectId: S.optional(S.String),
-          environments: S.optional(__S(112, __c14, 0)),
+          environments: S.optional(__S(120, __c15, 0)),
           triggers: S.optional(S.Boolean),
           triggerType: S.optional(S.String),
-          triggerVerificationInput: S.optional(__S(128, __c16, 0)),
-          triggerRegistrationInput: S.optional(__S(128, __c16, 0)),
+          triggerVerificationInput: S.optional(__S(136, __c17, 0)),
+          triggerRegistrationInput: S.optional(__S(136, __c17, 0)),
           triggerDestination: S.optional(S.Unknown),
-          events: S.optional(__S(144, __c18, 0)),
+          events: S.optional(__S(152, __c19, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v1/connect/connectors", code: 200 })),
       ).annotate({ identifier: "CreateConnectorRequest" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           accentColor: S.optional(S.String),
-          appTokens: S.optional(__S(121, __c15, 1)),
+          appTokens: S.optional(__S(129, __c16, 1)),
           backgroundColor: S.optional(S.String),
           clientUrl: S.optional(S.NullOr(S.String)),
           connectionMethod: S.optional(S.String),
@@ -3027,40 +3095,40 @@ function __c14(j: number): any {
           devsite: S.optional(S.String),
           displayName: S.String,
           docsite: S.optional(S.String),
-          events: S.optional(__S(144, __c18, 0)),
+          events: S.optional(__S(152, __c19, 0)),
           hasMcpEventDeliveries: S.optional(S.Boolean),
           icon: S.optional(S.String),
           id: S.String,
           knownStale: S.optional(S.Boolean),
-          managed: S.optional(__S(122, __c15, 2)),
+          managed: S.optional(__S(130, __c16, 2)),
           mcpEventsUiVisibility: S.optional(S.String),
           name: S.String,
           redirectUri: S.optional(S.String),
           reinstallAt: S.optional(S.Number),
           service: S.String,
           serviceIcon: S.optional(S.String),
-          supportedSubjectTypes: __S(144, __c18, 0),
+          supportedSubjectTypes: __S(152, __c19, 0),
           supportsIcon: S.Unknown,
           supportsInstallation: S.Boolean,
           supportsManagedEjection: S.optional(S.Boolean),
           supportsRevocation: S.Boolean,
           supportsTriggers: S.Boolean,
           target: S.optional(S.String),
-          triggerDestinations: S.optional(__S(124, __c15, 4)),
-          triggers: S.optional(__S(120, __c15, 0)),
+          triggerDestinations: S.optional(__S(132, __c16, 4)),
+          triggers: S.optional(__S(128, __c16, 0)),
           type: S.String,
           typeIcon: S.optional(S.String),
           typeName: S.String,
           uid: S.String,
           updatedAt: S.Number,
           updatedBy: S.optional(S.Unknown),
-          userTokens: S.optional(__S(125, __c15, 5)),
+          userTokens: S.optional(__S(133, __c16, 5)),
           website: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConnectConnectorCreateResult" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3075,8 +3143,8 @@ function __c15(j: number): any {
           isStaticCredential: S.Boolean,
           permissionsUrl: S.optional(S.String),
           requiresReinstallation: S.optional(S.Boolean),
-          scopes: S.optional(__S(144, __c18, 0)),
-          supportedAuthorizationDetails: S.optional(__S(144, __c18, 0)),
+          scopes: S.optional(__S(152, __c19, 0)),
+          supportedAuthorizationDetails: S.optional(__S(152, __c19, 0)),
           supportsRefinement: S.Boolean,
           supportsResources: S.optional(S.Boolean),
         }),
@@ -3097,40 +3165,40 @@ function __c15(j: number): any {
         }),
       ).annotate({ identifier: "ConnectTriggerDestination" });
     case 4:
-      return S.Array(__S(123, __c15, 3));
+      return S.Array(__S(131, __c16, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           crossInstallation: S.Boolean,
           isStaticCredential: S.Boolean,
           manualCredentialInput: S.optional(S.Boolean),
-          scopes: S.optional(__S(144, __c18, 0)),
-          supportedAuthorizationDetails: S.optional(__S(144, __c18, 0)),
+          scopes: S.optional(__S(152, __c19, 0)),
+          supportedAuthorizationDetails: S.optional(__S(152, __c19, 0)),
           supportsRefinement: S.Boolean,
           supportsResources: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ConnectConnectorCreateResultUserTokens" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3138,17 +3206,17 @@ function __c19(j: number): any {
           connector: S.String.pipe(T.Label()),
           subject: S.optional(S.Unknown),
           installationId: S.optional(S.String),
-          audience: S.optional(__S(144, __c18, 0)),
-          scopes: S.optional(__S(144, __c18, 0)),
-          resources: S.optional(__S(144, __c18, 0)),
-          authorizationDetails: S.optional(__S(161, __c20, 1)),
+          audience: S.optional(__S(152, __c19, 0)),
+          scopes: S.optional(__S(152, __c19, 0)),
+          resources: S.optional(__S(152, __c19, 0)),
+          authorizationDetails: S.optional(__S(169, __c21, 1)),
           validityBufferMs: S.optional(S.Number),
           returnUrl: S.optional(S.String),
           webhook: S.optional(S.String),
           prompt: S.optional(S.String),
           deviceCode: S.optional(S.Boolean),
           expiresInMs: S.optional(S.Number),
-          additionalParams: S.optional(__S(136, __c17, 0)),
+          additionalParams: S.optional(__S(144, __c18, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v1/connect/authorize/{connector}", code: 200 })),
       ).annotate({ identifier: "CreateConnectorAuthorizationRequestRequest" });
     case 1:
@@ -3166,7 +3234,7 @@ function __c19(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          connector: __S(153, __c19, 1),
+          connector: __S(161, __c20, 1),
           deviceCode: S.optional(S.String),
           expiresAt: S.Number,
           request: S.String,
@@ -3176,7 +3244,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "CreateConnectorAuthorizationRequestResponse" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3190,10 +3258,10 @@ function __c20(j: number): any {
         identifier: "CreateConnectorAuthorizationRequestRequestAuthorizationDetailsItem",
       });
     case 1:
-      return S.Array(__S(160, __c20, 0));
+      return S.Array(__S(168, __c21, 0));
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3205,13 +3273,13 @@ function __c21(j: number): any {
       ).annotate({ identifier: "DeleteConnectorRequest" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteConnectorResponse" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3230,7 +3298,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "DeleteConnectorProjectConnectionRequest" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

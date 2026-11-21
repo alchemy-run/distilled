@@ -817,19 +817,34 @@ export interface GetStorageContainerRequest {
 }
 /** Resource tags. */
 export type GetStorageContainerResponseTagsMap = { [key: string]: string | undefined };
-/** The kind of the backing storage store. */
-export type StorageStoreType = "AzureStorageBlob" | "AzureNetAppFiles";
-/** An abstract representation of storage store kind. */
-export interface StorageStore {
+/** The storage store kind. */
+export type AzureNetAppFilesStoreKind = "AzureNetAppFiles";
+/** The protocol to use for mounting the storage store. */
+export type AzureNetAppFilesStoreMountProtocol = "NFS";
+/** The Azure NetApp Files properties. */
+export interface AzureNetAppFilesStore {
   /** The storage store kind. */
-  kind: StorageStoreType | (string & {});
-  /** AzureStorageBlob: the associated Azure Storage account ID. */
-  storageAccountId?: string | undefined;
-  /** AzureNetAppFiles: the associated Azure NetApp Files volume ID. */
-  netAppVolumeId?: string | undefined;
-  /** Protocol used to mount the store: `NFS` or `BlobfuseCaching` (blob only). */
-  mountProtocol?: string | undefined;
+  kind: AzureNetAppFilesStoreKind;
+  /** The protocol to use for mounting the storage store. */
+  mountProtocol?: AzureNetAppFilesStoreMountProtocol | (string & {}) | undefined;
+  /** The associated Azure NetApp Files volume ID. */
+  netAppVolumeId: string;
 }
+/** The storage store kind. */
+export type AzureStorageBlobStoreKind = "AzureStorageBlob";
+/** The protocol to use for mounting the storage store. */
+export type AzureStorageBlobStoreMountProtocol = "NFS" | "BlobfuseCaching";
+/** The Azure storage blob properties. */
+export interface AzureStorageBlobStore {
+  /** The storage store kind. */
+  kind: AzureStorageBlobStoreKind;
+  /** The protocol to use for mounting the storage store. */
+  mountProtocol?: AzureStorageBlobStoreMountProtocol | (string & {}) | undefined;
+  /** The associated Azure Storage Account ID. */
+  storageAccountId: string;
+}
+/** An abstract representation of storage store kind. */
+export type StorageStore = AzureNetAppFilesStore | AzureStorageBlobStore;
 /** Storage Container properties */
 export interface StorageContainerProperties {
   /** The status of the last operation. */
@@ -4347,7 +4362,7 @@ function __c38(j: number): any {
           systemData: S.optional(__S(32, __c4, 0)),
           tags: S.optional(__S(104, __c13, 0)),
           location: S.String,
-          properties: S.optional(__S(313, __c39, 1)),
+          properties: S.optional(__S(315, __c39, 3)),
         }),
       ).annotate({ identifier: "GetStorageContainerResponse" });
   }
@@ -4358,16 +4373,25 @@ function __c39(j: number): any {
       return S.suspend(() =>
         S.Struct({
           kind: S.String,
-          storageAccountId: S.optional(S.String),
-          netAppVolumeId: S.optional(S.String),
           mountProtocol: S.optional(S.String),
+          netAppVolumeId: S.String,
         }),
-      ).annotate({ identifier: "StorageStore" });
+      ).annotate({ identifier: "AzureNetAppFilesStore" });
     case 1:
       return S.suspend(() =>
         S.Struct({
+          kind: S.String,
+          mountProtocol: S.optional(S.String),
+          storageAccountId: S.String,
+        }),
+      ).annotate({ identifier: "AzureStorageBlobStore" });
+    case 2:
+      return S.Union([__S(312, __c39, 0), __S(313, __c39, 1)]);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
           provisioningState: S.optional(S.String),
-          storageStore: __S(312, __c39, 0),
+          storageStore: __S(314, __c39, 2),
         }),
       ).annotate({ identifier: "StorageContainerProperties" });
   }
@@ -5305,7 +5329,7 @@ function __c85(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          storageStore: __S(312, __c39, 0),
+          storageStore: __S(314, __c39, 2),
         }),
       ).annotate({ identifier: "StorageContainerPropertiesInput" });
     case 1:
@@ -5335,7 +5359,7 @@ function __c85(j: number): any {
           systemData: S.optional(__S(32, __c4, 0)),
           tags: S.optional(__S(104, __c13, 0)),
           location: S.String,
-          properties: S.optional(__S(313, __c39, 1)),
+          properties: S.optional(__S(315, __c39, 3)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
@@ -5715,7 +5739,7 @@ function __c95(j: number): any {
           systemData: S.optional(__S(32, __c4, 0)),
           tags: S.optional(__S(104, __c13, 0)),
           location: S.String,
-          properties: S.optional(__S(313, __c39, 1)),
+          properties: S.optional(__S(315, __c39, 3)),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),

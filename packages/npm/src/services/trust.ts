@@ -30,36 +30,68 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error403Body | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error403Body | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(2, __c1, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error403Body2 | Error403Body | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error403Body | string;
+}
 
 /** Type of the trusted publisher */
 export type GitHubActionsConfigCreateType = "github";
@@ -290,6 +322,13 @@ export interface GetTrustedPublishersRequest {
   npmOtp: string;
 }
 export type GetTrustedPublishersResponse = OidcConfigs;
+export interface Error403Body {
+  message?: string | undefined;
+}
+export interface Error403Body2 {
+  message?: string | undefined;
+  error?: string | undefined;
+}
 export type ConfigureTrustedPublisherError =
   | BadRequest
   | Forbidden
@@ -303,8 +342,8 @@ export const configureTrustedPublisher: API.OperationMethod<
   ConfigureTrustedPublisherError,
   NpmOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1, __c0, 1) as any as S.Schema<ConfigureTrustedPublisherRequest>,
-  output: __S(3, __c1, 1) as any as S.Schema<ConfigureTrustedPublisherResponse>,
+  input: __S(5, __c2, 1) as any as S.Schema<ConfigureTrustedPublisherRequest>,
+  output: __S(7, __c3, 1) as any as S.Schema<ConfigureTrustedPublisherResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownNpmError],
   protocol: NpmProtocol,
   retry: Retry.Retry,
@@ -320,8 +359,8 @@ export const deleteTrustedPublisher: API.OperationMethod<
   DeleteTrustedPublisherError,
   NpmOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c2, 0) as any as S.Schema<DeleteTrustedPublisherRequest>,
-  output: __S(5, __c2, 1) as any as S.Schema<DeleteTrustedPublisherResponse>,
+  input: __S(8, __c4, 0) as any as S.Schema<DeleteTrustedPublisherRequest>,
+  output: __S(9, __c4, 1) as any as S.Schema<DeleteTrustedPublisherResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownNpmError],
   protocol: NpmProtocol,
   retry: Retry.Retry,
@@ -337,8 +376,8 @@ export const getTrustedPublishers: API.OperationMethod<
   GetTrustedPublishersError,
   NpmOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6, __c3, 0) as any as S.Schema<GetTrustedPublishersRequest>,
-  output: __S(3, __c1, 1) as any as S.Schema<GetTrustedPublishersResponse>,
+  input: __S(10, __c5, 0) as any as S.Schema<GetTrustedPublishersRequest>,
+  output: __S(7, __c3, 1) as any as S.Schema<GetTrustedPublishersResponse>,
   errors: [Forbidden, NotFound, UnknownNpmError],
   protocol: NpmProtocol,
   retry: Retry.Retry,
@@ -350,28 +389,49 @@ export const getTrustedPublishers: API.OperationMethod<
 function __c0(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Error403Body" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.optional(S.String),
+          error: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Error403Body2" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
       return S.Array(S.Unknown);
     case 1:
       return S.suspend(() =>
         S.Struct({
           package: S.String.pipe(T.Label()),
           npmOtp: S.String.pipe(T.Header("npm-otp")),
-          body: __S(0, __c0, 0).pipe(T.HttpBody()),
+          body: __S(4, __c2, 0).pipe(T.HttpBody()),
         }).pipe(T.Http({ method: "POST", uri: "/-/package/{package}/trust", code: 200 })),
       ).annotate({ identifier: "ConfigureTrustedPublisherRequest" });
   }
 }
-function __c1(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
     case 1:
-      return S.suspend(() => __S(2, __c1, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(6, __c3, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ConfigureTrustedPublisherResponse",
       });
   }
 }
-function __c2(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -389,7 +449,7 @@ function __c2(j: number): any {
       });
   }
 }
-function __c3(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

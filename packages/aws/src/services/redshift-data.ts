@@ -116,25 +116,25 @@ export class BatchExecuteStatementException
     "BatchExecuteStatementException",
     { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()), StatementId: S.String },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class DatabaseConnectionException
   extends /*@__PURE__*/ S.TaggedError<DatabaseConnectionException>()(
     "DatabaseConnectionException",
     { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ExecuteStatementException
   extends /*@__PURE__*/ S.TaggedError<ExecuteStatementException>()(
     "ExecuteStatementException",
     { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()), StatementId: S.String },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
     "InternalServerException",
     { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class QueryTimeoutException
   extends /*@__PURE__*/ S.TaggedError<QueryTimeoutException>()(
     "QueryTimeoutException",

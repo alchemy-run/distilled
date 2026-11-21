@@ -159,7 +159,7 @@ export class ServiceFailureException
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ServiceUnavailableException
   extends /*@__PURE__*/ S.TaggedError<ServiceUnavailableException>()(
     "ServiceUnavailableException",
@@ -170,7 +170,7 @@ export class ServiceUnavailableException
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
     /*@__PURE__*/ T.HttpError(503),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ThrottledClientException
   extends /*@__PURE__*/ S.TaggedError<ThrottledClientException>()(
     "ThrottledClientException",
@@ -4225,10 +4225,10 @@ function __c50(j: number): any {
         S.Struct({
           ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
           SortOrder: S.optional(S.String).pipe(T.HttpQuery("sort-order")),
-          NotBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          NotBefore: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("not-before"),
           ),
-          NotAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          NotAfter: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("not-after"),
           ),
           MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),

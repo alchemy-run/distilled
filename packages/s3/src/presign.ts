@@ -28,6 +28,7 @@ import {
   invalidAwsLabel,
   invalidHostLabel,
 } from "./util/serialize-input.ts";
+import { isStreamBody } from "./util/stream.ts";
 
 /**
  * Errors returned when resolving credentials or signing a URL, and the
@@ -392,7 +393,7 @@ const presignedRequestOf =
       return refuse(`The request signs with ${request.signer}, which presigning does not support.`);
     }
     const body = request.body;
-    if (body instanceof ReadableStream || (body !== undefined && body.length > 0)) {
+    if (isStreamBody(body) || (body !== undefined && body.length > 0)) {
       return refuse(
         "The input serializes into a request body, which a presigned URL cannot carry.",
       );

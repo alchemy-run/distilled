@@ -35,6 +35,7 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
   ) {}
@@ -44,6 +45,7 @@ export class Conflict
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
   ) {}
@@ -53,6 +55,7 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
   ) {}
@@ -62,6 +65,7 @@ export class NotFound
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
@@ -199,6 +203,60 @@ export interface UpdateTagRequest {
   color?: string | undefined;
   /** comment */
   description?: string | undefined;
+}
+/** Any fields/values that are invalid or incorrect */
+export type BadRequestFieldsList = Array<string>;
+/** Invalid request */
+export interface BadRequest2 {
+  /** Description of the error */
+  message?: string | undefined;
+  /** Any fields/values that are invalid or incorrect */
+  fields?: BadRequestFieldsList | undefined;
+}
+/** Already exists */
+export interface Exists {
+  message?: string | undefined;
+}
+/** Any additional details (read only) */
+export type ErrorinfoMetadataMap = { [key: string]: string | undefined };
+/** Error details (read only) */
+export interface Errorinfo {
+  /** Error reason/detail (read only) */
+  reason: string;
+  /** Any additional details (read only) */
+  metadata: ErrorinfoMetadataMap;
+}
+/** Concurrency conflict, such as read-modify-write conflict. */
+export interface Aborted {
+  /** Description of the error */
+  message: string;
+  detail: Errorinfo;
+}
+/** Authorization failed */
+export type Forbidden2 = Exists;
+/** Any fields/values that weren't found */
+export type NotFoundFieldsList = Array<string>;
+/** A resource or required component was not found */
+export interface NotFound2 {
+  /** Name of the resource */
+  message: string;
+  /** Violation description */
+  description?: string | undefined;
+  /** Any fields/values that weren't found */
+  fields?: NotFoundFieldsList | undefined;
+}
+/** Error details (read only) */
+export interface Resourceinfo {
+  /** Name of the resource (read only) */
+  resourceName: string;
+  /** Violation description (read only) */
+  description: string;
+}
+/** A specified resource is not found. */
+export interface NotFoundError {
+  /** Description of the error */
+  message: string;
+  detail: Resourceinfo;
 }
 export type ApplyCatalogSchemaTableColumnTagError =
   | BadRequest

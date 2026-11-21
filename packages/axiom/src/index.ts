@@ -5,8 +5,8 @@
  * that `scripts/convert.ts` converts from the three OpenAPI specs in
  * specs/docs/restapi/versions. Everything else in this folder is hand-written.
  *
- * The v2 control-plane API lives under `v2`; the v1 edge APIs are
- * also available under their own subpath imports:
+ * The v2 control-plane operations are on the package root; the v1 edge APIs
+ * are under their own subpath imports:
  *
  * @example
  * ```ts
@@ -14,7 +14,7 @@
  * import * as EdgeIngest from "@distilled.cloud/axiom/edge-ingest";
  * import * as EdgeQuery from "@distilled.cloud/axiom/edge-query";
  *
- * const datasets = yield* Axiom.v2.getDatasets({});
+ * const datasets = yield* Axiom.getDatasets({});
  * ```
  */
 export * from "./credentials.ts";
@@ -22,7 +22,6 @@ export * from "./errors.ts";
 export * as T from "./traits.ts";
 export { AxiomProtocol, stripNulls, type AxiomOpError, type AxiomOpContext } from "./protocol.ts";
 export * as Retry from "./retry.ts";
-export * from "./services/index.ts";
 // v0-parity surface: the v2 control-plane operations live on the package
 // root (edge-ingest / edge-query stay behind their subpath exports).
 // The service-local typed error classes shadow the same-named shared ones

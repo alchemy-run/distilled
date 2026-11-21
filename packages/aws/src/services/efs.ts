@@ -203,7 +203,7 @@ export class DependencyTimeout
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
     /*@__PURE__*/ T.HttpError(504),
-  ).pipe(C.withTimeoutError) {}
+  ).pipe(C.withTimeoutError, C.withRetryableError) {}
 export class FileSystemAlreadyExists
   extends /*@__PURE__*/ S.TaggedError<FileSystemAlreadyExists>()(
     "FileSystemAlreadyExists",
@@ -267,7 +267,7 @@ export class InsufficientThroughputCapacity
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
     /*@__PURE__*/ T.HttpError(503),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InternalServerError
   extends /*@__PURE__*/ S.TaggedError<InternalServerError>()(
     "InternalServerError",
@@ -276,7 +276,7 @@ export class InternalServerError
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InvalidPolicyException
   extends /*@__PURE__*/ S.TaggedError<InvalidPolicyException>()(
     "InvalidPolicyException",
@@ -393,7 +393,7 @@ export class ThrottlingException
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ThroughputLimitExceeded
   extends /*@__PURE__*/ S.TaggedError<ThroughputLimitExceeded>()(
     "ThroughputLimitExceeded",

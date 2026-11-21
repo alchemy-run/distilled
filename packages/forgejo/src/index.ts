@@ -11,9 +11,9 @@
  *
  * @example
  * ```ts
- * import * as Forgejo from "@distilled.cloud/forgejo";
+ * import * as Repository from "@distilled.cloud/forgejo/repository";
  *
- * const repo = yield* Forgejo.repository.repoGet({
+ * const repo = yield* Repository.repoGet({
  *   owner: "acme",
  *   repo: "api",
  * });
@@ -24,4 +24,3 @@ export * from "./errors.ts";
 export * as T from "./traits.ts";
 export { ForgejoProtocol, type ForgejoOpError, type ForgejoOpContext } from "./protocol.ts";
 export * as Retry from "./retry.ts";
-export * from "./services/index.ts";

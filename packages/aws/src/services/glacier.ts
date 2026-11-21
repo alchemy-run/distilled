@@ -120,7 +120,7 @@ export class LimitExceededException
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
     /*@__PURE__*/ T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+  ).pipe(C.withBadRequestError, C.withThrottlingError, C.withRetryableError) {}
 export class MissingParameterValueException
   extends /*@__PURE__*/ S.TaggedError<MissingParameterValueException>()(
     "MissingParameterValueException",
@@ -160,7 +160,7 @@ export class RequestTimeoutException
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
     /*@__PURE__*/ T.HttpError(408),
-  ).pipe(C.withTimeoutError) {}
+  ).pipe(C.withTimeoutError, C.withRetryableError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
@@ -180,7 +180,7 @@ export class ServiceUnavailableException
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export interface AbortMultipartUploadInput {
   accountId: string;
   vaultName: string;

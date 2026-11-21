@@ -32,27 +32,48 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 /** Identifier for an object to delete in a bulk delete operation */
 export interface PublicCloudStorageObjectS3BulkDeleteObjectIdentifier {
@@ -15417,6 +15438,13 @@ export interface UpdatePublicCloudProjectManagedDatabaseValkeyUserRequest {
   /** Glob patterns of the keys the user can access (e.g. 'cache:*', 'session:user:42'). Use '*' to allow every key. The list replaces the one currently set on the user, and an empty list revokes access to every key. */
   keys?: UpdatePublicCloudProjectManagedDatabaseValkeyUserRequestKeysList | undefined;
 }
+/** Common error model */
+export interface Error400Body {
+  /** Class of the error */
+  class?: string | undefined;
+  /** Error message */
+  message?: string | undefined;
+}
 export type BulkPublicCloudProjectStorageObjectBucketDeleteObjectsError = NotFound | OvhOpError;
 /** Delete several objects Deletes a list of objects in one request. To delete a large number of objects, use lifecycle rules instead. */
 export const bulkPublicCloudProjectStorageObjectBucketDeleteObjects: API.OperationMethod<
@@ -15426,11 +15454,11 @@ export const bulkPublicCloudProjectStorageObjectBucketDeleteObjects: API.Operati
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9314,
-    __c291,
+    9346,
+    __c292,
     2,
   ) as any as S.Schema<BulkPublicCloudProjectStorageObjectBucketDeleteObjectsRequest>,
-  output: __S(9319, __c291, 7) as any as S.Schema<PublicCloudStorageObjectS3BulkDeleteResult>,
+  output: __S(9351, __c292, 7) as any as S.Schema<PublicCloudStorageObjectS3BulkDeleteResult>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -15447,11 +15475,11 @@ export const cancelPublicCloudProjectManagedAnalyticsClickhouseCurrentQuery: API
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    13632,
-    __c426,
+    13664,
+    __c427,
     0,
   ) as any as S.Schema<CancelPublicCloudProjectManagedAnalyticsClickhouseCurrentQueryRequest>,
-  output: __S(13664, __c427, 0) as any as S.Schema<PublicCloudDatabaseQueryCancelResult>,
+  output: __S(13696, __c428, 0) as any as S.Schema<PublicCloudDatabaseQueryCancelResult>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -15468,11 +15496,11 @@ export const cancelPublicCloudProjectManagedDatabaseMysqlCurrentQuery: API.Opera
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18112,
-    __c566,
+    18144,
+    __c567,
     0,
   ) as any as S.Schema<CancelPublicCloudProjectManagedDatabaseMysqlCurrentQueryRequest>,
-  output: __S(13664, __c427, 0) as any as S.Schema<PublicCloudDatabaseQueryCancelResult>,
+  output: __S(13696, __c428, 0) as any as S.Schema<PublicCloudDatabaseQueryCancelResult>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -15489,11 +15517,11 @@ export const cancelPublicCloudProjectManagedDatabasePostgresqlCurrentQuery: API.
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    21792,
-    __c681,
+    21824,
+    __c682,
     0,
   ) as any as S.Schema<CancelPublicCloudProjectManagedDatabasePostgresqlCurrentQueryRequest>,
-  output: __S(13664, __c427, 0) as any as S.Schema<PublicCloudDatabaseQueryCancelResult>,
+  output: __S(13696, __c428, 0) as any as S.Schema<PublicCloudDatabaseQueryCancelResult>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -15510,11 +15538,11 @@ export const copyPublicCloudProjectStorageObjectBucketObjectLastVersion: API.Ope
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    25920,
-    __c810,
+    25952,
+    __c811,
     0,
   ) as any as S.Schema<CopyPublicCloudProjectStorageObjectBucketObjectLastVersionRequest>,
-  output: __S(25984, __c812, 0) as any as S.Schema<PublicCloudStorageObjectS3Object>,
+  output: __S(26016, __c813, 0) as any as S.Schema<PublicCloudStorageObjectS3Object>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -15531,11 +15559,11 @@ export const copyPublicCloudProjectStorageObjectBucketObjectVersion: API.Operati
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    27104,
-    __c847,
+    27136,
+    __c848,
     0,
   ) as any as S.Schema<CopyPublicCloudProjectStorageObjectBucketObjectVersionRequest>,
-  output: __S(25984, __c812, 0) as any as S.Schema<PublicCloudStorageObjectS3Object>,
+  output: __S(26016, __c813, 0) as any as S.Schema<PublicCloudStorageObjectS3Object>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -15551,8 +15579,8 @@ export const createPublicCloudProject: API.OperationMethod<
   CreatePublicCloudProjectError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27488, __c859, 0) as any as S.Schema<CreatePublicCloudProjectRequest>,
-  output: __S(27616, __c863, 0) as any as S.Schema<PublicCloudProjectProjectAsync>,
+  input: __S(27520, __c860, 0) as any as S.Schema<CreatePublicCloudProjectRequest>,
+  output: __S(27648, __c864, 0) as any as S.Schema<PublicCloudProjectProjectAsync>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -15568,8 +15596,8 @@ export const createPublicCloudProjectAiAgentAgent: API.OperationMethod<
   CreatePublicCloudProjectAiAgentAgentError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1, __c0, 1) as any as S.Schema<CreatePublicCloudProjectAiAgentAgentRequest>,
-  output: __S(194, __c6, 2) as any as S.Schema<PublicCloudAiAgentsAgent>,
+  input: __S(33, __c1, 1) as any as S.Schema<CreatePublicCloudProjectAiAgentAgentRequest>,
+  output: __S(226, __c7, 2) as any as S.Schema<PublicCloudAiAgentsAgent>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -15585,8 +15613,8 @@ export const createPublicCloudProjectAiAgentAgentToken: API.OperationMethod<
   CreatePublicCloudProjectAiAgentAgentTokenError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<CreatePublicCloudProjectAiAgentAgentTokenRequest>,
-  output: __S(801, __c25, 1) as any as S.Schema<PublicCloudAiAgentsAgentToken>,
+  input: __S(832, __c26, 0) as any as S.Schema<CreatePublicCloudProjectAiAgentAgentTokenRequest>,
+  output: __S(833, __c26, 1) as any as S.Schema<PublicCloudAiAgentsAgentToken>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -15602,8 +15630,8 @@ export const createPublicCloudProjectAiAgentTemplate: API.OperationMethod<
   CreatePublicCloudProjectAiAgentTemplateError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1537, __c48, 1) as any as S.Schema<CreatePublicCloudProjectAiAgentTemplateRequest>,
-  output: __S(1569, __c49, 1) as any as S.Schema<PublicCloudAiAgentsTemplate>,
+  input: __S(1569, __c49, 1) as any as S.Schema<CreatePublicCloudProjectAiAgentTemplateRequest>,
+  output: __S(1601, __c50, 1) as any as S.Schema<PublicCloudAiAgentsTemplate>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -15619,8 +15647,8 @@ export const createPublicCloudProjectComputeAutobackup: API.OperationMethod<
   CreatePublicCloudProjectComputeAutobackupError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<CreatePublicCloudProjectComputeAutobackupRequest>,
-  output: __S(2181, __c68, 5) as any as S.Schema<PublicCloudInstanceAutobackup>,
+  input: __S(2176, __c68, 0) as any as S.Schema<CreatePublicCloudProjectComputeAutobackupRequest>,
+  output: __S(2213, __c69, 5) as any as S.Schema<PublicCloudInstanceAutobackup>,
   errors: [BadRequest, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -15636,8 +15664,8 @@ export const createPublicCloudProjectComputeInstance: API.OperationMethod<
   CreatePublicCloudProjectComputeInstanceError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2561, __c80, 1) as any as S.Schema<CreatePublicCloudProjectComputeInstanceRequest>,
-  output: __S(2609, __c81, 17) as any as S.Schema<PublicCloudInstanceInstance>,
+  input: __S(2593, __c81, 1) as any as S.Schema<CreatePublicCloudProjectComputeInstanceRequest>,
+  output: __S(2641, __c82, 17) as any as S.Schema<PublicCloudInstanceInstance>,
   errors: [BadRequest, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -15658,11 +15686,11 @@ export const createPublicCloudProjectComputeInstanceAction: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3041,
-    __c95,
+    3073,
+    __c96,
     1,
   ) as any as S.Schema<CreatePublicCloudProjectComputeInstanceActionRequest>,
-  output: __S(2609, __c81, 17) as any as S.Schema<PublicCloudInstanceInstance>,
+  output: __S(2641, __c82, 17) as any as S.Schema<PublicCloudInstanceInstance>,
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -15679,11 +15707,11 @@ export const createPublicCloudProjectComputeInstanceConsole: API.OperationMethod
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3392,
-    __c106,
+    3424,
+    __c107,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectComputeInstanceConsoleRequest>,
-  output: __S(3393, __c106, 1) as any as S.Schema<PublicCloudInstanceRemoteConsole>,
+  output: __S(3425, __c107, 1) as any as S.Schema<PublicCloudInstanceRemoteConsole>,
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -15700,11 +15728,11 @@ export const createPublicCloudProjectComputeInstanceGroup: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3744,
-    __c117,
+    3776,
+    __c118,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectComputeInstanceGroupRequest>,
-  output: __S(3810, __c119, 2) as any as S.Schema<PublicCloudInstanceGroupInstanceGroup>,
+  output: __S(3842, __c120, 2) as any as S.Schema<PublicCloudInstanceGroupInstanceGroup>,
   errors: [Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -15720,10 +15748,10 @@ export const createPublicCloudProjectComputeReservation: API.OperationMethod<
   CreatePublicCloudProjectComputeReservationError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4192, __c131, 0) as any as S.Schema<CreatePublicCloudProjectComputeReservationRequest>,
+  input: __S(4224, __c132, 0) as any as S.Schema<CreatePublicCloudProjectComputeReservationRequest>,
   output: __S(
-    4226,
-    __c132,
+    4258,
+    __c133,
     2,
   ) as any as S.Schema<PublicCloudInstanceReservationInstanceReservation>,
   errors: [BadRequest, Conflict, UnknownOvhError],
@@ -15741,8 +15769,8 @@ export const createPublicCloudProjectComputeSnapshot: API.OperationMethod<
   CreatePublicCloudProjectComputeSnapshotError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4576, __c143, 0) as any as S.Schema<CreatePublicCloudProjectComputeSnapshotRequest>,
-  output: __S(4610, __c144, 2) as any as S.Schema<PublicCloudInstanceSnapshot>,
+  input: __S(4608, __c144, 0) as any as S.Schema<CreatePublicCloudProjectComputeSnapshotRequest>,
+  output: __S(4642, __c145, 2) as any as S.Schema<PublicCloudInstanceSnapshot>,
   errors: [Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -15758,8 +15786,8 @@ export const createPublicCloudProjectGateway: API.OperationMethod<
   CreatePublicCloudProjectGatewayError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4960, __c155, 0) as any as S.Schema<CreatePublicCloudProjectGatewayRequest>,
-  output: __S(4995, __c156, 3) as any as S.Schema<PublicCloudGatewayGateway>,
+  input: __S(4992, __c156, 0) as any as S.Schema<CreatePublicCloudProjectGatewayRequest>,
+  output: __S(5027, __c157, 3) as any as S.Schema<PublicCloudGatewayGateway>,
   errors: [BadRequest, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -15776,11 +15804,11 @@ export const createPublicCloudProjectKeyManagerContainer: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5344,
-    __c167,
+    5376,
+    __c168,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectKeyManagerContainerRequest>,
-  output: __S(5380, __c168, 4) as any as S.Schema<PublicCloudKeyManagerContainer>,
+  output: __S(5412, __c169, 4) as any as S.Schema<PublicCloudKeyManagerContainer>,
   errors: [BadRequest, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -15801,11 +15829,11 @@ export const createPublicCloudProjectKeyManagerContainerConsumer: API.OperationM
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5792,
-    __c181,
+    5824,
+    __c182,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectKeyManagerContainerConsumerRequest>,
-  output: __S(5824, __c182, 0) as any as S.Schema<PublicCloudKeyManagerContainerConsumer>,
+  output: __S(5856, __c183, 0) as any as S.Schema<PublicCloudKeyManagerContainerConsumer>,
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -15821,8 +15849,8 @@ export const createPublicCloudProjectKeyManagerSecret: API.OperationMethod<
   CreatePublicCloudProjectKeyManagerSecretError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6336, __c198, 0) as any as S.Schema<CreatePublicCloudProjectKeyManagerSecretRequest>,
-  output: __S(6370, __c199, 2) as any as S.Schema<PublicCloudKeyManagerSecret>,
+  input: __S(6368, __c199, 0) as any as S.Schema<CreatePublicCloudProjectKeyManagerSecretRequest>,
+  output: __S(6402, __c200, 2) as any as S.Schema<PublicCloudKeyManagerSecret>,
   errors: [BadRequest, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -15843,11 +15871,11 @@ export const createPublicCloudProjectKeyManagerSecretConsumer: API.OperationMeth
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6720,
-    __c210,
+    6752,
+    __c211,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectKeyManagerSecretConsumerRequest>,
-  output: __S(5824, __c182, 0) as any as S.Schema<PublicCloudKeyManagerSecretConsumer>,
+  output: __S(5856, __c183, 0) as any as S.Schema<PublicCloudKeyManagerSecretConsumer>,
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -15864,11 +15892,11 @@ export const createPublicCloudProjectKeyManagerSecretPayload: API.OperationMetho
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7168,
-    __c224,
+    7200,
+    __c225,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectKeyManagerSecretPayloadRequest>,
-  output: __S(7169, __c224, 1) as any as S.Schema<PublicCloudKeyManagerSecretPayload>,
+  output: __S(7201, __c225, 1) as any as S.Schema<PublicCloudKeyManagerSecretPayload>,
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -15888,8 +15916,8 @@ export const createPublicCloudProjectLoadbalancer: API.OperationMethod<
   CreatePublicCloudProjectLoadbalancerError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7648, __c239, 0) as any as S.Schema<CreatePublicCloudProjectLoadbalancerRequest>,
-  output: __S(7717, __c241, 5) as any as S.Schema<PublicCloudLoadbalancerLoadbalancer>,
+  input: __S(7680, __c240, 0) as any as S.Schema<CreatePublicCloudProjectLoadbalancerRequest>,
+  output: __S(7749, __c242, 5) as any as S.Schema<PublicCloudLoadbalancerLoadbalancer>,
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -15910,11 +15938,11 @@ export const createPublicCloudProjectLoadbalancerListener: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8064,
-    __c252,
+    8096,
+    __c253,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectLoadbalancerListenerRequest>,
-  output: __S(8099, __c253, 3) as any as S.Schema<PublicCloudLoadbalancerListener>,
+  output: __S(8131, __c254, 3) as any as S.Schema<PublicCloudLoadbalancerListener>,
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -15934,11 +15962,11 @@ export const createPublicCloudProjectLoadbalancerListenerL7policy: API.Operation
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8480,
-    __c265,
+    8512,
+    __c266,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectLoadbalancerListenerL7policyRequest>,
-  output: __S(8518, __c266, 6) as any as S.Schema<PublicCloudLoadbalancerL7Policy>,
+  output: __S(8550, __c267, 6) as any as S.Schema<PublicCloudLoadbalancerL7Policy>,
   errors: [BadRequest, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -15954,8 +15982,8 @@ export const createPublicCloudProjectLoadbalancerPool: API.OperationMethod<
   CreatePublicCloudProjectLoadbalancerPoolError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8864, __c277, 0) as any as S.Schema<CreatePublicCloudProjectLoadbalancerPoolRequest>,
-  output: __S(8901, __c278, 5) as any as S.Schema<PublicCloudLoadbalancerPool>,
+  input: __S(8896, __c278, 0) as any as S.Schema<CreatePublicCloudProjectLoadbalancerPoolRequest>,
+  output: __S(8933, __c279, 5) as any as S.Schema<PublicCloudLoadbalancerPool>,
   errors: [BadRequest, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -15976,11 +16004,11 @@ export const createPublicCloudProjectLoadbalancerPoolMember: API.OperationMethod
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9344,
-    __c292,
+    9376,
+    __c293,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectLoadbalancerPoolMemberRequest>,
-  output: __S(9379, __c293, 3) as any as S.Schema<PublicCloudLoadbalancerMember>,
+  output: __S(9411, __c294, 3) as any as S.Schema<PublicCloudLoadbalancerMember>,
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -15997,11 +16025,11 @@ export const createPublicCloudProjectManagedAnalyticsClickhouse: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9728,
-    __c304,
+    9760,
+    __c305,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsClickhouseRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -16018,11 +16046,11 @@ export const createPublicCloudProjectManagedAnalyticsClickhouseDatabase: API.Ope
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10272,
-    __c321,
+    10304,
+    __c322,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsClickhouseDatabaseRequest>,
-  output: __S(10304, __c322, 0) as any as S.Schema<PublicCloudDatabaseDatabase>,
+  output: __S(10336, __c323, 0) as any as S.Schema<PublicCloudDatabaseDatabase>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -16039,11 +16067,11 @@ export const createPublicCloudProjectManagedAnalyticsClickhouseIntegration: API.
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10656,
-    __c333,
+    10688,
+    __c334,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsClickhouseIntegrationRequest>,
-  output: __S(10688, __c334, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
+  output: __S(10720, __c335, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -16060,11 +16088,11 @@ export const createPublicCloudProjectManagedAnalyticsClickhouseLogSubscription: 
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11040,
-    __c345,
+    11072,
+    __c346,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsClickhouseLogSubscriptionRequest>,
-  output: __S(11072, __c346, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
+  output: __S(11104, __c347, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -16081,11 +16109,11 @@ export const createPublicCloudProjectManagedAnalyticsClickhouseLogUrl: API.Opera
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11424,
-    __c357,
+    11456,
+    __c358,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsClickhouseLogUrlRequest>,
-  output: __S(11456, __c358, 0) as any as S.Schema<DbaasLogsTemporaryLogsLink>,
+  output: __S(11488, __c359, 0) as any as S.Schema<DbaasLogsTemporaryLogsLink>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -16102,11 +16130,11 @@ export const createPublicCloudProjectManagedAnalyticsClickhouseMaintenance: API.
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11808,
-    __c369,
+    11840,
+    __c370,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsClickhouseMaintenanceRequest>,
-  output: __S(11840, __c370, 0) as any as S.Schema<PublicCloudDatabaseMaintenanceWindow>,
+  output: __S(11872, __c371, 0) as any as S.Schema<PublicCloudDatabaseMaintenanceWindow>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -16123,11 +16151,11 @@ export const createPublicCloudProjectManagedAnalyticsClickhouseUser: API.Operati
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    12224,
-    __c382,
+    12256,
+    __c383,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsClickhouseUserRequest>,
-  output: __S(12256, __c383, 0) as any as S.Schema<PublicCloudDatabaseUserWithRoles>,
+  output: __S(12288, __c384, 0) as any as S.Schema<PublicCloudDatabaseUserWithRoles>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -16144,11 +16172,11 @@ export const createPublicCloudProjectManagedAnalyticsGrafana: API.OperationMetho
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    12832,
-    __c401,
+    12864,
+    __c402,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsGrafanaRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -16165,11 +16193,11 @@ export const createPublicCloudProjectManagedAnalyticsGrafanaIntegration: API.Ope
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    13216,
-    __c413,
+    13248,
+    __c414,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsGrafanaIntegrationRequest>,
-  output: __S(10688, __c334, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
+  output: __S(10720, __c335, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -16186,11 +16214,11 @@ export const createPublicCloudProjectManagedAnalyticsGrafanaLogSubscription: API
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    13696,
-    __c428,
+    13728,
+    __c429,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsGrafanaLogSubscriptionRequest>,
-  output: __S(11072, __c346, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
+  output: __S(11104, __c347, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -16207,11 +16235,11 @@ export const createPublicCloudProjectManagedAnalyticsGrafanaLogUrl: API.Operatio
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    14112,
-    __c441,
+    14144,
+    __c442,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsGrafanaLogUrlRequest>,
-  output: __S(11456, __c358, 0) as any as S.Schema<DbaasLogsTemporaryLogsLink>,
+  output: __S(11488, __c359, 0) as any as S.Schema<DbaasLogsTemporaryLogsLink>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -16228,11 +16256,11 @@ export const createPublicCloudProjectManagedAnalyticsGrafanaMaintenance: API.Ope
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    14592,
-    __c456,
+    14624,
+    __c457,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsGrafanaMaintenanceRequest>,
-  output: __S(11840, __c370, 0) as any as S.Schema<PublicCloudDatabaseMaintenanceWindow>,
+  output: __S(11872, __c371, 0) as any as S.Schema<PublicCloudDatabaseMaintenanceWindow>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -16249,11 +16277,11 @@ export const createPublicCloudProjectManagedAnalyticsKafka: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    15264,
-    __c477,
+    15296,
+    __c478,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsKafkaRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -16270,11 +16298,11 @@ export const createPublicCloudProjectManagedAnalyticsKafkaAcl: API.OperationMeth
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    15872,
-    __c496,
+    15904,
+    __c497,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsKafkaAclRequest>,
-  output: __S(15904, __c497, 0) as any as S.Schema<PublicCloudDatabaseKafkaAcl>,
+  output: __S(15936, __c498, 0) as any as S.Schema<PublicCloudDatabaseKafkaAcl>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -16291,11 +16319,11 @@ export const createPublicCloudProjectManagedAnalyticsKafkaConnect: API.Operation
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    16288,
-    __c509,
+    16320,
+    __c510,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsKafkaConnectRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -16312,11 +16340,11 @@ export const createPublicCloudProjectManagedAnalyticsKafkaConnectConnector: API.
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    16640,
-    __c520,
+    16672,
+    __c521,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsKafkaConnectConnectorRequest>,
-  output: __S(16672, __c521, 0) as any as S.Schema<PublicCloudDatabaseKafkaConnectConnector>,
+  output: __S(16704, __c522, 0) as any as S.Schema<PublicCloudDatabaseKafkaConnectConnector>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -16333,11 +16361,11 @@ export const createPublicCloudProjectManagedAnalyticsKafkaConnectIntegration: AP
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    17024,
-    __c532,
+    17056,
+    __c533,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsKafkaConnectIntegrationRequest>,
-  output: __S(10688, __c334, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
+  output: __S(10720, __c335, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -16354,11 +16382,11 @@ export const createPublicCloudProjectManagedAnalyticsKafkaConnectLogSubscription
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    17376,
-    __c543,
+    17408,
+    __c544,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsKafkaConnectLogSubscriptionRequest>,
-  output: __S(11072, __c346, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
+  output: __S(11104, __c347, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -16375,11 +16403,11 @@ export const createPublicCloudProjectManagedAnalyticsKafkaConnectLogUrl: API.Ope
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    17760,
-    __c555,
+    17792,
+    __c556,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsKafkaConnectLogUrlRequest>,
-  output: __S(11456, __c358, 0) as any as S.Schema<DbaasLogsTemporaryLogsLink>,
+  output: __S(11488, __c359, 0) as any as S.Schema<DbaasLogsTemporaryLogsLink>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -16396,11 +16424,11 @@ export const createPublicCloudProjectManagedAnalyticsKafkaConnectMaintenance: AP
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18144,
-    __c567,
+    18176,
+    __c568,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsKafkaConnectMaintenanceRequest>,
-  output: __S(11840, __c370, 0) as any as S.Schema<PublicCloudDatabaseMaintenanceWindow>,
+  output: __S(11872, __c371, 0) as any as S.Schema<PublicCloudDatabaseMaintenanceWindow>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -16417,11 +16445,11 @@ export const createPublicCloudProjectManagedAnalyticsKafkaConnectUser: API.Opera
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18496,
-    __c578,
+    18528,
+    __c579,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsKafkaConnectUserRequest>,
-  output: __S(18528, __c579, 0) as any as S.Schema<PublicCloudDatabaseUser>,
+  output: __S(18560, __c580, 0) as any as S.Schema<PublicCloudDatabaseUser>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -16438,11 +16466,11 @@ export const createPublicCloudProjectManagedAnalyticsKafkaIntegration: API.Opera
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18880,
-    __c590,
+    18912,
+    __c591,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsKafkaIntegrationRequest>,
-  output: __S(10688, __c334, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
+  output: __S(10720, __c335, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -16459,11 +16487,11 @@ export const createPublicCloudProjectManagedAnalyticsKafkaLogSubscription: API.O
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    19232,
-    __c601,
+    19264,
+    __c602,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsKafkaLogSubscriptionRequest>,
-  output: __S(11072, __c346, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
+  output: __S(11104, __c347, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -16480,11 +16508,11 @@ export const createPublicCloudProjectManagedAnalyticsKafkaLogUrl: API.OperationM
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    19584,
-    __c612,
+    19616,
+    __c613,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsKafkaLogUrlRequest>,
-  output: __S(11456, __c358, 0) as any as S.Schema<DbaasLogsTemporaryLogsLink>,
+  output: __S(11488, __c359, 0) as any as S.Schema<DbaasLogsTemporaryLogsLink>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -16501,11 +16529,11 @@ export const createPublicCloudProjectManagedAnalyticsKafkaMaintenance: API.Opera
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    19936,
-    __c623,
+    19968,
+    __c624,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsKafkaMaintenanceRequest>,
-  output: __S(11840, __c370, 0) as any as S.Schema<PublicCloudDatabaseMaintenanceWindow>,
+  output: __S(11872, __c371, 0) as any as S.Schema<PublicCloudDatabaseMaintenanceWindow>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -16522,11 +16550,11 @@ export const createPublicCloudProjectManagedAnalyticsKafkaMirrorMaker: API.Opera
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    20288,
-    __c634,
+    20320,
+    __c635,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsKafkaMirrorMakerRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -16543,11 +16571,11 @@ export const createPublicCloudProjectManagedAnalyticsKafkaMirrorMakerIntegration
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    20672,
-    __c646,
+    20704,
+    __c647,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsKafkaMirrorMakerIntegrationRequest>,
-  output: __S(10688, __c334, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
+  output: __S(10720, __c335, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -16565,11 +16593,11 @@ export const createPublicCloudProjectManagedAnalyticsKafkaMirrorMakerLogSubscrip
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    21024,
-    __c657,
+    21056,
+    __c658,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsKafkaMirrorMakerLogSubscriptionRequest>,
-  output: __S(11072, __c346, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
+  output: __S(11104, __c347, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -16586,11 +16614,11 @@ export const createPublicCloudProjectManagedAnalyticsKafkaMirrorMakerLogUrl: API
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    21440,
-    __c670,
+    21472,
+    __c671,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsKafkaMirrorMakerLogUrlRequest>,
-  output: __S(11456, __c358, 0) as any as S.Schema<DbaasLogsTemporaryLogsLink>,
+  output: __S(11488, __c359, 0) as any as S.Schema<DbaasLogsTemporaryLogsLink>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -16607,11 +16635,11 @@ export const createPublicCloudProjectManagedAnalyticsKafkaMirrorMakerMaintenance
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    21824,
-    __c682,
+    21856,
+    __c683,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsKafkaMirrorMakerMaintenanceRequest>,
-  output: __S(11840, __c370, 0) as any as S.Schema<PublicCloudDatabaseMaintenanceWindow>,
+  output: __S(11872, __c371, 0) as any as S.Schema<PublicCloudDatabaseMaintenanceWindow>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -16628,11 +16656,11 @@ export const createPublicCloudProjectManagedAnalyticsKafkaMirrorMakerReplication
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    22240,
-    __c695,
+    22272,
+    __c696,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsKafkaMirrorMakerReplicationRequest>,
-  output: __S(22272, __c696, 0) as any as S.Schema<PublicCloudDatabaseKafkaMirrorMakerReplication>,
+  output: __S(22304, __c697, 0) as any as S.Schema<PublicCloudDatabaseKafkaMirrorMakerReplication>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -16649,11 +16677,11 @@ export const createPublicCloudProjectManagedAnalyticsKafkaSchemaRegistryAcl: API
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    22656,
-    __c708,
+    22688,
+    __c709,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsKafkaSchemaRegistryAclRequest>,
-  output: __S(22688, __c709, 0) as any as S.Schema<PublicCloudDatabaseKafkaSchemaRegistryAcl>,
+  output: __S(22720, __c710, 0) as any as S.Schema<PublicCloudDatabaseKafkaSchemaRegistryAcl>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -16670,11 +16698,11 @@ export const createPublicCloudProjectManagedAnalyticsKafkaTopic: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    23040,
-    __c720,
+    23072,
+    __c721,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsKafkaTopicRequest>,
-  output: __S(23072, __c721, 0) as any as S.Schema<PublicCloudDatabaseKafkaTopic>,
+  output: __S(23104, __c722, 0) as any as S.Schema<PublicCloudDatabaseKafkaTopic>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -16691,11 +16719,11 @@ export const createPublicCloudProjectManagedAnalyticsKafkaUser: API.OperationMet
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    23488,
-    __c734,
+    23520,
+    __c735,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsKafkaUserRequest>,
-  output: __S(18528, __c579, 0) as any as S.Schema<PublicCloudDatabaseUser>,
+  output: __S(18560, __c580, 0) as any as S.Schema<PublicCloudDatabaseUser>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -16715,11 +16743,11 @@ export const createPublicCloudProjectManagedAnalyticsLakehouse: API.OperationMet
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    23841,
-    __c745,
+    23873,
+    __c746,
     1,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsLakehouseRequest>,
-  output: __S(23904, __c747, 0) as any as S.Schema<PublicCloudLakehouseLakehouse>,
+  output: __S(23936, __c748, 0) as any as S.Schema<PublicCloudLakehouseLakehouse>,
   errors: [BadRequest, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -16740,11 +16768,11 @@ export const createPublicCloudProjectManagedAnalyticsLakehouseCatalog: API.Opera
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    24320,
-    __c760,
+    24352,
+    __c761,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsLakehouseCatalogRequest>,
-  output: __S(24353, __c761, 1) as any as S.Schema<PublicCloudLakehouseCatalog>,
+  output: __S(24385, __c762, 1) as any as S.Schema<PublicCloudLakehouseCatalog>,
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -16765,11 +16793,11 @@ export const createPublicCloudProjectManagedAnalyticsLakehouseCatalogSchema: API
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    24704,
-    __c772,
+    24736,
+    __c773,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsLakehouseCatalogSchemaRequest>,
-  output: __S(24737, __c773, 1) as any as S.Schema<PublicCloudLakehouseSchema>,
+  output: __S(24769, __c774, 1) as any as S.Schema<PublicCloudLakehouseSchema>,
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -16790,11 +16818,11 @@ export const createPublicCloudProjectManagedAnalyticsLakehouseComputePool: API.O
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    25120,
-    __c785,
+    25152,
+    __c786,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsLakehouseComputePoolRequest>,
-  output: __S(25154, __c786, 2) as any as S.Schema<PublicCloudLakehouseComputePool>,
+  output: __S(25186, __c787, 2) as any as S.Schema<PublicCloudLakehouseComputePool>,
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -16815,11 +16843,11 @@ export const createPublicCloudProjectManagedAnalyticsLakehouseGroup: API.Operati
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    25504,
-    __c797,
+    25536,
+    __c798,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsLakehouseGroupRequest>,
-  output: __S(25537, __c798, 1) as any as S.Schema<PublicCloudLakehouseGroup>,
+  output: __S(25569, __c799, 1) as any as S.Schema<PublicCloudLakehouseGroup>,
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -16840,11 +16868,11 @@ export const createPublicCloudProjectManagedAnalyticsLakehouseGroupMember: API.O
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    26016,
-    __c813,
+    26048,
+    __c814,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsLakehouseGroupMemberRequest>,
-  output: __S(26050, __c814, 2) as any as S.Schema<PublicCloudLakehouseMember>,
+  output: __S(26082, __c815, 2) as any as S.Schema<PublicCloudLakehouseMember>,
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -16865,11 +16893,11 @@ export const createPublicCloudProjectManagedAnalyticsLakehouseRole: API.Operatio
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    26400,
-    __c825,
+    26432,
+    __c826,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsLakehouseRoleRequest>,
-  output: __S(26439, __c826, 7) as any as S.Schema<PublicCloudLakehouseRole>,
+  output: __S(26471, __c827, 7) as any as S.Schema<PublicCloudLakehouseRole>,
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -16890,11 +16918,11 @@ export const createPublicCloudProjectManagedAnalyticsLakehouseRoleAssignment: AP
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    26752,
-    __c836,
+    26784,
+    __c837,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsLakehouseRoleAssignmentRequest>,
-  output: __S(26788, __c837, 4) as any as S.Schema<PublicCloudLakehouseRoleAssignment>,
+  output: __S(26820, __c838, 4) as any as S.Schema<PublicCloudLakehouseRoleAssignment>,
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -16915,11 +16943,11 @@ export const createPublicCloudProjectManagedAnalyticsLakehouseUser: API.Operatio
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    26816,
-    __c838,
+    26848,
+    __c839,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsLakehouseUserRequest>,
-  output: __S(26850, __c839, 2) as any as S.Schema<PublicCloudLakehouseUser>,
+  output: __S(26882, __c840, 2) as any as S.Schema<PublicCloudLakehouseUser>,
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -16936,11 +16964,11 @@ export const createPublicCloudProjectManagedAnalyticsOpensearch: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    26880,
-    __c840,
+    26912,
+    __c841,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsOpensearchRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -16957,11 +16985,11 @@ export const createPublicCloudProjectManagedAnalyticsOpensearchIntegration: API.
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    26912,
-    __c841,
+    26944,
+    __c842,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsOpensearchIntegrationRequest>,
-  output: __S(10688, __c334, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
+  output: __S(10720, __c335, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -16978,11 +17006,11 @@ export const createPublicCloudProjectManagedAnalyticsOpensearchLogSubscription: 
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    26944,
-    __c842,
+    26976,
+    __c843,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsOpensearchLogSubscriptionRequest>,
-  output: __S(11072, __c346, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
+  output: __S(11104, __c347, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -16999,11 +17027,11 @@ export const createPublicCloudProjectManagedAnalyticsOpensearchLogUrl: API.Opera
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    26976,
-    __c843,
+    27008,
+    __c844,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsOpensearchLogUrlRequest>,
-  output: __S(11456, __c358, 0) as any as S.Schema<DbaasLogsTemporaryLogsLink>,
+  output: __S(11488, __c359, 0) as any as S.Schema<DbaasLogsTemporaryLogsLink>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17020,11 +17048,11 @@ export const createPublicCloudProjectManagedAnalyticsOpensearchMaintenance: API.
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    27008,
-    __c844,
+    27040,
+    __c845,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsOpensearchMaintenanceRequest>,
-  output: __S(11840, __c370, 0) as any as S.Schema<PublicCloudDatabaseMaintenanceWindow>,
+  output: __S(11872, __c371, 0) as any as S.Schema<PublicCloudDatabaseMaintenanceWindow>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17041,11 +17069,11 @@ export const createPublicCloudProjectManagedAnalyticsOpensearchPattern: API.Oper
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    27040,
-    __c845,
+    27072,
+    __c846,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsOpensearchPatternRequest>,
-  output: __S(27072, __c846, 0) as any as S.Schema<PublicCloudDatabaseOpensearchPattern>,
+  output: __S(27104, __c847, 0) as any as S.Schema<PublicCloudDatabaseOpensearchPattern>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17062,11 +17090,11 @@ export const createPublicCloudProjectManagedAnalyticsOpensearchUser: API.Operati
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    27136,
-    __c848,
+    27168,
+    __c849,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedAnalyticsOpensearchUserRequest>,
-  output: __S(27170, __c849, 2) as any as S.Schema<PublicCloudDatabaseOpensearchUser>,
+  output: __S(27202, __c850, 2) as any as S.Schema<PublicCloudDatabaseOpensearchUser>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17083,11 +17111,11 @@ export const createPublicCloudProjectManagedDatabaseMongodb: API.OperationMethod
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    27200,
-    __c850,
+    27232,
+    __c851,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedDatabaseMongodbRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17104,11 +17132,11 @@ export const createPublicCloudProjectManagedDatabaseMongodbLogSubscription: API.
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    27232,
-    __c851,
+    27264,
+    __c852,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedDatabaseMongodbLogSubscriptionRequest>,
-  output: __S(11072, __c346, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
+  output: __S(11104, __c347, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17125,11 +17153,11 @@ export const createPublicCloudProjectManagedDatabaseMongodbLogUrl: API.Operation
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    27264,
-    __c852,
+    27296,
+    __c853,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedDatabaseMongodbLogUrlRequest>,
-  output: __S(11456, __c358, 0) as any as S.Schema<DbaasLogsTemporaryLogsLink>,
+  output: __S(11488, __c359, 0) as any as S.Schema<DbaasLogsTemporaryLogsLink>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17146,11 +17174,11 @@ export const createPublicCloudProjectManagedDatabaseMongodbMaintenance: API.Oper
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    27296,
-    __c853,
+    27328,
+    __c854,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedDatabaseMongodbMaintenanceRequest>,
-  output: __S(11840, __c370, 0) as any as S.Schema<PublicCloudDatabaseMaintenanceWindow>,
+  output: __S(11872, __c371, 0) as any as S.Schema<PublicCloudDatabaseMaintenanceWindow>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17167,11 +17195,11 @@ export const createPublicCloudProjectManagedDatabaseMongodbUser: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    27328,
-    __c854,
+    27360,
+    __c855,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedDatabaseMongodbUserRequest>,
-  output: __S(12256, __c383, 0) as any as S.Schema<PublicCloudDatabaseUserWithRoles>,
+  output: __S(12288, __c384, 0) as any as S.Schema<PublicCloudDatabaseUserWithRoles>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17188,11 +17216,11 @@ export const createPublicCloudProjectManagedDatabaseMysql: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    27360,
-    __c855,
+    27392,
+    __c856,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedDatabaseMysqlRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17209,11 +17237,11 @@ export const createPublicCloudProjectManagedDatabaseMysqlDatabase: API.Operation
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    27392,
-    __c856,
+    27424,
+    __c857,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedDatabaseMysqlDatabaseRequest>,
-  output: __S(10304, __c322, 0) as any as S.Schema<PublicCloudDatabaseDatabase>,
+  output: __S(10336, __c323, 0) as any as S.Schema<PublicCloudDatabaseDatabase>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17230,11 +17258,11 @@ export const createPublicCloudProjectManagedDatabaseMysqlIntegration: API.Operat
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    27424,
-    __c857,
+    27456,
+    __c858,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedDatabaseMysqlIntegrationRequest>,
-  output: __S(10688, __c334, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
+  output: __S(10720, __c335, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17251,11 +17279,11 @@ export const createPublicCloudProjectManagedDatabaseMysqlLogSubscription: API.Op
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    27456,
-    __c858,
+    27488,
+    __c859,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedDatabaseMysqlLogSubscriptionRequest>,
-  output: __S(11072, __c346, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
+  output: __S(11104, __c347, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17272,11 +17300,11 @@ export const createPublicCloudProjectManagedDatabaseMysqlLogUrl: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    27648,
-    __c864,
+    27680,
+    __c865,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedDatabaseMysqlLogUrlRequest>,
-  output: __S(11456, __c358, 0) as any as S.Schema<DbaasLogsTemporaryLogsLink>,
+  output: __S(11488, __c359, 0) as any as S.Schema<DbaasLogsTemporaryLogsLink>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17293,11 +17321,11 @@ export const createPublicCloudProjectManagedDatabaseMysqlMaintenance: API.Operat
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    27680,
-    __c865,
+    27712,
+    __c866,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedDatabaseMysqlMaintenanceRequest>,
-  output: __S(11840, __c370, 0) as any as S.Schema<PublicCloudDatabaseMaintenanceWindow>,
+  output: __S(11872, __c371, 0) as any as S.Schema<PublicCloudDatabaseMaintenanceWindow>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17314,11 +17342,11 @@ export const createPublicCloudProjectManagedDatabaseMysqlUser: API.OperationMeth
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    27712,
-    __c866,
+    27744,
+    __c867,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedDatabaseMysqlUserRequest>,
-  output: __S(18528, __c579, 0) as any as S.Schema<PublicCloudDatabaseUser>,
+  output: __S(18560, __c580, 0) as any as S.Schema<PublicCloudDatabaseUser>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17335,11 +17363,11 @@ export const createPublicCloudProjectManagedDatabasePostgresql: API.OperationMet
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    27744,
-    __c867,
+    27776,
+    __c868,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedDatabasePostgresqlRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17356,11 +17384,11 @@ export const createPublicCloudProjectManagedDatabasePostgresqlConnectionPool: AP
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    27776,
-    __c868,
+    27808,
+    __c869,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedDatabasePostgresqlConnectionPoolRequest>,
-  output: __S(27808, __c869, 0) as any as S.Schema<PublicCloudDatabasePostgresqlConnectionPool>,
+  output: __S(27840, __c870, 0) as any as S.Schema<PublicCloudDatabasePostgresqlConnectionPool>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17377,11 +17405,11 @@ export const createPublicCloudProjectManagedDatabasePostgresqlDatabase: API.Oper
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    27840,
-    __c870,
+    27872,
+    __c871,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedDatabasePostgresqlDatabaseRequest>,
-  output: __S(10304, __c322, 0) as any as S.Schema<PublicCloudDatabaseDatabase>,
+  output: __S(10336, __c323, 0) as any as S.Schema<PublicCloudDatabaseDatabase>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17398,11 +17426,11 @@ export const createPublicCloudProjectManagedDatabasePostgresqlIntegration: API.O
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    27872,
-    __c871,
+    27904,
+    __c872,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedDatabasePostgresqlIntegrationRequest>,
-  output: __S(10688, __c334, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
+  output: __S(10720, __c335, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17419,11 +17447,11 @@ export const createPublicCloudProjectManagedDatabasePostgresqlLogSubscription: A
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    27904,
-    __c872,
+    27936,
+    __c873,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedDatabasePostgresqlLogSubscriptionRequest>,
-  output: __S(11072, __c346, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
+  output: __S(11104, __c347, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17440,11 +17468,11 @@ export const createPublicCloudProjectManagedDatabasePostgresqlLogUrl: API.Operat
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    27936,
-    __c873,
+    27968,
+    __c874,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedDatabasePostgresqlLogUrlRequest>,
-  output: __S(11456, __c358, 0) as any as S.Schema<DbaasLogsTemporaryLogsLink>,
+  output: __S(11488, __c359, 0) as any as S.Schema<DbaasLogsTemporaryLogsLink>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17461,11 +17489,11 @@ export const createPublicCloudProjectManagedDatabasePostgresqlMaintenance: API.O
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    27968,
-    __c874,
+    28000,
+    __c875,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedDatabasePostgresqlMaintenanceRequest>,
-  output: __S(11840, __c370, 0) as any as S.Schema<PublicCloudDatabaseMaintenanceWindow>,
+  output: __S(11872, __c371, 0) as any as S.Schema<PublicCloudDatabaseMaintenanceWindow>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17482,11 +17510,11 @@ export const createPublicCloudProjectManagedDatabasePostgresqlUser: API.Operatio
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    256,
-    __c8,
+    288,
+    __c9,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedDatabasePostgresqlUserRequest>,
-  output: __S(12256, __c383, 0) as any as S.Schema<PublicCloudDatabaseUserWithRoles>,
+  output: __S(12288, __c384, 0) as any as S.Schema<PublicCloudDatabaseUserWithRoles>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17502,8 +17530,12 @@ export const createPublicCloudProjectManagedDatabaseValkey: API.OperationMethod<
   CreatePublicCloudProjectManagedDatabaseValkeyError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<CreatePublicCloudProjectManagedDatabaseValkeyRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  input: __S(
+    320,
+    __c10,
+    0,
+  ) as any as S.Schema<CreatePublicCloudProjectManagedDatabaseValkeyRequest>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17520,11 +17552,11 @@ export const createPublicCloudProjectManagedDatabaseValkeyIntegration: API.Opera
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    320,
-    __c10,
+    352,
+    __c11,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedDatabaseValkeyIntegrationRequest>,
-  output: __S(10688, __c334, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
+  output: __S(10720, __c335, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17541,11 +17573,11 @@ export const createPublicCloudProjectManagedDatabaseValkeyLogSubscription: API.O
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    352,
-    __c11,
+    384,
+    __c12,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedDatabaseValkeyLogSubscriptionRequest>,
-  output: __S(11072, __c346, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
+  output: __S(11104, __c347, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17562,11 +17594,11 @@ export const createPublicCloudProjectManagedDatabaseValkeyLogUrl: API.OperationM
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    384,
-    __c12,
+    416,
+    __c13,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedDatabaseValkeyLogUrlRequest>,
-  output: __S(11456, __c358, 0) as any as S.Schema<DbaasLogsTemporaryLogsLink>,
+  output: __S(11488, __c359, 0) as any as S.Schema<DbaasLogsTemporaryLogsLink>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17583,11 +17615,11 @@ export const createPublicCloudProjectManagedDatabaseValkeyMaintenance: API.Opera
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    416,
-    __c13,
+    448,
+    __c14,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedDatabaseValkeyMaintenanceRequest>,
-  output: __S(11840, __c370, 0) as any as S.Schema<PublicCloudDatabaseMaintenanceWindow>,
+  output: __S(11872, __c371, 0) as any as S.Schema<PublicCloudDatabaseMaintenanceWindow>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17604,11 +17636,11 @@ export const createPublicCloudProjectManagedDatabaseValkeyUser: API.OperationMet
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    448,
-    __c14,
+    480,
+    __c15,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedDatabaseValkeyUserRequest>,
-  output: __S(480, __c15, 0) as any as S.Schema<PublicCloudDatabaseValkeyUser>,
+  output: __S(512, __c16, 0) as any as S.Schema<PublicCloudDatabaseValkeyUser>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17624,8 +17656,8 @@ export const createPublicCloudProjectManagedKubernetes: API.OperationMethod<
   CreatePublicCloudProjectManagedKubernetesError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<CreatePublicCloudProjectManagedKubernetesRequest>,
-  output: __S(641, __c20, 1) as any as S.Schema<PublicCloudManagedKubernetesCluster>,
+  input: __S(544, __c17, 0) as any as S.Schema<CreatePublicCloudProjectManagedKubernetesRequest>,
+  output: __S(673, __c21, 1) as any as S.Schema<PublicCloudManagedKubernetesCluster>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17642,11 +17674,11 @@ export const createPublicCloudProjectManagedKubernetesNodepool: API.OperationMet
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    672,
-    __c21,
+    704,
+    __c22,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectManagedKubernetesNodepoolRequest>,
-  output: __S(717, __c22, 13) as any as S.Schema<PublicCloudManagedKubernetesNodepool>,
+  output: __S(749, __c23, 13) as any as S.Schema<PublicCloudManagedKubernetesNodepool>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17662,8 +17694,8 @@ export const createPublicCloudProjectNetwork: API.OperationMethod<
   CreatePublicCloudProjectNetworkError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<CreatePublicCloudProjectNetworkRequest>,
-  output: __S(770, __c24, 2) as any as S.Schema<PublicCloudNetworkNetwork>,
+  input: __S(768, __c24, 0) as any as S.Schema<CreatePublicCloudProjectNetworkRequest>,
+  output: __S(802, __c25, 2) as any as S.Schema<PublicCloudNetworkNetwork>,
   errors: [Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17679,8 +17711,8 @@ export const createPublicCloudProjectNetworkSubnet: API.OperationMethod<
   CreatePublicCloudProjectNetworkSubnetError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<CreatePublicCloudProjectNetworkSubnetRequest>,
-  output: __S(870, __c27, 6) as any as S.Schema<PublicCloudNetworkSubnet>,
+  input: __S(864, __c27, 0) as any as S.Schema<CreatePublicCloudProjectNetworkSubnetRequest>,
+  output: __S(902, __c28, 6) as any as S.Schema<PublicCloudNetworkSubnet>,
   errors: [Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17696,8 +17728,8 @@ export const createPublicCloudProjectPrivateEndpoint: API.OperationMethod<
   CreatePublicCloudProjectPrivateEndpointError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<CreatePublicCloudProjectPrivateEndpointRequest>,
-  output: __S(932, __c29, 4) as any as S.Schema<PublicCloudPrivateEndpointPrivateEndpoint>,
+  input: __S(928, __c29, 0) as any as S.Schema<CreatePublicCloudProjectPrivateEndpointRequest>,
+  output: __S(964, __c30, 4) as any as S.Schema<PublicCloudPrivateEndpointPrivateEndpoint>,
   errors: [BadRequest, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17713,8 +17745,8 @@ export const createPublicCloudProjectPublicIpExtNet: API.OperationMethod<
   CreatePublicCloudProjectPublicIpExtNetError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<CreatePublicCloudProjectPublicIpExtNetRequest>,
-  output: __S(1026, __c32, 2) as any as S.Schema<PublicCloudPublicIpExtNetIP>,
+  input: __S(992, __c31, 0) as any as S.Schema<CreatePublicCloudProjectPublicIpExtNetRequest>,
+  output: __S(1058, __c33, 2) as any as S.Schema<PublicCloudPublicIpExtNetIP>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17730,8 +17762,8 @@ export const createPublicCloudProjectPublicIpFloating: API.OperationMethod<
   CreatePublicCloudProjectPublicIpFloatingError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<CreatePublicCloudProjectPublicIpFloatingRequest>,
-  output: __S(1090, __c34, 2) as any as S.Schema<PublicCloudPublicIpFloatingIP>,
+  input: __S(1088, __c34, 0) as any as S.Schema<CreatePublicCloudProjectPublicIpFloatingRequest>,
+  output: __S(1122, __c35, 2) as any as S.Schema<PublicCloudPublicIpFloatingIP>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17747,8 +17779,8 @@ export const createPublicCloudProjectRancher: API.OperationMethod<
   CreatePublicCloudProjectRancherError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1121, __c35, 1) as any as S.Schema<CreatePublicCloudProjectRancherRequest>,
-  output: __S(1158, __c36, 6) as any as S.Schema<PublicCloudRancherRancher>,
+  input: __S(1153, __c36, 1) as any as S.Schema<CreatePublicCloudProjectRancherRequest>,
+  output: __S(1190, __c37, 6) as any as S.Schema<PublicCloudRancherRancher>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17765,11 +17797,11 @@ export const createPublicCloudProjectRancherAdminCredentials: API.OperationMetho
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1184,
-    __c37,
+    1216,
+    __c38,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectRancherAdminCredentialsRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<PublicCloudRancherCredentials>,
+  output: __S(1248, __c39, 0) as any as S.Schema<PublicCloudRancherCredentials>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17785,8 +17817,8 @@ export const createPublicCloudProjectSecurityGroup: API.OperationMethod<
   CreatePublicCloudProjectSecurityGroupError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<CreatePublicCloudProjectSecurityGroupRequest>,
-  output: __S(1286, __c40, 6) as any as S.Schema<PublicCloudSecurityGroupSecurityGroup>,
+  input: __S(1280, __c40, 0) as any as S.Schema<CreatePublicCloudProjectSecurityGroupRequest>,
+  output: __S(1318, __c41, 6) as any as S.Schema<PublicCloudSecurityGroupSecurityGroup>,
   errors: [Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17802,8 +17834,8 @@ export const createPublicCloudProjectSshKey: API.OperationMethod<
   CreatePublicCloudProjectSshKeyError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<CreatePublicCloudProjectSshKeyRequest>,
-  output: __S(1344, __c42, 0) as any as S.Schema<PublicCloudSshKeySSHKey>,
+  input: __S(1344, __c42, 0) as any as S.Schema<CreatePublicCloudProjectSshKeyRequest>,
+  output: __S(1376, __c43, 0) as any as S.Schema<PublicCloudSshKeySSHKey>,
   errors: [Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17819,8 +17851,8 @@ export const createPublicCloudProjectStorageBlockBackup: API.OperationMethod<
   CreatePublicCloudProjectStorageBlockBackupError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<CreatePublicCloudProjectStorageBlockBackupRequest>,
-  output: __S(1441, __c45, 1) as any as S.Schema<PublicCloudBlockStorageBackup>,
+  input: __S(1408, __c44, 0) as any as S.Schema<CreatePublicCloudProjectStorageBlockBackupRequest>,
+  output: __S(1473, __c46, 1) as any as S.Schema<PublicCloudBlockStorageBackup>,
   errors: [Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17837,11 +17869,11 @@ export const createPublicCloudProjectStorageBlockSnapshot: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1472,
-    __c46,
+    1504,
+    __c47,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectStorageBlockSnapshotRequest>,
-  output: __S(1505, __c47, 1) as any as S.Schema<PublicCloudBlockStorageSnapshot>,
+  output: __S(1537, __c48, 1) as any as S.Schema<PublicCloudBlockStorageSnapshot>,
   errors: [Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17857,8 +17889,8 @@ export const createPublicCloudProjectStorageBlockVolume: API.OperationMethod<
   CreatePublicCloudProjectStorageBlockVolumeError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<CreatePublicCloudProjectStorageBlockVolumeRequest>,
-  output: __S(1637, __c51, 5) as any as S.Schema<PublicCloudBlockStorageBlock>,
+  input: __S(1632, __c51, 0) as any as S.Schema<CreatePublicCloudProjectStorageBlockVolumeRequest>,
+  output: __S(1669, __c52, 5) as any as S.Schema<PublicCloudBlockStorageBlock>,
   errors: [BadRequest, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17879,11 +17911,11 @@ export const createPublicCloudProjectStorageBlockVolumeAction: API.OperationMeth
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1665,
-    __c52,
+    1697,
+    __c53,
     1,
   ) as any as S.Schema<CreatePublicCloudProjectStorageBlockVolumeActionRequest>,
-  output: __S(1637, __c51, 5) as any as S.Schema<PublicCloudBlockStorageBlock>,
+  output: __S(1669, __c52, 5) as any as S.Schema<PublicCloudBlockStorageBlock>,
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17899,8 +17931,8 @@ export const createPublicCloudProjectStorageFileNetwork: API.OperationMethod<
   CreatePublicCloudProjectStorageFileNetworkError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1697, __c53, 1) as any as S.Schema<CreatePublicCloudProjectStorageFileNetworkRequest>,
-  output: __S(1729, __c54, 1) as any as S.Schema<PublicCloudStorageFileFileStorageNetwork>,
+  input: __S(1729, __c54, 1) as any as S.Schema<CreatePublicCloudProjectStorageFileNetworkRequest>,
+  output: __S(1761, __c55, 1) as any as S.Schema<PublicCloudStorageFileFileStorageNetwork>,
   errors: [BadRequest, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17916,8 +17948,8 @@ export const createPublicCloudProjectStorageFileShareAcl: API.OperationMethod<
   CreatePublicCloudProjectStorageFileShareAclError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<CreatePublicCloudProjectStorageFileShareAclRequest>,
-  output: __S(1794, __c56, 2) as any as S.Schema<PublicCloudStorageFileShareAcl>,
+  input: __S(1792, __c56, 0) as any as S.Schema<CreatePublicCloudProjectStorageFileShareAclRequest>,
+  output: __S(1826, __c57, 2) as any as S.Schema<PublicCloudStorageFileShareAcl>,
   errors: [BadRequest, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17937,8 +17969,8 @@ export const createPublicCloudProjectStorageFileSnapshot: API.OperationMethod<
   CreatePublicCloudProjectStorageFileSnapshotError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<CreatePublicCloudProjectStorageFileSnapshotRequest>,
-  output: __S(1858, __c58, 2) as any as S.Schema<PublicCloudStorageFileFileStorageSnapshot>,
+  input: __S(1856, __c58, 0) as any as S.Schema<CreatePublicCloudProjectStorageFileSnapshotRequest>,
+  output: __S(1890, __c59, 2) as any as S.Schema<PublicCloudStorageFileFileStorageSnapshot>,
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17954,8 +17986,8 @@ export const createPublicCloudProjectStorageObjectBucket: API.OperationMethod<
   CreatePublicCloudProjectStorageObjectBucketError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1889, __c59, 1) as any as S.Schema<CreatePublicCloudProjectStorageObjectBucketRequest>,
-  output: __S(1926, __c60, 6) as any as S.Schema<PublicCloudStorageObjectBucket>,
+  input: __S(1921, __c60, 1) as any as S.Schema<CreatePublicCloudProjectStorageObjectBucketRequest>,
+  output: __S(1958, __c61, 6) as any as S.Schema<PublicCloudStorageObjectBucket>,
   errors: [BadRequest, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17972,11 +18004,11 @@ export const createPublicCloudProjectStorageObjectBucketMultipartUpload: API.Ope
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1984,
-    __c62,
+    2016,
+    __c63,
     0,
   ) as any as S.Schema<CreatePublicCloudProjectStorageObjectBucketMultipartUploadRequest>,
-  output: __S(2016, __c63, 0) as any as S.Schema<PublicCloudStorageObjectMultipartUpload>,
+  output: __S(2048, __c64, 0) as any as S.Schema<PublicCloudStorageObjectMultipartUpload>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -17992,8 +18024,8 @@ export const deletePublicCloudProjectAiAgentAgent: API.OperationMethod<
   DeletePublicCloudProjectAiAgentAgentError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<DeletePublicCloudProjectAiAgentAgentRequest>,
-  output: __S(194, __c6, 2) as any as S.Schema<PublicCloudAiAgentsAgent>,
+  input: __S(2080, __c65, 0) as any as S.Schema<DeletePublicCloudProjectAiAgentAgentRequest>,
+  output: __S(226, __c7, 2) as any as S.Schema<PublicCloudAiAgentsAgent>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -18009,8 +18041,8 @@ export const deletePublicCloudProjectAiAgentTemplate: API.OperationMethod<
   DeletePublicCloudProjectAiAgentTemplateError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<DeletePublicCloudProjectAiAgentTemplateRequest>,
-  output: __S(1569, __c49, 1) as any as S.Schema<PublicCloudAiAgentsTemplate>,
+  input: __S(2112, __c66, 0) as any as S.Schema<DeletePublicCloudProjectAiAgentTemplateRequest>,
+  output: __S(1601, __c50, 1) as any as S.Schema<PublicCloudAiAgentsTemplate>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -18026,8 +18058,8 @@ export const deletePublicCloudProjectComputeAutobackup: API.OperationMethod<
   DeletePublicCloudProjectComputeAutobackupError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<DeletePublicCloudProjectComputeAutobackupRequest>,
-  output: __S(2181, __c68, 5) as any as S.Schema<PublicCloudInstanceAutobackup>,
+  input: __S(2144, __c67, 0) as any as S.Schema<DeletePublicCloudProjectComputeAutobackupRequest>,
+  output: __S(2213, __c69, 5) as any as S.Schema<PublicCloudInstanceAutobackup>,
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -18043,8 +18075,8 @@ export const deletePublicCloudProjectComputeInstance: API.OperationMethod<
   DeletePublicCloudProjectComputeInstanceError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<DeletePublicCloudProjectComputeInstanceRequest>,
-  output: __S(2609, __c81, 17) as any as S.Schema<PublicCloudInstanceInstance>,
+  input: __S(2272, __c71, 0) as any as S.Schema<DeletePublicCloudProjectComputeInstanceRequest>,
+  output: __S(2641, __c82, 17) as any as S.Schema<PublicCloudInstanceInstance>,
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -18061,11 +18093,11 @@ export const deletePublicCloudProjectComputeInstanceGroup: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2272,
-    __c71,
+    2304,
+    __c72,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectComputeInstanceGroupRequest>,
-  output: __S(3810, __c119, 2) as any as S.Schema<PublicCloudInstanceGroupInstanceGroup>,
+  output: __S(3842, __c120, 2) as any as S.Schema<PublicCloudInstanceGroupInstanceGroup>,
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -18081,10 +18113,10 @@ export const deletePublicCloudProjectComputeReservation: API.OperationMethod<
   DeletePublicCloudProjectComputeReservationError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<DeletePublicCloudProjectComputeReservationRequest>,
+  input: __S(2336, __c73, 0) as any as S.Schema<DeletePublicCloudProjectComputeReservationRequest>,
   output: __S(
-    4226,
-    __c132,
+    4258,
+    __c133,
     2,
   ) as any as S.Schema<PublicCloudInstanceReservationInstanceReservation>,
   errors: [NotFound, Conflict, UnknownOvhError],
@@ -18102,8 +18134,8 @@ export const deletePublicCloudProjectComputeSnapshot: API.OperationMethod<
   DeletePublicCloudProjectComputeSnapshotError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c73, 0) as any as S.Schema<DeletePublicCloudProjectComputeSnapshotRequest>,
-  output: __S(4610, __c144, 2) as any as S.Schema<PublicCloudInstanceSnapshot>,
+  input: __S(2368, __c74, 0) as any as S.Schema<DeletePublicCloudProjectComputeSnapshotRequest>,
+  output: __S(4642, __c145, 2) as any as S.Schema<PublicCloudInstanceSnapshot>,
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -18119,8 +18151,8 @@ export const deletePublicCloudProjectGateway: API.OperationMethod<
   DeletePublicCloudProjectGatewayError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c74, 0) as any as S.Schema<DeletePublicCloudProjectGatewayRequest>,
-  output: __S(4995, __c156, 3) as any as S.Schema<PublicCloudGatewayGateway>,
+  input: __S(2400, __c75, 0) as any as S.Schema<DeletePublicCloudProjectGatewayRequest>,
+  output: __S(5027, __c157, 3) as any as S.Schema<PublicCloudGatewayGateway>,
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -18136,8 +18168,8 @@ export const deletePublicCloudProjectKeyManagerContainer: API.OperationMethod<
   DeletePublicCloudProjectKeyManagerContainerError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c75, 0) as any as S.Schema<DeletePublicCloudProjectKeyManagerContainerRequest>,
-  output: __S(5380, __c168, 4) as any as S.Schema<PublicCloudKeyManagerContainer>,
+  input: __S(2432, __c76, 0) as any as S.Schema<DeletePublicCloudProjectKeyManagerContainerRequest>,
+  output: __S(5412, __c169, 4) as any as S.Schema<PublicCloudKeyManagerContainer>,
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -18154,11 +18186,11 @@ export const deletePublicCloudProjectKeyManagerContainerConsumer: API.OperationM
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2432,
-    __c76,
+    2464,
+    __c77,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectKeyManagerContainerConsumerRequest>,
-  output: __S(5824, __c182, 0) as any as S.Schema<PublicCloudKeyManagerContainerConsumer>,
+  output: __S(5856, __c183, 0) as any as S.Schema<PublicCloudKeyManagerContainerConsumer>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -18174,8 +18206,8 @@ export const deletePublicCloudProjectKeyManagerSecret: API.OperationMethod<
   DeletePublicCloudProjectKeyManagerSecretError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<DeletePublicCloudProjectKeyManagerSecretRequest>,
-  output: __S(6370, __c199, 2) as any as S.Schema<PublicCloudKeyManagerSecret>,
+  input: __S(2496, __c78, 0) as any as S.Schema<DeletePublicCloudProjectKeyManagerSecretRequest>,
+  output: __S(6402, __c200, 2) as any as S.Schema<PublicCloudKeyManagerSecret>,
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -18192,11 +18224,11 @@ export const deletePublicCloudProjectKeyManagerSecretConsumer: API.OperationMeth
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2496,
-    __c78,
+    2528,
+    __c79,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectKeyManagerSecretConsumerRequest>,
-  output: __S(5824, __c182, 0) as any as S.Schema<PublicCloudKeyManagerSecretConsumer>,
+  output: __S(5856, __c183, 0) as any as S.Schema<PublicCloudKeyManagerSecretConsumer>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -18212,8 +18244,8 @@ export const deletePublicCloudProjectLoadbalancer: API.OperationMethod<
   DeletePublicCloudProjectLoadbalancerError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<DeletePublicCloudProjectLoadbalancerRequest>,
-  output: __S(7717, __c241, 5) as any as S.Schema<PublicCloudLoadbalancerLoadbalancer>,
+  input: __S(2560, __c80, 0) as any as S.Schema<DeletePublicCloudProjectLoadbalancerRequest>,
+  output: __S(7749, __c242, 5) as any as S.Schema<PublicCloudLoadbalancerLoadbalancer>,
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -18230,11 +18262,11 @@ export const deletePublicCloudProjectLoadbalancerListener: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2720,
-    __c85,
+    2752,
+    __c86,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectLoadbalancerListenerRequest>,
-  output: __S(8099, __c253, 3) as any as S.Schema<PublicCloudLoadbalancerListener>,
+  output: __S(8131, __c254, 3) as any as S.Schema<PublicCloudLoadbalancerListener>,
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -18254,11 +18286,11 @@ export const deletePublicCloudProjectLoadbalancerListenerL7policy: API.Operation
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2752,
-    __c86,
+    2784,
+    __c87,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectLoadbalancerListenerL7policyRequest>,
-  output: __S(8518, __c266, 6) as any as S.Schema<PublicCloudLoadbalancerL7Policy>,
+  output: __S(8550, __c267, 6) as any as S.Schema<PublicCloudLoadbalancerL7Policy>,
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -18274,8 +18306,8 @@ export const deletePublicCloudProjectLoadbalancerPool: API.OperationMethod<
   DeletePublicCloudProjectLoadbalancerPoolError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c87, 0) as any as S.Schema<DeletePublicCloudProjectLoadbalancerPoolRequest>,
-  output: __S(8901, __c278, 5) as any as S.Schema<PublicCloudLoadbalancerPool>,
+  input: __S(2816, __c88, 0) as any as S.Schema<DeletePublicCloudProjectLoadbalancerPoolRequest>,
+  output: __S(8933, __c279, 5) as any as S.Schema<PublicCloudLoadbalancerPool>,
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -18292,11 +18324,11 @@ export const deletePublicCloudProjectLoadbalancerPoolMember: API.OperationMethod
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2816,
-    __c88,
+    2848,
+    __c89,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectLoadbalancerPoolMemberRequest>,
-  output: __S(9379, __c293, 3) as any as S.Schema<PublicCloudLoadbalancerMember>,
+  output: __S(9411, __c294, 3) as any as S.Schema<PublicCloudLoadbalancerMember>,
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -18313,11 +18345,11 @@ export const deletePublicCloudProjectManagedAnalyticsClickhouse: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2848,
-    __c89,
+    2880,
+    __c90,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedAnalyticsClickhouseRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -18334,11 +18366,11 @@ export const deletePublicCloudProjectManagedAnalyticsClickhouseDatabase: API.Ope
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2880,
-    __c90,
+    2912,
+    __c91,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedAnalyticsClickhouseDatabaseRequest>,
-  output: __S(10304, __c322, 0) as any as S.Schema<PublicCloudDatabaseDatabase>,
+  output: __S(10336, __c323, 0) as any as S.Schema<PublicCloudDatabaseDatabase>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -18355,11 +18387,11 @@ export const deletePublicCloudProjectManagedAnalyticsClickhouseIntegration: API.
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2912,
-    __c91,
+    2944,
+    __c92,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedAnalyticsClickhouseIntegrationRequest>,
-  output: __S(10688, __c334, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
+  output: __S(10720, __c335, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -18376,11 +18408,11 @@ export const deletePublicCloudProjectManagedAnalyticsClickhouseLogSubscription: 
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2944,
-    __c92,
+    2976,
+    __c93,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedAnalyticsClickhouseLogSubscriptionRequest>,
-  output: __S(11072, __c346, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
+  output: __S(11104, __c347, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -18397,11 +18429,11 @@ export const deletePublicCloudProjectManagedAnalyticsClickhouseUser: API.Operati
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2976,
-    __c93,
+    3008,
+    __c94,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedAnalyticsClickhouseUserRequest>,
-  output: __S(12256, __c383, 0) as any as S.Schema<PublicCloudDatabaseUserWithRoles>,
+  output: __S(12288, __c384, 0) as any as S.Schema<PublicCloudDatabaseUserWithRoles>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -18418,11 +18450,11 @@ export const deletePublicCloudProjectManagedAnalyticsGrafana: API.OperationMetho
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3008,
-    __c94,
+    3040,
+    __c95,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedAnalyticsGrafanaRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -18439,11 +18471,11 @@ export const deletePublicCloudProjectManagedAnalyticsGrafanaIntegration: API.Ope
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3072,
-    __c96,
+    3104,
+    __c97,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedAnalyticsGrafanaIntegrationRequest>,
-  output: __S(10688, __c334, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
+  output: __S(10720, __c335, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -18460,11 +18492,11 @@ export const deletePublicCloudProjectManagedAnalyticsGrafanaLogSubscription: API
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3104,
-    __c97,
+    3136,
+    __c98,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedAnalyticsGrafanaLogSubscriptionRequest>,
-  output: __S(11072, __c346, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
+  output: __S(11104, __c347, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -18481,11 +18513,11 @@ export const deletePublicCloudProjectManagedAnalyticsKafka: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3136,
-    __c98,
+    3168,
+    __c99,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedAnalyticsKafkaRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -18502,11 +18534,11 @@ export const deletePublicCloudProjectManagedAnalyticsKafkaAcl: API.OperationMeth
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3168,
-    __c99,
+    3200,
+    __c100,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedAnalyticsKafkaAclRequest>,
-  output: __S(15904, __c497, 0) as any as S.Schema<PublicCloudDatabaseKafkaAcl>,
+  output: __S(15936, __c498, 0) as any as S.Schema<PublicCloudDatabaseKafkaAcl>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -18523,11 +18555,11 @@ export const deletePublicCloudProjectManagedAnalyticsKafkaConnect: API.Operation
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3200,
-    __c100,
+    3232,
+    __c101,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedAnalyticsKafkaConnectRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -18544,11 +18576,11 @@ export const deletePublicCloudProjectManagedAnalyticsKafkaConnectConnector: API.
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3232,
-    __c101,
+    3264,
+    __c102,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedAnalyticsKafkaConnectConnectorRequest>,
-  output: __S(16672, __c521, 0) as any as S.Schema<PublicCloudDatabaseKafkaConnectConnector>,
+  output: __S(16704, __c522, 0) as any as S.Schema<PublicCloudDatabaseKafkaConnectConnector>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -18565,11 +18597,11 @@ export const deletePublicCloudProjectManagedAnalyticsKafkaConnectIntegration: AP
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3264,
-    __c102,
+    3296,
+    __c103,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedAnalyticsKafkaConnectIntegrationRequest>,
-  output: __S(10688, __c334, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
+  output: __S(10720, __c335, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -18586,11 +18618,11 @@ export const deletePublicCloudProjectManagedAnalyticsKafkaConnectLogSubscription
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3296,
-    __c103,
+    3328,
+    __c104,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedAnalyticsKafkaConnectLogSubscriptionRequest>,
-  output: __S(11072, __c346, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
+  output: __S(11104, __c347, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -18607,11 +18639,11 @@ export const deletePublicCloudProjectManagedAnalyticsKafkaConnectUser: API.Opera
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3328,
-    __c104,
+    3360,
+    __c105,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedAnalyticsKafkaConnectUserRequest>,
-  output: __S(18528, __c579, 0) as any as S.Schema<PublicCloudDatabaseUser>,
+  output: __S(18560, __c580, 0) as any as S.Schema<PublicCloudDatabaseUser>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -18628,11 +18660,11 @@ export const deletePublicCloudProjectManagedAnalyticsKafkaIntegration: API.Opera
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3360,
-    __c105,
+    3392,
+    __c106,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedAnalyticsKafkaIntegrationRequest>,
-  output: __S(10688, __c334, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
+  output: __S(10720, __c335, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -18649,11 +18681,11 @@ export const deletePublicCloudProjectManagedAnalyticsKafkaLogSubscription: API.O
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3424,
-    __c107,
+    3456,
+    __c108,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedAnalyticsKafkaLogSubscriptionRequest>,
-  output: __S(11072, __c346, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
+  output: __S(11104, __c347, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -18670,11 +18702,11 @@ export const deletePublicCloudProjectManagedAnalyticsKafkaMirrorMaker: API.Opera
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3456,
-    __c108,
+    3488,
+    __c109,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedAnalyticsKafkaMirrorMakerRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -18691,11 +18723,11 @@ export const deletePublicCloudProjectManagedAnalyticsKafkaMirrorMakerIntegration
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3488,
-    __c109,
+    3520,
+    __c110,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedAnalyticsKafkaMirrorMakerIntegrationRequest>,
-  output: __S(10688, __c334, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
+  output: __S(10720, __c335, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -18713,11 +18745,11 @@ export const deletePublicCloudProjectManagedAnalyticsKafkaMirrorMakerLogSubscrip
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3520,
-    __c110,
+    3552,
+    __c111,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedAnalyticsKafkaMirrorMakerLogSubscriptionRequest>,
-  output: __S(11072, __c346, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
+  output: __S(11104, __c347, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -18734,11 +18766,11 @@ export const deletePublicCloudProjectManagedAnalyticsKafkaMirrorMakerReplication
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3552,
-    __c111,
+    3584,
+    __c112,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedAnalyticsKafkaMirrorMakerReplicationRequest>,
-  output: __S(22272, __c696, 0) as any as S.Schema<PublicCloudDatabaseKafkaMirrorMakerReplication>,
+  output: __S(22304, __c697, 0) as any as S.Schema<PublicCloudDatabaseKafkaMirrorMakerReplication>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -18755,11 +18787,11 @@ export const deletePublicCloudProjectManagedAnalyticsKafkaSchemaRegistryAcl: API
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3584,
-    __c112,
+    3616,
+    __c113,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedAnalyticsKafkaSchemaRegistryAclRequest>,
-  output: __S(22688, __c709, 0) as any as S.Schema<PublicCloudDatabaseKafkaSchemaRegistryAcl>,
+  output: __S(22720, __c710, 0) as any as S.Schema<PublicCloudDatabaseKafkaSchemaRegistryAcl>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -18776,11 +18808,11 @@ export const deletePublicCloudProjectManagedAnalyticsKafkaTopic: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3616,
-    __c113,
+    3648,
+    __c114,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedAnalyticsKafkaTopicRequest>,
-  output: __S(23072, __c721, 0) as any as S.Schema<PublicCloudDatabaseKafkaTopic>,
+  output: __S(23104, __c722, 0) as any as S.Schema<PublicCloudDatabaseKafkaTopic>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -18797,11 +18829,11 @@ export const deletePublicCloudProjectManagedAnalyticsKafkaUser: API.OperationMet
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3648,
-    __c114,
+    3680,
+    __c115,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedAnalyticsKafkaUserRequest>,
-  output: __S(18528, __c579, 0) as any as S.Schema<PublicCloudDatabaseUser>,
+  output: __S(18560, __c580, 0) as any as S.Schema<PublicCloudDatabaseUser>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -18822,11 +18854,11 @@ export const deletePublicCloudProjectManagedAnalyticsLakehouse: API.OperationMet
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3680,
-    __c115,
+    3712,
+    __c116,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedAnalyticsLakehouseRequest>,
-  output: __S(23904, __c747, 0) as any as S.Schema<PublicCloudLakehouseLakehouse>,
+  output: __S(23936, __c748, 0) as any as S.Schema<PublicCloudLakehouseLakehouse>,
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -18847,11 +18879,11 @@ export const deletePublicCloudProjectManagedAnalyticsLakehouseCatalog: API.Opera
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3712,
-    __c116,
+    3744,
+    __c117,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedAnalyticsLakehouseCatalogRequest>,
-  output: __S(24353, __c761, 1) as any as S.Schema<PublicCloudLakehouseCatalog>,
+  output: __S(24385, __c762, 1) as any as S.Schema<PublicCloudLakehouseCatalog>,
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -18872,11 +18904,11 @@ export const deletePublicCloudProjectManagedAnalyticsLakehouseCatalogSchema: API
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3872,
-    __c121,
+    3904,
+    __c122,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedAnalyticsLakehouseCatalogSchemaRequest>,
-  output: __S(24737, __c773, 1) as any as S.Schema<PublicCloudLakehouseSchema>,
+  output: __S(24769, __c774, 1) as any as S.Schema<PublicCloudLakehouseSchema>,
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -18897,11 +18929,11 @@ export const deletePublicCloudProjectManagedAnalyticsLakehouseComputePool: API.O
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3904,
-    __c122,
+    3936,
+    __c123,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedAnalyticsLakehouseComputePoolRequest>,
-  output: __S(25154, __c786, 2) as any as S.Schema<PublicCloudLakehouseComputePool>,
+  output: __S(25186, __c787, 2) as any as S.Schema<PublicCloudLakehouseComputePool>,
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -18922,11 +18954,11 @@ export const deletePublicCloudProjectManagedAnalyticsLakehouseGroup: API.Operati
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3936,
-    __c123,
+    3968,
+    __c124,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedAnalyticsLakehouseGroupRequest>,
-  output: __S(25537, __c798, 1) as any as S.Schema<PublicCloudLakehouseGroup>,
+  output: __S(25569, __c799, 1) as any as S.Schema<PublicCloudLakehouseGroup>,
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -18947,11 +18979,11 @@ export const deletePublicCloudProjectManagedAnalyticsLakehouseGroupMember: API.O
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3968,
-    __c124,
+    4000,
+    __c125,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedAnalyticsLakehouseGroupMemberRequest>,
-  output: __S(26050, __c814, 2) as any as S.Schema<PublicCloudLakehouseMember>,
+  output: __S(26082, __c815, 2) as any as S.Schema<PublicCloudLakehouseMember>,
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -18972,11 +19004,11 @@ export const deletePublicCloudProjectManagedAnalyticsLakehouseRole: API.Operatio
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4000,
-    __c125,
+    4032,
+    __c126,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedAnalyticsLakehouseRoleRequest>,
-  output: __S(26439, __c826, 7) as any as S.Schema<PublicCloudLakehouseRole>,
+  output: __S(26471, __c827, 7) as any as S.Schema<PublicCloudLakehouseRole>,
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -18997,11 +19029,11 @@ export const deletePublicCloudProjectManagedAnalyticsLakehouseRoleAssignment: AP
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4032,
-    __c126,
+    4064,
+    __c127,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedAnalyticsLakehouseRoleAssignmentRequest>,
-  output: __S(26788, __c837, 4) as any as S.Schema<PublicCloudLakehouseRoleAssignment>,
+  output: __S(26820, __c838, 4) as any as S.Schema<PublicCloudLakehouseRoleAssignment>,
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -19022,11 +19054,11 @@ export const deletePublicCloudProjectManagedAnalyticsLakehouseUser: API.Operatio
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4064,
-    __c127,
+    4096,
+    __c128,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedAnalyticsLakehouseUserRequest>,
-  output: __S(26850, __c839, 2) as any as S.Schema<PublicCloudLakehouseUser>,
+  output: __S(26882, __c840, 2) as any as S.Schema<PublicCloudLakehouseUser>,
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -19043,11 +19075,11 @@ export const deletePublicCloudProjectManagedAnalyticsOpensearch: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4096,
-    __c128,
+    4128,
+    __c129,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedAnalyticsOpensearchRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -19064,11 +19096,11 @@ export const deletePublicCloudProjectManagedAnalyticsOpensearchIntegration: API.
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4128,
-    __c129,
+    4160,
+    __c130,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedAnalyticsOpensearchIntegrationRequest>,
-  output: __S(10688, __c334, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
+  output: __S(10720, __c335, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -19085,11 +19117,11 @@ export const deletePublicCloudProjectManagedAnalyticsOpensearchLogSubscription: 
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4160,
-    __c130,
+    4192,
+    __c131,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedAnalyticsOpensearchLogSubscriptionRequest>,
-  output: __S(11072, __c346, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
+  output: __S(11104, __c347, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -19106,11 +19138,11 @@ export const deletePublicCloudProjectManagedAnalyticsOpensearchPattern: API.Oper
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4256,
-    __c133,
+    4288,
+    __c134,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedAnalyticsOpensearchPatternRequest>,
-  output: __S(27072, __c846, 0) as any as S.Schema<PublicCloudDatabaseOpensearchPattern>,
+  output: __S(27104, __c847, 0) as any as S.Schema<PublicCloudDatabaseOpensearchPattern>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -19127,11 +19159,11 @@ export const deletePublicCloudProjectManagedAnalyticsOpensearchUser: API.Operati
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4288,
-    __c134,
+    4320,
+    __c135,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedAnalyticsOpensearchUserRequest>,
-  output: __S(27170, __c849, 2) as any as S.Schema<PublicCloudDatabaseOpensearchUser>,
+  output: __S(27202, __c850, 2) as any as S.Schema<PublicCloudDatabaseOpensearchUser>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -19148,11 +19180,11 @@ export const deletePublicCloudProjectManagedDatabaseMongodb: API.OperationMethod
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4320,
-    __c135,
+    4352,
+    __c136,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedDatabaseMongodbRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -19169,11 +19201,11 @@ export const deletePublicCloudProjectManagedDatabaseMongodbLogSubscription: API.
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4352,
-    __c136,
+    4384,
+    __c137,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedDatabaseMongodbLogSubscriptionRequest>,
-  output: __S(11072, __c346, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
+  output: __S(11104, __c347, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -19190,11 +19222,11 @@ export const deletePublicCloudProjectManagedDatabaseMongodbUser: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4384,
-    __c137,
+    4416,
+    __c138,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedDatabaseMongodbUserRequest>,
-  output: __S(12256, __c383, 0) as any as S.Schema<PublicCloudDatabaseUserWithRoles>,
+  output: __S(12288, __c384, 0) as any as S.Schema<PublicCloudDatabaseUserWithRoles>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -19211,11 +19243,11 @@ export const deletePublicCloudProjectManagedDatabaseMysql: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4416,
-    __c138,
+    4448,
+    __c139,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedDatabaseMysqlRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -19232,11 +19264,11 @@ export const deletePublicCloudProjectManagedDatabaseMysqlDatabase: API.Operation
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4448,
-    __c139,
+    4480,
+    __c140,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedDatabaseMysqlDatabaseRequest>,
-  output: __S(10304, __c322, 0) as any as S.Schema<PublicCloudDatabaseDatabase>,
+  output: __S(10336, __c323, 0) as any as S.Schema<PublicCloudDatabaseDatabase>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -19253,11 +19285,11 @@ export const deletePublicCloudProjectManagedDatabaseMysqlIntegration: API.Operat
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4480,
-    __c140,
+    4512,
+    __c141,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedDatabaseMysqlIntegrationRequest>,
-  output: __S(10688, __c334, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
+  output: __S(10720, __c335, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -19274,11 +19306,11 @@ export const deletePublicCloudProjectManagedDatabaseMysqlLogSubscription: API.Op
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4512,
-    __c141,
+    4544,
+    __c142,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedDatabaseMysqlLogSubscriptionRequest>,
-  output: __S(11072, __c346, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
+  output: __S(11104, __c347, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -19295,11 +19327,11 @@ export const deletePublicCloudProjectManagedDatabaseMysqlUser: API.OperationMeth
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4544,
-    __c142,
+    4576,
+    __c143,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedDatabaseMysqlUserRequest>,
-  output: __S(18528, __c579, 0) as any as S.Schema<PublicCloudDatabaseUser>,
+  output: __S(18560, __c580, 0) as any as S.Schema<PublicCloudDatabaseUser>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -19316,11 +19348,11 @@ export const deletePublicCloudProjectManagedDatabasePostgresql: API.OperationMet
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4640,
-    __c145,
+    4672,
+    __c146,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedDatabasePostgresqlRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -19337,11 +19369,11 @@ export const deletePublicCloudProjectManagedDatabasePostgresqlConnectionPool: AP
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4672,
-    __c146,
+    4704,
+    __c147,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedDatabasePostgresqlConnectionPoolRequest>,
-  output: __S(27808, __c869, 0) as any as S.Schema<PublicCloudDatabasePostgresqlConnectionPool>,
+  output: __S(27840, __c870, 0) as any as S.Schema<PublicCloudDatabasePostgresqlConnectionPool>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -19358,11 +19390,11 @@ export const deletePublicCloudProjectManagedDatabasePostgresqlDatabase: API.Oper
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4704,
-    __c147,
+    4736,
+    __c148,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedDatabasePostgresqlDatabaseRequest>,
-  output: __S(10304, __c322, 0) as any as S.Schema<PublicCloudDatabaseDatabase>,
+  output: __S(10336, __c323, 0) as any as S.Schema<PublicCloudDatabaseDatabase>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -19379,11 +19411,11 @@ export const deletePublicCloudProjectManagedDatabasePostgresqlIntegration: API.O
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4736,
-    __c148,
+    4768,
+    __c149,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedDatabasePostgresqlIntegrationRequest>,
-  output: __S(10688, __c334, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
+  output: __S(10720, __c335, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -19400,11 +19432,11 @@ export const deletePublicCloudProjectManagedDatabasePostgresqlLogSubscription: A
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4768,
-    __c149,
+    4800,
+    __c150,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedDatabasePostgresqlLogSubscriptionRequest>,
-  output: __S(11072, __c346, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
+  output: __S(11104, __c347, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -19421,11 +19453,11 @@ export const deletePublicCloudProjectManagedDatabasePostgresqlUser: API.Operatio
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4800,
-    __c150,
+    4832,
+    __c151,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedDatabasePostgresqlUserRequest>,
-  output: __S(12256, __c383, 0) as any as S.Schema<PublicCloudDatabaseUserWithRoles>,
+  output: __S(12288, __c384, 0) as any as S.Schema<PublicCloudDatabaseUserWithRoles>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -19442,11 +19474,11 @@ export const deletePublicCloudProjectManagedDatabaseValkey: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4832,
-    __c151,
+    4864,
+    __c152,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedDatabaseValkeyRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -19463,11 +19495,11 @@ export const deletePublicCloudProjectManagedDatabaseValkeyIntegration: API.Opera
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4864,
-    __c152,
+    4896,
+    __c153,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedDatabaseValkeyIntegrationRequest>,
-  output: __S(10688, __c334, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
+  output: __S(10720, __c335, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -19484,11 +19516,11 @@ export const deletePublicCloudProjectManagedDatabaseValkeyLogSubscription: API.O
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4896,
-    __c153,
+    4928,
+    __c154,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedDatabaseValkeyLogSubscriptionRequest>,
-  output: __S(11072, __c346, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
+  output: __S(11104, __c347, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -19505,11 +19537,11 @@ export const deletePublicCloudProjectManagedDatabaseValkeyUser: API.OperationMet
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4928,
-    __c154,
+    4960,
+    __c155,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedDatabaseValkeyUserRequest>,
-  output: __S(480, __c15, 0) as any as S.Schema<PublicCloudDatabaseValkeyUser>,
+  output: __S(512, __c16, 0) as any as S.Schema<PublicCloudDatabaseValkeyUser>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -19525,8 +19557,8 @@ export const deletePublicCloudProjectManagedKubernetes: API.OperationMethod<
   DeletePublicCloudProjectManagedKubernetesError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5024, __c157, 0) as any as S.Schema<DeletePublicCloudProjectManagedKubernetesRequest>,
-  output: __S(641, __c20, 1) as any as S.Schema<PublicCloudManagedKubernetesCluster>,
+  input: __S(5056, __c158, 0) as any as S.Schema<DeletePublicCloudProjectManagedKubernetesRequest>,
+  output: __S(673, __c21, 1) as any as S.Schema<PublicCloudManagedKubernetesCluster>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -19543,11 +19575,11 @@ export const deletePublicCloudProjectManagedKubernetesNodepool: API.OperationMet
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5056,
-    __c158,
+    5088,
+    __c159,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectManagedKubernetesNodepoolRequest>,
-  output: __S(717, __c22, 13) as any as S.Schema<PublicCloudManagedKubernetesNodepool>,
+  output: __S(749, __c23, 13) as any as S.Schema<PublicCloudManagedKubernetesNodepool>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -19563,8 +19595,8 @@ export const deletePublicCloudProjectNetwork: API.OperationMethod<
   DeletePublicCloudProjectNetworkError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5088, __c159, 0) as any as S.Schema<DeletePublicCloudProjectNetworkRequest>,
-  output: __S(770, __c24, 2) as any as S.Schema<PublicCloudNetworkNetwork>,
+  input: __S(5120, __c160, 0) as any as S.Schema<DeletePublicCloudProjectNetworkRequest>,
+  output: __S(802, __c25, 2) as any as S.Schema<PublicCloudNetworkNetwork>,
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -19580,8 +19612,8 @@ export const deletePublicCloudProjectNetworkSubnet: API.OperationMethod<
   DeletePublicCloudProjectNetworkSubnetError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5120, __c160, 0) as any as S.Schema<DeletePublicCloudProjectNetworkSubnetRequest>,
-  output: __S(870, __c27, 6) as any as S.Schema<PublicCloudNetworkSubnet>,
+  input: __S(5152, __c161, 0) as any as S.Schema<DeletePublicCloudProjectNetworkSubnetRequest>,
+  output: __S(902, __c28, 6) as any as S.Schema<PublicCloudNetworkSubnet>,
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -19597,8 +19629,8 @@ export const deletePublicCloudProjectPrivateEndpoint: API.OperationMethod<
   DeletePublicCloudProjectPrivateEndpointError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5152, __c161, 0) as any as S.Schema<DeletePublicCloudProjectPrivateEndpointRequest>,
-  output: __S(932, __c29, 4) as any as S.Schema<PublicCloudPrivateEndpointPrivateEndpoint>,
+  input: __S(5184, __c162, 0) as any as S.Schema<DeletePublicCloudProjectPrivateEndpointRequest>,
+  output: __S(964, __c30, 4) as any as S.Schema<PublicCloudPrivateEndpointPrivateEndpoint>,
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -19614,8 +19646,8 @@ export const deletePublicCloudProjectPublicIpExtNet: API.OperationMethod<
   DeletePublicCloudProjectPublicIpExtNetError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5184, __c162, 0) as any as S.Schema<DeletePublicCloudProjectPublicIpExtNetRequest>,
-  output: __S(1026, __c32, 2) as any as S.Schema<PublicCloudPublicIpExtNetIP>,
+  input: __S(5216, __c163, 0) as any as S.Schema<DeletePublicCloudProjectPublicIpExtNetRequest>,
+  output: __S(1058, __c33, 2) as any as S.Schema<PublicCloudPublicIpExtNetIP>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -19631,8 +19663,8 @@ export const deletePublicCloudProjectPublicIpFloating: API.OperationMethod<
   DeletePublicCloudProjectPublicIpFloatingError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5216, __c163, 0) as any as S.Schema<DeletePublicCloudProjectPublicIpFloatingRequest>,
-  output: __S(1090, __c34, 2) as any as S.Schema<PublicCloudPublicIpFloatingIP>,
+  input: __S(5248, __c164, 0) as any as S.Schema<DeletePublicCloudProjectPublicIpFloatingRequest>,
+  output: __S(1122, __c35, 2) as any as S.Schema<PublicCloudPublicIpFloatingIP>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -19648,8 +19680,8 @@ export const deletePublicCloudProjectRancher: API.OperationMethod<
   DeletePublicCloudProjectRancherError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5248, __c164, 0) as any as S.Schema<DeletePublicCloudProjectRancherRequest>,
-  output: __S(1158, __c36, 6) as any as S.Schema<PublicCloudRancherRancher>,
+  input: __S(5280, __c165, 0) as any as S.Schema<DeletePublicCloudProjectRancherRequest>,
+  output: __S(1190, __c37, 6) as any as S.Schema<PublicCloudRancherRancher>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -19665,8 +19697,8 @@ export const deletePublicCloudProjectSecurityGroup: API.OperationMethod<
   DeletePublicCloudProjectSecurityGroupError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5280, __c165, 0) as any as S.Schema<DeletePublicCloudProjectSecurityGroupRequest>,
-  output: __S(1286, __c40, 6) as any as S.Schema<PublicCloudSecurityGroupSecurityGroup>,
+  input: __S(5312, __c166, 0) as any as S.Schema<DeletePublicCloudProjectSecurityGroupRequest>,
+  output: __S(1318, __c41, 6) as any as S.Schema<PublicCloudSecurityGroupSecurityGroup>,
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -19682,8 +19714,8 @@ export const deletePublicCloudProjectSshKey: API.OperationMethod<
   DeletePublicCloudProjectSshKeyError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5312, __c166, 0) as any as S.Schema<DeletePublicCloudProjectSshKeyRequest>,
-  output: __S(1344, __c42, 0) as any as S.Schema<PublicCloudSshKeySSHKey>,
+  input: __S(5344, __c167, 0) as any as S.Schema<DeletePublicCloudProjectSshKeyRequest>,
+  output: __S(1376, __c43, 0) as any as S.Schema<PublicCloudSshKeySSHKey>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -19699,8 +19731,8 @@ export const deletePublicCloudProjectStorageBlockBackup: API.OperationMethod<
   DeletePublicCloudProjectStorageBlockBackupError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5408, __c169, 0) as any as S.Schema<DeletePublicCloudProjectStorageBlockBackupRequest>,
-  output: __S(1441, __c45, 1) as any as S.Schema<PublicCloudBlockStorageBackup>,
+  input: __S(5440, __c170, 0) as any as S.Schema<DeletePublicCloudProjectStorageBlockBackupRequest>,
+  output: __S(1473, __c46, 1) as any as S.Schema<PublicCloudBlockStorageBackup>,
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -19717,11 +19749,11 @@ export const deletePublicCloudProjectStorageBlockSnapshot: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5440,
-    __c170,
+    5472,
+    __c171,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectStorageBlockSnapshotRequest>,
-  output: __S(1505, __c47, 1) as any as S.Schema<PublicCloudBlockStorageSnapshot>,
+  output: __S(1537, __c48, 1) as any as S.Schema<PublicCloudBlockStorageSnapshot>,
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -19737,8 +19769,8 @@ export const deletePublicCloudProjectStorageBlockVolume: API.OperationMethod<
   DeletePublicCloudProjectStorageBlockVolumeError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5472, __c171, 0) as any as S.Schema<DeletePublicCloudProjectStorageBlockVolumeRequest>,
-  output: __S(1637, __c51, 5) as any as S.Schema<PublicCloudBlockStorageBlock>,
+  input: __S(5504, __c172, 0) as any as S.Schema<DeletePublicCloudProjectStorageBlockVolumeRequest>,
+  output: __S(1669, __c52, 5) as any as S.Schema<PublicCloudBlockStorageBlock>,
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -19754,8 +19786,8 @@ export const deletePublicCloudProjectStorageFileNetwork: API.OperationMethod<
   DeletePublicCloudProjectStorageFileNetworkError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5504, __c172, 0) as any as S.Schema<DeletePublicCloudProjectStorageFileNetworkRequest>,
-  output: __S(1729, __c54, 1) as any as S.Schema<PublicCloudStorageFileFileStorageNetwork>,
+  input: __S(5536, __c173, 0) as any as S.Schema<DeletePublicCloudProjectStorageFileNetworkRequest>,
+  output: __S(1761, __c55, 1) as any as S.Schema<PublicCloudStorageFileFileStorageNetwork>,
   errors: [Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -19771,8 +19803,8 @@ export const deletePublicCloudProjectStorageFileShare: API.OperationMethod<
   DeletePublicCloudProjectStorageFileShareError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5536, __c173, 0) as any as S.Schema<DeletePublicCloudProjectStorageFileShareRequest>,
-  output: __S(5575, __c174, 7) as any as S.Schema<PublicCloudStorageFileFileStorage>,
+  input: __S(5568, __c174, 0) as any as S.Schema<DeletePublicCloudProjectStorageFileShareRequest>,
+  output: __S(5607, __c175, 7) as any as S.Schema<PublicCloudStorageFileFileStorage>,
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -19789,11 +19821,11 @@ export const deletePublicCloudProjectStorageFileShareAcl: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5600,
-    __c175,
+    5632,
+    __c176,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectStorageFileShareAclRequest>,
-  output: __S(1794, __c56, 2) as any as S.Schema<PublicCloudStorageFileShareAcl>,
+  output: __S(1826, __c57, 2) as any as S.Schema<PublicCloudStorageFileShareAcl>,
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -19810,11 +19842,11 @@ export const deletePublicCloudProjectStorageFileSnapshot: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5632,
-    __c176,
+    5664,
+    __c177,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectStorageFileSnapshotRequest>,
-  output: __S(1858, __c58, 2) as any as S.Schema<PublicCloudStorageFileFileStorageSnapshot>,
+  output: __S(1890, __c59, 2) as any as S.Schema<PublicCloudStorageFileFileStorageSnapshot>,
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -19831,11 +19863,11 @@ export const deletePublicCloudProjectStorageObjectBucket: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5664,
-    __c177,
+    5696,
+    __c178,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectStorageObjectBucketRequest>,
-  output: __S(1926, __c60, 6) as any as S.Schema<PublicCloudStorageObjectBucket>,
+  output: __S(1958, __c61, 6) as any as S.Schema<PublicCloudStorageObjectBucket>,
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -19852,11 +19884,11 @@ export const deletePublicCloudProjectStorageObjectBucketObject: API.OperationMet
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5696,
-    __c178,
+    5728,
+    __c179,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectStorageObjectBucketObjectRequest>,
-  output: __S(25984, __c812, 0) as any as S.Schema<PublicCloudStorageObjectS3Object>,
+  output: __S(26016, __c813, 0) as any as S.Schema<PublicCloudStorageObjectS3Object>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -19873,13 +19905,13 @@ export const deletePublicCloudProjectStorageObjectBucketObjectMultipartUpload: A
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5728,
-    __c179,
+    5760,
+    __c180,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectStorageObjectBucketObjectMultipartUploadRequest>,
   output: __S(
-    5760,
-    __c180,
+    5792,
+    __c181,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectStorageObjectBucketObjectMultipartUploadResponse>,
   errors: [UnknownOvhError],
@@ -19898,11 +19930,11 @@ export const deletePublicCloudProjectStorageObjectBucketObjectVersion: API.Opera
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5856,
-    __c183,
+    5888,
+    __c184,
     0,
   ) as any as S.Schema<DeletePublicCloudProjectStorageObjectBucketObjectVersionRequest>,
-  output: __S(5888, __c184, 0) as any as S.Schema<PublicCloudStorageObjectS3ObjectVersion>,
+  output: __S(5920, __c185, 0) as any as S.Schema<PublicCloudStorageObjectS3ObjectVersion>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -19919,11 +19951,11 @@ export const enablePublicCloudProjectManagedAnalyticsClickhouseWrites: API.Opera
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5920,
-    __c185,
+    5952,
+    __c186,
     0,
   ) as any as S.Schema<EnablePublicCloudProjectManagedAnalyticsClickhouseWritesRequest>,
-  output: __S(5952, __c186, 0) as any as S.Schema<PublicCloudDatabaseTemporaryWriteDeadline>,
+  output: __S(5984, __c187, 0) as any as S.Schema<PublicCloudDatabaseTemporaryWriteDeadline>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -19940,11 +19972,11 @@ export const enablePublicCloudProjectManagedDatabaseMysqlWrites: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5984,
-    __c187,
+    6016,
+    __c188,
     0,
   ) as any as S.Schema<EnablePublicCloudProjectManagedDatabaseMysqlWritesRequest>,
-  output: __S(5952, __c186, 0) as any as S.Schema<PublicCloudDatabaseTemporaryWriteDeadline>,
+  output: __S(5984, __c187, 0) as any as S.Schema<PublicCloudDatabaseTemporaryWriteDeadline>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -19961,11 +19993,11 @@ export const enablePublicCloudProjectManagedDatabasePostgresqlWrites: API.Operat
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6016,
-    __c188,
+    6048,
+    __c189,
     0,
   ) as any as S.Schema<EnablePublicCloudProjectManagedDatabasePostgresqlWritesRequest>,
-  output: __S(5952, __c186, 0) as any as S.Schema<PublicCloudDatabaseTemporaryWriteDeadline>,
+  output: __S(5984, __c187, 0) as any as S.Schema<PublicCloudDatabaseTemporaryWriteDeadline>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -19981,8 +20013,8 @@ export const getPublicCloudProject: API.OperationMethod<
   GetPublicCloudProjectError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6048, __c189, 0) as any as S.Schema<GetPublicCloudProjectRequest>,
-  output: __S(6112, __c191, 0) as any as S.Schema<PublicCloudProjectProjectAsyncWithIAM>,
+  input: __S(6080, __c190, 0) as any as S.Schema<GetPublicCloudProjectRequest>,
+  output: __S(6144, __c192, 0) as any as S.Schema<PublicCloudProjectProjectAsyncWithIAM>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -19998,8 +20030,8 @@ export const getPublicCloudProjectAiAgentAgent: API.OperationMethod<
   GetPublicCloudProjectAiAgentAgentError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6144, __c192, 0) as any as S.Schema<GetPublicCloudProjectAiAgentAgentRequest>,
-  output: __S(194, __c6, 2) as any as S.Schema<PublicCloudAiAgentsAgent>,
+  input: __S(6176, __c193, 0) as any as S.Schema<GetPublicCloudProjectAiAgentAgentRequest>,
+  output: __S(226, __c7, 2) as any as S.Schema<PublicCloudAiAgentsAgent>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -20016,11 +20048,11 @@ export const getPublicCloudProjectAiAgentPresetGlobalSettings: API.OperationMeth
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6176,
-    __c193,
+    6208,
+    __c194,
     0,
   ) as any as S.Schema<GetPublicCloudProjectAiAgentPresetGlobalSettingsRequest>,
-  output: __S(6180, __c193, 4) as any as S.Schema<PublicCloudAiAgentsGlobalSettings>,
+  output: __S(6212, __c194, 4) as any as S.Schema<PublicCloudAiAgentsGlobalSettings>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -20037,11 +20069,11 @@ export const getPublicCloudProjectAiAgentPresetModelAiEndpointsProvider: API.Ope
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6208,
-    __c194,
+    6240,
+    __c195,
     0,
   ) as any as S.Schema<GetPublicCloudProjectAiAgentPresetModelAiEndpointsProviderRequest>,
-  output: __S(6209, __c194, 1) as any as S.Schema<PublicCloudAiAgentsAIEndpointsPreset>,
+  output: __S(6241, __c195, 1) as any as S.Schema<PublicCloudAiAgentsAIEndpointsPreset>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -20057,8 +20089,8 @@ export const getPublicCloudProjectAiAgentPresetTemplate: API.OperationMethod<
   GetPublicCloudProjectAiAgentPresetTemplateError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6240, __c195, 0) as any as S.Schema<GetPublicCloudProjectAiAgentPresetTemplateRequest>,
-  output: __S(6272, __c196, 0) as any as S.Schema<PublicCloudAiAgentsTemplatePreset>,
+  input: __S(6272, __c196, 0) as any as S.Schema<GetPublicCloudProjectAiAgentPresetTemplateRequest>,
+  output: __S(6304, __c197, 0) as any as S.Schema<PublicCloudAiAgentsTemplatePreset>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -20074,8 +20106,8 @@ export const getPublicCloudProjectAiAgentTemplate: API.OperationMethod<
   GetPublicCloudProjectAiAgentTemplateError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6304, __c197, 0) as any as S.Schema<GetPublicCloudProjectAiAgentTemplateRequest>,
-  output: __S(1569, __c49, 1) as any as S.Schema<PublicCloudAiAgentsTemplate>,
+  input: __S(6336, __c198, 0) as any as S.Schema<GetPublicCloudProjectAiAgentTemplateRequest>,
+  output: __S(1601, __c50, 1) as any as S.Schema<PublicCloudAiAgentsTemplate>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -20091,8 +20123,8 @@ export const getPublicCloudProjectComputeAutobackup: API.OperationMethod<
   GetPublicCloudProjectComputeAutobackupError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6400, __c200, 0) as any as S.Schema<GetPublicCloudProjectComputeAutobackupRequest>,
-  output: __S(2181, __c68, 5) as any as S.Schema<PublicCloudInstanceAutobackup>,
+  input: __S(6432, __c201, 0) as any as S.Schema<GetPublicCloudProjectComputeAutobackupRequest>,
+  output: __S(2213, __c69, 5) as any as S.Schema<PublicCloudInstanceAutobackup>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -20108,8 +20140,8 @@ export const getPublicCloudProjectComputeInstance: API.OperationMethod<
   GetPublicCloudProjectComputeInstanceError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6432, __c201, 0) as any as S.Schema<GetPublicCloudProjectComputeInstanceRequest>,
-  output: __S(2609, __c81, 17) as any as S.Schema<PublicCloudInstanceInstance>,
+  input: __S(6464, __c202, 0) as any as S.Schema<GetPublicCloudProjectComputeInstanceRequest>,
+  output: __S(2641, __c82, 17) as any as S.Schema<PublicCloudInstanceInstance>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -20126,11 +20158,11 @@ export const getPublicCloudProjectComputeInstanceConsoleOutput: API.OperationMet
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6464,
-    __c202,
+    6496,
+    __c203,
     0,
   ) as any as S.Schema<GetPublicCloudProjectComputeInstanceConsoleOutputRequest>,
-  output: __S(6465, __c202, 1) as any as S.Schema<PublicCloudInstanceConsoleOutput>,
+  output: __S(6497, __c203, 1) as any as S.Schema<PublicCloudInstanceConsoleOutput>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -20146,8 +20178,8 @@ export const getPublicCloudProjectComputeInstanceGroup: API.OperationMethod<
   GetPublicCloudProjectComputeInstanceGroupError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6496, __c203, 0) as any as S.Schema<GetPublicCloudProjectComputeInstanceGroupRequest>,
-  output: __S(3810, __c119, 2) as any as S.Schema<PublicCloudInstanceGroupInstanceGroup>,
+  input: __S(6528, __c204, 0) as any as S.Schema<GetPublicCloudProjectComputeInstanceGroupRequest>,
+  output: __S(3842, __c120, 2) as any as S.Schema<PublicCloudInstanceGroupInstanceGroup>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -20163,10 +20195,10 @@ export const getPublicCloudProjectComputeReservation: API.OperationMethod<
   GetPublicCloudProjectComputeReservationError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6528, __c204, 0) as any as S.Schema<GetPublicCloudProjectComputeReservationRequest>,
+  input: __S(6560, __c205, 0) as any as S.Schema<GetPublicCloudProjectComputeReservationRequest>,
   output: __S(
-    4226,
-    __c132,
+    4258,
+    __c133,
     2,
   ) as any as S.Schema<PublicCloudInstanceReservationInstanceReservation>,
   errors: [NotFound, UnknownOvhError],
@@ -20184,8 +20216,8 @@ export const getPublicCloudProjectComputeSnapshot: API.OperationMethod<
   GetPublicCloudProjectComputeSnapshotError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6560, __c205, 0) as any as S.Schema<GetPublicCloudProjectComputeSnapshotRequest>,
-  output: __S(4610, __c144, 2) as any as S.Schema<PublicCloudInstanceSnapshot>,
+  input: __S(6592, __c206, 0) as any as S.Schema<GetPublicCloudProjectComputeSnapshotRequest>,
+  output: __S(4642, __c145, 2) as any as S.Schema<PublicCloudInstanceSnapshot>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -20201,8 +20233,8 @@ export const getPublicCloudProjectGateway: API.OperationMethod<
   GetPublicCloudProjectGatewayError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6592, __c206, 0) as any as S.Schema<GetPublicCloudProjectGatewayRequest>,
-  output: __S(4995, __c156, 3) as any as S.Schema<PublicCloudGatewayGateway>,
+  input: __S(6624, __c207, 0) as any as S.Schema<GetPublicCloudProjectGatewayRequest>,
+  output: __S(5027, __c157, 3) as any as S.Schema<PublicCloudGatewayGateway>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -20218,8 +20250,8 @@ export const getPublicCloudProjectKeyManagerContainer: API.OperationMethod<
   GetPublicCloudProjectKeyManagerContainerError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6624, __c207, 0) as any as S.Schema<GetPublicCloudProjectKeyManagerContainerRequest>,
-  output: __S(5380, __c168, 4) as any as S.Schema<PublicCloudKeyManagerContainer>,
+  input: __S(6656, __c208, 0) as any as S.Schema<GetPublicCloudProjectKeyManagerContainerRequest>,
+  output: __S(5412, __c169, 4) as any as S.Schema<PublicCloudKeyManagerContainer>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -20236,11 +20268,11 @@ export const getPublicCloudProjectKeyManagerContainerConsumer: API.OperationMeth
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6656,
-    __c208,
+    6688,
+    __c209,
     0,
   ) as any as S.Schema<GetPublicCloudProjectKeyManagerContainerConsumerRequest>,
-  output: __S(5824, __c182, 0) as any as S.Schema<PublicCloudKeyManagerContainerConsumer>,
+  output: __S(5856, __c183, 0) as any as S.Schema<PublicCloudKeyManagerContainerConsumer>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -20256,8 +20288,8 @@ export const getPublicCloudProjectKeyManagerSecret: API.OperationMethod<
   GetPublicCloudProjectKeyManagerSecretError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6688, __c209, 0) as any as S.Schema<GetPublicCloudProjectKeyManagerSecretRequest>,
-  output: __S(6370, __c199, 2) as any as S.Schema<PublicCloudKeyManagerSecret>,
+  input: __S(6720, __c210, 0) as any as S.Schema<GetPublicCloudProjectKeyManagerSecretRequest>,
+  output: __S(6402, __c200, 2) as any as S.Schema<PublicCloudKeyManagerSecret>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -20274,11 +20306,11 @@ export const getPublicCloudProjectKeyManagerSecretConsumer: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6752,
-    __c211,
+    6784,
+    __c212,
     0,
   ) as any as S.Schema<GetPublicCloudProjectKeyManagerSecretConsumerRequest>,
-  output: __S(5824, __c182, 0) as any as S.Schema<PublicCloudKeyManagerSecretConsumer>,
+  output: __S(5856, __c183, 0) as any as S.Schema<PublicCloudKeyManagerSecretConsumer>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -20294,8 +20326,8 @@ export const getPublicCloudProjectLoadbalancer: API.OperationMethod<
   GetPublicCloudProjectLoadbalancerError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6784, __c212, 0) as any as S.Schema<GetPublicCloudProjectLoadbalancerRequest>,
-  output: __S(7717, __c241, 5) as any as S.Schema<PublicCloudLoadbalancerLoadbalancer>,
+  input: __S(6816, __c213, 0) as any as S.Schema<GetPublicCloudProjectLoadbalancerRequest>,
+  output: __S(7749, __c242, 5) as any as S.Schema<PublicCloudLoadbalancerLoadbalancer>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -20311,8 +20343,8 @@ export const getPublicCloudProjectLoadbalancerListener: API.OperationMethod<
   GetPublicCloudProjectLoadbalancerListenerError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6816, __c213, 0) as any as S.Schema<GetPublicCloudProjectLoadbalancerListenerRequest>,
-  output: __S(8099, __c253, 3) as any as S.Schema<PublicCloudLoadbalancerListener>,
+  input: __S(6848, __c214, 0) as any as S.Schema<GetPublicCloudProjectLoadbalancerListenerRequest>,
+  output: __S(8131, __c254, 3) as any as S.Schema<PublicCloudLoadbalancerListener>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -20329,11 +20361,11 @@ export const getPublicCloudProjectLoadbalancerListenerL7policy: API.OperationMet
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6848,
-    __c214,
+    6880,
+    __c215,
     0,
   ) as any as S.Schema<GetPublicCloudProjectLoadbalancerListenerL7policyRequest>,
-  output: __S(8518, __c266, 6) as any as S.Schema<PublicCloudLoadbalancerL7Policy>,
+  output: __S(8550, __c267, 6) as any as S.Schema<PublicCloudLoadbalancerL7Policy>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -20349,8 +20381,8 @@ export const getPublicCloudProjectLoadbalancerPool: API.OperationMethod<
   GetPublicCloudProjectLoadbalancerPoolError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6880, __c215, 0) as any as S.Schema<GetPublicCloudProjectLoadbalancerPoolRequest>,
-  output: __S(8901, __c278, 5) as any as S.Schema<PublicCloudLoadbalancerPool>,
+  input: __S(6912, __c216, 0) as any as S.Schema<GetPublicCloudProjectLoadbalancerPoolRequest>,
+  output: __S(8933, __c279, 5) as any as S.Schema<PublicCloudLoadbalancerPool>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -20367,11 +20399,11 @@ export const getPublicCloudProjectLoadbalancerPoolMember: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6912,
-    __c216,
+    6944,
+    __c217,
     0,
   ) as any as S.Schema<GetPublicCloudProjectLoadbalancerPoolMemberRequest>,
-  output: __S(9379, __c293, 3) as any as S.Schema<PublicCloudLoadbalancerMember>,
+  output: __S(9411, __c294, 3) as any as S.Schema<PublicCloudLoadbalancerMember>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -20388,11 +20420,11 @@ export const getPublicCloudProjectManagedAnalyticsBackup: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6944,
-    __c217,
+    6976,
+    __c218,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsBackupRequest>,
-  output: __S(6976, __c218, 0) as any as S.Schema<PublicCloudDatabaseBackup>,
+  output: __S(7008, __c219, 0) as any as S.Schema<PublicCloudDatabaseBackup>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -20409,11 +20441,11 @@ export const getPublicCloudProjectManagedAnalyticsClickhouse: API.OperationMetho
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7008,
-    __c219,
+    7040,
+    __c220,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsClickhouseRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -20430,11 +20462,11 @@ export const getPublicCloudProjectManagedAnalyticsClickhouseCertificates: API.Op
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7040,
-    __c220,
+    7072,
+    __c221,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsClickhouseCertificatesRequest>,
-  output: __S(7072, __c221, 0) as any as S.Schema<PublicCloudDatabaseCertificates>,
+  output: __S(7104, __c222, 0) as any as S.Schema<PublicCloudDatabaseCertificates>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -20451,11 +20483,11 @@ export const getPublicCloudProjectManagedAnalyticsClickhouseCurrentQuery: API.Op
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7104,
-    __c222,
+    7136,
+    __c223,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsClickhouseCurrentQueryRequest>,
-  output: __S(7136, __c223, 0) as any as S.Schema<PublicCloudDatabaseCurrentQuery>,
+  output: __S(7168, __c224, 0) as any as S.Schema<PublicCloudDatabaseCurrentQuery>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -20472,11 +20504,11 @@ export const getPublicCloudProjectManagedAnalyticsClickhouseDatabase: API.Operat
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7200,
-    __c225,
+    7232,
+    __c226,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsClickhouseDatabaseRequest>,
-  output: __S(10304, __c322, 0) as any as S.Schema<PublicCloudDatabaseDatabase>,
+  output: __S(10336, __c323, 0) as any as S.Schema<PublicCloudDatabaseDatabase>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -20493,11 +20525,11 @@ export const getPublicCloudProjectManagedAnalyticsClickhouseIntegration: API.Ope
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7232,
-    __c226,
+    7264,
+    __c227,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsClickhouseIntegrationRequest>,
-  output: __S(10688, __c334, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
+  output: __S(10720, __c335, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -20514,11 +20546,11 @@ export const getPublicCloudProjectManagedAnalyticsClickhouseLogKind: API.Operati
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7264,
-    __c227,
+    7296,
+    __c228,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsClickhouseLogKindRequest>,
-  output: __S(7296, __c228, 0) as any as S.Schema<DbaasLogsLogKind>,
+  output: __S(7328, __c229, 0) as any as S.Schema<DbaasLogsLogKind>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -20535,11 +20567,11 @@ export const getPublicCloudProjectManagedAnalyticsClickhouseLogSubscription: API
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7328,
-    __c229,
+    7360,
+    __c230,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsClickhouseLogSubscriptionRequest>,
-  output: __S(7361, __c230, 1) as any as S.Schema<DbaasLogsLogSubscription>,
+  output: __S(7393, __c231, 1) as any as S.Schema<DbaasLogsLogSubscription>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -20556,11 +20588,11 @@ export const getPublicCloudProjectManagedAnalyticsClickhouseMaintenance: API.Ope
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7392,
-    __c231,
+    7424,
+    __c232,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsClickhouseMaintenanceRequest>,
-  output: __S(11840, __c370, 0) as any as S.Schema<PublicCloudDatabaseMaintenanceWindow>,
+  output: __S(11872, __c371, 0) as any as S.Schema<PublicCloudDatabaseMaintenanceWindow>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -20577,11 +20609,11 @@ export const getPublicCloudProjectManagedAnalyticsClickhouseMetric: API.Operatio
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7424,
-    __c232,
+    7456,
+    __c233,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsClickhouseMetricRequest>,
-  output: __S(7460, __c233, 4) as any as S.Schema<PublicCloudDatabaseMetric>,
+  output: __S(7492, __c234, 4) as any as S.Schema<PublicCloudDatabaseMetric>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -20598,11 +20630,11 @@ export const getPublicCloudProjectManagedAnalyticsClickhouseRole: API.OperationM
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7488,
-    __c234,
+    7520,
+    __c235,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsClickhouseRoleRequest>,
-  output: __S(7520, __c235, 0) as any as S.Schema<PublicCloudDatabaseRole>,
+  output: __S(7552, __c236, 0) as any as S.Schema<PublicCloudDatabaseRole>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -20619,11 +20651,11 @@ export const getPublicCloudProjectManagedAnalyticsClickhouseUser: API.OperationM
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7552,
-    __c236,
+    7584,
+    __c237,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsClickhouseUserRequest>,
-  output: __S(12256, __c383, 0) as any as S.Schema<PublicCloudDatabaseUserWithRoles>,
+  output: __S(12288, __c384, 0) as any as S.Schema<PublicCloudDatabaseUserWithRoles>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -20640,11 +20672,11 @@ export const getPublicCloudProjectManagedAnalyticsGrafana: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7584,
-    __c237,
+    7616,
+    __c238,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsGrafanaRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -20661,11 +20693,11 @@ export const getPublicCloudProjectManagedAnalyticsGrafanaIntegration: API.Operat
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7616,
-    __c238,
+    7648,
+    __c239,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsGrafanaIntegrationRequest>,
-  output: __S(10688, __c334, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
+  output: __S(10720, __c335, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -20682,11 +20714,11 @@ export const getPublicCloudProjectManagedAnalyticsGrafanaLogKind: API.OperationM
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7744,
-    __c242,
+    7776,
+    __c243,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsGrafanaLogKindRequest>,
-  output: __S(7296, __c228, 0) as any as S.Schema<DbaasLogsLogKind>,
+  output: __S(7328, __c229, 0) as any as S.Schema<DbaasLogsLogKind>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -20703,11 +20735,11 @@ export const getPublicCloudProjectManagedAnalyticsGrafanaLogSubscription: API.Op
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7776,
-    __c243,
+    7808,
+    __c244,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsGrafanaLogSubscriptionRequest>,
-  output: __S(7361, __c230, 1) as any as S.Schema<DbaasLogsLogSubscription>,
+  output: __S(7393, __c231, 1) as any as S.Schema<DbaasLogsLogSubscription>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -20724,11 +20756,11 @@ export const getPublicCloudProjectManagedAnalyticsGrafanaMaintenance: API.Operat
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7808,
-    __c244,
+    7840,
+    __c245,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsGrafanaMaintenanceRequest>,
-  output: __S(11840, __c370, 0) as any as S.Schema<PublicCloudDatabaseMaintenanceWindow>,
+  output: __S(11872, __c371, 0) as any as S.Schema<PublicCloudDatabaseMaintenanceWindow>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -20745,11 +20777,11 @@ export const getPublicCloudProjectManagedAnalyticsGrafanaMetric: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7840,
-    __c245,
+    7872,
+    __c246,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsGrafanaMetricRequest>,
-  output: __S(7460, __c233, 4) as any as S.Schema<PublicCloudDatabaseMetric>,
+  output: __S(7492, __c234, 4) as any as S.Schema<PublicCloudDatabaseMetric>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -20766,11 +20798,11 @@ export const getPublicCloudProjectManagedAnalyticsGrafanaUser: API.OperationMeth
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7872,
-    __c246,
+    7904,
+    __c247,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsGrafanaUserRequest>,
-  output: __S(18528, __c579, 0) as any as S.Schema<PublicCloudDatabaseUser>,
+  output: __S(18560, __c580, 0) as any as S.Schema<PublicCloudDatabaseUser>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -20786,8 +20818,8 @@ export const getPublicCloudProjectManagedAnalyticsKafka: API.OperationMethod<
   GetPublicCloudProjectManagedAnalyticsKafkaError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7904, __c247, 0) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsKafkaRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  input: __S(7936, __c248, 0) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsKafkaRequest>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -20804,11 +20836,11 @@ export const getPublicCloudProjectManagedAnalyticsKafkaAcl: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7936,
-    __c248,
+    7968,
+    __c249,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsKafkaAclRequest>,
-  output: __S(15904, __c497, 0) as any as S.Schema<PublicCloudDatabaseKafkaAcl>,
+  output: __S(15936, __c498, 0) as any as S.Schema<PublicCloudDatabaseKafkaAcl>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -20825,11 +20857,11 @@ export const getPublicCloudProjectManagedAnalyticsKafkaCertificates: API.Operati
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7968,
-    __c249,
+    8000,
+    __c250,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsKafkaCertificatesRequest>,
-  output: __S(7072, __c221, 0) as any as S.Schema<PublicCloudDatabaseCertificates>,
+  output: __S(7104, __c222, 0) as any as S.Schema<PublicCloudDatabaseCertificates>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -20846,11 +20878,11 @@ export const getPublicCloudProjectManagedAnalyticsKafkaConnect: API.OperationMet
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8000,
-    __c250,
+    8032,
+    __c251,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsKafkaConnectRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -20867,11 +20899,11 @@ export const getPublicCloudProjectManagedAnalyticsKafkaConnectConnector: API.Ope
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8032,
-    __c251,
+    8064,
+    __c252,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsKafkaConnectConnectorRequest>,
-  output: __S(16672, __c521, 0) as any as S.Schema<PublicCloudDatabaseKafkaConnectConnector>,
+  output: __S(16704, __c522, 0) as any as S.Schema<PublicCloudDatabaseKafkaConnectConnector>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -20888,11 +20920,11 @@ export const getPublicCloudProjectManagedAnalyticsKafkaConnectConnectorTask: API
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8128,
-    __c254,
+    8160,
+    __c255,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsKafkaConnectConnectorTaskRequest>,
-  output: __S(8160, __c255, 0) as any as S.Schema<PublicCloudDatabaseKafkaConnectConnectorTask>,
+  output: __S(8192, __c256, 0) as any as S.Schema<PublicCloudDatabaseKafkaConnectConnectorTask>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -20909,11 +20941,11 @@ export const getPublicCloudProjectManagedAnalyticsKafkaConnectIntegration: API.O
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8192,
-    __c256,
+    8224,
+    __c257,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsKafkaConnectIntegrationRequest>,
-  output: __S(10688, __c334, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
+  output: __S(10720, __c335, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -20930,11 +20962,11 @@ export const getPublicCloudProjectManagedAnalyticsKafkaConnectLogKind: API.Opera
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8224,
-    __c257,
+    8256,
+    __c258,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsKafkaConnectLogKindRequest>,
-  output: __S(7296, __c228, 0) as any as S.Schema<DbaasLogsLogKind>,
+  output: __S(7328, __c229, 0) as any as S.Schema<DbaasLogsLogKind>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -20951,11 +20983,11 @@ export const getPublicCloudProjectManagedAnalyticsKafkaConnectLogSubscription: A
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8256,
-    __c258,
+    8288,
+    __c259,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsKafkaConnectLogSubscriptionRequest>,
-  output: __S(7361, __c230, 1) as any as S.Schema<DbaasLogsLogSubscription>,
+  output: __S(7393, __c231, 1) as any as S.Schema<DbaasLogsLogSubscription>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -20972,11 +21004,11 @@ export const getPublicCloudProjectManagedAnalyticsKafkaConnectMaintenance: API.O
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8288,
-    __c259,
+    8320,
+    __c260,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsKafkaConnectMaintenanceRequest>,
-  output: __S(11840, __c370, 0) as any as S.Schema<PublicCloudDatabaseMaintenanceWindow>,
+  output: __S(11872, __c371, 0) as any as S.Schema<PublicCloudDatabaseMaintenanceWindow>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -20993,11 +21025,11 @@ export const getPublicCloudProjectManagedAnalyticsKafkaConnectMetric: API.Operat
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8320,
-    __c260,
+    8352,
+    __c261,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsKafkaConnectMetricRequest>,
-  output: __S(7460, __c233, 4) as any as S.Schema<PublicCloudDatabaseMetric>,
+  output: __S(7492, __c234, 4) as any as S.Schema<PublicCloudDatabaseMetric>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -21014,11 +21046,11 @@ export const getPublicCloudProjectManagedAnalyticsKafkaConnectUser: API.Operatio
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8352,
-    __c261,
+    8384,
+    __c262,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsKafkaConnectUserRequest>,
-  output: __S(18528, __c579, 0) as any as S.Schema<PublicCloudDatabaseUser>,
+  output: __S(18560, __c580, 0) as any as S.Schema<PublicCloudDatabaseUser>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -21035,11 +21067,11 @@ export const getPublicCloudProjectManagedAnalyticsKafkaIntegration: API.Operatio
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8384,
-    __c262,
+    8416,
+    __c263,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsKafkaIntegrationRequest>,
-  output: __S(10688, __c334, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
+  output: __S(10720, __c335, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -21056,11 +21088,11 @@ export const getPublicCloudProjectManagedAnalyticsKafkaLogKind: API.OperationMet
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8416,
-    __c263,
+    8448,
+    __c264,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsKafkaLogKindRequest>,
-  output: __S(7296, __c228, 0) as any as S.Schema<DbaasLogsLogKind>,
+  output: __S(7328, __c229, 0) as any as S.Schema<DbaasLogsLogKind>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -21077,11 +21109,11 @@ export const getPublicCloudProjectManagedAnalyticsKafkaLogSubscription: API.Oper
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8448,
-    __c264,
+    8480,
+    __c265,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsKafkaLogSubscriptionRequest>,
-  output: __S(7361, __c230, 1) as any as S.Schema<DbaasLogsLogSubscription>,
+  output: __S(7393, __c231, 1) as any as S.Schema<DbaasLogsLogSubscription>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -21098,11 +21130,11 @@ export const getPublicCloudProjectManagedAnalyticsKafkaMaintenance: API.Operatio
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8544,
-    __c267,
+    8576,
+    __c268,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsKafkaMaintenanceRequest>,
-  output: __S(11840, __c370, 0) as any as S.Schema<PublicCloudDatabaseMaintenanceWindow>,
+  output: __S(11872, __c371, 0) as any as S.Schema<PublicCloudDatabaseMaintenanceWindow>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -21119,11 +21151,11 @@ export const getPublicCloudProjectManagedAnalyticsKafkaMetric: API.OperationMeth
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8576,
-    __c268,
+    8608,
+    __c269,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsKafkaMetricRequest>,
-  output: __S(7460, __c233, 4) as any as S.Schema<PublicCloudDatabaseMetric>,
+  output: __S(7492, __c234, 4) as any as S.Schema<PublicCloudDatabaseMetric>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -21140,11 +21172,11 @@ export const getPublicCloudProjectManagedAnalyticsKafkaMirrorMaker: API.Operatio
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8608,
-    __c269,
+    8640,
+    __c270,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsKafkaMirrorMakerRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -21161,11 +21193,11 @@ export const getPublicCloudProjectManagedAnalyticsKafkaMirrorMakerIntegration: A
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8640,
-    __c270,
+    8672,
+    __c271,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsKafkaMirrorMakerIntegrationRequest>,
-  output: __S(10688, __c334, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
+  output: __S(10720, __c335, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -21182,11 +21214,11 @@ export const getPublicCloudProjectManagedAnalyticsKafkaMirrorMakerLogKind: API.O
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8672,
-    __c271,
+    8704,
+    __c272,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsKafkaMirrorMakerLogKindRequest>,
-  output: __S(7296, __c228, 0) as any as S.Schema<DbaasLogsLogKind>,
+  output: __S(7328, __c229, 0) as any as S.Schema<DbaasLogsLogKind>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -21203,11 +21235,11 @@ export const getPublicCloudProjectManagedAnalyticsKafkaMirrorMakerLogSubscriptio
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8704,
-    __c272,
+    8736,
+    __c273,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsKafkaMirrorMakerLogSubscriptionRequest>,
-  output: __S(7361, __c230, 1) as any as S.Schema<DbaasLogsLogSubscription>,
+  output: __S(7393, __c231, 1) as any as S.Schema<DbaasLogsLogSubscription>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -21224,11 +21256,11 @@ export const getPublicCloudProjectManagedAnalyticsKafkaMirrorMakerMaintenance: A
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8736,
-    __c273,
+    8768,
+    __c274,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsKafkaMirrorMakerMaintenanceRequest>,
-  output: __S(11840, __c370, 0) as any as S.Schema<PublicCloudDatabaseMaintenanceWindow>,
+  output: __S(11872, __c371, 0) as any as S.Schema<PublicCloudDatabaseMaintenanceWindow>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -21245,11 +21277,11 @@ export const getPublicCloudProjectManagedAnalyticsKafkaMirrorMakerMetric: API.Op
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8768,
-    __c274,
+    8800,
+    __c275,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsKafkaMirrorMakerMetricRequest>,
-  output: __S(7460, __c233, 4) as any as S.Schema<PublicCloudDatabaseMetric>,
+  output: __S(7492, __c234, 4) as any as S.Schema<PublicCloudDatabaseMetric>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -21266,11 +21298,11 @@ export const getPublicCloudProjectManagedAnalyticsKafkaMirrorMakerReplication: A
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8800,
-    __c275,
+    8832,
+    __c276,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsKafkaMirrorMakerReplicationRequest>,
-  output: __S(22272, __c696, 0) as any as S.Schema<PublicCloudDatabaseKafkaMirrorMakerReplication>,
+  output: __S(22304, __c697, 0) as any as S.Schema<PublicCloudDatabaseKafkaMirrorMakerReplication>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -21287,11 +21319,11 @@ export const getPublicCloudProjectManagedAnalyticsKafkaSchemaRegistryAcl: API.Op
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8832,
-    __c276,
+    8864,
+    __c277,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsKafkaSchemaRegistryAclRequest>,
-  output: __S(22688, __c709, 0) as any as S.Schema<PublicCloudDatabaseKafkaSchemaRegistryAcl>,
+  output: __S(22720, __c710, 0) as any as S.Schema<PublicCloudDatabaseKafkaSchemaRegistryAcl>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -21308,11 +21340,11 @@ export const getPublicCloudProjectManagedAnalyticsKafkaTopic: API.OperationMetho
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8928,
-    __c279,
+    8960,
+    __c280,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsKafkaTopicRequest>,
-  output: __S(23072, __c721, 0) as any as S.Schema<PublicCloudDatabaseKafkaTopic>,
+  output: __S(23104, __c722, 0) as any as S.Schema<PublicCloudDatabaseKafkaTopic>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -21329,11 +21361,11 @@ export const getPublicCloudProjectManagedAnalyticsKafkaUser: API.OperationMethod
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8960,
-    __c280,
+    8992,
+    __c281,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsKafkaUserRequest>,
-  output: __S(18528, __c579, 0) as any as S.Schema<PublicCloudDatabaseUser>,
+  output: __S(18560, __c580, 0) as any as S.Schema<PublicCloudDatabaseUser>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -21350,11 +21382,11 @@ export const getPublicCloudProjectManagedAnalyticsKafkaUserAccess: API.Operation
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8992,
-    __c281,
+    9024,
+    __c282,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsKafkaUserAccessRequest>,
-  output: __S(8993, __c281, 1) as any as S.Schema<PublicCloudDatabaseKafkaUserAccess>,
+  output: __S(9025, __c282, 1) as any as S.Schema<PublicCloudDatabaseKafkaUserAccess>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -21374,11 +21406,11 @@ export const getPublicCloudProjectManagedAnalyticsLakehouse: API.OperationMethod
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9024,
-    __c282,
+    9056,
+    __c283,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsLakehouseRequest>,
-  output: __S(9056, __c283, 0) as any as S.Schema<PublicCloudLakehouseLakehouseWithIAM>,
+  output: __S(9088, __c284, 0) as any as S.Schema<PublicCloudLakehouseLakehouseWithIAM>,
   errors: [BadRequest, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -21398,11 +21430,11 @@ export const getPublicCloudProjectManagedAnalyticsLakehouseCatalog: API.Operatio
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9088,
-    __c284,
+    9120,
+    __c285,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsLakehouseCatalogRequest>,
-  output: __S(24353, __c761, 1) as any as S.Schema<PublicCloudLakehouseCatalog>,
+  output: __S(24385, __c762, 1) as any as S.Schema<PublicCloudLakehouseCatalog>,
   errors: [BadRequest, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -21422,11 +21454,11 @@ export const getPublicCloudProjectManagedAnalyticsLakehouseCatalogSchema: API.Op
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9120,
-    __c285,
+    9152,
+    __c286,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsLakehouseCatalogSchemaRequest>,
-  output: __S(24737, __c773, 1) as any as S.Schema<PublicCloudLakehouseSchema>,
+  output: __S(24769, __c774, 1) as any as S.Schema<PublicCloudLakehouseSchema>,
   errors: [BadRequest, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -21446,11 +21478,11 @@ export const getPublicCloudProjectManagedAnalyticsLakehouseCatalogSchemaTask: AP
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9152,
-    __c286,
+    9184,
+    __c287,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsLakehouseCatalogSchemaTaskRequest>,
-  output: __S(9186, __c287, 2) as any as S.Schema<CommonTask>,
+  output: __S(9218, __c288, 2) as any as S.Schema<CommonTask>,
   errors: [BadRequest, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -21470,11 +21502,11 @@ export const getPublicCloudProjectManagedAnalyticsLakehouseCatalogTask: API.Oper
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9216,
-    __c288,
+    9248,
+    __c289,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsLakehouseCatalogTaskRequest>,
-  output: __S(9186, __c287, 2) as any as S.Schema<CommonTask>,
+  output: __S(9218, __c288, 2) as any as S.Schema<CommonTask>,
   errors: [BadRequest, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -21494,11 +21526,11 @@ export const getPublicCloudProjectManagedAnalyticsLakehouseComputePool: API.Oper
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9248,
-    __c289,
+    9280,
+    __c290,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsLakehouseComputePoolRequest>,
-  output: __S(25154, __c786, 2) as any as S.Schema<PublicCloudLakehouseComputePool>,
+  output: __S(25186, __c787, 2) as any as S.Schema<PublicCloudLakehouseComputePool>,
   errors: [BadRequest, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -21518,11 +21550,11 @@ export const getPublicCloudProjectManagedAnalyticsLakehouseComputePoolTask: API.
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9280,
-    __c290,
+    9312,
+    __c291,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsLakehouseComputePoolTaskRequest>,
-  output: __S(9186, __c287, 2) as any as S.Schema<CommonTask>,
+  output: __S(9218, __c288, 2) as any as S.Schema<CommonTask>,
   errors: [BadRequest, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -21542,11 +21574,11 @@ export const getPublicCloudProjectManagedAnalyticsLakehouseGroup: API.OperationM
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9408,
-    __c294,
+    9440,
+    __c295,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsLakehouseGroupRequest>,
-  output: __S(25537, __c798, 1) as any as S.Schema<PublicCloudLakehouseGroup>,
+  output: __S(25569, __c799, 1) as any as S.Schema<PublicCloudLakehouseGroup>,
   errors: [BadRequest, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -21566,11 +21598,11 @@ export const getPublicCloudProjectManagedAnalyticsLakehouseGroupMember: API.Oper
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9440,
-    __c295,
+    9472,
+    __c296,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsLakehouseGroupMemberRequest>,
-  output: __S(26050, __c814, 2) as any as S.Schema<PublicCloudLakehouseMember>,
+  output: __S(26082, __c815, 2) as any as S.Schema<PublicCloudLakehouseMember>,
   errors: [BadRequest, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -21590,11 +21622,11 @@ export const getPublicCloudProjectManagedAnalyticsLakehouseGroupMemberTask: API.
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9472,
-    __c296,
+    9504,
+    __c297,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsLakehouseGroupMemberTaskRequest>,
-  output: __S(9186, __c287, 2) as any as S.Schema<CommonTask>,
+  output: __S(9218, __c288, 2) as any as S.Schema<CommonTask>,
   errors: [BadRequest, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -21614,11 +21646,11 @@ export const getPublicCloudProjectManagedAnalyticsLakehouseGroupTask: API.Operat
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9504,
-    __c297,
+    9536,
+    __c298,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsLakehouseGroupTaskRequest>,
-  output: __S(9186, __c287, 2) as any as S.Schema<CommonTask>,
+  output: __S(9218, __c288, 2) as any as S.Schema<CommonTask>,
   errors: [BadRequest, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -21638,11 +21670,11 @@ export const getPublicCloudProjectManagedAnalyticsLakehouseRole: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9536,
-    __c298,
+    9568,
+    __c299,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsLakehouseRoleRequest>,
-  output: __S(26439, __c826, 7) as any as S.Schema<PublicCloudLakehouseRole>,
+  output: __S(26471, __c827, 7) as any as S.Schema<PublicCloudLakehouseRole>,
   errors: [BadRequest, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -21662,11 +21694,11 @@ export const getPublicCloudProjectManagedAnalyticsLakehouseRoleAssignment: API.O
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9568,
-    __c299,
+    9600,
+    __c300,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsLakehouseRoleAssignmentRequest>,
-  output: __S(26788, __c837, 4) as any as S.Schema<PublicCloudLakehouseRoleAssignment>,
+  output: __S(26820, __c838, 4) as any as S.Schema<PublicCloudLakehouseRoleAssignment>,
   errors: [BadRequest, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -21686,11 +21718,11 @@ export const getPublicCloudProjectManagedAnalyticsLakehouseRoleAssignmentTask: A
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9600,
-    __c300,
+    9632,
+    __c301,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsLakehouseRoleAssignmentTaskRequest>,
-  output: __S(9186, __c287, 2) as any as S.Schema<CommonTask>,
+  output: __S(9218, __c288, 2) as any as S.Schema<CommonTask>,
   errors: [BadRequest, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -21710,11 +21742,11 @@ export const getPublicCloudProjectManagedAnalyticsLakehouseRoleTask: API.Operati
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9632,
-    __c301,
+    9664,
+    __c302,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsLakehouseRoleTaskRequest>,
-  output: __S(9186, __c287, 2) as any as S.Schema<CommonTask>,
+  output: __S(9218, __c288, 2) as any as S.Schema<CommonTask>,
   errors: [BadRequest, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -21734,11 +21766,11 @@ export const getPublicCloudProjectManagedAnalyticsLakehouseTask: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9664,
-    __c302,
+    9696,
+    __c303,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsLakehouseTaskRequest>,
-  output: __S(9186, __c287, 2) as any as S.Schema<CommonTask>,
+  output: __S(9218, __c288, 2) as any as S.Schema<CommonTask>,
   errors: [BadRequest, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -21758,11 +21790,11 @@ export const getPublicCloudProjectManagedAnalyticsLakehouseUser: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9696,
-    __c303,
+    9728,
+    __c304,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsLakehouseUserRequest>,
-  output: __S(26850, __c839, 2) as any as S.Schema<PublicCloudLakehouseUser>,
+  output: __S(26882, __c840, 2) as any as S.Schema<PublicCloudLakehouseUser>,
   errors: [BadRequest, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -21782,11 +21814,11 @@ export const getPublicCloudProjectManagedAnalyticsLakehouseUserTask: API.Operati
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9920,
-    __c310,
+    9952,
+    __c311,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsLakehouseUserTaskRequest>,
-  output: __S(9186, __c287, 2) as any as S.Schema<CommonTask>,
+  output: __S(9218, __c288, 2) as any as S.Schema<CommonTask>,
   errors: [BadRequest, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -21803,11 +21835,11 @@ export const getPublicCloudProjectManagedAnalyticsOpensearch: API.OperationMetho
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9952,
-    __c311,
+    9984,
+    __c312,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsOpensearchRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -21824,11 +21856,11 @@ export const getPublicCloudProjectManagedAnalyticsOpensearchIndex: API.Operation
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9984,
-    __c312,
+    10016,
+    __c313,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsOpensearchIndexRequest>,
-  output: __S(10016, __c313, 0) as any as S.Schema<PublicCloudDatabaseOpensearchIndex>,
+  output: __S(10048, __c314, 0) as any as S.Schema<PublicCloudDatabaseOpensearchIndex>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -21845,11 +21877,11 @@ export const getPublicCloudProjectManagedAnalyticsOpensearchIntegration: API.Ope
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10048,
-    __c314,
+    10080,
+    __c315,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsOpensearchIntegrationRequest>,
-  output: __S(10688, __c334, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
+  output: __S(10720, __c335, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -21866,11 +21898,11 @@ export const getPublicCloudProjectManagedAnalyticsOpensearchLogKind: API.Operati
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10080,
-    __c315,
+    10112,
+    __c316,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsOpensearchLogKindRequest>,
-  output: __S(7296, __c228, 0) as any as S.Schema<DbaasLogsLogKind>,
+  output: __S(7328, __c229, 0) as any as S.Schema<DbaasLogsLogKind>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -21887,11 +21919,11 @@ export const getPublicCloudProjectManagedAnalyticsOpensearchLogSubscription: API
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10112,
-    __c316,
+    10144,
+    __c317,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsOpensearchLogSubscriptionRequest>,
-  output: __S(7361, __c230, 1) as any as S.Schema<DbaasLogsLogSubscription>,
+  output: __S(7393, __c231, 1) as any as S.Schema<DbaasLogsLogSubscription>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -21908,11 +21940,11 @@ export const getPublicCloudProjectManagedAnalyticsOpensearchMaintenance: API.Ope
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10144,
-    __c317,
+    10176,
+    __c318,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsOpensearchMaintenanceRequest>,
-  output: __S(11840, __c370, 0) as any as S.Schema<PublicCloudDatabaseMaintenanceWindow>,
+  output: __S(11872, __c371, 0) as any as S.Schema<PublicCloudDatabaseMaintenanceWindow>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -21929,11 +21961,11 @@ export const getPublicCloudProjectManagedAnalyticsOpensearchMetric: API.Operatio
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10176,
-    __c318,
+    10208,
+    __c319,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsOpensearchMetricRequest>,
-  output: __S(7460, __c233, 4) as any as S.Schema<PublicCloudDatabaseMetric>,
+  output: __S(7492, __c234, 4) as any as S.Schema<PublicCloudDatabaseMetric>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -21950,11 +21982,11 @@ export const getPublicCloudProjectManagedAnalyticsOpensearchPattern: API.Operati
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10208,
-    __c319,
+    10240,
+    __c320,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsOpensearchPatternRequest>,
-  output: __S(27072, __c846, 0) as any as S.Schema<PublicCloudDatabaseOpensearchPattern>,
+  output: __S(27104, __c847, 0) as any as S.Schema<PublicCloudDatabaseOpensearchPattern>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -21971,11 +22003,11 @@ export const getPublicCloudProjectManagedAnalyticsOpensearchUser: API.OperationM
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10240,
-    __c320,
+    10272,
+    __c321,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsOpensearchUserRequest>,
-  output: __S(27170, __c849, 2) as any as S.Schema<PublicCloudDatabaseOpensearchUser>,
+  output: __S(27202, __c850, 2) as any as S.Schema<PublicCloudDatabaseOpensearchUser>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -21992,11 +22024,11 @@ export const getPublicCloudProjectManagedAnalyticsService: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10336,
-    __c323,
+    10368,
+    __c324,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedAnalyticsServiceRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -22013,11 +22045,11 @@ export const getPublicCloudProjectManagedDatabaseBackup: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10368,
-    __c324,
+    10400,
+    __c325,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedDatabaseBackupRequest>,
-  output: __S(6976, __c218, 0) as any as S.Schema<PublicCloudDatabaseBackup>,
+  output: __S(7008, __c219, 0) as any as S.Schema<PublicCloudDatabaseBackup>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -22034,11 +22066,11 @@ export const getPublicCloudProjectManagedDatabaseMongodb: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10400,
-    __c325,
+    10432,
+    __c326,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedDatabaseMongodbRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -22055,11 +22087,11 @@ export const getPublicCloudProjectManagedDatabaseMongodbLogKind: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10432,
-    __c326,
+    10464,
+    __c327,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedDatabaseMongodbLogKindRequest>,
-  output: __S(7296, __c228, 0) as any as S.Schema<DbaasLogsLogKind>,
+  output: __S(7328, __c229, 0) as any as S.Schema<DbaasLogsLogKind>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -22076,11 +22108,11 @@ export const getPublicCloudProjectManagedDatabaseMongodbLogSubscription: API.Ope
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10464,
-    __c327,
+    10496,
+    __c328,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedDatabaseMongodbLogSubscriptionRequest>,
-  output: __S(7361, __c230, 1) as any as S.Schema<DbaasLogsLogSubscription>,
+  output: __S(7393, __c231, 1) as any as S.Schema<DbaasLogsLogSubscription>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -22097,11 +22129,11 @@ export const getPublicCloudProjectManagedDatabaseMongodbMaintenance: API.Operati
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10496,
-    __c328,
+    10528,
+    __c329,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedDatabaseMongodbMaintenanceRequest>,
-  output: __S(11840, __c370, 0) as any as S.Schema<PublicCloudDatabaseMaintenanceWindow>,
+  output: __S(11872, __c371, 0) as any as S.Schema<PublicCloudDatabaseMaintenanceWindow>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -22118,11 +22150,11 @@ export const getPublicCloudProjectManagedDatabaseMongodbMetric: API.OperationMet
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10528,
-    __c329,
+    10560,
+    __c330,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedDatabaseMongodbMetricRequest>,
-  output: __S(7460, __c233, 4) as any as S.Schema<PublicCloudDatabaseMetric>,
+  output: __S(7492, __c234, 4) as any as S.Schema<PublicCloudDatabaseMetric>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -22139,11 +22171,11 @@ export const getPublicCloudProjectManagedDatabaseMongodbPrometheus: API.Operatio
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10560,
-    __c330,
+    10592,
+    __c331,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedDatabaseMongodbPrometheusRequest>,
-  output: __S(10561, __c330, 1) as any as S.Schema<PublicCloudDatabaseMongodbPrometheusEndpoint>,
+  output: __S(10593, __c331, 1) as any as S.Schema<PublicCloudDatabaseMongodbPrometheusEndpoint>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -22160,11 +22192,11 @@ export const getPublicCloudProjectManagedDatabaseMongodbRole: API.OperationMetho
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10592,
-    __c331,
+    10624,
+    __c332,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedDatabaseMongodbRoleRequest>,
-  output: __S(7520, __c235, 0) as any as S.Schema<PublicCloudDatabaseRole>,
+  output: __S(7552, __c236, 0) as any as S.Schema<PublicCloudDatabaseRole>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -22181,11 +22213,11 @@ export const getPublicCloudProjectManagedDatabaseMongodbUser: API.OperationMetho
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10624,
-    __c332,
+    10656,
+    __c333,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedDatabaseMongodbUserRequest>,
-  output: __S(12256, __c383, 0) as any as S.Schema<PublicCloudDatabaseUserWithRoles>,
+  output: __S(12288, __c384, 0) as any as S.Schema<PublicCloudDatabaseUserWithRoles>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -22201,8 +22233,8 @@ export const getPublicCloudProjectManagedDatabaseMysql: API.OperationMethod<
   GetPublicCloudProjectManagedDatabaseMysqlError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10720, __c335, 0) as any as S.Schema<GetPublicCloudProjectManagedDatabaseMysqlRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  input: __S(10752, __c336, 0) as any as S.Schema<GetPublicCloudProjectManagedDatabaseMysqlRequest>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -22219,11 +22251,11 @@ export const getPublicCloudProjectManagedDatabaseMysqlCertificates: API.Operatio
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10752,
-    __c336,
+    10784,
+    __c337,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedDatabaseMysqlCertificatesRequest>,
-  output: __S(7072, __c221, 0) as any as S.Schema<PublicCloudDatabaseCertificates>,
+  output: __S(7104, __c222, 0) as any as S.Schema<PublicCloudDatabaseCertificates>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -22240,11 +22272,11 @@ export const getPublicCloudProjectManagedDatabaseMysqlCurrentQuery: API.Operatio
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10784,
-    __c337,
+    10816,
+    __c338,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedDatabaseMysqlCurrentQueryRequest>,
-  output: __S(7136, __c223, 0) as any as S.Schema<PublicCloudDatabaseCurrentQuery>,
+  output: __S(7168, __c224, 0) as any as S.Schema<PublicCloudDatabaseCurrentQuery>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -22261,11 +22293,11 @@ export const getPublicCloudProjectManagedDatabaseMysqlDatabase: API.OperationMet
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10816,
-    __c338,
+    10848,
+    __c339,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedDatabaseMysqlDatabaseRequest>,
-  output: __S(10304, __c322, 0) as any as S.Schema<PublicCloudDatabaseDatabase>,
+  output: __S(10336, __c323, 0) as any as S.Schema<PublicCloudDatabaseDatabase>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -22282,11 +22314,11 @@ export const getPublicCloudProjectManagedDatabaseMysqlIntegration: API.Operation
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10848,
-    __c339,
+    10880,
+    __c340,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedDatabaseMysqlIntegrationRequest>,
-  output: __S(10688, __c334, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
+  output: __S(10720, __c335, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -22303,11 +22335,11 @@ export const getPublicCloudProjectManagedDatabaseMysqlLogKind: API.OperationMeth
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10880,
-    __c340,
+    10912,
+    __c341,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedDatabaseMysqlLogKindRequest>,
-  output: __S(7296, __c228, 0) as any as S.Schema<DbaasLogsLogKind>,
+  output: __S(7328, __c229, 0) as any as S.Schema<DbaasLogsLogKind>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -22324,11 +22356,11 @@ export const getPublicCloudProjectManagedDatabaseMysqlLogSubscription: API.Opera
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10912,
-    __c341,
+    10944,
+    __c342,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedDatabaseMysqlLogSubscriptionRequest>,
-  output: __S(7361, __c230, 1) as any as S.Schema<DbaasLogsLogSubscription>,
+  output: __S(7393, __c231, 1) as any as S.Schema<DbaasLogsLogSubscription>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -22345,11 +22377,11 @@ export const getPublicCloudProjectManagedDatabaseMysqlMaintenance: API.Operation
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10944,
-    __c342,
+    10976,
+    __c343,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedDatabaseMysqlMaintenanceRequest>,
-  output: __S(11840, __c370, 0) as any as S.Schema<PublicCloudDatabaseMaintenanceWindow>,
+  output: __S(11872, __c371, 0) as any as S.Schema<PublicCloudDatabaseMaintenanceWindow>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -22366,11 +22398,11 @@ export const getPublicCloudProjectManagedDatabaseMysqlMetric: API.OperationMetho
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10976,
-    __c343,
+    11008,
+    __c344,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedDatabaseMysqlMetricRequest>,
-  output: __S(7460, __c233, 4) as any as S.Schema<PublicCloudDatabaseMetric>,
+  output: __S(7492, __c234, 4) as any as S.Schema<PublicCloudDatabaseMetric>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -22387,11 +22419,11 @@ export const getPublicCloudProjectManagedDatabaseMysqlUser: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11008,
-    __c344,
+    11040,
+    __c345,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedDatabaseMysqlUserRequest>,
-  output: __S(18528, __c579, 0) as any as S.Schema<PublicCloudDatabaseUser>,
+  output: __S(18560, __c580, 0) as any as S.Schema<PublicCloudDatabaseUser>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -22408,11 +22440,11 @@ export const getPublicCloudProjectManagedDatabasePostgresql: API.OperationMethod
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11104,
-    __c347,
+    11136,
+    __c348,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedDatabasePostgresqlRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -22429,11 +22461,11 @@ export const getPublicCloudProjectManagedDatabasePostgresqlCertificates: API.Ope
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11136,
-    __c348,
+    11168,
+    __c349,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedDatabasePostgresqlCertificatesRequest>,
-  output: __S(7072, __c221, 0) as any as S.Schema<PublicCloudDatabaseCertificates>,
+  output: __S(7104, __c222, 0) as any as S.Schema<PublicCloudDatabaseCertificates>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -22450,11 +22482,11 @@ export const getPublicCloudProjectManagedDatabasePostgresqlConnectionPool: API.O
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11168,
-    __c349,
+    11200,
+    __c350,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedDatabasePostgresqlConnectionPoolRequest>,
-  output: __S(27808, __c869, 0) as any as S.Schema<PublicCloudDatabasePostgresqlConnectionPool>,
+  output: __S(27840, __c870, 0) as any as S.Schema<PublicCloudDatabasePostgresqlConnectionPool>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -22471,11 +22503,11 @@ export const getPublicCloudProjectManagedDatabasePostgresqlCurrentQuery: API.Ope
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11200,
-    __c350,
+    11232,
+    __c351,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedDatabasePostgresqlCurrentQueryRequest>,
-  output: __S(7136, __c223, 0) as any as S.Schema<PublicCloudDatabaseCurrentQuery>,
+  output: __S(7168, __c224, 0) as any as S.Schema<PublicCloudDatabaseCurrentQuery>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -22492,11 +22524,11 @@ export const getPublicCloudProjectManagedDatabasePostgresqlDatabase: API.Operati
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11232,
-    __c351,
+    11264,
+    __c352,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedDatabasePostgresqlDatabaseRequest>,
-  output: __S(10304, __c322, 0) as any as S.Schema<PublicCloudDatabaseDatabase>,
+  output: __S(10336, __c323, 0) as any as S.Schema<PublicCloudDatabaseDatabase>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -22513,11 +22545,11 @@ export const getPublicCloudProjectManagedDatabasePostgresqlIntegration: API.Oper
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11264,
-    __c352,
+    11296,
+    __c353,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedDatabasePostgresqlIntegrationRequest>,
-  output: __S(10688, __c334, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
+  output: __S(10720, __c335, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -22534,11 +22566,11 @@ export const getPublicCloudProjectManagedDatabasePostgresqlLogKind: API.Operatio
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11296,
-    __c353,
+    11328,
+    __c354,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedDatabasePostgresqlLogKindRequest>,
-  output: __S(7296, __c228, 0) as any as S.Schema<DbaasLogsLogKind>,
+  output: __S(7328, __c229, 0) as any as S.Schema<DbaasLogsLogKind>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -22555,11 +22587,11 @@ export const getPublicCloudProjectManagedDatabasePostgresqlLogSubscription: API.
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11328,
-    __c354,
+    11360,
+    __c355,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedDatabasePostgresqlLogSubscriptionRequest>,
-  output: __S(7361, __c230, 1) as any as S.Schema<DbaasLogsLogSubscription>,
+  output: __S(7393, __c231, 1) as any as S.Schema<DbaasLogsLogSubscription>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -22576,11 +22608,11 @@ export const getPublicCloudProjectManagedDatabasePostgresqlMaintenance: API.Oper
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11360,
-    __c355,
+    11392,
+    __c356,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedDatabasePostgresqlMaintenanceRequest>,
-  output: __S(11840, __c370, 0) as any as S.Schema<PublicCloudDatabaseMaintenanceWindow>,
+  output: __S(11872, __c371, 0) as any as S.Schema<PublicCloudDatabaseMaintenanceWindow>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -22597,11 +22629,11 @@ export const getPublicCloudProjectManagedDatabasePostgresqlMetric: API.Operation
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11392,
-    __c356,
+    11424,
+    __c357,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedDatabasePostgresqlMetricRequest>,
-  output: __S(7460, __c233, 4) as any as S.Schema<PublicCloudDatabaseMetric>,
+  output: __S(7492, __c234, 4) as any as S.Schema<PublicCloudDatabaseMetric>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -22618,11 +22650,11 @@ export const getPublicCloudProjectManagedDatabasePostgresqlRole: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11488,
-    __c359,
+    11520,
+    __c360,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedDatabasePostgresqlRoleRequest>,
-  output: __S(7520, __c235, 0) as any as S.Schema<PublicCloudDatabaseRole>,
+  output: __S(7552, __c236, 0) as any as S.Schema<PublicCloudDatabaseRole>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -22639,11 +22671,11 @@ export const getPublicCloudProjectManagedDatabasePostgresqlUser: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11520,
-    __c360,
+    11552,
+    __c361,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedDatabasePostgresqlUserRequest>,
-  output: __S(12256, __c383, 0) as any as S.Schema<PublicCloudDatabaseUserWithRoles>,
+  output: __S(12288, __c384, 0) as any as S.Schema<PublicCloudDatabaseUserWithRoles>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -22660,11 +22692,11 @@ export const getPublicCloudProjectManagedDatabaseService: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11552,
-    __c361,
+    11584,
+    __c362,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedDatabaseServiceRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -22681,11 +22713,11 @@ export const getPublicCloudProjectManagedDatabaseValkey: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11584,
-    __c362,
+    11616,
+    __c363,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedDatabaseValkeyRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -22702,11 +22734,11 @@ export const getPublicCloudProjectManagedDatabaseValkeyIntegration: API.Operatio
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11616,
-    __c363,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedDatabaseValkeyIntegrationRequest>,
-  output: __S(10688, __c334, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
+  output: __S(10720, __c335, 0) as any as S.Schema<PublicCloudDatabaseIntegration>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -22723,11 +22755,11 @@ export const getPublicCloudProjectManagedDatabaseValkeyLogKind: API.OperationMet
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11648,
-    __c364,
+    11680,
+    __c365,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedDatabaseValkeyLogKindRequest>,
-  output: __S(7296, __c228, 0) as any as S.Schema<DbaasLogsLogKind>,
+  output: __S(7328, __c229, 0) as any as S.Schema<DbaasLogsLogKind>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -22744,11 +22776,11 @@ export const getPublicCloudProjectManagedDatabaseValkeyLogSubscription: API.Oper
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11680,
-    __c365,
+    11712,
+    __c366,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedDatabaseValkeyLogSubscriptionRequest>,
-  output: __S(7361, __c230, 1) as any as S.Schema<DbaasLogsLogSubscription>,
+  output: __S(7393, __c231, 1) as any as S.Schema<DbaasLogsLogSubscription>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -22765,11 +22797,11 @@ export const getPublicCloudProjectManagedDatabaseValkeyMaintenance: API.Operatio
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11712,
-    __c366,
+    11744,
+    __c367,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedDatabaseValkeyMaintenanceRequest>,
-  output: __S(11840, __c370, 0) as any as S.Schema<PublicCloudDatabaseMaintenanceWindow>,
+  output: __S(11872, __c371, 0) as any as S.Schema<PublicCloudDatabaseMaintenanceWindow>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -22786,11 +22818,11 @@ export const getPublicCloudProjectManagedDatabaseValkeyMetric: API.OperationMeth
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11744,
-    __c367,
+    11776,
+    __c368,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedDatabaseValkeyMetricRequest>,
-  output: __S(7460, __c233, 4) as any as S.Schema<PublicCloudDatabaseMetric>,
+  output: __S(7492, __c234, 4) as any as S.Schema<PublicCloudDatabaseMetric>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -22807,11 +22839,11 @@ export const getPublicCloudProjectManagedDatabaseValkeyUser: API.OperationMethod
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11776,
-    __c368,
+    11808,
+    __c369,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedDatabaseValkeyUserRequest>,
-  output: __S(480, __c15, 0) as any as S.Schema<PublicCloudDatabaseValkeyUser>,
+  output: __S(512, __c16, 0) as any as S.Schema<PublicCloudDatabaseValkeyUser>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -22827,8 +22859,8 @@ export const getPublicCloudProjectManagedKubernetes: API.OperationMethod<
   GetPublicCloudProjectManagedKubernetesError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11872, __c371, 0) as any as S.Schema<GetPublicCloudProjectManagedKubernetesRequest>,
-  output: __S(641, __c20, 1) as any as S.Schema<PublicCloudManagedKubernetesCluster>,
+  input: __S(11904, __c372, 0) as any as S.Schema<GetPublicCloudProjectManagedKubernetesRequest>,
+  output: __S(673, __c21, 1) as any as S.Schema<PublicCloudManagedKubernetesCluster>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -22845,11 +22877,11 @@ export const getPublicCloudProjectManagedKubernetesKubeconfig: API.OperationMeth
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11904,
-    __c372,
+    11936,
+    __c373,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedKubernetesKubeconfigRequest>,
-  output: __S(11905, __c372, 1) as any as S.Schema<PublicCloudManagedKubernetesKubeconfig>,
+  output: __S(11937, __c373, 1) as any as S.Schema<PublicCloudManagedKubernetesKubeconfig>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -22866,11 +22898,11 @@ export const getPublicCloudProjectManagedKubernetesNodepool: API.OperationMethod
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11936,
-    __c373,
+    11968,
+    __c374,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedKubernetesNodepoolRequest>,
-  output: __S(717, __c22, 13) as any as S.Schema<PublicCloudManagedKubernetesNodepool>,
+  output: __S(749, __c23, 13) as any as S.Schema<PublicCloudManagedKubernetesNodepool>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -22887,11 +22919,11 @@ export const getPublicCloudProjectManagedKubernetesNodepoolNode: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11968,
-    __c374,
+    12000,
+    __c375,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedKubernetesNodepoolNodeRequest>,
-  output: __S(12001, __c375, 1) as any as S.Schema<PublicCloudManagedKubernetesNode>,
+  output: __S(12033, __c376, 1) as any as S.Schema<PublicCloudManagedKubernetesNode>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -22908,11 +22940,11 @@ export const getPublicCloudProjectManagedKubernetesNodepoolTask: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    12032,
-    __c376,
+    12064,
+    __c377,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedKubernetesNodepoolTaskRequest>,
-  output: __S(9186, __c287, 2) as any as S.Schema<CommonTask>,
+  output: __S(9218, __c288, 2) as any as S.Schema<CommonTask>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -22929,11 +22961,11 @@ export const getPublicCloudProjectManagedKubernetesTask: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    12064,
-    __c377,
+    12096,
+    __c378,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedKubernetesTaskRequest>,
-  output: __S(9186, __c287, 2) as any as S.Schema<CommonTask>,
+  output: __S(9218, __c288, 2) as any as S.Schema<CommonTask>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -22950,11 +22982,11 @@ export const getPublicCloudProjectManagedKubernetesUsageEtcd: API.OperationMetho
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    12096,
-    __c378,
+    12128,
+    __c379,
     0,
   ) as any as S.Schema<GetPublicCloudProjectManagedKubernetesUsageEtcdRequest>,
-  output: __S(12097, __c378, 1) as any as S.Schema<PublicCloudManagedKubernetesEtcdUsage>,
+  output: __S(12129, __c379, 1) as any as S.Schema<PublicCloudManagedKubernetesEtcdUsage>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -22970,8 +23002,8 @@ export const getPublicCloudProjectNetwork: API.OperationMethod<
   GetPublicCloudProjectNetworkError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12128, __c379, 0) as any as S.Schema<GetPublicCloudProjectNetworkRequest>,
-  output: __S(770, __c24, 2) as any as S.Schema<PublicCloudNetworkNetwork>,
+  input: __S(12160, __c380, 0) as any as S.Schema<GetPublicCloudProjectNetworkRequest>,
+  output: __S(802, __c25, 2) as any as S.Schema<PublicCloudNetworkNetwork>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -22987,8 +23019,8 @@ export const getPublicCloudProjectNetworkSubnet: API.OperationMethod<
   GetPublicCloudProjectNetworkSubnetError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12160, __c380, 0) as any as S.Schema<GetPublicCloudProjectNetworkSubnetRequest>,
-  output: __S(870, __c27, 6) as any as S.Schema<PublicCloudNetworkSubnet>,
+  input: __S(12192, __c381, 0) as any as S.Schema<GetPublicCloudProjectNetworkSubnetRequest>,
+  output: __S(902, __c28, 6) as any as S.Schema<PublicCloudNetworkSubnet>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -23004,8 +23036,8 @@ export const getPublicCloudProjectPrivateEndpoint: API.OperationMethod<
   GetPublicCloudProjectPrivateEndpointError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12192, __c381, 0) as any as S.Schema<GetPublicCloudProjectPrivateEndpointRequest>,
-  output: __S(932, __c29, 4) as any as S.Schema<PublicCloudPrivateEndpointPrivateEndpoint>,
+  input: __S(12224, __c382, 0) as any as S.Schema<GetPublicCloudProjectPrivateEndpointRequest>,
+  output: __S(964, __c30, 4) as any as S.Schema<PublicCloudPrivateEndpointPrivateEndpoint>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -23021,8 +23053,8 @@ export const getPublicCloudProjectPublicIpAdditional: API.OperationMethod<
   GetPublicCloudProjectPublicIpAdditionalError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12288, __c384, 0) as any as S.Schema<GetPublicCloudProjectPublicIpAdditionalRequest>,
-  output: __S(12321, __c385, 1) as any as S.Schema<PublicCloudPublicIpAdditionalIP>,
+  input: __S(12320, __c385, 0) as any as S.Schema<GetPublicCloudProjectPublicIpAdditionalRequest>,
+  output: __S(12353, __c386, 1) as any as S.Schema<PublicCloudPublicIpAdditionalIP>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -23038,8 +23070,8 @@ export const getPublicCloudProjectPublicIpExtNet: API.OperationMethod<
   GetPublicCloudProjectPublicIpExtNetError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12352, __c386, 0) as any as S.Schema<GetPublicCloudProjectPublicIpExtNetRequest>,
-  output: __S(1026, __c32, 2) as any as S.Schema<PublicCloudPublicIpExtNetIP>,
+  input: __S(12384, __c387, 0) as any as S.Schema<GetPublicCloudProjectPublicIpExtNetRequest>,
+  output: __S(1058, __c33, 2) as any as S.Schema<PublicCloudPublicIpExtNetIP>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -23055,8 +23087,8 @@ export const getPublicCloudProjectPublicIpFloating: API.OperationMethod<
   GetPublicCloudProjectPublicIpFloatingError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12384, __c387, 0) as any as S.Schema<GetPublicCloudProjectPublicIpFloatingRequest>,
-  output: __S(1090, __c34, 2) as any as S.Schema<PublicCloudPublicIpFloatingIP>,
+  input: __S(12416, __c388, 0) as any as S.Schema<GetPublicCloudProjectPublicIpFloatingRequest>,
+  output: __S(1122, __c35, 2) as any as S.Schema<PublicCloudPublicIpFloatingIP>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -23072,8 +23104,8 @@ export const getPublicCloudProjectQuota: API.OperationMethod<
   GetPublicCloudProjectQuotaError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12416, __c388, 0) as any as S.Schema<GetPublicCloudProjectQuotaRequest>,
-  output: __S(12504, __c390, 24) as any as S.Schema<PublicCloudQuotaQuota>,
+  input: __S(12448, __c389, 0) as any as S.Schema<GetPublicCloudProjectQuotaRequest>,
+  output: __S(12536, __c391, 24) as any as S.Schema<PublicCloudQuotaQuota>,
   errors: [BadRequest, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -23089,8 +23121,8 @@ export const getPublicCloudProjectRancher: API.OperationMethod<
   GetPublicCloudProjectRancherError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12512, __c391, 0) as any as S.Schema<GetPublicCloudProjectRancherRequest>,
-  output: __S(1158, __c36, 6) as any as S.Schema<PublicCloudRancherRancher>,
+  input: __S(12544, __c392, 0) as any as S.Schema<GetPublicCloudProjectRancherRequest>,
+  output: __S(1190, __c37, 6) as any as S.Schema<PublicCloudRancherRancher>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -23106,8 +23138,8 @@ export const getPublicCloudProjectRancherTask: API.OperationMethod<
   GetPublicCloudProjectRancherTaskError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12544, __c392, 0) as any as S.Schema<GetPublicCloudProjectRancherTaskRequest>,
-  output: __S(9186, __c287, 2) as any as S.Schema<CommonTask>,
+  input: __S(12576, __c393, 0) as any as S.Schema<GetPublicCloudProjectRancherTaskRequest>,
+  output: __S(9218, __c288, 2) as any as S.Schema<CommonTask>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -23124,11 +23156,11 @@ export const getPublicCloudProjectReferenceInstanceFlavor: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    12576,
-    __c393,
+    12608,
+    __c394,
     0,
   ) as any as S.Schema<GetPublicCloudProjectReferenceInstanceFlavorRequest>,
-  output: __S(12608, __c394, 0) as any as S.Schema<PublicCloudReferenceInstanceFlavor>,
+  output: __S(12640, __c395, 0) as any as S.Schema<PublicCloudReferenceInstanceFlavor>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -23145,11 +23177,11 @@ export const getPublicCloudProjectReferenceInstanceImage: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    12640,
-    __c395,
+    12672,
+    __c396,
     0,
   ) as any as S.Schema<GetPublicCloudProjectReferenceInstanceImageRequest>,
-  output: __S(12672, __c396, 0) as any as S.Schema<PublicCloudReferenceInstanceImage>,
+  output: __S(12704, __c397, 0) as any as S.Schema<PublicCloudReferenceInstanceImage>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -23169,11 +23201,11 @@ export const getPublicCloudProjectReferenceManagedAnalyticsLakehouseRegion: API.
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    12704,
-    __c397,
+    12736,
+    __c398,
     0,
   ) as any as S.Schema<GetPublicCloudProjectReferenceManagedAnalyticsLakehouseRegionRequest>,
-  output: __S(12738, __c398, 2) as any as S.Schema<PublicCloudLakehouseRegionCapability>,
+  output: __S(12770, __c399, 2) as any as S.Schema<PublicCloudLakehouseRegionCapability>,
   errors: [BadRequest, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -23192,13 +23224,13 @@ export const getPublicCloudProjectReferencePrivateEndpointServiceAvailability: A
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    12768,
-    __c399,
+    12800,
+    __c400,
     0,
   ) as any as S.Schema<GetPublicCloudProjectReferencePrivateEndpointServiceAvailabilityRequest>,
   output: __S(
-    12802,
-    __c400,
+    12834,
+    __c401,
     2,
   ) as any as S.Schema<PublicCloudReferencePrivateEndpointServiceAvailability>,
   errors: [NotFound, UnknownOvhError],
@@ -23217,11 +23249,11 @@ export const getPublicCloudProjectReferenceRancherEligibility: API.OperationMeth
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    12864,
-    __c402,
+    12896,
+    __c403,
     0,
   ) as any as S.Schema<GetPublicCloudProjectReferenceRancherEligibilityRequest>,
-  output: __S(12865, __c402, 1) as any as S.Schema<PublicCloudRancherEligibilityReference>,
+  output: __S(12897, __c403, 1) as any as S.Schema<PublicCloudRancherEligibilityReference>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -23237,8 +23269,8 @@ export const getPublicCloudProjectReferenceRegion: API.OperationMethod<
   GetPublicCloudProjectReferenceRegionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12896, __c403, 0) as any as S.Schema<GetPublicCloudProjectReferenceRegionRequest>,
-  output: __S(12929, __c404, 1) as any as S.Schema<PublicCloudReferenceRegion>,
+  input: __S(12928, __c404, 0) as any as S.Schema<GetPublicCloudProjectReferenceRegionRequest>,
+  output: __S(12961, __c405, 1) as any as S.Schema<PublicCloudReferenceRegion>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -23254,8 +23286,8 @@ export const getPublicCloudProjectSecurityGroup: API.OperationMethod<
   GetPublicCloudProjectSecurityGroupError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12960, __c405, 0) as any as S.Schema<GetPublicCloudProjectSecurityGroupRequest>,
-  output: __S(1286, __c40, 6) as any as S.Schema<PublicCloudSecurityGroupSecurityGroup>,
+  input: __S(12992, __c406, 0) as any as S.Schema<GetPublicCloudProjectSecurityGroupRequest>,
+  output: __S(1318, __c41, 6) as any as S.Schema<PublicCloudSecurityGroupSecurityGroup>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -23271,8 +23303,8 @@ export const getPublicCloudProjectSshKey: API.OperationMethod<
   GetPublicCloudProjectSshKeyError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12992, __c406, 0) as any as S.Schema<GetPublicCloudProjectSshKeyRequest>,
-  output: __S(1344, __c42, 0) as any as S.Schema<PublicCloudSshKeySSHKey>,
+  input: __S(13024, __c407, 0) as any as S.Schema<GetPublicCloudProjectSshKeyRequest>,
+  output: __S(1376, __c43, 0) as any as S.Schema<PublicCloudSshKeySSHKey>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -23288,8 +23320,8 @@ export const getPublicCloudProjectStorageBlockBackup: API.OperationMethod<
   GetPublicCloudProjectStorageBlockBackupError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13024, __c407, 0) as any as S.Schema<GetPublicCloudProjectStorageBlockBackupRequest>,
-  output: __S(1441, __c45, 1) as any as S.Schema<PublicCloudBlockStorageBackup>,
+  input: __S(13056, __c408, 0) as any as S.Schema<GetPublicCloudProjectStorageBlockBackupRequest>,
+  output: __S(1473, __c46, 1) as any as S.Schema<PublicCloudBlockStorageBackup>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -23305,8 +23337,8 @@ export const getPublicCloudProjectStorageBlockSnapshot: API.OperationMethod<
   GetPublicCloudProjectStorageBlockSnapshotError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13056, __c408, 0) as any as S.Schema<GetPublicCloudProjectStorageBlockSnapshotRequest>,
-  output: __S(1505, __c47, 1) as any as S.Schema<PublicCloudBlockStorageSnapshot>,
+  input: __S(13088, __c409, 0) as any as S.Schema<GetPublicCloudProjectStorageBlockSnapshotRequest>,
+  output: __S(1537, __c48, 1) as any as S.Schema<PublicCloudBlockStorageSnapshot>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -23322,8 +23354,8 @@ export const getPublicCloudProjectStorageBlockVolume: API.OperationMethod<
   GetPublicCloudProjectStorageBlockVolumeError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13088, __c409, 0) as any as S.Schema<GetPublicCloudProjectStorageBlockVolumeRequest>,
-  output: __S(1637, __c51, 5) as any as S.Schema<PublicCloudBlockStorageBlock>,
+  input: __S(13120, __c410, 0) as any as S.Schema<GetPublicCloudProjectStorageBlockVolumeRequest>,
+  output: __S(1669, __c52, 5) as any as S.Schema<PublicCloudBlockStorageBlock>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -23339,8 +23371,8 @@ export const getPublicCloudProjectStorageFileNetwork: API.OperationMethod<
   GetPublicCloudProjectStorageFileNetworkError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13120, __c410, 0) as any as S.Schema<GetPublicCloudProjectStorageFileNetworkRequest>,
-  output: __S(1729, __c54, 1) as any as S.Schema<PublicCloudStorageFileFileStorageNetwork>,
+  input: __S(13152, __c411, 0) as any as S.Schema<GetPublicCloudProjectStorageFileNetworkRequest>,
+  output: __S(1761, __c55, 1) as any as S.Schema<PublicCloudStorageFileFileStorageNetwork>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -23356,8 +23388,8 @@ export const getPublicCloudProjectStorageFileShare: API.OperationMethod<
   GetPublicCloudProjectStorageFileShareError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13152, __c411, 0) as any as S.Schema<GetPublicCloudProjectStorageFileShareRequest>,
-  output: __S(5575, __c174, 7) as any as S.Schema<PublicCloudStorageFileFileStorage>,
+  input: __S(13184, __c412, 0) as any as S.Schema<GetPublicCloudProjectStorageFileShareRequest>,
+  output: __S(5607, __c175, 7) as any as S.Schema<PublicCloudStorageFileFileStorage>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -23373,8 +23405,8 @@ export const getPublicCloudProjectStorageFileShareAcl: API.OperationMethod<
   GetPublicCloudProjectStorageFileShareAclError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13184, __c412, 0) as any as S.Schema<GetPublicCloudProjectStorageFileShareAclRequest>,
-  output: __S(1794, __c56, 2) as any as S.Schema<PublicCloudStorageFileShareAcl>,
+  input: __S(13216, __c413, 0) as any as S.Schema<GetPublicCloudProjectStorageFileShareAclRequest>,
+  output: __S(1826, __c57, 2) as any as S.Schema<PublicCloudStorageFileShareAcl>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -23390,8 +23422,8 @@ export const getPublicCloudProjectStorageFileSnapshot: API.OperationMethod<
   GetPublicCloudProjectStorageFileSnapshotError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13248, __c414, 0) as any as S.Schema<GetPublicCloudProjectStorageFileSnapshotRequest>,
-  output: __S(1858, __c58, 2) as any as S.Schema<PublicCloudStorageFileFileStorageSnapshot>,
+  input: __S(13280, __c415, 0) as any as S.Schema<GetPublicCloudProjectStorageFileSnapshotRequest>,
+  output: __S(1890, __c59, 2) as any as S.Schema<PublicCloudStorageFileFileStorageSnapshot>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -23407,8 +23439,8 @@ export const getPublicCloudProjectStorageObjectBucket: API.OperationMethod<
   GetPublicCloudProjectStorageObjectBucketError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13280, __c415, 0) as any as S.Schema<GetPublicCloudProjectStorageObjectBucketRequest>,
-  output: __S(1926, __c60, 6) as any as S.Schema<PublicCloudStorageObjectBucket>,
+  input: __S(13312, __c416, 0) as any as S.Schema<GetPublicCloudProjectStorageObjectBucketRequest>,
+  output: __S(1958, __c61, 6) as any as S.Schema<PublicCloudStorageObjectBucket>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -23425,11 +23457,11 @@ export const getPublicCloudProjectStorageObjectBucketMultipartUpload: API.Operat
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    13312,
-    __c416,
+    13344,
+    __c417,
     0,
   ) as any as S.Schema<GetPublicCloudProjectStorageObjectBucketMultipartUploadRequest>,
-  output: __S(2016, __c63, 0) as any as S.Schema<PublicCloudStorageObjectMultipartUpload>,
+  output: __S(2048, __c64, 0) as any as S.Schema<PublicCloudStorageObjectMultipartUpload>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -23446,11 +23478,11 @@ export const getPublicCloudProjectStorageObjectBucketObject: API.OperationMethod
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    13344,
-    __c417,
+    13376,
+    __c418,
     0,
   ) as any as S.Schema<GetPublicCloudProjectStorageObjectBucketObjectRequest>,
-  output: __S(25984, __c812, 0) as any as S.Schema<PublicCloudStorageObjectS3Object>,
+  output: __S(26016, __c813, 0) as any as S.Schema<PublicCloudStorageObjectS3Object>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -23469,11 +23501,11 @@ export const getPublicCloudProjectStorageObjectBucketObjectMultipartUpload: API.
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    13376,
-    __c418,
+    13408,
+    __c419,
     0,
   ) as any as S.Schema<GetPublicCloudProjectStorageObjectBucketObjectMultipartUploadRequest>,
-  output: __S(2016, __c63, 0) as any as S.Schema<PublicCloudStorageObjectMultipartUpload>,
+  output: __S(2048, __c64, 0) as any as S.Schema<PublicCloudStorageObjectMultipartUpload>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -23490,11 +23522,11 @@ export const getPublicCloudProjectStorageObjectBucketObjectVersion: API.Operatio
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    13408,
-    __c419,
+    13440,
+    __c420,
     0,
   ) as any as S.Schema<GetPublicCloudProjectStorageObjectBucketObjectVersionRequest>,
-  output: __S(5888, __c184, 0) as any as S.Schema<PublicCloudStorageObjectS3ObjectVersion>,
+  output: __S(5920, __c185, 0) as any as S.Schema<PublicCloudStorageObjectS3ObjectVersion>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -23511,11 +23543,11 @@ export const getPublicCloudProjectStorageObjectBucketReplicationTrigger: API.Ope
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    13440,
-    __c420,
+    13472,
+    __c421,
     0,
   ) as any as S.Schema<GetPublicCloudProjectStorageObjectBucketReplicationTriggerRequest>,
-  output: __S(13472, __c421, 0) as any as S.Schema<PublicCloudStorageObjectReplicationJob>,
+  output: __S(13504, __c422, 0) as any as S.Schema<PublicCloudStorageObjectReplicationJob>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -23531,8 +23563,8 @@ export const listPublicCloudProject: API.OperationMethod<
   ListPublicCloudProjectError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13504, __c422, 0) as any as S.Schema<ListPublicCloudProjectRequest>,
-  output: __S(13506, __c422, 2) as any as S.Schema<ListPublicCloudProjectResponse>,
+  input: __S(13536, __c423, 0) as any as S.Schema<ListPublicCloudProjectRequest>,
+  output: __S(13538, __c423, 2) as any as S.Schema<ListPublicCloudProjectResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -23548,8 +23580,8 @@ export const listPublicCloudProjectAiAgentAgent: API.OperationMethod<
   ListPublicCloudProjectAiAgentAgentError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13568, __c424, 0) as any as S.Schema<ListPublicCloudProjectAiAgentAgentRequest>,
-  output: __S(13570, __c424, 2) as any as S.Schema<ListPublicCloudProjectAiAgentAgentResponse>,
+  input: __S(13600, __c425, 0) as any as S.Schema<ListPublicCloudProjectAiAgentAgentRequest>,
+  output: __S(13602, __c425, 2) as any as S.Schema<ListPublicCloudProjectAiAgentAgentResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -23566,13 +23598,13 @@ export const listPublicCloudProjectAiAgentPresetTemplate: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    13600,
-    __c425,
+    13632,
+    __c426,
     0,
   ) as any as S.Schema<ListPublicCloudProjectAiAgentPresetTemplateRequest>,
   output: __S(
-    13602,
-    __c425,
+    13634,
+    __c426,
     2,
   ) as any as S.Schema<ListPublicCloudProjectAiAgentPresetTemplateResponse>,
   errors: [UnknownOvhError],
@@ -23590,8 +23622,8 @@ export const listPublicCloudProjectAiAgentTemplate: API.OperationMethod<
   ListPublicCloudProjectAiAgentTemplateError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13728, __c429, 0) as any as S.Schema<ListPublicCloudProjectAiAgentTemplateRequest>,
-  output: __S(13730, __c429, 2) as any as S.Schema<ListPublicCloudProjectAiAgentTemplateResponse>,
+  input: __S(13760, __c430, 0) as any as S.Schema<ListPublicCloudProjectAiAgentTemplateRequest>,
+  output: __S(13762, __c430, 2) as any as S.Schema<ListPublicCloudProjectAiAgentTemplateResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -23607,8 +23639,8 @@ export const listPublicCloudProjectComputeAutobackup: API.OperationMethod<
   ListPublicCloudProjectComputeAutobackupError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13760, __c430, 0) as any as S.Schema<ListPublicCloudProjectComputeAutobackupRequest>,
-  output: __S(13762, __c430, 2) as any as S.Schema<ListPublicCloudProjectComputeAutobackupResponse>,
+  input: __S(13792, __c431, 0) as any as S.Schema<ListPublicCloudProjectComputeAutobackupRequest>,
+  output: __S(13794, __c431, 2) as any as S.Schema<ListPublicCloudProjectComputeAutobackupResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -23624,8 +23656,8 @@ export const listPublicCloudProjectComputeInstance: API.OperationMethod<
   ListPublicCloudProjectComputeInstanceError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13792, __c431, 0) as any as S.Schema<ListPublicCloudProjectComputeInstanceRequest>,
-  output: __S(13794, __c431, 2) as any as S.Schema<ListPublicCloudProjectComputeInstanceResponse>,
+  input: __S(13824, __c432, 0) as any as S.Schema<ListPublicCloudProjectComputeInstanceRequest>,
+  output: __S(13826, __c432, 2) as any as S.Schema<ListPublicCloudProjectComputeInstanceResponse>,
   errors: [BadRequest, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -23642,13 +23674,13 @@ export const listPublicCloudProjectComputeInstanceCompatibleFlavor: API.Operatio
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    13824,
-    __c432,
+    13856,
+    __c433,
     0,
   ) as any as S.Schema<ListPublicCloudProjectComputeInstanceCompatibleFlavorRequest>,
   output: __S(
-    13857,
-    __c433,
+    13889,
+    __c434,
     1,
   ) as any as S.Schema<ListPublicCloudProjectComputeInstanceCompatibleFlavorResponse>,
   errors: [UnknownOvhError],
@@ -23667,13 +23699,13 @@ export const listPublicCloudProjectComputeInstanceEvents: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    13888,
-    __c434,
+    13920,
+    __c435,
     0,
   ) as any as S.Schema<ListPublicCloudProjectComputeInstanceEventsRequest>,
   output: __S(
-    13922,
-    __c435,
+    13954,
+    __c436,
     2,
   ) as any as S.Schema<ListPublicCloudProjectComputeInstanceEventsResponse>,
   errors: [UnknownOvhError],
@@ -23692,13 +23724,13 @@ export const listPublicCloudProjectComputeInstanceGroup: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    13952,
-    __c436,
+    13984,
+    __c437,
     0,
   ) as any as S.Schema<ListPublicCloudProjectComputeInstanceGroupRequest>,
   output: __S(
-    13954,
-    __c436,
+    13986,
+    __c437,
     2,
   ) as any as S.Schema<ListPublicCloudProjectComputeInstanceGroupResponse>,
   errors: [UnknownOvhError],
@@ -23716,10 +23748,10 @@ export const listPublicCloudProjectComputeReservation: API.OperationMethod<
   ListPublicCloudProjectComputeReservationError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13984, __c437, 0) as any as S.Schema<ListPublicCloudProjectComputeReservationRequest>,
+  input: __S(14016, __c438, 0) as any as S.Schema<ListPublicCloudProjectComputeReservationRequest>,
   output: __S(
-    13986,
-    __c437,
+    14018,
+    __c438,
     2,
   ) as any as S.Schema<ListPublicCloudProjectComputeReservationResponse>,
   errors: [UnknownOvhError],
@@ -23737,8 +23769,8 @@ export const listPublicCloudProjectComputeSnapshot: API.OperationMethod<
   ListPublicCloudProjectComputeSnapshotError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14016, __c438, 0) as any as S.Schema<ListPublicCloudProjectComputeSnapshotRequest>,
-  output: __S(14018, __c438, 2) as any as S.Schema<ListPublicCloudProjectComputeSnapshotResponse>,
+  input: __S(14048, __c439, 0) as any as S.Schema<ListPublicCloudProjectComputeSnapshotRequest>,
+  output: __S(14050, __c439, 2) as any as S.Schema<ListPublicCloudProjectComputeSnapshotResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -23754,8 +23786,8 @@ export const listPublicCloudProjectGateway: API.OperationMethod<
   ListPublicCloudProjectGatewayError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14048, __c439, 0) as any as S.Schema<ListPublicCloudProjectGatewayRequest>,
-  output: __S(14050, __c439, 2) as any as S.Schema<ListPublicCloudProjectGatewayResponse>,
+  input: __S(14080, __c440, 0) as any as S.Schema<ListPublicCloudProjectGatewayRequest>,
+  output: __S(14082, __c440, 2) as any as S.Schema<ListPublicCloudProjectGatewayResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -23771,10 +23803,10 @@ export const listPublicCloudProjectKeyManagerContainer: API.OperationMethod<
   ListPublicCloudProjectKeyManagerContainerError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14080, __c440, 0) as any as S.Schema<ListPublicCloudProjectKeyManagerContainerRequest>,
+  input: __S(14112, __c441, 0) as any as S.Schema<ListPublicCloudProjectKeyManagerContainerRequest>,
   output: __S(
-    14082,
-    __c440,
+    14114,
+    __c441,
     2,
   ) as any as S.Schema<ListPublicCloudProjectKeyManagerContainerResponse>,
   errors: [UnknownOvhError],
@@ -23793,13 +23825,13 @@ export const listPublicCloudProjectKeyManagerContainerConsumer: API.OperationMet
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    14144,
-    __c442,
+    14176,
+    __c443,
     0,
   ) as any as S.Schema<ListPublicCloudProjectKeyManagerContainerConsumerRequest>,
   output: __S(
-    14177,
-    __c443,
+    14209,
+    __c444,
     1,
   ) as any as S.Schema<ListPublicCloudProjectKeyManagerContainerConsumerResponse>,
   errors: [UnknownOvhError],
@@ -23817,8 +23849,8 @@ export const listPublicCloudProjectKeyManagerSecret: API.OperationMethod<
   ListPublicCloudProjectKeyManagerSecretError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14208, __c444, 0) as any as S.Schema<ListPublicCloudProjectKeyManagerSecretRequest>,
-  output: __S(14210, __c444, 2) as any as S.Schema<ListPublicCloudProjectKeyManagerSecretResponse>,
+  input: __S(14240, __c445, 0) as any as S.Schema<ListPublicCloudProjectKeyManagerSecretRequest>,
+  output: __S(14242, __c445, 2) as any as S.Schema<ListPublicCloudProjectKeyManagerSecretResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -23835,13 +23867,13 @@ export const listPublicCloudProjectKeyManagerSecretConsumer: API.OperationMethod
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    14240,
-    __c445,
+    14272,
+    __c446,
     0,
   ) as any as S.Schema<ListPublicCloudProjectKeyManagerSecretConsumerRequest>,
   output: __S(
-    14177,
-    __c443,
+    14209,
+    __c444,
     1,
   ) as any as S.Schema<ListPublicCloudProjectKeyManagerSecretConsumerResponse>,
   errors: [UnknownOvhError],
@@ -23859,8 +23891,8 @@ export const listPublicCloudProjectLoadbalancer: API.OperationMethod<
   ListPublicCloudProjectLoadbalancerError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14272, __c446, 0) as any as S.Schema<ListPublicCloudProjectLoadbalancerRequest>,
-  output: __S(14274, __c446, 2) as any as S.Schema<ListPublicCloudProjectLoadbalancerResponse>,
+  input: __S(14304, __c447, 0) as any as S.Schema<ListPublicCloudProjectLoadbalancerRequest>,
+  output: __S(14306, __c447, 2) as any as S.Schema<ListPublicCloudProjectLoadbalancerResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -23877,13 +23909,13 @@ export const listPublicCloudProjectLoadbalancerListener: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    14304,
-    __c447,
+    14336,
+    __c448,
     0,
   ) as any as S.Schema<ListPublicCloudProjectLoadbalancerListenerRequest>,
   output: __S(
-    14306,
-    __c447,
+    14338,
+    __c448,
     2,
   ) as any as S.Schema<ListPublicCloudProjectLoadbalancerListenerResponse>,
   errors: [UnknownOvhError],
@@ -23902,13 +23934,13 @@ export const listPublicCloudProjectLoadbalancerListenerL7policy: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    14336,
-    __c448,
+    14368,
+    __c449,
     0,
   ) as any as S.Schema<ListPublicCloudProjectLoadbalancerListenerL7policyRequest>,
   output: __S(
-    14338,
-    __c448,
+    14370,
+    __c449,
     2,
   ) as any as S.Schema<ListPublicCloudProjectLoadbalancerListenerL7policyResponse>,
   errors: [UnknownOvhError],
@@ -23926,8 +23958,8 @@ export const listPublicCloudProjectLoadbalancerPool: API.OperationMethod<
   ListPublicCloudProjectLoadbalancerPoolError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14368, __c449, 0) as any as S.Schema<ListPublicCloudProjectLoadbalancerPoolRequest>,
-  output: __S(14370, __c449, 2) as any as S.Schema<ListPublicCloudProjectLoadbalancerPoolResponse>,
+  input: __S(14400, __c450, 0) as any as S.Schema<ListPublicCloudProjectLoadbalancerPoolRequest>,
+  output: __S(14402, __c450, 2) as any as S.Schema<ListPublicCloudProjectLoadbalancerPoolResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -23944,13 +23976,13 @@ export const listPublicCloudProjectLoadbalancerPoolMember: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    14400,
-    __c450,
+    14432,
+    __c451,
     0,
   ) as any as S.Schema<ListPublicCloudProjectLoadbalancerPoolMemberRequest>,
   output: __S(
-    14402,
-    __c450,
+    14434,
+    __c451,
     2,
   ) as any as S.Schema<ListPublicCloudProjectLoadbalancerPoolMemberResponse>,
   errors: [UnknownOvhError],
@@ -23969,13 +24001,13 @@ export const listPublicCloudProjectManagedAnalyticsAvailability: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    14432,
-    __c451,
+    14464,
+    __c452,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsAvailabilityRequest>,
   output: __S(
-    14502,
-    __c453,
+    14534,
+    __c454,
     6,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsAvailabilityResponse>,
   errors: [UnknownOvhError],
@@ -23994,13 +24026,13 @@ export const listPublicCloudProjectManagedAnalyticsAvailabilitySuggestion: API.O
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    14528,
-    __c454,
+    14560,
+    __c455,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsAvailabilitySuggestionRequest>,
   output: __S(
-    14562,
-    __c455,
+    14594,
+    __c456,
     2,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsAvailabilitySuggestionResponse>,
   errors: [UnknownOvhError],
@@ -24019,13 +24051,13 @@ export const listPublicCloudProjectManagedAnalyticsBackup: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    14624,
-    __c457,
+    14656,
+    __c458,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsBackupRequest>,
   output: __S(
-    14657,
-    __c458,
+    14689,
+    __c459,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsBackupResponse>,
   errors: [UnknownOvhError],
@@ -24044,13 +24076,13 @@ export const listPublicCloudProjectManagedAnalyticsCapabilityDisks: API.Operatio
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    14688,
-    __c459,
+    14720,
+    __c460,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsCapabilityDisksRequest>,
   output: __S(
-    14722,
-    __c460,
+    14754,
+    __c461,
     2,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsCapabilityDisksResponse>,
   errors: [UnknownOvhError],
@@ -24069,13 +24101,13 @@ export const listPublicCloudProjectManagedAnalyticsCapabilityEngines: API.Operat
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    14752,
-    __c461,
+    14784,
+    __c462,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsCapabilityEnginesRequest>,
   output: __S(
-    14788,
-    __c462,
+    14820,
+    __c463,
     4,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsCapabilityEnginesResponse>,
   errors: [UnknownOvhError],
@@ -24094,13 +24126,13 @@ export const listPublicCloudProjectManagedAnalyticsCapabilityFlavors: API.Operat
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    14816,
-    __c463,
+    14848,
+    __c464,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsCapabilityFlavorsRequest>,
   output: __S(
-    14851,
-    __c464,
+    14883,
+    __c465,
     3,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsCapabilityFlavorsResponse>,
   errors: [UnknownOvhError],
@@ -24119,13 +24151,13 @@ export const listPublicCloudProjectManagedAnalyticsCapabilityOptions: API.Operat
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    14880,
-    __c465,
+    14912,
+    __c466,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsCapabilityOptionsRequest>,
   output: __S(
-    14912,
-    __c466,
+    14944,
+    __c467,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsCapabilityOptionsResponse>,
   errors: [UnknownOvhError],
@@ -24144,13 +24176,13 @@ export const listPublicCloudProjectManagedAnalyticsCapabilityPlans: API.Operatio
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    14944,
-    __c467,
+    14976,
+    __c468,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsCapabilityPlansRequest>,
   output: __S(
-    14978,
-    __c468,
+    15010,
+    __c469,
     2,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsCapabilityPlansResponse>,
   errors: [UnknownOvhError],
@@ -24169,13 +24201,13 @@ export const listPublicCloudProjectManagedAnalyticsCapabilityRegions: API.Operat
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    15008,
-    __c469,
+    15040,
+    __c470,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsCapabilityRegionsRequest>,
   output: __S(
-    15042,
-    __c470,
+    15074,
+    __c471,
     2,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsCapabilityRegionsResponse>,
   errors: [UnknownOvhError],
@@ -24194,13 +24226,13 @@ export const listPublicCloudProjectManagedAnalyticsClickhouse: API.OperationMeth
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    15072,
-    __c471,
+    15104,
+    __c472,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsClickhouseRequest>,
   output: __S(
-    15105,
-    __c472,
+    15137,
+    __c473,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsClickhouseResponse>,
   errors: [UnknownOvhError],
@@ -24219,13 +24251,13 @@ export const listPublicCloudProjectManagedAnalyticsClickhouseCurrentQueries: API
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    15136,
-    __c473,
+    15168,
+    __c474,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsClickhouseCurrentQueriesRequest>,
   output: __S(
-    15169,
-    __c474,
+    15201,
+    __c475,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsClickhouseCurrentQueriesResponse>,
   errors: [UnknownOvhError],
@@ -24244,13 +24276,13 @@ export const listPublicCloudProjectManagedAnalyticsClickhouseDatabase: API.Opera
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    15200,
-    __c475,
+    15232,
+    __c476,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsClickhouseDatabaseRequest>,
   output: __S(
-    15233,
-    __c476,
+    15265,
+    __c477,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsClickhouseDatabaseResponse>,
   errors: [UnknownOvhError],
@@ -24269,13 +24301,13 @@ export const listPublicCloudProjectManagedAnalyticsClickhouseIntegration: API.Op
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    15296,
-    __c478,
+    15328,
+    __c479,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsClickhouseIntegrationRequest>,
   output: __S(
-    15329,
-    __c479,
+    15361,
+    __c480,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsClickhouseIntegrationResponse>,
   errors: [UnknownOvhError],
@@ -24294,13 +24326,13 @@ export const listPublicCloudProjectManagedAnalyticsClickhouseLogKind: API.Operat
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    15360,
-    __c480,
+    15392,
+    __c481,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsClickhouseLogKindRequest>,
   output: __S(
-    15392,
-    __c481,
+    15424,
+    __c482,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsClickhouseLogKindResponse>,
   errors: [UnknownOvhError],
@@ -24319,13 +24351,13 @@ export const listPublicCloudProjectManagedAnalyticsClickhouseLogSubscription: AP
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    15424,
-    __c482,
+    15456,
+    __c483,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsClickhouseLogSubscriptionRequest>,
   output: __S(
-    15392,
-    __c481,
+    15424,
+    __c482,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsClickhouseLogSubscriptionResponse>,
   errors: [UnknownOvhError],
@@ -24344,13 +24376,13 @@ export const listPublicCloudProjectManagedAnalyticsClickhouseMaintenance: API.Op
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    15456,
-    __c483,
+    15488,
+    __c484,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsClickhouseMaintenanceRequest>,
   output: __S(
-    15489,
-    __c484,
+    15521,
+    __c485,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsClickhouseMaintenanceResponse>,
   errors: [UnknownOvhError],
@@ -24369,13 +24401,13 @@ export const listPublicCloudProjectManagedAnalyticsClickhouseMetric: API.Operati
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    15520,
-    __c485,
+    15552,
+    __c486,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsClickhouseMetricRequest>,
   output: __S(
-    15553,
-    __c486,
+    15585,
+    __c487,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsClickhouseMetricResponse>,
   errors: [UnknownOvhError],
@@ -24394,11 +24426,11 @@ export const listPublicCloudProjectManagedAnalyticsClickhousePrometheus: API.Ope
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    15584,
-    __c487,
+    15616,
+    __c488,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsClickhousePrometheusRequest>,
-  output: __S(15618, __c488, 2) as any as S.Schema<PublicCloudDatabasePrometheusEndpoint>,
+  output: __S(15650, __c489, 2) as any as S.Schema<PublicCloudDatabasePrometheusEndpoint>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -24415,13 +24447,13 @@ export const listPublicCloudProjectManagedAnalyticsClickhouseQueryStatistics: AP
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    15648,
-    __c489,
+    15680,
+    __c490,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsClickhouseQueryStatisticsRequest>,
   output: __S(
-    15682,
-    __c490,
+    15714,
+    __c491,
     2,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsClickhouseQueryStatisticsResponse>,
   errors: [UnknownOvhError],
@@ -24440,13 +24472,13 @@ export const listPublicCloudProjectManagedAnalyticsClickhouseRoles: API.Operatio
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    15712,
-    __c491,
+    15744,
+    __c492,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsClickhouseRolesRequest>,
   output: __S(
-    15745,
-    __c492,
+    15777,
+    __c493,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsClickhouseRolesResponse>,
   errors: [UnknownOvhError],
@@ -24465,13 +24497,13 @@ export const listPublicCloudProjectManagedAnalyticsClickhouseUser: API.Operation
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    15776,
-    __c493,
+    15808,
+    __c494,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsClickhouseUserRequest>,
   output: __S(
-    15809,
-    __c494,
+    15841,
+    __c495,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsClickhouseUserResponse>,
   errors: [UnknownOvhError],
@@ -24490,13 +24522,13 @@ export const listPublicCloudProjectManagedAnalyticsGrafana: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    15840,
-    __c495,
+    15872,
+    __c496,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsGrafanaRequest>,
   output: __S(
-    15105,
-    __c472,
+    15137,
+    __c473,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsGrafanaResponse>,
   errors: [UnknownOvhError],
@@ -24515,13 +24547,13 @@ export const listPublicCloudProjectManagedAnalyticsGrafanaIntegration: API.Opera
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    15936,
-    __c498,
+    15968,
+    __c499,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsGrafanaIntegrationRequest>,
   output: __S(
-    15329,
-    __c479,
+    15361,
+    __c480,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsGrafanaIntegrationResponse>,
   errors: [UnknownOvhError],
@@ -24540,13 +24572,13 @@ export const listPublicCloudProjectManagedAnalyticsGrafanaLogKind: API.Operation
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    15968,
-    __c499,
+    16000,
+    __c500,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsGrafanaLogKindRequest>,
   output: __S(
-    15392,
-    __c481,
+    15424,
+    __c482,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsGrafanaLogKindResponse>,
   errors: [UnknownOvhError],
@@ -24565,13 +24597,13 @@ export const listPublicCloudProjectManagedAnalyticsGrafanaLogSubscription: API.O
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    16000,
-    __c500,
+    16032,
+    __c501,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsGrafanaLogSubscriptionRequest>,
   output: __S(
-    15392,
-    __c481,
+    15424,
+    __c482,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsGrafanaLogSubscriptionResponse>,
   errors: [UnknownOvhError],
@@ -24590,13 +24622,13 @@ export const listPublicCloudProjectManagedAnalyticsGrafanaMaintenance: API.Opera
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    16032,
-    __c501,
+    16064,
+    __c502,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsGrafanaMaintenanceRequest>,
   output: __S(
-    15489,
-    __c484,
+    15521,
+    __c485,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsGrafanaMaintenanceResponse>,
   errors: [UnknownOvhError],
@@ -24615,13 +24647,13 @@ export const listPublicCloudProjectManagedAnalyticsGrafanaMetric: API.OperationM
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    16064,
-    __c502,
+    16096,
+    __c503,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsGrafanaMetricRequest>,
   output: __S(
-    15553,
-    __c486,
+    15585,
+    __c487,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsGrafanaMetricResponse>,
   errors: [UnknownOvhError],
@@ -24640,13 +24672,13 @@ export const listPublicCloudProjectManagedAnalyticsGrafanaUser: API.OperationMet
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    16096,
-    __c503,
+    16128,
+    __c504,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsGrafanaUserRequest>,
   output: __S(
-    16129,
-    __c504,
+    16161,
+    __c505,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsGrafanaUserResponse>,
   errors: [UnknownOvhError],
@@ -24665,13 +24697,13 @@ export const listPublicCloudProjectManagedAnalyticsKafka: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    16160,
-    __c505,
+    16192,
+    __c506,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaRequest>,
   output: __S(
-    15105,
-    __c472,
+    15137,
+    __c473,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaResponse>,
   errors: [UnknownOvhError],
@@ -24690,13 +24722,13 @@ export const listPublicCloudProjectManagedAnalyticsKafkaAcl: API.OperationMethod
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    16192,
-    __c506,
+    16224,
+    __c507,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaAclRequest>,
   output: __S(
-    16194,
-    __c506,
+    16226,
+    __c507,
     2,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaAclResponse>,
   errors: [UnknownOvhError],
@@ -24715,13 +24747,13 @@ export const listPublicCloudProjectManagedAnalyticsKafkaConnect: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    16224,
-    __c507,
+    16256,
+    __c508,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaConnectRequest>,
   output: __S(
-    15105,
-    __c472,
+    15137,
+    __c473,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaConnectResponse>,
   errors: [UnknownOvhError],
@@ -24740,13 +24772,13 @@ export const listPublicCloudProjectManagedAnalyticsKafkaConnectConnector: API.Op
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    16256,
-    __c508,
+    16288,
+    __c509,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaConnectConnectorRequest>,
   output: __S(
-    16258,
-    __c508,
+    16290,
+    __c509,
     2,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaConnectConnectorResponse>,
   errors: [UnknownOvhError],
@@ -24765,13 +24797,13 @@ export const listPublicCloudProjectManagedAnalyticsKafkaConnectConnectorTask: AP
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    16320,
-    __c510,
+    16352,
+    __c511,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaConnectConnectorTaskRequest>,
   output: __S(
-    16322,
-    __c510,
+    16354,
+    __c511,
     2,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaConnectConnectorTaskResponse>,
   errors: [UnknownOvhError],
@@ -24790,13 +24822,13 @@ export const listPublicCloudProjectManagedAnalyticsKafkaConnectIntegration: API.
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    16352,
-    __c511,
+    16384,
+    __c512,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaConnectIntegrationRequest>,
   output: __S(
-    15329,
-    __c479,
+    15361,
+    __c480,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaConnectIntegrationResponse>,
   errors: [UnknownOvhError],
@@ -24815,13 +24847,13 @@ export const listPublicCloudProjectManagedAnalyticsKafkaConnectLogKind: API.Oper
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    16384,
-    __c512,
+    16416,
+    __c513,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaConnectLogKindRequest>,
   output: __S(
-    15392,
-    __c481,
+    15424,
+    __c482,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaConnectLogKindResponse>,
   errors: [UnknownOvhError],
@@ -24840,13 +24872,13 @@ export const listPublicCloudProjectManagedAnalyticsKafkaConnectLogSubscription: 
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    16416,
-    __c513,
+    16448,
+    __c514,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaConnectLogSubscriptionRequest>,
   output: __S(
-    15392,
-    __c481,
+    15424,
+    __c482,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaConnectLogSubscriptionResponse>,
   errors: [UnknownOvhError],
@@ -24865,13 +24897,13 @@ export const listPublicCloudProjectManagedAnalyticsKafkaConnectMaintenance: API.
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    16448,
-    __c514,
+    16480,
+    __c515,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaConnectMaintenanceRequest>,
   output: __S(
-    15489,
-    __c484,
+    15521,
+    __c485,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaConnectMaintenanceResponse>,
   errors: [UnknownOvhError],
@@ -24890,13 +24922,13 @@ export const listPublicCloudProjectManagedAnalyticsKafkaConnectMetric: API.Opera
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    16480,
-    __c515,
+    16512,
+    __c516,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaConnectMetricRequest>,
   output: __S(
-    15553,
-    __c486,
+    15585,
+    __c487,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaConnectMetricResponse>,
   errors: [UnknownOvhError],
@@ -24915,11 +24947,11 @@ export const listPublicCloudProjectManagedAnalyticsKafkaConnectPrometheus: API.O
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    16512,
-    __c516,
+    16544,
+    __c517,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaConnectPrometheusRequest>,
-  output: __S(15618, __c488, 2) as any as S.Schema<PublicCloudDatabasePrometheusEndpoint>,
+  output: __S(15650, __c489, 2) as any as S.Schema<PublicCloudDatabasePrometheusEndpoint>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -24936,13 +24968,13 @@ export const listPublicCloudProjectManagedAnalyticsKafkaConnectUser: API.Operati
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    16544,
-    __c517,
+    16576,
+    __c518,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaConnectUserRequest>,
   output: __S(
-    16129,
-    __c504,
+    16161,
+    __c505,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaConnectUserResponse>,
   errors: [UnknownOvhError],
@@ -24961,13 +24993,13 @@ export const listPublicCloudProjectManagedAnalyticsKafkaIntegration: API.Operati
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    16576,
-    __c518,
+    16608,
+    __c519,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaIntegrationRequest>,
   output: __S(
-    15329,
-    __c479,
+    15361,
+    __c480,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaIntegrationResponse>,
   errors: [UnknownOvhError],
@@ -24986,13 +25018,13 @@ export const listPublicCloudProjectManagedAnalyticsKafkaLogKind: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    16608,
-    __c519,
+    16640,
+    __c520,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaLogKindRequest>,
   output: __S(
-    15392,
-    __c481,
+    15424,
+    __c482,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaLogKindResponse>,
   errors: [UnknownOvhError],
@@ -25011,13 +25043,13 @@ export const listPublicCloudProjectManagedAnalyticsKafkaLogSubscription: API.Ope
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    16704,
-    __c522,
+    16736,
+    __c523,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaLogSubscriptionRequest>,
   output: __S(
-    15392,
-    __c481,
+    15424,
+    __c482,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaLogSubscriptionResponse>,
   errors: [UnknownOvhError],
@@ -25036,13 +25068,13 @@ export const listPublicCloudProjectManagedAnalyticsKafkaMaintenance: API.Operati
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    16736,
-    __c523,
+    16768,
+    __c524,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaMaintenanceRequest>,
   output: __S(
-    15489,
-    __c484,
+    15521,
+    __c485,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaMaintenanceResponse>,
   errors: [UnknownOvhError],
@@ -25061,13 +25093,13 @@ export const listPublicCloudProjectManagedAnalyticsKafkaMetric: API.OperationMet
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    16768,
-    __c524,
+    16800,
+    __c525,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaMetricRequest>,
   output: __S(
-    15553,
-    __c486,
+    15585,
+    __c487,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaMetricResponse>,
   errors: [UnknownOvhError],
@@ -25086,13 +25118,13 @@ export const listPublicCloudProjectManagedAnalyticsKafkaMirrorMaker: API.Operati
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    16800,
-    __c525,
+    16832,
+    __c526,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaMirrorMakerRequest>,
   output: __S(
-    15105,
-    __c472,
+    15137,
+    __c473,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaMirrorMakerResponse>,
   errors: [UnknownOvhError],
@@ -25111,13 +25143,13 @@ export const listPublicCloudProjectManagedAnalyticsKafkaMirrorMakerIntegration: 
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    16832,
-    __c526,
+    16864,
+    __c527,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaMirrorMakerIntegrationRequest>,
   output: __S(
-    15329,
-    __c479,
+    15361,
+    __c480,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaMirrorMakerIntegrationResponse>,
   errors: [UnknownOvhError],
@@ -25136,13 +25168,13 @@ export const listPublicCloudProjectManagedAnalyticsKafkaMirrorMakerLogKind: API.
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    16864,
-    __c527,
+    16896,
+    __c528,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaMirrorMakerLogKindRequest>,
   output: __S(
-    15392,
-    __c481,
+    15424,
+    __c482,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaMirrorMakerLogKindResponse>,
   errors: [UnknownOvhError],
@@ -25161,13 +25193,13 @@ export const listPublicCloudProjectManagedAnalyticsKafkaMirrorMakerLogSubscripti
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    16896,
-    __c528,
+    16928,
+    __c529,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaMirrorMakerLogSubscriptionRequest>,
   output: __S(
-    15392,
-    __c481,
+    15424,
+    __c482,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaMirrorMakerLogSubscriptionResponse>,
   errors: [UnknownOvhError],
@@ -25186,13 +25218,13 @@ export const listPublicCloudProjectManagedAnalyticsKafkaMirrorMakerMaintenance: 
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    16928,
-    __c529,
+    16960,
+    __c530,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaMirrorMakerMaintenanceRequest>,
   output: __S(
-    15489,
-    __c484,
+    15521,
+    __c485,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaMirrorMakerMaintenanceResponse>,
   errors: [UnknownOvhError],
@@ -25211,13 +25243,13 @@ export const listPublicCloudProjectManagedAnalyticsKafkaMirrorMakerMetric: API.O
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    16960,
-    __c530,
+    16992,
+    __c531,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaMirrorMakerMetricRequest>,
   output: __S(
-    15553,
-    __c486,
+    15585,
+    __c487,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaMirrorMakerMetricResponse>,
   errors: [UnknownOvhError],
@@ -25236,11 +25268,11 @@ export const listPublicCloudProjectManagedAnalyticsKafkaMirrorMakerPrometheus: A
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    16992,
-    __c531,
+    17024,
+    __c532,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaMirrorMakerPrometheusRequest>,
-  output: __S(15618, __c488, 2) as any as S.Schema<PublicCloudDatabasePrometheusEndpoint>,
+  output: __S(15650, __c489, 2) as any as S.Schema<PublicCloudDatabasePrometheusEndpoint>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -25257,13 +25289,13 @@ export const listPublicCloudProjectManagedAnalyticsKafkaMirrorMakerReplication: 
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    17056,
-    __c533,
+    17088,
+    __c534,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaMirrorMakerReplicationRequest>,
   output: __S(
-    17058,
-    __c533,
+    17090,
+    __c534,
     2,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaMirrorMakerReplicationResponse>,
   errors: [UnknownOvhError],
@@ -25282,11 +25314,11 @@ export const listPublicCloudProjectManagedAnalyticsKafkaPermissions: API.Operati
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    17088,
-    __c534,
+    17120,
+    __c535,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaPermissionsRequest>,
-  output: __S(17089, __c534, 1) as any as S.Schema<PublicCloudDatabaseKafkaPermissions>,
+  output: __S(17121, __c535, 1) as any as S.Schema<PublicCloudDatabaseKafkaPermissions>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -25303,11 +25335,11 @@ export const listPublicCloudProjectManagedAnalyticsKafkaPrometheus: API.Operatio
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    17120,
-    __c535,
+    17152,
+    __c536,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaPrometheusRequest>,
-  output: __S(15618, __c488, 2) as any as S.Schema<PublicCloudDatabasePrometheusEndpoint>,
+  output: __S(15650, __c489, 2) as any as S.Schema<PublicCloudDatabasePrometheusEndpoint>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -25324,13 +25356,13 @@ export const listPublicCloudProjectManagedAnalyticsKafkaSchemaRegistryAcl: API.O
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    17152,
-    __c536,
+    17184,
+    __c537,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaSchemaRegistryAclRequest>,
   output: __S(
-    17154,
-    __c536,
+    17186,
+    __c537,
     2,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaSchemaRegistryAclResponse>,
   errors: [UnknownOvhError],
@@ -25349,13 +25381,13 @@ export const listPublicCloudProjectManagedAnalyticsKafkaTopic: API.OperationMeth
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    17184,
-    __c537,
+    17216,
+    __c538,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaTopicRequest>,
   output: __S(
-    17186,
-    __c537,
+    17218,
+    __c538,
     2,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaTopicResponse>,
   errors: [UnknownOvhError],
@@ -25374,13 +25406,13 @@ export const listPublicCloudProjectManagedAnalyticsKafkaUser: API.OperationMetho
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    17216,
-    __c538,
+    17248,
+    __c539,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaUserRequest>,
   output: __S(
-    16129,
-    __c504,
+    16161,
+    __c505,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsKafkaUserResponse>,
   errors: [UnknownOvhError],
@@ -25399,13 +25431,13 @@ export const listPublicCloudProjectManagedAnalyticsLakehouse: API.OperationMetho
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    17248,
-    __c539,
+    17280,
+    __c540,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseRequest>,
   output: __S(
-    17250,
-    __c539,
+    17282,
+    __c540,
     2,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseResponse>,
   errors: [BadRequest, UnknownOvhError],
@@ -25427,13 +25459,13 @@ export const listPublicCloudProjectManagedAnalyticsLakehouseCatalog: API.Operati
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    17280,
-    __c540,
+    17312,
+    __c541,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseCatalogRequest>,
   output: __S(
-    17282,
-    __c540,
+    17314,
+    __c541,
     2,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseCatalogResponse>,
   errors: [BadRequest, NotFound, UnknownOvhError],
@@ -25455,13 +25487,13 @@ export const listPublicCloudProjectManagedAnalyticsLakehouseCatalogEvent: API.Op
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    17312,
-    __c541,
+    17344,
+    __c542,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseCatalogEventRequest>,
   output: __S(
-    13922,
-    __c435,
+    13954,
+    __c436,
     2,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseCatalogEventResponse>,
   errors: [BadRequest, NotFound, UnknownOvhError],
@@ -25483,13 +25515,13 @@ export const listPublicCloudProjectManagedAnalyticsLakehouseCatalogSchema: API.O
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    17344,
-    __c542,
+    17376,
+    __c543,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseCatalogSchemaRequest>,
   output: __S(
-    17346,
-    __c542,
+    17378,
+    __c543,
     2,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseCatalogSchemaResponse>,
   errors: [BadRequest, NotFound, UnknownOvhError],
@@ -25511,13 +25543,13 @@ export const listPublicCloudProjectManagedAnalyticsLakehouseCatalogSchemaEvent: 
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    17408,
-    __c544,
+    17440,
+    __c545,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseCatalogSchemaEventRequest>,
   output: __S(
-    13922,
-    __c435,
+    13954,
+    __c436,
     2,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseCatalogSchemaEventResponse>,
   errors: [BadRequest, NotFound, UnknownOvhError],
@@ -25539,13 +25571,13 @@ export const listPublicCloudProjectManagedAnalyticsLakehouseCatalogSchemaTask: A
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    17440,
-    __c545,
+    17472,
+    __c546,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseCatalogSchemaTaskRequest>,
   output: __S(
-    17473,
-    __c546,
+    17505,
+    __c547,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseCatalogSchemaTaskResponse>,
   errors: [BadRequest, NotFound, UnknownOvhError],
@@ -25567,13 +25599,13 @@ export const listPublicCloudProjectManagedAnalyticsLakehouseCatalogTask: API.Ope
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    17504,
-    __c547,
+    17536,
+    __c548,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseCatalogTaskRequest>,
   output: __S(
-    17473,
-    __c546,
+    17505,
+    __c547,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseCatalogTaskResponse>,
   errors: [BadRequest, NotFound, UnknownOvhError],
@@ -25595,13 +25627,13 @@ export const listPublicCloudProjectManagedAnalyticsLakehouseComputePool: API.Ope
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    17536,
-    __c548,
+    17568,
+    __c549,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseComputePoolRequest>,
   output: __S(
-    17538,
-    __c548,
+    17570,
+    __c549,
     2,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseComputePoolResponse>,
   errors: [BadRequest, NotFound, UnknownOvhError],
@@ -25623,13 +25655,13 @@ export const listPublicCloudProjectManagedAnalyticsLakehouseComputePoolEvent: AP
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    17568,
-    __c549,
+    17600,
+    __c550,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseComputePoolEventRequest>,
   output: __S(
-    13922,
-    __c435,
+    13954,
+    __c436,
     2,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseComputePoolEventResponse>,
   errors: [BadRequest, NotFound, UnknownOvhError],
@@ -25651,13 +25683,13 @@ export const listPublicCloudProjectManagedAnalyticsLakehouseComputePoolTask: API
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    17600,
-    __c550,
+    17632,
+    __c551,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseComputePoolTaskRequest>,
   output: __S(
-    17473,
-    __c546,
+    17505,
+    __c547,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseComputePoolTaskResponse>,
   errors: [BadRequest, NotFound, UnknownOvhError],
@@ -25679,13 +25711,13 @@ export const listPublicCloudProjectManagedAnalyticsLakehouseEvent: API.Operation
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    17632,
-    __c551,
+    17664,
+    __c552,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseEventRequest>,
   output: __S(
-    13922,
-    __c435,
+    13954,
+    __c436,
     2,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseEventResponse>,
   errors: [BadRequest, NotFound, UnknownOvhError],
@@ -25707,13 +25739,13 @@ export const listPublicCloudProjectManagedAnalyticsLakehouseGroup: API.Operation
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    17664,
-    __c552,
+    17696,
+    __c553,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseGroupRequest>,
   output: __S(
-    17666,
-    __c552,
+    17698,
+    __c553,
     2,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseGroupResponse>,
   errors: [BadRequest, NotFound, UnknownOvhError],
@@ -25735,13 +25767,13 @@ export const listPublicCloudProjectManagedAnalyticsLakehouseGroupEvent: API.Oper
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    17696,
-    __c553,
+    17728,
+    __c554,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseGroupEventRequest>,
   output: __S(
-    13922,
-    __c435,
+    13954,
+    __c436,
     2,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseGroupEventResponse>,
   errors: [BadRequest, NotFound, UnknownOvhError],
@@ -25763,13 +25795,13 @@ export const listPublicCloudProjectManagedAnalyticsLakehouseGroupMember: API.Ope
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    17728,
-    __c554,
+    17760,
+    __c555,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseGroupMemberRequest>,
   output: __S(
-    17730,
-    __c554,
+    17762,
+    __c555,
     2,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseGroupMemberResponse>,
   errors: [BadRequest, NotFound, UnknownOvhError],
@@ -25791,13 +25823,13 @@ export const listPublicCloudProjectManagedAnalyticsLakehouseGroupMemberEvent: AP
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    17792,
-    __c556,
+    17824,
+    __c557,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseGroupMemberEventRequest>,
   output: __S(
-    13922,
-    __c435,
+    13954,
+    __c436,
     2,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseGroupMemberEventResponse>,
   errors: [BadRequest, NotFound, UnknownOvhError],
@@ -25819,13 +25851,13 @@ export const listPublicCloudProjectManagedAnalyticsLakehouseGroupMemberTask: API
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    17824,
-    __c557,
+    17856,
+    __c558,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseGroupMemberTaskRequest>,
   output: __S(
-    17473,
-    __c546,
+    17505,
+    __c547,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseGroupMemberTaskResponse>,
   errors: [BadRequest, NotFound, UnknownOvhError],
@@ -25847,13 +25879,13 @@ export const listPublicCloudProjectManagedAnalyticsLakehouseGroupTask: API.Opera
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    17856,
-    __c558,
+    17888,
+    __c559,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseGroupTaskRequest>,
   output: __S(
-    17473,
-    __c546,
+    17505,
+    __c547,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseGroupTaskResponse>,
   errors: [BadRequest, NotFound, UnknownOvhError],
@@ -25875,13 +25907,13 @@ export const listPublicCloudProjectManagedAnalyticsLakehouseRole: API.OperationM
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    17888,
-    __c559,
+    17920,
+    __c560,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseRoleRequest>,
   output: __S(
-    17890,
-    __c559,
+    17922,
+    __c560,
     2,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseRoleResponse>,
   errors: [BadRequest, NotFound, UnknownOvhError],
@@ -25903,13 +25935,13 @@ export const listPublicCloudProjectManagedAnalyticsLakehouseRoleAssignment: API.
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    17920,
-    __c560,
+    17952,
+    __c561,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseRoleAssignmentRequest>,
   output: __S(
-    17922,
-    __c560,
+    17954,
+    __c561,
     2,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseRoleAssignmentResponse>,
   errors: [BadRequest, NotFound, UnknownOvhError],
@@ -25931,13 +25963,13 @@ export const listPublicCloudProjectManagedAnalyticsLakehouseRoleAssignmentEvent:
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    17952,
-    __c561,
+    17984,
+    __c562,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseRoleAssignmentEventRequest>,
   output: __S(
-    13922,
-    __c435,
+    13954,
+    __c436,
     2,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseRoleAssignmentEventResponse>,
   errors: [BadRequest, NotFound, UnknownOvhError],
@@ -25959,13 +25991,13 @@ export const listPublicCloudProjectManagedAnalyticsLakehouseRoleAssignmentTask: 
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    17984,
-    __c562,
+    18016,
+    __c563,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseRoleAssignmentTaskRequest>,
   output: __S(
-    17473,
-    __c546,
+    17505,
+    __c547,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseRoleAssignmentTaskResponse>,
   errors: [BadRequest, NotFound, UnknownOvhError],
@@ -25987,13 +26019,13 @@ export const listPublicCloudProjectManagedAnalyticsLakehouseRoleEvent: API.Opera
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18016,
-    __c563,
+    18048,
+    __c564,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseRoleEventRequest>,
   output: __S(
-    13922,
-    __c435,
+    13954,
+    __c436,
     2,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseRoleEventResponse>,
   errors: [BadRequest, NotFound, UnknownOvhError],
@@ -26015,13 +26047,13 @@ export const listPublicCloudProjectManagedAnalyticsLakehouseRoleTask: API.Operat
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18048,
-    __c564,
+    18080,
+    __c565,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseRoleTaskRequest>,
   output: __S(
-    17473,
-    __c546,
+    17505,
+    __c547,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseRoleTaskResponse>,
   errors: [BadRequest, NotFound, UnknownOvhError],
@@ -26043,13 +26075,13 @@ export const listPublicCloudProjectManagedAnalyticsLakehouseTask: API.OperationM
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18080,
-    __c565,
+    18112,
+    __c566,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseTaskRequest>,
   output: __S(
-    17473,
-    __c546,
+    17505,
+    __c547,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseTaskResponse>,
   errors: [BadRequest, NotFound, UnknownOvhError],
@@ -26071,13 +26103,13 @@ export const listPublicCloudProjectManagedAnalyticsLakehouseUser: API.OperationM
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18176,
-    __c568,
+    18208,
+    __c569,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseUserRequest>,
   output: __S(
-    18178,
-    __c568,
+    18210,
+    __c569,
     2,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseUserResponse>,
   errors: [BadRequest, NotFound, UnknownOvhError],
@@ -26099,13 +26131,13 @@ export const listPublicCloudProjectManagedAnalyticsLakehouseUserEvent: API.Opera
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18208,
-    __c569,
+    18240,
+    __c570,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseUserEventRequest>,
   output: __S(
-    13922,
-    __c435,
+    13954,
+    __c436,
     2,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseUserEventResponse>,
   errors: [BadRequest, NotFound, UnknownOvhError],
@@ -26127,13 +26159,13 @@ export const listPublicCloudProjectManagedAnalyticsLakehouseUserTask: API.Operat
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18240,
-    __c570,
+    18272,
+    __c571,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseUserTaskRequest>,
   output: __S(
-    17473,
-    __c546,
+    17505,
+    __c547,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsLakehouseUserTaskResponse>,
   errors: [BadRequest, NotFound, UnknownOvhError],
@@ -26152,13 +26184,13 @@ export const listPublicCloudProjectManagedAnalyticsOpensearch: API.OperationMeth
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18272,
-    __c571,
+    18304,
+    __c572,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsOpensearchRequest>,
   output: __S(
-    15105,
-    __c472,
+    15137,
+    __c473,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsOpensearchResponse>,
   errors: [UnknownOvhError],
@@ -26177,13 +26209,13 @@ export const listPublicCloudProjectManagedAnalyticsOpensearchIndex: API.Operatio
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18304,
-    __c572,
+    18336,
+    __c573,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsOpensearchIndexRequest>,
   output: __S(
-    18306,
-    __c572,
+    18338,
+    __c573,
     2,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsOpensearchIndexResponse>,
   errors: [UnknownOvhError],
@@ -26202,13 +26234,13 @@ export const listPublicCloudProjectManagedAnalyticsOpensearchIntegration: API.Op
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18336,
-    __c573,
+    18368,
+    __c574,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsOpensearchIntegrationRequest>,
   output: __S(
-    15329,
-    __c479,
+    15361,
+    __c480,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsOpensearchIntegrationResponse>,
   errors: [UnknownOvhError],
@@ -26227,13 +26259,13 @@ export const listPublicCloudProjectManagedAnalyticsOpensearchLogKind: API.Operat
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18368,
-    __c574,
+    18400,
+    __c575,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsOpensearchLogKindRequest>,
   output: __S(
-    15392,
-    __c481,
+    15424,
+    __c482,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsOpensearchLogKindResponse>,
   errors: [UnknownOvhError],
@@ -26252,13 +26284,13 @@ export const listPublicCloudProjectManagedAnalyticsOpensearchLogSubscription: AP
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18400,
-    __c575,
+    18432,
+    __c576,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsOpensearchLogSubscriptionRequest>,
   output: __S(
-    15392,
-    __c481,
+    15424,
+    __c482,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsOpensearchLogSubscriptionResponse>,
   errors: [UnknownOvhError],
@@ -26277,13 +26309,13 @@ export const listPublicCloudProjectManagedAnalyticsOpensearchMaintenance: API.Op
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18432,
-    __c576,
+    18464,
+    __c577,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsOpensearchMaintenanceRequest>,
   output: __S(
-    15489,
-    __c484,
+    15521,
+    __c485,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsOpensearchMaintenanceResponse>,
   errors: [UnknownOvhError],
@@ -26302,13 +26334,13 @@ export const listPublicCloudProjectManagedAnalyticsOpensearchMetric: API.Operati
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18464,
-    __c577,
+    18496,
+    __c578,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsOpensearchMetricRequest>,
   output: __S(
-    15553,
-    __c486,
+    15585,
+    __c487,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsOpensearchMetricResponse>,
   errors: [UnknownOvhError],
@@ -26327,13 +26359,13 @@ export const listPublicCloudProjectManagedAnalyticsOpensearchPattern: API.Operat
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18560,
-    __c580,
+    18592,
+    __c581,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsOpensearchPatternRequest>,
   output: __S(
-    18562,
-    __c580,
+    18594,
+    __c581,
     2,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsOpensearchPatternResponse>,
   errors: [UnknownOvhError],
@@ -26352,13 +26384,13 @@ export const listPublicCloudProjectManagedAnalyticsOpensearchPermissions: API.Op
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18592,
-    __c581,
+    18624,
+    __c582,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsOpensearchPermissionsRequest>,
   output: __S(
-    15392,
-    __c481,
+    15424,
+    __c482,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsOpensearchPermissionsResponse>,
   errors: [UnknownOvhError],
@@ -26377,11 +26409,11 @@ export const listPublicCloudProjectManagedAnalyticsOpensearchPrometheus: API.Ope
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18624,
-    __c582,
+    18656,
+    __c583,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsOpensearchPrometheusRequest>,
-  output: __S(15618, __c488, 2) as any as S.Schema<PublicCloudDatabasePrometheusEndpoint>,
+  output: __S(15650, __c489, 2) as any as S.Schema<PublicCloudDatabasePrometheusEndpoint>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -26398,13 +26430,13 @@ export const listPublicCloudProjectManagedAnalyticsOpensearchUser: API.Operation
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18656,
-    __c583,
+    18688,
+    __c584,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsOpensearchUserRequest>,
   output: __S(
-    18658,
-    __c583,
+    18690,
+    __c584,
     2,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsOpensearchUserResponse>,
   errors: [UnknownOvhError],
@@ -26423,13 +26455,13 @@ export const listPublicCloudProjectManagedAnalyticsService: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18688,
-    __c584,
+    18720,
+    __c585,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsServiceRequest>,
   output: __S(
-    15105,
-    __c472,
+    15137,
+    __c473,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedAnalyticsServiceResponse>,
   errors: [UnknownOvhError],
@@ -26448,13 +26480,13 @@ export const listPublicCloudProjectManagedDatabaseAvailability: API.OperationMet
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18720,
-    __c585,
+    18752,
+    __c586,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseAvailabilityRequest>,
   output: __S(
-    14502,
-    __c453,
+    14534,
+    __c454,
     6,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseAvailabilityResponse>,
   errors: [UnknownOvhError],
@@ -26473,13 +26505,13 @@ export const listPublicCloudProjectManagedDatabaseAvailabilitySuggestion: API.Op
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18752,
-    __c586,
+    18784,
+    __c587,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseAvailabilitySuggestionRequest>,
   output: __S(
-    14562,
-    __c455,
+    14594,
+    __c456,
     2,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseAvailabilitySuggestionResponse>,
   errors: [UnknownOvhError],
@@ -26498,13 +26530,13 @@ export const listPublicCloudProjectManagedDatabaseBackup: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18784,
-    __c587,
+    18816,
+    __c588,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseBackupRequest>,
   output: __S(
-    14657,
-    __c458,
+    14689,
+    __c459,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseBackupResponse>,
   errors: [UnknownOvhError],
@@ -26523,13 +26555,13 @@ export const listPublicCloudProjectManagedDatabaseCapabilityDisks: API.Operation
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18816,
-    __c588,
+    18848,
+    __c589,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseCapabilityDisksRequest>,
   output: __S(
-    14722,
-    __c460,
+    14754,
+    __c461,
     2,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseCapabilityDisksResponse>,
   errors: [UnknownOvhError],
@@ -26548,13 +26580,13 @@ export const listPublicCloudProjectManagedDatabaseCapabilityEngines: API.Operati
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18848,
-    __c589,
+    18880,
+    __c590,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseCapabilityEnginesRequest>,
   output: __S(
-    14788,
-    __c462,
+    14820,
+    __c463,
     4,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseCapabilityEnginesResponse>,
   errors: [UnknownOvhError],
@@ -26573,13 +26605,13 @@ export const listPublicCloudProjectManagedDatabaseCapabilityFlavors: API.Operati
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18912,
-    __c591,
+    18944,
+    __c592,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseCapabilityFlavorsRequest>,
   output: __S(
-    14851,
-    __c464,
+    14883,
+    __c465,
     3,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseCapabilityFlavorsResponse>,
   errors: [UnknownOvhError],
@@ -26598,13 +26630,13 @@ export const listPublicCloudProjectManagedDatabaseCapabilityOptions: API.Operati
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18944,
-    __c592,
+    18976,
+    __c593,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseCapabilityOptionsRequest>,
   output: __S(
-    14912,
-    __c466,
+    14944,
+    __c467,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseCapabilityOptionsResponse>,
   errors: [UnknownOvhError],
@@ -26623,13 +26655,13 @@ export const listPublicCloudProjectManagedDatabaseCapabilityPlans: API.Operation
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18976,
-    __c593,
+    19008,
+    __c594,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseCapabilityPlansRequest>,
   output: __S(
-    14978,
-    __c468,
+    15010,
+    __c469,
     2,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseCapabilityPlansResponse>,
   errors: [UnknownOvhError],
@@ -26648,13 +26680,13 @@ export const listPublicCloudProjectManagedDatabaseCapabilityRegions: API.Operati
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    19008,
-    __c594,
+    19040,
+    __c595,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseCapabilityRegionsRequest>,
   output: __S(
-    15042,
-    __c470,
+    15074,
+    __c471,
     2,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseCapabilityRegionsResponse>,
   errors: [UnknownOvhError],
@@ -26673,13 +26705,13 @@ export const listPublicCloudProjectManagedDatabaseMongodb: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    19040,
-    __c595,
+    19072,
+    __c596,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseMongodbRequest>,
   output: __S(
-    15105,
-    __c472,
+    15137,
+    __c473,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseMongodbResponse>,
   errors: [UnknownOvhError],
@@ -26698,13 +26730,13 @@ export const listPublicCloudProjectManagedDatabaseMongodbLogKind: API.OperationM
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    19072,
-    __c596,
+    19104,
+    __c597,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseMongodbLogKindRequest>,
   output: __S(
-    15392,
-    __c481,
+    15424,
+    __c482,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseMongodbLogKindResponse>,
   errors: [UnknownOvhError],
@@ -26723,13 +26755,13 @@ export const listPublicCloudProjectManagedDatabaseMongodbLogSubscription: API.Op
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    19104,
-    __c597,
+    19136,
+    __c598,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseMongodbLogSubscriptionRequest>,
   output: __S(
-    15392,
-    __c481,
+    15424,
+    __c482,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseMongodbLogSubscriptionResponse>,
   errors: [UnknownOvhError],
@@ -26748,13 +26780,13 @@ export const listPublicCloudProjectManagedDatabaseMongodbMaintenance: API.Operat
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    19136,
-    __c598,
+    19168,
+    __c599,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseMongodbMaintenanceRequest>,
   output: __S(
-    15489,
-    __c484,
+    15521,
+    __c485,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseMongodbMaintenanceResponse>,
   errors: [UnknownOvhError],
@@ -26773,13 +26805,13 @@ export const listPublicCloudProjectManagedDatabaseMongodbMetric: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    19168,
-    __c599,
+    19200,
+    __c600,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseMongodbMetricRequest>,
   output: __S(
-    15553,
-    __c486,
+    15585,
+    __c487,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseMongodbMetricResponse>,
   errors: [UnknownOvhError],
@@ -26798,13 +26830,13 @@ export const listPublicCloudProjectManagedDatabaseMongodbRoles: API.OperationMet
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    19200,
-    __c600,
+    19232,
+    __c601,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseMongodbRolesRequest>,
   output: __S(
-    15745,
-    __c492,
+    15777,
+    __c493,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseMongodbRolesResponse>,
   errors: [UnknownOvhError],
@@ -26823,13 +26855,13 @@ export const listPublicCloudProjectManagedDatabaseMongodbUser: API.OperationMeth
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    19264,
-    __c602,
+    19296,
+    __c603,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseMongodbUserRequest>,
   output: __S(
-    15809,
-    __c494,
+    15841,
+    __c495,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseMongodbUserResponse>,
   errors: [UnknownOvhError],
@@ -26848,13 +26880,13 @@ export const listPublicCloudProjectManagedDatabaseMysql: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    19296,
-    __c603,
+    19328,
+    __c604,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseMysqlRequest>,
   output: __S(
-    15105,
-    __c472,
+    15137,
+    __c473,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseMysqlResponse>,
   errors: [UnknownOvhError],
@@ -26873,13 +26905,13 @@ export const listPublicCloudProjectManagedDatabaseMysqlCurrentQueries: API.Opera
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    19328,
-    __c604,
+    19360,
+    __c605,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseMysqlCurrentQueriesRequest>,
   output: __S(
-    15169,
-    __c474,
+    15201,
+    __c475,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseMysqlCurrentQueriesResponse>,
   errors: [UnknownOvhError],
@@ -26898,13 +26930,13 @@ export const listPublicCloudProjectManagedDatabaseMysqlDatabase: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    19360,
-    __c605,
+    19392,
+    __c606,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseMysqlDatabaseRequest>,
   output: __S(
-    15233,
-    __c476,
+    15265,
+    __c477,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseMysqlDatabaseResponse>,
   errors: [UnknownOvhError],
@@ -26923,13 +26955,13 @@ export const listPublicCloudProjectManagedDatabaseMysqlIntegration: API.Operatio
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    19392,
-    __c606,
+    19424,
+    __c607,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseMysqlIntegrationRequest>,
   output: __S(
-    15329,
-    __c479,
+    15361,
+    __c480,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseMysqlIntegrationResponse>,
   errors: [UnknownOvhError],
@@ -26948,13 +26980,13 @@ export const listPublicCloudProjectManagedDatabaseMysqlLogKind: API.OperationMet
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    19424,
-    __c607,
+    19456,
+    __c608,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseMysqlLogKindRequest>,
   output: __S(
-    15392,
-    __c481,
+    15424,
+    __c482,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseMysqlLogKindResponse>,
   errors: [UnknownOvhError],
@@ -26973,13 +27005,13 @@ export const listPublicCloudProjectManagedDatabaseMysqlLogSubscription: API.Oper
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    19456,
-    __c608,
+    19488,
+    __c609,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseMysqlLogSubscriptionRequest>,
   output: __S(
-    15392,
-    __c481,
+    15424,
+    __c482,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseMysqlLogSubscriptionResponse>,
   errors: [UnknownOvhError],
@@ -26998,13 +27030,13 @@ export const listPublicCloudProjectManagedDatabaseMysqlMaintenance: API.Operatio
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    19488,
-    __c609,
+    19520,
+    __c610,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseMysqlMaintenanceRequest>,
   output: __S(
-    15489,
-    __c484,
+    15521,
+    __c485,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseMysqlMaintenanceResponse>,
   errors: [UnknownOvhError],
@@ -27023,13 +27055,13 @@ export const listPublicCloudProjectManagedDatabaseMysqlMetric: API.OperationMeth
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    19520,
-    __c610,
+    19552,
+    __c611,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseMysqlMetricRequest>,
   output: __S(
-    15553,
-    __c486,
+    15585,
+    __c487,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseMysqlMetricResponse>,
   errors: [UnknownOvhError],
@@ -27048,11 +27080,11 @@ export const listPublicCloudProjectManagedDatabaseMysqlPrometheus: API.Operation
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    19552,
-    __c611,
+    19584,
+    __c612,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseMysqlPrometheusRequest>,
-  output: __S(15618, __c488, 2) as any as S.Schema<PublicCloudDatabasePrometheusEndpoint>,
+  output: __S(15650, __c489, 2) as any as S.Schema<PublicCloudDatabasePrometheusEndpoint>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -27069,13 +27101,13 @@ export const listPublicCloudProjectManagedDatabaseMysqlQueryStatistics: API.Oper
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    19616,
-    __c613,
+    19648,
+    __c614,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseMysqlQueryStatisticsRequest>,
   output: __S(
-    15682,
-    __c490,
+    15714,
+    __c491,
     2,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseMysqlQueryStatisticsResponse>,
   errors: [UnknownOvhError],
@@ -27094,13 +27126,13 @@ export const listPublicCloudProjectManagedDatabaseMysqlUser: API.OperationMethod
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    19648,
-    __c614,
+    19680,
+    __c615,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseMysqlUserRequest>,
   output: __S(
-    16129,
-    __c504,
+    16161,
+    __c505,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseMysqlUserResponse>,
   errors: [UnknownOvhError],
@@ -27119,13 +27151,13 @@ export const listPublicCloudProjectManagedDatabasePostgresql: API.OperationMetho
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    19680,
-    __c615,
+    19712,
+    __c616,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabasePostgresqlRequest>,
   output: __S(
-    15105,
-    __c472,
+    15137,
+    __c473,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabasePostgresqlResponse>,
   errors: [UnknownOvhError],
@@ -27144,13 +27176,13 @@ export const listPublicCloudProjectManagedDatabasePostgresqlConnectionPool: API.
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    19712,
-    __c616,
+    19744,
+    __c617,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabasePostgresqlConnectionPoolRequest>,
   output: __S(
-    19714,
-    __c616,
+    19746,
+    __c617,
     2,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabasePostgresqlConnectionPoolResponse>,
   errors: [UnknownOvhError],
@@ -27169,13 +27201,13 @@ export const listPublicCloudProjectManagedDatabasePostgresqlCurrentQueries: API.
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    19744,
-    __c617,
+    19776,
+    __c618,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabasePostgresqlCurrentQueriesRequest>,
   output: __S(
-    15169,
-    __c474,
+    15201,
+    __c475,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabasePostgresqlCurrentQueriesResponse>,
   errors: [UnknownOvhError],
@@ -27194,13 +27226,13 @@ export const listPublicCloudProjectManagedDatabasePostgresqlDatabase: API.Operat
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    19776,
-    __c618,
+    19808,
+    __c619,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabasePostgresqlDatabaseRequest>,
   output: __S(
-    15233,
-    __c476,
+    15265,
+    __c477,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabasePostgresqlDatabaseResponse>,
   errors: [UnknownOvhError],
@@ -27219,13 +27251,13 @@ export const listPublicCloudProjectManagedDatabasePostgresqlIntegration: API.Ope
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    19808,
-    __c619,
+    19840,
+    __c620,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabasePostgresqlIntegrationRequest>,
   output: __S(
-    15329,
-    __c479,
+    15361,
+    __c480,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabasePostgresqlIntegrationResponse>,
   errors: [UnknownOvhError],
@@ -27244,13 +27276,13 @@ export const listPublicCloudProjectManagedDatabasePostgresqlLogKind: API.Operati
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    19840,
-    __c620,
+    19872,
+    __c621,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabasePostgresqlLogKindRequest>,
   output: __S(
-    15392,
-    __c481,
+    15424,
+    __c482,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabasePostgresqlLogKindResponse>,
   errors: [UnknownOvhError],
@@ -27269,13 +27301,13 @@ export const listPublicCloudProjectManagedDatabasePostgresqlLogSubscription: API
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    19872,
-    __c621,
+    19904,
+    __c622,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabasePostgresqlLogSubscriptionRequest>,
   output: __S(
-    15392,
-    __c481,
+    15424,
+    __c482,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabasePostgresqlLogSubscriptionResponse>,
   errors: [UnknownOvhError],
@@ -27294,13 +27326,13 @@ export const listPublicCloudProjectManagedDatabasePostgresqlMaintenance: API.Ope
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    19904,
-    __c622,
+    19936,
+    __c623,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabasePostgresqlMaintenanceRequest>,
   output: __S(
-    15489,
-    __c484,
+    15521,
+    __c485,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabasePostgresqlMaintenanceResponse>,
   errors: [UnknownOvhError],
@@ -27319,13 +27351,13 @@ export const listPublicCloudProjectManagedDatabasePostgresqlMetric: API.Operatio
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    19968,
-    __c624,
+    20000,
+    __c625,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabasePostgresqlMetricRequest>,
   output: __S(
-    15553,
-    __c486,
+    15585,
+    __c487,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabasePostgresqlMetricResponse>,
   errors: [UnknownOvhError],
@@ -27344,11 +27376,11 @@ export const listPublicCloudProjectManagedDatabasePostgresqlPrometheus: API.Oper
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    20000,
-    __c625,
+    20032,
+    __c626,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabasePostgresqlPrometheusRequest>,
-  output: __S(15618, __c488, 2) as any as S.Schema<PublicCloudDatabasePrometheusEndpoint>,
+  output: __S(15650, __c489, 2) as any as S.Schema<PublicCloudDatabasePrometheusEndpoint>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -27365,13 +27397,13 @@ export const listPublicCloudProjectManagedDatabasePostgresqlQueryStatistics: API
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    20032,
-    __c626,
+    20064,
+    __c627,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabasePostgresqlQueryStatisticsRequest>,
   output: __S(
-    15682,
-    __c490,
+    15714,
+    __c491,
     2,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabasePostgresqlQueryStatisticsResponse>,
   errors: [UnknownOvhError],
@@ -27390,13 +27422,13 @@ export const listPublicCloudProjectManagedDatabasePostgresqlRoles: API.Operation
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    20064,
-    __c627,
+    20096,
+    __c628,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabasePostgresqlRolesRequest>,
   output: __S(
-    15745,
-    __c492,
+    15777,
+    __c493,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabasePostgresqlRolesResponse>,
   errors: [UnknownOvhError],
@@ -27415,13 +27447,13 @@ export const listPublicCloudProjectManagedDatabasePostgresqlUser: API.OperationM
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    20096,
-    __c628,
+    20128,
+    __c629,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabasePostgresqlUserRequest>,
   output: __S(
-    15809,
-    __c494,
+    15841,
+    __c495,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabasePostgresqlUserResponse>,
   errors: [UnknownOvhError],
@@ -27440,13 +27472,13 @@ export const listPublicCloudProjectManagedDatabaseService: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    20128,
-    __c629,
+    20160,
+    __c630,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseServiceRequest>,
   output: __S(
-    15105,
-    __c472,
+    15137,
+    __c473,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseServiceResponse>,
   errors: [UnknownOvhError],
@@ -27465,13 +27497,13 @@ export const listPublicCloudProjectManagedDatabaseValkey: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    20160,
-    __c630,
+    20192,
+    __c631,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseValkeyRequest>,
   output: __S(
-    15105,
-    __c472,
+    15137,
+    __c473,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseValkeyResponse>,
   errors: [UnknownOvhError],
@@ -27490,13 +27522,13 @@ export const listPublicCloudProjectManagedDatabaseValkeyIntegration: API.Operati
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    20192,
-    __c631,
+    20224,
+    __c632,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseValkeyIntegrationRequest>,
   output: __S(
-    15329,
-    __c479,
+    15361,
+    __c480,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseValkeyIntegrationResponse>,
   errors: [UnknownOvhError],
@@ -27515,13 +27547,13 @@ export const listPublicCloudProjectManagedDatabaseValkeyLogKind: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    20224,
-    __c632,
+    20256,
+    __c633,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseValkeyLogKindRequest>,
   output: __S(
-    15392,
-    __c481,
+    15424,
+    __c482,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseValkeyLogKindResponse>,
   errors: [UnknownOvhError],
@@ -27540,13 +27572,13 @@ export const listPublicCloudProjectManagedDatabaseValkeyLogSubscription: API.Ope
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    20256,
-    __c633,
+    20288,
+    __c634,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseValkeyLogSubscriptionRequest>,
   output: __S(
-    15392,
-    __c481,
+    15424,
+    __c482,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseValkeyLogSubscriptionResponse>,
   errors: [UnknownOvhError],
@@ -27565,13 +27597,13 @@ export const listPublicCloudProjectManagedDatabaseValkeyMaintenance: API.Operati
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    20320,
-    __c635,
+    20352,
+    __c636,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseValkeyMaintenanceRequest>,
   output: __S(
-    15489,
-    __c484,
+    15521,
+    __c485,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseValkeyMaintenanceResponse>,
   errors: [UnknownOvhError],
@@ -27590,13 +27622,13 @@ export const listPublicCloudProjectManagedDatabaseValkeyMetric: API.OperationMet
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    20352,
-    __c636,
+    20384,
+    __c637,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseValkeyMetricRequest>,
   output: __S(
-    15553,
-    __c486,
+    15585,
+    __c487,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseValkeyMetricResponse>,
   errors: [UnknownOvhError],
@@ -27615,11 +27647,11 @@ export const listPublicCloudProjectManagedDatabaseValkeyPrometheus: API.Operatio
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    20384,
-    __c637,
+    20416,
+    __c638,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseValkeyPrometheusRequest>,
-  output: __S(15618, __c488, 2) as any as S.Schema<PublicCloudDatabasePrometheusEndpoint>,
+  output: __S(15650, __c489, 2) as any as S.Schema<PublicCloudDatabasePrometheusEndpoint>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -27636,13 +27668,13 @@ export const listPublicCloudProjectManagedDatabaseValkeyUser: API.OperationMetho
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    20416,
-    __c638,
+    20448,
+    __c639,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseValkeyUserRequest>,
   output: __S(
-    20418,
-    __c638,
+    20450,
+    __c639,
     2,
   ) as any as S.Schema<ListPublicCloudProjectManagedDatabaseValkeyUserResponse>,
   errors: [UnknownOvhError],
@@ -27660,8 +27692,8 @@ export const listPublicCloudProjectManagedKubernetes: API.OperationMethod<
   ListPublicCloudProjectManagedKubernetesError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20448, __c639, 0) as any as S.Schema<ListPublicCloudProjectManagedKubernetesRequest>,
-  output: __S(20450, __c639, 2) as any as S.Schema<ListPublicCloudProjectManagedKubernetesResponse>,
+  input: __S(20480, __c640, 0) as any as S.Schema<ListPublicCloudProjectManagedKubernetesRequest>,
+  output: __S(20482, __c640, 2) as any as S.Schema<ListPublicCloudProjectManagedKubernetesResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -27678,11 +27710,11 @@ export const listPublicCloudProjectManagedKubernetesCapabilityVersion: API.Opera
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    20480,
-    __c640,
+    20512,
+    __c641,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedKubernetesCapabilityVersionRequest>,
-  output: __S(20481, __c640, 1) as any as S.Schema<PublicCloudManagedKubernetesClusterVersions>,
+  output: __S(20513, __c641, 1) as any as S.Schema<PublicCloudManagedKubernetesClusterVersions>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -27699,13 +27731,13 @@ export const listPublicCloudProjectManagedKubernetesEvent: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    20544,
-    __c642,
+    20576,
+    __c643,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedKubernetesEventRequest>,
   output: __S(
-    13922,
-    __c435,
+    13954,
+    __c436,
     2,
   ) as any as S.Schema<ListPublicCloudProjectManagedKubernetesEventResponse>,
   errors: [UnknownOvhError],
@@ -27724,13 +27756,13 @@ export const listPublicCloudProjectManagedKubernetesNodepool: API.OperationMetho
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    20576,
-    __c643,
+    20608,
+    __c644,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedKubernetesNodepoolRequest>,
   output: __S(
-    20578,
-    __c643,
+    20610,
+    __c644,
     2,
   ) as any as S.Schema<ListPublicCloudProjectManagedKubernetesNodepoolResponse>,
   errors: [UnknownOvhError],
@@ -27749,13 +27781,13 @@ export const listPublicCloudProjectManagedKubernetesNodepoolEvent: API.Operation
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    20608,
-    __c644,
+    20640,
+    __c645,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedKubernetesNodepoolEventRequest>,
   output: __S(
-    13922,
-    __c435,
+    13954,
+    __c436,
     2,
   ) as any as S.Schema<ListPublicCloudProjectManagedKubernetesNodepoolEventResponse>,
   errors: [UnknownOvhError],
@@ -27774,13 +27806,13 @@ export const listPublicCloudProjectManagedKubernetesNodepoolNode: API.OperationM
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    20640,
-    __c645,
+    20672,
+    __c646,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedKubernetesNodepoolNodeRequest>,
   output: __S(
-    20642,
-    __c645,
+    20674,
+    __c646,
     2,
   ) as any as S.Schema<ListPublicCloudProjectManagedKubernetesNodepoolNodeResponse>,
   errors: [UnknownOvhError],
@@ -27799,13 +27831,13 @@ export const listPublicCloudProjectManagedKubernetesNodepoolTask: API.OperationM
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    20704,
-    __c647,
+    20736,
+    __c648,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedKubernetesNodepoolTaskRequest>,
   output: __S(
-    17473,
-    __c546,
+    17505,
+    __c547,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedKubernetesNodepoolTaskResponse>,
   errors: [UnknownOvhError],
@@ -27824,13 +27856,13 @@ export const listPublicCloudProjectManagedKubernetesTask: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    20736,
-    __c648,
+    20768,
+    __c649,
     0,
   ) as any as S.Schema<ListPublicCloudProjectManagedKubernetesTaskRequest>,
   output: __S(
-    17473,
-    __c546,
+    17505,
+    __c547,
     1,
   ) as any as S.Schema<ListPublicCloudProjectManagedKubernetesTaskResponse>,
   errors: [UnknownOvhError],
@@ -27848,8 +27880,8 @@ export const listPublicCloudProjectNetwork: API.OperationMethod<
   ListPublicCloudProjectNetworkError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20768, __c649, 0) as any as S.Schema<ListPublicCloudProjectNetworkRequest>,
-  output: __S(20770, __c649, 2) as any as S.Schema<ListPublicCloudProjectNetworkResponse>,
+  input: __S(20800, __c650, 0) as any as S.Schema<ListPublicCloudProjectNetworkRequest>,
+  output: __S(20802, __c650, 2) as any as S.Schema<ListPublicCloudProjectNetworkResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -27865,8 +27897,8 @@ export const listPublicCloudProjectNetworkSubnet: API.OperationMethod<
   ListPublicCloudProjectNetworkSubnetError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20800, __c650, 0) as any as S.Schema<ListPublicCloudProjectNetworkSubnetRequest>,
-  output: __S(20802, __c650, 2) as any as S.Schema<ListPublicCloudProjectNetworkSubnetResponse>,
+  input: __S(20832, __c651, 0) as any as S.Schema<ListPublicCloudProjectNetworkSubnetRequest>,
+  output: __S(20834, __c651, 2) as any as S.Schema<ListPublicCloudProjectNetworkSubnetResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -27882,8 +27914,8 @@ export const listPublicCloudProjectPrivateEndpoint: API.OperationMethod<
   ListPublicCloudProjectPrivateEndpointError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20832, __c651, 0) as any as S.Schema<ListPublicCloudProjectPrivateEndpointRequest>,
-  output: __S(20834, __c651, 2) as any as S.Schema<ListPublicCloudProjectPrivateEndpointResponse>,
+  input: __S(20864, __c652, 0) as any as S.Schema<ListPublicCloudProjectPrivateEndpointRequest>,
+  output: __S(20866, __c652, 2) as any as S.Schema<ListPublicCloudProjectPrivateEndpointResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -27899,8 +27931,8 @@ export const listPublicCloudProjectPublicIp: API.OperationMethod<
   ListPublicCloudProjectPublicIpError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20864, __c652, 0) as any as S.Schema<ListPublicCloudProjectPublicIpRequest>,
-  output: __S(20865, __c652, 1) as any as S.Schema<ListPublicCloudProjectPublicIpResponse>,
+  input: __S(20896, __c653, 0) as any as S.Schema<ListPublicCloudProjectPublicIpRequest>,
+  output: __S(20897, __c653, 1) as any as S.Schema<ListPublicCloudProjectPublicIpResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -27916,10 +27948,10 @@ export const listPublicCloudProjectPublicIpAdditional: API.OperationMethod<
   ListPublicCloudProjectPublicIpAdditionalError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20896, __c653, 0) as any as S.Schema<ListPublicCloudProjectPublicIpAdditionalRequest>,
+  input: __S(20928, __c654, 0) as any as S.Schema<ListPublicCloudProjectPublicIpAdditionalRequest>,
   output: __S(
-    20898,
-    __c653,
+    20930,
+    __c654,
     2,
   ) as any as S.Schema<ListPublicCloudProjectPublicIpAdditionalResponse>,
   errors: [UnknownOvhError],
@@ -27937,8 +27969,8 @@ export const listPublicCloudProjectPublicIpExtNet: API.OperationMethod<
   ListPublicCloudProjectPublicIpExtNetError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20928, __c654, 0) as any as S.Schema<ListPublicCloudProjectPublicIpExtNetRequest>,
-  output: __S(20930, __c654, 2) as any as S.Schema<ListPublicCloudProjectPublicIpExtNetResponse>,
+  input: __S(20960, __c655, 0) as any as S.Schema<ListPublicCloudProjectPublicIpExtNetRequest>,
+  output: __S(20962, __c655, 2) as any as S.Schema<ListPublicCloudProjectPublicIpExtNetResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -27954,8 +27986,8 @@ export const listPublicCloudProjectPublicIpFloating: API.OperationMethod<
   ListPublicCloudProjectPublicIpFloatingError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20960, __c655, 0) as any as S.Schema<ListPublicCloudProjectPublicIpFloatingRequest>,
-  output: __S(20962, __c655, 2) as any as S.Schema<ListPublicCloudProjectPublicIpFloatingResponse>,
+  input: __S(20992, __c656, 0) as any as S.Schema<ListPublicCloudProjectPublicIpFloatingRequest>,
+  output: __S(20994, __c656, 2) as any as S.Schema<ListPublicCloudProjectPublicIpFloatingResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -27971,8 +28003,8 @@ export const listPublicCloudProjectRancher: API.OperationMethod<
   ListPublicCloudProjectRancherError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20992, __c656, 0) as any as S.Schema<ListPublicCloudProjectRancherRequest>,
-  output: __S(20994, __c656, 2) as any as S.Schema<ListPublicCloudProjectRancherResponse>,
+  input: __S(21024, __c657, 0) as any as S.Schema<ListPublicCloudProjectRancherRequest>,
+  output: __S(21026, __c657, 2) as any as S.Schema<ListPublicCloudProjectRancherResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -27989,13 +28021,13 @@ export const listPublicCloudProjectRancherCapabilityPlan: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    21056,
-    __c658,
+    21088,
+    __c659,
     0,
   ) as any as S.Schema<ListPublicCloudProjectRancherCapabilityPlanRequest>,
   output: __S(
-    21090,
-    __c659,
+    21122,
+    __c660,
     2,
   ) as any as S.Schema<ListPublicCloudProjectRancherCapabilityPlanResponse>,
   errors: [UnknownOvhError],
@@ -28014,13 +28046,13 @@ export const listPublicCloudProjectRancherCapabilityVersion: API.OperationMethod
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    21120,
-    __c660,
+    21152,
+    __c661,
     0,
   ) as any as S.Schema<ListPublicCloudProjectRancherCapabilityVersionRequest>,
   output: __S(
-    21154,
-    __c661,
+    21186,
+    __c662,
     2,
   ) as any as S.Schema<ListPublicCloudProjectRancherCapabilityVersionResponse>,
   errors: [UnknownOvhError],
@@ -28038,8 +28070,8 @@ export const listPublicCloudProjectRancherEvent: API.OperationMethod<
   ListPublicCloudProjectRancherEventError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21184, __c662, 0) as any as S.Schema<ListPublicCloudProjectRancherEventRequest>,
-  output: __S(13922, __c435, 2) as any as S.Schema<ListPublicCloudProjectRancherEventResponse>,
+  input: __S(21216, __c663, 0) as any as S.Schema<ListPublicCloudProjectRancherEventRequest>,
+  output: __S(13954, __c436, 2) as any as S.Schema<ListPublicCloudProjectRancherEventResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -28055,8 +28087,8 @@ export const listPublicCloudProjectRancherTask: API.OperationMethod<
   ListPublicCloudProjectRancherTaskError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21216, __c663, 0) as any as S.Schema<ListPublicCloudProjectRancherTaskRequest>,
-  output: __S(17473, __c546, 1) as any as S.Schema<ListPublicCloudProjectRancherTaskResponse>,
+  input: __S(21248, __c664, 0) as any as S.Schema<ListPublicCloudProjectRancherTaskRequest>,
+  output: __S(17505, __c547, 1) as any as S.Schema<ListPublicCloudProjectRancherTaskResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -28073,13 +28105,13 @@ export const listPublicCloudProjectReferenceInstanceFlavor: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    21248,
-    __c664,
+    21280,
+    __c665,
     0,
   ) as any as S.Schema<ListPublicCloudProjectReferenceInstanceFlavorRequest>,
   output: __S(
-    13857,
-    __c433,
+    13889,
+    __c434,
     1,
   ) as any as S.Schema<ListPublicCloudProjectReferenceInstanceFlavorResponse>,
   errors: [UnknownOvhError],
@@ -28098,13 +28130,13 @@ export const listPublicCloudProjectReferenceInstanceImage: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    21280,
-    __c665,
+    21312,
+    __c666,
     0,
   ) as any as S.Schema<ListPublicCloudProjectReferenceInstanceImageRequest>,
   output: __S(
-    21282,
-    __c665,
+    21314,
+    __c666,
     2,
   ) as any as S.Schema<ListPublicCloudProjectReferenceInstanceImageResponse>,
   errors: [UnknownOvhError],
@@ -28125,13 +28157,13 @@ export const listPublicCloudProjectReferenceManagedAnalyticsLakehouseRegion: API
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    21312,
-    __c666,
+    21344,
+    __c667,
     0,
   ) as any as S.Schema<ListPublicCloudProjectReferenceManagedAnalyticsLakehouseRegionRequest>,
   output: __S(
-    21314,
-    __c666,
+    21346,
+    __c667,
     2,
   ) as any as S.Schema<ListPublicCloudProjectReferenceManagedAnalyticsLakehouseRegionResponse>,
   errors: [BadRequest, UnknownOvhError],
@@ -28150,13 +28182,13 @@ export const listPublicCloudProjectReferenceManagedKubernetesFlavor: API.Operati
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    21344,
-    __c667,
+    21376,
+    __c668,
     0,
   ) as any as S.Schema<ListPublicCloudProjectReferenceManagedKubernetesFlavorRequest>,
   output: __S(
-    21348,
-    __c667,
+    21380,
+    __c668,
     4,
   ) as any as S.Schema<ListPublicCloudProjectReferenceManagedKubernetesFlavorResponse>,
   errors: [UnknownOvhError],
@@ -28175,13 +28207,13 @@ export const listPublicCloudProjectReferenceManagedKubernetesPlan: API.Operation
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    21376,
-    __c668,
+    21408,
+    __c669,
     0,
   ) as any as S.Schema<ListPublicCloudProjectReferenceManagedKubernetesPlanRequest>,
   output: __S(
-    21382,
-    __c668,
+    21414,
+    __c669,
     6,
   ) as any as S.Schema<ListPublicCloudProjectReferenceManagedKubernetesPlanResponse>,
   errors: [UnknownOvhError],
@@ -28200,13 +28232,13 @@ export const listPublicCloudProjectReferenceManagedKubernetesRegion: API.Operati
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    21408,
-    __c669,
+    21440,
+    __c670,
     0,
   ) as any as S.Schema<ListPublicCloudProjectReferenceManagedKubernetesRegionRequest>,
   output: __S(
-    21411,
-    __c669,
+    21443,
+    __c670,
     3,
   ) as any as S.Schema<ListPublicCloudProjectReferenceManagedKubernetesRegionResponse>,
   errors: [UnknownOvhError],
@@ -28225,11 +28257,11 @@ export const listPublicCloudProjectReferenceManagedKubernetesVersion: API.Operat
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    21472,
-    __c671,
+    21504,
+    __c672,
     0,
   ) as any as S.Schema<ListPublicCloudProjectReferenceManagedKubernetesVersionRequest>,
-  output: __S(21473, __c671, 1) as any as S.Schema<PublicCloudManagedKubernetesVersionCatalog>,
+  output: __S(21505, __c672, 1) as any as S.Schema<PublicCloudManagedKubernetesVersionCatalog>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -28246,13 +28278,13 @@ export const listPublicCloudProjectReferencePrivateEndpointServiceAvailability: 
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    21504,
-    __c672,
+    21536,
+    __c673,
     0,
   ) as any as S.Schema<ListPublicCloudProjectReferencePrivateEndpointServiceAvailabilityRequest>,
   output: __S(
-    21506,
-    __c672,
+    21538,
+    __c673,
     2,
   ) as any as S.Schema<ListPublicCloudProjectReferencePrivateEndpointServiceAvailabilityResponse>,
   errors: [UnknownOvhError],
@@ -28271,13 +28303,13 @@ export const listPublicCloudProjectReferenceProductAvailability: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    21536,
-    __c673,
+    21568,
+    __c674,
     0,
   ) as any as S.Schema<ListPublicCloudProjectReferenceProductAvailabilityRequest>,
   output: __S(
-    21544,
-    __c673,
+    21576,
+    __c674,
     8,
   ) as any as S.Schema<ListPublicCloudProjectReferenceProductAvailabilityResponse>,
   errors: [UnknownOvhError],
@@ -28296,13 +28328,13 @@ export const listPublicCloudProjectReferenceRancherPlan: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    21568,
-    __c674,
+    21600,
+    __c675,
     0,
   ) as any as S.Schema<ListPublicCloudProjectReferenceRancherPlanRequest>,
   output: __S(
-    21090,
-    __c659,
+    21122,
+    __c660,
     2,
   ) as any as S.Schema<ListPublicCloudProjectReferenceRancherPlanResponse>,
   errors: [UnknownOvhError],
@@ -28321,13 +28353,13 @@ export const listPublicCloudProjectReferenceRancherVersion: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    21600,
-    __c675,
+    21632,
+    __c676,
     0,
   ) as any as S.Schema<ListPublicCloudProjectReferenceRancherVersionRequest>,
   output: __S(
-    21154,
-    __c661,
+    21186,
+    __c662,
     2,
   ) as any as S.Schema<ListPublicCloudProjectReferenceRancherVersionResponse>,
   errors: [UnknownOvhError],
@@ -28345,8 +28377,8 @@ export const listPublicCloudProjectReferenceRegion: API.OperationMethod<
   ListPublicCloudProjectReferenceRegionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21632, __c676, 0) as any as S.Schema<ListPublicCloudProjectReferenceRegionRequest>,
-  output: __S(21634, __c676, 2) as any as S.Schema<ListPublicCloudProjectReferenceRegionResponse>,
+  input: __S(21664, __c677, 0) as any as S.Schema<ListPublicCloudProjectReferenceRegionRequest>,
+  output: __S(21666, __c677, 2) as any as S.Schema<ListPublicCloudProjectReferenceRegionResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -28363,13 +28395,13 @@ export const listPublicCloudProjectReferenceStorageBlockVolumeType: API.Operatio
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    21664,
-    __c677,
+    21696,
+    __c678,
     0,
   ) as any as S.Schema<ListPublicCloudProjectReferenceStorageBlockVolumeTypeRequest>,
   output: __S(
-    21670,
-    __c677,
+    21702,
+    __c678,
     6,
   ) as any as S.Schema<ListPublicCloudProjectReferenceStorageBlockVolumeTypeResponse>,
   errors: [UnknownOvhError],
@@ -28388,11 +28420,11 @@ export const listPublicCloudProjectReferenceStorageObject: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    21696,
-    __c678,
+    21728,
+    __c679,
     0,
   ) as any as S.Schema<ListPublicCloudProjectReferenceStorageObjectRequest>,
-  output: __S(21704, __c678, 8) as any as S.Schema<PublicCloudReferenceStorageObjectObjectStorage>,
+  output: __S(21736, __c679, 8) as any as S.Schema<PublicCloudReferenceStorageObjectObjectStorage>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -28408,8 +28440,8 @@ export const listPublicCloudProjectSecurityGroup: API.OperationMethod<
   ListPublicCloudProjectSecurityGroupError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21728, __c679, 0) as any as S.Schema<ListPublicCloudProjectSecurityGroupRequest>,
-  output: __S(21730, __c679, 2) as any as S.Schema<ListPublicCloudProjectSecurityGroupResponse>,
+  input: __S(21760, __c680, 0) as any as S.Schema<ListPublicCloudProjectSecurityGroupRequest>,
+  output: __S(21762, __c680, 2) as any as S.Schema<ListPublicCloudProjectSecurityGroupResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -28425,8 +28457,8 @@ export const listPublicCloudProjectSshKey: API.OperationMethod<
   ListPublicCloudProjectSshKeyError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21760, __c680, 0) as any as S.Schema<ListPublicCloudProjectSshKeyRequest>,
-  output: __S(21762, __c680, 2) as any as S.Schema<ListPublicCloudProjectSshKeyResponse>,
+  input: __S(21792, __c681, 0) as any as S.Schema<ListPublicCloudProjectSshKeyRequest>,
+  output: __S(21794, __c681, 2) as any as S.Schema<ListPublicCloudProjectSshKeyResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -28442,10 +28474,10 @@ export const listPublicCloudProjectStorageBlockBackup: API.OperationMethod<
   ListPublicCloudProjectStorageBlockBackupError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21856, __c683, 0) as any as S.Schema<ListPublicCloudProjectStorageBlockBackupRequest>,
+  input: __S(21888, __c684, 0) as any as S.Schema<ListPublicCloudProjectStorageBlockBackupRequest>,
   output: __S(
-    21858,
-    __c683,
+    21890,
+    __c684,
     2,
   ) as any as S.Schema<ListPublicCloudProjectStorageBlockBackupResponse>,
   errors: [UnknownOvhError],
@@ -28464,13 +28496,13 @@ export const listPublicCloudProjectStorageBlockSnapshot: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    21888,
-    __c684,
+    21920,
+    __c685,
     0,
   ) as any as S.Schema<ListPublicCloudProjectStorageBlockSnapshotRequest>,
   output: __S(
-    21890,
-    __c684,
+    21922,
+    __c685,
     2,
   ) as any as S.Schema<ListPublicCloudProjectStorageBlockSnapshotResponse>,
   errors: [UnknownOvhError],
@@ -28488,10 +28520,10 @@ export const listPublicCloudProjectStorageBlockVolume: API.OperationMethod<
   ListPublicCloudProjectStorageBlockVolumeError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21920, __c685, 0) as any as S.Schema<ListPublicCloudProjectStorageBlockVolumeRequest>,
+  input: __S(21952, __c686, 0) as any as S.Schema<ListPublicCloudProjectStorageBlockVolumeRequest>,
   output: __S(
-    21922,
-    __c685,
+    21954,
+    __c686,
     2,
   ) as any as S.Schema<ListPublicCloudProjectStorageBlockVolumeResponse>,
   errors: [UnknownOvhError],
@@ -28509,10 +28541,10 @@ export const listPublicCloudProjectStorageFileNetwork: API.OperationMethod<
   ListPublicCloudProjectStorageFileNetworkError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21952, __c686, 0) as any as S.Schema<ListPublicCloudProjectStorageFileNetworkRequest>,
+  input: __S(21984, __c687, 0) as any as S.Schema<ListPublicCloudProjectStorageFileNetworkRequest>,
   output: __S(
-    21954,
-    __c686,
+    21986,
+    __c687,
     2,
   ) as any as S.Schema<ListPublicCloudProjectStorageFileNetworkResponse>,
   errors: [UnknownOvhError],
@@ -28530,8 +28562,8 @@ export const listPublicCloudProjectStorageFileShare: API.OperationMethod<
   ListPublicCloudProjectStorageFileShareError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21984, __c687, 0) as any as S.Schema<ListPublicCloudProjectStorageFileShareRequest>,
-  output: __S(21986, __c687, 2) as any as S.Schema<ListPublicCloudProjectStorageFileShareResponse>,
+  input: __S(22016, __c688, 0) as any as S.Schema<ListPublicCloudProjectStorageFileShareRequest>,
+  output: __S(22018, __c688, 2) as any as S.Schema<ListPublicCloudProjectStorageFileShareResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -28547,10 +28579,10 @@ export const listPublicCloudProjectStorageFileShareAcl: API.OperationMethod<
   ListPublicCloudProjectStorageFileShareAclError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22016, __c688, 0) as any as S.Schema<ListPublicCloudProjectStorageFileShareAclRequest>,
+  input: __S(22048, __c689, 0) as any as S.Schema<ListPublicCloudProjectStorageFileShareAclRequest>,
   output: __S(
-    22018,
-    __c688,
+    22050,
+    __c689,
     2,
   ) as any as S.Schema<ListPublicCloudProjectStorageFileShareAclResponse>,
   errors: [UnknownOvhError],
@@ -28568,10 +28600,10 @@ export const listPublicCloudProjectStorageFileSnapshot: API.OperationMethod<
   ListPublicCloudProjectStorageFileSnapshotError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22048, __c689, 0) as any as S.Schema<ListPublicCloudProjectStorageFileSnapshotRequest>,
+  input: __S(22080, __c690, 0) as any as S.Schema<ListPublicCloudProjectStorageFileSnapshotRequest>,
   output: __S(
-    22050,
-    __c689,
+    22082,
+    __c690,
     2,
   ) as any as S.Schema<ListPublicCloudProjectStorageFileSnapshotResponse>,
   errors: [UnknownOvhError],
@@ -28589,10 +28621,10 @@ export const listPublicCloudProjectStorageObjectBucket: API.OperationMethod<
   ListPublicCloudProjectStorageObjectBucketError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22080, __c690, 0) as any as S.Schema<ListPublicCloudProjectStorageObjectBucketRequest>,
+  input: __S(22112, __c691, 0) as any as S.Schema<ListPublicCloudProjectStorageObjectBucketRequest>,
   output: __S(
-    22082,
-    __c690,
+    22114,
+    __c691,
     2,
   ) as any as S.Schema<ListPublicCloudProjectStorageObjectBucketResponse>,
   errors: [UnknownOvhError],
@@ -28611,11 +28643,11 @@ export const listPublicCloudProjectStorageObjectBucketLifecycle: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    22112,
-    __c691,
+    22144,
+    __c692,
     0,
   ) as any as S.Schema<ListPublicCloudProjectStorageObjectBucketLifecycleRequest>,
-  output: __S(22154, __c692, 10) as any as S.Schema<PublicCloudStorageObjectLifecycleRulesResponse>,
+  output: __S(22186, __c693, 10) as any as S.Schema<PublicCloudStorageObjectLifecycleRulesResponse>,
   errors: [Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -28632,13 +28664,13 @@ export const listPublicCloudProjectStorageObjectBucketMultipartUpload: API.Opera
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    22176,
-    __c693,
+    22208,
+    __c694,
     0,
   ) as any as S.Schema<ListPublicCloudProjectStorageObjectBucketMultipartUploadRequest>,
   output: __S(
-    22209,
-    __c694,
+    22241,
+    __c695,
     1,
   ) as any as S.Schema<ListPublicCloudProjectStorageObjectBucketMultipartUploadResponse>,
   errors: [NotFound, UnknownOvhError],
@@ -28657,13 +28689,13 @@ export const listPublicCloudProjectStorageObjectBucketObject: API.OperationMetho
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    22304,
-    __c697,
+    22336,
+    __c698,
     0,
   ) as any as S.Schema<ListPublicCloudProjectStorageObjectBucketObjectRequest>,
   output: __S(
-    22306,
-    __c697,
+    22338,
+    __c698,
     2,
   ) as any as S.Schema<ListPublicCloudProjectStorageObjectBucketObjectResponse>,
   errors: [NotFound, UnknownOvhError],
@@ -28684,13 +28716,13 @@ export const listPublicCloudProjectStorageObjectBucketObjectMultipartUpload: API
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    22336,
-    __c698,
+    22368,
+    __c699,
     0,
   ) as any as S.Schema<ListPublicCloudProjectStorageObjectBucketObjectMultipartUploadRequest>,
   output: __S(
-    22209,
-    __c694,
+    22241,
+    __c695,
     1,
   ) as any as S.Schema<ListPublicCloudProjectStorageObjectBucketObjectMultipartUploadResponse>,
   errors: [NotFound, UnknownOvhError],
@@ -28711,11 +28743,11 @@ export const listPublicCloudProjectStorageObjectBucketObjectMultipartUploadParts
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    22368,
-    __c699,
+    22400,
+    __c700,
     0,
   ) as any as S.Schema<ListPublicCloudProjectStorageObjectBucketObjectMultipartUploadPartsRequest>,
-  output: __S(22371, __c699, 3) as any as S.Schema<PublicCloudStorageObjectMultipartUploadParts>,
+  output: __S(22403, __c700, 3) as any as S.Schema<PublicCloudStorageObjectMultipartUploadParts>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -28732,13 +28764,13 @@ export const listPublicCloudProjectStorageObjectBucketObjectVersion: API.Operati
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    22400,
-    __c700,
+    22432,
+    __c701,
     0,
   ) as any as S.Schema<ListPublicCloudProjectStorageObjectBucketObjectVersionRequest>,
   output: __S(
-    22402,
-    __c700,
+    22434,
+    __c701,
     2,
   ) as any as S.Schema<ListPublicCloudProjectStorageObjectBucketObjectVersionResponse>,
   errors: [NotFound, UnknownOvhError],
@@ -28757,13 +28789,13 @@ export const listPublicCloudProjectStorageObjectBucketReplication: API.Operation
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    22432,
-    __c701,
+    22464,
+    __c702,
     0,
   ) as any as S.Schema<ListPublicCloudProjectStorageObjectBucketReplicationRequest>,
   output: __S(
-    22468,
-    __c702,
+    22500,
+    __c703,
     4,
   ) as any as S.Schema<PublicCloudStorageObjectReplicationRulesResponse>,
   errors: [Conflict, UnknownOvhError],
@@ -28785,13 +28817,13 @@ export const listPublicCloudProjectStorageObjectBucketReplicationDestination: AP
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    22496,
-    __c703,
+    22528,
+    __c704,
     0,
   ) as any as S.Schema<ListPublicCloudProjectStorageObjectBucketReplicationDestinationRequest>,
   output: __S(
-    22499,
-    __c703,
+    22531,
+    __c704,
     3,
   ) as any as S.Schema<ListPublicCloudProjectStorageObjectBucketReplicationDestinationResponse>,
   errors: [NotFound, Conflict, UnknownOvhError],
@@ -28812,13 +28844,13 @@ export const listPublicCloudProjectStorageObjectBucketReplicationTrigger: API.Op
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    22528,
-    __c704,
+    22560,
+    __c705,
     0,
   ) as any as S.Schema<ListPublicCloudProjectStorageObjectBucketReplicationTriggerRequest>,
   output: __S(
-    22530,
-    __c704,
+    22562,
+    __c705,
     2,
   ) as any as S.Schema<ListPublicCloudProjectStorageObjectBucketReplicationTriggerResponse>,
   errors: [NotFound, UnknownOvhError],
@@ -28837,11 +28869,11 @@ export const presignPublicCloudProjectStorageObjectBucket: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    22560,
-    __c705,
+    22592,
+    __c706,
     0,
   ) as any as S.Schema<PresignPublicCloudProjectStorageObjectBucketRequest>,
-  output: __S(22561, __c705, 1) as any as S.Schema<PublicCloudStorageObjectS3ObjectPresignedURL>,
+  output: __S(22593, __c706, 1) as any as S.Schema<PublicCloudStorageObjectS3ObjectPresignedURL>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -28857,8 +28889,8 @@ export const putPublicCloudProject: API.OperationMethod<
   PutPublicCloudProjectError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22592, __c706, 0) as any as S.Schema<PutPublicCloudProjectRequest>,
-  output: __S(27616, __c863, 0) as any as S.Schema<PublicCloudProjectProjectAsync>,
+  input: __S(22624, __c707, 0) as any as S.Schema<PutPublicCloudProjectRequest>,
+  output: __S(27648, __c864, 0) as any as S.Schema<PublicCloudProjectProjectAsync>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -28874,8 +28906,8 @@ export const putPublicCloudProjectAiAgentAgent: API.OperationMethod<
   PutPublicCloudProjectAiAgentAgentError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22625, __c707, 1) as any as S.Schema<PutPublicCloudProjectAiAgentAgentRequest>,
-  output: __S(194, __c6, 2) as any as S.Schema<PublicCloudAiAgentsAgent>,
+  input: __S(22657, __c708, 1) as any as S.Schema<PutPublicCloudProjectAiAgentAgentRequest>,
+  output: __S(226, __c7, 2) as any as S.Schema<PublicCloudAiAgentsAgent>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -28891,8 +28923,8 @@ export const putPublicCloudProjectAiAgentTemplate: API.OperationMethod<
   PutPublicCloudProjectAiAgentTemplateError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22720, __c710, 0) as any as S.Schema<PutPublicCloudProjectAiAgentTemplateRequest>,
-  output: __S(1569, __c49, 1) as any as S.Schema<PublicCloudAiAgentsTemplate>,
+  input: __S(22752, __c711, 0) as any as S.Schema<PutPublicCloudProjectAiAgentTemplateRequest>,
+  output: __S(1601, __c50, 1) as any as S.Schema<PublicCloudAiAgentsTemplate>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -28912,8 +28944,8 @@ export const putPublicCloudProjectComputeInstance: API.OperationMethod<
   PutPublicCloudProjectComputeInstanceError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22753, __c711, 1) as any as S.Schema<PutPublicCloudProjectComputeInstanceRequest>,
-  output: __S(2609, __c81, 17) as any as S.Schema<PublicCloudInstanceInstance>,
+  input: __S(22785, __c712, 1) as any as S.Schema<PutPublicCloudProjectComputeInstanceRequest>,
+  output: __S(2641, __c82, 17) as any as S.Schema<PublicCloudInstanceInstance>,
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -28929,8 +28961,8 @@ export const putPublicCloudProjectGateway: API.OperationMethod<
   PutPublicCloudProjectGatewayError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22785, __c712, 1) as any as S.Schema<PutPublicCloudProjectGatewayRequest>,
-  output: __S(4995, __c156, 3) as any as S.Schema<PublicCloudGatewayGateway>,
+  input: __S(22817, __c713, 1) as any as S.Schema<PutPublicCloudProjectGatewayRequest>,
+  output: __S(5027, __c157, 3) as any as S.Schema<PublicCloudGatewayGateway>,
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -28946,8 +28978,8 @@ export const putPublicCloudProjectKeyManagerContainer: API.OperationMethod<
   PutPublicCloudProjectKeyManagerContainerError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22817, __c713, 1) as any as S.Schema<PutPublicCloudProjectKeyManagerContainerRequest>,
-  output: __S(5380, __c168, 4) as any as S.Schema<PublicCloudKeyManagerContainer>,
+  input: __S(22849, __c714, 1) as any as S.Schema<PutPublicCloudProjectKeyManagerContainerRequest>,
+  output: __S(5412, __c169, 4) as any as S.Schema<PublicCloudKeyManagerContainer>,
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -28967,8 +28999,8 @@ export const putPublicCloudProjectKeyManagerSecret: API.OperationMethod<
   PutPublicCloudProjectKeyManagerSecretError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22849, __c714, 1) as any as S.Schema<PutPublicCloudProjectKeyManagerSecretRequest>,
-  output: __S(6370, __c199, 2) as any as S.Schema<PublicCloudKeyManagerSecret>,
+  input: __S(22881, __c715, 1) as any as S.Schema<PutPublicCloudProjectKeyManagerSecretRequest>,
+  output: __S(6402, __c200, 2) as any as S.Schema<PublicCloudKeyManagerSecret>,
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -28984,8 +29016,8 @@ export const putPublicCloudProjectLoadbalancer: API.OperationMethod<
   PutPublicCloudProjectLoadbalancerError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22880, __c715, 0) as any as S.Schema<PutPublicCloudProjectLoadbalancerRequest>,
-  output: __S(7717, __c241, 5) as any as S.Schema<PublicCloudLoadbalancerLoadbalancer>,
+  input: __S(22912, __c716, 0) as any as S.Schema<PutPublicCloudProjectLoadbalancerRequest>,
+  output: __S(7749, __c242, 5) as any as S.Schema<PublicCloudLoadbalancerLoadbalancer>,
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -29005,8 +29037,8 @@ export const putPublicCloudProjectLoadbalancerListener: API.OperationMethod<
   PutPublicCloudProjectLoadbalancerListenerError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22913, __c716, 1) as any as S.Schema<PutPublicCloudProjectLoadbalancerListenerRequest>,
-  output: __S(8099, __c253, 3) as any as S.Schema<PublicCloudLoadbalancerListener>,
+  input: __S(22945, __c717, 1) as any as S.Schema<PutPublicCloudProjectLoadbalancerListenerRequest>,
+  output: __S(8131, __c254, 3) as any as S.Schema<PublicCloudLoadbalancerListener>,
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -29026,11 +29058,11 @@ export const putPublicCloudProjectLoadbalancerListenerL7policy: API.OperationMet
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    22944,
-    __c717,
+    22976,
+    __c718,
     0,
   ) as any as S.Schema<PutPublicCloudProjectLoadbalancerListenerL7policyRequest>,
-  output: __S(8518, __c266, 6) as any as S.Schema<PublicCloudLoadbalancerL7Policy>,
+  output: __S(8550, __c267, 6) as any as S.Schema<PublicCloudLoadbalancerL7Policy>,
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -29050,8 +29082,8 @@ export const putPublicCloudProjectLoadbalancerPool: API.OperationMethod<
   PutPublicCloudProjectLoadbalancerPoolError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22977, __c718, 1) as any as S.Schema<PutPublicCloudProjectLoadbalancerPoolRequest>,
-  output: __S(8901, __c278, 5) as any as S.Schema<PublicCloudLoadbalancerPool>,
+  input: __S(23009, __c719, 1) as any as S.Schema<PutPublicCloudProjectLoadbalancerPoolRequest>,
+  output: __S(8933, __c279, 5) as any as S.Schema<PublicCloudLoadbalancerPool>,
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -29072,11 +29104,11 @@ export const putPublicCloudProjectLoadbalancerPoolMember: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    23009,
-    __c719,
+    23041,
+    __c720,
     1,
   ) as any as S.Schema<PutPublicCloudProjectLoadbalancerPoolMemberRequest>,
-  output: __S(9379, __c293, 3) as any as S.Schema<PublicCloudLoadbalancerMember>,
+  output: __S(9411, __c294, 3) as any as S.Schema<PublicCloudLoadbalancerMember>,
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -29093,11 +29125,11 @@ export const putPublicCloudProjectManagedAnalyticsClickhouse: API.OperationMetho
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    23104,
-    __c722,
+    23136,
+    __c723,
     0,
   ) as any as S.Schema<PutPublicCloudProjectManagedAnalyticsClickhouseRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -29114,11 +29146,11 @@ export const putPublicCloudProjectManagedAnalyticsGrafana: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    23168,
-    __c724,
+    23200,
+    __c725,
     0,
   ) as any as S.Schema<PutPublicCloudProjectManagedAnalyticsGrafanaRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -29135,11 +29167,11 @@ export const putPublicCloudProjectManagedAnalyticsKafka: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    23200,
-    __c725,
+    23232,
+    __c726,
     0,
   ) as any as S.Schema<PutPublicCloudProjectManagedAnalyticsKafkaRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -29156,11 +29188,11 @@ export const putPublicCloudProjectManagedAnalyticsKafkaConnect: API.OperationMet
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    23232,
-    __c726,
+    23264,
+    __c727,
     0,
   ) as any as S.Schema<PutPublicCloudProjectManagedAnalyticsKafkaConnectRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -29177,11 +29209,11 @@ export const putPublicCloudProjectManagedAnalyticsKafkaConnectConnector: API.Ope
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    23264,
-    __c727,
+    23296,
+    __c728,
     0,
   ) as any as S.Schema<PutPublicCloudProjectManagedAnalyticsKafkaConnectConnectorRequest>,
-  output: __S(16672, __c521, 0) as any as S.Schema<PublicCloudDatabaseKafkaConnectConnector>,
+  output: __S(16704, __c522, 0) as any as S.Schema<PublicCloudDatabaseKafkaConnectConnector>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -29198,11 +29230,11 @@ export const putPublicCloudProjectManagedAnalyticsKafkaMirrorMaker: API.Operatio
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    23296,
-    __c728,
+    23328,
+    __c729,
     0,
   ) as any as S.Schema<PutPublicCloudProjectManagedAnalyticsKafkaMirrorMakerRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -29219,11 +29251,11 @@ export const putPublicCloudProjectManagedAnalyticsKafkaMirrorMakerReplication: A
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    23328,
-    __c729,
+    23360,
+    __c730,
     0,
   ) as any as S.Schema<PutPublicCloudProjectManagedAnalyticsKafkaMirrorMakerReplicationRequest>,
-  output: __S(22272, __c696, 0) as any as S.Schema<PublicCloudDatabaseKafkaMirrorMakerReplication>,
+  output: __S(22304, __c697, 0) as any as S.Schema<PublicCloudDatabaseKafkaMirrorMakerReplication>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -29240,11 +29272,11 @@ export const putPublicCloudProjectManagedAnalyticsKafkaTopic: API.OperationMetho
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    23360,
-    __c730,
+    23392,
+    __c731,
     0,
   ) as any as S.Schema<PutPublicCloudProjectManagedAnalyticsKafkaTopicRequest>,
-  output: __S(23072, __c721, 0) as any as S.Schema<PublicCloudDatabaseKafkaTopic>,
+  output: __S(23104, __c722, 0) as any as S.Schema<PublicCloudDatabaseKafkaTopic>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -29265,11 +29297,11 @@ export const putPublicCloudProjectManagedAnalyticsLakehouse: API.OperationMethod
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    23393,
-    __c731,
+    23425,
+    __c732,
     1,
   ) as any as S.Schema<PutPublicCloudProjectManagedAnalyticsLakehouseRequest>,
-  output: __S(23904, __c747, 0) as any as S.Schema<PublicCloudLakehouseLakehouse>,
+  output: __S(23936, __c748, 0) as any as S.Schema<PublicCloudLakehouseLakehouse>,
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -29290,11 +29322,11 @@ export const putPublicCloudProjectManagedAnalyticsLakehouseCatalog: API.Operatio
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    23424,
-    __c732,
+    23456,
+    __c733,
     0,
   ) as any as S.Schema<PutPublicCloudProjectManagedAnalyticsLakehouseCatalogRequest>,
-  output: __S(24353, __c761, 1) as any as S.Schema<PublicCloudLakehouseCatalog>,
+  output: __S(24385, __c762, 1) as any as S.Schema<PublicCloudLakehouseCatalog>,
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -29315,11 +29347,11 @@ export const putPublicCloudProjectManagedAnalyticsLakehouseComputePool: API.Oper
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    23521,
-    __c735,
+    23553,
+    __c736,
     1,
   ) as any as S.Schema<PutPublicCloudProjectManagedAnalyticsLakehouseComputePoolRequest>,
-  output: __S(25154, __c786, 2) as any as S.Schema<PublicCloudLakehouseComputePool>,
+  output: __S(25186, __c787, 2) as any as S.Schema<PublicCloudLakehouseComputePool>,
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -29340,11 +29372,11 @@ export const putPublicCloudProjectManagedAnalyticsLakehouseGroup: API.OperationM
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    23552,
-    __c736,
+    23584,
+    __c737,
     0,
   ) as any as S.Schema<PutPublicCloudProjectManagedAnalyticsLakehouseGroupRequest>,
-  output: __S(25537, __c798, 1) as any as S.Schema<PublicCloudLakehouseGroup>,
+  output: __S(25569, __c799, 1) as any as S.Schema<PublicCloudLakehouseGroup>,
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -29365,11 +29397,11 @@ export const putPublicCloudProjectManagedAnalyticsLakehouseRole: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    23585,
-    __c737,
+    23617,
+    __c738,
     1,
   ) as any as S.Schema<PutPublicCloudProjectManagedAnalyticsLakehouseRoleRequest>,
-  output: __S(26439, __c826, 7) as any as S.Schema<PublicCloudLakehouseRole>,
+  output: __S(26471, __c827, 7) as any as S.Schema<PublicCloudLakehouseRole>,
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -29390,11 +29422,11 @@ export const putPublicCloudProjectManagedAnalyticsLakehouseUser: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    23616,
-    __c738,
+    23648,
+    __c739,
     0,
   ) as any as S.Schema<PutPublicCloudProjectManagedAnalyticsLakehouseUserRequest>,
-  output: __S(26850, __c839, 2) as any as S.Schema<PublicCloudLakehouseUser>,
+  output: __S(26882, __c840, 2) as any as S.Schema<PublicCloudLakehouseUser>,
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -29411,11 +29443,11 @@ export const putPublicCloudProjectManagedAnalyticsOpensearch: API.OperationMetho
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    23648,
-    __c739,
+    23680,
+    __c740,
     0,
   ) as any as S.Schema<PutPublicCloudProjectManagedAnalyticsOpensearchRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -29432,11 +29464,11 @@ export const putPublicCloudProjectManagedAnalyticsOpensearchUser: API.OperationM
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    23680,
-    __c740,
+    23712,
+    __c741,
     0,
   ) as any as S.Schema<PutPublicCloudProjectManagedAnalyticsOpensearchUserRequest>,
-  output: __S(27170, __c849, 2) as any as S.Schema<PublicCloudDatabaseOpensearchUser>,
+  output: __S(27202, __c850, 2) as any as S.Schema<PublicCloudDatabaseOpensearchUser>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -29453,11 +29485,11 @@ export const putPublicCloudProjectManagedDatabaseMongodb: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    23712,
-    __c741,
+    23744,
+    __c742,
     0,
   ) as any as S.Schema<PutPublicCloudProjectManagedDatabaseMongodbRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -29474,11 +29506,11 @@ export const putPublicCloudProjectManagedDatabaseMongodbUser: API.OperationMetho
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    23744,
-    __c742,
+    23776,
+    __c743,
     0,
   ) as any as S.Schema<PutPublicCloudProjectManagedDatabaseMongodbUserRequest>,
-  output: __S(12256, __c383, 0) as any as S.Schema<PublicCloudDatabaseUserWithRoles>,
+  output: __S(12288, __c384, 0) as any as S.Schema<PublicCloudDatabaseUserWithRoles>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -29494,8 +29526,8 @@ export const putPublicCloudProjectManagedDatabaseMysql: API.OperationMethod<
   PutPublicCloudProjectManagedDatabaseMysqlError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23776, __c743, 0) as any as S.Schema<PutPublicCloudProjectManagedDatabaseMysqlRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  input: __S(23808, __c744, 0) as any as S.Schema<PutPublicCloudProjectManagedDatabaseMysqlRequest>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -29512,11 +29544,11 @@ export const putPublicCloudProjectManagedDatabasePostgresql: API.OperationMethod
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    23808,
-    __c744,
+    23840,
+    __c745,
     0,
   ) as any as S.Schema<PutPublicCloudProjectManagedDatabasePostgresqlRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -29533,11 +29565,11 @@ export const putPublicCloudProjectManagedDatabasePostgresqlConnectionPool: API.O
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    24000,
-    __c750,
+    24032,
+    __c751,
     0,
   ) as any as S.Schema<PutPublicCloudProjectManagedDatabasePostgresqlConnectionPoolRequest>,
-  output: __S(27808, __c869, 0) as any as S.Schema<PublicCloudDatabasePostgresqlConnectionPool>,
+  output: __S(27840, __c870, 0) as any as S.Schema<PublicCloudDatabasePostgresqlConnectionPool>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -29554,11 +29586,11 @@ export const putPublicCloudProjectManagedDatabasePostgresqlUser: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    24032,
-    __c751,
+    24064,
+    __c752,
     0,
   ) as any as S.Schema<PutPublicCloudProjectManagedDatabasePostgresqlUserRequest>,
-  output: __S(12256, __c383, 0) as any as S.Schema<PublicCloudDatabaseUserWithRoles>,
+  output: __S(12288, __c384, 0) as any as S.Schema<PublicCloudDatabaseUserWithRoles>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -29575,11 +29607,11 @@ export const putPublicCloudProjectManagedDatabaseValkey: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    24064,
-    __c752,
+    24096,
+    __c753,
     0,
   ) as any as S.Schema<PutPublicCloudProjectManagedDatabaseValkeyRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -29596,11 +29628,11 @@ export const putPublicCloudProjectManagedDatabaseValkeyUser: API.OperationMethod
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    24096,
-    __c753,
+    24128,
+    __c754,
     0,
   ) as any as S.Schema<PutPublicCloudProjectManagedDatabaseValkeyUserRequest>,
-  output: __S(480, __c15, 0) as any as S.Schema<PublicCloudDatabaseValkeyUser>,
+  output: __S(512, __c16, 0) as any as S.Schema<PublicCloudDatabaseValkeyUser>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -29616,8 +29648,8 @@ export const putPublicCloudProjectManagedKubernetes: API.OperationMethod<
   PutPublicCloudProjectManagedKubernetesError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24134, __c754, 6) as any as S.Schema<PutPublicCloudProjectManagedKubernetesRequest>,
-  output: __S(641, __c20, 1) as any as S.Schema<PublicCloudManagedKubernetesCluster>,
+  input: __S(24166, __c755, 6) as any as S.Schema<PutPublicCloudProjectManagedKubernetesRequest>,
+  output: __S(673, __c21, 1) as any as S.Schema<PublicCloudManagedKubernetesCluster>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -29634,11 +29666,11 @@ export const putPublicCloudProjectManagedKubernetesNodepool: API.OperationMethod
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    24161,
-    __c755,
+    24193,
+    __c756,
     1,
   ) as any as S.Schema<PutPublicCloudProjectManagedKubernetesNodepoolRequest>,
-  output: __S(717, __c22, 13) as any as S.Schema<PublicCloudManagedKubernetesNodepool>,
+  output: __S(749, __c23, 13) as any as S.Schema<PublicCloudManagedKubernetesNodepool>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -29654,8 +29686,8 @@ export const putPublicCloudProjectNetwork: API.OperationMethod<
   PutPublicCloudProjectNetworkError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24192, __c756, 0) as any as S.Schema<PutPublicCloudProjectNetworkRequest>,
-  output: __S(770, __c24, 2) as any as S.Schema<PublicCloudNetworkNetwork>,
+  input: __S(24224, __c757, 0) as any as S.Schema<PutPublicCloudProjectNetworkRequest>,
+  output: __S(802, __c25, 2) as any as S.Schema<PublicCloudNetworkNetwork>,
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -29671,8 +29703,8 @@ export const putPublicCloudProjectNetworkSubnet: API.OperationMethod<
   PutPublicCloudProjectNetworkSubnetError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24225, __c757, 1) as any as S.Schema<PutPublicCloudProjectNetworkSubnetRequest>,
-  output: __S(870, __c27, 6) as any as S.Schema<PublicCloudNetworkSubnet>,
+  input: __S(24257, __c758, 1) as any as S.Schema<PutPublicCloudProjectNetworkSubnetRequest>,
+  output: __S(902, __c28, 6) as any as S.Schema<PublicCloudNetworkSubnet>,
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -29688,8 +29720,8 @@ export const putPublicCloudProjectPrivateEndpoint: API.OperationMethod<
   PutPublicCloudProjectPrivateEndpointError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24256, __c758, 0) as any as S.Schema<PutPublicCloudProjectPrivateEndpointRequest>,
-  output: __S(932, __c29, 4) as any as S.Schema<PublicCloudPrivateEndpointPrivateEndpoint>,
+  input: __S(24288, __c759, 0) as any as S.Schema<PutPublicCloudProjectPrivateEndpointRequest>,
+  output: __S(964, __c30, 4) as any as S.Schema<PublicCloudPrivateEndpointPrivateEndpoint>,
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -29705,8 +29737,8 @@ export const putPublicCloudProjectPublicIpFloating: API.OperationMethod<
   PutPublicCloudProjectPublicIpFloatingError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24288, __c759, 0) as any as S.Schema<PutPublicCloudProjectPublicIpFloatingRequest>,
-  output: __S(1090, __c34, 2) as any as S.Schema<PublicCloudPublicIpFloatingIP>,
+  input: __S(24320, __c760, 0) as any as S.Schema<PutPublicCloudProjectPublicIpFloatingRequest>,
+  output: __S(1122, __c35, 2) as any as S.Schema<PublicCloudPublicIpFloatingIP>,
   errors: [BadRequest, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -29722,8 +29754,8 @@ export const putPublicCloudProjectQuota: API.OperationMethod<
   PutPublicCloudProjectQuotaError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24385, __c762, 1) as any as S.Schema<PutPublicCloudProjectQuotaRequest>,
-  output: __S(12504, __c390, 24) as any as S.Schema<PublicCloudQuotaQuota>,
+  input: __S(24417, __c763, 1) as any as S.Schema<PutPublicCloudProjectQuotaRequest>,
+  output: __S(12536, __c391, 24) as any as S.Schema<PublicCloudQuotaQuota>,
   errors: [BadRequest, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -29739,8 +29771,8 @@ export const putPublicCloudProjectRancher: API.OperationMethod<
   PutPublicCloudProjectRancherError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24416, __c763, 0) as any as S.Schema<PutPublicCloudProjectRancherRequest>,
-  output: __S(1158, __c36, 6) as any as S.Schema<PublicCloudRancherRancher>,
+  input: __S(24448, __c764, 0) as any as S.Schema<PutPublicCloudProjectRancherRequest>,
+  output: __S(1190, __c37, 6) as any as S.Schema<PublicCloudRancherRancher>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -29756,8 +29788,8 @@ export const putPublicCloudProjectSecurityGroup: API.OperationMethod<
   PutPublicCloudProjectSecurityGroupError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24449, __c764, 1) as any as S.Schema<PutPublicCloudProjectSecurityGroupRequest>,
-  output: __S(1286, __c40, 6) as any as S.Schema<PublicCloudSecurityGroupSecurityGroup>,
+  input: __S(24481, __c765, 1) as any as S.Schema<PutPublicCloudProjectSecurityGroupRequest>,
+  output: __S(1318, __c41, 6) as any as S.Schema<PublicCloudSecurityGroupSecurityGroup>,
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -29773,8 +29805,8 @@ export const putPublicCloudProjectStorageBlockBackup: API.OperationMethod<
   PutPublicCloudProjectStorageBlockBackupError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24481, __c765, 1) as any as S.Schema<PutPublicCloudProjectStorageBlockBackupRequest>,
-  output: __S(1441, __c45, 1) as any as S.Schema<PublicCloudBlockStorageBackup>,
+  input: __S(24513, __c766, 1) as any as S.Schema<PutPublicCloudProjectStorageBlockBackupRequest>,
+  output: __S(1473, __c46, 1) as any as S.Schema<PublicCloudBlockStorageBackup>,
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -29790,8 +29822,8 @@ export const putPublicCloudProjectStorageBlockSnapshot: API.OperationMethod<
   PutPublicCloudProjectStorageBlockSnapshotError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24513, __c766, 1) as any as S.Schema<PutPublicCloudProjectStorageBlockSnapshotRequest>,
-  output: __S(1505, __c47, 1) as any as S.Schema<PublicCloudBlockStorageSnapshot>,
+  input: __S(24545, __c767, 1) as any as S.Schema<PutPublicCloudProjectStorageBlockSnapshotRequest>,
+  output: __S(1537, __c48, 1) as any as S.Schema<PublicCloudBlockStorageSnapshot>,
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -29811,8 +29843,8 @@ export const putPublicCloudProjectStorageBlockVolume: API.OperationMethod<
   PutPublicCloudProjectStorageBlockVolumeError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24545, __c767, 1) as any as S.Schema<PutPublicCloudProjectStorageBlockVolumeRequest>,
-  output: __S(1637, __c51, 5) as any as S.Schema<PublicCloudBlockStorageBlock>,
+  input: __S(24577, __c768, 1) as any as S.Schema<PutPublicCloudProjectStorageBlockVolumeRequest>,
+  output: __S(1669, __c52, 5) as any as S.Schema<PublicCloudBlockStorageBlock>,
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -29832,8 +29864,8 @@ export const putPublicCloudProjectStorageFileShare: API.OperationMethod<
   PutPublicCloudProjectStorageFileShareError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24577, __c768, 1) as any as S.Schema<PutPublicCloudProjectStorageFileShareRequest>,
-  output: __S(5575, __c174, 7) as any as S.Schema<PublicCloudStorageFileFileStorage>,
+  input: __S(24609, __c769, 1) as any as S.Schema<PutPublicCloudProjectStorageFileShareRequest>,
+  output: __S(5607, __c175, 7) as any as S.Schema<PublicCloudStorageFileFileStorage>,
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -29849,8 +29881,8 @@ export const putPublicCloudProjectStorageFileSnapshot: API.OperationMethod<
   PutPublicCloudProjectStorageFileSnapshotError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24609, __c769, 1) as any as S.Schema<PutPublicCloudProjectStorageFileSnapshotRequest>,
-  output: __S(1858, __c58, 2) as any as S.Schema<PublicCloudStorageFileFileStorageSnapshot>,
+  input: __S(24641, __c770, 1) as any as S.Schema<PutPublicCloudProjectStorageFileSnapshotRequest>,
+  output: __S(1890, __c59, 2) as any as S.Schema<PublicCloudStorageFileFileStorageSnapshot>,
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -29866,8 +29898,8 @@ export const putPublicCloudProjectStorageObjectBucket: API.OperationMethod<
   PutPublicCloudProjectStorageObjectBucketError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24641, __c770, 1) as any as S.Schema<PutPublicCloudProjectStorageObjectBucketRequest>,
-  output: __S(1926, __c60, 6) as any as S.Schema<PublicCloudStorageObjectBucket>,
+  input: __S(24673, __c771, 1) as any as S.Schema<PutPublicCloudProjectStorageObjectBucketRequest>,
+  output: __S(1958, __c61, 6) as any as S.Schema<PublicCloudStorageObjectBucket>,
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -29884,11 +29916,11 @@ export const putPublicCloudProjectStorageObjectBucketLifecycle: API.OperationMet
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    24672,
-    __c771,
+    24704,
+    __c772,
     0,
   ) as any as S.Schema<PutPublicCloudProjectStorageObjectBucketLifecycleRequest>,
-  output: __S(22154, __c692, 10) as any as S.Schema<PublicCloudStorageObjectLifecycleRulesResponse>,
+  output: __S(22186, __c693, 10) as any as S.Schema<PublicCloudStorageObjectLifecycleRulesResponse>,
   errors: [Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -29905,11 +29937,11 @@ export const putPublicCloudProjectStorageObjectBucketObject: API.OperationMethod
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    24800,
-    __c775,
+    24832,
+    __c776,
     0,
   ) as any as S.Schema<PutPublicCloudProjectStorageObjectBucketObjectRequest>,
-  output: __S(25984, __c812, 0) as any as S.Schema<PublicCloudStorageObjectS3Object>,
+  output: __S(26016, __c813, 0) as any as S.Schema<PublicCloudStorageObjectS3Object>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -29926,11 +29958,11 @@ export const putPublicCloudProjectStorageObjectBucketObjectVersion: API.Operatio
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    24832,
-    __c776,
+    24864,
+    __c777,
     0,
   ) as any as S.Schema<PutPublicCloudProjectStorageObjectBucketObjectVersionRequest>,
-  output: __S(5888, __c184, 0) as any as S.Schema<PublicCloudStorageObjectS3ObjectVersion>,
+  output: __S(5920, __c185, 0) as any as S.Schema<PublicCloudStorageObjectS3ObjectVersion>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -29947,13 +29979,13 @@ export const putPublicCloudProjectStorageObjectBucketReplication: API.OperationM
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    24864,
-    __c777,
+    24896,
+    __c778,
     0,
   ) as any as S.Schema<PutPublicCloudProjectStorageObjectBucketReplicationRequest>,
   output: __S(
-    22468,
-    __c702,
+    22500,
+    __c703,
     4,
   ) as any as S.Schema<PublicCloudStorageObjectReplicationRulesResponse>,
   errors: [Conflict, UnknownOvhError],
@@ -29971,8 +30003,8 @@ export const redeployPublicCloudProjectAiAgentsAgent: API.OperationMethod<
   RedeployPublicCloudProjectAiAgentsAgentError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24896, __c778, 0) as any as S.Schema<RedeployPublicCloudProjectAiAgentsAgentRequest>,
-  output: __S(194, __c6, 2) as any as S.Schema<PublicCloudAiAgentsAgent>,
+  input: __S(24928, __c779, 0) as any as S.Schema<RedeployPublicCloudProjectAiAgentsAgentRequest>,
+  output: __S(226, __c7, 2) as any as S.Schema<PublicCloudAiAgentsAgent>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -29990,11 +30022,11 @@ export const resetPublicCloudProjectManagedAnalyticsClickhousePrometheusCredenti
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    24928,
-    __c779,
+    24960,
+    __c780,
     0,
   ) as any as S.Schema<ResetPublicCloudProjectManagedAnalyticsClickhousePrometheusCredentialsRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<PublicCloudDatabasePrometheusAccess>,
+  output: __S(1248, __c39, 0) as any as S.Schema<PublicCloudDatabasePrometheusAccess>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -30012,11 +30044,11 @@ export const resetPublicCloudProjectManagedAnalyticsKafkaConnectPrometheusCreden
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    24960,
-    __c780,
+    24992,
+    __c781,
     0,
   ) as any as S.Schema<ResetPublicCloudProjectManagedAnalyticsKafkaConnectPrometheusCredentialsRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<PublicCloudDatabasePrometheusAccess>,
+  output: __S(1248, __c39, 0) as any as S.Schema<PublicCloudDatabasePrometheusAccess>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -30034,11 +30066,11 @@ export const resetPublicCloudProjectManagedAnalyticsKafkaMirrorMakerPrometheusCr
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    24992,
-    __c781,
+    25024,
+    __c782,
     0,
   ) as any as S.Schema<ResetPublicCloudProjectManagedAnalyticsKafkaMirrorMakerPrometheusCredentialsRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<PublicCloudDatabasePrometheusAccess>,
+  output: __S(1248, __c39, 0) as any as S.Schema<PublicCloudDatabasePrometheusAccess>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -30055,11 +30087,11 @@ export const resetPublicCloudProjectManagedAnalyticsKafkaPrometheusCredentials: 
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    25024,
-    __c782,
+    25056,
+    __c783,
     0,
   ) as any as S.Schema<ResetPublicCloudProjectManagedAnalyticsKafkaPrometheusCredentialsRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<PublicCloudDatabasePrometheusAccess>,
+  output: __S(1248, __c39, 0) as any as S.Schema<PublicCloudDatabasePrometheusAccess>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -30080,11 +30112,11 @@ export const resetPublicCloudProjectManagedAnalyticsLakehouseUserCredentials: AP
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    25056,
-    __c783,
+    25088,
+    __c784,
     0,
   ) as any as S.Schema<ResetPublicCloudProjectManagedAnalyticsLakehouseUserCredentialsRequest>,
-  output: __S(25060, __c783, 4) as any as S.Schema<PublicCloudLakehouseCredentials>,
+  output: __S(25092, __c784, 4) as any as S.Schema<PublicCloudLakehouseCredentials>,
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -30102,11 +30134,11 @@ export const resetPublicCloudProjectManagedAnalyticsOpensearchPrometheusCredenti
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    25088,
-    __c784,
+    25120,
+    __c785,
     0,
   ) as any as S.Schema<ResetPublicCloudProjectManagedAnalyticsOpensearchPrometheusCredentialsRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<PublicCloudDatabasePrometheusAccess>,
+  output: __S(1248, __c39, 0) as any as S.Schema<PublicCloudDatabasePrometheusAccess>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -30123,11 +30155,11 @@ export const resetPublicCloudProjectManagedDatabaseMongodbPrometheusCredentials:
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    25184,
-    __c787,
+    25216,
+    __c788,
     0,
   ) as any as S.Schema<ResetPublicCloudProjectManagedDatabaseMongodbPrometheusCredentialsRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<PublicCloudDatabasePrometheusAccess>,
+  output: __S(1248, __c39, 0) as any as S.Schema<PublicCloudDatabasePrometheusAccess>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -30144,11 +30176,11 @@ export const resetPublicCloudProjectManagedDatabaseMysqlPrometheusCredentials: A
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    25216,
-    __c788,
+    25248,
+    __c789,
     0,
   ) as any as S.Schema<ResetPublicCloudProjectManagedDatabaseMysqlPrometheusCredentialsRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<PublicCloudDatabasePrometheusAccess>,
+  output: __S(1248, __c39, 0) as any as S.Schema<PublicCloudDatabasePrometheusAccess>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -30165,13 +30197,13 @@ export const resetPublicCloudProjectManagedDatabaseMysqlQueryStatistics: API.Ope
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    25248,
-    __c789,
+    25280,
+    __c790,
     0,
   ) as any as S.Schema<ResetPublicCloudProjectManagedDatabaseMysqlQueryStatisticsRequest>,
   output: __S(
-    5760,
-    __c180,
+    5792,
+    __c181,
     0,
   ) as any as S.Schema<ResetPublicCloudProjectManagedDatabaseMysqlQueryStatisticsResponse>,
   errors: [UnknownOvhError],
@@ -30190,11 +30222,11 @@ export const resetPublicCloudProjectManagedDatabasePostgresqlPrometheusCredentia
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    25280,
-    __c790,
+    25312,
+    __c791,
     0,
   ) as any as S.Schema<ResetPublicCloudProjectManagedDatabasePostgresqlPrometheusCredentialsRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<PublicCloudDatabasePrometheusAccess>,
+  output: __S(1248, __c39, 0) as any as S.Schema<PublicCloudDatabasePrometheusAccess>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -30211,13 +30243,13 @@ export const resetPublicCloudProjectManagedDatabasePostgresqlQueryStatistics: AP
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    25312,
-    __c791,
+    25344,
+    __c792,
     0,
   ) as any as S.Schema<ResetPublicCloudProjectManagedDatabasePostgresqlQueryStatisticsRequest>,
   output: __S(
-    5760,
-    __c180,
+    5792,
+    __c181,
     0,
   ) as any as S.Schema<ResetPublicCloudProjectManagedDatabasePostgresqlQueryStatisticsResponse>,
   errors: [UnknownOvhError],
@@ -30236,11 +30268,11 @@ export const resetPublicCloudProjectManagedDatabaseValkeyPrometheusCredentials: 
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    25344,
-    __c792,
+    25376,
+    __c793,
     0,
   ) as any as S.Schema<ResetPublicCloudProjectManagedDatabaseValkeyPrometheusCredentialsRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<PublicCloudDatabasePrometheusAccess>,
+  output: __S(1248, __c39, 0) as any as S.Schema<PublicCloudDatabasePrometheusAccess>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -30257,11 +30289,11 @@ export const resetPublicCloudProjectManagedKubernetesKubeconfig: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    25376,
-    __c793,
+    25408,
+    __c794,
     0,
   ) as any as S.Schema<ResetPublicCloudProjectManagedKubernetesKubeconfigRequest>,
-  output: __S(641, __c20, 1) as any as S.Schema<PublicCloudManagedKubernetesCluster>,
+  output: __S(673, __c21, 1) as any as S.Schema<PublicCloudManagedKubernetesCluster>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -30278,11 +30310,11 @@ export const restartPublicCloudProjectManagedAnalyticsKafkaConnectConnectorTask:
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    25408,
-    __c794,
+    25440,
+    __c795,
     0,
   ) as any as S.Schema<RestartPublicCloudProjectManagedAnalyticsKafkaConnectConnectorTaskRequest>,
-  output: __S(8160, __c255, 0) as any as S.Schema<PublicCloudDatabaseKafkaConnectConnectorTask>,
+  output: __S(8192, __c256, 0) as any as S.Schema<PublicCloudDatabaseKafkaConnectConnectorTask>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -30299,11 +30331,11 @@ export const restartPublicCloudProjectManagedKubernetes: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    25440,
-    __c795,
+    25472,
+    __c796,
     0,
   ) as any as S.Schema<RestartPublicCloudProjectManagedKubernetesRequest>,
-  output: __S(641, __c20, 1) as any as S.Schema<PublicCloudManagedKubernetesCluster>,
+  output: __S(673, __c21, 1) as any as S.Schema<PublicCloudManagedKubernetesCluster>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -30320,11 +30352,11 @@ export const restorePublicCloudProjectManagedDatabaseMongodb: API.OperationMetho
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    25472,
-    __c796,
+    25504,
+    __c797,
     0,
   ) as any as S.Schema<RestorePublicCloudProjectManagedDatabaseMongodbRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -30344,11 +30376,11 @@ export const restorePublicCloudProjectStorageObjectBucketObjectLastVersion: API.
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    25568,
-    __c799,
+    25600,
+    __c800,
     0,
   ) as any as S.Schema<RestorePublicCloudProjectStorageObjectBucketObjectLastVersionRequest>,
-  output: __S(25984, __c812, 0) as any as S.Schema<PublicCloudStorageObjectS3Object>,
+  output: __S(26016, __c813, 0) as any as S.Schema<PublicCloudStorageObjectS3Object>,
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -30368,11 +30400,11 @@ export const restorePublicCloudProjectStorageObjectBucketObjectVersion: API.Oper
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    25600,
-    __c800,
+    25632,
+    __c801,
     0,
   ) as any as S.Schema<RestorePublicCloudProjectStorageObjectBucketObjectVersionRequest>,
-  output: __S(25984, __c812, 0) as any as S.Schema<PublicCloudStorageObjectS3Object>,
+  output: __S(26016, __c813, 0) as any as S.Schema<PublicCloudStorageObjectS3Object>,
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -30393,11 +30425,11 @@ export const resumePublicCloudProjectManagedAnalyticsLakehouseComputePool: API.O
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    25632,
-    __c801,
+    25664,
+    __c802,
     0,
   ) as any as S.Schema<ResumePublicCloudProjectManagedAnalyticsLakehouseComputePoolRequest>,
-  output: __S(25154, __c786, 2) as any as S.Schema<PublicCloudLakehouseComputePool>,
+  output: __S(25186, __c787, 2) as any as S.Schema<PublicCloudLakehouseComputePool>,
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -30413,8 +30445,8 @@ export const sharePublicCloudProjectStorageFile: API.OperationMethod<
   SharePublicCloudProjectStorageFileError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25664, __c802, 0) as any as S.Schema<SharePublicCloudProjectStorageFileRequest>,
-  output: __S(5575, __c174, 7) as any as S.Schema<PublicCloudStorageFileFileStorage>,
+  input: __S(25696, __c803, 0) as any as S.Schema<SharePublicCloudProjectStorageFileRequest>,
+  output: __S(5607, __c175, 7) as any as S.Schema<PublicCloudStorageFileFileStorage>,
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -30435,11 +30467,11 @@ export const suspendPublicCloudProjectManagedAnalyticsLakehouseComputePool: API.
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    25696,
-    __c803,
+    25728,
+    __c804,
     0,
   ) as any as S.Schema<SuspendPublicCloudProjectManagedAnalyticsLakehouseComputePoolRequest>,
-  output: __S(25154, __c786, 2) as any as S.Schema<PublicCloudLakehouseComputePool>,
+  output: __S(25186, __c787, 2) as any as S.Schema<PublicCloudLakehouseComputePool>,
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -30456,11 +30488,11 @@ export const triggerPublicCloudProjectStorageObjectBucketReplication: API.Operat
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    25728,
-    __c804,
+    25760,
+    __c805,
     0,
   ) as any as S.Schema<TriggerPublicCloudProjectStorageObjectBucketReplicationRequest>,
-  output: __S(13472, __c421, 0) as any as S.Schema<PublicCloudStorageObjectReplicationJob>,
+  output: __S(13504, __c422, 0) as any as S.Schema<PublicCloudStorageObjectReplicationJob>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -30477,11 +30509,11 @@ export const updatePublicCloudProjectManagedAnalyticsClickhouse: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    25760,
-    __c805,
+    25792,
+    __c806,
     0,
   ) as any as S.Schema<UpdatePublicCloudProjectManagedAnalyticsClickhouseRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -30498,11 +30530,11 @@ export const updatePublicCloudProjectManagedAnalyticsClickhouseUser: API.Operati
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    25824,
-    __c807,
+    25856,
+    __c808,
     0,
   ) as any as S.Schema<UpdatePublicCloudProjectManagedAnalyticsClickhouseUserRequest>,
-  output: __S(12256, __c383, 0) as any as S.Schema<PublicCloudDatabaseUserWithRoles>,
+  output: __S(12288, __c384, 0) as any as S.Schema<PublicCloudDatabaseUserWithRoles>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -30519,11 +30551,11 @@ export const updatePublicCloudProjectManagedAnalyticsGrafana: API.OperationMetho
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    25856,
-    __c808,
+    25888,
+    __c809,
     0,
   ) as any as S.Schema<UpdatePublicCloudProjectManagedAnalyticsGrafanaRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -30540,11 +30572,11 @@ export const updatePublicCloudProjectManagedAnalyticsGrafanaUser: API.OperationM
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    25888,
-    __c809,
+    25920,
+    __c810,
     0,
   ) as any as S.Schema<UpdatePublicCloudProjectManagedAnalyticsGrafanaUserRequest>,
-  output: __S(18528, __c579, 0) as any as S.Schema<PublicCloudDatabaseUser>,
+  output: __S(18560, __c580, 0) as any as S.Schema<PublicCloudDatabaseUser>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -30561,11 +30593,11 @@ export const updatePublicCloudProjectManagedAnalyticsKafka: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    26080,
-    __c815,
+    26112,
+    __c816,
     0,
   ) as any as S.Schema<UpdatePublicCloudProjectManagedAnalyticsKafkaRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -30582,11 +30614,11 @@ export const updatePublicCloudProjectManagedAnalyticsKafkaConnect: API.Operation
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    26112,
-    __c816,
+    26144,
+    __c817,
     0,
   ) as any as S.Schema<UpdatePublicCloudProjectManagedAnalyticsKafkaConnectRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -30603,11 +30635,11 @@ export const updatePublicCloudProjectManagedAnalyticsKafkaConnectConnector: API.
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    26144,
-    __c817,
+    26176,
+    __c818,
     0,
   ) as any as S.Schema<UpdatePublicCloudProjectManagedAnalyticsKafkaConnectConnectorRequest>,
-  output: __S(16672, __c521, 0) as any as S.Schema<PublicCloudDatabaseKafkaConnectConnector>,
+  output: __S(16704, __c522, 0) as any as S.Schema<PublicCloudDatabaseKafkaConnectConnector>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -30624,11 +30656,11 @@ export const updatePublicCloudProjectManagedAnalyticsKafkaConnectUser: API.Opera
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    26176,
-    __c818,
+    26208,
+    __c819,
     0,
   ) as any as S.Schema<UpdatePublicCloudProjectManagedAnalyticsKafkaConnectUserRequest>,
-  output: __S(18528, __c579, 0) as any as S.Schema<PublicCloudDatabaseUser>,
+  output: __S(18560, __c580, 0) as any as S.Schema<PublicCloudDatabaseUser>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -30645,11 +30677,11 @@ export const updatePublicCloudProjectManagedAnalyticsKafkaMirrorMaker: API.Opera
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    26208,
-    __c819,
+    26240,
+    __c820,
     0,
   ) as any as S.Schema<UpdatePublicCloudProjectManagedAnalyticsKafkaMirrorMakerRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -30666,11 +30698,11 @@ export const updatePublicCloudProjectManagedAnalyticsKafkaMirrorMakerReplication
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    26240,
-    __c820,
+    26272,
+    __c821,
     0,
   ) as any as S.Schema<UpdatePublicCloudProjectManagedAnalyticsKafkaMirrorMakerReplicationRequest>,
-  output: __S(22272, __c696, 0) as any as S.Schema<PublicCloudDatabaseKafkaMirrorMakerReplication>,
+  output: __S(22304, __c697, 0) as any as S.Schema<PublicCloudDatabaseKafkaMirrorMakerReplication>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -30687,11 +30719,11 @@ export const updatePublicCloudProjectManagedAnalyticsKafkaTopic: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    26272,
-    __c821,
+    26304,
+    __c822,
     0,
   ) as any as S.Schema<UpdatePublicCloudProjectManagedAnalyticsKafkaTopicRequest>,
-  output: __S(23072, __c721, 0) as any as S.Schema<PublicCloudDatabaseKafkaTopic>,
+  output: __S(23104, __c722, 0) as any as S.Schema<PublicCloudDatabaseKafkaTopic>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -30708,11 +30740,11 @@ export const updatePublicCloudProjectManagedAnalyticsKafkaUser: API.OperationMet
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    26304,
-    __c822,
+    26336,
+    __c823,
     0,
   ) as any as S.Schema<UpdatePublicCloudProjectManagedAnalyticsKafkaUserRequest>,
-  output: __S(18528, __c579, 0) as any as S.Schema<PublicCloudDatabaseUser>,
+  output: __S(18560, __c580, 0) as any as S.Schema<PublicCloudDatabaseUser>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -30729,11 +30761,11 @@ export const updatePublicCloudProjectManagedAnalyticsOpensearch: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    26336,
-    __c823,
+    26368,
+    __c824,
     0,
   ) as any as S.Schema<UpdatePublicCloudProjectManagedAnalyticsOpensearchRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -30750,11 +30782,11 @@ export const updatePublicCloudProjectManagedAnalyticsOpensearchUser: API.Operati
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    26368,
-    __c824,
+    26400,
+    __c825,
     0,
   ) as any as S.Schema<UpdatePublicCloudProjectManagedAnalyticsOpensearchUserRequest>,
-  output: __S(27170, __c849, 2) as any as S.Schema<PublicCloudDatabaseOpensearchUser>,
+  output: __S(27202, __c850, 2) as any as S.Schema<PublicCloudDatabaseOpensearchUser>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -30771,11 +30803,11 @@ export const updatePublicCloudProjectManagedDatabaseMongodb: API.OperationMethod
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    26464,
-    __c827,
+    26496,
+    __c828,
     0,
   ) as any as S.Schema<UpdatePublicCloudProjectManagedDatabaseMongodbRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -30792,11 +30824,11 @@ export const updatePublicCloudProjectManagedDatabaseMongodbUser: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    26496,
-    __c828,
+    26528,
+    __c829,
     0,
   ) as any as S.Schema<UpdatePublicCloudProjectManagedDatabaseMongodbUserRequest>,
-  output: __S(12256, __c383, 0) as any as S.Schema<PublicCloudDatabaseUserWithRoles>,
+  output: __S(12288, __c384, 0) as any as S.Schema<PublicCloudDatabaseUserWithRoles>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -30813,11 +30845,11 @@ export const updatePublicCloudProjectManagedDatabaseMysql: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    26528,
-    __c829,
+    26560,
+    __c830,
     0,
   ) as any as S.Schema<UpdatePublicCloudProjectManagedDatabaseMysqlRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -30834,11 +30866,11 @@ export const updatePublicCloudProjectManagedDatabaseMysqlUser: API.OperationMeth
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    26560,
-    __c830,
+    26592,
+    __c831,
     0,
   ) as any as S.Schema<UpdatePublicCloudProjectManagedDatabaseMysqlUserRequest>,
-  output: __S(18528, __c579, 0) as any as S.Schema<PublicCloudDatabaseUser>,
+  output: __S(18560, __c580, 0) as any as S.Schema<PublicCloudDatabaseUser>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -30855,11 +30887,11 @@ export const updatePublicCloudProjectManagedDatabasePostgresql: API.OperationMet
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    26592,
-    __c831,
+    26624,
+    __c832,
     0,
   ) as any as S.Schema<UpdatePublicCloudProjectManagedDatabasePostgresqlRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -30876,11 +30908,11 @@ export const updatePublicCloudProjectManagedDatabasePostgresqlConnectionPool: AP
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    26624,
-    __c832,
+    26656,
+    __c833,
     0,
   ) as any as S.Schema<UpdatePublicCloudProjectManagedDatabasePostgresqlConnectionPoolRequest>,
-  output: __S(27808, __c869, 0) as any as S.Schema<PublicCloudDatabasePostgresqlConnectionPool>,
+  output: __S(27840, __c870, 0) as any as S.Schema<PublicCloudDatabasePostgresqlConnectionPool>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -30897,11 +30929,11 @@ export const updatePublicCloudProjectManagedDatabasePostgresqlUser: API.Operatio
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    26656,
-    __c833,
+    26688,
+    __c834,
     0,
   ) as any as S.Schema<UpdatePublicCloudProjectManagedDatabasePostgresqlUserRequest>,
-  output: __S(12256, __c383, 0) as any as S.Schema<PublicCloudDatabaseUserWithRoles>,
+  output: __S(12288, __c384, 0) as any as S.Schema<PublicCloudDatabaseUserWithRoles>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -30918,11 +30950,11 @@ export const updatePublicCloudProjectManagedDatabaseValkey: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    26688,
-    __c834,
+    26720,
+    __c835,
     0,
   ) as any as S.Schema<UpdatePublicCloudProjectManagedDatabaseValkeyRequest>,
-  output: __S(9885, __c308, 29) as any as S.Schema<PublicCloudDatabaseService>,
+  output: __S(9917, __c309, 29) as any as S.Schema<PublicCloudDatabaseService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -30939,11 +30971,11 @@ export const updatePublicCloudProjectManagedDatabaseValkeyUser: API.OperationMet
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    26720,
-    __c835,
+    26752,
+    __c836,
     0,
   ) as any as S.Schema<UpdatePublicCloudProjectManagedDatabaseValkeyUserRequest>,
-  output: __S(480, __c15, 0) as any as S.Schema<PublicCloudDatabaseValkeyUser>,
+  output: __S(512, __c16, 0) as any as S.Schema<PublicCloudDatabaseValkeyUser>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -30957,17 +30989,28 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          config: S.optional(S.NullOr(__S(69, __c2, 5))),
+          class: S.optional(S.String),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Error400Body" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          config: S.optional(S.NullOr(__S(101, __c3, 5))),
           enabled: S.optional(S.NullOr(S.Boolean)),
           name: S.String,
-          template: S.optional(S.NullOr(__S(224, __c7, 0))),
+          template: S.optional(S.NullOr(__S(256, __c8, 0))),
         }),
       ).annotate({ identifier: "PublicCloudAiAgentsAgentCreationTargetSpec" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          targetSpec: __S(0, __c0, 0),
+          targetSpec: __S(32, __c1, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -30978,7 +31021,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectAiAgentAgentRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31002,15 +31045,15 @@ function __c1(j: number): any {
           issuer: S.optional(S.String),
           jwksUri: S.optional(S.NullOr(S.String)),
           ownerSub: S.optional(S.NullOr(S.String)),
-          requiredScopes: S.optional(S.NullOr(__S(128, __c4, 0))),
+          requiredScopes: S.optional(S.NullOr(__S(160, __c5, 0))),
         }),
       ).annotate({ identifier: "PublicCloudAiAgentsOAuth2Config" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          kagentJwt: S.optional(S.NullOr(__S(33, __c1, 1))),
+          kagentJwt: S.optional(S.NullOr(__S(65, __c2, 1))),
           mode: S.optional(S.NullOr(S.String)),
-          oauth2: S.optional(S.NullOr(__S(34, __c1, 2))),
+          oauth2: S.optional(S.NullOr(__S(66, __c2, 2))),
         }),
       ).annotate({ identifier: "PublicCloudAiAgentsAuthConfig" });
     case 4:
@@ -31020,7 +31063,7 @@ function __c1(j: number): any {
           search: S.optional(S.NullOr(S.Boolean)),
           searchApiKey: S.optional(S.NullOr(S.String)),
           searchProvider: S.optional(S.NullOr(S.String)),
-          toolsDeny: S.optional(S.NullOr(__S(128, __c4, 0))),
+          toolsDeny: S.optional(S.NullOr(__S(160, __c5, 0))),
           wizard: S.optional(S.NullOr(S.Boolean)),
         }),
       ).annotate({ identifier: "PublicCloudAiAgentsBuiltinsConfig" });
@@ -31043,8 +31086,8 @@ function __c1(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          telegram: S.optional(S.NullOr(__S(37, __c1, 5))),
-          webex: S.optional(S.NullOr(__S(38, __c1, 6))),
+          telegram: S.optional(S.NullOr(__S(69, __c2, 5))),
+          webex: S.optional(S.NullOr(__S(70, __c2, 6))),
         }),
       ).annotate({ identifier: "PublicCloudAiAgentsChannelsConfig" });
     case 8:
@@ -31060,7 +31103,7 @@ function __c1(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          on: S.optional(S.NullOr(__S(160, __c5, 0))),
+          on: S.optional(S.NullOr(__S(192, __c6, 0))),
         }),
       ).annotate({ identifier: "PublicCloudAiAgentsFailoverPolicy" });
     case 10:
@@ -31073,18 +31116,18 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "PublicCloudAiAgentsLlmFallback" });
     case 11:
-      return S.Array(__S(42, __c1, 10));
+      return S.Array(__S(74, __c2, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
-          failover: S.optional(S.NullOr(__S(41, __c1, 9))),
-          fallbacks: S.optional(S.NullOr(__S(43, __c1, 11))),
+          failover: S.optional(S.NullOr(__S(73, __c2, 9))),
+          fallbacks: S.optional(S.NullOr(__S(75, __c2, 11))),
           maxContextMessages: S.optional(S.NullOr(S.Number)),
           maxTokens: S.optional(S.NullOr(S.Number)),
           model: S.optional(S.NullOr(S.String)),
           providerId: S.optional(S.NullOr(S.String)),
           temperature: S.optional(S.NullOr(S.Number)),
-          vision: S.optional(S.NullOr(__S(42, __c1, 10))),
+          vision: S.optional(S.NullOr(__S(74, __c2, 10))),
         }),
       ).annotate({ identifier: "PublicCloudAiAgentsLlmConfig" });
     case 13:
@@ -31100,20 +31143,20 @@ function __c1(j: number): any {
         S.Struct({
           authKind: S.optional(S.NullOr(S.String)),
           enabled: S.optional(S.NullOr(S.Boolean)),
-          headers: S.optional(S.NullOr(__S(96, __c3, 0))),
+          headers: S.optional(S.NullOr(__S(128, __c4, 0))),
           mode: S.optional(S.NullOr(S.String)),
           url: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudAiAgentsMcpServer" });
     case 15:
-      return S.Record(S.String, __S(46, __c1, 14));
+      return S.Record(S.String, __S(78, __c2, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
           consolidateOnTurnEnd: S.optional(S.NullOr(S.Boolean)),
           consolidationCron: S.optional(S.NullOr(S.String)),
           consolidationMaxRounds: S.optional(S.NullOr(S.Number)),
-          corePredicates: S.optional(S.NullOr(__S(128, __c4, 0))),
+          corePredicates: S.optional(S.NullOr(__S(160, __c5, 0))),
           embedderBatchSize: S.optional(S.NullOr(S.Number)),
           embedderModel: S.optional(S.NullOr(S.String)),
           enabled: S.optional(S.NullOr(S.Boolean)),
@@ -31138,16 +31181,16 @@ function __c1(j: number): any {
           maxTurns: S.optional(S.NullOr(S.Number)),
           model: S.optional(S.NullOr(S.String)),
           soul: S.optional(S.NullOr(S.String)),
-          tools: S.optional(S.NullOr(__S(128, __c4, 0))),
+          tools: S.optional(S.NullOr(__S(160, __c5, 0))),
         }),
       ).annotate({ identifier: "PublicCloudAiAgentsAgentSeed" });
     case 18:
-      return S.Record(S.String, __S(49, __c1, 17));
+      return S.Record(S.String, __S(81, __c2, 17));
     case 19:
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.NullOr(S.Boolean)),
-          items: S.optional(S.NullOr(__S(50, __c1, 18))),
+          items: S.optional(S.NullOr(__S(82, __c2, 18))),
         }),
       ).annotate({ identifier: "PublicCloudAiAgentsAgentsConfig" });
     case 20:
@@ -31159,7 +31202,7 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "PublicCloudAiAgentsModelCapabilityOverride" });
     case 21:
-      return S.Record(S.String, __S(52, __c1, 20));
+      return S.Record(S.String, __S(84, __c2, 20));
     case 22:
       return S.suspend(() =>
         S.Struct({
@@ -31168,11 +31211,11 @@ function __c1(j: number): any {
           apiBase: S.optional(S.NullOr(S.String)),
           apiKey: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           displayName: S.optional(S.NullOr(S.String)),
-          models: S.optional(S.NullOr(__S(53, __c1, 21))),
+          models: S.optional(S.NullOr(__S(85, __c2, 21))),
         }),
       ).annotate({ identifier: "PublicCloudAiAgentsProviderConfig" });
     case 23:
-      return S.Record(S.String, __S(54, __c1, 22));
+      return S.Record(S.String, __S(86, __c2, 22));
     case 24:
       return S.suspend(() =>
         S.Struct({
@@ -31190,13 +31233,13 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "PublicCloudAiAgentsSkillSeed" });
     case 26:
-      return S.Record(S.String, __S(57, __c1, 25));
+      return S.Record(S.String, __S(89, __c2, 25));
     case 27:
       return S.suspend(() =>
         S.Struct({
-          builtins: S.optional(S.NullOr(__S(128, __c4, 0))),
+          builtins: S.optional(S.NullOr(__S(160, __c5, 0))),
           enabled: S.optional(S.NullOr(S.Boolean)),
-          items: S.optional(S.NullOr(__S(58, __c1, 26))),
+          items: S.optional(S.NullOr(__S(90, __c2, 26))),
         }),
       ).annotate({ identifier: "PublicCloudAiAgentsSkillsConfig" });
     case 28:
@@ -31212,27 +31255,27 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           action: S.optional(S.String),
-          args: S.optional(S.NullOr(__S(96, __c3, 0))),
+          args: S.optional(S.NullOr(__S(128, __c4, 0))),
           phase: S.optional(S.NullOr(S.String)),
           reason: S.optional(S.NullOr(S.String)),
           result: S.optional(S.NullOr(S.String)),
           tool: S.optional(S.NullOr(S.String)),
-          triggers: S.optional(S.NullOr(__S(160, __c5, 0))),
+          triggers: S.optional(S.NullOr(__S(192, __c6, 0))),
           unattended: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "PublicCloudAiAgentsPermissionRule" });
     case 30:
-      return S.Array(__S(61, __c1, 29));
+      return S.Array(__S(93, __c2, 29));
     case 31:
       return S.suspend(() =>
         S.Struct({
-          judge: S.optional(S.NullOr(__S(60, __c1, 28))),
-          rules: S.optional(S.NullOr(__S(62, __c1, 30))),
+          judge: S.optional(S.NullOr(__S(92, __c2, 28))),
+          rules: S.optional(S.NullOr(__S(94, __c2, 30))),
         }),
       ).annotate({ identifier: "PublicCloudAiAgentsToolPermissionsConfig" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31252,7 +31295,7 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "PublicCloudAiAgentsMountConfig" });
     case 1:
-      return S.Array(__S(64, __c2, 0));
+      return S.Array(__S(96, __c3, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -31275,46 +31318,40 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           agentsPath: S.optional(S.NullOr(S.String)),
-          mount: S.optional(S.NullOr(__S(65, __c2, 1))),
-          scratchpad: S.optional(S.NullOr(__S(66, __c2, 2))),
+          mount: S.optional(S.NullOr(__S(97, __c3, 1))),
+          scratchpad: S.optional(S.NullOr(__S(98, __c3, 2))),
           skillsPath: S.optional(S.NullOr(S.String)),
-          zerofs: S.optional(S.NullOr(__S(67, __c2, 3))),
+          zerofs: S.optional(S.NullOr(__S(99, __c3, 3))),
         }),
       ).annotate({ identifier: "PublicCloudAiAgentsWorkspace" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          agent: S.optional(S.NullOr(__S(32, __c1, 0))),
-          auth: S.optional(S.NullOr(__S(35, __c1, 3))),
-          builtins: S.optional(S.NullOr(__S(36, __c1, 4))),
-          channels: S.optional(S.NullOr(__S(39, __c1, 7))),
-          exec: S.optional(S.NullOr(__S(40, __c1, 8))),
-          llm: S.optional(S.NullOr(__S(44, __c1, 12))),
-          mcpIndexer: S.optional(S.NullOr(__S(45, __c1, 13))),
-          mcpServers: S.optional(S.NullOr(__S(47, __c1, 15))),
-          memory: S.optional(S.NullOr(__S(48, __c1, 16))),
-          profiles: S.optional(S.NullOr(__S(51, __c1, 19))),
-          providers: S.optional(S.NullOr(__S(55, __c1, 23))),
-          relay: S.optional(S.NullOr(__S(56, __c1, 24))),
-          skills: S.optional(S.NullOr(__S(59, __c1, 27))),
+          agent: S.optional(S.NullOr(__S(64, __c2, 0))),
+          auth: S.optional(S.NullOr(__S(67, __c2, 3))),
+          builtins: S.optional(S.NullOr(__S(68, __c2, 4))),
+          channels: S.optional(S.NullOr(__S(71, __c2, 7))),
+          exec: S.optional(S.NullOr(__S(72, __c2, 8))),
+          llm: S.optional(S.NullOr(__S(76, __c2, 12))),
+          mcpIndexer: S.optional(S.NullOr(__S(77, __c2, 13))),
+          mcpServers: S.optional(S.NullOr(__S(79, __c2, 15))),
+          memory: S.optional(S.NullOr(__S(80, __c2, 16))),
+          profiles: S.optional(S.NullOr(__S(83, __c2, 19))),
+          providers: S.optional(S.NullOr(__S(87, __c2, 23))),
+          relay: S.optional(S.NullOr(__S(88, __c2, 24))),
+          skills: S.optional(S.NullOr(__S(91, __c2, 27))),
           soul: S.optional(S.NullOr(S.String)),
-          toolPermissions: S.optional(S.NullOr(__S(63, __c1, 31))),
+          toolPermissions: S.optional(S.NullOr(__S(95, __c2, 31))),
           version: S.optional(S.NullOr(S.String)),
-          workspace: S.optional(S.NullOr(__S(68, __c2, 4))),
+          workspace: S.optional(S.NullOr(__S(100, __c3, 4))),
         }),
       ).annotate({ identifier: "PublicCloudAiAgentsConfig" });
-  }
-}
-function __c3(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.String);
   }
 }
 function __c4(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
+      return S.Record(S.String, S.String);
   }
 }
 function __c5(j: number): any {
@@ -31324,6 +31361,12 @@ function __c5(j: number): any {
   }
 }
 function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31346,16 +31389,16 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           createdAt: S.optional(S.String),
-          currentState: S.optional(S.NullOr(__S(192, __c6, 0))),
+          currentState: S.optional(S.NullOr(__S(224, __c7, 0))),
           id: S.optional(S.String),
           resourceStatus: S.optional(S.String),
-          targetSpec: S.optional(__S(193, __c6, 1)),
+          targetSpec: S.optional(__S(225, __c7, 1)),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudAiAgentsAgent" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31365,7 +31408,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "PublicCloudAiAgentsAgentTemplateRef" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31373,7 +31416,7 @@ function __c8(j: number): any {
           projectId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
           name: S.String,
-          roles: S.optional(S.NullOr(__S(128, __c4, 0))),
+          roles: S.optional(S.NullOr(__S(160, __c5, 0))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -31384,13 +31427,13 @@ function __c8(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectManagedDatabasePostgresqlUserRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          targetSpec: __S(9761, __c305, 1),
+          targetSpec: __S(9793, __c306, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -31401,7 +31444,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectManagedDatabaseValkeyRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31409,7 +31452,7 @@ function __c10(j: number): any {
           projectId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
           destinationServiceId: S.String,
-          parameters: S.optional(S.NullOr(__S(96, __c3, 0))),
+          parameters: S.optional(S.NullOr(__S(128, __c4, 0))),
           sourceServiceId: S.String,
           type: S.String,
         }).pipe(
@@ -31422,7 +31465,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectManagedDatabaseValkeyIntegrationRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31443,7 +31486,7 @@ function __c11(j: number): any {
       });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31461,7 +31504,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectManagedDatabaseValkeyLogUrlRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31478,17 +31521,17 @@ function __c13(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectManagedDatabaseValkeyMaintenanceRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
-          categories: S.optional(__S(128, __c4, 0)),
-          channels: S.optional(__S(128, __c4, 0)),
-          commands: S.optional(__S(128, __c4, 0)),
-          keys: S.optional(__S(128, __c4, 0)),
+          categories: S.optional(__S(160, __c5, 0)),
+          channels: S.optional(__S(160, __c5, 0)),
+          commands: S.optional(__S(160, __c5, 0)),
+          keys: S.optional(__S(160, __c5, 0)),
           name: S.String,
         }).pipe(
           T.Http({
@@ -31500,19 +31543,19 @@ function __c14(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectManagedDatabaseValkeyUserRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          categories: S.optional(__S(128, __c4, 0)),
-          channels: S.optional(__S(128, __c4, 0)),
+          categories: S.optional(__S(160, __c5, 0)),
+          channels: S.optional(__S(160, __c5, 0)),
           checksum: S.optional(S.String),
-          commands: S.optional(__S(128, __c4, 0)),
+          commands: S.optional(__S(160, __c5, 0)),
           createdAt: S.optional(S.String),
           credentialsLastUpdatedAt: S.optional(S.String),
           id: S.optional(S.String),
-          keys: S.optional(__S(128, __c4, 0)),
+          keys: S.optional(__S(160, __c5, 0)),
           password: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           status: S.optional(S.String),
           username: S.optional(S.String),
@@ -31520,13 +31563,13 @@ function __c15(j: number): any {
       ).annotate({ identifier: "PublicCloudDatabaseValkeyUser" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          targetSpec: __S(634, __c19, 26),
+          targetSpec: __S(666, __c20, 26),
         }).pipe(
           T.Http({
             method: "POST",
@@ -31537,7 +31580,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectManagedKubernetesRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31547,7 +31590,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "PublicCloudManagedKubernetesAutoUpgradeTrack" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31557,7 +31600,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "PublicCloudManagedKubernetesAdmissionPlugin" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31566,26 +31609,26 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "PublicCloudManagedKubernetesAuthorizedIpRule" });
     case 1:
-      return S.Array(__S(608, __c19, 0));
+      return S.Array(__S(640, __c20, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          rules: S.optional(S.NullOr(__S(609, __c19, 1))),
+          rules: S.optional(S.NullOr(__S(641, __c20, 1))),
         }),
       ).annotate({ identifier: "PublicCloudManagedKubernetesAuthorizedIps" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          authorizedIps: S.optional(S.NullOr(__S(610, __c19, 2))),
+          authorizedIps: S.optional(S.NullOr(__S(642, __c20, 2))),
         }),
       ).annotate({ identifier: "PublicCloudManagedKubernetesApiServerAccess" });
     case 4:
-      return S.Record(S.String, __S(576, __c18, 0));
+      return S.Record(S.String, __S(608, __c19, 0));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          access: S.optional(S.NullOr(__S(611, __c19, 3))),
-          admissionPlugins: S.optional(S.NullOr(__S(612, __c19, 4))),
+          access: S.optional(S.NullOr(__S(643, __c20, 3))),
+          admissionPlugins: S.optional(S.NullOr(__S(644, __c20, 4))),
         }),
       ).annotate({ identifier: "PublicCloudManagedKubernetesApiServer" });
     case 6:
@@ -31593,11 +31636,11 @@ function __c19(j: number): any {
         S.Struct({
           caContent: S.optional(S.NullOr(S.String)),
           clientId: S.String,
-          groupsClaim: S.optional(S.NullOr(__S(128, __c4, 0))),
+          groupsClaim: S.optional(S.NullOr(__S(160, __c5, 0))),
           groupsPrefix: S.optional(S.NullOr(S.String)),
           issuerUrl: S.String,
-          requiredClaim: S.optional(S.NullOr(__S(128, __c4, 0))),
-          signingAlgs: S.optional(S.NullOr(__S(160, __c5, 0))),
+          requiredClaim: S.optional(S.NullOr(__S(160, __c5, 0))),
+          signingAlgs: S.optional(S.NullOr(__S(192, __c6, 0))),
           usernameClaim: S.optional(S.NullOr(S.String)),
           usernamePrefix: S.optional(S.NullOr(S.String)),
         }),
@@ -31605,14 +31648,14 @@ function __c19(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          oidc: S.optional(S.NullOr(__S(614, __c19, 6))),
+          oidc: S.optional(S.NullOr(__S(646, __c20, 6))),
           type: S.String,
         }),
       ).annotate({ identifier: "PublicCloudManagedKubernetesAuthentication" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          patch: S.optional(S.NullOr(__S(544, __c17, 0))),
+          patch: S.optional(S.NullOr(__S(576, __c18, 0))),
         }),
       ).annotate({ identifier: "PublicCloudManagedKubernetesAutoUpgrade" });
     case 9:
@@ -31636,15 +31679,15 @@ function __c19(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          iptables: S.optional(S.NullOr(__S(617, __c19, 9))),
-          ipvs: S.optional(S.NullOr(__S(618, __c19, 10))),
+          iptables: S.optional(S.NullOr(__S(649, __c20, 9))),
+          ipvs: S.optional(S.NullOr(__S(650, __c20, 10))),
           mode: S.String,
         }),
       ).annotate({ identifier: "PublicCloudManagedKubernetesKubeProxy" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          kubeProxy: S.optional(S.NullOr(__S(619, __c19, 11))),
+          kubeProxy: S.optional(S.NullOr(__S(651, __c20, 11))),
         }),
       ).annotate({ identifier: "PublicCloudManagedKubernetesCniCanal" });
     case 13:
@@ -31657,7 +31700,7 @@ function __c19(j: number): any {
     case 14:
       return S.suspend(() =>
         S.Struct({
-          apiServer: S.optional(S.NullOr(__S(621, __c19, 13))),
+          apiServer: S.optional(S.NullOr(__S(653, __c20, 13))),
           enabled: S.optional(S.NullOr(S.Boolean)),
         }),
       ).annotate({ identifier: "PublicCloudManagedKubernetesCiliumClusterMesh" });
@@ -31671,39 +31714,39 @@ function __c19(j: number): any {
     case 16:
       return S.suspend(() =>
         S.Struct({
-          limits: S.optional(S.NullOr(__S(623, __c19, 15))),
-          requests: S.optional(S.NullOr(__S(623, __c19, 15))),
+          limits: S.optional(S.NullOr(__S(655, __c20, 15))),
+          requests: S.optional(S.NullOr(__S(655, __c20, 15))),
         }),
       ).annotate({ identifier: "PublicCloudManagedKubernetesCiliumResourceRequirements" });
     case 17:
       return S.suspend(() =>
         S.Struct({
-          backendResources: S.optional(S.NullOr(__S(624, __c19, 16))),
+          backendResources: S.optional(S.NullOr(__S(656, __c20, 16))),
           enabled: S.optional(S.NullOr(S.Boolean)),
-          frontendResources: S.optional(S.NullOr(__S(624, __c19, 16))),
+          frontendResources: S.optional(S.NullOr(__S(656, __c20, 16))),
         }),
       ).annotate({ identifier: "PublicCloudManagedKubernetesCiliumHubbleUi" });
     case 18:
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.NullOr(S.Boolean)),
-          relay: S.optional(S.NullOr(__S(544, __c17, 0))),
-          ui: S.optional(S.NullOr(__S(625, __c19, 17))),
+          relay: S.optional(S.NullOr(__S(576, __c18, 0))),
+          ui: S.optional(S.NullOr(__S(657, __c20, 17))),
         }),
       ).annotate({ identifier: "PublicCloudManagedKubernetesCiliumHubble" });
     case 19:
       return S.suspend(() =>
         S.Struct({
           clusterId: S.optional(S.NullOr(S.Number)),
-          clusterMesh: S.optional(S.NullOr(__S(622, __c19, 14))),
-          hubble: S.optional(S.NullOr(__S(626, __c19, 18))),
+          clusterMesh: S.optional(S.NullOr(__S(654, __c20, 14))),
+          hubble: S.optional(S.NullOr(__S(658, __c20, 18))),
         }),
       ).annotate({ identifier: "PublicCloudManagedKubernetesCniCilium" });
     case 20:
       return S.suspend(() =>
         S.Struct({
-          canal: S.optional(S.NullOr(__S(620, __c19, 12))),
-          cilium: S.optional(S.NullOr(__S(627, __c19, 19))),
+          canal: S.optional(S.NullOr(__S(652, __c20, 12))),
+          cilium: S.optional(S.NullOr(__S(659, __c20, 19))),
           type: S.String,
         }),
       ).annotate({ identifier: "PublicCloudManagedKubernetesCni" });
@@ -31724,13 +31767,13 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          userGateway: S.optional(S.NullOr(__S(630, __c19, 22))),
+          userGateway: S.optional(S.NullOr(__S(662, __c20, 22))),
         }),
       ).annotate({ identifier: "PublicCloudManagedKubernetesDefaultEgress" });
     case 24:
       return S.suspend(() =>
         S.Struct({
-          defaultEgress: S.optional(S.NullOr(__S(631, __c19, 23))),
+          defaultEgress: S.optional(S.NullOr(__S(663, __c20, 23))),
           loadBalancerSubnetId: S.optional(S.NullOr(S.String)),
           privateNetworkId: S.String,
           subnetId: S.String,
@@ -31740,19 +31783,19 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          vrack: S.optional(S.NullOr(__S(632, __c19, 24))),
+          vrack: S.optional(S.NullOr(__S(664, __c20, 24))),
         }),
       ).annotate({ identifier: "PublicCloudManagedKubernetesNetwork" });
     case 26:
       return S.suspend(() =>
         S.Struct({
-          apiServer: S.optional(S.NullOr(__S(613, __c19, 5))),
-          authentication: S.optional(S.NullOr(__S(615, __c19, 7))),
-          autoUpgrade: S.optional(S.NullOr(__S(616, __c19, 8))),
-          cni: __S(628, __c19, 20),
-          ipAllocationPolicy: S.optional(S.NullOr(__S(629, __c19, 21))),
+          apiServer: S.optional(S.NullOr(__S(645, __c20, 5))),
+          authentication: S.optional(S.NullOr(__S(647, __c20, 7))),
+          autoUpgrade: S.optional(S.NullOr(__S(648, __c20, 8))),
+          cni: __S(660, __c20, 20),
+          ipAllocationPolicy: S.optional(S.NullOr(__S(661, __c20, 21))),
           name: S.optional(S.NullOr(S.String)),
-          network: __S(633, __c19, 25),
+          network: __S(665, __c20, 25),
           plan: S.String,
           region: S.String,
           version: S.optional(S.NullOr(S.String)),
@@ -31767,15 +31810,15 @@ function __c19(j: number): any {
     case 28:
       return S.suspend(() =>
         S.Struct({
-          authorizedIps: S.optional(S.NullOr(__S(610, __c19, 2))),
-          publicEndpoint: S.optional(S.NullOr(__S(635, __c19, 27))),
+          authorizedIps: S.optional(S.NullOr(__S(642, __c20, 2))),
+          publicEndpoint: S.optional(S.NullOr(__S(667, __c20, 27))),
         }),
       ).annotate({ identifier: "PublicCloudManagedKubernetesCurrentStateApiServerAccess" });
     case 29:
       return S.suspend(() =>
         S.Struct({
-          access: S.optional(S.NullOr(__S(636, __c19, 28))),
-          admissionPlugins: S.optional(S.NullOr(__S(612, __c19, 4))),
+          access: S.optional(S.NullOr(__S(668, __c20, 28))),
+          admissionPlugins: S.optional(S.NullOr(__S(644, __c20, 4))),
         }),
       ).annotate({ identifier: "PublicCloudManagedKubernetesCurrentStateApiServer" });
     case 30:
@@ -31783,11 +31826,11 @@ function __c19(j: number): any {
         S.Struct({
           caContent: S.optional(S.NullOr(S.String)),
           clientId: S.optional(S.NullOr(S.String)),
-          groupsClaim: S.optional(S.NullOr(__S(128, __c4, 0))),
+          groupsClaim: S.optional(S.NullOr(__S(160, __c5, 0))),
           groupsPrefix: S.optional(S.NullOr(S.String)),
           issuerUrl: S.optional(S.NullOr(S.String)),
-          requiredClaim: S.optional(S.NullOr(__S(128, __c4, 0))),
-          signingAlgs: S.optional(S.NullOr(__S(160, __c5, 0))),
+          requiredClaim: S.optional(S.NullOr(__S(160, __c5, 0))),
+          signingAlgs: S.optional(S.NullOr(__S(192, __c6, 0))),
           usernameClaim: S.optional(S.NullOr(S.String)),
           usernamePrefix: S.optional(S.NullOr(S.String)),
         }),
@@ -31795,25 +31838,25 @@ function __c19(j: number): any {
     case 31:
       return S.suspend(() =>
         S.Struct({
-          oidc: S.optional(S.NullOr(__S(638, __c19, 30))),
+          oidc: S.optional(S.NullOr(__S(670, __c20, 30))),
           type: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "PublicCloudManagedKubernetesCurrentStateAuthentication" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          apiServer: S.optional(S.NullOr(__S(637, __c19, 29))),
-          authentication: S.optional(S.NullOr(__S(639, __c19, 31))),
-          autoUpgrade: S.optional(S.NullOr(__S(616, __c19, 8))),
-          cni: S.optional(S.NullOr(__S(628, __c19, 20))),
+          apiServer: S.optional(S.NullOr(__S(669, __c20, 29))),
+          authentication: S.optional(S.NullOr(__S(671, __c20, 31))),
+          autoUpgrade: S.optional(S.NullOr(__S(648, __c20, 8))),
+          cni: S.optional(S.NullOr(__S(660, __c20, 20))),
           deployedVersion: S.optional(S.NullOr(S.String)),
-          ipAllocationPolicy: S.optional(S.NullOr(__S(629, __c19, 21))),
+          ipAllocationPolicy: S.optional(S.NullOr(__S(661, __c20, 21))),
           name: S.optional(S.NullOr(S.String)),
-          network: S.optional(S.NullOr(__S(633, __c19, 25))),
+          network: S.optional(S.NullOr(__S(665, __c20, 25))),
           plan: S.optional(S.NullOr(S.String)),
           region: S.optional(S.NullOr(S.String)),
           version: S.optional(S.NullOr(S.String)),
@@ -31824,24 +31867,24 @@ function __c20(j: number): any {
         S.Struct({
           checksum: S.optional(S.String),
           createdAt: S.optional(S.String),
-          currentState: S.optional(__S(640, __c20, 0)),
-          currentTasks: S.optional(S.NullOr(__S(27553, __c861, 1))),
+          currentState: S.optional(__S(672, __c21, 0)),
+          currentTasks: S.optional(S.NullOr(__S(27585, __c862, 1))),
           id: S.optional(S.String),
           resourceStatus: S.optional(S.String),
-          targetSpec: S.optional(__S(634, __c19, 26)),
+          targetSpec: S.optional(__S(666, __c20, 26)),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudManagedKubernetesCluster" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           managedKubernetesId: S.String.pipe(T.Label()),
-          targetSpec: __S(713, __c22, 9),
+          targetSpec: __S(745, __c23, 9),
         }).pipe(
           T.Http({
             method: "POST",
@@ -31852,7 +31895,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectManagedKubernetesNodepoolRequest" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31875,22 +31918,22 @@ function __c22(j: number): any {
           enabled: S.optional(S.NullOr(S.Boolean)),
           maxNodes: S.optional(S.NullOr(S.Number)),
           minNodes: S.optional(S.NullOr(S.Number)),
-          scaleDown: S.optional(S.NullOr(__S(705, __c22, 1))),
+          scaleDown: S.optional(S.NullOr(__S(737, __c23, 1))),
         }),
       ).annotate({ identifier: "PublicCloudManagedKubernetesAutoscaler" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          attachFloatingIp: S.optional(S.NullOr(__S(544, __c17, 0))),
+          attachFloatingIp: S.optional(S.NullOr(__S(576, __c18, 0))),
           flavor: S.String,
         }),
       ).annotate({ identifier: "PublicCloudManagedKubernetesNodeConfig" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          annotations: S.optional(S.NullOr(__S(96, __c3, 0))),
-          finalizers: S.optional(S.NullOr(__S(128, __c4, 0))),
-          labels: S.optional(S.NullOr(__S(96, __c3, 0))),
+          annotations: S.optional(S.NullOr(__S(128, __c4, 0))),
+          finalizers: S.optional(S.NullOr(__S(160, __c5, 0))),
+          labels: S.optional(S.NullOr(__S(128, __c4, 0))),
         }),
       ).annotate({ identifier: "PublicCloudManagedKubernetesNodeTemplateMetadata" });
     case 5:
@@ -31902,32 +31945,32 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "PublicCloudManagedKubernetesTaint" });
     case 6:
-      return S.Array(__S(709, __c22, 5));
+      return S.Array(__S(741, __c23, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          taints: S.optional(S.NullOr(__S(710, __c22, 6))),
+          taints: S.optional(S.NullOr(__S(742, __c23, 6))),
           unschedulable: S.optional(S.NullOr(S.Boolean)),
         }),
       ).annotate({ identifier: "PublicCloudManagedKubernetesNodeTemplateSpec" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(S.NullOr(__S(708, __c22, 4))),
-          spec: S.optional(S.NullOr(__S(711, __c22, 7))),
+          metadata: S.optional(S.NullOr(__S(740, __c23, 4))),
+          spec: S.optional(S.NullOr(__S(743, __c23, 7))),
         }),
       ).annotate({ identifier: "PublicCloudManagedKubernetesNodeTemplate" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          antiAffinity: S.optional(S.NullOr(__S(704, __c22, 0))),
-          autoscaler: S.optional(S.NullOr(__S(706, __c22, 2))),
+          antiAffinity: S.optional(S.NullOr(__S(736, __c23, 0))),
+          autoscaler: S.optional(S.NullOr(__S(738, __c23, 2))),
           availabilityZone: S.optional(S.NullOr(S.String)),
           billingType: S.optional(S.NullOr(S.String)),
           desiredNodes: S.Number,
           name: S.optional(S.NullOr(S.String)),
-          nodeConfig: __S(707, __c22, 3),
-          template: S.optional(S.NullOr(__S(712, __c22, 8))),
+          nodeConfig: __S(739, __c23, 3),
+          template: S.optional(S.NullOr(__S(744, __c23, 8))),
         }),
       ).annotate({ identifier: "PublicCloudManagedKubernetesNodepoolTargetSpec" });
     case 10:
@@ -31947,16 +31990,16 @@ function __c22(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          antiAffinity: S.optional(S.NullOr(__S(704, __c22, 0))),
-          autoscaler: S.optional(S.NullOr(__S(706, __c22, 2))),
+          antiAffinity: S.optional(S.NullOr(__S(736, __c23, 0))),
+          autoscaler: S.optional(S.NullOr(__S(738, __c23, 2))),
           availabilityZone: S.optional(S.NullOr(S.String)),
           billingType: S.optional(S.NullOr(S.String)),
           desiredNodes: S.optional(S.NullOr(S.Number)),
           name: S.optional(S.NullOr(S.String)),
-          nodeConfig: S.optional(S.NullOr(__S(707, __c22, 3))),
-          rollout: S.optional(S.NullOr(__S(714, __c22, 10))),
-          status: S.optional(S.NullOr(__S(715, __c22, 11))),
-          template: S.optional(S.NullOr(__S(712, __c22, 8))),
+          nodeConfig: S.optional(S.NullOr(__S(739, __c23, 3))),
+          rollout: S.optional(S.NullOr(__S(746, __c23, 10))),
+          status: S.optional(S.NullOr(__S(747, __c23, 11))),
+          template: S.optional(S.NullOr(__S(744, __c23, 8))),
         }),
       ).annotate({ identifier: "PublicCloudManagedKubernetesNodepoolCurrentState" });
     case 13:
@@ -31964,27 +32007,14 @@ function __c22(j: number): any {
         S.Struct({
           checksum: S.optional(S.String),
           createdAt: S.optional(S.String),
-          currentState: S.optional(__S(716, __c22, 12)),
-          currentTasks: S.optional(S.NullOr(__S(27553, __c861, 1))),
+          currentState: S.optional(__S(748, __c23, 12)),
+          currentTasks: S.optional(S.NullOr(__S(27585, __c862, 1))),
           id: S.optional(S.String),
           resourceStatus: S.optional(S.String),
-          targetSpec: S.optional(__S(713, __c22, 9)),
+          targetSpec: S.optional(__S(745, __c23, 9)),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudManagedKubernetesNodepool" });
-  }
-}
-function __c23(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          targetSpec: __S(768, __c24, 0),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/publicCloud/project/{projectId}/network", code: 200 }),
-        ),
-      ).annotate({ identifier: "CreatePublicCloudProjectNetworkRequest" });
   }
 }
 function __c24(j: number): any {
@@ -31992,8 +32022,21 @@ function __c24(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          projectId: S.String.pipe(T.Label()),
+          targetSpec: __S(800, __c25, 0),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/publicCloud/project/{projectId}/network", code: 200 }),
+        ),
+      ).annotate({ identifier: "CreatePublicCloudProjectNetworkRequest" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           description: S.optional(S.NullOr(S.String)),
-          location: __S(2208, __c69, 0),
+          location: __S(2240, __c70, 0),
           name: S.String,
           vlanId: S.optional(S.NullOr(S.Number)),
         }),
@@ -32002,7 +32045,7 @@ function __c24(j: number): any {
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          location: S.optional(__S(2208, __c69, 0)),
+          location: S.optional(__S(2240, __c70, 0)),
           name: S.optional(S.String),
           vlanId: S.optional(S.NullOr(S.Number)),
         }),
@@ -32012,17 +32055,17 @@ function __c24(j: number): any {
         S.Struct({
           checksum: S.optional(S.String),
           createdAt: S.optional(S.String),
-          currentState: S.optional(S.NullOr(__S(769, __c24, 1))),
-          currentTasks: S.optional(S.NullOr(__S(27553, __c861, 1))),
+          currentState: S.optional(S.NullOr(__S(801, __c25, 1))),
+          currentTasks: S.optional(S.NullOr(__S(27585, __c862, 1))),
           id: S.optional(S.String),
           resourceStatus: S.optional(S.String),
-          targetSpec: S.optional(__S(768, __c24, 0)),
+          targetSpec: S.optional(__S(800, __c25, 0)),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudNetworkNetwork" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32049,14 +32092,14 @@ function __c25(j: number): any {
       ).annotate({ identifier: "PublicCloudAiAgentsAgentToken" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           networkId: S.String.pipe(T.Label()),
-          targetSpec: __S(866, __c27, 2),
+          targetSpec: __S(898, __c28, 2),
         }).pipe(
           T.Http({
             method: "POST",
@@ -32067,7 +32110,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectNetworkSubnetRequest" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32077,17 +32120,17 @@ function __c27(j: number): any {
         }),
       ).annotate({ identifier: "PublicCloudNetworkSubnetAllocationPool" });
     case 1:
-      return S.Array(__S(864, __c27, 0));
+      return S.Array(__S(896, __c28, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          allocationPools: S.optional(S.NullOr(__S(865, __c27, 1))),
+          allocationPools: S.optional(S.NullOr(__S(897, __c28, 1))),
           cidr: S.String,
           description: S.optional(S.NullOr(S.String)),
           dhcpEnabled: S.optional(S.NullOr(S.Boolean)),
-          dnsNameservers: S.optional(S.NullOr(__S(128, __c4, 0))),
+          dnsNameservers: S.optional(S.NullOr(__S(160, __c5, 0))),
           gatewayIp: S.optional(S.NullOr(S.String)),
-          location: __S(2208, __c69, 0),
+          location: __S(2240, __c70, 0),
           name: S.String,
         }),
       ).annotate({ identifier: "PublicCloudNetworkSubnetTargetSpec" });
@@ -32099,18 +32142,18 @@ function __c27(j: number): any {
         }),
       ).annotate({ identifier: "PublicCloudNetworkSubnetHostRoute" });
     case 4:
-      return S.Array(__S(867, __c27, 3));
+      return S.Array(__S(899, __c28, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          allocationPools: S.optional(S.NullOr(__S(865, __c27, 1))),
+          allocationPools: S.optional(S.NullOr(__S(897, __c28, 1))),
           cidr: S.optional(S.String),
           description: S.optional(S.String),
           dhcpEnabled: S.optional(S.Boolean),
-          dnsNameservers: S.optional(S.NullOr(__S(128, __c4, 0))),
+          dnsNameservers: S.optional(S.NullOr(__S(160, __c5, 0))),
           gatewayIp: S.optional(S.NullOr(S.String)),
-          hostRoutes: S.optional(S.NullOr(__S(868, __c27, 4))),
-          location: S.optional(__S(2208, __c69, 0)),
+          hostRoutes: S.optional(S.NullOr(__S(900, __c28, 4))),
+          location: S.optional(__S(2240, __c70, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudNetworkSubnetCurrentState" });
@@ -32119,23 +32162,23 @@ function __c27(j: number): any {
         S.Struct({
           checksum: S.optional(S.String),
           createdAt: S.optional(S.String),
-          currentState: S.optional(S.NullOr(__S(869, __c27, 5))),
-          currentTasks: S.optional(S.NullOr(__S(27553, __c861, 1))),
+          currentState: S.optional(S.NullOr(__S(901, __c28, 5))),
+          currentTasks: S.optional(S.NullOr(__S(27585, __c862, 1))),
           id: S.optional(S.String),
           resourceStatus: S.optional(S.String),
-          targetSpec: S.optional(__S(866, __c27, 2)),
+          targetSpec: S.optional(__S(898, __c28, 2)),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudNetworkSubnet" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          targetSpec: __S(929, __c29, 1),
+          targetSpec: __S(961, __c30, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -32146,7 +32189,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectPrivateEndpointRequest" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32159,12 +32202,12 @@ function __c29(j: number): any {
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
-          location: __S(2208, __c69, 0),
+          location: __S(2240, __c70, 0),
           name: S.String,
-          network: S.optional(S.NullOr(__S(224, __c7, 0))),
+          network: S.optional(S.NullOr(__S(256, __c8, 0))),
           publicDnsEnabled: S.optional(S.NullOr(S.Boolean)),
-          service: __S(928, __c29, 0),
-          subnet: S.optional(S.NullOr(__S(224, __c7, 0))),
+          service: __S(960, __c30, 0),
+          subnet: S.optional(S.NullOr(__S(256, __c8, 0))),
           vipAddress: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "PublicCloudPrivateEndpointPrivateEndpointTargetSpec" });
@@ -32182,12 +32225,12 @@ function __c29(j: number): any {
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
           hostname: S.optional(S.NullOr(S.String)),
-          location: S.optional(__S(2208, __c69, 0)),
+          location: S.optional(__S(2240, __c70, 0)),
           name: S.optional(S.String),
-          network: S.optional(S.NullOr(__S(224, __c7, 0))),
+          network: S.optional(S.NullOr(__S(256, __c8, 0))),
           publicDnsEnabled: S.optional(S.Boolean),
-          service: S.optional(__S(930, __c29, 2)),
-          subnet: S.optional(S.NullOr(__S(224, __c7, 0))),
+          service: S.optional(__S(962, __c30, 2)),
+          subnet: S.optional(S.NullOr(__S(256, __c8, 0))),
           vipAddress: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "PublicCloudPrivateEndpointPrivateEndpointCurrentState" });
@@ -32196,23 +32239,23 @@ function __c29(j: number): any {
         S.Struct({
           checksum: S.optional(S.String),
           createdAt: S.optional(S.String),
-          currentState: S.optional(S.NullOr(__S(931, __c29, 3))),
-          currentTasks: S.optional(S.NullOr(__S(27553, __c861, 1))),
+          currentState: S.optional(S.NullOr(__S(963, __c30, 3))),
+          currentTasks: S.optional(S.NullOr(__S(27585, __c862, 1))),
           id: S.optional(S.String),
           resourceStatus: S.optional(S.String),
-          targetSpec: S.optional(__S(929, __c29, 1)),
+          targetSpec: S.optional(__S(961, __c30, 1)),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudPrivateEndpointPrivateEndpoint" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          targetSpec: __S(1024, __c32, 0),
+          targetSpec: __S(1056, __c33, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -32223,7 +32266,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectPublicIpExtNetRequest" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32234,23 +32277,23 @@ function __c31(j: number): any {
       ).annotate({ identifier: "PublicCloudPublicIpPublicIPAssociatedResource" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ipVersion: S.Number,
-          location: __S(2208, __c69, 0),
+          location: __S(2240, __c70, 0),
         }),
       ).annotate({ identifier: "PublicCloudPublicIpPublicIPExtNetTargetSpec" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          associatedResource: S.optional(S.NullOr(__S(992, __c31, 0))),
+          associatedResource: S.optional(S.NullOr(__S(1024, __c32, 0))),
           id: S.optional(S.NullOr(S.String)),
           ip: S.optional(S.String),
           ipVersion: S.optional(S.Number),
-          location: S.optional(__S(2208, __c69, 0)),
+          location: S.optional(__S(2240, __c70, 0)),
         }),
       ).annotate({ identifier: "PublicCloudPublicIpExtNetIPCurrentState" });
     case 2:
@@ -32258,23 +32301,23 @@ function __c32(j: number): any {
         S.Struct({
           checksum: S.optional(S.String),
           createdAt: S.optional(S.String),
-          currentState: S.optional(__S(1025, __c32, 1)),
-          currentTasks: S.optional(__S(27553, __c861, 1)),
+          currentState: S.optional(__S(1057, __c33, 1)),
+          currentTasks: S.optional(__S(27585, __c862, 1)),
           id: S.optional(S.String),
           resourceStatus: S.optional(S.String),
-          targetSpec: S.optional(__S(1024, __c32, 0)),
+          targetSpec: S.optional(__S(1056, __c33, 0)),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudPublicIpExtNetIP" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          targetSpec: __S(1088, __c34, 0),
+          targetSpec: __S(1120, __c35, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -32285,24 +32328,24 @@ function __c33(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectPublicIpFloatingRequest" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
-          location: __S(2208, __c69, 0),
+          location: __S(2240, __c70, 0),
         }),
       ).annotate({ identifier: "PublicCloudPublicIpFloatingIPTargetSpec" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          associatedResource: S.optional(S.NullOr(__S(992, __c31, 0))),
+          associatedResource: S.optional(S.NullOr(__S(1024, __c32, 0))),
           description: S.optional(S.NullOr(S.String)),
           id: S.optional(S.NullOr(S.String)),
           ip: S.optional(S.String),
-          location: S.optional(__S(2208, __c69, 0)),
-          network: S.optional(S.NullOr(__S(3840, __c120, 0))),
+          location: S.optional(__S(2240, __c70, 0)),
+          network: S.optional(S.NullOr(__S(3872, __c121, 0))),
           status: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "PublicCloudPublicIpFloatingIPCurrentState" });
@@ -32311,17 +32354,17 @@ function __c34(j: number): any {
         S.Struct({
           checksum: S.optional(S.String),
           createdAt: S.optional(S.String),
-          currentState: S.optional(S.NullOr(__S(1089, __c34, 1))),
-          currentTasks: S.optional(__S(27553, __c861, 1)),
+          currentState: S.optional(S.NullOr(__S(1121, __c35, 1))),
+          currentTasks: S.optional(__S(27585, __c862, 1)),
           id: S.optional(S.String),
           resourceStatus: S.optional(S.String),
-          targetSpec: S.optional(__S(1088, __c34, 0)),
+          targetSpec: S.optional(__S(1120, __c35, 0)),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudPublicIpFloatingIP" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32336,14 +32379,14 @@ function __c35(j: number): any {
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          targetSpec: __S(1120, __c35, 0),
+          targetSpec: __S(1152, __c36, 0),
         }).pipe(
           T.Http({ method: "POST", uri: "/publicCloud/project/{projectId}/rancher", code: 200 }),
         ),
       ).annotate({ identifier: "CreatePublicCloudProjectRancherRequest" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32353,11 +32396,11 @@ function __c36(j: number): any {
         }),
       ).annotate({ identifier: "PublicCloudRancherIpRestriction" });
     case 1:
-      return S.Array(__S(1152, __c36, 0));
+      return S.Array(__S(1184, __c37, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          egressCidrBlocks: S.optional(__S(128, __c4, 0)),
+          egressCidrBlocks: S.optional(__S(160, __c5, 0)),
         }),
       ).annotate({ identifier: "PublicCloudRancherNetworking" });
     case 3:
@@ -32372,13 +32415,13 @@ function __c36(j: number): any {
         S.Struct({
           bootstrapPassword: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           iamAuthEnabled: S.optional(S.NullOr(S.Boolean)),
-          ipRestrictions: S.optional(S.NullOr(__S(1153, __c36, 1))),
+          ipRestrictions: S.optional(S.NullOr(__S(1185, __c37, 1))),
           name: S.optional(S.String),
-          networking: S.optional(S.NullOr(__S(1154, __c36, 2))),
+          networking: S.optional(S.NullOr(__S(1186, __c37, 2))),
           plan: S.optional(S.String),
           region: S.optional(S.String),
           url: S.optional(S.NullOr(S.String)),
-          usage: S.optional(S.NullOr(__S(1155, __c36, 3))),
+          usage: S.optional(S.NullOr(__S(1187, __c37, 3))),
           version: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudRancherRancherCurrentState" });
@@ -32386,7 +32429,7 @@ function __c36(j: number): any {
       return S.suspend(() =>
         S.Struct({
           iamAuthEnabled: S.optional(S.Boolean),
-          ipRestrictions: S.optional(__S(1153, __c36, 1)),
+          ipRestrictions: S.optional(__S(1185, __c37, 1)),
           name: S.String,
           plan: S.String,
           version: S.String,
@@ -32396,17 +32439,17 @@ function __c36(j: number): any {
       return S.suspend(() =>
         S.Struct({
           createdAt: S.optional(S.String),
-          currentState: S.optional(__S(1156, __c36, 4)),
-          currentTasks: S.optional(S.NullOr(__S(27553, __c861, 1))),
+          currentState: S.optional(__S(1188, __c37, 4)),
+          currentTasks: S.optional(S.NullOr(__S(27585, __c862, 1))),
           id: S.optional(S.String),
           resourceStatus: S.optional(S.String),
-          targetSpec: S.optional(__S(1157, __c36, 5)),
+          targetSpec: S.optional(__S(1189, __c37, 5)),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudRancherRancher" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32423,7 +32466,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectRancherAdminCredentialsRequest" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32434,13 +32477,13 @@ function __c38(j: number): any {
       ).annotate({ identifier: "PublicCloudRancherCredentials" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          targetSpec: __S(1282, __c40, 2),
+          targetSpec: __S(1314, __c41, 2),
         }).pipe(
           T.Http({
             method: "POST",
@@ -32451,7 +32494,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectSecurityGroupRequest" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32462,19 +32505,19 @@ function __c40(j: number): any {
           portRangeMax: S.optional(S.NullOr(S.Number)),
           portRangeMin: S.optional(S.NullOr(S.Number)),
           protocol: S.optional(S.NullOr(S.String)),
-          remoteGroup: S.optional(S.NullOr(__S(224, __c7, 0))),
+          remoteGroup: S.optional(S.NullOr(__S(256, __c8, 0))),
           remoteIpPrefix: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "PublicCloudSecurityGroupSecurityGroupTargetRule" });
     case 1:
-      return S.Array(__S(1280, __c40, 0));
+      return S.Array(__S(1312, __c41, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
-          location: __S(2208, __c69, 0),
+          location: __S(2240, __c70, 0),
           name: S.String,
-          rules: S.optional(S.NullOr(__S(1281, __c40, 1))),
+          rules: S.optional(S.NullOr(__S(1313, __c41, 1))),
         }),
       ).annotate({ identifier: "PublicCloudSecurityGroupSecurityGroupTargetSpec" });
     case 3:
@@ -32487,20 +32530,20 @@ function __c40(j: number): any {
           portRangeMax: S.optional(S.NullOr(S.Number)),
           portRangeMin: S.optional(S.NullOr(S.Number)),
           protocol: S.optional(S.NullOr(S.String)),
-          remoteGroup: S.optional(S.NullOr(__S(224, __c7, 0))),
+          remoteGroup: S.optional(S.NullOr(__S(256, __c8, 0))),
           remoteIpPrefix: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "PublicCloudSecurityGroupSecurityGroupStateRule" });
     case 4:
-      return S.Array(__S(1283, __c40, 3));
+      return S.Array(__S(1315, __c41, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          defaultRules: S.optional(S.NullOr(__S(1284, __c40, 4))),
+          defaultRules: S.optional(S.NullOr(__S(1316, __c41, 4))),
           description: S.optional(S.NullOr(S.String)),
-          location: S.optional(__S(2208, __c69, 0)),
+          location: S.optional(__S(2240, __c70, 0)),
           name: S.optional(S.String),
-          rules: S.optional(S.NullOr(__S(1284, __c40, 4))),
+          rules: S.optional(S.NullOr(__S(1316, __c41, 4))),
         }),
       ).annotate({ identifier: "PublicCloudSecurityGroupSecurityGroupCurrentState" });
     case 6:
@@ -32508,17 +32551,17 @@ function __c40(j: number): any {
         S.Struct({
           checksum: S.optional(S.String),
           createdAt: S.optional(S.String),
-          currentState: S.optional(S.NullOr(__S(1285, __c40, 5))),
-          currentTasks: S.optional(S.NullOr(__S(27553, __c861, 1))),
+          currentState: S.optional(S.NullOr(__S(1317, __c41, 5))),
+          currentTasks: S.optional(S.NullOr(__S(27585, __c862, 1))),
           id: S.optional(S.String),
           resourceStatus: S.optional(S.String),
-          targetSpec: S.optional(__S(1282, __c40, 2)),
+          targetSpec: S.optional(__S(1314, __c41, 2)),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudSecurityGroupSecurityGroup" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32532,7 +32575,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectSshKeyRequest" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32545,13 +32588,13 @@ function __c42(j: number): any {
       ).annotate({ identifier: "PublicCloudSshKeySSHKey" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          targetSpec: __S(1408, __c44, 0),
+          targetSpec: __S(1440, __c45, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -32562,26 +32605,26 @@ function __c43(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectStorageBlockBackupRequest" });
   }
 }
-function __c44(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          description: S.optional(S.NullOr(S.String)),
-          location: __S(2208, __c69, 0),
-          name: S.String,
-          volumeId: S.String,
-        }),
-      ).annotate({ identifier: "PublicCloudBlockStorageBackupTargetSpec" });
-  }
-}
 function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
-          location: S.optional(__S(2208, __c69, 0)),
+          location: __S(2240, __c70, 0),
+          name: S.String,
+          volumeId: S.String,
+        }),
+      ).annotate({ identifier: "PublicCloudBlockStorageBackupTargetSpec" });
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.NullOr(S.String)),
+          location: S.optional(__S(2240, __c70, 0)),
           name: S.optional(S.String),
           size: S.optional(S.Number),
           volumeId: S.optional(S.String),
@@ -32592,23 +32635,23 @@ function __c45(j: number): any {
         S.Struct({
           checksum: S.optional(S.String),
           createdAt: S.optional(S.String),
-          currentState: S.optional(S.NullOr(__S(1440, __c45, 0))),
-          currentTasks: S.optional(S.NullOr(__S(27553, __c861, 1))),
+          currentState: S.optional(S.NullOr(__S(1472, __c46, 0))),
+          currentTasks: S.optional(S.NullOr(__S(27585, __c862, 1))),
           id: S.optional(S.String),
           resourceStatus: S.optional(S.String),
-          targetSpec: S.optional(__S(1408, __c44, 0)),
+          targetSpec: S.optional(__S(1440, __c45, 0)),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudBlockStorageBackup" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          targetSpec: __S(1408, __c44, 0),
+          targetSpec: __S(1440, __c45, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -32619,13 +32662,13 @@ function __c46(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectStorageBlockSnapshotRequest" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
-          location: S.optional(__S(2208, __c69, 0)),
+          location: S.optional(__S(2240, __c70, 0)),
           name: S.optional(S.String),
           size: S.optional(S.Number),
           status: S.optional(S.String),
@@ -32637,22 +32680,22 @@ function __c47(j: number): any {
         S.Struct({
           checksum: S.optional(S.String),
           createdAt: S.optional(S.String),
-          currentState: S.optional(S.NullOr(__S(1504, __c47, 0))),
-          currentTasks: S.optional(S.NullOr(__S(27553, __c861, 1))),
+          currentState: S.optional(S.NullOr(__S(1536, __c48, 0))),
+          currentTasks: S.optional(S.NullOr(__S(27585, __c862, 1))),
           id: S.optional(S.String),
           resourceStatus: S.optional(S.String),
-          targetSpec: S.optional(__S(1408, __c44, 0)),
+          targetSpec: S.optional(__S(1440, __c45, 0)),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudBlockStorageSnapshot" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          config: __S(69, __c2, 5),
+          config: __S(101, __c3, 5),
           description: S.optional(S.NullOr(S.String)),
           name: S.String,
         }),
@@ -32661,7 +32704,7 @@ function __c48(j: number): any {
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          targetSpec: __S(1536, __c48, 0),
+          targetSpec: __S(1568, __c49, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -32672,12 +32715,12 @@ function __c48(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectAiAgentTemplateRequest" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          config: S.optional(S.NullOr(__S(69, __c2, 5))),
+          config: S.optional(S.NullOr(__S(101, __c3, 5))),
           description: S.optional(S.NullOr(S.String)),
           name: S.String,
         }),
@@ -32689,19 +32732,19 @@ function __c49(j: number): any {
           id: S.optional(S.String),
           resourceStatus: S.optional(S.String),
           source: S.optional(S.String),
-          targetSpec: S.optional(__S(1568, __c49, 0)),
+          targetSpec: S.optional(__S(1600, __c50, 0)),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudAiAgentsTemplate" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          targetSpec: __S(1635, __c51, 3),
+          targetSpec: __S(1667, __c52, 3),
         }).pipe(
           T.Http({
             method: "POST",
@@ -32712,7 +32755,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectStorageBlockVolumeRequest" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32733,15 +32776,15 @@ function __c51(j: number): any {
       return S.suspend(() =>
         S.Struct({
           enabled: S.Boolean,
-          kms: S.optional(S.NullOr(__S(1633, __c51, 1))),
+          kms: S.optional(S.NullOr(__S(1665, __c52, 1))),
         }),
       ).annotate({ identifier: "PublicCloudBlockStorageBlockEncryption" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          createFrom: S.optional(S.NullOr(__S(1632, __c51, 0))),
-          encryption: S.optional(S.NullOr(__S(1634, __c51, 2))),
-          location: __S(2208, __c69, 0),
+          createFrom: S.optional(S.NullOr(__S(1664, __c52, 0))),
+          encryption: S.optional(S.NullOr(__S(1666, __c52, 2))),
+          location: __S(2240, __c70, 0),
           name: S.String,
           size: S.Number,
           volumeType: S.optional(S.NullOr(S.String)),
@@ -32750,11 +32793,11 @@ function __c51(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          attachedInstances: S.optional(S.NullOr(__S(3776, __c118, 0))),
+          attachedInstances: S.optional(S.NullOr(__S(3808, __c119, 0))),
           bootable: S.optional(S.Boolean),
           description: S.optional(S.NullOr(S.String)),
-          encryption: S.optional(__S(1634, __c51, 2)),
-          location: S.optional(__S(2208, __c69, 0)),
+          encryption: S.optional(__S(1666, __c52, 2)),
+          location: S.optional(__S(2240, __c70, 0)),
           locked: S.optional(S.Boolean),
           name: S.optional(S.String),
           size: S.optional(S.Number),
@@ -32767,17 +32810,17 @@ function __c51(j: number): any {
         S.Struct({
           checksum: S.optional(S.String),
           createdAt: S.optional(S.String),
-          currentState: S.optional(S.NullOr(__S(1636, __c51, 4))),
-          currentTasks: S.optional(S.NullOr(__S(27553, __c861, 1))),
+          currentState: S.optional(S.NullOr(__S(1668, __c52, 4))),
+          currentTasks: S.optional(S.NullOr(__S(27585, __c862, 1))),
           id: S.optional(S.String),
           resourceStatus: S.optional(S.String),
-          targetSpec: S.optional(__S(1635, __c51, 3)),
+          targetSpec: S.optional(__S(1667, __c52, 3)),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudBlockStorageBlock" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32791,7 +32834,7 @@ function __c52(j: number): any {
           projectId: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           checksum: S.optional(S.NullOr(S.String)),
-          parameters: S.optional(S.NullOr(__S(1664, __c52, 0))),
+          parameters: S.optional(S.NullOr(__S(1696, __c53, 0))),
           type: S.String,
         }).pipe(
           T.Http({
@@ -32803,23 +32846,23 @@ function __c52(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectStorageBlockVolumeActionRequest" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
-          location: __S(2208, __c69, 0),
+          location: __S(2240, __c70, 0),
           name: S.String,
-          network: S.optional(S.NullOr(__S(224, __c7, 0))),
-          subnet: __S(224, __c7, 0),
+          network: S.optional(S.NullOr(__S(256, __c8, 0))),
+          subnet: __S(256, __c8, 0),
         }),
       ).annotate({ identifier: "PublicCloudStorageFileFileStorageNetworkTargetSpec" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          targetSpec: __S(1696, __c53, 0),
+          targetSpec: __S(1728, __c54, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -32830,16 +32873,16 @@ function __c53(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectStorageFileNetworkRequest" });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
-          location: S.optional(__S(2208, __c69, 0)),
+          location: S.optional(__S(2240, __c70, 0)),
           name: S.optional(S.String),
-          network: S.optional(S.NullOr(__S(3840, __c120, 0))),
-          subnet: S.optional(S.NullOr(__S(3840, __c120, 0))),
+          network: S.optional(S.NullOr(__S(3872, __c121, 0))),
+          subnet: S.optional(S.NullOr(__S(3872, __c121, 0))),
         }),
       ).annotate({ identifier: "PublicCloudStorageFileFileStorageNetworkCurrentState" });
     case 1:
@@ -32847,24 +32890,24 @@ function __c54(j: number): any {
         S.Struct({
           checksum: S.optional(S.String),
           createdAt: S.optional(S.String),
-          currentState: S.optional(S.NullOr(__S(1728, __c54, 0))),
-          currentTasks: S.optional(S.NullOr(__S(27553, __c861, 1))),
+          currentState: S.optional(S.NullOr(__S(1760, __c55, 0))),
+          currentTasks: S.optional(S.NullOr(__S(27585, __c862, 1))),
           id: S.optional(S.String),
           resourceStatus: S.optional(S.String),
-          targetSpec: S.optional(__S(1728, __c54, 0)),
+          targetSpec: S.optional(__S(1760, __c55, 0)),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudStorageFileFileStorageNetwork" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           fileStorageId: S.String.pipe(T.Label()),
-          targetSpec: __S(1792, __c56, 0),
+          targetSpec: __S(1824, __c57, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -32875,7 +32918,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectStorageFileShareAclRequest" });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32898,23 +32941,23 @@ function __c56(j: number): any {
         S.Struct({
           checksum: S.optional(S.String),
           createdAt: S.optional(S.String),
-          currentState: S.optional(S.NullOr(__S(1793, __c56, 1))),
-          currentTasks: S.optional(S.NullOr(__S(27553, __c861, 1))),
+          currentState: S.optional(S.NullOr(__S(1825, __c57, 1))),
+          currentTasks: S.optional(S.NullOr(__S(27585, __c862, 1))),
           id: S.optional(S.String),
           resourceStatus: S.optional(S.String),
-          targetSpec: S.optional(__S(1792, __c56, 0)),
+          targetSpec: S.optional(__S(1824, __c57, 0)),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudStorageFileShareAcl" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          targetSpec: __S(1856, __c58, 0),
+          targetSpec: __S(1888, __c59, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -32925,23 +32968,23 @@ function __c57(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectStorageFileSnapshotRequest" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
           name: S.optional(S.NullOr(S.String)),
-          share: __S(224, __c7, 0),
+          share: __S(256, __c8, 0),
         }),
       ).annotate({ identifier: "PublicCloudStorageFileFileStorageSnapshotTargetSpec" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
-          location: S.optional(__S(2208, __c69, 0)),
+          location: S.optional(__S(2240, __c70, 0)),
           name: S.optional(S.NullOr(S.String)),
-          share: S.optional(__S(224, __c7, 0)),
+          share: S.optional(__S(256, __c8, 0)),
           size: S.optional(S.Number),
         }),
       ).annotate({ identifier: "PublicCloudStorageFileFileStorageSnapshotCurrentState" });
@@ -32950,35 +32993,35 @@ function __c58(j: number): any {
         S.Struct({
           checksum: S.optional(S.String),
           createdAt: S.optional(S.String),
-          currentState: S.optional(S.NullOr(__S(1857, __c58, 1))),
-          currentTasks: S.optional(S.NullOr(__S(27553, __c861, 1))),
+          currentState: S.optional(S.NullOr(__S(1889, __c59, 1))),
+          currentTasks: S.optional(S.NullOr(__S(27585, __c862, 1))),
           id: S.optional(S.String),
           resourceStatus: S.optional(S.String),
-          targetSpec: S.optional(__S(1856, __c58, 0)),
+          targetSpec: S.optional(__S(1888, __c59, 0)),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudStorageFileFileStorageSnapshot" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          encryption: S.optional(S.NullOr(__S(1920, __c60, 0))),
-          location: __S(1921, __c60, 1),
+          encryption: S.optional(S.NullOr(__S(1952, __c61, 0))),
+          location: __S(1953, __c61, 1),
           name: S.String,
-          objectLock: S.optional(S.NullOr(__S(1952, __c61, 0))),
+          objectLock: S.optional(S.NullOr(__S(1984, __c62, 0))),
           ownerUserId: S.optional(S.NullOr(S.String)),
-          tags: S.optional(S.NullOr(__S(96, __c3, 0))),
-          versioning: S.optional(S.NullOr(__S(1922, __c60, 2))),
+          tags: S.optional(S.NullOr(__S(128, __c4, 0))),
+          versioning: S.optional(S.NullOr(__S(1954, __c61, 2))),
         }),
       ).annotate({ identifier: "PublicCloudStorageObjectBucketTargetSpecInput" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          targetSpec: __S(1888, __c59, 0),
+          targetSpec: __S(1920, __c60, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -32989,7 +33032,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectStorageObjectBucketRequest" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33021,27 +33064,27 @@ function __c60(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          encryption: S.optional(S.NullOr(__S(1920, __c60, 0))),
-          location: S.optional(__S(1921, __c60, 1)),
+          encryption: S.optional(S.NullOr(__S(1952, __c61, 0))),
+          location: S.optional(__S(1953, __c61, 1)),
           name: S.optional(S.String),
-          objectLock: S.optional(S.NullOr(__S(1923, __c60, 3))),
+          objectLock: S.optional(S.NullOr(__S(1955, __c61, 3))),
           objectsCount: S.optional(S.NullOr(S.Number)),
           objectsSize: S.optional(S.NullOr(S.Number)),
-          tags: S.optional(S.NullOr(__S(96, __c3, 0))),
-          versioning: S.optional(S.NullOr(__S(1922, __c60, 2))),
+          tags: S.optional(S.NullOr(__S(128, __c4, 0))),
+          versioning: S.optional(S.NullOr(__S(1954, __c61, 2))),
           virtualHost: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "PublicCloudStorageObjectBucketCurrentState" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          encryption: S.optional(S.NullOr(__S(1920, __c60, 0))),
-          location: __S(1921, __c60, 1),
+          encryption: S.optional(S.NullOr(__S(1952, __c61, 0))),
+          location: __S(1953, __c61, 1),
           name: S.String,
-          objectLock: S.optional(S.NullOr(__S(1923, __c60, 3))),
+          objectLock: S.optional(S.NullOr(__S(1955, __c61, 3))),
           ownerUserId: S.optional(S.NullOr(S.String)),
-          tags: S.optional(S.NullOr(__S(96, __c3, 0))),
-          versioning: S.optional(S.NullOr(__S(1922, __c60, 2))),
+          tags: S.optional(S.NullOr(__S(128, __c4, 0))),
+          versioning: S.optional(S.NullOr(__S(1954, __c61, 2))),
         }),
       ).annotate({ identifier: "PublicCloudStorageObjectBucketTargetSpec" });
     case 6:
@@ -33049,17 +33092,17 @@ function __c60(j: number): any {
         S.Struct({
           checksum: S.optional(S.String),
           createdAt: S.optional(S.String),
-          currentState: S.optional(S.NullOr(__S(1924, __c60, 4))),
-          currentTasks: S.optional(S.NullOr(__S(27553, __c861, 1))),
+          currentState: S.optional(S.NullOr(__S(1956, __c61, 4))),
+          currentTasks: S.optional(S.NullOr(__S(27585, __c862, 1))),
           id: S.optional(S.String),
           resourceStatus: S.optional(S.String),
-          targetSpec: S.optional(__S(1925, __c60, 5)),
+          targetSpec: S.optional(__S(1957, __c61, 5)),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudStorageObjectBucket" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33071,7 +33114,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "PublicCloudStorageObjectBucketObjectLockConfigInput" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33092,7 +33135,7 @@ function __c62(j: number): any {
       });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33105,7 +33148,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "PublicCloudStorageObjectMultipartUpload" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33122,7 +33165,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectAiAgentAgentRequest" });
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33139,7 +33182,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectAiAgentTemplateRequest" });
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33156,13 +33199,13 @@ function __c66(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectComputeAutobackupRequest" });
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          targetSpec: __S(2177, __c68, 1),
+          targetSpec: __S(2209, __c69, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -33173,7 +33216,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectComputeAutobackupRequest" });
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33186,10 +33229,10 @@ function __c68(j: number): any {
       return S.suspend(() =>
         S.Struct({
           cron: S.String,
-          distant: S.optional(S.NullOr(__S(2176, __c68, 0))),
+          distant: S.optional(S.NullOr(__S(2208, __c69, 0))),
           imageName: S.String,
-          instance: __S(224, __c7, 0),
-          location: __S(2208, __c69, 0),
+          instance: __S(256, __c8, 0),
+          location: __S(2240, __c70, 0),
           name: S.String,
           rotation: S.Number,
         }),
@@ -33205,16 +33248,16 @@ function __c68(j: number): any {
         }),
       ).annotate({ identifier: "PublicCloudInstanceAutobackupExecution" });
     case 3:
-      return S.Array(__S(2178, __c68, 2));
+      return S.Array(__S(2210, __c69, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           cron: S.optional(S.String),
-          distant: S.optional(S.NullOr(__S(2176, __c68, 0))),
+          distant: S.optional(S.NullOr(__S(2208, __c69, 0))),
           imageName: S.optional(S.String),
-          instance: S.optional(__S(224, __c7, 0)),
-          lastExecutions: S.optional(S.NullOr(__S(2179, __c68, 3))),
-          location: S.optional(__S(2208, __c69, 0)),
+          instance: S.optional(__S(256, __c8, 0)),
+          lastExecutions: S.optional(S.NullOr(__S(2211, __c69, 3))),
+          location: S.optional(__S(2240, __c70, 0)),
           name: S.optional(S.String),
           nextExecutionTime: S.optional(S.NullOr(S.String)),
           rotation: S.optional(S.Number),
@@ -33226,17 +33269,17 @@ function __c68(j: number): any {
         S.Struct({
           checksum: S.optional(S.String),
           createdAt: S.optional(S.String),
-          currentState: S.optional(S.NullOr(__S(2180, __c68, 4))),
-          currentTasks: S.optional(S.NullOr(__S(27553, __c861, 1))),
+          currentState: S.optional(S.NullOr(__S(2212, __c69, 4))),
+          currentTasks: S.optional(S.NullOr(__S(27585, __c862, 1))),
           id: S.optional(S.String),
           resourceStatus: S.optional(S.String),
-          targetSpec: S.optional(__S(2177, __c68, 1)),
+          targetSpec: S.optional(__S(2209, __c69, 1)),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudInstanceAutobackup" });
   }
 }
-function __c69(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33247,7 +33290,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "PublicCloudCommonLocation" });
   }
 }
-function __c70(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33264,7 +33307,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectComputeInstanceRequest" });
   }
 }
-function __c71(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33281,7 +33324,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectComputeInstanceGroupRequest" });
   }
 }
-function __c72(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33298,7 +33341,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectComputeReservationRequest" });
   }
 }
-function __c73(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33315,7 +33358,7 @@ function __c73(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectComputeSnapshotRequest" });
   }
 }
-function __c74(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33332,7 +33375,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectGatewayRequest" });
   }
 }
-function __c75(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33349,7 +33392,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectKeyManagerContainerRequest" });
   }
 }
-function __c76(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33367,7 +33410,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectKeyManagerContainerConsumerRequest" });
   }
 }
-function __c77(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33384,7 +33427,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectKeyManagerSecretRequest" });
   }
 }
-function __c78(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33402,7 +33445,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectKeyManagerSecretConsumerRequest" });
   }
 }
-function __c79(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33419,30 +33462,30 @@ function __c79(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectLoadbalancerRequest" });
   }
 }
-function __c80(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          flavor: __S(224, __c7, 0),
-          group: S.optional(S.NullOr(__S(224, __c7, 0))),
-          image: S.optional(S.NullOr(__S(224, __c7, 0))),
-          location: __S(2208, __c69, 0),
+          flavor: __S(256, __c8, 0),
+          group: S.optional(S.NullOr(__S(256, __c8, 0))),
+          image: S.optional(S.NullOr(__S(256, __c8, 0))),
+          location: __S(2240, __c70, 0),
           name: S.String,
-          networks: S.optional(S.NullOr(__S(2593, __c81, 1))),
+          networks: S.optional(S.NullOr(__S(2625, __c82, 1))),
           powerState: S.optional(S.NullOr(S.String)),
-          securityGroups: S.optional(S.NullOr(__S(2688, __c84, 0))),
-          shares: S.optional(S.NullOr(__S(2595, __c81, 3))),
+          securityGroups: S.optional(S.NullOr(__S(2720, __c85, 0))),
+          shares: S.optional(S.NullOr(__S(2627, __c82, 3))),
           sshKeyName: S.optional(S.NullOr(S.String)),
           userData: S.optional(S.NullOr(S.String)),
-          volumes: S.optional(S.NullOr(__S(2688, __c84, 0))),
+          volumes: S.optional(S.NullOr(__S(2720, __c85, 0))),
         }),
       ).annotate({ identifier: "PublicCloudInstanceInstanceTargetSpec" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          targetSpec: __S(2560, __c80, 0),
+          targetSpec: __S(2592, __c81, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -33453,7 +33496,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectComputeInstanceRequest" });
   }
 }
-function __c81(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33465,7 +33508,7 @@ function __c81(j: number): any {
         }),
       ).annotate({ identifier: "PublicCloudInstanceInstanceNetworkRef" });
     case 1:
-      return S.Array(__S(2592, __c81, 0));
+      return S.Array(__S(2624, __c82, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -33474,7 +33517,7 @@ function __c81(j: number): any {
         }),
       ).annotate({ identifier: "PublicCloudInstanceInstanceShareRef" });
     case 3:
-      return S.Array(__S(2594, __c81, 2));
+      return S.Array(__S(2626, __c82, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -33483,7 +33526,7 @@ function __c81(j: number): any {
         }),
       ).annotate({ identifier: "PublicCloudInstanceInstanceAvailableAction" });
     case 5:
-      return S.Array(__S(2596, __c81, 4));
+      return S.Array(__S(2628, __c82, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -33505,18 +33548,18 @@ function __c81(j: number): any {
         }),
       ).annotate({ identifier: "PublicCloudInstanceInstanceNetworkAddress" });
     case 8:
-      return S.Array(__S(2599, __c81, 7));
+      return S.Array(__S(2631, __c82, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          addresses: S.optional(S.NullOr(__S(2600, __c81, 8))),
+          addresses: S.optional(S.NullOr(__S(2632, __c82, 8))),
           gatewayId: S.optional(S.NullOr(S.String)),
           id: S.optional(S.NullOr(S.String)),
           subnetId: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "PublicCloudInstanceInstanceNetwork" });
     case 10:
-      return S.Array(__S(2601, __c81, 9));
+      return S.Array(__S(2633, __c82, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
@@ -33527,7 +33570,7 @@ function __c81(j: number): any {
         }),
       ).annotate({ identifier: "PublicCloudInstanceInstanceShare" });
     case 12:
-      return S.Array(__S(2603, __c81, 11));
+      return S.Array(__S(2635, __c82, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
@@ -33537,42 +33580,42 @@ function __c81(j: number): any {
         }),
       ).annotate({ identifier: "PublicCloudInstanceInstanceVolume" });
     case 14:
-      return S.Array(__S(2605, __c81, 13));
+      return S.Array(__S(2637, __c82, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
-          availableActions: S.optional(__S(2597, __c81, 5)),
-          flavor: S.optional(__S(2656, __c83, 0)),
-          group: S.optional(S.NullOr(__S(224, __c7, 0))),
+          availableActions: S.optional(__S(2629, __c82, 5)),
+          flavor: S.optional(__S(2688, __c84, 0)),
+          group: S.optional(S.NullOr(__S(256, __c8, 0))),
           hostId: S.optional(S.NullOr(S.String)),
-          image: S.optional(S.NullOr(__S(2598, __c81, 6))),
-          location: S.optional(__S(2208, __c69, 0)),
+          image: S.optional(S.NullOr(__S(2630, __c82, 6))),
+          location: S.optional(__S(2240, __c70, 0)),
           locked: S.optional(S.Boolean),
           name: S.optional(S.String),
-          networks: S.optional(S.NullOr(__S(2602, __c81, 10))),
+          networks: S.optional(S.NullOr(__S(2634, __c82, 10))),
           powerState: S.optional(S.String),
           projectId: S.optional(S.String),
-          securityGroups: S.optional(S.NullOr(__S(2688, __c84, 0))),
-          shares: S.optional(S.NullOr(__S(2604, __c81, 12))),
+          securityGroups: S.optional(S.NullOr(__S(2720, __c85, 0))),
+          shares: S.optional(S.NullOr(__S(2636, __c82, 12))),
           sshKeyName: S.optional(S.NullOr(S.String)),
           userId: S.optional(S.String),
-          volumes: S.optional(S.NullOr(__S(2606, __c81, 14))),
+          volumes: S.optional(S.NullOr(__S(2638, __c82, 14))),
         }),
       ).annotate({ identifier: "PublicCloudInstanceInstanceCurrentState" });
     case 16:
       return S.suspend(() =>
         S.Struct({
-          flavor: S.optional(__S(224, __c7, 0)),
-          group: S.optional(S.NullOr(__S(224, __c7, 0))),
-          image: S.optional(S.NullOr(__S(224, __c7, 0))),
-          location: S.optional(__S(2208, __c69, 0)),
+          flavor: S.optional(__S(256, __c8, 0)),
+          group: S.optional(S.NullOr(__S(256, __c8, 0))),
+          image: S.optional(S.NullOr(__S(256, __c8, 0))),
+          location: S.optional(__S(2240, __c70, 0)),
           name: S.optional(S.String),
-          networks: S.optional(S.NullOr(__S(2593, __c81, 1))),
+          networks: S.optional(S.NullOr(__S(2625, __c82, 1))),
           powerState: S.optional(S.NullOr(S.String)),
-          securityGroups: S.optional(S.NullOr(__S(2688, __c84, 0))),
-          shares: S.optional(S.NullOr(__S(2595, __c81, 3))),
+          securityGroups: S.optional(S.NullOr(__S(2720, __c85, 0))),
+          shares: S.optional(S.NullOr(__S(2627, __c82, 3))),
           sshKeyName: S.optional(S.NullOr(S.String)),
-          volumes: S.optional(S.NullOr(__S(2688, __c84, 0))),
+          volumes: S.optional(S.NullOr(__S(2720, __c85, 0))),
         }),
       ).annotate({ identifier: "PublicCloudInstanceInstanceReadTargetSpec" });
     case 17:
@@ -33580,17 +33623,17 @@ function __c81(j: number): any {
         S.Struct({
           checksum: S.optional(S.String),
           createdAt: S.optional(S.String),
-          currentState: S.optional(S.NullOr(__S(2607, __c81, 15))),
-          currentTasks: S.optional(S.NullOr(__S(27553, __c861, 1))),
+          currentState: S.optional(S.NullOr(__S(2639, __c82, 15))),
+          currentTasks: S.optional(S.NullOr(__S(27585, __c862, 1))),
           id: S.optional(S.String),
           resourceStatus: S.optional(S.String),
-          targetSpec: S.optional(__S(2608, __c81, 16)),
+          targetSpec: S.optional(__S(2640, __c82, 16)),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudInstanceInstance" });
   }
 }
-function __c82(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33602,12 +33645,12 @@ function __c82(j: number): any {
       ).annotate({ identifier: "PublicCloudInstanceFlavorBandwidth" });
   }
 }
-function __c83(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          bandwidth: S.optional(S.NullOr(__S(2624, __c82, 0))),
+          bandwidth: S.optional(S.NullOr(__S(2656, __c83, 0))),
           disk: S.optional(S.Number),
           gpus: S.optional(S.Number),
           id: S.optional(S.String),
@@ -33618,13 +33661,13 @@ function __c83(j: number): any {
       ).annotate({ identifier: "PublicCloudInstanceInstanceFlavor" });
   }
 }
-function __c84(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(224, __c7, 0));
+      return S.Array(__S(256, __c8, 0));
   }
 }
-function __c85(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33642,7 +33685,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectLoadbalancerListenerRequest" });
   }
 }
-function __c86(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33661,7 +33704,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectLoadbalancerListenerL7policyRequest" });
   }
 }
-function __c87(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33679,7 +33722,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectLoadbalancerPoolRequest" });
   }
 }
-function __c88(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33698,7 +33741,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectLoadbalancerPoolMemberRequest" });
   }
 }
-function __c89(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33715,7 +33758,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectManagedAnalyticsClickhouseRequest" });
   }
 }
-function __c90(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33735,7 +33778,7 @@ function __c90(j: number): any {
       });
   }
 }
-function __c91(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33755,7 +33798,7 @@ function __c91(j: number): any {
       });
   }
 }
-function __c92(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33775,7 +33818,7 @@ function __c92(j: number): any {
       });
   }
 }
-function __c93(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33793,7 +33836,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectManagedAnalyticsClickhouseUserRequest" });
   }
 }
-function __c94(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33810,7 +33853,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectManagedAnalyticsGrafanaRequest" });
   }
 }
-function __c95(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33825,7 +33868,7 @@ function __c95(j: number): any {
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
           checksum: S.optional(S.NullOr(S.String)),
-          parameters: S.optional(S.NullOr(__S(3040, __c95, 0))),
+          parameters: S.optional(S.NullOr(__S(3072, __c96, 0))),
           type: S.String,
         }).pipe(
           T.Http({
@@ -33837,7 +33880,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectComputeInstanceActionRequest" });
   }
 }
-function __c96(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33857,7 +33900,7 @@ function __c96(j: number): any {
       });
   }
 }
-function __c97(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33877,7 +33920,7 @@ function __c97(j: number): any {
       });
   }
 }
-function __c98(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33894,7 +33937,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectManagedAnalyticsKafkaRequest" });
   }
 }
-function __c99(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33912,7 +33955,7 @@ function __c99(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectManagedAnalyticsKafkaAclRequest" });
   }
 }
-function __c100(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33929,7 +33972,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectManagedAnalyticsKafkaConnectRequest" });
   }
 }
-function __c101(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33949,7 +33992,7 @@ function __c101(j: number): any {
       });
   }
 }
-function __c102(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33969,7 +34012,7 @@ function __c102(j: number): any {
       });
   }
 }
-function __c103(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33989,7 +34032,7 @@ function __c103(j: number): any {
       });
   }
 }
-function __c104(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34007,7 +34050,7 @@ function __c104(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectManagedAnalyticsKafkaConnectUserRequest" });
   }
 }
-function __c105(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34025,7 +34068,7 @@ function __c105(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectManagedAnalyticsKafkaIntegrationRequest" });
   }
 }
-function __c106(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34052,7 +34095,7 @@ function __c106(j: number): any {
       ).annotate({ identifier: "PublicCloudInstanceRemoteConsole" });
   }
 }
-function __c107(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34072,7 +34115,7 @@ function __c107(j: number): any {
       });
   }
 }
-function __c108(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34089,7 +34132,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectManagedAnalyticsKafkaMirrorMakerRequest" });
   }
 }
-function __c109(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34109,7 +34152,7 @@ function __c109(j: number): any {
       });
   }
 }
-function __c110(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34130,7 +34173,7 @@ function __c110(j: number): any {
       });
   }
 }
-function __c111(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34150,7 +34193,7 @@ function __c111(j: number): any {
       });
   }
 }
-function __c112(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34170,7 +34213,7 @@ function __c112(j: number): any {
       });
   }
 }
-function __c113(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34188,7 +34231,7 @@ function __c113(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectManagedAnalyticsKafkaTopicRequest" });
   }
 }
-function __c114(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34206,7 +34249,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectManagedAnalyticsKafkaUserRequest" });
   }
 }
-function __c115(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34224,7 +34267,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectManagedAnalyticsLakehouseRequest" });
   }
 }
-function __c116(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34243,13 +34286,13 @@ function __c116(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectManagedAnalyticsLakehouseCatalogRequest" });
   }
 }
-function __c117(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          targetSpec: __S(3808, __c119, 0),
+          targetSpec: __S(3840, __c120, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -34260,18 +34303,18 @@ function __c117(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectComputeInstanceGroupRequest" });
   }
 }
-function __c118(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(3840, __c120, 0));
+      return S.Array(__S(3872, __c121, 0));
   }
 }
-function __c119(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: __S(2208, __c69, 0),
+          location: __S(2240, __c70, 0),
           name: S.String,
           policy: S.String,
         }),
@@ -34279,8 +34322,8 @@ function __c119(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(2208, __c69, 0)),
-          members: S.optional(S.NullOr(__S(3776, __c118, 0))),
+          location: S.optional(__S(2240, __c70, 0)),
+          members: S.optional(S.NullOr(__S(3808, __c119, 0))),
           name: S.optional(S.String),
           policy: S.optional(S.String),
         }),
@@ -34290,16 +34333,16 @@ function __c119(j: number): any {
         S.Struct({
           checksum: S.optional(S.String),
           createdAt: S.optional(S.String),
-          currentState: S.optional(S.NullOr(__S(3809, __c119, 1))),
-          currentTasks: S.optional(S.NullOr(__S(27553, __c861, 1))),
+          currentState: S.optional(S.NullOr(__S(3841, __c120, 1))),
+          currentTasks: S.optional(S.NullOr(__S(27585, __c862, 1))),
           id: S.optional(S.String),
           resourceStatus: S.optional(S.String),
-          targetSpec: S.optional(__S(3808, __c119, 0)),
+          targetSpec: S.optional(__S(3840, __c120, 0)),
         }),
       ).annotate({ identifier: "PublicCloudInstanceGroupInstanceGroup" });
   }
 }
-function __c120(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34309,7 +34352,7 @@ function __c120(j: number): any {
       ).annotate({ identifier: "PublicCloudInstanceGroupInstanceGroupMemberRef" });
   }
 }
-function __c121(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34331,7 +34374,7 @@ function __c121(j: number): any {
       });
   }
 }
-function __c122(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34351,7 +34394,7 @@ function __c122(j: number): any {
       });
   }
 }
-function __c123(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34369,7 +34412,7 @@ function __c123(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectManagedAnalyticsLakehouseGroupRequest" });
   }
 }
-function __c124(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34390,7 +34433,7 @@ function __c124(j: number): any {
       });
   }
 }
-function __c125(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34408,7 +34451,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectManagedAnalyticsLakehouseRoleRequest" });
   }
 }
-function __c126(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34428,7 +34471,7 @@ function __c126(j: number): any {
       });
   }
 }
-function __c127(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34446,7 +34489,7 @@ function __c127(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectManagedAnalyticsLakehouseUserRequest" });
   }
 }
-function __c128(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34463,7 +34506,7 @@ function __c128(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectManagedAnalyticsOpensearchRequest" });
   }
 }
-function __c129(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34483,7 +34526,7 @@ function __c129(j: number): any {
       });
   }
 }
-function __c130(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34503,13 +34546,13 @@ function __c130(j: number): any {
       });
   }
 }
-function __c131(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          targetSpec: __S(4224, __c132, 0),
+          targetSpec: __S(4256, __c133, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -34520,14 +34563,14 @@ function __c131(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectComputeReservationRequest" });
   }
 }
-function __c132(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           duration: S.String,
-          flavor: __S(224, __c7, 0),
-          location: __S(2208, __c69, 0),
+          flavor: __S(256, __c8, 0),
+          location: __S(2240, __c70, 0),
           name: S.String,
           quantity: S.Number,
         }),
@@ -34537,8 +34580,8 @@ function __c132(j: number): any {
         S.Struct({
           duration: S.optional(S.String),
           endTime: S.optional(S.NullOr(S.String)),
-          flavor: S.optional(__S(2656, __c83, 0)),
-          location: S.optional(__S(2208, __c69, 0)),
+          flavor: S.optional(__S(2688, __c84, 0)),
+          location: S.optional(__S(2240, __c70, 0)),
           name: S.optional(S.String),
           quantity: S.optional(S.Number),
           startTime: S.optional(S.NullOr(S.String)),
@@ -34549,17 +34592,17 @@ function __c132(j: number): any {
         S.Struct({
           checksum: S.optional(S.String),
           createdAt: S.optional(S.String),
-          currentState: S.optional(S.NullOr(__S(4225, __c132, 1))),
-          currentTasks: S.optional(S.NullOr(__S(27553, __c861, 1))),
+          currentState: S.optional(S.NullOr(__S(4257, __c133, 1))),
+          currentTasks: S.optional(S.NullOr(__S(27585, __c862, 1))),
           id: S.optional(S.String),
           resourceStatus: S.optional(S.String),
-          targetSpec: S.optional(__S(4224, __c132, 0)),
+          targetSpec: S.optional(__S(4256, __c133, 0)),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudInstanceReservationInstanceReservation" });
   }
 }
-function __c133(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34579,7 +34622,7 @@ function __c133(j: number): any {
       });
   }
 }
-function __c134(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34597,7 +34640,7 @@ function __c134(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectManagedAnalyticsOpensearchUserRequest" });
   }
 }
-function __c135(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34614,7 +34657,7 @@ function __c135(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectManagedDatabaseMongodbRequest" });
   }
 }
-function __c136(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34634,7 +34677,7 @@ function __c136(j: number): any {
       });
   }
 }
-function __c137(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34652,7 +34695,7 @@ function __c137(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectManagedDatabaseMongodbUserRequest" });
   }
 }
-function __c138(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34669,7 +34712,7 @@ function __c138(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectManagedDatabaseMysqlRequest" });
   }
 }
-function __c139(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34687,7 +34730,7 @@ function __c139(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectManagedDatabaseMysqlDatabaseRequest" });
   }
 }
-function __c140(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34705,7 +34748,7 @@ function __c140(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectManagedDatabaseMysqlIntegrationRequest" });
   }
 }
-function __c141(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34725,7 +34768,7 @@ function __c141(j: number): any {
       });
   }
 }
-function __c142(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34743,13 +34786,13 @@ function __c142(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectManagedDatabaseMysqlUserRequest" });
   }
 }
-function __c143(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          targetSpec: __S(4608, __c144, 0),
+          targetSpec: __S(4640, __c145, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -34760,21 +34803,21 @@ function __c143(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectComputeSnapshotRequest" });
   }
 }
-function __c144(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          instance: __S(224, __c7, 0),
-          location: __S(2208, __c69, 0),
+          instance: __S(256, __c8, 0),
+          location: __S(2240, __c70, 0),
           name: S.String,
         }),
       ).annotate({ identifier: "PublicCloudInstanceSnapshotTargetSpec" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          instance: S.optional(__S(224, __c7, 0)),
-          location: S.optional(__S(2208, __c69, 0)),
+          instance: S.optional(__S(256, __c8, 0)),
+          location: S.optional(__S(2240, __c70, 0)),
           minDisk: S.optional(S.NullOr(S.Number)),
           minRam: S.optional(S.NullOr(S.Number)),
           name: S.optional(S.String),
@@ -34789,17 +34832,17 @@ function __c144(j: number): any {
         S.Struct({
           checksum: S.optional(S.String),
           createdAt: S.optional(S.String),
-          currentState: S.optional(S.NullOr(__S(4609, __c144, 1))),
-          currentTasks: S.optional(S.NullOr(__S(27553, __c861, 1))),
+          currentState: S.optional(S.NullOr(__S(4641, __c145, 1))),
+          currentTasks: S.optional(S.NullOr(__S(27585, __c862, 1))),
           id: S.optional(S.String),
           resourceStatus: S.optional(S.String),
-          targetSpec: S.optional(__S(4608, __c144, 0)),
+          targetSpec: S.optional(__S(4640, __c145, 0)),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudInstanceSnapshot" });
   }
 }
-function __c145(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34816,7 +34859,7 @@ function __c145(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectManagedDatabasePostgresqlRequest" });
   }
 }
-function __c146(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34836,7 +34879,7 @@ function __c146(j: number): any {
       });
   }
 }
-function __c147(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34856,7 +34899,7 @@ function __c147(j: number): any {
       });
   }
 }
-function __c148(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34876,7 +34919,7 @@ function __c148(j: number): any {
       });
   }
 }
-function __c149(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34896,7 +34939,7 @@ function __c149(j: number): any {
       });
   }
 }
-function __c150(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34914,7 +34957,7 @@ function __c150(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectManagedDatabasePostgresqlUserRequest" });
   }
 }
-function __c151(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34931,7 +34974,7 @@ function __c151(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectManagedDatabaseValkeyRequest" });
   }
 }
-function __c152(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34949,7 +34992,7 @@ function __c152(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectManagedDatabaseValkeyIntegrationRequest" });
   }
 }
-function __c153(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34969,7 +35012,7 @@ function __c153(j: number): any {
       });
   }
 }
-function __c154(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34987,20 +35030,20 @@ function __c154(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectManagedDatabaseValkeyUserRequest" });
   }
 }
-function __c155(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          targetSpec: __S(4993, __c156, 1),
+          targetSpec: __S(5025, __c157, 1),
         }).pipe(
           T.Http({ method: "POST", uri: "/publicCloud/project/{projectId}/gateway", code: 200 }),
         ),
       ).annotate({ identifier: "CreatePublicCloudProjectGatewayRequest" });
   }
 }
-function __c156(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35013,22 +35056,22 @@ function __c156(j: number): any {
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
-          externalGateway: __S(4992, __c156, 0),
-          location: __S(2208, __c69, 0),
+          externalGateway: __S(5024, __c157, 0),
+          location: __S(2240, __c70, 0),
           name: S.String,
-          subnets: S.optional(S.NullOr(__S(2688, __c84, 0))),
+          subnets: S.optional(S.NullOr(__S(2720, __c85, 0))),
         }),
       ).annotate({ identifier: "PublicCloudGatewayGatewayTargetSpec" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
-          externalGateway: S.optional(__S(4992, __c156, 0)),
+          externalGateway: S.optional(__S(5024, __c157, 0)),
           externalIp: S.optional(S.NullOr(S.String)),
-          location: S.optional(__S(2208, __c69, 0)),
+          location: S.optional(__S(2240, __c70, 0)),
           name: S.optional(S.String),
           status: S.optional(S.String),
-          subnets: S.optional(S.NullOr(__S(2688, __c84, 0))),
+          subnets: S.optional(S.NullOr(__S(2720, __c85, 0))),
         }),
       ).annotate({ identifier: "PublicCloudGatewayGatewayCurrentState" });
     case 3:
@@ -35036,17 +35079,17 @@ function __c156(j: number): any {
         S.Struct({
           checksum: S.optional(S.String),
           createdAt: S.optional(S.String),
-          currentState: S.optional(S.NullOr(__S(4994, __c156, 2))),
-          currentTasks: S.optional(S.NullOr(__S(27553, __c861, 1))),
+          currentState: S.optional(S.NullOr(__S(5026, __c157, 2))),
+          currentTasks: S.optional(S.NullOr(__S(27585, __c862, 1))),
           id: S.optional(S.String),
           resourceStatus: S.optional(S.String),
-          targetSpec: S.optional(__S(4993, __c156, 1)),
+          targetSpec: S.optional(__S(5025, __c157, 1)),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudGatewayGateway" });
   }
 }
-function __c157(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35063,7 +35106,7 @@ function __c157(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectManagedKubernetesRequest" });
   }
 }
-function __c158(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35081,7 +35124,7 @@ function __c158(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectManagedKubernetesNodepoolRequest" });
   }
 }
-function __c159(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35098,7 +35141,7 @@ function __c159(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectNetworkRequest" });
   }
 }
-function __c160(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35116,7 +35159,7 @@ function __c160(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectNetworkSubnetRequest" });
   }
 }
-function __c161(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35133,7 +35176,7 @@ function __c161(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectPrivateEndpointRequest" });
   }
 }
-function __c162(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35150,7 +35193,7 @@ function __c162(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectPublicIpExtNetRequest" });
   }
 }
-function __c163(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35167,7 +35210,7 @@ function __c163(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectPublicIpFloatingRequest" });
   }
 }
-function __c164(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35184,7 +35227,7 @@ function __c164(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectRancherRequest" });
   }
 }
-function __c165(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35201,7 +35244,7 @@ function __c165(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectSecurityGroupRequest" });
   }
 }
-function __c166(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35218,13 +35261,13 @@ function __c166(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectSshKeyRequest" });
   }
 }
-function __c167(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          targetSpec: __S(5378, __c168, 2),
+          targetSpec: __S(5410, __c169, 2),
         }).pipe(
           T.Http({
             method: "POST",
@@ -35235,23 +35278,23 @@ function __c167(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectKeyManagerContainerRequest" });
   }
 }
-function __c168(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          secret: __S(224, __c7, 0),
+          secret: __S(256, __c8, 0),
         }),
       ).annotate({ identifier: "PublicCloudKeyManagerContainerSecretRef" });
     case 1:
-      return S.Array(__S(5376, __c168, 0));
+      return S.Array(__S(5408, __c169, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          location: __S(2208, __c69, 0),
+          location: __S(2240, __c70, 0),
           name: S.String,
-          secretRefs: S.optional(S.NullOr(__S(5377, __c168, 1))),
+          secretRefs: S.optional(S.NullOr(__S(5409, __c169, 1))),
           type: S.String,
         }),
       ).annotate({ identifier: "PublicCloudKeyManagerContainerTargetSpec" });
@@ -35259,9 +35302,9 @@ function __c168(j: number): any {
       return S.suspend(() =>
         S.Struct({
           creatorId: S.optional(S.NullOr(S.String)),
-          location: S.optional(__S(2208, __c69, 0)),
+          location: S.optional(__S(2240, __c70, 0)),
           name: S.optional(S.String),
-          secretRefs: S.optional(S.NullOr(__S(5377, __c168, 1))),
+          secretRefs: S.optional(S.NullOr(__S(5409, __c169, 1))),
           status: S.optional(S.String),
           type: S.optional(S.String),
         }),
@@ -35271,17 +35314,17 @@ function __c168(j: number): any {
         S.Struct({
           checksum: S.optional(S.String),
           createdAt: S.optional(S.String),
-          currentState: S.optional(S.NullOr(__S(5379, __c168, 3))),
-          currentTasks: S.optional(S.NullOr(__S(27553, __c861, 1))),
+          currentState: S.optional(S.NullOr(__S(5411, __c169, 3))),
+          currentTasks: S.optional(S.NullOr(__S(27585, __c862, 1))),
           id: S.optional(S.String),
           resourceStatus: S.optional(S.String),
-          targetSpec: S.optional(__S(5378, __c168, 2)),
+          targetSpec: S.optional(__S(5410, __c169, 2)),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudKeyManagerContainer" });
   }
 }
-function __c169(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35298,7 +35341,7 @@ function __c169(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectStorageBlockBackupRequest" });
   }
 }
-function __c170(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35315,7 +35358,7 @@ function __c170(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectStorageBlockSnapshotRequest" });
   }
 }
-function __c171(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35332,7 +35375,7 @@ function __c171(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectStorageBlockVolumeRequest" });
   }
 }
-function __c172(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35349,7 +35392,7 @@ function __c172(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectStorageFileNetworkRequest" });
   }
 }
-function __c173(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35366,7 +35409,7 @@ function __c173(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectStorageFileShareRequest" });
   }
 }
-function __c174(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35377,7 +35420,7 @@ function __c174(j: number): any {
         }),
       ).annotate({ identifier: "PublicCloudStorageFileFileStorageCapability" });
     case 1:
-      return S.Array(__S(5568, __c174, 0));
+      return S.Array(__S(5600, __c175, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -35386,18 +35429,18 @@ function __c174(j: number): any {
         }),
       ).annotate({ identifier: "PublicCloudStorageFileFileStorageExportLocation" });
     case 3:
-      return S.Array(__S(5570, __c174, 2));
+      return S.Array(__S(5602, __c175, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          capabilities: S.optional(S.NullOr(__S(5569, __c174, 1))),
+          capabilities: S.optional(S.NullOr(__S(5601, __c175, 1))),
           description: S.optional(S.NullOr(S.String)),
-          encryption: S.optional(__S(576, __c18, 0)),
-          exportLocations: S.optional(S.NullOr(__S(5571, __c174, 3))),
-          location: S.optional(__S(2208, __c69, 0)),
+          encryption: S.optional(__S(608, __c19, 0)),
+          exportLocations: S.optional(S.NullOr(__S(5603, __c175, 3))),
+          location: S.optional(__S(2240, __c70, 0)),
           name: S.optional(S.String),
           protocol: S.optional(S.String),
-          shareNetwork: S.optional(__S(224, __c7, 0)),
+          shareNetwork: S.optional(__S(256, __c8, 0)),
           shareType: S.optional(S.String),
           size: S.optional(S.Number),
         }),
@@ -35411,13 +35454,13 @@ function __c174(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          createFrom: S.optional(S.NullOr(__S(5573, __c174, 5))),
+          createFrom: S.optional(S.NullOr(__S(5605, __c175, 5))),
           description: S.optional(S.NullOr(S.String)),
-          encryption: S.optional(S.NullOr(__S(576, __c18, 0))),
-          location: __S(2208, __c69, 0),
+          encryption: S.optional(S.NullOr(__S(608, __c19, 0))),
+          location: __S(2240, __c70, 0),
           name: S.String,
           protocol: S.String,
-          shareNetwork: S.optional(S.NullOr(__S(224, __c7, 0))),
+          shareNetwork: S.optional(S.NullOr(__S(256, __c8, 0))),
           shareType: S.optional(S.NullOr(S.String)),
           size: S.optional(S.NullOr(S.Number)),
         }),
@@ -35427,17 +35470,17 @@ function __c174(j: number): any {
         S.Struct({
           checksum: S.optional(S.String),
           createdAt: S.optional(S.String),
-          currentState: S.optional(S.NullOr(__S(5572, __c174, 4))),
-          currentTasks: S.optional(S.NullOr(__S(27553, __c861, 1))),
+          currentState: S.optional(S.NullOr(__S(5604, __c175, 4))),
+          currentTasks: S.optional(S.NullOr(__S(27585, __c862, 1))),
           id: S.optional(S.String),
           resourceStatus: S.optional(S.String),
-          targetSpec: S.optional(__S(5574, __c174, 6)),
+          targetSpec: S.optional(__S(5606, __c175, 6)),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudStorageFileFileStorage" });
   }
 }
-function __c175(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35455,7 +35498,7 @@ function __c175(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectStorageFileShareAclRequest" });
   }
 }
-function __c176(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35472,7 +35515,7 @@ function __c176(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectStorageFileSnapshotRequest" });
   }
 }
-function __c177(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35489,7 +35532,7 @@ function __c177(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectStorageObjectBucketRequest" });
   }
 }
-function __c178(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35507,7 +35550,7 @@ function __c178(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectStorageObjectBucketObjectRequest" });
   }
 }
-function __c179(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35528,7 +35571,7 @@ function __c179(j: number): any {
       });
   }
 }
-function __c180(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -35536,7 +35579,7 @@ function __c180(j: number): any {
       });
   }
 }
-function __c181(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35556,7 +35599,7 @@ function __c181(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectKeyManagerContainerConsumerRequest" });
   }
 }
-function __c182(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35569,7 +35612,7 @@ function __c182(j: number): any {
       ).annotate({ identifier: "PublicCloudKeyManagerContainerConsumer" });
   }
 }
-function __c183(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35588,7 +35631,7 @@ function __c183(j: number): any {
       ).annotate({ identifier: "DeletePublicCloudProjectStorageObjectBucketObjectVersionRequest" });
   }
 }
-function __c184(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35600,9 +35643,9 @@ function __c184(j: number): any {
           key: S.optional(S.String),
           lastModifiedAt: S.optional(S.NullOr(S.String)),
           legalHold: S.optional(S.NullOr(S.String)),
-          lock: S.optional(S.NullOr(__S(25952, __c811, 0))),
+          lock: S.optional(S.NullOr(__S(25984, __c812, 0))),
           replicationStatus: S.optional(S.NullOr(S.String)),
-          restoreStatus: S.optional(S.NullOr(__S(25953, __c811, 1))),
+          restoreStatus: S.optional(S.NullOr(__S(25985, __c812, 1))),
           size: S.optional(S.Number),
           storageClass: S.optional(S.NullOr(S.String)),
           versionId: S.optional(S.String),
@@ -35610,7 +35653,7 @@ function __c184(j: number): any {
       ).annotate({ identifier: "PublicCloudStorageObjectS3ObjectVersion" });
   }
 }
-function __c185(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35627,7 +35670,7 @@ function __c185(j: number): any {
       ).annotate({ identifier: "EnablePublicCloudProjectManagedAnalyticsClickhouseWritesRequest" });
   }
 }
-function __c186(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35637,7 +35680,7 @@ function __c186(j: number): any {
       ).annotate({ identifier: "PublicCloudDatabaseTemporaryWriteDeadline" });
   }
 }
-function __c187(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35654,7 +35697,7 @@ function __c187(j: number): any {
       ).annotate({ identifier: "EnablePublicCloudProjectManagedDatabaseMysqlWritesRequest" });
   }
 }
-function __c188(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35671,7 +35714,7 @@ function __c188(j: number): any {
       ).annotate({ identifier: "EnablePublicCloudProjectManagedDatabasePostgresqlWritesRequest" });
   }
 }
-function __c189(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35681,7 +35724,7 @@ function __c189(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectRequest" });
   }
 }
-function __c190(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35689,31 +35732,31 @@ function __c190(j: number): any {
           displayName: S.optional(S.NullOr(S.String)),
           id: S.optional(S.String),
           state: S.optional(S.NullOr(S.String)),
-          tags: S.optional(S.NullOr(__S(96, __c3, 0))),
+          tags: S.optional(S.NullOr(__S(128, __c4, 0))),
           urn: S.optional(S.String),
         }),
       ).annotate({ identifier: "IamResourceMetadata" });
   }
 }
-function __c191(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           createdAt: S.optional(S.String),
-          currentState: S.optional(__S(27585, __c862, 1)),
-          currentTasks: S.optional(S.NullOr(__S(27553, __c861, 1))),
-          iam: S.optional(S.NullOr(__S(6080, __c190, 0))),
+          currentState: S.optional(__S(27617, __c863, 1)),
+          currentTasks: S.optional(S.NullOr(__S(27585, __c862, 1))),
+          iam: S.optional(S.NullOr(__S(6112, __c191, 0))),
           id: S.optional(S.String),
           name: S.optional(S.NullOr(S.String)),
           resourceStatus: S.optional(S.String),
-          targetSpec: S.optional(__S(27584, __c862, 0)),
+          targetSpec: S.optional(__S(27616, __c863, 0)),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudProjectProjectAsyncWithIAM" });
   }
 }
-function __c192(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35730,7 +35773,7 @@ function __c192(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectAiAgentAgentRequest" });
   }
 }
-function __c193(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35759,19 +35802,19 @@ function __c193(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          auth: S.optional(__S(6177, __c193, 1)),
-          exec: S.optional(__S(6178, __c193, 2)),
+          auth: S.optional(__S(6209, __c194, 1)),
+          exec: S.optional(__S(6210, __c194, 2)),
         }),
       ).annotate({ identifier: "PublicCloudAiAgentsGlobalAgentConfig" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          agentConfig: S.optional(__S(6179, __c193, 3)),
+          agentConfig: S.optional(__S(6211, __c194, 3)),
         }),
       ).annotate({ identifier: "PublicCloudAiAgentsGlobalSettings" });
   }
 }
-function __c194(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35798,7 +35841,7 @@ function __c194(j: number): any {
       ).annotate({ identifier: "PublicCloudAiAgentsAIEndpointsPreset" });
   }
 }
-function __c195(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35815,7 +35858,7 @@ function __c195(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectAiAgentPresetTemplateRequest" });
   }
 }
-function __c196(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35829,7 +35872,7 @@ function __c196(j: number): any {
       ).annotate({ identifier: "PublicCloudAiAgentsTemplatePreset" });
   }
 }
-function __c197(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35846,13 +35889,13 @@ function __c197(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectAiAgentTemplateRequest" });
   }
 }
-function __c198(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          targetSpec: __S(6368, __c199, 0),
+          targetSpec: __S(6400, __c200, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -35863,7 +35906,7 @@ function __c198(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectKeyManagerSecretRequest" });
   }
 }
-function __c199(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35871,8 +35914,8 @@ function __c199(j: number): any {
           algorithm: S.optional(S.NullOr(S.String)),
           bitLength: S.optional(S.NullOr(S.Number)),
           expiration: S.optional(S.NullOr(S.String)),
-          location: __S(2208, __c69, 0),
-          metadata: S.optional(S.NullOr(__S(96, __c3, 0))),
+          location: __S(2240, __c70, 0),
+          metadata: S.optional(S.NullOr(__S(128, __c4, 0))),
           mode: S.optional(S.NullOr(S.String)),
           name: S.optional(S.NullOr(S.String)),
           payload: S.optional(S.NullOr(S.String)),
@@ -35887,8 +35930,8 @@ function __c199(j: number): any {
           bitLength: S.optional(S.NullOr(S.Number)),
           creatorId: S.optional(S.NullOr(S.String)),
           expiration: S.optional(S.NullOr(S.String)),
-          location: S.optional(__S(2208, __c69, 0)),
-          metadata: S.optional(S.NullOr(__S(96, __c3, 0))),
+          location: S.optional(__S(2240, __c70, 0)),
+          metadata: S.optional(S.NullOr(__S(128, __c4, 0))),
           mode: S.optional(S.NullOr(S.String)),
           name: S.optional(S.NullOr(S.String)),
           payloadContentType: S.optional(S.NullOr(S.String)),
@@ -35901,17 +35944,17 @@ function __c199(j: number): any {
         S.Struct({
           checksum: S.optional(S.String),
           createdAt: S.optional(S.String),
-          currentState: S.optional(S.NullOr(__S(6369, __c199, 1))),
-          currentTasks: S.optional(S.NullOr(__S(27553, __c861, 1))),
+          currentState: S.optional(S.NullOr(__S(6401, __c200, 1))),
+          currentTasks: S.optional(S.NullOr(__S(27585, __c862, 1))),
           id: S.optional(S.String),
           resourceStatus: S.optional(S.String),
-          targetSpec: S.optional(__S(6368, __c199, 0)),
+          targetSpec: S.optional(__S(6400, __c200, 0)),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudKeyManagerSecret" });
   }
 }
-function __c200(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35928,7 +35971,7 @@ function __c200(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectComputeAutobackupRequest" });
   }
 }
-function __c201(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35945,7 +35988,7 @@ function __c201(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectComputeInstanceRequest" });
   }
 }
-function __c202(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35969,7 +36012,7 @@ function __c202(j: number): any {
       ).annotate({ identifier: "PublicCloudInstanceConsoleOutput" });
   }
 }
-function __c203(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35986,7 +36029,7 @@ function __c203(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectComputeInstanceGroupRequest" });
   }
 }
-function __c204(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36003,7 +36046,7 @@ function __c204(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectComputeReservationRequest" });
   }
 }
-function __c205(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36020,7 +36063,7 @@ function __c205(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectComputeSnapshotRequest" });
   }
 }
-function __c206(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36037,7 +36080,7 @@ function __c206(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectGatewayRequest" });
   }
 }
-function __c207(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36054,7 +36097,7 @@ function __c207(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectKeyManagerContainerRequest" });
   }
 }
-function __c208(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36072,7 +36115,7 @@ function __c208(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectKeyManagerContainerConsumerRequest" });
   }
 }
-function __c209(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36089,7 +36132,7 @@ function __c209(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectKeyManagerSecretRequest" });
   }
 }
-function __c210(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36109,7 +36152,7 @@ function __c210(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectKeyManagerSecretConsumerRequest" });
   }
 }
-function __c211(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36127,7 +36170,7 @@ function __c211(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectKeyManagerSecretConsumerRequest" });
   }
 }
-function __c212(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36144,7 +36187,7 @@ function __c212(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectLoadbalancerRequest" });
   }
 }
-function __c213(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36162,7 +36205,7 @@ function __c213(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectLoadbalancerListenerRequest" });
   }
 }
-function __c214(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36181,7 +36224,7 @@ function __c214(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectLoadbalancerListenerL7policyRequest" });
   }
 }
-function __c215(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36199,7 +36242,7 @@ function __c215(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectLoadbalancerPoolRequest" });
   }
 }
-function __c216(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36218,7 +36261,7 @@ function __c216(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectLoadbalancerPoolMemberRequest" });
   }
 }
-function __c217(j: number): any {
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36235,7 +36278,7 @@ function __c217(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedAnalyticsBackupRequest" });
   }
 }
-function __c218(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36245,16 +36288,16 @@ function __c218(j: number): any {
           description: S.optional(S.NullOr(S.String)),
           expiredAt: S.optional(S.NullOr(S.String)),
           id: S.optional(S.String),
-          regions: S.optional(__S(160, __c5, 0)),
+          regions: S.optional(__S(192, __c6, 0)),
           serviceId: S.optional(S.String),
-          size: S.optional(__S(9792, __c306, 0)),
+          size: S.optional(__S(9824, __c307, 0)),
           status: S.optional(S.String),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudDatabaseBackup" });
   }
 }
-function __c219(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36271,7 +36314,7 @@ function __c219(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedAnalyticsClickhouseRequest" });
   }
 }
-function __c220(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36290,7 +36333,7 @@ function __c220(j: number): any {
       });
   }
 }
-function __c221(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36300,7 +36343,7 @@ function __c221(j: number): any {
       ).annotate({ identifier: "PublicCloudDatabaseCertificates" });
   }
 }
-function __c222(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36322,7 +36365,7 @@ function __c222(j: number): any {
       });
   }
 }
-function __c223(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36344,7 +36387,7 @@ function __c223(j: number): any {
       ).annotate({ identifier: "PublicCloudDatabaseCurrentQuery" });
   }
 }
-function __c224(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36367,7 +36410,7 @@ function __c224(j: number): any {
       ).annotate({ identifier: "PublicCloudKeyManagerSecretPayload" });
   }
 }
-function __c225(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36385,7 +36428,7 @@ function __c225(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedAnalyticsClickhouseDatabaseRequest" });
   }
 }
-function __c226(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36405,7 +36448,7 @@ function __c226(j: number): any {
       });
   }
 }
-function __c227(j: number): any {
+function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36423,12 +36466,12 @@ function __c227(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedAnalyticsClickhouseLogKindRequest" });
   }
 }
-function __c228(j: number): any {
+function __c229(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          additionalReturnedFields: S.optional(__S(128, __c4, 0)),
+          additionalReturnedFields: S.optional(__S(160, __c5, 0)),
           createdAt: S.optional(S.String),
           displayName: S.optional(S.String),
           kindId: S.optional(S.String),
@@ -36438,7 +36481,7 @@ function __c228(j: number): any {
       ).annotate({ identifier: "DbaasLogsLogKind" });
   }
 }
-function __c229(j: number): any {
+function __c230(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36458,7 +36501,7 @@ function __c229(j: number): any {
       });
   }
 }
-function __c230(j: number): any {
+function __c231(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36472,7 +36515,7 @@ function __c230(j: number): any {
         S.Struct({
           createdAt: S.optional(S.String),
           kind: S.optional(S.String),
-          resource: S.optional(__S(7360, __c230, 0)),
+          resource: S.optional(__S(7392, __c231, 0)),
           serviceName: S.optional(S.String),
           streamId: S.optional(S.String),
           subscriptionId: S.optional(S.String),
@@ -36481,7 +36524,7 @@ function __c230(j: number): any {
       ).annotate({ identifier: "DbaasLogsLogSubscription" });
   }
 }
-function __c231(j: number): any {
+function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36501,7 +36544,7 @@ function __c231(j: number): any {
       });
   }
 }
-function __c232(j: number): any {
+function __c233(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36520,7 +36563,7 @@ function __c232(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedAnalyticsClickhouseMetricRequest" });
   }
 }
-function __c233(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36530,27 +36573,27 @@ function __c233(j: number): any {
         }),
       ).annotate({ identifier: "PublicCloudDatabaseDataPoint" });
     case 1:
-      return S.Array(__S(7456, __c233, 0));
+      return S.Array(__S(7488, __c234, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          dataPoints: S.optional(__S(7457, __c233, 1)),
+          dataPoints: S.optional(__S(7489, __c234, 1)),
           hostname: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudDatabaseHostMetric" });
     case 3:
-      return S.Array(__S(7458, __c233, 2));
+      return S.Array(__S(7490, __c234, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          metrics: S.optional(__S(7459, __c233, 3)),
+          metrics: S.optional(__S(7491, __c234, 3)),
           name: S.optional(S.String),
           unit: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudDatabaseMetric" });
   }
 }
-function __c234(j: number): any {
+function __c235(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36568,7 +36611,7 @@ function __c234(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedAnalyticsClickhouseRoleRequest" });
   }
 }
-function __c235(j: number): any {
+function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36582,7 +36625,7 @@ function __c235(j: number): any {
       ).annotate({ identifier: "PublicCloudDatabaseRole" });
   }
 }
-function __c236(j: number): any {
+function __c237(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36600,7 +36643,7 @@ function __c236(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedAnalyticsClickhouseUserRequest" });
   }
 }
-function __c237(j: number): any {
+function __c238(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36617,7 +36660,7 @@ function __c237(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedAnalyticsGrafanaRequest" });
   }
 }
-function __c238(j: number): any {
+function __c239(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36635,13 +36678,13 @@ function __c238(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedAnalyticsGrafanaIntegrationRequest" });
   }
 }
-function __c239(j: number): any {
+function __c240(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          targetSpec: __S(7714, __c241, 2),
+          targetSpec: __S(7746, __c242, 2),
         }).pipe(
           T.Http({
             method: "POST",
@@ -36652,7 +36695,7 @@ function __c239(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectLoadbalancerRequest" });
   }
 }
-function __c240(j: number): any {
+function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36662,10 +36705,10 @@ function __c240(j: number): any {
         }),
       ).annotate({ identifier: "PublicCloudLoadbalancerLoadbalancerNetworkAddress" });
     case 1:
-      return S.Array(__S(7680, __c240, 0));
+      return S.Array(__S(7712, __c241, 0));
   }
 }
-function __c241(j: number): any {
+function __c242(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36685,16 +36728,16 @@ function __c241(j: number): any {
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
-          flavor: __S(7712, __c241, 0),
-          location: __S(2208, __c69, 0),
+          flavor: __S(7744, __c242, 0),
+          location: __S(2240, __c70, 0),
           name: S.String,
-          network: __S(7713, __c241, 1),
+          network: __S(7745, __c242, 1),
         }),
       ).annotate({ identifier: "PublicCloudLoadbalancerLoadbalancerTargetSpec" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          addresses: S.optional(__S(7681, __c240, 1)),
+          addresses: S.optional(__S(7713, __c241, 1)),
           id: S.optional(S.String),
           subnetId: S.optional(S.String),
         }),
@@ -36703,10 +36746,10 @@ function __c241(j: number): any {
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          flavor: S.optional(__S(7712, __c241, 0)),
-          location: S.optional(__S(2208, __c69, 0)),
+          flavor: S.optional(__S(7744, __c242, 0)),
+          location: S.optional(__S(2240, __c70, 0)),
           name: S.optional(S.String),
-          network: S.optional(__S(7715, __c241, 3)),
+          network: S.optional(__S(7747, __c242, 3)),
           operatingStatus: S.optional(S.String),
           provisioningStatus: S.optional(S.String),
         }),
@@ -36716,17 +36759,17 @@ function __c241(j: number): any {
         S.Struct({
           checksum: S.optional(S.String),
           createdAt: S.optional(S.String),
-          currentState: S.optional(S.NullOr(__S(7716, __c241, 4))),
-          currentTasks: S.optional(S.NullOr(__S(27553, __c861, 1))),
+          currentState: S.optional(S.NullOr(__S(7748, __c242, 4))),
+          currentTasks: S.optional(S.NullOr(__S(27585, __c862, 1))),
           id: S.optional(S.String),
           resourceStatus: S.optional(S.String),
-          targetSpec: S.optional(__S(7714, __c241, 2)),
+          targetSpec: S.optional(__S(7746, __c242, 2)),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudLoadbalancerLoadbalancer" });
   }
 }
-function __c242(j: number): any {
+function __c243(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36744,7 +36787,7 @@ function __c242(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedAnalyticsGrafanaLogKindRequest" });
   }
 }
-function __c243(j: number): any {
+function __c244(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36764,7 +36807,7 @@ function __c243(j: number): any {
       });
   }
 }
-function __c244(j: number): any {
+function __c245(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36782,7 +36825,7 @@ function __c244(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedAnalyticsGrafanaMaintenanceRequest" });
   }
 }
-function __c245(j: number): any {
+function __c246(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36801,7 +36844,7 @@ function __c245(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedAnalyticsGrafanaMetricRequest" });
   }
 }
-function __c246(j: number): any {
+function __c247(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36819,7 +36862,7 @@ function __c246(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedAnalyticsGrafanaUserRequest" });
   }
 }
-function __c247(j: number): any {
+function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36836,7 +36879,7 @@ function __c247(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedAnalyticsKafkaRequest" });
   }
 }
-function __c248(j: number): any {
+function __c249(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36854,7 +36897,7 @@ function __c248(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedAnalyticsKafkaAclRequest" });
   }
 }
-function __c249(j: number): any {
+function __c250(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36871,7 +36914,7 @@ function __c249(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedAnalyticsKafkaCertificatesRequest" });
   }
 }
-function __c250(j: number): any {
+function __c251(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36888,7 +36931,7 @@ function __c250(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedAnalyticsKafkaConnectRequest" });
   }
 }
-function __c251(j: number): any {
+function __c252(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36908,14 +36951,14 @@ function __c251(j: number): any {
       });
   }
 }
-function __c252(j: number): any {
+function __c253(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           loadbalancerId: S.String.pipe(T.Label()),
-          targetSpec: __S(8097, __c253, 1),
+          targetSpec: __S(8129, __c254, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -36926,7 +36969,7 @@ function __c252(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectLoadbalancerListenerRequest" });
   }
 }
-function __c253(j: number): any {
+function __c254(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36942,43 +36985,43 @@ function __c253(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          allowedCidrs: S.optional(S.NullOr(__S(128, __c4, 0))),
+          allowedCidrs: S.optional(S.NullOr(__S(160, __c5, 0))),
           connectionLimit: S.optional(S.NullOr(S.Number)),
-          defaultPool: S.optional(S.NullOr(__S(224, __c7, 0))),
+          defaultPool: S.optional(S.NullOr(__S(256, __c8, 0))),
           defaultTlsContainerRef: S.optional(S.NullOr(S.String)),
           description: S.optional(S.NullOr(S.String)),
-          insertHeaders: S.optional(S.NullOr(__S(8096, __c253, 0))),
+          insertHeaders: S.optional(S.NullOr(__S(8128, __c254, 0))),
           name: S.String,
           protocol: S.String,
           protocolPort: S.Number,
-          sniContainerRefs: S.optional(S.NullOr(__S(128, __c4, 0))),
+          sniContainerRefs: S.optional(S.NullOr(__S(160, __c5, 0))),
           timeoutClientData: S.optional(S.NullOr(S.Number)),
           timeoutMemberConnect: S.optional(S.NullOr(S.Number)),
           timeoutMemberData: S.optional(S.NullOr(S.Number)),
           timeoutTcpInspect: S.optional(S.NullOr(S.Number)),
-          tlsVersions: S.optional(S.NullOr(__S(128, __c4, 0))),
+          tlsVersions: S.optional(S.NullOr(__S(160, __c5, 0))),
         }),
       ).annotate({ identifier: "PublicCloudLoadbalancerListenerTargetSpec" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          allowedCidrs: S.optional(S.NullOr(__S(128, __c4, 0))),
+          allowedCidrs: S.optional(S.NullOr(__S(160, __c5, 0))),
           connectionLimit: S.optional(S.NullOr(S.Number)),
-          defaultPool: S.optional(S.NullOr(__S(3840, __c120, 0))),
+          defaultPool: S.optional(S.NullOr(__S(3872, __c121, 0))),
           defaultTlsContainerRef: S.optional(S.NullOr(S.String)),
           description: S.optional(S.NullOr(S.String)),
-          insertHeaders: S.optional(S.NullOr(__S(8096, __c253, 0))),
+          insertHeaders: S.optional(S.NullOr(__S(8128, __c254, 0))),
           name: S.optional(S.String),
           operatingStatus: S.optional(S.String),
           protocol: S.optional(S.String),
           protocolPort: S.optional(S.Number),
           provisioningStatus: S.optional(S.String),
-          sniContainerRefs: S.optional(S.NullOr(__S(128, __c4, 0))),
+          sniContainerRefs: S.optional(S.NullOr(__S(160, __c5, 0))),
           timeoutClientData: S.optional(S.NullOr(S.Number)),
           timeoutMemberConnect: S.optional(S.NullOr(S.Number)),
           timeoutMemberData: S.optional(S.NullOr(S.Number)),
           timeoutTcpInspect: S.optional(S.NullOr(S.Number)),
-          tlsVersions: S.optional(S.NullOr(__S(128, __c4, 0))),
+          tlsVersions: S.optional(S.NullOr(__S(160, __c5, 0))),
         }),
       ).annotate({ identifier: "PublicCloudLoadbalancerListenerCurrentState" });
     case 3:
@@ -36986,17 +37029,17 @@ function __c253(j: number): any {
         S.Struct({
           checksum: S.optional(S.String),
           createdAt: S.optional(S.String),
-          currentState: S.optional(S.NullOr(__S(8098, __c253, 2))),
-          currentTasks: S.optional(S.NullOr(__S(27553, __c861, 1))),
+          currentState: S.optional(S.NullOr(__S(8130, __c254, 2))),
+          currentTasks: S.optional(S.NullOr(__S(27585, __c862, 1))),
           id: S.optional(S.String),
           resourceStatus: S.optional(S.String),
-          targetSpec: S.optional(__S(8097, __c253, 1)),
+          targetSpec: S.optional(__S(8129, __c254, 1)),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudLoadbalancerListener" });
   }
 }
-function __c254(j: number): any {
+function __c255(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37017,7 +37060,7 @@ function __c254(j: number): any {
       });
   }
 }
-function __c255(j: number): any {
+function __c256(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37032,7 +37075,7 @@ function __c255(j: number): any {
       ).annotate({ identifier: "PublicCloudDatabaseKafkaConnectConnectorTask" });
   }
 }
-function __c256(j: number): any {
+function __c257(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37052,7 +37095,7 @@ function __c256(j: number): any {
       });
   }
 }
-function __c257(j: number): any {
+function __c258(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37070,7 +37113,7 @@ function __c257(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedAnalyticsKafkaConnectLogKindRequest" });
   }
 }
-function __c258(j: number): any {
+function __c259(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37090,7 +37133,7 @@ function __c258(j: number): any {
       });
   }
 }
-function __c259(j: number): any {
+function __c260(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37110,7 +37153,7 @@ function __c259(j: number): any {
       });
   }
 }
-function __c260(j: number): any {
+function __c261(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37129,7 +37172,7 @@ function __c260(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedAnalyticsKafkaConnectMetricRequest" });
   }
 }
-function __c261(j: number): any {
+function __c262(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37147,7 +37190,7 @@ function __c261(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedAnalyticsKafkaConnectUserRequest" });
   }
 }
-function __c262(j: number): any {
+function __c263(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37165,7 +37208,7 @@ function __c262(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedAnalyticsKafkaIntegrationRequest" });
   }
 }
-function __c263(j: number): any {
+function __c264(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37183,7 +37226,7 @@ function __c263(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedAnalyticsKafkaLogKindRequest" });
   }
 }
-function __c264(j: number): any {
+function __c265(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37203,7 +37246,7 @@ function __c264(j: number): any {
       });
   }
 }
-function __c265(j: number): any {
+function __c266(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37211,7 +37254,7 @@ function __c265(j: number): any {
           projectId: S.String.pipe(T.Label()),
           loadbalancerId: S.String.pipe(T.Label()),
           listenerId: S.String.pipe(T.Label()),
-          targetSpec: __S(8514, __c266, 2),
+          targetSpec: __S(8546, __c267, 2),
         }).pipe(
           T.Http({
             method: "POST",
@@ -37222,7 +37265,7 @@ function __c265(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectLoadbalancerListenerL7policyRequest" });
   }
 }
-function __c266(j: number): any {
+function __c267(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37235,7 +37278,7 @@ function __c266(j: number): any {
         }),
       ).annotate({ identifier: "PublicCloudLoadbalancerL7RuleSpec" });
     case 1:
-      return S.Array(__S(8512, __c266, 0));
+      return S.Array(__S(8544, __c267, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -37244,10 +37287,10 @@ function __c266(j: number): any {
           name: S.optional(S.NullOr(S.String)),
           position: S.optional(S.NullOr(S.Number)),
           redirectHttpCode: S.optional(S.NullOr(S.Number)),
-          redirectPool: S.optional(S.NullOr(__S(224, __c7, 0))),
+          redirectPool: S.optional(S.NullOr(__S(256, __c8, 0))),
           redirectPrefix: S.optional(S.NullOr(S.String)),
           redirectUrl: S.optional(S.NullOr(S.String)),
-          rules: S.optional(S.NullOr(__S(8513, __c266, 1))),
+          rules: S.optional(S.NullOr(__S(8545, __c267, 1))),
         }),
       ).annotate({ identifier: "PublicCloudLoadbalancerL7PolicyTargetSpec" });
     case 3:
@@ -37264,7 +37307,7 @@ function __c266(j: number): any {
         }),
       ).annotate({ identifier: "PublicCloudLoadbalancerL7RuleState" });
     case 4:
-      return S.Array(__S(8515, __c266, 3));
+      return S.Array(__S(8547, __c267, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -37275,10 +37318,10 @@ function __c266(j: number): any {
           position: S.optional(S.NullOr(S.Number)),
           provisioningStatus: S.optional(S.NullOr(S.String)),
           redirectHttpCode: S.optional(S.NullOr(S.Number)),
-          redirectPool: S.optional(S.NullOr(__S(3840, __c120, 0))),
+          redirectPool: S.optional(S.NullOr(__S(3872, __c121, 0))),
           redirectPrefix: S.optional(S.NullOr(S.String)),
           redirectUrl: S.optional(S.NullOr(S.String)),
-          rules: S.optional(S.NullOr(__S(8516, __c266, 4))),
+          rules: S.optional(S.NullOr(__S(8548, __c267, 4))),
         }),
       ).annotate({ identifier: "PublicCloudLoadbalancerL7PolicyCurrentState" });
     case 6:
@@ -37286,17 +37329,17 @@ function __c266(j: number): any {
         S.Struct({
           checksum: S.optional(S.String),
           createdAt: S.optional(S.String),
-          currentState: S.optional(S.NullOr(__S(8517, __c266, 5))),
-          currentTasks: S.optional(S.NullOr(__S(27553, __c861, 1))),
+          currentState: S.optional(S.NullOr(__S(8549, __c267, 5))),
+          currentTasks: S.optional(S.NullOr(__S(27585, __c862, 1))),
           id: S.optional(S.String),
           resourceStatus: S.optional(S.String),
-          targetSpec: S.optional(__S(8514, __c266, 2)),
+          targetSpec: S.optional(__S(8546, __c267, 2)),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudLoadbalancerL7Policy" });
   }
 }
-function __c267(j: number): any {
+function __c268(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37314,7 +37357,7 @@ function __c267(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedAnalyticsKafkaMaintenanceRequest" });
   }
 }
-function __c268(j: number): any {
+function __c269(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37333,7 +37376,7 @@ function __c268(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedAnalyticsKafkaMetricRequest" });
   }
 }
-function __c269(j: number): any {
+function __c270(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37350,7 +37393,7 @@ function __c269(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedAnalyticsKafkaMirrorMakerRequest" });
   }
 }
-function __c270(j: number): any {
+function __c271(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37370,7 +37413,7 @@ function __c270(j: number): any {
       });
   }
 }
-function __c271(j: number): any {
+function __c272(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37390,7 +37433,7 @@ function __c271(j: number): any {
       });
   }
 }
-function __c272(j: number): any {
+function __c273(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37410,7 +37453,7 @@ function __c272(j: number): any {
       });
   }
 }
-function __c273(j: number): any {
+function __c274(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37430,7 +37473,7 @@ function __c273(j: number): any {
       });
   }
 }
-function __c274(j: number): any {
+function __c275(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37451,7 +37494,7 @@ function __c274(j: number): any {
       });
   }
 }
-function __c275(j: number): any {
+function __c276(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37471,7 +37514,7 @@ function __c275(j: number): any {
       });
   }
 }
-function __c276(j: number): any {
+function __c277(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37491,14 +37534,14 @@ function __c276(j: number): any {
       });
   }
 }
-function __c277(j: number): any {
+function __c278(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           loadbalancerId: S.String.pipe(T.Label()),
-          targetSpec: __S(8898, __c278, 2),
+          targetSpec: __S(8930, __c279, 2),
         }).pipe(
           T.Http({
             method: "POST",
@@ -37509,7 +37552,7 @@ function __c277(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectLoadbalancerPoolRequest" });
   }
 }
-function __c278(j: number): any {
+function __c279(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37539,9 +37582,9 @@ function __c278(j: number): any {
         S.Struct({
           algorithm: S.String,
           description: S.optional(S.NullOr(S.String)),
-          healthMonitor: S.optional(S.NullOr(__S(8896, __c278, 0))),
+          healthMonitor: S.optional(S.NullOr(__S(8928, __c279, 0))),
           name: S.optional(S.NullOr(S.String)),
-          persistence: S.optional(S.NullOr(__S(8897, __c278, 1))),
+          persistence: S.optional(S.NullOr(__S(8929, __c279, 1))),
           protocol: S.String,
         }),
       ).annotate({ identifier: "PublicCloudLoadbalancerPoolTargetSpec" });
@@ -37569,10 +37612,10 @@ function __c278(j: number): any {
         S.Struct({
           algorithm: S.optional(S.String),
           description: S.optional(S.NullOr(S.String)),
-          healthMonitor: S.optional(S.NullOr(__S(8899, __c278, 3))),
+          healthMonitor: S.optional(S.NullOr(__S(8931, __c279, 3))),
           name: S.optional(S.NullOr(S.String)),
           operatingStatus: S.optional(S.String),
-          persistence: S.optional(S.NullOr(__S(8897, __c278, 1))),
+          persistence: S.optional(S.NullOr(__S(8929, __c279, 1))),
           protocol: S.optional(S.String),
           provisioningStatus: S.optional(S.String),
         }),
@@ -37582,17 +37625,17 @@ function __c278(j: number): any {
         S.Struct({
           checksum: S.optional(S.String),
           createdAt: S.optional(S.String),
-          currentState: S.optional(S.NullOr(__S(8900, __c278, 4))),
-          currentTasks: S.optional(S.NullOr(__S(27553, __c861, 1))),
+          currentState: S.optional(S.NullOr(__S(8932, __c279, 4))),
+          currentTasks: S.optional(S.NullOr(__S(27585, __c862, 1))),
           id: S.optional(S.String),
           resourceStatus: S.optional(S.String),
-          targetSpec: S.optional(__S(8898, __c278, 2)),
+          targetSpec: S.optional(__S(8930, __c279, 2)),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudLoadbalancerPool" });
   }
 }
-function __c279(j: number): any {
+function __c280(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37610,7 +37653,7 @@ function __c279(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedAnalyticsKafkaTopicRequest" });
   }
 }
-function __c280(j: number): any {
+function __c281(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37628,7 +37671,7 @@ function __c280(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedAnalyticsKafkaUserRequest" });
   }
 }
-function __c281(j: number): any {
+function __c282(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37653,7 +37696,7 @@ function __c281(j: number): any {
       ).annotate({ identifier: "PublicCloudDatabaseKafkaUserAccess" });
   }
 }
-function __c282(j: number): any {
+function __c283(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37670,25 +37713,25 @@ function __c282(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedAnalyticsLakehouseRequest" });
   }
 }
-function __c283(j: number): any {
+function __c284(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           checksum: S.optional(S.String),
           createdAt: S.optional(S.String),
-          currentState: S.optional(__S(23877, __c746, 5)),
-          currentTasks: S.optional(__S(27553, __c861, 1)),
-          iam: S.optional(S.NullOr(__S(6080, __c190, 0))),
+          currentState: S.optional(__S(23909, __c747, 5)),
+          currentTasks: S.optional(__S(27585, __c862, 1)),
+          iam: S.optional(S.NullOr(__S(6112, __c191, 0))),
           id: S.optional(S.String),
           resourceStatus: S.optional(S.String),
-          targetSpec: S.optional(__S(23878, __c746, 6)),
+          targetSpec: S.optional(__S(23910, __c747, 6)),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudLakehouseLakehouseWithIAM" });
   }
 }
-function __c284(j: number): any {
+function __c285(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37706,7 +37749,7 @@ function __c284(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedAnalyticsLakehouseCatalogRequest" });
   }
 }
-function __c285(j: number): any {
+function __c286(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37727,7 +37770,7 @@ function __c285(j: number): any {
       });
   }
 }
-function __c286(j: number): any {
+function __c287(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37749,7 +37792,7 @@ function __c286(j: number): any {
       });
   }
 }
-function __c287(j: number): any {
+function __c288(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37759,17 +37802,17 @@ function __c287(j: number): any {
         }),
       ).annotate({ identifier: "CommonTaskProgress" });
     case 1:
-      return S.Array(__S(9184, __c287, 0));
+      return S.Array(__S(9216, __c288, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           createdAt: S.optional(S.String),
-          errors: S.optional(S.NullOr(__S(27521, __c860, 1))),
+          errors: S.optional(S.NullOr(__S(27553, __c861, 1))),
           finishedAt: S.optional(S.NullOr(S.String)),
           id: S.optional(S.String),
           link: S.optional(S.String),
           message: S.optional(S.String),
-          progress: S.optional(__S(9185, __c287, 1)),
+          progress: S.optional(__S(9217, __c288, 1)),
           startedAt: S.optional(S.NullOr(S.String)),
           status: S.optional(S.String),
           type: S.optional(S.String),
@@ -37778,7 +37821,7 @@ function __c287(j: number): any {
       ).annotate({ identifier: "CommonTask" });
   }
 }
-function __c288(j: number): any {
+function __c289(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37799,7 +37842,7 @@ function __c288(j: number): any {
       });
   }
 }
-function __c289(j: number): any {
+function __c290(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37819,7 +37862,7 @@ function __c289(j: number): any {
       });
   }
 }
-function __c290(j: number): any {
+function __c291(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37840,7 +37883,7 @@ function __c290(j: number): any {
       });
   }
 }
-function __c291(j: number): any {
+function __c292(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37850,13 +37893,13 @@ function __c291(j: number): any {
         }),
       ).annotate({ identifier: "PublicCloudStorageObjectS3BulkDeleteObjectIdentifier" });
     case 1:
-      return S.Array(__S(9312, __c291, 0));
+      return S.Array(__S(9344, __c292, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           bucketName: S.String.pipe(T.Label()),
-          objects: __S(9313, __c291, 1),
+          objects: __S(9345, __c292, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -37875,7 +37918,7 @@ function __c291(j: number): any {
         }),
       ).annotate({ identifier: "PublicCloudStorageObjectS3BulkDeletedObject" });
     case 4:
-      return S.Array(__S(9315, __c291, 3));
+      return S.Array(__S(9347, __c292, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -37886,17 +37929,17 @@ function __c291(j: number): any {
         }),
       ).annotate({ identifier: "PublicCloudStorageObjectS3BulkDeleteError" });
     case 6:
-      return S.Array(__S(9317, __c291, 5));
+      return S.Array(__S(9349, __c292, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          deleted: S.optional(__S(9316, __c291, 4)),
-          errors: S.optional(__S(9318, __c291, 6)),
+          deleted: S.optional(__S(9348, __c292, 4)),
+          errors: S.optional(__S(9350, __c292, 6)),
         }),
       ).annotate({ identifier: "PublicCloudStorageObjectS3BulkDeleteResult" });
   }
 }
-function __c292(j: number): any {
+function __c293(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37904,7 +37947,7 @@ function __c292(j: number): any {
           projectId: S.String.pipe(T.Label()),
           loadbalancerId: S.String.pipe(T.Label()),
           poolId: S.String.pipe(T.Label()),
-          targetSpec: __S(9377, __c293, 1),
+          targetSpec: __S(9409, __c294, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -37915,7 +37958,7 @@ function __c292(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectLoadbalancerPoolMemberRequest" });
   }
 }
-function __c293(j: number): any {
+function __c294(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37929,10 +37972,10 @@ function __c293(j: number): any {
         S.Struct({
           address: S.String,
           backup: S.optional(S.NullOr(S.Boolean)),
-          monitor: S.optional(S.NullOr(__S(9376, __c293, 0))),
+          monitor: S.optional(S.NullOr(__S(9408, __c294, 0))),
           name: S.optional(S.NullOr(S.String)),
           protocolPort: S.Number,
-          subnet: S.optional(S.NullOr(__S(224, __c7, 0))),
+          subnet: S.optional(S.NullOr(__S(256, __c8, 0))),
           weight: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "PublicCloudLoadbalancerMemberTargetSpec" });
@@ -37941,12 +37984,12 @@ function __c293(j: number): any {
         S.Struct({
           address: S.optional(S.String),
           backup: S.optional(S.NullOr(S.Boolean)),
-          monitor: S.optional(S.NullOr(__S(9376, __c293, 0))),
+          monitor: S.optional(S.NullOr(__S(9408, __c294, 0))),
           name: S.optional(S.String),
           operatingStatus: S.optional(S.String),
           protocolPort: S.optional(S.Number),
           provisioningStatus: S.optional(S.String),
-          subnet: S.optional(S.NullOr(__S(224, __c7, 0))),
+          subnet: S.optional(S.NullOr(__S(256, __c8, 0))),
           weight: S.optional(S.Number),
         }),
       ).annotate({ identifier: "PublicCloudLoadbalancerMemberCurrentState" });
@@ -37955,17 +37998,17 @@ function __c293(j: number): any {
         S.Struct({
           checksum: S.optional(S.String),
           createdAt: S.optional(S.String),
-          currentState: S.optional(S.NullOr(__S(9378, __c293, 2))),
-          currentTasks: S.optional(S.NullOr(__S(27553, __c861, 1))),
+          currentState: S.optional(S.NullOr(__S(9410, __c294, 2))),
+          currentTasks: S.optional(S.NullOr(__S(27585, __c862, 1))),
           id: S.optional(S.String),
           resourceStatus: S.optional(S.String),
-          targetSpec: S.optional(__S(9377, __c293, 1)),
+          targetSpec: S.optional(__S(9409, __c294, 1)),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudLoadbalancerMember" });
   }
 }
-function __c294(j: number): any {
+function __c295(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37983,7 +38026,7 @@ function __c294(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedAnalyticsLakehouseGroupRequest" });
   }
 }
-function __c295(j: number): any {
+function __c296(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38004,7 +38047,7 @@ function __c295(j: number): any {
       });
   }
 }
-function __c296(j: number): any {
+function __c297(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38026,7 +38069,7 @@ function __c296(j: number): any {
       });
   }
 }
-function __c297(j: number): any {
+function __c298(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38045,7 +38088,7 @@ function __c297(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedAnalyticsLakehouseGroupTaskRequest" });
   }
 }
-function __c298(j: number): any {
+function __c299(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38063,7 +38106,7 @@ function __c298(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedAnalyticsLakehouseRoleRequest" });
   }
 }
-function __c299(j: number): any {
+function __c300(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38083,7 +38126,7 @@ function __c299(j: number): any {
       });
   }
 }
-function __c300(j: number): any {
+function __c301(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38104,7 +38147,7 @@ function __c300(j: number): any {
       });
   }
 }
-function __c301(j: number): any {
+function __c302(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38123,7 +38166,7 @@ function __c301(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedAnalyticsLakehouseRoleTaskRequest" });
   }
 }
-function __c302(j: number): any {
+function __c303(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38141,7 +38184,7 @@ function __c302(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedAnalyticsLakehouseTaskRequest" });
   }
 }
-function __c303(j: number): any {
+function __c304(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38159,13 +38202,13 @@ function __c303(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedAnalyticsLakehouseUserRequest" });
   }
 }
-function __c304(j: number): any {
+function __c305(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          targetSpec: __S(9761, __c305, 1),
+          targetSpec: __S(9793, __c306, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -38176,12 +38219,12 @@ function __c304(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectManagedAnalyticsClickhouseRequest" });
   }
 }
-function __c305(j: number): any {
+function __c306(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          authorizedIps: S.optional(S.NullOr(__S(9890, __c309, 2))),
+          authorizedIps: S.optional(S.NullOr(__S(9922, __c310, 2))),
           networkId: S.optional(S.NullOr(S.String)),
           subnetId: S.optional(S.NullOr(S.String)),
         }),
@@ -38189,26 +38232,26 @@ function __c305(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          backup: S.optional(S.NullOr(__S(9856, __c308, 0))),
+          backup: S.optional(S.NullOr(__S(9888, __c309, 0))),
           deletionProtected: S.optional(S.NullOr(S.Boolean)),
           description: S.optional(S.NullOr(S.String)),
           flavor: S.String,
           forkSourceBackupId: S.optional(S.NullOr(S.String)),
           forkSourcePointInTime: S.optional(S.NullOr(S.String)),
           forkSourceServiceId: S.optional(S.NullOr(S.String)),
-          maintenanceWindow: S.optional(S.NullOr(__S(9857, __c308, 1))),
-          network: S.optional(S.NullOr(__S(9760, __c305, 0))),
+          maintenanceWindow: S.optional(S.NullOr(__S(9889, __c309, 1))),
+          network: S.optional(S.NullOr(__S(9792, __c306, 0))),
           nodesCount: S.optional(S.NullOr(S.Number)),
           plan: S.String,
           prometheusEnabled: S.optional(S.NullOr(S.Boolean)),
           region: S.String,
-          storage: S.optional(S.NullOr(__S(9858, __c308, 2))),
+          storage: S.optional(S.NullOr(__S(9890, __c309, 2))),
           version: S.String,
         }),
       ).annotate({ identifier: "PublicCloudDatabaseServiceCreationTargetSpecInput" });
   }
 }
-function __c306(j: number): any {
+function __c307(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38219,7 +38262,7 @@ function __c306(j: number): any {
       ).annotate({ identifier: "PublicCloudDatabaseUnitAndValue" });
   }
 }
-function __c307(j: number): any {
+function __c308(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38229,15 +38272,15 @@ function __c307(j: number): any {
         }),
       ).annotate({ identifier: "PublicCloudDatabaseCapabilitiesIntegrationParameter" });
     case 1:
-      return S.Array(__S(9824, __c307, 0));
+      return S.Array(__S(9856, __c308, 0));
   }
 }
-function __c308(j: number): any {
+function __c309(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          regions: S.optional(S.NullOr(__S(160, __c5, 0))),
+          regions: S.optional(S.NullOr(__S(192, __c6, 0))),
           time: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "PublicCloudDatabaseBackupSpec" });
@@ -38250,14 +38293,14 @@ function __c308(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          size: S.optional(S.NullOr(__S(9792, __c306, 0))),
+          size: S.optional(S.NullOr(__S(9824, __c307, 0))),
         }),
       ).annotate({ identifier: "PublicCloudDatabaseStorageInput" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           pitr: S.optional(S.NullOr(S.String)),
-          regions: S.optional(S.NullOr(__S(160, __c5, 0))),
+          regions: S.optional(S.NullOr(__S(192, __c6, 0))),
           retentionDays: S.optional(S.NullOr(S.Number)),
           time: S.optional(S.NullOr(S.String)),
         }),
@@ -38272,7 +38315,7 @@ function __c308(j: number): any {
         }),
       ).annotate({ identifier: "PublicCloudDatabaseServiceCapabilityActions" });
     case 5:
-      return S.Record(S.String, __S(9860, __c308, 4));
+      return S.Record(S.String, __S(9892, __c309, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -38287,7 +38330,7 @@ function __c308(j: number): any {
         }),
       ).annotate({ identifier: "PublicCloudDatabaseEndpoint" });
     case 7:
-      return S.Array(__S(9862, __c308, 6));
+      return S.Array(__S(9894, __c309, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -38297,11 +38340,11 @@ function __c308(j: number): any {
           minimum: S.optional(S.NullOr(S.Number)),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          values: S.optional(S.NullOr(__S(128, __c4, 0))),
+          values: S.optional(S.NullOr(__S(160, __c5, 0))),
         }),
       ).annotate({ identifier: "PublicCloudDatabaseCapabilitiesAdvancedConfigurationProperty" });
     case 9:
-      return S.Array(__S(9864, __c308, 8));
+      return S.Array(__S(9896, __c309, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
@@ -38313,13 +38356,13 @@ function __c308(j: number): any {
           name: S.optional(S.String),
           required: S.optional(S.Boolean),
           type: S.optional(S.String),
-          values: S.optional(S.NullOr(__S(128, __c4, 0))),
+          values: S.optional(S.NullOr(__S(160, __c5, 0))),
         }),
       ).annotate({
         identifier: "PublicCloudDatabaseKafkaConnectCapabilitiesConnectorConfigurationProperty",
       });
     case 11:
-      return S.Array(__S(9866, __c308, 10));
+      return S.Array(__S(9898, __c309, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
@@ -38329,48 +38372,48 @@ function __c308(j: number): any {
           required: S.optional(S.Boolean),
           transformType: S.optional(S.String),
           type: S.optional(S.String),
-          values: S.optional(S.NullOr(__S(128, __c4, 0))),
+          values: S.optional(S.NullOr(__S(160, __c5, 0))),
         }),
       ).annotate({ identifier: "PublicCloudDatabaseKafkaConnectCapabilitiesConnectorTransform" });
     case 13:
-      return S.Array(__S(9868, __c308, 12));
+      return S.Array(__S(9900, __c309, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
           author: S.optional(S.String),
-          configuration: S.optional(S.NullOr(__S(9867, __c308, 11))),
+          configuration: S.optional(S.NullOr(__S(9899, __c309, 11))),
           documentationUrl: S.optional(S.NullOr(S.String)),
           id: S.optional(S.String),
           latest: S.optional(S.Boolean),
           name: S.optional(S.String),
           preview: S.optional(S.Boolean),
-          transforms: S.optional(S.NullOr(__S(9869, __c308, 13))),
+          transforms: S.optional(S.NullOr(__S(9901, __c309, 13))),
           type: S.optional(S.String),
           version: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudDatabaseKafkaConnectCapabilitiesConnectorCapability" });
     case 15:
-      return S.Array(__S(9870, __c308, 14));
+      return S.Array(__S(9902, __c309, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
           destinationEngine: S.optional(S.String),
-          parameters: S.optional(S.NullOr(__S(9825, __c307, 1))),
+          parameters: S.optional(S.NullOr(__S(9857, __c308, 1))),
           sourceEngine: S.optional(S.String),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudDatabaseCapabilitiesIntegrationCapability" });
     case 17:
-      return S.Array(__S(9872, __c308, 16));
+      return S.Array(__S(9904, __c309, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
-          advancedConfigurationProperties: S.optional(S.NullOr(__S(9865, __c308, 9))),
-          backupRegions: S.optional(S.NullOr(__S(128, __c4, 0))),
-          categories: S.optional(S.NullOr(__S(128, __c4, 0))),
-          commands: S.optional(S.NullOr(__S(128, __c4, 0))),
-          connectors: S.optional(S.NullOr(__S(9871, __c308, 15))),
-          integrations: S.optional(S.NullOr(__S(9873, __c308, 17))),
+          advancedConfigurationProperties: S.optional(S.NullOr(__S(9897, __c309, 9))),
+          backupRegions: S.optional(S.NullOr(__S(160, __c5, 0))),
+          categories: S.optional(S.NullOr(__S(160, __c5, 0))),
+          commands: S.optional(S.NullOr(__S(160, __c5, 0))),
+          connectors: S.optional(S.NullOr(__S(9903, __c309, 15))),
+          integrations: S.optional(S.NullOr(__S(9905, __c309, 17))),
         }),
       ).annotate({ identifier: "PublicCloudDatabaseServiceEngineCapabilities" });
     case 19:
@@ -38382,17 +38425,17 @@ function __c308(j: number): any {
         }),
       ).annotate({ identifier: "PublicCloudDatabaseAuthorizedIpsRule" });
     case 20:
-      return S.Array(__S(9875, __c308, 19));
+      return S.Array(__S(9907, __c309, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
-          rules: S.optional(__S(9876, __c308, 20)),
+          rules: S.optional(__S(9908, __c309, 20)),
         }),
       ).annotate({ identifier: "PublicCloudDatabaseAuthorizedIps" });
     case 22:
       return S.suspend(() =>
         S.Struct({
-          authorizedIps: S.optional(S.NullOr(__S(9877, __c308, 21))),
+          authorizedIps: S.optional(S.NullOr(__S(9909, __c309, 21))),
           networkId: S.optional(S.NullOr(S.String)),
           subnetId: S.optional(S.NullOr(S.String)),
         }),
@@ -38403,7 +38446,7 @@ function __c308(j: number): any {
           createdAt: S.optional(S.String),
           flavor: S.optional(S.String),
           id: S.optional(S.String),
-          location: S.optional(__S(2208, __c69, 0)),
+          location: S.optional(__S(2240, __c70, 0)),
           name: S.optional(S.String),
           port: S.optional(S.Number),
           role: S.optional(S.NullOr(S.String)),
@@ -38411,56 +38454,56 @@ function __c308(j: number): any {
         }),
       ).annotate({ identifier: "PublicCloudDatabaseNode" });
     case 24:
-      return S.Array(__S(9879, __c308, 23));
+      return S.Array(__S(9911, __c309, 23));
     case 25:
       return S.suspend(() =>
         S.Struct({
-          size: S.optional(S.NullOr(__S(9792, __c306, 0))),
+          size: S.optional(S.NullOr(__S(9824, __c307, 0))),
           type: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "PublicCloudDatabaseStorage" });
     case 26:
       return S.suspend(() =>
         S.Struct({
-          advancedConfiguration: S.optional(S.NullOr(__S(96, __c3, 0))),
-          backup: S.optional(S.NullOr(__S(9859, __c308, 3))),
-          capabilities: S.optional(__S(9861, __c308, 5)),
+          advancedConfiguration: S.optional(S.NullOr(__S(128, __c4, 0))),
+          backup: S.optional(S.NullOr(__S(9891, __c309, 3))),
+          capabilities: S.optional(__S(9893, __c309, 5)),
           deletionProtected: S.optional(S.Boolean),
           description: S.optional(S.NullOr(S.String)),
-          endpoints: S.optional(__S(9863, __c308, 7)),
-          engineCapabilities: S.optional(S.NullOr(__S(9874, __c308, 18))),
+          endpoints: S.optional(__S(9895, __c309, 7)),
+          engineCapabilities: S.optional(S.NullOr(__S(9906, __c309, 18))),
           flavor: S.optional(S.NullOr(S.String)),
-          maintenanceWindow: S.optional(S.NullOr(__S(9857, __c308, 1))),
-          network: S.optional(S.NullOr(__S(9878, __c308, 22))),
-          nodes: S.optional(__S(9880, __c308, 24)),
+          maintenanceWindow: S.optional(S.NullOr(__S(9889, __c309, 1))),
+          network: S.optional(S.NullOr(__S(9910, __c309, 22))),
+          nodes: S.optional(__S(9912, __c309, 24)),
           nodesCount: S.optional(S.Number),
           plan: S.optional(S.String),
           prometheusEnabled: S.optional(S.NullOr(S.Boolean)),
           status: S.optional(S.String),
-          storage: S.optional(S.NullOr(__S(9881, __c308, 25))),
+          storage: S.optional(S.NullOr(__S(9913, __c309, 25))),
           version: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudDatabaseServiceCurrentState" });
     case 27:
       return S.suspend(() =>
         S.Struct({
-          authorizedIps: S.optional(S.NullOr(__S(9877, __c308, 21))),
+          authorizedIps: S.optional(S.NullOr(__S(9909, __c309, 21))),
         }),
       ).annotate({ identifier: "PublicCloudDatabaseNetworkUpdateSpec" });
     case 28:
       return S.suspend(() =>
         S.Struct({
-          advancedConfiguration: S.optional(S.NullOr(__S(96, __c3, 0))),
-          backup: S.optional(S.NullOr(__S(9856, __c308, 0))),
+          advancedConfiguration: S.optional(S.NullOr(__S(128, __c4, 0))),
+          backup: S.optional(S.NullOr(__S(9888, __c309, 0))),
           deletionProtected: S.optional(S.NullOr(S.Boolean)),
           description: S.optional(S.NullOr(S.String)),
           flavor: S.optional(S.NullOr(S.String)),
-          maintenanceWindow: S.optional(S.NullOr(__S(9857, __c308, 1))),
-          network: S.optional(S.NullOr(__S(9883, __c308, 27))),
+          maintenanceWindow: S.optional(S.NullOr(__S(9889, __c309, 1))),
+          network: S.optional(S.NullOr(__S(9915, __c309, 27))),
           nodesCount: S.optional(S.NullOr(S.Number)),
           plan: S.optional(S.NullOr(S.String)),
           prometheusEnabled: S.optional(S.NullOr(S.Boolean)),
-          storage: S.optional(S.NullOr(__S(9858, __c308, 2))),
+          storage: S.optional(S.NullOr(__S(9890, __c309, 2))),
           version: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "PublicCloudDatabaseServiceTargetSpec" });
@@ -38469,17 +38512,17 @@ function __c308(j: number): any {
         S.Struct({
           checksum: S.optional(S.String),
           createdAt: S.optional(S.String),
-          currentState: S.optional(__S(9882, __c308, 26)),
-          currentTasks: S.optional(S.NullOr(__S(27553, __c861, 1))),
+          currentState: S.optional(__S(9914, __c309, 26)),
+          currentTasks: S.optional(S.NullOr(__S(27585, __c862, 1))),
           id: S.optional(S.String),
           resourceStatus: S.optional(S.String),
-          targetSpec: S.optional(__S(9884, __c308, 28)),
+          targetSpec: S.optional(__S(9916, __c309, 28)),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudDatabaseService" });
   }
 }
-function __c309(j: number): any {
+function __c310(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38489,16 +38532,16 @@ function __c309(j: number): any {
         }),
       ).annotate({ identifier: "PublicCloudDatabaseAuthorizedIpsRuleInput" });
     case 1:
-      return S.Array(__S(9888, __c309, 0));
+      return S.Array(__S(9920, __c310, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          rules: S.optional(__S(9889, __c309, 1)),
+          rules: S.optional(__S(9921, __c310, 1)),
         }),
       ).annotate({ identifier: "PublicCloudDatabaseAuthorizedIpsInput" });
   }
 }
-function __c310(j: number): any {
+function __c311(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38517,7 +38560,7 @@ function __c310(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedAnalyticsLakehouseUserTaskRequest" });
   }
 }
-function __c311(j: number): any {
+function __c312(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38534,7 +38577,7 @@ function __c311(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedAnalyticsOpensearchRequest" });
   }
 }
-function __c312(j: number): any {
+function __c313(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38552,7 +38595,7 @@ function __c312(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedAnalyticsOpensearchIndexRequest" });
   }
 }
-function __c313(j: number): any {
+function __c314(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38569,7 +38612,7 @@ function __c313(j: number): any {
       ).annotate({ identifier: "PublicCloudDatabaseOpensearchIndex" });
   }
 }
-function __c314(j: number): any {
+function __c315(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38589,7 +38632,7 @@ function __c314(j: number): any {
       });
   }
 }
-function __c315(j: number): any {
+function __c316(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38607,7 +38650,7 @@ function __c315(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedAnalyticsOpensearchLogKindRequest" });
   }
 }
-function __c316(j: number): any {
+function __c317(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38627,7 +38670,7 @@ function __c316(j: number): any {
       });
   }
 }
-function __c317(j: number): any {
+function __c318(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38647,7 +38690,7 @@ function __c317(j: number): any {
       });
   }
 }
-function __c318(j: number): any {
+function __c319(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38666,7 +38709,7 @@ function __c318(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedAnalyticsOpensearchMetricRequest" });
   }
 }
-function __c319(j: number): any {
+function __c320(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38684,7 +38727,7 @@ function __c319(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedAnalyticsOpensearchPatternRequest" });
   }
 }
-function __c320(j: number): any {
+function __c321(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38702,7 +38745,7 @@ function __c320(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedAnalyticsOpensearchUserRequest" });
   }
 }
-function __c321(j: number): any {
+function __c322(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38722,7 +38765,7 @@ function __c321(j: number): any {
       });
   }
 }
-function __c322(j: number): any {
+function __c323(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38737,7 +38780,7 @@ function __c322(j: number): any {
       ).annotate({ identifier: "PublicCloudDatabaseDatabase" });
   }
 }
-function __c323(j: number): any {
+function __c324(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38754,7 +38797,7 @@ function __c323(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedAnalyticsServiceRequest" });
   }
 }
-function __c324(j: number): any {
+function __c325(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38771,7 +38814,7 @@ function __c324(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedDatabaseBackupRequest" });
   }
 }
-function __c325(j: number): any {
+function __c326(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38788,7 +38831,7 @@ function __c325(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedDatabaseMongodbRequest" });
   }
 }
-function __c326(j: number): any {
+function __c327(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38806,7 +38849,7 @@ function __c326(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedDatabaseMongodbLogKindRequest" });
   }
 }
-function __c327(j: number): any {
+function __c328(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38826,7 +38869,7 @@ function __c327(j: number): any {
       });
   }
 }
-function __c328(j: number): any {
+function __c329(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38844,7 +38887,7 @@ function __c328(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedDatabaseMongodbMaintenanceRequest" });
   }
 }
-function __c329(j: number): any {
+function __c330(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38863,7 +38906,7 @@ function __c329(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedDatabaseMongodbMetricRequest" });
   }
 }
-function __c330(j: number): any {
+function __c331(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38887,7 +38930,7 @@ function __c330(j: number): any {
       ).annotate({ identifier: "PublicCloudDatabaseMongodbPrometheusEndpoint" });
   }
 }
-function __c331(j: number): any {
+function __c332(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38905,7 +38948,7 @@ function __c331(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedDatabaseMongodbRoleRequest" });
   }
 }
-function __c332(j: number): any {
+function __c333(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38923,7 +38966,7 @@ function __c332(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedDatabaseMongodbUserRequest" });
   }
 }
-function __c333(j: number): any {
+function __c334(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38931,7 +38974,7 @@ function __c333(j: number): any {
           projectId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
           destinationServiceId: S.String,
-          parameters: S.optional(S.NullOr(__S(96, __c3, 0))),
+          parameters: S.optional(S.NullOr(__S(128, __c4, 0))),
           sourceServiceId: S.String,
           type: S.String,
         }).pipe(
@@ -38946,7 +38989,7 @@ function __c333(j: number): any {
       });
   }
 }
-function __c334(j: number): any {
+function __c335(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38955,7 +38998,7 @@ function __c334(j: number): any {
           createdAt: S.optional(S.String),
           destinationServiceId: S.optional(S.NullOr(S.String)),
           id: S.optional(S.String),
-          parameters: S.optional(S.NullOr(__S(96, __c3, 0))),
+          parameters: S.optional(S.NullOr(__S(128, __c4, 0))),
           sourceServiceId: S.optional(S.String),
           status: S.optional(S.String),
           type: S.optional(S.String),
@@ -38964,7 +39007,7 @@ function __c334(j: number): any {
       ).annotate({ identifier: "PublicCloudDatabaseIntegration" });
   }
 }
-function __c335(j: number): any {
+function __c336(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38981,7 +39024,7 @@ function __c335(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedDatabaseMysqlRequest" });
   }
 }
-function __c336(j: number): any {
+function __c337(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38998,7 +39041,7 @@ function __c336(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedDatabaseMysqlCertificatesRequest" });
   }
 }
-function __c337(j: number): any {
+function __c338(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39018,7 +39061,7 @@ function __c337(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedDatabaseMysqlCurrentQueryRequest" });
   }
 }
-function __c338(j: number): any {
+function __c339(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39036,7 +39079,7 @@ function __c338(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedDatabaseMysqlDatabaseRequest" });
   }
 }
-function __c339(j: number): any {
+function __c340(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39054,7 +39097,7 @@ function __c339(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedDatabaseMysqlIntegrationRequest" });
   }
 }
-function __c340(j: number): any {
+function __c341(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39072,7 +39115,7 @@ function __c340(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedDatabaseMysqlLogKindRequest" });
   }
 }
-function __c341(j: number): any {
+function __c342(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39090,7 +39133,7 @@ function __c341(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedDatabaseMysqlLogSubscriptionRequest" });
   }
 }
-function __c342(j: number): any {
+function __c343(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39108,7 +39151,7 @@ function __c342(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedDatabaseMysqlMaintenanceRequest" });
   }
 }
-function __c343(j: number): any {
+function __c344(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39127,7 +39170,7 @@ function __c343(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedDatabaseMysqlMetricRequest" });
   }
 }
-function __c344(j: number): any {
+function __c345(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39145,7 +39188,7 @@ function __c344(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedDatabaseMysqlUserRequest" });
   }
 }
-function __c345(j: number): any {
+function __c346(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39166,7 +39209,7 @@ function __c345(j: number): any {
       });
   }
 }
-function __c346(j: number): any {
+function __c347(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39177,7 +39220,7 @@ function __c346(j: number): any {
       ).annotate({ identifier: "DbaasLogsLogSubscriptionResponse" });
   }
 }
-function __c347(j: number): any {
+function __c348(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39194,7 +39237,7 @@ function __c347(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedDatabasePostgresqlRequest" });
   }
 }
-function __c348(j: number): any {
+function __c349(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39213,7 +39256,7 @@ function __c348(j: number): any {
       });
   }
 }
-function __c349(j: number): any {
+function __c350(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39233,7 +39276,7 @@ function __c349(j: number): any {
       });
   }
 }
-function __c350(j: number): any {
+function __c351(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39255,7 +39298,7 @@ function __c350(j: number): any {
       });
   }
 }
-function __c351(j: number): any {
+function __c352(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39273,7 +39316,7 @@ function __c351(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedDatabasePostgresqlDatabaseRequest" });
   }
 }
-function __c352(j: number): any {
+function __c353(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39293,7 +39336,7 @@ function __c352(j: number): any {
       });
   }
 }
-function __c353(j: number): any {
+function __c354(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39311,7 +39354,7 @@ function __c353(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedDatabasePostgresqlLogKindRequest" });
   }
 }
-function __c354(j: number): any {
+function __c355(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39331,7 +39374,7 @@ function __c354(j: number): any {
       });
   }
 }
-function __c355(j: number): any {
+function __c356(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39351,7 +39394,7 @@ function __c355(j: number): any {
       });
   }
 }
-function __c356(j: number): any {
+function __c357(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39370,7 +39413,7 @@ function __c356(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedDatabasePostgresqlMetricRequest" });
   }
 }
-function __c357(j: number): any {
+function __c358(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39388,7 +39431,7 @@ function __c357(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectManagedAnalyticsClickhouseLogUrlRequest" });
   }
 }
-function __c358(j: number): any {
+function __c359(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39399,7 +39442,7 @@ function __c358(j: number): any {
       ).annotate({ identifier: "DbaasLogsTemporaryLogsLink" });
   }
 }
-function __c359(j: number): any {
+function __c360(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39417,7 +39460,7 @@ function __c359(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedDatabasePostgresqlRoleRequest" });
   }
 }
-function __c360(j: number): any {
+function __c361(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39435,7 +39478,7 @@ function __c360(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedDatabasePostgresqlUserRequest" });
   }
 }
-function __c361(j: number): any {
+function __c362(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39452,7 +39495,7 @@ function __c361(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedDatabaseServiceRequest" });
   }
 }
-function __c362(j: number): any {
+function __c363(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39469,7 +39512,7 @@ function __c362(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedDatabaseValkeyRequest" });
   }
 }
-function __c363(j: number): any {
+function __c364(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39487,7 +39530,7 @@ function __c363(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedDatabaseValkeyIntegrationRequest" });
   }
 }
-function __c364(j: number): any {
+function __c365(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39505,7 +39548,7 @@ function __c364(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedDatabaseValkeyLogKindRequest" });
   }
 }
-function __c365(j: number): any {
+function __c366(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39525,7 +39568,7 @@ function __c365(j: number): any {
       });
   }
 }
-function __c366(j: number): any {
+function __c367(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39543,7 +39586,7 @@ function __c366(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedDatabaseValkeyMaintenanceRequest" });
   }
 }
-function __c367(j: number): any {
+function __c368(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39562,7 +39605,7 @@ function __c367(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedDatabaseValkeyMetricRequest" });
   }
 }
-function __c368(j: number): any {
+function __c369(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39580,7 +39623,7 @@ function __c368(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedDatabaseValkeyUserRequest" });
   }
 }
-function __c369(j: number): any {
+function __c370(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39599,7 +39642,7 @@ function __c369(j: number): any {
       });
   }
 }
-function __c370(j: number): any {
+function __c371(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39614,7 +39657,7 @@ function __c370(j: number): any {
       ).annotate({ identifier: "PublicCloudDatabaseMaintenanceWindow" });
   }
 }
-function __c371(j: number): any {
+function __c372(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39631,7 +39674,7 @@ function __c371(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedKubernetesRequest" });
   }
 }
-function __c372(j: number): any {
+function __c373(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39654,7 +39697,7 @@ function __c372(j: number): any {
       ).annotate({ identifier: "PublicCloudManagedKubernetesKubeconfig" });
   }
 }
-function __c373(j: number): any {
+function __c374(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39672,7 +39715,7 @@ function __c373(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedKubernetesNodepoolRequest" });
   }
 }
-function __c374(j: number): any {
+function __c375(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39691,7 +39734,7 @@ function __c374(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedKubernetesNodepoolNodeRequest" });
   }
 }
-function __c375(j: number): any {
+function __c376(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39710,7 +39753,7 @@ function __c375(j: number): any {
       return S.suspend(() =>
         S.Struct({
           createdAt: S.optional(S.String),
-          currentState: S.optional(__S(12000, __c375, 0)),
+          currentState: S.optional(__S(12032, __c376, 0)),
           id: S.optional(S.String),
           resourceStatus: S.optional(S.String),
           updatedAt: S.optional(S.String),
@@ -39718,7 +39761,7 @@ function __c375(j: number): any {
       ).annotate({ identifier: "PublicCloudManagedKubernetesNode" });
   }
 }
-function __c376(j: number): any {
+function __c377(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39737,7 +39780,7 @@ function __c376(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedKubernetesNodepoolTaskRequest" });
   }
 }
-function __c377(j: number): any {
+function __c378(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39755,7 +39798,7 @@ function __c377(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectManagedKubernetesTaskRequest" });
   }
 }
-function __c378(j: number): any {
+function __c379(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39779,7 +39822,7 @@ function __c378(j: number): any {
       ).annotate({ identifier: "PublicCloudManagedKubernetesEtcdUsage" });
   }
 }
-function __c379(j: number): any {
+function __c380(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39796,7 +39839,7 @@ function __c379(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectNetworkRequest" });
   }
 }
-function __c380(j: number): any {
+function __c381(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39814,7 +39857,7 @@ function __c380(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectNetworkSubnetRequest" });
   }
 }
-function __c381(j: number): any {
+function __c382(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39831,7 +39874,7 @@ function __c381(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectPrivateEndpointRequest" });
   }
 }
-function __c382(j: number): any {
+function __c383(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39849,7 +39892,7 @@ function __c382(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectManagedAnalyticsClickhouseUserRequest" });
   }
 }
-function __c383(j: number): any {
+function __c384(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39859,14 +39902,14 @@ function __c383(j: number): any {
           credentialsLastUpdatedAt: S.optional(S.String),
           id: S.optional(S.String),
           password: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
-          roles: S.optional(__S(128, __c4, 0)),
+          roles: S.optional(__S(160, __c5, 0)),
           status: S.optional(S.String),
           username: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudDatabaseUserWithRoles" });
   }
 }
-function __c384(j: number): any {
+function __c385(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39883,12 +39926,12 @@ function __c384(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectPublicIpAdditionalRequest" });
   }
 }
-function __c385(j: number): any {
+function __c386(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          associatedResource: S.optional(S.NullOr(__S(992, __c31, 0))),
+          associatedResource: S.optional(S.NullOr(__S(1024, __c32, 0))),
           block: S.optional(S.NullOr(S.String)),
           id: S.optional(S.NullOr(S.String)),
           ip: S.optional(S.String),
@@ -39898,15 +39941,15 @@ function __c385(j: number): any {
       return S.suspend(() =>
         S.Struct({
           checksum: S.optional(S.String),
-          currentState: S.optional(__S(12320, __c385, 0)),
-          currentTasks: S.optional(__S(27553, __c861, 1)),
+          currentState: S.optional(__S(12352, __c386, 0)),
+          currentTasks: S.optional(__S(27585, __c862, 1)),
           id: S.optional(S.String),
           resourceStatus: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudPublicIpAdditionalIP" });
   }
 }
-function __c386(j: number): any {
+function __c387(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39923,7 +39966,7 @@ function __c386(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectPublicIpExtNetRequest" });
   }
 }
-function __c387(j: number): any {
+function __c388(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39940,7 +39983,7 @@ function __c387(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectPublicIpFloatingRequest" });
   }
 }
-function __c388(j: number): any {
+function __c389(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39953,7 +39996,7 @@ function __c388(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectQuotaRequest" });
   }
 }
-function __c389(j: number): any {
+function __c390(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39964,7 +40007,7 @@ function __c389(j: number): any {
       ).annotate({ identifier: "PublicCloudQuotaQuotaLimit" });
   }
 }
-function __c390(j: number): any {
+function __c391(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40033,18 +40076,18 @@ function __c390(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          compute: S.optional(S.NullOr(__S(12480, __c390, 0))),
-          keyManager: S.optional(S.NullOr(__S(12481, __c390, 1))),
-          keypair: S.optional(S.NullOr(__S(12482, __c390, 2))),
-          loadbalancer: S.optional(S.NullOr(__S(12483, __c390, 3))),
+          compute: S.optional(S.NullOr(__S(12512, __c391, 0))),
+          keyManager: S.optional(S.NullOr(__S(12513, __c391, 1))),
+          keypair: S.optional(S.NullOr(__S(12514, __c391, 2))),
+          loadbalancer: S.optional(S.NullOr(__S(12515, __c391, 3))),
           name: S.optional(S.String),
-          network: S.optional(S.NullOr(__S(12484, __c390, 4))),
-          share: S.optional(S.NullOr(__S(12485, __c390, 5))),
-          volume: S.optional(S.NullOr(__S(12486, __c390, 6))),
+          network: S.optional(S.NullOr(__S(12516, __c391, 4))),
+          share: S.optional(S.NullOr(__S(12517, __c391, 5))),
+          volume: S.optional(S.NullOr(__S(12518, __c391, 6))),
         }),
       ).annotate({ identifier: "PublicCloudQuotaQuotaProfile" });
     case 8:
-      return S.Array(__S(12487, __c390, 7));
+      return S.Array(__S(12519, __c391, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -40056,115 +40099,115 @@ function __c390(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          cores: S.optional(__S(12489, __c390, 9)),
-          instances: S.optional(__S(12489, __c390, 9)),
-          memory: S.optional(__S(12489, __c390, 9)),
+          cores: S.optional(__S(12521, __c391, 9)),
+          instances: S.optional(__S(12521, __c391, 9)),
+          memory: S.optional(__S(12521, __c391, 9)),
         }),
       ).annotate({ identifier: "PublicCloudQuotaQuotaRegionCompute" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          containers: S.optional(__S(12489, __c390, 9)),
-          secrets: S.optional(__S(12489, __c390, 9)),
+          containers: S.optional(__S(12521, __c391, 9)),
+          secrets: S.optional(__S(12521, __c391, 9)),
         }),
       ).annotate({ identifier: "PublicCloudQuotaQuotaRegionKeyManager" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          keypairs: S.optional(__S(12489, __c390, 9)),
+          keypairs: S.optional(__S(12521, __c391, 9)),
         }),
       ).annotate({ identifier: "PublicCloudQuotaQuotaRegionKeypair" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          healthMonitors: S.optional(__S(12489, __c390, 9)),
-          l7Policies: S.optional(__S(12489, __c390, 9)),
-          l7Rules: S.optional(__S(12489, __c390, 9)),
-          listeners: S.optional(__S(12489, __c390, 9)),
-          loadbalancers: S.optional(__S(12489, __c390, 9)),
-          members: S.optional(__S(12489, __c390, 9)),
-          pools: S.optional(__S(12489, __c390, 9)),
+          healthMonitors: S.optional(__S(12521, __c391, 9)),
+          l7Policies: S.optional(__S(12521, __c391, 9)),
+          l7Rules: S.optional(__S(12521, __c391, 9)),
+          listeners: S.optional(__S(12521, __c391, 9)),
+          loadbalancers: S.optional(__S(12521, __c391, 9)),
+          members: S.optional(__S(12521, __c391, 9)),
+          pools: S.optional(__S(12521, __c391, 9)),
         }),
       ).annotate({ identifier: "PublicCloudQuotaQuotaRegionLoadbalancer" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          floatingIps: S.optional(__S(12489, __c390, 9)),
-          gateways: S.optional(__S(12489, __c390, 9)),
-          networks: S.optional(__S(12489, __c390, 9)),
-          securityGroupRules: S.optional(__S(12489, __c390, 9)),
-          securityGroups: S.optional(__S(12489, __c390, 9)),
-          subnets: S.optional(__S(12489, __c390, 9)),
+          floatingIps: S.optional(__S(12521, __c391, 9)),
+          gateways: S.optional(__S(12521, __c391, 9)),
+          networks: S.optional(__S(12521, __c391, 9)),
+          securityGroupRules: S.optional(__S(12521, __c391, 9)),
+          securityGroups: S.optional(__S(12521, __c391, 9)),
+          subnets: S.optional(__S(12521, __c391, 9)),
         }),
       ).annotate({ identifier: "PublicCloudQuotaQuotaRegionNetwork" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          backupSizeTotal: S.optional(__S(12489, __c390, 9)),
-          backups: S.optional(__S(12489, __c390, 9)),
-          perShareSize: S.optional(__S(12448, __c389, 0)),
-          shareNetworks: S.optional(__S(12489, __c390, 9)),
-          shares: S.optional(__S(12489, __c390, 9)),
-          sizeTotal: S.optional(__S(12489, __c390, 9)),
-          snapshotSizeTotal: S.optional(__S(12489, __c390, 9)),
-          snapshots: S.optional(__S(12489, __c390, 9)),
+          backupSizeTotal: S.optional(__S(12521, __c391, 9)),
+          backups: S.optional(__S(12521, __c391, 9)),
+          perShareSize: S.optional(__S(12480, __c390, 0)),
+          shareNetworks: S.optional(__S(12521, __c391, 9)),
+          shares: S.optional(__S(12521, __c391, 9)),
+          sizeTotal: S.optional(__S(12521, __c391, 9)),
+          snapshotSizeTotal: S.optional(__S(12521, __c391, 9)),
+          snapshots: S.optional(__S(12521, __c391, 9)),
         }),
       ).annotate({ identifier: "PublicCloudQuotaQuotaRegionShare" });
     case 16:
       return S.suspend(() =>
         S.Struct({
-          backupSizeTotal: S.optional(__S(12489, __c390, 9)),
-          backups: S.optional(__S(12489, __c390, 9)),
-          perVolumeSize: S.optional(__S(12448, __c389, 0)),
-          sizeTotal: S.optional(__S(12489, __c390, 9)),
-          snapshots: S.optional(__S(12489, __c390, 9)),
-          volumes: S.optional(__S(12489, __c390, 9)),
+          backupSizeTotal: S.optional(__S(12521, __c391, 9)),
+          backups: S.optional(__S(12521, __c391, 9)),
+          perVolumeSize: S.optional(__S(12480, __c390, 0)),
+          sizeTotal: S.optional(__S(12521, __c391, 9)),
+          snapshots: S.optional(__S(12521, __c391, 9)),
+          volumes: S.optional(__S(12521, __c391, 9)),
         }),
       ).annotate({ identifier: "PublicCloudQuotaQuotaRegionVolume" });
     case 17:
       return S.suspend(() =>
         S.Struct({
-          compute: S.optional(S.NullOr(__S(12490, __c390, 10))),
-          keyManager: S.optional(S.NullOr(__S(12491, __c390, 11))),
-          keypair: S.optional(S.NullOr(__S(12492, __c390, 12))),
-          loadbalancer: S.optional(S.NullOr(__S(12493, __c390, 13))),
-          network: S.optional(S.NullOr(__S(12494, __c390, 14))),
-          share: S.optional(S.NullOr(__S(12495, __c390, 15))),
-          volume: S.optional(S.NullOr(__S(12496, __c390, 16))),
+          compute: S.optional(S.NullOr(__S(12522, __c391, 10))),
+          keyManager: S.optional(S.NullOr(__S(12523, __c391, 11))),
+          keypair: S.optional(S.NullOr(__S(12524, __c391, 12))),
+          loadbalancer: S.optional(S.NullOr(__S(12525, __c391, 13))),
+          network: S.optional(S.NullOr(__S(12526, __c391, 14))),
+          share: S.optional(S.NullOr(__S(12527, __c391, 15))),
+          volume: S.optional(S.NullOr(__S(12528, __c391, 16))),
         }),
       ).annotate({ identifier: "PublicCloudQuotaQuotaUsageDetails" });
     case 18:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(2208, __c69, 0)),
+          location: S.optional(__S(2240, __c70, 0)),
           profile: S.optional(S.String),
-          usage: S.optional(S.NullOr(__S(12497, __c390, 17))),
+          usage: S.optional(S.NullOr(__S(12529, __c391, 17))),
         }),
       ).annotate({ identifier: "PublicCloudQuotaQuotaRegionCurrentState" });
     case 19:
-      return S.Array(__S(12498, __c390, 18));
+      return S.Array(__S(12530, __c391, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
-          availableProfiles: S.optional(S.NullOr(__S(12488, __c390, 8))),
+          availableProfiles: S.optional(S.NullOr(__S(12520, __c391, 8))),
           preventAutomaticQuotaUpgrade: S.optional(S.Boolean),
-          regions: S.optional(S.NullOr(__S(12499, __c390, 19))),
+          regions: S.optional(S.NullOr(__S(12531, __c391, 19))),
         }),
       ).annotate({ identifier: "PublicCloudQuotaQuotaCurrentState" });
     case 21:
       return S.suspend(() =>
         S.Struct({
-          location: __S(2208, __c69, 0),
+          location: __S(2240, __c70, 0),
           profile: S.String,
         }),
       ).annotate({ identifier: "PublicCloudQuotaQuotaRegionTargetSpec" });
     case 22:
-      return S.Array(__S(12501, __c390, 21));
+      return S.Array(__S(12533, __c391, 21));
     case 23:
       return S.suspend(() =>
         S.Struct({
           preventAutomaticQuotaUpgrade: S.optional(S.Boolean),
-          regions: S.optional(__S(12502, __c390, 22)),
+          regions: S.optional(__S(12534, __c391, 22)),
         }),
       ).annotate({ identifier: "PublicCloudQuotaQuotaTargetSpec" });
     case 24:
@@ -40172,17 +40215,17 @@ function __c390(j: number): any {
         S.Struct({
           checksum: S.optional(S.String),
           createdAt: S.optional(S.String),
-          currentState: S.optional(S.NullOr(__S(12500, __c390, 20))),
-          currentTasks: S.optional(S.NullOr(__S(27553, __c861, 1))),
+          currentState: S.optional(S.NullOr(__S(12532, __c391, 20))),
+          currentTasks: S.optional(S.NullOr(__S(27585, __c862, 1))),
           id: S.optional(S.String),
           resourceStatus: S.optional(S.String),
-          targetSpec: S.optional(__S(12503, __c390, 23)),
+          targetSpec: S.optional(__S(12535, __c391, 23)),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudQuotaQuota" });
   }
 }
-function __c391(j: number): any {
+function __c392(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40199,7 +40242,7 @@ function __c391(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectRancherRequest" });
   }
 }
-function __c392(j: number): any {
+function __c393(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40217,7 +40260,7 @@ function __c392(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectRancherTaskRequest" });
   }
 }
-function __c393(j: number): any {
+function __c394(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40234,19 +40277,19 @@ function __c393(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectReferenceInstanceFlavorRequest" });
   }
 }
-function __c394(j: number): any {
+function __c395(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          bandwidth: S.optional(__S(2624, __c82, 0)),
+          bandwidth: S.optional(__S(2656, __c83, 0)),
           description: S.optional(S.NullOr(S.String)),
           disk: S.optional(S.Number),
           ephemeral: S.optional(S.Number),
           gpus: S.optional(S.Number),
           id: S.optional(S.String),
           isPublic: S.optional(S.Boolean),
-          location: S.optional(__S(2208, __c69, 0)),
+          location: S.optional(__S(2240, __c70, 0)),
           name: S.optional(S.String),
           ram: S.optional(S.Number),
           swap: S.optional(S.Number),
@@ -40255,7 +40298,7 @@ function __c394(j: number): any {
       ).annotate({ identifier: "PublicCloudReferenceInstanceFlavor" });
   }
 }
-function __c395(j: number): any {
+function __c396(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40272,7 +40315,7 @@ function __c395(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectReferenceInstanceImageRequest" });
   }
 }
-function __c396(j: number): any {
+function __c397(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40280,7 +40323,7 @@ function __c396(j: number): any {
           createdAt: S.optional(S.String),
           defaultUser: S.optional(S.NullOr(S.String)),
           id: S.optional(S.String),
-          location: S.optional(__S(2208, __c69, 0)),
+          location: S.optional(__S(2240, __c70, 0)),
           minDisk: S.optional(S.Number),
           minRam: S.optional(S.Number),
           name: S.optional(S.String),
@@ -40293,7 +40336,7 @@ function __c396(j: number): any {
       ).annotate({ identifier: "PublicCloudReferenceInstanceImage" });
   }
 }
-function __c397(j: number): any {
+function __c398(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40312,7 +40355,7 @@ function __c397(j: number): any {
       });
   }
 }
-function __c398(j: number): any {
+function __c399(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40322,13 +40365,13 @@ function __c398(j: number): any {
         }),
       ).annotate({ identifier: "PublicCloudLakehouseComputePoolSizeCapability" });
     case 1:
-      return S.Array(__S(12736, __c398, 0));
+      return S.Array(__S(12768, __c399, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           computePoolQuota: S.optional(S.NullOr(S.Number)),
-          computePoolSizes: S.optional(__S(12737, __c398, 1)),
-          computePoolTiers: S.optional(__S(160, __c5, 0)),
+          computePoolSizes: S.optional(__S(12769, __c399, 1)),
+          computePoolTiers: S.optional(__S(192, __c6, 0)),
           ipRestrictions: S.optional(S.Boolean),
           name: S.optional(S.String),
           status: S.optional(S.String),
@@ -40336,7 +40379,7 @@ function __c398(j: number): any {
       ).annotate({ identifier: "PublicCloudLakehouseRegionCapability" });
   }
 }
-function __c399(j: number): any {
+function __c400(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40355,36 +40398,36 @@ function __c399(j: number): any {
       });
   }
 }
-function __c400(j: number): any {
+function __c401(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(2208, __c69, 0)),
+          location: S.optional(__S(2240, __c70, 0)),
           name: S.optional(S.String),
           port: S.optional(S.Number),
           transport: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudReferencePrivateEndpointServiceConnectivity" });
     case 1:
-      return S.Array(__S(12800, __c400, 0));
+      return S.Array(__S(12832, __c401, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          connectivities: S.optional(__S(12801, __c400, 1)),
+          connectivities: S.optional(__S(12833, __c401, 1)),
           description: S.optional(S.NullOr(S.String)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudReferencePrivateEndpointServiceAvailability" });
   }
 }
-function __c401(j: number): any {
+function __c402(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          targetSpec: __S(9761, __c305, 1),
+          targetSpec: __S(9793, __c306, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -40395,7 +40438,7 @@ function __c401(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectManagedAnalyticsGrafanaRequest" });
   }
 }
-function __c402(j: number): any {
+function __c403(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40417,7 +40460,7 @@ function __c402(j: number): any {
       ).annotate({ identifier: "PublicCloudRancherEligibilityReference" });
   }
 }
-function __c403(j: number): any {
+function __c404(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40434,36 +40477,36 @@ function __c403(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectReferenceRegionRequest" });
   }
 }
-function __c404(j: number): any {
+function __c405(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           bareContainerOnly: S.optional(S.Boolean),
           isReplicationTarget: S.optional(S.Boolean),
-          lifecycleTargetClasses: S.optional(__S(160, __c5, 0)),
+          lifecycleTargetClasses: S.optional(__S(192, __c6, 0)),
           replicationSupported: S.optional(S.Boolean),
-          storageClasses: S.optional(__S(160, __c5, 0)),
+          storageClasses: S.optional(__S(192, __c6, 0)),
         }),
       ).annotate({ identifier: "PublicCloudReferenceRegionObjectStorage" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           activated: S.optional(S.Boolean),
-          availabilityZones: S.optional(S.NullOr(__S(128, __c4, 0))),
+          availabilityZones: S.optional(S.NullOr(__S(160, __c5, 0))),
           continent: S.optional(S.String),
           country: S.optional(S.NullOr(S.String)),
           datacenterName: S.optional(S.NullOr(S.String)),
           name: S.optional(S.String),
-          objectStorage: S.optional(S.NullOr(__S(12928, __c404, 0))),
-          services: S.optional(__S(128, __c4, 0)),
+          objectStorage: S.optional(S.NullOr(__S(12960, __c405, 0))),
+          services: S.optional(__S(160, __c5, 0)),
           status: S.optional(S.String),
           type: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "PublicCloudReferenceRegion" });
   }
 }
-function __c405(j: number): any {
+function __c406(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40480,7 +40523,7 @@ function __c405(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectSecurityGroupRequest" });
   }
 }
-function __c406(j: number): any {
+function __c407(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40497,7 +40540,7 @@ function __c406(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectSshKeyRequest" });
   }
 }
-function __c407(j: number): any {
+function __c408(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40514,7 +40557,7 @@ function __c407(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectStorageBlockBackupRequest" });
   }
 }
-function __c408(j: number): any {
+function __c409(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40531,7 +40574,7 @@ function __c408(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectStorageBlockSnapshotRequest" });
   }
 }
-function __c409(j: number): any {
+function __c410(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40548,7 +40591,7 @@ function __c409(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectStorageBlockVolumeRequest" });
   }
 }
-function __c410(j: number): any {
+function __c411(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40565,7 +40608,7 @@ function __c410(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectStorageFileNetworkRequest" });
   }
 }
-function __c411(j: number): any {
+function __c412(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40582,7 +40625,7 @@ function __c411(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectStorageFileShareRequest" });
   }
 }
-function __c412(j: number): any {
+function __c413(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40600,7 +40643,7 @@ function __c412(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectStorageFileShareAclRequest" });
   }
 }
-function __c413(j: number): any {
+function __c414(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40608,7 +40651,7 @@ function __c413(j: number): any {
           projectId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
           destinationServiceId: S.String,
-          parameters: S.optional(S.NullOr(__S(96, __c3, 0))),
+          parameters: S.optional(S.NullOr(__S(128, __c4, 0))),
           sourceServiceId: S.String,
           type: S.String,
         }).pipe(
@@ -40623,7 +40666,7 @@ function __c413(j: number): any {
       });
   }
 }
-function __c414(j: number): any {
+function __c415(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40640,7 +40683,7 @@ function __c414(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectStorageFileSnapshotRequest" });
   }
 }
-function __c415(j: number): any {
+function __c416(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40657,7 +40700,7 @@ function __c415(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectStorageObjectBucketRequest" });
   }
 }
-function __c416(j: number): any {
+function __c417(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40675,7 +40718,7 @@ function __c416(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectStorageObjectBucketMultipartUploadRequest" });
   }
 }
-function __c417(j: number): any {
+function __c418(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40693,7 +40736,7 @@ function __c417(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectStorageObjectBucketObjectRequest" });
   }
 }
-function __c418(j: number): any {
+function __c419(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40714,7 +40757,7 @@ function __c418(j: number): any {
       });
   }
 }
-function __c419(j: number): any {
+function __c420(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40733,7 +40776,7 @@ function __c419(j: number): any {
       ).annotate({ identifier: "GetPublicCloudProjectStorageObjectBucketObjectVersionRequest" });
   }
 }
-function __c420(j: number): any {
+function __c421(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40753,7 +40796,7 @@ function __c420(j: number): any {
       });
   }
 }
-function __c421(j: number): any {
+function __c422(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40769,33 +40812,33 @@ function __c421(j: number): any {
       ).annotate({ identifier: "PublicCloudStorageObjectReplicationJob" });
   }
 }
-function __c422(j: number): any {
+function __c423(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          iamTags: S.optional(__S(13537, __c423, 1).pipe(T.Query())),
+          iamTags: S.optional(__S(13569, __c424, 1).pipe(T.Query())),
           xPaginationCursor: S.optional(S.String.pipe(T.Header("X-Pagination-Cursor"))),
           xPaginationSize: S.optional(S.Number.pipe(T.Header("X-Pagination-Size"))),
         }).pipe(T.Http({ method: "GET", uri: "/publicCloud/project", code: 200 })),
       ).annotate({ identifier: "ListPublicCloudProjectRequest" });
     case 1:
-      return S.Array(__S(6112, __c191, 0));
+      return S.Array(__S(6144, __c192, 0));
     case 2:
-      return S.suspend(() => __S(13505, __c422, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(13537, __c423, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectResponse",
       });
   }
 }
-function __c423(j: number): any {
+function __c424(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(5760, __c180, 0));
+      return S.Array(__S(5792, __c181, 0));
     case 1:
-      return S.Record(S.String, __S(13536, __c423, 0));
+      return S.Record(S.String, __S(13568, __c424, 0));
   }
 }
-function __c424(j: number): any {
+function __c425(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40812,14 +40855,14 @@ function __c424(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectAiAgentAgentRequest" });
     case 1:
-      return S.Array(__S(194, __c6, 2));
+      return S.Array(__S(226, __c7, 2));
     case 2:
-      return S.suspend(() => __S(13569, __c424, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(13601, __c425, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectAiAgentAgentResponse",
       });
   }
 }
-function __c425(j: number): any {
+function __c426(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40836,14 +40879,14 @@ function __c425(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectAiAgentPresetTemplateRequest" });
     case 1:
-      return S.Array(__S(6272, __c196, 0));
+      return S.Array(__S(6304, __c197, 0));
     case 2:
-      return S.suspend(() => __S(13601, __c425, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(13633, __c426, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectAiAgentPresetTemplateResponse",
       });
   }
 }
-function __c426(j: number): any {
+function __c427(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40864,7 +40907,7 @@ function __c426(j: number): any {
       });
   }
 }
-function __c427(j: number): any {
+function __c428(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40874,7 +40917,7 @@ function __c427(j: number): any {
       ).annotate({ identifier: "PublicCloudDatabaseQueryCancelResult" });
   }
 }
-function __c428(j: number): any {
+function __c429(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40895,7 +40938,7 @@ function __c428(j: number): any {
       });
   }
 }
-function __c429(j: number): any {
+function __c430(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40912,14 +40955,14 @@ function __c429(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectAiAgentTemplateRequest" });
     case 1:
-      return S.Array(__S(1569, __c49, 1));
+      return S.Array(__S(1601, __c50, 1));
     case 2:
-      return S.suspend(() => __S(13729, __c429, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(13761, __c430, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectAiAgentTemplateResponse",
       });
   }
 }
-function __c430(j: number): any {
+function __c431(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40936,23 +40979,23 @@ function __c430(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectComputeAutobackupRequest" });
     case 1:
-      return S.Array(__S(2181, __c68, 5));
+      return S.Array(__S(2213, __c69, 5));
     case 2:
-      return S.suspend(() => __S(13761, __c430, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(13793, __c431, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectComputeAutobackupResponse",
       });
   }
 }
-function __c431(j: number): any {
+function __c432(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          flavor: S.optional(__S(128, __c4, 0).pipe(T.Query())),
-          name: S.optional(__S(128, __c4, 0).pipe(T.Query())),
-          region: S.optional(__S(128, __c4, 0).pipe(T.Query())),
-          status: S.optional(__S(160, __c5, 0).pipe(T.Query())),
+          flavor: S.optional(__S(160, __c5, 0).pipe(T.Query())),
+          name: S.optional(__S(160, __c5, 0).pipe(T.Query())),
+          region: S.optional(__S(160, __c5, 0).pipe(T.Query())),
+          status: S.optional(__S(192, __c6, 0).pipe(T.Query())),
           xPaginationCursor: S.optional(S.String.pipe(T.Header("X-Pagination-Cursor"))),
           xPaginationSize: S.optional(S.Number.pipe(T.Header("X-Pagination-Size"))),
         }).pipe(
@@ -40964,14 +41007,14 @@ function __c431(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectComputeInstanceRequest" });
     case 1:
-      return S.Array(__S(2609, __c81, 17));
+      return S.Array(__S(2641, __c82, 17));
     case 2:
-      return S.suspend(() => __S(13793, __c431, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(13825, __c432, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectComputeInstanceResponse",
       });
   }
 }
-function __c432(j: number): any {
+function __c433(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40990,17 +41033,17 @@ function __c432(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectComputeInstanceCompatibleFlavorRequest" });
   }
 }
-function __c433(j: number): any {
+function __c434(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(12608, __c394, 0));
+      return S.Array(__S(12640, __c395, 0));
     case 1:
-      return S.suspend(() => __S(13856, __c433, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(13888, __c434, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectComputeInstanceCompatibleFlavorResponse",
       });
   }
 }
-function __c434(j: number): any {
+function __c435(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41019,7 +41062,7 @@ function __c434(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectComputeInstanceEventsRequest" });
   }
 }
-function __c435(j: number): any {
+function __c436(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41032,14 +41075,14 @@ function __c435(j: number): any {
         }),
       ).annotate({ identifier: "CommonEvent" });
     case 1:
-      return S.Array(__S(13920, __c435, 0));
+      return S.Array(__S(13952, __c436, 0));
     case 2:
-      return S.suspend(() => __S(13921, __c435, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(13953, __c436, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectComputeInstanceEventsResponse",
       });
   }
 }
-function __c436(j: number): any {
+function __c437(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41056,14 +41099,14 @@ function __c436(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectComputeInstanceGroupRequest" });
     case 1:
-      return S.Array(__S(3810, __c119, 2));
+      return S.Array(__S(3842, __c120, 2));
     case 2:
-      return S.suspend(() => __S(13953, __c436, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(13985, __c437, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectComputeInstanceGroupResponse",
       });
   }
 }
-function __c437(j: number): any {
+function __c438(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41080,14 +41123,14 @@ function __c437(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectComputeReservationRequest" });
     case 1:
-      return S.Array(__S(4226, __c132, 2));
+      return S.Array(__S(4258, __c133, 2));
     case 2:
-      return S.suspend(() => __S(13985, __c437, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(14017, __c438, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectComputeReservationResponse",
       });
   }
 }
-function __c438(j: number): any {
+function __c439(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41105,14 +41148,14 @@ function __c438(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectComputeSnapshotRequest" });
     case 1:
-      return S.Array(__S(4610, __c144, 2));
+      return S.Array(__S(4642, __c145, 2));
     case 2:
-      return S.suspend(() => __S(14017, __c438, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(14049, __c439, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectComputeSnapshotResponse",
       });
   }
 }
-function __c439(j: number): any {
+function __c440(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41126,14 +41169,14 @@ function __c439(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectGatewayRequest" });
     case 1:
-      return S.Array(__S(4995, __c156, 3));
+      return S.Array(__S(5027, __c157, 3));
     case 2:
-      return S.suspend(() => __S(14049, __c439, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(14081, __c440, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectGatewayResponse",
       });
   }
 }
-function __c440(j: number): any {
+function __c441(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41150,14 +41193,14 @@ function __c440(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectKeyManagerContainerRequest" });
     case 1:
-      return S.Array(__S(5380, __c168, 4));
+      return S.Array(__S(5412, __c169, 4));
     case 2:
-      return S.suspend(() => __S(14081, __c440, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(14113, __c441, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectKeyManagerContainerResponse",
       });
   }
 }
-function __c441(j: number): any {
+function __c442(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41175,7 +41218,7 @@ function __c441(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectManagedAnalyticsGrafanaLogUrlRequest" });
   }
 }
-function __c442(j: number): any {
+function __c443(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41194,17 +41237,17 @@ function __c442(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectKeyManagerContainerConsumerRequest" });
   }
 }
-function __c443(j: number): any {
+function __c444(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(5824, __c182, 0));
+      return S.Array(__S(5856, __c183, 0));
     case 1:
-      return S.suspend(() => __S(14176, __c443, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(14208, __c444, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectKeyManagerContainerConsumerResponse",
       });
   }
 }
-function __c444(j: number): any {
+function __c445(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41221,14 +41264,14 @@ function __c444(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectKeyManagerSecretRequest" });
     case 1:
-      return S.Array(__S(6370, __c199, 2));
+      return S.Array(__S(6402, __c200, 2));
     case 2:
-      return S.suspend(() => __S(14209, __c444, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(14241, __c445, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectKeyManagerSecretResponse",
       });
   }
 }
-function __c445(j: number): any {
+function __c446(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41247,7 +41290,7 @@ function __c445(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectKeyManagerSecretConsumerRequest" });
   }
 }
-function __c446(j: number): any {
+function __c447(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41264,14 +41307,14 @@ function __c446(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectLoadbalancerRequest" });
     case 1:
-      return S.Array(__S(7717, __c241, 5));
+      return S.Array(__S(7749, __c242, 5));
     case 2:
-      return S.suspend(() => __S(14273, __c446, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(14305, __c447, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectLoadbalancerResponse",
       });
   }
 }
-function __c447(j: number): any {
+function __c448(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41289,14 +41332,14 @@ function __c447(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectLoadbalancerListenerRequest" });
     case 1:
-      return S.Array(__S(8099, __c253, 3));
+      return S.Array(__S(8131, __c254, 3));
     case 2:
-      return S.suspend(() => __S(14305, __c447, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(14337, __c448, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectLoadbalancerListenerResponse",
       });
   }
 }
-function __c448(j: number): any {
+function __c449(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41315,14 +41358,14 @@ function __c448(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectLoadbalancerListenerL7policyRequest" });
     case 1:
-      return S.Array(__S(8518, __c266, 6));
+      return S.Array(__S(8550, __c267, 6));
     case 2:
-      return S.suspend(() => __S(14337, __c448, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(14369, __c449, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectLoadbalancerListenerL7policyResponse",
       });
   }
 }
-function __c449(j: number): any {
+function __c450(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41340,14 +41383,14 @@ function __c449(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectLoadbalancerPoolRequest" });
     case 1:
-      return S.Array(__S(8901, __c278, 5));
+      return S.Array(__S(8933, __c279, 5));
     case 2:
-      return S.suspend(() => __S(14369, __c449, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(14401, __c450, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectLoadbalancerPoolResponse",
       });
   }
 }
-function __c450(j: number): any {
+function __c451(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41366,14 +41409,14 @@ function __c450(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectLoadbalancerPoolMemberRequest" });
     case 1:
-      return S.Array(__S(9379, __c293, 3));
+      return S.Array(__S(9411, __c294, 3));
     case 2:
-      return S.suspend(() => __S(14401, __c450, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(14433, __c451, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectLoadbalancerPoolMemberResponse",
       });
   }
 }
-function __c451(j: number): any {
+function __c452(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41394,7 +41437,7 @@ function __c451(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsAvailabilityRequest" });
   }
 }
-function __c452(j: number): any {
+function __c453(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41407,7 +41450,7 @@ function __c452(j: number): any {
       ).annotate({ identifier: "PublicCloudDatabaseAvailabilityLifecycle" });
   }
 }
-function __c453(j: number): any {
+function __c454(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41426,9 +41469,9 @@ function __c453(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          maximum: S.optional(__S(9792, __c306, 0)),
-          minimum: S.optional(__S(9792, __c306, 0)),
-          step: S.optional(S.NullOr(__S(9792, __c306, 0))),
+          maximum: S.optional(__S(9824, __c307, 0)),
+          minimum: S.optional(__S(9824, __c307, 0)),
+          step: S.optional(S.NullOr(__S(9824, __c307, 0))),
         }),
       ).annotate({ identifier: "PublicCloudDatabaseAvailabilitySpecificationsStorage" });
     case 3:
@@ -41436,35 +41479,35 @@ function __c453(j: number): any {
         S.Struct({
           flavor: S.optional(S.String),
           network: S.optional(S.String),
-          nodes: S.optional(__S(14497, __c453, 1)),
-          storage: S.optional(S.NullOr(__S(14498, __c453, 2))),
+          nodes: S.optional(__S(14529, __c454, 1)),
+          storage: S.optional(S.NullOr(__S(14530, __c454, 2))),
         }),
       ).annotate({ identifier: "PublicCloudDatabaseAvailabilitySpecifications" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          backups: S.optional(__S(14496, __c453, 0)),
+          backups: S.optional(__S(14528, __c454, 0)),
           category: S.optional(S.String),
           default: S.optional(S.Boolean),
           engine: S.optional(S.String),
-          lifecycle: S.optional(__S(14464, __c452, 0)),
+          lifecycle: S.optional(__S(14496, __c453, 0)),
           plan: S.optional(S.String),
           planCode: S.optional(S.String),
           planCodeStorage: S.optional(S.NullOr(S.String)),
           region: S.optional(S.String),
-          specifications: S.optional(__S(14499, __c453, 3)),
+          specifications: S.optional(__S(14531, __c454, 3)),
           version: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudDatabaseAvailability" });
     case 5:
-      return S.Array(__S(14500, __c453, 4));
+      return S.Array(__S(14532, __c454, 4));
     case 6:
-      return S.suspend(() => __S(14501, __c453, 5).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(14533, __c454, 5).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectManagedAnalyticsAvailabilityResponse",
       });
   }
 }
-function __c454(j: number): any {
+function __c455(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41484,7 +41527,7 @@ function __c454(j: number): any {
       });
   }
 }
-function __c455(j: number): any {
+function __c456(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41498,14 +41541,14 @@ function __c455(j: number): any {
         }),
       ).annotate({ identifier: "PublicCloudDatabaseAvailabilitySuggestion" });
     case 1:
-      return S.Array(__S(14560, __c455, 0));
+      return S.Array(__S(14592, __c456, 0));
     case 2:
-      return S.suspend(() => __S(14561, __c455, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(14593, __c456, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectManagedAnalyticsAvailabilitySuggestionResponse",
       });
   }
 }
-function __c456(j: number): any {
+function __c457(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41524,7 +41567,7 @@ function __c456(j: number): any {
       });
   }
 }
-function __c457(j: number): any {
+function __c458(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41543,17 +41586,17 @@ function __c457(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsBackupRequest" });
   }
 }
-function __c458(j: number): any {
+function __c459(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(6976, __c218, 0));
+      return S.Array(__S(7008, __c219, 0));
     case 1:
-      return S.suspend(() => __S(14656, __c458, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(14688, __c459, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectManagedAnalyticsBackupResponse",
       });
   }
 }
-function __c459(j: number): any {
+function __c460(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41571,7 +41614,7 @@ function __c459(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsCapabilityDisksRequest" });
   }
 }
-function __c460(j: number): any {
+function __c461(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41584,14 +41627,14 @@ function __c460(j: number): any {
         }),
       ).annotate({ identifier: "PublicCloudDatabaseCapabilitiesDiskType" });
     case 1:
-      return S.Array(__S(14720, __c460, 0));
+      return S.Array(__S(14752, __c461, 0));
     case 2:
-      return S.suspend(() => __S(14721, __c460, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(14753, __c461, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectManagedAnalyticsCapabilityDisksResponse",
       });
   }
 }
-function __c461(j: number): any {
+function __c462(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41609,43 +41652,43 @@ function __c461(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsCapabilityEnginesRequest" });
   }
 }
-function __c462(j: number): any {
+function __c463(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           default: S.optional(S.Boolean),
-          lifecycle: S.optional(__S(14464, __c452, 0)),
+          lifecycle: S.optional(__S(14496, __c453, 0)),
           name: S.optional(S.String),
-          tags: S.optional(S.NullOr(__S(128, __c4, 0))),
+          tags: S.optional(S.NullOr(__S(160, __c5, 0))),
         }),
       ).annotate({ identifier: "PublicCloudDatabaseEngineVersion" });
     case 1:
-      return S.Array(__S(14784, __c462, 0));
+      return S.Array(__S(14816, __c463, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           category: S.optional(S.String),
           defaultVersion: S.optional(S.String),
           description: S.optional(S.String),
-          lifecycle: S.optional(__S(14464, __c452, 0)),
+          lifecycle: S.optional(__S(14496, __c453, 0)),
           name: S.optional(S.String),
           order: S.optional(S.Number),
-          sslModes: S.optional(__S(128, __c4, 0)),
+          sslModes: S.optional(__S(160, __c5, 0)),
           storage: S.optional(S.String),
-          tags: S.optional(S.NullOr(__S(128, __c4, 0))),
-          versions: S.optional(__S(14785, __c462, 1)),
+          tags: S.optional(S.NullOr(__S(160, __c5, 0))),
+          versions: S.optional(__S(14817, __c463, 1)),
         }),
       ).annotate({ identifier: "PublicCloudDatabaseEngineCapability" });
     case 3:
-      return S.Array(__S(14786, __c462, 2));
+      return S.Array(__S(14818, __c463, 2));
     case 4:
-      return S.suspend(() => __S(14787, __c462, 3).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(14819, __c463, 3).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectManagedAnalyticsCapabilityEnginesResponse",
       });
   }
 }
-function __c463(j: number): any {
+function __c464(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41663,12 +41706,12 @@ function __c463(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsCapabilityFlavorsRequest" });
   }
 }
-function __c464(j: number): any {
+function __c465(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          memory: S.optional(__S(9792, __c306, 0)),
+          memory: S.optional(__S(9824, __c307, 0)),
           vcpus: S.optional(S.Number),
         }),
       ).annotate({ identifier: "PublicCloudDatabaseCapabilitiesFlavorSpecifications" });
@@ -41676,22 +41719,22 @@ function __c464(j: number): any {
       return S.suspend(() =>
         S.Struct({
           generation: S.optional(S.NullOr(S.String)),
-          lifecycle: S.optional(__S(14464, __c452, 0)),
+          lifecycle: S.optional(__S(14496, __c453, 0)),
           name: S.optional(S.String),
           order: S.optional(S.Number),
-          specifications: S.optional(__S(14848, __c464, 0)),
-          tags: S.optional(S.NullOr(__S(128, __c4, 0))),
+          specifications: S.optional(__S(14880, __c465, 0)),
+          tags: S.optional(S.NullOr(__S(160, __c5, 0))),
         }),
       ).annotate({ identifier: "PublicCloudDatabaseCapabilitiesFlavor" });
     case 2:
-      return S.Array(__S(14849, __c464, 1));
+      return S.Array(__S(14881, __c465, 1));
     case 3:
-      return S.suspend(() => __S(14850, __c464, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(14882, __c465, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectManagedAnalyticsCapabilityFlavorsResponse",
       });
   }
 }
-function __c465(j: number): any {
+function __c466(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41709,15 +41752,15 @@ function __c465(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsCapabilityOptionsRequest" });
   }
 }
-function __c466(j: number): any {
+function __c467(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(9825, __c307, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(9857, __c308, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectManagedAnalyticsCapabilityOptionsResponse",
       });
   }
 }
-function __c467(j: number): any {
+function __c468(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41735,28 +41778,28 @@ function __c467(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsCapabilityPlansRequest" });
   }
 }
-function __c468(j: number): any {
+function __c469(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           backupRetention: S.optional(S.NullOr(S.String)),
           description: S.optional(S.String),
-          lifecycle: S.optional(__S(14464, __c452, 0)),
+          lifecycle: S.optional(__S(14496, __c453, 0)),
           name: S.optional(S.String),
           order: S.optional(S.Number),
-          tags: S.optional(S.NullOr(__S(128, __c4, 0))),
+          tags: S.optional(S.NullOr(__S(160, __c5, 0))),
         }),
       ).annotate({ identifier: "PublicCloudDatabaseCapabilitiesPlan" });
     case 1:
-      return S.Array(__S(14976, __c468, 0));
+      return S.Array(__S(15008, __c469, 0));
     case 2:
-      return S.suspend(() => __S(14977, __c468, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(15009, __c469, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectManagedAnalyticsCapabilityPlansResponse",
       });
   }
 }
-function __c469(j: number): any {
+function __c470(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41774,27 +41817,27 @@ function __c469(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsCapabilityRegionsRequest" });
   }
 }
-function __c470(j: number): any {
+function __c471(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          lifecycle: S.optional(__S(14464, __c452, 0)),
+          lifecycle: S.optional(__S(14496, __c453, 0)),
           name: S.optional(S.String),
           order: S.optional(S.Number),
-          tags: S.optional(S.NullOr(__S(128, __c4, 0))),
+          tags: S.optional(S.NullOr(__S(160, __c5, 0))),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudDatabaseCapabilitiesRegion" });
     case 1:
-      return S.Array(__S(15040, __c470, 0));
+      return S.Array(__S(15072, __c471, 0));
     case 2:
-      return S.suspend(() => __S(15041, __c470, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(15073, __c471, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectManagedAnalyticsCapabilityRegionsResponse",
       });
   }
 }
-function __c471(j: number): any {
+function __c472(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41812,17 +41855,17 @@ function __c471(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsClickhouseRequest" });
   }
 }
-function __c472(j: number): any {
+function __c473(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(9885, __c308, 29));
+      return S.Array(__S(9917, __c309, 29));
     case 1:
-      return S.suspend(() => __S(15104, __c472, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(15136, __c473, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectManagedAnalyticsClickhouseResponse",
       });
   }
 }
-function __c473(j: number): any {
+function __c474(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41843,17 +41886,17 @@ function __c473(j: number): any {
       });
   }
 }
-function __c474(j: number): any {
+function __c475(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(7136, __c223, 0));
+      return S.Array(__S(7168, __c224, 0));
     case 1:
-      return S.suspend(() => __S(15168, __c474, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(15200, __c475, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectManagedAnalyticsClickhouseCurrentQueriesResponse",
       });
   }
 }
-function __c475(j: number): any {
+function __c476(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41872,23 +41915,23 @@ function __c475(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsClickhouseDatabaseRequest" });
   }
 }
-function __c476(j: number): any {
+function __c477(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(10304, __c322, 0));
+      return S.Array(__S(10336, __c323, 0));
     case 1:
-      return S.suspend(() => __S(15232, __c476, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(15264, __c477, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectManagedAnalyticsClickhouseDatabaseResponse",
       });
   }
 }
-function __c477(j: number): any {
+function __c478(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          targetSpec: __S(9761, __c305, 1),
+          targetSpec: __S(9793, __c306, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -41899,7 +41942,7 @@ function __c477(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectManagedAnalyticsKafkaRequest" });
   }
 }
-function __c478(j: number): any {
+function __c479(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41920,17 +41963,17 @@ function __c478(j: number): any {
       });
   }
 }
-function __c479(j: number): any {
+function __c480(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(10688, __c334, 0));
+      return S.Array(__S(10720, __c335, 0));
     case 1:
-      return S.suspend(() => __S(15328, __c479, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(15360, __c480, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectManagedAnalyticsClickhouseIntegrationResponse",
       });
   }
 }
-function __c480(j: number): any {
+function __c481(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41949,15 +41992,15 @@ function __c480(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsClickhouseLogKindRequest" });
   }
 }
-function __c481(j: number): any {
+function __c482(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(128, __c4, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(160, __c5, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectManagedAnalyticsClickhouseLogKindResponse",
       });
   }
 }
-function __c482(j: number): any {
+function __c483(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41979,7 +42022,7 @@ function __c482(j: number): any {
       });
   }
 }
-function __c483(j: number): any {
+function __c484(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42000,17 +42043,17 @@ function __c483(j: number): any {
       });
   }
 }
-function __c484(j: number): any {
+function __c485(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(11840, __c370, 0));
+      return S.Array(__S(11872, __c371, 0));
     case 1:
-      return S.suspend(() => __S(15488, __c484, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(15520, __c485, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectManagedAnalyticsClickhouseMaintenanceResponse",
       });
   }
 }
-function __c485(j: number): any {
+function __c486(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42030,17 +42073,17 @@ function __c485(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsClickhouseMetricRequest" });
   }
 }
-function __c486(j: number): any {
+function __c487(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(7460, __c233, 4));
+      return S.Array(__S(7492, __c234, 4));
     case 1:
-      return S.suspend(() => __S(15552, __c486, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(15584, __c487, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectManagedAnalyticsClickhouseMetricResponse",
       });
   }
 }
-function __c487(j: number): any {
+function __c488(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42059,7 +42102,7 @@ function __c487(j: number): any {
       });
   }
 }
-function __c488(j: number): any {
+function __c489(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42069,17 +42112,17 @@ function __c488(j: number): any {
         }),
       ).annotate({ identifier: "PublicCloudDatabasePrometheusTarget" });
     case 1:
-      return S.Array(__S(15616, __c488, 0));
+      return S.Array(__S(15648, __c489, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          targets: S.optional(__S(15617, __c488, 1)),
+          targets: S.optional(__S(15649, __c489, 1)),
           username: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudDatabasePrometheusEndpoint" });
   }
 }
-function __c489(j: number): any {
+function __c490(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42102,7 +42145,7 @@ function __c489(j: number): any {
       });
   }
 }
-function __c490(j: number): any {
+function __c491(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42122,14 +42165,14 @@ function __c490(j: number): any {
         }),
       ).annotate({ identifier: "PublicCloudDatabaseQueryStatistic" });
     case 1:
-      return S.Array(__S(15680, __c490, 0));
+      return S.Array(__S(15712, __c491, 0));
     case 2:
-      return S.suspend(() => __S(15681, __c490, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(15713, __c491, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectManagedAnalyticsClickhouseQueryStatisticsResponse",
       });
   }
 }
-function __c491(j: number): any {
+function __c492(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42148,17 +42191,17 @@ function __c491(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsClickhouseRolesRequest" });
   }
 }
-function __c492(j: number): any {
+function __c493(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(7520, __c235, 0));
+      return S.Array(__S(7552, __c236, 0));
     case 1:
-      return S.suspend(() => __S(15744, __c492, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(15776, __c493, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectManagedAnalyticsClickhouseRolesResponse",
       });
   }
 }
-function __c493(j: number): any {
+function __c494(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42177,17 +42220,17 @@ function __c493(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsClickhouseUserRequest" });
   }
 }
-function __c494(j: number): any {
+function __c495(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(12256, __c383, 0));
+      return S.Array(__S(12288, __c384, 0));
     case 1:
-      return S.suspend(() => __S(15808, __c494, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(15840, __c495, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectManagedAnalyticsClickhouseUserResponse",
       });
   }
 }
-function __c495(j: number): any {
+function __c496(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42205,7 +42248,7 @@ function __c495(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsGrafanaRequest" });
   }
 }
-function __c496(j: number): any {
+function __c497(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42225,7 +42268,7 @@ function __c496(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectManagedAnalyticsKafkaAclRequest" });
   }
 }
-function __c497(j: number): any {
+function __c498(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42241,7 +42284,7 @@ function __c497(j: number): any {
       ).annotate({ identifier: "PublicCloudDatabaseKafkaAcl" });
   }
 }
-function __c498(j: number): any {
+function __c499(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42260,7 +42303,7 @@ function __c498(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsGrafanaIntegrationRequest" });
   }
 }
-function __c499(j: number): any {
+function __c500(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42279,7 +42322,7 @@ function __c499(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsGrafanaLogKindRequest" });
   }
 }
-function __c500(j: number): any {
+function __c501(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42301,7 +42344,7 @@ function __c500(j: number): any {
       });
   }
 }
-function __c501(j: number): any {
+function __c502(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42320,7 +42363,7 @@ function __c501(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsGrafanaMaintenanceRequest" });
   }
 }
-function __c502(j: number): any {
+function __c503(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42340,7 +42383,7 @@ function __c502(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsGrafanaMetricRequest" });
   }
 }
-function __c503(j: number): any {
+function __c504(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42359,17 +42402,17 @@ function __c503(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsGrafanaUserRequest" });
   }
 }
-function __c504(j: number): any {
+function __c505(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(18528, __c579, 0));
+      return S.Array(__S(18560, __c580, 0));
     case 1:
-      return S.suspend(() => __S(16128, __c504, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(16160, __c505, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectManagedAnalyticsGrafanaUserResponse",
       });
   }
 }
-function __c505(j: number): any {
+function __c506(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42387,7 +42430,7 @@ function __c505(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsKafkaRequest" });
   }
 }
-function __c506(j: number): any {
+function __c507(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42405,14 +42448,14 @@ function __c506(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsKafkaAclRequest" });
     case 1:
-      return S.Array(__S(15904, __c497, 0));
+      return S.Array(__S(15936, __c498, 0));
     case 2:
-      return S.suspend(() => __S(16193, __c506, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(16225, __c507, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectManagedAnalyticsKafkaAclResponse",
       });
   }
 }
-function __c507(j: number): any {
+function __c508(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42430,7 +42473,7 @@ function __c507(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsKafkaConnectRequest" });
   }
 }
-function __c508(j: number): any {
+function __c509(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42450,20 +42493,20 @@ function __c508(j: number): any {
         identifier: "ListPublicCloudProjectManagedAnalyticsKafkaConnectConnectorRequest",
       });
     case 1:
-      return S.Array(__S(16672, __c521, 0));
+      return S.Array(__S(16704, __c522, 0));
     case 2:
-      return S.suspend(() => __S(16257, __c508, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(16289, __c509, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectManagedAnalyticsKafkaConnectConnectorResponse",
       });
   }
 }
-function __c509(j: number): any {
+function __c510(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          targetSpec: __S(9761, __c305, 1),
+          targetSpec: __S(9793, __c306, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -42474,7 +42517,7 @@ function __c509(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectManagedAnalyticsKafkaConnectRequest" });
   }
 }
-function __c510(j: number): any {
+function __c511(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42495,14 +42538,14 @@ function __c510(j: number): any {
         identifier: "ListPublicCloudProjectManagedAnalyticsKafkaConnectConnectorTaskRequest",
       });
     case 1:
-      return S.Array(__S(8160, __c255, 0));
+      return S.Array(__S(8192, __c256, 0));
     case 2:
-      return S.suspend(() => __S(16321, __c510, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(16353, __c511, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectManagedAnalyticsKafkaConnectConnectorTaskResponse",
       });
   }
 }
-function __c511(j: number): any {
+function __c512(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42523,7 +42566,7 @@ function __c511(j: number): any {
       });
   }
 }
-function __c512(j: number): any {
+function __c513(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42544,7 +42587,7 @@ function __c512(j: number): any {
       });
   }
 }
-function __c513(j: number): any {
+function __c514(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42566,7 +42609,7 @@ function __c513(j: number): any {
       });
   }
 }
-function __c514(j: number): any {
+function __c515(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42587,7 +42630,7 @@ function __c514(j: number): any {
       });
   }
 }
-function __c515(j: number): any {
+function __c516(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42607,7 +42650,7 @@ function __c515(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsKafkaConnectMetricRequest" });
   }
 }
-function __c516(j: number): any {
+function __c517(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42626,7 +42669,7 @@ function __c516(j: number): any {
       });
   }
 }
-function __c517(j: number): any {
+function __c518(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42645,7 +42688,7 @@ function __c517(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsKafkaConnectUserRequest" });
   }
 }
-function __c518(j: number): any {
+function __c519(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42664,7 +42707,7 @@ function __c518(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsKafkaIntegrationRequest" });
   }
 }
-function __c519(j: number): any {
+function __c520(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42683,14 +42726,14 @@ function __c519(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsKafkaLogKindRequest" });
   }
 }
-function __c520(j: number): any {
+function __c521(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
-          configuration: __S(96, __c3, 0),
+          configuration: __S(128, __c4, 0),
           connectorCapabilityId: S.String,
           name: S.String,
         }).pipe(
@@ -42705,13 +42748,13 @@ function __c520(j: number): any {
       });
   }
 }
-function __c521(j: number): any {
+function __c522(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           checksum: S.optional(S.String),
-          configuration: S.optional(__S(96, __c3, 0)),
+          configuration: S.optional(__S(128, __c4, 0)),
           connectorCapabilityId: S.optional(S.String),
           createdAt: S.optional(S.String),
           id: S.optional(S.String),
@@ -42722,7 +42765,7 @@ function __c521(j: number): any {
       ).annotate({ identifier: "PublicCloudDatabaseKafkaConnectConnector" });
   }
 }
-function __c522(j: number): any {
+function __c523(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42744,7 +42787,7 @@ function __c522(j: number): any {
       });
   }
 }
-function __c523(j: number): any {
+function __c524(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42763,7 +42806,7 @@ function __c523(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsKafkaMaintenanceRequest" });
   }
 }
-function __c524(j: number): any {
+function __c525(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42783,7 +42826,7 @@ function __c524(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsKafkaMetricRequest" });
   }
 }
-function __c525(j: number): any {
+function __c526(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42801,7 +42844,7 @@ function __c525(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsKafkaMirrorMakerRequest" });
   }
 }
-function __c526(j: number): any {
+function __c527(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42822,7 +42865,7 @@ function __c526(j: number): any {
       });
   }
 }
-function __c527(j: number): any {
+function __c528(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42843,7 +42886,7 @@ function __c527(j: number): any {
       });
   }
 }
-function __c528(j: number): any {
+function __c529(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42865,7 +42908,7 @@ function __c528(j: number): any {
       });
   }
 }
-function __c529(j: number): any {
+function __c530(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42886,7 +42929,7 @@ function __c529(j: number): any {
       });
   }
 }
-function __c530(j: number): any {
+function __c531(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42908,7 +42951,7 @@ function __c530(j: number): any {
       });
   }
 }
-function __c531(j: number): any {
+function __c532(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42927,7 +42970,7 @@ function __c531(j: number): any {
       });
   }
 }
-function __c532(j: number): any {
+function __c533(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42935,7 +42978,7 @@ function __c532(j: number): any {
           projectId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
           destinationServiceId: S.String,
-          parameters: S.optional(S.NullOr(__S(96, __c3, 0))),
+          parameters: S.optional(S.NullOr(__S(128, __c4, 0))),
           sourceServiceId: S.String,
           type: S.String,
         }).pipe(
@@ -42950,7 +42993,7 @@ function __c532(j: number): any {
       });
   }
 }
-function __c533(j: number): any {
+function __c534(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42970,14 +43013,14 @@ function __c533(j: number): any {
         identifier: "ListPublicCloudProjectManagedAnalyticsKafkaMirrorMakerReplicationRequest",
       });
     case 1:
-      return S.Array(__S(22272, __c696, 0));
+      return S.Array(__S(22304, __c697, 0));
     case 2:
-      return S.suspend(() => __S(17057, __c533, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(17089, __c534, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectManagedAnalyticsKafkaMirrorMakerReplicationResponse",
       });
   }
 }
-function __c534(j: number): any {
+function __c535(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42995,13 +43038,13 @@ function __c534(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          schemaRegistry: S.optional(__S(128, __c4, 0)),
-          topic: S.optional(__S(128, __c4, 0)),
+          schemaRegistry: S.optional(__S(160, __c5, 0)),
+          topic: S.optional(__S(160, __c5, 0)),
         }),
       ).annotate({ identifier: "PublicCloudDatabaseKafkaPermissions" });
   }
 }
-function __c535(j: number): any {
+function __c536(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43018,7 +43061,7 @@ function __c535(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsKafkaPrometheusRequest" });
   }
 }
-function __c536(j: number): any {
+function __c537(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43038,14 +43081,14 @@ function __c536(j: number): any {
         identifier: "ListPublicCloudProjectManagedAnalyticsKafkaSchemaRegistryAclRequest",
       });
     case 1:
-      return S.Array(__S(22688, __c709, 0));
+      return S.Array(__S(22720, __c710, 0));
     case 2:
-      return S.suspend(() => __S(17153, __c536, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(17185, __c537, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectManagedAnalyticsKafkaSchemaRegistryAclResponse",
       });
   }
 }
-function __c537(j: number): any {
+function __c538(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43063,14 +43106,14 @@ function __c537(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsKafkaTopicRequest" });
     case 1:
-      return S.Array(__S(23072, __c721, 0));
+      return S.Array(__S(23104, __c722, 0));
     case 2:
-      return S.suspend(() => __S(17185, __c537, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(17217, __c538, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectManagedAnalyticsKafkaTopicResponse",
       });
   }
 }
-function __c538(j: number): any {
+function __c539(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43089,13 +43132,13 @@ function __c538(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsKafkaUserRequest" });
   }
 }
-function __c539(j: number): any {
+function __c540(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          iamTags: S.optional(__S(13537, __c423, 1).pipe(T.Query())),
+          iamTags: S.optional(__S(13569, __c424, 1).pipe(T.Query())),
           xPaginationCursor: S.optional(S.String.pipe(T.Header("X-Pagination-Cursor"))),
           xPaginationSize: S.optional(S.Number.pipe(T.Header("X-Pagination-Size"))),
         }).pipe(
@@ -43107,14 +43150,14 @@ function __c539(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsLakehouseRequest" });
     case 1:
-      return S.Array(__S(9056, __c283, 0));
+      return S.Array(__S(9088, __c284, 0));
     case 2:
-      return S.suspend(() => __S(17249, __c539, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(17281, __c540, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectManagedAnalyticsLakehouseResponse",
       });
   }
 }
-function __c540(j: number): any {
+function __c541(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43132,14 +43175,14 @@ function __c540(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsLakehouseCatalogRequest" });
     case 1:
-      return S.Array(__S(24353, __c761, 1));
+      return S.Array(__S(24385, __c762, 1));
     case 2:
-      return S.suspend(() => __S(17281, __c540, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(17313, __c541, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectManagedAnalyticsLakehouseCatalogResponse",
       });
   }
 }
-function __c541(j: number): any {
+function __c542(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43162,7 +43205,7 @@ function __c541(j: number): any {
       });
   }
 }
-function __c542(j: number): any {
+function __c543(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43183,14 +43226,14 @@ function __c542(j: number): any {
         identifier: "ListPublicCloudProjectManagedAnalyticsLakehouseCatalogSchemaRequest",
       });
     case 1:
-      return S.Array(__S(24737, __c773, 1));
+      return S.Array(__S(24769, __c774, 1));
     case 2:
-      return S.suspend(() => __S(17345, __c542, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(17377, __c543, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectManagedAnalyticsLakehouseCatalogSchemaResponse",
       });
   }
 }
-function __c543(j: number): any {
+function __c544(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43211,7 +43254,7 @@ function __c543(j: number): any {
       });
   }
 }
-function __c544(j: number): any {
+function __c545(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43235,7 +43278,7 @@ function __c544(j: number): any {
       });
   }
 }
-function __c545(j: number): any {
+function __c546(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43258,17 +43301,17 @@ function __c545(j: number): any {
       });
   }
 }
-function __c546(j: number): any {
+function __c547(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(9186, __c287, 2));
+      return S.Array(__S(9218, __c288, 2));
     case 1:
-      return S.suspend(() => __S(17472, __c546, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(17504, __c547, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectManagedAnalyticsLakehouseCatalogSchemaTaskResponse",
       });
   }
 }
-function __c547(j: number): any {
+function __c548(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43290,7 +43333,7 @@ function __c547(j: number): any {
       });
   }
 }
-function __c548(j: number): any {
+function __c549(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43310,14 +43353,14 @@ function __c548(j: number): any {
         identifier: "ListPublicCloudProjectManagedAnalyticsLakehouseComputePoolRequest",
       });
     case 1:
-      return S.Array(__S(25154, __c786, 2));
+      return S.Array(__S(25186, __c787, 2));
     case 2:
-      return S.suspend(() => __S(17537, __c548, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(17569, __c549, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectManagedAnalyticsLakehouseComputePoolResponse",
       });
   }
 }
-function __c549(j: number): any {
+function __c550(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43340,7 +43383,7 @@ function __c549(j: number): any {
       });
   }
 }
-function __c550(j: number): any {
+function __c551(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43362,7 +43405,7 @@ function __c550(j: number): any {
       });
   }
 }
-function __c551(j: number): any {
+function __c552(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43382,7 +43425,7 @@ function __c551(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsLakehouseEventRequest" });
   }
 }
-function __c552(j: number): any {
+function __c553(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43400,14 +43443,14 @@ function __c552(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsLakehouseGroupRequest" });
     case 1:
-      return S.Array(__S(25537, __c798, 1));
+      return S.Array(__S(25569, __c799, 1));
     case 2:
-      return S.suspend(() => __S(17665, __c552, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(17697, __c553, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectManagedAnalyticsLakehouseGroupResponse",
       });
   }
 }
-function __c553(j: number): any {
+function __c554(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43430,7 +43473,7 @@ function __c553(j: number): any {
       });
   }
 }
-function __c554(j: number): any {
+function __c555(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43451,14 +43494,14 @@ function __c554(j: number): any {
         identifier: "ListPublicCloudProjectManagedAnalyticsLakehouseGroupMemberRequest",
       });
     case 1:
-      return S.Array(__S(26050, __c814, 2));
+      return S.Array(__S(26082, __c815, 2));
     case 2:
-      return S.suspend(() => __S(17729, __c554, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(17761, __c555, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectManagedAnalyticsLakehouseGroupMemberResponse",
       });
   }
 }
-function __c555(j: number): any {
+function __c556(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43478,7 +43521,7 @@ function __c555(j: number): any {
       });
   }
 }
-function __c556(j: number): any {
+function __c557(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43502,7 +43545,7 @@ function __c556(j: number): any {
       });
   }
 }
-function __c557(j: number): any {
+function __c558(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43525,7 +43568,7 @@ function __c557(j: number): any {
       });
   }
 }
-function __c558(j: number): any {
+function __c559(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43545,7 +43588,7 @@ function __c558(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsLakehouseGroupTaskRequest" });
   }
 }
-function __c559(j: number): any {
+function __c560(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43563,14 +43606,14 @@ function __c559(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsLakehouseRoleRequest" });
     case 1:
-      return S.Array(__S(26439, __c826, 7));
+      return S.Array(__S(26471, __c827, 7));
     case 2:
-      return S.suspend(() => __S(17889, __c559, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(17921, __c560, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectManagedAnalyticsLakehouseRoleResponse",
       });
   }
 }
-function __c560(j: number): any {
+function __c561(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43590,14 +43633,14 @@ function __c560(j: number): any {
         identifier: "ListPublicCloudProjectManagedAnalyticsLakehouseRoleAssignmentRequest",
       });
     case 1:
-      return S.Array(__S(26788, __c837, 4));
+      return S.Array(__S(26820, __c838, 4));
     case 2:
-      return S.suspend(() => __S(17921, __c560, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(17953, __c561, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectManagedAnalyticsLakehouseRoleAssignmentResponse",
       });
   }
 }
-function __c561(j: number): any {
+function __c562(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43620,7 +43663,7 @@ function __c561(j: number): any {
       });
   }
 }
-function __c562(j: number): any {
+function __c563(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43642,7 +43685,7 @@ function __c562(j: number): any {
       });
   }
 }
-function __c563(j: number): any {
+function __c564(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43663,7 +43706,7 @@ function __c563(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsLakehouseRoleEventRequest" });
   }
 }
-function __c564(j: number): any {
+function __c565(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43683,7 +43726,7 @@ function __c564(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsLakehouseRoleTaskRequest" });
   }
 }
-function __c565(j: number): any {
+function __c566(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43702,7 +43745,7 @@ function __c565(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsLakehouseTaskRequest" });
   }
 }
-function __c566(j: number): any {
+function __c567(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43721,7 +43764,7 @@ function __c566(j: number): any {
       ).annotate({ identifier: "CancelPublicCloudProjectManagedDatabaseMysqlCurrentQueryRequest" });
   }
 }
-function __c567(j: number): any {
+function __c568(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43740,7 +43783,7 @@ function __c567(j: number): any {
       });
   }
 }
-function __c568(j: number): any {
+function __c569(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43758,14 +43801,14 @@ function __c568(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsLakehouseUserRequest" });
     case 1:
-      return S.Array(__S(26850, __c839, 2));
+      return S.Array(__S(26882, __c840, 2));
     case 2:
-      return S.suspend(() => __S(18177, __c568, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(18209, __c569, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectManagedAnalyticsLakehouseUserResponse",
       });
   }
 }
-function __c569(j: number): any {
+function __c570(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43786,7 +43829,7 @@ function __c569(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsLakehouseUserEventRequest" });
   }
 }
-function __c570(j: number): any {
+function __c571(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43806,7 +43849,7 @@ function __c570(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsLakehouseUserTaskRequest" });
   }
 }
-function __c571(j: number): any {
+function __c572(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43824,7 +43867,7 @@ function __c571(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsOpensearchRequest" });
   }
 }
-function __c572(j: number): any {
+function __c573(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43842,14 +43885,14 @@ function __c572(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsOpensearchIndexRequest" });
     case 1:
-      return S.Array(__S(10016, __c313, 0));
+      return S.Array(__S(10048, __c314, 0));
     case 2:
-      return S.suspend(() => __S(18305, __c572, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(18337, __c573, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectManagedAnalyticsOpensearchIndexResponse",
       });
   }
 }
-function __c573(j: number): any {
+function __c574(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43870,7 +43913,7 @@ function __c573(j: number): any {
       });
   }
 }
-function __c574(j: number): any {
+function __c575(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43889,7 +43932,7 @@ function __c574(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsOpensearchLogKindRequest" });
   }
 }
-function __c575(j: number): any {
+function __c576(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43911,7 +43954,7 @@ function __c575(j: number): any {
       });
   }
 }
-function __c576(j: number): any {
+function __c577(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43932,7 +43975,7 @@ function __c576(j: number): any {
       });
   }
 }
-function __c577(j: number): any {
+function __c578(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43952,7 +43995,7 @@ function __c577(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsOpensearchMetricRequest" });
   }
 }
-function __c578(j: number): any {
+function __c579(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43970,7 +44013,7 @@ function __c578(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectManagedAnalyticsKafkaConnectUserRequest" });
   }
 }
-function __c579(j: number): any {
+function __c580(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43986,7 +44029,7 @@ function __c579(j: number): any {
       ).annotate({ identifier: "PublicCloudDatabaseUser" });
   }
 }
-function __c580(j: number): any {
+function __c581(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44004,14 +44047,14 @@ function __c580(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsOpensearchPatternRequest" });
     case 1:
-      return S.Array(__S(27072, __c846, 0));
+      return S.Array(__S(27104, __c847, 0));
     case 2:
-      return S.suspend(() => __S(18561, __c580, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(18593, __c581, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectManagedAnalyticsOpensearchPatternResponse",
       });
   }
 }
-function __c581(j: number): any {
+function __c582(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44032,7 +44075,7 @@ function __c581(j: number): any {
       });
   }
 }
-function __c582(j: number): any {
+function __c583(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44051,7 +44094,7 @@ function __c582(j: number): any {
       });
   }
 }
-function __c583(j: number): any {
+function __c584(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44069,14 +44112,14 @@ function __c583(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsOpensearchUserRequest" });
     case 1:
-      return S.Array(__S(27170, __c849, 2));
+      return S.Array(__S(27202, __c850, 2));
     case 2:
-      return S.suspend(() => __S(18657, __c583, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(18689, __c584, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectManagedAnalyticsOpensearchUserResponse",
       });
   }
 }
-function __c584(j: number): any {
+function __c585(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44095,7 +44138,7 @@ function __c584(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedAnalyticsServiceRequest" });
   }
 }
-function __c585(j: number): any {
+function __c586(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44116,7 +44159,7 @@ function __c585(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedDatabaseAvailabilityRequest" });
   }
 }
-function __c586(j: number): any {
+function __c587(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44136,7 +44179,7 @@ function __c586(j: number): any {
       });
   }
 }
-function __c587(j: number): any {
+function __c588(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44155,7 +44198,7 @@ function __c587(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedDatabaseBackupRequest" });
   }
 }
-function __c588(j: number): any {
+function __c589(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44173,7 +44216,7 @@ function __c588(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedDatabaseCapabilityDisksRequest" });
   }
 }
-function __c589(j: number): any {
+function __c590(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44191,7 +44234,7 @@ function __c589(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedDatabaseCapabilityEnginesRequest" });
   }
 }
-function __c590(j: number): any {
+function __c591(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44199,7 +44242,7 @@ function __c590(j: number): any {
           projectId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
           destinationServiceId: S.String,
-          parameters: S.optional(S.NullOr(__S(96, __c3, 0))),
+          parameters: S.optional(S.NullOr(__S(128, __c4, 0))),
           sourceServiceId: S.String,
           type: S.String,
         }).pipe(
@@ -44212,7 +44255,7 @@ function __c590(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectManagedAnalyticsKafkaIntegrationRequest" });
   }
 }
-function __c591(j: number): any {
+function __c592(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44230,7 +44273,7 @@ function __c591(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedDatabaseCapabilityFlavorsRequest" });
   }
 }
-function __c592(j: number): any {
+function __c593(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44248,7 +44291,7 @@ function __c592(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedDatabaseCapabilityOptionsRequest" });
   }
 }
-function __c593(j: number): any {
+function __c594(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44266,7 +44309,7 @@ function __c593(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedDatabaseCapabilityPlansRequest" });
   }
 }
-function __c594(j: number): any {
+function __c595(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44284,7 +44327,7 @@ function __c594(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedDatabaseCapabilityRegionsRequest" });
   }
 }
-function __c595(j: number): any {
+function __c596(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44302,7 +44345,7 @@ function __c595(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedDatabaseMongodbRequest" });
   }
 }
-function __c596(j: number): any {
+function __c597(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44321,7 +44364,7 @@ function __c596(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedDatabaseMongodbLogKindRequest" });
   }
 }
-function __c597(j: number): any {
+function __c598(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44343,7 +44386,7 @@ function __c597(j: number): any {
       });
   }
 }
-function __c598(j: number): any {
+function __c599(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44362,7 +44405,7 @@ function __c598(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedDatabaseMongodbMaintenanceRequest" });
   }
 }
-function __c599(j: number): any {
+function __c600(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44382,7 +44425,7 @@ function __c599(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedDatabaseMongodbMetricRequest" });
   }
 }
-function __c600(j: number): any {
+function __c601(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44401,7 +44444,7 @@ function __c600(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedDatabaseMongodbRolesRequest" });
   }
 }
-function __c601(j: number): any {
+function __c602(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44422,7 +44465,7 @@ function __c601(j: number): any {
       });
   }
 }
-function __c602(j: number): any {
+function __c603(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44441,7 +44484,7 @@ function __c602(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedDatabaseMongodbUserRequest" });
   }
 }
-function __c603(j: number): any {
+function __c604(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44459,7 +44502,7 @@ function __c603(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedDatabaseMysqlRequest" });
   }
 }
-function __c604(j: number): any {
+function __c605(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44478,7 +44521,7 @@ function __c604(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedDatabaseMysqlCurrentQueriesRequest" });
   }
 }
-function __c605(j: number): any {
+function __c606(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44497,7 +44540,7 @@ function __c605(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedDatabaseMysqlDatabaseRequest" });
   }
 }
-function __c606(j: number): any {
+function __c607(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44516,7 +44559,7 @@ function __c606(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedDatabaseMysqlIntegrationRequest" });
   }
 }
-function __c607(j: number): any {
+function __c608(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44535,7 +44578,7 @@ function __c607(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedDatabaseMysqlLogKindRequest" });
   }
 }
-function __c608(j: number): any {
+function __c609(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44557,7 +44600,7 @@ function __c608(j: number): any {
       });
   }
 }
-function __c609(j: number): any {
+function __c610(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44576,7 +44619,7 @@ function __c609(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedDatabaseMysqlMaintenanceRequest" });
   }
 }
-function __c610(j: number): any {
+function __c611(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44596,7 +44639,7 @@ function __c610(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedDatabaseMysqlMetricRequest" });
   }
 }
-function __c611(j: number): any {
+function __c612(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44613,7 +44656,7 @@ function __c611(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedDatabaseMysqlPrometheusRequest" });
   }
 }
-function __c612(j: number): any {
+function __c613(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44631,7 +44674,7 @@ function __c612(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectManagedAnalyticsKafkaLogUrlRequest" });
   }
 }
-function __c613(j: number): any {
+function __c614(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44654,7 +44697,7 @@ function __c613(j: number): any {
       });
   }
 }
-function __c614(j: number): any {
+function __c615(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44673,7 +44716,7 @@ function __c614(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedDatabaseMysqlUserRequest" });
   }
 }
-function __c615(j: number): any {
+function __c616(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44691,7 +44734,7 @@ function __c615(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedDatabasePostgresqlRequest" });
   }
 }
-function __c616(j: number): any {
+function __c617(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44711,14 +44754,14 @@ function __c616(j: number): any {
         identifier: "ListPublicCloudProjectManagedDatabasePostgresqlConnectionPoolRequest",
       });
     case 1:
-      return S.Array(__S(27808, __c869, 0));
+      return S.Array(__S(27840, __c870, 0));
     case 2:
-      return S.suspend(() => __S(19713, __c616, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(19745, __c617, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectManagedDatabasePostgresqlConnectionPoolResponse",
       });
   }
 }
-function __c617(j: number): any {
+function __c618(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44739,7 +44782,7 @@ function __c617(j: number): any {
       });
   }
 }
-function __c618(j: number): any {
+function __c619(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44758,7 +44801,7 @@ function __c618(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedDatabasePostgresqlDatabaseRequest" });
   }
 }
-function __c619(j: number): any {
+function __c620(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44779,7 +44822,7 @@ function __c619(j: number): any {
       });
   }
 }
-function __c620(j: number): any {
+function __c621(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44798,7 +44841,7 @@ function __c620(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedDatabasePostgresqlLogKindRequest" });
   }
 }
-function __c621(j: number): any {
+function __c622(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44820,7 +44863,7 @@ function __c621(j: number): any {
       });
   }
 }
-function __c622(j: number): any {
+function __c623(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44841,7 +44884,7 @@ function __c622(j: number): any {
       });
   }
 }
-function __c623(j: number): any {
+function __c624(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44858,7 +44901,7 @@ function __c623(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectManagedAnalyticsKafkaMaintenanceRequest" });
   }
 }
-function __c624(j: number): any {
+function __c625(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44878,7 +44921,7 @@ function __c624(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedDatabasePostgresqlMetricRequest" });
   }
 }
-function __c625(j: number): any {
+function __c626(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44897,7 +44940,7 @@ function __c625(j: number): any {
       });
   }
 }
-function __c626(j: number): any {
+function __c627(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44920,7 +44963,7 @@ function __c626(j: number): any {
       });
   }
 }
-function __c627(j: number): any {
+function __c628(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44939,7 +44982,7 @@ function __c627(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedDatabasePostgresqlRolesRequest" });
   }
 }
-function __c628(j: number): any {
+function __c629(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44958,7 +45001,7 @@ function __c628(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedDatabasePostgresqlUserRequest" });
   }
 }
-function __c629(j: number): any {
+function __c630(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44977,7 +45020,7 @@ function __c629(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedDatabaseServiceRequest" });
   }
 }
-function __c630(j: number): any {
+function __c631(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44995,7 +45038,7 @@ function __c630(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedDatabaseValkeyRequest" });
   }
 }
-function __c631(j: number): any {
+function __c632(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45014,7 +45057,7 @@ function __c631(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedDatabaseValkeyIntegrationRequest" });
   }
 }
-function __c632(j: number): any {
+function __c633(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45033,7 +45076,7 @@ function __c632(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedDatabaseValkeyLogKindRequest" });
   }
 }
-function __c633(j: number): any {
+function __c634(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45055,13 +45098,13 @@ function __c633(j: number): any {
       });
   }
 }
-function __c634(j: number): any {
+function __c635(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          targetSpec: __S(9761, __c305, 1),
+          targetSpec: __S(9793, __c306, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -45072,7 +45115,7 @@ function __c634(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectManagedAnalyticsKafkaMirrorMakerRequest" });
   }
 }
-function __c635(j: number): any {
+function __c636(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45091,7 +45134,7 @@ function __c635(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedDatabaseValkeyMaintenanceRequest" });
   }
 }
-function __c636(j: number): any {
+function __c637(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45111,7 +45154,7 @@ function __c636(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedDatabaseValkeyMetricRequest" });
   }
 }
-function __c637(j: number): any {
+function __c638(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45128,7 +45171,7 @@ function __c637(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedDatabaseValkeyPrometheusRequest" });
   }
 }
-function __c638(j: number): any {
+function __c639(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45146,14 +45189,14 @@ function __c638(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectManagedDatabaseValkeyUserRequest" });
     case 1:
-      return S.Array(__S(480, __c15, 0));
+      return S.Array(__S(512, __c16, 0));
     case 2:
-      return S.suspend(() => __S(20417, __c638, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(20449, __c639, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectManagedDatabaseValkeyUserResponse",
       });
   }
 }
-function __c639(j: number): any {
+function __c640(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45170,14 +45213,14 @@ function __c639(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectManagedKubernetesRequest" });
     case 1:
-      return S.Array(__S(641, __c20, 1));
+      return S.Array(__S(673, __c21, 1));
     case 2:
-      return S.suspend(() => __S(20449, __c639, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(20481, __c640, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectManagedKubernetesResponse",
       });
   }
 }
-function __c640(j: number): any {
+function __c641(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45195,14 +45238,14 @@ function __c640(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          availableUpdates: S.optional(__S(20513, __c641, 1)),
-          availableUpgrades: S.optional(__S(20513, __c641, 1)),
+          availableUpdates: S.optional(__S(20545, __c642, 1)),
+          availableUpgrades: S.optional(__S(20545, __c642, 1)),
           currentVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudManagedKubernetesClusterVersions" });
   }
 }
-function __c641(j: number): any {
+function __c642(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45212,10 +45255,10 @@ function __c641(j: number): any {
         }),
       ).annotate({ identifier: "PublicCloudManagedKubernetesVersionReference" });
     case 1:
-      return S.Array(__S(20512, __c641, 0));
+      return S.Array(__S(20544, __c642, 0));
   }
 }
-function __c642(j: number): any {
+function __c643(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45235,7 +45278,7 @@ function __c642(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedKubernetesEventRequest" });
   }
 }
-function __c643(j: number): any {
+function __c644(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45253,14 +45296,14 @@ function __c643(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectManagedKubernetesNodepoolRequest" });
     case 1:
-      return S.Array(__S(717, __c22, 13));
+      return S.Array(__S(749, __c23, 13));
     case 2:
-      return S.suspend(() => __S(20577, __c643, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(20609, __c644, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectManagedKubernetesNodepoolResponse",
       });
   }
 }
-function __c644(j: number): any {
+function __c645(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45281,7 +45324,7 @@ function __c644(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedKubernetesNodepoolEventRequest" });
   }
 }
-function __c645(j: number): any {
+function __c646(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45302,14 +45345,14 @@ function __c645(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectManagedKubernetesNodepoolNodeRequest" });
     case 1:
-      return S.Array(__S(12001, __c375, 1));
+      return S.Array(__S(12033, __c376, 1));
     case 2:
-      return S.suspend(() => __S(20641, __c645, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(20673, __c646, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectManagedKubernetesNodepoolNodeResponse",
       });
   }
 }
-function __c646(j: number): any {
+function __c647(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45317,7 +45360,7 @@ function __c646(j: number): any {
           projectId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
           destinationServiceId: S.String,
-          parameters: S.optional(S.NullOr(__S(96, __c3, 0))),
+          parameters: S.optional(S.NullOr(__S(128, __c4, 0))),
           sourceServiceId: S.String,
           type: S.String,
         }).pipe(
@@ -45332,7 +45375,7 @@ function __c646(j: number): any {
       });
   }
 }
-function __c647(j: number): any {
+function __c648(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45352,7 +45395,7 @@ function __c647(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedKubernetesNodepoolTaskRequest" });
   }
 }
-function __c648(j: number): any {
+function __c649(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45371,7 +45414,7 @@ function __c648(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectManagedKubernetesTaskRequest" });
   }
 }
-function __c649(j: number): any {
+function __c650(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45384,14 +45427,14 @@ function __c649(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectNetworkRequest" });
     case 1:
-      return S.Array(__S(770, __c24, 2));
+      return S.Array(__S(802, __c25, 2));
     case 2:
-      return S.suspend(() => __S(20769, __c649, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(20801, __c650, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectNetworkResponse",
       });
   }
 }
-function __c650(j: number): any {
+function __c651(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45409,14 +45452,14 @@ function __c650(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectNetworkSubnetRequest" });
     case 1:
-      return S.Array(__S(870, __c27, 6));
+      return S.Array(__S(902, __c28, 6));
     case 2:
-      return S.suspend(() => __S(20801, __c650, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(20833, __c651, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectNetworkSubnetResponse",
       });
   }
 }
-function __c651(j: number): any {
+function __c652(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45433,14 +45476,14 @@ function __c651(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectPrivateEndpointRequest" });
     case 1:
-      return S.Array(__S(932, __c29, 4));
+      return S.Array(__S(964, __c30, 4));
     case 2:
-      return S.suspend(() => __S(20833, __c651, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(20865, __c652, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectPrivateEndpointResponse",
       });
   }
 }
-function __c652(j: number): any {
+function __c653(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45453,12 +45496,12 @@ function __c652(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectPublicIpRequest" });
     case 1:
-      return S.suspend(() => __S(7681, __c240, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(7713, __c241, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectPublicIpResponse",
       });
   }
 }
-function __c653(j: number): any {
+function __c654(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45475,14 +45518,14 @@ function __c653(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectPublicIpAdditionalRequest" });
     case 1:
-      return S.Array(__S(12321, __c385, 1));
+      return S.Array(__S(12353, __c386, 1));
     case 2:
-      return S.suspend(() => __S(20897, __c653, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(20929, __c654, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectPublicIpAdditionalResponse",
       });
   }
 }
-function __c654(j: number): any {
+function __c655(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45499,14 +45542,14 @@ function __c654(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectPublicIpExtNetRequest" });
     case 1:
-      return S.Array(__S(1026, __c32, 2));
+      return S.Array(__S(1058, __c33, 2));
     case 2:
-      return S.suspend(() => __S(20929, __c654, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(20961, __c655, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectPublicIpExtNetResponse",
       });
   }
 }
-function __c655(j: number): any {
+function __c656(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45523,14 +45566,14 @@ function __c655(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectPublicIpFloatingRequest" });
     case 1:
-      return S.Array(__S(1090, __c34, 2));
+      return S.Array(__S(1122, __c35, 2));
     case 2:
-      return S.suspend(() => __S(20961, __c655, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(20993, __c656, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectPublicIpFloatingResponse",
       });
   }
 }
-function __c656(j: number): any {
+function __c657(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45543,14 +45586,14 @@ function __c656(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectRancherRequest" });
     case 1:
-      return S.Array(__S(1158, __c36, 6));
+      return S.Array(__S(1190, __c37, 6));
     case 2:
-      return S.suspend(() => __S(20993, __c656, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(21025, __c657, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectRancherResponse",
       });
   }
 }
-function __c657(j: number): any {
+function __c658(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45572,7 +45615,7 @@ function __c657(j: number): any {
       });
   }
 }
-function __c658(j: number): any {
+function __c659(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45591,7 +45634,7 @@ function __c658(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectRancherCapabilityPlanRequest" });
   }
 }
-function __c659(j: number): any {
+function __c660(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45603,14 +45646,14 @@ function __c659(j: number): any {
         }),
       ).annotate({ identifier: "PublicCloudRancherPlanCapability" });
     case 1:
-      return S.Array(__S(21088, __c659, 0));
+      return S.Array(__S(21120, __c660, 0));
     case 2:
-      return S.suspend(() => __S(21089, __c659, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(21121, __c660, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectRancherCapabilityPlanResponse",
       });
   }
 }
-function __c660(j: number): any {
+function __c661(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45629,7 +45672,7 @@ function __c660(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectRancherCapabilityVersionRequest" });
   }
 }
-function __c661(j: number): any {
+function __c662(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45642,14 +45685,14 @@ function __c661(j: number): any {
         }),
       ).annotate({ identifier: "PublicCloudRancherVersionCapability" });
     case 1:
-      return S.Array(__S(21152, __c661, 0));
+      return S.Array(__S(21184, __c662, 0));
     case 2:
-      return S.suspend(() => __S(21153, __c661, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(21185, __c662, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectRancherCapabilityVersionResponse",
       });
   }
 }
-function __c662(j: number): any {
+function __c663(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45668,7 +45711,7 @@ function __c662(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectRancherEventRequest" });
   }
 }
-function __c663(j: number): any {
+function __c664(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45687,7 +45730,7 @@ function __c663(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectRancherTaskRequest" });
   }
 }
-function __c664(j: number): any {
+function __c665(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45706,7 +45749,7 @@ function __c664(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectReferenceInstanceFlavorRequest" });
   }
 }
-function __c665(j: number): any {
+function __c666(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45724,14 +45767,14 @@ function __c665(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectReferenceInstanceImageRequest" });
     case 1:
-      return S.Array(__S(12672, __c396, 0));
+      return S.Array(__S(12704, __c397, 0));
     case 2:
-      return S.suspend(() => __S(21281, __c665, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(21313, __c666, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectReferenceInstanceImageResponse",
       });
   }
 }
-function __c666(j: number): any {
+function __c667(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45750,14 +45793,14 @@ function __c666(j: number): any {
         identifier: "ListPublicCloudProjectReferenceManagedAnalyticsLakehouseRegionRequest",
       });
     case 1:
-      return S.Array(__S(12738, __c398, 2));
+      return S.Array(__S(12770, __c399, 2));
     case 2:
-      return S.suspend(() => __S(21313, __c666, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(21345, __c667, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectReferenceManagedAnalyticsLakehouseRegionResponse",
       });
   }
 }
-function __c667(j: number): any {
+function __c668(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45787,19 +45830,19 @@ function __c667(j: number): any {
         S.Struct({
           category: S.optional(S.String),
           name: S.optional(S.String),
-          resources: S.optional(__S(21345, __c667, 1)),
+          resources: S.optional(__S(21377, __c668, 1)),
           status: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudManagedKubernetesFlavor" });
     case 3:
-      return S.Array(__S(21346, __c667, 2));
+      return S.Array(__S(21378, __c668, 2));
     case 4:
-      return S.suspend(() => __S(21347, __c667, 3).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(21379, __c668, 3).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectReferenceManagedKubernetesFlavorResponse",
       });
   }
 }
-function __c668(j: number): any {
+function __c669(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45820,13 +45863,13 @@ function __c668(j: number): any {
       return S.suspend(() =>
         S.Struct({
           dedicated: S.optional(S.Boolean),
-          storage: S.optional(__S(12448, __c389, 0)),
+          storage: S.optional(__S(12480, __c390, 0)),
         }),
       ).annotate({ identifier: "PublicCloudManagedKubernetesPlanEtcd" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          etcd: S.optional(__S(21377, __c668, 1)),
+          etcd: S.optional(__S(21409, __c669, 1)),
         }),
       ).annotate({ identifier: "PublicCloudManagedKubernetesPlanControlPlane" });
     case 3:
@@ -45838,21 +45881,21 @@ function __c668(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          controlPlane: S.optional(__S(21378, __c668, 2)),
-          limits: S.optional(__S(21379, __c668, 3)),
+          controlPlane: S.optional(__S(21410, __c669, 2)),
+          limits: S.optional(__S(21411, __c669, 3)),
           name: S.optional(S.String),
           status: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudManagedKubernetesPlan" });
     case 5:
-      return S.Array(__S(21380, __c668, 4));
+      return S.Array(__S(21412, __c669, 4));
     case 6:
-      return S.suspend(() => __S(21381, __c668, 5).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(21413, __c669, 5).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectReferenceManagedKubernetesPlanResponse",
       });
   }
 }
-function __c669(j: number): any {
+function __c670(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45871,20 +45914,20 @@ function __c669(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          availabilityZones: S.optional(__S(128, __c4, 0)),
-          availablePlans: S.optional(__S(160, __c5, 0)),
+          availabilityZones: S.optional(__S(160, __c5, 0)),
+          availablePlans: S.optional(__S(192, __c6, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudManagedKubernetesRegion" });
     case 2:
-      return S.Array(__S(21409, __c669, 1));
+      return S.Array(__S(21441, __c670, 1));
     case 3:
-      return S.suspend(() => __S(21410, __c669, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(21442, __c670, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectReferenceManagedKubernetesRegionResponse",
       });
   }
 }
-function __c670(j: number): any {
+function __c671(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45904,7 +45947,7 @@ function __c670(j: number): any {
       });
   }
 }
-function __c671(j: number): any {
+function __c672(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45921,13 +45964,13 @@ function __c671(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          availableVersions: S.optional(__S(20513, __c641, 1)),
+          availableVersions: S.optional(__S(20545, __c642, 1)),
           defaultVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudManagedKubernetesVersionCatalog" });
   }
 }
-function __c672(j: number): any {
+function __c673(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45947,14 +45990,14 @@ function __c672(j: number): any {
         identifier: "ListPublicCloudProjectReferencePrivateEndpointServiceAvailabilityRequest",
       });
     case 1:
-      return S.Array(__S(12802, __c400, 2));
+      return S.Array(__S(12834, __c401, 2));
     case 2:
-      return S.suspend(() => __S(21505, __c672, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(21537, __c673, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectReferencePrivateEndpointServiceAvailabilityResponse",
       });
   }
 }
-function __c673(j: number): any {
+function __c674(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45975,39 +46018,39 @@ function __c673(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          availabilityZones: S.optional(S.NullOr(__S(128, __c4, 0))),
+          availabilityZones: S.optional(S.NullOr(__S(160, __c5, 0))),
           enabled: S.optional(S.Boolean),
           name: S.optional(S.String),
-          stockStatus: S.optional(S.NullOr(__S(21537, __c673, 1))),
+          stockStatus: S.optional(S.NullOr(__S(21569, __c674, 1))),
         }),
       ).annotate({ identifier: "PublicCloudReferenceProductAvailabilityLocation" });
     case 3:
-      return S.Array(__S(21538, __c673, 2));
+      return S.Array(__S(21570, __c674, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          locations: S.optional(S.NullOr(__S(21539, __c673, 3))),
+          locations: S.optional(S.NullOr(__S(21571, __c674, 3))),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudReferenceProductAvailabilityModel" });
     case 5:
-      return S.Array(__S(21540, __c673, 4));
+      return S.Array(__S(21572, __c674, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          models: S.optional(S.NullOr(__S(21541, __c673, 5))),
+          models: S.optional(S.NullOr(__S(21573, __c674, 5))),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudReferenceProductAvailability" });
     case 7:
-      return S.Array(__S(21542, __c673, 6));
+      return S.Array(__S(21574, __c674, 6));
     case 8:
-      return S.suspend(() => __S(21543, __c673, 7).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(21575, __c674, 7).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectReferenceProductAvailabilityResponse",
       });
   }
 }
-function __c674(j: number): any {
+function __c675(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46025,7 +46068,7 @@ function __c674(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectReferenceRancherPlanRequest" });
   }
 }
-function __c675(j: number): any {
+function __c676(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46043,7 +46086,7 @@ function __c675(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectReferenceRancherVersionRequest" });
   }
 }
-function __c676(j: number): any {
+function __c677(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46060,14 +46103,14 @@ function __c676(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectReferenceRegionRequest" });
     case 1:
-      return S.Array(__S(12929, __c404, 1));
+      return S.Array(__S(12961, __c405, 1));
     case 2:
-      return S.suspend(() => __S(21633, __c676, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(21665, __c677, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectReferenceRegionResponse",
       });
   }
 }
-function __c677(j: number): any {
+function __c678(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46087,37 +46130,37 @@ function __c677(j: number): any {
       return S.suspend(() =>
         S.Struct({
           guaranteed: S.optional(S.Boolean),
-          level: S.optional(__S(9792, __c306, 0)),
-          maximum: S.optional(__S(9792, __c306, 0)),
+          level: S.optional(__S(9824, __c307, 0)),
+          maximum: S.optional(__S(9824, __c307, 0)),
         }),
       ).annotate({ identifier: "PublicCloudReferenceStorageBlockVolumeTypePerformance" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          iops: S.optional(__S(21665, __c677, 1)),
+          iops: S.optional(__S(21697, __c678, 1)),
           maximumSize: S.optional(S.Number),
-          regions: S.optional(__S(128, __c4, 0)),
-          throughput: S.optional(S.NullOr(__S(21665, __c677, 1))),
+          regions: S.optional(__S(160, __c5, 0)),
+          throughput: S.optional(S.NullOr(__S(21697, __c678, 1))),
         }),
       ).annotate({ identifier: "PublicCloudReferenceStorageBlockVolumeTypeSpec" });
     case 3:
-      return S.Array(__S(21666, __c677, 2));
+      return S.Array(__S(21698, __c678, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          specs: S.optional(__S(21667, __c677, 3)),
+          specs: S.optional(__S(21699, __c678, 3)),
         }),
       ).annotate({ identifier: "PublicCloudReferenceStorageBlockVolumeType" });
     case 5:
-      return S.Array(__S(21668, __c677, 4));
+      return S.Array(__S(21700, __c678, 4));
     case 6:
-      return S.suspend(() => __S(21669, __c677, 5).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(21701, __c678, 5).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectReferenceStorageBlockVolumeTypeResponse",
       });
   }
 }
-function __c678(j: number): any {
+function __c679(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46139,14 +46182,14 @@ function __c678(j: number): any {
         }),
       ).annotate({ identifier: "PublicCloudReferenceStorageObjectUserRole" });
     case 2:
-      return S.Array(__S(21697, __c678, 1));
+      return S.Array(__S(21729, __c679, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          encryptionAlgorithms: S.optional(__S(160, __c5, 0)),
-          objectLockModes: S.optional(__S(160, __c5, 0)),
-          userRoles: S.optional(__S(21698, __c678, 2)),
-          versioningStatuses: S.optional(__S(160, __c5, 0)),
+          encryptionAlgorithms: S.optional(__S(192, __c6, 0)),
+          objectLockModes: S.optional(__S(192, __c6, 0)),
+          userRoles: S.optional(__S(21730, __c679, 2)),
+          versioningStatuses: S.optional(__S(192, __c6, 0)),
         }),
       ).annotate({ identifier: "PublicCloudReferenceStorageObjectBucketOptions" });
     case 4:
@@ -46157,7 +46200,7 @@ function __c678(j: number): any {
         }),
       ).annotate({ identifier: "PublicCloudReferenceStorageObjectStorageClass" });
     case 5:
-      return S.Array(__S(21700, __c678, 4));
+      return S.Array(__S(21732, __c679, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -46169,20 +46212,20 @@ function __c678(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          objectRestore: S.optional(__S(21702, __c678, 6)),
+          objectRestore: S.optional(__S(21734, __c679, 6)),
         }),
       ).annotate({ identifier: "PublicCloudReferenceStorageObjectValidation" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          bucketOptions: S.optional(__S(21699, __c678, 3)),
-          storageClasses: S.optional(__S(21701, __c678, 5)),
-          validation: S.optional(__S(21703, __c678, 7)),
+          bucketOptions: S.optional(__S(21731, __c679, 3)),
+          storageClasses: S.optional(__S(21733, __c679, 5)),
+          validation: S.optional(__S(21735, __c679, 7)),
         }),
       ).annotate({ identifier: "PublicCloudReferenceStorageObjectObjectStorage" });
   }
 }
-function __c679(j: number): any {
+function __c680(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46199,14 +46242,14 @@ function __c679(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectSecurityGroupRequest" });
     case 1:
-      return S.Array(__S(1286, __c40, 6));
+      return S.Array(__S(1318, __c41, 6));
     case 2:
-      return S.suspend(() => __S(21729, __c679, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(21761, __c680, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectSecurityGroupResponse",
       });
   }
 }
-function __c680(j: number): any {
+function __c681(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46219,14 +46262,14 @@ function __c680(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectSshKeyRequest" });
     case 1:
-      return S.Array(__S(1344, __c42, 0));
+      return S.Array(__S(1376, __c43, 0));
     case 2:
-      return S.suspend(() => __S(21761, __c680, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(21793, __c681, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectSshKeyResponse",
       });
   }
 }
-function __c681(j: number): any {
+function __c682(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46247,7 +46290,7 @@ function __c681(j: number): any {
       });
   }
 }
-function __c682(j: number): any {
+function __c683(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46266,7 +46309,7 @@ function __c682(j: number): any {
       });
   }
 }
-function __c683(j: number): any {
+function __c684(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46284,14 +46327,14 @@ function __c683(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectStorageBlockBackupRequest" });
     case 1:
-      return S.Array(__S(1441, __c45, 1));
+      return S.Array(__S(1473, __c46, 1));
     case 2:
-      return S.suspend(() => __S(21857, __c683, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(21889, __c684, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectStorageBlockBackupResponse",
       });
   }
 }
-function __c684(j: number): any {
+function __c685(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46309,14 +46352,14 @@ function __c684(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectStorageBlockSnapshotRequest" });
     case 1:
-      return S.Array(__S(1505, __c47, 1));
+      return S.Array(__S(1537, __c48, 1));
     case 2:
-      return S.suspend(() => __S(21889, __c684, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(21921, __c685, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectStorageBlockSnapshotResponse",
       });
   }
 }
-function __c685(j: number): any {
+function __c686(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46333,14 +46376,14 @@ function __c685(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectStorageBlockVolumeRequest" });
     case 1:
-      return S.Array(__S(1637, __c51, 5));
+      return S.Array(__S(1669, __c52, 5));
     case 2:
-      return S.suspend(() => __S(21921, __c685, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(21953, __c686, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectStorageBlockVolumeResponse",
       });
   }
 }
-function __c686(j: number): any {
+function __c687(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46357,14 +46400,14 @@ function __c686(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectStorageFileNetworkRequest" });
     case 1:
-      return S.Array(__S(1729, __c54, 1));
+      return S.Array(__S(1761, __c55, 1));
     case 2:
-      return S.suspend(() => __S(21953, __c686, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(21985, __c687, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectStorageFileNetworkResponse",
       });
   }
 }
-function __c687(j: number): any {
+function __c688(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46381,14 +46424,14 @@ function __c687(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectStorageFileShareRequest" });
     case 1:
-      return S.Array(__S(5575, __c174, 7));
+      return S.Array(__S(5607, __c175, 7));
     case 2:
-      return S.suspend(() => __S(21985, __c687, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(22017, __c688, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectStorageFileShareResponse",
       });
   }
 }
-function __c688(j: number): any {
+function __c689(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46406,14 +46449,14 @@ function __c688(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectStorageFileShareAclRequest" });
     case 1:
-      return S.Array(__S(1794, __c56, 2));
+      return S.Array(__S(1826, __c57, 2));
     case 2:
-      return S.suspend(() => __S(22017, __c688, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(22049, __c689, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectStorageFileShareAclResponse",
       });
   }
 }
-function __c689(j: number): any {
+function __c690(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46430,14 +46473,14 @@ function __c689(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectStorageFileSnapshotRequest" });
     case 1:
-      return S.Array(__S(1858, __c58, 2));
+      return S.Array(__S(1890, __c59, 2));
     case 2:
-      return S.suspend(() => __S(22049, __c689, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(22081, __c690, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectStorageFileSnapshotResponse",
       });
   }
 }
-function __c690(j: number): any {
+function __c691(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46454,14 +46497,14 @@ function __c690(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectStorageObjectBucketRequest" });
     case 1:
-      return S.Array(__S(1926, __c60, 6));
+      return S.Array(__S(1958, __c61, 6));
     case 2:
-      return S.suspend(() => __S(22081, __c690, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(22113, __c691, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectStorageObjectBucketResponse",
       });
   }
 }
-function __c691(j: number): any {
+function __c692(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46478,7 +46521,7 @@ function __c691(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectStorageObjectBucketLifecycleRequest" });
   }
 }
-function __c692(j: number): any {
+function __c693(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46502,7 +46545,7 @@ function __c692(j: number): any {
           objectSizeGreaterThan: S.optional(S.NullOr(S.Number)),
           objectSizeLessThan: S.optional(S.NullOr(S.Number)),
           prefix: S.optional(S.NullOr(S.String)),
-          tags: S.optional(S.NullOr(__S(96, __c3, 0))),
+          tags: S.optional(S.NullOr(__S(128, __c4, 0))),
         }),
       ).annotate({ identifier: "PublicCloudStorageObjectLifecycleRuleFilter" });
     case 3:
@@ -46525,7 +46568,7 @@ function __c692(j: number): any {
         identifier: "PublicCloudStorageObjectLifecycleRuleNoncurrentVersionTransition",
       });
     case 5:
-      return S.Array(__S(22148, __c692, 4));
+      return S.Array(__S(22180, __c693, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -46535,31 +46578,31 @@ function __c692(j: number): any {
         }),
       ).annotate({ identifier: "PublicCloudStorageObjectLifecycleRuleTransition" });
     case 7:
-      return S.Array(__S(22150, __c692, 6));
+      return S.Array(__S(22182, __c693, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          abortIncompleteMultipartUpload: S.optional(S.NullOr(__S(22144, __c692, 0))),
-          expiration: S.optional(S.NullOr(__S(22145, __c692, 1))),
-          filter: S.optional(S.NullOr(__S(22146, __c692, 2))),
+          abortIncompleteMultipartUpload: S.optional(S.NullOr(__S(22176, __c693, 0))),
+          expiration: S.optional(S.NullOr(__S(22177, __c693, 1))),
+          filter: S.optional(S.NullOr(__S(22178, __c693, 2))),
           id: S.String,
-          noncurrentVersionExpiration: S.optional(S.NullOr(__S(22147, __c692, 3))),
-          noncurrentVersionTransitions: S.optional(S.NullOr(__S(22149, __c692, 5))),
+          noncurrentVersionExpiration: S.optional(S.NullOr(__S(22179, __c693, 3))),
+          noncurrentVersionTransitions: S.optional(S.NullOr(__S(22181, __c693, 5))),
           status: S.String,
-          transitions: S.optional(S.NullOr(__S(22151, __c692, 7))),
+          transitions: S.optional(S.NullOr(__S(22183, __c693, 7))),
         }),
       ).annotate({ identifier: "PublicCloudStorageObjectLifecycleRule" });
     case 9:
-      return S.Array(__S(22152, __c692, 8));
+      return S.Array(__S(22184, __c693, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          rules: S.optional(__S(22153, __c692, 9)),
+          rules: S.optional(__S(22185, __c693, 9)),
         }),
       ).annotate({ identifier: "PublicCloudStorageObjectLifecycleRulesResponse" });
   }
 }
-function __c693(j: number): any {
+function __c694(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46578,17 +46621,17 @@ function __c693(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectStorageObjectBucketMultipartUploadRequest" });
   }
 }
-function __c694(j: number): any {
+function __c695(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2016, __c63, 0));
+      return S.Array(__S(2048, __c64, 0));
     case 1:
-      return S.suspend(() => __S(22208, __c694, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(22240, __c695, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectStorageObjectBucketMultipartUploadResponse",
       });
   }
 }
-function __c695(j: number): any {
+function __c696(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46602,8 +46645,8 @@ function __c695(j: number): any {
           syncGroupOffsetsEnabled: S.optional(S.NullOr(S.Boolean)),
           syncInterval: S.optional(S.NullOr(S.Number)),
           targetIntegrationId: S.String,
-          topicExcludeList: S.optional(S.NullOr(__S(128, __c4, 0))),
-          topicIncludeList: S.optional(S.NullOr(__S(128, __c4, 0))),
+          topicExcludeList: S.optional(S.NullOr(__S(160, __c5, 0))),
+          topicIncludeList: S.optional(S.NullOr(__S(160, __c5, 0))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -46616,7 +46659,7 @@ function __c695(j: number): any {
       });
   }
 }
-function __c696(j: number): any {
+function __c697(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46631,14 +46674,14 @@ function __c696(j: number): any {
           syncGroupOffsetsEnabled: S.optional(S.Boolean),
           syncInterval: S.optional(S.NullOr(S.Number)),
           targetIntegrationId: S.optional(S.String),
-          topicExcludeList: S.optional(S.NullOr(__S(128, __c4, 0))),
-          topicIncludeList: S.optional(S.NullOr(__S(128, __c4, 0))),
+          topicExcludeList: S.optional(S.NullOr(__S(160, __c5, 0))),
+          topicIncludeList: S.optional(S.NullOr(__S(160, __c5, 0))),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudDatabaseKafkaMirrorMakerReplication" });
   }
 }
-function __c697(j: number): any {
+function __c698(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46659,14 +46702,14 @@ function __c697(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectStorageObjectBucketObjectRequest" });
     case 1:
-      return S.Array(__S(25984, __c812, 0));
+      return S.Array(__S(26016, __c813, 0));
     case 2:
-      return S.suspend(() => __S(22305, __c697, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(22337, __c698, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectStorageObjectBucketObjectResponse",
       });
   }
 }
-function __c698(j: number): any {
+function __c699(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46688,7 +46731,7 @@ function __c698(j: number): any {
       });
   }
 }
-function __c699(j: number): any {
+function __c700(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46717,17 +46760,17 @@ function __c699(j: number): any {
         }),
       ).annotate({ identifier: "PublicCloudStorageObjectMultipartUploadPart" });
     case 2:
-      return S.Array(__S(22369, __c699, 1));
+      return S.Array(__S(22401, __c700, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          parts: S.optional(__S(22370, __c699, 2)),
+          parts: S.optional(__S(22402, __c700, 2)),
           storageClass: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudStorageObjectMultipartUploadParts" });
   }
 }
-function __c700(j: number): any {
+function __c701(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46746,14 +46789,14 @@ function __c700(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicCloudProjectStorageObjectBucketObjectVersionRequest" });
     case 1:
-      return S.Array(__S(5888, __c184, 0));
+      return S.Array(__S(5920, __c185, 0));
     case 2:
-      return S.suspend(() => __S(22401, __c700, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(22433, __c701, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectStorageObjectBucketObjectVersionResponse",
       });
   }
 }
-function __c701(j: number): any {
+function __c702(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46770,7 +46813,7 @@ function __c701(j: number): any {
       ).annotate({ identifier: "ListPublicCloudProjectStorageObjectBucketReplicationRequest" });
   }
 }
-function __c702(j: number): any {
+function __c703(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46784,31 +46827,31 @@ function __c702(j: number): any {
       return S.suspend(() =>
         S.Struct({
           prefix: S.optional(S.NullOr(S.String)),
-          tags: S.optional(S.NullOr(__S(96, __c3, 0))),
+          tags: S.optional(S.NullOr(__S(128, __c4, 0))),
         }),
       ).annotate({ identifier: "PublicCloudStorageObjectReplicationRuleFilter" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           deleteMarkerReplication: S.String,
-          destination: S.optional(S.NullOr(__S(22464, __c702, 0))),
-          filter: S.optional(S.NullOr(__S(22465, __c702, 1))),
+          destination: S.optional(S.NullOr(__S(22496, __c703, 0))),
+          filter: S.optional(S.NullOr(__S(22497, __c703, 1))),
           id: S.String,
           priority: S.Number,
           status: S.String,
         }),
       ).annotate({ identifier: "PublicCloudStorageObjectReplicationRule" });
     case 3:
-      return S.Array(__S(22466, __c702, 2));
+      return S.Array(__S(22498, __c703, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          rules: S.optional(__S(22467, __c702, 3)),
+          rules: S.optional(__S(22499, __c703, 3)),
         }),
       ).annotate({ identifier: "PublicCloudStorageObjectReplicationRulesResponse" });
   }
 }
-function __c703(j: number): any {
+function __c704(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46837,14 +46880,14 @@ function __c703(j: number): any {
         }),
       ).annotate({ identifier: "PublicCloudStorageObjectReplicationDestinationCandidate" });
     case 2:
-      return S.Array(__S(22497, __c703, 1));
+      return S.Array(__S(22529, __c704, 1));
     case 3:
-      return S.suspend(() => __S(22498, __c703, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(22530, __c704, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectStorageObjectBucketReplicationDestinationResponse",
       });
   }
 }
-function __c704(j: number): any {
+function __c705(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46864,14 +46907,14 @@ function __c704(j: number): any {
         identifier: "ListPublicCloudProjectStorageObjectBucketReplicationTriggerRequest",
       });
     case 1:
-      return S.Array(__S(13472, __c421, 0));
+      return S.Array(__S(13504, __c422, 0));
     case 2:
-      return S.suspend(() => __S(22529, __c704, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(22561, __c705, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicCloudProjectStorageObjectBucketReplicationTriggerResponse",
       });
   }
 }
-function __c705(j: number): any {
+function __c706(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46897,25 +46940,25 @@ function __c705(j: number): any {
           expiresAt: S.optional(S.String),
           key: S.optional(S.String),
           method: S.optional(S.String),
-          signedHeaders: S.optional(__S(96, __c3, 0)),
+          signedHeaders: S.optional(__S(128, __c4, 0)),
           url: S.optional(S.String),
           versionId: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "PublicCloudStorageObjectS3ObjectPresignedURL" });
   }
 }
-function __c706(j: number): any {
+function __c707(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          targetSpec: __S(27584, __c862, 0),
+          targetSpec: __S(27616, __c863, 0),
         }).pipe(T.Http({ method: "PUT", uri: "/publicCloud/project/{projectId}", code: 200 })),
       ).annotate({ identifier: "PutPublicCloudProjectRequest" });
   }
 }
-function __c707(j: number): any {
+function __c708(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46929,7 +46972,7 @@ function __c707(j: number): any {
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           agentId: S.String.pipe(T.Label()),
-          targetSpec: __S(22624, __c707, 0),
+          targetSpec: __S(22656, __c708, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -46940,7 +46983,7 @@ function __c707(j: number): any {
       ).annotate({ identifier: "PutPublicCloudProjectAiAgentAgentRequest" });
   }
 }
-function __c708(j: number): any {
+function __c709(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46962,7 +47005,7 @@ function __c708(j: number): any {
       });
   }
 }
-function __c709(j: number): any {
+function __c710(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46978,14 +47021,14 @@ function __c709(j: number): any {
       ).annotate({ identifier: "PublicCloudDatabaseKafkaSchemaRegistryAcl" });
   }
 }
-function __c710(j: number): any {
+function __c711(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           templateId: S.String.pipe(T.Label()),
-          targetSpec: __S(1568, __c49, 0),
+          targetSpec: __S(1600, __c50, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -46996,20 +47039,20 @@ function __c710(j: number): any {
       ).annotate({ identifier: "PutPublicCloudProjectAiAgentTemplateRequest" });
   }
 }
-function __c711(j: number): any {
+function __c712(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          flavor: __S(224, __c7, 0),
-          image: S.optional(S.NullOr(__S(224, __c7, 0))),
+          flavor: __S(256, __c8, 0),
+          image: S.optional(S.NullOr(__S(256, __c8, 0))),
           name: S.String,
-          networks: S.optional(S.NullOr(__S(2593, __c81, 1))),
+          networks: S.optional(S.NullOr(__S(2625, __c82, 1))),
           powerState: S.optional(S.NullOr(S.String)),
-          securityGroups: S.optional(S.NullOr(__S(2688, __c84, 0))),
-          shares: S.optional(S.NullOr(__S(2595, __c81, 3))),
+          securityGroups: S.optional(S.NullOr(__S(2720, __c85, 0))),
+          shares: S.optional(S.NullOr(__S(2627, __c82, 3))),
           userData: S.optional(S.NullOr(S.String)),
-          volumes: S.optional(S.NullOr(__S(2688, __c84, 0))),
+          volumes: S.optional(S.NullOr(__S(2720, __c85, 0))),
         }),
       ).annotate({ identifier: "PublicCloudInstanceInstanceUpdateTargetSpec" });
     case 1:
@@ -47018,7 +47061,7 @@ function __c711(j: number): any {
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
           checksum: S.optional(S.NullOr(S.String)),
-          targetSpec: __S(22752, __c711, 0),
+          targetSpec: __S(22784, __c712, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -47029,15 +47072,15 @@ function __c711(j: number): any {
       ).annotate({ identifier: "PutPublicCloudProjectComputeInstanceRequest" });
   }
 }
-function __c712(j: number): any {
+function __c713(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
-          externalGateway: __S(4992, __c156, 0),
+          externalGateway: __S(5024, __c157, 0),
           name: S.String,
-          subnets: S.optional(S.NullOr(__S(2688, __c84, 0))),
+          subnets: S.optional(S.NullOr(__S(2720, __c85, 0))),
         }),
       ).annotate({ identifier: "PublicCloudGatewayGatewayUpdateTargetSpec" });
     case 1:
@@ -47046,7 +47089,7 @@ function __c712(j: number): any {
           projectId: S.String.pipe(T.Label()),
           gatewayId: S.String.pipe(T.Label()),
           checksum: S.optional(S.NullOr(S.String)),
-          targetSpec: __S(22784, __c712, 0),
+          targetSpec: __S(22816, __c713, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -47057,12 +47100,12 @@ function __c712(j: number): any {
       ).annotate({ identifier: "PutPublicCloudProjectGatewayRequest" });
   }
 }
-function __c713(j: number): any {
+function __c714(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          secretRefs: __S(5377, __c168, 1),
+          secretRefs: __S(5409, __c169, 1),
         }),
       ).annotate({ identifier: "PublicCloudKeyManagerContainerUpdateTargetSpec" });
     case 1:
@@ -47071,7 +47114,7 @@ function __c713(j: number): any {
           projectId: S.String.pipe(T.Label()),
           containerId: S.String.pipe(T.Label()),
           checksum: S.optional(S.NullOr(S.String)),
-          targetSpec: __S(22816, __c713, 0),
+          targetSpec: __S(22848, __c714, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -47082,12 +47125,12 @@ function __c713(j: number): any {
       ).annotate({ identifier: "PutPublicCloudProjectKeyManagerContainerRequest" });
   }
 }
-function __c714(j: number): any {
+function __c715(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          metadata: __S(96, __c3, 0),
+          metadata: __S(128, __c4, 0),
         }),
       ).annotate({ identifier: "PublicCloudKeyManagerSecretUpdateTargetSpec" });
     case 1:
@@ -47096,7 +47139,7 @@ function __c714(j: number): any {
           projectId: S.String.pipe(T.Label()),
           secretId: S.String.pipe(T.Label()),
           checksum: S.optional(S.NullOr(S.String)),
-          targetSpec: __S(22848, __c714, 0),
+          targetSpec: __S(22880, __c715, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -47107,7 +47150,7 @@ function __c714(j: number): any {
       ).annotate({ identifier: "PutPublicCloudProjectKeyManagerSecretRequest" });
   }
 }
-function __c715(j: number): any {
+function __c716(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47115,7 +47158,7 @@ function __c715(j: number): any {
           projectId: S.String.pipe(T.Label()),
           loadbalancerId: S.String.pipe(T.Label()),
           checksum: S.optional(S.NullOr(S.String)),
-          targetSpec: __S(23968, __c749, 0),
+          targetSpec: __S(24000, __c750, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -47126,24 +47169,24 @@ function __c715(j: number): any {
       ).annotate({ identifier: "PutPublicCloudProjectLoadbalancerRequest" });
   }
 }
-function __c716(j: number): any {
+function __c717(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          allowedCidrs: S.optional(S.NullOr(__S(128, __c4, 0))),
+          allowedCidrs: S.optional(S.NullOr(__S(160, __c5, 0))),
           connectionLimit: S.optional(S.NullOr(S.Number)),
-          defaultPool: S.optional(S.NullOr(__S(224, __c7, 0))),
+          defaultPool: S.optional(S.NullOr(__S(256, __c8, 0))),
           defaultTlsContainerRef: S.optional(S.NullOr(S.String)),
           description: S.optional(S.NullOr(S.String)),
-          insertHeaders: S.optional(S.NullOr(__S(8096, __c253, 0))),
+          insertHeaders: S.optional(S.NullOr(__S(8128, __c254, 0))),
           name: S.String,
-          sniContainerRefs: S.optional(S.NullOr(__S(128, __c4, 0))),
+          sniContainerRefs: S.optional(S.NullOr(__S(160, __c5, 0))),
           timeoutClientData: S.optional(S.NullOr(S.Number)),
           timeoutMemberConnect: S.optional(S.NullOr(S.Number)),
           timeoutMemberData: S.optional(S.NullOr(S.Number)),
           timeoutTcpInspect: S.optional(S.NullOr(S.Number)),
-          tlsVersions: S.optional(S.NullOr(__S(128, __c4, 0))),
+          tlsVersions: S.optional(S.NullOr(__S(160, __c5, 0))),
         }),
       ).annotate({ identifier: "PublicCloudLoadbalancerListenerPutTargetSpec" });
     case 1:
@@ -47153,7 +47196,7 @@ function __c716(j: number): any {
           loadbalancerId: S.String.pipe(T.Label()),
           listenerId: S.String.pipe(T.Label()),
           checksum: S.optional(S.NullOr(S.String)),
-          targetSpec: __S(22912, __c716, 0),
+          targetSpec: __S(22944, __c717, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -47164,7 +47207,7 @@ function __c716(j: number): any {
       ).annotate({ identifier: "PutPublicCloudProjectLoadbalancerListenerRequest" });
   }
 }
-function __c717(j: number): any {
+function __c718(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47174,7 +47217,7 @@ function __c717(j: number): any {
           listenerId: S.String.pipe(T.Label()),
           l7PolicyId: S.String.pipe(T.Label()),
           checksum: S.optional(S.NullOr(S.String)),
-          targetSpec: __S(8514, __c266, 2),
+          targetSpec: __S(8546, __c267, 2),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -47185,16 +47228,16 @@ function __c717(j: number): any {
       ).annotate({ identifier: "PutPublicCloudProjectLoadbalancerListenerL7policyRequest" });
   }
 }
-function __c718(j: number): any {
+function __c719(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           algorithm: S.String,
           description: S.optional(S.NullOr(S.String)),
-          healthMonitor: S.optional(S.NullOr(__S(8896, __c278, 0))),
+          healthMonitor: S.optional(S.NullOr(__S(8928, __c279, 0))),
           name: S.optional(S.NullOr(S.String)),
-          persistence: S.optional(S.NullOr(__S(8897, __c278, 1))),
+          persistence: S.optional(S.NullOr(__S(8929, __c279, 1))),
         }),
       ).annotate({ identifier: "PublicCloudLoadbalancerPoolUpdateTargetSpec" });
     case 1:
@@ -47204,7 +47247,7 @@ function __c718(j: number): any {
           loadbalancerId: S.String.pipe(T.Label()),
           poolId: S.String.pipe(T.Label()),
           checksum: S.optional(S.NullOr(S.String)),
-          targetSpec: __S(22976, __c718, 0),
+          targetSpec: __S(23008, __c719, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -47215,13 +47258,13 @@ function __c718(j: number): any {
       ).annotate({ identifier: "PutPublicCloudProjectLoadbalancerPoolRequest" });
   }
 }
-function __c719(j: number): any {
+function __c720(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           backup: S.optional(S.NullOr(S.Boolean)),
-          monitor: S.optional(S.NullOr(__S(9376, __c293, 0))),
+          monitor: S.optional(S.NullOr(__S(9408, __c294, 0))),
           name: S.optional(S.NullOr(S.String)),
           weight: S.optional(S.NullOr(S.Number)),
         }),
@@ -47234,7 +47277,7 @@ function __c719(j: number): any {
           poolId: S.String.pipe(T.Label()),
           memberId: S.String.pipe(T.Label()),
           checksum: S.optional(S.NullOr(S.String)),
-          targetSpec: __S(23008, __c719, 0),
+          targetSpec: __S(23040, __c720, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -47245,7 +47288,7 @@ function __c719(j: number): any {
       ).annotate({ identifier: "PutPublicCloudProjectLoadbalancerPoolMemberRequest" });
   }
 }
-function __c720(j: number): any {
+function __c721(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47268,7 +47311,7 @@ function __c720(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectManagedAnalyticsKafkaTopicRequest" });
   }
 }
-function __c721(j: number): any {
+function __c722(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47287,14 +47330,14 @@ function __c721(j: number): any {
       ).annotate({ identifier: "PublicCloudDatabaseKafkaTopic" });
   }
 }
-function __c722(j: number): any {
+function __c723(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
-          targetSpec: __S(23144, __c723, 8),
+          targetSpec: __S(23176, __c724, 8),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -47305,12 +47348,12 @@ function __c722(j: number): any {
       ).annotate({ identifier: "PutPublicCloudProjectManagedAnalyticsClickhouseRequest" });
   }
 }
-function __c723(j: number): any {
+function __c724(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          regions: S.NullOr(__S(160, __c5, 0)),
+          regions: S.NullOr(__S(192, __c6, 0)),
           time: S.String,
         }),
       ).annotate({ identifier: "PublicCloudDatabaseBackupReplaceSpec" });
@@ -47328,17 +47371,17 @@ function __c723(j: number): any {
         }),
       ).annotate({ identifier: "PublicCloudDatabaseAuthorizedIpsRuleReplace" });
     case 3:
-      return S.Array(__S(23138, __c723, 2));
+      return S.Array(__S(23170, __c724, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          rules: __S(23139, __c723, 3),
+          rules: __S(23171, __c724, 3),
         }),
       ).annotate({ identifier: "PublicCloudDatabaseAuthorizedIpsReplace" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          authorizedIps: __S(23140, __c723, 4),
+          authorizedIps: __S(23172, __c724, 4),
         }),
       ).annotate({ identifier: "PublicCloudDatabaseNetworkReplaceSpec" });
     case 6:
@@ -47351,36 +47394,36 @@ function __c723(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          size: __S(23142, __c723, 6),
+          size: __S(23174, __c724, 6),
         }),
       ).annotate({ identifier: "PublicCloudDatabaseStorageReplaceSpec" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          advancedConfiguration: S.NullOr(__S(96, __c3, 0)),
-          backup: S.NullOr(__S(23136, __c723, 0)),
+          advancedConfiguration: S.NullOr(__S(128, __c4, 0)),
+          backup: S.NullOr(__S(23168, __c724, 0)),
           deletionProtected: S.Boolean,
           description: S.NullOr(S.String),
           flavor: S.String,
-          maintenanceWindow: __S(23137, __c723, 1),
-          network: __S(23141, __c723, 5),
+          maintenanceWindow: __S(23169, __c724, 1),
+          network: __S(23173, __c724, 5),
           nodesCount: S.Number,
           plan: S.String,
           prometheusEnabled: S.NullOr(S.Boolean),
-          storage: S.NullOr(__S(23143, __c723, 7)),
+          storage: S.NullOr(__S(23175, __c724, 7)),
           version: S.String,
         }),
       ).annotate({ identifier: "PublicCloudDatabaseServiceReplaceTargetSpec" });
   }
 }
-function __c724(j: number): any {
+function __c725(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
-          targetSpec: __S(23144, __c723, 8),
+          targetSpec: __S(23176, __c724, 8),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -47391,14 +47434,14 @@ function __c724(j: number): any {
       ).annotate({ identifier: "PutPublicCloudProjectManagedAnalyticsGrafanaRequest" });
   }
 }
-function __c725(j: number): any {
+function __c726(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
-          targetSpec: __S(23144, __c723, 8),
+          targetSpec: __S(23176, __c724, 8),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -47409,14 +47452,14 @@ function __c725(j: number): any {
       ).annotate({ identifier: "PutPublicCloudProjectManagedAnalyticsKafkaRequest" });
   }
 }
-function __c726(j: number): any {
+function __c727(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
-          targetSpec: __S(23144, __c723, 8),
+          targetSpec: __S(23176, __c724, 8),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -47427,7 +47470,7 @@ function __c726(j: number): any {
       ).annotate({ identifier: "PutPublicCloudProjectManagedAnalyticsKafkaConnectRequest" });
   }
 }
-function __c727(j: number): any {
+function __c728(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47435,7 +47478,7 @@ function __c727(j: number): any {
           projectId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
           connectorId: S.String.pipe(T.Label()),
-          configuration: __S(96, __c3, 0),
+          configuration: __S(128, __c4, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -47448,14 +47491,14 @@ function __c727(j: number): any {
       });
   }
 }
-function __c728(j: number): any {
+function __c729(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
-          targetSpec: __S(23144, __c723, 8),
+          targetSpec: __S(23176, __c724, 8),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -47466,7 +47509,7 @@ function __c728(j: number): any {
       ).annotate({ identifier: "PutPublicCloudProjectManagedAnalyticsKafkaMirrorMakerRequest" });
   }
 }
-function __c729(j: number): any {
+function __c730(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47479,8 +47522,8 @@ function __c729(j: number): any {
           replicationPolicyClass: S.String,
           syncGroupOffsetsEnabled: S.Boolean,
           syncInterval: S.Number,
-          topicExcludeList: __S(128, __c4, 0),
-          topicIncludeList: __S(128, __c4, 0),
+          topicExcludeList: __S(160, __c5, 0),
+          topicIncludeList: __S(160, __c5, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -47493,7 +47536,7 @@ function __c729(j: number): any {
       });
   }
 }
-function __c730(j: number): any {
+function __c731(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47516,13 +47559,13 @@ function __c730(j: number): any {
       ).annotate({ identifier: "PutPublicCloudProjectManagedAnalyticsKafkaTopicRequest" });
   }
 }
-function __c731(j: number): any {
+function __c732(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
-          ipRestrictions: __S(23873, __c746, 1),
+          ipRestrictions: __S(23905, __c747, 1),
           ipRestrictionsEnabled: S.Boolean,
           name: S.String,
         }),
@@ -47533,7 +47576,7 @@ function __c731(j: number): any {
           projectId: S.String.pipe(T.Label()),
           lakehouseId: S.String.pipe(T.Label()),
           checksum: S.optional(S.NullOr(S.String)),
-          targetSpec: __S(23392, __c731, 0),
+          targetSpec: __S(23424, __c732, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -47544,7 +47587,7 @@ function __c731(j: number): any {
       ).annotate({ identifier: "PutPublicCloudProjectManagedAnalyticsLakehouseRequest" });
   }
 }
-function __c732(j: number): any {
+function __c733(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47553,7 +47596,7 @@ function __c732(j: number): any {
           lakehouseId: S.String.pipe(T.Label()),
           catalogId: S.String.pipe(T.Label()),
           checksum: S.optional(S.NullOr(S.String)),
-          targetSpec: __S(23456, __c733, 0),
+          targetSpec: __S(23488, __c734, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -47564,7 +47607,7 @@ function __c732(j: number): any {
       ).annotate({ identifier: "PutPublicCloudProjectManagedAnalyticsLakehouseCatalogRequest" });
   }
 }
-function __c733(j: number): any {
+function __c734(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47574,7 +47617,7 @@ function __c733(j: number): any {
       ).annotate({ identifier: "PublicCloudLakehouseCatalogUpdateTargetSpec" });
   }
 }
-function __c734(j: number): any {
+function __c735(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47592,7 +47635,7 @@ function __c734(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectManagedAnalyticsKafkaUserRequest" });
   }
 }
-function __c735(j: number): any {
+function __c736(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47612,7 +47655,7 @@ function __c735(j: number): any {
           lakehouseId: S.String.pipe(T.Label()),
           computePoolId: S.String.pipe(T.Label()),
           checksum: S.optional(S.NullOr(S.String)),
-          targetSpec: __S(23520, __c735, 0),
+          targetSpec: __S(23552, __c736, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -47625,7 +47668,7 @@ function __c735(j: number): any {
       });
   }
 }
-function __c736(j: number): any {
+function __c737(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47634,7 +47677,7 @@ function __c736(j: number): any {
           lakehouseId: S.String.pipe(T.Label()),
           groupId: S.String.pipe(T.Label()),
           checksum: S.optional(S.NullOr(S.String)),
-          targetSpec: __S(23456, __c733, 0),
+          targetSpec: __S(23488, __c734, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -47645,13 +47688,13 @@ function __c736(j: number): any {
       ).annotate({ identifier: "PutPublicCloudProjectManagedAnalyticsLakehouseGroupRequest" });
   }
 }
-function __c737(j: number): any {
+function __c738(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
-          permissions: __S(26434, __c826, 2),
+          permissions: __S(26466, __c827, 2),
         }),
       ).annotate({ identifier: "PublicCloudLakehouseRoleUpdateTargetSpec" });
     case 1:
@@ -47661,7 +47704,7 @@ function __c737(j: number): any {
           lakehouseId: S.String.pipe(T.Label()),
           roleId: S.String.pipe(T.Label()),
           checksum: S.optional(S.NullOr(S.String)),
-          targetSpec: __S(23584, __c737, 0),
+          targetSpec: __S(23616, __c738, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -47672,7 +47715,7 @@ function __c737(j: number): any {
       ).annotate({ identifier: "PutPublicCloudProjectManagedAnalyticsLakehouseRoleRequest" });
   }
 }
-function __c738(j: number): any {
+function __c739(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47681,7 +47724,7 @@ function __c738(j: number): any {
           lakehouseId: S.String.pipe(T.Label()),
           userId: S.String.pipe(T.Label()),
           checksum: S.optional(S.NullOr(S.String)),
-          targetSpec: __S(23456, __c733, 0),
+          targetSpec: __S(23488, __c734, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -47692,14 +47735,14 @@ function __c738(j: number): any {
       ).annotate({ identifier: "PutPublicCloudProjectManagedAnalyticsLakehouseUserRequest" });
   }
 }
-function __c739(j: number): any {
+function __c740(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
-          targetSpec: __S(23144, __c723, 8),
+          targetSpec: __S(23176, __c724, 8),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -47710,7 +47753,7 @@ function __c739(j: number): any {
       ).annotate({ identifier: "PutPublicCloudProjectManagedAnalyticsOpensearchRequest" });
   }
 }
-function __c740(j: number): any {
+function __c741(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47718,7 +47761,7 @@ function __c740(j: number): any {
           projectId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
           userId: S.String.pipe(T.Label()),
-          acls: __S(27169, __c849, 1),
+          acls: __S(27201, __c850, 1),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -47729,14 +47772,14 @@ function __c740(j: number): any {
       ).annotate({ identifier: "PutPublicCloudProjectManagedAnalyticsOpensearchUserRequest" });
   }
 }
-function __c741(j: number): any {
+function __c742(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
-          targetSpec: __S(23144, __c723, 8),
+          targetSpec: __S(23176, __c724, 8),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -47747,7 +47790,7 @@ function __c741(j: number): any {
       ).annotate({ identifier: "PutPublicCloudProjectManagedDatabaseMongodbRequest" });
   }
 }
-function __c742(j: number): any {
+function __c743(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47755,7 +47798,7 @@ function __c742(j: number): any {
           projectId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
           userId: S.String.pipe(T.Label()),
-          roles: __S(128, __c4, 0),
+          roles: __S(160, __c5, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -47766,14 +47809,14 @@ function __c742(j: number): any {
       ).annotate({ identifier: "PutPublicCloudProjectManagedDatabaseMongodbUserRequest" });
   }
 }
-function __c743(j: number): any {
+function __c744(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
-          targetSpec: __S(23144, __c723, 8),
+          targetSpec: __S(23176, __c724, 8),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -47784,14 +47827,14 @@ function __c743(j: number): any {
       ).annotate({ identifier: "PutPublicCloudProjectManagedDatabaseMysqlRequest" });
   }
 }
-function __c744(j: number): any {
+function __c745(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
-          targetSpec: __S(23144, __c723, 8),
+          targetSpec: __S(23176, __c724, 8),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -47802,14 +47845,14 @@ function __c744(j: number): any {
       ).annotate({ identifier: "PutPublicCloudProjectManagedDatabasePostgresqlRequest" });
   }
 }
-function __c745(j: number): any {
+function __c746(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          catalog: __S(23968, __c749, 0),
+          catalog: __S(24000, __c750, 0),
           description: S.optional(S.NullOr(S.String)),
-          ipRestrictions: S.optional(S.NullOr(__S(23873, __c746, 1))),
+          ipRestrictions: S.optional(S.NullOr(__S(23905, __c747, 1))),
           ipRestrictionsEnabled: S.optional(S.NullOr(S.Boolean)),
           name: S.String,
           region: S.String,
@@ -47819,7 +47862,7 @@ function __c745(j: number): any {
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          targetSpec: __S(23840, __c745, 0),
+          targetSpec: __S(23872, __c746, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -47830,7 +47873,7 @@ function __c745(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectManagedAnalyticsLakehouseRequest" });
   }
 }
-function __c746(j: number): any {
+function __c747(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47840,7 +47883,7 @@ function __c746(j: number): any {
         }),
       ).annotate({ identifier: "PublicCloudLakehouseIpRestriction" });
     case 1:
-      return S.Array(__S(23872, __c746, 0));
+      return S.Array(__S(23904, __c747, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -47849,7 +47892,7 @@ function __c746(j: number): any {
         }),
       ).annotate({ identifier: "PublicCloudLakehouseEndpoint" });
     case 3:
-      return S.Array(__S(23874, __c746, 2));
+      return S.Array(__S(23906, __c747, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -47862,19 +47905,19 @@ function __c746(j: number): any {
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
-          endpoints: S.optional(__S(23875, __c746, 3)),
+          endpoints: S.optional(__S(23907, __c747, 3)),
           name: S.optional(S.String),
-          networkAccess: S.optional(__S(23876, __c746, 4)),
+          networkAccess: S.optional(__S(23908, __c747, 4)),
           realm: S.optional(S.NullOr(S.String)),
           region: S.optional(S.String),
-          statusReason: S.optional(S.NullOr(__S(23936, __c748, 0))),
+          statusReason: S.optional(S.NullOr(__S(23968, __c749, 0))),
         }),
       ).annotate({ identifier: "PublicCloudLakehouseLakehouseCurrentState" });
     case 6:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
-          ipRestrictions: S.optional(__S(23873, __c746, 1)),
+          ipRestrictions: S.optional(__S(23905, __c747, 1)),
           ipRestrictionsEnabled: S.optional(S.Boolean),
           name: S.optional(S.String),
           region: S.optional(S.String),
@@ -47882,24 +47925,24 @@ function __c746(j: number): any {
       ).annotate({ identifier: "PublicCloudLakehouseLakehouseTargetSpec" });
   }
 }
-function __c747(j: number): any {
+function __c748(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           checksum: S.optional(S.String),
           createdAt: S.optional(S.String),
-          currentState: S.optional(__S(23877, __c746, 5)),
-          currentTasks: S.optional(__S(27553, __c861, 1)),
+          currentState: S.optional(__S(23909, __c747, 5)),
+          currentTasks: S.optional(__S(27585, __c862, 1)),
           id: S.optional(S.String),
           resourceStatus: S.optional(S.String),
-          targetSpec: S.optional(__S(23878, __c746, 6)),
+          targetSpec: S.optional(__S(23910, __c747, 6)),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudLakehouseLakehouse" });
   }
 }
-function __c748(j: number): any {
+function __c749(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47910,7 +47953,7 @@ function __c748(j: number): any {
       ).annotate({ identifier: "PublicCloudLakehouseStatusReason" });
   }
 }
-function __c749(j: number): any {
+function __c750(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47921,7 +47964,7 @@ function __c749(j: number): any {
       ).annotate({ identifier: "PublicCloudLakehouseLakehouseCatalogCreation" });
   }
 }
-function __c750(j: number): any {
+function __c751(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47945,7 +47988,7 @@ function __c750(j: number): any {
       });
   }
 }
-function __c751(j: number): any {
+function __c752(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47953,7 +47996,7 @@ function __c751(j: number): any {
           projectId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
           userId: S.String.pipe(T.Label()),
-          roles: __S(128, __c4, 0),
+          roles: __S(160, __c5, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -47964,14 +48007,14 @@ function __c751(j: number): any {
       ).annotate({ identifier: "PutPublicCloudProjectManagedDatabasePostgresqlUserRequest" });
   }
 }
-function __c752(j: number): any {
+function __c753(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
-          targetSpec: __S(23144, __c723, 8),
+          targetSpec: __S(23176, __c724, 8),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -47982,7 +48025,7 @@ function __c752(j: number): any {
       ).annotate({ identifier: "PutPublicCloudProjectManagedDatabaseValkeyRequest" });
   }
 }
-function __c753(j: number): any {
+function __c754(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47990,10 +48033,10 @@ function __c753(j: number): any {
           projectId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
           userId: S.String.pipe(T.Label()),
-          categories: __S(128, __c4, 0),
-          channels: __S(128, __c4, 0),
-          commands: __S(128, __c4, 0),
-          keys: __S(128, __c4, 0),
+          categories: __S(160, __c5, 0),
+          channels: __S(160, __c5, 0),
+          commands: __S(160, __c5, 0),
+          keys: __S(160, __c5, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -48004,49 +48047,49 @@ function __c753(j: number): any {
       ).annotate({ identifier: "PutPublicCloudProjectManagedDatabaseValkeyUserRequest" });
   }
 }
-function __c754(j: number): any {
+function __c755(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          iptables: S.optional(S.NullOr(__S(617, __c19, 9))),
-          ipvs: S.optional(S.NullOr(__S(618, __c19, 10))),
+          iptables: S.optional(S.NullOr(__S(649, __c20, 9))),
+          ipvs: S.optional(S.NullOr(__S(650, __c20, 10))),
         }),
       ).annotate({ identifier: "PublicCloudManagedKubernetesKubeProxyUpdate" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          kubeProxy: S.optional(S.NullOr(__S(24128, __c754, 0))),
+          kubeProxy: S.optional(S.NullOr(__S(24160, __c755, 0))),
         }),
       ).annotate({ identifier: "PublicCloudManagedKubernetesCniCanalUpdate" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          canal: S.optional(S.NullOr(__S(24129, __c754, 1))),
-          cilium: S.optional(S.NullOr(__S(627, __c19, 19))),
+          canal: S.optional(S.NullOr(__S(24161, __c755, 1))),
+          cilium: S.optional(S.NullOr(__S(659, __c20, 19))),
         }),
       ).annotate({ identifier: "PublicCloudManagedKubernetesCniUpdate" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          defaultEgress: S.optional(S.NullOr(__S(631, __c19, 23))),
+          defaultEgress: S.optional(S.NullOr(__S(663, __c20, 23))),
         }),
       ).annotate({ identifier: "PublicCloudManagedKubernetesNetworkVrackUpdate" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          vrack: S.optional(S.NullOr(__S(24131, __c754, 3))),
+          vrack: S.optional(S.NullOr(__S(24163, __c755, 3))),
         }),
       ).annotate({ identifier: "PublicCloudManagedKubernetesNetworkUpdate" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          apiServer: S.optional(S.NullOr(__S(613, __c19, 5))),
-          authentication: S.optional(S.NullOr(__S(615, __c19, 7))),
-          autoUpgrade: S.optional(S.NullOr(__S(616, __c19, 8))),
-          cni: S.optional(S.NullOr(__S(24130, __c754, 2))),
+          apiServer: S.optional(S.NullOr(__S(645, __c20, 5))),
+          authentication: S.optional(S.NullOr(__S(647, __c20, 7))),
+          autoUpgrade: S.optional(S.NullOr(__S(648, __c20, 8))),
+          cni: S.optional(S.NullOr(__S(24162, __c755, 2))),
           name: S.String,
-          network: S.optional(S.NullOr(__S(24132, __c754, 4))),
+          network: S.optional(S.NullOr(__S(24164, __c755, 4))),
           version: S.String,
         }),
       ).annotate({ identifier: "PublicCloudManagedKubernetesClusterUpdateTargetSpec" });
@@ -48056,7 +48099,7 @@ function __c754(j: number): any {
           projectId: S.String.pipe(T.Label()),
           managedKubernetesId: S.String.pipe(T.Label()),
           checksum: S.optional(S.NullOr(S.String)),
-          targetSpec: __S(24133, __c754, 5),
+          targetSpec: __S(24165, __c755, 5),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -48067,14 +48110,14 @@ function __c754(j: number): any {
       ).annotate({ identifier: "PutPublicCloudProjectManagedKubernetesRequest" });
   }
 }
-function __c755(j: number): any {
+function __c756(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          autoscaler: S.optional(S.NullOr(__S(706, __c22, 2))),
+          autoscaler: S.optional(S.NullOr(__S(738, __c23, 2))),
           desiredNodes: S.Number,
-          template: S.optional(S.NullOr(__S(712, __c22, 8))),
+          template: S.optional(S.NullOr(__S(744, __c23, 8))),
         }),
       ).annotate({ identifier: "PublicCloudManagedKubernetesNodepoolUpdateTargetSpec" });
     case 1:
@@ -48084,7 +48127,7 @@ function __c755(j: number): any {
           managedKubernetesId: S.String.pipe(T.Label()),
           nodePoolId: S.String.pipe(T.Label()),
           checksum: S.optional(S.NullOr(S.String)),
-          targetSpec: __S(24160, __c755, 0),
+          targetSpec: __S(24192, __c756, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -48095,7 +48138,7 @@ function __c755(j: number): any {
       ).annotate({ identifier: "PutPublicCloudProjectManagedKubernetesNodepoolRequest" });
   }
 }
-function __c756(j: number): any {
+function __c757(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48103,7 +48146,7 @@ function __c756(j: number): any {
           projectId: S.String.pipe(T.Label()),
           networkId: S.String.pipe(T.Label()),
           checksum: S.optional(S.NullOr(S.String)),
-          targetSpec: __S(24768, __c774, 0),
+          targetSpec: __S(24800, __c775, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -48114,15 +48157,15 @@ function __c756(j: number): any {
       ).annotate({ identifier: "PutPublicCloudProjectNetworkRequest" });
   }
 }
-function __c757(j: number): any {
+function __c758(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          allocationPools: S.optional(S.NullOr(__S(865, __c27, 1))),
+          allocationPools: S.optional(S.NullOr(__S(897, __c28, 1))),
           description: S.optional(S.NullOr(S.String)),
           dhcpEnabled: S.optional(S.NullOr(S.Boolean)),
-          dnsNameservers: S.optional(S.NullOr(__S(128, __c4, 0))),
+          dnsNameservers: S.optional(S.NullOr(__S(160, __c5, 0))),
           gatewayIp: S.optional(S.NullOr(S.String)),
           name: S.String,
         }),
@@ -48134,7 +48177,7 @@ function __c757(j: number): any {
           networkId: S.String.pipe(T.Label()),
           subnetId: S.String.pipe(T.Label()),
           checksum: S.optional(S.NullOr(S.String)),
-          targetSpec: __S(24224, __c757, 0),
+          targetSpec: __S(24256, __c758, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -48145,7 +48188,7 @@ function __c757(j: number): any {
       ).annotate({ identifier: "PutPublicCloudProjectNetworkSubnetRequest" });
   }
 }
-function __c758(j: number): any {
+function __c759(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48153,7 +48196,7 @@ function __c758(j: number): any {
           projectId: S.String.pipe(T.Label()),
           privateEndpointId: S.String.pipe(T.Label()),
           checksum: S.optional(S.NullOr(S.String)),
-          targetSpec: __S(23968, __c749, 0),
+          targetSpec: __S(24000, __c750, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -48164,7 +48207,7 @@ function __c758(j: number): any {
       ).annotate({ identifier: "PutPublicCloudProjectPrivateEndpointRequest" });
   }
 }
-function __c759(j: number): any {
+function __c760(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48172,7 +48215,7 @@ function __c759(j: number): any {
           projectId: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           checksum: S.optional(S.NullOr(S.String)),
-          targetSpec: __S(23456, __c733, 0),
+          targetSpec: __S(23488, __c734, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -48183,14 +48226,14 @@ function __c759(j: number): any {
       ).annotate({ identifier: "PutPublicCloudProjectPublicIpFloatingRequest" });
   }
 }
-function __c760(j: number): any {
+function __c761(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           lakehouseId: S.String.pipe(T.Label()),
-          targetSpec: __S(23968, __c749, 0),
+          targetSpec: __S(24000, __c750, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -48201,14 +48244,14 @@ function __c760(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectManagedAnalyticsLakehouseCatalogRequest" });
   }
 }
-function __c761(j: number): any {
+function __c762(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
           name: S.optional(S.String),
-          statusReason: S.optional(S.NullOr(__S(23936, __c748, 0))),
+          statusReason: S.optional(S.NullOr(__S(23968, __c749, 0))),
           warehouse: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "PublicCloudLakehouseCatalogCurrentState" });
@@ -48217,35 +48260,14 @@ function __c761(j: number): any {
         S.Struct({
           checksum: S.optional(S.String),
           createdAt: S.optional(S.String),
-          currentState: S.optional(__S(24352, __c761, 0)),
-          currentTasks: S.optional(__S(27553, __c861, 1)),
+          currentState: S.optional(__S(24384, __c762, 0)),
+          currentTasks: S.optional(__S(27585, __c862, 1)),
           id: S.optional(S.String),
           resourceStatus: S.optional(S.String),
-          targetSpec: S.optional(__S(23968, __c749, 0)),
+          targetSpec: S.optional(__S(24000, __c750, 0)),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudLakehouseCatalog" });
-  }
-}
-function __c762(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          preventAutomaticQuotaUpgrade: S.Boolean,
-          regions: __S(12502, __c390, 22),
-        }),
-      ).annotate({ identifier: "PublicCloudQuotaQuotaUpdateTargetSpec" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          checksum: S.optional(S.NullOr(S.String)),
-          targetSpec: __S(24384, __c762, 0),
-        }).pipe(
-          T.Http({ method: "PUT", uri: "/publicCloud/project/{projectId}/quota", code: 200 }),
-        ),
-      ).annotate({ identifier: "PutPublicCloudProjectQuotaRequest" });
   }
 }
 function __c763(j: number): any {
@@ -48253,9 +48275,30 @@ function __c763(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          preventAutomaticQuotaUpgrade: S.Boolean,
+          regions: __S(12534, __c391, 22),
+        }),
+      ).annotate({ identifier: "PublicCloudQuotaQuotaUpdateTargetSpec" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.String.pipe(T.Label()),
+          checksum: S.optional(S.NullOr(S.String)),
+          targetSpec: __S(24416, __c763, 0),
+        }).pipe(
+          T.Http({ method: "PUT", uri: "/publicCloud/project/{projectId}/quota", code: 200 }),
+        ),
+      ).annotate({ identifier: "PutPublicCloudProjectQuotaRequest" });
+  }
+}
+function __c764(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           projectId: S.String.pipe(T.Label()),
           rancherId: S.String.pipe(T.Label()),
-          targetSpec: __S(1157, __c36, 5),
+          targetSpec: __S(1189, __c37, 5),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -48266,14 +48309,14 @@ function __c763(j: number): any {
       ).annotate({ identifier: "PutPublicCloudProjectRancherRequest" });
   }
 }
-function __c764(j: number): any {
+function __c765(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
           name: S.String,
-          rules: S.optional(S.NullOr(__S(1281, __c40, 1))),
+          rules: S.optional(S.NullOr(__S(1313, __c41, 1))),
         }),
       ).annotate({ identifier: "PublicCloudSecurityGroupSecurityGroupUpdateTargetSpec" });
     case 1:
@@ -48282,7 +48325,7 @@ function __c764(j: number): any {
           projectId: S.String.pipe(T.Label()),
           securityGroupId: S.String.pipe(T.Label()),
           checksum: S.optional(S.NullOr(S.String)),
-          targetSpec: __S(24448, __c764, 0),
+          targetSpec: __S(24480, __c765, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -48293,7 +48336,7 @@ function __c764(j: number): any {
       ).annotate({ identifier: "PutPublicCloudProjectSecurityGroupRequest" });
   }
 }
-function __c765(j: number): any {
+function __c766(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48308,7 +48351,7 @@ function __c765(j: number): any {
           projectId: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           checksum: S.optional(S.NullOr(S.String)),
-          targetSpec: __S(24480, __c765, 0),
+          targetSpec: __S(24512, __c766, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -48319,7 +48362,7 @@ function __c765(j: number): any {
       ).annotate({ identifier: "PutPublicCloudProjectStorageBlockBackupRequest" });
   }
 }
-function __c766(j: number): any {
+function __c767(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48334,7 +48377,7 @@ function __c766(j: number): any {
           projectId: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           checksum: S.optional(S.NullOr(S.String)),
-          targetSpec: __S(24512, __c766, 0),
+          targetSpec: __S(24544, __c767, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -48345,7 +48388,7 @@ function __c766(j: number): any {
       ).annotate({ identifier: "PutPublicCloudProjectStorageBlockSnapshotRequest" });
   }
 }
-function __c767(j: number): any {
+function __c768(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48361,7 +48404,7 @@ function __c767(j: number): any {
           projectId: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           checksum: S.optional(S.NullOr(S.String)),
-          targetSpec: __S(24544, __c767, 0),
+          targetSpec: __S(24576, __c768, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -48372,7 +48415,7 @@ function __c767(j: number): any {
       ).annotate({ identifier: "PutPublicCloudProjectStorageBlockVolumeRequest" });
   }
 }
-function __c768(j: number): any {
+function __c769(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48388,7 +48431,7 @@ function __c768(j: number): any {
           projectId: S.String.pipe(T.Label()),
           fileStorageId: S.String.pipe(T.Label()),
           checksum: S.optional(S.NullOr(S.String)),
-          targetSpec: __S(24576, __c768, 0),
+          targetSpec: __S(24608, __c769, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -48399,7 +48442,7 @@ function __c768(j: number): any {
       ).annotate({ identifier: "PutPublicCloudProjectStorageFileShareRequest" });
   }
 }
-function __c769(j: number): any {
+function __c770(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48414,7 +48457,7 @@ function __c769(j: number): any {
           projectId: S.String.pipe(T.Label()),
           snapshotId: S.String.pipe(T.Label()),
           checksum: S.optional(S.NullOr(S.String)),
-          targetSpec: __S(24608, __c769, 0),
+          targetSpec: __S(24640, __c770, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -48425,16 +48468,16 @@ function __c769(j: number): any {
       ).annotate({ identifier: "PutPublicCloudProjectStorageFileSnapshotRequest" });
   }
 }
-function __c770(j: number): any {
+function __c771(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          encryption: S.optional(S.NullOr(__S(1920, __c60, 0))),
-          objectLock: S.optional(S.NullOr(__S(1952, __c61, 0))),
+          encryption: S.optional(S.NullOr(__S(1952, __c61, 0))),
+          objectLock: S.optional(S.NullOr(__S(1984, __c62, 0))),
           ownerUserId: S.optional(S.NullOr(S.String)),
-          tags: S.optional(S.NullOr(__S(96, __c3, 0))),
-          versioning: S.optional(S.NullOr(__S(1922, __c60, 2))),
+          tags: S.optional(S.NullOr(__S(128, __c4, 0))),
+          versioning: S.optional(S.NullOr(__S(1954, __c61, 2))),
         }),
       ).annotate({ identifier: "PublicCloudStorageObjectBucketUpdateTargetSpecInput" });
     case 1:
@@ -48443,7 +48486,7 @@ function __c770(j: number): any {
           projectId: S.String.pipe(T.Label()),
           bucketName: S.String.pipe(T.Label()),
           checksum: S.optional(S.NullOr(S.String)),
-          targetSpec: __S(24640, __c770, 0),
+          targetSpec: __S(24672, __c771, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -48454,14 +48497,14 @@ function __c770(j: number): any {
       ).annotate({ identifier: "PutPublicCloudProjectStorageObjectBucketRequest" });
   }
 }
-function __c771(j: number): any {
+function __c772(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           bucketName: S.String.pipe(T.Label()),
-          rules: __S(22153, __c692, 9),
+          rules: __S(22185, __c693, 9),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -48472,7 +48515,7 @@ function __c771(j: number): any {
       ).annotate({ identifier: "PutPublicCloudProjectStorageObjectBucketLifecycleRequest" });
   }
 }
-function __c772(j: number): any {
+function __c773(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48480,7 +48523,7 @@ function __c772(j: number): any {
           projectId: S.String.pipe(T.Label()),
           lakehouseId: S.String.pipe(T.Label()),
           catalogId: S.String.pipe(T.Label()),
-          targetSpec: __S(24768, __c774, 0),
+          targetSpec: __S(24800, __c775, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -48493,13 +48536,13 @@ function __c772(j: number): any {
       });
   }
 }
-function __c773(j: number): any {
+function __c774(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          statusReason: S.optional(S.NullOr(__S(23936, __c748, 0))),
+          statusReason: S.optional(S.NullOr(__S(23968, __c749, 0))),
         }),
       ).annotate({ identifier: "PublicCloudLakehouseSchemaCurrentState" });
     case 1:
@@ -48507,24 +48550,14 @@ function __c773(j: number): any {
         S.Struct({
           checksum: S.optional(S.String),
           createdAt: S.optional(S.String),
-          currentState: S.optional(__S(24736, __c773, 0)),
-          currentTasks: S.optional(__S(27553, __c861, 1)),
+          currentState: S.optional(__S(24768, __c774, 0)),
+          currentTasks: S.optional(__S(27585, __c862, 1)),
           id: S.optional(S.String),
           resourceStatus: S.optional(S.String),
-          targetSpec: S.optional(__S(24768, __c774, 0)),
+          targetSpec: S.optional(__S(24800, __c775, 0)),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudLakehouseSchema" });
-  }
-}
-function __c774(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-        }),
-      ).annotate({ identifier: "PublicCloudLakehouseSchemaTargetSpec" });
   }
 }
 function __c775(j: number): any {
@@ -48532,19 +48565,9 @@ function __c775(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          bucketName: S.String.pipe(T.Label()),
-          key: S.String.pipe(T.Label()),
-          legalHold: S.optional(S.NullOr(S.String)),
-          lock: S.optional(S.NullOr(__S(25952, __c811, 0))),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/publicCloud/project/{projectId}/storage/object/bucket/{bucketName}/object/{key}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "PutPublicCloudProjectStorageObjectBucketObjectRequest" });
+          name: S.String,
+        }),
+      ).annotate({ identifier: "PublicCloudLakehouseSchemaTargetSpec" });
   }
 }
 function __c776(j: number): any {
@@ -48555,9 +48578,29 @@ function __c776(j: number): any {
           projectId: S.String.pipe(T.Label()),
           bucketName: S.String.pipe(T.Label()),
           key: S.String.pipe(T.Label()),
+          legalHold: S.optional(S.NullOr(S.String)),
+          lock: S.optional(S.NullOr(__S(25984, __c812, 0))),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/publicCloud/project/{projectId}/storage/object/bucket/{bucketName}/object/{key}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "PutPublicCloudProjectStorageObjectBucketObjectRequest" });
+  }
+}
+function __c777(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.String.pipe(T.Label()),
+          bucketName: S.String.pipe(T.Label()),
+          key: S.String.pipe(T.Label()),
           versionId: S.String.pipe(T.Label()),
           legalHold: S.optional(S.NullOr(S.String)),
-          lock: S.optional(S.NullOr(__S(25952, __c811, 0))),
+          lock: S.optional(S.NullOr(__S(25984, __c812, 0))),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -48568,14 +48611,14 @@ function __c776(j: number): any {
       ).annotate({ identifier: "PutPublicCloudProjectStorageObjectBucketObjectVersionRequest" });
   }
 }
-function __c777(j: number): any {
+function __c778(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           bucketName: S.String.pipe(T.Label()),
-          rules: __S(22467, __c702, 3),
+          rules: __S(22499, __c703, 3),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -48586,7 +48629,7 @@ function __c777(j: number): any {
       ).annotate({ identifier: "PutPublicCloudProjectStorageObjectBucketReplicationRequest" });
   }
 }
-function __c778(j: number): any {
+function __c779(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48603,7 +48646,7 @@ function __c778(j: number): any {
       ).annotate({ identifier: "RedeployPublicCloudProjectAiAgentsAgentRequest" });
   }
 }
-function __c779(j: number): any {
+function __c780(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48622,7 +48665,7 @@ function __c779(j: number): any {
       });
   }
 }
-function __c780(j: number): any {
+function __c781(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48642,7 +48685,7 @@ function __c780(j: number): any {
       });
   }
 }
-function __c781(j: number): any {
+function __c782(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48662,7 +48705,7 @@ function __c781(j: number): any {
       });
   }
 }
-function __c782(j: number): any {
+function __c783(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48681,7 +48724,7 @@ function __c782(j: number): any {
       });
   }
 }
-function __c783(j: number): any {
+function __c784(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48707,7 +48750,7 @@ function __c783(j: number): any {
         }),
       ).annotate({ identifier: "PublicCloudLakehouseCredentialsCatalog" });
     case 2:
-      return S.Array(__S(25057, __c783, 1));
+      return S.Array(__S(25089, __c784, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -48722,17 +48765,17 @@ function __c783(j: number): any {
       return S.suspend(() =>
         S.Struct({
           catalogUri: S.optional(S.String),
-          catalogs: S.optional(__S(25058, __c783, 2)),
+          catalogs: S.optional(__S(25090, __c784, 2)),
           clientId: S.optional(S.String),
           clientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           realm: S.optional(S.String),
-          s3: S.optional(S.NullOr(__S(25059, __c783, 3))),
+          s3: S.optional(S.NullOr(__S(25091, __c784, 3))),
           tokenUri: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudLakehouseCredentials" });
   }
 }
-function __c784(j: number): any {
+function __c785(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48751,14 +48794,14 @@ function __c784(j: number): any {
       });
   }
 }
-function __c785(j: number): any {
+function __c786(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           lakehouseId: S.String.pipe(T.Label()),
-          targetSpec: __S(25152, __c786, 0),
+          targetSpec: __S(25184, __c787, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -48771,7 +48814,7 @@ function __c785(j: number): any {
       });
   }
 }
-function __c786(j: number): any {
+function __c787(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48793,7 +48836,7 @@ function __c786(j: number): any {
           name: S.optional(S.String),
           sqlEndpoint: S.optional(S.NullOr(S.String)),
           state: S.optional(S.NullOr(S.String)),
-          statusReason: S.optional(S.NullOr(__S(23936, __c748, 0))),
+          statusReason: S.optional(S.NullOr(__S(23968, __c749, 0))),
           tier: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudLakehouseComputePoolCurrentState" });
@@ -48802,17 +48845,17 @@ function __c786(j: number): any {
         S.Struct({
           checksum: S.optional(S.String),
           createdAt: S.optional(S.String),
-          currentState: S.optional(__S(25153, __c786, 1)),
-          currentTasks: S.optional(__S(27553, __c861, 1)),
+          currentState: S.optional(__S(25185, __c787, 1)),
+          currentTasks: S.optional(__S(27585, __c862, 1)),
           id: S.optional(S.String),
           resourceStatus: S.optional(S.String),
-          targetSpec: S.optional(__S(25152, __c786, 0)),
+          targetSpec: S.optional(__S(25184, __c787, 0)),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudLakehouseComputePool" });
   }
 }
-function __c787(j: number): any {
+function __c788(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48831,7 +48874,7 @@ function __c787(j: number): any {
       });
   }
 }
-function __c788(j: number): any {
+function __c789(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48850,7 +48893,7 @@ function __c788(j: number): any {
       });
   }
 }
-function __c789(j: number): any {
+function __c790(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48869,7 +48912,7 @@ function __c789(j: number): any {
       });
   }
 }
-function __c790(j: number): any {
+function __c791(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48888,7 +48931,7 @@ function __c790(j: number): any {
       });
   }
 }
-function __c791(j: number): any {
+function __c792(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48907,7 +48950,7 @@ function __c791(j: number): any {
       });
   }
 }
-function __c792(j: number): any {
+function __c793(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48926,7 +48969,7 @@ function __c792(j: number): any {
       });
   }
 }
-function __c793(j: number): any {
+function __c794(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48943,7 +48986,7 @@ function __c793(j: number): any {
       ).annotate({ identifier: "ResetPublicCloudProjectManagedKubernetesKubeconfigRequest" });
   }
 }
-function __c794(j: number): any {
+function __c795(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48964,7 +49007,7 @@ function __c794(j: number): any {
       });
   }
 }
-function __c795(j: number): any {
+function __c796(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48982,7 +49025,7 @@ function __c795(j: number): any {
       ).annotate({ identifier: "RestartPublicCloudProjectManagedKubernetesRequest" });
   }
 }
-function __c796(j: number): any {
+function __c797(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49000,14 +49043,14 @@ function __c796(j: number): any {
       ).annotate({ identifier: "RestorePublicCloudProjectManagedDatabaseMongodbRequest" });
   }
 }
-function __c797(j: number): any {
+function __c798(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           lakehouseId: S.String.pipe(T.Label()),
-          targetSpec: __S(23968, __c749, 0),
+          targetSpec: __S(24000, __c750, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -49018,14 +49061,14 @@ function __c797(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectManagedAnalyticsLakehouseGroupRequest" });
   }
 }
-function __c798(j: number): any {
+function __c799(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
           name: S.optional(S.String),
-          statusReason: S.optional(S.NullOr(__S(23936, __c748, 0))),
+          statusReason: S.optional(S.NullOr(__S(23968, __c749, 0))),
         }),
       ).annotate({ identifier: "PublicCloudLakehouseGroupCurrentState" });
     case 1:
@@ -49033,17 +49076,17 @@ function __c798(j: number): any {
         S.Struct({
           checksum: S.optional(S.String),
           createdAt: S.optional(S.String),
-          currentState: S.optional(__S(25536, __c798, 0)),
-          currentTasks: S.optional(__S(27553, __c861, 1)),
+          currentState: S.optional(__S(25568, __c799, 0)),
+          currentTasks: S.optional(__S(27585, __c862, 1)),
           id: S.optional(S.String),
           resourceStatus: S.optional(S.String),
-          targetSpec: S.optional(__S(23968, __c749, 0)),
+          targetSpec: S.optional(__S(24000, __c750, 0)),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudLakehouseGroup" });
   }
 }
-function __c799(j: number): any {
+function __c800(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49064,7 +49107,7 @@ function __c799(j: number): any {
       });
   }
 }
-function __c800(j: number): any {
+function __c801(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49086,7 +49129,7 @@ function __c800(j: number): any {
       });
   }
 }
-function __c801(j: number): any {
+function __c802(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49106,13 +49149,13 @@ function __c801(j: number): any {
       });
   }
 }
-function __c802(j: number): any {
+function __c803(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          targetSpec: __S(5574, __c174, 6),
+          targetSpec: __S(5606, __c175, 6),
         }).pipe(
           T.Http({
             method: "POST",
@@ -49123,7 +49166,7 @@ function __c802(j: number): any {
       ).annotate({ identifier: "SharePublicCloudProjectStorageFileRequest" });
   }
 }
-function __c803(j: number): any {
+function __c804(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49143,7 +49186,7 @@ function __c803(j: number): any {
       });
   }
 }
-function __c804(j: number): any {
+function __c805(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49160,14 +49203,14 @@ function __c804(j: number): any {
       ).annotate({ identifier: "TriggerPublicCloudProjectStorageObjectBucketReplicationRequest" });
   }
 }
-function __c805(j: number): any {
+function __c806(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
-          targetSpec: __S(25793, __c806, 1),
+          targetSpec: __S(25825, __c807, 1),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -49178,34 +49221,34 @@ function __c805(j: number): any {
       ).annotate({ identifier: "UpdatePublicCloudProjectManagedAnalyticsClickhouseRequest" });
   }
 }
-function __c806(j: number): any {
+function __c807(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          authorizedIps: S.optional(S.NullOr(__S(9890, __c309, 2))),
+          authorizedIps: S.optional(S.NullOr(__S(9922, __c310, 2))),
         }),
       ).annotate({ identifier: "PublicCloudDatabaseNetworkUpdateSpecInput" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          advancedConfiguration: S.optional(S.NullOr(__S(96, __c3, 0))),
-          backup: S.optional(S.NullOr(__S(9856, __c308, 0))),
+          advancedConfiguration: S.optional(S.NullOr(__S(128, __c4, 0))),
+          backup: S.optional(S.NullOr(__S(9888, __c309, 0))),
           deletionProtected: S.optional(S.NullOr(S.Boolean)),
           description: S.optional(S.NullOr(S.String)),
           flavor: S.optional(S.NullOr(S.String)),
-          maintenanceWindow: S.optional(S.NullOr(__S(9857, __c308, 1))),
-          network: S.optional(S.NullOr(__S(25792, __c806, 0))),
+          maintenanceWindow: S.optional(S.NullOr(__S(9889, __c309, 1))),
+          network: S.optional(S.NullOr(__S(25824, __c807, 0))),
           nodesCount: S.optional(S.NullOr(S.Number)),
           plan: S.optional(S.NullOr(S.String)),
           prometheusEnabled: S.optional(S.NullOr(S.Boolean)),
-          storage: S.optional(S.NullOr(__S(9858, __c308, 2))),
+          storage: S.optional(S.NullOr(__S(9890, __c309, 2))),
           version: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "PublicCloudDatabaseServiceUpdateTargetSpecInput" });
   }
 }
-function __c807(j: number): any {
+function __c808(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49224,14 +49267,14 @@ function __c807(j: number): any {
       ).annotate({ identifier: "UpdatePublicCloudProjectManagedAnalyticsClickhouseUserRequest" });
   }
 }
-function __c808(j: number): any {
+function __c809(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
-          targetSpec: __S(25793, __c806, 1),
+          targetSpec: __S(25825, __c807, 1),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -49242,7 +49285,7 @@ function __c808(j: number): any {
       ).annotate({ identifier: "UpdatePublicCloudProjectManagedAnalyticsGrafanaRequest" });
   }
 }
-function __c809(j: number): any {
+function __c810(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49261,7 +49304,7 @@ function __c809(j: number): any {
       ).annotate({ identifier: "UpdatePublicCloudProjectManagedAnalyticsGrafanaUserRequest" });
   }
 }
-function __c810(j: number): any {
+function __c811(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49284,7 +49327,7 @@ function __c810(j: number): any {
       });
   }
 }
-function __c811(j: number): any {
+function __c812(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49302,7 +49345,7 @@ function __c811(j: number): any {
       ).annotate({ identifier: "PublicCloudStorageObjectS3ObjectRestoreStatus" });
   }
 }
-function __c812(j: number): any {
+function __c813(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49314,9 +49357,9 @@ function __c812(j: number): any {
           key: S.optional(S.String),
           lastModifiedAt: S.optional(S.NullOr(S.String)),
           legalHold: S.optional(S.NullOr(S.String)),
-          lock: S.optional(S.NullOr(__S(25952, __c811, 0))),
+          lock: S.optional(S.NullOr(__S(25984, __c812, 0))),
           replicationStatus: S.optional(S.NullOr(S.String)),
-          restoreStatus: S.optional(S.NullOr(__S(25953, __c811, 1))),
+          restoreStatus: S.optional(S.NullOr(__S(25985, __c812, 1))),
           size: S.optional(S.Number),
           storageClass: S.optional(S.NullOr(S.String)),
           versionId: S.optional(S.NullOr(S.String)),
@@ -49324,7 +49367,7 @@ function __c812(j: number): any {
       ).annotate({ identifier: "PublicCloudStorageObjectS3Object" });
   }
 }
-function __c813(j: number): any {
+function __c814(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49332,7 +49375,7 @@ function __c813(j: number): any {
           projectId: S.String.pipe(T.Label()),
           lakehouseId: S.String.pipe(T.Label()),
           groupId: S.String.pipe(T.Label()),
-          targetSpec: __S(26048, __c814, 0),
+          targetSpec: __S(26080, __c815, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -49345,7 +49388,7 @@ function __c813(j: number): any {
       });
   }
 }
-function __c814(j: number): any {
+function __c815(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49356,7 +49399,7 @@ function __c814(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          statusReason: S.optional(S.NullOr(__S(23936, __c748, 0))),
+          statusReason: S.optional(S.NullOr(__S(23968, __c749, 0))),
           userId: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudLakehouseMemberCurrentState" });
@@ -49365,24 +49408,24 @@ function __c814(j: number): any {
         S.Struct({
           checksum: S.optional(S.String),
           createdAt: S.optional(S.String),
-          currentState: S.optional(__S(26049, __c814, 1)),
-          currentTasks: S.optional(__S(27553, __c861, 1)),
+          currentState: S.optional(__S(26081, __c815, 1)),
+          currentTasks: S.optional(__S(27585, __c862, 1)),
           id: S.optional(S.String),
           resourceStatus: S.optional(S.String),
-          targetSpec: S.optional(__S(26048, __c814, 0)),
+          targetSpec: S.optional(__S(26080, __c815, 0)),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudLakehouseMember" });
   }
 }
-function __c815(j: number): any {
+function __c816(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
-          targetSpec: __S(25793, __c806, 1),
+          targetSpec: __S(25825, __c807, 1),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -49393,14 +49436,14 @@ function __c815(j: number): any {
       ).annotate({ identifier: "UpdatePublicCloudProjectManagedAnalyticsKafkaRequest" });
   }
 }
-function __c816(j: number): any {
+function __c817(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
-          targetSpec: __S(25793, __c806, 1),
+          targetSpec: __S(25825, __c807, 1),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -49411,7 +49454,7 @@ function __c816(j: number): any {
       ).annotate({ identifier: "UpdatePublicCloudProjectManagedAnalyticsKafkaConnectRequest" });
   }
 }
-function __c817(j: number): any {
+function __c818(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49432,7 +49475,7 @@ function __c817(j: number): any {
       });
   }
 }
-function __c818(j: number): any {
+function __c819(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49451,14 +49494,14 @@ function __c818(j: number): any {
       ).annotate({ identifier: "UpdatePublicCloudProjectManagedAnalyticsKafkaConnectUserRequest" });
   }
 }
-function __c819(j: number): any {
+function __c820(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
-          targetSpec: __S(25793, __c806, 1),
+          targetSpec: __S(25825, __c807, 1),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -49469,7 +49512,7 @@ function __c819(j: number): any {
       ).annotate({ identifier: "UpdatePublicCloudProjectManagedAnalyticsKafkaMirrorMakerRequest" });
   }
 }
-function __c820(j: number): any {
+function __c821(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49482,8 +49525,8 @@ function __c820(j: number): any {
           replicationPolicyClass: S.optional(S.NullOr(S.String)),
           syncGroupOffsetsEnabled: S.optional(S.NullOr(S.Boolean)),
           syncInterval: S.optional(S.NullOr(S.Number)),
-          topicExcludeList: S.optional(S.NullOr(__S(128, __c4, 0))),
-          topicIncludeList: S.optional(S.NullOr(__S(128, __c4, 0))),
+          topicExcludeList: S.optional(S.NullOr(__S(160, __c5, 0))),
+          topicIncludeList: S.optional(S.NullOr(__S(160, __c5, 0))),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -49496,7 +49539,7 @@ function __c820(j: number): any {
       });
   }
 }
-function __c821(j: number): any {
+function __c822(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49519,7 +49562,7 @@ function __c821(j: number): any {
       ).annotate({ identifier: "UpdatePublicCloudProjectManagedAnalyticsKafkaTopicRequest" });
   }
 }
-function __c822(j: number): any {
+function __c823(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49538,14 +49581,14 @@ function __c822(j: number): any {
       ).annotate({ identifier: "UpdatePublicCloudProjectManagedAnalyticsKafkaUserRequest" });
   }
 }
-function __c823(j: number): any {
+function __c824(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
-          targetSpec: __S(25793, __c806, 1),
+          targetSpec: __S(25825, __c807, 1),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -49556,7 +49599,7 @@ function __c823(j: number): any {
       ).annotate({ identifier: "UpdatePublicCloudProjectManagedAnalyticsOpensearchRequest" });
   }
 }
-function __c824(j: number): any {
+function __c825(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49564,7 +49607,7 @@ function __c824(j: number): any {
           projectId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
           userId: S.String.pipe(T.Label()),
-          acls: S.optional(__S(27169, __c849, 1)),
+          acls: S.optional(__S(27201, __c850, 1)),
           credentialsLastUpdatedAt: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -49576,14 +49619,14 @@ function __c824(j: number): any {
       ).annotate({ identifier: "UpdatePublicCloudProjectManagedAnalyticsOpensearchUserRequest" });
   }
 }
-function __c825(j: number): any {
+function __c826(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           lakehouseId: S.String.pipe(T.Label()),
-          targetSpec: __S(26435, __c826, 3),
+          targetSpec: __S(26467, __c827, 3),
         }).pipe(
           T.Http({
             method: "POST",
@@ -49594,7 +49637,7 @@ function __c825(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectManagedAnalyticsLakehouseRoleRequest" });
   }
 }
-function __c826(j: number): any {
+function __c827(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49607,30 +49650,30 @@ function __c826(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          privileges: __S(160, __c5, 0),
-          target: __S(26432, __c826, 0),
+          privileges: __S(192, __c6, 0),
+          target: __S(26464, __c827, 0),
         }),
       ).annotate({ identifier: "PublicCloudLakehouseRolePermission" });
     case 2:
-      return S.Array(__S(26433, __c826, 1));
+      return S.Array(__S(26465, __c827, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
           name: S.String,
-          permissions: __S(26434, __c826, 2),
+          permissions: __S(26466, __c827, 2),
         }),
       ).annotate({ identifier: "PublicCloudLakehouseRoleTargetSpec" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          privileges: S.optional(__S(160, __c5, 0)),
-          target: S.optional(__S(26432, __c826, 0)),
+          privileges: S.optional(__S(192, __c6, 0)),
+          target: S.optional(__S(26464, __c827, 0)),
           targetState: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudLakehouseRolePermissionState" });
     case 5:
-      return S.Array(__S(26436, __c826, 4));
+      return S.Array(__S(26468, __c827, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -49638,9 +49681,9 @@ function __c826(j: number): any {
           description: S.optional(S.NullOr(S.String)),
           kind: S.optional(S.String),
           name: S.optional(S.String),
-          permissions: S.optional(__S(26437, __c826, 5)),
+          permissions: S.optional(__S(26469, __c827, 5)),
           predefinedKey: S.optional(S.NullOr(S.String)),
-          statusReason: S.optional(S.NullOr(__S(23936, __c748, 0))),
+          statusReason: S.optional(S.NullOr(__S(23968, __c749, 0))),
         }),
       ).annotate({ identifier: "PublicCloudLakehouseRoleCurrentState" });
     case 7:
@@ -49648,24 +49691,24 @@ function __c826(j: number): any {
         S.Struct({
           checksum: S.optional(S.String),
           createdAt: S.optional(S.String),
-          currentState: S.optional(__S(26438, __c826, 6)),
-          currentTasks: S.optional(__S(27553, __c861, 1)),
+          currentState: S.optional(__S(26470, __c827, 6)),
+          currentTasks: S.optional(__S(27585, __c862, 1)),
           id: S.optional(S.String),
           resourceStatus: S.optional(S.String),
-          targetSpec: S.optional(__S(26435, __c826, 3)),
+          targetSpec: S.optional(__S(26467, __c827, 3)),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudLakehouseRole" });
   }
 }
-function __c827(j: number): any {
+function __c828(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
-          targetSpec: __S(25793, __c806, 1),
+          targetSpec: __S(25825, __c807, 1),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -49676,7 +49719,7 @@ function __c827(j: number): any {
       ).annotate({ identifier: "UpdatePublicCloudProjectManagedDatabaseMongodbRequest" });
   }
 }
-function __c828(j: number): any {
+function __c829(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49685,7 +49728,7 @@ function __c828(j: number): any {
           serviceId: S.String.pipe(T.Label()),
           userId: S.String.pipe(T.Label()),
           credentialsLastUpdatedAt: S.optional(S.String),
-          roles: S.optional(S.NullOr(__S(128, __c4, 0))),
+          roles: S.optional(S.NullOr(__S(160, __c5, 0))),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -49696,14 +49739,14 @@ function __c828(j: number): any {
       ).annotate({ identifier: "UpdatePublicCloudProjectManagedDatabaseMongodbUserRequest" });
   }
 }
-function __c829(j: number): any {
+function __c830(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
-          targetSpec: __S(25793, __c806, 1),
+          targetSpec: __S(25825, __c807, 1),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -49714,7 +49757,7 @@ function __c829(j: number): any {
       ).annotate({ identifier: "UpdatePublicCloudProjectManagedDatabaseMysqlRequest" });
   }
 }
-function __c830(j: number): any {
+function __c831(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49733,14 +49776,14 @@ function __c830(j: number): any {
       ).annotate({ identifier: "UpdatePublicCloudProjectManagedDatabaseMysqlUserRequest" });
   }
 }
-function __c831(j: number): any {
+function __c832(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
-          targetSpec: __S(25793, __c806, 1),
+          targetSpec: __S(25825, __c807, 1),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -49751,7 +49794,7 @@ function __c831(j: number): any {
       ).annotate({ identifier: "UpdatePublicCloudProjectManagedDatabasePostgresqlRequest" });
   }
 }
-function __c832(j: number): any {
+function __c833(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49775,7 +49818,7 @@ function __c832(j: number): any {
       });
   }
 }
-function __c833(j: number): any {
+function __c834(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49784,7 +49827,7 @@ function __c833(j: number): any {
           serviceId: S.String.pipe(T.Label()),
           userId: S.String.pipe(T.Label()),
           credentialsLastUpdatedAt: S.optional(S.String),
-          roles: S.optional(S.NullOr(__S(128, __c4, 0))),
+          roles: S.optional(S.NullOr(__S(160, __c5, 0))),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -49795,14 +49838,14 @@ function __c833(j: number): any {
       ).annotate({ identifier: "UpdatePublicCloudProjectManagedDatabasePostgresqlUserRequest" });
   }
 }
-function __c834(j: number): any {
+function __c835(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
-          targetSpec: __S(25793, __c806, 1),
+          targetSpec: __S(25825, __c807, 1),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -49813,7 +49856,7 @@ function __c834(j: number): any {
       ).annotate({ identifier: "UpdatePublicCloudProjectManagedDatabaseValkeyRequest" });
   }
 }
-function __c835(j: number): any {
+function __c836(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49821,11 +49864,11 @@ function __c835(j: number): any {
           projectId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
           userId: S.String.pipe(T.Label()),
-          categories: S.optional(__S(128, __c4, 0)),
-          channels: S.optional(__S(128, __c4, 0)),
-          commands: S.optional(__S(128, __c4, 0)),
+          categories: S.optional(__S(160, __c5, 0)),
+          channels: S.optional(__S(160, __c5, 0)),
+          commands: S.optional(__S(160, __c5, 0)),
           credentialsLastUpdatedAt: S.optional(S.String),
-          keys: S.optional(__S(128, __c4, 0)),
+          keys: S.optional(__S(160, __c5, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -49836,14 +49879,14 @@ function __c835(j: number): any {
       ).annotate({ identifier: "UpdatePublicCloudProjectManagedDatabaseValkeyUserRequest" });
   }
 }
-function __c836(j: number): any {
+function __c837(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           lakehouseId: S.String.pipe(T.Label()),
-          targetSpec: __S(26786, __c837, 2),
+          targetSpec: __S(26818, __c838, 2),
         }).pipe(
           T.Http({
             method: "POST",
@@ -49856,7 +49899,7 @@ function __c836(j: number): any {
       });
   }
 }
-function __c837(j: number): any {
+function __c838(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49875,20 +49918,20 @@ function __c837(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          identity: __S(26784, __c837, 0),
+          identity: __S(26816, __c838, 0),
           roleId: S.String,
-          scope: S.optional(S.NullOr(__S(26785, __c837, 1))),
+          scope: S.optional(S.NullOr(__S(26817, __c838, 1))),
         }),
       ).annotate({ identifier: "PublicCloudLakehouseRoleAssignmentTargetSpec" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          identity: S.optional(__S(26784, __c837, 0)),
+          identity: S.optional(__S(26816, __c838, 0)),
           identityName: S.optional(S.String),
           roleId: S.optional(S.String),
           roleName: S.optional(S.String),
-          scope: S.optional(S.NullOr(__S(26785, __c837, 1))),
-          statusReason: S.optional(S.NullOr(__S(23936, __c748, 0))),
+          scope: S.optional(S.NullOr(__S(26817, __c838, 1))),
+          statusReason: S.optional(S.NullOr(__S(23968, __c749, 0))),
         }),
       ).annotate({ identifier: "PublicCloudLakehouseRoleAssignmentCurrentState" });
     case 4:
@@ -49896,24 +49939,24 @@ function __c837(j: number): any {
         S.Struct({
           checksum: S.optional(S.String),
           createdAt: S.optional(S.String),
-          currentState: S.optional(__S(26787, __c837, 3)),
-          currentTasks: S.optional(__S(27553, __c861, 1)),
+          currentState: S.optional(__S(26819, __c838, 3)),
+          currentTasks: S.optional(__S(27585, __c862, 1)),
           id: S.optional(S.String),
           resourceStatus: S.optional(S.String),
-          targetSpec: S.optional(__S(26786, __c837, 2)),
+          targetSpec: S.optional(__S(26818, __c838, 2)),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudLakehouseRoleAssignment" });
   }
 }
-function __c838(j: number): any {
+function __c839(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           lakehouseId: S.String.pipe(T.Label()),
-          targetSpec: __S(26848, __c839, 0),
+          targetSpec: __S(26880, __c840, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -49924,7 +49967,7 @@ function __c838(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectManagedAnalyticsLakehouseUserRequest" });
   }
 }
-function __c839(j: number): any {
+function __c840(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49941,7 +49984,7 @@ function __c839(j: number): any {
           credentialsResetAt: S.optional(S.NullOr(S.String)),
           description: S.optional(S.NullOr(S.String)),
           name: S.optional(S.String),
-          statusReason: S.optional(S.NullOr(__S(23936, __c748, 0))),
+          statusReason: S.optional(S.NullOr(__S(23968, __c749, 0))),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudLakehouseUserCurrentState" });
@@ -49950,23 +49993,23 @@ function __c839(j: number): any {
         S.Struct({
           checksum: S.optional(S.String),
           createdAt: S.optional(S.String),
-          currentState: S.optional(__S(26849, __c839, 1)),
-          currentTasks: S.optional(__S(27553, __c861, 1)),
+          currentState: S.optional(__S(26881, __c840, 1)),
+          currentTasks: S.optional(__S(27585, __c862, 1)),
           id: S.optional(S.String),
           resourceStatus: S.optional(S.String),
-          targetSpec: S.optional(__S(26848, __c839, 0)),
+          targetSpec: S.optional(__S(26880, __c840, 0)),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudLakehouseUser" });
   }
 }
-function __c840(j: number): any {
+function __c841(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          targetSpec: __S(9761, __c305, 1),
+          targetSpec: __S(9793, __c306, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -49977,7 +50020,7 @@ function __c840(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectManagedAnalyticsOpensearchRequest" });
   }
 }
-function __c841(j: number): any {
+function __c842(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49985,7 +50028,7 @@ function __c841(j: number): any {
           projectId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
           destinationServiceId: S.String,
-          parameters: S.optional(S.NullOr(__S(96, __c3, 0))),
+          parameters: S.optional(S.NullOr(__S(128, __c4, 0))),
           sourceServiceId: S.String,
           type: S.String,
         }).pipe(
@@ -50000,7 +50043,7 @@ function __c841(j: number): any {
       });
   }
 }
-function __c842(j: number): any {
+function __c843(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50021,7 +50064,7 @@ function __c842(j: number): any {
       });
   }
 }
-function __c843(j: number): any {
+function __c844(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50039,7 +50082,7 @@ function __c843(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectManagedAnalyticsOpensearchLogUrlRequest" });
   }
 }
-function __c844(j: number): any {
+function __c845(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50058,7 +50101,7 @@ function __c844(j: number): any {
       });
   }
 }
-function __c845(j: number): any {
+function __c846(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50079,7 +50122,7 @@ function __c845(j: number): any {
       });
   }
 }
-function __c846(j: number): any {
+function __c847(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50094,7 +50137,7 @@ function __c846(j: number): any {
       ).annotate({ identifier: "PublicCloudDatabaseOpensearchPattern" });
   }
 }
-function __c847(j: number): any {
+function __c848(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50116,14 +50159,14 @@ function __c847(j: number): any {
       ).annotate({ identifier: "CopyPublicCloudProjectStorageObjectBucketObjectVersionRequest" });
   }
 }
-function __c848(j: number): any {
+function __c849(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
-          acls: S.optional(__S(27169, __c849, 1)),
+          acls: S.optional(__S(27201, __c850, 1)),
           name: S.String,
         }).pipe(
           T.Http({
@@ -50135,7 +50178,7 @@ function __c848(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectManagedAnalyticsOpensearchUserRequest" });
   }
 }
-function __c849(j: number): any {
+function __c850(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50145,11 +50188,11 @@ function __c849(j: number): any {
         }),
       ).annotate({ identifier: "PublicCloudDatabaseOpensearchUserAcl" });
     case 1:
-      return S.Array(__S(27168, __c849, 0));
+      return S.Array(__S(27200, __c850, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          acls: S.optional(__S(27169, __c849, 1)),
+          acls: S.optional(__S(27201, __c850, 1)),
           checksum: S.optional(S.String),
           createdAt: S.optional(S.String),
           credentialsLastUpdatedAt: S.optional(S.String),
@@ -50161,13 +50204,13 @@ function __c849(j: number): any {
       ).annotate({ identifier: "PublicCloudDatabaseOpensearchUser" });
   }
 }
-function __c850(j: number): any {
+function __c851(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          targetSpec: __S(9761, __c305, 1),
+          targetSpec: __S(9793, __c306, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -50178,7 +50221,7 @@ function __c850(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectManagedDatabaseMongodbRequest" });
   }
 }
-function __c851(j: number): any {
+function __c852(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50199,7 +50242,7 @@ function __c851(j: number): any {
       });
   }
 }
-function __c852(j: number): any {
+function __c853(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50217,7 +50260,7 @@ function __c852(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectManagedDatabaseMongodbLogUrlRequest" });
   }
 }
-function __c853(j: number): any {
+function __c854(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50236,7 +50279,7 @@ function __c853(j: number): any {
       });
   }
 }
-function __c854(j: number): any {
+function __c855(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50244,7 +50287,7 @@ function __c854(j: number): any {
           projectId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
           name: S.String,
-          roles: S.optional(S.NullOr(__S(128, __c4, 0))),
+          roles: S.optional(S.NullOr(__S(160, __c5, 0))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -50255,13 +50298,13 @@ function __c854(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectManagedDatabaseMongodbUserRequest" });
   }
 }
-function __c855(j: number): any {
+function __c856(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          targetSpec: __S(9761, __c305, 1),
+          targetSpec: __S(9793, __c306, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -50272,7 +50315,7 @@ function __c855(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectManagedDatabaseMysqlRequest" });
   }
 }
-function __c856(j: number): any {
+function __c857(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50290,7 +50333,7 @@ function __c856(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectManagedDatabaseMysqlDatabaseRequest" });
   }
 }
-function __c857(j: number): any {
+function __c858(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50298,7 +50341,7 @@ function __c857(j: number): any {
           projectId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
           destinationServiceId: S.String,
-          parameters: S.optional(S.NullOr(__S(96, __c3, 0))),
+          parameters: S.optional(S.NullOr(__S(128, __c4, 0))),
           sourceServiceId: S.String,
           type: S.String,
         }).pipe(
@@ -50311,7 +50354,7 @@ function __c857(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectManagedDatabaseMysqlIntegrationRequest" });
   }
 }
-function __c858(j: number): any {
+function __c859(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50332,17 +50375,17 @@ function __c858(j: number): any {
       });
   }
 }
-function __c859(j: number): any {
+function __c860(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          targetSpec: __S(27584, __c862, 0),
+          targetSpec: __S(27616, __c863, 0),
         }).pipe(T.Http({ method: "POST", uri: "/publicCloud/project", code: 200 })),
       ).annotate({ identifier: "CreatePublicCloudProjectRequest" });
   }
 }
-function __c860(j: number): any {
+function __c861(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50351,15 +50394,15 @@ function __c860(j: number): any {
         }),
       ).annotate({ identifier: "CommonTaskError" });
     case 1:
-      return S.Array(__S(27520, __c860, 0));
+      return S.Array(__S(27552, __c861, 0));
   }
 }
-function __c861(j: number): any {
+function __c862(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          errors: S.optional(S.NullOr(__S(27521, __c860, 1))),
+          errors: S.optional(S.NullOr(__S(27553, __c861, 1))),
           id: S.optional(S.String),
           link: S.optional(S.String),
           status: S.optional(S.NullOr(S.String)),
@@ -50367,10 +50410,10 @@ function __c861(j: number): any {
         }),
       ).annotate({ identifier: "CommonCurrentTask" });
     case 1:
-      return S.Array(__S(27552, __c861, 0));
+      return S.Array(__S(27584, __c862, 0));
   }
 }
-function __c862(j: number): any {
+function __c863(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50388,24 +50431,24 @@ function __c862(j: number): any {
       ).annotate({ identifier: "PublicCloudProjectProjectCurrentState" });
   }
 }
-function __c863(j: number): any {
+function __c864(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           createdAt: S.optional(S.String),
-          currentState: S.optional(__S(27585, __c862, 1)),
-          currentTasks: S.optional(S.NullOr(__S(27553, __c861, 1))),
+          currentState: S.optional(__S(27617, __c863, 1)),
+          currentTasks: S.optional(S.NullOr(__S(27585, __c862, 1))),
           id: S.optional(S.String),
           name: S.optional(S.NullOr(S.String)),
           resourceStatus: S.optional(S.String),
-          targetSpec: S.optional(__S(27584, __c862, 0)),
+          targetSpec: S.optional(__S(27616, __c863, 0)),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicCloudProjectProjectAsync" });
   }
 }
-function __c864(j: number): any {
+function __c865(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50423,7 +50466,7 @@ function __c864(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectManagedDatabaseMysqlLogUrlRequest" });
   }
 }
-function __c865(j: number): any {
+function __c866(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50440,7 +50483,7 @@ function __c865(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectManagedDatabaseMysqlMaintenanceRequest" });
   }
 }
-function __c866(j: number): any {
+function __c867(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50458,13 +50501,13 @@ function __c866(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectManagedDatabaseMysqlUserRequest" });
   }
 }
-function __c867(j: number): any {
+function __c868(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          targetSpec: __S(9761, __c305, 1),
+          targetSpec: __S(9793, __c306, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -50475,7 +50518,7 @@ function __c867(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectManagedDatabasePostgresqlRequest" });
   }
 }
-function __c868(j: number): any {
+function __c869(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50499,7 +50542,7 @@ function __c868(j: number): any {
       });
   }
 }
-function __c869(j: number): any {
+function __c870(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50520,7 +50563,7 @@ function __c869(j: number): any {
       ).annotate({ identifier: "PublicCloudDatabasePostgresqlConnectionPool" });
   }
 }
-function __c870(j: number): any {
+function __c871(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50540,7 +50583,7 @@ function __c870(j: number): any {
       });
   }
 }
-function __c871(j: number): any {
+function __c872(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50548,7 +50591,7 @@ function __c871(j: number): any {
           projectId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
           destinationServiceId: S.String,
-          parameters: S.optional(S.NullOr(__S(96, __c3, 0))),
+          parameters: S.optional(S.NullOr(__S(128, __c4, 0))),
           sourceServiceId: S.String,
           type: S.String,
         }).pipe(
@@ -50563,7 +50606,7 @@ function __c871(j: number): any {
       });
   }
 }
-function __c872(j: number): any {
+function __c873(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50584,7 +50627,7 @@ function __c872(j: number): any {
       });
   }
 }
-function __c873(j: number): any {
+function __c874(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50602,7 +50645,7 @@ function __c873(j: number): any {
       ).annotate({ identifier: "CreatePublicCloudProjectManagedDatabasePostgresqlLogUrlRequest" });
   }
 }
-function __c874(j: number): any {
+function __c875(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

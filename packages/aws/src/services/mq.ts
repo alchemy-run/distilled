@@ -142,7 +142,7 @@ export class InternalServerErrorException
       ),
     },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class NotFoundException
   extends /*@__PURE__*/ S.TaggedError<NotFoundException>()(
     "NotFoundException",

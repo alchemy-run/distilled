@@ -12,17 +12,16 @@ import { errorCategories, type SdkSpec } from "@distilled.cloud/dev/codegen/gene
  *
  * - `shapeOverride` owns every shape kind: newtypes (string/number/boolean/
  *   blob/timestamp/document aliases incl. sensitive wrappers and the
- *   reservedNewtypeNames suppression), enums (with spec-patch overrides),
+ *   reservedNewtypeNames suppression), enums,
  *   intEnums (S.Literals), sparse lists/maps, enum-key maps, structural
  *   unions incl. event streams, and structures (timestamp formats, streaming
  *   members, encodeKeys for jsonName, soft-required output intersections,
  *   operation-level annotations, Tarjan-driven typed suspend thunks).
  * - `errors.override` owns error classes: category decorators from HTTP
- *   status + name heuristics, T.AwsQueryError/T.Retryable/T.HttpError/
- *   T.SyntheticError annotations, and ErrorMemberPatch merges. Patched and
- *   synthetic errors from spec patches are materialized into the model as
- *   `aws.patched#`/`aws.synthetic#` shapes before generation so the driver's
- *   error collection sees them.
+ *   status, `distilled.errors#categories` and name heuristics, and
+ *   T.AwsQueryError/T.Retryable/T.HttpError/T.SyntheticError annotations.
+ *   Errors the model leaves out come from `patches/<sdkId>/`, applied by
+ *   convert like every other package's patches.
  * - `operation` owns op consts: the `& { pages; items }` paginated typing
  *   with item-type resolution, per-op derived request schemas for shared
  *   inputs with conflicting @http traits, `operationName`/
@@ -38,11 +37,21 @@ import {
 } from "@distilled.cloud/dev/codegen/pagination";
 import { endpointTemplate, generateRuleSetCode, type RuleSetObject } from "./compile-rules.ts";
 import type { SmithyModel, ServiceShape } from "./model-schema.ts";
-import type { ServiceSpec, SyntheticError } from "./spec-schema.ts";
 
-/** Internal traits carried by materialized (patch-born) error shapes. */
+/**
+ * Traits for errors a patch adds (`patches/<sdkId>/_errors.json`):
+ *
+ * - `aws.codegen#errorTag`: the wire code when it isn't a valid shape name
+ *   (EC2's `InvalidVpcID.NotFound` is the shape `InvalidVpcIDNotFound`).
+ * - `aws.codegen#synthetic`: `{ from, message }` carves a typed error out
+ *   of the wire error `from` by message text (a string is an exact match,
+ *   `{ includes }` / `{ matches }` a substring / regular expression). The
+ *   runtime checks it before the plain wire-code lookup.
+ */
 const ERROR_TAG_TRAIT = "aws.codegen#errorTag";
 const SYNTHETIC_TRAIT = "aws.codegen#synthetic";
+
+type MessageMatcher = string | { readonly includes?: string; readonly matches?: string };
 
 // =============================================================================
 // Naming
@@ -63,11 +72,6 @@ export function formatName(shapeId: string, lowercase = false): string {
   return name;
 }
 
-/** Remove dots from error names ("InvalidVpcID.NotFound" → "InvalidVpcIDNotFound"). */
-function sanitizeErrorName(name: string): string {
-  return name.replace(/\./g, "");
-}
-
 /**
  * Drop shapes whose namespace is not the service's (leftovers from an
  * internal service that shares the file). Mutates `model.shapes`.
@@ -82,231 +86,6 @@ export const dropForeignNamespaceShapes = (model: SmithyModel): number => {
   );
   for (const name of foreign) delete shapes[name];
   return foreign.length;
-};
-
-const primitiveTarget = (type: string): string => {
-  if (type === "boolean") return "smithy.api#Boolean";
-  if (type === "number") return "smithy.api#Integer";
-  return "smithy.api#String";
-};
-
-/**
- * Apply `patches/{sdkId}.json` to a Smithy model (unions, extra/synthetic
- * errors, structure/enum/error-member overrides, httpError status). Mutates
- * in place so `.generated-specs` is original + patches. Idempotent.
- */
-export const applyAwsSpecPatches = (
-  model: SmithyModel,
-  serviceSpec: ServiceSpec,
-  patchFileBase: string,
-): void => {
-  const shapes = model.shapes as Record<string, any>;
-  const errorShapeIds = collectErrorShapeIds(model);
-
-  if (serviceSpec.errorHttpStatus) {
-    for (const [errorName, status] of Object.entries(serviceSpec.errorHttpStatus)) {
-      const entry = [...errorShapeIds.entries()].find(
-        ([shapeId]) => shapeId.split("#")[1] === errorName,
-      );
-      if (entry === undefined) {
-        throw new Error(
-          `patches/${patchFileBase}.json errorHttpStatus patches error "${errorName}" which is not declared by any operation in the model`,
-        );
-      }
-      const errShape = shapes[entry[0]];
-      errShape.traits = {
-        ...errShape.traits,
-        "smithy.api#httpError": status,
-      };
-    }
-  }
-
-  if (serviceSpec.unions) {
-    for (const [unionName, override] of Object.entries(serviceSpec.unions)) {
-      const shapeEntry = Object.entries(shapes).find(
-        ([id, shape]) => id.split("#")[1] === unionName && shape.type === "union",
-      );
-      if (shapeEntry === undefined) {
-        throw new Error(
-          `patches/${patchFileBase}.json patches union "${unionName}" which does not exist in the model`,
-        );
-      }
-      const members = shapeEntry[1].members as Record<string, { target: string }>;
-      for (const [memberName, target] of Object.entries(override.add)) {
-        members[memberName] ??= { target };
-      }
-    }
-  }
-
-  if (serviceSpec.structures) {
-    for (const [structName, override] of Object.entries(serviceSpec.structures)) {
-      const shape = Object.entries(shapes).find(
-        ([id, s]) => id.split("#")[1] === structName && s.type === "structure",
-      )?.[1];
-      if (shape === undefined) continue;
-      for (const [memberName, memberOverride] of Object.entries(override.members)) {
-        const member = shape.members?.[memberName];
-        if (member === undefined) continue;
-        member.traits = { ...member.traits };
-        if (memberOverride.optional === true) {
-          delete member.traits["smithy.api#required"];
-        } else if (memberOverride.optional === false) {
-          member.traits["smithy.api#required"] = {};
-        }
-        if (memberOverride.sensitive) {
-          const target = shapes[member.target];
-          const listTarget = target?.type === "list" ? shapes[target.member?.target] : undefined;
-          const isString = (t: any, id: string) =>
-            id === "smithy.api#String" || t?.type === "string";
-          if (
-            !isString(target, member.target) &&
-            !(listTarget !== undefined && isString(listTarget, target.member.target))
-          ) {
-            throw new Error(
-              `patches/${patchFileBase}.json sensitive override on ${structName}.${memberName} requires a plain string or list-of-string member`,
-            );
-          }
-          member.traits["smithy.api#sensitive"] = {};
-        }
-      }
-    }
-  }
-
-  if (serviceSpec.enums) {
-    for (const [enumName, override] of Object.entries(serviceSpec.enums)) {
-      const shapeEntry = Object.entries(shapes).find(
-        ([id, s]) => id.split("#")[1] === enumName && (s.type === "enum" || s.type === "intEnum"),
-      );
-      if (shapeEntry === undefined) continue;
-      const shape = shapeEntry[1];
-      const values = override.replace ?? [
-        ...Object.values((shape.members ?? {}) as Record<string, { traits?: any }>).map(
-          (m) => m.traits?.["smithy.api#enumValue"],
-        ),
-        ...(override.add ?? []),
-      ];
-      const members: Record<string, any> = {};
-      const seen = new Set<string>();
-      for (const value of values) {
-        const literal = String(value);
-        if (seen.has(literal)) continue;
-        seen.add(literal);
-        let key = literal.replace(/[^A-Za-z0-9_]/g, "_") || "VALUE";
-        while (members[key] !== undefined) key = `${key}_`;
-        members[key] = {
-          target: "smithy.api#Unit",
-          traits: { "smithy.api#enumValue": value },
-        };
-      }
-      shape.members = members;
-    }
-  }
-
-  const errorLocalToId = new Map<string, string>();
-  for (const id of collectErrorShapeIds(model).keys()) {
-    const localName = id.split("#")[1] ?? id;
-    if (!errorLocalToId.has(localName)) errorLocalToId.set(localName, id);
-  }
-
-  const opShapeByExportName = new Map<string, any>();
-  for (const [id, shape] of Object.entries(shapes)) {
-    if (shape.type === "operation") {
-      opShapeByExportName.set(formatName(id, true), shape);
-    }
-  }
-
-  const orphanedPatchOperations = Object.keys(serviceSpec.operations ?? {}).filter(
-    (name) => !opShapeByExportName.has(name),
-  );
-  if (orphanedPatchOperations.length > 0) {
-    throw new Error(
-      `patches/${patchFileBase}.json patches unknown operation(s): ${orphanedPatchOperations.join(", ")}`,
-    );
-  }
-
-  const materializePatchedError = (errorName: string): string => {
-    const sanitized = sanitizeErrorName(errorName);
-    const existing = errorLocalToId.get(sanitized);
-    if (existing) return existing;
-    const id = `aws.patched#${sanitized}`;
-    shapes[id] = {
-      type: "structure",
-      members: {},
-      traits: sanitized !== errorName ? { [ERROR_TAG_TRAIT]: errorName } : {},
-    };
-    errorLocalToId.set(sanitized, id);
-    return id;
-  };
-
-  const materializeSyntheticError = (synthetic: SyntheticError): string => {
-    const sanitized = sanitizeErrorName(synthetic.name);
-    const existing = errorLocalToId.get(sanitized);
-    if (existing) return existing;
-    const baseId = errorLocalToId.get(sanitizeErrorName(synthetic.from));
-    const baseMembers = baseId ? (shapes[baseId].members ?? {}) : {};
-    const id = `aws.synthetic#${sanitized}`;
-    shapes[id] = {
-      type: "structure",
-      members: { ...baseMembers },
-      traits: {
-        [SYNTHETIC_TRAIT]: { from: synthetic.from, message: synthetic.message },
-      },
-    };
-    errorLocalToId.set(sanitized, id);
-    return id;
-  };
-
-  const addErrors = (opShape: any, additions: ReadonlyArray<string>) => {
-    if (additions.length === 0) return;
-    const existingTargets = new Set(
-      ((opShape.errors ?? []) as Array<{ target: string }>).map((e) => e.target),
-    );
-    opShape.errors = [
-      ...(opShape.errors ?? []),
-      ...additions.filter((t) => !existingTargets.has(t)).map((target) => ({ target })),
-    ];
-  };
-
-  for (const [opKey, patch] of Object.entries(serviceSpec.operations ?? {})) {
-    addErrors(opShapeByExportName.get(opKey)!, [
-      ...(patch.errors ?? []).map(materializePatchedError),
-      ...(patch.syntheticErrors ?? []).map(materializeSyntheticError),
-    ]);
-  }
-
-  // After the per-operation patches, so an operation that already lists one
-  // of these errors keeps it in its place.
-  const everyOperation = (serviceSpec.allOperations?.errors ?? []).map(materializePatchedError);
-  for (const opShape of opShapeByExportName.values()) {
-    addErrors(opShape, everyOperation);
-  }
-
-  // After the operation patches so members can land on patch-born
-  // (`aws.patched#…`) error shapes too.
-  if (serviceSpec.errors) {
-    for (const [errorName, members] of Object.entries(serviceSpec.errors)) {
-      const shape = Object.entries(shapes).find(
-        ([id, s]) => id.split("#")[1] === errorName && s.type === "structure",
-      )?.[1];
-      if (shape === undefined) continue;
-      shape.members = { ...shape.members };
-      for (const [memberName, patch] of Object.entries(members)) {
-        const traits: Record<string, unknown> = {};
-        if (patch.optional !== false) {
-          /* optional: no required trait */
-        } else {
-          traits["smithy.api#required"] = {};
-        }
-        if (patch.httpHeader) {
-          traits["smithy.api#httpHeader"] = patch.httpHeader;
-        }
-        shape.members[memberName] = {
-          target: primitiveTarget(patch.type),
-          ...(Object.keys(traits).length ? { traits } : {}),
-        };
-      }
-    }
-  }
 };
 
 /**
@@ -425,6 +204,16 @@ const reservedNewtypeNames = new Set([
 
 type SmithyTraits = Record<string, unknown> | undefined;
 
+interface XmlNamespaceTrait {
+  readonly uri: string;
+  readonly prefix?: string;
+}
+
+const xmlNamespaceAnnotation = (ns: XmlNamespaceTrait): string =>
+  ns.prefix === undefined
+    ? `T.XmlNamespace(${JSON.stringify(ns.uri)})`
+    : `T.XmlNamespace(${JSON.stringify(ns.uri)}, ${JSON.stringify(ns.prefix)})`;
+
 /**
  * Collect serialization-relevant trait annotations from a Smithy traits
  * object (structure members, list members, map key/value). `memberName` is
@@ -461,6 +250,9 @@ function collectSerializationTraits(traits: SmithyTraits, memberName?: string): 
   if (traits["smithy.api#httpResponseCode"] != null) {
     pipes.push(`T.HttpResponseCode()`);
   }
+  if (traits["smithy.api#mediaType"] != null) {
+    pipes.push(`T.MediaType(${JSON.stringify(traits["smithy.api#mediaType"])})`);
+  }
   if (traits["smithy.api#xmlName"] != null) {
     pipes.push(`T.XmlName("${traits["smithy.api#xmlName"]}")`);
   }
@@ -469,6 +261,9 @@ function collectSerializationTraits(traits: SmithyTraits, memberName?: string): 
   }
   if (traits["smithy.api#xmlAttribute"] != null) {
     pipes.push(`T.XmlAttribute()`);
+  }
+  if (traits["smithy.api#xmlNamespace"] != null) {
+    pipes.push(xmlNamespaceAnnotation(traits["smithy.api#xmlNamespace"] as XmlNamespaceTrait));
   }
   // smithy.api#jsonName - handled at struct level via S.encodeKeys, not per-field
   // smithy.api#timestampFormat - applied to the inner schema, not as a pipe
@@ -566,6 +361,44 @@ function inferCategoriesFromName(errorName: string): string[] {
   return categories;
 }
 
+/**
+ * Error codes the AWS SDKs retry whatever the model says (botocore
+ * `retries/standard.py`, the same lists as Retry Behavior 2.1). Marking
+ * them here makes them explicit: a status alone retries nothing.
+ */
+const AWS_THROTTLING_CODES = new Set([
+  "Throttling",
+  "ThrottlingException",
+  "ThrottledException",
+  "RequestThrottledException",
+  "TooManyRequestsException",
+  "ProvisionedThroughputExceededException",
+  "TransactionInProgressException",
+  "RequestLimitExceeded",
+  "BandwidthLimitExceeded",
+  "LimitExceededException",
+  "RequestThrottled",
+  "SlowDown",
+  "PriorRequestNotComplete",
+  "EC2ThrottledException",
+]);
+const AWS_TRANSIENT_CODES = new Set([
+  "RequestTimeout",
+  "RequestTimeoutException",
+  "PriorRequestNotComplete",
+]);
+
+/** The statuses the AWS SDKs retry whatever the error code. */
+const AWS_TRANSIENT_STATUSES = new Set([500, 502, 503, 504]);
+
+/** Retry categories AWS's own rules give an error code and its HTTP status. */
+export const awsRetryCategories = (code: string, status: number | undefined): string[] =>
+  AWS_THROTTLING_CODES.has(code)
+    ? ["ThrottlingError", "RetryableError"]
+    : AWS_TRANSIENT_CODES.has(code) || (status !== undefined && AWS_TRANSIENT_STATUSES.has(status))
+      ? ["RetryableError"]
+      : [];
+
 // =============================================================================
 // Model collections (sync passes over the loaded model)
 // =============================================================================
@@ -617,6 +450,7 @@ interface OperationInputTraits {
     responseAlgorithms?: string[];
   };
   staticContextParams?: Record<string, { value: unknown }>;
+  requestCompression?: { encodings: string[] };
 }
 
 /**
@@ -648,9 +482,15 @@ function collectOperationInputTraits(model: SmithyModel): {
         method: "POST",
         uri: "/",
       };
-      const httpChecksumTrait = shape.traits?.["aws.protocols#httpChecksum"] as
-        | OperationInputTraits["httpChecksum"]
-        | undefined;
+      // `@httpChecksumRequired` asks for the checksum `httpChecksum` sends
+      // when one is required: Content-MD5 of a buffered body.
+      const httpChecksumTrait =
+        (shape.traits?.["aws.protocols#httpChecksum"] as
+          | OperationInputTraits["httpChecksum"]
+          | undefined) ??
+        (shape.traits?.["smithy.api#httpChecksumRequired"] != null
+          ? { requestChecksumRequired: true }
+          : undefined);
       const staticContextParamsTrait = shape.traits?.["smithy.rules#staticContextParams"] as
         | Record<string, { value: unknown }>
         | undefined;
@@ -660,6 +500,9 @@ function collectOperationInputTraits(model: SmithyModel): {
         uri: httpTrait.uri ?? "/",
         httpChecksum: httpChecksumTrait,
         staticContextParams: staticContextParamsTrait,
+        requestCompression: shape.traits?.["smithy.api#requestCompression"] as
+          | OperationInputTraits["requestCompression"]
+          | undefined,
       };
 
       // Operations with `smithy.api#Unit` inputs get a synthesized
@@ -759,6 +602,25 @@ function collectInputEventStreamShapeIds(model: SmithyModel): Set<string> {
   }
 
   return inputEventStreams;
+}
+
+/** Non-streaming union shape ids a member binds as its `@httpPayload`. */
+function collectPayloadUnionShapeIds(model: SmithyModel): Set<string> {
+  const ids = new Set<string>();
+  for (const shape of Object.values(model.shapes)) {
+    if (shape.type !== "structure" || !shape.members) continue;
+    for (const member of Object.values(shape.members)) {
+      const target = model.shapes[member.target];
+      if (
+        member.traits?.["smithy.api#httpPayload"] != null &&
+        target?.type === "union" &&
+        target.traits?.["smithy.api#streaming"] == null
+      ) {
+        ids.add(member.target);
+      }
+    }
+  }
+  return ids;
 }
 
 /** Shape ids carrying the @sensitive trait. */
@@ -1061,12 +923,10 @@ const smithyPrimitiveToTs: Record<string, string> = {
 
 /**
  * Build the AWS SdkSpec for one loaded model. The model is
- * `.generated-specs/<sdkId>.json` — already patched by scripts/convert.ts
- * (`applyAwsSpecPatches`), so every override is a trait or shape here.
- * `serviceSpec` is only consulted for `errorCategories`, which is an
- * emit-time classification rather than a model fact.
+ * `.generated-specs/<sdkId>.json`, already patched by scripts/convert.ts,
+ * so every override is a trait or shape here.
  */
-export const awsSpec = (model: SmithyModel, serviceSpec: ServiceSpec): SdkSpec => {
+export const awsSpec = (model: SmithyModel): SdkSpec => {
   const shapes = model.shapes as Record<string, any>;
 
   // --- Service-level facts ---------------------------------------------------
@@ -1111,6 +971,9 @@ export const awsSpec = (model: SmithyModel, serviceSpec: ServiceSpec): SdkSpec =
     protocol === "aws.protocols#awsJson1_1";
   const isQueryProtocol =
     protocol === "aws.protocols#awsQuery" || protocol === "aws.protocols#ec2Query";
+  // `@jsonName` renames a member on the wire only in restJson1; awsJson
+  // ignores it (https://smithy.io/2.0/aws/protocols/aws-json-1_1-protocol.html).
+  const honorsJsonName = protocol === "aws.protocols#restJson1";
 
   // --- Global collections (same order as the pre-port generator) ------------
   // Cycle analysis over TS-facing names (Tarjan, shared with the other SDK
@@ -1177,6 +1040,10 @@ export const awsSpec = (model: SmithyModel, serviceSpec: ServiceSpec): SdkSpec =
   const { operationInputTraits, operationInputTraitOverrides } = collectOperationInputTraits(model);
   const operationOutputTraits = collectOperationOutputTraits(model);
   const inputEventStreamShapeIds = collectInputEventStreamShapeIds(model);
+  // restXml names a payload's root element after its shape: a union payload
+  // needs its name, as a structure has.
+  const payloadUnionShapeIds =
+    protocol === "aws.protocols#restXml" ? collectPayloadUnionShapeIds(model) : new Set<string>();
   const sensitiveShapeIds = collectSensitiveShapeIds(model);
   const operationErrorTypeNames = collectOperationErrorTypeNames(model);
   const softRequiredMembers = collectSoftRequiredMembers(model);
@@ -1426,14 +1293,19 @@ export const awsSpec = (model: SmithyModel, serviceSpec: ServiceSpec): SdkSpec =
         // Parenthesize union element types (e.g. sensitive members that
         // render as `string | redacted.Redacted<string>`) so the `[]`
         // suffix binds to the whole union, not just the last member.
-        const elementType = tsTypeOf(shape.member.target);
+        // A `@sparse` list holds null elements.
+        const elementType =
+          shape.traits?.["smithy.api#sparse"] != null
+            ? `${tsTypeOf(shape.member.target)} | null`
+            : tsTypeOf(shape.member.target);
         return elementType.includes("|") ? `(${elementType})[]` : `${elementType}[]`;
       }
       case "map": {
         // Include | undefined so users can pass objects with undefined
-        // values (dropped during serialization).
+        // values (dropped during serialization); a `@sparse` map holds nulls.
         const valueType = tsTypeOf(shape.value.target);
-        return `{ [key: string]: ${valueType} | undefined }`;
+        const sparse = shape.traits?.["smithy.api#sparse"] != null ? " | null" : "";
+        return `{ [key: string]: ${valueType}${sparse} | undefined }`;
       }
       case "union":
         return name;
@@ -1521,23 +1393,56 @@ export const awsSpec = (model: SmithyModel, serviceSpec: ServiceSpec): SdkSpec =
       tsType = tsTypeAt(member.target, ownerName);
     }
 
-    // Timestamp members: HTTP header bindings default to http-date; an
-    // explicit member-level format overrides the target's.
+    // Timestamp members: the protocol's body format is the default only in
+    // the body. Header bindings default to http-date, and label and query
+    // bindings to date-time, unless the member or its target shape names a
+    // format; an explicit member-level format overrides the target's.
     const isTimestampSchema =
       schema.includes("S.Date") ||
       schema.includes("DateFromString") ||
       schema.includes("TimestampFormat") ||
       member.target === "smithy.api#Timestamp";
-    if (isTimestampSchema && hasHttpHeader && !explicitFormat) {
-      schema = `S.Date.pipe(T.TimestampFormat("http-date"))`;
+    const bindingFormat = hasHttpHeader
+      ? "http-date"
+      : traits["smithy.api#httpLabel"] != null || traits["smithy.api#httpQuery"] != null
+        ? "date-time"
+        : undefined;
+    const timestampExpr = (format: string) =>
+      format === "date-time"
+        ? `T.DateFromString.pipe(T.TimestampFormat("date-time"))`
+        : `S.Date.pipe(T.TimestampFormat("${format}"))`;
+    const targetFormat = memberTargetShape?.traits?.["smithy.api#timestampFormat"];
+    if (isTimestampSchema && explicitFormat) {
+      schema = timestampExpr(explicitFormat);
       tsType = "Date";
-    } else if (isTimestampSchema && explicitFormat) {
-      if (explicitFormat === "date-time") {
-        schema = `T.DateFromString.pipe(T.TimestampFormat("date-time"))`;
-      } else {
-        schema = `S.Date.pipe(T.TimestampFormat("${explicitFormat}"))`;
-      }
+    } else if (
+      isTimestampSchema &&
+      bindingFormat &&
+      targetFormat === undefined &&
+      // The XML protocols' default is already ISO 8601.
+      !(bindingFormat === "date-time" && schema === "T.DateFromString")
+    ) {
+      schema = timestampExpr(bindingFormat);
       tsType = "Date";
+    }
+
+    // A header or query list of timestamps: its timestamps take the
+    // binding's default too, unless the list member or its timestamp shape
+    // names a format.
+    const listMember =
+      bindingFormat !== undefined &&
+      (memberTargetShape?.type === "list" || memberTargetShape?.type === "set")
+        ? memberTargetShape.member
+        : undefined;
+    if (
+      listMember !== undefined &&
+      (listMember.target === "smithy.api#Timestamp" ||
+        shapes[listMember.target]?.type === "timestamp") &&
+      listMember.traits?.["smithy.api#timestampFormat"] === undefined &&
+      shapes[listMember.target]?.traits?.["smithy.api#timestampFormat"] === undefined
+    ) {
+      schema = `S.Array(${timestampExpr(bindingFormat!)})`;
+      tsType = "Date[]";
     }
 
     // Suspend references that would be TDZ reads at module eval: error
@@ -1554,9 +1459,8 @@ export const awsSpec = (model: SmithyModel, serviceSpec: ServiceSpec): SdkSpec =
       schema = suspendRef(schema, cyclicClasses.has(memberTargetName));
     }
 
-    // Member-level @sensitive (stamped by convert from patches/{sdkId}.json
-    // `structures.<name>.members.<member>.sensitive`; the published model
-    // only marks the target string shape). Swap the wire schema for
+    // Member-level @sensitive (a patch in patches/<sdkId>/shapes.json; the
+    // published model only marks the target string shape). Swap the wire schema for
     // SensitiveString so responses decode to Redacted and requests accept
     // raw or Redacted values.
     // Upstream models also put @sensitive on non-string members; those
@@ -1599,14 +1503,20 @@ export const awsSpec = (model: SmithyModel, serviceSpec: ServiceSpec): SdkSpec =
 
     // Serialization trait pipes; memberName lets httpLabel substitute the
     // right URI placeholder, identifier survives the .pipe() wrapper.
+    // A header or payload's @mediaType sits on its target shape.
+    const mediaType = memberTargetShape?.traits?.["smithy.api#mediaType"];
     schema = applyTraitsToSchema(
       schema,
-      traits,
+      mediaType !== undefined && (hasHttpHeader || hasHttpPayload)
+        ? { ...traits, "smithy.api#mediaType": mediaType }
+        : traits,
       memberName,
       allStructNames.has(memberTargetName) ? memberTargetName : undefined,
     );
 
-    const jsonName = traits["smithy.api#jsonName"] as string | undefined;
+    const jsonName = honorsJsonName
+      ? (traits["smithy.api#jsonName"] as string | undefined)
+      : undefined;
 
     return {
       name: memberName,
@@ -1824,7 +1734,11 @@ export const awsSpec = (model: SmithyModel, serviceSpec: ServiceSpec): SdkSpec =
           );
 
           const sparsePipe = isSparse ? ".pipe(T.Sparse())" : "";
-          const memberTsType = tsTypeAt(def.member.target, name);
+          // A `@sparse` list holds null elements, sent and returned as null.
+          if (isSparse) innerType = `S.NullOr(${innerType})`;
+          const memberTsType = isSparse
+            ? `${tsTypeAt(def.member.target, name)} | null`
+            : tsTypeAt(def.member.target, name);
           const memberTsTypeForArray = memberTsType.includes("|")
             ? `(${memberTsType})`
             : memberTsType;
@@ -1886,7 +1800,11 @@ export const awsSpec = (model: SmithyModel, serviceSpec: ServiceSpec): SdkSpec =
           );
 
           const sparsePipe = isSparse ? ".pipe(T.Sparse())" : "";
-          const valueTsType = tsTypeAt(def.value.target, name);
+          // A `@sparse` map holds null values, sent and returned as null.
+          if (isSparse) wrappedValue = `S.NullOr(${wrappedValue})`;
+          const valueTsType = isSparse
+            ? `${tsTypeAt(def.value.target, name)} | null`
+            : tsTypeAt(def.value.target, name);
           // Value piped through S.optional so undefined values are accepted
           // (and dropped during serialization).
           const recordExpr = `S.Record(${wrappedKey}, ${wrappedValue}.pipe(S.optional))${sparsePipe}`;
@@ -1932,13 +1850,22 @@ export const awsSpec = (model: SmithyModel, serviceSpec: ServiceSpec): SdkSpec =
               allStructNames.has(memberTargetName) ? memberTargetName : undefined,
             );
             // Smithy unions are tagged: wrap in a struct keyed by member name
-            wrappedMembers.push(`S.Struct({ ${memberName}: ${wrapped} })`);
+            const jsonName = honorsJsonName
+              ? (member.traits?.["smithy.api#jsonName"] as string | undefined)
+              : undefined;
+            const encodeKeys =
+              jsonName && jsonName !== memberName
+                ? `.pipe(S.encodeKeys({ ${memberName}: "${jsonName}" }))`
+                : "";
+            wrappedMembers.push(`S.Struct({ ${memberName}: ${wrapped} })${encodeKeys}`);
             variantTypes.push(
               generateUnionVariant(allMemberNames, memberName, tsTypeAt(member.target, name)),
             );
           }
           const typeAlias = `export type ${name} = ${variantTypes.join(" | ")};`;
-          const unionExpr = `S.Union([${wrappedMembers.join(", ")}])`;
+          const unionExpr = payloadUnionShapeIds.has(id)
+            ? `S.Union([${wrappedMembers.join(", ")}]).annotate({ identifier: "${name}" })`
+            : `S.Union([${wrappedMembers.join(", ")}])`;
 
           if (isEventStream) {
             const wrapper = inputEventStreamShapeIds.has(id)
@@ -1998,12 +1925,12 @@ export const awsSpec = (model: SmithyModel, serviceSpec: ServiceSpec): SdkSpec =
 
           const xmlName = def.traits?.["smithy.api#xmlName"] as string | undefined;
           const structXmlNamespace = def.traits?.["smithy.api#xmlNamespace"] as
-            | { uri: string }
+            | XmlNamespaceTrait
             | undefined;
           // Structure-level xmlNamespace overrides service-level; the
           // service namespace applies only to op I/O schemas.
           const xmlNamespaceRef = structXmlNamespace
-            ? `T.XmlNamespace("${structXmlNamespace.uri}")`
+            ? xmlNamespaceAnnotation(structXmlNamespace)
             : serviceXmlNamespace && (isOperationInput || isOperationOutput)
               ? "ns"
               : undefined;
@@ -2017,6 +1944,12 @@ export const awsSpec = (model: SmithyModel, serviceSpec: ServiceSpec): SdkSpec =
             );
             classAnnotations.push("svc", "auth", "proto", "ver");
             if (endpointRuleSet) classAnnotations.push("rules");
+            // Before the checksum, which covers the compressed body.
+            if (opTraits.requestCompression) {
+              classAnnotations.push(
+                `T.RequestCompression(${JSON.stringify(opTraits.requestCompression)})`,
+              );
+            }
             if (opTraits.httpChecksum) {
               classAnnotations.push(httpChecksumAnnotation(opTraits.httpChecksum));
             }
@@ -2070,7 +2003,7 @@ export const awsSpec = (model: SmithyModel, serviceSpec: ServiceSpec): SdkSpec =
         const name = formatName(id);
         const shapeTraits = (def.traits ?? {}) as Record<string, unknown>;
         const synthetic = shapeTraits[SYNTHETIC_TRAIT] as
-          | { from: string; message: SyntheticError["message"] }
+          | { from: string; message: MessageMatcher }
           | undefined;
         // Patched errors keep the original AWS wire code (with dots) as tag
         const tag = (shapeTraits[ERROR_TAG_TRAIT] as string | undefined) ?? name;
@@ -2088,10 +2021,9 @@ export const awsSpec = (model: SmithyModel, serviceSpec: ServiceSpec): SdkSpec =
             suspendAll: true,
           }),
         );
-        // Members patched in from patches/{sdkId}.json (`errors.<name>`)
-        // are already real model members with their httpHeader / required
-        // traits — convert wrote them — so they flow through convertMember
-        // like any other.
+        // Members a patch adds (patches/<sdkId>/_errors.json) are real model
+        // members with their httpHeader / required traits, so they flow
+        // through convertMember like any other.
         const errorFields: Array<{ name: string; expr: string }> = members.map((m) => ({
           name: m.name,
           expr: m.schemaExpr,
@@ -2162,20 +2094,18 @@ export const awsSpec = (model: SmithyModel, serviceSpec: ServiceSpec): SdkSpec =
           );
         }
 
-        // Categories come from the shared reading of the standard Smithy
-        // error traits (`smithy.api#httpError` / `smithy.api#retryable`) —
-        // the same one every other SDK uses. The spec file supplies what
-        // this service's model doesn't state, and the name heuristics run
-        // last. `errorTraits` is passed rather than `def.traits` because
-        // spec-file `errorHttpStatus` patches land there.
+        // Categories come from the shared reading of the error traits
+        // (`smithy.api#httpError`, `smithy.api#retryable` and
+        // `distilled.errors#categories`), the same one every other SDK uses.
+        // AWS's own retry codes and the name heuristics run last.
         categories.push(
-          ...errorCategories(
-            {
-              "smithy.api#httpError": errorTraits?.httpError,
-              "smithy.api#retryable": errorTraits?.retryable,
-            },
-            [...(serviceSpec.errorCategories?.[name] ?? []), ...inferCategoriesFromName(name)],
-          ).map((cat) => `C.with${cat}`),
+          ...errorCategories(shapeTraits, [
+            ...awsRetryCategories(
+              errorTraits?.awsQueryError?.code ?? name,
+              errorTraits?.httpError ?? errorTraits?.awsQueryError?.httpResponseCode,
+            ),
+            ...inferCategoriesFromName(name),
+          ]).map((cat) => `C.with${cat}`),
         );
 
         let annotationsArg = "";
@@ -2222,6 +2152,11 @@ export const awsSpec = (model: SmithyModel, serviceSpec: ServiceSpec): SdkSpec =
           const overrideAnnotations: string[] = [
             `T.Http({ method: "${overrideTraits.method}", uri: "${overrideTraits.uri}" })`,
           ];
+          if (overrideTraits.requestCompression) {
+            overrideAnnotations.push(
+              `T.RequestCompression(${JSON.stringify(overrideTraits.requestCompression)})`,
+            );
+          }
           if (overrideTraits.httpChecksum) {
             overrideAnnotations.push(httpChecksumAnnotation(overrideTraits.httpChecksum));
           }
@@ -2293,6 +2228,7 @@ export const awsSpec = (model: SmithyModel, serviceSpec: ServiceSpec): SdkSpec =
           : []),
         ...(paginatedTrait ? [`pagination: ${JSON.stringify(paginatedTrait)} as const`] : []),
         ...ctx.telemetry,
+        ...(ctx.retryPolicy !== undefined ? [ctx.retryPolicy] : []),
       ];
       const metaObject = `{ ${metaParts.join(", ")} }`;
 
@@ -2390,7 +2326,18 @@ export const awsSpec = (model: SmithyModel, serviceSpec: ServiceSpec): SdkSpec =
       );
       serviceConstants.push(`const ver = T.ServiceVersion("${version}");`);
 
-      serviceConstants.push(`const proto = ${PROTOCOL_ANNOTATIONS[protocol]};`);
+      // A service moved off awsQuery says so on every request
+      // (`x-amzn-query-mode`), so it can answer with query error codes.
+      const queryCompatible =
+        serviceShape.traits?.["aws.protocols#awsQueryCompatible"] != null &&
+        (protocol === "aws.protocols#awsJson1_0" || protocol === "aws.protocols#awsJson1_1");
+      serviceConstants.push(
+        `const proto = ${
+          queryCompatible
+            ? PROTOCOL_ANNOTATIONS[protocol].replace("()", "({ awsQueryCompatible: true })")
+            : PROTOCOL_ANNOTATIONS[protocol]
+        };`,
+      );
 
       // Compiled endpoint resolver function (if a rule set is available)
       if (endpointRuleSet) {

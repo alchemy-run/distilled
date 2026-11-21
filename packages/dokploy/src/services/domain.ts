@@ -29,27 +29,48 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorBADREQUEST | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorFORBIDDEN | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorNOTFOUND | string;
+}
 
 export interface CanGenerateTraefikMeDomainsRequest {
   serverId: string;
@@ -128,6 +149,44 @@ export interface ValidateDomainRequest {
   serverId?: string | undefined;
 }
 export type ValidateDomainResponse = unknown;
+export interface ErrorBADREQUESTIssuesItem {
+  message: string;
+}
+/** An array of issues that were responsible for the error */
+export type ErrorBADREQUESTIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorBADREQUEST {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorBADREQUESTIssuesList | undefined;
+}
+export type ErrorFORBIDDENIssuesItem = ErrorBADREQUESTIssuesItem;
+/** An array of issues that were responsible for the error */
+export type ErrorFORBIDDENIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorFORBIDDEN {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorFORBIDDENIssuesList | undefined;
+}
+export type ErrorNOTFOUNDIssuesItem = ErrorBADREQUESTIssuesItem;
+/** An array of issues that were responsible for the error */
+export type ErrorNOTFOUNDIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorNOTFOUND {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorNOTFOUNDIssuesList | undefined;
+}
 export type CanGenerateTraefikMeDomainsError = BadRequest | Forbidden | NotFound | DokployOpError;
 export const canGenerateTraefikMeDomains: API.OperationMethod<
   CanGenerateTraefikMeDomainsRequest,
@@ -135,8 +194,8 @@ export const canGenerateTraefikMeDomains: API.OperationMethod<
   CanGenerateTraefikMeDomainsError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6, __c3, 0) as any as S.Schema<CanGenerateTraefikMeDomainsRequest>,
-  output: __S(8, __c4, 0) as any as S.Schema<CanGenerateTraefikMeDomainsResponse>,
+  input: __S(16, __c4, 0) as any as S.Schema<CanGenerateTraefikMeDomainsRequest>,
+  output: __S(20, __c5, 0) as any as S.Schema<CanGenerateTraefikMeDomainsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -151,8 +210,8 @@ export const createDomain: API.OperationMethod<
   CreateDomainError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10, __c5, 0) as any as S.Schema<CreateDomainRequest>,
-  output: __S(8, __c4, 0) as any as S.Schema<CreateDomainResponse>,
+  input: __S(24, __c6, 0) as any as S.Schema<CreateDomainRequest>,
+  output: __S(20, __c5, 0) as any as S.Schema<CreateDomainResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -167,8 +226,8 @@ export const deleteDomain: API.OperationMethod<
   DeleteDomainError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14, __c7, 0) as any as S.Schema<DeleteDomainRequest>,
-  output: __S(8, __c4, 0) as any as S.Schema<DeleteDomainResponse>,
+  input: __S(32, __c8, 0) as any as S.Schema<DeleteDomainRequest>,
+  output: __S(20, __c5, 0) as any as S.Schema<DeleteDomainResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -183,8 +242,8 @@ export const generateDomain: API.OperationMethod<
   GenerateDomainError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c8, 0) as any as S.Schema<GenerateDomainRequest>,
-  output: __S(8, __c4, 0) as any as S.Schema<GenerateDomainResponse>,
+  input: __S(36, __c9, 0) as any as S.Schema<GenerateDomainRequest>,
+  output: __S(20, __c5, 0) as any as S.Schema<GenerateDomainResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -199,8 +258,8 @@ export const getDomain: API.OperationMethod<
   GetDomainError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18, __c9, 0) as any as S.Schema<GetDomainRequest>,
-  output: __S(8, __c4, 0) as any as S.Schema<GetDomainResponse>,
+  input: __S(40, __c10, 0) as any as S.Schema<GetDomainRequest>,
+  output: __S(20, __c5, 0) as any as S.Schema<GetDomainResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -215,8 +274,8 @@ export const listDomainsByApplicationId: API.OperationMethod<
   ListDomainsByApplicationIdError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c10, 0) as any as S.Schema<ListDomainsByApplicationIdRequest>,
-  output: __S(8, __c4, 0) as any as S.Schema<ListDomainsByApplicationIdResponse>,
+  input: __S(44, __c11, 0) as any as S.Schema<ListDomainsByApplicationIdRequest>,
+  output: __S(20, __c5, 0) as any as S.Schema<ListDomainsByApplicationIdResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -231,8 +290,8 @@ export const listDomainsByComposeId: API.OperationMethod<
   ListDomainsByComposeIdError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22, __c11, 0) as any as S.Schema<ListDomainsByComposeIdRequest>,
-  output: __S(8, __c4, 0) as any as S.Schema<ListDomainsByComposeIdResponse>,
+  input: __S(48, __c12, 0) as any as S.Schema<ListDomainsByComposeIdRequest>,
+  output: __S(20, __c5, 0) as any as S.Schema<ListDomainsByComposeIdResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -247,8 +306,8 @@ export const toggleDomainEnable: API.OperationMethod<
   ToggleDomainEnableError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<ToggleDomainEnableRequest>,
-  output: __S(8, __c4, 0) as any as S.Schema<ToggleDomainEnableResponse>,
+  input: __S(4, __c1, 0) as any as S.Schema<ToggleDomainEnableRequest>,
+  output: __S(20, __c5, 0) as any as S.Schema<ToggleDomainEnableResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -263,8 +322,8 @@ export const updateDomain: API.OperationMethod<
   UpdateDomainError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2, __c1, 0) as any as S.Schema<UpdateDomainRequest>,
-  output: __S(8, __c4, 0) as any as S.Schema<UpdateDomainResponse>,
+  input: __S(8, __c2, 0) as any as S.Schema<UpdateDomainRequest>,
+  output: __S(20, __c5, 0) as any as S.Schema<UpdateDomainResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -279,8 +338,8 @@ export const validateDomain: API.OperationMethod<
   ValidateDomainError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c2, 0) as any as S.Schema<ValidateDomainRequest>,
-  output: __S(8, __c4, 0) as any as S.Schema<ValidateDomainResponse>,
+  input: __S(12, __c3, 0) as any as S.Schema<ValidateDomainRequest>,
+  output: __S(20, __c5, 0) as any as S.Schema<ValidateDomainResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -294,12 +353,32 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          message: S.String,
+        }),
+      ).annotate({ identifier: "ErrorBADREQUESTIssuesItem" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.String,
+          code: S.String,
+          issues: S.optional(__S(1, __c0, 1)),
+        }),
+      ).annotate({ identifier: "ErrorBADREQUEST" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           domainId: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/domain.toggleEnable", code: 200 })),
       ).annotate({ identifier: "ToggleDomainEnableRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -315,7 +394,7 @@ function __c1(j: number): any {
           domainType: S.optional(S.NullOr(S.String)),
           internalPath: S.optional(S.NullOr(S.String)),
           stripPath: S.optional(S.Boolean),
-          middlewares: S.optional(S.NullOr(__S(12, __c6, 0))),
+          middlewares: S.optional(S.NullOr(__S(28, __c7, 0))),
           forwardAuthEnabled: S.optional(S.Boolean),
           enabled: S.optional(S.Boolean),
           domainId: S.String,
@@ -323,7 +402,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "UpdateDomainRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -334,7 +413,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "ValidateDomainRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -344,7 +423,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "CanGenerateTraefikMeDomainsRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -352,7 +431,7 @@ function __c4(j: number): any {
       });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -371,19 +450,19 @@ function __c5(j: number): any {
           previewDeploymentId: S.optional(S.NullOr(S.String)),
           internalPath: S.optional(S.NullOr(S.String)),
           stripPath: S.optional(S.Boolean),
-          middlewares: S.optional(S.NullOr(__S(12, __c6, 0))),
+          middlewares: S.optional(S.NullOr(__S(28, __c7, 0))),
           forwardAuthEnabled: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/domain.create", code: 200 })),
       ).annotate({ identifier: "CreateDomainRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -393,7 +472,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "DeleteDomainRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -404,7 +483,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GenerateDomainRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -414,7 +493,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GetDomainRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -424,7 +503,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "ListDomainsByApplicationIdRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

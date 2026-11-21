@@ -74,6 +74,8 @@ export class AddressMapNotFound
     /*@__PURE__*/ S.TaggedError<AddressMapNotFound>()("AddressMapNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1000 }, { code: 1000, message: { includes: "not_found" } }],
   ) {}
@@ -83,6 +85,8 @@ export class BgpPrefixNotFound
     /*@__PURE__*/ S.TaggedError<BgpPrefixNotFound>()("BgpPrefixNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1002 }],
   ) {}
@@ -92,6 +96,8 @@ export class BindingNotFound
     /*@__PURE__*/ S.TaggedError<BindingNotFound>()("BindingNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1002 }],
   ) {}
@@ -101,6 +107,8 @@ export class DelegationNotFound
     /*@__PURE__*/ S.TaggedError<DelegationNotFound>()("DelegationNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1000 }],
   ) {}
@@ -110,6 +118,8 @@ export class FeatureNotEnabled
     /*@__PURE__*/ S.TaggedError<FeatureNotEnabled>()("FeatureNotEnabled", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1002, message: { includes: "address_maps_not_enabled" } }],
   ) {}
@@ -119,6 +129,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -128,6 +140,8 @@ export class InvalidAccountId
     /*@__PURE__*/ S.TaggedError<InvalidAccountId>()("InvalidAccountId", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 7003, message: { includes: "Could not route" } }],
   ) {}
@@ -137,6 +151,8 @@ export class InvalidHostname
     /*@__PURE__*/ S.TaggedError<InvalidHostname>()("InvalidHostname", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1002, message: { includes: "forbidden" } }],
   ) {}
@@ -146,6 +162,8 @@ export class InvalidLoaForm
     /*@__PURE__*/ S.TaggedError<InvalidLoaForm>()("InvalidLoaForm", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1001, message: { includes: "invalid_loa_form" } }, { code: 1001 }],
   ) {}
@@ -155,6 +173,8 @@ export class InvalidNetworkCidr
     /*@__PURE__*/ S.TaggedError<InvalidNetworkCidr>()("InvalidNetworkCidr", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1001, message: { includes: "invalid_network_cidr" } }],
   ) {}
@@ -164,6 +184,8 @@ export class InvalidZoneId
     /*@__PURE__*/ S.TaggedError<InvalidZoneId>()("InvalidZoneId", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 7003, message: { includes: "Could not route" } }],
   ) {}
@@ -173,6 +195,8 @@ export class IrrEntryNotFound
     /*@__PURE__*/ S.TaggedError<IrrEntryNotFound>()("IrrEntryNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1003, message: { includes: "irr_entry_not_found" } }],
   ) {}
@@ -182,6 +206,8 @@ export class LoaDocumentNotFound
     /*@__PURE__*/ S.TaggedError<LoaDocumentNotFound>()("LoaDocumentNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1000 }],
   ) {}
@@ -191,6 +217,8 @@ export class MethodNotAllowed
     /*@__PURE__*/ S.TaggedError<MethodNotAllowed>()("MethodNotAllowed", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [
       { code: 10405, message: { includes: "not allowed" } },
@@ -203,6 +231,8 @@ export class MissingAccountId
     /*@__PURE__*/ S.TaggedError<MissingAccountId>()("MissingAccountId", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1001 }],
   ) {}
@@ -212,6 +242,8 @@ export class NonexistentAccountPrefix
     /*@__PURE__*/ S.TaggedError<NonexistentAccountPrefix>()("NonexistentAccountPrefix", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1003 }],
   ) {}
@@ -221,6 +253,8 @@ export class PrefixNotFound
     /*@__PURE__*/ S.TaggedError<PrefixNotFound>()("PrefixNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [
       { code: 1000 },
@@ -234,6 +268,8 @@ export class RegionalHostnameEmpty
     /*@__PURE__*/ S.TaggedError<RegionalHostnameEmpty>()("RegionalHostnameEmpty", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1000, message: { includes: "not_found" } }],
   ) {}
@@ -243,6 +279,8 @@ export class RegionalHostnameNotFound
     /*@__PURE__*/ S.TaggedError<RegionalHostnameNotFound>()("RegionalHostnameNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1002, message: { includes: "forbidden" } }],
   ) {}
@@ -254,6 +292,8 @@ export class UnsupportedBindingConfiguration
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ code: 1003 }],

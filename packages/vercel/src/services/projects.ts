@@ -31,6 +31,8 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
   ) {}
@@ -40,6 +42,8 @@ export class Conflict
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
   ) {}
@@ -49,6 +53,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
   ) {}
@@ -58,6 +64,8 @@ export class NotFound
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
@@ -67,6 +75,8 @@ export class PaymentRequired
     /*@__PURE__*/ S.TaggedError<PaymentRequired>()("PaymentRequired", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withQuotaError),
     [{ status: 402 }],
   ) {}
@@ -76,6 +86,8 @@ export class UnprocessableEntity
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
   ) {}
@@ -20758,7 +20770,7 @@ export type GetProjectsResponseBody =
   | GetProjectsResponseBodyCase0List
   | GetProjectsResponseBodyCase1
   | GetProjectsResponseBodyCase2;
-export type GetProjectsResponse = GetProjectsResponseBody;
+export type GetProjectsResponse = GetProjectsResponseBody | null;
 export interface GetProjectTokenRequest {
   /** The project ID or name */
   idOrName: string;
@@ -34893,7 +34905,7 @@ function __c15(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v10/projects", code: 200 })),
       ).annotate({ identifier: "GetProjectsRequest" });
     case 1:
-      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => S.NullOr(S.Unknown).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetProjectsResponse",
       });
   }

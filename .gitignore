@@ -41,6 +41,13 @@ packages/*/.generated-specs/
 packages/railway/.generated-graphql/
 packages/linear/.generated-graphql/
 packages/github/.generated-graphql/
+packages/expo-eas/.generated-graphql/
+packages/fly-io/.generated-graphql/
 
 # Conformance runner builds (packages/core/conformance/README.md).
 packages/core/conformance/.build/
+
+# Smithy CLI and build output of packages/aws/test/protocol-tests/update.sh,
+# and the test services its protocol-tests.test.ts generates.
+packages/aws/test/protocol-tests/.build/
+packages/aws/test/protocol-tests/.generated/

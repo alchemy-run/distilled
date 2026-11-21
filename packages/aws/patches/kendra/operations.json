@@ -1,0 +1,26 @@
+{
+  "description": "kendra: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.kendra#ListTagsForResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.kendra#ResourceNotFoundException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.kendra#CreateIndex/errors/-",
+      "value": {
+        "target": "com.amazonaws.kendra#NotAuthorizedException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.kendra#CreateIndex/errors/-",
+      "value": {
+        "target": "com.amazonaws.kendra#KendraClosedToNewCustomers"
+      }
+    }
+  ]
+}

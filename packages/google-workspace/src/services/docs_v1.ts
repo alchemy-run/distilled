@@ -35,9 +35,9 @@ export class BadRequest
       code: /*@__PURE__*/ S.optional(S.Number),
       message: S.String,
       status: /*@__PURE__*/ S.optional(S.String),
-      reason: /*@__PURE__*/ S.optional(S.String),
-      domain: /*@__PURE__*/ S.optional(S.String),
       details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
   ) {}
@@ -48,9 +48,9 @@ export class Conflict
       code: /*@__PURE__*/ S.optional(S.Number),
       message: S.String,
       status: /*@__PURE__*/ S.optional(S.String),
-      reason: /*@__PURE__*/ S.optional(S.String),
-      domain: /*@__PURE__*/ S.optional(S.String),
       details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
   ) {}
@@ -61,9 +61,9 @@ export class Forbidden
       code: /*@__PURE__*/ S.optional(S.Number),
       message: S.String,
       status: /*@__PURE__*/ S.optional(S.String),
-      reason: /*@__PURE__*/ S.optional(S.String),
-      domain: /*@__PURE__*/ S.optional(S.String),
       details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
   ) {}
@@ -74,9 +74,9 @@ export class NotFound
       code: /*@__PURE__*/ S.optional(S.Number),
       message: S.String,
       status: /*@__PURE__*/ S.optional(S.String),
-      reason: /*@__PURE__*/ S.optional(S.String),
-      domain: /*@__PURE__*/ S.optional(S.String),
       details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
@@ -1274,11 +1274,9 @@ export interface BatchUpdateDocumentRequest {
   /** Provides control over how write requests are executed. */
   writeControl?: WriteControl | undefined;
 }
-export interface BatchUpdateDocumentsRequest {
+export interface BatchUpdateDocumentsRequest extends BatchUpdateDocumentRequest {
   /** The ID of the document to update. */
   documentId: string;
-  /** Request body */
-  body?: BatchUpdateDocumentRequest | undefined;
 }
 export type BatchUpdateDocumentResponseCommentUpdateStateEnum =
   | "COMMENT_UPDATE_STATE_UNSPECIFIED"
@@ -2539,10 +2537,7 @@ export interface Document {
   /** The title of the document. */
   title?: string | undefined;
 }
-export interface CreateDocumentsRequest {
-  /** Request body */
-  body?: Document | undefined;
-}
+export interface CreateDocumentsRequest extends Document {}
 export type GetDocumentsCommentsViewModeEnum =
   | "COMMENTS_VIEW_MODE_UNSPECIFIED"
   | "COMMENTS_VIEW_MODE_DEFAULT_FOR_CURRENT_ACCESS"
@@ -3117,10 +3112,12 @@ function __c1(j: number): any {
       ).annotate({ identifier: "BatchUpdateDocumentRequest" });
     case 27:
       return S.suspend(() =>
-        S.Struct({
-          documentId: S.String.pipe(T.Label()),
-          body: S.optional(__S(58, __c1, 26).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(58, __c1, 26),
+          S.Struct({
+            documentId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/documents/{documentId}:batchUpdate",
@@ -3682,9 +3679,7 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(305, __c9, 17).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(305, __c9, 17), S.Struct({})).pipe(
           T.Http({ method: "POST", uri: "v1/documents", baseUrl: "https://docs.googleapis.com/" }),
         ),
       ).annotate({ identifier: "CreateDocumentsRequest" });

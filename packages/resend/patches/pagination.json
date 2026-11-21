@@ -1,0 +1,357 @@
+{
+  "description": "Mark Resend's cursor listings paginated. Resend lists by cursor: `after` (and `limit`) in, `has_more` and the last `data[].id` out. The spec carries no pagination extension and the OpenAPI converter detects only `pagination.cursor`/`.next`/`.next_page`, so these listings generated as single-page calls. Each gets `smithy.api#paginated` with `inputToken: after`, `items: data`, `hasNextPage: has_more` and, where the operation takes `limit`, `pageSize: limit`; src/pagination.ts's paginateResend reads the next cursor from the last item's `id`.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ApiKeysList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "after",
+        "items": "data",
+        "hasNextPage": "has_more",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationsListRuns/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "after",
+        "items": "data",
+        "hasNextPage": "has_more",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationsList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "after",
+        "items": "data",
+        "hasNextPage": "has_more",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#BroadcastsListClickedLinks/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "after",
+        "items": "data",
+        "hasNextPage": "has_more",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#BroadcastsRecipients/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "after",
+        "items": "data",
+        "hasNextPage": "has_more",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#BroadcastsList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "after",
+        "items": "data",
+        "hasNextPage": "has_more",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ContactsListImports/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "after",
+        "items": "data",
+        "hasNextPage": "has_more",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ContactPropertiesList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "after",
+        "items": "data",
+        "hasNextPage": "has_more",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ContactsListSegments/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "after",
+        "items": "data",
+        "hasNextPage": "has_more",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ContactsListTopics/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "after",
+        "items": "data",
+        "hasNextPage": "has_more",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ContactsList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "after",
+        "items": "data",
+        "hasNextPage": "has_more",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#DomainsList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "after",
+        "items": "data",
+        "hasNextPage": "has_more",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailsListAttachments/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "after",
+        "items": "data",
+        "hasNextPage": "has_more",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailsListReceiving/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "after",
+        "items": "data",
+        "hasNextPage": "has_more",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailsListReceivingAttachments/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "after",
+        "items": "data",
+        "hasNextPage": "has_more",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailsList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "after",
+        "items": "data",
+        "hasNextPage": "has_more",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EventsList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "after",
+        "items": "data",
+        "hasNextPage": "has_more",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesListDrafts/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "after",
+        "items": "data",
+        "hasNextPage": "has_more",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesListThreadEmails/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "after",
+        "items": "data",
+        "hasNextPage": "has_more",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesListThreads/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "after",
+        "items": "data",
+        "hasNextPage": "has_more",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "after",
+        "items": "data",
+        "hasNextPage": "has_more",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#LogsList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "after",
+        "items": "data",
+        "hasNextPage": "has_more",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#OauthListGrants/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "after",
+        "items": "data",
+        "hasNextPage": "has_more",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#SegmentsListContacts/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "after",
+        "items": "data",
+        "hasNextPage": "has_more",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#SegmentsList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "after",
+        "items": "data",
+        "hasNextPage": "has_more",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#SuppressionsList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "after",
+        "items": "data",
+        "hasNextPage": "has_more",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#TemplatesList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "after",
+        "items": "data",
+        "hasNextPage": "has_more",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#TopicsList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "after",
+        "items": "data",
+        "hasNextPage": "has_more",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#WebhooksListEventAttempts/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "after",
+        "items": "data",
+        "hasNextPage": "has_more",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#WebhooksListEvents/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "after",
+        "items": "data",
+        "hasNextPage": "has_more",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#WebhooksList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "after",
+        "items": "data",
+        "hasNextPage": "has_more",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesSearchThreads/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "after",
+        "items": "data",
+        "hasNextPage": "has_more",
+        "pageSize": "limit"
+      }
+    }
+  ]
+}

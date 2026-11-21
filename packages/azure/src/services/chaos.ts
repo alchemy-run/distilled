@@ -343,29 +343,58 @@ export interface ExperimentsCreateOrUpdateRequestIdentity {
     | ExperimentsCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap
     | undefined;
 }
-/** Enum union of Chaos experiment action types. */
-export type ExperimentActionType = "delay" | "discrete" | "continuous";
-/** A map to describe the settings of an action. */
+/** Chaos experiment action discriminator type */
+export type ContinuousActionType = "continuous";
+/** A key-value pair used to describe parameters for actions or configurations. */
 export interface KeyValuePair {
   /** The name of the setting for the action. */
   key: string;
   /** The value of the setting for the action. */
   value: string;
 }
-export type KeyValuePairList = Array<KeyValuePair>;
-/** Model that represents the base action model. 9 total per experiment. */
-export interface ChaosExperimentAction {
+/** List of key value pairs. */
+export type ContinuousActionParametersList = Array<KeyValuePair>;
+/** Model that represents a continuous action. */
+export interface ContinuousAction {
   /** String that represents a Capability URN. */
   name: string;
   /** Chaos experiment action discriminator type */
-  type: ExperimentActionType | (string & {});
-  /** ISO8601 duration of the action (continuous and delay actions). */
-  duration?: string | undefined;
-  /** Key/value settings of the action (continuous and discrete actions). */
-  parameters?: KeyValuePairList | undefined;
-  /** ID of the selector the action targets (continuous and discrete actions). */
-  selectorId?: string | undefined;
+  type: ContinuousActionType;
+  /** ISO8601 formatted string that represents a duration. */
+  duration: string;
+  /** List of key value pairs. */
+  parameters: ContinuousActionParametersList;
+  /** String that represents a selector. */
+  selectorId: string;
 }
+/** Chaos experiment action discriminator type */
+export type DelayActionType = "delay";
+/** Model that represents a delay action. */
+export interface DelayAction {
+  /** String that represents a Capability URN. */
+  name: string;
+  /** Chaos experiment action discriminator type */
+  type: DelayActionType;
+  /** ISO8601 formatted string that represents a duration. */
+  duration: string;
+}
+/** Chaos experiment action discriminator type */
+export type DiscreteActionType = "discrete";
+/** List of key value pairs. */
+export type DiscreteActionParametersList = Array<KeyValuePair>;
+/** Model that represents a discrete action. */
+export interface DiscreteAction {
+  /** String that represents a Capability URN. */
+  name: string;
+  /** Chaos experiment action discriminator type */
+  type: DiscreteActionType;
+  /** List of key value pairs. */
+  parameters: DiscreteActionParametersList;
+  /** String that represents a selector. */
+  selectorId: string;
+}
+/** Model that represents the base action model. 9 total per experiment. */
+export type ChaosExperimentAction = ContinuousAction | DelayAction | DiscreteAction;
 /** List of actions. */
 export type ChaosExperimentBranchActionsList = Array<ChaosExperimentAction>;
 /** Model that represents a branch in the step. 9 total per experiment. */
@@ -386,46 +415,65 @@ export interface ChaosExperimentStep {
 }
 /** List of steps. */
 export type ExperimentPropertiesInputStepsList = Array<ChaosExperimentStep>;
-/** Enum of the selector type. */
-export type SelectorType = "List" | "Query";
-/** Enum that discriminates between filter types. Currently only `Simple` type is supported. */
-export type FilterType = "Simple";
-export type StringList = Array<string>;
-/** Parameters of a `Simple` target filter. */
+/** Chaos target selector discriminator type */
+export type ChaosTargetListSelectorType = "List";
+/** Chaos target filter discriminator type */
+export type ChaosTargetSimpleFilterType = "Simple";
+/** List of Azure availability zones to filter targets by. */
+export type ChaosTargetSimpleFilterParametersZonesList = Array<string>;
+/** Model that represents the Simple filter parameters. */
 export interface ChaosTargetSimpleFilterParameters {
-  /** Availability zones to filter targets by. */
-  zones?: StringList | undefined;
+  /** List of Azure availability zones to filter targets by. */
+  zones?: ChaosTargetSimpleFilterParametersZonesList | undefined;
 }
-/** Model that represents available filter types that can be applied to a targets list. */
-export interface ChaosTargetFilter {
+/** Model that represents a simple target filter. */
+export interface ChaosTargetSimpleFilter {
   /** Chaos target filter discriminator type */
-  type: FilterType | (string & {});
-  /** Parameters of a `Simple` filter. */
+  type: ChaosTargetSimpleFilterType | (string & {});
+  /** Model that represents the Simple filter parameters. */
   parameters?: ChaosTargetSimpleFilterParameters | undefined;
 }
+/** Enum of the Target reference type. */
+export type TargetReferenceType = "ChaosTarget";
 /** Model that represents a reference to a Target in the selector. */
 export interface TargetReference {
-  /** Reference type, `ChaosTarget`. */
-  type: string;
-  /** Resource ID of a Chaos target. */
+  /** Enum of the Target reference type. */
+  type: TargetReferenceType | (string & {});
+  /** String of the resource ID of a Target resource. */
   id: string;
 }
-export type TargetReferenceList = Array<TargetReference>;
-/** Model that represents a selector in the Experiment resource. */
-export interface ChaosTargetSelector {
+/** List of Target references. */
+export type ChaosTargetListSelectorTargetsList = Array<TargetReference>;
+/** Model that represents a list selector. */
+export interface ChaosTargetListSelector {
   /** String of the selector ID. */
   id: string;
   /** Chaos target selector discriminator type */
-  type: SelectorType | (string & {});
+  type: ChaosTargetListSelectorType;
   /** Model that represents available filter types that can be applied to a targets list. */
-  filter?: ChaosTargetFilter | undefined;
-  /** Targets of a `List` selector. */
-  targets?: TargetReferenceList | undefined;
-  /** Azure Resource Graph query of a `Query` selector. */
-  queryString?: string | undefined;
-  /** Subscriptions a `Query` selector runs against. */
-  subscriptionIds?: StringList | undefined;
+  filter?: ChaosTargetSimpleFilter | undefined;
+  /** List of Target references. */
+  targets: ChaosTargetListSelectorTargetsList;
 }
+/** Chaos target selector discriminator type */
+export type ChaosTargetQuerySelectorType = "Query";
+/** Subscription id list to scope resource query. */
+export type ChaosTargetQuerySelectorSubscriptionIdsList = Array<string>;
+/** Model that represents a query selector. */
+export interface ChaosTargetQuerySelector {
+  /** String of the selector ID. */
+  id: string;
+  /** Chaos target selector discriminator type */
+  type: ChaosTargetQuerySelectorType;
+  /** Model that represents available filter types that can be applied to a targets list. */
+  filter?: ChaosTargetSimpleFilter | undefined;
+  /** Azure Resource Graph (ARG) Query Language query for target resources. */
+  queryString: string;
+  /** Subscription id list to scope resource query. */
+  subscriptionIds: ChaosTargetQuerySelectorSubscriptionIdsList;
+}
+/** Model that represents a selector in the Experiment resource. */
+export type ChaosTargetSelector = ChaosTargetListSelector | ChaosTargetQuerySelector;
 /** List of selectors. */
 export type ExperimentPropertiesInputSelectorsList = Array<ChaosTargetSelector>;
 /** Model that represents the Customer Managed Storage for an Experiment. */
@@ -1839,22 +1887,56 @@ export interface WorkspaceDiscoveryCoverageSummary {
   /** Required resource occurrences only from scopes with a known complete expected inventory set. Absent exactly when knownExpectedSetCount is zero. Unknown is not a known empty set. */
   resources?: WorkspaceDiscoveryResourceCoverageSummary | undefined;
 }
-/** The confirmed guidance reason. Unknown future reasons preserve the common warning fields and must not be interpreted as a permission denial. */
-export type WorkspaceDiscoveryWarningReason =
-  | "RbacValidationFailed"
-  | "TargetNotFound"
-  | "AccessIndeterminate";
-/** The common fields of a discovery guidance warning, discriminated by reason. Known reasons use their corresponding subtype; unknown future reasons retain these base fields. */
-export interface WorkspaceDiscoveryWarning {
+/** The confirmed guidance reason, not a system-verification failure. */
+export type WorkspaceDiscoveryAccessWarningReason = "AccessIndeterminate";
+/** Neutral guidance when access versus absence could not be established. */
+export interface WorkspaceDiscoveryAccessWarning {
   /** The normalized expanded source scope where the affected obligation was encountered. */
   scopeId: string;
   /** The source scope kind, such as Subscription, ResourceGroup, ServiceGroup, or Resource. */
   scopeKind: string;
   /** The confirmed guidance reason, not a system-verification failure. */
-  reason: WorkspaceDiscoveryWarningReason;
+  reason: WorkspaceDiscoveryAccessWarningReason;
   /** Human-readable guidance with attribution appropriate to the reason. */
   message: string;
+  /** The affected resource or member identity. */
+  resourceId: string;
 }
+/** The confirmed guidance reason, not a system-verification failure. */
+export type WorkspaceDiscoveryPermissionWarningReason = "RbacValidationFailed";
+/** Confirmed read-authorization guidance. Permission details are required composition, not an optional shell reused for other causes. */
+export interface WorkspaceDiscoveryPermissionWarning {
+  /** The normalized expanded source scope where the affected obligation was encountered. */
+  scopeId: string;
+  /** The source scope kind, such as Subscription, ResourceGroup, ServiceGroup, or Resource. */
+  scopeKind: string;
+  /** The confirmed guidance reason, not a system-verification failure. */
+  reason: WorkspaceDiscoveryPermissionWarningReason;
+  /** Human-readable guidance with attribution appropriate to the reason. */
+  message: string;
+  /** The affected resource, required permissions, recommended roles, and optional identity details. */
+  permission: PermissionError;
+}
+/** The confirmed guidance reason, not a system-verification failure. */
+export type WorkspaceDiscoveryResourceWarningReason = "TargetNotFound";
+/** Guidance for a resource or membership confirmed missing. */
+export interface WorkspaceDiscoveryResourceWarning {
+  /** The normalized expanded source scope where the affected obligation was encountered. */
+  scopeId: string;
+  /** The source scope kind, such as Subscription, ResourceGroup, ServiceGroup, or Resource. */
+  scopeKind: string;
+  /** The confirmed guidance reason, not a system-verification failure. */
+  reason: WorkspaceDiscoveryResourceWarningReason;
+  /** Human-readable guidance with attribution appropriate to the reason. */
+  message: string;
+  /** The affected resource or member identity. */
+  resourceId: string;
+}
+/** The common fields of a discovery guidance warning, discriminated by reason. Known reasons use their corresponding subtype; unknown future reasons retain these base fields. */
+export type WorkspaceDiscoveryWarning =
+  | WorkspaceDiscoveryAccessWarning
+  | WorkspaceDiscoveryPermissionWarning
+  | WorkspaceDiscoveryResourceWarning;
 /** Confirmed access, missing-resource, or access-indeterminate guidance. System verification failures are reported in errors, not as permission warnings. The returned array may be a subset; use warningsTotalCount and warningsTruncated. */
 export type WorkspaceDiscoveryPropertiesWarningsList = Array<WorkspaceDiscoveryWarning>;
 /** Model that represents the properties of the workspace discovery. */
@@ -3130,8 +3212,8 @@ export const ConnectionsCreateOrUpdate: API.OperationMethod<
   ConnectionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1537, __c48, 1) as any as S.Schema<ConnectionsCreateOrUpdateRequest>,
-  output: __S(1569, __c49, 1) as any as S.Schema<ConnectionsCreateOrUpdateResponse>,
+  input: __S(1569, __c49, 1) as any as S.Schema<ConnectionsCreateOrUpdateRequest>,
+  output: __S(1601, __c50, 1) as any as S.Schema<ConnectionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3147,7 +3229,7 @@ export const DeleteCapability: API.OperationMethod<
   DeleteCapabilityError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<DeleteCapabilityRequest>,
+  input: __S(2208, __c69, 0) as any as S.Schema<DeleteCapabilityRequest>,
   output: __S(768, __c24, 0) as any as S.Schema<DeleteCapabilityResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3164,7 +3246,7 @@ export const DeleteConnection: API.OperationMethod<
   DeleteConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<DeleteConnectionRequest>,
+  input: __S(2560, __c80, 0) as any as S.Schema<DeleteConnectionRequest>,
   output: __S(768, __c24, 0) as any as S.Schema<DeleteConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3181,7 +3263,7 @@ export const DeleteExperiment: API.OperationMethod<
   DeleteExperimentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<DeleteExperimentRequest>,
+  input: __S(2944, __c92, 0) as any as S.Schema<DeleteExperimentRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteExperimentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3198,7 +3280,7 @@ export const DeleteScenarioConfiguration: API.OperationMethod<
   DeleteScenarioConfigurationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c97, 0) as any as S.Schema<DeleteScenarioConfigurationRequest>,
+  input: __S(3136, __c98, 0) as any as S.Schema<DeleteScenarioConfigurationRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteScenarioConfigurationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3215,7 +3297,7 @@ export const DeleteScenarios: API.OperationMethod<
   DeleteScenariosError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c98, 0) as any as S.Schema<DeleteScenariosRequest>,
+  input: __S(3168, __c99, 0) as any as S.Schema<DeleteScenariosRequest>,
   output: __S(768, __c24, 0) as any as S.Schema<DeleteScenariosResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3232,7 +3314,7 @@ export const DeleteTarget: API.OperationMethod<
   DeleteTargetError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<DeleteTargetRequest>,
+  input: __S(3200, __c100, 0) as any as S.Schema<DeleteTargetRequest>,
   output: __S(768, __c24, 0) as any as S.Schema<DeleteTargetResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3386,7 +3468,7 @@ export const GetConnection: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<GetConnectionRequest>,
-  output: __S(1569, __c49, 1) as any as S.Schema<GetConnectionResponse>,
+  output: __S(1601, __c50, 1) as any as S.Schema<GetConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3504,8 +3586,8 @@ export const GetScenarios: API.OperationMethod<
   GetScenariosError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<GetScenariosRequest>,
-  output: __S(1250, __c39, 2) as any as S.Schema<GetScenariosResponse>,
+  input: __S(1216, __c38, 0) as any as S.Schema<GetScenariosRequest>,
+  output: __S(1282, __c40, 2) as any as S.Schema<GetScenariosResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3521,8 +3603,8 @@ export const GetScenarioTemplate: API.OperationMethod<
   GetScenarioTemplateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<GetScenarioTemplateRequest>,
-  output: __S(1313, __c41, 1) as any as S.Schema<GetScenarioTemplateResponse>,
+  input: __S(1312, __c41, 0) as any as S.Schema<GetScenarioTemplateRequest>,
+  output: __S(1345, __c42, 1) as any as S.Schema<GetScenarioTemplateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3538,8 +3620,8 @@ export const GetScenarioTemplateVersion: API.OperationMethod<
   GetScenarioTemplateVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<GetScenarioTemplateVersionRequest>,
-  output: __S(1377, __c43, 1) as any as S.Schema<GetScenarioTemplateVersionResponse>,
+  input: __S(1376, __c43, 0) as any as S.Schema<GetScenarioTemplateVersionRequest>,
+  output: __S(1409, __c44, 1) as any as S.Schema<GetScenarioTemplateVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3555,8 +3637,8 @@ export const GetTarget: API.OperationMethod<
   GetTargetError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<GetTargetRequest>,
-  output: __S(1441, __c45, 1) as any as S.Schema<GetTargetResponse>,
+  input: __S(1440, __c45, 0) as any as S.Schema<GetTargetRequest>,
+  output: __S(1473, __c46, 1) as any as S.Schema<GetTargetResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3572,8 +3654,8 @@ export const GetTargetType: API.OperationMethod<
   GetTargetTypeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<GetTargetTypeRequest>,
-  output: __S(1505, __c47, 1) as any as S.Schema<GetTargetTypeResponse>,
+  input: __S(1504, __c47, 0) as any as S.Schema<GetTargetTypeRequest>,
+  output: __S(1537, __c48, 1) as any as S.Schema<GetTargetTypeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3589,8 +3671,8 @@ export const GetWorkspace: API.OperationMethod<
   GetWorkspaceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<GetWorkspaceRequest>,
-  output: __S(1632, __c51, 0) as any as S.Schema<GetWorkspaceResponse>,
+  input: __S(1632, __c51, 0) as any as S.Schema<GetWorkspaceRequest>,
+  output: __S(1664, __c52, 0) as any as S.Schema<GetWorkspaceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3606,8 +3688,8 @@ export const GetWorkspaceDiscovery: API.OperationMethod<
   GetWorkspaceDiscoveryError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<GetWorkspaceDiscoveryRequest>,
-  output: __S(1728, __c54, 0) as any as S.Schema<GetWorkspaceDiscoveryResponse>,
+  input: __S(1728, __c54, 0) as any as S.Schema<GetWorkspaceDiscoveryRequest>,
+  output: __S(1760, __c55, 0) as any as S.Schema<GetWorkspaceDiscoveryResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3623,8 +3705,8 @@ export const GetWorkspaceEvaluation: API.OperationMethod<
   GetWorkspaceEvaluationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<GetWorkspaceEvaluationRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<GetWorkspaceEvaluationResponse>,
+  input: __S(1824, __c57, 0) as any as S.Schema<GetWorkspaceEvaluationRequest>,
+  output: __S(1856, __c58, 0) as any as S.Schema<GetWorkspaceEvaluationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3640,8 +3722,8 @@ export const ListActions: API.OperationMethod<
   ListActionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<ListActionsRequest>,
-  output: __S(1921, __c60, 1) as any as S.Schema<ActionListResult>,
+  input: __S(1920, __c60, 0) as any as S.Schema<ListActionsRequest>,
+  output: __S(1953, __c61, 1) as any as S.Schema<ActionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3657,8 +3739,8 @@ export const ListActionVersions: API.OperationMethod<
   ListActionVersionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<ListActionVersionsRequest>,
-  output: __S(1921, __c60, 1) as any as S.Schema<ActionVersionListResult>,
+  input: __S(1984, __c62, 0) as any as S.Schema<ListActionVersionsRequest>,
+  output: __S(1953, __c61, 1) as any as S.Schema<ActionVersionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3674,8 +3756,8 @@ export const ListCapabilities: API.OperationMethod<
   ListCapabilitiesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<ListCapabilitiesRequest>,
-  output: __S(1986, __c62, 2) as any as S.Schema<CapabilityListResult>,
+  input: __S(2016, __c63, 0) as any as S.Schema<ListCapabilitiesRequest>,
+  output: __S(2018, __c63, 2) as any as S.Schema<CapabilityListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3691,8 +3773,8 @@ export const ListCapabilityTypes: API.OperationMethod<
   ListCapabilityTypesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<ListCapabilityTypesRequest>,
-  output: __S(2018, __c63, 2) as any as S.Schema<CapabilityTypeListResult>,
+  input: __S(2048, __c64, 0) as any as S.Schema<ListCapabilityTypesRequest>,
+  output: __S(2050, __c64, 2) as any as S.Schema<CapabilityTypeListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3708,8 +3790,8 @@ export const ListConnectionAll: API.OperationMethod<
   ListConnectionAllError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<ListConnectionAllRequest>,
-  output: __S(2050, __c64, 2) as any as S.Schema<ConnectionListResult>,
+  input: __S(2080, __c65, 0) as any as S.Schema<ListConnectionAllRequest>,
+  output: __S(2082, __c65, 2) as any as S.Schema<ConnectionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3725,8 +3807,8 @@ export const ListDiscoveredResourceByWorkspace: API.OperationMethod<
   ListDiscoveredResourceByWorkspaceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<ListDiscoveredResourceByWorkspaceRequest>,
-  output: __S(2082, __c65, 2) as any as S.Schema<DiscoveredResourceListResult>,
+  input: __S(2112, __c66, 0) as any as S.Schema<ListDiscoveredResourceByWorkspaceRequest>,
+  output: __S(2114, __c66, 2) as any as S.Schema<DiscoveredResourceListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3742,8 +3824,8 @@ export const ListExperimentAll: API.OperationMethod<
   ListExperimentAllError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<ListExperimentAllRequest>,
-  output: __S(2145, __c67, 1) as any as S.Schema<ExperimentListResult>,
+  input: __S(2144, __c67, 0) as any as S.Schema<ListExperimentAllRequest>,
+  output: __S(2177, __c68, 1) as any as S.Schema<ExperimentListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3759,8 +3841,8 @@ export const ListExperimentAllExecutions: API.OperationMethod<
   ListExperimentAllExecutionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<ListExperimentAllExecutionsRequest>,
-  output: __S(2210, __c69, 2) as any as S.Schema<ExperimentExecutionListResult>,
+  input: __S(2240, __c70, 0) as any as S.Schema<ListExperimentAllExecutionsRequest>,
+  output: __S(2242, __c70, 2) as any as S.Schema<ExperimentExecutionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3776,8 +3858,8 @@ export const ListExperiments: API.OperationMethod<
   ListExperimentsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<ListExperimentsRequest>,
-  output: __S(2145, __c67, 1) as any as S.Schema<ExperimentListResult>,
+  input: __S(2272, __c71, 0) as any as S.Schema<ListExperimentsRequest>,
+  output: __S(2177, __c68, 1) as any as S.Schema<ExperimentListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3793,8 +3875,8 @@ export const ListOperationAll: API.OperationMethod<
   ListOperationAllError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<ListOperationAllRequest>,
-  output: __S(2276, __c71, 4) as any as S.Schema<ListOperationAllResponse>,
+  input: __S(2304, __c72, 0) as any as S.Schema<ListOperationAllRequest>,
+  output: __S(2308, __c72, 4) as any as S.Schema<ListOperationAllResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3810,8 +3892,8 @@ export const ListScenarioConfigurationAll: API.OperationMethod<
   ListScenarioConfigurationAllError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<ListScenarioConfigurationAllRequest>,
-  output: __S(2306, __c72, 2) as any as S.Schema<ScenarioConfigurationListResult>,
+  input: __S(2336, __c73, 0) as any as S.Schema<ListScenarioConfigurationAllRequest>,
+  output: __S(2338, __c73, 2) as any as S.Schema<ScenarioConfigurationListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3827,8 +3909,8 @@ export const ListScenarioRunAll: API.OperationMethod<
   ListScenarioRunAllError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c73, 0) as any as S.Schema<ListScenarioRunAllRequest>,
-  output: __S(2339, __c73, 3) as any as S.Schema<ScenarioRunListResult>,
+  input: __S(2368, __c74, 0) as any as S.Schema<ListScenarioRunAllRequest>,
+  output: __S(2371, __c74, 3) as any as S.Schema<ScenarioRunListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3844,8 +3926,8 @@ export const ListScenariosAll: API.OperationMethod<
   ListScenariosAllError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c74, 0) as any as S.Schema<ListScenariosAllRequest>,
-  output: __S(2370, __c74, 2) as any as S.Schema<ScenarioListResult>,
+  input: __S(2400, __c75, 0) as any as S.Schema<ListScenariosAllRequest>,
+  output: __S(2402, __c75, 2) as any as S.Schema<ScenarioListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3861,8 +3943,8 @@ export const ListScenarioTemplates: API.OperationMethod<
   ListScenarioTemplatesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c75, 0) as any as S.Schema<ListScenarioTemplatesRequest>,
-  output: __S(2402, __c75, 2) as any as S.Schema<ScenarioTemplateListResult>,
+  input: __S(2432, __c76, 0) as any as S.Schema<ListScenarioTemplatesRequest>,
+  output: __S(2434, __c76, 2) as any as S.Schema<ScenarioTemplateListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3878,8 +3960,8 @@ export const ListScenarioTemplateVersions: API.OperationMethod<
   ListScenarioTemplateVersionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c76, 0) as any as S.Schema<ListScenarioTemplateVersionsRequest>,
-  output: __S(2434, __c76, 2) as any as S.Schema<ScenarioTemplateVersionListResult>,
+  input: __S(2464, __c77, 0) as any as S.Schema<ListScenarioTemplateVersionsRequest>,
+  output: __S(2466, __c77, 2) as any as S.Schema<ScenarioTemplateVersionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3895,8 +3977,8 @@ export const ListTargets: API.OperationMethod<
   ListTargetsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<ListTargetsRequest>,
-  output: __S(2466, __c77, 2) as any as S.Schema<TargetListResult>,
+  input: __S(2496, __c78, 0) as any as S.Schema<ListTargetsRequest>,
+  output: __S(2498, __c78, 2) as any as S.Schema<TargetListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3912,8 +3994,8 @@ export const ListTargetTypes: API.OperationMethod<
   ListTargetTypesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<ListTargetTypesRequest>,
-  output: __S(2498, __c78, 2) as any as S.Schema<TargetTypeListResult>,
+  input: __S(2528, __c79, 0) as any as S.Schema<ListTargetTypesRequest>,
+  output: __S(2530, __c79, 2) as any as S.Schema<TargetTypeListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3929,8 +4011,8 @@ export const ListWorkspaceAll: API.OperationMethod<
   ListWorkspaceAllError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<ListWorkspaceAllRequest>,
-  output: __S(2593, __c81, 1) as any as S.Schema<WorkspaceListResult>,
+  input: __S(2592, __c81, 0) as any as S.Schema<ListWorkspaceAllRequest>,
+  output: __S(2625, __c82, 1) as any as S.Schema<WorkspaceListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3946,8 +4028,8 @@ export const ListWorkspaceDiscoveries: API.OperationMethod<
   ListWorkspaceDiscoveriesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<ListWorkspaceDiscoveriesRequest>,
-  output: __S(2626, __c82, 2) as any as S.Schema<WorkspaceDiscoveryListResult>,
+  input: __S(2656, __c83, 0) as any as S.Schema<ListWorkspaceDiscoveriesRequest>,
+  output: __S(2658, __c83, 2) as any as S.Schema<WorkspaceDiscoveryListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3963,8 +4045,8 @@ export const ListWorkspaceEvaluations: API.OperationMethod<
   ListWorkspaceEvaluationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<ListWorkspaceEvaluationsRequest>,
-  output: __S(2658, __c83, 2) as any as S.Schema<WorkspaceEvaluationListResult>,
+  input: __S(2688, __c84, 0) as any as S.Schema<ListWorkspaceEvaluationsRequest>,
+  output: __S(2690, __c84, 2) as any as S.Schema<WorkspaceEvaluationListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3980,8 +4062,8 @@ export const ListWorkspaces: API.OperationMethod<
   ListWorkspacesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c84, 0) as any as S.Schema<ListWorkspacesRequest>,
-  output: __S(2593, __c81, 1) as any as S.Schema<WorkspaceListResult>,
+  input: __S(2720, __c85, 0) as any as S.Schema<ListWorkspacesRequest>,
+  output: __S(2625, __c82, 1) as any as S.Schema<WorkspaceListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3997,8 +4079,8 @@ export const ScenarioConfigurationsCreateOrUpdate: API.OperationMethod<
   ScenarioConfigurationsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2721, __c85, 1) as any as S.Schema<ScenarioConfigurationsCreateOrUpdateRequest>,
-  output: __S(2722, __c85, 2) as any as S.Schema<ScenarioConfigurationsCreateOrUpdateResponse>,
+  input: __S(2753, __c86, 1) as any as S.Schema<ScenarioConfigurationsCreateOrUpdateRequest>,
+  output: __S(2754, __c86, 2) as any as S.Schema<ScenarioConfigurationsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4015,8 +4097,8 @@ export const ScenarioConfigurationsFixResourcePermissions: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2752,
-    __c86,
+    2784,
+    __c87,
     0,
   ) as any as S.Schema<ScenarioConfigurationsFixResourcePermissionsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ScenarioConfigurationsFixResourcePermissionsResponse>,
@@ -4035,8 +4117,8 @@ export const ScenariosCreateOrUpdate: API.OperationMethod<
   ScenariosCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2785, __c87, 1) as any as S.Schema<ScenariosCreateOrUpdateRequest>,
-  output: __S(1250, __c39, 2) as any as S.Schema<ScenariosCreateOrUpdateResponse>,
+  input: __S(2817, __c88, 1) as any as S.Schema<ScenariosCreateOrUpdateRequest>,
+  output: __S(1282, __c40, 2) as any as S.Schema<ScenariosCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4052,7 +4134,7 @@ export const StartExperiment: API.OperationMethod<
   StartExperimentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<StartExperimentRequest>,
+  input: __S(2848, __c89, 0) as any as S.Schema<StartExperimentRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<StartExperimentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -4069,8 +4151,8 @@ export const TargetsCreateOrUpdate: API.OperationMethod<
   TargetsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<TargetsCreateOrUpdateRequest>,
-  output: __S(1441, __c45, 1) as any as S.Schema<TargetsCreateOrUpdateResponse>,
+  input: __S(2880, __c90, 0) as any as S.Schema<TargetsCreateOrUpdateRequest>,
+  output: __S(1473, __c46, 1) as any as S.Schema<TargetsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4086,8 +4168,8 @@ export const UpdateExperiment: API.OperationMethod<
   UpdateExperimentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c90, 0) as any as S.Schema<UpdateExperimentRequest>,
-  output: __S(2881, __c90, 1) as any as S.Schema<UpdateExperimentResponse>,
+  input: __S(2912, __c91, 0) as any as S.Schema<UpdateExperimentRequest>,
+  output: __S(2913, __c91, 1) as any as S.Schema<UpdateExperimentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4103,8 +4185,8 @@ export const UpdateWorkspace: API.OperationMethod<
   UpdateWorkspaceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2947, __c92, 3) as any as S.Schema<UpdateWorkspaceRequest>,
-  output: __S(2948, __c92, 4) as any as S.Schema<UpdateWorkspaceResponse>,
+  input: __S(2979, __c93, 3) as any as S.Schema<UpdateWorkspaceRequest>,
+  output: __S(2980, __c93, 4) as any as S.Schema<UpdateWorkspaceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4120,7 +4202,7 @@ export const ValidateScenarioConfiguration: API.OperationMethod<
   ValidateScenarioConfigurationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<ValidateScenarioConfigurationRequest>,
+  input: __S(3008, __c94, 0) as any as S.Schema<ValidateScenarioConfigurationRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ValidateScenarioConfigurationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -4137,8 +4219,8 @@ export const WorkspacesCreateOrUpdate: API.OperationMethod<
   WorkspacesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3010, __c94, 2) as any as S.Schema<WorkspacesCreateOrUpdateRequest>,
-  output: __S(3011, __c94, 3) as any as S.Schema<WorkspacesCreateOrUpdateResponse>,
+  input: __S(3042, __c95, 2) as any as S.Schema<WorkspacesCreateOrUpdateRequest>,
+  output: __S(3043, __c95, 3) as any as S.Schema<WorkspacesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4154,8 +4236,8 @@ export const WorkspacesDiscover: API.OperationMethod<
   WorkspacesDiscoverError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<WorkspacesDiscoverRequest>,
-  output: __S(3041, __c95, 1) as any as S.Schema<WorkspacesDiscoverResponse>,
+  input: __S(3072, __c96, 0) as any as S.Schema<WorkspacesDiscoverRequest>,
+  output: __S(3073, __c96, 1) as any as S.Schema<WorkspacesDiscoverResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4171,8 +4253,8 @@ export const WorkspacesEvaluate: API.OperationMethod<
   WorkspacesEvaluateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<WorkspacesEvaluateRequest>,
-  output: __S(3073, __c96, 1) as any as S.Schema<WorkspacesEvaluateResponse>,
+  input: __S(3104, __c97, 0) as any as S.Schema<WorkspacesEvaluateRequest>,
+  output: __S(3105, __c97, 1) as any as S.Schema<WorkspacesEvaluateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4277,9 +4359,9 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          steps: __S(293, __c9, 5),
-          selectors: __S(299, __c9, 11),
-          customerDataStorage: S.optional(__S(300, __c9, 12)),
+          steps: __S(296, __c9, 8),
+          selectors: __S(304, __c9, 16),
+          customerDataStorage: S.optional(__S(305, __c9, 17)),
         }),
       ).annotate({ identifier: "ExperimentPropertiesInput" });
     case 1:
@@ -4311,7 +4393,7 @@ function __c5(j: number): any {
           tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
           identity: S.optional(__S(259, __c8, 3)),
-          properties: __S(301, __c9, 13),
+          properties: __S(306, __c9, 18),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
@@ -4368,80 +4450,109 @@ function __c9(j: number): any {
         S.Struct({
           name: S.String,
           type: S.String,
-          duration: S.optional(S.String),
-          parameters: S.optional(__S(225, __c7, 1)),
-          selectorId: S.optional(S.String),
+          duration: S.String,
+          parameters: __S(225, __c7, 1),
+          selectorId: S.String,
         }),
-      ).annotate({ identifier: "ChaosExperimentAction" });
+      ).annotate({ identifier: "ContinuousAction" });
     case 1:
-      return S.Array(__S(288, __c9, 0));
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          type: S.String,
+          duration: S.String,
+        }),
+      ).annotate({ identifier: "DelayAction" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          actions: __S(289, __c9, 1),
+          type: S.String,
+          parameters: __S(225, __c7, 1),
+          selectorId: S.String,
         }),
-      ).annotate({ identifier: "ChaosExperimentBranch" });
+      ).annotate({ identifier: "DiscreteAction" });
     case 3:
-      return S.Array(__S(290, __c9, 2));
+      return S.Union([__S(288, __c9, 0), __S(289, __c9, 1), __S(290, __c9, 2)]);
     case 4:
+      return S.Array(__S(291, __c9, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          branches: __S(291, __c9, 3),
+          actions: __S(292, __c9, 4),
+        }),
+      ).annotate({ identifier: "ChaosExperimentBranch" });
+    case 6:
+      return S.Array(__S(293, __c9, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          branches: __S(294, __c9, 6),
         }),
       ).annotate({ identifier: "ChaosExperimentStep" });
-    case 5:
-      return S.Array(__S(292, __c9, 4));
-    case 6:
+    case 8:
+      return S.Array(__S(295, __c9, 7));
+    case 9:
       return S.suspend(() =>
         S.Struct({
           zones: S.optional(__S(192, __c6, 0)),
         }),
       ).annotate({ identifier: "ChaosTargetSimpleFilterParameters" });
-    case 7:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          parameters: S.optional(__S(294, __c9, 6)),
+          parameters: S.optional(__S(297, __c9, 9)),
         }),
-      ).annotate({ identifier: "ChaosTargetFilter" });
-    case 8:
+      ).annotate({ identifier: "ChaosTargetSimpleFilter" });
+    case 11:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
           id: S.String,
         }),
       ).annotate({ identifier: "TargetReference" });
-    case 9:
-      return S.Array(__S(296, __c9, 8));
-    case 10:
+    case 12:
+      return S.Array(__S(299, __c9, 11));
+    case 13:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           type: S.String,
-          filter: S.optional(__S(295, __c9, 7)),
-          targets: S.optional(__S(297, __c9, 9)),
-          queryString: S.optional(S.String),
-          subscriptionIds: S.optional(__S(192, __c6, 0)),
+          filter: S.optional(__S(298, __c9, 10)),
+          targets: __S(300, __c9, 12),
         }),
-      ).annotate({ identifier: "ChaosTargetSelector" });
-    case 11:
-      return S.Array(__S(298, __c9, 10));
-    case 12:
+      ).annotate({ identifier: "ChaosTargetListSelector" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          type: S.String,
+          filter: S.optional(__S(298, __c9, 10)),
+          queryString: S.String,
+          subscriptionIds: __S(192, __c6, 0),
+        }),
+      ).annotate({ identifier: "ChaosTargetQuerySelector" });
+    case 15:
+      return S.Union([__S(301, __c9, 13), __S(302, __c9, 14)]);
+    case 16:
+      return S.Array(__S(303, __c9, 15));
+    case 17:
       return S.suspend(() =>
         S.Struct({
           storageAccountResourceId: S.optional(S.String),
           blobContainerName: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomerDataStorageProperties" });
-    case 13:
+    case 18:
       return S.suspend(() =>
         S.Struct({
           provisioningState: S.optional(S.String),
-          steps: __S(293, __c9, 5),
-          selectors: __S(299, __c9, 11),
-          customerDataStorage: S.optional(__S(300, __c9, 12)),
+          steps: __S(296, __c9, 8),
+          selectors: __S(304, __c9, 16),
+          customerDataStorage: S.optional(__S(305, __c9, 17)),
         }),
       ).annotate({ identifier: "ExperimentProperties" });
   }
@@ -4883,7 +4994,7 @@ function __c26(j: number): any {
           tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
           identity: S.optional(__S(259, __c8, 3)),
-          properties: __S(301, __c9, 13),
+          properties: __S(306, __c9, 18),
         }),
       ).annotate({ identifier: "GetExperimentResponse" });
   }
@@ -5099,7 +5210,7 @@ function __c34(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(736, __c23, 0)),
-          properties: S.optional(__S(1175, __c36, 23)),
+          properties: S.optional(__S(1205, __c37, 21)),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
@@ -5124,11 +5235,33 @@ function __c36(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          objectId: S.String,
+          tenantId: S.String,
+        }),
+      ).annotate({ identifier: "EntraIdentity" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          resourceId: S.String,
+          missingPermissions: __S(192, __c6, 0),
+          requiredPermissions: __S(192, __c6, 0),
+          recommendedRoles: __S(192, __c6, 0),
+          identity: S.optional(__S(1152, __c36, 0)),
+          errorMessage: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PermissionError" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           id: S.String,
         }),
       ).annotate({ identifier: "ScenarioRunResource" });
     case 1:
-      return S.Array(__S(1152, __c36, 0));
+      return S.Array(__S(1184, __c37, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -5138,38 +5271,20 @@ function __c36(j: number): any {
         }),
       ).annotate({ identifier: "ScenarioRunWarningDetail" });
     case 3:
-      return S.Array(__S(1154, __c36, 2));
+      return S.Array(__S(1186, __c37, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           code: S.String,
           message: S.String,
-          details: S.optional(__S(1155, __c36, 3)),
+          details: S.optional(__S(1187, __c37, 3)),
         }),
       ).annotate({ identifier: "ScenarioRunWarning" });
     case 5:
-      return S.Array(__S(1156, __c36, 4));
+      return S.Array(__S(1188, __c37, 4));
     case 6:
-      return S.suspend(() =>
-        S.Struct({
-          objectId: S.String,
-          tenantId: S.String,
-        }),
-      ).annotate({ identifier: "EntraIdentity" });
+      return S.Array(__S(1153, __c36, 1));
     case 7:
-      return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String,
-          missingPermissions: __S(192, __c6, 0),
-          requiredPermissions: __S(192, __c6, 0),
-          recommendedRoles: __S(192, __c6, 0),
-          identity: S.optional(__S(1158, __c36, 6)),
-          errorMessage: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PermissionError" });
-    case 8:
-      return S.Array(__S(1159, __c36, 7));
-    case 9:
       return S.suspend(() =>
         S.Struct({
           resourceId: S.String,
@@ -5178,18 +5293,18 @@ function __c36(j: number): any {
           remediationUri: S.String,
         }),
       ).annotate({ identifier: "ResourceStateError" });
-    case 10:
-      return S.Array(__S(1161, __c36, 9));
-    case 11:
+    case 8:
+      return S.Array(__S(1191, __c37, 7));
+    case 9:
       return S.suspend(() =>
         S.Struct({
           errorCode: S.optional(S.String),
           errorMessage: S.optional(S.String),
-          permission: __S(1160, __c36, 8),
-          resource: __S(1162, __c36, 10),
+          permission: __S(1190, __c37, 6),
+          resource: __S(1192, __c37, 8),
         }),
       ).annotate({ identifier: "ScenarioErrors" });
-    case 12:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -5198,58 +5313,58 @@ function __c36(j: number): any {
           completedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "ScenarioRunEffectiveTarget" });
-    case 13:
-      return S.Array(__S(1164, __c36, 12));
-    case 14:
+    case 11:
+      return S.Array(__S(1194, __c37, 10));
+    case 12:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          affectedResources: S.optional(__S(1165, __c36, 13)),
+          affectedResources: S.optional(__S(1195, __c37, 11)),
         }),
       ).annotate({ identifier: "ScenarioRunSummaryResource" });
-    case 15:
-      return S.Array(__S(1166, __c36, 14));
-    case 16:
+    case 13:
+      return S.Array(__S(1196, __c37, 12));
+    case 14:
       return S.suspend(() =>
         S.Struct({
-          resources: __S(1167, __c36, 15),
+          resources: __S(1197, __c37, 13),
           actionUrn: S.String,
           state: S.String,
           startedAt: S.optional(S.String),
           completedAt: S.optional(S.String),
-          error: S.optional(__S(1156, __c36, 4)),
+          error: S.optional(__S(1188, __c37, 4)),
           failureSuppressed: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ScenarioRunSummaryAction" });
-    case 17:
-      return S.Array(__S(1168, __c36, 16));
-    case 18:
+    case 15:
+      return S.Array(__S(1198, __c37, 14));
+    case 16:
       return S.suspend(() =>
         S.Struct({
           physicalZone: S.String,
           logicalZone: S.String,
         }),
       ).annotate({ identifier: "PhysicalToLogicalZoneMapping" });
-    case 19:
-      return S.Array(__S(1170, __c36, 18));
-    case 20:
+    case 17:
+      return S.Array(__S(1200, __c37, 16));
+    case 18:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String,
-          zoneMappings: __S(1171, __c36, 19),
+          zoneMappings: __S(1201, __c37, 17),
         }),
       ).annotate({ identifier: "ZoneResolutionMapping" });
-    case 21:
-      return S.Array(__S(1172, __c36, 20));
-    case 22:
+    case 19:
+      return S.Array(__S(1202, __c37, 18));
+    case 20:
       return S.suspend(() =>
         S.Struct({
           mode: S.String,
           requestedPhysicalZones: __S(192, __c6, 0),
-          subscriptionZoneMappings: __S(1173, __c36, 21),
+          subscriptionZoneMappings: __S(1203, __c37, 19),
         }),
       ).annotate({ identifier: "ZoneResolutionInfo" });
-    case 23:
+    case 21:
       return S.suspend(() =>
         S.Struct({
           workspaceName: S.String,
@@ -5258,21 +5373,21 @@ function __c36(j: number): any {
           managedIdentityPrincipalId: S.String,
           resourceSnapshotId: S.optional(S.String),
           status: S.String,
-          resources: __S(1153, __c36, 1),
-          excludedResources: S.optional(__S(1153, __c36, 1)),
+          resources: __S(1185, __c37, 1),
+          excludedResources: S.optional(__S(1185, __c37, 1)),
           errors: S.optional(__S(1121, __c35, 1)),
-          warnings: S.optional(__S(1157, __c36, 5)),
-          executionErrors: S.optional(__S(1163, __c36, 11)),
+          warnings: S.optional(__S(1189, __c37, 5)),
+          executionErrors: S.optional(__S(1193, __c37, 9)),
           scenarioRunJson: S.optional(S.String),
-          scenarioRunSummary: S.optional(__S(1169, __c36, 17)),
+          scenarioRunSummary: S.optional(__S(1199, __c37, 15)),
           startTime: S.String,
           endTime: S.optional(S.String),
-          zoneResolution: S.optional(__S(1174, __c36, 22)),
+          zoneResolution: S.optional(__S(1204, __c37, 20)),
         }),
       ).annotate({ identifier: "ScenarioRunProperties" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5292,7 +5407,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "GetScenariosRequest" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5309,11 +5424,11 @@ function __c38(j: number): any {
           default: S.optional(S.String),
           required: S.optional(S.Boolean),
           description: S.optional(S.String),
-          format: S.optional(__S(1216, __c38, 0)),
+          format: S.optional(__S(1248, __c39, 0)),
         }),
       ).annotate({ identifier: "ScenarioParameter" });
     case 2:
-      return S.Array(__S(1217, __c38, 1));
+      return S.Array(__S(1249, __c39, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -5322,7 +5437,7 @@ function __c38(j: number): any {
         }),
       ).annotate({ identifier: "ScenarioActionSelector" });
     case 4:
-      return S.Array(__S(1219, __c38, 3));
+      return S.Array(__S(1251, __c39, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -5332,12 +5447,12 @@ function __c38(j: number): any {
         }),
       ).annotate({ identifier: "ActionDependency" });
     case 6:
-      return S.Array(__S(1221, __c38, 5));
+      return S.Array(__S(1253, __c39, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           behavior: S.optional(S.String),
-          items: __S(1222, __c38, 6),
+          items: __S(1254, __c39, 6),
         }),
       ).annotate({ identifier: "RunAfter" });
     case 8:
@@ -5354,19 +5469,19 @@ function __c38(j: number): any {
           description: S.optional(S.String),
           duration: S.String,
           parameters: S.optional(__S(225, __c7, 1)),
-          selectors: S.optional(__S(1220, __c38, 4)),
-          runAfter: S.optional(__S(1223, __c38, 7)),
+          selectors: S.optional(__S(1252, __c39, 4)),
+          runAfter: S.optional(__S(1255, __c39, 7)),
           waitBefore: S.optional(S.String),
           timeout: S.optional(S.String),
-          externalResource: S.optional(__S(1224, __c38, 8)),
+          externalResource: S.optional(__S(1256, __c39, 8)),
           failureBehavior: S.optional(S.String),
         }),
       ).annotate({ identifier: "ScenarioAction" });
     case 10:
-      return S.Array(__S(1225, __c38, 9));
+      return S.Array(__S(1257, __c39, 9));
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5382,10 +5497,10 @@ function __c39(j: number): any {
           createdFrom: S.optional(S.String),
           version: S.optional(S.String),
           description: S.optional(S.String),
-          parameters: S.optional(__S(1218, __c38, 2)),
-          actions: S.optional(__S(1226, __c38, 10)),
+          parameters: S.optional(__S(1250, __c39, 2)),
+          actions: S.optional(__S(1258, __c39, 10)),
           failureBehavior: S.optional(S.String),
-          recommendation: S.optional(__S(1248, __c39, 0)),
+          recommendation: S.optional(__S(1280, __c40, 0)),
         }),
       ).annotate({ identifier: "ScenarioProperties" });
     case 2:
@@ -5395,12 +5510,12 @@ function __c39(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(736, __c23, 0)),
-          properties: S.optional(__S(1249, __c39, 1)),
+          properties: S.optional(__S(1281, __c40, 1)),
         }),
       ).annotate({ identifier: "GetScenariosResponse" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5417,7 +5532,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "GetScenarioTemplateRequest" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5425,8 +5540,8 @@ function __c41(j: number): any {
           latestVersion: S.String,
           displayName: S.optional(S.String),
           description: S.optional(S.String),
-          parameters: S.optional(__S(1218, __c38, 2)),
-          actions: __S(1226, __c38, 10),
+          parameters: S.optional(__S(1250, __c39, 2)),
+          actions: __S(1258, __c39, 10),
           failureBehavior: S.optional(S.String),
         }),
       ).annotate({ identifier: "ScenarioTemplateProperties" });
@@ -5437,12 +5552,12 @@ function __c41(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(736, __c23, 0)),
-          properties: __S(1312, __c41, 0),
+          properties: __S(1344, __c42, 0),
         }),
       ).annotate({ identifier: "GetScenarioTemplateResponse" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5460,15 +5575,15 @@ function __c42(j: number): any {
       ).annotate({ identifier: "GetScenarioTemplateVersionRequest" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           displayName: S.optional(S.String),
           description: S.optional(S.String),
-          parameters: S.optional(__S(1218, __c38, 2)),
-          actions: __S(1226, __c38, 10),
+          parameters: S.optional(__S(1250, __c39, 2)),
+          actions: __S(1258, __c39, 10),
           failureBehavior: S.optional(S.String),
         }),
       ).annotate({ identifier: "ScenarioTemplateVersionProperties" });
@@ -5479,12 +5594,12 @@ function __c43(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(736, __c23, 0)),
-          properties: __S(1376, __c43, 0),
+          properties: __S(1408, __c44, 0),
         }),
       ).annotate({ identifier: "GetScenarioTemplateVersionResponse" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5506,7 +5621,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "GetTargetRequest" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
@@ -5517,13 +5632,13 @@ function __c45(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(736, __c23, 0)),
-          properties: __S(1440, __c45, 0),
+          properties: __S(1472, __c46, 0),
           location: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetTargetResponse" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5542,7 +5657,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "GetTargetTypeRequest" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5560,12 +5675,12 @@ function __c47(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(736, __c23, 0)),
-          properties: __S(1504, __c47, 0),
+          properties: __S(1536, __c48, 0),
         }),
       ).annotate({ identifier: "GetTargetTypeResponse" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5585,7 +5700,7 @@ function __c48(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           connectionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1536, __c48, 0)),
+          properties: S.optional(__S(1568, __c49, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -5597,7 +5712,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "ConnectionsCreateOrUpdateRequest" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5620,12 +5735,12 @@ function __c49(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(736, __c23, 0)),
-          properties: S.optional(__S(1568, __c49, 0)),
+          properties: S.optional(__S(1600, __c50, 0)),
         }),
       ).annotate({ identifier: "ConnectionsCreateOrUpdateResponse" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5644,7 +5759,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "GetWorkspaceRequest" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5656,12 +5771,12 @@ function __c51(j: number): any {
           tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
           identity: S.optional(__S(259, __c8, 3)),
-          properties: __S(1670, __c52, 6),
+          properties: __S(1702, __c53, 6),
         }),
       ).annotate({ identifier: "GetWorkspaceResponse" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5684,7 +5799,7 @@ function __c52(j: number): any {
           code: S.optional(S.String),
           message: S.optional(S.String),
           target: S.optional(S.String),
-          details: S.optional(__S(1666, __c52, 2)),
+          details: S.optional(__S(1698, __c53, 2)),
           additionalInfo: S.optional(__S(962, __c30, 2)),
         }),
       ).annotate({ identifier: "WorkspaceEncryptionStatusError" });
@@ -5695,15 +5810,15 @@ function __c52(j: number): any {
           observedProtection: S.optional(S.String),
           observedKeyEncryptionKeyUrl: S.optional(S.String),
           lastCheckedAt: S.optional(S.String),
-          error: S.optional(__S(1667, __c52, 3)),
+          error: S.optional(__S(1699, __c53, 3)),
         }),
       ).annotate({ identifier: "WorkspaceEncryptionStatus" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          customerManagedKeyEncryption: S.optional(__S(1664, __c52, 0)),
-          customerManagedKeyOnboarding: S.optional(__S(1665, __c52, 1)),
-          status: S.optional(__S(1668, __c52, 4)),
+          customerManagedKeyEncryption: S.optional(__S(1696, __c53, 0)),
+          customerManagedKeyOnboarding: S.optional(__S(1697, __c53, 1)),
+          status: S.optional(__S(1700, __c53, 4)),
         }),
       ).annotate({ identifier: "WorkspaceEncryption" });
     case 6:
@@ -5711,12 +5826,12 @@ function __c52(j: number): any {
         S.Struct({
           provisioningState: S.optional(S.String),
           scopes: __S(192, __c6, 0),
-          encryption: S.optional(__S(1669, __c52, 5)),
+          encryption: S.optional(__S(1701, __c53, 5)),
         }),
       ).annotate({ identifier: "WorkspaceProperties" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5736,7 +5851,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "GetWorkspaceDiscoveryRequest" });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5745,12 +5860,12 @@ function __c54(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(736, __c23, 0)),
-          properties: S.optional(__S(1765, __c55, 5)),
+          properties: S.optional(__S(1799, __c56, 7)),
         }),
       ).annotate({ identifier: "GetWorkspaceDiscoveryResponse" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5776,8 +5891,8 @@ function __c55(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          scopes: __S(1760, __c55, 0),
-          resources: S.optional(__S(1761, __c55, 1)),
+          scopes: __S(1792, __c56, 0),
+          resources: S.optional(__S(1793, __c56, 1)),
         }),
       ).annotate({ identifier: "WorkspaceDiscoveryCoverageSummary" });
     case 3:
@@ -5787,11 +5902,24 @@ function __c55(j: number): any {
           scopeKind: S.String,
           reason: S.String,
           message: S.String,
+          resourceId: S.String,
         }),
-      ).annotate({ identifier: "WorkspaceDiscoveryWarning" });
+      ).annotate({ identifier: "WorkspaceDiscoveryAccessWarning" });
     case 4:
-      return S.Array(__S(1763, __c55, 3));
+      return S.suspend(() =>
+        S.Struct({
+          scopeId: S.String,
+          scopeKind: S.String,
+          reason: S.String,
+          message: S.String,
+          permission: __S(1153, __c36, 1),
+        }),
+      ).annotate({ identifier: "WorkspaceDiscoveryPermissionWarning" });
     case 5:
+      return S.Union([__S(1795, __c56, 3), __S(1796, __c56, 4), __S(1795, __c56, 3)]);
+    case 6:
+      return S.Array(__S(1797, __c56, 5));
+    case 7:
       return S.suspend(() =>
         S.Struct({
           status: S.String,
@@ -5801,15 +5929,15 @@ function __c55(j: number): any {
           workspaceId: S.String,
           resourceSnapshotId: S.optional(S.String),
           completeness: S.optional(S.String),
-          coverageSummary: S.optional(__S(1762, __c55, 2)),
-          warnings: S.optional(__S(1764, __c55, 4)),
+          coverageSummary: S.optional(__S(1794, __c56, 2)),
+          warnings: S.optional(__S(1798, __c56, 6)),
           warningsTotalCount: S.optional(S.Number),
           warningsTruncated: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "WorkspaceDiscoveryProperties" });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5829,7 +5957,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "GetWorkspaceEvaluationRequest" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5838,12 +5966,12 @@ function __c57(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(736, __c23, 0)),
-          properties: S.optional(__S(1858, __c58, 2)),
+          properties: S.optional(__S(1890, __c59, 2)),
         }),
       ).annotate({ identifier: "GetWorkspaceEvaluationResponse" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5854,7 +5982,7 @@ function __c58(j: number): any {
         }),
       ).annotate({ identifier: "TemplateEvaluationResultItem" });
     case 1:
-      return S.Array(__S(1856, __c58, 0));
+      return S.Array(__S(1888, __c59, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -5869,12 +5997,12 @@ function __c58(j: number): any {
           numTemplatesEvaluatedSucceeded: S.Number,
           numTemplatesEvaluatedFailed: S.Number,
           numTemplatesEvaluatedCancelled: S.Number,
-          results: S.optional(__S(1857, __c58, 1)),
+          results: S.optional(__S(1889, __c59, 1)),
         }),
       ).annotate({ identifier: "WorkspaceEvaluationProperties" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5893,20 +6021,20 @@ function __c59(j: number): any {
       ).annotate({ identifier: "ListActionsRequest" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(419, __c13, 3));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1920, __c60, 0),
+          value: __S(1952, __c61, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ActionListResult" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5926,7 +6054,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "ListActionVersionsRequest" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5952,13 +6080,13 @@ function __c62(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1985, __c62, 1),
+          value: __S(2017, __c63, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "CapabilityListResult" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5981,13 +6109,13 @@ function __c63(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2017, __c63, 1),
+          value: __S(2049, __c64, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "CapabilityTypeListResult" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6005,17 +6133,17 @@ function __c64(j: number): any {
         ),
       ).annotate({ identifier: "ListConnectionAllRequest" });
     case 1:
-      return S.Array(__S(1569, __c49, 1));
+      return S.Array(__S(1601, __c50, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2049, __c64, 1),
+          value: __S(2081, __c65, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConnectionListResult" });
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6037,13 +6165,13 @@ function __c65(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2081, __c65, 1),
+          value: __S(2113, __c66, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DiscoveredResourceListResult" });
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6062,20 +6190,20 @@ function __c66(j: number): any {
       ).annotate({ identifier: "ListExperimentAllRequest" });
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(832, __c26, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2144, __c67, 0),
+          value: __S(2176, __c68, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExperimentListResult" });
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6098,7 +6226,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "DeleteCapabilityRequest" });
   }
 }
-function __c69(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6120,13 +6248,13 @@ function __c69(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2209, __c69, 1),
+          value: __S(2241, __c70, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExperimentExecutionListResult" });
   }
 }
-function __c70(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6146,7 +6274,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "ListExperimentsRequest" });
   }
 }
-function __c71(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6173,23 +6301,23 @@ function __c71(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           isDataAction: S.optional(S.Boolean),
-          display: S.optional(__S(2273, __c71, 1)),
+          display: S.optional(__S(2305, __c72, 1)),
           origin: S.optional(S.String),
           actionType: S.optional(S.String),
         }),
       ).annotate({ identifier: "Operation" });
     case 3:
-      return S.Array(__S(2274, __c71, 2));
+      return S.Array(__S(2306, __c72, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2275, __c71, 3)),
+          value: S.optional(__S(2307, __c72, 3)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationAllResponse" });
   }
 }
-function __c72(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6212,13 +6340,13 @@ function __c72(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2305, __c72, 1),
+          value: __S(2337, __c73, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ScenarioConfigurationListResult" });
   }
 }
-function __c73(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6243,21 +6371,21 @@ function __c73(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(736, __c23, 0)),
-          properties: S.optional(__S(1175, __c36, 23)),
+          properties: S.optional(__S(1205, __c37, 21)),
         }),
       ).annotate({ identifier: "ScenarioRun" });
     case 2:
-      return S.Array(__S(2337, __c73, 1));
+      return S.Array(__S(2369, __c74, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2338, __c73, 2),
+          value: __S(2370, __c74, 2),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ScenarioRunListResult" });
   }
 }
-function __c74(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6275,17 +6403,17 @@ function __c74(j: number): any {
         ),
       ).annotate({ identifier: "ListScenariosAllRequest" });
     case 1:
-      return S.Array(__S(1250, __c39, 2));
+      return S.Array(__S(1282, __c40, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2369, __c74, 1),
+          value: __S(2401, __c75, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ScenarioListResult" });
   }
 }
-function __c75(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6299,17 +6427,17 @@ function __c75(j: number): any {
         ),
       ).annotate({ identifier: "ListScenarioTemplatesRequest" });
     case 1:
-      return S.Array(__S(1313, __c41, 1));
+      return S.Array(__S(1345, __c42, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2401, __c75, 1),
+          value: __S(2433, __c76, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ScenarioTemplateListResult" });
   }
 }
-function __c76(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6325,17 +6453,17 @@ function __c76(j: number): any {
         ),
       ).annotate({ identifier: "ListScenarioTemplateVersionsRequest" });
     case 1:
-      return S.Array(__S(1377, __c43, 1));
+      return S.Array(__S(1409, __c44, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2433, __c76, 1),
+          value: __S(2465, __c77, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ScenarioTemplateVersionListResult" });
   }
 }
-function __c77(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6356,17 +6484,17 @@ function __c77(j: number): any {
         ),
       ).annotate({ identifier: "ListTargetsRequest" });
     case 1:
-      return S.Array(__S(1441, __c45, 1));
+      return S.Array(__S(1473, __c46, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2465, __c77, 1),
+          value: __S(2497, __c78, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "TargetListResult" });
   }
 }
-function __c78(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6384,17 +6512,17 @@ function __c78(j: number): any {
         ),
       ).annotate({ identifier: "ListTargetTypesRequest" });
     case 1:
-      return S.Array(__S(1505, __c47, 1));
+      return S.Array(__S(1537, __c48, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2497, __c78, 1),
+          value: __S(2529, __c79, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "TargetTypeListResult" });
   }
 }
-function __c79(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6414,7 +6542,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "DeleteConnectionRequest" });
   }
 }
-function __c80(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6432,20 +6560,20 @@ function __c80(j: number): any {
       ).annotate({ identifier: "ListWorkspaceAllRequest" });
   }
 }
-function __c81(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1632, __c51, 0));
+      return S.Array(__S(1664, __c52, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2592, __c81, 0),
+          value: __S(2624, __c82, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkspaceListResult" });
   }
 }
-function __c82(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6464,17 +6592,17 @@ function __c82(j: number): any {
         ),
       ).annotate({ identifier: "ListWorkspaceDiscoveriesRequest" });
     case 1:
-      return S.Array(__S(1728, __c54, 0));
+      return S.Array(__S(1760, __c55, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2625, __c82, 1),
+          value: __S(2657, __c83, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkspaceDiscoveryListResult" });
   }
 }
-function __c83(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6493,17 +6621,17 @@ function __c83(j: number): any {
         ),
       ).annotate({ identifier: "ListWorkspaceEvaluationsRequest" });
     case 1:
-      return S.Array(__S(1824, __c57, 0));
+      return S.Array(__S(1856, __c58, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2657, __c83, 1),
+          value: __S(2689, __c84, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkspaceEvaluationListResult" });
   }
 }
-function __c84(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6522,7 +6650,7 @@ function __c84(j: number): any {
       ).annotate({ identifier: "ListWorkspacesRequest" });
   }
 }
-function __c85(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6540,7 +6668,7 @@ function __c85(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           scenarioName: S.String.pipe(T.Label()),
           scenarioConfigurationName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(2720, __c85, 0)),
+          properties: S.optional(__S(2752, __c86, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -6564,7 +6692,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "ScenarioConfigurationsCreateOrUpdateResponse" });
   }
 }
-function __c86(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6586,7 +6714,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "ScenarioConfigurationsFixResourcePermissionsRequest" });
   }
 }
-function __c87(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6594,8 +6722,8 @@ function __c87(j: number): any {
           createdFrom: S.optional(S.String),
           version: S.optional(S.String),
           description: S.optional(S.String),
-          parameters: S.optional(__S(1218, __c38, 2)),
-          actions: S.optional(__S(1226, __c38, 10)),
+          parameters: S.optional(__S(1250, __c39, 2)),
+          actions: S.optional(__S(1258, __c39, 10)),
           failureBehavior: S.optional(S.String),
         }),
       ).annotate({ identifier: "ScenarioPropertiesInput" });
@@ -6606,7 +6734,7 @@ function __c87(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           scenarioName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(2784, __c87, 0)),
+          properties: S.optional(__S(2816, __c88, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -6618,7 +6746,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "ScenariosCreateOrUpdateRequest" });
   }
 }
-function __c88(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6637,7 +6765,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "StartExperimentRequest" });
   }
 }
-function __c89(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6648,7 +6776,7 @@ function __c89(j: number): any {
           parentResourceType: S.String.pipe(T.Label()),
           parentResourceName: S.String.pipe(T.Label()),
           targetName: S.String.pipe(T.Label()),
-          properties: __S(1440, __c45, 0),
+          properties: __S(1472, __c46, 0),
           location: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -6661,7 +6789,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "TargetsCreateOrUpdateRequest" });
   }
 }
-function __c90(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6690,14 +6818,14 @@ function __c90(j: number): any {
           tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
           identity: S.optional(__S(259, __c8, 3)),
-          properties: __S(301, __c9, 13),
+          properties: __S(306, __c9, 18),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "UpdateExperimentResponse" });
   }
 }
-function __c91(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6716,7 +6844,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "DeleteExperimentRequest" });
   }
 }
-function __c92(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6730,13 +6858,13 @@ function __c92(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          customerManagedKeyEncryption: S.optional(S.NullOr(__S(2944, __c92, 0))),
+          customerManagedKeyEncryption: S.optional(S.NullOr(__S(2976, __c93, 0))),
         }),
       ).annotate({ identifier: "WorkspaceEncryptionPatchMergePatchUpdateOrCreate" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          encryption: S.optional(S.NullOr(__S(2945, __c92, 1))),
+          encryption: S.optional(S.NullOr(__S(2977, __c93, 1))),
         }),
       ).annotate({ identifier: "WorkspaceUpdateProperties" });
     case 3:
@@ -6747,7 +6875,7 @@ function __c92(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           tags: S.optional(__S(256, __c8, 0)),
           identity: S.optional(__S(321, __c10, 1)),
-          properties: S.optional(__S(2946, __c92, 2)),
+          properties: S.optional(__S(2978, __c93, 2)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6767,14 +6895,14 @@ function __c92(j: number): any {
           tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
           identity: S.optional(__S(259, __c8, 3)),
-          properties: __S(1670, __c52, 6),
+          properties: __S(1702, __c53, 6),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "UpdateWorkspaceResponse" });
   }
 }
-function __c93(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6795,19 +6923,19 @@ function __c93(j: number): any {
       ).annotate({ identifier: "ValidateScenarioConfigurationRequest" });
   }
 }
-function __c94(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          customerManagedKeyEncryption: S.optional(__S(1664, __c52, 0)),
+          customerManagedKeyEncryption: S.optional(__S(1696, __c53, 0)),
         }),
       ).annotate({ identifier: "WorkspaceEncryptionInput" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           scopes: __S(192, __c6, 0),
-          encryption: S.optional(__S(3008, __c94, 0)),
+          encryption: S.optional(__S(3040, __c95, 0)),
         }),
       ).annotate({ identifier: "WorkspacePropertiesInput" });
     case 2:
@@ -6819,7 +6947,7 @@ function __c94(j: number): any {
           tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
           identity: S.optional(__S(321, __c10, 1)),
-          properties: __S(3009, __c94, 1),
+          properties: __S(3041, __c95, 1),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -6839,14 +6967,14 @@ function __c94(j: number): any {
           tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
           identity: S.optional(__S(259, __c8, 3)),
-          properties: __S(1670, __c52, 6),
+          properties: __S(1702, __c53, 6),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "WorkspacesCreateOrUpdateResponse" });
   }
 }
-function __c95(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6870,14 +6998,14 @@ function __c95(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(736, __c23, 0)),
-          properties: S.optional(__S(1765, __c55, 5)),
+          properties: S.optional(__S(1799, __c56, 7)),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "WorkspacesDiscoverResponse" });
   }
 }
-function __c96(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6901,14 +7029,14 @@ function __c96(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(736, __c23, 0)),
-          properties: S.optional(__S(1858, __c58, 2)),
+          properties: S.optional(__S(1890, __c59, 2)),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "WorkspacesEvaluateResponse" });
   }
 }
-function __c97(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6929,7 +7057,7 @@ function __c97(j: number): any {
       ).annotate({ identifier: "DeleteScenarioConfigurationRequest" });
   }
 }
-function __c98(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6949,7 +7077,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "DeleteScenariosRequest" });
   }
 }
-function __c99(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

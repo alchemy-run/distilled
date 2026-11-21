@@ -30,54 +30,109 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: APIError | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: APIError | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: APIForbiddenError | APIError | string;
+}
 
 export class Locked
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Locked>()("Locked", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 423 }],
-  ) {}
+  )
+{
+  declare readonly body?: APIRepoArchivedError | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(1256, __c157, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: APINotFound | APIError | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(1392, __c174, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  ) {}
+  )
+{
+  declare readonly body?: APIValidationError | APIInvalidTopicsError | APIError | string;
+}
 
 export interface AcceptRepoTransferRequest {
   /** owner of the repo to transfer */
@@ -3690,6 +3745,25 @@ export interface UserCurrentPutSubscriptionRequest {
   /** name of the repo */
   repo: string;
 }
+/** APIError is an api error with a message */
+export interface APIError {
+  message?: string | undefined;
+  url?: string | undefined;
+}
+export type APIForbiddenError = APIError;
+export type APIRepoArchivedError = APIError;
+export type APINotFoundErrorsList = Array<string>;
+export interface APINotFound {
+  errors?: APINotFoundErrorsList | undefined;
+  message?: string | undefined;
+  url?: string | undefined;
+}
+export type APIValidationError = APIError;
+export type APIInvalidTopicsErrorInvalidTopicsList = Array<string>;
+export interface APIInvalidTopicsError {
+  invalidTopics?: APIInvalidTopicsErrorInvalidTopicsList | undefined;
+  message?: string | undefined;
+}
 export type AcceptRepoTransferError = Forbidden | NotFound | ForgejoOpError;
 /** Accept a repo transfer */
 export const acceptRepoTransfer: API.OperationMethod<
@@ -3698,8 +3772,8 @@ export const acceptRepoTransfer: API.OperationMethod<
   AcceptRepoTransferError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c188, 0) as any as S.Schema<AcceptRepoTransferRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<AcceptRepoTransferResponse>,
+  input: __S(1536, __c192, 0) as any as S.Schema<AcceptRepoTransferRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<AcceptRepoTransferResponse>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -3715,8 +3789,8 @@ export const actionRun2: API.OperationMethod<
   ActionRun2Error,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1720, __c215, 0) as any as S.Schema<ActionRunRequest>,
-  output: __S(1728, __c216, 0) as any as S.Schema<ActionRun>,
+  input: __S(1752, __c219, 0) as any as S.Schema<ActionRunRequest>,
+  output: __S(1760, __c220, 0) as any as S.Schema<ActionRun>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -3732,8 +3806,8 @@ export const cancelActionRun: API.OperationMethod<
   CancelActionRunError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1864, __c233, 0) as any as S.Schema<CancelActionRunRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<CancelActionRunResponse>,
+  input: __S(1888, __c236, 0) as any as S.Schema<CancelActionRunRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<CancelActionRunResponse>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -3749,8 +3823,8 @@ export const convertRepo: API.OperationMethod<
   ConvertRepoError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c244, 0) as any as S.Schema<ConvertRepoRequest>,
-  output: __S(1781, __c222, 5) as any as S.Schema<Repository>,
+  input: __S(1976, __c247, 0) as any as S.Schema<ConvertRepoRequest>,
+  output: __S(1805, __c225, 5) as any as S.Schema<Repository>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -3771,8 +3845,8 @@ export const createCurrentUserRepo: API.OperationMethod<
   CreateCurrentUserRepoError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateCurrentUserRepoRequest>,
-  output: __S(1781, __c222, 5) as any as S.Schema<Repository>,
+  input: __S(8, __c1, 0) as any as S.Schema<CreateCurrentUserRepoRequest>,
+  output: __S(1805, __c225, 5) as any as S.Schema<Repository>,
   errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -3793,8 +3867,8 @@ export const createFork: API.OperationMethod<
   CreateForkError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<CreateForkRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<CreateForkResponse>,
+  input: __S(112, __c14, 0) as any as S.Schema<CreateForkRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<CreateForkResponse>,
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -3810,8 +3884,8 @@ export const createRepoVariable: API.OperationMethod<
   CreateRepoVariableError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<CreateRepoVariableRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<CreateRepoVariableResponse>,
+  input: __S(208, __c26, 0) as any as S.Schema<CreateRepoVariableRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<CreateRepoVariableResponse>,
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -3827,8 +3901,8 @@ export const deleteActionArtifact: API.OperationMethod<
   DeleteActionArtifactError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(296, __c37, 0) as any as S.Schema<DeleteActionArtifactRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<DeleteActionArtifactResponse>,
+  input: __S(304, __c38, 0) as any as S.Schema<DeleteActionArtifactRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<DeleteActionArtifactResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -3844,8 +3918,8 @@ export const deleteActionRun: API.OperationMethod<
   DeleteActionRunError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(392, __c49, 0) as any as S.Schema<DeleteActionRunRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<DeleteActionRunResponse>,
+  input: __S(400, __c50, 0) as any as S.Schema<DeleteActionRunRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<DeleteActionRunResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -3861,8 +3935,8 @@ export const deleteRepo: API.OperationMethod<
   DeleteRepoError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(488, __c61, 0) as any as S.Schema<DeleteRepoRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<DeleteRepoResponse>,
+  input: __S(496, __c62, 0) as any as S.Schema<DeleteRepoRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<DeleteRepoResponse>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -3878,8 +3952,8 @@ export const deleteRepoRunner: API.OperationMethod<
   DeleteRepoRunnerError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c74, 0) as any as S.Schema<DeleteRepoRunnerRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<DeleteRepoRunnerResponse>,
+  input: __S(600, __c75, 0) as any as S.Schema<DeleteRepoRunnerRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<DeleteRepoRunnerResponse>,
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -3895,8 +3969,8 @@ export const deleteRepoSecret: API.OperationMethod<
   DeleteRepoSecretError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c86, 0) as any as S.Schema<DeleteRepoSecretRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<DeleteRepoSecretResponse>,
+  input: __S(696, __c87, 0) as any as S.Schema<DeleteRepoSecretRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<DeleteRepoSecretResponse>,
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -3912,8 +3986,8 @@ export const deleteRepoVariable: API.OperationMethod<
   DeleteRepoVariableError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c98, 0) as any as S.Schema<DeleteRepoVariableRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<DeleteRepoVariableResponse>,
+  input: __S(792, __c99, 0) as any as S.Schema<DeleteRepoVariableRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<DeleteRepoVariableResponse>,
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -3929,8 +4003,8 @@ export const dispatchWorkflow: API.OperationMethod<
   DispatchWorkflowError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(872, __c109, 0) as any as S.Schema<DispatchWorkflowRequest>,
-  output: __S(873, __c109, 1) as any as S.Schema<DispatchWorkflowRun>,
+  input: __S(880, __c110, 0) as any as S.Schema<DispatchWorkflowRequest>,
+  output: __S(881, __c110, 1) as any as S.Schema<DispatchWorkflowRun>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -3946,8 +4020,8 @@ export const downloadActionArtifact: API.OperationMethod<
   DownloadActionArtifactError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(968, __c121, 0) as any as S.Schema<DownloadActionArtifactRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<DownloadActionArtifactResponse>,
+  input: __S(976, __c122, 0) as any as S.Schema<DownloadActionArtifactRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<DownloadActionArtifactResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -3963,8 +4037,8 @@ export const editRepo: API.OperationMethod<
   EditRepoError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c124, 0) as any as S.Schema<EditRepoRequest>,
-  output: __S(1781, __c222, 5) as any as S.Schema<Repository>,
+  input: __S(1000, __c125, 0) as any as S.Schema<EditRepoRequest>,
+  output: __S(1805, __c225, 5) as any as S.Schema<Repository>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -3985,8 +4059,8 @@ export const generateRepo: API.OperationMethod<
   GenerateRepoError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1000, __c125, 0) as any as S.Schema<GenerateRepoRequest>,
-  output: __S(1781, __c222, 5) as any as S.Schema<Repository>,
+  input: __S(1008, __c126, 0) as any as S.Schema<GenerateRepoRequest>,
+  output: __S(1805, __c225, 5) as any as S.Schema<Repository>,
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4002,8 +4076,8 @@ export const getActionArtifact: API.OperationMethod<
   GetActionArtifactError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c126, 0) as any as S.Schema<GetActionArtifactRequest>,
-  output: __S(1016, __c127, 0) as any as S.Schema<ActionArtifact>,
+  input: __S(1016, __c127, 0) as any as S.Schema<GetActionArtifactRequest>,
+  output: __S(1024, __c128, 0) as any as S.Schema<ActionArtifact>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4019,8 +4093,8 @@ export const getAnnotatedTag: API.OperationMethod<
   GetAnnotatedTagError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c128, 0) as any as S.Schema<GetAnnotatedTagRequest>,
-  output: __S(1025, __c128, 1) as any as S.Schema<AnnotatedTag>,
+  input: __S(1032, __c129, 0) as any as S.Schema<GetAnnotatedTagRequest>,
+  output: __S(1033, __c129, 1) as any as S.Schema<AnnotatedTag>,
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4032,8 +4106,8 @@ export type GetBlobError = BadRequest | NotFound | ForgejoOpError;
 /** Gets the blob of a repository. */
 export const getBlob: API.OperationMethod<GetBlobRequest, GitBlob, GetBlobError, ForgejoOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(1064, __c133, 0) as any as S.Schema<GetBlobRequest>,
-    output: __S(1072, __c134, 0) as any as S.Schema<GitBlob>,
+    input: __S(1072, __c134, 0) as any as S.Schema<GetBlobRequest>,
+    output: __S(1080, __c135, 0) as any as S.Schema<GitBlob>,
     errors: [BadRequest, NotFound],
     protocol: ForgejoProtocol,
     retry: Retry.Retry,
@@ -4049,8 +4123,8 @@ export const getBlobs: API.OperationMethod<
   GetBlobsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1080, __c135, 0) as any as S.Schema<GetBlobsRequest>,
-  output: __S(1082, __c135, 2) as any as S.Schema<GetBlobsResponse>,
+  input: __S(1088, __c136, 0) as any as S.Schema<GetBlobsRequest>,
+  output: __S(1090, __c136, 2) as any as S.Schema<GetBlobsResponse>,
   errors: [BadRequest],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4066,8 +4140,8 @@ export const getRepo: API.OperationMethod<
   GetRepoError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c136, 0) as any as S.Schema<GetRepoRequest>,
-  output: __S(1781, __c222, 5) as any as S.Schema<Repository>,
+  input: __S(1096, __c137, 0) as any as S.Schema<GetRepoRequest>,
+  output: __S(1805, __c225, 5) as any as S.Schema<Repository>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4083,8 +4157,8 @@ export const getRepoPermissions: API.OperationMethod<
   GetRepoPermissionsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1096, __c137, 0) as any as S.Schema<GetRepoPermissionsRequest>,
-  output: __S(1097, __c137, 1) as any as S.Schema<RepoCollaboratorPermission>,
+  input: __S(1104, __c138, 0) as any as S.Schema<GetRepoPermissionsRequest>,
+  output: __S(1105, __c138, 1) as any as S.Schema<RepoCollaboratorPermission>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4100,8 +4174,8 @@ export const getRepoRunner: API.OperationMethod<
   GetRepoRunnerError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1104, __c138, 0) as any as S.Schema<GetRepoRunnerRequest>,
-  output: __S(1112, __c139, 0) as any as S.Schema<ActionRunner>,
+  input: __S(1112, __c139, 0) as any as S.Schema<GetRepoRunnerRequest>,
+  output: __S(1120, __c140, 0) as any as S.Schema<ActionRunner>,
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4117,8 +4191,8 @@ export const getRepoRunners: API.OperationMethod<
   GetRepoRunnersError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c140, 0) as any as S.Schema<GetRepoRunnersRequest>,
-  output: __S(1122, __c140, 2) as any as S.Schema<GetRepoRunnersResponse>,
+  input: __S(1128, __c141, 0) as any as S.Schema<GetRepoRunnersRequest>,
+  output: __S(1130, __c141, 2) as any as S.Schema<GetRepoRunnersResponse>,
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4134,8 +4208,8 @@ export const getRepoVariable: API.OperationMethod<
   GetRepoVariableError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1128, __c141, 0) as any as S.Schema<GetRepoVariableRequest>,
-  output: __S(1136, __c142, 0) as any as S.Schema<ActionVariable>,
+  input: __S(1136, __c142, 0) as any as S.Schema<GetRepoVariableRequest>,
+  output: __S(1144, __c143, 0) as any as S.Schema<ActionVariable>,
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4151,8 +4225,8 @@ export const getRepoVariablesList: API.OperationMethod<
   GetRepoVariablesListError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1144, __c143, 0) as any as S.Schema<GetRepoVariablesListRequest>,
-  output: __S(1146, __c143, 2) as any as S.Schema<GetRepoVariablesListResponse>,
+  input: __S(1152, __c144, 0) as any as S.Schema<GetRepoVariablesListRequest>,
+  output: __S(1154, __c144, 2) as any as S.Schema<GetRepoVariablesListResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4168,8 +4242,8 @@ export const getTree: API.OperationMethod<
   GetTreeError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c144, 0) as any as S.Schema<GetTreeRequest>,
-  output: __S(1155, __c144, 3) as any as S.Schema<GitTreeResponse>,
+  input: __S(1160, __c145, 0) as any as S.Schema<GetTreeRequest>,
+  output: __S(1163, __c145, 3) as any as S.Schema<GitTreeResponse>,
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4185,8 +4259,8 @@ export const listActionArtifacts: API.OperationMethod<
   ListActionArtifactsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1160, __c145, 0) as any as S.Schema<ListActionArtifactsRequest>,
-  output: __S(1169, __c146, 1) as any as S.Schema<ListActionArtifactsResponse>,
+  input: __S(1168, __c146, 0) as any as S.Schema<ListActionArtifactsRequest>,
+  output: __S(1177, __c147, 1) as any as S.Schema<ListActionArtifactsResponse>,
   errors: [BadRequest, Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4202,8 +4276,8 @@ export const listActionRunArtifacts: API.OperationMethod<
   ListActionRunArtifactsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1176, __c147, 0) as any as S.Schema<ListActionRunArtifactsRequest>,
-  output: __S(1169, __c146, 1) as any as S.Schema<ListActionRunArtifactsResponse>,
+  input: __S(1184, __c148, 0) as any as S.Schema<ListActionRunArtifactsRequest>,
+  output: __S(1177, __c147, 1) as any as S.Schema<ListActionRunArtifactsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4219,8 +4293,8 @@ export const listActionRunJobs: API.OperationMethod<
   ListActionRunJobsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c148, 0) as any as S.Schema<ListActionRunJobsRequest>,
-  output: __S(1194, __c149, 2) as any as S.Schema<ListActionRunJobsResponse>,
+  input: __S(1192, __c149, 0) as any as S.Schema<ListActionRunJobsRequest>,
+  output: __S(1202, __c150, 2) as any as S.Schema<ListActionRunJobsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4236,8 +4310,8 @@ export const listActionRuns: API.OperationMethod<
   ListActionRunsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c150, 0) as any as S.Schema<ListActionRunsRequest>,
-  output: __S(1202, __c150, 2) as any as S.Schema<ListActionRunResponse>,
+  input: __S(1208, __c151, 0) as any as S.Schema<ListActionRunsRequest>,
+  output: __S(1210, __c151, 2) as any as S.Schema<ListActionRunResponse>,
   errors: [BadRequest, Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4259,8 +4333,8 @@ export const listActionTasks: API.OperationMethod<
   ListActionTasksError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c152, 0) as any as S.Schema<ListActionTasksRequest>,
-  output: __S(1219, __c152, 3) as any as S.Schema<ActionTaskResponse>,
+  input: __S(1224, __c153, 0) as any as S.Schema<ListActionTasksRequest>,
+  output: __S(1227, __c153, 3) as any as S.Schema<ActionTaskResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4276,8 +4350,8 @@ export const listForks: API.OperationMethod<
   ListForksError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1224, __c153, 0) as any as S.Schema<ListForksRequest>,
-  output: __S(1225, __c153, 1) as any as S.Schema<ListForksResponse>,
+  input: __S(1232, __c154, 0) as any as S.Schema<ListForksRequest>,
+  output: __S(1233, __c154, 1) as any as S.Schema<ListForksResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4293,8 +4367,8 @@ export const migrateRepo: API.OperationMethod<
   MigrateRepoError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1240, __c155, 0) as any as S.Schema<MigrateRepoRequest>,
-  output: __S(1781, __c222, 5) as any as S.Schema<Repository>,
+  input: __S(1264, __c158, 0) as any as S.Schema<MigrateRepoRequest>,
+  output: __S(1805, __c225, 5) as any as S.Schema<Repository>,
   errors: [Forbidden, Conflict, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4310,8 +4384,8 @@ export const registerRepoRunner: API.OperationMethod<
   RegisterRepoRunnerError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c156, 0) as any as S.Schema<RegisterRepoRunnerRequest>,
-  output: __S(1249, __c156, 1) as any as S.Schema<RegisterRunnerResponse>,
+  input: __S(1272, __c159, 0) as any as S.Schema<RegisterRepoRunnerRequest>,
+  output: __S(1273, __c159, 1) as any as S.Schema<RegisterRunnerResponse>,
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4327,8 +4401,8 @@ export const rejectRepoTransfer: API.OperationMethod<
   RejectRepoTransferError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1256, __c157, 0) as any as S.Schema<RejectRepoTransferRequest>,
-  output: __S(1781, __c222, 5) as any as S.Schema<Repository>,
+  input: __S(1280, __c160, 0) as any as S.Schema<RejectRepoTransferRequest>,
+  output: __S(1805, __c225, 5) as any as S.Schema<Repository>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4344,8 +4418,8 @@ export const repoAddCollaborator: API.OperationMethod<
   RepoAddCollaboratorError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c158, 0) as any as S.Schema<RepoAddCollaboratorRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<RepoAddCollaboratorResponse>,
+  input: __S(1288, __c161, 0) as any as S.Schema<RepoAddCollaboratorRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<RepoAddCollaboratorResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4361,8 +4435,8 @@ export const repoAddFlag: API.OperationMethod<
   RepoAddFlagError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1272, __c159, 0) as any as S.Schema<RepoAddFlagRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<RepoAddFlagResponse>,
+  input: __S(1296, __c162, 0) as any as S.Schema<RepoAddFlagRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<RepoAddFlagResponse>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4378,8 +4452,8 @@ export const repoAddPushMirror: API.OperationMethod<
   RepoAddPushMirrorError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c160, 0) as any as S.Schema<RepoAddPushMirrorRequest>,
-  output: __S(1288, __c161, 0) as any as S.Schema<PushMirror>,
+  input: __S(1304, __c163, 0) as any as S.Schema<RepoAddPushMirrorRequest>,
+  output: __S(1312, __c164, 0) as any as S.Schema<PushMirror>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4395,8 +4469,8 @@ export const repoAddTeam: API.OperationMethod<
   RepoAddTeamError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1296, __c162, 0) as any as S.Schema<RepoAddTeamRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<RepoAddTeamResponse>,
+  input: __S(1320, __c165, 0) as any as S.Schema<RepoAddTeamRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<RepoAddTeamResponse>,
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4412,8 +4486,8 @@ export const repoAddTopic: API.OperationMethod<
   RepoAddTopicError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1304, __c163, 0) as any as S.Schema<RepoAddTopicRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<RepoAddTopicResponse>,
+  input: __S(1328, __c166, 0) as any as S.Schema<RepoAddTopicRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<RepoAddTopicResponse>,
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4429,8 +4503,8 @@ export const repoApplyDiffPatch: API.OperationMethod<
   RepoApplyDiffPatchError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c164, 0) as any as S.Schema<RepoApplyDiffPatchRequest>,
-  output: __S(1352, __c169, 0) as any as S.Schema<FileResponse>,
+  input: __S(1336, __c167, 0) as any as S.Schema<RepoApplyDiffPatchRequest>,
+  output: __S(1376, __c172, 0) as any as S.Schema<FileResponse>,
   errors: [NotFound, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4446,8 +4520,8 @@ export const repoCancelScheduledAutoMerge: API.OperationMethod<
   RepoCancelScheduledAutoMergeError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1360, __c170, 0) as any as S.Schema<RepoCancelScheduledAutoMergeRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<RepoCancelScheduledAutoMergeResponse>,
+  input: __S(1384, __c173, 0) as any as S.Schema<RepoCancelScheduledAutoMergeRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<RepoCancelScheduledAutoMergeResponse>,
   errors: [Forbidden, NotFound, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4469,8 +4543,8 @@ export const repoChangeFiles: API.OperationMethod<
   RepoChangeFilesError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1370, __c171, 2) as any as S.Schema<RepoChangeFilesRequest>,
-  output: __S(1371, __c171, 3) as any as S.Schema<FilesResponse>,
+  input: __S(1402, __c175, 2) as any as S.Schema<RepoChangeFilesRequest>,
+  output: __S(1403, __c175, 3) as any as S.Schema<FilesResponse>,
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4486,8 +4560,8 @@ export const repoCheckCollaborator: API.OperationMethod<
   RepoCheckCollaboratorError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1384, __c173, 0) as any as S.Schema<RepoCheckCollaboratorRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<RepoCheckCollaboratorResponse>,
+  input: __S(1416, __c177, 0) as any as S.Schema<RepoCheckCollaboratorRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<RepoCheckCollaboratorResponse>,
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4503,8 +4577,8 @@ export const repoCheckFlag: API.OperationMethod<
   RepoCheckFlagError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1392, __c174, 0) as any as S.Schema<RepoCheckFlagRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<RepoCheckFlagResponse>,
+  input: __S(1424, __c178, 0) as any as S.Schema<RepoCheckFlagRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<RepoCheckFlagResponse>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4520,8 +4594,8 @@ export const repoCheckTeam: API.OperationMethod<
   RepoCheckTeamError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1400, __c175, 0) as any as S.Schema<RepoCheckTeamRequest>,
-  output: __S(1761, __c220, 1) as any as S.Schema<Team>,
+  input: __S(1432, __c179, 0) as any as S.Schema<RepoCheckTeamRequest>,
+  output: __S(1785, __c223, 1) as any as S.Schema<Team>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4537,8 +4611,8 @@ export const repoCompareDiff: API.OperationMethod<
   RepoCompareDiffError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c176, 0) as any as S.Schema<RepoCompareDiffRequest>,
-  output: __S(1409, __c176, 1) as any as S.Schema<Compare>,
+  input: __S(1440, __c180, 0) as any as S.Schema<RepoCompareDiffRequest>,
+  output: __S(1441, __c180, 1) as any as S.Schema<Compare>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4554,8 +4628,8 @@ export const repoCreateBranch: API.OperationMethod<
   RepoCreateBranchError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1432, __c179, 0) as any as S.Schema<RepoCreateBranchRequest>,
-  output: __S(1441, __c180, 1) as any as S.Schema<Branch>,
+  input: __S(1464, __c183, 0) as any as S.Schema<RepoCreateBranchRequest>,
+  output: __S(1473, __c184, 1) as any as S.Schema<Branch>,
   errors: [Forbidden, NotFound, Conflict, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4576,8 +4650,8 @@ export const repoCreateBranchProtection: API.OperationMethod<
   RepoCreateBranchProtectionError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1448, __c181, 0) as any as S.Schema<RepoCreateBranchProtectionRequest>,
-  output: __S(1456, __c182, 0) as any as S.Schema<BranchProtection>,
+  input: __S(1480, __c185, 0) as any as S.Schema<RepoCreateBranchProtectionRequest>,
+  output: __S(1488, __c186, 0) as any as S.Schema<BranchProtection>,
   errors: [Forbidden, NotFound, UnprocessableEntity, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4599,8 +4673,8 @@ export const repoCreateFile: API.OperationMethod<
   RepoCreateFileError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1464, __c183, 0) as any as S.Schema<RepoCreateFileRequest>,
-  output: __S(1352, __c169, 0) as any as S.Schema<FileResponse>,
+  input: __S(1496, __c187, 0) as any as S.Schema<RepoCreateFileRequest>,
+  output: __S(1376, __c172, 0) as any as S.Schema<FileResponse>,
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4616,8 +4690,8 @@ export const repoCreateHook: API.OperationMethod<
   RepoCreateHookError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c184, 0) as any as S.Schema<RepoCreateHookRequest>,
-  output: __S(1480, __c185, 0) as any as S.Schema<Hook>,
+  input: __S(1504, __c188, 0) as any as S.Schema<RepoCreateHookRequest>,
+  output: __S(1512, __c189, 0) as any as S.Schema<Hook>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4633,8 +4707,8 @@ export const repoCreateKey: API.OperationMethod<
   RepoCreateKeyError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1488, __c186, 0) as any as S.Schema<RepoCreateKeyRequest>,
-  output: __S(1496, __c187, 0) as any as S.Schema<DeployKey>,
+  input: __S(1520, __c190, 0) as any as S.Schema<RepoCreateKeyRequest>,
+  output: __S(1528, __c191, 0) as any as S.Schema<DeployKey>,
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4655,8 +4729,8 @@ export const repoCreatePullRequest: API.OperationMethod<
   RepoCreatePullRequestError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1520, __c190, 0) as any as S.Schema<RepoCreatePullRequestRequest>,
-  output: __S(1545, __c193, 1) as any as S.Schema<PullRequest>,
+  input: __S(1552, __c194, 0) as any as S.Schema<RepoCreatePullRequestRequest>,
+  output: __S(1577, __c197, 1) as any as S.Schema<PullRequest>,
   errors: [NotFound, Conflict, UnprocessableEntity, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4672,8 +4746,8 @@ export const repoCreatePullReview: API.OperationMethod<
   RepoCreatePullReviewError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1562, __c195, 2) as any as S.Schema<RepoCreatePullReviewRequest>,
-  output: __S(1568, __c196, 0) as any as S.Schema<PullReview>,
+  input: __S(1594, __c199, 2) as any as S.Schema<RepoCreatePullReviewRequest>,
+  output: __S(1600, __c200, 0) as any as S.Schema<PullReview>,
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4689,8 +4763,8 @@ export const repoCreatePullReviewComment: API.OperationMethod<
   RepoCreatePullReviewCommentError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1576, __c197, 0) as any as S.Schema<RepoCreatePullReviewCommentRequest>,
-  output: __S(1584, __c198, 0) as any as S.Schema<PullReviewComment>,
+  input: __S(1608, __c201, 0) as any as S.Schema<RepoCreatePullReviewCommentRequest>,
+  output: __S(1616, __c202, 0) as any as S.Schema<PullReviewComment>,
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4710,8 +4784,8 @@ export const repoCreatePullReviewRequests: API.OperationMethod<
   RepoCreatePullReviewRequestsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1592, __c199, 0) as any as S.Schema<RepoCreatePullReviewRequestsRequest>,
-  output: __S(1601, __c200, 1) as any as S.Schema<RepoCreatePullReviewRequestsResponse>,
+  input: __S(1624, __c203, 0) as any as S.Schema<RepoCreatePullReviewRequestsRequest>,
+  output: __S(1633, __c204, 1) as any as S.Schema<RepoCreatePullReviewRequestsResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4727,8 +4801,8 @@ export const repoCreateRelease: API.OperationMethod<
   RepoCreateReleaseError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1608, __c201, 0) as any as S.Schema<RepoCreateReleaseRequest>,
-  output: __S(1632, __c204, 0) as any as S.Schema<Release>,
+  input: __S(1640, __c205, 0) as any as S.Schema<RepoCreateReleaseRequest>,
+  output: __S(1664, __c208, 0) as any as S.Schema<Release>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4744,8 +4818,8 @@ export const repoCreateReleaseAttachment: API.OperationMethod<
   RepoCreateReleaseAttachmentError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1640, __c205, 0) as any as S.Schema<RepoCreateReleaseAttachmentRequest>,
-  output: __S(1616, __c202, 0) as any as S.Schema<Attachment>,
+  input: __S(1672, __c209, 0) as any as S.Schema<RepoCreateReleaseAttachmentRequest>,
+  output: __S(1648, __c206, 0) as any as S.Schema<Attachment>,
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4761,8 +4835,8 @@ export const repoCreateStatus: API.OperationMethod<
   RepoCreateStatusError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1648, __c206, 0) as any as S.Schema<RepoCreateStatusRequest>,
-  output: __S(1656, __c207, 0) as any as S.Schema<CommitStatus>,
+  input: __S(1680, __c210, 0) as any as S.Schema<RepoCreateStatusRequest>,
+  output: __S(1688, __c211, 0) as any as S.Schema<CommitStatus>,
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4783,8 +4857,8 @@ export const repoCreateTag: API.OperationMethod<
   RepoCreateTagError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c208, 0) as any as S.Schema<RepoCreateTagRequest>,
-  output: __S(1672, __c209, 0) as any as S.Schema<Tag>,
+  input: __S(1696, __c212, 0) as any as S.Schema<RepoCreateTagRequest>,
+  output: __S(1704, __c213, 0) as any as S.Schema<Tag>,
   errors: [NotFound, Conflict, UnprocessableEntity, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4805,8 +4879,8 @@ export const repoCreateTagProtection: API.OperationMethod<
   RepoCreateTagProtectionError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1680, __c210, 0) as any as S.Schema<RepoCreateTagProtectionRequest>,
-  output: __S(1688, __c211, 0) as any as S.Schema<TagProtection>,
+  input: __S(1712, __c214, 0) as any as S.Schema<RepoCreateTagProtectionRequest>,
+  output: __S(1720, __c215, 0) as any as S.Schema<TagProtection>,
   errors: [Forbidden, NotFound, UnprocessableEntity, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4822,8 +4896,8 @@ export const repoCreateWikiPage: API.OperationMethod<
   RepoCreateWikiPageError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c212, 0) as any as S.Schema<RepoCreateWikiPageRequest>,
-  output: __S(1704, __c213, 0) as any as S.Schema<WikiPage>,
+  input: __S(1728, __c216, 0) as any as S.Schema<RepoCreateWikiPageRequest>,
+  output: __S(1736, __c217, 0) as any as S.Schema<WikiPage>,
   errors: [BadRequest, Forbidden, NotFound, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4839,8 +4913,8 @@ export const repoDeleteAllFlags: API.OperationMethod<
   RepoDeleteAllFlagsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1784, __c223, 0) as any as S.Schema<RepoDeleteAllFlagsRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<RepoDeleteAllFlagsResponse>,
+  input: __S(1808, __c226, 0) as any as S.Schema<RepoDeleteAllFlagsRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<RepoDeleteAllFlagsResponse>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4856,8 +4930,8 @@ export const repoDeleteAvatar: API.OperationMethod<
   RepoDeleteAvatarError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c224, 0) as any as S.Schema<RepoDeleteAvatarRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<RepoDeleteAvatarResponse>,
+  input: __S(1816, __c227, 0) as any as S.Schema<RepoDeleteAvatarRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<RepoDeleteAvatarResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4873,8 +4947,8 @@ export const repoDeleteBranch: API.OperationMethod<
   RepoDeleteBranchError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1800, __c225, 0) as any as S.Schema<RepoDeleteBranchRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<RepoDeleteBranchResponse>,
+  input: __S(1824, __c228, 0) as any as S.Schema<RepoDeleteBranchRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<RepoDeleteBranchResponse>,
   errors: [Forbidden, NotFound, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4890,8 +4964,8 @@ export const repoDeleteBranchProtection: API.OperationMethod<
   RepoDeleteBranchProtectionError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1808, __c226, 0) as any as S.Schema<RepoDeleteBranchProtectionRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<RepoDeleteBranchProtectionResponse>,
+  input: __S(1832, __c229, 0) as any as S.Schema<RepoDeleteBranchProtectionRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<RepoDeleteBranchProtectionResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4907,8 +4981,8 @@ export const repoDeleteCollaborator: API.OperationMethod<
   RepoDeleteCollaboratorError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1816, __c227, 0) as any as S.Schema<RepoDeleteCollaboratorRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<RepoDeleteCollaboratorResponse>,
+  input: __S(1840, __c230, 0) as any as S.Schema<RepoDeleteCollaboratorRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<RepoDeleteCollaboratorResponse>,
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4924,8 +4998,8 @@ export const repoDeleteFile: API.OperationMethod<
   RepoDeleteFileError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c228, 0) as any as S.Schema<RepoDeleteFileRequest>,
-  output: __S(1825, __c228, 1) as any as S.Schema<FileDeleteResponse>,
+  input: __S(1848, __c231, 0) as any as S.Schema<RepoDeleteFileRequest>,
+  output: __S(1849, __c231, 1) as any as S.Schema<FileDeleteResponse>,
   errors: [BadRequest, Forbidden, NotFound, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4941,8 +5015,8 @@ export const repoDeleteFlag: API.OperationMethod<
   RepoDeleteFlagError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1832, __c229, 0) as any as S.Schema<RepoDeleteFlagRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<RepoDeleteFlagResponse>,
+  input: __S(1856, __c232, 0) as any as S.Schema<RepoDeleteFlagRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<RepoDeleteFlagResponse>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4958,8 +5032,8 @@ export const repoDeleteGitHook: API.OperationMethod<
   RepoDeleteGitHookError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1840, __c230, 0) as any as S.Schema<RepoDeleteGitHookRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<RepoDeleteGitHookResponse>,
+  input: __S(1864, __c233, 0) as any as S.Schema<RepoDeleteGitHookRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<RepoDeleteGitHookResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4975,8 +5049,8 @@ export const repoDeleteHook: API.OperationMethod<
   RepoDeleteHookError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1848, __c231, 0) as any as S.Schema<RepoDeleteHookRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<RepoDeleteHookResponse>,
+  input: __S(1872, __c234, 0) as any as S.Schema<RepoDeleteHookRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<RepoDeleteHookResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -4992,8 +5066,8 @@ export const repoDeleteKey: API.OperationMethod<
   RepoDeleteKeyError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c232, 0) as any as S.Schema<RepoDeleteKeyRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<RepoDeleteKeyResponse>,
+  input: __S(1880, __c235, 0) as any as S.Schema<RepoDeleteKeyRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<RepoDeleteKeyResponse>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5009,8 +5083,8 @@ export const repoDeletePullReview: API.OperationMethod<
   RepoDeletePullReviewError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1872, __c234, 0) as any as S.Schema<RepoDeletePullReviewRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<RepoDeletePullReviewResponse>,
+  input: __S(1896, __c237, 0) as any as S.Schema<RepoDeletePullReviewRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<RepoDeletePullReviewResponse>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5026,8 +5100,8 @@ export const repoDeletePullReviewComment: API.OperationMethod<
   RepoDeletePullReviewCommentError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1880, __c235, 0) as any as S.Schema<RepoDeletePullReviewCommentRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<RepoDeletePullReviewCommentResponse>,
+  input: __S(1904, __c238, 0) as any as S.Schema<RepoDeletePullReviewCommentRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<RepoDeletePullReviewCommentResponse>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5047,8 +5121,8 @@ export const repoDeletePullReviewRequests: API.OperationMethod<
   RepoDeletePullReviewRequestsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c236, 0) as any as S.Schema<RepoDeletePullReviewRequestsRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<RepoDeletePullReviewRequestsResponse>,
+  input: __S(1912, __c239, 0) as any as S.Schema<RepoDeletePullReviewRequestsRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<RepoDeletePullReviewRequestsResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5064,8 +5138,8 @@ export const repoDeletePushMirror: API.OperationMethod<
   RepoDeletePushMirrorError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1896, __c237, 0) as any as S.Schema<RepoDeletePushMirrorRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<RepoDeletePushMirrorResponse>,
+  input: __S(1920, __c240, 0) as any as S.Schema<RepoDeletePushMirrorRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<RepoDeletePushMirrorResponse>,
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5081,8 +5155,8 @@ export const repoDeleteRelease: API.OperationMethod<
   RepoDeleteReleaseError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1904, __c238, 0) as any as S.Schema<RepoDeleteReleaseRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<RepoDeleteReleaseResponse>,
+  input: __S(1928, __c241, 0) as any as S.Schema<RepoDeleteReleaseRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<RepoDeleteReleaseResponse>,
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5098,8 +5172,8 @@ export const repoDeleteReleaseAttachment: API.OperationMethod<
   RepoDeleteReleaseAttachmentError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1912, __c239, 0) as any as S.Schema<RepoDeleteReleaseAttachmentRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<RepoDeleteReleaseAttachmentResponse>,
+  input: __S(1936, __c242, 0) as any as S.Schema<RepoDeleteReleaseAttachmentRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<RepoDeleteReleaseAttachmentResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5115,8 +5189,8 @@ export const repoDeleteReleaseByTag: API.OperationMethod<
   RepoDeleteReleaseByTagError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c240, 0) as any as S.Schema<RepoDeleteReleaseByTagRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<RepoDeleteReleaseByTagResponse>,
+  input: __S(1944, __c243, 0) as any as S.Schema<RepoDeleteReleaseByTagRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<RepoDeleteReleaseByTagResponse>,
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5137,8 +5211,8 @@ export const repoDeleteTag: API.OperationMethod<
   RepoDeleteTagError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1928, __c241, 0) as any as S.Schema<RepoDeleteTagRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<RepoDeleteTagResponse>,
+  input: __S(1952, __c244, 0) as any as S.Schema<RepoDeleteTagRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<RepoDeleteTagResponse>,
   errors: [NotFound, Conflict, UnprocessableEntity, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5154,8 +5228,8 @@ export const repoDeleteTagProtection: API.OperationMethod<
   RepoDeleteTagProtectionError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1936, __c242, 0) as any as S.Schema<RepoDeleteTagProtectionRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<RepoDeleteTagProtectionResponse>,
+  input: __S(1960, __c245, 0) as any as S.Schema<RepoDeleteTagProtectionRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<RepoDeleteTagProtectionResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5171,8 +5245,8 @@ export const repoDeleteTeam: API.OperationMethod<
   RepoDeleteTeamError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1944, __c243, 0) as any as S.Schema<RepoDeleteTeamRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<RepoDeleteTeamResponse>,
+  input: __S(1968, __c246, 0) as any as S.Schema<RepoDeleteTeamRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<RepoDeleteTeamResponse>,
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5188,8 +5262,8 @@ export const repoDeleteTopic: API.OperationMethod<
   RepoDeleteTopicError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1960, __c245, 0) as any as S.Schema<RepoDeleteTopicRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<RepoDeleteTopicResponse>,
+  input: __S(1984, __c248, 0) as any as S.Schema<RepoDeleteTopicRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<RepoDeleteTopicResponse>,
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5205,8 +5279,8 @@ export const repoDeleteWikiPage: API.OperationMethod<
   RepoDeleteWikiPageError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1968, __c246, 0) as any as S.Schema<RepoDeleteWikiPageRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<RepoDeleteWikiPageResponse>,
+  input: __S(1992, __c249, 0) as any as S.Schema<RepoDeleteWikiPageRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<RepoDeleteWikiPageResponse>,
   errors: [Forbidden, NotFound, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5222,8 +5296,8 @@ export const repoDownloadCommitDiffOrPatch: API.OperationMethod<
   RepoDownloadCommitDiffOrPatchError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1976, __c247, 0) as any as S.Schema<RepoDownloadCommitDiffOrPatchRequest>,
-  output: __S(1984, __c248, 0) as any as S.Schema<RepoDownloadCommitDiffOrPatchResponse>,
+  input: __S(2000, __c250, 0) as any as S.Schema<RepoDownloadCommitDiffOrPatchRequest>,
+  output: __S(2008, __c251, 0) as any as S.Schema<RepoDownloadCommitDiffOrPatchResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5239,8 +5313,8 @@ export const repoDownloadPullDiffOrPatch: API.OperationMethod<
   RepoDownloadPullDiffOrPatchError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1992, __c249, 0) as any as S.Schema<RepoDownloadPullDiffOrPatchRequest>,
-  output: __S(1984, __c248, 0) as any as S.Schema<RepoDownloadPullDiffOrPatchResponse>,
+  input: __S(2016, __c252, 0) as any as S.Schema<RepoDownloadPullDiffOrPatchRequest>,
+  output: __S(2008, __c251, 0) as any as S.Schema<RepoDownloadPullDiffOrPatchResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5260,8 +5334,8 @@ export const repoEditBranchProtection: API.OperationMethod<
   RepoEditBranchProtectionError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2000, __c250, 0) as any as S.Schema<RepoEditBranchProtectionRequest>,
-  output: __S(1456, __c182, 0) as any as S.Schema<BranchProtection>,
+  input: __S(2024, __c253, 0) as any as S.Schema<RepoEditBranchProtectionRequest>,
+  output: __S(1488, __c186, 0) as any as S.Schema<BranchProtection>,
   errors: [NotFound, UnprocessableEntity, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5277,8 +5351,8 @@ export const repoEditGitHook: API.OperationMethod<
   RepoEditGitHookError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2008, __c251, 0) as any as S.Schema<RepoEditGitHookRequest>,
-  output: __S(2016, __c252, 0) as any as S.Schema<GitHook>,
+  input: __S(2032, __c254, 0) as any as S.Schema<RepoEditGitHookRequest>,
+  output: __S(2040, __c255, 0) as any as S.Schema<GitHook>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5294,8 +5368,8 @@ export const repoEditHook: API.OperationMethod<
   RepoEditHookError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2024, __c253, 0) as any as S.Schema<RepoEditHookRequest>,
-  output: __S(1480, __c185, 0) as any as S.Schema<Hook>,
+  input: __S(2048, __c256, 0) as any as S.Schema<RepoEditHookRequest>,
+  output: __S(1512, __c189, 0) as any as S.Schema<Hook>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5316,8 +5390,8 @@ export const repoEditPullRequest: API.OperationMethod<
   RepoEditPullRequestError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2032, __c254, 0) as any as S.Schema<RepoEditPullRequestRequest>,
-  output: __S(1545, __c193, 1) as any as S.Schema<PullRequest>,
+  input: __S(2056, __c257, 0) as any as S.Schema<RepoEditPullRequestRequest>,
+  output: __S(1577, __c197, 1) as any as S.Schema<PullRequest>,
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5333,8 +5407,8 @@ export const repoEditRelease: API.OperationMethod<
   RepoEditReleaseError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2040, __c255, 0) as any as S.Schema<RepoEditReleaseRequest>,
-  output: __S(1632, __c204, 0) as any as S.Schema<Release>,
+  input: __S(2064, __c258, 0) as any as S.Schema<RepoEditReleaseRequest>,
+  output: __S(1664, __c208, 0) as any as S.Schema<Release>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5350,8 +5424,8 @@ export const repoEditReleaseAttachment: API.OperationMethod<
   RepoEditReleaseAttachmentError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c256, 0) as any as S.Schema<RepoEditReleaseAttachmentRequest>,
-  output: __S(1616, __c202, 0) as any as S.Schema<Attachment>,
+  input: __S(2072, __c259, 0) as any as S.Schema<RepoEditReleaseAttachmentRequest>,
+  output: __S(1648, __c206, 0) as any as S.Schema<Attachment>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5367,8 +5441,8 @@ export const repoEditTagProtection: API.OperationMethod<
   RepoEditTagProtectionError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<RepoEditTagProtectionRequest>,
-  output: __S(1688, __c211, 0) as any as S.Schema<TagProtection>,
+  input: __S(16, __c2, 0) as any as S.Schema<RepoEditTagProtectionRequest>,
+  output: __S(1720, __c215, 0) as any as S.Schema<TagProtection>,
   errors: [NotFound, UnprocessableEntity, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5384,8 +5458,8 @@ export const repoEditWikiPage: API.OperationMethod<
   RepoEditWikiPageError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<RepoEditWikiPageRequest>,
-  output: __S(1704, __c213, 0) as any as S.Schema<WikiPage>,
+  input: __S(24, __c3, 0) as any as S.Schema<RepoEditWikiPageRequest>,
+  output: __S(1736, __c217, 0) as any as S.Schema<WikiPage>,
   errors: [BadRequest, Forbidden, NotFound, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5401,8 +5475,8 @@ export const repoGetActionJobLogs: API.OperationMethod<
   RepoGetActionJobLogsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<RepoGetActionJobLogsRequest>,
-  output: __S(1984, __c248, 0) as any as S.Schema<RepoGetActionJobLogsResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<RepoGetActionJobLogsRequest>,
+  output: __S(2008, __c251, 0) as any as S.Schema<RepoGetActionJobLogsResponse>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5418,8 +5492,8 @@ export const repoGetActionRunLogs: API.OperationMethod<
   RepoGetActionRunLogsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<RepoGetActionRunLogsRequest>,
-  output: __S(1984, __c248, 0) as any as S.Schema<RepoGetActionRunLogsResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<RepoGetActionRunLogsRequest>,
+  output: __S(2008, __c251, 0) as any as S.Schema<RepoGetActionRunLogsResponse>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5435,8 +5509,8 @@ export const repoGetAllCommits: API.OperationMethod<
   RepoGetAllCommitsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<RepoGetAllCommitsRequest>,
-  output: __S(48, __c6, 0) as any as S.Schema<RepoGetAllCommitsResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<RepoGetAllCommitsRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<RepoGetAllCommitsResponse>,
   errors: [NotFound, Conflict],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5452,8 +5526,8 @@ export const repoGetArchive: API.OperationMethod<
   RepoGetArchiveError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<RepoGetArchiveRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<RepoGetArchiveResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<RepoGetArchiveRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<RepoGetArchiveResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5469,8 +5543,8 @@ export const repoGetAssignees: API.OperationMethod<
   RepoGetAssigneesError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<RepoGetAssigneesRequest>,
-  output: __S(72, __c9, 0) as any as S.Schema<RepoGetAssigneesResponse>,
+  input: __S(72, __c9, 0) as any as S.Schema<RepoGetAssigneesRequest>,
+  output: __S(80, __c10, 0) as any as S.Schema<RepoGetAssigneesResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5486,8 +5560,8 @@ export const repoGetBranch: API.OperationMethod<
   RepoGetBranchError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<RepoGetBranchRequest>,
-  output: __S(1441, __c180, 1) as any as S.Schema<Branch>,
+  input: __S(88, __c11, 0) as any as S.Schema<RepoGetBranchRequest>,
+  output: __S(1473, __c184, 1) as any as S.Schema<Branch>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5503,8 +5577,8 @@ export const repoGetBranchProtection: API.OperationMethod<
   RepoGetBranchProtectionError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<RepoGetBranchProtectionRequest>,
-  output: __S(1456, __c182, 0) as any as S.Schema<BranchProtection>,
+  input: __S(96, __c12, 0) as any as S.Schema<RepoGetBranchProtectionRequest>,
+  output: __S(1488, __c186, 0) as any as S.Schema<BranchProtection>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5520,8 +5594,8 @@ export const repoGetByID: API.OperationMethod<
   RepoGetByIDError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<RepoGetByIDRequest>,
-  output: __S(1781, __c222, 5) as any as S.Schema<Repository>,
+  input: __S(104, __c13, 0) as any as S.Schema<RepoGetByIDRequest>,
+  output: __S(1805, __c225, 5) as any as S.Schema<Repository>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5537,8 +5611,8 @@ export const repoGetCombinedStatusByRef: API.OperationMethod<
   RepoGetCombinedStatusByRefError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<RepoGetCombinedStatusByRefRequest>,
-  output: __S(113, __c14, 1) as any as S.Schema<CombinedStatus>,
+  input: __S(120, __c15, 0) as any as S.Schema<RepoGetCombinedStatusByRefRequest>,
+  output: __S(121, __c15, 1) as any as S.Schema<CombinedStatus>,
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5554,8 +5628,8 @@ export const repoGetCommitPullRequest: API.OperationMethod<
   RepoGetCommitPullRequestError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<RepoGetCommitPullRequestRequest>,
-  output: __S(1545, __c193, 1) as any as S.Schema<PullRequest>,
+  input: __S(136, __c17, 0) as any as S.Schema<RepoGetCommitPullRequestRequest>,
+  output: __S(1577, __c197, 1) as any as S.Schema<PullRequest>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5571,8 +5645,8 @@ export const repoGetContents: API.OperationMethod<
   RepoGetContentsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<RepoGetContentsRequest>,
-  output: __S(1337, __c167, 1) as any as S.Schema<ContentsResponse>,
+  input: __S(144, __c18, 0) as any as S.Schema<RepoGetContentsRequest>,
+  output: __S(1361, __c170, 1) as any as S.Schema<ContentsResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5588,8 +5662,8 @@ export const repoGetContentsList: API.OperationMethod<
   RepoGetContentsListError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<RepoGetContentsListRequest>,
-  output: __S(145, __c18, 1) as any as S.Schema<RepoGetContentsListResponse>,
+  input: __S(152, __c19, 0) as any as S.Schema<RepoGetContentsListRequest>,
+  output: __S(153, __c19, 1) as any as S.Schema<RepoGetContentsListResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5605,8 +5679,8 @@ export const repoGetEditorConfig: API.OperationMethod<
   RepoGetEditorConfigError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<RepoGetEditorConfigRequest>,
-  output: __S(153, __c19, 1) as any as S.Schema<RepoGetEditorConfigResponse>,
+  input: __S(160, __c20, 0) as any as S.Schema<RepoGetEditorConfigRequest>,
+  output: __S(161, __c20, 1) as any as S.Schema<RepoGetEditorConfigResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5622,8 +5696,8 @@ export const repoGetGitHook: API.OperationMethod<
   RepoGetGitHookError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<RepoGetGitHookRequest>,
-  output: __S(2016, __c252, 0) as any as S.Schema<GitHook>,
+  input: __S(168, __c21, 0) as any as S.Schema<RepoGetGitHookRequest>,
+  output: __S(2040, __c255, 0) as any as S.Schema<GitHook>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5639,8 +5713,8 @@ export const repoGetHook: API.OperationMethod<
   RepoGetHookError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<RepoGetHookRequest>,
-  output: __S(1480, __c185, 0) as any as S.Schema<Hook>,
+  input: __S(176, __c22, 0) as any as S.Schema<RepoGetHookRequest>,
+  output: __S(1512, __c189, 0) as any as S.Schema<Hook>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5656,8 +5730,8 @@ export const repoGetIssueConfig: API.OperationMethod<
   RepoGetIssueConfigError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<RepoGetIssueConfigRequest>,
-  output: __S(179, __c22, 3) as any as S.Schema<IssueConfig>,
+  input: __S(184, __c23, 0) as any as S.Schema<RepoGetIssueConfigRequest>,
+  output: __S(187, __c23, 3) as any as S.Schema<IssueConfig>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5673,8 +5747,8 @@ export const repoGetIssueTemplates: API.OperationMethod<
   RepoGetIssueTemplatesError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<RepoGetIssueTemplatesRequest>,
-  output: __S(190, __c23, 6) as any as S.Schema<RepoGetIssueTemplatesResponse>,
+  input: __S(192, __c24, 0) as any as S.Schema<RepoGetIssueTemplatesRequest>,
+  output: __S(198, __c24, 6) as any as S.Schema<RepoGetIssueTemplatesResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5690,8 +5764,8 @@ export const repoGetKey: API.OperationMethod<
   RepoGetKeyError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<RepoGetKeyRequest>,
-  output: __S(1496, __c187, 0) as any as S.Schema<DeployKey>,
+  input: __S(200, __c25, 0) as any as S.Schema<RepoGetKeyRequest>,
+  output: __S(1528, __c191, 0) as any as S.Schema<DeployKey>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5707,8 +5781,8 @@ export const repoGetLanguages: API.OperationMethod<
   RepoGetLanguagesError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c26, 0) as any as S.Schema<RepoGetLanguagesRequest>,
-  output: __S(210, __c26, 2) as any as S.Schema<RepoGetLanguagesResponse>,
+  input: __S(216, __c27, 0) as any as S.Schema<RepoGetLanguagesRequest>,
+  output: __S(218, __c27, 2) as any as S.Schema<RepoGetLanguagesResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5724,8 +5798,8 @@ export const repoGetLatestRelease: API.OperationMethod<
   RepoGetLatestReleaseError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<RepoGetLatestReleaseRequest>,
-  output: __S(1632, __c204, 0) as any as S.Schema<Release>,
+  input: __S(224, __c28, 0) as any as S.Schema<RepoGetLatestReleaseRequest>,
+  output: __S(1664, __c208, 0) as any as S.Schema<Release>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5741,8 +5815,8 @@ export const repoGetNote: API.OperationMethod<
   RepoGetNoteError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c28, 0) as any as S.Schema<RepoGetNoteRequest>,
-  output: __S(232, __c29, 0) as any as S.Schema<Note>,
+  input: __S(232, __c29, 0) as any as S.Schema<RepoGetNoteRequest>,
+  output: __S(240, __c30, 0) as any as S.Schema<Note>,
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5758,8 +5832,8 @@ export const repoGetPullRequest: API.OperationMethod<
   RepoGetPullRequestError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c30, 0) as any as S.Schema<RepoGetPullRequestRequest>,
-  output: __S(1545, __c193, 1) as any as S.Schema<PullRequest>,
+  input: __S(248, __c31, 0) as any as S.Schema<RepoGetPullRequestRequest>,
+  output: __S(1577, __c197, 1) as any as S.Schema<PullRequest>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5775,8 +5849,8 @@ export const repoGetPullRequestByBaseHead: API.OperationMethod<
   RepoGetPullRequestByBaseHeadError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(248, __c31, 0) as any as S.Schema<RepoGetPullRequestByBaseHeadRequest>,
-  output: __S(1545, __c193, 1) as any as S.Schema<PullRequest>,
+  input: __S(256, __c32, 0) as any as S.Schema<RepoGetPullRequestByBaseHeadRequest>,
+  output: __S(1577, __c197, 1) as any as S.Schema<PullRequest>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5792,8 +5866,8 @@ export const repoGetPullRequestCommits: API.OperationMethod<
   RepoGetPullRequestCommitsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c32, 0) as any as S.Schema<RepoGetPullRequestCommitsRequest>,
-  output: __S(48, __c6, 0) as any as S.Schema<RepoGetPullRequestCommitsResponse>,
+  input: __S(264, __c33, 0) as any as S.Schema<RepoGetPullRequestCommitsRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<RepoGetPullRequestCommitsResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5809,8 +5883,8 @@ export const repoGetPullRequestFiles: API.OperationMethod<
   RepoGetPullRequestFilesError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(264, __c33, 0) as any as S.Schema<RepoGetPullRequestFilesRequest>,
-  output: __S(267, __c33, 3) as any as S.Schema<RepoGetPullRequestFilesResponse>,
+  input: __S(272, __c34, 0) as any as S.Schema<RepoGetPullRequestFilesRequest>,
+  output: __S(275, __c34, 3) as any as S.Schema<RepoGetPullRequestFilesResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5826,8 +5900,8 @@ export const repoGetPullReview: API.OperationMethod<
   RepoGetPullReviewError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<RepoGetPullReviewRequest>,
-  output: __S(1568, __c196, 0) as any as S.Schema<PullReview>,
+  input: __S(280, __c35, 0) as any as S.Schema<RepoGetPullReviewRequest>,
+  output: __S(1600, __c200, 0) as any as S.Schema<PullReview>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5843,8 +5917,8 @@ export const repoGetPullReviewComment: API.OperationMethod<
   RepoGetPullReviewCommentError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(280, __c35, 0) as any as S.Schema<RepoGetPullReviewCommentRequest>,
-  output: __S(1584, __c198, 0) as any as S.Schema<PullReviewComment>,
+  input: __S(288, __c36, 0) as any as S.Schema<RepoGetPullReviewCommentRequest>,
+  output: __S(1616, __c202, 0) as any as S.Schema<PullReviewComment>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5860,8 +5934,8 @@ export const repoGetPullReviewComments: API.OperationMethod<
   RepoGetPullReviewCommentsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c36, 0) as any as S.Schema<RepoGetPullReviewCommentsRequest>,
-  output: __S(290, __c36, 2) as any as S.Schema<RepoGetPullReviewCommentsResponse>,
+  input: __S(296, __c37, 0) as any as S.Schema<RepoGetPullReviewCommentsRequest>,
+  output: __S(298, __c37, 2) as any as S.Schema<RepoGetPullReviewCommentsResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5877,8 +5951,8 @@ export const repoGetPushMirrorByRemoteName: API.OperationMethod<
   RepoGetPushMirrorByRemoteNameError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c38, 0) as any as S.Schema<RepoGetPushMirrorByRemoteNameRequest>,
-  output: __S(1288, __c161, 0) as any as S.Schema<PushMirror>,
+  input: __S(312, __c39, 0) as any as S.Schema<RepoGetPushMirrorByRemoteNameRequest>,
+  output: __S(1312, __c164, 0) as any as S.Schema<PushMirror>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5894,8 +5968,8 @@ export const repoGetRawFile: API.OperationMethod<
   RepoGetRawFileError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(312, __c39, 0) as any as S.Schema<RepoGetRawFileRequest>,
-  output: __S(320, __c40, 0) as any as S.Schema<RepoGetRawFileResponse>,
+  input: __S(320, __c40, 0) as any as S.Schema<RepoGetRawFileRequest>,
+  output: __S(328, __c41, 0) as any as S.Schema<RepoGetRawFileResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5911,8 +5985,8 @@ export const repoGetRawFileOrLFS: API.OperationMethod<
   RepoGetRawFileOrLFSError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(328, __c41, 0) as any as S.Schema<RepoGetRawFileOrLFSRequest>,
-  output: __S(320, __c40, 0) as any as S.Schema<RepoGetRawFileOrLFSResponse>,
+  input: __S(336, __c42, 0) as any as S.Schema<RepoGetRawFileOrLFSRequest>,
+  output: __S(328, __c41, 0) as any as S.Schema<RepoGetRawFileOrLFSResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5928,8 +6002,8 @@ export const repoGetRelease: API.OperationMethod<
   RepoGetReleaseError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c42, 0) as any as S.Schema<RepoGetReleaseRequest>,
-  output: __S(1632, __c204, 0) as any as S.Schema<Release>,
+  input: __S(344, __c43, 0) as any as S.Schema<RepoGetReleaseRequest>,
+  output: __S(1664, __c208, 0) as any as S.Schema<Release>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5945,8 +6019,8 @@ export const repoGetReleaseAttachment: API.OperationMethod<
   RepoGetReleaseAttachmentError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(344, __c43, 0) as any as S.Schema<RepoGetReleaseAttachmentRequest>,
-  output: __S(1616, __c202, 0) as any as S.Schema<Attachment>,
+  input: __S(352, __c44, 0) as any as S.Schema<RepoGetReleaseAttachmentRequest>,
+  output: __S(1648, __c206, 0) as any as S.Schema<Attachment>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5962,8 +6036,8 @@ export const repoGetReleaseByTag: API.OperationMethod<
   RepoGetReleaseByTagError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c44, 0) as any as S.Schema<RepoGetReleaseByTagRequest>,
-  output: __S(1632, __c204, 0) as any as S.Schema<Release>,
+  input: __S(360, __c45, 0) as any as S.Schema<RepoGetReleaseByTagRequest>,
+  output: __S(1664, __c208, 0) as any as S.Schema<Release>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5979,8 +6053,8 @@ export const repoGetReviewers: API.OperationMethod<
   RepoGetReviewersError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(360, __c45, 0) as any as S.Schema<RepoGetReviewersRequest>,
-  output: __S(72, __c9, 0) as any as S.Schema<RepoGetReviewersResponse>,
+  input: __S(368, __c46, 0) as any as S.Schema<RepoGetReviewersRequest>,
+  output: __S(80, __c10, 0) as any as S.Schema<RepoGetReviewersResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -5996,8 +6070,8 @@ export const repoGetSingleCommit: API.OperationMethod<
   RepoGetSingleCommitError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c46, 0) as any as S.Schema<RepoGetSingleCommitRequest>,
-  output: __S(1420, __c177, 4) as any as S.Schema<Commit>,
+  input: __S(376, __c47, 0) as any as S.Schema<RepoGetSingleCommitRequest>,
+  output: __S(1452, __c181, 4) as any as S.Schema<Commit>,
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6013,8 +6087,8 @@ export const repoGetTag: API.OperationMethod<
   RepoGetTagError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(376, __c47, 0) as any as S.Schema<RepoGetTagRequest>,
-  output: __S(1672, __c209, 0) as any as S.Schema<Tag>,
+  input: __S(384, __c48, 0) as any as S.Schema<RepoGetTagRequest>,
+  output: __S(1704, __c213, 0) as any as S.Schema<Tag>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6030,8 +6104,8 @@ export const repoGetTagProtection: API.OperationMethod<
   RepoGetTagProtectionError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c48, 0) as any as S.Schema<RepoGetTagProtectionRequest>,
-  output: __S(1688, __c211, 0) as any as S.Schema<TagProtection>,
+  input: __S(392, __c49, 0) as any as S.Schema<RepoGetTagProtectionRequest>,
+  output: __S(1720, __c215, 0) as any as S.Schema<TagProtection>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6047,8 +6121,8 @@ export const repoGetWikiPage: API.OperationMethod<
   RepoGetWikiPageError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c50, 0) as any as S.Schema<RepoGetWikiPageRequest>,
-  output: __S(1704, __c213, 0) as any as S.Schema<WikiPage>,
+  input: __S(408, __c51, 0) as any as S.Schema<RepoGetWikiPageRequest>,
+  output: __S(1736, __c217, 0) as any as S.Schema<WikiPage>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6064,8 +6138,8 @@ export const repoGetWikiPageRevisions: API.OperationMethod<
   RepoGetWikiPageRevisionsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(408, __c51, 0) as any as S.Schema<RepoGetWikiPageRevisionsRequest>,
-  output: __S(410, __c51, 2) as any as S.Schema<WikiCommitList>,
+  input: __S(416, __c52, 0) as any as S.Schema<RepoGetWikiPageRevisionsRequest>,
+  output: __S(418, __c52, 2) as any as S.Schema<WikiCommitList>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6081,8 +6155,8 @@ export const repoGetWikiPages: API.OperationMethod<
   RepoGetWikiPagesError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c52, 0) as any as S.Schema<RepoGetWikiPagesRequest>,
-  output: __S(419, __c52, 3) as any as S.Schema<RepoGetWikiPagesResponse>,
+  input: __S(424, __c53, 0) as any as S.Schema<RepoGetWikiPagesRequest>,
+  output: __S(427, __c53, 3) as any as S.Schema<RepoGetWikiPagesResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6098,8 +6172,8 @@ export const repoListActionsSecrets: API.OperationMethod<
   RepoListActionsSecretsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(424, __c53, 0) as any as S.Schema<RepoListActionsSecretsRequest>,
-  output: __S(427, __c53, 3) as any as S.Schema<RepoListActionsSecretsResponse>,
+  input: __S(432, __c54, 0) as any as S.Schema<RepoListActionsSecretsRequest>,
+  output: __S(435, __c54, 3) as any as S.Schema<RepoListActionsSecretsResponse>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6115,8 +6189,8 @@ export const repoListActivityFeeds: API.OperationMethod<
   RepoListActivityFeedsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c54, 0) as any as S.Schema<RepoListActivityFeedsRequest>,
-  output: __S(436, __c54, 4) as any as S.Schema<RepoListActivityFeedsResponse>,
+  input: __S(440, __c55, 0) as any as S.Schema<RepoListActivityFeedsRequest>,
+  output: __S(444, __c55, 4) as any as S.Schema<RepoListActivityFeedsResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6132,8 +6206,8 @@ export const repoListAllGitRefs: API.OperationMethod<
   RepoListAllGitRefsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(440, __c55, 0) as any as S.Schema<RepoListAllGitRefsRequest>,
-  output: __S(450, __c56, 2) as any as S.Schema<RepoListAllGitRefsResponse>,
+  input: __S(448, __c56, 0) as any as S.Schema<RepoListAllGitRefsRequest>,
+  output: __S(458, __c57, 2) as any as S.Schema<RepoListAllGitRefsResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6149,8 +6223,8 @@ export const repoListBranches: API.OperationMethod<
   RepoListBranchesError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(456, __c57, 0) as any as S.Schema<RepoListBranchesRequest>,
-  output: __S(458, __c57, 2) as any as S.Schema<RepoListBranchesResponse>,
+  input: __S(464, __c58, 0) as any as S.Schema<RepoListBranchesRequest>,
+  output: __S(466, __c58, 2) as any as S.Schema<RepoListBranchesResponse>,
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6166,8 +6240,8 @@ export const repoListBranchProtection: API.OperationMethod<
   RepoListBranchProtectionError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c58, 0) as any as S.Schema<RepoListBranchProtectionRequest>,
-  output: __S(466, __c58, 2) as any as S.Schema<RepoListBranchProtectionResponse>,
+  input: __S(472, __c59, 0) as any as S.Schema<RepoListBranchProtectionRequest>,
+  output: __S(474, __c59, 2) as any as S.Schema<RepoListBranchProtectionResponse>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6183,8 +6257,8 @@ export const repoListCollaborators: API.OperationMethod<
   RepoListCollaboratorsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(472, __c59, 0) as any as S.Schema<RepoListCollaboratorsRequest>,
-  output: __S(72, __c9, 0) as any as S.Schema<RepoListCollaboratorsResponse>,
+  input: __S(480, __c60, 0) as any as S.Schema<RepoListCollaboratorsRequest>,
+  output: __S(80, __c10, 0) as any as S.Schema<RepoListCollaboratorsResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6200,8 +6274,8 @@ export const repoListFlags: API.OperationMethod<
   RepoListFlagsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c60, 0) as any as S.Schema<RepoListFlagsRequest>,
-  output: __S(481, __c60, 1) as any as S.Schema<RepoListFlagsResponse>,
+  input: __S(488, __c61, 0) as any as S.Schema<RepoListFlagsRequest>,
+  output: __S(489, __c61, 1) as any as S.Schema<RepoListFlagsResponse>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6217,8 +6291,8 @@ export const repoListGitHooks: API.OperationMethod<
   RepoListGitHooksError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c62, 0) as any as S.Schema<RepoListGitHooksRequest>,
-  output: __S(498, __c62, 2) as any as S.Schema<RepoListGitHooksResponse>,
+  input: __S(504, __c63, 0) as any as S.Schema<RepoListGitHooksRequest>,
+  output: __S(506, __c63, 2) as any as S.Schema<RepoListGitHooksResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6234,8 +6308,8 @@ export const repoListGitRefs: API.OperationMethod<
   RepoListGitRefsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(504, __c63, 0) as any as S.Schema<RepoListGitRefsRequest>,
-  output: __S(450, __c56, 2) as any as S.Schema<RepoListGitRefsResponse>,
+  input: __S(512, __c64, 0) as any as S.Schema<RepoListGitRefsRequest>,
+  output: __S(458, __c57, 2) as any as S.Schema<RepoListGitRefsResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6251,8 +6325,8 @@ export const repoListHooks: API.OperationMethod<
   RepoListHooksError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c64, 0) as any as S.Schema<RepoListHooksRequest>,
-  output: __S(514, __c64, 2) as any as S.Schema<RepoListHooksResponse>,
+  input: __S(520, __c65, 0) as any as S.Schema<RepoListHooksRequest>,
+  output: __S(522, __c65, 2) as any as S.Schema<RepoListHooksResponse>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6268,8 +6342,8 @@ export const repoListKeys: API.OperationMethod<
   RepoListKeysError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(520, __c65, 0) as any as S.Schema<RepoListKeysRequest>,
-  output: __S(522, __c65, 2) as any as S.Schema<RepoListKeysResponse>,
+  input: __S(528, __c66, 0) as any as S.Schema<RepoListKeysRequest>,
+  output: __S(530, __c66, 2) as any as S.Schema<RepoListKeysResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6285,8 +6359,8 @@ export const repoListPinnedIssues: API.OperationMethod<
   RepoListPinnedIssuesError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c66, 0) as any as S.Schema<RepoListPinnedIssuesRequest>,
-  output: __S(530, __c66, 2) as any as S.Schema<RepoListPinnedIssuesResponse>,
+  input: __S(536, __c67, 0) as any as S.Schema<RepoListPinnedIssuesRequest>,
+  output: __S(538, __c67, 2) as any as S.Schema<RepoListPinnedIssuesResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6302,8 +6376,8 @@ export const repoListPinnedPullRequests: API.OperationMethod<
   RepoListPinnedPullRequestsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c68, 0) as any as S.Schema<RepoListPinnedPullRequestsRequest>,
-  output: __S(553, __c69, 1) as any as S.Schema<RepoListPinnedPullRequestsResponse>,
+  input: __S(552, __c69, 0) as any as S.Schema<RepoListPinnedPullRequestsRequest>,
+  output: __S(561, __c70, 1) as any as S.Schema<RepoListPinnedPullRequestsResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6319,8 +6393,8 @@ export const repoListPullRequests: API.OperationMethod<
   RepoListPullRequestsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c70, 0) as any as S.Schema<RepoListPullRequestsRequest>,
-  output: __S(553, __c69, 1) as any as S.Schema<RepoListPullRequestsResponse>,
+  input: __S(568, __c71, 0) as any as S.Schema<RepoListPullRequestsRequest>,
+  output: __S(561, __c70, 1) as any as S.Schema<RepoListPullRequestsResponse>,
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6336,8 +6410,8 @@ export const repoListPullReviews: API.OperationMethod<
   RepoListPullReviewsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(568, __c71, 0) as any as S.Schema<RepoListPullReviewsRequest>,
-  output: __S(1601, __c200, 1) as any as S.Schema<RepoListPullReviewsResponse>,
+  input: __S(576, __c72, 0) as any as S.Schema<RepoListPullReviewsRequest>,
+  output: __S(1633, __c204, 1) as any as S.Schema<RepoListPullReviewsResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6353,8 +6427,8 @@ export const repoListPushMirrors: API.OperationMethod<
   RepoListPushMirrorsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c72, 0) as any as S.Schema<RepoListPushMirrorsRequest>,
-  output: __S(578, __c72, 2) as any as S.Schema<RepoListPushMirrorsResponse>,
+  input: __S(584, __c73, 0) as any as S.Schema<RepoListPushMirrorsRequest>,
+  output: __S(586, __c73, 2) as any as S.Schema<RepoListPushMirrorsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6370,8 +6444,8 @@ export const repoListReleaseAttachments: API.OperationMethod<
   RepoListReleaseAttachmentsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(584, __c73, 0) as any as S.Schema<RepoListReleaseAttachmentsRequest>,
-  output: __S(585, __c73, 1) as any as S.Schema<RepoListReleaseAttachmentsResponse>,
+  input: __S(592, __c74, 0) as any as S.Schema<RepoListReleaseAttachmentsRequest>,
+  output: __S(593, __c74, 1) as any as S.Schema<RepoListReleaseAttachmentsResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6387,8 +6461,8 @@ export const repoListReleases: API.OperationMethod<
   RepoListReleasesError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(600, __c75, 0) as any as S.Schema<RepoListReleasesRequest>,
-  output: __S(602, __c75, 2) as any as S.Schema<RepoListReleasesResponse>,
+  input: __S(608, __c76, 0) as any as S.Schema<RepoListReleasesRequest>,
+  output: __S(610, __c76, 2) as any as S.Schema<RepoListReleasesResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6404,8 +6478,8 @@ export const repoListStargazers: API.OperationMethod<
   RepoListStargazersError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c76, 0) as any as S.Schema<RepoListStargazersRequest>,
-  output: __S(72, __c9, 0) as any as S.Schema<RepoListStargazersResponse>,
+  input: __S(616, __c77, 0) as any as S.Schema<RepoListStargazersRequest>,
+  output: __S(80, __c10, 0) as any as S.Schema<RepoListStargazersResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6421,8 +6495,8 @@ export const repoListStatuses: API.OperationMethod<
   RepoListStatusesError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(616, __c77, 0) as any as S.Schema<RepoListStatusesRequest>,
-  output: __S(624, __c78, 0) as any as S.Schema<RepoListStatusesResponse>,
+  input: __S(624, __c78, 0) as any as S.Schema<RepoListStatusesRequest>,
+  output: __S(632, __c79, 0) as any as S.Schema<RepoListStatusesResponse>,
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6438,8 +6512,8 @@ export const repoListStatusesByRef: API.OperationMethod<
   RepoListStatusesByRefError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(632, __c79, 0) as any as S.Schema<RepoListStatusesByRefRequest>,
-  output: __S(624, __c78, 0) as any as S.Schema<RepoListStatusesByRefResponse>,
+  input: __S(640, __c80, 0) as any as S.Schema<RepoListStatusesByRefRequest>,
+  output: __S(632, __c79, 0) as any as S.Schema<RepoListStatusesByRefResponse>,
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6455,8 +6529,8 @@ export const repoListSubscribers: API.OperationMethod<
   RepoListSubscribersError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c80, 0) as any as S.Schema<RepoListSubscribersRequest>,
-  output: __S(72, __c9, 0) as any as S.Schema<RepoListSubscribersResponse>,
+  input: __S(648, __c81, 0) as any as S.Schema<RepoListSubscribersRequest>,
+  output: __S(80, __c10, 0) as any as S.Schema<RepoListSubscribersResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6472,8 +6546,8 @@ export const repoListTagProtection: API.OperationMethod<
   RepoListTagProtectionError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(648, __c81, 0) as any as S.Schema<RepoListTagProtectionRequest>,
-  output: __S(650, __c81, 2) as any as S.Schema<RepoListTagProtectionResponse>,
+  input: __S(656, __c82, 0) as any as S.Schema<RepoListTagProtectionRequest>,
+  output: __S(658, __c82, 2) as any as S.Schema<RepoListTagProtectionResponse>,
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6489,8 +6563,8 @@ export const repoListTags: API.OperationMethod<
   RepoListTagsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c82, 0) as any as S.Schema<RepoListTagsRequest>,
-  output: __S(658, __c82, 2) as any as S.Schema<RepoListTagsResponse>,
+  input: __S(664, __c83, 0) as any as S.Schema<RepoListTagsRequest>,
+  output: __S(666, __c83, 2) as any as S.Schema<RepoListTagsResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6506,8 +6580,8 @@ export const repoListTeams: API.OperationMethod<
   RepoListTeamsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(664, __c83, 0) as any as S.Schema<RepoListTeamsRequest>,
-  output: __S(665, __c83, 1) as any as S.Schema<RepoListTeamsResponse>,
+  input: __S(672, __c84, 0) as any as S.Schema<RepoListTeamsRequest>,
+  output: __S(673, __c84, 1) as any as S.Schema<RepoListTeamsResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6523,8 +6597,8 @@ export const repoListTopics: API.OperationMethod<
   RepoListTopicsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c84, 0) as any as S.Schema<RepoListTopicsRequest>,
-  output: __S(673, __c84, 1) as any as S.Schema<TopicName>,
+  input: __S(680, __c85, 0) as any as S.Schema<RepoListTopicsRequest>,
+  output: __S(681, __c85, 1) as any as S.Schema<TopicName>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6540,8 +6614,8 @@ export const repoMergePullRequest: API.OperationMethod<
   RepoMergePullRequestError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(680, __c85, 0) as any as S.Schema<RepoMergePullRequestRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<RepoMergePullRequestResponse>,
+  input: __S(688, __c86, 0) as any as S.Schema<RepoMergePullRequestRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<RepoMergePullRequestResponse>,
   errors: [NotFound, Conflict, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6557,8 +6631,8 @@ export const repoNewPinAllowed: API.OperationMethod<
   RepoNewPinAllowedError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(696, __c87, 0) as any as S.Schema<RepoNewPinAllowedRequest>,
-  output: __S(697, __c87, 1) as any as S.Schema<NewIssuePinsAllowed>,
+  input: __S(704, __c88, 0) as any as S.Schema<RepoNewPinAllowedRequest>,
+  output: __S(705, __c88, 1) as any as S.Schema<NewIssuePinsAllowed>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6574,8 +6648,8 @@ export const repoPullRequestIsMerged: API.OperationMethod<
   RepoPullRequestIsMergedError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c88, 0) as any as S.Schema<RepoPullRequestIsMergedRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<RepoPullRequestIsMergedResponse>,
+  input: __S(712, __c89, 0) as any as S.Schema<RepoPullRequestIsMergedRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<RepoPullRequestIsMergedResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6591,8 +6665,8 @@ export const repoRemoveNote: API.OperationMethod<
   RepoRemoveNoteError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(712, __c89, 0) as any as S.Schema<RepoRemoveNoteRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<RepoRemoveNoteResponse>,
+  input: __S(720, __c90, 0) as any as S.Schema<RepoRemoveNoteRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<RepoRemoveNoteResponse>,
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6608,8 +6682,8 @@ export const repoReplaceAllFlags: API.OperationMethod<
   RepoReplaceAllFlagsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c90, 0) as any as S.Schema<RepoReplaceAllFlagsRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<RepoReplaceAllFlagsResponse>,
+  input: __S(728, __c91, 0) as any as S.Schema<RepoReplaceAllFlagsRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<RepoReplaceAllFlagsResponse>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6625,8 +6699,8 @@ export const repoSearchRunJobs: API.OperationMethod<
   RepoSearchRunJobsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(728, __c91, 0) as any as S.Schema<RepoSearchRunJobsRequest>,
-  output: __S(1194, __c149, 2) as any as S.Schema<RepoSearchRunJobsResponse>,
+  input: __S(736, __c92, 0) as any as S.Schema<RepoSearchRunJobsRequest>,
+  output: __S(1202, __c150, 2) as any as S.Schema<RepoSearchRunJobsResponse>,
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6642,8 +6716,8 @@ export const repoSetNote: API.OperationMethod<
   RepoSetNoteError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c92, 0) as any as S.Schema<RepoSetNoteRequest>,
-  output: __S(232, __c29, 0) as any as S.Schema<Note>,
+  input: __S(744, __c93, 0) as any as S.Schema<RepoSetNoteRequest>,
+  output: __S(240, __c30, 0) as any as S.Schema<Note>,
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6659,8 +6733,8 @@ export const repoSigningKey: API.OperationMethod<
   RepoSigningKeyError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(744, __c93, 0) as any as S.Schema<RepoSigningKeyRequest>,
-  output: __S(1984, __c248, 0) as any as S.Schema<RepoSigningKeyResponse>,
+  input: __S(752, __c94, 0) as any as S.Schema<RepoSigningKeyRequest>,
+  output: __S(2008, __c251, 0) as any as S.Schema<RepoSigningKeyResponse>,
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6676,8 +6750,8 @@ export const repoSubmitPullReview: API.OperationMethod<
   RepoSubmitPullReviewError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c94, 0) as any as S.Schema<RepoSubmitPullReviewRequest>,
-  output: __S(1568, __c196, 0) as any as S.Schema<PullReview>,
+  input: __S(760, __c95, 0) as any as S.Schema<RepoSubmitPullReviewRequest>,
+  output: __S(1600, __c200, 0) as any as S.Schema<PullReview>,
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6693,8 +6767,8 @@ export const repoSyncForkBranch: API.OperationMethod<
   RepoSyncForkBranchError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(760, __c95, 0) as any as S.Schema<RepoSyncForkBranchRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<RepoSyncForkBranchResponse>,
+  input: __S(768, __c96, 0) as any as S.Schema<RepoSyncForkBranchRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<RepoSyncForkBranchResponse>,
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6710,8 +6784,8 @@ export const repoSyncForkBranchInfo: API.OperationMethod<
   RepoSyncForkBranchInfoError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c96, 0) as any as S.Schema<RepoSyncForkBranchInfoRequest>,
-  output: __S(776, __c97, 0) as any as S.Schema<SyncForkInfo>,
+  input: __S(776, __c97, 0) as any as S.Schema<RepoSyncForkBranchInfoRequest>,
+  output: __S(784, __c98, 0) as any as S.Schema<SyncForkInfo>,
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6727,8 +6801,8 @@ export const repoSyncForkDefault: API.OperationMethod<
   RepoSyncForkDefaultError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(792, __c99, 0) as any as S.Schema<RepoSyncForkDefaultRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<RepoSyncForkDefaultResponse>,
+  input: __S(800, __c100, 0) as any as S.Schema<RepoSyncForkDefaultRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<RepoSyncForkDefaultResponse>,
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6744,8 +6818,8 @@ export const repoSyncForkDefaultInfo: API.OperationMethod<
   RepoSyncForkDefaultInfoError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c100, 0) as any as S.Schema<RepoSyncForkDefaultInfoRequest>,
-  output: __S(776, __c97, 0) as any as S.Schema<SyncForkInfo>,
+  input: __S(808, __c101, 0) as any as S.Schema<RepoSyncForkDefaultInfoRequest>,
+  output: __S(784, __c98, 0) as any as S.Schema<SyncForkInfo>,
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6761,8 +6835,8 @@ export const repoTestHook: API.OperationMethod<
   RepoTestHookError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(808, __c101, 0) as any as S.Schema<RepoTestHookRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<RepoTestHookResponse>,
+  input: __S(816, __c102, 0) as any as S.Schema<RepoTestHookRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<RepoTestHookResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6783,8 +6857,8 @@ export const repoTrackedTimes: API.OperationMethod<
   RepoTrackedTimesError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c102, 0) as any as S.Schema<RepoTrackedTimesRequest>,
-  output: __S(819, __c102, 3) as any as S.Schema<RepoTrackedTimesResponse>,
+  input: __S(824, __c103, 0) as any as S.Schema<RepoTrackedTimesRequest>,
+  output: __S(827, __c103, 3) as any as S.Schema<RepoTrackedTimesResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6800,8 +6874,8 @@ export const repoUpdateAvatar: API.OperationMethod<
   RepoUpdateAvatarError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(824, __c103, 0) as any as S.Schema<RepoUpdateAvatarRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<RepoUpdateAvatarResponse>,
+  input: __S(832, __c104, 0) as any as S.Schema<RepoUpdateAvatarRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<RepoUpdateAvatarResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6817,8 +6891,8 @@ export const repoUpdateBranch: API.OperationMethod<
   RepoUpdateBranchError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c104, 0) as any as S.Schema<RepoUpdateBranchRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<RepoUpdateBranchResponse>,
+  input: __S(840, __c105, 0) as any as S.Schema<RepoUpdateBranchRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<RepoUpdateBranchResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6840,8 +6914,8 @@ export const repoUpdateFile: API.OperationMethod<
   RepoUpdateFileError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(840, __c105, 0) as any as S.Schema<RepoUpdateFileRequest>,
-  output: __S(1352, __c169, 0) as any as S.Schema<FileResponse>,
+  input: __S(848, __c106, 0) as any as S.Schema<RepoUpdateFileRequest>,
+  output: __S(1376, __c172, 0) as any as S.Schema<FileResponse>,
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6862,8 +6936,8 @@ export const repoUpdatePullRequest: API.OperationMethod<
   RepoUpdatePullRequestError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c106, 0) as any as S.Schema<RepoUpdatePullRequestRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<RepoUpdatePullRequestResponse>,
+  input: __S(856, __c107, 0) as any as S.Schema<RepoUpdatePullRequestRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<RepoUpdatePullRequestResponse>,
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6879,8 +6953,8 @@ export const repoUpdateTopics: API.OperationMethod<
   RepoUpdateTopicsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(856, __c107, 0) as any as S.Schema<RepoUpdateTopicsRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<RepoUpdateTopicsResponse>,
+  input: __S(864, __c108, 0) as any as S.Schema<RepoUpdateTopicsRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<RepoUpdateTopicsResponse>,
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6896,8 +6970,8 @@ export const repoValidateIssueConfig: API.OperationMethod<
   RepoValidateIssueConfigError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c108, 0) as any as S.Schema<RepoValidateIssueConfigRequest>,
-  output: __S(865, __c108, 1) as any as S.Schema<IssueConfigValidation>,
+  input: __S(872, __c109, 0) as any as S.Schema<RepoValidateIssueConfigRequest>,
+  output: __S(873, __c109, 1) as any as S.Schema<IssueConfigValidation>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6917,8 +6991,8 @@ export const reviewRepoDismissPull: API.OperationMethod<
   ReviewRepoDismissPullError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c110, 0) as any as S.Schema<ReviewRepoDismissPullRequest>,
-  output: __S(1568, __c196, 0) as any as S.Schema<PullReview>,
+  input: __S(888, __c111, 0) as any as S.Schema<ReviewRepoDismissPullRequest>,
+  output: __S(1600, __c200, 0) as any as S.Schema<PullReview>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6938,8 +7012,8 @@ export const reviewRepoUnDismissPull: API.OperationMethod<
   ReviewRepoUnDismissPullError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(888, __c111, 0) as any as S.Schema<ReviewRepoUnDismissPullRequest>,
-  output: __S(1568, __c196, 0) as any as S.Schema<PullReview>,
+  input: __S(896, __c112, 0) as any as S.Schema<ReviewRepoUnDismissPullRequest>,
+  output: __S(1600, __c200, 0) as any as S.Schema<PullReview>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6955,8 +7029,8 @@ export const searchRepo: API.OperationMethod<
   SearchRepoError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c112, 0) as any as S.Schema<SearchRepoRequest>,
-  output: __S(897, __c112, 1) as any as S.Schema<SearchResults>,
+  input: __S(904, __c113, 0) as any as S.Schema<SearchRepoRequest>,
+  output: __S(905, __c113, 1) as any as S.Schema<SearchResults>,
   errors: [UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6972,8 +7046,8 @@ export const searchTopic: API.OperationMethod<
   SearchTopicError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(904, __c113, 0) as any as S.Schema<SearchTopicRequest>,
-  output: __S(907, __c113, 3) as any as S.Schema<SearchTopicResponse>,
+  input: __S(912, __c114, 0) as any as S.Schema<SearchTopicRequest>,
+  output: __S(915, __c114, 3) as any as S.Schema<SearchTopicResponse>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -6989,8 +7063,8 @@ export const syncRepoMirror: API.OperationMethod<
   SyncRepoMirrorError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c114, 0) as any as S.Schema<SyncRepoMirrorRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<SyncRepoMirrorResponse>,
+  input: __S(920, __c115, 0) as any as S.Schema<SyncRepoMirrorRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<SyncRepoMirrorResponse>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -7006,8 +7080,8 @@ export const syncRepoPushMirror: API.OperationMethod<
   SyncRepoPushMirrorError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(920, __c115, 0) as any as S.Schema<SyncRepoPushMirrorRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<SyncRepoPushMirrorResponse>,
+  input: __S(928, __c116, 0) as any as S.Schema<SyncRepoPushMirrorRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<SyncRepoPushMirrorResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -7023,8 +7097,8 @@ export const transferRepo: API.OperationMethod<
   TransferRepoError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c116, 0) as any as S.Schema<TransferRepoRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<TransferRepoResponse>,
+  input: __S(936, __c117, 0) as any as S.Schema<TransferRepoRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<TransferRepoResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -7040,8 +7114,8 @@ export const updateRepoSecret: API.OperationMethod<
   UpdateRepoSecretError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(936, __c117, 0) as any as S.Schema<UpdateRepoSecretRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<UpdateRepoSecretResponse>,
+  input: __S(944, __c118, 0) as any as S.Schema<UpdateRepoSecretRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<UpdateRepoSecretResponse>,
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -7057,8 +7131,8 @@ export const updateRepoVariable: API.OperationMethod<
   UpdateRepoVariableError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c118, 0) as any as S.Schema<UpdateRepoVariableRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<UpdateRepoVariableResponse>,
+  input: __S(952, __c119, 0) as any as S.Schema<UpdateRepoVariableRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<UpdateRepoVariableResponse>,
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -7074,8 +7148,8 @@ export const userCurrentCheckSubscription: API.OperationMethod<
   UserCurrentCheckSubscriptionError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(952, __c119, 0) as any as S.Schema<UserCurrentCheckSubscriptionRequest>,
-  output: __S(960, __c120, 0) as any as S.Schema<WatchInfo>,
+  input: __S(960, __c120, 0) as any as S.Schema<UserCurrentCheckSubscriptionRequest>,
+  output: __S(968, __c121, 0) as any as S.Schema<WatchInfo>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -7091,8 +7165,8 @@ export const userCurrentDeleteSubscription: API.OperationMethod<
   UserCurrentDeleteSubscriptionError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c122, 0) as any as S.Schema<UserCurrentDeleteSubscriptionRequest>,
-  output: __S(1512, __c189, 0) as any as S.Schema<UserCurrentDeleteSubscriptionResponse>,
+  input: __S(984, __c123, 0) as any as S.Schema<UserCurrentDeleteSubscriptionRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<UserCurrentDeleteSubscriptionResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -7108,8 +7182,8 @@ export const userCurrentPutSubscription: API.OperationMethod<
   UserCurrentPutSubscriptionError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(984, __c123, 0) as any as S.Schema<UserCurrentPutSubscriptionRequest>,
-  output: __S(960, __c120, 0) as any as S.Schema<WatchInfo>,
+  input: __S(992, __c124, 0) as any as S.Schema<UserCurrentPutSubscriptionRequest>,
+  output: __S(968, __c121, 0) as any as S.Schema<WatchInfo>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -7119,6 +7193,17 @@ export const userCurrentPutSubscription: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.optional(S.String),
+          url: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "APIError" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7139,7 +7224,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateCurrentUserRepoRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7148,15 +7233,15 @@ function __c1(j: number): any {
           repo: S.String.pipe(T.Label()),
           id: S.Number.pipe(T.Label()),
           name_pattern: S.optional(S.String),
-          whitelist_teams: S.optional(__S(1736, __c217, 0)),
-          whitelist_usernames: S.optional(__S(1736, __c217, 0)),
+          whitelist_teams: S.optional(__S(1248, __c156, 0)),
+          whitelist_usernames: S.optional(__S(1248, __c156, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/repos/{owner}/{repo}/tag_protections/{id}", code: 200 }),
         ),
       ).annotate({ identifier: "RepoEditTagProtectionRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7173,7 +7258,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "RepoEditWikiPageRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7192,7 +7277,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "RepoGetActionJobLogsRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7210,7 +7295,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "RepoGetActionRunLogsRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7229,15 +7314,15 @@ function __c5(j: number): any {
       ).annotate({ identifier: "RepoGetAllCommitsRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(1424, __c178, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1456, __c182, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "RepoGetAllCommitsResponse",
       });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7251,7 +7336,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "RepoGetArchiveRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7262,15 +7347,15 @@ function __c8(j: number): any {
       ).annotate({ identifier: "RepoGetAssigneesRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(1528, __c191, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1560, __c195, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "RepoGetAssigneesResponse",
       });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7284,7 +7369,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "RepoGetBranchRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7302,7 +7387,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "RepoGetBranchProtectionRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7312,7 +7397,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "RepoGetByIDRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7325,7 +7410,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "CreateForkRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7343,23 +7428,23 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           commit_url: S.optional(S.String),
-          repository: S.optional(__S(1781, __c222, 5)),
+          repository: S.optional(__S(1805, __c225, 5)),
           sha: S.optional(S.String),
           state: S.optional(S.String),
-          statuses: S.optional(__S(120, __c15, 0)),
+          statuses: S.optional(__S(128, __c16, 0)),
           total_count: S.optional(S.Number),
           url: S.optional(S.String),
         }),
       ).annotate({ identifier: "CombinedStatus" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1656, __c207, 0));
+      return S.Array(__S(1688, __c211, 0));
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7373,7 +7458,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "RepoGetCommitPullRequestRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7388,7 +7473,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "RepoGetContentsRequest" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7399,12 +7484,12 @@ function __c18(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/contents", code: 200 })),
       ).annotate({ identifier: "RepoGetContentsListRequest" });
     case 1:
-      return S.suspend(() => __S(1376, __c172, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1408, __c176, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "RepoGetContentsListResponse",
       });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7422,12 +7507,12 @@ function __c19(j: number): any {
         ),
       ).annotate({ identifier: "RepoGetEditorConfigRequest" });
     case 1:
-      return S.suspend(() => __S(1744, __c218, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1768, __c221, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "RepoGetEditorConfigResponse",
       });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7439,7 +7524,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "RepoGetGitHookRequest" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7451,7 +7536,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "RepoGetHookRequest" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7469,17 +7554,17 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "IssueConfigContactLink" });
     case 2:
-      return S.Array(__S(177, __c22, 1));
+      return S.Array(__S(185, __c23, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           blank_issues_enabled: S.optional(S.Boolean),
-          contact_links: S.optional(__S(178, __c22, 2)),
+          contact_links: S.optional(__S(186, __c23, 2)),
         }),
       ).annotate({ identifier: "IssueConfig" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7493,37 +7578,37 @@ function __c23(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          attributes: S.optional(__S(185, __c23, 1)),
+          attributes: S.optional(__S(193, __c24, 1)),
           id: S.optional(S.String),
           type: S.optional(S.String),
-          validations: S.optional(__S(185, __c23, 1)),
-          visible: S.optional(__S(1736, __c217, 0)),
+          validations: S.optional(__S(193, __c24, 1)),
+          visible: S.optional(__S(1248, __c156, 0)),
         }),
       ).annotate({ identifier: "IssueFormField" });
     case 3:
-      return S.Array(__S(186, __c23, 2));
+      return S.Array(__S(194, __c24, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           about: S.optional(S.String),
-          body: S.optional(__S(187, __c23, 3)),
+          body: S.optional(__S(195, __c24, 3)),
           content: S.optional(S.String),
           file_name: S.optional(S.String),
-          labels: S.optional(__S(1736, __c217, 0)),
+          labels: S.optional(__S(1248, __c156, 0)),
           name: S.optional(S.String),
           ref: S.optional(S.String),
           title: S.optional(S.String),
         }),
       ).annotate({ identifier: "IssueTemplate" });
     case 5:
-      return S.Array(__S(188, __c23, 4));
+      return S.Array(__S(196, __c24, 4));
     case 6:
-      return S.suspend(() => __S(189, __c23, 5).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(197, __c24, 5).pipe(T.RawResponseRoot())).annotate({
         identifier: "RepoGetIssueTemplatesResponse",
       });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7535,7 +7620,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "RepoGetKeyRequest" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7554,7 +7639,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "CreateRepoVariableRequest" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7566,12 +7651,12 @@ function __c26(j: number): any {
     case 1:
       return S.Record(S.String, S.Number);
     case 2:
-      return S.suspend(() => __S(209, __c26, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(217, __c27, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "RepoGetLanguagesResponse",
       });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7582,7 +7667,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "RepoGetLatestReleaseRequest" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7596,18 +7681,18 @@ function __c28(j: number): any {
       ).annotate({ identifier: "RepoGetNoteRequest" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          commit: S.optional(__S(1420, __c177, 4)),
+          commit: S.optional(__S(1452, __c181, 4)),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "Note" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7619,7 +7704,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "RepoGetPullRequestRequest" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7634,7 +7719,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "RepoGetPullRequestByBaseHeadRequest" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7652,7 +7737,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "RepoGetPullRequestCommitsRequest" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7683,14 +7768,14 @@ function __c33(j: number): any {
         }),
       ).annotate({ identifier: "ChangedFile" });
     case 2:
-      return S.Array(__S(265, __c33, 1));
+      return S.Array(__S(273, __c34, 1));
     case 3:
-      return S.suspend(() => __S(266, __c33, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(274, __c34, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "RepoGetPullRequestFilesResponse",
       });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7709,7 +7794,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "RepoGetPullReviewRequest" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7729,7 +7814,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "RepoGetPullReviewCommentRequest" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7747,14 +7832,14 @@ function __c36(j: number): any {
         ),
       ).annotate({ identifier: "RepoGetPullReviewCommentsRequest" });
     case 1:
-      return S.Array(__S(1584, __c198, 0));
+      return S.Array(__S(1616, __c202, 0));
     case 2:
-      return S.suspend(() => __S(289, __c36, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(297, __c37, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "RepoGetPullReviewCommentsResponse",
       });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7772,7 +7857,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "DeleteActionArtifactRequest" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7786,7 +7871,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "RepoGetPushMirrorByRemoteNameRequest" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7799,7 +7884,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "RepoGetRawFileRequest" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -7807,7 +7892,7 @@ function __c40(j: number): any {
       });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7822,7 +7907,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "RepoGetRawFileOrLFSRequest" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7834,7 +7919,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "RepoGetReleaseRequest" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7853,7 +7938,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "RepoGetReleaseAttachmentRequest" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7867,7 +7952,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "RepoGetReleaseByTagRequest" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7878,7 +7963,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "RepoGetReviewersRequest" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7895,7 +7980,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "RepoGetSingleCommitRequest" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7907,7 +7992,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "RepoGetTagRequest" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7921,7 +8006,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "RepoGetTagProtectionRequest" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7939,7 +8024,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "DeleteActionRunRequest" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7953,7 +8038,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "RepoGetWikiPageRequest" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7971,17 +8056,17 @@ function __c51(j: number): any {
         ),
       ).annotate({ identifier: "RepoGetWikiPageRevisionsRequest" });
     case 1:
-      return S.Array(__S(1712, __c214, 0));
+      return S.Array(__S(1744, __c218, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          commits: S.optional(__S(409, __c51, 1)),
+          commits: S.optional(__S(417, __c52, 1)),
           count: S.optional(S.Number),
         }),
       ).annotate({ identifier: "WikiCommitList" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7996,20 +8081,20 @@ function __c52(j: number): any {
       return S.suspend(() =>
         S.Struct({
           html_url: S.optional(S.String),
-          last_commit: S.optional(__S(1712, __c214, 0)),
+          last_commit: S.optional(__S(1744, __c218, 0)),
           sub_url: S.optional(S.String),
           title: S.optional(S.String),
         }),
       ).annotate({ identifier: "WikiPageMetaData" });
     case 2:
-      return S.Array(__S(417, __c52, 1));
+      return S.Array(__S(425, __c53, 1));
     case 3:
-      return S.suspend(() => __S(418, __c52, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(426, __c53, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "RepoGetWikiPagesResponse",
       });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8028,14 +8113,14 @@ function __c53(j: number): any {
         }),
       ).annotate({ identifier: "Secret" });
     case 2:
-      return S.Array(__S(425, __c53, 1));
+      return S.Array(__S(433, __c54, 1));
     case 3:
-      return S.suspend(() => __S(426, __c53, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(434, __c54, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "RepoListActionsSecretsResponse",
       });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8052,7 +8137,7 @@ function __c54(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          assets: S.optional(__S(1624, __c203, 0)),
+          assets: S.optional(__S(1656, __c207, 0)),
           body: S.optional(S.String),
           created_at: S.optional(S.String),
           html_url: S.optional(S.String),
@@ -8062,15 +8147,15 @@ function __c54(j: number): any {
           original_author_id: S.optional(S.Number),
           pull_request_url: S.optional(S.String),
           updated_at: S.optional(S.String),
-          user: S.optional(__S(1752, __c219, 0)),
+          user: S.optional(__S(1776, __c222, 0)),
         }),
       ).annotate({ identifier: "Comment" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          act_user: S.optional(__S(1752, __c219, 0)),
+          act_user: S.optional(__S(1776, __c222, 0)),
           act_user_id: S.optional(S.Number),
-          comment: S.optional(__S(433, __c54, 1)),
+          comment: S.optional(__S(441, __c55, 1)),
           comment_id: S.optional(S.Number),
           content: S.optional(S.String),
           created: S.optional(S.String),
@@ -8078,20 +8163,20 @@ function __c54(j: number): any {
           is_private: S.optional(S.Boolean),
           op_type: S.optional(S.String),
           ref_name: S.optional(S.String),
-          repo: S.optional(__S(1781, __c222, 5)),
+          repo: S.optional(__S(1805, __c225, 5)),
           repo_id: S.optional(S.Number),
           user_id: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Activity" });
     case 3:
-      return S.Array(__S(434, __c54, 2));
+      return S.Array(__S(442, __c55, 2));
     case 4:
-      return S.suspend(() => __S(435, __c54, 3).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(443, __c55, 3).pipe(T.RawResponseRoot())).annotate({
         identifier: "RepoListActivityFeedsResponse",
       });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8102,25 +8187,25 @@ function __c55(j: number): any {
       ).annotate({ identifier: "RepoListAllGitRefsRequest" });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          object: S.optional(__S(1032, __c129, 0)),
+          object: S.optional(__S(1040, __c130, 0)),
           ref: S.optional(S.String),
           url: S.optional(S.String),
         }),
       ).annotate({ identifier: "Reference" });
     case 1:
-      return S.Array(__S(448, __c56, 0));
+      return S.Array(__S(456, __c57, 0));
     case 2:
-      return S.suspend(() => __S(449, __c56, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(457, __c57, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "RepoListAllGitRefsResponse",
       });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8132,14 +8217,14 @@ function __c57(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/branches", code: 200 })),
       ).annotate({ identifier: "RepoListBranchesRequest" });
     case 1:
-      return S.Array(__S(1441, __c180, 1));
+      return S.Array(__S(1473, __c184, 1));
     case 2:
-      return S.suspend(() => __S(457, __c57, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(465, __c58, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "RepoListBranchesResponse",
       });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8151,14 +8236,14 @@ function __c58(j: number): any {
         ),
       ).annotate({ identifier: "RepoListBranchProtectionRequest" });
     case 1:
-      return S.Array(__S(1456, __c182, 0));
+      return S.Array(__S(1488, __c186, 0));
     case 2:
-      return S.suspend(() => __S(465, __c58, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(473, __c59, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "RepoListBranchProtectionResponse",
       });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8171,7 +8256,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "RepoListCollaboratorsRequest" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8181,12 +8266,12 @@ function __c60(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/flags", code: 200 })),
       ).annotate({ identifier: "RepoListFlagsRequest" });
     case 1:
-      return S.suspend(() => __S(1736, __c217, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1248, __c156, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "RepoListFlagsResponse",
       });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8197,7 +8282,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "DeleteRepoRequest" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8207,14 +8292,14 @@ function __c62(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/hooks/git", code: 200 })),
       ).annotate({ identifier: "RepoListGitHooksRequest" });
     case 1:
-      return S.Array(__S(2016, __c252, 0));
+      return S.Array(__S(2040, __c255, 0));
     case 2:
-      return S.suspend(() => __S(497, __c62, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(505, __c63, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "RepoListGitHooksResponse",
       });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8226,7 +8311,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "RepoListGitRefsRequest" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8238,14 +8323,14 @@ function __c64(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/hooks", code: 200 })),
       ).annotate({ identifier: "RepoListHooksRequest" });
     case 1:
-      return S.Array(__S(1480, __c185, 0));
+      return S.Array(__S(1512, __c189, 0));
     case 2:
-      return S.suspend(() => __S(513, __c64, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(521, __c65, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "RepoListHooksResponse",
       });
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8259,14 +8344,14 @@ function __c65(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/keys", code: 200 })),
       ).annotate({ identifier: "RepoListKeysRequest" });
     case 1:
-      return S.Array(__S(1496, __c187, 0));
+      return S.Array(__S(1528, __c191, 0));
     case 2:
-      return S.suspend(() => __S(521, __c65, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(529, __c66, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "RepoListKeysResponse",
       });
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8276,14 +8361,14 @@ function __c66(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/issues/pinned", code: 200 })),
       ).annotate({ identifier: "RepoListPinnedIssuesRequest" });
     case 1:
-      return S.Array(__S(538, __c67, 2));
+      return S.Array(__S(546, __c68, 2));
     case 2:
-      return S.suspend(() => __S(529, __c66, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(537, __c67, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "RepoListPinnedIssuesResponse",
       });
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8306,9 +8391,9 @@ function __c67(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          assets: S.optional(__S(1624, __c203, 0)),
-          assignee: S.optional(__S(1752, __c219, 0)),
-          assignees: S.optional(__S(1528, __c191, 0)),
+          assets: S.optional(__S(1656, __c207, 0)),
+          assignee: S.optional(__S(1776, __c222, 0)),
+          assignees: S.optional(__S(1560, __c195, 0)),
           body: S.optional(S.String),
           closed_at: S.optional(S.String),
           comments: S.optional(S.Number),
@@ -8317,25 +8402,25 @@ function __c67(j: number): any {
           html_url: S.optional(S.String),
           id: S.optional(S.Number),
           is_locked: S.optional(S.Boolean),
-          labels: S.optional(__S(1537, __c192, 1)),
-          milestone: S.optional(__S(1538, __c192, 2)),
+          labels: S.optional(__S(1569, __c196, 1)),
+          milestone: S.optional(__S(1570, __c196, 2)),
           number: S.optional(S.Number),
           original_author: S.optional(S.String),
           original_author_id: S.optional(S.Number),
           pin_order: S.optional(S.Number),
-          pull_request: S.optional(__S(536, __c67, 0)),
+          pull_request: S.optional(__S(544, __c68, 0)),
           ref: S.optional(S.String),
-          repository: S.optional(__S(537, __c67, 1)),
+          repository: S.optional(__S(545, __c68, 1)),
           state: S.optional(S.String),
           title: S.optional(S.String),
           updated_at: S.optional(S.String),
           url: S.optional(S.String),
-          user: S.optional(__S(1752, __c219, 0)),
+          user: S.optional(__S(1776, __c222, 0)),
         }),
       ).annotate({ identifier: "Issue" });
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8346,17 +8431,17 @@ function __c68(j: number): any {
       ).annotate({ identifier: "RepoListPinnedPullRequestsRequest" });
   }
 }
-function __c69(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1545, __c193, 1));
+      return S.Array(__S(1577, __c197, 1));
     case 1:
-      return S.suspend(() => __S(552, __c69, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(560, __c70, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "RepoListPinnedPullRequestsResponse",
       });
   }
 }
-function __c70(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8366,7 +8451,7 @@ function __c70(j: number): any {
           state: S.optional(S.String.pipe(T.Query())),
           sort: S.optional(S.String.pipe(T.Query())),
           milestone: S.optional(S.Number.pipe(T.Query())),
-          labels: S.optional(__S(1552, __c194, 0).pipe(T.Query())),
+          labels: S.optional(__S(1584, __c198, 0).pipe(T.Query())),
           poster: S.optional(S.String.pipe(T.Query())),
           base: S.optional(S.String.pipe(T.Query())),
           head: S.optional(S.String.pipe(T.Query())),
@@ -8376,7 +8461,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "RepoListPullRequestsRequest" });
   }
 }
-function __c71(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8392,7 +8477,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "RepoListPullReviewsRequest" });
   }
 }
-function __c72(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8404,14 +8489,14 @@ function __c72(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/push_mirrors", code: 200 })),
       ).annotate({ identifier: "RepoListPushMirrorsRequest" });
     case 1:
-      return S.Array(__S(1288, __c161, 0));
+      return S.Array(__S(1312, __c164, 0));
     case 2:
-      return S.suspend(() => __S(577, __c72, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(585, __c73, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "RepoListPushMirrorsResponse",
       });
   }
 }
-function __c73(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8424,12 +8509,12 @@ function __c73(j: number): any {
         ),
       ).annotate({ identifier: "RepoListReleaseAttachmentsRequest" });
     case 1:
-      return S.suspend(() => __S(1624, __c203, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1656, __c207, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "RepoListReleaseAttachmentsResponse",
       });
   }
 }
-function __c74(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8447,7 +8532,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "DeleteRepoRunnerRequest" });
   }
 }
-function __c75(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8462,14 +8547,14 @@ function __c75(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/releases", code: 200 })),
       ).annotate({ identifier: "RepoListReleasesRequest" });
     case 1:
-      return S.Array(__S(1632, __c204, 0));
+      return S.Array(__S(1664, __c208, 0));
     case 2:
-      return S.suspend(() => __S(601, __c75, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(609, __c76, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "RepoListReleasesResponse",
       });
   }
 }
-function __c76(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8482,7 +8567,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "RepoListStargazersRequest" });
   }
 }
-function __c77(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8498,15 +8583,15 @@ function __c77(j: number): any {
       ).annotate({ identifier: "RepoListStatusesRequest" });
   }
 }
-function __c78(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(120, __c15, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(128, __c16, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "RepoListStatusesResponse",
       });
   }
 }
-function __c79(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8524,7 +8609,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "RepoListStatusesByRefRequest" });
   }
 }
-function __c80(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8537,7 +8622,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "RepoListSubscribersRequest" });
   }
 }
-function __c81(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8547,14 +8632,14 @@ function __c81(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/tag_protections", code: 200 })),
       ).annotate({ identifier: "RepoListTagProtectionRequest" });
     case 1:
-      return S.Array(__S(1688, __c211, 0));
+      return S.Array(__S(1720, __c215, 0));
     case 2:
-      return S.suspend(() => __S(649, __c81, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(657, __c82, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "RepoListTagProtectionResponse",
       });
   }
 }
-function __c82(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8566,14 +8651,14 @@ function __c82(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/tags", code: 200 })),
       ).annotate({ identifier: "RepoListTagsRequest" });
     case 1:
-      return S.Array(__S(1672, __c209, 0));
+      return S.Array(__S(1704, __c213, 0));
     case 2:
-      return S.suspend(() => __S(657, __c82, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(665, __c83, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "RepoListTagsResponse",
       });
   }
 }
-function __c83(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8583,12 +8668,12 @@ function __c83(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/teams", code: 200 })),
       ).annotate({ identifier: "RepoListTeamsRequest" });
     case 1:
-      return S.suspend(() => __S(1768, __c221, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1792, __c224, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "RepoListTeamsResponse",
       });
   }
 }
-function __c84(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8602,12 +8687,12 @@ function __c84(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          topics: S.optional(__S(1736, __c217, 0)),
+          topics: S.optional(__S(1248, __c156, 0)),
         }),
       ).annotate({ identifier: "TopicName" });
   }
 }
-function __c85(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8629,7 +8714,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "RepoMergePullRequestRequest" });
   }
 }
-function __c86(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8647,7 +8732,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "DeleteRepoSecretRequest" });
   }
 }
-function __c87(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8665,7 +8750,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "NewIssuePinsAllowed" });
   }
 }
-function __c88(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8679,7 +8764,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "RepoPullRequestIsMergedRequest" });
   }
 }
-function __c89(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8693,19 +8778,19 @@ function __c89(j: number): any {
       ).annotate({ identifier: "RepoRemoveNoteRequest" });
   }
 }
-function __c90(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
-          flags: S.optional(__S(1736, __c217, 0)),
+          flags: S.optional(__S(1248, __c156, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/repos/{owner}/{repo}/flags", code: 200 })),
       ).annotate({ identifier: "RepoReplaceAllFlagsRequest" });
   }
 }
-function __c91(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8719,7 +8804,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "RepoSearchRunJobsRequest" });
   }
 }
-function __c92(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8734,7 +8819,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "RepoSetNoteRequest" });
   }
 }
-function __c93(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8745,7 +8830,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "RepoSigningKeyRequest" });
   }
 }
-function __c94(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8766,7 +8851,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "RepoSubmitPullReviewRequest" });
   }
 }
-function __c95(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8780,7 +8865,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "RepoSyncForkBranchRequest" });
   }
 }
-function __c96(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8794,7 +8879,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "RepoSyncForkBranchInfoRequest" });
   }
 }
-function __c97(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8807,7 +8892,7 @@ function __c97(j: number): any {
       ).annotate({ identifier: "SyncForkInfo" });
   }
 }
-function __c98(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8825,7 +8910,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "DeleteRepoVariableRequest" });
   }
 }
-function __c99(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8836,7 +8921,7 @@ function __c99(j: number): any {
       ).annotate({ identifier: "RepoSyncForkDefaultRequest" });
   }
 }
-function __c100(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8847,7 +8932,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "RepoSyncForkDefaultInfoRequest" });
   }
 }
-function __c101(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8862,7 +8947,7 @@ function __c101(j: number): any {
       ).annotate({ identifier: "RepoTestHookRequest" });
   }
 }
-function __c102(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8881,7 +8966,7 @@ function __c102(j: number): any {
         S.Struct({
           created: S.optional(S.String),
           id: S.optional(S.Number),
-          issue: S.optional(__S(538, __c67, 2)),
+          issue: S.optional(__S(546, __c68, 2)),
           issue_id: S.optional(S.Number),
           time: S.optional(S.Number),
           user_id: S.optional(S.Number),
@@ -8889,14 +8974,14 @@ function __c102(j: number): any {
         }),
       ).annotate({ identifier: "TrackedTime" });
     case 2:
-      return S.Array(__S(817, __c102, 1));
+      return S.Array(__S(825, __c103, 1));
     case 3:
-      return S.suspend(() => __S(818, __c102, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(826, __c103, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "RepoTrackedTimesResponse",
       });
   }
 }
-function __c103(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8908,7 +8993,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "RepoUpdateAvatarRequest" });
   }
 }
-function __c104(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8923,7 +9008,7 @@ function __c104(j: number): any {
       ).annotate({ identifier: "RepoUpdateBranchRequest" });
   }
 }
-function __c105(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8931,11 +9016,11 @@ function __c105(j: number): any {
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
           filepath: S.String.pipe(T.Label()),
-          author: S.optional(__S(1344, __c168, 0)),
+          author: S.optional(__S(1368, __c171, 0)),
           branch: S.optional(S.String),
-          committer: S.optional(__S(1344, __c168, 0)),
+          committer: S.optional(__S(1368, __c171, 0)),
           content: S.String,
-          dates: S.optional(__S(1345, __c168, 1)),
+          dates: S.optional(__S(1369, __c171, 1)),
           force_overwrite_new_branch: S.optional(S.Boolean),
           from_path: S.optional(S.String),
           message: S.optional(S.String),
@@ -8948,7 +9033,7 @@ function __c105(j: number): any {
       ).annotate({ identifier: "RepoUpdateFileRequest" });
   }
 }
-function __c106(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8963,19 +9048,19 @@ function __c106(j: number): any {
       ).annotate({ identifier: "RepoUpdatePullRequestRequest" });
   }
 }
-function __c107(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
-          topics: S.optional(__S(1736, __c217, 0)),
+          topics: S.optional(__S(1248, __c156, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/repos/{owner}/{repo}/topics", code: 200 })),
       ).annotate({ identifier: "RepoUpdateTopicsRequest" });
   }
 }
-function __c108(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8995,7 +9080,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "IssueConfigValidation" });
   }
 }
-function __c109(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9003,7 +9088,7 @@ function __c109(j: number): any {
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
           workflowfilename: S.String.pipe(T.Label()),
-          inputs: S.optional(__S(1744, __c218, 0)),
+          inputs: S.optional(__S(1768, __c221, 0)),
           ref: S.String,
           return_run_info: S.optional(S.Boolean),
         }).pipe(
@@ -9018,13 +9103,13 @@ function __c109(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.Number),
-          jobs: S.optional(__S(1736, __c217, 0)),
+          jobs: S.optional(__S(1248, __c156, 0)),
           run_number: S.optional(S.Number),
         }),
       ).annotate({ identifier: "DispatchWorkflowRun" });
   }
 }
-function __c110(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9045,7 +9130,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "ReviewRepoDismissPullRequest" });
   }
 }
-function __c111(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9064,7 +9149,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "ReviewRepoUnDismissPullRequest" });
   }
 }
-function __c112(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9091,13 +9176,13 @@ function __c112(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(1232, __c154, 0)),
+          data: S.optional(__S(1240, __c155, 0)),
           ok: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "SearchResults" });
   }
 }
-function __c113(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9118,16 +9203,16 @@ function __c113(j: number): any {
         }),
       ).annotate({ identifier: "TopicResponse" });
     case 2:
-      return S.Array(__S(905, __c113, 1));
+      return S.Array(__S(913, __c114, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          topics: S.optional(__S(906, __c113, 2)),
+          topics: S.optional(__S(914, __c114, 2)),
         }),
       ).annotate({ identifier: "SearchTopicResponse" });
   }
 }
-function __c114(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9138,7 +9223,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "SyncRepoMirrorRequest" });
   }
 }
-function __c115(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9151,7 +9236,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "SyncRepoPushMirrorRequest" });
   }
 }
-function __c116(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9159,12 +9244,12 @@ function __c116(j: number): any {
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
           new_owner: S.String,
-          team_ids: S.optional(__S(1552, __c194, 0)),
+          team_ids: S.optional(__S(1584, __c198, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/transfer", code: 200 })),
       ).annotate({ identifier: "TransferRepoRequest" });
   }
 }
-function __c117(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9183,7 +9268,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "UpdateRepoSecretRequest" });
   }
 }
-function __c118(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9203,7 +9288,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "UpdateRepoVariableRequest" });
   }
 }
-function __c119(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9214,7 +9299,7 @@ function __c119(j: number): any {
       ).annotate({ identifier: "UserCurrentCheckSubscriptionRequest" });
   }
 }
-function __c120(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9229,7 +9314,7 @@ function __c120(j: number): any {
       ).annotate({ identifier: "WatchInfo" });
   }
 }
-function __c121(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9247,7 +9332,7 @@ function __c121(j: number): any {
       ).annotate({ identifier: "DownloadActionArtifactRequest" });
   }
 }
-function __c122(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9258,7 +9343,7 @@ function __c122(j: number): any {
       ).annotate({ identifier: "UserCurrentDeleteSubscriptionRequest" });
   }
 }
-function __c123(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9269,7 +9354,7 @@ function __c123(j: number): any {
       ).annotate({ identifier: "UserCurrentPutSubscriptionRequest" });
   }
 }
-function __c124(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9292,8 +9377,8 @@ function __c124(j: number): any {
           default_update_style: S.optional(S.String),
           description: S.optional(S.String),
           enable_prune: S.optional(S.Boolean),
-          external_tracker: S.optional(__S(1776, __c222, 0)),
-          external_wiki: S.optional(__S(1777, __c222, 1)),
+          external_tracker: S.optional(__S(1800, __c225, 0)),
+          external_wiki: S.optional(__S(1801, __c225, 1)),
           globally_editable_wiki: S.optional(S.Boolean),
           has_actions: S.optional(S.Boolean),
           has_issues: S.optional(S.Boolean),
@@ -9303,7 +9388,7 @@ function __c124(j: number): any {
           has_releases: S.optional(S.Boolean),
           has_wiki: S.optional(S.Boolean),
           ignore_whitespace_conflicts: S.optional(S.Boolean),
-          internal_tracker: S.optional(__S(1778, __c222, 2)),
+          internal_tracker: S.optional(__S(1802, __c225, 2)),
           mirror_interval: S.optional(S.String),
           name: S.optional(S.String),
           private: S.optional(S.Boolean),
@@ -9314,7 +9399,7 @@ function __c124(j: number): any {
       ).annotate({ identifier: "EditRepoRequest" });
   }
 }
-function __c125(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9343,7 +9428,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "GenerateRepoRequest" });
   }
 }
-function __c126(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9361,7 +9446,7 @@ function __c126(j: number): any {
       ).annotate({ identifier: "GetActionArtifactRequest" });
   }
 }
-function __c127(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9379,7 +9464,7 @@ function __c127(j: number): any {
       ).annotate({ identifier: "ActionArtifact" });
   }
 }
-function __c128(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9392,19 +9477,19 @@ function __c128(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          archive_download_count: S.optional(__S(1056, __c132, 0)),
+          archive_download_count: S.optional(__S(1064, __c133, 0)),
           message: S.optional(S.String),
-          object: S.optional(__S(1032, __c129, 0)),
+          object: S.optional(__S(1040, __c130, 0)),
           sha: S.optional(S.String),
           tag: S.optional(S.String),
-          tagger: S.optional(__S(1048, __c131, 0)),
+          tagger: S.optional(__S(1056, __c132, 0)),
           url: S.optional(S.String),
-          verification: S.optional(__S(1041, __c130, 1)),
+          verification: S.optional(__S(1049, __c131, 1)),
         }),
       ).annotate({ identifier: "AnnotatedTag" });
   }
 }
-function __c129(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9416,7 +9501,7 @@ function __c129(j: number): any {
       ).annotate({ identifier: "AnnotatedTagObject" });
   }
 }
-function __c130(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9432,13 +9517,13 @@ function __c130(j: number): any {
           payload: S.optional(S.String),
           reason: S.optional(S.String),
           signature: S.optional(S.String),
-          signer: S.optional(__S(1040, __c130, 0)),
+          signer: S.optional(__S(1048, __c131, 0)),
           verified: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "PayloadCommitVerification" });
   }
 }
-function __c131(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9450,7 +9535,7 @@ function __c131(j: number): any {
       ).annotate({ identifier: "CommitUser" });
   }
 }
-function __c132(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9461,7 +9546,7 @@ function __c132(j: number): any {
       ).annotate({ identifier: "TagArchiveDownloadCount" });
   }
 }
-function __c133(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9473,7 +9558,7 @@ function __c133(j: number): any {
       ).annotate({ identifier: "GetBlobRequest" });
   }
 }
-function __c134(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9487,7 +9572,7 @@ function __c134(j: number): any {
       ).annotate({ identifier: "GitBlob" });
   }
 }
-function __c135(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9498,14 +9583,14 @@ function __c135(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/git/blobs", code: 200 })),
       ).annotate({ identifier: "GetBlobsRequest" });
     case 1:
-      return S.Array(__S(1072, __c134, 0));
+      return S.Array(__S(1080, __c135, 0));
     case 2:
-      return S.suspend(() => __S(1081, __c135, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1089, __c136, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetBlobsResponse",
       });
   }
 }
-function __c136(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9516,7 +9601,7 @@ function __c136(j: number): any {
       ).annotate({ identifier: "GetRepoRequest" });
   }
 }
-function __c137(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9537,12 +9622,12 @@ function __c137(j: number): any {
         S.Struct({
           permission: S.optional(S.String),
           role_name: S.optional(S.String),
-          user: S.optional(__S(1752, __c219, 0)),
+          user: S.optional(__S(1776, __c222, 0)),
         }),
       ).annotate({ identifier: "RepoCollaboratorPermission" });
   }
 }
-function __c138(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9560,7 +9645,7 @@ function __c138(j: number): any {
       ).annotate({ identifier: "GetRepoRunnerRequest" });
   }
 }
-function __c139(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9568,7 +9653,7 @@ function __c139(j: number): any {
           description: S.optional(S.String),
           ephemeral: S.optional(S.Boolean),
           id: S.optional(S.Number),
-          labels: S.optional(__S(1736, __c217, 0)),
+          labels: S.optional(__S(1248, __c156, 0)),
           name: S.optional(S.String),
           owner_id: S.optional(S.Number),
           repo_id: S.optional(S.Number),
@@ -9579,7 +9664,7 @@ function __c139(j: number): any {
       ).annotate({ identifier: "ActionRunner" });
   }
 }
-function __c140(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9592,14 +9677,14 @@ function __c140(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/actions/runners", code: 200 })),
       ).annotate({ identifier: "GetRepoRunnersRequest" });
     case 1:
-      return S.Array(__S(1112, __c139, 0));
+      return S.Array(__S(1120, __c140, 0));
     case 2:
-      return S.suspend(() => __S(1121, __c140, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1129, __c141, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetRepoRunnersResponse",
       });
   }
 }
-function __c141(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9617,7 +9702,7 @@ function __c141(j: number): any {
       ).annotate({ identifier: "GetRepoVariableRequest" });
   }
 }
-function __c142(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9630,7 +9715,7 @@ function __c142(j: number): any {
       ).annotate({ identifier: "ActionVariable" });
   }
 }
-function __c143(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9644,14 +9729,14 @@ function __c143(j: number): any {
         ),
       ).annotate({ identifier: "GetRepoVariablesListRequest" });
     case 1:
-      return S.Array(__S(1136, __c142, 0));
+      return S.Array(__S(1144, __c143, 0));
     case 2:
-      return S.suspend(() => __S(1145, __c143, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1153, __c144, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetRepoVariablesListResponse",
       });
   }
 }
-function __c144(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9676,21 +9761,21 @@ function __c144(j: number): any {
         }),
       ).annotate({ identifier: "GitEntry" });
     case 2:
-      return S.Array(__S(1153, __c144, 1));
+      return S.Array(__S(1161, __c145, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           page: S.optional(S.Number),
           sha: S.optional(S.String),
           total_count: S.optional(S.Number),
-          tree: S.optional(__S(1154, __c144, 2)),
+          tree: S.optional(__S(1162, __c145, 2)),
           truncated: S.optional(S.Boolean),
           url: S.optional(S.String),
         }),
       ).annotate({ identifier: "GitTreeResponse" });
   }
 }
-function __c145(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9706,17 +9791,17 @@ function __c145(j: number): any {
       ).annotate({ identifier: "ListActionArtifactsRequest" });
   }
 }
-function __c146(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1016, __c127, 0));
+      return S.Array(__S(1024, __c128, 0));
     case 1:
-      return S.suspend(() => __S(1168, __c146, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1176, __c147, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListActionArtifactsResponse",
       });
   }
 }
-function __c147(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9737,7 +9822,7 @@ function __c147(j: number): any {
       ).annotate({ identifier: "ListActionRunArtifactsRequest" });
   }
 }
-function __c148(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9755,7 +9840,7 @@ function __c148(j: number): any {
       ).annotate({ identifier: "ListActionRunJobsRequest" });
   }
 }
-function __c149(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9764,24 +9849,24 @@ function __c149(j: number): any {
           handle: S.optional(S.String),
           id: S.optional(S.Number),
           name: S.optional(S.String),
-          needs: S.optional(__S(1736, __c217, 0)),
+          needs: S.optional(__S(1248, __c156, 0)),
           owner_id: S.optional(S.Number),
           repo_id: S.optional(S.Number),
           run_id: S.optional(S.Number),
-          runs_on: S.optional(__S(1736, __c217, 0)),
+          runs_on: S.optional(__S(1248, __c156, 0)),
           status: S.optional(S.String),
           task_id: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ActionRunJob" });
     case 1:
-      return S.Array(__S(1192, __c149, 0));
+      return S.Array(__S(1200, __c150, 0));
     case 2:
-      return S.suspend(() => __S(1193, __c149, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1201, __c150, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListActionRunJobsResponse",
       });
   }
 }
-function __c150(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9790,8 +9875,8 @@ function __c150(j: number): any {
           repo: S.String.pipe(T.Label()),
           page: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          event: S.optional(__S(1736, __c217, 0).pipe(T.Query())),
-          status: S.optional(__S(1208, __c151, 0).pipe(T.Query())),
+          event: S.optional(__S(1248, __c156, 0).pipe(T.Query())),
+          status: S.optional(__S(1216, __c152, 0).pipe(T.Query())),
           run_number: S.optional(S.Number.pipe(T.Query())),
           head_sha: S.optional(S.String.pipe(T.Query())),
           ref: S.optional(S.String.pipe(T.Query())),
@@ -9799,23 +9884,23 @@ function __c150(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/actions/runs", code: 200 })),
       ).annotate({ identifier: "ListActionRunsRequest" });
     case 1:
-      return S.Array(__S(1728, __c216, 0));
+      return S.Array(__S(1760, __c220, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           total_count: S.optional(S.Number),
-          workflow_runs: S.optional(__S(1201, __c150, 1)),
+          workflow_runs: S.optional(__S(1209, __c151, 1)),
         }),
       ).annotate({ identifier: "ListActionRunResponse" });
   }
 }
-function __c151(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c152(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9824,7 +9909,7 @@ function __c152(j: number): any {
           repo: S.String.pipe(T.Label()),
           page: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          status: S.optional(__S(1208, __c151, 0).pipe(T.Query())),
+          status: S.optional(__S(1216, __c152, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/actions/tasks", code: 200 })),
       ).annotate({ identifier: "ListActionTasksRequest" });
     case 1:
@@ -9846,17 +9931,17 @@ function __c152(j: number): any {
         }),
       ).annotate({ identifier: "ActionTask" });
     case 2:
-      return S.Array(__S(1217, __c152, 1));
+      return S.Array(__S(1225, __c153, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           total_count: S.optional(S.Number),
-          workflow_runs: S.optional(__S(1218, __c152, 2)),
+          workflow_runs: S.optional(__S(1226, __c153, 2)),
         }),
       ).annotate({ identifier: "ActionTaskResponse" });
   }
 }
-function __c153(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9868,18 +9953,36 @@ function __c153(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/forks", code: 200 })),
       ).annotate({ identifier: "ListForksRequest" });
     case 1:
-      return S.suspend(() => __S(1232, __c154, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1240, __c155, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListForksResponse",
       });
   }
 }
-function __c154(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1781, __c222, 5));
+      return S.Array(__S(1805, __c225, 5));
   }
 }
-function __c155(j: number): any {
+function __c156(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c157(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          errors: S.optional(__S(1248, __c156, 0)),
+          message: S.optional(S.String),
+          url: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "APINotFound" });
+  }
+}
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9908,7 +10011,7 @@ function __c155(j: number): any {
       ).annotate({ identifier: "MigrateRepoRequest" });
   }
 }
-function __c156(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9932,7 +10035,7 @@ function __c156(j: number): any {
       ).annotate({ identifier: "RegisterRunnerResponse" });
   }
 }
-function __c157(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9945,7 +10048,7 @@ function __c157(j: number): any {
       ).annotate({ identifier: "RejectRepoTransferRequest" });
   }
 }
-function __c158(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9964,7 +10067,7 @@ function __c158(j: number): any {
       ).annotate({ identifier: "RepoAddCollaboratorRequest" });
   }
 }
-function __c159(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9976,7 +10079,7 @@ function __c159(j: number): any {
       ).annotate({ identifier: "RepoAddFlagRequest" });
   }
 }
-function __c160(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9994,7 +10097,7 @@ function __c160(j: number): any {
       ).annotate({ identifier: "RepoAddPushMirrorRequest" });
   }
 }
-function __c161(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10013,7 +10116,7 @@ function __c161(j: number): any {
       ).annotate({ identifier: "PushMirror" });
   }
 }
-function __c162(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10025,7 +10128,7 @@ function __c162(j: number): any {
       ).annotate({ identifier: "RepoAddTeamRequest" });
   }
 }
-function __c163(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10037,18 +10140,18 @@ function __c163(j: number): any {
       ).annotate({ identifier: "RepoAddTopicRequest" });
   }
 }
-function __c164(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
-          author: S.optional(__S(1344, __c168, 0)),
+          author: S.optional(__S(1368, __c171, 0)),
           branch: S.optional(S.String),
-          committer: S.optional(__S(1344, __c168, 0)),
+          committer: S.optional(__S(1368, __c171, 0)),
           content: S.String,
-          dates: S.optional(__S(1345, __c168, 1)),
+          dates: S.optional(__S(1369, __c171, 1)),
           force_overwrite_new_branch: S.optional(S.Boolean),
           from_path: S.optional(S.String),
           message: S.optional(S.String),
@@ -10059,7 +10162,7 @@ function __c164(j: number): any {
       ).annotate({ identifier: "RepoApplyDiffPatchRequest" });
   }
 }
-function __c165(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10071,13 +10174,13 @@ function __c165(j: number): any {
       ).annotate({ identifier: "CommitMeta" });
   }
 }
-function __c166(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1320, __c165, 0));
+      return S.Array(__S(1344, __c168, 0));
   }
 }
-function __c167(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10090,7 +10193,7 @@ function __c167(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(1336, __c167, 0)),
+          _links: S.optional(__S(1360, __c170, 0)),
           content: S.optional(S.String),
           download_url: S.optional(S.String),
           encoding: S.optional(S.String),
@@ -10110,7 +10213,7 @@ function __c167(j: number): any {
       ).annotate({ identifier: "ContentsResponse" });
   }
 }
-function __c168(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10129,32 +10232,32 @@ function __c168(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          author: S.optional(__S(1048, __c131, 0)),
-          committer: S.optional(__S(1048, __c131, 0)),
+          author: S.optional(__S(1056, __c132, 0)),
+          committer: S.optional(__S(1056, __c132, 0)),
           created: S.optional(S.String),
           html_url: S.optional(S.String),
           message: S.optional(S.String),
-          parents: S.optional(__S(1328, __c166, 0)),
+          parents: S.optional(__S(1352, __c169, 0)),
           sha: S.optional(S.String),
-          tree: S.optional(__S(1320, __c165, 0)),
+          tree: S.optional(__S(1344, __c168, 0)),
           url: S.optional(S.String),
         }),
       ).annotate({ identifier: "FileCommitResponse" });
   }
 }
-function __c169(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          commit: S.optional(__S(1346, __c168, 2)),
-          content: S.optional(__S(1337, __c167, 1)),
-          verification: S.optional(__S(1041, __c130, 1)),
+          commit: S.optional(__S(1370, __c171, 2)),
+          content: S.optional(__S(1361, __c170, 1)),
+          verification: S.optional(__S(1049, __c131, 1)),
         }),
       ).annotate({ identifier: "FileResponse" });
   }
 }
-function __c170(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10168,7 +10271,18 @@ function __c170(j: number): any {
       ).annotate({ identifier: "RepoCancelScheduledAutoMergeRequest" });
   }
 }
-function __c171(j: number): any {
+function __c174(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          invalidTopics: S.optional(__S(1248, __c156, 0)),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "APIInvalidTopicsError" });
+  }
+}
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10181,17 +10295,17 @@ function __c171(j: number): any {
         }),
       ).annotate({ identifier: "ChangeFileOperation" });
     case 1:
-      return S.Array(__S(1368, __c171, 0));
+      return S.Array(__S(1400, __c175, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
-          author: S.optional(__S(1344, __c168, 0)),
+          author: S.optional(__S(1368, __c171, 0)),
           branch: S.optional(S.String),
-          committer: S.optional(__S(1344, __c168, 0)),
-          dates: S.optional(__S(1345, __c168, 1)),
-          files: __S(1369, __c171, 1),
+          committer: S.optional(__S(1368, __c171, 0)),
+          dates: S.optional(__S(1369, __c171, 1)),
+          files: __S(1401, __c175, 1),
           force_overwrite_new_branch: S.optional(S.Boolean),
           message: S.optional(S.String),
           new_branch: S.optional(S.String),
@@ -10201,20 +10315,20 @@ function __c171(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          commit: S.optional(__S(1346, __c168, 2)),
-          files: S.optional(__S(1376, __c172, 0)),
-          verification: S.optional(__S(1041, __c130, 1)),
+          commit: S.optional(__S(1370, __c171, 2)),
+          files: S.optional(__S(1408, __c176, 0)),
+          verification: S.optional(__S(1049, __c131, 1)),
         }),
       ).annotate({ identifier: "FilesResponse" });
   }
 }
-function __c172(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1337, __c167, 1));
+      return S.Array(__S(1361, __c170, 1));
   }
 }
-function __c173(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10232,7 +10346,7 @@ function __c173(j: number): any {
       ).annotate({ identifier: "RepoCheckCollaboratorRequest" });
   }
 }
-function __c174(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10244,7 +10358,7 @@ function __c174(j: number): any {
       ).annotate({ identifier: "RepoCheckFlagRequest" });
   }
 }
-function __c175(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10256,7 +10370,7 @@ function __c175(j: number): any {
       ).annotate({ identifier: "RepoCheckTeamRequest" });
   }
 }
-function __c176(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10271,24 +10385,24 @@ function __c176(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          commits: S.optional(__S(1424, __c178, 0)),
-          files: S.optional(__S(1418, __c177, 2)),
+          commits: S.optional(__S(1456, __c182, 0)),
+          files: S.optional(__S(1450, __c181, 2)),
           total_commits: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Compare" });
   }
 }
-function __c177(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          author: S.optional(__S(1048, __c131, 0)),
-          committer: S.optional(__S(1048, __c131, 0)),
+          author: S.optional(__S(1056, __c132, 0)),
+          committer: S.optional(__S(1056, __c132, 0)),
           message: S.optional(S.String),
-          tree: S.optional(__S(1320, __c165, 0)),
+          tree: S.optional(__S(1344, __c168, 0)),
           url: S.optional(S.String),
-          verification: S.optional(__S(1041, __c130, 1)),
+          verification: S.optional(__S(1049, __c131, 1)),
         }),
       ).annotate({ identifier: "RepoCommit" });
     case 1:
@@ -10299,7 +10413,7 @@ function __c177(j: number): any {
         }),
       ).annotate({ identifier: "CommitAffectedFiles" });
     case 2:
-      return S.Array(__S(1417, __c177, 1));
+      return S.Array(__S(1449, __c181, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -10311,27 +10425,27 @@ function __c177(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          author: S.optional(__S(1752, __c219, 0)),
-          commit: S.optional(__S(1416, __c177, 0)),
-          committer: S.optional(__S(1752, __c219, 0)),
+          author: S.optional(__S(1776, __c222, 0)),
+          commit: S.optional(__S(1448, __c181, 0)),
+          committer: S.optional(__S(1776, __c222, 0)),
           created: S.optional(S.String),
-          files: S.optional(__S(1418, __c177, 2)),
+          files: S.optional(__S(1450, __c181, 2)),
           html_url: S.optional(S.String),
-          parents: S.optional(__S(1328, __c166, 0)),
+          parents: S.optional(__S(1352, __c169, 0)),
           sha: S.optional(S.String),
-          stats: S.optional(__S(1419, __c177, 3)),
+          stats: S.optional(__S(1451, __c181, 3)),
           url: S.optional(S.String),
         }),
       ).annotate({ identifier: "Commit" });
   }
 }
-function __c178(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1420, __c177, 4));
+      return S.Array(__S(1452, __c181, 4));
   }
 }
-function __c179(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10345,40 +10459,40 @@ function __c179(j: number): any {
       ).annotate({ identifier: "RepoCreateBranchRequest" });
   }
 }
-function __c180(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          added: S.optional(__S(1736, __c217, 0)),
-          author: S.optional(__S(1040, __c130, 0)),
-          committer: S.optional(__S(1040, __c130, 0)),
+          added: S.optional(__S(1248, __c156, 0)),
+          author: S.optional(__S(1048, __c131, 0)),
+          committer: S.optional(__S(1048, __c131, 0)),
           id: S.optional(S.String),
           message: S.optional(S.String),
-          modified: S.optional(__S(1736, __c217, 0)),
-          removed: S.optional(__S(1736, __c217, 0)),
+          modified: S.optional(__S(1248, __c156, 0)),
+          removed: S.optional(__S(1248, __c156, 0)),
           timestamp: S.optional(S.String),
           url: S.optional(S.String),
-          verification: S.optional(__S(1041, __c130, 1)),
+          verification: S.optional(__S(1049, __c131, 1)),
         }),
       ).annotate({ identifier: "PayloadCommit" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          commit: S.optional(__S(1440, __c180, 0)),
+          commit: S.optional(__S(1472, __c184, 0)),
           effective_branch_protection_name: S.optional(S.String),
           enable_status_check: S.optional(S.Boolean),
           name: S.optional(S.String),
           protected: S.optional(S.Boolean),
           required_approvals: S.optional(S.Number),
-          status_check_contexts: S.optional(__S(1736, __c217, 0)),
+          status_check_contexts: S.optional(__S(1248, __c156, 0)),
           user_can_merge: S.optional(S.Boolean),
           user_can_push: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Branch" });
   }
 }
-function __c181(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10386,8 +10500,8 @@ function __c181(j: number): any {
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
           apply_to_admins: S.optional(S.Boolean),
-          approvals_whitelist_teams: S.optional(__S(1736, __c217, 0)),
-          approvals_whitelist_username: S.optional(__S(1736, __c217, 0)),
+          approvals_whitelist_teams: S.optional(__S(1248, __c156, 0)),
+          approvals_whitelist_username: S.optional(__S(1248, __c156, 0)),
           block_on_official_review_requests: S.optional(S.Boolean),
           block_on_outdated_branch: S.optional(S.Boolean),
           block_on_rejected_reviews: S.optional(S.Boolean),
@@ -10399,16 +10513,16 @@ function __c181(j: number): any {
           enable_push_whitelist: S.optional(S.Boolean),
           enable_status_check: S.optional(S.Boolean),
           ignore_stale_approvals: S.optional(S.Boolean),
-          merge_whitelist_teams: S.optional(__S(1736, __c217, 0)),
-          merge_whitelist_usernames: S.optional(__S(1736, __c217, 0)),
+          merge_whitelist_teams: S.optional(__S(1248, __c156, 0)),
+          merge_whitelist_usernames: S.optional(__S(1248, __c156, 0)),
           protected_file_patterns: S.optional(S.String),
           push_whitelist_deploy_keys: S.optional(S.Boolean),
-          push_whitelist_teams: S.optional(__S(1736, __c217, 0)),
-          push_whitelist_usernames: S.optional(__S(1736, __c217, 0)),
+          push_whitelist_teams: S.optional(__S(1248, __c156, 0)),
+          push_whitelist_usernames: S.optional(__S(1248, __c156, 0)),
           require_signed_commits: S.optional(S.Boolean),
           required_approvals: S.optional(S.Number),
           rule_name: S.optional(S.String),
-          status_check_contexts: S.optional(__S(1736, __c217, 0)),
+          status_check_contexts: S.optional(__S(1248, __c156, 0)),
           unprotected_file_patterns: S.optional(S.String),
         }).pipe(
           T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/branch_protections", code: 200 }),
@@ -10416,14 +10530,14 @@ function __c181(j: number): any {
       ).annotate({ identifier: "RepoCreateBranchProtectionRequest" });
   }
 }
-function __c182(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           apply_to_admins: S.optional(S.Boolean),
-          approvals_whitelist_teams: S.optional(__S(1736, __c217, 0)),
-          approvals_whitelist_username: S.optional(__S(1736, __c217, 0)),
+          approvals_whitelist_teams: S.optional(__S(1248, __c156, 0)),
+          approvals_whitelist_username: S.optional(__S(1248, __c156, 0)),
           block_on_official_review_requests: S.optional(S.Boolean),
           block_on_outdated_branch: S.optional(S.Boolean),
           block_on_rejected_reviews: S.optional(S.Boolean),
@@ -10436,23 +10550,23 @@ function __c182(j: number): any {
           enable_push_whitelist: S.optional(S.Boolean),
           enable_status_check: S.optional(S.Boolean),
           ignore_stale_approvals: S.optional(S.Boolean),
-          merge_whitelist_teams: S.optional(__S(1736, __c217, 0)),
-          merge_whitelist_usernames: S.optional(__S(1736, __c217, 0)),
+          merge_whitelist_teams: S.optional(__S(1248, __c156, 0)),
+          merge_whitelist_usernames: S.optional(__S(1248, __c156, 0)),
           protected_file_patterns: S.optional(S.String),
           push_whitelist_deploy_keys: S.optional(S.Boolean),
-          push_whitelist_teams: S.optional(__S(1736, __c217, 0)),
-          push_whitelist_usernames: S.optional(__S(1736, __c217, 0)),
+          push_whitelist_teams: S.optional(__S(1248, __c156, 0)),
+          push_whitelist_usernames: S.optional(__S(1248, __c156, 0)),
           require_signed_commits: S.optional(S.Boolean),
           required_approvals: S.optional(S.Number),
           rule_name: S.String,
-          status_check_contexts: S.optional(__S(1736, __c217, 0)),
+          status_check_contexts: S.optional(__S(1248, __c156, 0)),
           unprotected_file_patterns: S.optional(S.String),
           updated_at: S.String,
         }),
       ).annotate({ identifier: "BranchProtection" });
   }
 }
-function __c183(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10460,11 +10574,11 @@ function __c183(j: number): any {
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
           filepath: S.String.pipe(T.Label()),
-          author: S.optional(__S(1344, __c168, 0)),
+          author: S.optional(__S(1368, __c171, 0)),
           branch: S.optional(S.String),
-          committer: S.optional(__S(1344, __c168, 0)),
+          committer: S.optional(__S(1368, __c171, 0)),
           content: S.String,
-          dates: S.optional(__S(1345, __c168, 1)),
+          dates: S.optional(__S(1369, __c171, 1)),
           force_overwrite_new_branch: S.optional(S.Boolean),
           message: S.optional(S.String),
           new_branch: S.optional(S.String),
@@ -10475,7 +10589,7 @@ function __c183(j: number): any {
       ).annotate({ identifier: "RepoCreateFileRequest" });
   }
 }
-function __c184(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10485,14 +10599,14 @@ function __c184(j: number): any {
           active: S.optional(S.Boolean),
           authorization_header: S.optional(S.String),
           branch_filter: S.optional(S.String),
-          config: __S(1744, __c218, 0),
-          events: S.optional(__S(1736, __c217, 0)),
+          config: __S(1768, __c221, 0),
+          events: S.optional(__S(1248, __c156, 0)),
           type: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/hooks", code: 200 })),
       ).annotate({ identifier: "RepoCreateHookRequest" });
   }
 }
-function __c185(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10500,10 +10614,10 @@ function __c185(j: number): any {
           active: S.Boolean,
           authorization_header: S.optional(S.String),
           branch_filter: S.optional(S.String),
-          config: S.optional(__S(1744, __c218, 0)),
+          config: S.optional(__S(1768, __c221, 0)),
           content_type: S.optional(S.String),
           created_at: S.String,
-          events: S.optional(__S(1736, __c217, 0)),
+          events: S.optional(__S(1248, __c156, 0)),
           id: S.Number,
           metadata: S.optional(S.Unknown),
           type: S.String,
@@ -10513,7 +10627,7 @@ function __c185(j: number): any {
       ).annotate({ identifier: "Hook" });
   }
 }
-function __c186(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10527,7 +10641,7 @@ function __c186(j: number): any {
       ).annotate({ identifier: "RepoCreateKeyRequest" });
   }
 }
-function __c187(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10538,14 +10652,14 @@ function __c187(j: number): any {
           key: S.optional(S.String),
           key_id: S.optional(S.Number),
           read_only: S.optional(S.Boolean),
-          repository: S.optional(__S(1781, __c222, 5)),
+          repository: S.optional(__S(1805, __c225, 5)),
           title: S.optional(S.String),
           url: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeployKey" });
   }
 }
-function __c188(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10558,13 +10672,13 @@ function __c188(j: number): any {
       ).annotate({ identifier: "AcceptRepoTransferRequest" });
   }
 }
-function __c189(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "AcceptRepoTransferResponse" });
   }
 }
-function __c190(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10572,25 +10686,25 @@ function __c190(j: number): any {
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
           assignee: S.optional(S.String),
-          assignees: S.optional(__S(1736, __c217, 0)),
+          assignees: S.optional(__S(1248, __c156, 0)),
           base: S.optional(S.String),
           body: S.optional(S.String),
           due_date: S.optional(S.String),
           head: S.optional(S.String),
-          labels: S.optional(__S(1552, __c194, 0)),
+          labels: S.optional(__S(1584, __c198, 0)),
           milestone: S.optional(S.Number),
           title: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/pulls", code: 200 })),
       ).annotate({ identifier: "RepoCreatePullRequestRequest" });
   }
 }
-function __c191(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1752, __c219, 0));
+      return S.Array(__S(1776, __c222, 0));
   }
 }
-function __c192(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10605,7 +10719,7 @@ function __c192(j: number): any {
         }),
       ).annotate({ identifier: "Label" });
     case 1:
-      return S.Array(__S(1536, __c192, 0));
+      return S.Array(__S(1568, __c196, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -10623,14 +10737,14 @@ function __c192(j: number): any {
       ).annotate({ identifier: "Milestone" });
   }
 }
-function __c193(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           label: S.optional(S.String),
           ref: S.optional(S.String),
-          repo: S.optional(__S(1781, __c222, 5)),
+          repo: S.optional(__S(1805, __c225, 5)),
           repo_id: S.optional(S.Number),
           sha: S.optional(S.String),
         }),
@@ -10640,9 +10754,9 @@ function __c193(j: number): any {
         S.Struct({
           additions: S.optional(S.Number),
           allow_maintainer_edit: S.optional(S.Boolean),
-          assignee: S.optional(__S(1752, __c219, 0)),
-          assignees: S.optional(__S(1528, __c191, 0)),
-          base: S.optional(__S(1544, __c193, 0)),
+          assignee: S.optional(__S(1776, __c222, 0)),
+          assignees: S.optional(__S(1560, __c195, 0)),
+          base: S.optional(__S(1576, __c197, 0)),
           body: S.optional(S.String),
           changed_files: S.optional(S.Number),
           closed_at: S.optional(S.String),
@@ -10653,40 +10767,40 @@ function __c193(j: number): any {
           draft: S.optional(S.Boolean),
           due_date: S.optional(S.String),
           flow: S.optional(S.Number),
-          head: S.optional(__S(1544, __c193, 0)),
+          head: S.optional(__S(1576, __c197, 0)),
           html_url: S.optional(S.String),
           id: S.optional(S.Number),
           is_locked: S.optional(S.Boolean),
-          labels: S.optional(__S(1537, __c192, 1)),
+          labels: S.optional(__S(1569, __c196, 1)),
           merge_base: S.optional(S.String),
           merge_commit_sha: S.optional(S.String),
           mergeable: S.optional(S.Boolean),
           merged: S.optional(S.Boolean),
           merged_at: S.optional(S.String),
-          merged_by: S.optional(__S(1752, __c219, 0)),
-          milestone: S.optional(__S(1538, __c192, 2)),
+          merged_by: S.optional(__S(1776, __c222, 0)),
+          milestone: S.optional(__S(1570, __c196, 2)),
           number: S.optional(S.Number),
           patch_url: S.optional(S.String),
           pin_order: S.optional(S.Number),
-          requested_reviewers: S.optional(__S(1528, __c191, 0)),
-          requested_reviewers_teams: S.optional(__S(1768, __c221, 0)),
+          requested_reviewers: S.optional(__S(1560, __c195, 0)),
+          requested_reviewers_teams: S.optional(__S(1792, __c224, 0)),
           review_comments: S.optional(S.Number),
           state: S.optional(S.String),
           title: S.optional(S.String),
           updated_at: S.optional(S.String),
           url: S.optional(S.String),
-          user: S.optional(__S(1752, __c219, 0)),
+          user: S.optional(__S(1776, __c222, 0)),
         }),
       ).annotate({ identifier: "PullRequest" });
   }
 }
-function __c194(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
   }
 }
-function __c195(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10699,7 +10813,7 @@ function __c195(j: number): any {
         }),
       ).annotate({ identifier: "CreatePullReviewComment" });
     case 1:
-      return S.Array(__S(1560, __c195, 0));
+      return S.Array(__S(1592, __c199, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -10707,7 +10821,7 @@ function __c195(j: number): any {
           repo: S.String.pipe(T.Label()),
           index: S.Number.pipe(T.Label()),
           body: S.optional(S.String),
-          comments: S.optional(__S(1561, __c195, 1)),
+          comments: S.optional(__S(1593, __c199, 1)),
           commit_id: S.optional(S.String),
           event: S.optional(S.String),
         }).pipe(
@@ -10716,7 +10830,7 @@ function __c195(j: number): any {
       ).annotate({ identifier: "RepoCreatePullReviewRequest" });
   }
 }
-function __c196(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10732,14 +10846,14 @@ function __c196(j: number): any {
           stale: S.optional(S.Boolean),
           state: S.optional(S.String),
           submitted_at: S.optional(S.String),
-          team: S.optional(__S(1761, __c220, 1)),
+          team: S.optional(__S(1785, __c223, 1)),
           updated_at: S.optional(S.String),
-          user: S.optional(__S(1752, __c219, 0)),
+          user: S.optional(__S(1776, __c222, 0)),
         }),
       ).annotate({ identifier: "PullReview" });
   }
 }
-function __c197(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10763,7 +10877,7 @@ function __c197(j: number): any {
       ).annotate({ identifier: "RepoCreatePullReviewCommentRequest" });
   }
 }
-function __c198(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10781,14 +10895,14 @@ function __c198(j: number): any {
           position: S.optional(S.Number),
           pull_request_review_id: S.optional(S.Number),
           pull_request_url: S.optional(S.String),
-          resolver: S.optional(__S(1752, __c219, 0)),
+          resolver: S.optional(__S(1776, __c222, 0)),
           updated_at: S.optional(S.String),
-          user: S.optional(__S(1752, __c219, 0)),
+          user: S.optional(__S(1776, __c222, 0)),
         }),
       ).annotate({ identifier: "PullReviewComment" });
   }
 }
-function __c199(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10796,8 +10910,8 @@ function __c199(j: number): any {
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
           index: S.Number.pipe(T.Label()),
-          reviewers: S.optional(__S(1736, __c217, 0)),
-          team_reviewers: S.optional(__S(1736, __c217, 0)),
+          reviewers: S.optional(__S(1248, __c156, 0)),
+          team_reviewers: S.optional(__S(1248, __c156, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10808,17 +10922,17 @@ function __c199(j: number): any {
       ).annotate({ identifier: "RepoCreatePullReviewRequestsRequest" });
   }
 }
-function __c200(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1568, __c196, 0));
+      return S.Array(__S(1600, __c200, 0));
     case 1:
-      return S.suspend(() => __S(1600, __c200, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1632, __c204, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "RepoCreatePullReviewRequestsResponse",
       });
   }
 }
-function __c201(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10836,7 +10950,7 @@ function __c201(j: number): any {
       ).annotate({ identifier: "RepoCreateReleaseRequest" });
   }
 }
-function __c202(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10853,20 +10967,20 @@ function __c202(j: number): any {
       ).annotate({ identifier: "Attachment" });
   }
 }
-function __c203(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1616, __c202, 0));
+      return S.Array(__S(1648, __c206, 0));
   }
 }
-function __c204(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          archive_download_count: S.optional(__S(1056, __c132, 0)),
-          assets: S.optional(__S(1624, __c203, 0)),
-          author: S.optional(__S(1752, __c219, 0)),
+          archive_download_count: S.optional(__S(1064, __c133, 0)),
+          assets: S.optional(__S(1656, __c207, 0)),
+          author: S.optional(__S(1776, __c222, 0)),
           body: S.optional(S.String),
           created_at: S.optional(S.String),
           draft: S.optional(S.Boolean),
@@ -10886,7 +11000,7 @@ function __c204(j: number): any {
       ).annotate({ identifier: "Release" });
   }
 }
-function __c205(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10901,7 +11015,7 @@ function __c205(j: number): any {
       ).annotate({ identifier: "RepoCreateReleaseAttachmentRequest" });
   }
 }
-function __c206(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10917,14 +11031,14 @@ function __c206(j: number): any {
       ).annotate({ identifier: "RepoCreateStatusRequest" });
   }
 }
-function __c207(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           context: S.optional(S.String),
           created_at: S.optional(S.String),
-          creator: S.optional(__S(1752, __c219, 0)),
+          creator: S.optional(__S(1776, __c222, 0)),
           description: S.optional(S.String),
           id: S.optional(S.Number),
           status: S.optional(S.String),
@@ -10935,7 +11049,7 @@ function __c207(j: number): any {
       ).annotate({ identifier: "CommitStatus" });
   }
 }
-function __c208(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10949,13 +11063,13 @@ function __c208(j: number): any {
       ).annotate({ identifier: "RepoCreateTagRequest" });
   }
 }
-function __c209(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          archive_download_count: S.optional(__S(1056, __c132, 0)),
-          commit: S.optional(__S(1320, __c165, 0)),
+          archive_download_count: S.optional(__S(1064, __c133, 0)),
+          commit: S.optional(__S(1344, __c168, 0)),
           id: S.optional(S.String),
           message: S.optional(S.String),
           name: S.optional(S.String),
@@ -10965,7 +11079,7 @@ function __c209(j: number): any {
       ).annotate({ identifier: "Tag" });
   }
 }
-function __c210(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10973,15 +11087,15 @@ function __c210(j: number): any {
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
           name_pattern: S.optional(S.String),
-          whitelist_teams: S.optional(__S(1736, __c217, 0)),
-          whitelist_usernames: S.optional(__S(1736, __c217, 0)),
+          whitelist_teams: S.optional(__S(1248, __c156, 0)),
+          whitelist_usernames: S.optional(__S(1248, __c156, 0)),
         }).pipe(
           T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/tag_protections", code: 200 }),
         ),
       ).annotate({ identifier: "RepoCreateTagProtectionRequest" });
   }
 }
-function __c211(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10990,13 +11104,13 @@ function __c211(j: number): any {
           id: S.optional(S.Number),
           name_pattern: S.optional(S.String),
           updated_at: S.optional(S.String),
-          whitelist_teams: S.optional(__S(1736, __c217, 0)),
-          whitelist_usernames: S.optional(__S(1736, __c217, 0)),
+          whitelist_teams: S.optional(__S(1248, __c156, 0)),
+          whitelist_usernames: S.optional(__S(1248, __c156, 0)),
         }),
       ).annotate({ identifier: "TagProtection" });
   }
 }
-function __c212(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11010,7 +11124,7 @@ function __c212(j: number): any {
       ).annotate({ identifier: "RepoCreateWikiPageRequest" });
   }
 }
-function __c213(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11019,7 +11133,7 @@ function __c213(j: number): any {
           content_base64: S.optional(S.String),
           footer: S.optional(S.String),
           html_url: S.optional(S.String),
-          last_commit: S.optional(__S(1712, __c214, 0)),
+          last_commit: S.optional(__S(1744, __c218, 0)),
           sidebar: S.optional(S.String),
           sub_url: S.optional(S.String),
           title: S.optional(S.String),
@@ -11027,20 +11141,20 @@ function __c213(j: number): any {
       ).annotate({ identifier: "WikiPage" });
   }
 }
-function __c214(j: number): any {
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          author: S.optional(__S(1048, __c131, 0)),
-          commiter: S.optional(__S(1048, __c131, 0)),
+          author: S.optional(__S(1056, __c132, 0)),
+          commiter: S.optional(__S(1056, __c132, 0)),
           message: S.optional(S.String),
           sha: S.optional(S.String),
         }),
       ).annotate({ identifier: "WikiCommit" });
   }
 }
-function __c215(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11054,7 +11168,7 @@ function __c215(j: number): any {
       ).annotate({ identifier: "ActionRunRequest" });
   }
 }
-function __c216(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11073,32 +11187,26 @@ function __c216(j: number): any {
           is_ref_deleted: S.optional(S.Boolean),
           need_approval: S.optional(S.Boolean),
           prettyref: S.optional(S.String),
-          repository: S.optional(__S(1781, __c222, 5)),
+          repository: S.optional(__S(1805, __c225, 5)),
           started: S.optional(S.String),
           status: S.optional(S.String),
           stopped: S.optional(S.String),
           title: S.optional(S.String),
           trigger_event: S.optional(S.String),
-          trigger_user: S.optional(__S(1752, __c219, 0)),
+          trigger_user: S.optional(__S(1776, __c222, 0)),
           updated: S.optional(S.String),
           workflow_id: S.optional(S.String),
         }),
       ).annotate({ identifier: "ActionRun" });
   }
 }
-function __c217(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c218(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c219(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11130,7 +11238,7 @@ function __c219(j: number): any {
       ).annotate({ identifier: "User" });
   }
 }
-function __c220(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11157,21 +11265,21 @@ function __c220(j: number): any {
           id: S.Number,
           includes_all_repositories: S.optional(S.Boolean),
           name: S.String,
-          organization: S.optional(__S(1760, __c220, 0)),
+          organization: S.optional(__S(1784, __c223, 0)),
           permission: S.optional(S.String),
-          units: S.optional(__S(1736, __c217, 0)),
-          units_map: S.optional(__S(1744, __c218, 0)),
+          units: S.optional(__S(1248, __c156, 0)),
+          units_map: S.optional(__S(1768, __c221, 0)),
         }),
       ).annotate({ identifier: "Team" });
   }
 }
-function __c221(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1761, __c220, 1));
+      return S.Array(__S(1785, __c223, 1));
   }
 }
-function __c222(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11207,9 +11315,9 @@ function __c222(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          doer: S.optional(__S(1752, __c219, 0)),
-          recipient: S.optional(__S(1752, __c219, 0)),
-          teams: S.optional(__S(1768, __c221, 0)),
+          doer: S.optional(__S(1776, __c222, 0)),
+          recipient: S.optional(__S(1776, __c222, 0)),
+          teams: S.optional(__S(1792, __c224, 0)),
         }),
       ).annotate({ identifier: "RepoTransfer" });
     case 5:
@@ -11233,8 +11341,8 @@ function __c222(j: number): any {
           default_update_style: S.optional(S.String),
           description: S.optional(S.String),
           empty: S.optional(S.Boolean),
-          external_tracker: S.optional(__S(1776, __c222, 0)),
-          external_wiki: S.optional(__S(1777, __c222, 1)),
+          external_tracker: S.optional(__S(1800, __c225, 0)),
+          external_wiki: S.optional(__S(1801, __c225, 1)),
           fork: S.optional(S.Boolean),
           forks_count: S.optional(S.Number),
           full_name: S.String,
@@ -11251,7 +11359,7 @@ function __c222(j: number): any {
           id: S.Number,
           ignore_whitespace_conflicts: S.optional(S.Boolean),
           internal: S.optional(S.Boolean),
-          internal_tracker: S.optional(__S(1778, __c222, 2)),
+          internal_tracker: S.optional(__S(1802, __c225, 2)),
           language: S.optional(S.String),
           languages_url: S.optional(S.String),
           link: S.optional(S.String),
@@ -11263,17 +11371,17 @@ function __c222(j: number): any {
           open_issues_count: S.optional(S.Number),
           open_pr_counter: S.optional(S.Number),
           original_url: S.optional(S.String),
-          owner: __S(1752, __c219, 0),
-          parent: S.optional(__S(1781, __c222, 5)),
-          permissions: S.optional(__S(1779, __c222, 3)),
+          owner: __S(1776, __c222, 0),
+          parent: S.optional(__S(1805, __c225, 5)),
+          permissions: S.optional(__S(1803, __c225, 3)),
           private: S.optional(S.Boolean),
           release_counter: S.optional(S.Number),
-          repo_transfer: S.optional(__S(1780, __c222, 4)),
+          repo_transfer: S.optional(__S(1804, __c225, 4)),
           size: S.optional(S.Number),
           ssh_url: S.String,
           stars_count: S.optional(S.Number),
           template: S.optional(S.Boolean),
-          topics: S.optional(__S(1736, __c217, 0)),
+          topics: S.optional(__S(1248, __c156, 0)),
           updated_at: S.String,
           url: S.optional(S.String),
           watchers_count: S.optional(S.Number),
@@ -11285,7 +11393,7 @@ function __c222(j: number): any {
       ).annotate({ identifier: "Repository" });
   }
 }
-function __c223(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11296,7 +11404,7 @@ function __c223(j: number): any {
       ).annotate({ identifier: "RepoDeleteAllFlagsRequest" });
   }
 }
-function __c224(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11307,7 +11415,7 @@ function __c224(j: number): any {
       ).annotate({ identifier: "RepoDeleteAvatarRequest" });
   }
 }
-function __c225(j: number): any {
+function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11321,7 +11429,7 @@ function __c225(j: number): any {
       ).annotate({ identifier: "RepoDeleteBranchRequest" });
   }
 }
-function __c226(j: number): any {
+function __c229(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11339,7 +11447,7 @@ function __c226(j: number): any {
       ).annotate({ identifier: "RepoDeleteBranchProtectionRequest" });
   }
 }
-function __c227(j: number): any {
+function __c230(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11357,7 +11465,7 @@ function __c227(j: number): any {
       ).annotate({ identifier: "RepoDeleteCollaboratorRequest" });
   }
 }
-function __c228(j: number): any {
+function __c231(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11365,10 +11473,10 @@ function __c228(j: number): any {
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
           filepath: S.String.pipe(T.Label()),
-          author: S.optional(__S(1344, __c168, 0)),
+          author: S.optional(__S(1368, __c171, 0)),
           branch: S.optional(S.String),
-          committer: S.optional(__S(1344, __c168, 0)),
-          dates: S.optional(__S(1345, __c168, 1)),
+          committer: S.optional(__S(1368, __c171, 0)),
+          dates: S.optional(__S(1369, __c171, 1)),
           force_overwrite_new_branch: S.optional(S.Boolean),
           message: S.optional(S.String),
           new_branch: S.optional(S.String),
@@ -11381,14 +11489,14 @@ function __c228(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          commit: S.optional(__S(1346, __c168, 2)),
+          commit: S.optional(__S(1370, __c171, 2)),
           content: S.optional(S.Unknown),
-          verification: S.optional(__S(1041, __c130, 1)),
+          verification: S.optional(__S(1049, __c131, 1)),
         }),
       ).annotate({ identifier: "FileDeleteResponse" });
   }
 }
-function __c229(j: number): any {
+function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11400,7 +11508,7 @@ function __c229(j: number): any {
       ).annotate({ identifier: "RepoDeleteFlagRequest" });
   }
 }
-function __c230(j: number): any {
+function __c233(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11414,7 +11522,7 @@ function __c230(j: number): any {
       ).annotate({ identifier: "RepoDeleteGitHookRequest" });
   }
 }
-function __c231(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11426,7 +11534,7 @@ function __c231(j: number): any {
       ).annotate({ identifier: "RepoDeleteHookRequest" });
   }
 }
-function __c232(j: number): any {
+function __c235(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11438,7 +11546,7 @@ function __c232(j: number): any {
       ).annotate({ identifier: "RepoDeleteKeyRequest" });
   }
 }
-function __c233(j: number): any {
+function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11456,7 +11564,7 @@ function __c233(j: number): any {
       ).annotate({ identifier: "CancelActionRunRequest" });
   }
 }
-function __c234(j: number): any {
+function __c237(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11475,7 +11583,7 @@ function __c234(j: number): any {
       ).annotate({ identifier: "RepoDeletePullReviewRequest" });
   }
 }
-function __c235(j: number): any {
+function __c238(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11495,7 +11603,7 @@ function __c235(j: number): any {
       ).annotate({ identifier: "RepoDeletePullReviewCommentRequest" });
   }
 }
-function __c236(j: number): any {
+function __c239(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11503,8 +11611,8 @@ function __c236(j: number): any {
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
           index: S.Number.pipe(T.Label()),
-          reviewers: S.optional(__S(1736, __c217, 0)),
-          team_reviewers: S.optional(__S(1736, __c217, 0)),
+          reviewers: S.optional(__S(1248, __c156, 0)),
+          team_reviewers: S.optional(__S(1248, __c156, 0)),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -11515,7 +11623,7 @@ function __c236(j: number): any {
       ).annotate({ identifier: "RepoDeletePullReviewRequestsRequest" });
   }
 }
-function __c237(j: number): any {
+function __c240(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11529,7 +11637,7 @@ function __c237(j: number): any {
       ).annotate({ identifier: "RepoDeletePushMirrorRequest" });
   }
 }
-function __c238(j: number): any {
+function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11543,7 +11651,7 @@ function __c238(j: number): any {
       ).annotate({ identifier: "RepoDeleteReleaseRequest" });
   }
 }
-function __c239(j: number): any {
+function __c242(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11562,7 +11670,7 @@ function __c239(j: number): any {
       ).annotate({ identifier: "RepoDeleteReleaseAttachmentRequest" });
   }
 }
-function __c240(j: number): any {
+function __c243(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11576,7 +11684,7 @@ function __c240(j: number): any {
       ).annotate({ identifier: "RepoDeleteReleaseByTagRequest" });
   }
 }
-function __c241(j: number): any {
+function __c244(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11588,7 +11696,7 @@ function __c241(j: number): any {
       ).annotate({ identifier: "RepoDeleteTagRequest" });
   }
 }
-function __c242(j: number): any {
+function __c245(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11606,7 +11714,7 @@ function __c242(j: number): any {
       ).annotate({ identifier: "RepoDeleteTagProtectionRequest" });
   }
 }
-function __c243(j: number): any {
+function __c246(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11618,7 +11726,7 @@ function __c243(j: number): any {
       ).annotate({ identifier: "RepoDeleteTeamRequest" });
   }
 }
-function __c244(j: number): any {
+function __c247(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11629,7 +11737,7 @@ function __c244(j: number): any {
       ).annotate({ identifier: "ConvertRepoRequest" });
   }
 }
-function __c245(j: number): any {
+function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11643,7 +11751,7 @@ function __c245(j: number): any {
       ).annotate({ identifier: "RepoDeleteTopicRequest" });
   }
 }
-function __c246(j: number): any {
+function __c249(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11661,7 +11769,7 @@ function __c246(j: number): any {
       ).annotate({ identifier: "RepoDeleteWikiPageRequest" });
   }
 }
-function __c247(j: number): any {
+function __c250(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11680,7 +11788,7 @@ function __c247(j: number): any {
       ).annotate({ identifier: "RepoDownloadCommitDiffOrPatchRequest" });
   }
 }
-function __c248(j: number): any {
+function __c251(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.String.pipe(T.RawResponseRoot())).annotate({
@@ -11688,7 +11796,7 @@ function __c248(j: number): any {
       });
   }
 }
-function __c249(j: number): any {
+function __c252(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11708,7 +11816,7 @@ function __c249(j: number): any {
       ).annotate({ identifier: "RepoDownloadPullDiffOrPatchRequest" });
   }
 }
-function __c250(j: number): any {
+function __c253(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11717,8 +11825,8 @@ function __c250(j: number): any {
           repo: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           apply_to_admins: S.optional(S.Boolean),
-          approvals_whitelist_teams: S.optional(__S(1736, __c217, 0)),
-          approvals_whitelist_username: S.optional(__S(1736, __c217, 0)),
+          approvals_whitelist_teams: S.optional(__S(1248, __c156, 0)),
+          approvals_whitelist_username: S.optional(__S(1248, __c156, 0)),
           block_on_official_review_requests: S.optional(S.Boolean),
           block_on_outdated_branch: S.optional(S.Boolean),
           block_on_rejected_reviews: S.optional(S.Boolean),
@@ -11729,15 +11837,15 @@ function __c250(j: number): any {
           enable_push_whitelist: S.optional(S.Boolean),
           enable_status_check: S.optional(S.Boolean),
           ignore_stale_approvals: S.optional(S.Boolean),
-          merge_whitelist_teams: S.optional(__S(1736, __c217, 0)),
-          merge_whitelist_usernames: S.optional(__S(1736, __c217, 0)),
+          merge_whitelist_teams: S.optional(__S(1248, __c156, 0)),
+          merge_whitelist_usernames: S.optional(__S(1248, __c156, 0)),
           protected_file_patterns: S.optional(S.String),
           push_whitelist_deploy_keys: S.optional(S.Boolean),
-          push_whitelist_teams: S.optional(__S(1736, __c217, 0)),
-          push_whitelist_usernames: S.optional(__S(1736, __c217, 0)),
+          push_whitelist_teams: S.optional(__S(1248, __c156, 0)),
+          push_whitelist_usernames: S.optional(__S(1248, __c156, 0)),
           require_signed_commits: S.optional(S.Boolean),
           required_approvals: S.optional(S.Number),
-          status_check_contexts: S.optional(__S(1736, __c217, 0)),
+          status_check_contexts: S.optional(__S(1248, __c156, 0)),
           unprotected_file_patterns: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -11749,7 +11857,7 @@ function __c250(j: number): any {
       ).annotate({ identifier: "RepoEditBranchProtectionRequest" });
   }
 }
-function __c251(j: number): any {
+function __c254(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11764,7 +11872,7 @@ function __c251(j: number): any {
       ).annotate({ identifier: "RepoEditGitHookRequest" });
   }
 }
-function __c252(j: number): any {
+function __c255(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11776,7 +11884,7 @@ function __c252(j: number): any {
       ).annotate({ identifier: "GitHook" });
   }
 }
-function __c253(j: number): any {
+function __c256(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11787,13 +11895,13 @@ function __c253(j: number): any {
           active: S.optional(S.Boolean),
           authorization_header: S.optional(S.String),
           branch_filter: S.optional(S.String),
-          config: S.optional(__S(1744, __c218, 0)),
-          events: S.optional(__S(1736, __c217, 0)),
+          config: S.optional(__S(1768, __c221, 0)),
+          events: S.optional(__S(1248, __c156, 0)),
         }).pipe(T.Http({ method: "PATCH", uri: "/repos/{owner}/{repo}/hooks/{id}", code: 200 })),
       ).annotate({ identifier: "RepoEditHookRequest" });
   }
 }
-function __c254(j: number): any {
+function __c257(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11803,11 +11911,11 @@ function __c254(j: number): any {
           index: S.Number.pipe(T.Label()),
           allow_maintainer_edit: S.optional(S.Boolean),
           assignee: S.optional(S.String),
-          assignees: S.optional(__S(1736, __c217, 0)),
+          assignees: S.optional(__S(1248, __c156, 0)),
           base: S.optional(S.String),
           body: S.optional(S.String),
           due_date: S.optional(S.String),
-          labels: S.optional(__S(1552, __c194, 0)),
+          labels: S.optional(__S(1584, __c198, 0)),
           milestone: S.optional(S.Number),
           state: S.optional(S.String),
           title: S.optional(S.String),
@@ -11816,7 +11924,7 @@ function __c254(j: number): any {
       ).annotate({ identifier: "RepoEditPullRequestRequest" });
   }
 }
-function __c255(j: number): any {
+function __c258(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11835,7 +11943,7 @@ function __c255(j: number): any {
       ).annotate({ identifier: "RepoEditReleaseRequest" });
   }
 }
-function __c256(j: number): any {
+function __c259(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

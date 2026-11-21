@@ -32,8 +32,10 @@ export class AcmeAccountDoesNotExist
       message: S.String,
       type: S.String,
       detail: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
-    [{ message: { matches: "^urn:ietf:params:acme:error:accountDoesNotExist$" } }],
+    [{ body: { "/type": "urn:ietf:params:acme:error:accountDoesNotExist" } }],
   ) {}
 
 /** The request specified a certificate to be revoked that has already been revoked. */
@@ -44,8 +46,10 @@ export class AcmeAlreadyRevoked
       message: S.String,
       type: S.String,
       detail: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
-    [{ message: { matches: "^urn:ietf:params:acme:error:alreadyRevoked$" } }],
+    [{ body: { "/type": "urn:ietf:params:acme:error:alreadyRevoked" } }],
   ) {}
 
 /** The CSR is unacceptable (e.g., due to a short key). */
@@ -56,8 +60,10 @@ export class AcmeBadCsr
       message: S.String,
       type: S.String,
       detail: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
-    [{ message: { matches: "^urn:ietf:params:acme:error:badCSR$" } }],
+    [{ body: { "/type": "urn:ietf:params:acme:error:badCSR" } }],
   ) {}
 
 /** The client sent an unacceptable anti-replay nonce. */
@@ -68,8 +74,10 @@ export class AcmeBadNonce
       message: S.String,
       type: S.String,
       detail: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
-    [{ message: { matches: "^urn:ietf:params:acme:error:badNonce$" } }],
+    [{ body: { "/type": "urn:ietf:params:acme:error:badNonce" } }],
   ) {}
 
 /** The JWS was signed by a public key the server does not support. */
@@ -80,8 +88,10 @@ export class AcmeBadPublicKey
       message: S.String,
       type: S.String,
       detail: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
-    [{ message: { matches: "^urn:ietf:params:acme:error:badPublicKey$" } }],
+    [{ body: { "/type": "urn:ietf:params:acme:error:badPublicKey" } }],
   ) {}
 
 /** The revocation reason provided is not allowed by the server. */
@@ -92,8 +102,10 @@ export class AcmeBadRevocationReason
       message: S.String,
       type: S.String,
       detail: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
-    [{ message: { matches: "^urn:ietf:params:acme:error:badRevocationReason$" } }],
+    [{ body: { "/type": "urn:ietf:params:acme:error:badRevocationReason" } }],
   ) {}
 
 /** The JWS was signed with an algorithm the server does not support. */
@@ -104,8 +116,10 @@ export class AcmeBadSignatureAlgorithm
       message: S.String,
       type: S.String,
       detail: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
-    [{ message: { matches: "^urn:ietf:params:acme:error:badSignatureAlgorithm$" } }],
+    [{ body: { "/type": "urn:ietf:params:acme:error:badSignatureAlgorithm" } }],
   ) {}
 
 /** Certification Authority Authorization (CAA) records forbid the CA from issuing a certificate. */
@@ -116,8 +130,10 @@ export class AcmeCaa
       message: S.String,
       type: S.String,
       detail: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
-    [{ message: { matches: "^urn:ietf:params:acme:error:caa$" } }],
+    [{ body: { "/type": "urn:ietf:params:acme:error:caa" } }],
   ) {}
 
 /** The server could not connect to validation target. */
@@ -128,8 +144,10 @@ export class AcmeConnection
       message: S.String,
       type: S.String,
       detail: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
-    [{ message: { matches: "^urn:ietf:params:acme:error:connection$" } }],
+    [{ body: { "/type": "urn:ietf:params:acme:error:connection" } }],
   ) {}
 
 /** There was a problem with a DNS query during identifier validation. */
@@ -140,8 +158,10 @@ export class AcmeDns
       message: S.String,
       type: S.String,
       detail: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
-    [{ message: { matches: "^urn:ietf:params:acme:error:dns$" } }],
+    [{ body: { "/type": "urn:ietf:params:acme:error:dns" } }],
   ) {}
 
 /** The request must include a value for the "externalAccountBinding" field. */
@@ -152,8 +172,10 @@ export class AcmeExternalAccountRequired
       message: S.String,
       type: S.String,
       detail: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
-    [{ message: { matches: "^urn:ietf:params:acme:error:externalAccountRequired$" } }],
+    [{ body: { "/type": "urn:ietf:params:acme:error:externalAccountRequired" } }],
   ) {}
 
 /** Response received didn't match the challenge's requirements. */
@@ -164,8 +186,10 @@ export class AcmeIncorrectResponse
       message: S.String,
       type: S.String,
       detail: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
-    [{ message: { matches: "^urn:ietf:params:acme:error:incorrectResponse$" } }],
+    [{ body: { "/type": "urn:ietf:params:acme:error:incorrectResponse" } }],
   ) {}
 
 /** A contact URL for an account was invalid. */
@@ -176,8 +200,10 @@ export class AcmeInvalidContact
       message: S.String,
       type: S.String,
       detail: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
-    [{ message: { matches: "^urn:ietf:params:acme:error:invalidContact$" } }],
+    [{ body: { "/type": "urn:ietf:params:acme:error:invalidContact" } }],
   ) {}
 
 /** The request message was malformed. */
@@ -188,8 +214,10 @@ export class AcmeMalformed
       message: S.String,
       type: S.String,
       detail: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
-    [{ message: { matches: "^urn:ietf:params:acme:error:malformed$" } }],
+    [{ body: { "/type": "urn:ietf:params:acme:error:malformed" } }],
   ) {}
 
 /** The request attempted to finalize an order that is not ready to be finalized. */
@@ -200,8 +228,10 @@ export class AcmeOrderNotReady
       message: S.String,
       type: S.String,
       detail: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
-    [{ message: { matches: "^urn:ietf:params:acme:error:orderNotReady$" } }],
+    [{ body: { "/type": "urn:ietf:params:acme:error:orderNotReady" } }],
   ) {}
 
 /** The request exceeds a rate limit. */
@@ -213,8 +243,10 @@ export class AcmeRateLimited
       message: S.String,
       type: S.String,
       detail: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withThrottlingError, C.withRetryableError),
-    [{ message: { matches: "^urn:ietf:params:acme:error:rateLimited$" } }],
+    [{ body: { "/type": "urn:ietf:params:acme:error:rateLimited" } }],
   ) {}
 
 /** The server will not issue certificates for the identifier. */
@@ -225,8 +257,10 @@ export class AcmeRejectedIdentifier
       message: S.String,
       type: S.String,
       detail: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
-    [{ message: { matches: "^urn:ietf:params:acme:error:rejectedIdentifier$" } }],
+    [{ body: { "/type": "urn:ietf:params:acme:error:rejectedIdentifier" } }],
   ) {}
 
 /** The server experienced an internal error. */
@@ -237,8 +271,11 @@ export class AcmeServerInternal
       message: S.String,
       type: S.String,
       detail: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+      retryAfter: /*@__PURE__*/ S.optional(S.Duration),
     }).pipe(C.withRetryableError),
-    [{ message: { matches: "^urn:ietf:params:acme:error:serverInternal$" } }],
+    [{ body: { "/type": "urn:ietf:params:acme:error:serverInternal" } }],
   ) {}
 
 /** The server received a TLS error during validation. */
@@ -249,8 +286,10 @@ export class AcmeTls
       message: S.String,
       type: S.String,
       detail: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
-    [{ message: { matches: "^urn:ietf:params:acme:error:tls$" } }],
+    [{ body: { "/type": "urn:ietf:params:acme:error:tls" } }],
   ) {}
 
 /** The client lacks sufficient authorization. */
@@ -261,8 +300,10 @@ export class AcmeUnauthorized
       message: S.String,
       type: S.String,
       detail: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
-    [{ message: { matches: "^urn:ietf:params:acme:error:unauthorized$" } }],
+    [{ body: { "/type": "urn:ietf:params:acme:error:unauthorized" } }],
   ) {}
 
 /** A contact URL for an account used an unsupported protocol scheme. */
@@ -273,8 +314,10 @@ export class AcmeUnsupportedContact
       message: S.String,
       type: S.String,
       detail: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
-    [{ message: { matches: "^urn:ietf:params:acme:error:unsupportedContact$" } }],
+    [{ body: { "/type": "urn:ietf:params:acme:error:unsupportedContact" } }],
   ) {}
 
 /** An identifier is of an unsupported type. */
@@ -285,8 +328,10 @@ export class AcmeUnsupportedIdentifier
       message: S.String,
       type: S.String,
       detail: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
-    [{ message: { matches: "^urn:ietf:params:acme:error:unsupportedIdentifier$" } }],
+    [{ body: { "/type": "urn:ietf:params:acme:error:unsupportedIdentifier" } }],
   ) {}
 
 /** Visit the "instance" URL and take actions specified there. */
@@ -297,8 +342,10 @@ export class AcmeUserActionRequired
       message: S.String,
       type: S.String,
       detail: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
-    [{ message: { matches: "^urn:ietf:params:acme:error:userActionRequired$" } }],
+    [{ body: { "/type": "urn:ietf:params:acme:error:userActionRequired" } }],
   ) {}
 
 export interface DeactivateAuthorizationRequest {

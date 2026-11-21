@@ -122,7 +122,7 @@ export class InternalServiceErrorException
       code: /*@__PURE__*/ S.optional(S.String),
     },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class NotFoundException
   extends /*@__PURE__*/ S.TaggedError<NotFoundException>()(
     "NotFoundException",
@@ -170,7 +170,7 @@ export class ThrottlingException
       code: /*@__PURE__*/ S.optional(S.String),
     },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class TooManyRequestsException
   extends /*@__PURE__*/ S.TaggedError<TooManyRequestsException>()(
     "TooManyRequestsException",
@@ -179,7 +179,7 @@ export class TooManyRequestsException
       code: /*@__PURE__*/ S.optional(S.String),
     },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
@@ -1380,7 +1380,7 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          signatureTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(
+          signatureTimestamp: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
             T.HttpQuery("signatureTimestamp"),
           ),
           platformId: S.String.pipe(T.HttpQuery("platformId")),
@@ -1565,12 +1565,12 @@ function __c18(j: number): any {
           maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
           nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
           isRevoked: S.optional(S.Boolean).pipe(T.HttpQuery("isRevoked")),
-          signatureExpiresBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-            T.HttpQuery("signatureExpiresBefore"),
-          ),
-          signatureExpiresAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-            T.HttpQuery("signatureExpiresAfter"),
-          ),
+          signatureExpiresBefore: S.optional(
+            T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          ).pipe(T.HttpQuery("signatureExpiresBefore")),
+          signatureExpiresAfter: S.optional(
+            T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          ).pipe(T.HttpQuery("signatureExpiresAfter")),
           jobInvoker: S.optional(S.String).pipe(T.HttpQuery("jobInvoker")),
         }).pipe(
           T.all(T.Http({ method: "GET", uri: "/signing-jobs" }), svc, auth, proto, ver, rules),

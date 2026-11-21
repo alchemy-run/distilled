@@ -24,6 +24,8 @@ export class K2AppendOutcomeUnknown
     /*@__PURE__*/ S.TaggedError<K2AppendOutcomeUnknown>()("K2AppendOutcomeUnknown", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10212 }],
   ) {}
@@ -34,6 +36,9 @@ export class K2BatchPending
     /*@__PURE__*/ S.TaggedError<K2BatchPending>()("K2BatchPending", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+      retryAfter: /*@__PURE__*/ S.optional(S.Duration),
     }).pipe(C.withConflictError, C.withRetryableError),
     [{ code: 10217 }],
   ) {}
@@ -44,6 +49,8 @@ export class K2InvalidRequest
     /*@__PURE__*/ S.TaggedError<K2InvalidRequest>()("K2InvalidRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ code: 10204 }],
   ) {}
@@ -54,6 +61,8 @@ export class K2LeaseLost
     /*@__PURE__*/ S.TaggedError<K2LeaseLost>()("K2LeaseLost", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ code: 10218 }],
   ) {}
@@ -64,6 +73,9 @@ export class K2LeasesExhausted
     /*@__PURE__*/ S.TaggedError<K2LeasesExhausted>()("K2LeasesExhausted", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+      retryAfter: /*@__PURE__*/ S.optional(S.Duration),
     }).pipe(C.withThrottlingError, C.withRetryableError),
     [{ code: 10216 }],
   ) {}
@@ -74,6 +86,8 @@ export class K2NameAlreadyExists
     /*@__PURE__*/ S.TaggedError<K2NameAlreadyExists>()("K2NameAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ code: 10201 }],
   ) {}
@@ -84,6 +98,9 @@ export class K2ReadFailed
     /*@__PURE__*/ S.TaggedError<K2ReadFailed>()("K2ReadFailed", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+      retryAfter: /*@__PURE__*/ S.optional(S.Duration),
     }).pipe(C.withServerError, C.withRetryableError),
     [{ code: 10214 }],
   ) {}
@@ -94,6 +111,8 @@ export class K2RecordTooLarge
     /*@__PURE__*/ S.TaggedError<K2RecordTooLarge>()("K2RecordTooLarge", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ code: 10207 }],
   ) {}
@@ -104,6 +123,8 @@ export class K2RequestTooLarge
     /*@__PURE__*/ S.TaggedError<K2RequestTooLarge>()("K2RequestTooLarge", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ code: 10206 }],
   ) {}
@@ -114,6 +135,8 @@ export class K2StreamNotFound
     /*@__PURE__*/ S.TaggedError<K2StreamNotFound>()("K2StreamNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ code: 10200 }],
   ) {}
@@ -124,6 +147,8 @@ export class K2SubscriptionLimitExceeded
     /*@__PURE__*/ S.TaggedError<K2SubscriptionLimitExceeded>()("K2SubscriptionLimitExceeded", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ code: 10219 }],
   ) {}
@@ -134,6 +159,8 @@ export class K2SubscriptionNotFound
     /*@__PURE__*/ S.TaggedError<K2SubscriptionNotFound>()("K2SubscriptionNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ code: 10215 }],
   ) {}
@@ -144,6 +171,9 @@ export class K2Unavailable
     /*@__PURE__*/ S.TaggedError<K2Unavailable>()("K2Unavailable", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+      retryAfter: /*@__PURE__*/ S.optional(S.Duration),
     }).pipe(C.withServerError, C.withRetryableError),
     [{ code: 10211 }],
   ) {}

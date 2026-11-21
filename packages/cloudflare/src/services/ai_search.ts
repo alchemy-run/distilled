@@ -140,6 +140,8 @@ export class AiSearchInstanceNotFound
     /*@__PURE__*/ S.TaggedError<AiSearchInstanceNotFound>()("AiSearchInstanceNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 7002 }, { status: 404, message: { includes: "ai_search_not_found" } }],
   ) {}
@@ -149,6 +151,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -158,6 +162,8 @@ export class InstanceAlreadyExists
     /*@__PURE__*/ S.TaggedError<InstanceAlreadyExists>()("InstanceAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 400, message: { includes: "already_exist" } }],
   ) {}
@@ -167,6 +173,8 @@ export class InstanceDeletionInProgress
     /*@__PURE__*/ S.TaggedError<InstanceDeletionInProgress>()("InstanceDeletionInProgress", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 409, message: { includes: "deletion_in_progress" } }],
   ) {}
@@ -176,6 +184,8 @@ export class InvalidRoute
     /*@__PURE__*/ S.TaggedError<InvalidRoute>()("InvalidRoute", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 7003 }],
   ) {}
@@ -185,6 +195,8 @@ export class InvalidTokenCredentials
     /*@__PURE__*/ S.TaggedError<InvalidTokenCredentials>()("InvalidTokenCredentials", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 7012 }, { status: 400, message: { includes: "invalid_token" } }],
   ) {}
@@ -194,6 +206,8 @@ export class MissingSitemap
     /*@__PURE__*/ S.TaggedError<MissingSitemap>()("MissingSitemap", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 400, message: { includes: "missing_sitemap" } }],
   ) {}
@@ -203,6 +217,8 @@ export class NamespaceAlreadyExists
     /*@__PURE__*/ S.TaggedError<NamespaceAlreadyExists>()("NamespaceAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 7064 }],
   ) {}
@@ -212,6 +228,8 @@ export class NamespaceNotFound
     /*@__PURE__*/ S.TaggedError<NamespaceNotFound>()("NamespaceNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 7063 }, { status: 404, message: { includes: "namespace_not_found" } }],
   ) {}
@@ -221,6 +239,8 @@ export class NotFound
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 7002 }],
   ) {}
@@ -230,6 +250,8 @@ export class SyncInCooldown
     /*@__PURE__*/ S.TaggedError<SyncInCooldown>()("SyncInCooldown", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 7020 }],
   ) {}
@@ -239,6 +261,8 @@ export class TokenInUseByInstances
     /*@__PURE__*/ S.TaggedError<TokenInUseByInstances>()("TokenInUseByInstances", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 409, message: { includes: "token_in_use_by_instances" } }],
   ) {}
@@ -248,6 +272,8 @@ export class TokenNotFound
     /*@__PURE__*/ S.TaggedError<TokenNotFound>()("TokenNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 7075 }],
   ) {}
@@ -257,6 +283,8 @@ export class UnableToConnect
     /*@__PURE__*/ S.TaggedError<UnableToConnect>()("UnableToConnect", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 7017 }],
   ) {}
@@ -266,6 +294,8 @@ export class ValidationError
     /*@__PURE__*/ S.TaggedError<ValidationError>()("ValidationError", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 7001 }],
   ) {}
@@ -275,6 +305,8 @@ export class WebCrawlerDomainNotOwned
     /*@__PURE__*/ S.TaggedError<WebCrawlerDomainNotOwned>()("WebCrawlerDomainNotOwned", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 400, message: { includes: "domain_not_owned_by_user" } }],
   ) {}

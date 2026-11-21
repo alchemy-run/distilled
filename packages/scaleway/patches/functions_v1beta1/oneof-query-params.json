@@ -1,0 +1,38 @@
+{
+  "description": "Scaleway's OpenAPI export drops query parameters that belong to a proto `oneOf`, so `ListTriggers` lose filters the API takes. The official JS SDK sends them through `resolveOneOf` in `urlParams` \u2014 scaleway-sdk-js packages_generated/function/src/v1beta1/api.gen.ts \u2014 with the types in the sibling types.gen.ts. They are added as optional query members; the API enforces the one-of.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.functions_v1beta1#ListTriggersRequest/members/function_id",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "function_id",
+          "smithy.api#documentation": "ID of the function the triggers belong to. One-of `scope`: at most one of `function_id`, `namespace_id`, `project_id`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.functions_v1beta1#ListTriggersRequest/members/namespace_id",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "namespace_id",
+          "smithy.api#documentation": "ID of the namespace the triggers belong to. One-of `scope`: at most one of `function_id`, `namespace_id`, `project_id`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.functions_v1beta1#ListTriggersRequest/members/project_id",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "project_id",
+          "smithy.api#documentation": "ID of the Project the triggers belong to. One-of `scope`: at most one of `function_id`, `namespace_id`, `project_id`."
+        }
+      }
+    }
+  ]
+}

@@ -1010,30 +1010,51 @@ export type ServicePlacementPoliciesList = Array<ServicePlacementPolicyDescripti
 /** Specifies the move cost for the service. */
 export type MoveCost = "Zero" | "Low" | "Medium" | "High";
 /** The kind of service (Stateless or Stateful). */
-export type ServiceKind = "Invalid" | "Stateless" | "Stateful";
-/** Enumerates the ways that a service can be partitioned. */
-export type PartitionScheme = "Invalid" | "Singleton" | "UniformInt64Range" | "Named";
-/** Partition names (Named scheme). */
-export type PartitionNamesList = Array<string>;
-/** Describes how the service is partitioned. */
-export interface PartitionSchemeDescription {
+export type StatefulServicePropertiesServiceKind = "Stateful";
+/** Specifies how the service is partitioned. */
+export type NamedPartitionSchemeDescriptionPartitionScheme = "Named";
+/** Array of size specified by the 'count' parameter, for the names of the partitions. */
+export type NamedPartitionSchemeDescriptionNamesList = Array<string>;
+/** Describes the named partition scheme of the service. */
+export interface NamedPartitionSchemeDescription {
   /** Specifies how the service is partitioned. */
-  partitionScheme: PartitionScheme | (string & {});
-  /** Number of partitions (UniformInt64Range / Named). */
-  count?: number | undefined;
-  /** Lower bound of the partition key range (UniformInt64Range). */
-  lowKey?: string | undefined;
-  /** Upper bound of the partition key range (UniformInt64Range). */
-  highKey?: string | undefined;
-  /** Partition names (Named). */
-  names?: PartitionNamesList | undefined;
+  partitionScheme: NamedPartitionSchemeDescriptionPartitionScheme;
+  /** The number of partitions. */
+  count: number;
+  /** Array of size specified by the 'count' parameter, for the names of the partitions. */
+  names: NamedPartitionSchemeDescriptionNamesList;
 }
+/** Specifies how the service is partitioned. */
+export type SingletonPartitionSchemeDescriptionPartitionScheme = "Singleton";
+/** Describes the partition scheme of a singleton-partitioned, or non-partitioned service. */
+export interface SingletonPartitionSchemeDescription {
+  /** Specifies how the service is partitioned. */
+  partitionScheme: SingletonPartitionSchemeDescriptionPartitionScheme;
+}
+/** Specifies how the service is partitioned. */
+export type UniformInt64RangePartitionSchemeDescriptionPartitionScheme = "UniformInt64Range";
+/** Describes a partitioning scheme where an integer range is allocated evenly across a number of partitions. */
+export interface UniformInt64RangePartitionSchemeDescription {
+  /** Specifies how the service is partitioned. */
+  partitionScheme: UniformInt64RangePartitionSchemeDescriptionPartitionScheme;
+  /** The number of partitions. */
+  count: number;
+  /** String indicating the lower bound of the partition key range that should be split between the partition 'count' */
+  lowKey: string;
+  /** String indicating the upper bound of the partition key range that should be split between the partition 'count' */
+  highKey: string;
+}
+/** Describes how the service is partitioned. */
+export type PartitionSchemeDescription =
+  | NamedPartitionSchemeDescription
+  | SingletonPartitionSchemeDescription
+  | UniformInt64RangePartitionSchemeDescription;
 /** The activation Mode of the service package */
 export type ServiceResourcePropertiesServicePackageActivationMode =
   | "SharedProcess"
   | "ExclusiveProcess";
-/** The service resource properties. */
-export interface ServiceResourceProperties {
+/** The properties of a stateful service resource. */
+export interface StatefulServiceProperties {
   /** The placement constraints as a string. Placement constraints are boolean expressions on node properties and allow for restricting a service to particular nodes based on the service requirements. For example, to place a service on nodes where NodeType is blue specify the following: "NodeColor == blue)". */
   placementConstraints?: string | undefined;
   correlationScheme?: CorrelationSchemeList | undefined;
@@ -1042,7 +1063,8 @@ export interface ServiceResourceProperties {
   defaultMoveCost?: MoveCost | undefined;
   /** The current deployment or provisioning state, which only appears in the response */
   provisioningState?: string | undefined;
-  serviceKind: ServiceKind;
+  /** The kind of service (Stateless or Stateful). */
+  serviceKind: StatefulServicePropertiesServiceKind;
   /** The name of the service type */
   serviceTypeName?: string | undefined;
   partitionDescription?: PartitionSchemeDescription | undefined;
@@ -1050,23 +1072,47 @@ export interface ServiceResourceProperties {
   servicePackageActivationMode?: ServiceResourcePropertiesServicePackageActivationMode | undefined;
   /** Dns name used for the service. If this is specified, then the service can be accessed via its DNS name instead of service name. */
   serviceDnsName?: string | undefined;
-  /** Stateless: number of instances per partition (-1 = one on every node). */
-  instanceCount?: number | undefined;
-  /** Stateless: delay before closing instances during upgrade (ISO 8601 duration). */
-  instanceCloseDelayDuration?: string | undefined;
-  /** Stateful: target replica set size. */
-  targetReplicaSetSize?: number | undefined;
-  /** Stateful: minimum replica set size. */
-  minReplicaSetSize?: number | undefined;
-  /** Stateful: wait before a down replica is replaced (ISO 8601 duration). */
-  replicaRestartWaitDuration?: string | undefined;
-  /** Stateful: maximum time a partition may be in quorum loss (ISO 8601 duration). */
-  quorumLossWaitDuration?: string | undefined;
-  /** Stateful: how long standby replicas are kept (ISO 8601 duration). */
-  standByReplicaKeepDuration?: string | undefined;
-  /** Stateful: whether the service persists state on local disk. */
+  /** A flag indicating whether this is a persistent service which stores states on the local disk. If it is then the value of this property is true, if not it is false. */
   hasPersistedState?: boolean | undefined;
+  /** The target replica set size as a number. */
+  targetReplicaSetSize?: number | undefined;
+  /** The minimum replica set size as a number. */
+  minReplicaSetSize?: number | undefined;
+  /** The duration between when a replica goes down and when a new replica is created, represented in ISO 8601 format (hh:mm:ss.s). */
+  replicaRestartWaitDuration?: string | undefined;
+  /** The maximum duration for which a partition is allowed to be in a state of quorum loss, represented in ISO 8601 format (hh:mm:ss.s). */
+  quorumLossWaitDuration?: string | undefined;
+  /** The definition on how long StandBy replicas should be maintained before being removed, represented in ISO 8601 format (hh:mm:ss.s). */
+  standByReplicaKeepDuration?: string | undefined;
 }
+/** The kind of service (Stateless or Stateful). */
+export type StatelessServicePropertiesServiceKind = "Stateless";
+/** The properties of a stateless service resource. */
+export interface StatelessServiceProperties {
+  /** The placement constraints as a string. Placement constraints are boolean expressions on node properties and allow for restricting a service to particular nodes based on the service requirements. For example, to place a service on nodes where NodeType is blue specify the following: "NodeColor == blue)". */
+  placementConstraints?: string | undefined;
+  correlationScheme?: CorrelationSchemeList | undefined;
+  serviceLoadMetrics?: ServiceLoadMetricsList | undefined;
+  servicePlacementPolicies?: ServicePlacementPoliciesList | undefined;
+  defaultMoveCost?: MoveCost | undefined;
+  /** The current deployment or provisioning state, which only appears in the response */
+  provisioningState?: string | undefined;
+  /** The kind of service (Stateless or Stateful). */
+  serviceKind: StatelessServicePropertiesServiceKind;
+  /** The name of the service type */
+  serviceTypeName?: string | undefined;
+  partitionDescription?: PartitionSchemeDescription | undefined;
+  /** The activation Mode of the service package */
+  servicePackageActivationMode?: ServiceResourcePropertiesServicePackageActivationMode | undefined;
+  /** Dns name used for the service. If this is specified, then the service can be accessed via its DNS name instead of service name. */
+  serviceDnsName?: string | undefined;
+  /** The instance count. */
+  instanceCount?: number | undefined;
+  /** Delay duration for RequestDrain feature to ensures that the endpoint advertised by the stateless instance is removed before the delay starts prior to closing the instance. This delay enables existing requests to drain gracefully before the instance actually goes down (https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-application-upgrade-advanced#avoid-connection-drops-during-stateless-service-planned-downtime-preview). It is represented in ISO 8601 format (hh:mm:ss.s). */
+  instanceCloseDelayDuration?: string | undefined;
+}
+/** The service resource properties. */
+export type ServiceResourceProperties = StatefulServiceProperties | StatelessServiceProperties;
 export interface GetServiceResponse {
   /** Azure resource identifier. */
   id?: string | undefined;
@@ -1327,46 +1373,72 @@ export interface ServiceResourceList {
 }
 /** Azure resource tags. */
 export type ServicesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
-/** The activation Mode of the service package */
-export type ServiceResourcePropertiesInputServicePackageActivationMode =
-  | "SharedProcess"
-  | "ExclusiveProcess";
-/** The service resource properties. */
-export interface ServiceResourcePropertiesInput {
+/** The kind of service (Stateless or Stateful). */
+export type StatefulServicePropertiesInputServiceKind = "Stateful";
+/** The properties of a stateful service resource. */
+export interface StatefulServicePropertiesInput {
   /** The placement constraints as a string. Placement constraints are boolean expressions on node properties and allow for restricting a service to particular nodes based on the service requirements. For example, to place a service on nodes where NodeType is blue specify the following: "NodeColor == blue)". */
   placementConstraints?: string | undefined;
   correlationScheme?: CorrelationSchemeList | undefined;
   serviceLoadMetrics?: ServiceLoadMetricsList | undefined;
   servicePlacementPolicies?: ServicePlacementPoliciesList | undefined;
   defaultMoveCost?: MoveCost | (string & {}) | undefined;
-  serviceKind: ServiceKind | (string & {});
+  /** The kind of service (Stateless or Stateful). */
+  serviceKind: StatefulServicePropertiesInputServiceKind;
   /** The name of the service type */
   serviceTypeName?: string | undefined;
   partitionDescription?: PartitionSchemeDescription | undefined;
   /** The activation Mode of the service package */
   servicePackageActivationMode?:
-    | ServiceResourcePropertiesInputServicePackageActivationMode
+    | ServiceResourcePropertiesServicePackageActivationMode
     | (string & {})
     | undefined;
   /** Dns name used for the service. If this is specified, then the service can be accessed via its DNS name instead of service name. */
   serviceDnsName?: string | undefined;
-  /** Stateless: number of instances per partition (-1 = one on every node). */
-  instanceCount?: number | undefined;
-  /** Stateless: delay before closing instances during upgrade (ISO 8601 duration). */
-  instanceCloseDelayDuration?: string | undefined;
-  /** Stateful: target replica set size. */
-  targetReplicaSetSize?: number | undefined;
-  /** Stateful: minimum replica set size. */
-  minReplicaSetSize?: number | undefined;
-  /** Stateful: wait before a down replica is replaced (ISO 8601 duration). */
-  replicaRestartWaitDuration?: string | undefined;
-  /** Stateful: maximum time a partition may be in quorum loss (ISO 8601 duration). */
-  quorumLossWaitDuration?: string | undefined;
-  /** Stateful: how long standby replicas are kept (ISO 8601 duration). */
-  standByReplicaKeepDuration?: string | undefined;
-  /** Stateful: whether the service persists state on local disk. */
+  /** A flag indicating whether this is a persistent service which stores states on the local disk. If it is then the value of this property is true, if not it is false. */
   hasPersistedState?: boolean | undefined;
+  /** The target replica set size as a number. */
+  targetReplicaSetSize?: number | undefined;
+  /** The minimum replica set size as a number. */
+  minReplicaSetSize?: number | undefined;
+  /** The duration between when a replica goes down and when a new replica is created, represented in ISO 8601 format (hh:mm:ss.s). */
+  replicaRestartWaitDuration?: string | undefined;
+  /** The maximum duration for which a partition is allowed to be in a state of quorum loss, represented in ISO 8601 format (hh:mm:ss.s). */
+  quorumLossWaitDuration?: string | undefined;
+  /** The definition on how long StandBy replicas should be maintained before being removed, represented in ISO 8601 format (hh:mm:ss.s). */
+  standByReplicaKeepDuration?: string | undefined;
 }
+/** The kind of service (Stateless or Stateful). */
+export type StatelessServicePropertiesInputServiceKind = "Stateless";
+/** The properties of a stateless service resource. */
+export interface StatelessServicePropertiesInput {
+  /** The placement constraints as a string. Placement constraints are boolean expressions on node properties and allow for restricting a service to particular nodes based on the service requirements. For example, to place a service on nodes where NodeType is blue specify the following: "NodeColor == blue)". */
+  placementConstraints?: string | undefined;
+  correlationScheme?: CorrelationSchemeList | undefined;
+  serviceLoadMetrics?: ServiceLoadMetricsList | undefined;
+  servicePlacementPolicies?: ServicePlacementPoliciesList | undefined;
+  defaultMoveCost?: MoveCost | (string & {}) | undefined;
+  /** The kind of service (Stateless or Stateful). */
+  serviceKind: StatelessServicePropertiesInputServiceKind;
+  /** The name of the service type */
+  serviceTypeName?: string | undefined;
+  partitionDescription?: PartitionSchemeDescription | undefined;
+  /** The activation Mode of the service package */
+  servicePackageActivationMode?:
+    | ServiceResourcePropertiesServicePackageActivationMode
+    | (string & {})
+    | undefined;
+  /** Dns name used for the service. If this is specified, then the service can be accessed via its DNS name instead of service name. */
+  serviceDnsName?: string | undefined;
+  /** The instance count. */
+  instanceCount?: number | undefined;
+  /** Delay duration for RequestDrain feature to ensures that the endpoint advertised by the stateless instance is removed before the delay starts prior to closing the instance. This delay enables existing requests to drain gracefully before the instance actually goes down (https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-application-upgrade-advanced#avoid-connection-drops-during-stateless-service-planned-downtime-preview). It is represented in ISO 8601 format (hh:mm:ss.s). */
+  instanceCloseDelayDuration?: string | undefined;
+}
+/** The service resource properties. */
+export type ServiceResourcePropertiesInput =
+  | StatefulServicePropertiesInput
+  | StatelessServicePropertiesInput;
 export interface ServicesCreateOrUpdateRequest {
   /** The customer subscription identifier. */
   subscriptionId: string;
@@ -1517,30 +1589,50 @@ export interface UpdateClusterResponse {
 }
 /** Azure resource tags. */
 export type UpdateServiceRequestTagsMap = { [key: string]: string | undefined };
-/** The service resource properties for patch operations. */
-export interface ServiceResourceUpdateProperties {
+/** The kind of service (Stateless or Stateful). */
+export type StatefulServiceUpdatePropertiesServiceKind = "Stateful";
+/** The properties of a stateful service resource for patch operations. */
+export interface StatefulServiceUpdateProperties {
   /** The placement constraints as a string. Placement constraints are boolean expressions on node properties and allow for restricting a service to particular nodes based on the service requirements. For example, to place a service on nodes where NodeType is blue specify the following: "NodeColor == blue)". */
   placementConstraints?: string | undefined;
   correlationScheme?: CorrelationSchemeList | undefined;
   serviceLoadMetrics?: ServiceLoadMetricsList | undefined;
   servicePlacementPolicies?: ServicePlacementPoliciesList | undefined;
   defaultMoveCost?: MoveCost | (string & {}) | undefined;
-  serviceKind: ServiceKind | (string & {});
-  /** Stateless: number of instances per partition (-1 = one on every node). */
-  instanceCount?: number | undefined;
-  /** Stateless: delay before closing instances during upgrade (ISO 8601 duration). */
-  instanceCloseDelayDuration?: string | undefined;
-  /** Stateful: target replica set size. */
+  /** The kind of service (Stateless or Stateful). */
+  serviceKind: StatefulServiceUpdatePropertiesServiceKind;
+  /** The target replica set size as a number. */
   targetReplicaSetSize?: number | undefined;
-  /** Stateful: minimum replica set size. */
+  /** The minimum replica set size as a number. */
   minReplicaSetSize?: number | undefined;
-  /** Stateful: wait before a down replica is replaced (ISO 8601 duration). */
+  /** The duration between when a replica goes down and when a new replica is created, represented in ISO 8601 format (hh:mm:ss.s). */
   replicaRestartWaitDuration?: string | undefined;
-  /** Stateful: maximum time a partition may be in quorum loss (ISO 8601 duration). */
+  /** The maximum duration for which a partition is allowed to be in a state of quorum loss, represented in ISO 8601 format (hh:mm:ss.s). */
   quorumLossWaitDuration?: string | undefined;
-  /** Stateful: how long standby replicas are kept (ISO 8601 duration). */
+  /** The definition on how long StandBy replicas should be maintained before being removed, represented in ISO 8601 format (hh:mm:ss.s). */
   standByReplicaKeepDuration?: string | undefined;
 }
+/** The kind of service (Stateless or Stateful). */
+export type StatelessServiceUpdatePropertiesServiceKind = "Stateless";
+/** The properties of a stateless service resource for patch operations. */
+export interface StatelessServiceUpdateProperties {
+  /** The placement constraints as a string. Placement constraints are boolean expressions on node properties and allow for restricting a service to particular nodes based on the service requirements. For example, to place a service on nodes where NodeType is blue specify the following: "NodeColor == blue)". */
+  placementConstraints?: string | undefined;
+  correlationScheme?: CorrelationSchemeList | undefined;
+  serviceLoadMetrics?: ServiceLoadMetricsList | undefined;
+  servicePlacementPolicies?: ServicePlacementPoliciesList | undefined;
+  defaultMoveCost?: MoveCost | (string & {}) | undefined;
+  /** The kind of service (Stateless or Stateful). */
+  serviceKind: StatelessServiceUpdatePropertiesServiceKind;
+  /** The instance count. */
+  instanceCount?: number | undefined;
+  /** Delay duration for RequestDrain feature to ensures that the endpoint advertised by the stateless instance is removed before the delay starts prior to closing the instance. This delay enables existing requests to drain gracefully before the instance actually goes down (https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-application-upgrade-advanced#avoid-connection-drops-during-stateless-service-planned-downtime-preview). It is first interpreted as a string representing an ISO 8601 duration. It is represented in ISO 8601 format (hh:mm:ss.s). */
+  instanceCloseDelayDuration?: string | undefined;
+}
+/** The service resource properties for patch operations. */
+export type ServiceResourceUpdateProperties =
+  | StatefulServiceUpdateProperties
+  | StatelessServiceUpdateProperties;
 export interface UpdateServiceRequest {
   /** The customer subscription identifier. */
   subscriptionId: string;
@@ -1823,7 +1915,7 @@ export const GetService: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<GetServiceRequest>,
-  output: __S(481, __c15, 1) as any as S.Schema<GetServiceResponse>,
+  output: __S(483, __c15, 3) as any as S.Schema<GetServiceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2009,7 +2101,7 @@ export const ServicesCreateOrUpdate: API.OperationMethod<
   ServicesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(961, __c30, 1) as any as S.Schema<ServicesCreateOrUpdateRequest>,
+  input: __S(963, __c30, 3) as any as S.Schema<ServicesCreateOrUpdateRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<ServicesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -2060,7 +2152,7 @@ export const UpdateService: API.OperationMethod<
   UpdateServiceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1057, __c33, 1) as any as S.Schema<UpdateServiceRequest>,
+  input: __S(1059, __c33, 3) as any as S.Schema<UpdateServiceRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<UpdateServiceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -2435,20 +2527,38 @@ function __c15(j: number): any {
           provisioningState: S.optional(S.String),
           serviceKind: S.String,
           serviceTypeName: S.optional(S.String),
-          partitionDescription: S.optional(__S(512, __c16, 0)),
+          partitionDescription: S.optional(__S(515, __c16, 3)),
           servicePackageActivationMode: S.optional(S.String),
           serviceDnsName: S.optional(S.String),
-          instanceCount: S.optional(S.Number),
-          instanceCloseDelayDuration: S.optional(S.String),
+          hasPersistedState: S.optional(S.Boolean),
           targetReplicaSetSize: S.optional(S.Number),
           minReplicaSetSize: S.optional(S.Number),
           replicaRestartWaitDuration: S.optional(S.String),
           quorumLossWaitDuration: S.optional(S.String),
           standByReplicaKeepDuration: S.optional(S.String),
-          hasPersistedState: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "ServiceResourceProperties" });
+      ).annotate({ identifier: "StatefulServiceProperties" });
     case 1:
+      return S.suspend(() =>
+        S.Struct({
+          placementConstraints: S.optional(S.String),
+          correlationScheme: S.optional(__S(545, __c17, 1)),
+          serviceLoadMetrics: S.optional(__S(547, __c17, 3)),
+          servicePlacementPolicies: S.optional(__S(549, __c17, 5)),
+          defaultMoveCost: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+          serviceKind: S.String,
+          serviceTypeName: S.optional(S.String),
+          partitionDescription: S.optional(__S(515, __c16, 3)),
+          servicePackageActivationMode: S.optional(S.String),
+          serviceDnsName: S.optional(S.String),
+          instanceCount: S.optional(S.Number),
+          instanceCloseDelayDuration: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StatelessServiceProperties" });
+    case 2:
+      return S.Union([__S(480, __c15, 0), __S(481, __c15, 1)]);
+    case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -2458,7 +2568,7 @@ function __c15(j: number): any {
           tags: S.optional(__S(32, __c1, 0)),
           etag: S.optional(S.String),
           systemData: S.optional(__S(192, __c6, 0)),
-          properties: S.optional(__S(480, __c15, 0)),
+          properties: S.optional(__S(482, __c15, 2)),
         }),
       ).annotate({ identifier: "GetServiceResponse" });
   }
@@ -2469,12 +2579,27 @@ function __c16(j: number): any {
       return S.suspend(() =>
         S.Struct({
           partitionScheme: S.String,
-          count: S.optional(S.Number),
-          lowKey: S.optional(S.String),
-          highKey: S.optional(S.String),
-          names: S.optional(__S(1152, __c36, 0)),
+          count: S.Number,
+          names: __S(1152, __c36, 0),
         }),
-      ).annotate({ identifier: "PartitionSchemeDescription" });
+      ).annotate({ identifier: "NamedPartitionSchemeDescription" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          partitionScheme: S.String,
+        }),
+      ).annotate({ identifier: "SingletonPartitionSchemeDescription" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          partitionScheme: S.String,
+          count: S.Number,
+          lowKey: S.String,
+          highKey: S.String,
+        }),
+      ).annotate({ identifier: "UniformInt64RangePartitionSchemeDescription" });
+    case 3:
+      return S.Union([__S(512, __c16, 0), __S(513, __c16, 1), __S(514, __c16, 2)]);
   }
 }
 function __c17(j: number): any {
@@ -2798,7 +2923,7 @@ function __c29(j: number): any {
         ),
       ).annotate({ identifier: "ListServicesRequest" });
     case 1:
-      return S.Array(__S(481, __c15, 1));
+      return S.Array(__S(483, __c15, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -2820,20 +2945,37 @@ function __c30(j: number): any {
           defaultMoveCost: S.optional(S.String),
           serviceKind: S.String,
           serviceTypeName: S.optional(S.String),
-          partitionDescription: S.optional(__S(512, __c16, 0)),
+          partitionDescription: S.optional(__S(515, __c16, 3)),
           servicePackageActivationMode: S.optional(S.String),
           serviceDnsName: S.optional(S.String),
-          instanceCount: S.optional(S.Number),
-          instanceCloseDelayDuration: S.optional(S.String),
+          hasPersistedState: S.optional(S.Boolean),
           targetReplicaSetSize: S.optional(S.Number),
           minReplicaSetSize: S.optional(S.Number),
           replicaRestartWaitDuration: S.optional(S.String),
           quorumLossWaitDuration: S.optional(S.String),
           standByReplicaKeepDuration: S.optional(S.String),
-          hasPersistedState: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "ServiceResourcePropertiesInput" });
+      ).annotate({ identifier: "StatefulServicePropertiesInput" });
     case 1:
+      return S.suspend(() =>
+        S.Struct({
+          placementConstraints: S.optional(S.String),
+          correlationScheme: S.optional(__S(545, __c17, 1)),
+          serviceLoadMetrics: S.optional(__S(547, __c17, 3)),
+          servicePlacementPolicies: S.optional(__S(549, __c17, 5)),
+          defaultMoveCost: S.optional(S.String),
+          serviceKind: S.String,
+          serviceTypeName: S.optional(S.String),
+          partitionDescription: S.optional(__S(515, __c16, 3)),
+          servicePackageActivationMode: S.optional(S.String),
+          serviceDnsName: S.optional(S.String),
+          instanceCount: S.optional(S.Number),
+          instanceCloseDelayDuration: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StatelessServicePropertiesInput" });
+    case 2:
+      return S.Union([__S(960, __c30, 0), __S(961, __c30, 1)]);
+    case 3:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -2843,7 +2985,7 @@ function __c30(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           location: S.optional(S.String),
           tags: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(960, __c30, 0)),
+          properties: S.optional(__S(962, __c30, 2)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -2950,16 +3092,29 @@ function __c33(j: number): any {
           servicePlacementPolicies: S.optional(__S(549, __c17, 5)),
           defaultMoveCost: S.optional(S.String),
           serviceKind: S.String,
-          instanceCount: S.optional(S.Number),
-          instanceCloseDelayDuration: S.optional(S.String),
           targetReplicaSetSize: S.optional(S.Number),
           minReplicaSetSize: S.optional(S.Number),
           replicaRestartWaitDuration: S.optional(S.String),
           quorumLossWaitDuration: S.optional(S.String),
           standByReplicaKeepDuration: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ServiceResourceUpdateProperties" });
+      ).annotate({ identifier: "StatefulServiceUpdateProperties" });
     case 1:
+      return S.suspend(() =>
+        S.Struct({
+          placementConstraints: S.optional(S.String),
+          correlationScheme: S.optional(__S(545, __c17, 1)),
+          serviceLoadMetrics: S.optional(__S(547, __c17, 3)),
+          servicePlacementPolicies: S.optional(__S(549, __c17, 5)),
+          defaultMoveCost: S.optional(S.String),
+          serviceKind: S.String,
+          instanceCount: S.optional(S.Number),
+          instanceCloseDelayDuration: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StatelessServiceUpdateProperties" });
+    case 2:
+      return S.Union([__S(1056, __c33, 0), __S(1057, __c33, 1)]);
+    case 3:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -2969,7 +3124,7 @@ function __c33(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           location: S.optional(S.String),
           tags: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(1056, __c33, 0)),
+          properties: S.optional(__S(1058, __c33, 2)),
         }).pipe(
           T.Http({
             method: "PATCH",

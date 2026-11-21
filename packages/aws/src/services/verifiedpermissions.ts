@@ -176,7 +176,12 @@ export class TooManyTagsException
   ).pipe(C.withBadRequestError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()("ValidationException", {
-    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+    message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
+    fieldList: /*@__PURE__*/ S.optional(
+      /*@__PURE__*/ S.suspend(() => __S(1569, __c49, 1)).annotate({
+        identifier: "ValidationExceptionFieldList",
+      }),
+    ),
   }) {}
 export type PolicyStoreId = string;
 export type PolicyId = string;
@@ -1218,6 +1223,11 @@ export interface UpdatePolicyTemplateOutput {
   createdDate: Date;
   lastUpdatedDate: Date;
 }
+export interface ValidationExceptionField {
+  path: string;
+  message: string;
+}
+export type ValidationExceptionFieldList = ValidationExceptionField[];
 export type ResourceType =
   | "IDENTITY_SOURCE"
   | "POLICY_STORE"
@@ -1231,7 +1241,12 @@ export interface ResourceConflict {
   resourceType: ResourceType;
 }
 export type ResourceConflictList = ResourceConflict[];
-export type BatchGetPolicyError = ValidationException | CommonErrors;
+export type BatchGetPolicyError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about a group (batch) of policies.
  *
@@ -1243,9 +1258,14 @@ export const batchGetPolicy: API.OperationMethod<
   BatchGetPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1570, __c49, 2) as any as S.Schema<BatchGetPolicyInput>,
-  output: __S(1575, __c49, 7) as any as S.Schema<BatchGetPolicyOutput>,
-  errors: [ValidationException],
+  input: __S(1602, __c50, 2) as any as S.Schema<BatchGetPolicyInput>,
+  output: __S(1607, __c50, 7) as any as S.Schema<BatchGetPolicyOutput>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetPolicy",
@@ -1253,7 +1273,13 @@ export const batchGetPolicy: API.OperationMethod<
   span: "BatchGetPolicy",
 }));
 
-export type BatchIsAuthorizedError = ResourceNotFoundException | ValidationException | CommonErrors;
+export type BatchIsAuthorizedError =
+  | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Makes a series of decisions about multiple authorization requests for one principal or resource. Each request contains the equivalent content of an `IsAuthorized` request: principal, action, resource, and context. Either the `principal` or the `resource` parameter must be identical across all requests. For example, Verified Permissions won't evaluate a pair of requests where `bob` views `photo1` and `alice` views `photo2`. Authorization of `bob` to view `photo1` and `photo2`, or `bob` and `alice` to view `photo1`, are valid batches.
  *
@@ -1271,7 +1297,13 @@ export const batchIsAuthorized: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34, __c1, 2) as any as S.Schema<BatchIsAuthorizedInput>,
   output: __S(37, __c1, 5) as any as S.Schema<BatchIsAuthorizedOutput>,
-  errors: [ResourceNotFoundException, ValidationException],
+  errors: [
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchIsAuthorized",
@@ -1281,6 +1313,9 @@ export const batchIsAuthorized: API.OperationMethod<
 
 export type BatchIsAuthorizedWithTokenError =
   | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -1300,7 +1335,13 @@ export const batchIsAuthorizedWithToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(130, __c4, 2) as any as S.Schema<BatchIsAuthorizedWithTokenInput>,
   output: __S(133, __c4, 5) as any as S.Schema<BatchIsAuthorizedWithTokenOutput>,
-  errors: [ResourceNotFoundException, ValidationException],
+  errors: [
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchIsAuthorizedWithToken",
@@ -1312,6 +1353,9 @@ export type CreateIdentitySourceError =
   | ConflictException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -1341,6 +1385,9 @@ export const createIdentitySource: API.OperationMethod<
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
     ValidationException,
   ],
   protocol: AwsProtocol,
@@ -1354,6 +1401,9 @@ export type CreatePolicyError =
   | ConflictException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -1379,6 +1429,9 @@ export const createPolicy: API.OperationMethod<
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
     ValidationException,
   ],
   protocol: AwsProtocol,
@@ -1391,6 +1444,9 @@ export const createPolicy: API.OperationMethod<
 export type CreatePolicyStoreError =
   | ConflictException
   | ServiceQuotaExceededException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -1408,7 +1464,14 @@ export const createPolicyStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(418, __c13, 2) as any as S.Schema<CreatePolicyStoreInput>,
   output: __S(512, __c16, 0) as any as S.Schema<CreatePolicyStoreOutput>,
-  errors: [ConflictException, ServiceQuotaExceededException, ValidationException],
+  errors: [
+    ConflictException,
+    ServiceQuotaExceededException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePolicyStore",
@@ -1420,6 +1483,9 @@ export type CreatePolicyStoreAliasError =
   | ConflictException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -1441,6 +1507,9 @@ export const createPolicyStoreAlias: API.OperationMethod<
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
     ValidationException,
   ],
   protocol: AwsProtocol,
@@ -1454,6 +1523,9 @@ export type CreatePolicyTemplateError =
   | ConflictException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -1473,6 +1545,9 @@ export const createPolicyTemplate: API.OperationMethod<
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
     ValidationException,
   ],
   protocol: AwsProtocol,
@@ -1485,6 +1560,10 @@ export const createPolicyTemplate: API.OperationMethod<
 export type DeleteIdentitySourceError =
   | ConflictException
   | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
   | CommonErrors;
 /**
  * Deletes an identity source that references an identity provider (IdP) such as Amazon Cognito. After you delete the identity source, you can no longer use tokens for identities from that identity source to represent principals in authorization queries made using IsAuthorizedWithToken. operations.
@@ -1497,7 +1576,14 @@ export const deleteIdentitySource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<DeleteIdentitySourceInput>,
   output: __S(672, __c21, 0) as any as S.Schema<DeleteIdentitySourceOutput>,
-  errors: [ConflictException, ResourceNotFoundException],
+  errors: [
+    ConflictException,
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIdentitySource",
@@ -1505,7 +1591,14 @@ export const deleteIdentitySource: API.OperationMethod<
   span: "DeleteIdentitySource",
 }));
 
-export type DeletePolicyError = ConflictException | ResourceNotFoundException | CommonErrors;
+export type DeletePolicyError =
+  | ConflictException
+  | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the specified policy from the policy store.
  *
@@ -1519,7 +1612,14 @@ export const deletePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<DeletePolicyInput>,
   output: __S(672, __c21, 0) as any as S.Schema<DeletePolicyOutput>,
-  errors: [ConflictException, ResourceNotFoundException],
+  errors: [
+    ConflictException,
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicy",
@@ -1527,7 +1627,13 @@ export const deletePolicy: API.OperationMethod<
   span: "DeletePolicy",
 }));
 
-export type DeletePolicyStoreError = InvalidStateException | CommonErrors;
+export type DeletePolicyStoreError =
+  | InvalidStateException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the specified policy store.
  *
@@ -1541,7 +1647,13 @@ export const deletePolicyStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<DeletePolicyStoreInput>,
   output: __S(672, __c21, 0) as any as S.Schema<DeletePolicyStoreOutput>,
-  errors: [InvalidStateException],
+  errors: [
+    InvalidStateException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicyStore",
@@ -1551,8 +1663,11 @@ export const deletePolicyStore: API.OperationMethod<
 
 export type DeletePolicyStoreAliasError =
   | InvalidStateException
-  | ValidationException
   | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
   | CommonErrors;
 /**
  * Deletes the specified policy store alias.
@@ -1573,7 +1688,14 @@ export const deletePolicyStoreAlias: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<DeletePolicyStoreAliasInput>,
   output: __S(672, __c21, 0) as any as S.Schema<DeletePolicyStoreAliasOutput>,
-  errors: [InvalidStateException, ValidationException, ResourceNotFoundException],
+  errors: [
+    InvalidStateException,
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicyStoreAlias",
@@ -1584,6 +1706,10 @@ export const deletePolicyStoreAlias: API.OperationMethod<
 export type DeletePolicyTemplateError =
   | ConflictException
   | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
   | CommonErrors;
 /**
  * Deletes the specified policy template from the policy store.
@@ -1598,7 +1724,14 @@ export const deletePolicyTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<DeletePolicyTemplateInput>,
   output: __S(672, __c21, 0) as any as S.Schema<DeletePolicyTemplateOutput>,
-  errors: [ConflictException, ResourceNotFoundException],
+  errors: [
+    ConflictException,
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicyTemplate",
@@ -1606,7 +1739,13 @@ export const deletePolicyTemplate: API.OperationMethod<
   span: "DeletePolicyTemplate",
 }));
 
-export type GetIdentitySourceError = ResourceNotFoundException | CommonErrors;
+export type GetIdentitySourceError =
+  | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the details about the specified identity source.
  */
@@ -1618,7 +1757,13 @@ export const getIdentitySource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<GetIdentitySourceInput>,
   output: __S(868, __c27, 4) as any as S.Schema<GetIdentitySourceOutput>,
-  errors: [ResourceNotFoundException],
+  errors: [
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdentitySource",
@@ -1626,7 +1771,13 @@ export const getIdentitySource: API.OperationMethod<
   span: "GetIdentitySource",
 }));
 
-export type GetPolicyError = ResourceNotFoundException | ValidationException | CommonErrors;
+export type GetPolicyError =
+  | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about the specified policy.
  */
@@ -1638,7 +1789,13 @@ export const getPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<GetPolicyInput>,
   output: __S(897, __c28, 1) as any as S.Schema<GetPolicyOutput>,
-  errors: [ResourceNotFoundException, ValidationException],
+  errors: [
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicy",
@@ -1646,7 +1803,13 @@ export const getPolicy: API.OperationMethod<
   span: "GetPolicy",
 }));
 
-export type GetPolicyStoreError = ResourceNotFoundException | ValidationException | CommonErrors;
+export type GetPolicyStoreError =
+  | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves details about a policy store.
  */
@@ -1658,7 +1821,13 @@ export const getPolicyStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<GetPolicyStoreInput>,
   output: __S(931, __c29, 3) as any as S.Schema<GetPolicyStoreOutput>,
-  errors: [ResourceNotFoundException, ValidationException],
+  errors: [
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicyStore",
@@ -1666,7 +1835,13 @@ export const getPolicyStore: API.OperationMethod<
   span: "GetPolicyStore",
 }));
 
-export type GetPolicyStoreAliasError = ResourceNotFoundException | CommonErrors;
+export type GetPolicyStoreAliasError =
+  | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves details about the specified policy store alias.
  */
@@ -1678,7 +1853,13 @@ export const getPolicyStoreAlias: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<GetPolicyStoreAliasInput>,
   output: __S(992, __c31, 0) as any as S.Schema<GetPolicyStoreAliasOutput>,
-  errors: [ResourceNotFoundException],
+  errors: [
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicyStoreAlias",
@@ -1686,7 +1867,13 @@ export const getPolicyStoreAlias: API.OperationMethod<
   span: "GetPolicyStoreAlias",
 }));
 
-export type GetPolicyTemplateError = ResourceNotFoundException | CommonErrors;
+export type GetPolicyTemplateError =
+  | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieve the details for the specified policy template in the specified policy store.
  */
@@ -1698,7 +1885,13 @@ export const getPolicyTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<GetPolicyTemplateInput>,
   output: __S(1025, __c32, 1) as any as S.Schema<GetPolicyTemplateOutput>,
-  errors: [ResourceNotFoundException],
+  errors: [
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicyTemplate",
@@ -1706,7 +1899,13 @@ export const getPolicyTemplate: API.OperationMethod<
   span: "GetPolicyTemplate",
 }));
 
-export type GetSchemaError = ResourceNotFoundException | ValidationException | CommonErrors;
+export type GetSchemaError =
+  | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieve the details for the specified schema in the specified policy store.
  */
@@ -1718,7 +1917,13 @@ export const getSchema: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<GetSchemaInput>,
   output: __S(1057, __c33, 1) as any as S.Schema<GetSchemaOutput>,
-  errors: [ResourceNotFoundException, ValidationException],
+  errors: [
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSchema",
@@ -1726,7 +1931,13 @@ export const getSchema: API.OperationMethod<
   span: "GetSchema",
 }));
 
-export type IsAuthorizedError = ResourceNotFoundException | ValidationException | CommonErrors;
+export type IsAuthorizedError =
+  | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Makes an authorization decision about a service request described in the parameters. The information in the parameters can also define additional context that Verified Permissions can include in the evaluation. The request is evaluated against all matching policies in the specified policy store. The result of the decision is either `Allow` or `Deny`, along with a list of the policies that resulted in the decision.
  */
@@ -1738,7 +1949,13 @@ export const isAuthorized: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<IsAuthorizedInput>,
   output: __S(1089, __c34, 1) as any as S.Schema<IsAuthorizedOutput>,
-  errors: [ResourceNotFoundException, ValidationException],
+  errors: [
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IsAuthorized",
@@ -1748,6 +1965,9 @@ export const isAuthorized: API.OperationMethod<
 
 export type IsAuthorizedWithTokenError =
   | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -1765,7 +1985,13 @@ export const isAuthorizedWithToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<IsAuthorizedWithTokenInput>,
   output: __S(1121, __c35, 1) as any as S.Schema<IsAuthorizedWithTokenOutput>,
-  errors: [ResourceNotFoundException, ValidationException],
+  errors: [
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IsAuthorizedWithToken",
@@ -1773,7 +1999,13 @@ export const isAuthorizedWithToken: API.OperationMethod<
   span: "IsAuthorizedWithToken",
 }));
 
-export type ListIdentitySourcesError = ResourceNotFoundException | CommonErrors;
+export type ListIdentitySourcesError =
+  | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a paginated list of all of the identity sources defined in the specified policy store.
  */
@@ -1786,7 +2018,13 @@ export const listIdentitySources: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1154, __c36, 2) as any as S.Schema<ListIdentitySourcesInput>,
   output: __S(1156, __c36, 4) as any as S.Schema<ListIdentitySourcesOutput>,
-  errors: [ResourceNotFoundException],
+  errors: [
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListIdentitySources",
@@ -1800,7 +2038,13 @@ export const listIdentitySources: API.PaginatedOperationMethod<
   span: "ListIdentitySources",
 })) as any;
 
-export type ListPoliciesError = ResourceNotFoundException | CommonErrors;
+export type ListPoliciesError =
+  | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a paginated list of all policies stored in the specified policy store.
  */
@@ -1813,7 +2057,13 @@ export const listPolicies: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1186, __c37, 2) as any as S.Schema<ListPoliciesInput>,
   output: __S(1191, __c37, 7) as any as S.Schema<ListPoliciesOutput>,
-  errors: [ResourceNotFoundException],
+  errors: [
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPolicies",
@@ -1827,7 +2077,12 @@ export const listPolicies: API.PaginatedOperationMethod<
   span: "ListPolicies",
 })) as any;
 
-export type ListPolicyStoreAliasesError = CommonErrors;
+export type ListPolicyStoreAliasesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a paginated list of all policy store aliases in the calling Amazon Web Services account.
  */
@@ -1840,7 +2095,12 @@ export const listPolicyStoreAliases: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1217, __c38, 1) as any as S.Schema<ListPolicyStoreAliasesInput>,
   output: __S(1219, __c38, 3) as any as S.Schema<ListPolicyStoreAliasesOutput>,
-  errors: [],
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPolicyStoreAliases",
@@ -1854,7 +2114,12 @@ export const listPolicyStoreAliases: API.PaginatedOperationMethod<
   span: "ListPolicyStoreAliases",
 })) as any;
 
-export type ListPolicyStoresError = CommonErrors;
+export type ListPolicyStoresError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a paginated list of all policy stores in the calling Amazon Web Services account.
  */
@@ -1867,7 +2132,12 @@ export const listPolicyStores: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<ListPolicyStoresInput>,
   output: __S(1251, __c39, 3) as any as S.Schema<ListPolicyStoresOutput>,
-  errors: [],
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPolicyStores",
@@ -1881,7 +2151,13 @@ export const listPolicyStores: API.PaginatedOperationMethod<
   span: "ListPolicyStores",
 })) as any;
 
-export type ListPolicyTemplatesError = ResourceNotFoundException | CommonErrors;
+export type ListPolicyTemplatesError =
+  | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a paginated list of all policy templates in the specified policy store.
  */
@@ -1894,7 +2170,13 @@ export const listPolicyTemplates: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<ListPolicyTemplatesInput>,
   output: __S(1283, __c40, 3) as any as S.Schema<ListPolicyTemplatesOutput>,
-  errors: [ResourceNotFoundException],
+  errors: [
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPolicyTemplates",
@@ -1913,6 +2195,7 @@ export type ListTagsForResourceError =
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
+  | ValidationException
   | CommonErrors;
 /**
  * Returns the tags associated with the specified Amazon Verified Permissions resource. In Verified Permissions, policy stores can be tagged.
@@ -1930,6 +2213,7 @@ export const listTagsForResource: API.OperationMethod<
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
+    ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1942,6 +2226,9 @@ export type PutSchemaError =
   | ConflictException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -1961,6 +2248,9 @@ export const putSchema: API.OperationMethod<
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
     ValidationException,
   ],
   protocol: AwsProtocol,
@@ -1976,6 +2266,7 @@ export type TagResourceError =
   | ResourceNotFoundException
   | ThrottlingException
   | TooManyTagsException
+  | ValidationException
   | CommonErrors;
 /**
  * Assigns one or more tags (key-value pairs) to the specified Amazon Verified Permissions resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. In Verified Permissions, policy stores can be tagged.
@@ -2000,6 +2291,7 @@ export const tagResource: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     TooManyTagsException,
+    ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2013,6 +2305,7 @@ export type UntagResourceError =
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
+  | ValidationException
   | CommonErrors;
 /**
  * Removes one or more tags from the specified Amazon Verified Permissions resource. In Verified Permissions, policy stores can be tagged.
@@ -2030,6 +2323,7 @@ export const untagResource: API.OperationMethod<
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
+    ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2041,6 +2335,9 @@ export const untagResource: API.OperationMethod<
 export type UpdateIdentitySourceError =
   | ConflictException
   | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -2056,7 +2353,14 @@ export const updateIdentitySource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<UpdateIdentitySourceInput>,
   output: __S(291, __c9, 3) as any as S.Schema<UpdateIdentitySourceOutput>,
-  errors: [ConflictException, ResourceNotFoundException, ValidationException],
+  errors: [
+    ConflictException,
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIdentitySource",
@@ -2068,6 +2372,9 @@ export type UpdatePolicyError =
   | ConflictException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -2107,6 +2414,9 @@ export const updatePolicy: API.OperationMethod<
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
     ValidationException,
   ],
   protocol: AwsProtocol,
@@ -2119,6 +2429,9 @@ export const updatePolicy: API.OperationMethod<
 export type UpdatePolicyStoreError =
   | ConflictException
   | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -2134,7 +2447,14 @@ export const updatePolicyStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c47, 0) as any as S.Schema<UpdatePolicyStoreInput>,
   output: __S(512, __c16, 0) as any as S.Schema<UpdatePolicyStoreOutput>,
-  errors: [ConflictException, ResourceNotFoundException, ValidationException],
+  errors: [
+    ConflictException,
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePolicyStore",
@@ -2145,6 +2465,9 @@ export const updatePolicyStore: API.OperationMethod<
 export type UpdatePolicyTemplateError =
   | ConflictException
   | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -2162,7 +2485,14 @@ export const updatePolicyTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<UpdatePolicyTemplateInput>,
   output: __S(608, __c19, 0) as any as S.Schema<UpdatePolicyTemplateOutput>,
-  errors: [ConflictException, ResourceNotFoundException, ValidationException],
+  errors: [
+    ConflictException,
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePolicyTemplate",
@@ -2186,9 +2516,9 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          principal: S.optional(__S(1600, __c50, 0)),
+          principal: S.optional(__S(1632, __c51, 0)),
           action: S.optional(__S(64, __c2, 0)),
-          resource: S.optional(__S(1600, __c50, 0)),
+          resource: S.optional(__S(1632, __c51, 0)),
           context: S.optional(__S(108, __c3, 12)),
         }),
       ).annotate({ identifier: "BatchIsAuthorizedInputItem" });
@@ -2243,7 +2573,7 @@ function __c3(j: number): any {
     case 2:
       return S.Union([
         /*@__PURE__*/ S.Struct({ boolean: S.Boolean }),
-        /*@__PURE__*/ S.Struct({ entityIdentifier: __S(1600, __c50, 0) }),
+        /*@__PURE__*/ S.Struct({ entityIdentifier: __S(1632, __c51, 0) }),
         /*@__PURE__*/ S.Struct({ long: S.Number }),
         /*@__PURE__*/ S.Struct({ string: SensitiveString }),
         /*@__PURE__*/ S.Struct({
@@ -2269,7 +2599,7 @@ function __c3(j: number): any {
           .pipe(S.optional),
       );
     case 4:
-      return S.Array(__S(1600, __c50, 0));
+      return S.Array(__S(1632, __c51, 0));
     case 5:
       return S.Array(
         /*@__PURE__*/ S.suspend(() => __S(103, __c3, 7)).annotate({ identifier: "CedarTagValue" }),
@@ -2284,7 +2614,7 @@ function __c3(j: number): any {
     case 7:
       return S.Union([
         /*@__PURE__*/ S.Struct({ boolean: S.Boolean }),
-        /*@__PURE__*/ S.Struct({ entityIdentifier: __S(1600, __c50, 0) }),
+        /*@__PURE__*/ S.Struct({ entityIdentifier: __S(1632, __c51, 0) }),
         /*@__PURE__*/ S.Struct({ long: S.Number }),
         /*@__PURE__*/ S.Struct({ string: SensitiveString }),
         /*@__PURE__*/ S.Struct({
@@ -2312,7 +2642,7 @@ function __c3(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          identifier: __S(1600, __c50, 0),
+          identifier: __S(1632, __c51, 0),
           attributes: S.optional(__S(99, __c3, 3)),
           parents: S.optional(__S(100, __c3, 4)),
           tags: S.optional(__S(104, __c3, 8)),
@@ -2350,7 +2680,7 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           action: S.optional(__S(64, __c2, 0)),
-          resource: S.optional(__S(1600, __c50, 0)),
+          resource: S.optional(__S(1632, __c51, 0)),
           context: S.optional(__S(108, __c3, 12)),
         }),
       ).annotate({ identifier: "BatchIsAuthorizedWithTokenInputItem" });
@@ -2379,7 +2709,7 @@ function __c4(j: number): any {
       return S.Array(__S(131, __c4, 3));
     case 5:
       return S.suspend(() =>
-        S.Struct({ principal: S.optional(__S(1600, __c50, 0)), results: __S(132, __c4, 4) }),
+        S.Struct({ principal: S.optional(__S(1632, __c51, 0)), results: __S(132, __c4, 4) }),
       ).annotate({ identifier: "BatchIsAuthorizedWithTokenOutput" });
   }
 }
@@ -2481,7 +2811,7 @@ function __c10(j: number): any {
         S.Struct({
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           policyStoreId: S.String,
-          definition: __S(1632, __c51, 0),
+          definition: __S(1664, __c52, 0),
           name: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreatePolicyInput" });
@@ -2501,8 +2831,8 @@ function __c12(j: number): any {
           policyStoreId: S.String,
           policyId: S.String,
           policyType: S.String,
-          principal: S.optional(__S(1600, __c50, 0)),
-          resource: S.optional(__S(1600, __c50, 0)),
+          principal: S.optional(__S(1632, __c51, 0)),
+          resource: S.optional(__S(1632, __c51, 0)),
           actions: S.optional(__S(352, __c11, 0)),
           createdDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           lastUpdatedDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
@@ -2731,10 +3061,10 @@ function __c28(j: number): any {
           policyStoreId: S.String,
           policyId: S.String,
           policyType: S.String,
-          principal: S.optional(__S(1600, __c50, 0)),
-          resource: S.optional(__S(1600, __c50, 0)),
+          principal: S.optional(__S(1632, __c51, 0)),
+          resource: S.optional(__S(1632, __c51, 0)),
           actions: S.optional(__S(352, __c11, 0)),
-          definition: __S(1632, __c51, 0),
+          definition: __S(1664, __c52, 0),
           createdDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           lastUpdatedDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           effect: S.optional(S.String),
@@ -2849,9 +3179,9 @@ function __c34(j: number): any {
       return S.suspend(() =>
         S.Struct({
           policyStoreId: S.String,
-          principal: S.optional(__S(1600, __c50, 0)),
+          principal: S.optional(__S(1632, __c51, 0)),
           action: S.optional(__S(64, __c2, 0)),
-          resource: S.optional(__S(1600, __c50, 0)),
+          resource: S.optional(__S(1632, __c51, 0)),
           context: S.optional(__S(108, __c3, 12)),
           entities: S.optional(__S(107, __c3, 11)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -2875,7 +3205,7 @@ function __c35(j: number): any {
           identityToken: S.optional(SensitiveString),
           accessToken: S.optional(SensitiveString),
           action: S.optional(__S(64, __c2, 0)),
-          resource: S.optional(__S(1600, __c50, 0)),
+          resource: S.optional(__S(1632, __c51, 0)),
           context: S.optional(__S(108, __c3, 12)),
           entities: S.optional(__S(107, __c3, 11)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -2886,7 +3216,7 @@ function __c35(j: number): any {
           decision: S.String,
           determiningPolicies: __S(110, __c3, 14),
           errors: __S(112, __c3, 16),
-          principal: S.optional(__S(1600, __c50, 0)),
+          principal: S.optional(__S(1632, __c51, 0)),
         }),
       ).annotate({ identifier: "IsAuthorizedWithTokenOutput" });
   }
@@ -2921,7 +3251,7 @@ function __c37(j: number): any {
     case 0:
       return S.Union([
         /*@__PURE__*/ S.Struct({ unspecified: S.Boolean }),
-        /*@__PURE__*/ S.Struct({ identifier: __S(1600, __c50, 0) }),
+        /*@__PURE__*/ S.Struct({ identifier: __S(1632, __c51, 0) }),
       ]);
     case 1:
       return S.suspend(() =>
@@ -2948,7 +3278,7 @@ function __c37(j: number): any {
     case 4:
       return S.Union([
         /*@__PURE__*/ S.Struct({ static: __S(1187, __c37, 3) }),
-        /*@__PURE__*/ S.Struct({ templateLinked: __S(1664, __c52, 0) }),
+        /*@__PURE__*/ S.Struct({ templateLinked: __S(1696, __c53, 0) }),
       ]);
     case 5:
       return S.suspend(() =>
@@ -2956,8 +3286,8 @@ function __c37(j: number): any {
           policyStoreId: S.String,
           policyId: S.String,
           policyType: S.String,
-          principal: S.optional(__S(1600, __c50, 0)),
-          resource: S.optional(__S(1600, __c50, 0)),
+          principal: S.optional(__S(1632, __c51, 0)),
+          resource: S.optional(__S(1632, __c51, 0)),
           actions: S.optional(__S(352, __c11, 0)),
           definition: __S(1188, __c37, 4),
           createdDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
@@ -3122,7 +3452,7 @@ function __c45(j: number): any {
 function __c46(j: number): any {
   switch (j) {
     case 0:
-      return S.Union([/*@__PURE__*/ S.Struct({ static: __S(1696, __c53, 0) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ static: __S(1728, __c54, 0) })]);
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -3164,14 +3494,24 @@ function __c48(j: number): any {
 function __c49(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() => S.Struct({ path: S.String, message: S.String })).annotate({
+        identifier: "ValidationExceptionField",
+      });
+    case 1:
+      return S.Array(__S(1568, __c49, 0));
+  }
+}
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() => S.Struct({ policyStoreId: S.String, policyId: S.String })).annotate({
         identifier: "BatchGetPolicyInputItem",
       });
     case 1:
-      return S.Array(__S(1568, __c49, 0));
+      return S.Array(__S(1600, __c50, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ requests: __S(1569, __c49, 1) }).pipe(
+        S.Struct({ requests: __S(1601, __c50, 1) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "BatchGetPolicyInput" });
@@ -3181,14 +3521,14 @@ function __c49(j: number): any {
           policyStoreId: S.String,
           policyId: S.String,
           policyType: S.String,
-          definition: __S(1632, __c51, 0),
+          definition: __S(1664, __c52, 0),
           createdDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           lastUpdatedDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "BatchGetPolicyOutputItem" });
     case 4:
-      return S.Array(__S(1571, __c49, 3));
+      return S.Array(__S(1603, __c50, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -3199,14 +3539,14 @@ function __c49(j: number): any {
         }),
       ).annotate({ identifier: "BatchGetPolicyErrorItem" });
     case 6:
-      return S.Array(__S(1573, __c49, 5));
+      return S.Array(__S(1605, __c50, 5));
     case 7:
       return S.suspend(() =>
-        S.Struct({ results: __S(1572, __c49, 4), errors: __S(1574, __c49, 6) }),
+        S.Struct({ results: __S(1604, __c50, 4), errors: __S(1606, __c50, 6) }),
       ).annotate({ identifier: "BatchGetPolicyOutput" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3214,28 +3554,28 @@ function __c50(j: number): any {
       ).annotate({ identifier: "EntityIdentifier" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ static: __S(1696, __c53, 0) }),
-        /*@__PURE__*/ S.Struct({ templateLinked: __S(1664, __c52, 0) }),
+        /*@__PURE__*/ S.Struct({ static: __S(1728, __c54, 0) }),
+        /*@__PURE__*/ S.Struct({ templateLinked: __S(1696, __c53, 0) }),
       ]);
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           policyTemplateId: S.String,
-          principal: S.optional(__S(1600, __c50, 0)),
-          resource: S.optional(__S(1600, __c50, 0)),
+          principal: S.optional(__S(1632, __c51, 0)),
+          resource: S.optional(__S(1632, __c51, 0)),
         }),
       ).annotate({ identifier: "TemplateLinkedPolicyDefinitionDetail" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

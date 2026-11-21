@@ -30,36 +30,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 /** Ledger transfers only. The type of the feed named by `feed_id`. */
 export type CreateTransferRequestFeedType =
@@ -456,6 +484,17 @@ export interface ListTransferRecipientsResponse {
   data: ListTransferRecipientsResponseDataList;
   page_info: ListTransferResponsePageInfo;
 }
+export interface V1ErrorResponseError {
+  /** Machine-readable reason for this specific refusal, such as `bank_warning_not_acknowledged`. Only present when the error carries one. */
+  code?: string | undefined;
+  /** Human-readable error message. */
+  message: string;
+  /** Machine-readable error code. */
+  type: string;
+}
+export interface V1ErrorResponse {
+  error: V1ErrorResponseError;
+}
 export type CreateTransferError = BadRequest | Forbidden | Conflict | WhopOpError;
 /** Create Transfer Moves money between accounts, or into a claim link anyone with the URL can redeem. */
 export const createTransfer: API.OperationMethod<
@@ -464,8 +503,8 @@ export const createTransfer: API.OperationMethod<
   CreateTransferError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateTransferRequest>,
-  output: __S(1, __c0, 1) as any as S.Schema<CreateTransferResponse>,
+  input: __S(4, __c1, 0) as any as S.Schema<CreateTransferRequest>,
+  output: __S(5, __c1, 1) as any as S.Schema<CreateTransferResponse>,
   errors: [BadRequest, Forbidden, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -481,8 +520,8 @@ export const getTransfer: API.OperationMethod<
   GetTransferError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<GetTransferRequest>,
-  output: __S(9, __c2, 1) as any as S.Schema<GetTransferResponse>,
+  input: __S(12, __c3, 0) as any as S.Schema<GetTransferRequest>,
+  output: __S(13, __c3, 1) as any as S.Schema<GetTransferResponse>,
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -500,8 +539,8 @@ export const listTransfer: API.PaginatedOperationMethod<
   ListTransferResponseDataItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(16, __c4, 0) as any as S.Schema<ListTransferRequest>,
-    output: __S(19, __c4, 3) as any as S.Schema<ListTransferResponse>,
+    input: __S(20, __c5, 0) as any as S.Schema<ListTransferRequest>,
+    output: __S(23, __c5, 3) as any as S.Schema<ListTransferResponse>,
     errors: [BadRequest],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -529,8 +568,8 @@ export const listTransferRecipients: API.PaginatedOperationMethod<
   ListTransferRecipientsResponseDataItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(24, __c6, 0) as any as S.Schema<ListTransferRecipientsRequest>,
-    output: __S(26, __c6, 2) as any as S.Schema<ListTransferRecipientsResponse>,
+    input: __S(28, __c7, 0) as any as S.Schema<ListTransferRecipientsRequest>,
+    output: __S(30, __c7, 2) as any as S.Schema<ListTransferRecipientsResponse>,
     errors: [BadRequest, Forbidden, NotFound],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -554,6 +593,24 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          code: S.optional(S.String),
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "V1ErrorResponseError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "V1ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           amount: S.Number,
           currency: S.optional(S.String),
           destination_id: S.optional(S.String),
@@ -561,7 +618,7 @@ function __c0(j: number): any {
           feed_id: S.optional(S.NullOr(S.String)),
           feed_type: S.optional(S.NullOr(S.String)),
           idempotence_key: S.optional(S.NullOr(S.String)),
-          metadata: S.optional(S.NullOr(__S(4, __c1, 0))),
+          metadata: S.optional(S.NullOr(__S(8, __c2, 0))),
           notes: S.optional(S.NullOr(S.String)),
           origin_id: S.String,
           redeemable_count: S.optional(S.Number),
@@ -575,13 +632,13 @@ function __c0(j: number): any {
       });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -594,7 +651,7 @@ function __c2(j: number): any {
         S.Struct({
           amount: S.Number,
           created_at: S.String,
-          created_by_user: S.NullOr(__S(12, __c3, 0)),
+          created_by_user: S.NullOr(__S(16, __c4, 0)),
           currency: S.String,
           destination: S.Unknown,
           destination_ledger_account_id: S.String,
@@ -603,7 +660,7 @@ function __c2(j: number): any {
           failure_reason: S.optional(S.NullOr(S.String)),
           fee_amount: S.optional(S.NullOr(S.Number)),
           id: S.String,
-          metadata: S.optional(S.NullOr(__S(4, __c1, 0))),
+          metadata: S.optional(S.NullOr(__S(8, __c2, 0))),
           notes: S.optional(S.NullOr(S.String)),
           object: S.String,
           origin: S.Unknown,
@@ -613,7 +670,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GetTransferResponse" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -625,7 +682,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "CreateTransferResponseBodyCase0CreatedByUser" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -647,7 +704,7 @@ function __c4(j: number): any {
         S.Struct({
           amount: S.Number,
           created_at: S.String,
-          created_by_user: S.NullOr(__S(12, __c3, 0)),
+          created_by_user: S.NullOr(__S(16, __c4, 0)),
           currency: S.String,
           destination_ledger_account_id: S.String,
           failed_at: S.optional(S.NullOr(S.String)),
@@ -655,7 +712,7 @@ function __c4(j: number): any {
           failure_reason: S.optional(S.NullOr(S.String)),
           fee_amount: S.optional(S.NullOr(S.Number)),
           id: S.String,
-          metadata: S.optional(S.NullOr(__S(4, __c1, 0))),
+          metadata: S.optional(S.NullOr(__S(8, __c2, 0))),
           notes: S.optional(S.NullOr(S.String)),
           object: S.String,
           origin_ledger_account_id: S.String,
@@ -663,17 +720,17 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "ListTransferResponseDataItem" });
     case 2:
-      return S.Array(__S(17, __c4, 1));
+      return S.Array(__S(21, __c5, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(18, __c4, 2),
-          page_info: __S(20, __c5, 0),
+          data: __S(22, __c5, 2),
+          page_info: __S(24, __c6, 0),
         }),
       ).annotate({ identifier: "ListTransferResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -686,7 +743,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "ListTransferResponsePageInfo" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -702,8 +759,8 @@ function __c6(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(25, __c6, 1),
-          page_info: __S(20, __c5, 0),
+          data: __S(29, __c7, 1),
+          page_info: __S(24, __c6, 0),
         }),
       ).annotate({ identifier: "ListTransferRecipientsResponse" });
   }

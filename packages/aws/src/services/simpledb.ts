@@ -192,7 +192,7 @@ export class RequestTimeout
       BoxUsage: /*@__PURE__*/ S.optional(S.String),
     },
     /*@__PURE__*/ T.HttpError(408),
-  ).pipe(C.withTimeoutError) {}
+  ).pipe(C.withTimeoutError, C.withRetryableError) {}
 export class TooManyRequestedAttributes
   extends /*@__PURE__*/ S.TaggedError<TooManyRequestedAttributes>()(
     "TooManyRequestedAttributes",

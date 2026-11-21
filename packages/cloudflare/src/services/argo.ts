@@ -39,6 +39,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -48,6 +50,8 @@ export class InvalidObjectIdentifier
     /*@__PURE__*/ S.TaggedError<InvalidObjectIdentifier>()("InvalidObjectIdentifier", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 7003 }],
   ) {}
@@ -57,6 +61,8 @@ export class NotAuthorized
     /*@__PURE__*/ S.TaggedError<NotAuthorized>()("NotAuthorized", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1015 }],
   ) {}
@@ -66,6 +72,8 @@ export class ZoneNotFound
     /*@__PURE__*/ S.TaggedError<ZoneNotFound>()("ZoneNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404, message: { includes: "Invalid or missing zone" } }],
   ) {}

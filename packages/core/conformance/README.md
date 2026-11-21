@@ -12,6 +12,7 @@ git submodule update --init --depth 1 -- packages/core/conformance/connect packa
 packages/core/conformance/run.sh            # both suites
 packages/core/conformance/run.sh protobuf   # or one
 packages/core/conformance/run.sh grpc
+pnpm test                                   # both, alongside the vitest tests, as CI's Test job does
 ```
 
 The first protobuf run builds `conformance_test_runner` from the submodule with CMake into the gitignored `.build/`. That takes a few minutes, and CMake fetches abseil and jsoncpp itself. The gRPC suite downloads the `connectconformance` release binary and checks it against the release's checksums.

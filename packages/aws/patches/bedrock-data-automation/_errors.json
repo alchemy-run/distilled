@@ -1,0 +1,26 @@
+{
+  "description": "Bedrock Data Automation: Error shapes the model does not declare, for the errors operations.json list (a shape with aws.codegen#synthetic matches its base wire error by message).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.bedrockdataautomation#LibraryIngestionJobsActive",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "ValidationException",
+            "message": {
+              "includes": "there are active ingestion jobs"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.amazonaws.bedrockdataautomation#ValidationException/members",
+      "path": "/shapes/com.amazonaws.bedrockdataautomation#LibraryIngestionJobsActive/members"
+    }
+  ]
+}

@@ -16,15 +16,17 @@ npm install @distilled.cloud/steel effect
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Steel from "@distilled.cloud/steel";
+import * as BrowserTools from "@distilled.cloud/steel/browser_tools";
+import * as Sessions from "@distilled.cloud/steel/sessions";
 
 const program = Effect.gen(function* () {
   // A one-shot scrape runs in a throwaway browser.
-  const page = yield* Steel.browserTools.scrape({ url: "https://example.com", format: ["markdown"] });
+  const page = yield* BrowserTools.scrape({ url: "https://example.com", format: ["markdown"] });
 
   // A session is a long-lived browser you drive over CDP: hand
   // `Redacted.value(session.websocketUrl)` to Playwright or Puppeteer.
-  const session = yield* Steel.sessions.createSession({ blockAds: true });
-  yield* Steel.sessions.releaseSession({ id: session.id });
+  const session = yield* Sessions.createSession({ blockAds: true });
+  yield* Sessions.releaseSession({ id: session.id });
 
   return { markdown: page.content.markdown, viewer: session.sessionViewerUrl };
 });
@@ -41,8 +43,9 @@ One module per API area: `sessions`, `browserTools`, `files`, `captchas`, `crede
 
 ```ts
 import * as Stream from "effect/Stream";
+import * as Sessions from "@distilled.cloud/steel/sessions";
 
-const live = yield* Steel.sessions.listSessions.items({ status: "live" }).pipe(Stream.runCollect);
+const live = yield* Sessions.listSessions.items({ status: "live" }).pipe(Stream.runCollect);
 ```
 
 `websocketUrl` and `debugUrl` come back `Redacted`: the first carries a session token that grants

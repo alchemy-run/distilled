@@ -1,0 +1,33 @@
+{
+  "description": "FSx: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.fsx#CopySnapshotAndUpdateVolume/errors/-",
+      "value": {
+        "target": "com.amazonaws.fsx#SourceSnapshotNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.fsx#CreateSnapshot/errors/-",
+      "value": {
+        "target": "com.amazonaws.fsx#SnapshotVolumeNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.fsx#RestoreVolumeFromSnapshot/errors/-",
+      "value": {
+        "target": "com.amazonaws.fsx#RestoreSnapshotNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.fsx#UpdateSnapshot/errors/-",
+      "value": {
+        "target": "com.amazonaws.fsx#UpdateSnapshotNotFound"
+      }
+    }
+  ]
+}

@@ -146,19 +146,19 @@ export class InternalException
     "InternalException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InternalFailureException
   extends /*@__PURE__*/ S.TaggedError<InternalFailureException>()(
     "InternalFailureException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
     "InternalServerException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InvalidAggregationException
   extends /*@__PURE__*/ S.TaggedError<InvalidAggregationException>()(
     "InvalidAggregationException",
@@ -194,7 +194,7 @@ export class LimitExceededException
     "LimitExceededException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(410),
-  ).pipe(C.withBadRequestError) {}
+  ).pipe(C.withBadRequestError, C.withThrottlingError, C.withRetryableError) {}
 export class MalformedPolicyException
   extends /*@__PURE__*/ S.TaggedError<MalformedPolicyException>()(
     "MalformedPolicyException",
@@ -246,7 +246,7 @@ export class ServiceUnavailableException
     "ServiceUnavailableException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(503),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class SqlParseException
   extends /*@__PURE__*/ S.TaggedError<SqlParseException>()(
     "SqlParseException",
@@ -264,7 +264,7 @@ export class ThrottlingException
     "ThrottlingException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+  ).pipe(C.withBadRequestError, C.withThrottlingError, C.withRetryableError) {}
 export class TopicRuleNotFound
   extends /*@__PURE__*/ S.TaggedError<TopicRuleNotFound>()(
     "TopicRuleNotFound",
@@ -17918,8 +17918,12 @@ function __c110(j: number): any {
           taskStatus: S.optional(S.String).pipe(T.HttpQuery("taskStatus")),
           maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
           nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-          startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(T.HttpQuery("startTime")),
-          endTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(T.HttpQuery("endTime")),
+          startTime: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
+            T.HttpQuery("startTime"),
+          ),
+          endTime: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
+            T.HttpQuery("endTime"),
+          ),
         }).pipe(
           T.all(
             T.Http({ method: "GET", uri: "/audit/mitigationactions/tasks" }),
@@ -17994,8 +17998,12 @@ function __c112(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(T.HttpQuery("startTime")),
-          endTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(T.HttpQuery("endTime")),
+          startTime: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
+            T.HttpQuery("startTime"),
+          ),
+          endTime: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
+            T.HttpQuery("endTime"),
+          ),
           taskType: S.optional(S.String).pipe(T.HttpQuery("taskType")),
           taskStatus: S.optional(S.String).pipe(T.HttpQuery("taskStatus")),
           nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
@@ -18298,10 +18306,10 @@ function __c123(j: number): any {
           taskId: S.optional(S.String).pipe(T.HttpQuery("taskId")),
           violationId: S.optional(S.String).pipe(T.HttpQuery("violationId")),
           thingName: S.optional(S.String).pipe(T.HttpQuery("thingName")),
-          startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          startTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("startTime"),
           ),
-          endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("endTime"),
           ),
           maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -18349,8 +18357,12 @@ function __c124(j: number): any {
         S.Struct({
           maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
           nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-          startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(T.HttpQuery("startTime")),
-          endTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(T.HttpQuery("endTime")),
+          startTime: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
+            T.HttpQuery("startTime"),
+          ),
+          endTime: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
+            T.HttpQuery("endTime"),
+          ),
         }).pipe(
           T.all(
             T.Http({ method: "GET", uri: "/detect/mitigationactions/tasks" }),
@@ -18672,8 +18684,12 @@ function __c135(j: number): any {
           metricName: S.String.pipe(T.HttpQuery("metricName")),
           dimensionName: S.optional(S.String).pipe(T.HttpQuery("dimensionName")),
           dimensionValueOperator: S.optional(S.String).pipe(T.HttpQuery("dimensionValueOperator")),
-          startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(T.HttpQuery("startTime")),
-          endTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(T.HttpQuery("endTime")),
+          startTime: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
+            T.HttpQuery("startTime"),
+          ),
+          endTime: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
+            T.HttpQuery("endTime"),
+          ),
           maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
           nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
         }).pipe(
@@ -19766,8 +19782,12 @@ function __c177(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(T.HttpQuery("startTime")),
-          endTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(T.HttpQuery("endTime")),
+          startTime: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
+            T.HttpQuery("startTime"),
+          ),
+          endTime: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
+            T.HttpQuery("endTime"),
+          ),
           thingName: S.optional(S.String).pipe(T.HttpQuery("thingName")),
           securityProfileName: S.optional(S.String).pipe(T.HttpQuery("securityProfileName")),
           behaviorCriteriaType: S.optional(S.String).pipe(T.HttpQuery("behaviorCriteriaType")),

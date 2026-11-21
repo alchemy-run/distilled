@@ -29,18 +29,32 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: SourceEditError | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(8, __c1, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: VersionConflict | string;
+}
 
 export interface CreateStreamlitAppRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -325,6 +339,20 @@ export interface UpdateStreamlitAppsPartialRequest {
   /** New memory (GB) allocation for the sandbox. */
   memory_gb?: number | undefined;
 }
+export interface SourceEditError {
+  /** Why the change could not be applied. */
+  detail: string;
+  /** Path of the file that caused the error, if any. */
+  path: string | null;
+  /** Zero-based index of the failed edit inside that file's edits, if any. */
+  edit_index: number | null;
+}
+export interface VersionConflict {
+  /** Why the change was refused. */
+  detail: string;
+  /** Active version number of the app. Read it and retry. */
+  current_version: number;
+}
 export type CreateStreamlitAppError = PosthogOpError;
 /** Create a streamlit app */
 export const createStreamlitApp: API.OperationMethod<
@@ -333,8 +361,8 @@ export const createStreamlitApp: API.OperationMethod<
   CreateStreamlitAppError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<CreateStreamlitAppRequest>,
-  output: __S(97, __c12, 1) as any as S.Schema<AppContract>,
+  input: __S(104, __c13, 0) as any as S.Schema<CreateStreamlitAppRequest>,
+  output: __S(113, __c14, 1) as any as S.Schema<AppContract>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -350,8 +378,8 @@ export const getStreamlitApp: API.OperationMethod<
   GetStreamlitAppError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<GetStreamlitAppRequest>,
-  output: __S(97, __c12, 1) as any as S.Schema<AppContract>,
+  input: __S(136, __c17, 0) as any as S.Schema<GetStreamlitAppRequest>,
+  output: __S(113, __c14, 1) as any as S.Schema<AppContract>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -367,8 +395,8 @@ export const getStreamlitAppsSource: API.OperationMethod<
   GetStreamlitAppsSourceError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<GetStreamlitAppsSourceRequest>,
-  output: __S(131, __c16, 3) as any as S.Schema<AppVersionSourceContract>,
+  input: __S(144, __c18, 0) as any as S.Schema<GetStreamlitAppsSourceRequest>,
+  output: __S(147, __c18, 3) as any as S.Schema<AppVersionSourceContract>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -384,8 +412,8 @@ export const getStreamlitAppsStatus: API.OperationMethod<
   GetStreamlitAppsStatusError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<GetStreamlitAppsStatusRequest>,
-  output: __S(137, __c17, 1) as any as S.Schema<StreamlitAppStatus>,
+  input: __S(152, __c19, 0) as any as S.Schema<GetStreamlitAppsStatusRequest>,
+  output: __S(153, __c19, 1) as any as S.Schema<StreamlitAppStatus>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -401,8 +429,8 @@ export const getStreamlitAppsVersion: API.OperationMethod<
   GetStreamlitAppsVersionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<GetStreamlitAppsVersionRequest>,
-  output: __S(146, __c18, 2) as any as S.Schema<StreamlitAppVersionList>,
+  input: __S(160, __c20, 0) as any as S.Schema<GetStreamlitAppsVersionRequest>,
+  output: __S(162, __c20, 2) as any as S.Schema<StreamlitAppVersionList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -418,8 +446,8 @@ export const listStreamlitApps: API.OperationMethod<
   ListStreamlitAppsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<ListStreamlitAppsRequest>,
-  output: __S(155, __c19, 3) as any as S.Schema<PaginatedAppSummaryContractList>,
+  input: __S(168, __c21, 0) as any as S.Schema<ListStreamlitAppsRequest>,
+  output: __S(171, __c21, 3) as any as S.Schema<PaginatedAppSummaryContractList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -435,8 +463,8 @@ export const streamlitAppsActivateVersionCreate: API.OperationMethod<
   StreamlitAppsActivateVersionCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<StreamlitAppsActivateVersionCreateRequest>,
-  output: __S(161, __c20, 1) as any as S.Schema<ActivateVersionResponse>,
+  input: __S(176, __c22, 0) as any as S.Schema<StreamlitAppsActivateVersionCreateRequest>,
+  output: __S(177, __c22, 1) as any as S.Schema<ActivateVersionResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -452,8 +480,8 @@ export const streamlitAppsConnectInfoRetrieve: API.OperationMethod<
   StreamlitAppsConnectInfoRetrieveError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<StreamlitAppsConnectInfoRetrieveRequest>,
-  output: __S(169, __c21, 1) as any as S.Schema<StreamlitConnectInfo>,
+  input: __S(184, __c23, 0) as any as S.Schema<StreamlitAppsConnectInfoRetrieveRequest>,
+  output: __S(185, __c23, 1) as any as S.Schema<StreamlitConnectInfo>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -469,8 +497,8 @@ export const streamlitAppsCreateVersionFromSourceCreate: API.OperationMethod<
   StreamlitAppsCreateVersionFromSourceCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<StreamlitAppsCreateVersionFromSourceCreateRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<AppVersionContract>,
+  input: __S(16, __c2, 0) as any as S.Schema<StreamlitAppsCreateVersionFromSourceCreateRequest>,
+  output: __S(128, __c16, 0) as any as S.Schema<AppVersionContract>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -486,8 +514,8 @@ export const streamlitAppsDestroy: API.OperationMethod<
   StreamlitAppsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<StreamlitAppsDestroyRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<StreamlitAppsDestroyResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<StreamlitAppsDestroyRequest>,
+  output: __S(40, __c5, 0) as any as S.Schema<StreamlitAppsDestroyResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -503,8 +531,8 @@ export const streamlitAppsEditSourceCreate: API.OperationMethod<
   StreamlitAppsEditSourceCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(37, __c4, 5) as any as S.Schema<StreamlitAppsEditSourceCreateRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<AppVersionContract>,
+  input: __S(53, __c6, 5) as any as S.Schema<StreamlitAppsEditSourceCreateRequest>,
+  output: __S(128, __c16, 0) as any as S.Schema<AppVersionContract>,
   errors: [BadRequest, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -520,8 +548,8 @@ export const streamlitAppsRestartCreate: API.OperationMethod<
   StreamlitAppsRestartCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<StreamlitAppsRestartCreateRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<StreamlitAppsRestartCreateResponse>,
+  input: __S(56, __c7, 0) as any as S.Schema<StreamlitAppsRestartCreateRequest>,
+  output: __S(40, __c5, 0) as any as S.Schema<StreamlitAppsRestartCreateResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -537,8 +565,8 @@ export const streamlitAppsStartCreate: API.OperationMethod<
   StreamlitAppsStartCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<StreamlitAppsStartCreateRequest>,
-  output: __S(97, __c12, 1) as any as S.Schema<AppContract>,
+  input: __S(64, __c8, 0) as any as S.Schema<StreamlitAppsStartCreateRequest>,
+  output: __S(113, __c14, 1) as any as S.Schema<AppContract>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -554,8 +582,8 @@ export const streamlitAppsStopCreate: API.OperationMethod<
   StreamlitAppsStopCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<StreamlitAppsStopCreateRequest>,
-  output: __S(97, __c12, 1) as any as S.Schema<AppContract>,
+  input: __S(72, __c9, 0) as any as S.Schema<StreamlitAppsStopCreateRequest>,
+  output: __S(113, __c14, 1) as any as S.Schema<AppContract>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -571,8 +599,8 @@ export const streamlitAppsUploadVersionCreate: API.OperationMethod<
   StreamlitAppsUploadVersionCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<StreamlitAppsUploadVersionCreateRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<AppVersionContract>,
+  input: __S(80, __c10, 0) as any as S.Schema<StreamlitAppsUploadVersionCreateRequest>,
+  output: __S(128, __c16, 0) as any as S.Schema<AppVersionContract>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -588,8 +616,8 @@ export const updateStreamlitApp: API.OperationMethod<
   UpdateStreamlitAppError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<UpdateStreamlitAppRequest>,
-  output: __S(97, __c12, 1) as any as S.Schema<AppContract>,
+  input: __S(88, __c11, 0) as any as S.Schema<UpdateStreamlitAppRequest>,
+  output: __S(113, __c14, 1) as any as S.Schema<AppContract>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -605,8 +633,8 @@ export const updateStreamlitAppsPartial: API.OperationMethod<
   UpdateStreamlitAppsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<UpdateStreamlitAppsPartialRequest>,
-  output: __S(97, __c12, 1) as any as S.Schema<AppContract>,
+  input: __S(96, __c12, 0) as any as S.Schema<UpdateStreamlitAppsPartialRequest>,
+  output: __S(113, __c14, 1) as any as S.Schema<AppContract>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -620,11 +648,34 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          detail: S.String,
+          path: S.NullOr(S.String),
+          edit_index: S.NullOr(S.Number),
+        }),
+      ).annotate({ identifier: "SourceEditError" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          detail: S.String,
+          current_version: S.Number,
+        }),
+      ).annotate({ identifier: "VersionConflict" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           project_id: S.String.pipe(T.Label()),
           short_id: S.String.pipe(T.Label()),
           source: S.String,
-          files: S.optional(__S(8, __c1, 0)),
-          assets: S.optional(__S(8, __c1, 0)),
+          files: S.optional(__S(24, __c3, 0)),
+          assets: S.optional(__S(24, __c3, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -635,13 +686,13 @@ function __c0(j: number): any {
       ).annotate({ identifier: "StreamlitAppsCreateVersionFromSourceCreateRequest" });
   }
 }
-function __c1(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c2(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -658,13 +709,13 @@ function __c2(j: number): any {
       ).annotate({ identifier: "StreamlitAppsDestroyRequest" });
   }
 }
-function __c3(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "StreamlitAppsDestroyResponse" });
   }
 }
-function __c4(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -674,16 +725,16 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "SourceTextEdit" });
     case 1:
-      return S.Array(__S(32, __c4, 0));
+      return S.Array(__S(48, __c6, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           path: S.String,
-          edits: __S(33, __c4, 1),
+          edits: __S(49, __c6, 1),
         }),
       ).annotate({ identifier: "SourceFileEdit" });
     case 3:
-      return S.Array(__S(34, __c4, 2));
+      return S.Array(__S(50, __c6, 2));
     case 4:
       return S.Array(S.String);
     case 5:
@@ -692,9 +743,9 @@ function __c4(j: number): any {
           project_id: S.String.pipe(T.Label()),
           short_id: S.String.pipe(T.Label()),
           base_version: S.Number,
-          file_edits: S.optional(__S(35, __c4, 3)),
-          create_files: S.optional(__S(8, __c1, 0)),
-          delete_files: S.optional(__S(36, __c4, 4)),
+          file_edits: S.optional(__S(51, __c6, 3)),
+          create_files: S.optional(__S(24, __c3, 0)),
+          delete_files: S.optional(__S(52, __c6, 4)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -705,7 +756,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "StreamlitAppsEditSourceCreateRequest" });
   }
 }
-function __c5(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -722,7 +773,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "StreamlitAppsRestartCreateRequest" });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -739,7 +790,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "StreamlitAppsStartCreateRequest" });
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -756,7 +807,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "StreamlitAppsStopCreateRequest" });
   }
 }
-function __c8(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -774,7 +825,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "StreamlitAppsUploadVersionCreateRequest" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -795,7 +846,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "UpdateStreamlitAppRequest" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -816,7 +867,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "UpdateStreamlitAppsPartialRequest" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -832,7 +883,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "CreateStreamlitAppRequest" });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -848,9 +899,9 @@ function __c12(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          created_by: S.optional(S.NullOr(__S(105, __c13, 1))),
-          active_version: S.optional(S.NullOr(__S(112, __c14, 0))),
-          sandbox: S.optional(S.NullOr(__S(96, __c12, 0))),
+          created_by: S.optional(S.NullOr(__S(121, __c15, 1))),
+          active_version: S.optional(S.NullOr(__S(128, __c16, 0))),
+          sandbox: S.optional(S.NullOr(__S(112, __c14, 0))),
           id: S.String,
           short_id: S.String,
           name: S.String,
@@ -864,7 +915,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "AppContract" });
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
@@ -878,18 +929,18 @@ function __c13(j: number): any {
           last_name: S.String,
           email: S.String,
           is_email_verified: S.NullOr(S.Boolean),
-          hedgehog_config: S.NullOr(__S(104, __c13, 0)),
+          hedgehog_config: S.NullOr(__S(120, __c15, 0)),
           role_at_organization: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "StreamlitAppUserInfo" });
   }
 }
-function __c14(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          created_by: S.optional(S.NullOr(__S(105, __c13, 1))),
+          created_by: S.optional(S.NullOr(__S(121, __c15, 1))),
           id: S.String,
           version_number: S.Number,
           zip_hash: S.String,
@@ -899,7 +950,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "AppVersionContract" });
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -916,7 +967,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GetStreamlitAppRequest" });
   }
 }
-function __c16(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -945,17 +996,17 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "AppSourceFileContract" });
     case 2:
-      return S.Array(__S(129, __c16, 1));
+      return S.Array(__S(145, __c18, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           version_number: S.Number,
-          files: __S(130, __c16, 2),
+          files: __S(146, __c18, 2),
         }),
       ).annotate({ identifier: "AppVersionSourceContract" });
   }
 }
-function __c17(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -983,7 +1034,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "StreamlitAppStatus" });
   }
 }
-function __c18(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -999,16 +1050,16 @@ function __c18(j: number): any {
         ),
       ).annotate({ identifier: "GetStreamlitAppsVersionRequest" });
     case 1:
-      return S.Array(__S(112, __c14, 0));
+      return S.Array(__S(128, __c16, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          results: __S(145, __c18, 1),
+          results: __S(161, __c20, 1),
         }),
       ).annotate({ identifier: "StreamlitAppVersionList" });
   }
 }
-function __c19(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1023,7 +1074,7 @@ function __c19(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          created_by: S.optional(S.NullOr(__S(105, __c13, 1))),
+          created_by: S.optional(S.NullOr(__S(121, __c15, 1))),
           id: S.String,
           short_id: S.String,
           name: S.String,
@@ -1036,19 +1087,19 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "AppSummaryContract" });
     case 2:
-      return S.Array(__S(153, __c19, 1));
+      return S.Array(__S(169, __c21, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(154, __c19, 2),
+          results: __S(170, __c21, 2),
         }),
       ).annotate({ identifier: "PaginatedAppSummaryContractList" });
   }
 }
-function __c20(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1067,12 +1118,12 @@ function __c20(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          active_version: __S(112, __c14, 0),
+          active_version: __S(128, __c16, 0),
         }),
       ).annotate({ identifier: "ActivateVersionResponse" });
   }
 }
-function __c21(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

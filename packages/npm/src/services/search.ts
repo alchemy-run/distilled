@@ -29,9 +29,16 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export interface SearchPackagesRequest {
   /** The search query text */
@@ -118,6 +125,12 @@ export interface SearchPackagesResponse {
   /** The current time */
   time?: string | undefined;
 }
+export interface Error400Body {
+  /** Message explaining what was missing from the request */
+  error?: string | undefined;
+  /** Error code for this response */
+  code?: string | undefined;
+}
 export type SearchPackagesError = BadRequest | NpmOpError;
 /** Search for packages on the registry Search for packages on the registry */
 export const searchPackages: API.OperationMethod<
@@ -126,8 +139,8 @@ export const searchPackages: API.OperationMethod<
   SearchPackagesError,
   NpmOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<SearchPackagesRequest>,
-  output: __S(11, __c0, 11) as any as S.Schema<SearchPackagesResponse>,
+  input: __S(16, __c1, 0) as any as S.Schema<SearchPackagesRequest>,
+  output: __S(27, __c1, 11) as any as S.Schema<SearchPackagesResponse>,
   errors: [BadRequest, UnknownNpmError],
   protocol: NpmProtocol,
   retry: Retry.Retry,
@@ -137,6 +150,17 @@ export const searchPackages: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          error: S.optional(S.String),
+          code: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Error400Body" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -163,7 +187,7 @@ function __c0(j: number): any {
         }),
       ).annotate({ identifier: "SearchPackagesResponseObjectsItemPackagePublisher" });
     case 4:
-      return S.Array(__S(3, __c0, 3));
+      return S.Array(__S(19, __c1, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -177,15 +201,15 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          keywords: S.optional(__S(2, __c0, 2)),
+          keywords: S.optional(__S(18, __c1, 2)),
           version: S.optional(S.String),
           description: S.optional(S.String),
           sanitized_name: S.optional(S.String),
-          publisher: S.optional(__S(3, __c0, 3)),
-          maintainers: S.optional(__S(4, __c0, 4)),
+          publisher: S.optional(__S(19, __c1, 3)),
+          maintainers: S.optional(__S(20, __c1, 4)),
           license: S.optional(S.String),
           date: S.optional(S.String),
-          links: S.optional(__S(5, __c0, 5)),
+          links: S.optional(__S(21, __c1, 5)),
         }),
       ).annotate({ identifier: "SearchPackagesResponseObjectsItemPackage" });
     case 7:
@@ -204,21 +228,21 @@ function __c0(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          downloads: S.optional(__S(1, __c0, 1)),
+          downloads: S.optional(__S(17, __c1, 1)),
           dependents: S.optional(S.Number),
           updated: S.optional(S.String),
           searchScore: S.optional(S.Number),
-          package: S.optional(__S(6, __c0, 6)),
-          score: S.optional(__S(7, __c0, 7)),
-          flags: S.optional(__S(8, __c0, 8)),
+          package: S.optional(__S(22, __c1, 6)),
+          score: S.optional(__S(23, __c1, 7)),
+          flags: S.optional(__S(24, __c1, 8)),
         }),
       ).annotate({ identifier: "SearchPackagesResponseObjectsItem" });
     case 10:
-      return S.Array(__S(9, __c0, 9));
+      return S.Array(__S(25, __c1, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          objects: S.optional(__S(10, __c0, 10)),
+          objects: S.optional(__S(26, __c1, 10)),
           total: S.optional(S.Number),
           time: S.optional(S.String),
         }),

@@ -1,0 +1,12 @@
+{
+  "description": "GetClusterKubeConfig answers the cluster's kubeconfig as a scaleway.std.File whose `content` (base64) embeds the cluster's admin token (https://www.scaleway.com/en/developers/api/kubernetes/). The same File message carries GetUserData's content, which holds node bootstrap data; both are marked sensitive.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.k8s_v1#ScalewayStdFile/members/content/traits",
+      "value": {
+        "smithy.api#sensitive": {}
+      }
+    }
+  ]
+}

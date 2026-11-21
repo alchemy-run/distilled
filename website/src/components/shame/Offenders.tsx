@@ -12,7 +12,6 @@ const OP_LABELS: Record<string, string> = {
   move: "moved",
   copy: "copied",
   test: "tested",
-  declare: "declared",
   other: "other",
 };
 

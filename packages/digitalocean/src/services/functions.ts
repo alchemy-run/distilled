@@ -34,36 +34,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorMessage | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorMessage | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorMessage | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorMessage | string;
+}
 
 export interface DeleteActionRequest {
   /** The entity namespace */
@@ -784,6 +812,10 @@ export interface UpdateWebRequest {
   extension: string;
 }
 export interface UpdateWebResponse {}
+export interface ErrorMessage {
+  error: string;
+  code?: string | undefined;
+}
 export type DeleteActionError = BadRequest | Forbidden | NotFound | Conflict | DigitalOceanOpError;
 /** Delete an action Delete an action */
 export const deleteAction: API.OperationMethod<
@@ -792,8 +824,8 @@ export const deleteAction: API.OperationMethod<
   DeleteActionError,
   FunctionsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(296, __c37, 0) as any as S.Schema<DeleteActionRequest>,
-  output: __S(304, __c38, 0) as any as S.Schema<DeleteActionResponse>,
+  input: __S(304, __c38, 0) as any as S.Schema<DeleteActionRequest>,
+  output: __S(312, __c39, 0) as any as S.Schema<DeleteActionResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDigitalOceanError],
   protocol: FunctionsProtocol,
   retry: Retry.Retry,
@@ -814,8 +846,8 @@ export const deleteActionInPackage: API.OperationMethod<
   DeleteActionInPackageError,
   FunctionsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(312, __c39, 0) as any as S.Schema<DeleteActionInPackageRequest>,
-  output: __S(304, __c38, 0) as any as S.Schema<DeleteActionInPackageResponse>,
+  input: __S(320, __c40, 0) as any as S.Schema<DeleteActionInPackageRequest>,
+  output: __S(312, __c39, 0) as any as S.Schema<DeleteActionInPackageResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDigitalOceanError],
   protocol: FunctionsProtocol,
   retry: Retry.Retry,
@@ -831,8 +863,8 @@ export const deletePackage: API.OperationMethod<
   DeletePackageError,
   FunctionsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c40, 0) as any as S.Schema<DeletePackageRequest>,
-  output: __S(304, __c38, 0) as any as S.Schema<DeletePackageResponse>,
+  input: __S(328, __c41, 0) as any as S.Schema<DeletePackageRequest>,
+  output: __S(312, __c39, 0) as any as S.Schema<DeletePackageResponse>,
   errors: [NotFound, Conflict, UnknownDigitalOceanError],
   protocol: FunctionsProtocol,
   retry: Retry.Retry,
@@ -848,8 +880,8 @@ export const deleteRule: API.OperationMethod<
   DeleteRuleError,
   FunctionsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(328, __c41, 0) as any as S.Schema<DeleteRuleRequest>,
-  output: __S(304, __c38, 0) as any as S.Schema<DeleteRuleResponse>,
+  input: __S(336, __c42, 0) as any as S.Schema<DeleteRuleRequest>,
+  output: __S(312, __c39, 0) as any as S.Schema<DeleteRuleResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: FunctionsProtocol,
   retry: Retry.Retry,
@@ -865,8 +897,8 @@ export const deleteTrigger: API.OperationMethod<
   DeleteTriggerError,
   FunctionsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c42, 0) as any as S.Schema<DeleteTriggerRequest>,
-  output: __S(304, __c38, 0) as any as S.Schema<DeleteTriggerResponse>,
+  input: __S(344, __c43, 0) as any as S.Schema<DeleteTriggerRequest>,
+  output: __S(312, __c39, 0) as any as S.Schema<DeleteTriggerResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: FunctionsProtocol,
   retry: Retry.Retry,
@@ -881,8 +913,8 @@ export const deleteWeb: API.OperationMethod<
   DeleteWebError,
   FunctionsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(344, __c43, 0) as any as S.Schema<DeleteWebRequest>,
-  output: __S(304, __c38, 0) as any as S.Schema<DeleteWebResponse>,
+  input: __S(352, __c44, 0) as any as S.Schema<DeleteWebRequest>,
+  output: __S(312, __c39, 0) as any as S.Schema<DeleteWebResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: FunctionsProtocol,
   retry: Retry.Retry,
@@ -898,8 +930,8 @@ export const getActionByName: API.OperationMethod<
   GetActionByNameError,
   FunctionsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetActionByNameRequest>,
-  output: __S(33, __c4, 1) as any as S.Schema<Action>,
+  input: __S(8, __c1, 0) as any as S.Schema<GetActionByNameRequest>,
+  output: __S(41, __c5, 1) as any as S.Schema<Action>,
   errors: [Forbidden, NotFound, UnknownDigitalOceanError],
   protocol: FunctionsProtocol,
   retry: Retry.Retry,
@@ -915,8 +947,8 @@ export const getActionInPackageByName: API.OperationMethod<
   GetActionInPackageByNameError,
   FunctionsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<GetActionInPackageByNameRequest>,
-  output: __S(33, __c4, 1) as any as S.Schema<Action>,
+  input: __S(48, __c6, 0) as any as S.Schema<GetActionInPackageByNameRequest>,
+  output: __S(41, __c5, 1) as any as S.Schema<Action>,
   errors: [Forbidden, NotFound, UnknownDigitalOceanError],
   protocol: FunctionsProtocol,
   retry: Retry.Retry,
@@ -932,8 +964,8 @@ export const getActivationById: API.OperationMethod<
   GetActivationByIdError,
   FunctionsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<GetActivationByIdRequest>,
-  output: __S(64, __c8, 0) as any as S.Schema<Activation>,
+  input: __S(56, __c7, 0) as any as S.Schema<GetActivationByIdRequest>,
+  output: __S(72, __c9, 0) as any as S.Schema<Activation>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: FunctionsProtocol,
   retry: Retry.Retry,
@@ -949,8 +981,8 @@ export const getActivationLogs: API.OperationMethod<
   GetActivationLogsError,
   FunctionsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<GetActivationLogsRequest>,
-  output: __S(73, __c9, 1) as any as S.Schema<ActivationLogs>,
+  input: __S(80, __c10, 0) as any as S.Schema<GetActivationLogsRequest>,
+  output: __S(81, __c10, 1) as any as S.Schema<ActivationLogs>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: FunctionsProtocol,
   retry: Retry.Retry,
@@ -966,8 +998,8 @@ export const getActivationResult: API.OperationMethod<
   GetActivationResultError,
   FunctionsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<GetActivationResultRequest>,
-  output: __S(56, __c7, 0) as any as S.Schema<ActivationResult>,
+  input: __S(88, __c11, 0) as any as S.Schema<GetActivationResultRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<ActivationResult>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: FunctionsProtocol,
   retry: Retry.Retry,
@@ -983,8 +1015,8 @@ export const getActivations: API.OperationMethod<
   GetActivationsError,
   FunctionsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<GetActivationsRequest>,
-  output: __S(91, __c11, 3) as any as S.Schema<GetActivationsResponse>,
+  input: __S(96, __c12, 0) as any as S.Schema<GetActivationsRequest>,
+  output: __S(99, __c12, 3) as any as S.Schema<GetActivationsResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: FunctionsProtocol,
   retry: Retry.Retry,
@@ -1000,8 +1032,8 @@ export const getAllActions: API.OperationMethod<
   GetAllActionsError,
   FunctionsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<GetAllActionsRequest>,
-  output: __S(100, __c12, 4) as any as S.Schema<GetAllActionsResponse>,
+  input: __S(104, __c13, 0) as any as S.Schema<GetAllActionsRequest>,
+  output: __S(108, __c13, 4) as any as S.Schema<GetAllActionsResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: FunctionsProtocol,
   retry: Retry.Retry,
@@ -1017,8 +1049,8 @@ export const getAllNamespaces: API.OperationMethod<
   GetAllNamespacesError,
   FunctionsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<GetAllNamespacesRequest>,
-  output: __S(105, __c13, 1) as any as S.Schema<GetAllNamespacesResponse>,
+  input: __S(112, __c14, 0) as any as S.Schema<GetAllNamespacesRequest>,
+  output: __S(113, __c14, 1) as any as S.Schema<GetAllNamespacesResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: FunctionsProtocol,
   retry: Retry.Retry,
@@ -1034,8 +1066,8 @@ export const getAllPackages: API.OperationMethod<
   GetAllPackagesError,
   FunctionsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<GetAllPackagesRequest>,
-  output: __S(114, __c14, 2) as any as S.Schema<GetAllPackagesResponse>,
+  input: __S(120, __c15, 0) as any as S.Schema<GetAllPackagesRequest>,
+  output: __S(122, __c15, 2) as any as S.Schema<GetAllPackagesResponse>,
   errors: [Forbidden, UnknownDigitalOceanError],
   protocol: FunctionsProtocol,
   retry: Retry.Retry,
@@ -1051,8 +1083,8 @@ export const getAllRules: API.OperationMethod<
   GetAllRulesError,
   FunctionsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<GetAllRulesRequest>,
-  output: __S(131, __c16, 3) as any as S.Schema<GetAllRulesResponse>,
+  input: __S(136, __c17, 0) as any as S.Schema<GetAllRulesRequest>,
+  output: __S(139, __c17, 3) as any as S.Schema<GetAllRulesResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: FunctionsProtocol,
   retry: Retry.Retry,
@@ -1068,8 +1100,8 @@ export const getAllTriggers: API.OperationMethod<
   GetAllTriggersError,
   FunctionsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<GetAllTriggersRequest>,
-  output: __S(147, __c18, 3) as any as S.Schema<GetAllTriggersResponse>,
+  input: __S(152, __c19, 0) as any as S.Schema<GetAllTriggersRequest>,
+  output: __S(155, __c19, 3) as any as S.Schema<GetAllTriggersResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: FunctionsProtocol,
   retry: Retry.Retry,
@@ -1085,8 +1117,8 @@ export const getLimits: API.OperationMethod<
   GetLimitsError,
   FunctionsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<GetLimitsRequest>,
-  output: __S(153, __c19, 1) as any as S.Schema<UserLimits>,
+  input: __S(160, __c20, 0) as any as S.Schema<GetLimitsRequest>,
+  output: __S(161, __c20, 1) as any as S.Schema<UserLimits>,
   errors: [UnknownDigitalOceanError],
   protocol: FunctionsProtocol,
   retry: Retry.Retry,
@@ -1102,8 +1134,8 @@ export const getPackageByName: API.OperationMethod<
   GetPackageByNameError,
   FunctionsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<GetPackageByNameRequest>,
-  output: __S(124, __c15, 4) as any as S.Schema<Package>,
+  input: __S(168, __c21, 0) as any as S.Schema<GetPackageByNameRequest>,
+  output: __S(132, __c16, 4) as any as S.Schema<Package>,
   errors: [Forbidden, NotFound, Conflict, UnknownDigitalOceanError],
   protocol: FunctionsProtocol,
   retry: Retry.Retry,
@@ -1119,8 +1151,8 @@ export const getRuleByName: API.OperationMethod<
   GetRuleByNameError,
   FunctionsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<GetRuleByNameRequest>,
-  output: __S(176, __c22, 0) as any as S.Schema<Rule>,
+  input: __S(176, __c22, 0) as any as S.Schema<GetRuleByNameRequest>,
+  output: __S(184, __c23, 0) as any as S.Schema<Rule>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: FunctionsProtocol,
   retry: Retry.Retry,
@@ -1136,8 +1168,8 @@ export const getTriggerByName: API.OperationMethod<
   GetTriggerByNameError,
   FunctionsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<GetTriggerByNameRequest>,
-  output: __S(192, __c24, 0) as any as S.Schema<Trigger>,
+  input: __S(192, __c24, 0) as any as S.Schema<GetTriggerByNameRequest>,
+  output: __S(200, __c25, 0) as any as S.Schema<Trigger>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: FunctionsProtocol,
   retry: Retry.Retry,
@@ -1152,8 +1184,8 @@ export const getWeb: API.OperationMethod<
   GetWebError,
   FunctionsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<GetWebRequest>,
-  output: __S(304, __c38, 0) as any as S.Schema<GetWebResponse>,
+  input: __S(208, __c26, 0) as any as S.Schema<GetWebRequest>,
+  output: __S(312, __c39, 0) as any as S.Schema<GetWebResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: FunctionsProtocol,
   retry: Retry.Retry,
@@ -1169,8 +1201,8 @@ export const invokeAction: API.OperationMethod<
   InvokeActionError,
   FunctionsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(209, __c26, 1) as any as S.Schema<InvokeActionRequest>,
-  output: __S(64, __c8, 0) as any as S.Schema<Activation>,
+  input: __S(217, __c27, 1) as any as S.Schema<InvokeActionRequest>,
+  output: __S(72, __c9, 0) as any as S.Schema<Activation>,
   errors: [Forbidden, NotFound, UnknownDigitalOceanError],
   protocol: FunctionsProtocol,
   retry: Retry.Retry,
@@ -1186,8 +1218,8 @@ export const invokeActionInPackage: API.OperationMethod<
   InvokeActionInPackageError,
   FunctionsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<InvokeActionInPackageRequest>,
-  output: __S(304, __c38, 0) as any as S.Schema<InvokeActionInPackageResponse>,
+  input: __S(224, __c28, 0) as any as S.Schema<InvokeActionInPackageRequest>,
+  output: __S(312, __c39, 0) as any as S.Schema<InvokeActionInPackageResponse>,
   errors: [Forbidden, NotFound, UnknownDigitalOceanError],
   protocol: FunctionsProtocol,
   retry: Retry.Retry,
@@ -1202,8 +1234,8 @@ export const putWeb: API.OperationMethod<
   PutWebError,
   FunctionsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c28, 0) as any as S.Schema<PutWebRequest>,
-  output: __S(304, __c38, 0) as any as S.Schema<PutWebResponse>,
+  input: __S(232, __c29, 0) as any as S.Schema<PutWebRequest>,
+  output: __S(312, __c39, 0) as any as S.Schema<PutWebResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: FunctionsProtocol,
   retry: Retry.Retry,
@@ -1219,8 +1251,8 @@ export const setState: API.OperationMethod<
   SetStateError,
   FunctionsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<SetStateRequest>,
-  output: __S(304, __c38, 0) as any as S.Schema<SetStateResponse>,
+  input: __S(240, __c30, 0) as any as S.Schema<SetStateRequest>,
+  output: __S(312, __c39, 0) as any as S.Schema<SetStateResponse>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: FunctionsProtocol,
   retry: Retry.Retry,
@@ -1236,8 +1268,8 @@ export const triggerFire: API.OperationMethod<
   TriggerFireError,
   FunctionsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c30, 0) as any as S.Schema<TriggerFireRequest>,
-  output: __S(241, __c30, 1) as any as S.Schema<ActivationId>,
+  input: __S(248, __c31, 0) as any as S.Schema<TriggerFireRequest>,
+  output: __S(249, __c31, 1) as any as S.Schema<ActivationId>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: FunctionsProtocol,
   retry: Retry.Retry,
@@ -1253,8 +1285,8 @@ export const updateAction: API.OperationMethod<
   UpdateActionError,
   FunctionsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(248, __c31, 0) as any as S.Schema<UpdateActionRequest>,
-  output: __S(33, __c4, 1) as any as S.Schema<Action>,
+  input: __S(256, __c32, 0) as any as S.Schema<UpdateActionRequest>,
+  output: __S(41, __c5, 1) as any as S.Schema<Action>,
   errors: [BadRequest, Forbidden, Conflict, UnknownDigitalOceanError],
   protocol: FunctionsProtocol,
   retry: Retry.Retry,
@@ -1270,8 +1302,8 @@ export const updateActionInPackage: API.OperationMethod<
   UpdateActionInPackageError,
   FunctionsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c32, 0) as any as S.Schema<UpdateActionInPackageRequest>,
-  output: __S(33, __c4, 1) as any as S.Schema<Action>,
+  input: __S(264, __c33, 0) as any as S.Schema<UpdateActionInPackageRequest>,
+  output: __S(41, __c5, 1) as any as S.Schema<Action>,
   errors: [BadRequest, Forbidden, Conflict, UnknownDigitalOceanError],
   protocol: FunctionsProtocol,
   retry: Retry.Retry,
@@ -1287,8 +1319,8 @@ export const updatePackage: API.OperationMethod<
   UpdatePackageError,
   FunctionsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(264, __c33, 0) as any as S.Schema<UpdatePackageRequest>,
-  output: __S(124, __c15, 4) as any as S.Schema<Package>,
+  input: __S(272, __c34, 0) as any as S.Schema<UpdatePackageRequest>,
+  output: __S(132, __c16, 4) as any as S.Schema<Package>,
   errors: [BadRequest, Forbidden, Conflict, UnknownDigitalOceanError],
   protocol: FunctionsProtocol,
   retry: Retry.Retry,
@@ -1304,8 +1336,8 @@ export const updateRule: API.OperationMethod<
   UpdateRuleError,
   FunctionsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<UpdateRuleRequest>,
-  output: __S(176, __c22, 0) as any as S.Schema<Rule>,
+  input: __S(280, __c35, 0) as any as S.Schema<UpdateRuleRequest>,
+  output: __S(184, __c23, 0) as any as S.Schema<Rule>,
   errors: [BadRequest, NotFound, Conflict, UnknownDigitalOceanError],
   protocol: FunctionsProtocol,
   retry: Retry.Retry,
@@ -1321,8 +1353,8 @@ export const updateTrigger: API.OperationMethod<
   UpdateTriggerError,
   FunctionsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(280, __c35, 0) as any as S.Schema<UpdateTriggerRequest>,
-  output: __S(192, __c24, 0) as any as S.Schema<Trigger>,
+  input: __S(288, __c36, 0) as any as S.Schema<UpdateTriggerRequest>,
+  output: __S(200, __c25, 0) as any as S.Schema<Trigger>,
   errors: [BadRequest, Conflict, UnknownDigitalOceanError],
   protocol: FunctionsProtocol,
   retry: Retry.Retry,
@@ -1337,8 +1369,8 @@ export const updateWeb: API.OperationMethod<
   UpdateWebError,
   FunctionsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c36, 0) as any as S.Schema<UpdateWebRequest>,
-  output: __S(304, __c38, 0) as any as S.Schema<UpdateWebResponse>,
+  input: __S(296, __c37, 0) as any as S.Schema<UpdateWebRequest>,
+  output: __S(312, __c39, 0) as any as S.Schema<UpdateWebResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: FunctionsProtocol,
   retry: Retry.Retry,
@@ -1348,6 +1380,17 @@ export const updateWeb: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          error: S.String,
+          code: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ErrorMessage" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1365,13 +1408,13 @@ function __c0(j: number): any {
       ).annotate({ identifier: "GetActionByNameRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1381,10 +1424,10 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "KeyValue" });
     case 1:
-      return S.Array(__S(16, __c2, 0));
+      return S.Array(__S(24, __c3, 0));
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1398,7 +1441,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "ActionLimits" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1408,7 +1451,7 @@ function __c4(j: number): any {
           image: S.optional(S.String),
           main: S.optional(S.String),
           binary: S.optional(S.Boolean),
-          components: S.optional(__S(8, __c1, 0)),
+          components: S.optional(__S(16, __c2, 0)),
         }),
       ).annotate({ identifier: "ActionExec" });
     case 1:
@@ -1418,16 +1461,16 @@ function __c4(j: number): any {
           name: S.String,
           version: S.String,
           publish: S.Boolean,
-          exec: __S(32, __c4, 0),
-          annotations: S.optional(__S(17, __c2, 1)),
-          parameters: S.optional(__S(17, __c2, 1)),
-          limits: __S(24, __c3, 0),
+          exec: __S(40, __c5, 0),
+          annotations: S.optional(__S(25, __c3, 1)),
+          parameters: S.optional(__S(25, __c3, 1)),
+          limits: __S(32, __c4, 0),
           updated: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Action" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1446,7 +1489,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GetActionInPackageByNameRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1463,7 +1506,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GetActivationByIdRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1476,7 +1519,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "ActivationResult" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1485,21 +1528,21 @@ function __c8(j: number): any {
           name: S.String,
           version: S.String,
           publish: S.Boolean,
-          annotations: S.optional(__S(17, __c2, 1)),
+          annotations: S.optional(__S(25, __c3, 1)),
           subject: S.String,
           activationId: S.String,
           start: S.Number,
           end: S.optional(S.Number),
           duration: S.optional(S.Number),
-          response: __S(56, __c7, 0),
-          logs: __S(8, __c1, 0),
+          response: __S(64, __c8, 0),
+          logs: __S(16, __c2, 0),
           cause: S.optional(S.String),
           statusCode: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Activation" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1517,12 +1560,12 @@ function __c9(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          logs: S.optional(__S(8, __c1, 0)),
+          logs: S.optional(__S(16, __c2, 0)),
         }),
       ).annotate({ identifier: "ActivationLogs" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1539,7 +1582,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetActivationResultRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1562,7 +1605,7 @@ function __c11(j: number): any {
           name: S.String,
           version: S.String,
           publish: S.Boolean,
-          annotations: S.optional(__S(17, __c2, 1)),
+          annotations: S.optional(__S(25, __c3, 1)),
           activationId: S.String,
           start: S.Number,
           end: S.optional(S.Number),
@@ -1572,14 +1615,14 @@ function __c11(j: number): any {
         }),
       ).annotate({ identifier: "ActivationBrief" });
     case 2:
-      return S.Array(__S(89, __c11, 1));
+      return S.Array(__S(97, __c12, 1));
     case 3:
-      return S.suspend(() => __S(90, __c11, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(98, __c12, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetActivationsResponse",
       });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1604,33 +1647,33 @@ function __c12(j: number): any {
           name: S.String,
           version: S.String,
           publish: S.Boolean,
-          exec: __S(97, __c12, 1),
-          annotations: S.optional(__S(17, __c2, 1)),
-          limits: __S(24, __c3, 0),
+          exec: __S(105, __c13, 1),
+          annotations: S.optional(__S(25, __c3, 1)),
+          limits: __S(32, __c4, 0),
           updated: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ActionMeta" });
     case 3:
-      return S.Array(__S(98, __c12, 2));
+      return S.Array(__S(106, __c13, 2));
     case 4:
-      return S.suspend(() => __S(99, __c12, 3).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(107, __c13, 3).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetAllActionsResponse",
       });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v1/namespaces", code: 200 })),
       ).annotate({ identifier: "GetAllNamespacesRequest" });
     case 1:
-      return S.suspend(() => __S(8, __c1, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(16, __c2, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetAllNamespacesResponse",
       });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1644,14 +1687,14 @@ function __c14(j: number): any {
         ),
       ).annotate({ identifier: "GetAllPackagesRequest" });
     case 1:
-      return S.Array(__S(124, __c15, 4));
+      return S.Array(__S(132, __c16, 4));
     case 2:
-      return S.suspend(() => __S(113, __c14, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(121, __c15, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetAllPackagesResponse",
       });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1665,12 +1708,12 @@ function __c15(j: number): any {
         S.Struct({
           name: S.String,
           version: S.String,
-          annotations: S.optional(__S(17, __c2, 1)),
-          parameters: S.optional(__S(17, __c2, 1)),
+          annotations: S.optional(__S(25, __c3, 1)),
+          parameters: S.optional(__S(25, __c3, 1)),
         }),
       ).annotate({ identifier: "PackageAction" });
     case 2:
-      return S.Array(__S(121, __c15, 1));
+      return S.Array(__S(129, __c16, 1));
     case 3:
       return S.Array(S.Unknown);
     case 4:
@@ -1680,17 +1723,17 @@ function __c15(j: number): any {
           name: S.String,
           version: S.String,
           publish: S.Boolean,
-          annotations: S.optional(__S(17, __c2, 1)),
-          parameters: S.optional(__S(17, __c2, 1)),
-          binding: S.optional(__S(120, __c15, 0)),
-          actions: S.optional(__S(122, __c15, 2)),
-          feeds: S.optional(__S(123, __c15, 3)),
+          annotations: S.optional(__S(25, __c3, 1)),
+          parameters: S.optional(__S(25, __c3, 1)),
+          binding: S.optional(__S(128, __c16, 0)),
+          actions: S.optional(__S(130, __c16, 2)),
+          feeds: S.optional(__S(131, __c16, 3)),
           updated: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Package" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1707,21 +1750,21 @@ function __c16(j: number): any {
           name: S.String,
           version: S.String,
           publish: S.Boolean,
-          annotations: S.optional(__S(17, __c2, 1)),
+          annotations: S.optional(__S(25, __c3, 1)),
           updated: S.optional(S.Number),
-          trigger: __S(136, __c17, 0),
-          action: __S(136, __c17, 0),
+          trigger: __S(144, __c18, 0),
+          action: __S(144, __c18, 0),
         }),
       ).annotate({ identifier: "RuleMeta" });
     case 2:
-      return S.Array(__S(129, __c16, 1));
+      return S.Array(__S(137, __c17, 1));
     case 3:
-      return S.suspend(() => __S(130, __c16, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(138, __c17, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetAllRulesResponse",
       });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1732,7 +1775,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "PathName" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1751,19 +1794,19 @@ function __c18(j: number): any {
           name: S.String,
           version: S.String,
           publish: S.Boolean,
-          annotations: S.optional(__S(17, __c2, 1)),
+          annotations: S.optional(__S(25, __c3, 1)),
           updated: S.optional(S.Number),
         }),
       ).annotate({ identifier: "TriggerMeta" });
     case 2:
-      return S.Array(__S(145, __c18, 1));
+      return S.Array(__S(153, __c19, 1));
     case 3:
-      return S.suspend(() => __S(146, __c18, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(154, __c19, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetAllTriggersResponse",
       });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1777,7 +1820,7 @@ function __c19(j: number): any {
           invocationsPerMinute: S.optional(S.Number),
           concurrentInvocations: S.optional(S.Number),
           firesPerMinute: S.optional(S.Number),
-          allowedKinds: S.optional(__S(8, __c1, 0)),
+          allowedKinds: S.optional(__S(16, __c2, 0)),
           storeActivations: S.optional(S.Boolean),
           maxParameterSize: S.optional(S.String),
           minActionMemory: S.optional(S.Number),
@@ -1793,7 +1836,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "UserLimits" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1810,7 +1853,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "GetPackageByNameRequest" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1827,7 +1870,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "GetRuleByNameRequest" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1836,16 +1879,16 @@ function __c22(j: number): any {
           name: S.String,
           version: S.String,
           publish: S.Boolean,
-          annotations: S.optional(__S(17, __c2, 1)),
+          annotations: S.optional(__S(25, __c3, 1)),
           status: S.optional(S.String),
           updated: S.optional(S.Number),
-          trigger: __S(136, __c17, 0),
-          action: __S(136, __c17, 0),
+          trigger: __S(144, __c18, 0),
+          action: __S(144, __c18, 0),
         }),
       ).annotate({ identifier: "Rule" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1862,7 +1905,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "GetTriggerByNameRequest" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1871,8 +1914,8 @@ function __c24(j: number): any {
           name: S.String,
           version: S.String,
           publish: S.Boolean,
-          annotations: S.optional(__S(17, __c2, 1)),
-          parameters: S.optional(__S(17, __c2, 1)),
+          annotations: S.optional(__S(25, __c3, 1)),
+          parameters: S.optional(__S(25, __c3, 1)),
           limits: S.optional(S.Unknown),
           rules: S.optional(S.Unknown),
           updated: S.optional(S.Number),
@@ -1880,7 +1923,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "Trigger" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1899,7 +1942,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "GetWebRequest" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
@@ -1911,7 +1954,7 @@ function __c26(j: number): any {
           blocking: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
           result: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
           timeout: S.optional(S.Number.pipe(T.Query())),
-          params: S.optional(__S(208, __c26, 0).pipe(T.HttpBody())),
+          params: S.optional(__S(216, __c27, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1922,7 +1965,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "InvokeActionRequest" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1943,7 +1986,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "InvokeActionInPackageRequest" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1962,7 +2005,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "PutWebRequest" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1980,7 +2023,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "SetStateRequest" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2003,7 +2046,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "ActivationId" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2014,11 +2057,11 @@ function __c31(j: number): any {
           name: S.optional(S.String),
           version: S.optional(S.String),
           publish: S.optional(S.Boolean),
-          exec: S.optional(__S(32, __c4, 0)),
-          annotations: S.optional(__S(17, __c2, 1)),
-          delAnnotations: S.optional(__S(8, __c1, 0)),
-          parameters: S.optional(__S(17, __c2, 1)),
-          limits: S.optional(__S(24, __c3, 0)),
+          exec: S.optional(__S(40, __c5, 0)),
+          annotations: S.optional(__S(25, __c3, 1)),
+          delAnnotations: S.optional(__S(16, __c2, 0)),
+          parameters: S.optional(__S(25, __c3, 1)),
+          limits: S.optional(__S(32, __c4, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -2029,7 +2072,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "UpdateActionRequest" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2041,11 +2084,11 @@ function __c32(j: number): any {
           name: S.optional(S.String),
           version: S.optional(S.String),
           publish: S.optional(S.Boolean),
-          exec: S.optional(__S(32, __c4, 0)),
-          annotations: S.optional(__S(17, __c2, 1)),
-          delAnnotations: S.optional(__S(8, __c1, 0)),
-          parameters: S.optional(__S(17, __c2, 1)),
-          limits: S.optional(__S(24, __c3, 0)),
+          exec: S.optional(__S(40, __c5, 0)),
+          annotations: S.optional(__S(25, __c3, 1)),
+          delAnnotations: S.optional(__S(16, __c2, 0)),
+          parameters: S.optional(__S(25, __c3, 1)),
+          limits: S.optional(__S(32, __c4, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -2056,7 +2099,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "UpdateActionInPackageRequest" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2067,9 +2110,9 @@ function __c33(j: number): any {
           name: S.optional(S.String),
           version: S.optional(S.String),
           publish: S.optional(S.Boolean),
-          annotations: S.optional(__S(17, __c2, 1)),
-          parameters: S.optional(__S(17, __c2, 1)),
-          binding: S.optional(__S(120, __c15, 0)),
+          annotations: S.optional(__S(25, __c3, 1)),
+          parameters: S.optional(__S(25, __c3, 1)),
+          binding: S.optional(__S(128, __c16, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -2080,7 +2123,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "UpdatePackageRequest" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2091,7 +2134,7 @@ function __c34(j: number): any {
           name: S.optional(S.String),
           version: S.optional(S.String),
           publish: S.optional(S.Boolean),
-          annotations: S.optional(__S(17, __c2, 1)),
+          annotations: S.optional(__S(25, __c3, 1)),
           status: S.optional(S.String),
           trigger: S.optional(S.String),
           action: S.optional(S.String),
@@ -2105,7 +2148,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "UpdateRuleRequest" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2116,8 +2159,8 @@ function __c35(j: number): any {
           name: S.optional(S.String),
           version: S.optional(S.String),
           publish: S.optional(S.Boolean),
-          annotations: S.optional(__S(17, __c2, 1)),
-          parameters: S.optional(__S(17, __c2, 1)),
+          annotations: S.optional(__S(25, __c3, 1)),
+          parameters: S.optional(__S(25, __c3, 1)),
           limits: S.optional(S.Unknown),
         }).pipe(
           T.Http({
@@ -2129,7 +2172,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "UpdateTriggerRequest" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2148,7 +2191,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "UpdateWebRequest" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2165,13 +2208,13 @@ function __c37(j: number): any {
       ).annotate({ identifier: "DeleteActionRequest" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteActionResponse" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2189,7 +2232,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "DeleteActionInPackageRequest" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2207,7 +2250,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "DeletePackageRequest" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2224,7 +2267,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "DeleteRuleRequest" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2241,7 +2284,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "DeleteTriggerRequest" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

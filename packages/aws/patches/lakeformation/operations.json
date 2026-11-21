@@ -1,0 +1,68 @@
+{
+  "description": "LakeFormation: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lakeformation#DeregisterResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.lakeformation#LastServiceLinkedRoleRegistration"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lakeformation#GrantPermissions/errors/-",
+      "value": {
+        "target": "com.amazonaws.lakeformation#InvalidLakeFormationPrincipal"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lakeformation#RevokePermissions/errors/-",
+      "value": {
+        "target": "com.amazonaws.lakeformation#InvalidLakeFormationPrincipal"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lakeformation#ListPermissions/errors/-",
+      "value": {
+        "target": "com.amazonaws.lakeformation#InvalidLakeFormationPrincipal"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lakeformation#PutDataLakeSettings/errors/-",
+      "value": {
+        "target": "com.amazonaws.lakeformation#InvalidLakeFormationPrincipal"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lakeformation#CreateLakeFormationOptIn/errors/-",
+      "value": {
+        "target": "com.amazonaws.lakeformation#InvalidLakeFormationPrincipal"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lakeformation#DeleteLakeFormationOptIn/errors/-",
+      "value": {
+        "target": "com.amazonaws.lakeformation#InvalidLakeFormationPrincipal"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lakeformation#ListLakeFormationOptIns/errors/-",
+      "value": {
+        "target": "com.amazonaws.lakeformation#EntityNotFoundException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lakeformation#ListLakeFormationOptIns/errors/-",
+      "value": {
+        "target": "com.amazonaws.lakeformation#InvalidLakeFormationPrincipal"
+      }
+    }
+  ]
+}

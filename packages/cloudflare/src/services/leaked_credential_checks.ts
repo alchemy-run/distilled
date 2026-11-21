@@ -36,6 +36,8 @@ export class DetectionAlreadyExists
     /*@__PURE__*/ S.TaggedError<DetectionAlreadyExists>()("DetectionAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 400, message: { includes: "already exists" } }],
   ) {}
@@ -45,6 +47,8 @@ export class DetectionNotFound
     /*@__PURE__*/ S.TaggedError<DetectionNotFound>()("DetectionNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 11002 }],
   ) {}
@@ -54,6 +58,8 @@ export class DetectionQuotaExceeded
     /*@__PURE__*/ S.TaggedError<DetectionQuotaExceeded>()("DetectionQuotaExceeded", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 50001 }],
   ) {}
@@ -63,6 +69,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -74,6 +82,8 @@ export class LeakedCredentialChecksDisabled
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ code: 11001 }],

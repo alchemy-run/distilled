@@ -30,27 +30,48 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 /** How delivery bids in the ad auction: `minimum_cost` gets the most results for the budget, `average_target` holds an average cost per result, `maximum_target` never bids above a cap. Only for campaigns that own the budget. */
 export type CreateAdCampaignRequestBidType = "minimum_cost" | "average_target" | "maximum_target";
@@ -459,6 +480,17 @@ export interface UpdateAdCampaignRequest {
   /** The name of the campaign. */
   title?: string | undefined;
 }
+export interface V1ErrorResponseError {
+  /** Machine-readable reason for this specific refusal, such as `bank_warning_not_acknowledged`. Only present when the error carries one. */
+  code?: string | undefined;
+  /** Human-readable error message. */
+  message: string;
+  /** Machine-readable error code. */
+  type: string;
+}
+export interface V1ErrorResponse {
+  error: V1ErrorResponseError;
+}
 export type CreateAdCampaignError = BadRequest | Conflict | WhopOpError;
 /** Create an Ad Campaign Creates an ad campaign for an account. */
 export const createAdCampaign: API.OperationMethod<
@@ -467,8 +499,8 @@ export const createAdCampaign: API.OperationMethod<
   CreateAdCampaignError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c1, 0) as any as S.Schema<CreateAdCampaignRequest>,
-  output: __S(11, __c2, 3) as any as S.Schema<AdCampaign>,
+  input: __S(8, __c2, 0) as any as S.Schema<CreateAdCampaignRequest>,
+  output: __S(15, __c3, 3) as any as S.Schema<AdCampaign>,
   errors: [BadRequest, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -484,8 +516,8 @@ export const deleteAdCampaign: API.OperationMethod<
   DeleteAdCampaignError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<DeleteAdCampaignRequest>,
-  output: __S(13, __c3, 1) as any as S.Schema<DeleteAdCampaignResponse>,
+  input: __S(16, __c4, 0) as any as S.Schema<DeleteAdCampaignRequest>,
+  output: __S(17, __c4, 1) as any as S.Schema<DeleteAdCampaignResponse>,
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -501,8 +533,8 @@ export const duplicateAdCampaign: API.OperationMethod<
   DuplicateAdCampaignError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<DuplicateAdCampaignRequest>,
-  output: __S(17, __c4, 1) as any as S.Schema<DuplicateAdCampaignResponse>,
+  input: __S(20, __c5, 0) as any as S.Schema<DuplicateAdCampaignRequest>,
+  output: __S(21, __c5, 1) as any as S.Schema<DuplicateAdCampaignResponse>,
   errors: [BadRequest, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -518,8 +550,8 @@ export const getAdCampaign: API.OperationMethod<
   GetAdCampaignError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<GetAdCampaignRequest>,
-  output: __S(11, __c2, 3) as any as S.Schema<AdCampaign>,
+  input: __S(28, __c7, 0) as any as S.Schema<GetAdCampaignRequest>,
+  output: __S(15, __c3, 3) as any as S.Schema<AdCampaign>,
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -537,8 +569,8 @@ export const listAdCampaigns: API.PaginatedOperationMethod<
   AdCampaign
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(28, __c7, 0) as any as S.Schema<ListAdCampaignsRequest>,
-    output: __S(30, __c7, 2) as any as S.Schema<ListAdCampaignsResponse>,
+    input: __S(32, __c8, 0) as any as S.Schema<ListAdCampaignsRequest>,
+    output: __S(34, __c8, 2) as any as S.Schema<ListAdCampaignsResponse>,
     errors: [BadRequest],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -564,8 +596,8 @@ export const pauseAdCampaign: API.OperationMethod<
   PauseAdCampaignError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c8, 0) as any as S.Schema<PauseAdCampaignRequest>,
-  output: __S(11, __c2, 3) as any as S.Schema<AdCampaign>,
+  input: __S(36, __c9, 0) as any as S.Schema<PauseAdCampaignRequest>,
+  output: __S(15, __c3, 3) as any as S.Schema<AdCampaign>,
   errors: [Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -581,8 +613,8 @@ export const unpauseAdCampaign: API.OperationMethod<
   UnpauseAdCampaignError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<UnpauseAdCampaignRequest>,
-  output: __S(11, __c2, 3) as any as S.Schema<AdCampaign>,
+  input: __S(40, __c10, 0) as any as S.Schema<UnpauseAdCampaignRequest>,
+  output: __S(15, __c3, 3) as any as S.Schema<AdCampaign>,
   errors: [Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -598,8 +630,8 @@ export const updateAdCampaign: API.OperationMethod<
   UpdateAdCampaignError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<UpdateAdCampaignRequest>,
-  output: __S(11, __c2, 3) as any as S.Schema<AdCampaign>,
+  input: __S(4, __c1, 0) as any as S.Schema<UpdateAdCampaignRequest>,
+  output: __S(15, __c3, 3) as any as S.Schema<AdCampaign>,
   errors: [],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -613,6 +645,24 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          code: S.optional(S.String),
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "V1ErrorResponseError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "V1ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           id: S.String.pipe(T.Label()),
           bid_type: S.optional(S.String),
           budget_amount: S.optional(S.Number),
@@ -620,7 +670,7 @@ function __c0(j: number): any {
           budget_optimization: S.optional(S.String),
           budget_type: S.optional(S.String),
           ends_at: S.optional(S.String),
-          special_ad_categories: S.optional(__S(8, __c2, 0)),
+          special_ad_categories: S.optional(__S(12, __c3, 0)),
           starts_at: S.optional(S.String),
           status: S.optional(S.String),
           title: S.optional(S.String),
@@ -628,7 +678,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "UpdateAdCampaignRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -643,7 +693,7 @@ function __c1(j: number): any {
           ends_at: S.optional(S.String),
           objective: S.String,
           platform: S.String,
-          special_ad_categories: S.optional(__S(8, __c2, 0)),
+          special_ad_categories: S.optional(__S(12, __c3, 0)),
           starts_at: S.optional(S.String),
           title: S.String,
           idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
@@ -651,7 +701,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "CreateAdCampaignRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -665,7 +715,7 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "AdPlatformIssue" });
     case 2:
-      return S.Array(__S(9, __c2, 1));
+      return S.Array(__S(13, __c3, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -705,7 +755,7 @@ function __c2(j: number): any {
           frequency: S.NullOr(S.Number),
           id: S.String,
           impressions: S.Number,
-          issues: __S(10, __c2, 2),
+          issues: __S(14, __c3, 2),
           lead_value: S.Number,
           leads: S.Number,
           link_clicks: S.Number,
@@ -721,7 +771,7 @@ function __c2(j: number): any {
           return_on_ad_spend: S.Number,
           schedule_value: S.Number,
           schedules: S.Number,
-          special_ad_categories: __S(8, __c2, 0),
+          special_ad_categories: __S(12, __c3, 0),
           spend: S.Number,
           spend_currency: S.NullOr(S.String),
           starts_at: S.optional(S.NullOr(S.String)),
@@ -738,7 +788,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "AdCampaign" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -755,7 +805,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "DeleteAdCampaignResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -769,18 +819,18 @@ function __c4(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(20, __c5, 0),
+          data: __S(24, __c6, 0),
         }),
       ).annotate({ identifier: "DuplicateAdCampaignResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(11, __c2, 3));
+      return S.Array(__S(15, __c3, 3));
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -794,7 +844,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GetAdCampaignRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -828,13 +878,13 @@ function __c7(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(20, __c5, 0),
-          page_info: __S(29, __c7, 1),
+          data: __S(24, __c6, 0),
+          page_info: __S(33, __c8, 1),
         }),
       ).annotate({ identifier: "ListAdCampaignsResponse" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -845,7 +895,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "PauseAdCampaignRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

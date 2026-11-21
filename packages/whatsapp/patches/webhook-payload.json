@@ -1,0 +1,41 @@
+{
+  "description": "The spec models the webhook Meta delivers as an operation, `POST /whatsapp/webhooks`, whose request body is its `WebhookPayload` schema. Meta sends that POST to the callback URL the app registers (https://developers.facebook.com/documentation/business-messaging/whatsapp/webhooks/overview); graph.facebook.com serves no such route, so a generated call could never succeed. The operation is removed and its request body kept as the `WebhookPayload` type (with `WebhookPayloadEntryList`), tagged `com.distilled.whatsapp#webhookPayload` so generate.ts emits it with no operation, as packages/github and packages/resend do for their webhook payloads. Applies after download-media.json, which removes operations/56 and moves this one from 112 to 111.",
+  "patches": [
+    {
+      "op": "test",
+      "path": "/shapes/com.meta.whatsapp#WhatsApp/operations/111",
+      "value": { "target": "com.meta.whatsapp#PostWhatsappWebhooks" }
+    },
+    { "op": "remove", "path": "/shapes/com.meta.whatsapp#WhatsApp/operations/111" },
+    { "op": "remove", "path": "/shapes/com.meta.whatsapp#PostWhatsappWebhooks" },
+    {
+      "op": "move",
+      "from": "/shapes/com.meta.whatsapp#PostWhatsappWebhooksRequestEntryList",
+      "path": "/shapes/com.meta.whatsapp#WebhookPayloadEntryList"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.meta.whatsapp#PostWhatsappWebhooksRequest/members/entry/target",
+      "value": "com.meta.whatsapp#WebhookPayloadEntryList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.meta.whatsapp#PostWhatsappWebhooksRequest/traits/smithy.api#input"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#PostWhatsappWebhooksRequest/traits/smithy.api#documentation",
+      "value": "A webhook delivery: what Meta POSTs to the app's callback URL for messages, statuses and group events on a WhatsApp Business Account."
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#PostWhatsappWebhooksRequest/traits/com.distilled.whatsapp#webhookPayload",
+      "value": {}
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.meta.whatsapp#PostWhatsappWebhooksRequest",
+      "path": "/shapes/com.meta.whatsapp#WebhookPayload"
+    }
+  ]
+}

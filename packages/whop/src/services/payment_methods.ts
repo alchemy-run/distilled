@@ -30,36 +30,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export interface DeletePaymentMethodRequest {
   /** The unique identifier of the payment method to delete. */
@@ -671,6 +699,17 @@ export interface ListPaymentMethodResponse {
   /** Information to aid in pagination. */
   page_info: PageInfo;
 }
+export interface Error400BodyError {
+  /** A short string indicating the specific error code, e.g. 'parameter_missing', 'parameter_invalid', 'invalid_json' */
+  code?: string | null | undefined;
+  message: string;
+  /** The parameter that caused the error, if applicable */
+  param?: string | null | undefined;
+  type: string;
+}
+export interface Error400Body {
+  error: Error400BodyError;
+}
 export type DeletePaymentMethodError =
   | BadRequest
   | Forbidden
@@ -684,8 +723,8 @@ export const deletePaymentMethod: API.OperationMethod<
   DeletePaymentMethodError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<DeletePaymentMethodRequest>,
-  output: __S(1, __c0, 1) as any as S.Schema<DeletePaymentMethodResponse>,
+  input: __S(8, __c1, 0) as any as S.Schema<DeletePaymentMethodRequest>,
+  output: __S(9, __c1, 1) as any as S.Schema<DeletePaymentMethodResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -706,8 +745,8 @@ export const getPaymentMethod: API.OperationMethod<
   GetPaymentMethodError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<GetPaymentMethodRequest>,
-  output: __S(9, __c1, 1) as any as S.Schema<GetPaymentMethodResponse>,
+  input: __S(16, __c2, 0) as any as S.Schema<GetPaymentMethodRequest>,
+  output: __S(17, __c2, 1) as any as S.Schema<GetPaymentMethodResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -730,8 +769,8 @@ export const listPaymentMethod: API.PaginatedOperationMethod<
   PaymentMethodListItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(17, __c2, 1) as any as S.Schema<ListPaymentMethodRequest>,
-    output: __S(20, __c2, 4) as any as S.Schema<ListPaymentMethodResponse>,
+    input: __S(25, __c3, 1) as any as S.Schema<ListPaymentMethodRequest>,
+    output: __S(28, __c3, 4) as any as S.Schema<ListPaymentMethodResponse>,
     errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -755,6 +794,25 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          code: S.optional(S.NullOr(S.String)),
+          message: S.String,
+          param: S.optional(S.NullOr(S.String)),
+          type: S.String,
+        }),
+      ).annotate({ identifier: "Error400BodyError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "Error400Body" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           id: S.String.pipe(T.Label()),
           member_id: S.optional(S.String.pipe(T.Query())),
           account_id: S.optional(S.String.pipe(T.Query())),
@@ -766,7 +824,7 @@ function __c0(j: number): any {
       });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -782,7 +840,7 @@ function __c1(j: number): any {
       });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -798,9 +856,9 @@ function __c2(j: number): any {
           created_before: S.optional(S.String.pipe(T.Query())),
           created_after: S.optional(S.String.pipe(T.Query())),
           future_usage: S.optional(S.String.pipe(T.Query())),
-          payment_method_types: S.optional(__S(16, __c2, 0).pipe(T.Query())),
-          card_brands: S.optional(__S(16, __c2, 0).pipe(T.Query())),
-          card_funding_types: S.optional(__S(16, __c2, 0).pipe(T.Query())),
+          payment_method_types: S.optional(__S(24, __c3, 0).pipe(T.Query())),
+          card_brands: S.optional(__S(24, __c3, 0).pipe(T.Query())),
+          card_funding_types: S.optional(__S(24, __c3, 0).pipe(T.Query())),
           has_payer_document: S.optional(S.Boolean.pipe(T.Query())),
           expired: S.optional(S.Boolean.pipe(T.Query())),
           broken: S.optional(S.Boolean.pipe(T.Query())),
@@ -821,8 +879,8 @@ function __c2(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(18, __c2, 2),
-          page_info: __S(19, __c2, 3),
+          data: __S(26, __c3, 2),
+          page_info: __S(27, __c3, 3),
         }),
       ).annotate({ identifier: "ListPaymentMethodResponse" });
   }

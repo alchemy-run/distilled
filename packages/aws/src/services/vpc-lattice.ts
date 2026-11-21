@@ -1439,6 +1439,7 @@ export interface UpdateResourceConfigurationResponse {
 export interface UpdateResourceGatewayRequest {
   resourceGatewayIdentifier: string;
   securityGroupIds?: string[] | undefined;
+  resourceConfigDnsResolution?: string | undefined;
 }
 export interface UpdateResourceGatewayResponse {
   name?: string | undefined;
@@ -1449,6 +1450,7 @@ export interface UpdateResourceGatewayResponse {
   subnetIds?: string[] | undefined;
   securityGroupIds?: string[] | undefined;
   ipAddressType?: string | undefined;
+  resourceConfigDnsResolution?: string | undefined;
 }
 export interface UpdateRuleRequest {
   serviceIdentifier: string;
@@ -2316,7 +2318,7 @@ export type DeleteServiceNetworkError =
   | ValidationException
   | CommonErrors;
 /**
- * Deletes a service network. You can only delete the service network if there is no service or VPC associated with it. If you delete a service network, all resources related to the service network, such as the resource policy, auth policy, and access log subscriptions, are also deleted. For more information, see Delete a service network in the *Amazon VPC Lattice User Guide*.
+ * Deletes a service network. You can only delete the service network if there are no services, VPCs, resource configurations, or service network endpoints associated with it. Only the owner of a service network endpoint can remove it from the service network, by deleting the endpoint. If you delete a service network, all resources related to the service network, such as the resource policy, auth policy, and access log subscriptions, are also deleted. For more information, see Delete a service network in the *Amazon VPC Lattice User Guide*.
  */
 export const deleteServiceNetwork: API.OperationMethod<
   DeleteServiceNetworkRequest & RegionInput,
@@ -6455,6 +6457,7 @@ function __c85(j: number): any {
         S.Struct({
           resourceGatewayIdentifier: S.String.pipe(T.HttpLabel("resourceGatewayIdentifier")),
           securityGroupIds: S.optional(__S(8, __c1, 0)),
+          resourceConfigDnsResolution: S.optional(S.String),
         }).pipe(
           T.all(
             T.Http({ method: "PATCH", uri: "/resourcegateways/{resourceGatewayIdentifier}" }),
@@ -6477,6 +6480,7 @@ function __c85(j: number): any {
           subnetIds: S.optional(__S(8, __c1, 0)),
           securityGroupIds: S.optional(__S(8, __c1, 0)),
           ipAddressType: S.optional(S.String),
+          resourceConfigDnsResolution: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateResourceGatewayResponse" });
   }

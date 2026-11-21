@@ -30,9 +30,16 @@ export class Conflict
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 /** Custom string keys and values. */
 export type CreateDomainRequestMetadataMap = { [key: string]: string | undefined };
@@ -170,6 +177,17 @@ export interface UpdateDomainRequest {
   /** Replacement custom string keys and values. */
   metadata?: UpdateDomainRequestMetadataMap | undefined;
 }
+export interface V1ErrorResponseError {
+  /** Machine-readable reason for this specific refusal, such as `bank_warning_not_acknowledged`. Only present when the error carries one. */
+  code?: string | undefined;
+  /** Human-readable error message. */
+  message: string;
+  /** Machine-readable error code. */
+  type: string;
+}
+export interface V1ErrorResponse {
+  error: V1ErrorResponseError;
+}
 export type CreateDomainError = Conflict | WhopOpError;
 /** Create Domain Creates an unverified claim and returns DNS instructions. A claim does not reserve the hostname globally. Publish its unique TXT record; ownership verification, DNS checks, and certificate provisioning run automatically. Unverified claims are deleted after 48 hours. */
 export const createDomain: API.OperationMethod<
@@ -178,8 +196,8 @@ export const createDomain: API.OperationMethod<
   CreateDomainError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateDomainRequest>,
-  output: __S(13, __c1, 5) as any as S.Schema<Domain>,
+  input: __S(8, __c1, 0) as any as S.Schema<CreateDomainRequest>,
+  output: __S(21, __c2, 5) as any as S.Schema<Domain>,
   errors: [Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -195,8 +213,8 @@ export const deleteDomain: API.OperationMethod<
   DeleteDomainError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<DeleteDomainRequest>,
-  output: __S(13, __c1, 5) as any as S.Schema<Domain>,
+  input: __S(24, __c3, 0) as any as S.Schema<DeleteDomainRequest>,
+  output: __S(21, __c2, 5) as any as S.Schema<Domain>,
   errors: [],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -212,8 +230,8 @@ export const getDomain: API.OperationMethod<
   GetDomainError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<GetDomainRequest>,
-  output: __S(13, __c1, 5) as any as S.Schema<Domain>,
+  input: __S(32, __c4, 0) as any as S.Schema<GetDomainRequest>,
+  output: __S(21, __c2, 5) as any as S.Schema<Domain>,
   errors: [],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -231,8 +249,8 @@ export const listDomains: API.PaginatedOperationMethod<
   Domain
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(32, __c4, 0) as any as S.Schema<ListDomainsRequest>,
-    output: __S(35, __c4, 3) as any as S.Schema<ListDomainsResponse>,
+    input: __S(40, __c5, 0) as any as S.Schema<ListDomainsRequest>,
+    output: __S(43, __c5, 3) as any as S.Schema<ListDomainsResponse>,
     errors: [],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -258,8 +276,8 @@ export const updateDomain: API.OperationMethod<
   UpdateDomainError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<UpdateDomainRequest>,
-  output: __S(13, __c1, 5) as any as S.Schema<Domain>,
+  input: __S(48, __c6, 0) as any as S.Schema<UpdateDomainRequest>,
+  output: __S(21, __c2, 5) as any as S.Schema<Domain>,
   errors: [],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -273,17 +291,35 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          code: S.optional(S.String),
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "V1ErrorResponseError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "V1ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           account_id: S.optional(S.String),
           app_id: S.String,
           domain: S.String,
-          metadata: S.optional(__S(8, __c1, 0)),
+          metadata: S.optional(__S(16, __c2, 0)),
           replace_existing: S.optional(S.Boolean),
           idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(T.Http({ method: "POST", uri: "/domains", code: 200 })),
       ).annotate({ identifier: "CreateDomainRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
@@ -296,7 +332,7 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "DomainDnsRecord" });
     case 2:
-      return S.Array(__S(9, __c1, 1));
+      return S.Array(__S(17, __c2, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -305,7 +341,7 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "DomainIssue" });
     case 4:
-      return S.Array(__S(11, __c1, 3));
+      return S.Array(__S(19, __c2, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -313,14 +349,14 @@ function __c1(j: number): any {
           app_id: S.String,
           certificate_status: S.NullOr(S.String),
           created_at: S.String,
-          dns_records: __S(10, __c1, 2),
+          dns_records: __S(18, __c2, 2),
           dns_status: S.String,
           domain: S.String,
           hostname_status: S.NullOr(S.String),
           id: S.String,
-          issues: __S(12, __c1, 4),
+          issues: __S(20, __c2, 4),
           last_checked_at: S.NullOr(S.String),
-          metadata: __S(8, __c1, 0),
+          metadata: __S(16, __c2, 0),
           status: S.String,
           updated_at: S.String,
           verification_expires_at: S.NullOr(S.String),
@@ -329,7 +365,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "Domain" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -339,7 +375,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "DeleteDomainRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -349,7 +385,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GetDomainRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -366,7 +402,7 @@ function __c4(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/domains", code: 200 })),
       ).annotate({ identifier: "ListDomainsRequest" });
     case 1:
-      return S.Array(__S(13, __c1, 5));
+      return S.Array(__S(21, __c2, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -379,20 +415,20 @@ function __c4(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(33, __c4, 1),
-          page_info: __S(34, __c4, 2),
+          data: __S(41, __c5, 1),
+          page_info: __S(42, __c5, 2),
         }),
       ).annotate({ identifier: "ListDomainsResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           app_id: S.optional(S.String),
-          metadata: S.optional(__S(8, __c1, 0)),
+          metadata: S.optional(__S(16, __c2, 0)),
         }).pipe(T.Http({ method: "PATCH", uri: "/domains/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateDomainRequest" });
   }

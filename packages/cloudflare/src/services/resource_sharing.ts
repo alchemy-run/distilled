@@ -58,6 +58,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -67,6 +69,8 @@ export class ShareNotFound
     /*@__PURE__*/ S.TaggedError<ShareNotFound>()("ShareNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1004 }, { status: 404 }],
   ) {}
@@ -76,6 +80,8 @@ export class ShareRecipientNotFound
     /*@__PURE__*/ S.TaggedError<ShareRecipientNotFound>()("ShareRecipientNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1004 }, { status: 404 }],
   ) {}
@@ -85,6 +91,8 @@ export class ShareResourceNotFound
     /*@__PURE__*/ S.TaggedError<ShareResourceNotFound>()("ShareResourceNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1004 }, { status: 404 }],
   ) {}

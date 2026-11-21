@@ -146,13 +146,13 @@ export class GatewayTimeoutException
     "GatewayTimeoutException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(504),
-  ).pipe(C.withTimeoutError) {}
+  ).pipe(C.withTimeoutError, C.withRetryableError) {}
 export class InternalFailureException
   extends /*@__PURE__*/ S.TaggedError<InternalFailureException>()(
     "InternalFailureException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InvalidRequestException
   extends /*@__PURE__*/ S.TaggedError<InvalidRequestException>()(
     "InvalidRequestException",
@@ -182,13 +182,13 @@ export class ServiceUnavailableException
     "ServiceUnavailableException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(503),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
     "ThrottlingException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class UnauthorizedException
   extends /*@__PURE__*/ S.TaggedError<UnauthorizedException>()(
     "UnauthorizedException",
@@ -1091,7 +1091,10 @@ function __c10(j: number): any {
           qos: S.optional(S.Number).pipe(T.HttpQuery("qos")),
           retain: S.optional(S.Boolean).pipe(T.HttpQuery("retain")),
           payload: S.optional(T.StreamingInput).pipe(T.HttpPayload()),
-          userProperties: S.optional(S.String).pipe(T.HttpHeader("x-amz-mqtt5-user-properties")),
+          userProperties: S.optional(S.String).pipe(
+            T.HttpHeader("x-amz-mqtt5-user-properties"),
+            T.MediaType("application/json"),
+          ),
           payloadFormatIndicator: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-mqtt5-payload-format-indicator"),
           ),
@@ -1117,7 +1120,10 @@ function __c11(j: number): any {
           confirmation: S.optional(S.Boolean).pipe(T.HttpQuery("confirmation")),
           timeout: S.optional(S.Number).pipe(T.HttpQuery("timeout")),
           payload: S.optional(T.StreamingInput).pipe(T.HttpPayload()),
-          userProperties: S.optional(S.String).pipe(T.HttpHeader("x-amz-mqtt5-user-properties")),
+          userProperties: S.optional(S.String).pipe(
+            T.HttpHeader("x-amz-mqtt5-user-properties"),
+            T.MediaType("application/json"),
+          ),
           payloadFormatIndicator: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-mqtt5-payload-format-indicator"),
           ),

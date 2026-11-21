@@ -33,14 +33,16 @@ import {
   extractJsonErrorData,
   sanitizeErrorCode,
 } from "@distilled.cloud/s3/util/error";
-import { readStreamAsText } from "@distilled.cloud/s3/util/stream";
+import { readStreamAsText, type StreamBody } from "@distilled.cloud/s3/util/stream";
 import * as Effect from "effect/Effect";
 import type * as Schema from "effect/Schema";
 import type * as AST from "effect/SchemaAST";
 import { ParseError } from "../errors.ts";
 import {
+  getAnnotationUnwrap,
   getAwsApiService,
   getEventSchema,
+  protocolSymbol,
   isOutputEventStream,
   isStreamingType,
   eventStreamWith,
@@ -78,6 +80,9 @@ function createAwsJsonProtocol(version: "1.0" | "1.1"): ProtocolImpl {
 
     // Build X-Amz-Target from the identifier structure
     const targetHeader = buildXAmzTarget(inputAst, operationName);
+    const queryCompatible =
+      getAnnotationUnwrap<{ awsQueryCompatible?: boolean }>(inputAst, protocolSymbol)
+        ?.awsQueryCompatible === true;
 
     // Check for streaming output member (event stream)
     let streamingOutputProp:
@@ -112,6 +117,7 @@ function createAwsJsonProtocol(version: "1.0" | "1.1"): ProtocolImpl {
           "X-Amz-Target": targetHeader,
         },
       };
+      if (queryCompatible) request.headers["x-amzn-query-mode"] = "true";
 
       request.body = JSON.stringify(encoded ?? {});
 
@@ -120,10 +126,11 @@ function createAwsJsonProtocol(version: "1.0" | "1.1"): ProtocolImpl {
 
     const deserializeText = (response: TextResponse): unknown => {
       const bodyText = response.body;
-      // Parse JSON body (reviver converts null -> undefined since AWS returns null for absent fields)
+      // Parse JSON body. A null is kept: the codec reads it as an absent
+      // member, and keeps it in a `@sparse` list or map.
       if (bodyText) {
         try {
-          const parsed = JSON.parse(bodyText, (_, v) => (v === null ? undefined : v));
+          const parsed = JSON.parse(bodyText);
           if (parsed && typeof parsed === "object") {
             return parsed as Record<string, unknown>;
           }
@@ -153,7 +160,7 @@ function createAwsJsonProtocol(version: "1.0" | "1.1"): ProtocolImpl {
           return Effect.succeed({
             [streamingOutputProp.name]: eventStreamWith(streamingOutputProp.eventSchema, (codec) =>
               codec.parseEventStreamToUnion(
-                response.body as ReadableStream<Uint8Array>,
+                response.body as StreamBody,
                 undefined,
                 streamingOutputProp.eventSchema,
               ),

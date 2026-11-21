@@ -1,0 +1,21 @@
+{
+  "description": "Application Auto Scaling: Error shapes the model does not declare, for the errors operations.json list (a shape with aws.codegen#synthetic matches its base wire error by message).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.applicationautoscaling#PredictiveScalingForecastNotSupported",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "AccessDeniedException",
+            "message": {
+              "includes": "GetPredictiveScalingForecast is not supported"
+            }
+          }
+        }
+      }
+    }
+  ]
+}

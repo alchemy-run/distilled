@@ -30,6 +30,8 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
   ) {}
@@ -39,15 +41,24 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
@@ -129,6 +140,13 @@ export interface ListServiceStatusRegionalResponse {
   items?: ListServiceStatusRegionalResponseItemsList | undefined;
   nextCursor?: string | undefined;
 }
+export interface ErrorResponse {
+  error?: string | undefined;
+  message?: string | undefined;
+  path?: string | undefined;
+  status?: number | undefined;
+  timestamp?: string | undefined;
+}
 export type DisableServiceRegionalError = BadRequest | Forbidden | NotFound | StackitOpError;
 /** disables the service in a project. */
 export const disableServiceRegional: API.OperationMethod<
@@ -137,8 +155,8 @@ export const disableServiceRegional: API.OperationMethod<
   DisableServiceRegionalError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<DisableServiceRegionalRequest>,
-  output: __S(8, __c1, 0) as any as S.Schema<DisableServiceRegionalResponse>,
+  input: __S(8, __c1, 0) as any as S.Schema<DisableServiceRegionalRequest>,
+  output: __S(16, __c2, 0) as any as S.Schema<DisableServiceRegionalResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -154,8 +172,8 @@ export const enableServiceRegional: API.OperationMethod<
   EnableServiceRegionalError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<EnableServiceRegionalRequest>,
-  output: __S(8, __c1, 0) as any as S.Schema<EnableServiceRegionalResponse>,
+  input: __S(24, __c3, 0) as any as S.Schema<EnableServiceRegionalRequest>,
+  output: __S(16, __c2, 0) as any as S.Schema<EnableServiceRegionalResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -171,8 +189,8 @@ export const getServiceStatusRegional: API.OperationMethod<
   GetServiceStatusRegionalError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<GetServiceStatusRegionalRequest>,
-  output: __S(38, __c4, 6) as any as S.Schema<ServiceStatus>,
+  input: __S(32, __c4, 0) as any as S.Schema<GetServiceStatusRegionalRequest>,
+  output: __S(46, __c5, 6) as any as S.Schema<ServiceStatus>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -188,8 +206,8 @@ export const listServiceStatusRegional: API.OperationMethod<
   ListServiceStatusRegionalError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<ListServiceStatusRegionalRequest>,
-  output: __S(42, __c5, 2) as any as S.Schema<ListServiceStatusRegionalResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<ListServiceStatusRegionalRequest>,
+  output: __S(50, __c6, 2) as any as S.Schema<ListServiceStatusRegionalResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -199,6 +217,20 @@ export const listServiceStatusRegional: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          error: S.optional(S.String),
+          message: S.optional(S.String),
+          path: S.optional(S.String),
+          status: S.optional(S.Number),
+          timestamp: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -217,7 +249,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "DisableServiceRegionalRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -225,7 +257,7 @@ function __c1(j: number): any {
       });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -244,7 +276,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "EnableServiceRegionalRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -263,15 +295,15 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GetServiceStatusRegionalRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          hard: S.optional(__S(32, __c4, 0)),
-          soft: S.optional(__S(32, __c4, 0)),
+          hard: S.optional(__S(40, __c5, 0)),
+          soft: S.optional(__S(40, __c5, 0)),
         }),
       ).annotate({ identifier: "Dependencies" });
     case 2:
@@ -296,7 +328,7 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            general: S.optional(__S(36, __c4, 4)),
+            general: S.optional(__S(44, __c5, 4)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -304,12 +336,12 @@ function __c4(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          dependencies: S.optional(__S(33, __c4, 1)),
+          dependencies: S.optional(__S(41, __c5, 1)),
           enablement: S.optional(S.String),
-          error: S.optional(__S(34, __c4, 2)),
-          labels: S.optional(__S(35, __c4, 3)),
+          error: S.optional(__S(42, __c5, 2)),
+          labels: S.optional(__S(43, __c5, 3)),
           lifecycle: S.optional(S.String),
-          parameters: S.optional(__S(37, __c4, 5)),
+          parameters: S.optional(__S(45, __c5, 5)),
           scope: S.optional(S.String),
           serviceId: S.optional(S.String),
           state: S.optional(S.String),
@@ -317,7 +349,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "ServiceStatus" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -335,11 +367,11 @@ function __c5(j: number): any {
         ),
       ).annotate({ identifier: "ListServiceStatusRegionalRequest" });
     case 1:
-      return S.Array(__S(38, __c4, 6));
+      return S.Array(__S(46, __c5, 6));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(41, __c5, 1)),
+          items: S.optional(__S(49, __c6, 1)),
           nextCursor: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListServiceStatusRegionalResponse" });

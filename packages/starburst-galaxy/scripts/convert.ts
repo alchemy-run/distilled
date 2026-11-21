@@ -17,10 +17,8 @@
  *   1. Read both documents and fold `v2` into `v1` (see {@link mergeV2}).
  *      `v2` carries only the Data Product operations, whose `v1` versions
  *      are deprecated; `skipDeprecated` drops those, so each Data Product
- *      operation is generated once, from `v2`. Then rewrite every
- *      discriminated hierarchy into a `oneOf` of standalone subtypes (see
- *      {@link flattenDiscriminators}); the shared converter does not read
- *      `discriminator`, and the patches name the flattened subtypes.
+ *      operation is generated once, from `v2`. The shared converter turns
+ *      Galaxy's discriminated hierarchies into unions of their subtypes.
  *   2. Bucket operations by PRIMARY tag. Galaxy's tags read
  *      `Cluster Service`, `Catalog Service`, …; the ` Service` suffix is
  *      dropped, so the modules are `cluster`, `catalog`, `role`, ….
@@ -280,139 +278,11 @@ const mergeV2 = (v1: any, v2: any): { renamed: string[] } => {
   return { renamed: [...renames.keys()].map((ref) => ref.split("/").at(-1)!) };
 };
 
-/**
- * Rewrite every discriminated hierarchy into a `oneOf` of its subtypes.
- *
- * Galaxy models polymorphism the swagger way: a base schema with a
- * `discriminator.mapping` (`KafkaAuth`, `CreateMySQLCatalogRequest`, …), and
- * one `allOf: [{ $ref: <base> }, { properties }]` subtype per mapping key.
- * Nothing references a subtype except through the mapping, and the shared
- * converter does not read `discriminator`, so left alone every base
- * converts to its own members only: `CreateMySQLCatalogRequest` without
- * `host`, `KafkaAuth` without its SASL `password`.
- *
- * Each subtype becomes a standalone object — the base's properties, then its
- * own, with the discriminator property pinned to its mapping key — and each
- * discriminated node (a component, or an inline copy of one inside another
- * schema) becomes a `oneOf` over those subtypes. Subtypes no longer `$ref`
- * their base, which also breaks the subtype → base → subtype cycle. A shape
- * outside what Galaxy publishes fails the run rather than converting half.
- */
-const flattenDiscriminators = (spec: any): { bases: number; subtypes: number } => {
-  const schemas: Record<string, any> = spec.components.schemas;
-  const nameOf = (ref: unknown): string => {
-    if (typeof ref !== "string" || !ref.startsWith("#/components/schemas/")) {
-      throw new Error(`discriminator mapping target ${String(ref)} is not a component schema`);
-    }
-    const name = ref.slice("#/components/schemas/".length);
-    if (!(name in schemas)) throw new Error(`discriminator mapping target ${name} is missing`);
-    return name;
-  };
-  const isDiscriminated = (node: any): boolean =>
-    node !== null &&
-    typeof node === "object" &&
-    !Array.isArray(node) &&
-    node.discriminator?.mapping !== undefined;
-
-  // 0. An inline enum on a base (`cloudKind`) would convert once per arm, as
-  //    `<Arm>CloudKind`; hoist it to a `<Base><Prop>` component the arms share.
-  //    The description stays beside the `$ref`, where the member docs read it.
-  for (const [baseName, base] of Object.entries(schemas)) {
-    if (!isDiscriminated(base)) continue;
-    for (const [prop, def] of Object.entries<any>(base.properties ?? {})) {
-      if (prop === base.discriminator.propertyName || !Array.isArray(def?.enum)) continue;
-      const hoisted = `${baseName}${prop.charAt(0).toUpperCase()}${prop.slice(1)}`;
-      if (hoisted in schemas)
-        throw new Error(`cannot hoist ${baseName}.${prop}: ${hoisted} exists`);
-      schemas[hoisted] = def;
-      base.properties[prop] = {
-        $ref: `#/components/schemas/${hoisted}`,
-        ...(def.description === undefined ? {} : { description: def.description }),
-      };
-    }
-  }
-
-  // 1. Flatten every mapped subtype against the original base it extends.
-  const flattened = new Map<string, { key: string; schema: any }>();
-  const flattenAll = (node: unknown): void => {
-    if (Array.isArray(node)) return node.forEach(flattenAll);
-    if (node === null || typeof node !== "object") return;
-    const n = node as any;
-    if (isDiscriminated(n)) {
-      const prop: string = n.discriminator.propertyName;
-      for (const [key, ref] of Object.entries<unknown>(n.discriminator.mapping)) {
-        const name = nameOf(ref);
-        const seen = flattened.get(name);
-        if (seen) {
-          if (seen.key !== key) throw new Error(`${name} is mapped as both ${seen.key} and ${key}`);
-          continue;
-        }
-        const sub = schemas[name];
-        const [baseRef, own, ...rest] = Array.isArray(sub?.allOf) ? sub.allOf : [];
-        const base = baseRef?.$ref === undefined ? undefined : schemas[nameOf(baseRef.$ref)];
-        if (
-          !isDiscriminated(base) ||
-          base.discriminator.propertyName !== prop ||
-          own === undefined ||
-          own.$ref !== undefined ||
-          own.allOf !== undefined ||
-          rest.length > 0
-        ) {
-          throw new Error(`${name} is not allOf [$ref <discriminated base>, { properties }]`);
-        }
-        if (base.properties?.[prop] === undefined) {
-          throw new Error(`${name}: its base does not declare the discriminator ${prop}`);
-        }
-        const required = [...new Set([...(base.required ?? []), ...(own.required ?? []), prop])];
-        flattened.set(name, {
-          key,
-          schema: {
-            type: "object",
-            description: own.description ?? base.description,
-            required,
-            properties: {
-              ...base.properties,
-              ...own.properties,
-              [prop]: { ...base.properties[prop], enum: [key] },
-            },
-          },
-        });
-      }
-    }
-    Object.values(n).forEach(flattenAll);
-  };
-  flattenAll(spec);
-
-  // 2. Replace every discriminated node with a oneOf over its subtypes.
-  let bases = 0;
-  const toOneOf = (node: unknown): unknown => {
-    if (Array.isArray(node)) return node.map(toOneOf);
-    if (node === null || typeof node !== "object") return node;
-    const n = node as any;
-    if (isDiscriminated(n)) {
-      bases++;
-      return {
-        ...(n.description === undefined ? {} : { description: n.description }),
-        oneOf: Object.values<string>(n.discriminator.mapping).map(($ref) => ({ $ref })),
-      };
-    }
-    return Object.fromEntries(Object.entries(n).map(([k, v]) => [k, toOneOf(v)]));
-  };
-  spec.paths = toOneOf(spec.paths);
-  spec.components = toOneOf(spec.components);
-  for (const [name, { schema }] of flattened) spec.components.schemas[name] = schema;
-  return { bases, subtypes: flattened.size };
-};
-
 const fullSpec = readSpec("v1");
 const { renamed } = mergeV2(fullSpec, readSpec("v2"));
 if (renamed.length) {
   console.log(`🔧 v2 schemas renamed <name>V2 (differ from v1): ${renamed.join(", ")}`);
 }
-const flat = flattenDiscriminators(fullSpec);
-console.log(
-  `🔧 ${flat.bases} discriminated schemas → oneOf over ${flat.subtypes} flattened subtypes`,
-);
 
 /** Resolve a local `#/components/...` reference (one level). */
 const deref = (node: any): any => {

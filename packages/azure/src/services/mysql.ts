@@ -229,10 +229,16 @@ export interface BackupSettings {
   /** Backup Format for the current backup. (CollatedFormat is INTERNAL - DO NOT USE) */
   backupFormat?: BackupFormat | (string & {}) | undefined;
 }
-/** Details about the target where the backup content will be stored. */
-export interface BackupStoreDetails {
+/** Type of the specific object - used for deserializing */
+export type FullBackupStoreDetailsObjectType = "FullBackupStoreDetails";
+/** SASUriList of storage containers where backup data is to be streamed/copied. */
+export type FullBackupStoreDetailsSasUriListList = Array<string>;
+/** FullBackupStoreDetails is used for scenarios where backup data is streamed/copied over to a storage destination. */
+export interface FullBackupStoreDetails {
   /** Type of the specific object - used for deserializing */
-  objectType: string;
+  objectType: FullBackupStoreDetailsObjectType | (string & {});
+  /** SASUriList of storage containers where backup data is to be streamed/copied. */
+  sasUriList: FullBackupStoreDetailsSasUriListList;
 }
 export interface CreateBackupAndExportRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -244,7 +250,7 @@ export interface CreateBackupAndExportRequest {
   /** Backup Settings */
   backupSettings: BackupSettings;
   /** Backup Target Store Details */
-  targetDetails: BackupStoreDetails;
+  targetDetails: FullBackupStoreDetails;
 }
 /** BackupAndExport Response Properties */
 export interface BackupAndExportResponseProperties {
@@ -1329,12 +1335,31 @@ export interface OperationStatusResult {
 /** The operations list. */
 export type GetOperationProgressResponseOperationsList = Array<OperationStatusResult>;
 /** Identifies the type of source operation */
-export type ObjectType = "BackupAndExportResponse" | "ImportFromStorageResponse";
-/** Represents the response properties specific to the operation */
-export interface OperationProgressResponseType {
+export type BackupAndExportResponseTypeObjectType = "BackupAndExportResponse";
+/** BackupAndExport Response Properties */
+export interface BackupAndExportResponseType {
   /** Identifies the type of source operation */
-  objectType: ObjectType;
+  objectType: BackupAndExportResponseTypeObjectType;
+  /** Size of datasource in bytes */
+  datasourceSizeInBytes?: number | undefined;
+  /** Data transferred in bytes */
+  dataTransferredInBytes?: number | undefined;
+  /** Metadata related to backup to be stored for restoring resource in key-value pairs. */
+  backupMetadata?: string | undefined;
 }
+/** Identifies the type of source operation */
+export type ImportFromStorageResponseTypeObjectType = "ImportFromStorageResponse";
+/** ImportFromStorage Response Properties */
+export interface ImportFromStorageResponseType {
+  /** Identifies the type of source operation */
+  objectType: ImportFromStorageResponseTypeObjectType;
+  /** The estimated time of operation completion. */
+  estimatedCompletionTime?: string | undefined;
+}
+/** Represents the response properties specific to the operation */
+export type OperationProgressResponseType =
+  | BackupAndExportResponseType
+  | ImportFromStorageResponseType;
 export interface GetOperationProgressResponse {
   /** Fully qualified ID for the async operation. */
   id?: string | undefined;
@@ -2661,8 +2686,8 @@ export const CreateLongRunningBackup: API.OperationMethod<
   CreateLongRunningBackupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c59, 0) as any as S.Schema<CreateLongRunningBackupRequest>,
-  output: __S(945, __c59, 1) as any as S.Schema<CreateLongRunningBackupResponse>,
+  input: __S(960, __c60, 0) as any as S.Schema<CreateLongRunningBackupRequest>,
+  output: __S(961, __c60, 1) as any as S.Schema<CreateLongRunningBackupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2678,7 +2703,7 @@ export const CreateServer: API.OperationMethod<
   CreateServerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1185, __c74, 1) as any as S.Schema<CreateServerRequest>,
+  input: __S(1201, __c75, 1) as any as S.Schema<CreateServerRequest>,
   output: __S(1300, __c81, 4) as any as S.Schema<CreateServerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -2798,7 +2823,7 @@ export const DeleteServerKey: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<DeleteServerKeyRequest>,
-  output: __S(1200, __c75, 0) as any as S.Schema<DeleteServerKeyResponse>,
+  output: __S(1216, __c76, 0) as any as S.Schema<DeleteServerKeyResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3053,7 +3078,7 @@ export const GetOperationProgress: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<GetOperationProgressRequest>,
-  output: __S(610, __c38, 2) as any as S.Schema<GetOperationProgressResponse>,
+  output: __S(612, __c38, 4) as any as S.Schema<GetOperationProgressResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3103,8 +3128,8 @@ export const GetPrivateLinkResource: API.OperationMethod<
   GetPrivateLinkResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<GetPrivateLinkResourceRequest>,
-  output: __S(737, __c46, 1) as any as S.Schema<GetPrivateLinkResourceResponse>,
+  input: __S(736, __c46, 0) as any as S.Schema<GetPrivateLinkResourceRequest>,
+  output: __S(753, __c47, 1) as any as S.Schema<GetPrivateLinkResourceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3120,8 +3145,8 @@ export const GetServer: API.OperationMethod<
   GetServerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<GetServerRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<GetServerResponse>,
+  input: __S(768, __c48, 0) as any as S.Schema<GetServerRequest>,
+  output: __S(784, __c49, 0) as any as S.Schema<GetServerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3137,8 +3162,8 @@ export const GetServerKey: API.OperationMethod<
   GetServerKeyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<GetServerKeyRequest>,
-  output: __S(801, __c50, 1) as any as S.Schema<GetServerKeyResponse>,
+  input: __S(800, __c50, 0) as any as S.Schema<GetServerKeyRequest>,
+  output: __S(817, __c51, 1) as any as S.Schema<GetServerKeyResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3154,8 +3179,8 @@ export const ListAdvancedThreatProtectionSettings: API.OperationMethod<
   ListAdvancedThreatProtectionSettingsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c51, 0) as any as S.Schema<ListAdvancedThreatProtectionSettingsRequest>,
-  output: __S(818, __c51, 2) as any as S.Schema<AdvancedThreatProtectionListResult>,
+  input: __S(832, __c52, 0) as any as S.Schema<ListAdvancedThreatProtectionSettingsRequest>,
+  output: __S(834, __c52, 2) as any as S.Schema<AdvancedThreatProtectionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3171,8 +3196,8 @@ export const ListAzureADAdministratorByServer: API.OperationMethod<
   ListAzureADAdministratorByServerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c52, 0) as any as S.Schema<ListAzureADAdministratorByServerRequest>,
-  output: __S(834, __c52, 2) as any as S.Schema<AdministratorListResult>,
+  input: __S(848, __c53, 0) as any as S.Schema<ListAzureADAdministratorByServerRequest>,
+  output: __S(850, __c53, 2) as any as S.Schema<AdministratorListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3188,8 +3213,8 @@ export const ListBackupByServer: API.OperationMethod<
   ListBackupByServerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<ListBackupByServerRequest>,
-  output: __S(850, __c53, 2) as any as S.Schema<ServerBackupListResult>,
+  input: __S(864, __c54, 0) as any as S.Schema<ListBackupByServerRequest>,
+  output: __S(866, __c54, 2) as any as S.Schema<ServerBackupListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3205,8 +3230,8 @@ export const ListConfigurationByServer: API.OperationMethod<
   ListConfigurationByServerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c54, 0) as any as S.Schema<ListConfigurationByServerRequest>,
-  output: __S(865, __c54, 1) as any as S.Schema<ConfigurationListResult>,
+  input: __S(880, __c55, 0) as any as S.Schema<ListConfigurationByServerRequest>,
+  output: __S(881, __c55, 1) as any as S.Schema<ConfigurationListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3222,8 +3247,8 @@ export const ListDatabaseByServer: API.OperationMethod<
   ListDatabaseByServerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<ListDatabaseByServerRequest>,
-  output: __S(898, __c56, 2) as any as S.Schema<DatabaseListResult>,
+  input: __S(912, __c57, 0) as any as S.Schema<ListDatabaseByServerRequest>,
+  output: __S(914, __c57, 2) as any as S.Schema<DatabaseListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3239,8 +3264,8 @@ export const ListFirewallRuleByServer: API.OperationMethod<
   ListFirewallRuleByServerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<ListFirewallRuleByServerRequest>,
-  output: __S(914, __c57, 2) as any as S.Schema<FirewallRuleListResult>,
+  input: __S(928, __c58, 0) as any as S.Schema<ListFirewallRuleByServerRequest>,
+  output: __S(930, __c58, 2) as any as S.Schema<FirewallRuleListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3256,8 +3281,8 @@ export const ListLocationBasedCapabilities: API.OperationMethod<
   ListLocationBasedCapabilitiesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<ListLocationBasedCapabilitiesRequest>,
-  output: __S(937, __c58, 9) as any as S.Schema<CapabilitiesListResult>,
+  input: __S(944, __c59, 0) as any as S.Schema<ListLocationBasedCapabilitiesRequest>,
+  output: __S(953, __c59, 9) as any as S.Schema<CapabilitiesListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3273,8 +3298,8 @@ export const ListLocationBasedCapabilitySet: API.OperationMethod<
   ListLocationBasedCapabilitySetError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<ListLocationBasedCapabilitySetRequest>,
-  output: __S(978, __c61, 2) as any as S.Schema<CapabilitySetsList>,
+  input: __S(992, __c62, 0) as any as S.Schema<ListLocationBasedCapabilitySetRequest>,
+  output: __S(994, __c62, 2) as any as S.Schema<CapabilitySetsList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3290,8 +3315,8 @@ export const ListLogFileByServer: API.OperationMethod<
   ListLogFileByServerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<ListLogFileByServerRequest>,
-  output: __S(996, __c62, 4) as any as S.Schema<LogFileListResult>,
+  input: __S(1008, __c63, 0) as any as S.Schema<ListLogFileByServerRequest>,
+  output: __S(1012, __c63, 4) as any as S.Schema<LogFileListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3307,8 +3332,8 @@ export const ListLongRunningBackups: API.OperationMethod<
   ListLongRunningBackupsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<ListLongRunningBackupsRequest>,
-  output: __S(1010, __c63, 2) as any as S.Schema<ServerBackupV2ListResult>,
+  input: __S(1024, __c64, 0) as any as S.Schema<ListLongRunningBackupsRequest>,
+  output: __S(1026, __c64, 2) as any as S.Schema<ServerBackupV2ListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3324,8 +3349,8 @@ export const ListMaintenances: API.OperationMethod<
   ListMaintenancesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<ListMaintenancesRequest>,
-  output: __S(1026, __c64, 2) as any as S.Schema<MaintenanceListResult>,
+  input: __S(1040, __c65, 0) as any as S.Schema<ListMaintenancesRequest>,
+  output: __S(1042, __c65, 2) as any as S.Schema<MaintenanceListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3341,8 +3366,8 @@ export const ListOperations: API.OperationMethod<
   ListOperationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1072, __c67, 0) as any as S.Schema<ListOperationsRequest>,
-  output: __S(1076, __c67, 4) as any as S.Schema<OperationListResult>,
+  input: __S(1088, __c68, 0) as any as S.Schema<ListOperationsRequest>,
+  output: __S(1092, __c68, 4) as any as S.Schema<OperationListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3358,8 +3383,8 @@ export const ListPrivateEndpointConnectionByServer: API.OperationMethod<
   ListPrivateEndpointConnectionByServerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<ListPrivateEndpointConnectionByServerRequest>,
-  output: __S(1089, __c68, 1) as any as S.Schema<PrivateEndpointConnectionListResult>,
+  input: __S(1104, __c69, 0) as any as S.Schema<ListPrivateEndpointConnectionByServerRequest>,
+  output: __S(1105, __c69, 1) as any as S.Schema<PrivateEndpointConnectionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3375,8 +3400,8 @@ export const ListPrivateLinkResourceByServer: API.OperationMethod<
   ListPrivateLinkResourceByServerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1104, __c69, 0) as any as S.Schema<ListPrivateLinkResourceByServerRequest>,
-  output: __S(1106, __c69, 2) as any as S.Schema<ListPrivateLinkResourceByServerResponse>,
+  input: __S(1120, __c70, 0) as any as S.Schema<ListPrivateLinkResourceByServerRequest>,
+  output: __S(1122, __c70, 2) as any as S.Schema<ListPrivateLinkResourceByServerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3392,8 +3417,8 @@ export const ListReplicasByServer: API.OperationMethod<
   ListReplicasByServerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c70, 0) as any as S.Schema<ListReplicasByServerRequest>,
-  output: __S(1137, __c71, 1) as any as S.Schema<ServerListResult>,
+  input: __S(1136, __c71, 0) as any as S.Schema<ListReplicasByServerRequest>,
+  output: __S(1153, __c72, 1) as any as S.Schema<ServerListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3409,8 +3434,8 @@ export const ListServerByResourceGroup: API.OperationMethod<
   ListServerByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c72, 0) as any as S.Schema<ListServerByResourceGroupRequest>,
-  output: __S(1137, __c71, 1) as any as S.Schema<ServerListResult>,
+  input: __S(1168, __c73, 0) as any as S.Schema<ListServerByResourceGroupRequest>,
+  output: __S(1153, __c72, 1) as any as S.Schema<ServerListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3426,8 +3451,8 @@ export const ListServerKeys: API.OperationMethod<
   ListServerKeysError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1168, __c73, 0) as any as S.Schema<ListServerKeysRequest>,
-  output: __S(1170, __c73, 2) as any as S.Schema<ServerKeyListResult>,
+  input: __S(1184, __c74, 0) as any as S.Schema<ListServerKeysRequest>,
+  output: __S(1186, __c74, 2) as any as S.Schema<ServerKeyListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3444,7 +3469,7 @@ export const ListServers: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c82, 0) as any as S.Schema<ListServersRequest>,
-  output: __S(1137, __c71, 1) as any as S.Schema<ServerListResult>,
+  output: __S(1153, __c72, 1) as any as S.Schema<ServerListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3495,7 +3520,7 @@ export const ReadMaintenance: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1360, __c85, 0) as any as S.Schema<ReadMaintenanceRequest>,
-  output: __S(1040, __c65, 0) as any as S.Schema<ReadMaintenanceResponse>,
+  output: __S(1056, __c66, 0) as any as S.Schema<ReadMaintenanceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3546,7 +3571,7 @@ export const ServerKeysCreateOrUpdate: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1425, __c89, 1) as any as S.Schema<ServerKeysCreateOrUpdateRequest>,
-  output: __S(801, __c50, 1) as any as S.Schema<ServerKeysCreateOrUpdateResponse>,
+  output: __S(817, __c51, 1) as any as S.Schema<ServerKeysCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3597,7 +3622,7 @@ export const ServersUpgrade: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1473, __c92, 1) as any as S.Schema<ServersUpgradeRequest>,
-  output: __S(1200, __c75, 0) as any as S.Schema<ServersUpgradeResponse>,
+  output: __S(1216, __c76, 0) as any as S.Schema<ServersUpgradeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4457,8 +4482,8 @@ function __c35(j: number): any {
           vCores: S.optional(S.Number),
           supportedIops: S.optional(S.Number),
           supportedMemoryPerVCoreMB: S.optional(S.Number),
-          supportedZones: S.optional(__S(1216, __c76, 0)),
-          supportedHAMode: S.optional(__S(1216, __c76, 0)),
+          supportedZones: S.optional(__S(720, __c45, 0)),
+          supportedHAMode: S.optional(__S(720, __c45, 0)),
         }),
       ).annotate({ identifier: "SkuCapabilityV2" });
     case 1:
@@ -4495,7 +4520,7 @@ function __c35(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          supportedGeoBackupRegions: S.optional(__S(1216, __c76, 0)),
+          supportedGeoBackupRegions: S.optional(__S(720, __c45, 0)),
           supportedFlexibleServerEditions: S.optional(__S(563, __c35, 3)),
           supportedServerVersions: S.optional(__S(565, __c35, 5)),
           supportedFeatures: S.optional(__S(567, __c35, 7)),
@@ -4542,7 +4567,7 @@ function __c37(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(960, __c60, 0)),
+          properties: S.optional(__S(976, __c61, 0)),
         }),
       ).annotate({ identifier: "GetLongRunningBackupResponse" });
   }
@@ -4568,9 +4593,21 @@ function __c38(j: number): any {
       return S.suspend(() =>
         S.Struct({
           objectType: S.String,
+          datasourceSizeInBytes: S.optional(S.Number),
+          dataTransferredInBytes: S.optional(S.Number),
+          backupMetadata: S.optional(S.String),
         }),
-      ).annotate({ identifier: "OperationProgressResponseType" });
+      ).annotate({ identifier: "BackupAndExportResponseType" });
     case 2:
+      return S.suspend(() =>
+        S.Struct({
+          objectType: S.String,
+          estimatedCompletionTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ImportFromStorageResponseType" });
+    case 3:
+      return S.Union([__S(609, __c38, 1), __S(610, __c38, 2)]);
+    case 4:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -4582,7 +4619,7 @@ function __c38(j: number): any {
           endTime: S.optional(S.String),
           operations: S.optional(__S(626, __c39, 2)),
           error: S.optional(__S(707, __c44, 3)),
-          properties: S.optional(__S(609, __c38, 1)),
+          properties: S.optional(__S(611, __c38, 3)),
         }),
       ).annotate({ identifier: "GetOperationProgressResponse" });
   }
@@ -4682,8 +4719,9 @@ function __c43(j: number): any {
       return S.suspend(() =>
         S.Struct({
           objectType: S.String,
+          sasUriList: __S(720, __c45, 0),
         }),
-      ).annotate({ identifier: "BackupStoreDetails" });
+      ).annotate({ identifier: "FullBackupStoreDetails" });
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -4768,6 +4806,12 @@ function __c44(j: number): any {
 function __c45(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.String);
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -4785,14 +4829,14 @@ function __c45(j: number): any {
       ).annotate({ identifier: "GetPrivateLinkResourceRequest" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           groupId: S.optional(S.String),
-          requiredMembers: S.optional(__S(1216, __c76, 0)),
-          requiredZoneNames: S.optional(__S(1216, __c76, 0)),
+          requiredMembers: S.optional(__S(720, __c45, 0)),
+          requiredZoneNames: S.optional(__S(720, __c45, 0)),
         }),
       ).annotate({ identifier: "PrivateLinkResourceProperties" });
     case 1:
@@ -4802,12 +4846,12 @@ function __c46(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(736, __c46, 0)),
+          properties: S.optional(__S(752, __c47, 0)),
         }),
       ).annotate({ identifier: "GetPrivateLinkResourceResponse" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4826,7 +4870,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "GetServerRequest" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4844,7 +4888,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "GetServerResponse" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4864,7 +4908,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "GetServerKeyRequest" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4881,12 +4925,12 @@ function __c50(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           kind: S.optional(S.String),
-          properties: S.optional(__S(800, __c50, 0)),
+          properties: S.optional(__S(816, __c51, 0)),
         }),
       ).annotate({ identifier: "GetServerKeyResponse" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4908,13 +4952,13 @@ function __c51(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(817, __c51, 1)),
+          value: S.optional(__S(833, __c52, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AdvancedThreatProtectionListResult" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4936,13 +4980,13 @@ function __c52(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(833, __c52, 1)),
+          value: S.optional(__S(849, __c53, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AdministratorListResult" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4964,13 +5008,13 @@ function __c53(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(849, __c53, 1)),
+          value: S.optional(__S(865, __c54, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ServerBackupListResult" });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4994,19 +5038,19 @@ function __c54(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(880, __c55, 0)),
+          value: S.optional(__S(896, __c56, 0)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConfigurationListResult" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(448, __c28, 0));
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5028,13 +5072,13 @@ function __c56(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(897, __c56, 1)),
+          value: S.optional(__S(913, __c57, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DatabaseListResult" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5056,13 +5100,13 @@ function __c57(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(913, __c57, 1)),
+          value: S.optional(__S(929, __c58, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "FirewallRuleListResult" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5088,47 +5132,47 @@ function __c58(j: number): any {
         }),
       ).annotate({ identifier: "SkuCapability" });
     case 2:
-      return S.Array(__S(929, __c58, 1));
+      return S.Array(__S(945, __c59, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          supportedSkus: S.optional(__S(930, __c58, 2)),
+          supportedSkus: S.optional(__S(946, __c59, 2)),
         }),
       ).annotate({ identifier: "ServerVersionCapability" });
     case 4:
-      return S.Array(__S(931, __c58, 3));
+      return S.Array(__S(947, __c59, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           supportedStorageEditions: S.optional(__S(545, __c34, 1)),
-          supportedServerVersions: S.optional(__S(932, __c58, 4)),
+          supportedServerVersions: S.optional(__S(948, __c59, 4)),
         }),
       ).annotate({ identifier: "ServerEditionCapability" });
     case 6:
-      return S.Array(__S(933, __c58, 5));
+      return S.Array(__S(949, __c59, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           zone: S.optional(S.String),
-          supportedHAMode: S.optional(__S(1216, __c76, 0)),
-          supportedGeoBackupRegions: S.optional(__S(1216, __c76, 0)),
-          supportedFlexibleServerEditions: S.optional(__S(934, __c58, 6)),
+          supportedHAMode: S.optional(__S(720, __c45, 0)),
+          supportedGeoBackupRegions: S.optional(__S(720, __c45, 0)),
+          supportedFlexibleServerEditions: S.optional(__S(950, __c59, 6)),
         }),
       ).annotate({ identifier: "CapabilityProperties" });
     case 8:
-      return S.Array(__S(935, __c58, 7));
+      return S.Array(__S(951, __c59, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(936, __c58, 8)),
+          value: S.optional(__S(952, __c59, 8)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "CapabilitiesListResult" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5137,7 +5181,7 @@ function __c59(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serverName: S.String.pipe(T.Label()),
           backupName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(960, __c60, 0)),
+          properties: S.optional(__S(976, __c61, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -5154,14 +5198,14 @@ function __c59(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(960, __c60, 0)),
+          properties: S.optional(__S(976, __c61, 0)),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
           location: S.optional(S.String.pipe(T.Header("Location"))),
         }),
       ).annotate({ identifier: "CreateLongRunningBackupResponse" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5175,7 +5219,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "ServerBackupPropertiesV2" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5196,13 +5240,13 @@ function __c61(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(977, __c61, 1)),
+          value: S.optional(__S(993, __c62, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "CapabilitySetsList" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5236,21 +5280,21 @@ function __c62(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(993, __c62, 1)),
+          properties: S.optional(__S(1009, __c63, 1)),
         }),
       ).annotate({ identifier: "LogFile" });
     case 3:
-      return S.Array(__S(994, __c62, 2));
+      return S.Array(__S(1010, __c63, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(995, __c62, 3)),
+          value: S.optional(__S(1011, __c63, 3)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "LogFileListResult" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5272,13 +5316,13 @@ function __c63(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1009, __c63, 1)),
+          value: S.optional(__S(1025, __c64, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ServerBackupV2ListResult" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5296,17 +5340,17 @@ function __c64(j: number): any {
         ),
       ).annotate({ identifier: "ListMaintenancesRequest" });
     case 1:
-      return S.Array(__S(1040, __c65, 0));
+      return S.Array(__S(1056, __c66, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1025, __c64, 1)),
+          value: S.optional(__S(1041, __c65, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "MaintenanceListResult" });
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5315,12 +5359,12 @@ function __c65(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(16, __c1, 0)),
-          properties: __S(1056, __c66, 0),
+          properties: __S(1072, __c67, 0),
         }),
       ).annotate({ identifier: "Maintenance" });
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5340,7 +5384,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "MaintenanceProperties" });
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5366,23 +5410,23 @@ function __c67(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          display: S.optional(__S(1073, __c67, 1)),
+          display: S.optional(__S(1089, __c68, 1)),
           origin: S.optional(S.String),
           properties: S.optional(__S(656, __c41, 0)),
         }),
       ).annotate({ identifier: "Operation" });
     case 3:
-      return S.Array(__S(1074, __c67, 2));
+      return S.Array(__S(1090, __c68, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1075, __c67, 3)),
+          value: S.optional(__S(1091, __c68, 3)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OperationListResult" });
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5408,7 +5452,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "PrivateEndpointConnectionListResult" });
   }
 }
-function __c69(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5426,16 +5470,16 @@ function __c69(j: number): any {
         ),
       ).annotate({ identifier: "ListPrivateLinkResourceByServerRequest" });
     case 1:
-      return S.Array(__S(737, __c46, 1));
+      return S.Array(__S(753, __c47, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1105, __c69, 1)),
+          value: S.optional(__S(1121, __c70, 1)),
         }),
       ).annotate({ identifier: "ListPrivateLinkResourceByServerResponse" });
   }
 }
-function __c70(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5454,20 +5498,20 @@ function __c70(j: number): any {
       ).annotate({ identifier: "ListReplicasByServerRequest" });
   }
 }
-function __c71(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(768, __c48, 0));
+      return S.Array(__S(784, __c49, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1136, __c71, 0)),
+          value: S.optional(__S(1152, __c72, 0)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ServerListResult" });
   }
 }
-function __c72(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5485,7 +5529,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "ListServerByResourceGroupRequest" });
   }
 }
-function __c73(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5503,17 +5547,17 @@ function __c73(j: number): any {
         ),
       ).annotate({ identifier: "ListServerKeysRequest" });
     case 1:
-      return S.Array(__S(801, __c50, 1));
+      return S.Array(__S(817, __c51, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1169, __c73, 1)),
+          value: S.optional(__S(1185, __c74, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ServerKeyListResult" });
   }
 }
-function __c74(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5545,7 +5589,7 @@ function __c74(j: number): any {
           serverName: S.String.pipe(T.Label()),
           tags: S.optional(__S(1280, __c80, 0)),
           location: S.String,
-          properties: S.optional(__S(1184, __c74, 0)),
+          properties: S.optional(__S(1200, __c75, 0)),
           identity: S.optional(__S(1299, __c81, 3)),
           sku: S.optional(__S(1287, __c80, 7)),
         }).pipe(
@@ -5559,16 +5603,10 @@ function __c74(j: number): any {
       ).annotate({ identifier: "CreateServerRequest" });
   }
 }
-function __c75(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "UserAssignedIdentityInput" });
-  }
-}
 function __c76(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "UserAssignedIdentityInput" });
   }
 }
 function __c77(j: number): any {
@@ -5590,7 +5628,7 @@ function __c77(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          groupIds: S.optional(__S(1216, __c76, 0)),
+          groupIds: S.optional(__S(720, __c45, 0)),
           privateEndpoint: S.optional(__S(1232, __c77, 0)),
           privateLinkServiceConnectionState: __S(1233, __c77, 1),
           provisioningState: S.optional(S.String),
@@ -5770,7 +5808,7 @@ function __c81(j: number): any {
         }),
       ).annotate({ identifier: "BackupInput" });
     case 2:
-      return S.Record(S.String, __S(1200, __c75, 0));
+      return S.Record(S.String, __S(1216, __c76, 0));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -5818,7 +5856,7 @@ function __c83(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          privateEndpoint: S.optional(__S(1200, __c75, 0)),
+          privateEndpoint: S.optional(__S(1216, __c76, 0)),
           privateLinkServiceConnectionState: __S(1233, __c77, 1),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionPropertiesInput" });
@@ -6205,7 +6243,7 @@ function __c99(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(880, __c55, 0)),
+          value: S.optional(__S(896, __c56, 0)),
           nextLink: S.optional(S.String),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           location: S.optional(S.String.pipe(T.Header("Location"))),
@@ -6245,7 +6283,7 @@ function __c100(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(16, __c1, 0)),
-          properties: __S(1056, __c66, 0),
+          properties: __S(1072, __c67, 0),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),

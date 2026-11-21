@@ -29,36 +29,89 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)),
+          /*@__PURE__*/ S.suspend(() => __S(32, __c1, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(3, __c0, 3)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: OfflineEvaluationError | Error400BodyMap | ErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)),
+          /*@__PURE__*/ S.suspend(() => __S(64, __c2, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(3, __c0, 3)),
+          /*@__PURE__*/ S.suspend(() => __S(3, __c0, 3)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?:
+    | OfflineEvaluationError
+    | DatasetConflictResponse
+    | DatasetExportError
+    | TraceExportError
+    | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)),
+          /*@__PURE__*/ S.suspend(() => __S(32, __c1, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(3, __c0, 3)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: OfflineEvaluationError | Error400BodyMap | ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)),
+          /*@__PURE__*/ S.suspend(() => __S(3, __c0, 3)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: OfflineEvaluationError | ErrorResponse | string;
+}
 
 /** * `sessions` - sessions * `tool_calls` - tool_calls * `user_identity` - user_identity * `trace_structure` - trace_structure */
 export type AIObservabilityInstrumentationCheckEnum =
@@ -2132,6 +2185,80 @@ export interface UpdateDatasetsPartialRequest {
   /** Replacement JSON object for descriptive dataset metadata. */
   metadata?: UpdateDatasetsPartialRequestMetadataMap | undefined;
 }
+export interface OfflineEvaluationValidationError {
+  /** Stable validation error code. */
+  code: string;
+  /** Explanation of the invalid value. */
+  detail: string;
+  /** Invalid field path, with dot-separated fields and zero-based batch indexes. */
+  attr: string | null;
+}
+/** All validation errors found in the request. */
+export type OfflineEvaluationErrorErrorsList = Array<OfflineEvaluationValidationError>;
+export interface OfflineEvaluationError {
+  /** Error category for standard API errors. */
+  type?: string | undefined;
+  /** Stable error code. */
+  code: string;
+  /** Explanation of the rejected request. */
+  detail: string;
+  /** Invalid field, including batch entry index. */
+  attr?: string | null | undefined;
+  /** Declared item count. */
+  expected_item_count?: number | null | undefined;
+  /** Declared result count. */
+  expected_result_count?: number | null | undefined;
+  /** Accepted items at failed completion. */
+  accepted_item_count?: number | undefined;
+  /** Accepted results at failed completion. */
+  accepted_result_count?: number | undefined;
+  /** All validation errors found in the request. */
+  errors?: OfflineEvaluationErrorErrorsList | undefined;
+}
+export type Error400BodyMap = { [key: string]: unknown | undefined };
+/** DRF's default error envelope -- `{ "detail": str }` -- typed for the OpenAPI schema. */
+export interface ErrorResponse {
+  /** Human-readable error description from DRF. */
+  detail: string;
+}
+/** * `dataset_archived` - dataset_archived * `dataset_name_conflict` - dataset_name_conflict * `dataset_item_archived` - dataset_item_archived * `dataset_item_active` - dataset_item_active * `client_item_id_conflict` - client_item_id_conflict * `limit_reached` - limit_reached * `stale_version` - stale_version */
+export type CodeEnum =
+  | "dataset_archived"
+  | "dataset_name_conflict"
+  | "dataset_item_archived"
+  | "dataset_item_active"
+  | "client_item_id_conflict"
+  | "limit_reached"
+  | "stale_version";
+/** * `datasets` - datasets * `dataset_items` - dataset_items * `dataset_item_versions` - dataset_item_versions */
+export type DatasetConflictResponseResourceEnum =
+  | "datasets"
+  | "dataset_items"
+  | "dataset_item_versions";
+export interface DatasetConflictResponse {
+  /** Stable code identifying why the mutation was rejected. * `dataset_archived` - dataset_archived * `dataset_name_conflict` - dataset_name_conflict * `dataset_item_archived` - dataset_item_archived * `dataset_item_active` - dataset_item_active * `client_item_id_conflict` - client_item_id_conflict * `limit_reached` - limit_reached * `stale_version` - stale_version */
+  code: CodeEnum;
+  /** Explanation of how to resolve the conflict. */
+  detail: string;
+  /** Current item version when the conflict concerns an item. */
+  current_version?: number | null | undefined;
+  /** Existing item ID when the conflict concerns a client item ID. */
+  current_item_id?: string | null | undefined;
+  /** Resource whose configured limit was reached. * `datasets` - datasets * `dataset_items` - dataset_items * `dataset_item_versions` - dataset_item_versions */
+  resource?: DatasetConflictResponseResourceEnum | undefined;
+  /** Number of resources that already exist. */
+  current_count?: number | undefined;
+  /** Maximum number of resources allowed. */
+  limit?: number | undefined;
+}
+export interface DatasetExportError {
+  /** Why the export cannot be created or downloaded yet. */
+  detail: string;
+}
+export interface TraceExportError {
+  /** Why the file cannot be downloaded yet. */
+  detail: string;
+}
 export type AiObservabilityInstrumentationChecklistRestoreCreateError = PosthogOpError;
 /** Bring a dismissed check back into grading. */
 export const aiObservabilityInstrumentationChecklistRestoreCreate: API.OperationMethod<
@@ -2141,11 +2268,11 @@ export const aiObservabilityInstrumentationChecklistRestoreCreate: API.Operation
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1344,
-    __c42,
+    1440,
+    __c45,
     0,
   ) as any as S.Schema<AiObservabilityInstrumentationChecklistRestoreCreateRequest>,
-  output: __S(1379, __c43, 3) as any as S.Schema<InstrumentationChecklist>,
+  output: __S(1475, __c46, 3) as any as S.Schema<InstrumentationChecklist>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2166,11 +2293,11 @@ export const aiObservabilityOfflineExperimentsUploadCreate: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1796,
-    __c56,
+    1892,
+    __c59,
     4,
   ) as any as S.Schema<AiObservabilityOfflineExperimentsUploadCreateRequest>,
-  output: __S(1801, __c56, 9) as any as S.Schema<UploadReceipt>,
+  output: __S(1897, __c59, 9) as any as S.Schema<UploadReceipt>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2186,8 +2313,8 @@ export const aiObservabilityTracesSearchRetrieve: API.OperationMethod<
   AiObservabilityTracesSearchRetrieveError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<AiObservabilityTracesSearchRetrieveRequest>,
-  output: __S(2211, __c69, 3) as any as S.Schema<TraceSearchResults>,
+  input: __S(2272, __c71, 0) as any as S.Schema<AiObservabilityTracesSearchRetrieveRequest>,
+  output: __S(2275, __c71, 3) as any as S.Schema<TraceSearchResults>,
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2203,8 +2330,8 @@ export const archiveDataset: API.OperationMethod<
   ArchiveDatasetError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<ArchiveDatasetRequest>,
-  output: __S(2304, __c72, 0) as any as S.Schema<DatasetRead>,
+  input: __S(2304, __c72, 0) as any as S.Schema<ArchiveDatasetRequest>,
+  output: __S(2368, __c74, 0) as any as S.Schema<DatasetRead>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2220,8 +2347,8 @@ export const archiveDatasetItem: API.OperationMethod<
   ArchiveDatasetItemError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c74, 0) as any as S.Schema<ArchiveDatasetItemRequest>,
-  output: __S(2400, __c75, 0) as any as S.Schema<DatasetItemRead>,
+  input: __S(2432, __c76, 0) as any as S.Schema<ArchiveDatasetItemRequest>,
+  output: __S(2464, __c77, 0) as any as S.Schema<DatasetItemRead>,
   errors: [Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2238,11 +2365,11 @@ export const createAiObservabilityInstrumentationChecklistDismiss: API.Operation
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2432,
-    __c76,
+    2496,
+    __c78,
     0,
   ) as any as S.Schema<CreateAiObservabilityInstrumentationChecklistDismissRequest>,
-  output: __S(1379, __c43, 3) as any as S.Schema<InstrumentationChecklist>,
+  output: __S(1475, __c46, 3) as any as S.Schema<InstrumentationChecklist>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2262,8 +2389,8 @@ export const createAiObservabilityOfflineExperiment: API.OperationMethod<
   CreateAiObservabilityOfflineExperimentError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateAiObservabilityOfflineExperimentRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<ExperimentReceipt>,
+  input: __S(96, __c3, 0) as any as S.Schema<CreateAiObservabilityOfflineExperimentRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<ExperimentReceipt>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2284,11 +2411,11 @@ export const createAiObservabilityOfflineExperimentsComplete: API.OperationMetho
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    64,
-    __c2,
+    160,
+    __c5,
     0,
   ) as any as S.Schema<CreateAiObservabilityOfflineExperimentsCompleteRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<ExperimentReceipt>,
+  output: __S(128, __c4, 0) as any as S.Schema<ExperimentReceipt>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2308,8 +2435,8 @@ export const createAiObservabilityOfflineExperimentsFail: API.OperationMethod<
   CreateAiObservabilityOfflineExperimentsFailError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c3, 0) as any as S.Schema<CreateAiObservabilityOfflineExperimentsFailRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<ExperimentReceipt>,
+  input: __S(192, __c6, 0) as any as S.Schema<CreateAiObservabilityOfflineExperimentsFailRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<ExperimentReceipt>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2324,8 +2451,8 @@ export const createAiObservabilityTracesAvailability: API.OperationMethod<
   CreateAiObservabilityTracesAvailabilityError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<CreateAiObservabilityTracesAvailabilityRequest>,
-  output: __S(129, __c4, 1) as any as S.Schema<TraceAvailability>,
+  input: __S(224, __c7, 0) as any as S.Schema<CreateAiObservabilityTracesAvailabilityRequest>,
+  output: __S(225, __c7, 1) as any as S.Schema<TraceAvailability>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2341,8 +2468,8 @@ export const createAiObservabilityTracesExport: API.OperationMethod<
   CreateAiObservabilityTracesExportError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<CreateAiObservabilityTracesExportRequest>,
-  output: __S(192, __c6, 0) as any as S.Schema<TraceExport>,
+  input: __S(256, __c8, 0) as any as S.Schema<CreateAiObservabilityTracesExportRequest>,
+  output: __S(288, __c9, 0) as any as S.Schema<TraceExport>,
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2358,8 +2485,8 @@ export const createAiObservabilityTracesSummary: API.OperationMethod<
   CreateAiObservabilityTracesSummaryError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<CreateAiObservabilityTracesSummaryRequest>,
-  output: __S(260, __c8, 4) as any as S.Schema<TraceSummary>,
+  input: __S(320, __c10, 0) as any as S.Schema<CreateAiObservabilityTracesSummaryRequest>,
+  output: __S(356, __c11, 4) as any as S.Schema<TraceSummary>,
   errors: [BadRequest, Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2375,8 +2502,8 @@ export const createDataset: API.OperationMethod<
   CreateDatasetError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<CreateDatasetRequest>,
-  output: __S(2304, __c72, 0) as any as S.Schema<DatasetRead>,
+  input: __S(384, __c12, 0) as any as S.Schema<CreateDatasetRequest>,
+  output: __S(2368, __c74, 0) as any as S.Schema<DatasetRead>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2392,8 +2519,8 @@ export const createDatasetItem: API.OperationMethod<
   CreateDatasetItemError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<CreateDatasetItemRequest>,
-  output: __S(2400, __c75, 0) as any as S.Schema<DatasetItemRead>,
+  input: __S(416, __c13, 0) as any as S.Schema<CreateDatasetItemRequest>,
+  output: __S(2464, __c77, 0) as any as S.Schema<DatasetItemRead>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2409,8 +2536,8 @@ export const createDatasetsExport: API.OperationMethod<
   CreateDatasetsExportError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<CreateDatasetsExportRequest>,
-  output: __S(384, __c12, 0) as any as S.Schema<DatasetExportRead>,
+  input: __S(448, __c14, 0) as any as S.Schema<CreateDatasetsExportRequest>,
+  output: __S(480, __c15, 0) as any as S.Schema<DatasetExportRead>,
   errors: [Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2426,8 +2553,8 @@ export const createDatasetsExtendRetention: API.OperationMethod<
   CreateDatasetsExtendRetentionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<CreateDatasetsExtendRetentionRequest>,
-  output: __S(448, __c14, 0) as any as S.Schema<DatasetRetentionEntry>,
+  input: __S(512, __c16, 0) as any as S.Schema<CreateDatasetsExtendRetentionRequest>,
+  output: __S(544, __c17, 0) as any as S.Schema<DatasetRetentionEntry>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2443,8 +2570,8 @@ export const createLlmAnalyticsSummarization: API.OperationMethod<
   CreateLlmAnalyticsSummarizationError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<CreateLlmAnalyticsSummarizationRequest>,
-  output: __S(484, __c15, 4) as any as S.Schema<SummarizeResponse>,
+  input: __S(576, __c18, 0) as any as S.Schema<CreateLlmAnalyticsSummarizationRequest>,
+  output: __S(580, __c18, 4) as any as S.Schema<SummarizeResponse>,
   errors: [BadRequest, Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2463,8 +2590,8 @@ export const createLlmAnalyticsSummarizationBatchCheck: API.OperationMethod<
   CreateLlmAnalyticsSummarizationBatchCheckError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<CreateLlmAnalyticsSummarizationBatchCheckRequest>,
-  output: __S(515, __c16, 3) as any as S.Schema<BatchCheckResponse>,
+  input: __S(608, __c19, 0) as any as S.Schema<CreateLlmAnalyticsSummarizationBatchCheckRequest>,
+  output: __S(611, __c19, 3) as any as S.Schema<BatchCheckResponse>,
   errors: [BadRequest, Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2480,8 +2607,8 @@ export const createLlmAnalyticsTextRepr: API.OperationMethod<
   CreateLlmAnalyticsTextReprError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(545, __c17, 1) as any as S.Schema<CreateLlmAnalyticsTextReprRequest>,
-  output: __S(547, __c17, 3) as any as S.Schema<TextReprResponse>,
+  input: __S(641, __c20, 1) as any as S.Schema<CreateLlmAnalyticsTextReprRequest>,
+  output: __S(643, __c20, 3) as any as S.Schema<TextReprResponse>,
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2497,8 +2624,8 @@ export const getAiObservabilityInstrumentationChecklist: API.OperationMethod<
   GetAiObservabilityInstrumentationChecklistError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<GetAiObservabilityInstrumentationChecklistRequest>,
-  output: __S(1379, __c43, 3) as any as S.Schema<InstrumentationChecklist>,
+  input: __S(672, __c21, 0) as any as S.Schema<GetAiObservabilityInstrumentationChecklistRequest>,
+  output: __S(1475, __c46, 3) as any as S.Schema<InstrumentationChecklist>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2517,8 +2644,8 @@ export const getAiObservabilityOfflineExperiment: API.OperationMethod<
   GetAiObservabilityOfflineExperimentError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<GetAiObservabilityOfflineExperimentRequest>,
-  output: __S(640, __c20, 0) as any as S.Schema<OfflineExperimentRead>,
+  input: __S(704, __c22, 0) as any as S.Schema<GetAiObservabilityOfflineExperimentRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<OfflineExperimentRead>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2537,8 +2664,8 @@ export const getAiObservabilityOfflineExperimentsItem: API.OperationMethod<
   GetAiObservabilityOfflineExperimentsItemError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<GetAiObservabilityOfflineExperimentsItemRequest>,
-  output: __S(736, __c23, 0) as any as S.Schema<OfflineItemRead>,
+  input: __S(768, __c24, 0) as any as S.Schema<GetAiObservabilityOfflineExperimentsItemRequest>,
+  output: __S(832, __c26, 0) as any as S.Schema<OfflineItemRead>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2558,11 +2685,11 @@ export const getAiObservabilityOfflineExperimentsItemsPayload: API.OperationMeth
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    768,
-    __c24,
+    864,
+    __c27,
     0,
   ) as any as S.Schema<GetAiObservabilityOfflineExperimentsItemsPayloadRequest>,
-  output: __S(769, __c24, 1) as any as S.Schema<OfflineItemPayloadRead>,
+  output: __S(865, __c27, 1) as any as S.Schema<OfflineItemPayloadRead>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2582,11 +2709,11 @@ export const getAiObservabilityOfflineExperimentsResultCell: API.OperationMethod
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    800,
-    __c25,
+    896,
+    __c28,
     0,
   ) as any as S.Schema<GetAiObservabilityOfflineExperimentsResultCellRequest>,
-  output: __S(801, __c25, 1) as any as S.Schema<OfflineResultCells>,
+  output: __S(897, __c28, 1) as any as S.Schema<OfflineResultCells>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2606,11 +2733,11 @@ export const getAiObservabilityOfflineExperimentsResultsPayload: API.OperationMe
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    896,
-    __c28,
+    992,
+    __c31,
     0,
   ) as any as S.Schema<GetAiObservabilityOfflineExperimentsResultsPayloadRequest>,
-  output: __S(897, __c28, 1) as any as S.Schema<OfflineResultPayloadRead>,
+  output: __S(993, __c31, 1) as any as S.Schema<OfflineResultPayloadRead>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2626,8 +2753,8 @@ export const getAiObservabilityTrace: API.OperationMethod<
   GetAiObservabilityTraceError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<GetAiObservabilityTraceRequest>,
-  output: __S(969, __c30, 9) as any as S.Schema<Trace>,
+  input: __S(1024, __c32, 0) as any as S.Schema<GetAiObservabilityTraceRequest>,
+  output: __S(1065, __c33, 9) as any as S.Schema<Trace>,
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2643,8 +2770,8 @@ export const getAiObservabilityTracesCluster: API.OperationMethod<
   GetAiObservabilityTracesClusterError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<GetAiObservabilityTracesClusterRequest>,
-  output: __S(995, __c31, 3) as any as S.Schema<TraceClusters>,
+  input: __S(1088, __c34, 0) as any as S.Schema<GetAiObservabilityTracesClusterRequest>,
+  output: __S(1091, __c34, 3) as any as S.Schema<TraceClusters>,
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2660,8 +2787,8 @@ export const getAiObservabilityTracesEvaluation: API.OperationMethod<
   GetAiObservabilityTracesEvaluationError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<GetAiObservabilityTracesEvaluationRequest>,
-  output: __S(1030, __c32, 6) as any as S.Schema<TraceEvaluationResults>,
+  input: __S(1120, __c35, 0) as any as S.Schema<GetAiObservabilityTracesEvaluationRequest>,
+  output: __S(1126, __c35, 6) as any as S.Schema<TraceEvaluationResults>,
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2677,8 +2804,8 @@ export const getAiObservabilityTracesExport: API.OperationMethod<
   GetAiObservabilityTracesExportError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<GetAiObservabilityTracesExportRequest>,
-  output: __S(192, __c6, 0) as any as S.Schema<TraceExport>,
+  input: __S(1152, __c36, 0) as any as S.Schema<GetAiObservabilityTracesExportRequest>,
+  output: __S(288, __c9, 0) as any as S.Schema<TraceExport>,
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2698,8 +2825,8 @@ export const getAiObservabilityTracesExportsContent: API.OperationMethod<
   GetAiObservabilityTracesExportsContentError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<GetAiObservabilityTracesExportsContentRequest>,
-  output: __S(1090, __c34, 2) as any as S.Schema<TraceExportFile>,
+  input: __S(1184, __c37, 0) as any as S.Schema<GetAiObservabilityTracesExportsContentRequest>,
+  output: __S(1186, __c37, 2) as any as S.Schema<TraceExportFile>,
   errors: [BadRequest, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2715,8 +2842,8 @@ export const getAiObservabilityTracesFeedback: API.OperationMethod<
   GetAiObservabilityTracesFeedbackError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<GetAiObservabilityTracesFeedbackRequest>,
-  output: __S(1160, __c36, 8) as any as S.Schema<TraceFeedback>,
+  input: __S(1248, __c39, 0) as any as S.Schema<GetAiObservabilityTracesFeedbackRequest>,
+  output: __S(1256, __c39, 8) as any as S.Schema<TraceFeedback>,
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2732,8 +2859,8 @@ export const getAiObservabilityTracesNode: API.OperationMethod<
   GetAiObservabilityTracesNodeError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<GetAiObservabilityTracesNodeRequest>,
-  output: __S(1123, __c35, 3) as any as S.Schema<TraceNodeDetail>,
+  input: __S(1280, __c40, 0) as any as S.Schema<GetAiObservabilityTracesNodeRequest>,
+  output: __S(1219, __c38, 3) as any as S.Schema<TraceNodeDetail>,
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2749,8 +2876,8 @@ export const getAiObservabilityTracesPullRequest: API.OperationMethod<
   GetAiObservabilityTracesPullRequestError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<GetAiObservabilityTracesPullRequestRequest>,
-  output: __S(1218, __c38, 2) as any as S.Schema<TracePullRequestLookup>,
+  input: __S(1312, __c41, 0) as any as S.Schema<GetAiObservabilityTracesPullRequestRequest>,
+  output: __S(1314, __c41, 2) as any as S.Schema<TracePullRequestLookup>,
   errors: [BadRequest, Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2766,8 +2893,8 @@ export const getAiObservabilityTracesReview: API.OperationMethod<
   GetAiObservabilityTracesReviewError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<GetAiObservabilityTracesReviewRequest>,
-  output: __S(1253, __c39, 5) as any as S.Schema<TraceReviewStatus>,
+  input: __S(1344, __c42, 0) as any as S.Schema<GetAiObservabilityTracesReviewRequest>,
+  output: __S(1349, __c42, 5) as any as S.Schema<TraceReviewStatus>,
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2787,8 +2914,8 @@ export const getAiObservabilityTracesSummary: API.OperationMethod<
   GetAiObservabilityTracesSummaryError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<GetAiObservabilityTracesSummaryRequest>,
-  output: __S(260, __c8, 4) as any as S.Schema<TraceSummary>,
+  input: __S(1376, __c43, 0) as any as S.Schema<GetAiObservabilityTracesSummaryRequest>,
+  output: __S(356, __c11, 4) as any as S.Schema<TraceSummary>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2804,8 +2931,8 @@ export const getDataset: API.OperationMethod<
   GetDatasetError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<GetDatasetRequest>,
-  output: __S(2304, __c72, 0) as any as S.Schema<DatasetRead>,
+  input: __S(1408, __c44, 0) as any as S.Schema<GetDatasetRequest>,
+  output: __S(2368, __c74, 0) as any as S.Schema<DatasetRead>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2821,8 +2948,8 @@ export const getDatasetItem: API.OperationMethod<
   GetDatasetItemError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<GetDatasetItemRequest>,
-  output: __S(2400, __c75, 0) as any as S.Schema<DatasetItemRead>,
+  input: __S(1504, __c47, 0) as any as S.Schema<GetDatasetItemRequest>,
+  output: __S(2464, __c77, 0) as any as S.Schema<DatasetItemRead>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2838,8 +2965,8 @@ export const getDatasetsExport: API.OperationMethod<
   GetDatasetsExportError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<GetDatasetsExportRequest>,
-  output: __S(384, __c12, 0) as any as S.Schema<DatasetExportRead>,
+  input: __S(1536, __c48, 0) as any as S.Schema<GetDatasetsExportRequest>,
+  output: __S(480, __c15, 0) as any as S.Schema<DatasetExportRead>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2855,8 +2982,8 @@ export const getDatasetsExportsContent: API.OperationMethod<
   GetDatasetsExportsContentError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<GetDatasetsExportsContentRequest>,
-  output: __S(1473, __c46, 1) as any as S.Schema<GetDatasetsExportsContentResponse>,
+  input: __S(1568, __c49, 0) as any as S.Schema<GetDatasetsExportsContentRequest>,
+  output: __S(1569, __c49, 1) as any as S.Schema<GetDatasetsExportsContentResponse>,
   errors: [Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2872,8 +2999,8 @@ export const getDatasetsRetention: API.OperationMethod<
   GetDatasetsRetentionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<GetDatasetsRetentionRequest>,
-  output: __S(1506, __c47, 2) as any as S.Schema<DatasetRetentionRead>,
+  input: __S(1600, __c50, 0) as any as S.Schema<GetDatasetsRetentionRequest>,
+  output: __S(1602, __c50, 2) as any as S.Schema<DatasetRetentionRead>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2892,8 +3019,8 @@ export const listAiObservabilityOfflineExperiments: API.OperationMethod<
   ListAiObservabilityOfflineExperimentsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<ListAiObservabilityOfflineExperimentsRequest>,
-  output: __S(1538, __c48, 2) as any as S.Schema<OfflineExperimentPage>,
+  input: __S(1632, __c51, 0) as any as S.Schema<ListAiObservabilityOfflineExperimentsRequest>,
+  output: __S(1634, __c51, 2) as any as S.Schema<OfflineExperimentPage>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2912,8 +3039,8 @@ export const listAiObservabilityOfflineExperimentsItems: API.OperationMethod<
   ListAiObservabilityOfflineExperimentsItemsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<ListAiObservabilityOfflineExperimentsItemsRequest>,
-  output: __S(1570, __c49, 2) as any as S.Schema<OfflineItemPage>,
+  input: __S(1664, __c52, 0) as any as S.Schema<ListAiObservabilityOfflineExperimentsItemsRequest>,
+  output: __S(1666, __c52, 2) as any as S.Schema<OfflineItemPage>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2933,11 +3060,11 @@ export const listAiObservabilityOfflineExperimentsItemsResults: API.OperationMet
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1600,
-    __c50,
+    1696,
+    __c53,
     0,
   ) as any as S.Schema<ListAiObservabilityOfflineExperimentsItemsResultsRequest>,
-  output: __S(1603, __c50, 3) as any as S.Schema<OfflineResultPage>,
+  output: __S(1699, __c53, 3) as any as S.Schema<OfflineResultPage>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2957,11 +3084,11 @@ export const listAiObservabilityOfflineExperimentsScorerSummaries: API.Operation
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1632,
-    __c51,
+    1728,
+    __c54,
     0,
   ) as any as S.Schema<ListAiObservabilityOfflineExperimentsScorerSummariesRequest>,
-  output: __S(1634, __c51, 2) as any as S.Schema<OfflineSummaryPage>,
+  output: __S(1730, __c54, 2) as any as S.Schema<OfflineSummaryPage>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2980,8 +3107,8 @@ export const listAiObservabilityOfflineScorersHistory: API.OperationMethod<
   ListAiObservabilityOfflineScorersHistoryError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<ListAiObservabilityOfflineScorersHistoryRequest>,
-  output: __S(1699, __c53, 3) as any as S.Schema<OfflineHistoryPage>,
+  input: __S(1792, __c56, 0) as any as S.Schema<ListAiObservabilityOfflineScorersHistoryRequest>,
+  output: __S(1795, __c56, 3) as any as S.Schema<OfflineHistoryPage>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2997,8 +3124,8 @@ export const listDatasetItems: API.OperationMethod<
   ListDatasetItemsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<ListDatasetItemsRequest>,
-  output: __S(1761, __c55, 1) as any as S.Schema<PaginatedDatasetItemReadList>,
+  input: __S(1824, __c57, 0) as any as S.Schema<ListDatasetItemsRequest>,
+  output: __S(1857, __c58, 1) as any as S.Schema<PaginatedDatasetItemReadList>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3014,8 +3141,8 @@ export const listDatasetItemsVersions: API.OperationMethod<
   ListDatasetItemsVersionsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<ListDatasetItemsVersionsRequest>,
-  output: __S(1761, __c55, 1) as any as S.Schema<PaginatedDatasetItemReadList>,
+  input: __S(1984, __c62, 0) as any as S.Schema<ListDatasetItemsVersionsRequest>,
+  output: __S(1857, __c58, 1) as any as S.Schema<PaginatedDatasetItemReadList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3031,8 +3158,8 @@ export const listDatasets: API.OperationMethod<
   ListDatasetsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<ListDatasetsRequest>,
-  output: __S(1954, __c61, 2) as any as S.Schema<PaginatedDatasetReadList>,
+  input: __S(2016, __c63, 0) as any as S.Schema<ListDatasetsRequest>,
+  output: __S(2018, __c63, 2) as any as S.Schema<PaginatedDatasetReadList>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3048,8 +3175,8 @@ export const listDatasetsRevisions: API.OperationMethod<
   ListDatasetsRevisionsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<ListDatasetsRevisionsRequest>,
-  output: __S(1987, __c62, 3) as any as S.Schema<PaginatedDatasetRevisionReadList>,
+  input: __S(2048, __c64, 0) as any as S.Schema<ListDatasetsRevisionsRequest>,
+  output: __S(2051, __c64, 3) as any as S.Schema<PaginatedDatasetRevisionReadList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3065,8 +3192,8 @@ export const listLlmAnalyticsPersonalSpend: API.OperationMethod<
   ListLlmAnalyticsPersonalSpendError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<ListLlmAnalyticsPersonalSpendRequest>,
-  output: __S(2040, __c63, 24) as any as S.Schema<ListLlmAnalyticsPersonalSpendResponse>,
+  input: __S(2080, __c65, 0) as any as S.Schema<ListLlmAnalyticsPersonalSpendRequest>,
+  output: __S(2104, __c65, 24) as any as S.Schema<ListLlmAnalyticsPersonalSpendResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3082,8 +3209,8 @@ export const restoreDataset: API.OperationMethod<
   RestoreDatasetError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<RestoreDatasetRequest>,
-  output: __S(2304, __c72, 0) as any as S.Schema<DatasetRead>,
+  input: __S(2112, __c66, 0) as any as S.Schema<RestoreDatasetRequest>,
+  output: __S(2368, __c74, 0) as any as S.Schema<DatasetRead>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3099,8 +3226,8 @@ export const restoreDatasetItem: API.OperationMethod<
   RestoreDatasetItemError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<RestoreDatasetItemRequest>,
-  output: __S(2400, __c75, 0) as any as S.Schema<DatasetItemRead>,
+  input: __S(2144, __c67, 0) as any as S.Schema<RestoreDatasetItemRequest>,
+  output: __S(2464, __c77, 0) as any as S.Schema<DatasetItemRead>,
   errors: [Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3121,11 +3248,11 @@ export const updateAiObservabilityOfflineExperimentsPartial: API.OperationMethod
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2112,
-    __c66,
+    2176,
+    __c68,
     0,
   ) as any as S.Schema<UpdateAiObservabilityOfflineExperimentsPartialRequest>,
-  output: __S(640, __c20, 0) as any as S.Schema<OfflineExperimentRead>,
+  output: __S(736, __c23, 0) as any as S.Schema<OfflineExperimentRead>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3141,8 +3268,8 @@ export const updateDatasetItemsPartial: API.OperationMethod<
   UpdateDatasetItemsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<UpdateDatasetItemsPartialRequest>,
-  output: __S(2400, __c75, 0) as any as S.Schema<DatasetItemRead>,
+  input: __S(2208, __c69, 0) as any as S.Schema<UpdateDatasetItemsPartialRequest>,
+  output: __S(2464, __c77, 0) as any as S.Schema<DatasetItemRead>,
   errors: [Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3163,8 +3290,8 @@ export const updateDatasetsPartial: API.OperationMethod<
   UpdateDatasetsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<UpdateDatasetsPartialRequest>,
-  output: __S(2304, __c72, 0) as any as S.Schema<DatasetRead>,
+  input: __S(2240, __c70, 0) as any as S.Schema<UpdateDatasetsPartialRequest>,
+  output: __S(2368, __c74, 0) as any as S.Schema<DatasetRead>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3174,6 +3301,62 @@ export const updateDatasetsPartial: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.String,
+          detail: S.String,
+          attr: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "OfflineEvaluationValidationError" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          code: S.String,
+          detail: S.String,
+          attr: S.optional(S.NullOr(S.String)),
+          expected_item_count: S.optional(S.NullOr(S.Number)),
+          expected_result_count: S.optional(S.NullOr(S.Number)),
+          accepted_item_count: S.optional(S.Number),
+          accepted_result_count: S.optional(S.Number),
+          errors: S.optional(__S(1, __c0, 1)),
+        }),
+      ).annotate({ identifier: "OfflineEvaluationError" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          detail: S.String,
+        }),
+      ).annotate({ identifier: "ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.String,
+          detail: S.String,
+          current_version: S.optional(S.NullOr(S.Number)),
+          current_item_id: S.optional(S.NullOr(S.String)),
+          resource: S.optional(S.String),
+          current_count: S.optional(S.Number),
+          limit: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "DatasetConflictResponse" });
+  }
+}
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3203,7 +3386,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateAiObservabilityOfflineExperimentRequest" });
   }
 }
-function __c1(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3222,7 +3405,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "ExperimentReceipt" });
   }
 }
-function __c2(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3239,7 +3422,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "CreateAiObservabilityOfflineExperimentsCompleteRequest" });
   }
 }
-function __c3(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3256,13 +3439,13 @@ function __c3(j: number): any {
       ).annotate({ identifier: "CreateAiObservabilityOfflineExperimentsFailRequest" });
   }
 }
-function __c4(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          trace_ids: __S(2272, __c71, 0),
+          trace_ids: __S(2336, __c73, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3274,12 +3457,12 @@ function __c4(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          available_trace_ids: __S(2272, __c71, 0),
+          available_trace_ids: __S(2336, __c73, 0),
         }),
       ).annotate({ identifier: "TraceAvailability" });
   }
 }
-function __c5(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3297,7 +3480,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "CreateAiObservabilityTracesExportRequest" });
   }
 }
-function __c6(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3312,7 +3495,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "TraceExport" });
   }
 }
-function __c7(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3331,7 +3514,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "CreateAiObservabilityTracesSummaryRequest" });
   }
 }
-function __c8(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3341,13 +3524,13 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "TraceSummaryItem" });
     case 1:
-      return S.Array(__S(256, __c8, 0));
+      return S.Array(__S(352, __c11, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           title: S.String,
-          bullets: __S(257, __c8, 1),
-          notes: __S(257, __c8, 1),
+          bullets: __S(353, __c11, 1),
+          notes: __S(353, __c11, 1),
           flow: S.String,
           model: S.String,
           generatedAt: S.String,
@@ -3364,27 +3547,27 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.String,
-          content: S.NullOr(__S(258, __c8, 2)),
-          failure: S.NullOr(__S(259, __c8, 3)),
+          content: S.NullOr(__S(354, __c11, 2)),
+          failure: S.NullOr(__S(355, __c11, 3)),
         }),
       ).annotate({ identifier: "TraceSummary" });
   }
 }
-function __c9(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          tags: S.optional(__S(2272, __c71, 0)),
+          tags: S.optional(__S(2336, __c73, 0)),
           name: S.String,
           description: S.optional(S.String),
-          metadata: S.optional(__S(1888, __c59, 0)),
+          metadata: S.optional(__S(32, __c1, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/api/projects/{project_id}/datasets/", code: 200 })),
       ).annotate({ identifier: "CreateDatasetRequest" });
   }
 }
-function __c10(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3395,7 +3578,7 @@ function __c10(j: number): any {
           input: S.Unknown,
           expected_output: S.optional(S.NullOr(S.Unknown)),
           source_output: S.optional(S.NullOr(S.Unknown)),
-          metadata: S.optional(__S(1888, __c59, 0)),
+          metadata: S.optional(__S(32, __c1, 0)),
           source_trace_id: S.optional(S.NullOr(S.String)),
           source_event_id: S.optional(S.NullOr(S.String)),
           source_timestamp: S.optional(S.NullOr(S.String)),
@@ -3405,7 +3588,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "CreateDatasetItemRequest" });
   }
 }
-function __c11(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3423,7 +3606,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "CreateDatasetsExportRequest" });
   }
 }
-function __c12(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3439,7 +3622,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "DatasetExportRead" });
   }
 }
-function __c13(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3457,7 +3640,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "CreateDatasetsExtendRetentionRequest" });
   }
 }
-function __c14(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3471,7 +3654,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "DatasetRetentionEntry" });
   }
 }
-function __c15(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3503,33 +3686,33 @@ function __c15(j: number): any {
         }),
       ).annotate({ identifier: "SummaryBullet" });
     case 2:
-      return S.Array(__S(481, __c15, 1));
+      return S.Array(__S(577, __c18, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           title: S.optional(S.String),
           flow_diagram: S.optional(S.String),
-          summary_bullets: S.optional(__S(482, __c15, 2)),
-          interesting_notes: S.optional(__S(482, __c15, 2)),
+          summary_bullets: S.optional(__S(578, __c18, 2)),
+          interesting_notes: S.optional(__S(578, __c18, 2)),
         }),
       ).annotate({ identifier: "StructuredSummary" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          summary: S.optional(__S(483, __c15, 3)),
+          summary: S.optional(__S(579, __c18, 3)),
           text_repr: S.optional(S.String),
           metadata: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "SummarizeResponse" });
   }
 }
-function __c16(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          trace_ids: S.optional(__S(2272, __c71, 0)),
+          trace_ids: S.optional(__S(2336, __c73, 0)),
           mode: S.optional(S.String),
           model: S.optional(S.NullOr(S.String)),
         }).pipe(
@@ -3549,16 +3732,16 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "CachedSummary" });
     case 2:
-      return S.Array(__S(513, __c16, 1));
+      return S.Array(__S(609, __c19, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          summaries: S.optional(__S(514, __c16, 2)),
+          summaries: S.optional(__S(610, __c19, 2)),
         }),
       ).annotate({ identifier: "BatchCheckResponse" });
   }
 }
-function __c17(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3581,7 +3764,7 @@ function __c17(j: number): any {
           project_id: S.String.pipe(T.Label()),
           event_type: S.optional(S.String),
           data: S.optional(S.Unknown),
-          options: S.optional(__S(544, __c17, 0)),
+          options: S.optional(__S(640, __c20, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3606,12 +3789,12 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           text: S.optional(S.String),
-          metadata: S.optional(__S(546, __c17, 2)),
+          metadata: S.optional(__S(642, __c20, 2)),
         }),
       ).annotate({ identifier: "TextReprResponse" });
   }
 }
-function __c18(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3628,7 +3811,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetAiObservabilityInstrumentationChecklistRequest" });
   }
 }
-function __c19(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3645,13 +3828,13 @@ function __c19(j: number): any {
       ).annotate({ identifier: "GetAiObservabilityOfflineExperimentRequest" });
   }
 }
-function __c20(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          created_by: S.NullOr(__S(2336, __c73, 0)),
-          tags: __S(2272, __c71, 0),
+          created_by: S.NullOr(__S(2400, __c75, 0)),
+          tags: __S(2336, __c73, 0),
           id: S.String,
           name: S.String,
           run_source: S.NullOr(S.String),
@@ -3678,7 +3861,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "OfflineExperimentRead" });
   }
 }
-function __c21(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3696,7 +3879,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "GetAiObservabilityOfflineExperimentsItemRequest" });
   }
 }
-function __c22(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3715,10 +3898,10 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "OfflineResultCell" });
     case 1:
-      return S.Array(__S(704, __c22, 0));
+      return S.Array(__S(800, __c25, 0));
   }
 }
-function __c23(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3735,12 +3918,12 @@ function __c23(j: number): any {
           accepted_at: S.String,
           payload_state: S.String,
           payload_expires_at: S.NullOr(S.String),
-          results: __S(705, __c22, 1),
+          results: __S(801, __c25, 1),
         }),
       ).annotate({ identifier: "OfflineItemRead" });
   }
 }
-function __c24(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3763,12 +3946,12 @@ function __c24(j: number): any {
           payload_state: S.String,
           payload_expires_at: S.NullOr(S.String),
           available: S.Boolean,
-          data: S.NullOr(__S(1824, __c57, 0)),
+          data: S.NullOr(__S(1920, __c60, 0)),
         }),
       ).annotate({ identifier: "OfflineItemPayloadRead" });
   }
 }
-function __c25(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3788,19 +3971,19 @@ function __c25(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          scorer_versions: __S(832, __c26, 0),
-          results: __S(705, __c22, 1),
+          scorer_versions: __S(928, __c29, 0),
+          results: __S(801, __c25, 1),
         }),
       ).annotate({ identifier: "OfflineResultCells" });
   }
 }
-function __c26(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(864, __c27, 0));
+      return S.Array(__S(960, __c30, 0));
   }
 }
-function __c27(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3818,7 +4001,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "OfflineScorerVersionRead" });
   }
 }
-function __c28(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3841,12 +4024,12 @@ function __c28(j: number): any {
           payload_state: S.String,
           payload_expires_at: S.NullOr(S.String),
           available: S.Boolean,
-          data: S.NullOr(__S(1856, __c58, 0)),
+          data: S.NullOr(__S(1952, __c61, 0)),
         }),
       ).annotate({ identifier: "OfflineResultPayloadRead" });
   }
 }
-function __c29(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3864,7 +4047,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "GetAiObservabilityTraceRequest" });
   }
 }
-function __c30(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3885,7 +4068,7 @@ function __c30(j: number): any {
         }),
       ).annotate({ identifier: "TraceNodeStats" });
     case 2:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(963, __c30, 3)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(1059, __c33, 3)));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -3893,13 +4076,13 @@ function __c30(j: number): any {
           kind: S.String,
           name: S.String,
           model: S.NullOr(S.String),
-          stats: __S(961, __c30, 1),
+          stats: __S(1057, __c33, 1),
           hasError: S.Boolean,
-          children: __S(962, __c30, 2),
+          children: __S(1058, __c33, 2),
         }),
       ).annotate({ identifier: "TraceNode" });
     case 4:
-      return S.Array(__S(963, __c30, 3));
+      return S.Array(__S(1059, __c33, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -3913,7 +4096,7 @@ function __c30(j: number): any {
         }),
       ).annotate({ identifier: "TraceTimelineRow" });
     case 6:
-      return S.Array(__S(965, __c30, 5));
+      return S.Array(__S(1061, __c33, 5));
     case 7:
       return S.Record(S.String, S.String);
     case 8:
@@ -3930,22 +4113,22 @@ function __c30(j: number): any {
           name: S.NullOr(S.String),
           createdAt: S.String,
           sessionId: S.NullOr(S.String),
-          person: S.NullOr(__S(960, __c30, 0)),
-          totals: __S(961, __c30, 1),
+          person: S.NullOr(__S(1056, __c33, 0)),
+          totals: __S(1057, __c33, 1),
           hasError: S.Boolean,
           errorCount: S.Number,
-          tree: __S(964, __c30, 4),
-          timeline: __S(966, __c30, 6),
+          tree: __S(1060, __c33, 4),
+          timeline: __S(1062, __c33, 6),
           totalMs: S.Number,
-          threadNodeIds: __S(2272, __c71, 0),
+          threadNodeIds: __S(2336, __c73, 0),
           defaultNodeId: S.String,
-          nodeIdsByAlias: __S(967, __c30, 7),
-          git: S.NullOr(__S(968, __c30, 8)),
+          nodeIdsByAlias: __S(1063, __c33, 7),
+          git: S.NullOr(__S(1064, __c33, 8)),
         }),
       ).annotate({ identifier: "Trace" });
   }
 }
-function __c31(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3975,16 +4158,16 @@ function __c31(j: number): any {
         }),
       ).annotate({ identifier: "TraceCluster" });
     case 2:
-      return S.Array(__S(993, __c31, 1));
+      return S.Array(__S(1089, __c34, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          clusters: __S(994, __c31, 2),
+          clusters: __S(1090, __c34, 2),
         }),
       ).annotate({ identifier: "TraceClusters" });
   }
 }
-function __c32(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4015,7 +4198,7 @@ function __c32(j: number): any {
         }),
       ).annotate({ identifier: "TraceEvaluationResult" });
     case 2:
-      return S.Array(__S(1025, __c32, 1));
+      return S.Array(__S(1121, __c35, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -4024,26 +4207,26 @@ function __c32(j: number): any {
         }),
       ).annotate({ identifier: "TraceNodeEvaluationRollup" });
     case 4:
-      return S.Array(__S(1027, __c32, 3));
+      return S.Array(__S(1123, __c35, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           passed: S.Number,
           failed: S.Number,
           unrated: S.Number,
-          nodes: __S(1028, __c32, 4),
+          nodes: __S(1124, __c35, 4),
         }),
       ).annotate({ identifier: "TraceEvaluationSummary" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          results: __S(1026, __c32, 2),
-          summary: __S(1029, __c32, 5),
+          results: __S(1122, __c35, 2),
+          summary: __S(1125, __c35, 5),
         }),
       ).annotate({ identifier: "TraceEvaluationResults" });
   }
 }
-function __c33(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4061,7 +4244,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "GetAiObservabilityTracesExportRequest" });
   }
 }
-function __c34(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4079,18 +4262,18 @@ function __c34(j: number): any {
         ),
       ).annotate({ identifier: "GetAiObservabilityTracesExportsContentRequest" });
     case 1:
-      return S.Array(__S(1123, __c35, 3));
+      return S.Array(__S(1219, __c38, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          trace: __S(969, __c30, 9),
+          trace: __S(1065, __c33, 9),
           truncated: S.Boolean,
-          nodes: __S(1089, __c34, 1),
+          nodes: __S(1185, __c37, 1),
         }),
       ).annotate({ identifier: "TraceExportFile" });
   }
 }
-function __c35(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4116,8 +4299,8 @@ function __c35(j: number): any {
           name: S.String,
           uuid: S.String,
           timestamp: S.String,
-          properties: __S(1888, __c59, 0),
-          ioKeys: __S(1121, __c35, 1),
+          properties: __S(32, __c1, 0),
+          ioKeys: __S(1217, __c38, 1),
         }),
       ).annotate({ identifier: "TraceNodeEvent" });
     case 3:
@@ -4126,13 +4309,13 @@ function __c35(j: number): any {
           id: S.String,
           kind: S.String,
           error: S.NullOr(S.String),
-          metadata: __S(1120, __c35, 0),
-          event: S.NullOr(__S(1122, __c35, 2)),
+          metadata: __S(1216, __c38, 0),
+          event: S.NullOr(__S(1218, __c38, 2)),
         }),
       ).annotate({ identifier: "TraceNodeDetail" });
   }
 }
-function __c36(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4159,7 +4342,7 @@ function __c36(j: number): any {
         }),
       ).annotate({ identifier: "TraceFeedbackScore" });
     case 2:
-      return S.Array(__S(1153, __c36, 1));
+      return S.Array(__S(1249, __c39, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -4172,12 +4355,12 @@ function __c36(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          survey: __S(1155, __c36, 3),
+          survey: __S(1251, __c39, 3),
           timestamp: S.String,
         }),
       ).annotate({ identifier: "TraceUnansweredSurvey" });
     case 6:
-      return S.Array(__S(1157, __c36, 5));
+      return S.Array(__S(1253, __c39, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -4189,16 +4372,16 @@ function __c36(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          scores: __S(1154, __c36, 2),
-          responses: __S(1156, __c36, 4),
-          unanswered: __S(1158, __c36, 6),
+          scores: __S(1250, __c39, 2),
+          responses: __S(1252, __c39, 4),
+          unanswered: __S(1254, __c39, 6),
           surveyResponsesStatus: S.String,
-          summary: __S(1159, __c36, 7),
+          summary: __S(1255, __c39, 7),
         }),
       ).annotate({ identifier: "TraceFeedback" });
   }
 }
-function __c37(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4217,7 +4400,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "GetAiObservabilityTracesNodeRequest" });
   }
 }
-function __c38(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4245,12 +4428,12 @@ function __c38(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          pullRequest: S.NullOr(__S(1217, __c38, 1)),
+          pullRequest: S.NullOr(__S(1313, __c41, 1)),
         }),
       ).annotate({ identifier: "TracePullRequestLookup" });
   }
 }
-function __c39(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4274,14 +4457,14 @@ function __c39(j: number): any {
         }),
       ).annotate({ identifier: "TraceHumanReviewScore" });
     case 2:
-      return S.Array(__S(1249, __c39, 1));
+      return S.Array(__S(1345, __c42, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           reviewedBy: S.NullOr(S.String),
           reviewedAt: S.String,
           comment: S.NullOr(S.String),
-          scores: __S(1250, __c39, 2),
+          scores: __S(1346, __c42, 2),
         }),
       ).annotate({ identifier: "TraceHumanReview" });
     case 4:
@@ -4295,13 +4478,13 @@ function __c39(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          review: S.NullOr(__S(1251, __c39, 3)),
-          queue: S.NullOr(__S(1252, __c39, 4)),
+          review: S.NullOr(__S(1347, __c42, 3)),
+          queue: S.NullOr(__S(1348, __c42, 4)),
         }),
       ).annotate({ identifier: "TraceReviewStatus" });
   }
 }
-function __c40(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4318,7 +4501,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "GetAiObservabilityTracesSummaryRequest" });
   }
 }
-function __c41(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4331,7 +4514,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "GetDatasetRequest" });
   }
 }
-function __c42(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4348,7 +4531,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "AiObservabilityInstrumentationChecklistRestoreCreateRequest" });
   }
 }
-function __c43(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Number);
@@ -4360,21 +4543,21 @@ function __c43(j: number): any {
           title: S.String,
           detail: S.String,
           docs_url: S.String,
-          stats: __S(1376, __c43, 0),
+          stats: __S(1472, __c46, 0),
         }),
       ).annotate({ identifier: "InstrumentationCheck" });
     case 2:
-      return S.Array(__S(1377, __c43, 1));
+      return S.Array(__S(1473, __c46, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           window_days: S.Number,
-          checks: __S(1378, __c43, 2),
+          checks: __S(1474, __c46, 2),
         }),
       ).annotate({ identifier: "InstrumentationChecklist" });
   }
 }
-function __c44(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4392,7 +4575,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "GetDatasetItemRequest" });
   }
 }
-function __c45(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4410,7 +4593,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "GetDatasetsExportRequest" });
   }
 }
-function __c46(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4432,7 +4615,7 @@ function __c46(j: number): any {
       });
   }
 }
-function __c47(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4450,19 +4633,19 @@ function __c47(j: number): any {
         ),
       ).annotate({ identifier: "GetDatasetsRetentionRequest" });
     case 1:
-      return S.Array(__S(448, __c14, 0));
+      return S.Array(__S(544, __c17, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           datasets_count: S.Number,
           revisions_count: S.Number,
           count: S.Number,
-          results: __S(1505, __c47, 1),
+          results: __S(1601, __c50, 1),
         }),
       ).annotate({ identifier: "DatasetRetentionRead" });
   }
 }
-function __c48(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4497,7 +4680,7 @@ function __c48(j: number): any {
         ),
       ).annotate({ identifier: "ListAiObservabilityOfflineExperimentsRequest" });
     case 1:
-      return S.Array(__S(640, __c20, 0));
+      return S.Array(__S(736, __c23, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -4505,12 +4688,12 @@ function __c48(j: number): any {
           previous: S.NullOr(S.String),
           count: S.Number,
           next_cursor: S.NullOr(S.String),
-          results: __S(1537, __c48, 1),
+          results: __S(1633, __c51, 1),
         }),
       ).annotate({ identifier: "OfflineExperimentPage" });
   }
 }
-function __c49(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4529,7 +4712,7 @@ function __c49(j: number): any {
         ),
       ).annotate({ identifier: "ListAiObservabilityOfflineExperimentsItemsRequest" });
     case 1:
-      return S.Array(__S(736, __c23, 0));
+      return S.Array(__S(832, __c26, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -4537,13 +4720,13 @@ function __c49(j: number): any {
           previous: S.NullOr(S.String),
           count: S.Number,
           next_cursor: S.NullOr(S.String),
-          results: __S(1569, __c49, 1),
-          scorer_versions: __S(832, __c26, 0),
+          results: __S(1665, __c52, 1),
+          scorer_versions: __S(928, __c29, 0),
         }),
       ).annotate({ identifier: "OfflineItemPage" });
   }
 }
-function __c50(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4576,11 +4759,11 @@ function __c50(j: number): any {
           accepted_at: S.String,
           payload_state: S.String,
           payload_expires_at: S.NullOr(S.String),
-          scorer: __S(864, __c27, 0),
+          scorer: __S(960, __c30, 0),
         }),
       ).annotate({ identifier: "OfflineResultRead" });
     case 2:
-      return S.Array(__S(1601, __c50, 1));
+      return S.Array(__S(1697, __c53, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -4588,12 +4771,12 @@ function __c50(j: number): any {
           previous: S.NullOr(S.String),
           count: S.Number,
           next_cursor: S.NullOr(S.String),
-          results: __S(1602, __c50, 2),
+          results: __S(1698, __c53, 2),
         }),
       ).annotate({ identifier: "OfflineResultPage" });
   }
 }
-function __c51(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4613,7 +4796,7 @@ function __c51(j: number): any {
         ),
       ).annotate({ identifier: "ListAiObservabilityOfflineExperimentsScorerSummariesRequest" });
     case 1:
-      return S.Array(__S(1667, __c52, 3));
+      return S.Array(__S(1763, __c55, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -4621,12 +4804,12 @@ function __c51(j: number): any {
           previous: S.NullOr(S.String),
           count: S.Number,
           next_cursor: S.NullOr(S.String),
-          results: __S(1633, __c51, 1),
+          results: __S(1729, __c54, 1),
         }),
       ).annotate({ identifier: "OfflineSummaryPage" });
   }
 }
-function __c52(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4647,14 +4830,14 @@ function __c52(j: number): any {
         }),
       ).annotate({ identifier: "OfflineCategorySummary" });
     case 2:
-      return S.Array(__S(1665, __c52, 1));
+      return S.Array(__S(1761, __c55, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          scorer: __S(864, __c27, 0),
+          scorer: __S(960, __c30, 0),
           observed_item_count: S.Number,
           result_count: S.Number,
-          status_counts: __S(1664, __c52, 0),
+          status_counts: __S(1760, __c55, 0),
           missing_result_count: S.Number,
           distinct_case_count: S.Number,
           items_with_case_key_count: S.Number,
@@ -4668,12 +4851,12 @@ function __c52(j: number): any {
           pass_count: S.NullOr(S.Number),
           fail_count: S.NullOr(S.Number),
           pass_rate: S.NullOr(S.Number),
-          categories: __S(1666, __c52, 2),
+          categories: __S(1762, __c55, 2),
         }),
       ).annotate({ identifier: "OfflineScorerSummary" });
   }
 }
-function __c53(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4712,12 +4895,12 @@ function __c53(j: number): any {
       return S.suspend(() =>
         S.Struct({
           breakdown_value: S.optional(S.NullOr(S.String)),
-          experiment: __S(640, __c20, 0),
-          summary: __S(1667, __c52, 3),
+          experiment: __S(736, __c23, 0),
+          summary: __S(1763, __c55, 3),
         }),
       ).annotate({ identifier: "OfflineHistoryPoint" });
     case 2:
-      return S.Array(__S(1697, __c53, 1));
+      return S.Array(__S(1793, __c56, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -4725,12 +4908,12 @@ function __c53(j: number): any {
           previous: S.NullOr(S.String),
           count: S.Number,
           next_cursor: S.NullOr(S.String),
-          results: __S(1698, __c53, 2),
+          results: __S(1794, __c56, 2),
         }),
       ).annotate({ identifier: "OfflineHistoryPage" });
   }
 }
-function __c54(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4747,22 +4930,22 @@ function __c54(j: number): any {
       ).annotate({ identifier: "ListDatasetItemsRequest" });
   }
 }
-function __c55(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2400, __c75, 0));
+      return S.Array(__S(2464, __c77, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(1760, __c55, 0),
+          results: __S(1856, __c58, 0),
         }),
       ).annotate({ identifier: "PaginatedDatasetItemReadList" });
   }
 }
-function __c56(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4775,11 +4958,11 @@ function __c56(j: number): any {
           dataset_item_version_identifier: S.optional(S.NullOr(S.String)),
           dataset_item_version_id: S.optional(S.NullOr(S.String)),
           application_trace_id: S.optional(S.NullOr(S.String)),
-          payload: S.optional(__S(1824, __c57, 0)),
+          payload: S.optional(__S(1920, __c60, 0)),
         }),
       ).annotate({ identifier: "ItemSubmission" });
     case 1:
-      return S.Array(__S(1792, __c56, 0));
+      return S.Array(__S(1888, __c59, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -4790,18 +4973,18 @@ function __c56(j: number): any {
           error_code: S.optional(S.NullOr(S.String)),
           evaluator_trace_id: S.optional(S.NullOr(S.String)),
           evaluated_at: S.optional(S.NullOr(S.String)),
-          payload: S.optional(__S(1856, __c58, 0)),
+          payload: S.optional(__S(1952, __c61, 0)),
         }),
       ).annotate({ identifier: "ResultSubmission" });
     case 3:
-      return S.Array(__S(1794, __c56, 2));
+      return S.Array(__S(1890, __c59, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          items: S.optional(__S(1793, __c56, 1)),
-          results: __S(1795, __c56, 3),
+          items: S.optional(__S(1889, __c59, 1)),
+          results: __S(1891, __c59, 3),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4819,7 +5002,7 @@ function __c56(j: number): any {
         }),
       ).annotate({ identifier: "ItemReceipt" });
     case 6:
-      return S.Array(__S(1797, __c56, 5));
+      return S.Array(__S(1893, __c59, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -4831,17 +5014,17 @@ function __c56(j: number): any {
         }),
       ).annotate({ identifier: "ResultReceipt" });
     case 8:
-      return S.Array(__S(1799, __c56, 7));
+      return S.Array(__S(1895, __c59, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1798, __c56, 6),
-          results: __S(1800, __c56, 8),
+          items: __S(1894, __c59, 6),
+          results: __S(1896, __c59, 8),
         }),
       ).annotate({ identifier: "UploadReceipt" });
   }
 }
-function __c57(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4849,30 +5032,24 @@ function __c57(j: number): any {
           input: S.optional(S.NullOr(S.Unknown)),
           output: S.optional(S.NullOr(S.Unknown)),
           expected_output: S.optional(S.NullOr(S.Unknown)),
-          metadata: S.optional(S.NullOr(__S(1888, __c59, 0))),
+          metadata: S.optional(S.NullOr(__S(32, __c1, 0))),
         }),
       ).annotate({ identifier: "OfflineExperimentItemPayloadInput" });
   }
 }
-function __c58(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           reasoning: S.optional(S.NullOr(S.String)),
           error_message: S.optional(S.NullOr(S.String)),
-          metadata: S.optional(S.NullOr(__S(1888, __c59, 0))),
+          metadata: S.optional(S.NullOr(__S(32, __c1, 0))),
         }),
       ).annotate({ identifier: "OfflineEvaluationResultPayloadInput" });
   }
 }
-function __c59(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.Unknown);
-  }
-}
-function __c60(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4891,14 +5068,14 @@ function __c60(j: number): any {
       ).annotate({ identifier: "ListDatasetItemsVersionsRequest" });
   }
 }
-function __c61(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           archived: S.optional(S.Boolean.pipe(T.Query())),
-          id__in: S.optional(__S(2272, __c71, 0).pipe(T.Query())),
+          id__in: S.optional(__S(2336, __c73, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
           order_by: S.optional(S.String.pipe(T.Query())),
@@ -4908,19 +5085,19 @@ function __c61(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/datasets/", code: 200 })),
       ).annotate({ identifier: "ListDatasetsRequest" });
     case 1:
-      return S.Array(__S(2304, __c72, 0));
+      return S.Array(__S(2368, __c74, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(1953, __c61, 1),
+          results: __S(2017, __c63, 1),
         }),
       ).annotate({ identifier: "PaginatedDatasetReadList" });
   }
 }
-function __c62(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4944,26 +5121,26 @@ function __c62(j: number): any {
           dataset_id: S.String,
           revision: S.Number,
           created_at: S.String,
-          created_by: S.NullOr(__S(2336, __c73, 0)),
+          created_by: S.NullOr(__S(2400, __c75, 0)),
           team_id: S.Number,
           expires_at: S.NullOr(S.String),
           expiring_soon: S.Boolean,
         }),
       ).annotate({ identifier: "DatasetRevisionRead" });
     case 2:
-      return S.Array(__S(1985, __c62, 1));
+      return S.Array(__S(2049, __c64, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(1986, __c62, 2),
+          results: __S(2050, __c64, 2),
         }),
       ).annotate({ identifier: "PaginatedDatasetRevisionReadList" });
   }
 }
-function __c63(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4999,11 +5176,11 @@ function __c63(j: number): any {
         }),
       ).annotate({ identifier: "ProductBreakdownRow" });
     case 3:
-      return S.Array(__S(2018, __c63, 2));
+      return S.Array(__S(2082, __c65, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          items: __S(2019, __c63, 3),
+          items: __S(2083, __c65, 3),
           truncated: S.Boolean,
         }),
       ).annotate({ identifier: "ProductBreakdown" });
@@ -5018,11 +5195,11 @@ function __c63(j: number): any {
         }),
       ).annotate({ identifier: "ToolBreakdownRow" });
     case 6:
-      return S.Array(__S(2021, __c63, 5));
+      return S.Array(__S(2085, __c65, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          items: __S(2022, __c63, 6),
+          items: __S(2086, __c65, 6),
           truncated: S.Boolean,
         }),
       ).annotate({ identifier: "ToolBreakdown" });
@@ -5037,11 +5214,11 @@ function __c63(j: number): any {
         }),
       ).annotate({ identifier: "ModelBreakdownRow" });
     case 9:
-      return S.Array(__S(2024, __c63, 8));
+      return S.Array(__S(2088, __c65, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          items: __S(2025, __c63, 9),
+          items: __S(2089, __c65, 9),
           truncated: S.Boolean,
         }),
       ).annotate({ identifier: "ModelBreakdown" });
@@ -5056,11 +5233,11 @@ function __c63(j: number): any {
         }),
       ).annotate({ identifier: "DayBreakdownRow" });
     case 12:
-      return S.Array(__S(2027, __c63, 11));
+      return S.Array(__S(2091, __c65, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
-          items: __S(2028, __c63, 12),
+          items: __S(2092, __c65, 12),
           truncated: S.Boolean,
         }),
       ).annotate({ identifier: "DayBreakdown" });
@@ -5076,7 +5253,7 @@ function __c63(j: number): any {
         }),
       ).annotate({ identifier: "DayModelBreakdownRow" });
     case 15:
-      return S.Array(__S(2030, __c63, 14));
+      return S.Array(__S(2094, __c65, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
@@ -5094,11 +5271,11 @@ function __c63(j: number): any {
         }),
       ).annotate({ identifier: "BucketBreakdownRow" });
     case 17:
-      return S.Array(__S(2032, __c63, 16));
+      return S.Array(__S(2096, __c65, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
-          items: __S(2033, __c63, 17),
+          items: __S(2097, __c65, 17),
           bucket_minutes: S.Number,
           truncated: S.Boolean,
         }),
@@ -5113,36 +5290,36 @@ function __c63(j: number): any {
         }),
       ).annotate({ identifier: "TopTraceRow" });
     case 20:
-      return S.Array(__S(2035, __c63, 19));
+      return S.Array(__S(2099, __c65, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
-          items: __S(2036, __c63, 20),
+          items: __S(2100, __c65, 20),
           truncated: S.Boolean,
         }),
       ).annotate({ identifier: "TopTraces" });
     case 22:
       return S.suspend(() =>
         S.Struct({
-          summary: __S(2017, __c63, 1),
-          by_product: __S(2020, __c63, 4),
-          by_tool: __S(2023, __c63, 7),
-          by_model: __S(2026, __c63, 10),
-          by_day: __S(2029, __c63, 13),
-          by_day_model: __S(2031, __c63, 15),
-          by_bucket: S.optional(__S(2034, __c63, 18)),
-          top_traces: __S(2037, __c63, 21),
+          summary: __S(2081, __c65, 1),
+          by_product: __S(2084, __c65, 4),
+          by_tool: __S(2087, __c65, 7),
+          by_model: __S(2090, __c65, 10),
+          by_day: __S(2093, __c65, 13),
+          by_day_model: __S(2095, __c65, 15),
+          by_bucket: S.optional(__S(2098, __c65, 18)),
+          top_traces: __S(2101, __c65, 21),
         }),
       ).annotate({ identifier: "PersonalSpendAnalysisResponse" });
     case 23:
-      return S.Array(__S(2038, __c63, 22));
+      return S.Array(__S(2102, __c65, 22));
     case 24:
-      return S.suspend(() => __S(2039, __c63, 23).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2103, __c65, 23).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListLlmAnalyticsPersonalSpendResponse",
       });
   }
 }
-function __c64(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5159,7 +5336,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "RestoreDatasetRequest" });
   }
 }
-function __c65(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5178,14 +5355,14 @@ function __c65(j: number): any {
       ).annotate({ identifier: "RestoreDatasetItemRequest" });
   }
 }
-function __c66(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          tags: S.optional(__S(2272, __c71, 0)),
+          tags: S.optional(__S(2336, __c73, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -5196,7 +5373,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "UpdateAiObservabilityOfflineExperimentsPartialRequest" });
   }
 }
-function __c67(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5206,7 +5383,7 @@ function __c67(j: number): any {
           base_version: S.Number,
           input: S.optional(S.Unknown),
           expected_output: S.optional(S.NullOr(S.Unknown)),
-          metadata: S.optional(__S(1888, __c59, 0)),
+          metadata: S.optional(__S(32, __c1, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -5217,24 +5394,24 @@ function __c67(j: number): any {
       ).annotate({ identifier: "UpdateDatasetItemsPartialRequest" });
   }
 }
-function __c68(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          tags: S.optional(__S(2272, __c71, 0)),
+          tags: S.optional(__S(2336, __c73, 0)),
           name: S.optional(S.String),
           description: S.optional(S.String),
-          metadata: S.optional(__S(1888, __c59, 0)),
+          metadata: S.optional(__S(32, __c1, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/projects/{project_id}/datasets/{id}/", code: 200 }),
         ),
       ).annotate({ identifier: "UpdateDatasetsPartialRequest" });
   }
 }
-function __c69(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5259,17 +5436,17 @@ function __c69(j: number): any {
         }),
       ).annotate({ identifier: "TraceSearchMatch" });
     case 2:
-      return S.Array(__S(2209, __c69, 1));
+      return S.Array(__S(2273, __c71, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           total: S.Number,
-          matches: __S(2210, __c69, 2),
+          matches: __S(2274, __c71, 2),
         }),
       ).annotate({ identifier: "TraceSearchResults" });
   }
 }
-function __c70(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5286,13 +5463,13 @@ function __c70(j: number): any {
       ).annotate({ identifier: "ArchiveDatasetRequest" });
   }
 }
-function __c71(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c72(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5300,8 +5477,8 @@ function __c72(j: number): any {
           id: S.String,
           name: S.String,
           description: S.String,
-          metadata: __S(1888, __c59, 0),
-          tags: __S(2272, __c71, 0),
+          metadata: __S(32, __c1, 0),
+          tags: __S(2336, __c73, 0),
           archived: S.Boolean,
           expires_at: S.NullOr(S.String),
           expiring_soon: S.Boolean,
@@ -5309,14 +5486,14 @@ function __c72(j: number): any {
           current_revision_id: S.NullOr(S.String),
           created_at: S.String,
           updated_at: S.NullOr(S.String),
-          created_by: S.NullOr(__S(2336, __c73, 0)),
+          created_by: S.NullOr(__S(2400, __c75, 0)),
           team_id: S.Number,
           user_access_level: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "DatasetRead" });
   }
 }
-function __c73(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5328,13 +5505,13 @@ function __c73(j: number): any {
           last_name: S.optional(S.String),
           email: S.optional(S.String),
           is_email_verified: S.optional(S.NullOr(S.Boolean)),
-          hedgehog_config: S.optional(S.NullOr(__S(1888, __c59, 0))),
+          hedgehog_config: S.optional(S.NullOr(__S(32, __c1, 0))),
           role_at_organization: S.optional(S.NullOr(S.Unknown)),
         }),
       ).annotate({ identifier: "UserBasic" });
   }
 }
-function __c74(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5352,7 +5529,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "ArchiveDatasetItemRequest" });
   }
 }
-function __c75(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5368,21 +5545,21 @@ function __c75(j: number): any {
           input: S.Unknown,
           expected_output: S.NullOr(S.Unknown),
           source_output: S.NullOr(S.Unknown),
-          metadata: __S(1888, __c59, 0),
+          metadata: __S(32, __c1, 0),
           source_trace_id: S.NullOr(S.String),
           source_event_id: S.NullOr(S.String),
           source_timestamp: S.NullOr(S.String),
           created_at: S.String,
           updated_at: S.NullOr(S.String),
-          created_by: S.NullOr(__S(2336, __c73, 0)),
+          created_by: S.NullOr(__S(2400, __c75, 0)),
           version_created_at: S.String,
-          version_created_by: S.NullOr(__S(2336, __c73, 0)),
+          version_created_by: S.NullOr(__S(2400, __c75, 0)),
           team_id: S.Number,
         }),
       ).annotate({ identifier: "DatasetItemRead" });
   }
 }
-function __c76(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

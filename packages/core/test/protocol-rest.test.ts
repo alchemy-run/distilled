@@ -13,6 +13,7 @@ import { describe, expect, test } from "vitest";
 import * as API from "../src/api.ts";
 import {
   BadRequest,
+  Conflict,
   InternalServerError,
   NotFound,
   ServiceUnavailable,
@@ -29,6 +30,7 @@ import {
   type RestProtocolOptions,
 } from "../src/protocol-rest.ts";
 import * as ResponseValidation from "../src/response-validation.ts";
+import * as L from "../src/schema-lite.ts";
 import * as S from "../src/schema.ts";
 import * as T from "../src/trait.ts";
 
@@ -82,6 +84,46 @@ class Gone extends T.applyErrorMatchers(
   [{ body: { "/detail/kind": "gone" } }],
 ) {}
 
+class Nested extends T.applyErrorMatchers(
+  Schema.TaggedError<Nested>()("Nested", {
+    message: Schema.String,
+    status: Schema.optional(Schema.String),
+    details: Schema.optional(Schema.Unknown),
+    requestId: Schema.optional(Schema.String),
+  }),
+  [{ status: 412 }],
+) {}
+
+class SlowDown extends T.applyErrorMatchers(
+  Schema.TaggedError<SlowDown>()("SlowDown", {
+    message: Schema.String,
+    retryAfter: Schema.optional(Schema.Unknown),
+  }),
+  [{ status: 409, body: { "/code": "slow_down" } }],
+) {}
+
+class KeyReused extends T.applyErrorMatchers(
+  Schema.TaggedError<KeyReused>()("KeyReused", {
+    code: Schema.Number,
+    message: Schema.String,
+    requestId: Schema.optional(Schema.String),
+    error: Schema.optional(Schema.Unknown),
+  }),
+  [{ status: 422, body: { "/code": "key_reused" } }],
+) {}
+
+const TypedErrorBody = S.Struct({
+  requestId: S.optional(S.String.pipe(T.Body("request_id"))),
+});
+
+class TypedBody extends T.applyErrorMatchers(
+  Schema.TaggedError<TypedBody>()("TypedBody", {
+    message: Schema.String,
+    body: Schema.optional(Schema.Union([Schema.suspend(() => TypedErrorBody), Schema.String])),
+  }),
+  [{ status: 402 }],
+) {}
+
 const baseOptions: RestProtocolOptions<Creds> = {
   credentials: Effect.gen(function* () {
     return yield* TestCreds;
@@ -127,6 +169,7 @@ const createThingWithErrors = thingOp(DefaultProtocol, [
   QuotaExceededOnCreate,
   Teapot,
   Gone,
+  KeyReused,
 ]);
 
 interface Recorded {
@@ -402,6 +445,74 @@ describe("makeRestProtocol raw request bodies", () => {
     const request = await send(untypedUpload({ body: new Blob(["<p>"], { type: "text/html" }) }));
     expect(request.headers.get("content-type")).toBe("text/html");
   });
+
+  test("a JSON body is sent under the Content-Type member, else as application/json", async () => {
+    // Shaped like a Kubernetes patch: the patch type is the Content-Type.
+    const patch = op(
+      S.Struct({
+        body: S.Unknown.pipe(T.HttpBody()),
+        contentType: S.optional(S.String.pipe(T.Header("Content-Type"))),
+      }).pipe(T.Http({ method: "PATCH", uri: "/things" })),
+    );
+    const merge = await send(
+      patch({ body: { spec: { replicas: 3 } }, contentType: "application/merge-patch+json" }),
+    );
+    expect(merge.headers.get("content-type")).toBe("application/merge-patch+json");
+    expect(await merge.text()).toBe('{"spec":{"replicas":3}}');
+    const plain = await send(patch({ body: { spec: { replicas: 3 } } }));
+    expect(plain.headers.get("content-type")).toBe("application/json");
+  });
+
+  test("an Extend input sends the base struct's fields as the body", async () => {
+    // Shaped like a flattened GCP request: the body struct, extended with the
+    // path and query members. A shadowed body field keeps its member binding.
+    const Firewall = L.suspend(() =>
+      L.Struct({ name: L.optional(L.String), sourceRanges: L.optional(L.Array(L.String)) }),
+    );
+    const patch = op(
+      L.suspend(() =>
+        L.Extend(
+          Firewall,
+          L.Struct({
+            project: L.String.pipe(T.Label()),
+            name: L.String.pipe(T.Label()),
+            requestId: L.optional(L.String.pipe(T.Query())),
+          }),
+        ).pipe(T.Http({ method: "PATCH", uri: "/projects/{project}/firewalls/{name}" })),
+      ),
+    );
+    const request = await send(
+      patch({ project: "p", name: "fw", requestId: "r", sourceRanges: ["10.0.0.0/8"] }),
+    );
+    expect(new URL(request.url).pathname).toBe("/projects/p/firewalls/fw");
+    expect(new URL(request.url).searchParams.get("requestId")).toBe("r");
+    expect(await request.text()).toBe('{"sourceRanges":["10.0.0.0/8"]}');
+  });
+
+  test("body fields go out under the Content-Type member; a set payload wins", async () => {
+    // Shaped like a flattened Kubernetes patch: resource fields for a merge
+    // patch, the `patch` payload for a JSON patch array.
+    const patch = op(
+      S.Struct({
+        contentType: S.String.pipe(T.Header("Content-Type")),
+        spec: S.optional(S.Unknown),
+        patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+      }).pipe(T.Http({ method: "PATCH", uri: "/things" })),
+    );
+    const merge = await send(
+      patch({ contentType: "application/merge-patch+json", spec: { replicas: 3 } }),
+    );
+    expect(merge.headers.get("content-type")).toBe("application/merge-patch+json");
+    expect(await merge.text()).toBe('{"spec":{"replicas":3}}');
+    const json = await send(
+      patch({
+        contentType: "application/json-patch+json",
+        patch: [{ op: "replace", path: "/spec/replicas", value: 3 }],
+      }),
+    );
+    expect(json.headers.get("content-type")).toBe("application/json-patch+json");
+    expect(await json.text()).toBe('[{"op":"replace","path":"/spec/replicas","value":3}]');
+  });
 });
 
 // =============================================================================
@@ -443,6 +554,19 @@ describe("makeRestProtocol success decoding", () => {
       creds(),
     );
     expect(out).toEqual({});
+  });
+
+  test("a 200 response whose body is JSON null returns null, in strict mode too", async () => {
+    const nullableOp = API.make(() => ({
+      input: ThingInput,
+      output: S.NullOr(S.Struct({ id: S.String })),
+      protocol: DefaultProtocol,
+    }));
+    const respond = fakeClient(() => json(null));
+    expect(await succeed(nullableOp({ id: "t1" }), respond, creds())).toBeNull();
+    expect(
+      await succeed(nullableOp({ id: "t1" }), respond, creds(), ResponseValidation.strict),
+    ).toBeNull();
   });
 
   test("an empty 200 body decodes to an empty string when the output is a string", async () => {
@@ -699,6 +823,27 @@ describe("makeRestProtocol typed error matching", () => {
     expect(error).toBeInstanceOf(Gone);
   });
 
+  test("a matched error's declared fields carry the body's values, with the matched code and message", async () => {
+    const error = await failOn(() =>
+      json(
+        {
+          code: "key_reused",
+          message: "key was used",
+          requestId: "req_1",
+          error: { details: { window: "day" } },
+          extra: true,
+        },
+        422,
+      ),
+    );
+    expect(error).toBeInstanceOf(KeyReused);
+    expect(error.requestId).toBe("req_1");
+    expect(error.error).toEqual({ details: { window: "day" } });
+    expect(error.code).toBe(0);
+    expect(error.message).toBe("key was used");
+    expect(error.extra).toBeUndefined();
+  });
+
   test("declared errors are ignored when nothing matches", async () => {
     const error = await failOn(() => json({ message: "thing is busy" }, 409));
     expect(error._tag).toBe("Conflict");
@@ -708,6 +853,66 @@ describe("makeRestProtocol typed error matching", () => {
   test("operations without declared errors fall straight to the status map", async () => {
     const error = await failOn(() => json({ message: "thing is locked" }, 409), createThing);
     expect(error._tag).toBe("Conflict");
+  });
+});
+
+describe("makeRestProtocol error response fields", () => {
+  const PlainOutput = S.Struct({ id: S.optional(S.String) });
+  const NestedProtocol = makeRestProtocol({ ...baseOptions, errorFieldsAt: "/error" });
+  const plainOp = (protocol: Layer.Layer<API.Protocol>) =>
+    API.make(() => ({
+      input: ThingInput,
+      output: PlainOutput,
+      errors: [Nested, SlowDown, TypedBody] as any,
+      protocol,
+    })) as unknown as (input: Record<string, unknown>) => Effect.Effect<any, any, any>;
+  const plain = plainOp(DefaultProtocol);
+  const nested = plainOp(NestedProtocol);
+
+  test("a status-mapped error carries the body and headers", async () => {
+    const error = await failOn(
+      () => json({ message: "busy", requestId: "req_7" }, 409, { "x-request-id": "req_7" }),
+      plain,
+    );
+    expect(error).toBeInstanceOf(Conflict);
+    expect(error.body).toEqual({ message: "busy", requestId: "req_7" });
+    expect(error.headers["x-request-id"]).toBe("req_7");
+  });
+
+  test("errorFieldsAt reads declared fields from the nested object, then the top level", async () => {
+    const error = await failOn(
+      () =>
+        json(
+          { error: { message: "no", status: "FAILED_PRECONDITION", details: [1] }, requestId: "r" },
+          412,
+        ),
+      nested,
+    );
+    expect(error).toBeInstanceOf(Nested);
+    expect(error.status).toBe("FAILED_PRECONDITION");
+    expect(error.details).toEqual([1]);
+    expect(error.requestId).toBe("r");
+  });
+
+  test("a typed body gets its keys mapped to TS names", async () => {
+    const error = await failOn(() => json({ message: "pay", request_id: "req_9" }, 402), plain);
+    expect(error).toBeInstanceOf(TypedBody);
+    expect(error.body).toMatchObject({ requestId: "req_9" });
+  });
+
+  test("a typed body that is not JSON stays the raw text", async () => {
+    const error = await failOn(() => new Response("<html>pay</html>", { status: 402 }), plain);
+    expect(error).toBeInstanceOf(TypedBody);
+    expect(error.body).toBe("<html>pay</html>");
+  });
+
+  test("a typed error that declares retryAfter gets the Retry-After hint", async () => {
+    const error = await failOn(
+      () => json({ code: "slow_down", message: "later" }, 409, { "retry-after": "7" }),
+      plain,
+    );
+    expect(error).toBeInstanceOf(SlowDown);
+    expect(Duration.toSeconds(error.retryAfter)).toBe(7);
   });
 });
 

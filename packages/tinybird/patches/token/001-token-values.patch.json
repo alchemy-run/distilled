@@ -1,0 +1,159 @@
+{
+  "description": "Every token response carries the token value: GET /v0/tokens answers {tokens: [Token]}, and create, get, update and refresh answer one Token (https://www.tinybird.co/docs/api-reference/token-api). Live (all five, test workspace): {id, token, scopes: [{type, resource?}], name, description, origin: {type}, host, is_internal}}. The value is sensitive, so it comes back Redacted. `filter` is the documented `:filter` part of a resource scope.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.token#TokenScope",
+      "value": {
+        "type": "structure",
+        "members": {
+          "type": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Scope type, e.g. `ADMIN`, `PIPES:READ`, `DATASOURCES:APPEND`."
+            }
+          },
+          "resource": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The resource the scope applies to, when it is resource-scoped."
+            }
+          },
+          "filter": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "SQL filter of a resource-scoped read scope."
+            }
+          }
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.token#TokenScopeList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.tinybird.token#TokenScope"
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.token#Token",
+      "value": {
+        "type": "structure",
+        "members": {
+          "id": {
+            "target": "smithy.api#String",
+            "traits": {}
+          },
+          "token": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#sensitive": {},
+              "smithy.api#documentation": "The token value."
+            }
+          },
+          "scopes": {
+            "target": "com.tinybird.token#TokenScopeList",
+            "traits": {}
+          },
+          "name": {
+            "target": "smithy.api#String",
+            "traits": {}
+          },
+          "description": {
+            "target": "smithy.api#String",
+            "traits": {}
+          },
+          "origin": {
+            "target": "smithy.api#Document",
+            "traits": {}
+          },
+          "host": {
+            "target": "smithy.api#String",
+            "traits": {}
+          },
+          "is_internal": {
+            "target": "smithy.api#Boolean",
+            "traits": {}
+          }
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.token#TokenList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.tinybird.token#Token"
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.token#Tokens",
+      "value": {
+        "type": "structure",
+        "members": {
+          "tokens": {
+            "target": "com.tinybird.token#TokenList",
+            "traits": {}
+          }
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.token#PostV0TokensResponse/members/body/target",
+      "value": "com.tinybird.token#Token"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.tinybird.token#PostV0TokensResponseBodyMap"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.token#GetV0TokensTokenResponse/members/body/target",
+      "value": "com.tinybird.token#Token"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.tinybird.token#GetV0TokensTokenResponseBodyMap"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.token#PutV0TokensTokenResponse/members/body/target",
+      "value": "com.tinybird.token#Token"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.tinybird.token#PutV0TokensTokenResponseBodyMap"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.token#PostV0TokensTokenRefreshResponse/members/body/target",
+      "value": "com.tinybird.token#Token"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.tinybird.token#PostV0TokensTokenRefreshResponseBodyMap"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.token#GetV0TokensResponse/members/body/target",
+      "value": "com.tinybird.token#Tokens"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.tinybird.token#GetV0TokensResponseBodyMap"
+    }
+  ]
+}

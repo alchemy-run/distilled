@@ -127,7 +127,7 @@ export class LimitExceededException
     "LimitExceededException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(403),
-  ).pipe(C.withAuthError) {}
+  ).pipe(C.withAuthError, C.withThrottlingError, C.withRetryableError) {}
 export class NotFoundException
   extends /*@__PURE__*/ S.TaggedError<NotFoundException>()(
     "NotFoundException",

@@ -1,0 +1,9 @@
+{
+  "description": "ivschat: Members the API leaves out (not required).",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.ivschat#ValidationException/members/reason/traits/smithy.api#required"
+    }
+  ]
+}

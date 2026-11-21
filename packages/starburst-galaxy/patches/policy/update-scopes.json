@@ -1,0 +1,10 @@
+{
+  "description": "`updatePolicy`'s `scopes` items are `ScopesPatch`, a schema with no type or properties (`{ \"description\": \"Policy scopes\" }`), so the list converts to documents and callers get `Array<unknown>`. The PATCH takes the same scope object as `createPolicy` (`PolicyScope`): a PATCH whose `scopes` held one `PolicyScope` (entityKind `Table`, a catalog entityId, schemaName `public`, tableName `customers`, rowFilterIds holding a row filter's ID, columnMaskIds empty) succeeded, and `getPolicy` then returned that row filter ID on the policy's scope (live, Alchemy's Galaxy provider Policy test, 2026-11-12). Galaxy's Terraform provider builds its update body with its create builder (`modelToUpdateRequest` returns `modelToCreateRequest`, `internal/provider/policy_resource.go`). Pointing the list at `PolicyScope` types the update like the create.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.starburst.galaxy.policy#PatchUpdatePolicyRequestScopesList/member/target",
+      "value": "com.starburst.galaxy.policy#PolicyScope"
+    }
+  ]
+}

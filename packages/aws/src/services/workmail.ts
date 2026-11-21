@@ -145,7 +145,7 @@ export class InvalidPasswordException
 export class LimitExceededException
   extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()("LimitExceededException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
-  }) {}
+  }).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class MailDomainInUseException
   extends /*@__PURE__*/ S.TaggedError<MailDomainInUseException>()("MailDomainInUseException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),

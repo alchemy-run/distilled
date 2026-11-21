@@ -34,6 +34,8 @@ export class Conflict
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
   ) {}
@@ -43,6 +45,8 @@ export class NotFound
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
@@ -52,6 +56,8 @@ export class UnprocessableEntity
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
   ) {}
@@ -535,6 +541,12 @@ export interface ListEventsV1NamespacedEventRequest {
   /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
   watch?: boolean | undefined;
 }
+/** How the server applies a PATCH body. */
+export type PatchType =
+  | "application/json-patch+json"
+  | "application/merge-patch+json"
+  | "application/strategic-merge-patch+json"
+  | "application/apply-patch+yaml";
 export interface PatchEventsV1NamespacedEventRequest {
   /** object name and auth scope, such as for teams and projects */
   namespace: string;
@@ -550,6 +562,44 @@ export interface PatchEventsV1NamespacedEventRequest {
   fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
   force?: boolean | undefined;
+  /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
+  contentType: PatchType | (string & {});
+  /** A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead. */
+  patch?: unknown | undefined;
+  /** action is what action was taken/failed regarding to the regarding object. It is machine-readable. This field cannot be empty for new Events and it can have at most 128 characters. */
+  action?: string | undefined;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string | undefined;
+  /** deprecatedCount is the deprecated field assuring backward compatibility with core.v1 Event type. */
+  deprecatedCount?: number | undefined;
+  /** deprecatedFirstTimestamp is the deprecated field assuring backward compatibility with core.v1 Event type. */
+  deprecatedFirstTimestamp?: string | undefined;
+  /** deprecatedLastTimestamp is the deprecated field assuring backward compatibility with core.v1 Event type. */
+  deprecatedLastTimestamp?: string | undefined;
+  /** deprecatedSource is the deprecated field assuring backward compatibility with core.v1 Event type. */
+  deprecatedSource?: T.MergePatch<IoK8sApiCoreV1EventSource> | undefined;
+  /** eventTime is the time when this Event was first observed. It is required. */
+  eventTime?: string | undefined;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string | undefined;
+  /** metadata is the standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  metadata?: T.MergePatch<IoK8sApimachineryPkgApisMetaV1ObjectMeta> | undefined;
+  /** note is a human-readable description of the status of this operation. Maximal length of the note is 1kB, but libraries should be prepared to handle values up to 64kB. */
+  note?: string | undefined;
+  /** reason is why the action was taken. It is human-readable. This field cannot be empty for new Events and it can have at most 128 characters. */
+  reason?: string | undefined;
+  /** regarding contains the object this Event is about. In most cases it's an Object reporting controller implements, e.g. ReplicaSetController implements ReplicaSets and this event is emitted because it acts on some changes in a ReplicaSet object. */
+  regarding?: T.MergePatch<IoK8sApiCoreV1ObjectReference> | undefined;
+  /** related is the optional secondary object for more complex actions. E.g. when regarding object triggers a creation or deletion of related object. */
+  related?: T.MergePatch<IoK8sApiCoreV1ObjectReference> | undefined;
+  /** reportingController is the name of the controller that emitted this Event, e.g. `kubernetes.io/kubelet`. This field cannot be empty for new Events. */
+  reportingController?: string | undefined;
+  /** reportingInstance is the ID of the controller instance, e.g. `kubelet-xyzf`. This field cannot be empty for new Events and it can have at most 128 characters. */
+  reportingInstance?: string | undefined;
+  /** series is data about the Event series this event represents or nil if it's a singleton Event. */
+  series?: T.MergePatch<IoK8sApiEventsV1EventSeries> | undefined;
+  /** type is the type of this event (Normal, Warning), new types could be added in the future. It is machine-readable. This field cannot be empty for new Events. */
+  type?: string | undefined;
 }
 export interface ReadEventsV1NamespacedEventRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -939,6 +989,25 @@ function __c0(j: number): any {
           fieldManager: S.optional(S.String.pipe(T.Query())),
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+          action: S.optional(S.String),
+          apiVersion: S.optional(S.String),
+          deprecatedCount: S.optional(S.Number),
+          deprecatedFirstTimestamp: S.optional(S.String),
+          deprecatedLastTimestamp: S.optional(S.String),
+          deprecatedSource: S.optional(__S(144, __c9, 0)),
+          eventTime: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(150, __c9, 6)),
+          note: S.optional(S.String),
+          reason: S.optional(S.String),
+          regarding: S.optional(__S(151, __c9, 7)),
+          related: S.optional(__S(151, __c9, 7)),
+          reportingController: S.optional(S.String),
+          reportingInstance: S.optional(S.String),
+          series: S.optional(__S(152, __c9, 8)),
+          type: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",

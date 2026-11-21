@@ -48,6 +48,8 @@ export class BucketAlreadyExists
     /*@__PURE__*/ S.TaggedError<BucketAlreadyExists>()("BucketAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10004 }],
   ) {}
@@ -57,6 +59,8 @@ export class BucketNotEmpty
     /*@__PURE__*/ S.TaggedError<BucketNotEmpty>()("BucketNotEmpty", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 409, message: { includes: "is not empty" } }],
   ) {}
@@ -66,6 +70,8 @@ export class BucketNotFound
     /*@__PURE__*/ S.TaggedError<BucketNotFound>()("BucketNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10085 }],
   ) {}
@@ -75,6 +81,8 @@ export class CustomDomainInUse
     /*@__PURE__*/ S.TaggedError<CustomDomainInUse>()("CustomDomainInUse", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 409, message: { includes: "in use" } }],
   ) {}
@@ -84,6 +92,8 @@ export class DomainNotFound
     /*@__PURE__*/ S.TaggedError<DomainNotFound>()("DomainNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10053 }],
   ) {}
@@ -95,6 +105,8 @@ export class EventNotificationConfigNotFound
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ code: 11011 }],
@@ -105,6 +117,8 @@ export class EventNotificationRuleConflict
     /*@__PURE__*/ S.TaggedError<EventNotificationRuleConflict>()("EventNotificationRuleConflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 11020 }],
   ) {}
@@ -114,6 +128,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -123,6 +139,8 @@ export class InvalidBucketName
     /*@__PURE__*/ S.TaggedError<InvalidBucketName>()("InvalidBucketName", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10005 }],
   ) {}
@@ -134,6 +152,8 @@ export class InvalidEventNotificationConfig
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ code: 11014 }, { code: 11019 }],
@@ -144,6 +164,8 @@ export class InvalidRoute
     /*@__PURE__*/ S.TaggedError<InvalidRoute>()("InvalidRoute", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 7003 }],
   ) {}
@@ -153,6 +175,8 @@ export class InvalidUpstreamCredentials
     /*@__PURE__*/ S.TaggedError<InvalidUpstreamCredentials>()("InvalidUpstreamCredentials", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10063 }],
   ) {}
@@ -162,6 +186,8 @@ export class NoCorsConfiguration
     /*@__PURE__*/ S.TaggedError<NoCorsConfiguration>()("NoCorsConfiguration", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10059 }],
   ) {}
@@ -171,6 +197,8 @@ export class NoEventNotificationConfig
     /*@__PURE__*/ S.TaggedError<NoEventNotificationConfig>()("NoEventNotificationConfig", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 11015 }],
   ) {}
@@ -180,6 +208,8 @@ export class NoRoute
     /*@__PURE__*/ S.TaggedError<NoRoute>()("NoRoute", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10015 }],
   ) {}
@@ -189,6 +219,8 @@ export class NoSuchBucket
     /*@__PURE__*/ S.TaggedError<NoSuchBucket>()("NoSuchBucket", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10006 }],
   ) {}
@@ -198,6 +230,8 @@ export class NoSuchKey
     /*@__PURE__*/ S.TaggedError<NoSuchKey>()("NoSuchKey", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404, message: { includes: "specified key does not exist" } }, { code: 10007 }],
   ) {}
@@ -207,6 +241,8 @@ export class QueueNotFound
     /*@__PURE__*/ S.TaggedError<QueueNotFound>()("QueueNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 11000 }],
   ) {}
@@ -218,6 +254,8 @@ export class SuperSlurperJobOperationFailed
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ status: 500, message: "Internal Server Error" }],
@@ -230,6 +268,8 @@ export class SuperSlurperPreconnectivityFailed
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ status: 403, message: "Preconnectivity failed, please verify tokens and try again" }],
@@ -994,10 +1034,6 @@ export interface GetBucketObjectRequest {
   accountId: string;
   /** Name of the bucket. */
   bucketName: string;
-  /** Returns the object only if it has been modified since the specified time. Must be formatted as an HTTP-date (RFC 7231), e.g. `Tue, 15 Jan 2024 10:30:00 GMT`. */
-  ifModifiedSince?: string | undefined;
-  /** Returns the object only if its ETag does not match the given value. */
-  ifNoneMatch?: string | undefined;
   /** The key (name) of the object to retrieve. May contain slashes for path-like keys. Slashes (`/`) within the key MUST be sent literally and MUST NOT be percent-encoded (i.e. `%2F`); other reserved characters should be percent-encoded as usual. */
   objectName: string;
   jurisdiction?: BucketsObjectsGetRequestCfR2Jurisdiction | (string & {}) | undefined;
@@ -4140,8 +4176,6 @@ function __c31(j: number): any {
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           bucketName: S.String.pipe(T.Label("bucket_name")),
-          ifModifiedSince: S.optional(S.String.pipe(T.Header("If-Modified-Since"))),
-          ifNoneMatch: S.optional(S.String.pipe(T.Header("If-None-Match"))),
           objectName: S.String.pipe(T.Label("object_name")),
           jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })

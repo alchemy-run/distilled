@@ -1,0 +1,82 @@
+{
+  "description": "Per-mutation errors the previous Smithy SDK typed (patches/addons/*.patch.json and patches/builders/ensureDepotRemoteBuilder.patch.json), with the same message matchers. The leading letter of 'not authorized' and 'could not find' is left out because Fly sends both cases; RemoteBuilderAppNotFound also requires the NOT_FOUND code, so it wins over the global FlyNotFound as the more specific match.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/errors/TigrisBucketNameUnavailable",
+      "value": {
+        "description": "Tigris blocks a bucket name for several minutes after its delete, and Fly forwards the refusal.",
+        "category": "conflict",
+        "matchers": [
+          {
+            "messageIncludes": "recently deleted and unavailable for creation"
+          }
+        ]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/types/Mutations/fields/createAddOn/errors/-",
+      "value": "TigrisBucketNameUnavailable"
+    },
+    {
+      "op": "add",
+      "path": "/errors/TigrisBucketNotFound",
+      "value": {
+        "description": "The Tigris bucket is already gone, whether the delete just went through or Fly kept a stale add-on record.",
+        "category": "notFound",
+        "matchers": [
+          {
+            "messageIncludes": "The specified bucket does not exist"
+          }
+        ]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/types/Mutations/fields/deleteAddOn/errors/-",
+      "value": "TigrisBucketNotFound"
+    },
+    {
+      "op": "add",
+      "path": "/errors/CreateExtensionTosAgreementNotAuthorized",
+      "value": {
+        "description": "The token cannot record the add-on provider's terms-of-service agreement.",
+        "category": "auth",
+        "matchers": [
+          {
+            "messageIncludes": "ot authorized to access this createextensiontosagreement"
+          }
+        ]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/types/Mutations/fields/createExtensionTosAgreement/errors/-",
+      "value": "CreateExtensionTosAgreementNotAuthorized"
+    },
+    {
+      "op": "add",
+      "path": "/errors/RemoteBuilderAppNotFound",
+      "value": {
+        "description": "The app the remote builder is for does not exist or the token cannot see it.",
+        "category": "notFound",
+        "matchers": [
+          {
+            "code": "NOT_FOUND",
+            "messageIncludes": "ould not find App"
+          },
+          {
+            "code": "NOT_FOUND",
+            "messageIncludes": "ould not find app"
+          }
+        ]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/types/Mutations/fields/ensureDepotRemoteBuilder/errors/-",
+      "value": "RemoteBuilderAppNotFound"
+    }
+  ]
+}

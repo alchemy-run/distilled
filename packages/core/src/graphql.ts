@@ -229,7 +229,7 @@ export type FieldMeta = {
   readonly kind: "scalar" | "object" | "list" | "connection";
   readonly of?: TypeMeta;
   readonly argTypes?: ArgMeta;
-  /** The value is a secret: extracted strings are wrapped in `Redacted`. */
+  /** The value is a secret: extracted values are wrapped in `Redacted`. */
   readonly sensitive?: boolean;
 };
 
@@ -240,16 +240,18 @@ export type TypeMeta = {
 
 export const scalarField = (
   name: string,
-  options: { readonly sensitive?: boolean } = {},
+  options: { readonly sensitive?: boolean; readonly argTypes?: ArgMeta } = {},
 ): FieldMeta => ({
   name,
   kind: "scalar",
+  ...(options.argTypes ? { argTypes: options.argTypes } : {}),
   ...(options.sensitive ? { sensitive: true } : {}),
 });
-export const objectField = (name: string, objectType: TypeMeta): FieldMeta => ({
+export const objectField = (name: string, objectType: TypeMeta, argTypes?: ArgMeta): FieldMeta => ({
   name,
   kind: "object",
   of: objectType,
+  ...(argTypes ? { argTypes } : {}),
 });
 export const listField = (name: string, itemType: TypeMeta, argTypes?: ArgMeta): FieldMeta => ({
   name,
@@ -355,8 +357,9 @@ const log = (..._args: Array<unknown>): void => {};
  */
 type QueryFields<Value, Error> = [NonNullable<Value>] extends [ReadonlyArray<infer Item>]
   ? {
-      readonly [Field in keyof NonNullable<Item>]: Query<
-        NonNullable<Item>[Field] | Nullish<Item>,
+      readonly [Field in keyof NonNullable<Item>]: FieldQuery<
+        NonNullable<Item>[Field],
+        Nullish<Item>,
         Error
       >;
     } & {
@@ -364,12 +367,35 @@ type QueryFields<Value, Error> = [NonNullable<Value>] extends [ReadonlyArray<inf
     }
   : [NonNullable<Value>] extends [object]
     ? {
-        readonly [Field in keyof NonNullable<Value>]: Query<
-          NonNullable<Value>[Field] | Nullish<Value>,
+        readonly [Field in keyof NonNullable<Value>]: FieldQuery<
+          NonNullable<Value>[Field],
+          Nullish<Value>,
           Error
         >;
       }
     : {};
+
+/**
+ * A field that takes arguments, as it appears in a generated data type.
+ * Through a Query it is a call: `account.byId({ accountId })`. When every
+ * argument is optional (`Required` false) the field also reads bare.
+ */
+export interface FieldWithArgs<Value, Args, Required extends boolean = true> {
+  readonly "~fieldArgs": {
+    readonly value: Value;
+    readonly args: Args;
+    readonly required: Required;
+  };
+}
+
+/** The Query for one field: a call for a field with arguments, else a property. */
+type FieldQuery<Field, ParentNull, Error> = [Field] extends [
+  FieldWithArgs<infer Value, infer Args, infer Required>,
+]
+  ? [Required] extends [true]
+    ? (args: Args) => Query<Value | ParentNull, Error>
+    : Query<Value | ParentNull, Error> & ((args?: Args) => Query<Value | ParentNull, Error>)
+  : Query<Field | ParentNull, Error>;
 
 /** A field read through a `null` parent is `null`. */
 type Nullish<Value> = Extract<Value, null | undefined>;
@@ -862,7 +888,9 @@ const paintAbs = (forest: Forest, expr: Expr): Path => {
         isList: expr.field.kind === "list",
         sensitive: expr.field.sensitive,
       });
-      const path = [...parentPath, node.alias ?? node.field];
+      const key = node.alias ?? node.field;
+      forest.rootAlias.set(expr, key);
+      const path = [...parentPath, key];
       return expr.field.kind === "connection" ? [...path, ...paintConnection(forest, node)] : path;
     }
     default:
@@ -892,13 +920,14 @@ const connectionNodeSel = (connection: SelNode): SelNode => {
   return node;
 };
 
-const relSel = (expr: Expr, listSel: SelNode): SelNode => {
+const relSel = (forest: Forest, expr: Expr, listSel: SelNode): SelNode => {
   switch (expr._tag) {
     case "Item":
       return listSel;
     case "Prop": {
-      const parent = relSel(expr.parent, listSel);
-      const child = [...parent.children.values()].find((c) => c.field === expr.field.name);
+      const parent = relSel(forest, expr.parent, listSel);
+      const key = forest.rootAlias.get(expr) ?? expr.field.name;
+      const child = [...parent.children.values()].find((c) => (c.alias ?? c.field) === key);
       if (!child) {
         throw new GqlError(`missing ${expr.field.name} in list selection`);
       }
@@ -916,13 +945,14 @@ const paintRel = (forest: Forest, expr: Expr, listSel: SelNode): void => {
       return;
     case "Prop": {
       paintRel(forest, expr.parent, listSel);
-      const child = ensureChild(forest, relSel(expr.parent, listSel), expr.field.name, {
+      const child = ensureChild(forest, relSel(forest, expr.parent, listSel), expr.field.name, {
         args: expr.args,
         argTypes: expr.field.argTypes,
         isScalar: expr.field.kind === "scalar",
         isList: expr.field.kind === "list",
         sensitive: expr.field.sensitive,
       });
+      forest.rootAlias.set(expr, child.alias ?? child.field);
       if (expr.field.kind === "connection") paintConnection(forest, child);
       return;
     }
@@ -932,11 +962,11 @@ const paintRel = (forest: Forest, expr: Expr, listSel: SelNode): void => {
       return;
     case "MapItems":
       paintRel(forest, expr.parent, listSel);
-      visitRel(expr.mapped, forest, relSel(expr.parent, listSel));
+      visitRel(expr.mapped, forest, relSel(forest, expr.parent, listSel));
       return;
     case "Filter":
       paintRel(forest, expr.parent, listSel);
-      paintRel(forest, expr.predicate, relSel(expr.parent, listSel));
+      paintRel(forest, expr.predicate, relSel(forest, expr.parent, listSel));
       return;
     case "Root":
       throw new GqlError("root inside list item");
@@ -1102,22 +1132,25 @@ const readField = (parent: unknown, name: string): unknown => {
   return (parent as Record<string, unknown>)[name];
 };
 
-/** Wrap every string of a sensitive scalar (or list of them) in `Redacted`. */
-const redactStrings = (value: unknown): unknown =>
-  typeof value === "string"
-    ? Redacted.make(value)
+/**
+ * Wrap a sensitive scalar in `Redacted`: a string, a JSON object, or each
+ * item of a list of them.
+ */
+const redactValues = (value: unknown): unknown =>
+  value === null || value === undefined
+    ? value
     : Array.isArray(value)
-      ? value.map(redactStrings)
-      : value;
+      ? value.map(redactValues)
+      : Redacted.make(value);
 
-/** Copy `data` with the strings of every sensitive field `sel` selects wrapped in `Redacted`. */
+/** Copy `data` with the value of every sensitive field `sel` selects wrapped in `Redacted`. */
 const redactSelected = (sel: SelNode, data: unknown): unknown => {
   if (sel.children.size === 0 || data === null || typeof data !== "object") return data;
   if (Array.isArray(data)) return data.map((item) => redactSelected(sel, item));
   const out: Record<string, unknown> = { ...data };
   for (const child of sel.children.values()) {
     const key = child.alias ?? child.field;
-    out[key] = child.sensitive ? redactStrings(out[key]) : redactSelected(child, out[key]);
+    out[key] = child.sensitive ? redactValues(out[key]) : redactSelected(child, out[key]);
   }
   return out;
 };
@@ -1129,7 +1162,10 @@ const extractAbs = (expr: Expr, data: unknown, rootAlias: WeakMap<object, string
       return expr.connection ? nodesFromConnection(raw) : raw;
     }
     case "Prop": {
-      const value = readField(extractAbs(expr.parent, data, rootAlias), expr.field.name);
+      const value = readField(
+        extractAbs(expr.parent, data, rootAlias),
+        rootAlias.get(expr) ?? expr.field.name,
+      );
       return expr.field.kind === "connection" ? nodesFromConnection(value) : value;
     }
     default:
@@ -1137,12 +1173,15 @@ const extractAbs = (expr: Expr, data: unknown, rootAlias: WeakMap<object, string
   }
 };
 
-const extractRel = (expr: Expr, item: unknown): unknown => {
+const extractRel = (expr: Expr, item: unknown, rootAlias: WeakMap<object, string>): unknown => {
   switch (expr._tag) {
     case "Item":
       return item;
     case "Prop": {
-      const value = readField(extractRel(expr.parent, item), expr.field.name);
+      const value = readField(
+        extractRel(expr.parent, item, rootAlias),
+        rootAlias.get(expr) ?? expr.field.name,
+      );
       return expr.field.kind === "connection" ? nodesFromConnection(value) : value;
     }
     default:
@@ -1178,7 +1217,7 @@ const interpretExpr = (
       return item;
     case "Root":
     case "Prop":
-      return inItem(expr) ? extractRel(expr, item) : extractAbs(expr, data, rootAlias);
+      return inItem(expr) ? extractRel(expr, item, rootAlias) : extractAbs(expr, data, rootAlias);
     case "MapValue":
       return expr.mapFn(interpretExpr(expr.parent, data, rootAlias, item));
     case "Filter": {

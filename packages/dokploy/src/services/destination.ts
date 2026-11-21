@@ -30,27 +30,48 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorBADREQUEST | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorFORBIDDEN | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorNOTFOUND | string;
+}
 
 export type CreateDestinationRequestAdditionalFlagsList = Array<string>;
 export interface CreateDestinationRequest {
@@ -102,6 +123,44 @@ export interface UpdateDestinationRequest {
   serverId?: string | undefined;
 }
 export type UpdateDestinationResponse = unknown;
+export interface ErrorBADREQUESTIssuesItem {
+  message: string;
+}
+/** An array of issues that were responsible for the error */
+export type ErrorBADREQUESTIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorBADREQUEST {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorBADREQUESTIssuesList | undefined;
+}
+export type ErrorFORBIDDENIssuesItem = ErrorBADREQUESTIssuesItem;
+/** An array of issues that were responsible for the error */
+export type ErrorFORBIDDENIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorFORBIDDEN {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorFORBIDDENIssuesList | undefined;
+}
+export type ErrorNOTFOUNDIssuesItem = ErrorBADREQUESTIssuesItem;
+/** An array of issues that were responsible for the error */
+export type ErrorNOTFOUNDIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorNOTFOUND {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorNOTFOUNDIssuesList | undefined;
+}
 export type CreateDestinationError = BadRequest | Forbidden | DokployOpError;
 export const createDestination: API.OperationMethod<
   CreateDestinationRequest,
@@ -109,8 +168,8 @@ export const createDestination: API.OperationMethod<
   CreateDestinationError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateDestinationRequest>,
-  output: __S(2, __c1, 0) as any as S.Schema<CreateDestinationResponse>,
+  input: __S(4, __c1, 0) as any as S.Schema<CreateDestinationRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<CreateDestinationResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -125,8 +184,8 @@ export const deleteDestination: API.OperationMethod<
   DeleteDestinationError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6, __c3, 0) as any as S.Schema<DeleteDestinationRequest>,
-  output: __S(2, __c1, 0) as any as S.Schema<DeleteDestinationResponse>,
+  input: __S(16, __c4, 0) as any as S.Schema<DeleteDestinationRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<DeleteDestinationResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -141,8 +200,8 @@ export const getDestination: API.OperationMethod<
   GetDestinationError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c4, 0) as any as S.Schema<GetDestinationRequest>,
-  output: __S(2, __c1, 0) as any as S.Schema<GetDestinationResponse>,
+  input: __S(20, __c5, 0) as any as S.Schema<GetDestinationRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<GetDestinationResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -157,8 +216,8 @@ export const listDestinations: API.OperationMethod<
   ListDestinationsError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10, __c5, 0) as any as S.Schema<ListDestinationsRequest>,
-  output: __S(2, __c1, 0) as any as S.Schema<ListDestinationsResponse>,
+  input: __S(24, __c6, 0) as any as S.Schema<ListDestinationsRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<ListDestinationsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -173,8 +232,8 @@ export const testDestinationConnection: API.OperationMethod<
   TestDestinationConnectionError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c6, 0) as any as S.Schema<TestDestinationConnectionRequest>,
-  output: __S(2, __c1, 0) as any as S.Schema<TestDestinationConnectionResponse>,
+  input: __S(28, __c7, 0) as any as S.Schema<TestDestinationConnectionRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<TestDestinationConnectionResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -189,8 +248,8 @@ export const updateDestination: API.OperationMethod<
   UpdateDestinationError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14, __c7, 0) as any as S.Schema<UpdateDestinationRequest>,
-  output: __S(2, __c1, 0) as any as S.Schema<UpdateDestinationResponse>,
+  input: __S(32, __c8, 0) as any as S.Schema<UpdateDestinationRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<UpdateDestinationResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -204,6 +263,26 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          message: S.String,
+        }),
+      ).annotate({ identifier: "ErrorBADREQUESTIssuesItem" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.String,
+          code: S.String,
+          issues: S.optional(__S(1, __c0, 1)),
+        }),
+      ).annotate({ identifier: "ErrorBADREQUEST" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           name: S.String,
           provider: S.NullOr(S.String),
           accessKey: S.String,
@@ -211,13 +290,13 @@ function __c0(j: number): any {
           region: S.String,
           endpoint: S.String,
           secretAccessKey: S.String.pipe(T.SensitiveValue({})),
-          additionalFlags: S.NullOr(__S(4, __c2, 0)),
+          additionalFlags: S.NullOr(__S(12, __c3, 0)),
           serverId: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/destination.create", code: 200 })),
       ).annotate({ identifier: "CreateDestinationRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -225,13 +304,13 @@ function __c1(j: number): any {
       });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -241,7 +320,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "DeleteDestinationRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -251,7 +330,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetDestinationRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -259,7 +338,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "ListDestinationsRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -271,13 +350,13 @@ function __c6(j: number): any {
           region: S.String,
           endpoint: S.String,
           secretAccessKey: S.String.pipe(T.SensitiveValue({})),
-          additionalFlags: S.NullOr(__S(4, __c2, 0)),
+          additionalFlags: S.NullOr(__S(12, __c3, 0)),
           serverId: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/destination.testConnection", code: 200 })),
       ).annotate({ identifier: "TestDestinationConnectionRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -290,7 +369,7 @@ function __c7(j: number): any {
           secretAccessKey: S.String.pipe(T.SensitiveValue({})),
           destinationId: S.String,
           provider: S.NullOr(S.String),
-          additionalFlags: S.NullOr(__S(4, __c2, 0)),
+          additionalFlags: S.NullOr(__S(12, __c3, 0)),
           serverId: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/destination.update", code: 200 })),
       ).annotate({ identifier: "UpdateDestinationRequest" });

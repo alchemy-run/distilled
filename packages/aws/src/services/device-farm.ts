@@ -115,7 +115,7 @@ export class InternalServiceException
     "InternalServiceException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InvalidOperationException
   extends /*@__PURE__*/ S.TaggedError<InvalidOperationException>()("InvalidOperationException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
@@ -123,7 +123,7 @@ export class InvalidOperationException
 export class LimitExceededException
   extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()("LimitExceededException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
-  }) {}
+  }).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class NotEligibleException
   extends /*@__PURE__*/ S.TaggedError<NotEligibleException>()("NotEligibleException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
@@ -675,7 +675,7 @@ export interface Radios {
   nfc?: boolean | undefined;
   gps?: boolean | undefined;
 }
-export type InsightsType = "TEST_REPORT" | (string & {});
+export type InsightsType = "TEST_REPORT" | "NONE" | (string & {});
 export type InsightsTypes = InsightsType[];
 export interface ScheduleRunConfiguration {
   extraDataPackageArn?: string | undefined;
@@ -921,6 +921,7 @@ export interface Run {
   webUrl?: string | undefined;
   skipAppResign?: boolean | undefined;
   testSpecArn?: string | undefined;
+  testPackageArn?: string | undefined;
   deviceSelectionResult?: DeviceSelectionResult | undefined;
   vpcConfig?: VpcConfig | undefined;
   executionRoleArn?: string | undefined;
@@ -1047,6 +1048,7 @@ export type ArtifactType =
   | "CUSTOMER_ARTIFACT"
   | "CUSTOMER_ARTIFACT_LOG"
   | "TESTSPEC_OUTPUT"
+  | "DEVICE_CONNECT_COMMAND_LOG"
   | (string & {});
 export type URL = string;
 export interface Artifact {
@@ -4625,6 +4627,7 @@ function __c65(j: number): any {
           webUrl: S.optional(S.String),
           skipAppResign: S.optional(S.Boolean),
           testSpecArn: S.optional(S.String),
+          testPackageArn: S.optional(S.String),
           deviceSelectionResult: S.optional(__S(520, __c65, 0)),
           vpcConfig: S.optional(__S(88, __c11, 0)),
           executionRoleArn: S.optional(S.String),

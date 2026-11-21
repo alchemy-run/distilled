@@ -52,21 +52,26 @@ export function getIdentifier(ast: AST.AST): string | undefined {
     return getIdentifier(ast.thunk());
   }
 
-  const unwrapped = unwrapUnion(ast);
-  if (unwrapped !== ast) return getIdentifier(unwrapped);
+  // One level at a time: a union of one variant carries its own identifier.
+  if (ast._tag === "Union") {
+    const nonNullish = ast.types.filter(
+      (t) => t._tag !== "Undefined" && !(t._tag === "Literal" && t.literal === null),
+    );
+    if (nonNullish.length === 1) return getIdentifier(nonNullish[0]);
+  }
 
-  if (unwrapped._tag === "Declaration") {
-    const declId = unwrapped.annotations?.identifier;
+  if (ast._tag === "Declaration") {
+    const declId = ast.annotations?.identifier;
     if (typeof declId === "string") return declId;
-    const enc = unwrapped.encoding;
+    const enc = ast.encoding;
     if (enc && enc.length > 0) {
       const toId = enc[0].to?.annotations?.identifier;
       if (typeof toId === "string") return toId;
     }
   }
 
-  if (unwrapped.encoding && unwrapped.encoding.length > 0) {
-    const toId = unwrapped.encoding[0].to?.annotations?.identifier;
+  if (ast.encoding && ast.encoding.length > 0) {
+    const toId = ast.encoding[0].to?.annotations?.identifier;
     if (typeof toId === "string") return toId;
   }
 
@@ -139,7 +144,35 @@ export function getEncodedPropertySignatures(ast: AST.AST): readonly AST.Propert
   if (objects) {
     return objects.propertySignatures;
   }
+  const union = unionMembers(unwrapped);
+  if (union) {
+    let members = unionPropsCache.get(union);
+    if (!members) {
+      members = union.types.flatMap((t) => getEncodedPropertySignatures(t));
+      unionPropsCache.set(union, members);
+    }
+    return members;
+  }
   return getPropertySignatures(unwrapped);
+}
+
+const unionPropsCache = /*@__PURE__*/ new WeakMap<AST.Union, readonly AST.PropertySignature[]>();
+
+/**
+ * A Smithy union: a union of one-member structs, one per variant
+ * (`S.Union([S.Struct({ a }), S.Struct({ b })])`). Its members are the
+ * members of all variants; a value sets exactly one.
+ */
+function unionMembers(ast: AST.AST): AST.Union | undefined {
+  if (ast._tag === "Suspend") return unionMembers(ast.thunk());
+  return ast._tag === "Union" && ast.types.length > 0 && ast.types.every(isStructObjects)
+    ? ast
+    : undefined;
+}
+
+function isStructObjects(ast: AST.AST): boolean {
+  const objects = findEncodedObjects(ast);
+  return objects !== undefined && objects.indexSignatures.length === 0;
 }
 
 /**

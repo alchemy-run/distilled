@@ -37,9 +37,9 @@ export class BadRequest
       code: /*@__PURE__*/ S.optional(S.Number),
       message: S.String,
       status: /*@__PURE__*/ S.optional(S.String),
-      reason: /*@__PURE__*/ S.optional(S.String),
-      domain: /*@__PURE__*/ S.optional(S.String),
       details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
   ) {}
@@ -50,9 +50,9 @@ export class Conflict
       code: /*@__PURE__*/ S.optional(S.Number),
       message: S.String,
       status: /*@__PURE__*/ S.optional(S.String),
-      reason: /*@__PURE__*/ S.optional(S.String),
-      domain: /*@__PURE__*/ S.optional(S.String),
       details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
   ) {}
@@ -63,9 +63,9 @@ export class Forbidden
       code: /*@__PURE__*/ S.optional(S.Number),
       message: S.String,
       status: /*@__PURE__*/ S.optional(S.String),
-      reason: /*@__PURE__*/ S.optional(S.String),
-      domain: /*@__PURE__*/ S.optional(S.String),
       details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
   ) {}
@@ -76,9 +76,9 @@ export class NotFound
       code: /*@__PURE__*/ S.optional(S.Number),
       message: S.String,
       status: /*@__PURE__*/ S.optional(S.String),
-      reason: /*@__PURE__*/ S.optional(S.String),
-      domain: /*@__PURE__*/ S.optional(S.String),
       details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
@@ -90,29 +90,27 @@ export class UserCredentialMismatch
       code: /*@__PURE__*/ S.optional(S.Number),
       message: S.String,
       status: /*@__PURE__*/ S.optional(S.String),
-      reason: /*@__PURE__*/ S.optional(S.String),
-      domain: /*@__PURE__*/ S.optional(S.String),
       details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403, message: { includes: "credentials must match the user specified" } }],
   ) {}
 
 /** The SSH public key information associated with a Google account. */
 export interface SshPublicKey {
-  /** Required. Public key text in SSH format, defined by [RFC4253](https://www.ietf.org/rfc/rfc4253.txt) section 6.6. */
-  key?: string | undefined;
   /** Output only. The SHA-256 fingerprint of the SSH public key. */
   fingerprint?: string | undefined;
   /** Output only. The canonical resource name. */
   name?: string | undefined;
+  /** Required. Public key text in SSH format, defined by [RFC4253](https://www.ietf.org/rfc/rfc4253.txt) section 6.6. */
+  key?: string | undefined;
   /** An expiration time in microseconds since epoch. */
   expirationTimeUsec?: string | undefined;
 }
-export interface CreateUsersSshPublicKeysRequest {
+export interface CreateUsersSshPublicKeysRequest extends SshPublicKey {
   /** Required. The unique ID for the user in format `users/{user}`. */
   parent: string;
-  /** Request body */
-  body?: SshPublicKey | undefined;
 }
 export interface DeleteUsersProjectsRequest {
   /** Required. A reference to the POSIX account to update. POSIX accounts are identified by the project ID they are associated with. A reference to the POSIX account is in format `users/{user}/projects/{project}`. */
@@ -125,12 +123,12 @@ export interface DeleteUsersSshPublicKeysRequest {
   name: string;
 }
 export interface GetLoginProfileUsersRequest {
-  /** Optional. A system ID for filtering the results of the request. */
-  systemId?: string | undefined;
-  /** Required. The unique ID for the user in format `users/{user}`. */
-  name: string;
   /** Required. The project ID of the Google Cloud Platform project. */
   projectId?: string | undefined;
+  /** Required. The unique ID for the user in format `users/{user}`. */
+  name: string;
+  /** Optional. A system ID for filtering the results of the request. */
+  systemId?: string | undefined;
 }
 export type PosixAccountOperatingSystemTypeEnum =
   | "OPERATING_SYSTEM_TYPE_UNSPECIFIED"
@@ -138,37 +136,37 @@ export type PosixAccountOperatingSystemTypeEnum =
   | "WINDOWS";
 /** The POSIX account information associated with a Google account. */
 export interface PosixAccount {
-  /** The path to the logic shell for this account. */
-  shell?: string | undefined;
-  /** The GECOS (user information) entry for this account. */
-  gecos?: string | undefined;
-  /** System identifier for which account the username or uid applies to. By default, the empty value is used. */
-  systemId?: string | undefined;
-  /** The path to the home directory for this account. */
-  homeDirectory?: string | undefined;
-  /** The operating system type where this account applies. */
-  operatingSystemType?: PosixAccountOperatingSystemTypeEnum | undefined;
-  /** The username of the POSIX account. */
-  username?: string | undefined;
-  /** The default group ID. */
-  gid?: string | undefined;
-  /** The user ID. */
-  uid?: string | undefined;
-  /** Output only. A POSIX account identifier. */
-  accountId?: string | undefined;
-  /** Only one POSIX account can be marked as primary. */
-  primary?: boolean | undefined;
   /** Output only. The canonical resource name. */
   name?: string | undefined;
+  /** The path to the logic shell for this account. */
+  shell?: string | undefined;
+  /** The default group ID. */
+  gid?: string | undefined;
+  /** Only one POSIX account can be marked as primary. */
+  primary?: boolean | undefined;
+  /** The user ID. */
+  uid?: string | undefined;
+  /** The path to the home directory for this account. */
+  homeDirectory?: string | undefined;
+  /** The username of the POSIX account. */
+  username?: string | undefined;
+  /** The GECOS (user information) entry for this account. */
+  gecos?: string | undefined;
+  /** The operating system type where this account applies. */
+  operatingSystemType?: PosixAccountOperatingSystemTypeEnum | undefined;
+  /** System identifier for which account the username or uid applies to. By default, the empty value is used. */
+  systemId?: string | undefined;
+  /** Output only. A POSIX account identifier. */
+  accountId?: string | undefined;
 }
 export type PosixAccountList = Array<PosixAccount>;
 export type SshPublicKeyMap = { [key: string]: SshPublicKey | undefined };
 /** The user profile information used for logging in to a virtual machine on Google Compute Engine. */
 export interface LoginProfile {
-  /** The list of POSIX accounts associated with the user. */
-  posixAccounts?: PosixAccountList | undefined;
   /** Required. A unique user ID. */
   name?: string | undefined;
+  /** The list of POSIX accounts associated with the user. */
+  posixAccounts?: PosixAccountList | undefined;
   /** A map from SSH public key fingerprint to the associated key object. */
   sshPublicKeys?: SshPublicKeyMap | undefined;
 }
@@ -177,48 +175,42 @@ export interface GetUsersSshPublicKeysRequest {
   name: string;
 }
 export type StringList = Array<string>;
-export interface ImportSshPublicKeyUsersRequest {
+export interface ImportSshPublicKeyUsersRequest extends SshPublicKey {
   /** Required. The unique ID for the user in format `users/{user}`. */
   parent: string;
-  /** The project ID of the Google Cloud Platform project. */
-  projectId?: string | undefined;
   /** Optional. The regions to which to assert that the key was written. If unspecified, defaults to all regions. Regions are listed at https://cloud.google.com/about/locations#region. */
   regions?: StringList | undefined;
-  /** Request body */
-  body?: SshPublicKey | undefined;
+  /** The project ID of the Google Cloud Platform project. */
+  projectId?: string | undefined;
 }
 /** A response message for importing an SSH public key. */
 export interface ImportSshPublicKeyResponse {
-  /** Detailed information about import results. */
-  details?: string | undefined;
   /** The login profile information for the user. */
   loginProfile?: LoginProfile | undefined;
+  /** Detailed information about import results. */
+  details?: string | undefined;
 }
-export interface PatchUsersSshPublicKeysRequest {
-  /** Required. The fingerprint of the public key to update. Public keys are identified by their SHA-256 fingerprint. The fingerprint of the public key is in format `users/{user}/sshPublicKeys/{fingerprint}`. */
-  name: string;
+export interface PatchUsersSshPublicKeysRequest extends Omit<SshPublicKey, "name"> {
   /** Optional. Mask to control which fields get updated. Updates all if not present. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: SshPublicKey | undefined;
+  /** Required. The fingerprint of the public key to update. Public keys are identified by their SHA-256 fingerprint. The fingerprint of the public key is in format `users/{user}/sshPublicKeys/{fingerprint}`. */
+  name: string;
 }
 /** A request message for creating a POSIX account entry. */
 export interface ProvisionPosixAccountRequest {
   /** Optional. The regions to wait for a POSIX account to be written to before returning a response. If unspecified, defaults to all regions. Regions are listed at https://cloud.google.com/about/locations#region. */
   regions?: StringList | undefined;
 }
-export interface ProvisionPosixAccountUsersProjectsRequest {
+export interface ProvisionPosixAccountUsersProjectsRequest extends ProvisionPosixAccountRequest {
   /** Required. The unique ID for the user in format `users/{user}/projects/{project}`. */
   name: string;
-  /** Request body */
-  body?: ProvisionPosixAccountRequest | undefined;
 }
 /** A request message for signing an SSH public key. */
 export interface SignSshPublicKeyRequest {
-  /** The Compute instance to sign the SSH public key for. Expected format: projects/{project}/zones/{zone}/instances/{numeric_instance_id} */
-  computeInstance?: string | undefined;
   /** The App Engine instance to sign the SSH public key for. Expected format: apps/{app}/services/{service}/versions/{version}/instances/{instance} */
   appEngineInstance?: string | undefined;
+  /** The Compute instance to sign the SSH public key for. Expected format: projects/{project}/zones/{zone}/instances/{numeric_instance_id} */
+  computeInstance?: string | undefined;
   /** Optional. The service account for the instance. If the instance in question does not have a service account, this field should be left empty. If the wrong service account is provided, this operation will return a signed certificate that will not be accepted by the VM. */
   serviceAccount?: string | undefined;
   /** Required. The SSH public key to sign. */
@@ -226,11 +218,9 @@ export interface SignSshPublicKeyRequest {
   /** Optional. The Cloud Run resource to sign the SSH public key for. Expected formats: - `projects/{project}/locations/{location}/services/{service}` - `projects/{project}/locations/{location}/workerPools/{worker_pool}` - `projects/{project}/locations/{location}/jobs/{job}` - `projects/{project}/locations/{location}/instances/{instance}` */
   cloudRunResource?: string | undefined;
 }
-export interface SignSshPublicKeyProjectsLocationsRequest {
+export interface SignSshPublicKeyProjectsLocationsRequest extends SignSshPublicKeyRequest {
   /** Required. The parent for the signing request. Format: projects/{project}/locations/{location} */
   parent: string;
-  /** Request body */
-  body?: SignSshPublicKeyRequest | undefined;
 }
 /** The response message for signing an SSH public key. */
 export interface SignSshPublicKeyResponse {
@@ -437,12 +427,14 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          projectId: S.optional(S.String.pipe(T.Query())),
-          regions: S.optional(__S(4, __c1, 0).pipe(T.Query())),
-          body: S.optional(__S(24, __c6, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(24, __c6, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            regions: S.optional(__S(4, __c1, 0).pipe(T.Query())),
+            projectId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:importSshPublicKey",
@@ -453,8 +445,8 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(S.String),
           loginProfile: S.optional(__S(46, __c11, 2)),
+          details: S.optional(S.String),
         }),
       ).annotate({ identifier: "ImportSshPublicKeyResponse" });
   }
@@ -469,11 +461,13 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(24, __c6, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(24, __c6, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -493,10 +487,12 @@ function __c3(j: number): any {
       ).annotate({ identifier: "ProvisionPosixAccountRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(12, __c3, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12, __c3, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "POST", uri: "v1/{+name}", baseUrl: "https://oslogin.googleapis.com/" }),
         ),
       ).annotate({ identifier: "ProvisionPosixAccountUsersProjectsRequest" });
@@ -507,8 +503,8 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          computeInstance: S.optional(S.String),
           appEngineInstance: S.optional(S.String),
+          computeInstance: S.optional(S.String),
           serviceAccount: S.optional(S.String),
           sshPublicKey: S.optional(S.String),
           cloudRunResource: S.optional(S.String),
@@ -516,10 +512,12 @@ function __c4(j: number): any {
       ).annotate({ identifier: "SignSshPublicKeyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(16, __c4, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(16, __c4, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:signSshPublicKey",
@@ -539,10 +537,12 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(24, __c6, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(24, __c6, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/sshPublicKeys",
@@ -557,9 +557,9 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          key: S.optional(S.String),
           fingerprint: S.optional(S.String),
           name: S.optional(S.String),
+          key: S.optional(S.String),
           expirationTimeUsec: S.optional(S.String),
         }),
       ).annotate({ identifier: "SshPublicKey" });
@@ -608,9 +608,9 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          systemId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           projectId: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          systemId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -630,8 +630,8 @@ function __c11(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          posixAccounts: S.optional(__S(44, __c11, 0)),
           name: S.optional(S.String),
+          posixAccounts: S.optional(__S(44, __c11, 0)),
           sshPublicKeys: S.optional(__S(45, __c11, 1)),
         }),
       ).annotate({ identifier: "LoginProfile" });
@@ -642,17 +642,17 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          shell: S.optional(S.String),
-          gecos: S.optional(S.String),
-          systemId: S.optional(S.String),
-          homeDirectory: S.optional(S.String),
-          operatingSystemType: S.optional(S.String),
-          username: S.optional(S.String),
-          gid: S.optional(S.String),
-          uid: S.optional(S.String),
-          accountId: S.optional(S.String),
-          primary: S.optional(S.Boolean),
           name: S.optional(S.String),
+          shell: S.optional(S.String),
+          gid: S.optional(S.String),
+          primary: S.optional(S.Boolean),
+          uid: S.optional(S.String),
+          homeDirectory: S.optional(S.String),
+          username: S.optional(S.String),
+          gecos: S.optional(S.String),
+          operatingSystemType: S.optional(S.String),
+          systemId: S.optional(S.String),
+          accountId: S.optional(S.String),
         }),
       ).annotate({ identifier: "PosixAccount" });
   }

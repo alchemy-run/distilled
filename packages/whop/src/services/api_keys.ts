@@ -31,36 +31,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 /** Dated API version used when requests authenticated with this key omit the `Api-Version-Date` header. New keys default to the latest version. */
 export type CreateApiKeyRequestApiVersionDate =
@@ -445,6 +473,17 @@ export interface UpdateApiKeyRequest {
   /** The permissions policy for the API key: explicit permission statements, or a system role to inherit from. Statements without a `resources` array default to the owning account (Account API keys) or every key-addressable resource (App API keys). */
   permissions?: UpdateApiKeyRequestPermissions | undefined;
 }
+export interface V1ErrorResponseError {
+  /** Machine-readable reason for this specific refusal, such as `bank_warning_not_acknowledged`. Only present when the error carries one. */
+  code?: string | undefined;
+  /** Human-readable error message. */
+  message: string;
+  /** Machine-readable error code. */
+  type: string;
+}
+export interface V1ErrorResponse {
+  error: V1ErrorResponseError;
+}
 export type CreateApiKeyError = BadRequest | Forbidden | Conflict | WhopOpError;
 /** Create API Key Creates an API key for an account or app. The response is the only place the full `secret_key` is returned -- store it immediately. Requires a user session; API keys cannot manage API keys. */
 export const createApiKey: API.OperationMethod<
@@ -453,8 +492,8 @@ export const createApiKey: API.OperationMethod<
   CreateApiKeyError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<CreateApiKeyRequest>,
-  output: __S(29, __c3, 5) as any as S.Schema<ApiKey>,
+  input: __S(16, __c2, 0) as any as S.Schema<CreateApiKeyRequest>,
+  output: __S(37, __c4, 5) as any as S.Schema<ApiKey>,
   errors: [BadRequest, Forbidden, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -470,8 +509,8 @@ export const deleteApiKey: API.OperationMethod<
   DeleteApiKeyError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<DeleteApiKeyRequest>,
-  output: __S(33, __c4, 1) as any as S.Schema<DeleteApiKeyResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<DeleteApiKeyRequest>,
+  output: __S(41, __c5, 1) as any as S.Schema<DeleteApiKeyResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -487,8 +526,8 @@ export const getApiKey: API.OperationMethod<
   GetApiKeyError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<GetApiKeyRequest>,
-  output: __S(29, __c3, 5) as any as S.Schema<ApiKey>,
+  input: __S(48, __c6, 0) as any as S.Schema<GetApiKeyRequest>,
+  output: __S(37, __c4, 5) as any as S.Schema<ApiKey>,
   errors: [Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -504,8 +543,8 @@ export const listApiKeyPermissions: API.OperationMethod<
   ListApiKeyPermissionsError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<ListApiKeyPermissionsRequest>,
-  output: __S(52, __c6, 4) as any as S.Schema<ListApiKeyPermissionsResponse>,
+  input: __S(56, __c7, 0) as any as S.Schema<ListApiKeyPermissionsRequest>,
+  output: __S(60, __c7, 4) as any as S.Schema<ListApiKeyPermissionsResponse>,
   errors: [],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -523,8 +562,8 @@ export const listApiKeys: API.PaginatedOperationMethod<
   ApiKey
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(64, __c8, 0) as any as S.Schema<ListApiKeysRequest>,
-    output: __S(66, __c8, 2) as any as S.Schema<ListApiKeysResponse>,
+    input: __S(72, __c9, 0) as any as S.Schema<ListApiKeysRequest>,
+    output: __S(74, __c9, 2) as any as S.Schema<ListApiKeysResponse>,
     errors: [BadRequest, Forbidden, NotFound],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -550,8 +589,8 @@ export const rotateApiKey: API.OperationMethod<
   RotateApiKeyError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<RotateApiKeyRequest>,
-  output: __S(29, __c3, 5) as any as S.Schema<ApiKey>,
+  input: __S(80, __c10, 0) as any as S.Schema<RotateApiKeyRequest>,
+  output: __S(37, __c4, 5) as any as S.Schema<ApiKey>,
   errors: [Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -567,8 +606,8 @@ export const updateApiKey: API.OperationMethod<
   UpdateApiKeyError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<UpdateApiKeyRequest>,
-  output: __S(29, __c3, 5) as any as S.Schema<ApiKey>,
+  input: __S(8, __c1, 0) as any as S.Schema<UpdateApiKeyRequest>,
+  output: __S(37, __c4, 5) as any as S.Schema<ApiKey>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -582,14 +621,17 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.String.pipe(T.Label()),
-          api_version_date: S.optional(S.String),
-          expires_at: S.optional(S.NullOr(S.String)),
-          ip_allowlist: S.optional(S.NullOr(__S(24, __c3, 0))),
-          name: S.optional(S.NullOr(S.String)),
-          permissions: S.optional(__S(18, __c2, 2)),
-        }).pipe(T.Http({ method: "PATCH", uri: "/api_keys/{id}", code: 200 })),
-      ).annotate({ identifier: "UpdateApiKeyRequest" });
+          code: S.optional(S.String),
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "V1ErrorResponseError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "V1ErrorResponse" });
   }
 }
 function __c1(j: number): any {
@@ -597,16 +639,14 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          id: S.String.pipe(T.Label()),
           api_version_date: S.optional(S.String),
           expires_at: S.optional(S.NullOr(S.String)),
-          ip_allowlist: S.optional(S.NullOr(__S(24, __c3, 0))),
-          name: S.String,
-          permissions: __S(18, __c2, 2),
-          resource_id: S.String,
-          resource_type: S.String,
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-        }).pipe(T.Http({ method: "POST", uri: "/api_keys", code: 200 })),
-      ).annotate({ identifier: "CreateApiKeyRequest" });
+          ip_allowlist: S.optional(S.NullOr(__S(32, __c4, 0))),
+          name: S.optional(S.NullOr(S.String)),
+          permissions: S.optional(__S(26, __c3, 2)),
+        }).pipe(T.Http({ method: "PATCH", uri: "/api_keys/{id}", code: 200 })),
+      ).annotate({ identifier: "UpdateApiKeyRequest" });
   }
 }
 function __c2(j: number): any {
@@ -614,23 +654,40 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          actions: __S(24, __c3, 0),
+          api_version_date: S.optional(S.String),
+          expires_at: S.optional(S.NullOr(S.String)),
+          ip_allowlist: S.optional(S.NullOr(__S(32, __c4, 0))),
+          name: S.String,
+          permissions: __S(26, __c3, 2),
+          resource_id: S.String,
+          resource_type: S.String,
+          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+        }).pipe(T.Http({ method: "POST", uri: "/api_keys", code: 200 })),
+      ).annotate({ identifier: "CreateApiKeyRequest" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          actions: __S(32, __c4, 0),
           grant: S.Boolean,
-          resources: S.optional(__S(24, __c3, 0)),
+          resources: S.optional(__S(32, __c4, 0)),
         }),
       ).annotate({ identifier: "CreateApiKeyRequestPermissionsStatementsItem" });
     case 1:
-      return S.Array(__S(16, __c2, 0));
+      return S.Array(__S(24, __c3, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          statements: S.optional(__S(17, __c2, 1)),
+          statements: S.optional(__S(25, __c3, 1)),
           system_role: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "CreateApiKeyRequestPermissions" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -642,26 +699,26 @@ function __c3(j: number): any {
         }),
       ).annotate({ identifier: "ApiKeyGrantAction" });
     case 2:
-      return S.Array(__S(25, __c3, 1));
+      return S.Array(__S(33, __c4, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          actions: __S(26, __c3, 2),
+          actions: __S(34, __c4, 2),
           resource_id: S.String,
           resource_type: S.String,
         }),
       ).annotate({ identifier: "ApiKeyGrant" });
     case 4:
-      return S.Array(__S(27, __c3, 3));
+      return S.Array(__S(35, __c4, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           api_version_date: S.String,
           created_at: S.String,
           expires_at: S.NullOr(S.String),
-          grants: S.optional(__S(28, __c3, 4)),
+          grants: S.optional(__S(36, __c4, 4)),
           id: S.String,
-          ip_allowlist: S.NullOr(__S(24, __c3, 0)),
+          ip_allowlist: S.NullOr(__S(32, __c4, 0)),
           is_default_for_resource: S.Boolean,
           name: S.NullOr(S.String),
           obfuscated_secret_key: S.String.pipe(T.SensitiveValue({})),
@@ -672,7 +729,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "ApiKey" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -689,7 +746,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "DeleteApiKeyResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -699,7 +756,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GetApiKeyRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -716,22 +773,22 @@ function __c6(j: number): any {
           allowed_on_user: S.Boolean,
           category: S.NullOr(S.String),
           description: S.String,
-          granted_to_system_roles: __S(49, __c6, 1),
+          granted_to_system_roles: __S(57, __c7, 1),
           name: S.String,
         }),
       ).annotate({ identifier: "Permission" });
     case 3:
-      return S.Array(__S(50, __c6, 2));
+      return S.Array(__S(58, __c7, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(51, __c6, 3),
-          page_info: __S(56, __c7, 0),
+          data: __S(59, __c7, 3),
+          page_info: __S(64, __c8, 0),
         }),
       ).annotate({ identifier: "ListApiKeyPermissionsResponse" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -744,7 +801,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "ListApiKeyPermissionsResponsePageInfo" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -762,17 +819,17 @@ function __c8(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api_keys", code: 200 })),
       ).annotate({ identifier: "ListApiKeysRequest" });
     case 1:
-      return S.Array(__S(29, __c3, 5));
+      return S.Array(__S(37, __c4, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(65, __c8, 1),
-          page_info: __S(56, __c7, 0),
+          data: __S(73, __c9, 1),
+          page_info: __S(64, __c8, 0),
         }),
       ).annotate({ identifier: "ListApiKeysResponse" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

@@ -30,27 +30,48 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorBADREQUEST | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorFORBIDDEN | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorNOTFOUND | string;
+}
 
 export type AssignUserPermissionsRequestAccessedProjectsList = Array<string>;
 export type AssignUserPermissionsRequestAccessedEnvironmentsList = Array<string>;
@@ -189,6 +210,44 @@ export interface UpdateUserRequest {
   lastName?: string | undefined;
 }
 export type UpdateUserResponse = unknown;
+export interface ErrorBADREQUESTIssuesItem {
+  message: string;
+}
+/** An array of issues that were responsible for the error */
+export type ErrorBADREQUESTIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorBADREQUEST {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorBADREQUESTIssuesList | undefined;
+}
+export type ErrorFORBIDDENIssuesItem = ErrorBADREQUESTIssuesItem;
+/** An array of issues that were responsible for the error */
+export type ErrorFORBIDDENIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorFORBIDDEN {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorFORBIDDENIssuesList | undefined;
+}
+export type ErrorNOTFOUNDIssuesItem = ErrorBADREQUESTIssuesItem;
+/** An array of issues that were responsible for the error */
+export type ErrorNOTFOUNDIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorNOTFOUND {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorNOTFOUNDIssuesList | undefined;
+}
 export type AssignUserPermissionsError = BadRequest | Forbidden | DokployOpError;
 export const assignUserPermissions: API.OperationMethod<
   AssignUserPermissionsRequest,
@@ -196,8 +255,8 @@ export const assignUserPermissions: API.OperationMethod<
   AssignUserPermissionsError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(41, __c20, 1) as any as S.Schema<AssignUserPermissionsRequest>,
-  output: __S(42, __c21, 0) as any as S.Schema<AssignUserPermissionsResponse>,
+  input: __S(85, __c21, 1) as any as S.Schema<AssignUserPermissionsRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<AssignUserPermissionsResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -212,8 +271,8 @@ export const checkUserOrganizations: API.OperationMethod<
   CheckUserOrganizationsError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(50, __c25, 0) as any as S.Schema<CheckUserOrganizationsRequest>,
-  output: __S(42, __c21, 0) as any as S.Schema<CheckUserOrganizationsResponse>,
+  input: __S(104, __c26, 0) as any as S.Schema<CheckUserOrganizationsRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<CheckUserOrganizationsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -228,8 +287,8 @@ export const createUserApiKey: API.OperationMethod<
   CreateUserApiKeyError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(53, __c26, 1) as any as S.Schema<CreateUserApiKeyRequest>,
-  output: __S(42, __c21, 0) as any as S.Schema<CreateUserApiKeyResponse>,
+  input: __S(109, __c27, 1) as any as S.Schema<CreateUserApiKeyRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<CreateUserApiKeyResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -244,8 +303,8 @@ export const createUserWithCredentials: API.OperationMethod<
   CreateUserWithCredentialsError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(54, __c27, 0) as any as S.Schema<CreateUserWithCredentialsRequest>,
-  output: __S(42, __c21, 0) as any as S.Schema<CreateUserWithCredentialsResponse>,
+  input: __S(112, __c28, 0) as any as S.Schema<CreateUserWithCredentialsRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<CreateUserWithCredentialsResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -260,8 +319,8 @@ export const deleteUser: API.OperationMethod<
   DeleteUserError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c28, 0) as any as S.Schema<DeleteUserRequest>,
-  output: __S(42, __c21, 0) as any as S.Schema<DeleteUserResponse>,
+  input: __S(116, __c29, 0) as any as S.Schema<DeleteUserRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<DeleteUserResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -276,8 +335,8 @@ export const deleteUserAccount: API.OperationMethod<
   DeleteUserAccountError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(58, __c29, 0) as any as S.Schema<DeleteUserAccountRequest>,
-  output: __S(42, __c21, 0) as any as S.Schema<DeleteUserAccountResponse>,
+  input: __S(120, __c30, 0) as any as S.Schema<DeleteUserAccountRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<DeleteUserAccountResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -292,8 +351,8 @@ export const deleteUserAccountByEmail: API.OperationMethod<
   DeleteUserAccountByEmailError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(60, __c30, 0) as any as S.Schema<DeleteUserAccountByEmailRequest>,
-  output: __S(42, __c21, 0) as any as S.Schema<DeleteUserAccountByEmailResponse>,
+  input: __S(124, __c31, 0) as any as S.Schema<DeleteUserAccountByEmailRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<DeleteUserAccountByEmailResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -308,8 +367,8 @@ export const deleteUserApiKey: API.OperationMethod<
   DeleteUserApiKeyError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<DeleteUserApiKeyRequest>,
-  output: __S(42, __c21, 0) as any as S.Schema<DeleteUserApiKeyResponse>,
+  input: __S(4, __c1, 0) as any as S.Schema<DeleteUserApiKeyRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<DeleteUserApiKeyResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -324,8 +383,8 @@ export const generateUserToken: API.OperationMethod<
   GenerateUserTokenError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2, __c1, 0) as any as S.Schema<GenerateUserTokenRequest>,
-  output: __S(42, __c21, 0) as any as S.Schema<GenerateUserTokenResponse>,
+  input: __S(8, __c2, 0) as any as S.Schema<GenerateUserTokenRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<GenerateUserTokenResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -340,8 +399,8 @@ export const getCurrentUser: API.OperationMethod<
   GetCurrentUserError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c2, 0) as any as S.Schema<GetCurrentUserRequest>,
-  output: __S(42, __c21, 0) as any as S.Schema<GetCurrentUserResponse>,
+  input: __S(12, __c3, 0) as any as S.Schema<GetCurrentUserRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<GetCurrentUserResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -356,8 +415,8 @@ export const getUser: API.OperationMethod<
   GetUserError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6, __c3, 0) as any as S.Schema<GetUserRequest>,
-  output: __S(42, __c21, 0) as any as S.Schema<GetUserResponse>,
+  input: __S(16, __c4, 0) as any as S.Schema<GetUserRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<GetUserResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -372,8 +431,8 @@ export const getUserBackups: API.OperationMethod<
   GetUserBackupsError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c4, 0) as any as S.Schema<GetUserBackupsRequest>,
-  output: __S(42, __c21, 0) as any as S.Schema<GetUserBackupsResponse>,
+  input: __S(20, __c5, 0) as any as S.Schema<GetUserBackupsRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<GetUserBackupsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -388,8 +447,8 @@ export const getUserBookmarkedTemplates: API.OperationMethod<
   GetUserBookmarkedTemplatesError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10, __c5, 0) as any as S.Schema<GetUserBookmarkedTemplatesRequest>,
-  output: __S(42, __c21, 0) as any as S.Schema<GetUserBookmarkedTemplatesResponse>,
+  input: __S(24, __c6, 0) as any as S.Schema<GetUserBookmarkedTemplatesRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<GetUserBookmarkedTemplatesResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -404,8 +463,8 @@ export const getUserByToken: API.OperationMethod<
   GetUserByTokenError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c6, 0) as any as S.Schema<GetUserByTokenRequest>,
-  output: __S(42, __c21, 0) as any as S.Schema<GetUserByTokenResponse>,
+  input: __S(28, __c7, 0) as any as S.Schema<GetUserByTokenRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<GetUserByTokenResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -420,8 +479,8 @@ export const getUserContainerMetrics: API.OperationMethod<
   GetUserContainerMetricsError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14, __c7, 0) as any as S.Schema<GetUserContainerMetricsRequest>,
-  output: __S(42, __c21, 0) as any as S.Schema<GetUserContainerMetricsResponse>,
+  input: __S(32, __c8, 0) as any as S.Schema<GetUserContainerMetricsRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<GetUserContainerMetricsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -436,8 +495,8 @@ export const getUserInvitations: API.OperationMethod<
   GetUserInvitationsError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c8, 0) as any as S.Schema<GetUserInvitationsRequest>,
-  output: __S(42, __c21, 0) as any as S.Schema<GetUserInvitationsResponse>,
+  input: __S(36, __c9, 0) as any as S.Schema<GetUserInvitationsRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<GetUserInvitationsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -452,8 +511,8 @@ export const getUserMetricsToken: API.OperationMethod<
   GetUserMetricsTokenError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18, __c9, 0) as any as S.Schema<GetUserMetricsTokenRequest>,
-  output: __S(42, __c21, 0) as any as S.Schema<GetUserMetricsTokenResponse>,
+  input: __S(40, __c10, 0) as any as S.Schema<GetUserMetricsTokenRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<GetUserMetricsTokenResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -468,8 +527,8 @@ export const getUserPermissions: API.OperationMethod<
   GetUserPermissionsError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c10, 0) as any as S.Schema<GetUserPermissionsRequest>,
-  output: __S(42, __c21, 0) as any as S.Schema<GetUserPermissionsResponse>,
+  input: __S(44, __c11, 0) as any as S.Schema<GetUserPermissionsRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<GetUserPermissionsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -484,8 +543,8 @@ export const getUserServerMetrics: API.OperationMethod<
   GetUserServerMetricsError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22, __c11, 0) as any as S.Schema<GetUserServerMetricsRequest>,
-  output: __S(42, __c21, 0) as any as S.Schema<GetUserServerMetricsResponse>,
+  input: __S(48, __c12, 0) as any as S.Schema<GetUserServerMetricsRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<GetUserServerMetricsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -500,8 +559,8 @@ export const getUserSession: API.OperationMethod<
   GetUserSessionError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c12, 0) as any as S.Schema<GetUserSessionRequest>,
-  output: __S(42, __c21, 0) as any as S.Schema<GetUserSessionResponse>,
+  input: __S(52, __c13, 0) as any as S.Schema<GetUserSessionRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<GetUserSessionResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -516,8 +575,8 @@ export const hasPassword: API.OperationMethod<
   HasPasswordError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26, __c13, 0) as any as S.Schema<HasPasswordRequest>,
-  output: __S(42, __c21, 0) as any as S.Schema<HasPasswordResponse>,
+  input: __S(56, __c14, 0) as any as S.Schema<HasPasswordRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<HasPasswordResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -532,8 +591,8 @@ export const haveRootAccess: API.OperationMethod<
   HaveRootAccessError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c14, 0) as any as S.Schema<HaveRootAccessRequest>,
-  output: __S(42, __c21, 0) as any as S.Schema<HaveRootAccessResponse>,
+  input: __S(60, __c15, 0) as any as S.Schema<HaveRootAccessRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<HaveRootAccessResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -548,8 +607,8 @@ export const listUserPasskeys: API.OperationMethod<
   ListUserPasskeysError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30, __c15, 0) as any as S.Schema<ListUserPasskeysRequest>,
-  output: __S(42, __c21, 0) as any as S.Schema<ListUserPasskeysResponse>,
+  input: __S(64, __c16, 0) as any as S.Schema<ListUserPasskeysRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<ListUserPasskeysResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -564,8 +623,8 @@ export const listUsers: API.OperationMethod<
   ListUsersError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c16, 0) as any as S.Schema<ListUsersRequest>,
-  output: __S(42, __c21, 0) as any as S.Schema<ListUsersResponse>,
+  input: __S(68, __c17, 0) as any as S.Schema<ListUsersRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<ListUsersResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -580,8 +639,8 @@ export const listUserSessions: API.OperationMethod<
   ListUserSessionsError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34, __c17, 0) as any as S.Schema<ListUserSessionsRequest>,
-  output: __S(42, __c21, 0) as any as S.Schema<ListUserSessionsResponse>,
+  input: __S(72, __c18, 0) as any as S.Schema<ListUserSessionsRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<ListUserSessionsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -596,8 +655,8 @@ export const requestUserAccountDeletionCode: API.OperationMethod<
   RequestUserAccountDeletionCodeError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36, __c18, 0) as any as S.Schema<RequestUserAccountDeletionCodeRequest>,
-  output: __S(42, __c21, 0) as any as S.Schema<RequestUserAccountDeletionCodeResponse>,
+  input: __S(76, __c19, 0) as any as S.Schema<RequestUserAccountDeletionCodeRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<RequestUserAccountDeletionCodeResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -612,8 +671,8 @@ export const revokeUserSession: API.OperationMethod<
   RevokeUserSessionError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(38, __c19, 0) as any as S.Schema<RevokeUserSessionRequest>,
-  output: __S(42, __c21, 0) as any as S.Schema<RevokeUserSessionResponse>,
+  input: __S(80, __c20, 0) as any as S.Schema<RevokeUserSessionRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<RevokeUserSessionResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -628,8 +687,8 @@ export const sendUserInvitation: API.OperationMethod<
   SendUserInvitationError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(44, __c22, 0) as any as S.Schema<SendUserInvitationRequest>,
-  output: __S(42, __c21, 0) as any as S.Schema<SendUserInvitationResponse>,
+  input: __S(92, __c23, 0) as any as S.Schema<SendUserInvitationRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<SendUserInvitationResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -644,8 +703,8 @@ export const toggleUserTemplateBookmark: API.OperationMethod<
   ToggleUserTemplateBookmarkError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(46, __c23, 0) as any as S.Schema<ToggleUserTemplateBookmarkRequest>,
-  output: __S(42, __c21, 0) as any as S.Schema<ToggleUserTemplateBookmarkResponse>,
+  input: __S(96, __c24, 0) as any as S.Schema<ToggleUserTemplateBookmarkRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<ToggleUserTemplateBookmarkResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -660,8 +719,8 @@ export const updateUser: API.OperationMethod<
   UpdateUserError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c24, 0) as any as S.Schema<UpdateUserRequest>,
-  output: __S(42, __c21, 0) as any as S.Schema<UpdateUserResponse>,
+  input: __S(100, __c25, 0) as any as S.Schema<UpdateUserRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<UpdateUserResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -675,12 +734,32 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          message: S.String,
+        }),
+      ).annotate({ identifier: "ErrorBADREQUESTIssuesItem" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.String,
+          code: S.String,
+          issues: S.optional(__S(1, __c0, 1)),
+        }),
+      ).annotate({ identifier: "ErrorBADREQUEST" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           apiKeyId: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/user.deleteApiKey", code: 200 })),
       ).annotate({ identifier: "DeleteUserApiKeyRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -688,7 +767,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "GenerateUserTokenRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -696,7 +775,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GetCurrentUserRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -706,7 +785,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GetUserRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -714,7 +793,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetUserBackupsRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -724,7 +803,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GetUserBookmarkedTemplatesRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -734,7 +813,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GetUserByTokenRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -747,7 +826,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetUserContainerMetricsRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -755,7 +834,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetUserInvitationsRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -763,7 +842,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GetUserMetricsTokenRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -771,7 +850,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetUserPermissionsRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -779,7 +858,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetUserServerMetricsRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -787,7 +866,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GetUserSessionRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -795,7 +874,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "HasPasswordRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -803,7 +882,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "HaveRootAccessRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -811,7 +890,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "ListUserPasskeysRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -819,7 +898,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "ListUsersRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -827,7 +906,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "ListUserSessionsRequest" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -837,7 +916,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "RequestUserAccountDeletionCodeRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -847,7 +926,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "RevokeUserSessionRequest" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -855,11 +934,11 @@ function __c20(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          accessedProjects: __S(40, __c20, 0),
-          accessedEnvironments: __S(40, __c20, 0),
-          accessedServices: __S(40, __c20, 0),
-          accessedGitProviders: __S(40, __c20, 0),
-          accessedServers: __S(40, __c20, 0),
+          accessedProjects: __S(84, __c21, 0),
+          accessedEnvironments: __S(84, __c21, 0),
+          accessedServices: __S(84, __c21, 0),
+          accessedGitProviders: __S(84, __c21, 0),
+          accessedServers: __S(84, __c21, 0),
           canCreateProjects: S.Boolean,
           canCreateServices: S.Boolean,
           canDeleteProjects: S.Boolean,
@@ -875,7 +954,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "AssignUserPermissionsRequest" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -883,7 +962,7 @@ function __c21(j: number): any {
       });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -894,7 +973,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "SendUserInvitationRequest" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -904,7 +983,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "ToggleUserTemplateBookmarkRequest" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -920,7 +999,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "UpdateUserRequest" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -930,7 +1009,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "CheckUserOrganizationsRequest" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -944,7 +1023,7 @@ function __c26(j: number): any {
           name: S.String,
           prefix: S.optional(S.String),
           expiresIn: S.optional(S.Number),
-          metadata: __S(52, __c26, 0),
+          metadata: __S(108, __c27, 0),
           rateLimitEnabled: S.optional(S.Boolean),
           rateLimitTimeWindow: S.optional(S.Number),
           rateLimitMax: S.optional(S.Number),
@@ -955,7 +1034,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "CreateUserApiKeyRequest" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -967,7 +1046,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "CreateUserWithCredentialsRequest" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -977,7 +1056,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "DeleteUserRequest" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -987,7 +1066,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "DeleteUserAccountRequest" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

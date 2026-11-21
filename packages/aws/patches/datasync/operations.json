@@ -1,0 +1,89 @@
+{
+  "description": "DataSync: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.datasync#CreateLocationS3/errors/-",
+      "value": {
+        "target": "com.amazonaws.datasync#LocationRoleNotAssumable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.datasync#CreateLocationS3/errors/-",
+      "value": {
+        "target": "com.amazonaws.datasync#LocationAccessTestFailed"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.datasync#CreateLocationEfs/errors/-",
+      "value": {
+        "target": "com.amazonaws.datasync#LocationRoleNotAssumable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.datasync#CreateLocationEfs/errors/-",
+      "value": {
+        "target": "com.amazonaws.datasync#LocationAccessTestFailed"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.datasync#DescribeLocationS3/errors/-",
+      "value": {
+        "target": "com.amazonaws.datasync#LocationNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.datasync#DescribeLocationEfs/errors/-",
+      "value": {
+        "target": "com.amazonaws.datasync#LocationNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.datasync#DeleteLocation/errors/-",
+      "value": {
+        "target": "com.amazonaws.datasync#LocationNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.datasync#DescribeTask/errors/-",
+      "value": {
+        "target": "com.amazonaws.datasync#TaskNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.datasync#UpdateTask/errors/-",
+      "value": {
+        "target": "com.amazonaws.datasync#TaskNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.datasync#DeleteTask/errors/-",
+      "value": {
+        "target": "com.amazonaws.datasync#TaskNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.datasync#StartTaskExecution/errors/-",
+      "value": {
+        "target": "com.amazonaws.datasync#LocationAccessTestFailed"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.datasync#CreateTask/errors/-",
+      "value": {
+        "target": "com.amazonaws.datasync#LocationAccessTestFailed"
+      }
+    }
+  ]
+}

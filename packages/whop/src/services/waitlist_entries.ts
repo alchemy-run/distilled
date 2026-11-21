@@ -30,36 +30,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export interface ApproveAllWaitlistEntriesRequest {
   /** The seller account whose pending signups to approve, prefixed `biz_`. */
@@ -202,6 +230,17 @@ export interface ListWaitlistEntriesResponse {
   data: ListWaitlistEntriesResponseDataList;
   page_info: ListWaitlistEntriesResponsePageInfo;
 }
+export interface V1ErrorResponseError {
+  /** Machine-readable reason for this specific refusal, such as `bank_warning_not_acknowledged`. Only present when the error carries one. */
+  code?: string | undefined;
+  /** Human-readable error message. */
+  message: string;
+  /** Machine-readable error code. */
+  type: string;
+}
+export interface V1ErrorResponse {
+  error: V1ErrorResponseError;
+}
 export type ApproveAllWaitlistEntriesError =
   | BadRequest
   | Forbidden
@@ -215,8 +254,8 @@ export const approveAllWaitlistEntries: API.OperationMethod<
   ApproveAllWaitlistEntriesError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c1, 0) as any as S.Schema<ApproveAllWaitlistEntriesRequest>,
-  output: __S(5, __c1, 1) as any as S.Schema<ApproveAllWaitlistEntriesResponse>,
+  input: __S(8, __c2, 0) as any as S.Schema<ApproveAllWaitlistEntriesRequest>,
+  output: __S(9, __c2, 1) as any as S.Schema<ApproveAllWaitlistEntriesResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -232,8 +271,8 @@ export const approveWaitlistEntry: API.OperationMethod<
   ApproveWaitlistEntryError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<ApproveWaitlistEntryRequest>,
-  output: __S(14, __c3, 2) as any as S.Schema<WaitlistEntry>,
+  input: __S(12, __c3, 0) as any as S.Schema<ApproveWaitlistEntryRequest>,
+  output: __S(18, __c4, 2) as any as S.Schema<WaitlistEntry>,
   errors: [Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -249,8 +288,8 @@ export const cancelWaitlistEntry: API.OperationMethod<
   CancelWaitlistEntryError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<CancelWaitlistEntryRequest>,
-  output: __S(14, __c3, 2) as any as S.Schema<WaitlistEntry>,
+  input: __S(20, __c5, 0) as any as S.Schema<CancelWaitlistEntryRequest>,
+  output: __S(18, __c4, 2) as any as S.Schema<WaitlistEntry>,
   errors: [Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -266,8 +305,8 @@ export const createWaitlistEntry: API.OperationMethod<
   CreateWaitlistEntryError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22, __c5, 2) as any as S.Schema<CreateWaitlistEntryRequest>,
-  output: __S(14, __c3, 2) as any as S.Schema<WaitlistEntry>,
+  input: __S(26, __c6, 2) as any as S.Schema<CreateWaitlistEntryRequest>,
+  output: __S(18, __c4, 2) as any as S.Schema<WaitlistEntry>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -283,8 +322,8 @@ export const denyWaitlistEntry: API.OperationMethod<
   DenyWaitlistEntryError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<DenyWaitlistEntryRequest>,
-  output: __S(14, __c3, 2) as any as S.Schema<WaitlistEntry>,
+  input: __S(28, __c7, 0) as any as S.Schema<DenyWaitlistEntryRequest>,
+  output: __S(18, __c4, 2) as any as S.Schema<WaitlistEntry>,
   errors: [Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -300,8 +339,8 @@ export const getWaitlistEntry: API.OperationMethod<
   GetWaitlistEntryError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<GetWaitlistEntryRequest>,
-  output: __S(14, __c3, 2) as any as S.Schema<WaitlistEntry>,
+  input: __S(32, __c8, 0) as any as S.Schema<GetWaitlistEntryRequest>,
+  output: __S(18, __c4, 2) as any as S.Schema<WaitlistEntry>,
   errors: [Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -319,8 +358,8 @@ export const listWaitlistEntries: API.PaginatedOperationMethod<
   WaitlistEntry
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(0, __c0, 0) as any as S.Schema<ListWaitlistEntriesRequest>,
-    output: __S(3, __c0, 3) as any as S.Schema<ListWaitlistEntriesResponse>,
+    input: __S(4, __c1, 0) as any as S.Schema<ListWaitlistEntriesRequest>,
+    output: __S(7, __c1, 3) as any as S.Schema<ListWaitlistEntriesResponse>,
     errors: [BadRequest, Forbidden, NotFound],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -344,6 +383,24 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          code: S.optional(S.String),
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "V1ErrorResponseError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "V1ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           first: S.optional(S.Number.pipe(T.Query())),
           after: S.optional(S.String.pipe(T.Query())),
           last: S.optional(S.Number.pipe(T.Query())),
@@ -359,7 +416,7 @@ function __c0(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/waitlist_entries", code: 200 })),
       ).annotate({ identifier: "ListWaitlistEntriesRequest" });
     case 1:
-      return S.Array(__S(14, __c3, 2));
+      return S.Array(__S(18, __c4, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -372,13 +429,13 @@ function __c0(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1, __c0, 1),
-          page_info: __S(2, __c0, 2),
+          data: __S(5, __c1, 1),
+          page_info: __S(6, __c1, 2),
         }),
       ).annotate({ identifier: "ListWaitlistEntriesResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -398,7 +455,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "ApproveAllWaitlistEntriesResponse" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -409,7 +466,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "ApproveWaitlistEntryRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -420,7 +477,7 @@ function __c3(j: number): any {
         }),
       ).annotate({ identifier: "WaitlistEntryCustomFieldResponse" });
     case 1:
-      return S.Array(__S(12, __c3, 0));
+      return S.Array(__S(16, __c4, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -428,7 +485,7 @@ function __c3(j: number): any {
           approval_failure_reason: S.NullOr(S.String),
           buyer_account_id: S.NullOr(S.String),
           created_at: S.String,
-          custom_field_responses: __S(13, __c3, 1),
+          custom_field_responses: __S(17, __c4, 1),
           id: S.String,
           membership_id: S.NullOr(S.String),
           metadata: S.Unknown,
@@ -441,7 +498,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "WaitlistEntry" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -452,7 +509,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "CancelWaitlistEntryRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -462,11 +519,11 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "CreateWaitlistEntryRequestCustomFieldResponsesItem" });
     case 1:
-      return S.Array(__S(20, __c5, 0));
+      return S.Array(__S(24, __c6, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          custom_field_responses: S.optional(__S(21, __c5, 1)),
+          custom_field_responses: S.optional(__S(25, __c6, 1)),
           metadata: S.optional(S.Unknown),
           plan_id: S.String,
           idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
@@ -474,7 +531,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "CreateWaitlistEntryRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -485,7 +542,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "DenyWaitlistEntryRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

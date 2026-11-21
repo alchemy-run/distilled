@@ -30,27 +30,48 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorBADREQUEST | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorFORBIDDEN | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorNOTFOUND | string;
+}
 
 export type CreateNotificationCustomRequestHeadersMap = { [key: string]: string | undefined };
 export interface CreateNotificationCustomRequest {
@@ -555,6 +576,44 @@ export interface UpdateNotificationTelegramRequest {
   organizationId?: string | undefined;
 }
 export type UpdateNotificationTelegramResponse = unknown;
+export interface ErrorBADREQUESTIssuesItem {
+  message: string;
+}
+/** An array of issues that were responsible for the error */
+export type ErrorBADREQUESTIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorBADREQUEST {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorBADREQUESTIssuesList | undefined;
+}
+export type ErrorFORBIDDENIssuesItem = ErrorBADREQUESTIssuesItem;
+/** An array of issues that were responsible for the error */
+export type ErrorFORBIDDENIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorFORBIDDEN {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorFORBIDDENIssuesList | undefined;
+}
+export type ErrorNOTFOUNDIssuesItem = ErrorBADREQUESTIssuesItem;
+/** An array of issues that were responsible for the error */
+export type ErrorNOTFOUNDIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorNOTFOUND {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorNOTFOUNDIssuesList | undefined;
+}
 export type CreateNotificationCustomError = BadRequest | Forbidden | DokployOpError;
 export const createNotificationCustom: API.OperationMethod<
   CreateNotificationCustomRequest,
@@ -562,8 +621,8 @@ export const createNotificationCustom: API.OperationMethod<
   CreateNotificationCustomError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c20, 0) as any as S.Schema<CreateNotificationCustomRequest>,
-  output: __S(44, __c22, 0) as any as S.Schema<CreateNotificationCustomResponse>,
+  input: __S(84, __c21, 0) as any as S.Schema<CreateNotificationCustomRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<CreateNotificationCustomResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -578,8 +637,8 @@ export const createNotificationDiscord: API.OperationMethod<
   CreateNotificationDiscordError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(66, __c33, 0) as any as S.Schema<CreateNotificationDiscordRequest>,
-  output: __S(44, __c22, 0) as any as S.Schema<CreateNotificationDiscordResponse>,
+  input: __S(136, __c34, 0) as any as S.Schema<CreateNotificationDiscordRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<CreateNotificationDiscordResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -594,8 +653,8 @@ export const createNotificationEmail: API.OperationMethod<
   CreateNotificationEmailError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(76, __c38, 0) as any as S.Schema<CreateNotificationEmailRequest>,
-  output: __S(44, __c22, 0) as any as S.Schema<CreateNotificationEmailResponse>,
+  input: __S(156, __c39, 0) as any as S.Schema<CreateNotificationEmailRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<CreateNotificationEmailResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -610,8 +669,8 @@ export const createNotificationGotify: API.OperationMethod<
   CreateNotificationGotifyError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c40, 0) as any as S.Schema<CreateNotificationGotifyRequest>,
-  output: __S(44, __c22, 0) as any as S.Schema<CreateNotificationGotifyResponse>,
+  input: __S(164, __c41, 0) as any as S.Schema<CreateNotificationGotifyRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<CreateNotificationGotifyResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -626,8 +685,8 @@ export const createNotificationLark: API.OperationMethod<
   CreateNotificationLarkError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(82, __c41, 0) as any as S.Schema<CreateNotificationLarkRequest>,
-  output: __S(44, __c22, 0) as any as S.Schema<CreateNotificationLarkResponse>,
+  input: __S(168, __c42, 0) as any as S.Schema<CreateNotificationLarkRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<CreateNotificationLarkResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -642,8 +701,8 @@ export const createNotificationMattermost: API.OperationMethod<
   CreateNotificationMattermostError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(84, __c42, 0) as any as S.Schema<CreateNotificationMattermostRequest>,
-  output: __S(44, __c22, 0) as any as S.Schema<CreateNotificationMattermostResponse>,
+  input: __S(172, __c43, 0) as any as S.Schema<CreateNotificationMattermostRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<CreateNotificationMattermostResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -658,8 +717,8 @@ export const createNotificationNtfy: API.OperationMethod<
   CreateNotificationNtfyError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(86, __c43, 0) as any as S.Schema<CreateNotificationNtfyRequest>,
-  output: __S(44, __c22, 0) as any as S.Schema<CreateNotificationNtfyResponse>,
+  input: __S(176, __c44, 0) as any as S.Schema<CreateNotificationNtfyRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<CreateNotificationNtfyResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -674,8 +733,8 @@ export const createNotificationPushover: API.OperationMethod<
   CreateNotificationPushoverError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateNotificationPushoverRequest>,
-  output: __S(44, __c22, 0) as any as S.Schema<CreateNotificationPushoverResponse>,
+  input: __S(4, __c1, 0) as any as S.Schema<CreateNotificationPushoverRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<CreateNotificationPushoverResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -690,8 +749,8 @@ export const createNotificationResend: API.OperationMethod<
   CreateNotificationResendError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2, __c1, 0) as any as S.Schema<CreateNotificationResendRequest>,
-  output: __S(44, __c22, 0) as any as S.Schema<CreateNotificationResendResponse>,
+  input: __S(8, __c2, 0) as any as S.Schema<CreateNotificationResendRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<CreateNotificationResendResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -706,8 +765,8 @@ export const createNotificationSlack: API.OperationMethod<
   CreateNotificationSlackError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c2, 0) as any as S.Schema<CreateNotificationSlackRequest>,
-  output: __S(44, __c22, 0) as any as S.Schema<CreateNotificationSlackResponse>,
+  input: __S(12, __c3, 0) as any as S.Schema<CreateNotificationSlackRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<CreateNotificationSlackResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -722,8 +781,8 @@ export const createNotificationTeams: API.OperationMethod<
   CreateNotificationTeamsError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6, __c3, 0) as any as S.Schema<CreateNotificationTeamsRequest>,
-  output: __S(44, __c22, 0) as any as S.Schema<CreateNotificationTeamsResponse>,
+  input: __S(16, __c4, 0) as any as S.Schema<CreateNotificationTeamsRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<CreateNotificationTeamsResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -738,8 +797,8 @@ export const createNotificationTelegram: API.OperationMethod<
   CreateNotificationTelegramError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c4, 0) as any as S.Schema<CreateNotificationTelegramRequest>,
-  output: __S(44, __c22, 0) as any as S.Schema<CreateNotificationTelegramResponse>,
+  input: __S(20, __c5, 0) as any as S.Schema<CreateNotificationTelegramRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<CreateNotificationTelegramResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -754,8 +813,8 @@ export const deleteNotification: API.OperationMethod<
   DeleteNotificationError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10, __c5, 0) as any as S.Schema<DeleteNotificationRequest>,
-  output: __S(44, __c22, 0) as any as S.Schema<DeleteNotificationResponse>,
+  input: __S(24, __c6, 0) as any as S.Schema<DeleteNotificationRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<DeleteNotificationResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -770,8 +829,8 @@ export const getNotification: API.OperationMethod<
   GetNotificationError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c6, 0) as any as S.Schema<GetNotificationRequest>,
-  output: __S(44, __c22, 0) as any as S.Schema<GetNotificationResponse>,
+  input: __S(28, __c7, 0) as any as S.Schema<GetNotificationRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<GetNotificationResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -786,8 +845,8 @@ export const getNotificationEmailProviders: API.OperationMethod<
   GetNotificationEmailProvidersError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14, __c7, 0) as any as S.Schema<GetNotificationEmailProvidersRequest>,
-  output: __S(44, __c22, 0) as any as S.Schema<GetNotificationEmailProvidersResponse>,
+  input: __S(32, __c8, 0) as any as S.Schema<GetNotificationEmailProvidersRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<GetNotificationEmailProvidersResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -802,8 +861,8 @@ export const listNotifications: API.OperationMethod<
   ListNotificationsError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c8, 0) as any as S.Schema<ListNotificationsRequest>,
-  output: __S(44, __c22, 0) as any as S.Schema<ListNotificationsResponse>,
+  input: __S(36, __c9, 0) as any as S.Schema<ListNotificationsRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<ListNotificationsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -818,8 +877,8 @@ export const receiveNotification: API.OperationMethod<
   ReceiveNotificationError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18, __c9, 0) as any as S.Schema<ReceiveNotificationRequest>,
-  output: __S(44, __c22, 0) as any as S.Schema<ReceiveNotificationResponse>,
+  input: __S(40, __c10, 0) as any as S.Schema<ReceiveNotificationRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<ReceiveNotificationResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -834,8 +893,8 @@ export const testNotificationCustomConnection: API.OperationMethod<
   TestNotificationCustomConnectionError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c10, 0) as any as S.Schema<TestNotificationCustomConnectionRequest>,
-  output: __S(44, __c22, 0) as any as S.Schema<TestNotificationCustomConnectionResponse>,
+  input: __S(44, __c11, 0) as any as S.Schema<TestNotificationCustomConnectionRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<TestNotificationCustomConnectionResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -850,8 +909,8 @@ export const testNotificationDiscordConnection: API.OperationMethod<
   TestNotificationDiscordConnectionError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22, __c11, 0) as any as S.Schema<TestNotificationDiscordConnectionRequest>,
-  output: __S(44, __c22, 0) as any as S.Schema<TestNotificationDiscordConnectionResponse>,
+  input: __S(48, __c12, 0) as any as S.Schema<TestNotificationDiscordConnectionRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<TestNotificationDiscordConnectionResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -866,8 +925,8 @@ export const testNotificationEmailConnection: API.OperationMethod<
   TestNotificationEmailConnectionError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c12, 0) as any as S.Schema<TestNotificationEmailConnectionRequest>,
-  output: __S(44, __c22, 0) as any as S.Schema<TestNotificationEmailConnectionResponse>,
+  input: __S(52, __c13, 0) as any as S.Schema<TestNotificationEmailConnectionRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<TestNotificationEmailConnectionResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -882,8 +941,8 @@ export const testNotificationGotifyConnection: API.OperationMethod<
   TestNotificationGotifyConnectionError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26, __c13, 0) as any as S.Schema<TestNotificationGotifyConnectionRequest>,
-  output: __S(44, __c22, 0) as any as S.Schema<TestNotificationGotifyConnectionResponse>,
+  input: __S(56, __c14, 0) as any as S.Schema<TestNotificationGotifyConnectionRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<TestNotificationGotifyConnectionResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -898,8 +957,8 @@ export const testNotificationLarkConnection: API.OperationMethod<
   TestNotificationLarkConnectionError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c14, 0) as any as S.Schema<TestNotificationLarkConnectionRequest>,
-  output: __S(44, __c22, 0) as any as S.Schema<TestNotificationLarkConnectionResponse>,
+  input: __S(60, __c15, 0) as any as S.Schema<TestNotificationLarkConnectionRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<TestNotificationLarkConnectionResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -914,8 +973,8 @@ export const testNotificationMattermostConnection: API.OperationMethod<
   TestNotificationMattermostConnectionError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30, __c15, 0) as any as S.Schema<TestNotificationMattermostConnectionRequest>,
-  output: __S(44, __c22, 0) as any as S.Schema<TestNotificationMattermostConnectionResponse>,
+  input: __S(64, __c16, 0) as any as S.Schema<TestNotificationMattermostConnectionRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<TestNotificationMattermostConnectionResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -930,8 +989,8 @@ export const testNotificationNtfyConnection: API.OperationMethod<
   TestNotificationNtfyConnectionError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c16, 0) as any as S.Schema<TestNotificationNtfyConnectionRequest>,
-  output: __S(44, __c22, 0) as any as S.Schema<TestNotificationNtfyConnectionResponse>,
+  input: __S(68, __c17, 0) as any as S.Schema<TestNotificationNtfyConnectionRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<TestNotificationNtfyConnectionResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -946,8 +1005,8 @@ export const testNotificationPushoverConnection: API.OperationMethod<
   TestNotificationPushoverConnectionError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34, __c17, 0) as any as S.Schema<TestNotificationPushoverConnectionRequest>,
-  output: __S(44, __c22, 0) as any as S.Schema<TestNotificationPushoverConnectionResponse>,
+  input: __S(72, __c18, 0) as any as S.Schema<TestNotificationPushoverConnectionRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<TestNotificationPushoverConnectionResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -962,8 +1021,8 @@ export const testNotificationResendConnection: API.OperationMethod<
   TestNotificationResendConnectionError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36, __c18, 0) as any as S.Schema<TestNotificationResendConnectionRequest>,
-  output: __S(44, __c22, 0) as any as S.Schema<TestNotificationResendConnectionResponse>,
+  input: __S(76, __c19, 0) as any as S.Schema<TestNotificationResendConnectionRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<TestNotificationResendConnectionResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -978,8 +1037,8 @@ export const testNotificationSlackConnection: API.OperationMethod<
   TestNotificationSlackConnectionError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(38, __c19, 0) as any as S.Schema<TestNotificationSlackConnectionRequest>,
-  output: __S(44, __c22, 0) as any as S.Schema<TestNotificationSlackConnectionResponse>,
+  input: __S(80, __c20, 0) as any as S.Schema<TestNotificationSlackConnectionRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<TestNotificationSlackConnectionResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -994,8 +1053,8 @@ export const testNotificationTeamsConnection: API.OperationMethod<
   TestNotificationTeamsConnectionError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(46, __c23, 0) as any as S.Schema<TestNotificationTeamsConnectionRequest>,
-  output: __S(44, __c22, 0) as any as S.Schema<TestNotificationTeamsConnectionResponse>,
+  input: __S(96, __c24, 0) as any as S.Schema<TestNotificationTeamsConnectionRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<TestNotificationTeamsConnectionResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -1010,8 +1069,8 @@ export const testNotificationTelegramConnection: API.OperationMethod<
   TestNotificationTelegramConnectionError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c24, 0) as any as S.Schema<TestNotificationTelegramConnectionRequest>,
-  output: __S(44, __c22, 0) as any as S.Schema<TestNotificationTelegramConnectionResponse>,
+  input: __S(100, __c25, 0) as any as S.Schema<TestNotificationTelegramConnectionRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<TestNotificationTelegramConnectionResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -1026,8 +1085,8 @@ export const updateNotificationCustom: API.OperationMethod<
   UpdateNotificationCustomError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(50, __c25, 0) as any as S.Schema<UpdateNotificationCustomRequest>,
-  output: __S(44, __c22, 0) as any as S.Schema<UpdateNotificationCustomResponse>,
+  input: __S(104, __c26, 0) as any as S.Schema<UpdateNotificationCustomRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<UpdateNotificationCustomResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -1042,8 +1101,8 @@ export const updateNotificationDiscord: API.OperationMethod<
   UpdateNotificationDiscordError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(52, __c26, 0) as any as S.Schema<UpdateNotificationDiscordRequest>,
-  output: __S(44, __c22, 0) as any as S.Schema<UpdateNotificationDiscordResponse>,
+  input: __S(108, __c27, 0) as any as S.Schema<UpdateNotificationDiscordRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<UpdateNotificationDiscordResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -1058,8 +1117,8 @@ export const updateNotificationEmail: API.OperationMethod<
   UpdateNotificationEmailError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(54, __c27, 0) as any as S.Schema<UpdateNotificationEmailRequest>,
-  output: __S(44, __c22, 0) as any as S.Schema<UpdateNotificationEmailResponse>,
+  input: __S(112, __c28, 0) as any as S.Schema<UpdateNotificationEmailRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<UpdateNotificationEmailResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -1074,8 +1133,8 @@ export const updateNotificationGotify: API.OperationMethod<
   UpdateNotificationGotifyError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c28, 0) as any as S.Schema<UpdateNotificationGotifyRequest>,
-  output: __S(44, __c22, 0) as any as S.Schema<UpdateNotificationGotifyResponse>,
+  input: __S(116, __c29, 0) as any as S.Schema<UpdateNotificationGotifyRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<UpdateNotificationGotifyResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -1090,8 +1149,8 @@ export const updateNotificationLark: API.OperationMethod<
   UpdateNotificationLarkError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(58, __c29, 0) as any as S.Schema<UpdateNotificationLarkRequest>,
-  output: __S(44, __c22, 0) as any as S.Schema<UpdateNotificationLarkResponse>,
+  input: __S(120, __c30, 0) as any as S.Schema<UpdateNotificationLarkRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<UpdateNotificationLarkResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -1106,8 +1165,8 @@ export const updateNotificationMattermost: API.OperationMethod<
   UpdateNotificationMattermostError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(60, __c30, 0) as any as S.Schema<UpdateNotificationMattermostRequest>,
-  output: __S(44, __c22, 0) as any as S.Schema<UpdateNotificationMattermostResponse>,
+  input: __S(124, __c31, 0) as any as S.Schema<UpdateNotificationMattermostRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<UpdateNotificationMattermostResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -1122,8 +1181,8 @@ export const updateNotificationNtfy: API.OperationMethod<
   UpdateNotificationNtfyError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(62, __c31, 0) as any as S.Schema<UpdateNotificationNtfyRequest>,
-  output: __S(44, __c22, 0) as any as S.Schema<UpdateNotificationNtfyResponse>,
+  input: __S(128, __c32, 0) as any as S.Schema<UpdateNotificationNtfyRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<UpdateNotificationNtfyResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -1138,8 +1197,8 @@ export const updateNotificationPushover: API.OperationMethod<
   UpdateNotificationPushoverError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c32, 0) as any as S.Schema<UpdateNotificationPushoverRequest>,
-  output: __S(44, __c22, 0) as any as S.Schema<UpdateNotificationPushoverResponse>,
+  input: __S(132, __c33, 0) as any as S.Schema<UpdateNotificationPushoverRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<UpdateNotificationPushoverResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -1154,8 +1213,8 @@ export const updateNotificationResend: API.OperationMethod<
   UpdateNotificationResendError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(68, __c34, 0) as any as S.Schema<UpdateNotificationResendRequest>,
-  output: __S(44, __c22, 0) as any as S.Schema<UpdateNotificationResendResponse>,
+  input: __S(140, __c35, 0) as any as S.Schema<UpdateNotificationResendRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<UpdateNotificationResendResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -1170,8 +1229,8 @@ export const updateNotificationSlack: API.OperationMethod<
   UpdateNotificationSlackError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(70, __c35, 0) as any as S.Schema<UpdateNotificationSlackRequest>,
-  output: __S(44, __c22, 0) as any as S.Schema<UpdateNotificationSlackResponse>,
+  input: __S(144, __c36, 0) as any as S.Schema<UpdateNotificationSlackRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<UpdateNotificationSlackResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -1186,8 +1245,8 @@ export const updateNotificationTeams: API.OperationMethod<
   UpdateNotificationTeamsError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c36, 0) as any as S.Schema<UpdateNotificationTeamsRequest>,
-  output: __S(44, __c22, 0) as any as S.Schema<UpdateNotificationTeamsResponse>,
+  input: __S(148, __c37, 0) as any as S.Schema<UpdateNotificationTeamsRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<UpdateNotificationTeamsResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -1202,8 +1261,8 @@ export const updateNotificationTelegram: API.OperationMethod<
   UpdateNotificationTelegramError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(74, __c37, 0) as any as S.Schema<UpdateNotificationTelegramRequest>,
-  output: __S(44, __c22, 0) as any as S.Schema<UpdateNotificationTelegramResponse>,
+  input: __S(152, __c38, 0) as any as S.Schema<UpdateNotificationTelegramRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<UpdateNotificationTelegramResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -1213,6 +1272,26 @@ export const updateNotificationTelegram: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.String,
+        }),
+      ).annotate({ identifier: "ErrorBADREQUESTIssuesItem" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.String,
+          code: S.String,
+          issues: S.optional(__S(1, __c0, 1)),
+        }),
+      ).annotate({ identifier: "ErrorBADREQUEST" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1235,7 +1314,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateNotificationPushoverRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1251,12 +1330,12 @@ function __c1(j: number): any {
           serverThreshold: S.Boolean,
           apiKey: S.String.pipe(T.SensitiveValue({})),
           fromAddress: S.String,
-          toAddresses: __S(78, __c39, 0),
+          toAddresses: __S(160, __c40, 0),
         }).pipe(T.Http({ method: "POST", uri: "/notification.createResend", code: 200 })),
       ).annotate({ identifier: "CreateNotificationResendRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1276,7 +1355,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "CreateNotificationSlackRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1295,7 +1374,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "CreateNotificationTeamsRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1316,7 +1395,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "CreateNotificationTelegramRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1326,7 +1405,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "DeleteNotificationRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1336,7 +1415,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GetNotificationRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1346,7 +1425,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetNotificationEmailProvidersRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1354,7 +1433,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "ListNotificationsRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1370,18 +1449,18 @@ function __c9(j: number): any {
       ).annotate({ identifier: "ReceiveNotificationRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           endpoint: S.String,
-          headers: S.optional(__S(42, __c21, 0)),
+          headers: S.optional(__S(88, __c22, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/notification.testCustomConnection", code: 200 })),
       ).annotate({ identifier: "TestNotificationCustomConnectionRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1392,7 +1471,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "TestNotificationDiscordConnectionRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1401,13 +1480,13 @@ function __c12(j: number): any {
           smtpPort: S.Number,
           username: S.String,
           password: S.String.pipe(T.SensitiveValue({})),
-          toAddresses: __S(78, __c39, 0),
+          toAddresses: __S(160, __c40, 0),
           fromAddress: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/notification.testEmailConnection", code: 200 })),
       ).annotate({ identifier: "TestNotificationEmailConnectionRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1420,7 +1499,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "TestNotificationGotifyConnectionRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1430,7 +1509,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "TestNotificationLarkConnectionRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1444,7 +1523,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "TestNotificationMattermostConnectionRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1457,7 +1536,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "TestNotificationNtfyConnectionRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1471,19 +1550,19 @@ function __c17(j: number): any {
       ).annotate({ identifier: "TestNotificationPushoverConnectionRequest" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           apiKey: S.String.pipe(T.SensitiveValue({})),
           fromAddress: S.String,
-          toAddresses: __S(78, __c39, 0),
+          toAddresses: __S(160, __c40, 0),
         }).pipe(T.Http({ method: "POST", uri: "/notification.testResendConnection", code: 200 })),
       ).annotate({ identifier: "TestNotificationResendConnectionRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1494,7 +1573,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "TestNotificationSlackConnectionRequest" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1509,18 +1588,18 @@ function __c20(j: number): any {
           dockerCleanup: S.optional(S.Boolean),
           serverThreshold: S.optional(S.Boolean),
           endpoint: S.String,
-          headers: S.optional(__S(42, __c21, 0)),
+          headers: S.optional(__S(88, __c22, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/notification.createCustom", code: 200 })),
       ).annotate({ identifier: "CreateNotificationCustomRequest" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -1528,7 +1607,7 @@ function __c22(j: number): any {
       });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1538,7 +1617,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "TestNotificationTeamsConnectionRequest" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1550,7 +1629,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "TestNotificationTelegramConnectionRequest" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1565,7 +1644,7 @@ function __c25(j: number): any {
           dockerCleanup: S.optional(S.Boolean),
           serverThreshold: S.optional(S.Boolean),
           endpoint: S.optional(S.String),
-          headers: S.optional(__S(42, __c21, 0)),
+          headers: S.optional(__S(88, __c22, 0)),
           notificationId: S.String,
           customId: S.String,
           organizationId: S.optional(S.String),
@@ -1573,7 +1652,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "UpdateNotificationCustomRequest" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1596,7 +1675,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "UpdateNotificationDiscordRequest" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1615,7 +1694,7 @@ function __c27(j: number): any {
           username: S.optional(S.String),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           fromAddress: S.optional(S.String),
-          toAddresses: S.optional(__S(78, __c39, 0)),
+          toAddresses: S.optional(__S(160, __c40, 0)),
           notificationId: S.String,
           emailId: S.String,
           organizationId: S.optional(S.String),
@@ -1623,7 +1702,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "UpdateNotificationEmailRequest" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1648,7 +1727,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "UpdateNotificationGotifyRequest" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1670,7 +1749,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "UpdateNotificationLarkRequest" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1694,7 +1773,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "UpdateNotificationMattermostRequest" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1719,7 +1798,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "UpdateNotificationNtfyRequest" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1745,7 +1824,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "UpdateNotificationPushoverRequest" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1765,7 +1844,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "CreateNotificationDiscordRequest" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1781,7 +1860,7 @@ function __c34(j: number): any {
           serverThreshold: S.optional(S.Boolean),
           apiKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           fromAddress: S.optional(S.String),
-          toAddresses: S.optional(__S(78, __c39, 0)),
+          toAddresses: S.optional(__S(160, __c40, 0)),
           notificationId: S.String,
           resendId: S.String,
           organizationId: S.optional(S.String),
@@ -1789,7 +1868,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "UpdateNotificationResendRequest" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1812,7 +1891,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "UpdateNotificationSlackRequest" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1834,7 +1913,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "UpdateNotificationTeamsRequest" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1858,7 +1937,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "UpdateNotificationTelegramRequest" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1877,18 +1956,18 @@ function __c38(j: number): any {
           username: S.String,
           password: S.String.pipe(T.SensitiveValue({})),
           fromAddress: S.String,
-          toAddresses: __S(78, __c39, 0),
+          toAddresses: __S(160, __c40, 0),
         }).pipe(T.Http({ method: "POST", uri: "/notification.createEmail", code: 200 })),
       ).annotate({ identifier: "CreateNotificationEmailRequest" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1910,7 +1989,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "CreateNotificationGotifyRequest" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1929,7 +2008,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "CreateNotificationLarkRequest" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1950,7 +2029,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "CreateNotificationMattermostRequest" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

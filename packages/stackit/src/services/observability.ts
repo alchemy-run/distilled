@@ -31,27 +31,54 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(64, __c4, 0)),
+          /*@__PURE__*/ S.suspend(() => S.Unknown),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(16, __c1, 0)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | Error400Body | Message | CheckArrayError | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(80, __c5, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: PermissionDenied | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Message | string;
+}
 
 export interface CreateAlertConfigReceiverRequestEmailConfigsItem {
   /** SMTP authentication information. `Additional Validators:` * must be a syntactically valid email address */
@@ -2136,6 +2163,19 @@ export interface UpdateTracesConfigsRequest {
   /** How long to keep the traces `Additional Validators:` * Should be a valid time string * Should not be bigger than 30 days */
   retention: string;
 }
+export type ErrorErrorsItemMap = { [key: string]: string | null | undefined };
+export type ErrorErrorsList = Array<ErrorErrorsItemMap>;
+export interface Error {
+  errors?: ErrorErrorsList | undefined;
+  message: string;
+}
+export type CheckObjectErrorValueList = Array<string>;
+export type CheckObjectError = { [key: string]: CheckObjectErrorValueList | undefined };
+export type CheckArrayError = Array<string>;
+export type Error400Body = CheckObjectError | CheckArrayError;
+export interface PermissionDenied {
+  detail: string;
+}
 export type CreateAlertConfigReceiverError = BadRequest | Forbidden | StackitOpError;
 /** Create alert config receiver. */
 export const createAlertConfigReceiver: API.OperationMethod<
@@ -2144,8 +2184,8 @@ export const createAlertConfigReceiver: API.OperationMethod<
   CreateAlertConfigReceiverError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<CreateAlertConfigReceiverRequest>,
-  output: __S(800, __c50, 0) as any as S.Schema<AlertConfigReceiversResponse>,
+  input: __S(848, __c53, 0) as any as S.Schema<CreateAlertConfigReceiverRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<AlertConfigReceiversResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2161,8 +2201,8 @@ export const createAlertConfigRoute: API.OperationMethod<
   CreateAlertConfigRouteError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<CreateAlertConfigRouteRequest>,
-  output: __S(1056, __c66, 0) as any as S.Schema<AlertConfigRouteResponse>,
+  input: __S(1088, __c68, 0) as any as S.Schema<CreateAlertConfigRouteRequest>,
+  output: __S(1120, __c70, 0) as any as S.Schema<AlertConfigRouteResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2178,8 +2218,8 @@ export const createAlertgroups: API.OperationMethod<
   CreateAlertgroupsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c79, 0) as any as S.Schema<CreateAlertgroupsRequest>,
-  output: __S(1297, __c81, 1) as any as S.Schema<AlertGroupsResponse>,
+  input: __S(1328, __c83, 0) as any as S.Schema<CreateAlertgroupsRequest>,
+  output: __S(1361, __c85, 1) as any as S.Schema<AlertGroupsResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2195,8 +2235,8 @@ export const createAlertRecord: API.OperationMethod<
   CreateAlertRecordError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c98, 0) as any as S.Schema<CreateAlertRecordRequest>,
-  output: __S(1601, __c100, 1) as any as S.Schema<AlertRecordsResponse>,
+  input: __S(1632, __c102, 0) as any as S.Schema<CreateAlertRecordRequest>,
+  output: __S(1665, __c104, 1) as any as S.Schema<AlertRecordsResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2212,8 +2252,8 @@ export const createAlertrules: API.OperationMethod<
   CreateAlertrulesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1776, __c111, 0) as any as S.Schema<CreateAlertrulesRequest>,
-  output: __S(1809, __c113, 1) as any as S.Schema<AlertRulesResponse>,
+  input: __S(1840, __c115, 0) as any as S.Schema<CreateAlertrulesRequest>,
+  output: __S(1873, __c117, 1) as any as S.Schema<AlertRulesResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2229,8 +2269,8 @@ export const createBackup: API.OperationMethod<
   CreateBackupError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c124, 0) as any as S.Schema<CreateBackupRequest>,
-  output: __S(2000, __c125, 0) as any as S.Schema<Message>,
+  input: __S(2048, __c128, 0) as any as S.Schema<CreateBackupRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<Message>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2246,8 +2286,8 @@ export const createBackupSchedule: API.OperationMethod<
   CreateBackupScheduleError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2224, __c139, 0) as any as S.Schema<CreateBackupScheduleRequest>,
-  output: __S(2225, __c139, 1) as any as S.Schema<BackupSchedulePostResponse>,
+  input: __S(2272, __c142, 0) as any as S.Schema<CreateBackupScheduleRequest>,
+  output: __S(2273, __c142, 1) as any as S.Schema<BackupSchedulePostResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2263,8 +2303,8 @@ export const createCertCheck: API.OperationMethod<
   CreateCertCheckError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateCertCheckRequest>,
-  output: __S(18, __c1, 2) as any as S.Schema<CertCheckResponse>,
+  input: __S(96, __c6, 0) as any as S.Schema<CreateCertCheckRequest>,
+  output: __S(114, __c7, 2) as any as S.Schema<CertCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2280,8 +2320,8 @@ export const createCredentials: API.OperationMethod<
   CreateCredentialsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<CreateCredentialsRequest>,
-  output: __S(178, __c11, 2) as any as S.Schema<CreateCredentialsResponse>,
+  input: __S(272, __c17, 0) as any as S.Schema<CreateCredentialsRequest>,
+  output: __S(274, __c17, 2) as any as S.Schema<CreateCredentialsResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2297,8 +2337,8 @@ export const createElasticsearchCheck: API.OperationMethod<
   CreateElasticsearchCheckError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<CreateElasticsearchCheckRequest>,
-  output: __S(224, __c14, 0) as any as S.Schema<ElasticsearchCheckResponse>,
+  input: __S(288, __c18, 0) as any as S.Schema<CreateElasticsearchCheckRequest>,
+  output: __S(320, __c20, 0) as any as S.Schema<ElasticsearchCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2314,8 +2354,8 @@ export const createHttpCheck: API.OperationMethod<
   CreateHttpCheckError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<CreateHttpCheckRequest>,
-  output: __S(272, __c17, 0) as any as S.Schema<HttpCheckResponse>,
+  input: __S(336, __c21, 0) as any as S.Schema<CreateHttpCheckRequest>,
+  output: __S(368, __c23, 0) as any as S.Schema<HttpCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2331,8 +2371,8 @@ export const createInstance: API.OperationMethod<
   CreateInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<CreateInstanceRequest>,
-  output: __S(289, __c18, 1) as any as S.Schema<CreateInstanceResponse>,
+  input: __S(384, __c24, 0) as any as S.Schema<CreateInstanceRequest>,
+  output: __S(385, __c24, 1) as any as S.Schema<CreateInstanceResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2348,8 +2388,8 @@ export const createLogsAlertgroups: API.OperationMethod<
   CreateLogsAlertgroupsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<CreateLogsAlertgroupsRequest>,
-  output: __S(1297, __c81, 1) as any as S.Schema<AlertGroupsResponse>,
+  input: __S(400, __c25, 0) as any as S.Schema<CreateLogsAlertgroupsRequest>,
+  output: __S(1361, __c85, 1) as any as S.Schema<AlertGroupsResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2365,8 +2405,8 @@ export const createMongodbCheck: API.OperationMethod<
   CreateMongodbCheckError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<CreateMongodbCheckRequest>,
-  output: __S(352, __c22, 0) as any as S.Schema<MongodbCheckResponse>,
+  input: __S(416, __c26, 0) as any as S.Schema<CreateMongodbCheckRequest>,
+  output: __S(448, __c28, 0) as any as S.Schema<MongodbCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2382,8 +2422,8 @@ export const createMysqlCheck: API.OperationMethod<
   CreateMysqlCheckError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<CreateMysqlCheckRequest>,
-  output: __S(384, __c24, 0) as any as S.Schema<MysqlCheckResponse>,
+  input: __S(464, __c29, 0) as any as S.Schema<CreateMysqlCheckRequest>,
+  output: __S(480, __c30, 0) as any as S.Schema<MysqlCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2399,8 +2439,8 @@ export const createNetworkCheck: API.OperationMethod<
   CreateNetworkCheckError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<CreateNetworkCheckRequest>,
-  output: __S(432, __c27, 0) as any as S.Schema<NetworkCheckResponse>,
+  input: __S(496, __c31, 0) as any as S.Schema<CreateNetworkCheckRequest>,
+  output: __S(528, __c33, 0) as any as S.Schema<NetworkCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2416,8 +2456,8 @@ export const createPingCheck: API.OperationMethod<
   CreatePingCheckError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<CreatePingCheckRequest>,
-  output: __S(464, __c29, 0) as any as S.Schema<PingCheckResponse>,
+  input: __S(544, __c34, 0) as any as S.Schema<CreatePingCheckRequest>,
+  output: __S(560, __c35, 0) as any as S.Schema<PingCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2433,8 +2473,8 @@ export const createPostgresqlCheck: API.OperationMethod<
   CreatePostgresqlCheckError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<CreatePostgresqlCheckRequest>,
-  output: __S(496, __c31, 0) as any as S.Schema<PostgresqlCheckResponse>,
+  input: __S(576, __c36, 0) as any as S.Schema<CreatePostgresqlCheckRequest>,
+  output: __S(592, __c37, 0) as any as S.Schema<PostgresqlCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2450,8 +2490,8 @@ export const createRabbitmqCheck: API.OperationMethod<
   CreateRabbitmqCheckError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<CreateRabbitmqCheckRequest>,
-  output: __S(530, __c33, 2) as any as S.Schema<RabbitmqCheckResponse>,
+  input: __S(608, __c38, 0) as any as S.Schema<CreateRabbitmqCheckRequest>,
+  output: __S(626, __c39, 2) as any as S.Schema<RabbitmqCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2467,8 +2507,8 @@ export const createRedisCheck: API.OperationMethod<
   CreateRedisCheckError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<CreateRedisCheckRequest>,
-  output: __S(560, __c35, 0) as any as S.Schema<RedisCheckResponse>,
+  input: __S(640, __c40, 0) as any as S.Schema<CreateRedisCheckRequest>,
+  output: __S(656, __c41, 0) as any as S.Schema<RedisCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2484,8 +2524,8 @@ export const createScrapeConfig: API.OperationMethod<
   CreateScrapeConfigError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<CreateScrapeConfigRequest>,
-  output: __S(609, __c38, 1) as any as S.Schema<ScrapeConfigsResponse>,
+  input: __S(672, __c42, 0) as any as S.Schema<CreateScrapeConfigRequest>,
+  output: __S(705, __c44, 1) as any as S.Schema<ScrapeConfigsResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2501,8 +2541,8 @@ export const deleteAlertConfigReceiver: API.OperationMethod<
   DeleteAlertConfigReceiverError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<DeleteAlertConfigReceiverRequest>,
-  output: __S(800, __c50, 0) as any as S.Schema<AlertConfigReceiversResponse>,
+  input: __S(752, __c47, 0) as any as S.Schema<DeleteAlertConfigReceiverRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<AlertConfigReceiversResponse>,
   errors: [Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2518,8 +2558,8 @@ export const deleteAlertConfigRoute: API.OperationMethod<
   DeleteAlertConfigRouteError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<DeleteAlertConfigRouteRequest>,
-  output: __S(1056, __c66, 0) as any as S.Schema<AlertConfigRouteResponse>,
+  input: __S(768, __c48, 0) as any as S.Schema<DeleteAlertConfigRouteRequest>,
+  output: __S(1120, __c70, 0) as any as S.Schema<AlertConfigRouteResponse>,
   errors: [Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2535,8 +2575,8 @@ export const deleteAlertgroup: API.OperationMethod<
   DeleteAlertgroupError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<DeleteAlertgroupRequest>,
-  output: __S(1297, __c81, 1) as any as S.Schema<AlertGroupsResponse>,
+  input: __S(784, __c49, 0) as any as S.Schema<DeleteAlertgroupRequest>,
+  output: __S(1361, __c85, 1) as any as S.Schema<AlertGroupsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2552,8 +2592,8 @@ export const deleteAlertgroups: API.OperationMethod<
   DeleteAlertgroupsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<DeleteAlertgroupsRequest>,
-  output: __S(1297, __c81, 1) as any as S.Schema<AlertGroupsResponse>,
+  input: __S(800, __c50, 0) as any as S.Schema<DeleteAlertgroupsRequest>,
+  output: __S(1361, __c85, 1) as any as S.Schema<AlertGroupsResponse>,
   errors: [Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2569,8 +2609,8 @@ export const deleteAlertRecord: API.OperationMethod<
   DeleteAlertRecordError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<DeleteAlertRecordRequest>,
-  output: __S(1601, __c100, 1) as any as S.Schema<AlertRecordsResponse>,
+  input: __S(816, __c51, 0) as any as S.Schema<DeleteAlertRecordRequest>,
+  output: __S(1665, __c104, 1) as any as S.Schema<AlertRecordsResponse>,
   errors: [Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2586,8 +2626,8 @@ export const deleteAlertRecords: API.OperationMethod<
   DeleteAlertRecordsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<DeleteAlertRecordsRequest>,
-  output: __S(1601, __c100, 1) as any as S.Schema<AlertRecordsResponse>,
+  input: __S(832, __c52, 0) as any as S.Schema<DeleteAlertRecordsRequest>,
+  output: __S(1665, __c104, 1) as any as S.Schema<AlertRecordsResponse>,
   errors: [Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2603,8 +2643,8 @@ export const deleteAlertrule: API.OperationMethod<
   DeleteAlertruleError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c52, 0) as any as S.Schema<DeleteAlertruleRequest>,
-  output: __S(1809, __c113, 1) as any as S.Schema<AlertRulesResponse>,
+  input: __S(928, __c58, 0) as any as S.Schema<DeleteAlertruleRequest>,
+  output: __S(1873, __c117, 1) as any as S.Schema<AlertRulesResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2620,8 +2660,8 @@ export const deleteAlertrules: API.OperationMethod<
   DeleteAlertrulesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<DeleteAlertrulesRequest>,
-  output: __S(1809, __c113, 1) as any as S.Schema<AlertRulesResponse>,
+  input: __S(944, __c59, 0) as any as S.Schema<DeleteAlertrulesRequest>,
+  output: __S(1873, __c117, 1) as any as S.Schema<AlertRulesResponse>,
   errors: [Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2637,8 +2677,8 @@ export const deleteCertCheck: API.OperationMethod<
   DeleteCertCheckError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c54, 0) as any as S.Schema<DeleteCertCheckRequest>,
-  output: __S(18, __c1, 2) as any as S.Schema<CertCheckResponse>,
+  input: __S(960, __c60, 0) as any as S.Schema<DeleteCertCheckRequest>,
+  output: __S(114, __c7, 2) as any as S.Schema<CertCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2654,8 +2694,8 @@ export const deleteCredentials: API.OperationMethod<
   DeleteCredentialsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<DeleteCredentialsRequest>,
-  output: __S(2000, __c125, 0) as any as S.Schema<Message>,
+  input: __S(976, __c61, 0) as any as S.Schema<DeleteCredentialsRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<Message>,
   errors: [Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2675,8 +2715,8 @@ export const deleteCredentialsRemoteWriteConfig: API.OperationMethod<
   DeleteCredentialsRemoteWriteConfigError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<DeleteCredentialsRemoteWriteConfigRequest>,
-  output: __S(897, __c56, 1) as any as S.Schema<CredentialsRemoteWriteDeleteResponse>,
+  input: __S(992, __c62, 0) as any as S.Schema<DeleteCredentialsRemoteWriteConfigRequest>,
+  output: __S(993, __c62, 1) as any as S.Schema<CredentialsRemoteWriteDeleteResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2692,8 +2732,8 @@ export const deleteElasticsearchCheck: API.OperationMethod<
   DeleteElasticsearchCheckError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<DeleteElasticsearchCheckRequest>,
-  output: __S(224, __c14, 0) as any as S.Schema<ElasticsearchCheckResponse>,
+  input: __S(1008, __c63, 0) as any as S.Schema<DeleteElasticsearchCheckRequest>,
+  output: __S(320, __c20, 0) as any as S.Schema<ElasticsearchCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2709,8 +2749,8 @@ export const deleteHttpCheck: API.OperationMethod<
   DeleteHttpCheckError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<DeleteHttpCheckRequest>,
-  output: __S(272, __c17, 0) as any as S.Schema<HttpCheckResponse>,
+  input: __S(1024, __c64, 0) as any as S.Schema<DeleteHttpCheckRequest>,
+  output: __S(368, __c23, 0) as any as S.Schema<HttpCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2726,8 +2766,8 @@ export const deleteInstance: API.OperationMethod<
   DeleteInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c59, 0) as any as S.Schema<DeleteInstanceRequest>,
-  output: __S(2000, __c125, 0) as any as S.Schema<InstanceResponse>,
+  input: __S(1040, __c65, 0) as any as S.Schema<DeleteInstanceRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<InstanceResponse>,
   errors: [Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2743,8 +2783,8 @@ export const deleteLogsAlertgroup: API.OperationMethod<
   DeleteLogsAlertgroupError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<DeleteLogsAlertgroupRequest>,
-  output: __S(1297, __c81, 1) as any as S.Schema<AlertGroupsResponse>,
+  input: __S(1056, __c66, 0) as any as S.Schema<DeleteLogsAlertgroupRequest>,
+  output: __S(1361, __c85, 1) as any as S.Schema<AlertGroupsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2760,8 +2800,8 @@ export const deleteMongodbCheck: API.OperationMethod<
   DeleteMongodbCheckError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<DeleteMongodbCheckRequest>,
-  output: __S(352, __c22, 0) as any as S.Schema<MongodbCheckResponse>,
+  input: __S(1072, __c67, 0) as any as S.Schema<DeleteMongodbCheckRequest>,
+  output: __S(448, __c28, 0) as any as S.Schema<MongodbCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2777,8 +2817,8 @@ export const deleteMysqlCheck: API.OperationMethod<
   DeleteMysqlCheckError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1104, __c69, 0) as any as S.Schema<DeleteMysqlCheckRequest>,
-  output: __S(384, __c24, 0) as any as S.Schema<MysqlCheckResponse>,
+  input: __S(1168, __c73, 0) as any as S.Schema<DeleteMysqlCheckRequest>,
+  output: __S(480, __c30, 0) as any as S.Schema<MysqlCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2794,8 +2834,8 @@ export const deleteNetworkCheck: API.OperationMethod<
   DeleteNetworkCheckError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c70, 0) as any as S.Schema<DeleteNetworkCheckRequest>,
-  output: __S(432, __c27, 0) as any as S.Schema<NetworkCheckResponse>,
+  input: __S(1184, __c74, 0) as any as S.Schema<DeleteNetworkCheckRequest>,
+  output: __S(528, __c33, 0) as any as S.Schema<NetworkCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2811,8 +2851,8 @@ export const deletePingCheck: API.OperationMethod<
   DeletePingCheckError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c71, 0) as any as S.Schema<DeletePingCheckRequest>,
-  output: __S(464, __c29, 0) as any as S.Schema<PingCheckResponse>,
+  input: __S(1200, __c75, 0) as any as S.Schema<DeletePingCheckRequest>,
+  output: __S(560, __c35, 0) as any as S.Schema<PingCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2828,8 +2868,8 @@ export const deletePostgresqlCheck: API.OperationMethod<
   DeletePostgresqlCheckError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c72, 0) as any as S.Schema<DeletePostgresqlCheckRequest>,
-  output: __S(496, __c31, 0) as any as S.Schema<PostgresqlCheckResponse>,
+  input: __S(1216, __c76, 0) as any as S.Schema<DeletePostgresqlCheckRequest>,
+  output: __S(592, __c37, 0) as any as S.Schema<PostgresqlCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2845,8 +2885,8 @@ export const deleteRabbitmqCheck: API.OperationMethod<
   DeleteRabbitmqCheckError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1168, __c73, 0) as any as S.Schema<DeleteRabbitmqCheckRequest>,
-  output: __S(530, __c33, 2) as any as S.Schema<RabbitmqCheckResponse>,
+  input: __S(1232, __c77, 0) as any as S.Schema<DeleteRabbitmqCheckRequest>,
+  output: __S(626, __c39, 2) as any as S.Schema<RabbitmqCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2862,8 +2902,8 @@ export const deleteRedisCheck: API.OperationMethod<
   DeleteRedisCheckError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c74, 0) as any as S.Schema<DeleteRedisCheckRequest>,
-  output: __S(560, __c35, 0) as any as S.Schema<RedisCheckResponse>,
+  input: __S(1248, __c78, 0) as any as S.Schema<DeleteRedisCheckRequest>,
+  output: __S(656, __c41, 0) as any as S.Schema<RedisCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2879,8 +2919,8 @@ export const deleteScrapeConfig: API.OperationMethod<
   DeleteScrapeConfigError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c75, 0) as any as S.Schema<DeleteScrapeConfigRequest>,
-  output: __S(609, __c38, 1) as any as S.Schema<DeleteScrapeConfigResponse>,
+  input: __S(1264, __c79, 0) as any as S.Schema<DeleteScrapeConfigRequest>,
+  output: __S(705, __c44, 1) as any as S.Schema<DeleteScrapeConfigResponse>,
   errors: [Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2896,8 +2936,8 @@ export const deleteScrapeConfigs: API.OperationMethod<
   DeleteScrapeConfigsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c76, 0) as any as S.Schema<DeleteScrapeConfigsRequest>,
-  output: __S(609, __c38, 1) as any as S.Schema<ScrapeConfigsResponse>,
+  input: __S(1280, __c80, 0) as any as S.Schema<DeleteScrapeConfigsRequest>,
+  output: __S(705, __c44, 1) as any as S.Schema<ScrapeConfigsResponse>,
   errors: [Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2913,8 +2953,8 @@ export const getAlertConfigReceiver: API.OperationMethod<
   GetAlertConfigReceiverError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1232, __c77, 0) as any as S.Schema<GetAlertConfigReceiverRequest>,
-  output: __S(1233, __c77, 1) as any as S.Schema<Receiver>,
+  input: __S(1296, __c81, 0) as any as S.Schema<GetAlertConfigReceiverRequest>,
+  output: __S(1297, __c81, 1) as any as S.Schema<Receiver>,
   errors: [Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2930,8 +2970,8 @@ export const getAlertConfigRoute: API.OperationMethod<
   GetAlertConfigRouteError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c78, 0) as any as S.Schema<GetAlertConfigRouteRequest>,
-  output: __S(1056, __c66, 0) as any as S.Schema<AlertConfigRouteResponse>,
+  input: __S(1312, __c82, 0) as any as S.Schema<GetAlertConfigRouteRequest>,
+  output: __S(1120, __c70, 0) as any as S.Schema<AlertConfigRouteResponse>,
   errors: [Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2947,8 +2987,8 @@ export const getAlertConfigs: API.OperationMethod<
   GetAlertConfigsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1328, __c83, 0) as any as S.Schema<GetAlertConfigsRequest>,
-  output: __S(1348, __c84, 4) as any as S.Schema<GetAlertConfigsResponse>,
+  input: __S(1392, __c87, 0) as any as S.Schema<GetAlertConfigsRequest>,
+  output: __S(1412, __c88, 4) as any as S.Schema<GetAlertConfigsResponse>,
   errors: [Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2964,8 +3004,8 @@ export const getAlertgroup: API.OperationMethod<
   GetAlertgroupError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1360, __c85, 0) as any as S.Schema<GetAlertgroupRequest>,
-  output: __S(1376, __c86, 0) as any as S.Schema<AlertGroupResponse>,
+  input: __S(1424, __c89, 0) as any as S.Schema<GetAlertgroupRequest>,
+  output: __S(1440, __c90, 0) as any as S.Schema<AlertGroupResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2981,8 +3021,8 @@ export const getAlertRecord: API.OperationMethod<
   GetAlertRecordError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1392, __c87, 0) as any as S.Schema<GetAlertRecordRequest>,
-  output: __S(1393, __c87, 1) as any as S.Schema<AlertRecordResponse>,
+  input: __S(1456, __c91, 0) as any as S.Schema<GetAlertRecordRequest>,
+  output: __S(1457, __c91, 1) as any as S.Schema<AlertRecordResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2998,8 +3038,8 @@ export const getAlertrule: API.OperationMethod<
   GetAlertruleError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c88, 0) as any as S.Schema<GetAlertruleRequest>,
-  output: __S(1409, __c88, 1) as any as S.Schema<AlertRuleResponse>,
+  input: __S(1472, __c92, 0) as any as S.Schema<GetAlertruleRequest>,
+  output: __S(1473, __c92, 1) as any as S.Schema<AlertRuleResponse>,
   errors: [Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3015,8 +3055,8 @@ export const getCredentials: API.OperationMethod<
   GetCredentialsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1424, __c89, 0) as any as S.Schema<GetCredentialsRequest>,
-  output: __S(1425, __c89, 1) as any as S.Schema<GetCredentialsResponse>,
+  input: __S(1488, __c93, 0) as any as S.Schema<GetCredentialsRequest>,
+  output: __S(1489, __c93, 1) as any as S.Schema<GetCredentialsResponse>,
   errors: [Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3032,8 +3072,8 @@ export const getCredentialsRemoteWriteConfig: API.OperationMethod<
   GetCredentialsRemoteWriteConfigError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c90, 0) as any as S.Schema<GetCredentialsRemoteWriteConfigRequest>,
-  output: __S(1456, __c91, 0) as any as S.Schema<CredentialsRemoteWriteConfig>,
+  input: __S(1504, __c94, 0) as any as S.Schema<GetCredentialsRemoteWriteConfigRequest>,
+  output: __S(1520, __c95, 0) as any as S.Schema<CredentialsRemoteWriteConfig>,
   errors: [Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3049,8 +3089,8 @@ export const getGrafanaConfigs: API.OperationMethod<
   GetGrafanaConfigsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c92, 0) as any as S.Schema<GetGrafanaConfigsRequest>,
-  output: __S(1473, __c92, 1) as any as S.Schema<GrafanaConfigs>,
+  input: __S(1536, __c96, 0) as any as S.Schema<GetGrafanaConfigsRequest>,
+  output: __S(1537, __c96, 1) as any as S.Schema<GrafanaConfigs>,
   errors: [Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3066,8 +3106,8 @@ export const getInstance: API.OperationMethod<
   GetInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c94, 0) as any as S.Schema<GetInstanceRequest>,
-  output: __S(1507, __c94, 3) as any as S.Schema<GetInstanceResponse>,
+  input: __S(1568, __c98, 0) as any as S.Schema<GetInstanceRequest>,
+  output: __S(1571, __c98, 3) as any as S.Schema<GetInstanceResponse>,
   errors: [Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3083,8 +3123,8 @@ export const getLogsAlertgroup: API.OperationMethod<
   GetLogsAlertgroupError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1520, __c95, 0) as any as S.Schema<GetLogsAlertgroupRequest>,
-  output: __S(1376, __c86, 0) as any as S.Schema<AlertGroupResponse>,
+  input: __S(1584, __c99, 0) as any as S.Schema<GetLogsAlertgroupRequest>,
+  output: __S(1440, __c90, 0) as any as S.Schema<AlertGroupResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3100,8 +3140,8 @@ export const getLogsConfigs: API.OperationMethod<
   GetLogsConfigsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c96, 0) as any as S.Schema<GetLogsConfigsRequest>,
-  output: __S(1553, __c97, 1) as any as S.Schema<LogsConfigResponse>,
+  input: __S(1600, __c100, 0) as any as S.Schema<GetLogsConfigsRequest>,
+  output: __S(1617, __c101, 1) as any as S.Schema<LogsConfigResponse>,
   errors: [Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3117,8 +3157,8 @@ export const getMetricsStorageRetention: API.OperationMethod<
   GetMetricsStorageRetentionError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1616, __c101, 0) as any as S.Schema<GetMetricsStorageRetentionRequest>,
-  output: __S(1617, __c101, 1) as any as S.Schema<GetMetricsStorageRetentionResponse>,
+  input: __S(1680, __c105, 0) as any as S.Schema<GetMetricsStorageRetentionRequest>,
+  output: __S(1681, __c105, 1) as any as S.Schema<GetMetricsStorageRetentionResponse>,
   errors: [Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3134,8 +3174,8 @@ export const getScrapeConfig: API.OperationMethod<
   GetScrapeConfigError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c102, 0) as any as S.Schema<GetScrapeConfigRequest>,
-  output: __S(1633, __c102, 1) as any as S.Schema<GetScrapeConfigResponse>,
+  input: __S(1696, __c106, 0) as any as S.Schema<GetScrapeConfigRequest>,
+  output: __S(1697, __c106, 1) as any as S.Schema<GetScrapeConfigResponse>,
   errors: [Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3151,8 +3191,8 @@ export const getTracesConfigs: API.OperationMethod<
   GetTracesConfigsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1648, __c103, 0) as any as S.Schema<GetTracesConfigsRequest>,
-  output: __S(1553, __c97, 1) as any as S.Schema<TracesConfigResponse>,
+  input: __S(1712, __c107, 0) as any as S.Schema<GetTracesConfigsRequest>,
+  output: __S(1617, __c101, 1) as any as S.Schema<TracesConfigResponse>,
   errors: [Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3168,8 +3208,8 @@ export const listACL: API.OperationMethod<
   ListACLError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c104, 0) as any as S.Schema<ListACLRequest>,
-  output: __S(1665, __c104, 1) as any as S.Schema<ListACLResponse>,
+  input: __S(1728, __c108, 0) as any as S.Schema<ListACLRequest>,
+  output: __S(1729, __c108, 1) as any as S.Schema<ListACLResponse>,
   errors: [Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3185,8 +3225,8 @@ export const listAlertConfigReceivers: API.OperationMethod<
   ListAlertConfigReceiversError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1680, __c105, 0) as any as S.Schema<ListAlertConfigReceiversRequest>,
-  output: __S(800, __c50, 0) as any as S.Schema<AlertConfigReceiversResponse>,
+  input: __S(1744, __c109, 0) as any as S.Schema<ListAlertConfigReceiversRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<AlertConfigReceiversResponse>,
   errors: [Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3202,8 +3242,8 @@ export const listAlertConfigRoutes: API.OperationMethod<
   ListAlertConfigRoutesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c106, 0) as any as S.Schema<ListAlertConfigRoutesRequest>,
-  output: __S(1056, __c66, 0) as any as S.Schema<AlertConfigRouteResponse>,
+  input: __S(1760, __c110, 0) as any as S.Schema<ListAlertConfigRoutesRequest>,
+  output: __S(1120, __c70, 0) as any as S.Schema<AlertConfigRouteResponse>,
   errors: [Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3219,8 +3259,8 @@ export const listAlertgroups: API.OperationMethod<
   ListAlertgroupsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1712, __c107, 0) as any as S.Schema<ListAlertgroupsRequest>,
-  output: __S(1297, __c81, 1) as any as S.Schema<AlertGroupsResponse>,
+  input: __S(1776, __c111, 0) as any as S.Schema<ListAlertgroupsRequest>,
+  output: __S(1361, __c85, 1) as any as S.Schema<AlertGroupsResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3236,8 +3276,8 @@ export const listAlertRecords: API.OperationMethod<
   ListAlertRecordsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c108, 0) as any as S.Schema<ListAlertRecordsRequest>,
-  output: __S(1601, __c100, 1) as any as S.Schema<AlertRecordsResponse>,
+  input: __S(1792, __c112, 0) as any as S.Schema<ListAlertRecordsRequest>,
+  output: __S(1665, __c104, 1) as any as S.Schema<AlertRecordsResponse>,
   errors: [Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3253,8 +3293,8 @@ export const listAlertrules: API.OperationMethod<
   ListAlertrulesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1744, __c109, 0) as any as S.Schema<ListAlertrulesRequest>,
-  output: __S(1809, __c113, 1) as any as S.Schema<AlertRulesResponse>,
+  input: __S(1808, __c113, 0) as any as S.Schema<ListAlertrulesRequest>,
+  output: __S(1873, __c117, 1) as any as S.Schema<AlertRulesResponse>,
   errors: [Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3270,8 +3310,8 @@ export const listBackupRetentions: API.OperationMethod<
   ListBackupRetentionsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c110, 0) as any as S.Schema<ListBackupRetentionsRequest>,
-  output: __S(1761, __c110, 1) as any as S.Schema<BackupRetentionResponse>,
+  input: __S(1824, __c114, 0) as any as S.Schema<ListBackupRetentionsRequest>,
+  output: __S(1825, __c114, 1) as any as S.Schema<BackupRetentionResponse>,
   errors: [Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3287,8 +3327,8 @@ export const listBackups: API.OperationMethod<
   ListBackupsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c114, 0) as any as S.Schema<ListBackupsRequest>,
-  output: __S(1825, __c114, 1) as any as S.Schema<BackupResponse>,
+  input: __S(1888, __c118, 0) as any as S.Schema<ListBackupsRequest>,
+  output: __S(1889, __c118, 1) as any as S.Schema<BackupResponse>,
   errors: [Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3304,8 +3344,8 @@ export const listBackupSchedules: API.OperationMethod<
   ListBackupSchedulesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1840, __c115, 0) as any as S.Schema<ListBackupSchedulesRequest>,
-  output: __S(1843, __c115, 3) as any as S.Schema<BackupScheduleResponse>,
+  input: __S(1904, __c119, 0) as any as S.Schema<ListBackupSchedulesRequest>,
+  output: __S(1907, __c119, 3) as any as S.Schema<BackupScheduleResponse>,
   errors: [Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3321,8 +3361,8 @@ export const listCertChecks: API.OperationMethod<
   ListCertChecksError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c116, 0) as any as S.Schema<ListCertChecksRequest>,
-  output: __S(18, __c1, 2) as any as S.Schema<CertCheckResponse>,
+  input: __S(1920, __c120, 0) as any as S.Schema<ListCertChecksRequest>,
+  output: __S(114, __c7, 2) as any as S.Schema<CertCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3338,8 +3378,8 @@ export const listCredentials: API.OperationMethod<
   ListCredentialsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1872, __c117, 0) as any as S.Schema<ListCredentialsRequest>,
-  output: __S(1875, __c117, 3) as any as S.Schema<ListCredentialsResponse>,
+  input: __S(1936, __c121, 0) as any as S.Schema<ListCredentialsRequest>,
+  output: __S(1939, __c121, 3) as any as S.Schema<ListCredentialsResponse>,
   errors: [Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3355,8 +3395,8 @@ export const listElasticsearchChecks: API.OperationMethod<
   ListElasticsearchChecksError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c118, 0) as any as S.Schema<ListElasticsearchChecksRequest>,
-  output: __S(224, __c14, 0) as any as S.Schema<ElasticsearchCheckResponse>,
+  input: __S(1952, __c122, 0) as any as S.Schema<ListElasticsearchChecksRequest>,
+  output: __S(320, __c20, 0) as any as S.Schema<ElasticsearchCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3372,8 +3412,8 @@ export const listHttpChecks: API.OperationMethod<
   ListHttpChecksError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1904, __c119, 0) as any as S.Schema<ListHttpChecksRequest>,
-  output: __S(272, __c17, 0) as any as S.Schema<HttpCheckResponse>,
+  input: __S(1968, __c123, 0) as any as S.Schema<ListHttpChecksRequest>,
+  output: __S(368, __c23, 0) as any as S.Schema<HttpCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3389,8 +3429,8 @@ export const listInstances: API.OperationMethod<
   ListInstancesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c120, 0) as any as S.Schema<ListInstancesRequest>,
-  output: __S(1923, __c120, 3) as any as S.Schema<ListInstancesResponse>,
+  input: __S(1984, __c124, 0) as any as S.Schema<ListInstancesRequest>,
+  output: __S(1987, __c124, 3) as any as S.Schema<ListInstancesResponse>,
   errors: [Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3406,8 +3446,8 @@ export const listLogsAlertgroups: API.OperationMethod<
   ListLogsAlertgroupsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1936, __c121, 0) as any as S.Schema<ListLogsAlertgroupsRequest>,
-  output: __S(1297, __c81, 1) as any as S.Schema<AlertGroupsResponse>,
+  input: __S(2000, __c125, 0) as any as S.Schema<ListLogsAlertgroupsRequest>,
+  output: __S(1361, __c85, 1) as any as S.Schema<AlertGroupsResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3423,8 +3463,8 @@ export const listMongodbChecks: API.OperationMethod<
   ListMongodbChecksError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c122, 0) as any as S.Schema<ListMongodbChecksRequest>,
-  output: __S(352, __c22, 0) as any as S.Schema<MongodbCheckResponse>,
+  input: __S(2016, __c126, 0) as any as S.Schema<ListMongodbChecksRequest>,
+  output: __S(448, __c28, 0) as any as S.Schema<MongodbCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3440,8 +3480,8 @@ export const listMysqlChecks: API.OperationMethod<
   ListMysqlChecksError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1968, __c123, 0) as any as S.Schema<ListMysqlChecksRequest>,
-  output: __S(384, __c24, 0) as any as S.Schema<MysqlCheckResponse>,
+  input: __S(2032, __c127, 0) as any as S.Schema<ListMysqlChecksRequest>,
+  output: __S(480, __c30, 0) as any as S.Schema<MysqlCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3457,8 +3497,8 @@ export const listNetworkChecks: API.OperationMethod<
   ListNetworkChecksError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2032, __c127, 0) as any as S.Schema<ListNetworkChecksRequest>,
-  output: __S(432, __c27, 0) as any as S.Schema<NetworkCheckResponse>,
+  input: __S(2080, __c130, 0) as any as S.Schema<ListNetworkChecksRequest>,
+  output: __S(528, __c33, 0) as any as S.Schema<NetworkCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3474,8 +3514,8 @@ export const listOfferings: API.OperationMethod<
   ListOfferingsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c128, 0) as any as S.Schema<ListOfferingsRequest>,
-  output: __S(2049, __c128, 1) as any as S.Schema<Offerings>,
+  input: __S(2096, __c131, 0) as any as S.Schema<ListOfferingsRequest>,
+  output: __S(2097, __c131, 1) as any as S.Schema<Offerings>,
   errors: [Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3491,8 +3531,8 @@ export const listPingChecks: API.OperationMethod<
   ListPingChecksError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c130, 0) as any as S.Schema<ListPingChecksRequest>,
-  output: __S(464, __c29, 0) as any as S.Schema<PingCheckResponse>,
+  input: __S(2128, __c133, 0) as any as S.Schema<ListPingChecksRequest>,
+  output: __S(560, __c35, 0) as any as S.Schema<PingCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3508,8 +3548,8 @@ export const listPlans: API.OperationMethod<
   ListPlansError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2096, __c131, 0) as any as S.Schema<ListPlansRequest>,
-  output: __S(2097, __c131, 1) as any as S.Schema<PlansResponse>,
+  input: __S(2144, __c134, 0) as any as S.Schema<ListPlansRequest>,
+  output: __S(2145, __c134, 1) as any as S.Schema<PlansResponse>,
   errors: [Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3525,8 +3565,8 @@ export const listPostgresqlChecks: API.OperationMethod<
   ListPostgresqlChecksError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c132, 0) as any as S.Schema<ListPostgresqlChecksRequest>,
-  output: __S(496, __c31, 0) as any as S.Schema<PostgresqlCheckResponse>,
+  input: __S(2160, __c135, 0) as any as S.Schema<ListPostgresqlChecksRequest>,
+  output: __S(592, __c37, 0) as any as S.Schema<PostgresqlCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3542,8 +3582,8 @@ export const listRabbitmqChecks: API.OperationMethod<
   ListRabbitmqChecksError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2128, __c133, 0) as any as S.Schema<ListRabbitmqChecksRequest>,
-  output: __S(530, __c33, 2) as any as S.Schema<RabbitmqCheckResponse>,
+  input: __S(2176, __c136, 0) as any as S.Schema<ListRabbitmqChecksRequest>,
+  output: __S(626, __c39, 2) as any as S.Schema<RabbitmqCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3559,8 +3599,8 @@ export const listRedisChecks: API.OperationMethod<
   ListRedisChecksError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c134, 0) as any as S.Schema<ListRedisChecksRequest>,
-  output: __S(560, __c35, 0) as any as S.Schema<RedisCheckResponse>,
+  input: __S(2192, __c137, 0) as any as S.Schema<ListRedisChecksRequest>,
+  output: __S(656, __c41, 0) as any as S.Schema<RedisCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3576,8 +3616,8 @@ export const listScrapeConfigs: API.OperationMethod<
   ListScrapeConfigsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2160, __c135, 0) as any as S.Schema<ListScrapeConfigsRequest>,
-  output: __S(609, __c38, 1) as any as S.Schema<ListScrapeConfigsResponse>,
+  input: __S(2208, __c138, 0) as any as S.Schema<ListScrapeConfigsRequest>,
+  output: __S(705, __c44, 1) as any as S.Schema<ListScrapeConfigsResponse>,
   errors: [Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3593,8 +3633,8 @@ export const partialUpdateAlertgroups: API.OperationMethod<
   PartialUpdateAlertgroupsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c136, 0) as any as S.Schema<PartialUpdateAlertgroupsRequest>,
-  output: __S(1297, __c81, 1) as any as S.Schema<AlertGroupsResponse>,
+  input: __S(2224, __c139, 0) as any as S.Schema<PartialUpdateAlertgroupsRequest>,
+  output: __S(1361, __c85, 1) as any as S.Schema<AlertGroupsResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3610,8 +3650,8 @@ export const partialUpdateAlertRecords: API.OperationMethod<
   PartialUpdateAlertRecordsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2210, __c138, 2) as any as S.Schema<PartialUpdateAlertRecordsRequest>,
-  output: __S(1601, __c100, 1) as any as S.Schema<AlertRecordsResponse>,
+  input: __S(2258, __c141, 2) as any as S.Schema<PartialUpdateAlertRecordsRequest>,
+  output: __S(1665, __c104, 1) as any as S.Schema<AlertRecordsResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3627,8 +3667,8 @@ export const partialUpdateAlertrules: API.OperationMethod<
   PartialUpdateAlertrulesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2242, __c140, 2) as any as S.Schema<PartialUpdateAlertrulesRequest>,
-  output: __S(1809, __c113, 1) as any as S.Schema<AlertRulesResponse>,
+  input: __S(2290, __c143, 2) as any as S.Schema<PartialUpdateAlertrulesRequest>,
+  output: __S(1873, __c117, 1) as any as S.Schema<AlertRulesResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3644,8 +3684,8 @@ export const partialUpdateScrapeConfigs: API.OperationMethod<
   PartialUpdateScrapeConfigsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2258, __c141, 2) as any as S.Schema<PartialUpdateScrapeConfigsRequest>,
-  output: __S(609, __c38, 1) as any as S.Schema<ScrapeConfigsResponse>,
+  input: __S(2306, __c144, 2) as any as S.Schema<PartialUpdateScrapeConfigsRequest>,
+  output: __S(705, __c44, 1) as any as S.Schema<ScrapeConfigsResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3661,8 +3701,8 @@ export const restoreBackup: API.OperationMethod<
   RestoreBackupError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c142, 0) as any as S.Schema<RestoreBackupRequest>,
-  output: __S(2000, __c125, 0) as any as S.Schema<Message>,
+  input: __S(2320, __c145, 0) as any as S.Schema<RestoreBackupRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<Message>,
   errors: [Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3678,8 +3718,8 @@ export const updateACL: API.OperationMethod<
   UpdateACLError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2288, __c143, 0) as any as S.Schema<UpdateACLRequest>,
-  output: __S(2000, __c125, 0) as any as S.Schema<Message>,
+  input: __S(2336, __c146, 0) as any as S.Schema<UpdateACLRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<Message>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3695,8 +3735,8 @@ export const updateAlertConfigReceiver: API.OperationMethod<
   UpdateAlertConfigReceiverError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c144, 0) as any as S.Schema<UpdateAlertConfigReceiverRequest>,
-  output: __S(800, __c50, 0) as any as S.Schema<AlertConfigReceiversResponse>,
+  input: __S(2352, __c147, 0) as any as S.Schema<UpdateAlertConfigReceiverRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<AlertConfigReceiversResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3712,8 +3752,8 @@ export const updateAlertConfigRoute: API.OperationMethod<
   UpdateAlertConfigRouteError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2320, __c145, 0) as any as S.Schema<UpdateAlertConfigRouteRequest>,
-  output: __S(1056, __c66, 0) as any as S.Schema<AlertConfigRouteResponse>,
+  input: __S(2368, __c148, 0) as any as S.Schema<UpdateAlertConfigRouteRequest>,
+  output: __S(1120, __c70, 0) as any as S.Schema<AlertConfigRouteResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3729,8 +3769,8 @@ export const updateAlertConfigs: API.OperationMethod<
   UpdateAlertConfigsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2340, __c146, 4) as any as S.Schema<UpdateAlertConfigsRequest>,
-  output: __S(1348, __c84, 4) as any as S.Schema<UpdateAlertConfigsResponse>,
+  input: __S(2388, __c149, 4) as any as S.Schema<UpdateAlertConfigsRequest>,
+  output: __S(1412, __c88, 4) as any as S.Schema<UpdateAlertConfigsResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3746,8 +3786,8 @@ export const updateAlertgroup: API.OperationMethod<
   UpdateAlertgroupError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2352, __c147, 0) as any as S.Schema<UpdateAlertgroupRequest>,
-  output: __S(1297, __c81, 1) as any as S.Schema<AlertGroupsResponse>,
+  input: __S(2400, __c150, 0) as any as S.Schema<UpdateAlertgroupRequest>,
+  output: __S(1361, __c85, 1) as any as S.Schema<AlertGroupsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3763,8 +3803,8 @@ export const updateAlertgroups: API.OperationMethod<
   UpdateAlertgroupsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c148, 0) as any as S.Schema<UpdateAlertgroupsRequest>,
-  output: __S(1297, __c81, 1) as any as S.Schema<AlertGroupsResponse>,
+  input: __S(2416, __c151, 0) as any as S.Schema<UpdateAlertgroupsRequest>,
+  output: __S(1361, __c85, 1) as any as S.Schema<AlertGroupsResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3780,8 +3820,8 @@ export const updateAlertRecord: API.OperationMethod<
   UpdateAlertRecordError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2384, __c149, 0) as any as S.Schema<UpdateAlertRecordRequest>,
-  output: __S(1601, __c100, 1) as any as S.Schema<AlertRecordsResponse>,
+  input: __S(2432, __c152, 0) as any as S.Schema<UpdateAlertRecordRequest>,
+  output: __S(1665, __c104, 1) as any as S.Schema<AlertRecordsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3797,8 +3837,8 @@ export const updateAlertrule: API.OperationMethod<
   UpdateAlertruleError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<UpdateAlertruleRequest>,
-  output: __S(1809, __c113, 1) as any as S.Schema<AlertRulesResponse>,
+  input: __S(128, __c8, 0) as any as S.Schema<UpdateAlertruleRequest>,
+  output: __S(1873, __c117, 1) as any as S.Schema<AlertRulesResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3818,8 +3858,8 @@ export const updateCredentialsRemoteWriteConfig: API.OperationMethod<
   UpdateCredentialsRemoteWriteConfigError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<UpdateCredentialsRemoteWriteConfigRequest>,
-  output: __S(1456, __c91, 0) as any as S.Schema<CredentialsRemoteWriteConfig>,
+  input: __S(144, __c9, 0) as any as S.Schema<UpdateCredentialsRemoteWriteConfigRequest>,
+  output: __S(1520, __c95, 0) as any as S.Schema<CredentialsRemoteWriteConfig>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3835,8 +3875,8 @@ export const updateGrafanaConfigs: API.OperationMethod<
   UpdateGrafanaConfigsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<UpdateGrafanaConfigsRequest>,
-  output: __S(2000, __c125, 0) as any as S.Schema<Message>,
+  input: __S(160, __c10, 0) as any as S.Schema<UpdateGrafanaConfigsRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<Message>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3852,8 +3892,8 @@ export const updateInstance: API.OperationMethod<
   UpdateInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<UpdateInstanceRequest>,
-  output: __S(2000, __c125, 0) as any as S.Schema<InstanceResponse>,
+  input: __S(176, __c11, 0) as any as S.Schema<UpdateInstanceRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<InstanceResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3869,8 +3909,8 @@ export const updateLogsAlertgroup: API.OperationMethod<
   UpdateLogsAlertgroupError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<UpdateLogsAlertgroupRequest>,
-  output: __S(1297, __c81, 1) as any as S.Schema<AlertGroupsResponse>,
+  input: __S(192, __c12, 0) as any as S.Schema<UpdateLogsAlertgroupRequest>,
+  output: __S(1361, __c85, 1) as any as S.Schema<AlertGroupsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3886,8 +3926,8 @@ export const updateLogsConfigs: API.OperationMethod<
   UpdateLogsConfigsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<UpdateLogsConfigsRequest>,
-  output: __S(2000, __c125, 0) as any as S.Schema<Message>,
+  input: __S(208, __c13, 0) as any as S.Schema<UpdateLogsConfigsRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<Message>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3903,8 +3943,8 @@ export const updateMetricsStorageRetention: API.OperationMethod<
   UpdateMetricsStorageRetentionError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<UpdateMetricsStorageRetentionRequest>,
-  output: __S(2000, __c125, 0) as any as S.Schema<Message>,
+  input: __S(224, __c14, 0) as any as S.Schema<UpdateMetricsStorageRetentionRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<Message>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3920,8 +3960,8 @@ export const updateScrapeConfig: API.OperationMethod<
   UpdateScrapeConfigError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<UpdateScrapeConfigRequest>,
-  output: __S(609, __c38, 1) as any as S.Schema<ScrapeConfigsResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<UpdateScrapeConfigRequest>,
+  output: __S(705, __c44, 1) as any as S.Schema<ScrapeConfigsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3937,8 +3977,8 @@ export const updateTracesConfigs: API.OperationMethod<
   UpdateTracesConfigsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<UpdateTracesConfigsRequest>,
-  output: __S(2000, __c125, 0) as any as S.Schema<Message>,
+  input: __S(256, __c16, 0) as any as S.Schema<UpdateTracesConfigsRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<Message>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3948,6 +3988,55 @@ export const updateTracesConfigs: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.String,
+        }),
+      ).annotate({ identifier: "Message" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.String));
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(32, __c2, 0));
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          errors: S.optional(__S(48, __c3, 0)),
+          message: S.String,
+        }),
+      ).annotate({ identifier: "Error" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          detail: S.String,
+        }),
+      ).annotate({ identifier: "PermissionDenied" });
+  }
+}
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3966,7 +4055,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateCertCheckRequest" });
   }
 }
-function __c1(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3976,18 +4065,18 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "CertCheckChildResponse" });
     case 1:
-      return S.Array(__S(16, __c1, 0));
+      return S.Array(__S(112, __c7, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          certCheck: S.optional(__S(16, __c1, 0)),
-          certChecks: __S(17, __c1, 1),
+          certCheck: S.optional(__S(112, __c7, 0)),
+          certChecks: __S(113, __c7, 1),
           message: S.String,
         }),
       ).annotate({ identifier: "CertCheckResponse" });
   }
 }
-function __c2(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4011,7 +4100,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "UpdateAlertruleRequest" });
   }
 }
-function __c3(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4031,14 +4120,14 @@ function __c3(j: number): any {
       ).annotate({ identifier: "UpdateCredentialsRemoteWriteConfigRequest" });
   }
 }
-function __c4(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
-          genericOauth: S.optional(__S(1488, __c93, 0)),
+          genericOauth: S.optional(__S(1552, __c97, 0)),
           publicReadAccess: S.optional(S.Boolean),
           useStackitSso: S.optional(S.Boolean),
         }).pipe(
@@ -4052,7 +4141,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "UpdateGrafanaConfigsRequest" });
   }
 }
-function __c5(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4074,7 +4163,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "UpdateInstanceRequest" });
   }
 }
-function __c6(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4083,7 +4172,7 @@ function __c6(j: number): any {
           instanceId: S.String.pipe(T.Label()),
           groupName: S.String.pipe(T.Label()),
           interval: S.optional(S.String),
-          rules: __S(1313, __c82, 1),
+          rules: __S(1377, __c86, 1),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -4095,7 +4184,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "UpdateLogsAlertgroupRequest" });
   }
 }
-function __c7(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4114,7 +4203,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "UpdateLogsConfigsRequest" });
   }
 }
-function __c8(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4135,7 +4224,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "UpdateMetricsStorageRetentionRequest" });
   }
 }
-function __c9(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4143,19 +4232,19 @@ function __c9(j: number): any {
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
           jobName: S.String.pipe(T.Label()),
-          basicAuth: S.optional(__S(640, __c40, 0)),
+          basicAuth: S.optional(__S(736, __c46, 0)),
           bearerToken: S.optional(S.String),
           honorLabels: S.optional(S.Boolean),
           honorTimeStamps: S.optional(S.Boolean),
           metricsPath: S.String,
-          metricsRelabelConfigs: S.optional(__S(642, __c40, 2)),
+          metricsRelabelConfigs: S.optional(__S(738, __c46, 2)),
           params: S.optional(S.Unknown),
           sampleLimit: S.optional(S.Number),
           scheme: S.String,
           scrapeInterval: S.String,
           scrapeTimeout: S.String,
-          staticConfigs: __S(644, __c40, 4),
-          tlsConfig: S.optional(__S(592, __c37, 0)),
+          staticConfigs: __S(740, __c46, 4),
+          tlsConfig: S.optional(__S(688, __c43, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -4167,7 +4256,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "UpdateScrapeConfigRequest" });
   }
 }
-function __c10(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4186,7 +4275,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "UpdateTracesConfigsRequest" });
   }
 }
-function __c11(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4214,13 +4303,13 @@ function __c11(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          credentials: __S(177, __c11, 1),
+          credentials: __S(273, __c17, 1),
           message: S.String,
         }),
       ).annotate({ identifier: "CreateCredentialsResponse" });
   }
 }
-function __c12(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4241,7 +4330,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "CreateElasticsearchCheckRequest" });
   }
 }
-function __c13(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4253,22 +4342,22 @@ function __c13(j: number): any {
         }),
       ).annotate({ identifier: "ElasticsearchCheckChildResponse" });
     case 1:
-      return S.Array(__S(208, __c13, 0));
+      return S.Array(__S(304, __c19, 0));
   }
 }
-function __c14(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          elasticsearchCheck: S.optional(__S(208, __c13, 0)),
-          elasticsearchChecks: __S(209, __c13, 1),
+          elasticsearchCheck: S.optional(__S(304, __c19, 0)),
+          elasticsearchChecks: __S(305, __c19, 1),
           message: S.String,
         }),
       ).annotate({ identifier: "ElasticsearchCheckResponse" });
   }
 }
-function __c15(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4287,7 +4376,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "CreateHttpCheckRequest" });
   }
 }
-function __c16(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4297,22 +4386,22 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "HttpCheckChildResponse" });
     case 1:
-      return S.Array(__S(256, __c16, 0));
+      return S.Array(__S(352, __c22, 0));
   }
 }
-function __c17(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          httpCheck: S.optional(__S(256, __c16, 0)),
-          httpChecks: __S(257, __c16, 1),
+          httpCheck: S.optional(__S(352, __c22, 0)),
+          httpChecks: __S(353, __c22, 1),
           message: S.String,
         }),
       ).annotate({ identifier: "HttpCheckResponse" });
   }
 }
-function __c18(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4341,7 +4430,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "CreateInstanceResponse" });
   }
 }
-function __c19(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4350,7 +4439,7 @@ function __c19(j: number): any {
           instanceId: S.String.pipe(T.Label()),
           interval: S.optional(S.String),
           name: S.String,
-          rules: __S(1313, __c82, 1),
+          rules: __S(1377, __c86, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4362,7 +4451,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "CreateLogsAlertgroupsRequest" });
   }
 }
-function __c20(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4381,7 +4470,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "CreateMongodbCheckRequest" });
   }
 }
-function __c21(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4391,22 +4480,22 @@ function __c21(j: number): any {
         }),
       ).annotate({ identifier: "MongodbCheckChildResponse" });
     case 1:
-      return S.Array(__S(336, __c21, 0));
+      return S.Array(__S(432, __c27, 0));
   }
 }
-function __c22(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           message: S.String,
-          mongodbCheck: S.optional(__S(336, __c21, 0)),
-          mongodbChecks: __S(337, __c21, 1),
+          mongodbCheck: S.optional(__S(432, __c27, 0)),
+          mongodbChecks: __S(433, __c27, 1),
         }),
       ).annotate({ identifier: "MongodbCheckResponse" });
   }
 }
-function __c23(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4425,19 +4514,19 @@ function __c23(j: number): any {
       ).annotate({ identifier: "CreateMysqlCheckRequest" });
   }
 }
-function __c24(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           message: S.String,
-          mysqlCheck: S.optional(__S(336, __c21, 0)),
-          mysqlChecks: __S(337, __c21, 1),
+          mysqlCheck: S.optional(__S(432, __c27, 0)),
+          mysqlChecks: __S(433, __c27, 1),
         }),
       ).annotate({ identifier: "MysqlCheckResponse" });
   }
 }
-function __c25(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4456,7 +4545,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "CreateNetworkCheckRequest" });
   }
 }
-function __c26(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4466,22 +4555,22 @@ function __c26(j: number): any {
         }),
       ).annotate({ identifier: "NetworkCheckChildResponse" });
     case 1:
-      return S.Array(__S(416, __c26, 0));
+      return S.Array(__S(512, __c32, 0));
   }
 }
-function __c27(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           message: S.String,
-          networkCheck: S.optional(__S(416, __c26, 0)),
-          networkChecks: __S(417, __c26, 1),
+          networkCheck: S.optional(__S(512, __c32, 0)),
+          networkChecks: __S(513, __c32, 1),
         }),
       ).annotate({ identifier: "NetworkCheckResponse" });
   }
 }
-function __c28(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4500,19 +4589,19 @@ function __c28(j: number): any {
       ).annotate({ identifier: "CreatePingCheckRequest" });
   }
 }
-function __c29(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           message: S.String,
-          pingCheck: S.optional(__S(256, __c16, 0)),
-          pingChecks: __S(257, __c16, 1),
+          pingCheck: S.optional(__S(352, __c22, 0)),
+          pingChecks: __S(353, __c22, 1),
         }),
       ).annotate({ identifier: "PingCheckResponse" });
   }
 }
-function __c30(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4531,19 +4620,19 @@ function __c30(j: number): any {
       ).annotate({ identifier: "CreatePostgresqlCheckRequest" });
   }
 }
-function __c31(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           message: S.String,
-          postgresqlCheck: S.optional(__S(416, __c26, 0)),
-          postgresqlChecks: __S(417, __c26, 1),
+          postgresqlCheck: S.optional(__S(512, __c32, 0)),
+          postgresqlChecks: __S(513, __c32, 1),
         }),
       ).annotate({ identifier: "PostgresqlCheckResponse" });
   }
 }
-function __c32(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4564,7 +4653,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "CreateRabbitmqCheckRequest" });
   }
 }
-function __c33(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4576,18 +4665,18 @@ function __c33(j: number): any {
         }),
       ).annotate({ identifier: "RabbitMQCheckChildResponse" });
     case 1:
-      return S.Array(__S(528, __c33, 0));
+      return S.Array(__S(624, __c39, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           message: S.String,
-          rabbitmqCheck: S.optional(__S(528, __c33, 0)),
-          rabbitmqChecks: __S(529, __c33, 1),
+          rabbitmqCheck: S.optional(__S(624, __c39, 0)),
+          rabbitmqChecks: __S(625, __c39, 1),
         }),
       ).annotate({ identifier: "RabbitmqCheckResponse" });
   }
 }
-function __c34(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4608,41 +4697,41 @@ function __c34(j: number): any {
       ).annotate({ identifier: "CreateRedisCheckRequest" });
   }
 }
-function __c35(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           message: S.String,
-          redisCheck: S.optional(__S(208, __c13, 0)),
-          redisChecks: __S(209, __c13, 1),
+          redisCheck: S.optional(__S(304, __c19, 0)),
+          redisChecks: __S(305, __c19, 1),
         }),
       ).annotate({ identifier: "RedisCheckResponse" });
   }
 }
-function __c36(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
-          basicAuth: S.optional(__S(640, __c40, 0)),
+          basicAuth: S.optional(__S(736, __c46, 0)),
           bearerToken: S.optional(S.String),
           honorLabels: S.optional(S.Boolean),
           honorTimeStamps: S.optional(S.Boolean),
-          httpSdConfigs: S.optional(__S(625, __c39, 1)),
+          httpSdConfigs: S.optional(__S(721, __c45, 1)),
           jobName: S.String,
           metricsPath: S.optional(S.String),
-          metricsRelabelConfigs: S.optional(__S(642, __c40, 2)),
-          oauth2: S.optional(__S(593, __c37, 1)),
+          metricsRelabelConfigs: S.optional(__S(738, __c46, 2)),
+          oauth2: S.optional(__S(689, __c43, 1)),
           params: S.optional(S.Unknown),
           sampleLimit: S.optional(S.Number),
           scheme: S.String,
           scrapeInterval: S.String,
           scrapeTimeout: S.String,
-          staticConfigs: __S(644, __c40, 4),
-          tlsConfig: S.optional(__S(592, __c37, 0)),
+          staticConfigs: __S(740, __c46, 4),
+          tlsConfig: S.optional(__S(688, __c43, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4654,7 +4743,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "CreateScrapeConfigRequest" });
   }
 }
-function __c37(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4667,8 +4756,8 @@ function __c37(j: number): any {
         S.Struct({
           clientId: S.String,
           clientSecret: S.String.pipe(T.SensitiveValue({})),
-          scopes: S.optional(__S(1008, __c63, 0)),
-          tlsConfig: S.optional(__S(592, __c37, 0)),
+          scopes: S.optional(__S(16, __c1, 0)),
+          tlsConfig: S.optional(__S(688, __c43, 0)),
           tokenUrl: S.String,
         }),
       ).annotate({ identifier: "CreateScrapeConfigRequestHttpSdConfigsItemOauth2" });
@@ -4682,15 +4771,15 @@ function __c37(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          basicAuth: S.optional(__S(594, __c37, 2)),
-          oauth2: S.optional(__S(593, __c37, 1)),
+          basicAuth: S.optional(__S(690, __c43, 2)),
+          oauth2: S.optional(__S(689, __c43, 1)),
           refreshInterval: S.optional(S.String),
-          tlsConfig: S.optional(__S(592, __c37, 0)),
+          tlsConfig: S.optional(__S(688, __c43, 0)),
           url: S.String,
         }),
       ).annotate({ identifier: "HTTPServiceSD" });
     case 4:
-      return S.Array(__S(595, __c37, 3));
+      return S.Array(__S(691, __c43, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -4699,76 +4788,76 @@ function __c37(j: number): any {
           regex: S.optional(S.String),
           replacement: S.optional(S.String),
           separator: S.optional(S.String),
-          sourceLabels: __S(1008, __c63, 0),
+          sourceLabels: __S(16, __c1, 0),
           targetLabel: S.optional(S.String),
         }),
       ).annotate({ identifier: "MetricsRelabelConfig" });
     case 6:
-      return S.Array(__S(597, __c37, 5));
+      return S.Array(__S(693, __c43, 5));
     case 7:
-      return S.Record(S.String, __S(1008, __c63, 0));
+      return S.Record(S.String, __S(16, __c1, 0));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(1072, __c67, 0)),
-          targets: __S(1008, __c63, 0),
+          labels: S.optional(__S(1136, __c71, 0)),
+          targets: __S(16, __c1, 0),
         }),
       ).annotate({ identifier: "StaticConfigs" });
     case 9:
-      return S.Array(__S(600, __c37, 8));
+      return S.Array(__S(696, __c43, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          basicAuth: S.optional(__S(594, __c37, 2)),
+          basicAuth: S.optional(__S(690, __c43, 2)),
           bearerToken: S.optional(S.String),
           honorLabels: S.optional(S.Boolean),
           honorTimeStamps: S.optional(S.Boolean),
-          httpSdConfigs: S.optional(__S(596, __c37, 4)),
+          httpSdConfigs: S.optional(__S(692, __c43, 4)),
           jobName: S.String,
           metricsPath: S.optional(S.String),
-          metricsRelabelConfigs: S.optional(__S(598, __c37, 6)),
-          oauth2: S.optional(__S(593, __c37, 1)),
-          params: S.optional(__S(599, __c37, 7)),
+          metricsRelabelConfigs: S.optional(__S(694, __c43, 6)),
+          oauth2: S.optional(__S(689, __c43, 1)),
+          params: S.optional(__S(695, __c43, 7)),
           sampleLimit: S.optional(S.Number),
           scheme: S.optional(S.String),
           scrapeInterval: S.String,
           scrapeTimeout: S.String,
-          staticConfigs: __S(601, __c37, 9),
-          tlsConfig: S.optional(__S(592, __c37, 0)),
+          staticConfigs: __S(697, __c43, 9),
+          tlsConfig: S.optional(__S(688, __c43, 0)),
         }),
       ).annotate({ identifier: "Job" });
   }
 }
-function __c38(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(602, __c37, 10));
+      return S.Array(__S(698, __c43, 10));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(608, __c38, 0),
+          data: __S(704, __c44, 0),
           message: S.String,
         }),
       ).annotate({ identifier: "ScrapeConfigsResponse" });
   }
 }
-function __c39(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          basicAuth: S.optional(__S(640, __c40, 0)),
-          oauth2: S.optional(__S(593, __c37, 1)),
+          basicAuth: S.optional(__S(736, __c46, 0)),
+          oauth2: S.optional(__S(689, __c43, 1)),
           refreshInterval: S.optional(S.String),
-          tlsConfig: S.optional(__S(592, __c37, 0)),
+          tlsConfig: S.optional(__S(688, __c43, 0)),
           url: S.String,
         }),
       ).annotate({ identifier: "CreateScrapeConfigRequestHttpSdConfigsItem" });
     case 1:
-      return S.Array(__S(624, __c39, 0));
+      return S.Array(__S(720, __c45, 0));
   }
 }
-function __c40(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4785,24 +4874,24 @@ function __c40(j: number): any {
           regex: S.optional(S.String),
           replacement: S.optional(S.String),
           separator: S.optional(S.String),
-          sourceLabels: S.optional(__S(1008, __c63, 0)),
+          sourceLabels: S.optional(__S(16, __c1, 0)),
           targetLabel: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateScrapeConfigRequestMetricsRelabelConfigsItem" });
     case 2:
-      return S.Array(__S(641, __c40, 1));
+      return S.Array(__S(737, __c46, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           labels: S.optional(S.Unknown),
-          targets: __S(1008, __c63, 0),
+          targets: __S(16, __c1, 0),
         }),
       ).annotate({ identifier: "CreateScrapeConfigRequestStaticConfigsItem" });
     case 4:
-      return S.Array(__S(643, __c40, 3));
+      return S.Array(__S(739, __c46, 3));
   }
 }
-function __c41(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4821,7 +4910,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "DeleteAlertConfigReceiverRequest" });
   }
 }
-function __c42(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4840,7 +4929,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "DeleteAlertConfigRouteRequest" });
   }
 }
-function __c43(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4859,14 +4948,14 @@ function __c43(j: number): any {
       ).annotate({ identifier: "DeleteAlertgroupRequest" });
   }
 }
-function __c44(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
-          groupName: __S(1008, __c63, 0).pipe(T.Query()),
+          groupName: __S(16, __c1, 0).pipe(T.Query()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -4878,7 +4967,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "DeleteAlertgroupsRequest" });
   }
 }
-function __c45(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4898,7 +4987,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "DeleteAlertRecordRequest" });
   }
 }
-function __c46(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4906,7 +4995,7 @@ function __c46(j: number): any {
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
           groupName: S.String.pipe(T.Label()),
-          alertRecord: __S(1008, __c63, 0).pipe(T.Query()),
+          alertRecord: __S(16, __c1, 0).pipe(T.Query()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -4918,17 +5007,17 @@ function __c46(j: number): any {
       ).annotate({ identifier: "DeleteAlertRecordsRequest" });
   }
 }
-function __c47(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
-          emailConfigs: S.optional(__S(817, __c51, 1)),
+          emailConfigs: S.optional(__S(913, __c57, 1)),
           name: S.String,
-          opsgenieConfigs: S.optional(__S(769, __c48, 1)),
-          webHookConfigs: S.optional(__S(819, __c51, 3)),
+          opsgenieConfigs: S.optional(__S(865, __c54, 1)),
+          webHookConfigs: S.optional(__S(915, __c57, 3)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4940,7 +5029,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "CreateAlertConfigReceiverRequest" });
   }
 }
-function __c48(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4953,7 +5042,7 @@ function __c48(j: number): any {
         }),
       ).annotate({ identifier: "CreateAlertConfigReceiverRequestOpsgenieConfigsItem" });
     case 1:
-      return S.Array(__S(768, __c48, 0));
+      return S.Array(__S(864, __c54, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -4967,7 +5056,7 @@ function __c48(j: number): any {
         }),
       ).annotate({ identifier: "EmailConfig" });
     case 3:
-      return S.Array(__S(770, __c48, 2));
+      return S.Array(__S(866, __c54, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -4978,36 +5067,36 @@ function __c48(j: number): any {
         }),
       ).annotate({ identifier: "WebHook" });
     case 5:
-      return S.Array(__S(772, __c48, 4));
+      return S.Array(__S(868, __c54, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          emailConfigs: S.optional(__S(771, __c48, 3)),
+          emailConfigs: S.optional(__S(867, __c54, 3)),
           name: S.String,
-          opsgenieConfigs: S.optional(__S(769, __c48, 1)),
-          webHookConfigs: S.optional(__S(773, __c48, 5)),
+          opsgenieConfigs: S.optional(__S(865, __c54, 1)),
+          webHookConfigs: S.optional(__S(869, __c54, 5)),
         }),
       ).annotate({ identifier: "Receivers" });
   }
 }
-function __c49(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(774, __c48, 6));
+      return S.Array(__S(870, __c54, 6));
   }
 }
-function __c50(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: __S(784, __c49, 0),
+          data: __S(880, __c55, 0),
           message: S.String,
         }),
       ).annotate({ identifier: "AlertConfigReceiversResponse" });
   }
 }
-function __c51(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5022,7 +5111,7 @@ function __c51(j: number): any {
         }),
       ).annotate({ identifier: "CreateAlertConfigReceiverRequestEmailConfigsItem" });
     case 1:
-      return S.Array(__S(816, __c51, 0));
+      return S.Array(__S(912, __c57, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -5033,10 +5122,10 @@ function __c51(j: number): any {
         }),
       ).annotate({ identifier: "CreateAlertConfigReceiverRequestWebHookConfigsItem" });
     case 3:
-      return S.Array(__S(818, __c51, 2));
+      return S.Array(__S(914, __c57, 2));
   }
 }
-function __c52(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5056,7 +5145,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "DeleteAlertruleRequest" });
   }
 }
-function __c53(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5064,7 +5153,7 @@ function __c53(j: number): any {
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
           groupName: S.String.pipe(T.Label()),
-          alertName: __S(1008, __c63, 0).pipe(T.Query()),
+          alertName: __S(16, __c1, 0).pipe(T.Query()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -5076,7 +5165,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "DeleteAlertrulesRequest" });
   }
 }
-function __c54(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5095,7 +5184,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "DeleteCertCheckRequest" });
   }
 }
-function __c55(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5114,7 +5203,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "DeleteCredentialsRequest" });
   }
 }
-function __c56(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5140,7 +5229,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "CredentialsRemoteWriteDeleteResponse" });
   }
 }
-function __c57(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5159,7 +5248,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "DeleteElasticsearchCheckRequest" });
   }
 }
-function __c58(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5178,7 +5267,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "DeleteHttpCheckRequest" });
   }
 }
-function __c59(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5196,7 +5285,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "DeleteInstanceRequest" });
   }
 }
-function __c60(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5215,7 +5304,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "DeleteLogsAlertgroupRequest" });
   }
 }
-function __c61(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5234,7 +5323,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "DeleteMongodbCheckRequest" });
   }
 }
-function __c62(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5242,15 +5331,15 @@ function __c62(j: number): any {
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
           continue: S.optional(S.Boolean),
-          groupBy: S.optional(__S(1008, __c63, 0)),
+          groupBy: S.optional(__S(16, __c1, 0)),
           groupInterval: S.optional(S.String),
           groupWait: S.optional(S.String),
           match: S.optional(S.Unknown),
           matchRe: S.optional(S.Unknown),
-          matchers: S.optional(__S(1008, __c63, 0)),
+          matchers: S.optional(__S(16, __c1, 0)),
           receiver: S.String,
           repeatInterval: S.optional(S.String),
-          routes: S.optional(__S(1090, __c68, 2)),
+          routes: S.optional(__S(1154, __c72, 2)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5262,74 +5351,60 @@ function __c62(j: number): any {
       ).annotate({ identifier: "CreateAlertConfigRouteRequest" });
   }
 }
-function __c63(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
-  }
-}
-function __c64(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.String));
-  }
-}
-function __c65(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(1024, __c64, 0));
-    case 1:
       return S.suspend(() =>
         S.Struct({
           continue: S.optional(S.Boolean),
-          groupBy: S.optional(__S(1008, __c63, 0)),
+          groupBy: S.optional(__S(16, __c1, 0)),
           groupInterval: S.optional(S.String),
           groupWait: S.optional(S.String),
-          match: S.optional(__S(1072, __c67, 0)),
-          matchRe: S.optional(__S(1072, __c67, 0)),
-          matchers: S.optional(__S(1008, __c63, 0)),
+          match: S.optional(__S(1136, __c71, 0)),
+          matchRe: S.optional(__S(1136, __c71, 0)),
+          matchers: S.optional(__S(16, __c1, 0)),
           receiver: S.String,
           repeatInterval: S.optional(S.String),
-          routes: S.optional(__S(1040, __c65, 0)),
+          routes: S.optional(__S(48, __c3, 0)),
         }),
       ).annotate({ identifier: "RouteSerializer" });
+    case 1:
+      return S.Array(__S(1104, __c69, 0));
     case 2:
-      return S.Array(__S(1041, __c65, 1));
-    case 3:
       return S.suspend(() =>
         S.Struct({
           continue: S.optional(S.Boolean),
-          groupBy: S.optional(__S(1008, __c63, 0)),
+          groupBy: S.optional(__S(16, __c1, 0)),
           groupInterval: S.optional(S.String),
           groupWait: S.optional(S.String),
-          match: S.optional(__S(1072, __c67, 0)),
-          matchRe: S.optional(__S(1072, __c67, 0)),
-          matchers: S.optional(__S(1008, __c63, 0)),
+          match: S.optional(__S(1136, __c71, 0)),
+          matchRe: S.optional(__S(1136, __c71, 0)),
+          matchers: S.optional(__S(16, __c1, 0)),
           receiver: S.String,
           repeatInterval: S.optional(S.String),
-          routes: S.optional(__S(1042, __c65, 2)),
+          routes: S.optional(__S(1105, __c69, 1)),
         }),
       ).annotate({ identifier: "Route" });
   }
 }
-function __c66(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1043, __c65, 3),
+          data: __S(1106, __c69, 2),
           message: S.String,
         }),
       ).annotate({ identifier: "AlertConfigRouteResponse" });
   }
 }
-function __c67(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c68(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -5337,22 +5412,22 @@ function __c68(j: number): any {
       return S.suspend(() =>
         S.Struct({
           continue: S.optional(S.Boolean),
-          groupBy: S.optional(__S(1008, __c63, 0)),
+          groupBy: S.optional(__S(16, __c1, 0)),
           groupInterval: S.optional(S.String),
           groupWait: S.optional(S.String),
           match: S.optional(S.Unknown),
           matchRe: S.optional(S.Unknown),
-          matchers: S.optional(__S(1008, __c63, 0)),
+          matchers: S.optional(__S(16, __c1, 0)),
           receiver: S.optional(S.String),
           repeatInterval: S.optional(S.String),
-          routes: S.optional(__S(1088, __c68, 0)),
+          routes: S.optional(__S(1152, __c72, 0)),
         }),
       ).annotate({ identifier: "CreateAlertConfigRouteRequestRoutesItem" });
     case 2:
-      return S.Array(__S(1089, __c68, 1));
+      return S.Array(__S(1153, __c72, 1));
   }
 }
-function __c69(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5371,7 +5446,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "DeleteMysqlCheckRequest" });
   }
 }
-function __c70(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5390,7 +5465,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "DeleteNetworkCheckRequest" });
   }
 }
-function __c71(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5409,7 +5484,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "DeletePingCheckRequest" });
   }
 }
-function __c72(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5428,7 +5503,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "DeletePostgresqlCheckRequest" });
   }
 }
-function __c73(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5447,7 +5522,7 @@ function __c73(j: number): any {
       ).annotate({ identifier: "DeleteRabbitmqCheckRequest" });
   }
 }
-function __c74(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5466,7 +5541,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "DeleteRedisCheckRequest" });
   }
 }
-function __c75(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5485,14 +5560,14 @@ function __c75(j: number): any {
       ).annotate({ identifier: "DeleteScrapeConfigRequest" });
   }
 }
-function __c76(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
-          jobName: __S(1008, __c63, 0).pipe(T.Query()),
+          jobName: __S(16, __c1, 0).pipe(T.Query()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -5504,7 +5579,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "DeleteScrapeConfigsRequest" });
   }
 }
-function __c77(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5524,13 +5599,13 @@ function __c77(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(774, __c48, 6),
+          data: __S(870, __c54, 6),
           message: S.String,
         }),
       ).annotate({ identifier: "Receiver" });
   }
 }
-function __c78(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5549,7 +5624,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "GetAlertConfigRouteRequest" });
   }
 }
-function __c79(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5558,7 +5633,7 @@ function __c79(j: number): any {
           instanceId: S.String.pipe(T.Label()),
           interval: S.optional(S.String),
           name: S.String,
-          rules: __S(1313, __c82, 1),
+          rules: __S(1377, __c86, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5570,45 +5645,45 @@ function __c79(j: number): any {
       ).annotate({ identifier: "CreateAlertgroupsRequest" });
   }
 }
-function __c80(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           alert: S.optional(S.String),
-          annotations: S.optional(__S(1072, __c67, 0)),
+          annotations: S.optional(__S(1136, __c71, 0)),
           expr: S.String,
           for: S.optional(S.String),
-          labels: S.optional(__S(1072, __c67, 0)),
+          labels: S.optional(__S(1136, __c71, 0)),
           record: S.optional(S.String),
         }),
       ).annotate({ identifier: "AlertRuleRecord" });
     case 1:
-      return S.Array(__S(1280, __c80, 0));
+      return S.Array(__S(1344, __c84, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           interval: S.optional(S.String),
           name: S.String,
-          rules: __S(1281, __c80, 1),
+          rules: __S(1345, __c84, 1),
         }),
       ).annotate({ identifier: "AlertGroup" });
   }
 }
-function __c81(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1282, __c80, 2));
+      return S.Array(__S(1346, __c84, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1296, __c81, 0),
+          data: __S(1360, __c85, 0),
           message: S.String,
         }),
       ).annotate({ identifier: "AlertGroupsResponse" });
   }
 }
-function __c82(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5622,10 +5697,10 @@ function __c82(j: number): any {
         }),
       ).annotate({ identifier: "CreateAlertgroupsRequestRulesItem" });
     case 1:
-      return S.Array(__S(1312, __c82, 0));
+      return S.Array(__S(1376, __c86, 0));
   }
 }
-function __c83(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5643,7 +5718,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "GetAlertConfigsRequest" });
   }
 }
-function __c84(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5661,36 +5736,36 @@ function __c84(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          equal: S.optional(__S(1008, __c63, 0)),
-          sourceMatch: S.optional(__S(1072, __c67, 0)),
-          sourceMatchRe: S.optional(__S(1072, __c67, 0)),
-          sourceMatchers: S.optional(__S(1008, __c63, 0)),
-          targetMatch: S.optional(__S(1072, __c67, 0)),
-          targetMatchRe: S.optional(__S(1072, __c67, 0)),
-          targetMatchers: S.optional(__S(1008, __c63, 0)),
+          equal: S.optional(__S(16, __c1, 0)),
+          sourceMatch: S.optional(__S(1136, __c71, 0)),
+          sourceMatchRe: S.optional(__S(1136, __c71, 0)),
+          sourceMatchers: S.optional(__S(16, __c1, 0)),
+          targetMatch: S.optional(__S(1136, __c71, 0)),
+          targetMatchRe: S.optional(__S(1136, __c71, 0)),
+          targetMatchers: S.optional(__S(16, __c1, 0)),
         }),
       ).annotate({ identifier: "InhibitRules" });
     case 2:
-      return S.Array(__S(1345, __c84, 1));
+      return S.Array(__S(1409, __c88, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          global: S.optional(__S(1344, __c84, 0)),
-          inhibitRules: S.optional(__S(1346, __c84, 2)),
-          receivers: __S(784, __c49, 0),
-          route: __S(1043, __c65, 3),
+          global: S.optional(__S(1408, __c88, 0)),
+          inhibitRules: S.optional(__S(1410, __c88, 2)),
+          receivers: __S(880, __c55, 0),
+          route: __S(1106, __c69, 2),
         }),
       ).annotate({ identifier: "Alert" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1347, __c84, 3),
+          data: __S(1411, __c88, 3),
           message: S.String,
         }),
       ).annotate({ identifier: "GetAlertConfigsResponse" });
   }
 }
-function __c85(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5709,18 +5784,18 @@ function __c85(j: number): any {
       ).annotate({ identifier: "GetAlertgroupRequest" });
   }
 }
-function __c86(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1282, __c80, 2),
+          data: __S(1346, __c84, 2),
           message: S.String,
         }),
       ).annotate({ identifier: "AlertGroupResponse" });
   }
 }
-function __c87(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5741,13 +5816,13 @@ function __c87(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1584, __c99, 0),
+          data: __S(1648, __c103, 0),
           message: S.String,
         }),
       ).annotate({ identifier: "AlertRecordResponse" });
   }
 }
-function __c88(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5768,13 +5843,13 @@ function __c88(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1792, __c112, 0),
+          data: __S(1856, __c116, 0),
           message: S.String,
         }),
       ).annotate({ identifier: "AlertRuleResponse" });
   }
 }
-function __c89(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5794,7 +5869,7 @@ function __c89(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          credentialsInfo: S.optional(__S(1024, __c64, 0)),
+          credentialsInfo: S.optional(__S(32, __c2, 0)),
           id: S.String,
           message: S.String,
           name: S.String,
@@ -5802,7 +5877,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "GetCredentialsResponse" });
   }
 }
-function __c90(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5821,7 +5896,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "GetCredentialsRemoteWriteConfigRequest" });
   }
 }
-function __c91(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5833,7 +5908,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "CredentialsRemoteWriteConfig" });
   }
 }
-function __c92(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5852,7 +5927,7 @@ function __c92(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          genericOauth: S.optional(__S(1488, __c93, 0)),
+          genericOauth: S.optional(__S(1552, __c97, 0)),
           message: S.String,
           publicReadAccess: S.optional(S.Boolean),
           useStackitSso: S.optional(S.Boolean),
@@ -5860,7 +5935,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "GrafanaConfigs" });
   }
 }
-function __c93(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5881,7 +5956,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "GrafanaOauth" });
   }
 }
-function __c94(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5949,7 +6024,7 @@ function __c94(j: number): any {
           otlpHttpLogsUrl: S.String,
           otlpHttpTracesUrl: S.String,
           otlpTracesUrl: S.String,
-          plan: __S(1505, __c94, 1),
+          plan: __S(1569, __c98, 1),
           pushMetricsUrl: S.String,
           targetsUrl: S.String,
           zipkinSpansUrl: S.String,
@@ -5961,11 +6036,11 @@ function __c94(j: number): any {
           dashboardUrl: S.String,
           error: S.optional(S.NullOr(S.String)),
           id: S.String,
-          instance: __S(1506, __c94, 2),
+          instance: __S(1570, __c98, 2),
           isUpdatable: S.optional(S.Boolean),
           message: S.String,
           name: S.optional(S.String),
-          parameters: S.optional(__S(1024, __c64, 0)),
+          parameters: S.optional(__S(32, __c2, 0)),
           planId: S.String,
           planName: S.String,
           planSchema: S.optional(S.String),
@@ -5975,7 +6050,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "GetInstanceResponse" });
   }
 }
-function __c95(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5994,7 +6069,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "GetLogsAlertgroupRequest" });
   }
 }
-function __c96(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6012,7 +6087,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "GetLogsConfigsRequest" });
   }
 }
-function __c97(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6023,13 +6098,13 @@ function __c97(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          config: __S(1552, __c97, 0),
+          config: __S(1616, __c101, 0),
           message: S.String,
         }),
       ).annotate({ identifier: "LogsConfigResponse" });
   }
 }
-function __c98(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6051,32 +6126,32 @@ function __c98(j: number): any {
       ).annotate({ identifier: "CreateAlertRecordRequest" });
   }
 }
-function __c99(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           expr: S.String,
-          labels: S.optional(__S(1072, __c67, 0)),
+          labels: S.optional(__S(1136, __c71, 0)),
           record: S.String,
         }),
       ).annotate({ identifier: "AlertRecord" });
   }
 }
-function __c100(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1584, __c99, 0));
+      return S.Array(__S(1648, __c103, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1600, __c100, 0),
+          data: __S(1664, __c104, 0),
           message: S.String,
         }),
       ).annotate({ identifier: "AlertRecordsResponse" });
   }
 }
-function __c101(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6103,7 +6178,7 @@ function __c101(j: number): any {
       ).annotate({ identifier: "GetMetricsStorageRetentionResponse" });
   }
 }
-function __c102(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6123,13 +6198,13 @@ function __c102(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(602, __c37, 10),
+          data: __S(698, __c43, 10),
           message: S.String,
         }),
       ).annotate({ identifier: "GetScrapeConfigResponse" });
   }
 }
-function __c103(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6147,7 +6222,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "GetTracesConfigsRequest" });
   }
 }
-function __c104(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6166,13 +6241,13 @@ function __c104(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          acl: __S(1008, __c63, 0),
+          acl: __S(16, __c1, 0),
           message: S.String,
         }),
       ).annotate({ identifier: "ListACLResponse" });
   }
 }
-function __c105(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6190,7 +6265,7 @@ function __c105(j: number): any {
       ).annotate({ identifier: "ListAlertConfigReceiversRequest" });
   }
 }
-function __c106(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6208,7 +6283,7 @@ function __c106(j: number): any {
       ).annotate({ identifier: "ListAlertConfigRoutesRequest" });
   }
 }
-function __c107(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6226,7 +6301,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "ListAlertgroupsRequest" });
   }
 }
-function __c108(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6245,7 +6320,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "ListAlertRecordsRequest" });
   }
 }
-function __c109(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6264,7 +6339,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "ListAlertrulesRequest" });
   }
 }
-function __c110(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6292,7 +6367,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "BackupRetentionResponse" });
   }
 }
-function __c111(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6316,41 +6391,41 @@ function __c111(j: number): any {
       ).annotate({ identifier: "CreateAlertrulesRequest" });
   }
 }
-function __c112(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           alert: S.String,
-          annotations: S.optional(__S(1072, __c67, 0)),
+          annotations: S.optional(__S(1136, __c71, 0)),
           expr: S.String,
           for: S.optional(S.String),
-          labels: S.optional(__S(1072, __c67, 0)),
+          labels: S.optional(__S(1136, __c71, 0)),
         }),
       ).annotate({ identifier: "AlertRule" });
   }
 }
-function __c113(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1792, __c112, 0));
+      return S.Array(__S(1856, __c116, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1808, __c113, 0),
+          data: __S(1872, __c117, 0),
           message: S.String,
         }),
       ).annotate({ identifier: "AlertRulesResponse" });
   }
 }
-function __c114(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
-          backupTarget: S.optional(__S(2016, __c126, 0).pipe(T.Query())),
+          backupTarget: S.optional(__S(2064, __c129, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6363,23 +6438,23 @@ function __c114(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          alertConfigBackups: __S(1008, __c63, 0),
-          alertRulesBackups: __S(1008, __c63, 0),
-          grafanaBackups: __S(1008, __c63, 0),
+          alertConfigBackups: __S(16, __c1, 0),
+          alertRulesBackups: __S(16, __c1, 0),
+          grafanaBackups: __S(16, __c1, 0),
           message: S.String,
-          scrapeConfigBackups: __S(1008, __c63, 0),
+          scrapeConfigBackups: __S(16, __c1, 0),
         }),
       ).annotate({ identifier: "BackupResponse" });
   }
 }
-function __c115(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
-          backupTarget: S.optional(__S(2016, __c126, 0).pipe(T.Query())),
+          backupTarget: S.optional(__S(2064, __c129, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6397,20 +6472,20 @@ function __c115(j: number): any {
         }),
       ).annotate({ identifier: "BackupSchedule" });
     case 2:
-      return S.Array(__S(1841, __c115, 1));
+      return S.Array(__S(1905, __c119, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          alertConfigBackupSchedules: S.optional(__S(1842, __c115, 2)),
-          alertRulesBackupSchedules: S.optional(__S(1842, __c115, 2)),
-          grafanaBackupSchedules: S.optional(__S(1842, __c115, 2)),
+          alertConfigBackupSchedules: S.optional(__S(1906, __c119, 2)),
+          alertRulesBackupSchedules: S.optional(__S(1906, __c119, 2)),
+          grafanaBackupSchedules: S.optional(__S(1906, __c119, 2)),
           message: S.String,
-          scrapeConfigBackupSchedules: S.optional(__S(1842, __c115, 2)),
+          scrapeConfigBackupSchedules: S.optional(__S(1906, __c119, 2)),
         }),
       ).annotate({ identifier: "BackupScheduleResponse" });
   }
 }
-function __c116(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6428,7 +6503,7 @@ function __c116(j: number): any {
       ).annotate({ identifier: "ListCertChecksRequest" });
   }
 }
-function __c117(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6447,24 +6522,24 @@ function __c117(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          credentialsInfo: S.optional(__S(1024, __c64, 0)),
+          credentialsInfo: S.optional(__S(32, __c2, 0)),
           description: S.optional(S.String),
           id: S.String,
           name: S.String,
         }),
       ).annotate({ identifier: "ServiceKeysList" });
     case 2:
-      return S.Array(__S(1873, __c117, 1));
+      return S.Array(__S(1937, __c121, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          credentials: __S(1874, __c117, 2),
+          credentials: __S(1938, __c121, 2),
           message: S.String,
         }),
       ).annotate({ identifier: "ListCredentialsResponse" });
   }
 }
-function __c118(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6482,7 +6557,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "ListElasticsearchChecksRequest" });
   }
 }
-function __c119(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6500,7 +6575,7 @@ function __c119(j: number): any {
       ).annotate({ identifier: "ListHttpChecksRequest" });
   }
 }
-function __c120(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6528,17 +6603,17 @@ function __c120(j: number): any {
         }),
       ).annotate({ identifier: "ProjectInstanceFull" });
     case 2:
-      return S.Array(__S(1921, __c120, 1));
+      return S.Array(__S(1985, __c124, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          instances: __S(1922, __c120, 2),
+          instances: __S(1986, __c124, 2),
           message: S.String,
         }),
       ).annotate({ identifier: "ListInstancesResponse" });
   }
 }
-function __c121(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6556,7 +6631,7 @@ function __c121(j: number): any {
       ).annotate({ identifier: "ListLogsAlertgroupsRequest" });
   }
 }
-function __c122(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6574,7 +6649,7 @@ function __c122(j: number): any {
       ).annotate({ identifier: "ListMongodbChecksRequest" });
   }
 }
-function __c123(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6592,14 +6667,14 @@ function __c123(j: number): any {
       ).annotate({ identifier: "ListMysqlChecksRequest" });
   }
 }
-function __c124(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
-          backupTarget: S.optional(__S(2016, __c126, 0).pipe(T.Query())),
+          backupTarget: S.optional(__S(2064, __c129, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6611,23 +6686,13 @@ function __c124(j: number): any {
       ).annotate({ identifier: "CreateBackupRequest" });
   }
 }
-function __c125(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          message: S.String,
-        }),
-      ).annotate({ identifier: "Message" });
-  }
-}
-function __c126(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c127(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6645,7 +6710,7 @@ function __c127(j: number): any {
       ).annotate({ identifier: "ListNetworkChecksRequest" });
   }
 }
-function __c128(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6667,13 +6732,13 @@ function __c128(j: number): any {
           documentationUrl: S.String,
           imageUrl: S.String,
           name: S.String,
-          plans: __S(2065, __c129, 1),
-          tags: __S(1008, __c63, 0),
+          plans: __S(2113, __c132, 1),
+          tags: __S(16, __c1, 0),
         }),
       ).annotate({ identifier: "Offerings" });
   }
 }
-function __c129(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6703,10 +6768,10 @@ function __c129(j: number): any {
         }),
       ).annotate({ identifier: "Plan" });
     case 1:
-      return S.Array(__S(2064, __c129, 0));
+      return S.Array(__S(2112, __c132, 0));
   }
 }
-function __c130(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6724,7 +6789,7 @@ function __c130(j: number): any {
       ).annotate({ identifier: "ListPingChecksRequest" });
   }
 }
-function __c131(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6743,12 +6808,12 @@ function __c131(j: number): any {
       return S.suspend(() =>
         S.Struct({
           message: S.String,
-          plans: __S(2065, __c129, 1),
+          plans: __S(2113, __c132, 1),
         }),
       ).annotate({ identifier: "PlansResponse" });
   }
 }
-function __c132(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6766,7 +6831,7 @@ function __c132(j: number): any {
       ).annotate({ identifier: "ListPostgresqlChecksRequest" });
   }
 }
-function __c133(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6784,7 +6849,7 @@ function __c133(j: number): any {
       ).annotate({ identifier: "ListRabbitmqChecksRequest" });
   }
 }
-function __c134(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6802,7 +6867,7 @@ function __c134(j: number): any {
       ).annotate({ identifier: "ListRedisChecksRequest" });
   }
 }
-function __c135(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6820,14 +6885,14 @@ function __c135(j: number): any {
       ).annotate({ identifier: "ListScrapeConfigsRequest" });
   }
 }
-function __c136(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
-          body: __S(2193, __c137, 1).pipe(T.HttpBody()),
+          body: __S(2241, __c140, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6839,21 +6904,21 @@ function __c136(j: number): any {
       ).annotate({ identifier: "PartialUpdateAlertgroupsRequest" });
   }
 }
-function __c137(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           interval: S.optional(S.String),
           name: S.String,
-          rules: __S(1313, __c82, 1),
+          rules: __S(1377, __c86, 1),
         }),
       ).annotate({ identifier: "PartialUpdateAlertgroupsRequestBodyItem" });
     case 1:
-      return S.Array(__S(2192, __c137, 0));
+      return S.Array(__S(2240, __c140, 0));
   }
 }
-function __c138(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6864,14 +6929,14 @@ function __c138(j: number): any {
         }),
       ).annotate({ identifier: "PartialUpdateAlertRecordsRequestBodyItem" });
     case 1:
-      return S.Array(__S(2208, __c138, 0));
+      return S.Array(__S(2256, __c141, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
           groupName: S.String.pipe(T.Label()),
-          body: __S(2209, __c138, 1).pipe(T.HttpBody()),
+          body: __S(2257, __c141, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6883,14 +6948,14 @@ function __c138(j: number): any {
       ).annotate({ identifier: "PartialUpdateAlertRecordsRequest" });
   }
 }
-function __c139(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
-          backupTarget: S.optional(__S(2016, __c126, 0).pipe(T.Query())),
+          backupTarget: S.optional(__S(2064, __c129, 0).pipe(T.Query())),
           schedule: S.String,
         }).pipe(
           T.Http({
@@ -6910,7 +6975,7 @@ function __c139(j: number): any {
       ).annotate({ identifier: "BackupSchedulePostResponse" });
   }
 }
-function __c140(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6923,14 +6988,14 @@ function __c140(j: number): any {
         }),
       ).annotate({ identifier: "PartialUpdateAlertrulesRequestBodyItem" });
     case 1:
-      return S.Array(__S(2240, __c140, 0));
+      return S.Array(__S(2288, __c143, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
           groupName: S.String.pipe(T.Label()),
-          body: __S(2241, __c140, 1).pipe(T.HttpBody()),
+          body: __S(2289, __c143, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6942,37 +7007,37 @@ function __c140(j: number): any {
       ).annotate({ identifier: "PartialUpdateAlertrulesRequest" });
   }
 }
-function __c141(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          basicAuth: S.optional(__S(640, __c40, 0)),
+          basicAuth: S.optional(__S(736, __c46, 0)),
           bearerToken: S.optional(S.String),
           honorLabels: S.optional(S.Boolean),
           honorTimeStamps: S.optional(S.Boolean),
-          httpSdConfigs: S.optional(__S(625, __c39, 1)),
+          httpSdConfigs: S.optional(__S(721, __c45, 1)),
           jobName: S.String,
           metricsPath: S.optional(S.String),
-          metricsRelabelConfigs: S.optional(__S(642, __c40, 2)),
-          oauth2: S.optional(__S(593, __c37, 1)),
+          metricsRelabelConfigs: S.optional(__S(738, __c46, 2)),
+          oauth2: S.optional(__S(689, __c43, 1)),
           params: S.optional(S.Unknown),
           sampleLimit: S.optional(S.Number),
           scheme: S.String,
           scrapeInterval: S.String,
           scrapeTimeout: S.String,
-          staticConfigs: __S(644, __c40, 4),
-          tlsConfig: S.optional(__S(592, __c37, 0)),
+          staticConfigs: __S(740, __c46, 4),
+          tlsConfig: S.optional(__S(688, __c43, 0)),
         }),
       ).annotate({ identifier: "PartialUpdateScrapeConfigsRequestBodyItem" });
     case 1:
-      return S.Array(__S(2256, __c141, 0));
+      return S.Array(__S(2304, __c144, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
-          body: __S(2257, __c141, 1).pipe(T.HttpBody()),
+          body: __S(2305, __c144, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6984,7 +7049,7 @@ function __c141(j: number): any {
       ).annotate({ identifier: "PartialUpdateScrapeConfigsRequest" });
   }
 }
-function __c142(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7004,14 +7069,14 @@ function __c142(j: number): any {
       ).annotate({ identifier: "RestoreBackupRequest" });
   }
 }
-function __c143(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
-          acl: __S(1008, __c63, 0),
+          acl: __S(16, __c1, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -7023,7 +7088,7 @@ function __c143(j: number): any {
       ).annotate({ identifier: "UpdateACLRequest" });
   }
 }
-function __c144(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7031,10 +7096,10 @@ function __c144(j: number): any {
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
           receiver: S.String.pipe(T.Label()),
-          emailConfigs: S.optional(__S(817, __c51, 1)),
+          emailConfigs: S.optional(__S(913, __c57, 1)),
           name: S.String,
-          opsgenieConfigs: S.optional(__S(769, __c48, 1)),
-          webHookConfigs: S.optional(__S(819, __c51, 3)),
+          opsgenieConfigs: S.optional(__S(865, __c54, 1)),
+          webHookConfigs: S.optional(__S(915, __c57, 3)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -7046,7 +7111,7 @@ function __c144(j: number): any {
       ).annotate({ identifier: "UpdateAlertConfigReceiverRequest" });
   }
 }
-function __c145(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7055,14 +7120,14 @@ function __c145(j: number): any {
           instanceId: S.String.pipe(T.Label()),
           receiver: S.String.pipe(T.Label()),
           continue: S.optional(S.Boolean),
-          groupBy: S.optional(__S(1008, __c63, 0)),
+          groupBy: S.optional(__S(16, __c1, 0)),
           groupInterval: S.optional(S.String),
           groupWait: S.optional(S.String),
           match: S.optional(S.Unknown),
           matchRe: S.optional(S.Unknown),
-          matchers: S.optional(__S(1008, __c63, 0)),
+          matchers: S.optional(__S(16, __c1, 0)),
           repeatInterval: S.optional(S.String),
-          routes: S.optional(__S(1090, __c68, 2)),
+          routes: S.optional(__S(1154, __c72, 2)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -7074,12 +7139,12 @@ function __c145(j: number): any {
       ).annotate({ identifier: "UpdateAlertConfigRouteRequest" });
   }
 }
-function __c146(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          equal: S.optional(__S(1008, __c63, 0)),
+          equal: S.optional(__S(16, __c1, 0)),
           sourceMatch: S.optional(S.Unknown),
           sourceMatchRe: S.optional(S.Unknown),
           targetMatch: S.optional(S.Unknown),
@@ -7089,26 +7154,26 @@ function __c146(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          emailConfigs: S.optional(__S(817, __c51, 1)),
+          emailConfigs: S.optional(__S(913, __c57, 1)),
           name: S.String,
-          opsgenieConfigs: S.optional(__S(769, __c48, 1)),
-          webHookConfigs: S.optional(__S(819, __c51, 3)),
+          opsgenieConfigs: S.optional(__S(865, __c54, 1)),
+          webHookConfigs: S.optional(__S(915, __c57, 3)),
         }),
       ).annotate({ identifier: "UpdateAlertConfigsRequestReceiversItem" });
     case 2:
-      return S.Array(__S(2337, __c146, 1));
+      return S.Array(__S(2385, __c149, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           continue: S.optional(S.Boolean),
-          groupBy: S.optional(__S(1008, __c63, 0)),
+          groupBy: S.optional(__S(16, __c1, 0)),
           groupInterval: S.optional(S.String),
           groupWait: S.optional(S.String),
           match: S.optional(S.Unknown),
           matchRe: S.optional(S.Unknown),
           receiver: S.String,
           repeatInterval: S.optional(S.String),
-          routes: S.optional(__S(1090, __c68, 2)),
+          routes: S.optional(__S(1154, __c72, 2)),
         }),
       ).annotate({ identifier: "UpdateAlertConfigsRequestRoute" });
     case 4:
@@ -7116,10 +7181,10 @@ function __c146(j: number): any {
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
-          global: S.optional(__S(1344, __c84, 0)),
-          inhibitRules: S.optional(__S(2336, __c146, 0)),
-          receivers: __S(2338, __c146, 2),
-          route: __S(2339, __c146, 3),
+          global: S.optional(__S(1408, __c88, 0)),
+          inhibitRules: S.optional(__S(2384, __c149, 0)),
+          receivers: __S(2386, __c149, 2),
+          route: __S(2387, __c149, 3),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -7131,7 +7196,7 @@ function __c146(j: number): any {
       ).annotate({ identifier: "UpdateAlertConfigsRequest" });
   }
 }
-function __c147(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7140,7 +7205,7 @@ function __c147(j: number): any {
           instanceId: S.String.pipe(T.Label()),
           groupName: S.String.pipe(T.Label()),
           interval: S.optional(S.String),
-          rules: __S(1313, __c82, 1),
+          rules: __S(1377, __c86, 1),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -7152,14 +7217,14 @@ function __c147(j: number): any {
       ).annotate({ identifier: "UpdateAlertgroupRequest" });
   }
 }
-function __c148(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
-          body: __S(2193, __c137, 1).pipe(T.HttpBody()),
+          body: __S(2241, __c140, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -7171,7 +7236,7 @@ function __c148(j: number): any {
       ).annotate({ identifier: "UpdateAlertgroupsRequest" });
   }
 }
-function __c149(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

@@ -34,6 +34,7 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
   ) {}
@@ -43,6 +44,7 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
   ) {}
@@ -52,6 +54,7 @@ export class NotFound
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
@@ -256,6 +259,30 @@ export interface DataQualityAccountSummary {
   severityCounts: DataQualityAccountSummarySeverityCountsList;
   /** Counts grouped by category (read only) */
   categoryCounts: DataQualityAccountSummaryCategoryCountsList;
+}
+/** Any fields/values that are invalid or incorrect */
+export type BadRequestFieldsList = Array<string>;
+/** Invalid request */
+export interface BadRequest2 {
+  /** Description of the error */
+  message?: string | undefined;
+  /** Any fields/values that are invalid or incorrect */
+  fields?: BadRequestFieldsList | undefined;
+}
+/** Authorization failed */
+export interface Forbidden2 {
+  message?: string | undefined;
+}
+/** Any fields/values that weren't found */
+export type NotFoundFieldsList = Array<string>;
+/** A resource or required component was not found */
+export interface NotFound2 {
+  /** Name of the resource */
+  message: string;
+  /** Violation description */
+  description?: string | undefined;
+  /** Any fields/values that weren't found */
+  fields?: NotFoundFieldsList | undefined;
 }
 export type GetCatalogDataQualitySummaryError =
   | BadRequest

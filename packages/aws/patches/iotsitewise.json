@@ -1,9 +1,0 @@
-{
-  "structures": {
-    "AssetModelSummary": {
-      "members": {
-        "description": { "optional": true }
-      }
-    }
-  }
-}

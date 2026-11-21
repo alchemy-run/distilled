@@ -1254,7 +1254,7 @@ export interface ClickPipeSettings {
 }
 export interface ClickPipe {
   /** Unique ClickPipe ID. */
-  id?: string | undefined;
+  id: string;
   /** ID of the service this ClickPipe belongs to. */
   serviceId?: string | undefined;
   /** Name of the ClickPipe. */
@@ -2915,7 +2915,7 @@ function __c7(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
+          id: S.String,
           serviceId: S.optional(S.String),
           name: S.optional(S.String),
           state: S.optional(S.String),

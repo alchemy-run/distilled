@@ -67,24 +67,57 @@ export interface Condition {
 /** Conditions on which alerts will be filtered. */
 export type AlertProcessingRulePropertiesConditionsList = Array<Condition>;
 /** Specifies when the recurrence should be applied. */
-export type RecurrenceType = "Daily" | "Weekly" | "Monthly";
-/** Days of the week (only for `Weekly` recurrences). */
-export type RecurrenceDaysOfWeekList = Array<string>;
-/** Days of the month (only for `Monthly` recurrences). */
-export type RecurrenceDaysOfMonthList = Array<number>;
+export type DailyRecurrenceRecurrenceType = "Daily";
 /** Recurrence object. */
-export interface Recurrence {
+export interface DailyRecurrence {
   /** Specifies when the recurrence should be applied. */
-  recurrenceType: RecurrenceType | (string & {});
+  recurrenceType: DailyRecurrenceRecurrenceType;
   /** Start time for recurrence. */
   startTime?: string | undefined;
   /** End time for recurrence. */
   endTime?: string | undefined;
-  /** Days of the week (only for `Weekly` recurrences). */
-  daysOfWeek?: RecurrenceDaysOfWeekList | undefined;
-  /** Days of the month (only for `Monthly` recurrences). */
-  daysOfMonth?: RecurrenceDaysOfMonthList | undefined;
 }
+/** Specifies when the recurrence should be applied. */
+export type MonthlyRecurrenceRecurrenceType = "Monthly";
+/** Specifies the values for monthly recurrence pattern. */
+export type MonthlyRecurrenceDaysOfMonthList = Array<number>;
+/** Monthly recurrence object. */
+export interface MonthlyRecurrence {
+  /** Specifies when the recurrence should be applied. */
+  recurrenceType: MonthlyRecurrenceRecurrenceType;
+  /** Start time for recurrence. */
+  startTime?: string | undefined;
+  /** End time for recurrence. */
+  endTime?: string | undefined;
+  /** Specifies the values for monthly recurrence pattern. */
+  daysOfMonth: MonthlyRecurrenceDaysOfMonthList;
+}
+/** Specifies when the recurrence should be applied. */
+export type WeeklyRecurrenceRecurrenceType = "Weekly";
+/** Days of week. */
+export type DaysOfWeek =
+  | "Sunday"
+  | "Monday"
+  | "Tuesday"
+  | "Wednesday"
+  | "Thursday"
+  | "Friday"
+  | "Saturday";
+/** Specifies the values for weekly recurrence pattern. */
+export type WeeklyRecurrenceDaysOfWeekList = Array<DaysOfWeek | (string & {})>;
+/** Weekly recurrence object. */
+export interface WeeklyRecurrence {
+  /** Specifies when the recurrence should be applied. */
+  recurrenceType: WeeklyRecurrenceRecurrenceType;
+  /** Start time for recurrence. */
+  startTime?: string | undefined;
+  /** End time for recurrence. */
+  endTime?: string | undefined;
+  /** Specifies the values for weekly recurrence pattern. */
+  daysOfWeek: WeeklyRecurrenceDaysOfWeekList;
+}
+/** Recurrence object. */
+export type Recurrence = DailyRecurrence | MonthlyRecurrence | WeeklyRecurrence;
 /** List of recurrences. */
 export type ScheduleRecurrencesList = Array<Recurrence>;
 /** Scheduling configuration for a given alert processing rule. */
@@ -99,16 +132,25 @@ export interface Schedule {
   recurrences?: ScheduleRecurrencesList | undefined;
 }
 /** Action that should be applied. */
-export type ActionType = "AddActionGroups" | "RemoveAllActionGroups";
-/** Action group resource IDs to add (only for `AddActionGroups`). */
-export type ActionActionGroupIdsList = Array<string>;
-/** Action to be applied. */
-export interface Action {
+export type AddActionGroupsActionType = "AddActionGroups";
+/** List of action group Ids to add to alert processing rule. */
+export type AddActionGroupsActionGroupIdsList = Array<string>;
+/** Add action groups to alert processing rule. */
+export interface AddActionGroups {
   /** Action that should be applied. */
-  actionType: ActionType | (string & {});
-  /** Action group resource IDs to add (only for `AddActionGroups`). */
-  actionGroupIds?: ActionActionGroupIdsList | undefined;
+  actionType: AddActionGroupsActionType;
+  /** List of action group Ids to add to alert processing rule. */
+  actionGroupIds: AddActionGroupsActionGroupIdsList;
 }
+/** Action that should be applied. */
+export type RemoveAllActionGroupsActionType = "RemoveAllActionGroups";
+/** Action to be applied. */
+export interface RemoveAllActionGroups {
+  /** Action that should be applied. */
+  actionType: RemoveAllActionGroupsActionType;
+}
+/** Action to be applied. */
+export type Action = AddActionGroups | RemoveAllActionGroups;
 /** Actions to be applied. */
 export type AlertProcessingRulePropertiesActionsList = Array<Action>;
 /** Alert processing rule properties defining scopes, conditions and scheduling logic for alert processing rule. */
@@ -259,15 +301,26 @@ export interface AlertsMetaDataRequest {
   identifier: AlertsMetaDataRequestIdentifier | (string & {});
 }
 /** Identification of the information to be retrieved by API call */
-export type AlertsMetaDataPropertiesMetadataIdentifier = "MonitorServiceList";
-/** alert meta data property bag */
-export interface AlertsMetaDataProperties {
+export type MonitorServiceListMetadataIdentifier = "MonitorServiceList";
+/** Details of a monitor service */
+export interface MonitorServiceDetails {
+  /** Monitor service name */
+  name?: string | undefined;
+  /** Monitor service display name */
+  displayName?: string | undefined;
+}
+/** Array of operations */
+export type MonitorServiceListDataList = Array<MonitorServiceDetails>;
+/** Monitor service details */
+export interface MonitorServiceList {
   /** Identification of the information to be retrieved by API call */
-  metadataIdentifier: AlertsMetaDataPropertiesMetadataIdentifier;
+  metadataIdentifier: MonitorServiceListMetadataIdentifier;
+  /** Array of operations */
+  data: MonitorServiceListDataList;
 }
 /** alert meta data information. */
 export interface AlertsMetaData {
-  properties?: AlertsMetaDataProperties | undefined;
+  properties?: MonitorServiceList | undefined;
 }
 export interface DeleteAlertProcessingRuleRequest {
   /** The ID of the target subscription. */
@@ -1162,7 +1215,7 @@ export const AlertProcessingRulesCreateOrUpdate: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AlertProcessingRulesCreateOrUpdateRequest>,
-  output: __S(56, __c3, 8) as any as S.Schema<AlertProcessingRulesCreateOrUpdateResponse>,
+  output: __S(62, __c3, 14) as any as S.Schema<AlertProcessingRulesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1201,7 +1254,7 @@ export const AlertsMetaData2: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<AlertsMetaDataRequest>,
-  output: __S(338, __c21, 2) as any as S.Schema<AlertsMetaData>,
+  output: __S(340, __c21, 4) as any as S.Schema<AlertsMetaData>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1336,7 +1389,7 @@ export const GetAlertProcessingRuleByName: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c35, 0) as any as S.Schema<GetAlertProcessingRuleByNameRequest>,
-  output: __S(56, __c3, 8) as any as S.Schema<GetAlertProcessingRuleByNameResponse>,
+  output: __S(62, __c3, 14) as any as S.Schema<GetAlertProcessingRuleByNameResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1592,7 +1645,7 @@ export const UpdateAlertProcessingRule: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<UpdateAlertProcessingRuleRequest>,
-  output: __S(56, __c3, 8) as any as S.Schema<UpdateAlertProcessingRuleResponse>,
+  output: __S(62, __c3, 14) as any as S.Schema<UpdateAlertProcessingRuleResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1628,7 +1681,7 @@ function __c0(j: number): any {
           alertProcessingRuleName: S.String.pipe(T.Label()),
           tags: S.optional(__S(16, __c1, 0)),
           location: S.String,
-          properties: S.optional(__S(55, __c3, 7)),
+          properties: S.optional(__S(61, __c3, 13)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -1672,42 +1725,70 @@ function __c3(j: number): any {
           recurrenceType: S.String,
           startTime: S.optional(S.String),
           endTime: S.optional(S.String),
-          daysOfWeek: S.optional(__S(17, __c1, 1)),
-          daysOfMonth: S.optional(__S(32, __c2, 0)),
         }),
-      ).annotate({ identifier: "Recurrence" });
+      ).annotate({ identifier: "DailyRecurrence" });
     case 3:
-      return S.Array(__S(50, __c3, 2));
+      return S.suspend(() =>
+        S.Struct({
+          recurrenceType: S.String,
+          startTime: S.optional(S.String),
+          endTime: S.optional(S.String),
+          daysOfMonth: __S(32, __c2, 0),
+        }),
+      ).annotate({ identifier: "MonthlyRecurrence" });
     case 4:
+      return S.Array(S.String);
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          recurrenceType: S.String,
+          startTime: S.optional(S.String),
+          endTime: S.optional(S.String),
+          daysOfWeek: __S(52, __c3, 4),
+        }),
+      ).annotate({ identifier: "WeeklyRecurrence" });
+    case 6:
+      return S.Union([__S(50, __c3, 2), __S(51, __c3, 3), __S(53, __c3, 5)]);
+    case 7:
+      return S.Array(__S(54, __c3, 6));
+    case 8:
       return S.suspend(() =>
         S.Struct({
           effectiveFrom: S.optional(S.String),
           effectiveUntil: S.optional(S.String),
           timeZone: S.optional(S.String),
-          recurrences: S.optional(__S(51, __c3, 3)),
+          recurrences: S.optional(__S(55, __c3, 7)),
         }),
       ).annotate({ identifier: "Schedule" });
-    case 5:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           actionType: S.String,
-          actionGroupIds: S.optional(__S(17, __c1, 1)),
+          actionGroupIds: __S(17, __c1, 1),
         }),
-      ).annotate({ identifier: "Action" });
-    case 6:
-      return S.Array(__S(53, __c3, 5));
-    case 7:
+      ).annotate({ identifier: "AddActionGroups" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          actionType: S.String,
+        }),
+      ).annotate({ identifier: "RemoveAllActionGroups" });
+    case 11:
+      return S.Union([__S(57, __c3, 9), __S(58, __c3, 10)]);
+    case 12:
+      return S.Array(__S(59, __c3, 11));
+    case 13:
       return S.suspend(() =>
         S.Struct({
           scopes: __S(17, __c1, 1),
           conditions: S.optional(__S(49, __c3, 1)),
-          schedule: S.optional(__S(52, __c3, 4)),
-          actions: __S(54, __c3, 6),
+          schedule: S.optional(__S(56, __c3, 8)),
+          actions: __S(60, __c3, 12),
           description: S.optional(S.String),
           enabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "AlertProcessingRuleProperties" });
-    case 8:
+    case 14:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -1715,7 +1796,7 @@ function __c3(j: number): any {
           name: S.optional(S.String),
           tags: S.optional(__S(16, __c1, 0)),
           location: S.String,
-          properties: S.optional(__S(55, __c3, 7)),
+          properties: S.optional(__S(61, __c3, 13)),
         }),
       ).annotate({ identifier: "AlertProcessingRulesCreateOrUpdateResponse" });
   }
@@ -2051,7 +2132,7 @@ function __c11(j: number): any {
 function __c12(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(56, __c3, 8));
+      return S.Array(__S(62, __c3, 14));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -2234,13 +2315,23 @@ function __c21(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          metadataIdentifier: S.String,
+          name: S.optional(S.String),
+          displayName: S.optional(S.String),
         }),
-      ).annotate({ identifier: "AlertsMetaDataProperties" });
+      ).annotate({ identifier: "MonitorServiceDetails" });
     case 2:
+      return S.Array(__S(337, __c21, 1));
+    case 3:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(337, __c21, 1)),
+          metadataIdentifier: S.String,
+          data: __S(338, __c21, 2),
+        }),
+      ).annotate({ identifier: "MonitorServiceList" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          properties: S.optional(__S(339, __c21, 3)),
         }),
       ).annotate({ identifier: "AlertsMetaData" });
   }

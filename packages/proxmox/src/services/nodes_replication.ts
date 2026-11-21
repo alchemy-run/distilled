@@ -27,8 +27,29 @@ export interface GetNodesByNodeReplicationRequest {
   guest?: number | undefined;
   node: string;
 }
+export type GetNodesByNodeReplicationResultItemRemoveJob = "local" | "full";
+export type GetNodesByNodeReplicationResultItemType = "local";
+export type GetNodesByNodeReplicationResultItemVmtype = "qemu" | "lxc";
 export interface GetNodesByNodeReplicationResultItem {
+  comment?: string | undefined;
+  disable?: boolean | 0 | 1 | undefined;
+  duration?: number | undefined;
+  error?: string | undefined;
+  fail_count?: number | undefined;
+  guest: number;
   id: string;
+  jobnum: number;
+  last_sync?: number | undefined;
+  last_try?: number | undefined;
+  next_sync?: number | undefined;
+  pid?: number | undefined;
+  rate?: number | undefined;
+  remove_job?: GetNodesByNodeReplicationResultItemRemoveJob | undefined;
+  schedule?: string | undefined;
+  source?: string | undefined;
+  target?: string | undefined;
+  type: GetNodesByNodeReplicationResultItemType;
+  vmtype: GetNodesByNodeReplicationResultItemVmtype;
 }
 export type GetNodesByNodeReplicationResult = Array<GetNodesByNodeReplicationResultItem>;
 export type GetNodesByNodeReplicationResponse = GetNodesByNodeReplicationResult;
@@ -56,7 +77,30 @@ export interface GetNodesByNodeReplicationByIdStatusRequest {
   id: string;
   node: string;
 }
-export type GetNodesByNodeReplicationByIdStatusResult = { [key: string]: unknown | undefined };
+export type GetNodesByNodeReplicationByIdStatusResultRemoveJob = "local" | "full";
+export type GetNodesByNodeReplicationByIdStatusResultType = "local";
+export type GetNodesByNodeReplicationByIdStatusResultVmtype = "qemu" | "lxc";
+export interface GetNodesByNodeReplicationByIdStatusResult {
+  comment?: string | undefined;
+  disable?: boolean | 0 | 1 | undefined;
+  duration?: number | undefined;
+  error?: string | undefined;
+  fail_count?: number | undefined;
+  guest: number;
+  id: string;
+  jobnum: number;
+  last_sync?: number | undefined;
+  last_try?: number | undefined;
+  next_sync?: number | undefined;
+  pid?: number | undefined;
+  rate?: number | undefined;
+  remove_job?: GetNodesByNodeReplicationByIdStatusResultRemoveJob | undefined;
+  schedule?: string | undefined;
+  source?: string | undefined;
+  target?: string | undefined;
+  type: GetNodesByNodeReplicationByIdStatusResultType;
+  vmtype: GetNodesByNodeReplicationByIdStatusResultVmtype;
+}
 export type GetNodesByNodeReplicationByIdStatusResponse = GetNodesByNodeReplicationByIdStatusResult;
 export interface PostNodesByNodeReplicationByIdScheduleNowRequest {
   id: string;
@@ -72,7 +116,7 @@ export const getNodesByNodeReplication: API.OperationMethod<
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<GetNodesByNodeReplicationRequest>,
-  output: __S(3, __c0, 3) as any as S.Schema<GetNodesByNodeReplicationResponse>,
+  output: __S(2, __c0, 2) as any as S.Schema<GetNodesByNodeReplicationResponse>,
   errors: [UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -87,8 +131,8 @@ export const getNodesByNodeReplicationById: API.OperationMethod<
   GetNodesByNodeReplicationByIdError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c1, 0) as any as S.Schema<GetNodesByNodeReplicationByIdRequest>,
-  output: __S(6, __c1, 2) as any as S.Schema<GetNodesByNodeReplicationByIdResponse>,
+  input: __S(8, __c2, 0) as any as S.Schema<GetNodesByNodeReplicationByIdRequest>,
+  output: __S(11, __c2, 3) as any as S.Schema<GetNodesByNodeReplicationByIdResponse>,
   errors: [UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -154,15 +198,9 @@ function __c0(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/nodes/{node}/replication", code: 200 })),
       ).annotate({ identifier: "GetNodesByNodeReplicationRequest" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-        }),
-      ).annotate({ identifier: "GetNodesByNodeReplicationResultItem" });
+      return S.Array(__S(4, __c1, 0));
     case 2:
-      return S.Array(__S(1, __c0, 1));
-    case 3:
-      return S.suspend(() => __S(2, __c0, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1, __c0, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetNodesByNodeReplicationResponse",
       });
   }
@@ -172,22 +210,46 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.String.pipe(T.Label()),
-          node: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/nodes/{node}/replication/{id}", code: 200 })),
-      ).annotate({ identifier: "GetNodesByNodeReplicationByIdRequest" });
-    case 1:
-      return S.Array(__S(8, __c2, 0));
-    case 2:
-      return S.suspend(() => __S(5, __c1, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetNodesByNodeReplicationByIdResponse",
-      });
+          comment: S.optional(S.String),
+          disable: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
+          duration: S.optional(S.Number),
+          error: S.optional(S.String),
+          fail_count: S.optional(S.Number),
+          guest: S.Number,
+          id: S.String,
+          jobnum: S.Number,
+          last_sync: S.optional(S.Number),
+          last_try: S.optional(S.Number),
+          next_sync: S.optional(S.Number),
+          pid: S.optional(S.Number),
+          rate: S.optional(S.Number),
+          remove_job: S.optional(S.String),
+          schedule: S.optional(S.String),
+          source: S.optional(S.String),
+          target: S.optional(S.String),
+          type: S.String,
+          vmtype: S.String,
+        }),
+      ).annotate({ identifier: "GetNodesByNodeReplicationResultItem" });
   }
 }
 function __c2(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          node: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/nodes/{node}/replication/{id}", code: 200 })),
+      ).annotate({ identifier: "GetNodesByNodeReplicationByIdRequest" });
+    case 1:
       return S.Record(S.String, S.Unknown);
+    case 2:
+      return S.Array(__S(9, __c2, 1));
+    case 3:
+      return S.suspend(() => __S(10, __c2, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetNodesByNodeReplicationByIdResponse",
+      });
   }
 }
 function __c3(j: number): any {
@@ -226,7 +288,7 @@ function __c4(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/nodes/{node}/replication/{id}/status", code: 200 })),
       ).annotate({ identifier: "GetNodesByNodeReplicationByIdStatusRequest" });
     case 1:
-      return S.suspend(() => __S(8, __c2, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(4, __c1, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetNodesByNodeReplicationByIdStatusResponse",
       });
   }

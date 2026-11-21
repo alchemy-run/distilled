@@ -31,45 +31,96 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(34, __c1, 2)),
+          /*@__PURE__*/ S.suspend(() => __S(66, __c2, 2)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ClerkErrors | Error400Body | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(34, __c1, 2)),
+          /*@__PURE__*/ S.suspend(() => __S(66, __c2, 2)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: ClerkErrors | Error401Body | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(34, __c1, 2)),
+          /*@__PURE__*/ S.suspend(() => __S(66, __c2, 2)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ClerkErrors | Error401Body | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(34, __c1, 2)),
+          /*@__PURE__*/ S.suspend(() => __S(66, __c2, 2)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: ClerkErrors | Error401Body | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(34, __c1, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  ) {}
+  )
+{
+  declare readonly body?: ClerkErrors | string;
+}
 
 export interface AddDomainRequest {
   /** The new domain name. Can contain the port for development instances. */
@@ -6623,6 +6674,27 @@ export interface VerifyTOTPResponse {
   verified?: boolean | undefined;
   code_type?: VerifyTOTPResponseCodeType | undefined;
 }
+export type ClerkErrorsErrorsList = Array<ClerkError>;
+export type ClerkErrorsMetaMap = { [key: string]: unknown | undefined };
+export interface ClerkErrors {
+  errors: ClerkErrorsErrorsList;
+  meta?: ClerkErrorsMetaMap | undefined;
+  clerk_trace_id?: string | undefined;
+}
+export interface Error400BodyErrorsItem {
+  message: string;
+  long_message: string;
+  code: string;
+}
+export type Error400BodyErrorsList = Array<Error400BodyErrorsItem>;
+export interface Error400Body {
+  errors: Error400BodyErrorsList;
+}
+export type Error401BodyErrorsItem = Error400BodyErrorsItem;
+export type Error401BodyErrorsList = Array<Error400BodyErrorsItem>;
+export interface Error401Body {
+  errors: Error401BodyErrorsList;
+}
 export type AddDomainError = BadRequest | Forbidden | UnprocessableEntity | ClerkOpError;
 /** Add a domain Add a new domain for your instance. Useful in the case of multi-domain instances, allows adding satellite domains to an instance. The new domain must have a `name`. The domain name can contain the port for development instances, like `localhost:3000`. Set `is_satellite` to `true` to add a satellite domain. To migrate a production instance from an active provider domain to its first custom primary domain, set `is_satellite` to `false`. The custom domain becomes active and the provider domain stays attached. Additional custom primary domains are not supported. If you're planning to configure the new satellite domain to run behind a proxy, pass the `proxy_url` parameter accordingly. Adding a custom primary domain returns 403 `domain_managed_by_integration` for applications in a Vercel-managed workspace; change the domain from the Vercel integration instead. */
 export const addDomain: API.OperationMethod<
@@ -6631,8 +6703,8 @@ export const addDomain: API.OperationMethod<
   AddDomainError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8288, __c259, 0) as any as S.Schema<AddDomainRequest>,
-  output: __S(8324, __c260, 4) as any as S.Schema<Domain>,
+  input: __S(8352, __c261, 0) as any as S.Schema<AddDomainRequest>,
+  output: __S(8388, __c262, 4) as any as S.Schema<Domain>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -6653,8 +6725,8 @@ export const addRolesToRoleSet: API.OperationMethod<
   AddRolesToRoleSetError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8896, __c278, 0) as any as S.Schema<AddRolesToRoleSetRequest>,
-  output: __S(8995, __c281, 3) as any as S.Schema<RoleSet>,
+  input: __S(8960, __c280, 0) as any as S.Schema<AddRolesToRoleSetRequest>,
+  output: __S(9059, __c283, 3) as any as S.Schema<RoleSet>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -6676,8 +6748,8 @@ export const adjustOrganizationBillingCreditBalance: API.OperationMethod<
   AdjustOrganizationBillingCreditBalanceError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9408, __c294, 0) as any as S.Schema<AdjustOrganizationBillingCreditBalanceRequest>,
-  output: __S(9440, __c295, 0) as any as S.Schema<CommerceCreditLedgerResponse>,
+  input: __S(9472, __c296, 0) as any as S.Schema<AdjustOrganizationBillingCreditBalanceRequest>,
+  output: __S(9504, __c297, 0) as any as S.Schema<CommerceCreditLedgerResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -6699,8 +6771,8 @@ export const adjustUserBillingCreditBalance: API.OperationMethod<
   AdjustUserBillingCreditBalanceError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9824, __c307, 0) as any as S.Schema<AdjustUserBillingCreditBalanceRequest>,
-  output: __S(9440, __c295, 0) as any as S.Schema<CommerceCreditLedgerResponse>,
+  input: __S(9888, __c309, 0) as any as S.Schema<AdjustUserBillingCreditBalanceRequest>,
+  output: __S(9504, __c297, 0) as any as S.Schema<CommerceCreditLedgerResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -6722,8 +6794,8 @@ export const applyBillingSubscriptionItemDiscount: API.OperationMethod<
   ApplyBillingSubscriptionItemDiscountError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10176, __c318, 0) as any as S.Schema<ApplyBillingSubscriptionItemDiscountRequest>,
-  output: __S(10208, __c319, 0) as any as S.Schema<CommerceDiscountRedemptionResponse>,
+  input: __S(10240, __c320, 0) as any as S.Schema<ApplyBillingSubscriptionItemDiscountRequest>,
+  output: __S(10272, __c321, 0) as any as S.Schema<CommerceDiscountRedemptionResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -6743,8 +6815,8 @@ export const assignPermissionToOrganizationRole: API.OperationMethod<
   AssignPermissionToOrganizationRoleError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<AssignPermissionToOrganizationRoleRequest>,
-  output: __S(96, __c3, 0) as any as S.Schema<Role>,
+  input: __S(96, __c3, 0) as any as S.Schema<AssignPermissionToOrganizationRoleRequest>,
+  output: __S(192, __c6, 0) as any as S.Schema<Role>,
   errors: [Forbidden, NotFound, Conflict, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -6760,8 +6832,8 @@ export const attemptEmailAddressVerification: API.OperationMethod<
   AttemptEmailAddressVerificationError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<AttemptEmailAddressVerificationRequest>,
-  output: __S(576, __c18, 0) as any as S.Schema<AttemptEmailAddressVerificationResponse>,
+  input: __S(640, __c20, 0) as any as S.Schema<AttemptEmailAddressVerificationRequest>,
+  output: __S(672, __c21, 0) as any as S.Schema<AttemptEmailAddressVerificationResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -6782,8 +6854,8 @@ export const attemptPhoneNumberVerification: API.OperationMethod<
   AttemptPhoneNumberVerificationError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<AttemptPhoneNumberVerificationRequest>,
-  output: __S(576, __c18, 0) as any as S.Schema<AttemptPhoneNumberVerificationResponse>,
+  input: __S(1184, __c37, 0) as any as S.Schema<AttemptPhoneNumberVerificationRequest>,
+  output: __S(672, __c21, 0) as any as S.Schema<AttemptPhoneNumberVerificationResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -6795,8 +6867,8 @@ export type BanUserError = ClerkOpError;
 /** Ban a user Marks the given user as banned, which means that all their sessions and OAuth grants are revoked and they are not allowed to sign in again. Revoked OAuth grants are not restored if the user is unbanned. */
 export const banUser: API.OperationMethod<BanUserRequest, User, BanUserError, ClerkOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(1600, __c50, 0) as any as S.Schema<BanUserRequest>,
-    output: __S(1873, __c58, 17) as any as S.Schema<User>,
+    input: __S(1696, __c53, 0) as any as S.Schema<BanUserRequest>,
+    output: __S(1937, __c60, 17) as any as S.Schema<User>,
     errors: [UnknownClerkError],
     protocol: ClerkProtocol,
     retry: Retry.Retry,
@@ -6812,8 +6884,8 @@ export const banUser2: API.OperationMethod<
   BanUser2Error,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<BanUserRequest2>,
-  output: __S(2273, __c71, 1) as any as S.Schema<BanUserResponse>,
+  input: __S(2304, __c72, 0) as any as S.Schema<BanUserRequest2>,
+  output: __S(2337, __c73, 1) as any as S.Schema<BanUserResponse>,
   errors: [BadRequest, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -6834,8 +6906,8 @@ export const cancelCommerceSubscriptionItem: API.OperationMethod<
   CancelCommerceSubscriptionItemError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<CancelCommerceSubscriptionItemRequest>,
-  output: __S(2785, __c87, 1) as any as S.Schema<CommerceSubscriptionItem>,
+  input: __S(2784, __c87, 0) as any as S.Schema<CancelCommerceSubscriptionItemRequest>,
+  output: __S(2849, __c89, 1) as any as S.Schema<CommerceSubscriptionItem>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -6855,8 +6927,8 @@ export const changeProductionInstanceDomain: API.OperationMethod<
   ChangeProductionInstanceDomainError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c104, 0) as any as S.Schema<ChangeProductionInstanceDomainRequest>,
-  output: __S(3360, __c105, 0) as any as S.Schema<ChangeProductionInstanceDomainResponse>,
+  input: __S(3392, __c106, 0) as any as S.Schema<ChangeProductionInstanceDomainRequest>,
+  output: __S(3424, __c107, 0) as any as S.Schema<ChangeProductionInstanceDomainResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -6872,8 +6944,8 @@ export const createActorToken: API.OperationMethod<
   CreateActorTokenError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3713, __c116, 1) as any as S.Schema<CreateActorTokenRequest>,
-  output: __S(3744, __c117, 0) as any as S.Schema<ActorToken>,
+  input: __S(3777, __c118, 1) as any as S.Schema<CreateActorTokenRequest>,
+  output: __S(3808, __c119, 0) as any as S.Schema<ActorToken>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -6889,8 +6961,8 @@ export const createAdminPortalLinkToken: API.OperationMethod<
   CreateAdminPortalLinkTokenError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4160, __c130, 0) as any as S.Schema<CreateAdminPortalLinkTokenRequest>,
-  output: __S(4161, __c130, 1) as any as S.Schema<CreateAdminPortalLinkTokenResponse>,
+  input: __S(4224, __c132, 0) as any as S.Schema<CreateAdminPortalLinkTokenRequest>,
+  output: __S(4225, __c132, 1) as any as S.Schema<CreateAdminPortalLinkTokenResponse>,
   errors: [BadRequest, Forbidden, Conflict, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -6906,8 +6978,8 @@ export const createAgentTask: API.OperationMethod<
   CreateAgentTaskError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4513, __c141, 1) as any as S.Schema<CreateAgentTaskRequest>,
-  output: __S(4544, __c142, 0) as any as S.Schema<AgentTask>,
+  input: __S(4577, __c143, 1) as any as S.Schema<CreateAgentTaskRequest>,
+  output: __S(4608, __c144, 0) as any as S.Schema<AgentTask>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -6923,8 +6995,8 @@ export const createAllowlistIdentifier: API.OperationMethod<
   CreateAllowlistIdentifierError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4896, __c153, 0) as any as S.Schema<CreateAllowlistIdentifierRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<AllowlistIdentifier>,
+  input: __S(4960, __c155, 0) as any as S.Schema<CreateAllowlistIdentifierRequest>,
+  output: __S(4992, __c156, 0) as any as S.Schema<AllowlistIdentifier>,
   errors: [BadRequest, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -6940,8 +7012,8 @@ export const createApiKey: API.OperationMethod<
   CreateApiKeyError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5280, __c165, 0) as any as S.Schema<CreateApiKeyRequest>,
-  output: __S(5281, __c165, 1) as any as S.Schema<CreateApiKeyResponse>,
+  input: __S(5344, __c167, 0) as any as S.Schema<CreateApiKeyRequest>,
+  output: __S(5345, __c167, 1) as any as S.Schema<CreateApiKeyResponse>,
   errors: [BadRequest, Conflict, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -6957,8 +7029,8 @@ export const createBillingPrice: API.OperationMethod<
   CreateBillingPriceError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5664, __c177, 0) as any as S.Schema<CreateBillingPriceRequest>,
-  output: __S(5696, __c178, 0) as any as S.Schema<BillingPriceResponse>,
+  input: __S(5728, __c179, 0) as any as S.Schema<CreateBillingPriceRequest>,
+  output: __S(5760, __c180, 0) as any as S.Schema<BillingPriceResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -6980,8 +7052,8 @@ export const createBillingPriceTransition: API.OperationMethod<
   CreateBillingPriceTransitionError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6048, __c189, 0) as any as S.Schema<CreateBillingPriceTransitionRequest>,
-  output: __S(6050, __c189, 2) as any as S.Schema<CommercePriceTransitionResponse>,
+  input: __S(6112, __c191, 0) as any as S.Schema<CreateBillingPriceTransitionRequest>,
+  output: __S(6114, __c191, 2) as any as S.Schema<CommercePriceTransitionResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -6997,8 +7069,8 @@ export const createBlocklistIdentifier: API.OperationMethod<
   CreateBlocklistIdentifierError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6432, __c201, 0) as any as S.Schema<CreateBlocklistIdentifierRequest>,
-  output: __S(6464, __c202, 0) as any as S.Schema<BlocklistIdentifier>,
+  input: __S(6496, __c203, 0) as any as S.Schema<CreateBlocklistIdentifierRequest>,
+  output: __S(6528, __c204, 0) as any as S.Schema<BlocklistIdentifier>,
   errors: [BadRequest, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7014,8 +7086,8 @@ export const createBulkInvitations: API.OperationMethod<
   CreateBulkInvitationsError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6818, __c213, 2) as any as S.Schema<CreateBulkInvitationsRequest>,
-  output: __S(6849, __c214, 1) as any as S.Schema<CreateBulkInvitationsResponse>,
+  input: __S(6882, __c215, 2) as any as S.Schema<CreateBulkInvitationsRequest>,
+  output: __S(6913, __c216, 1) as any as S.Schema<CreateBulkInvitationsResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7031,8 +7103,8 @@ export const createBulkWaitlistEntries: API.OperationMethod<
   CreateBulkWaitlistEntriesError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7010, __c219, 2) as any as S.Schema<CreateBulkWaitlistEntriesRequest>,
-  output: __S(7011, __c219, 3) as any as S.Schema<CreateBulkWaitlistEntriesResponse>,
+  input: __S(7074, __c221, 2) as any as S.Schema<CreateBulkWaitlistEntriesRequest>,
+  output: __S(7075, __c221, 3) as any as S.Schema<CreateBulkWaitlistEntriesResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7048,8 +7120,8 @@ export const createDirectory: API.OperationMethod<
   CreateDirectoryError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7106, __c222, 2) as any as S.Schema<CreateDirectoryRequest>,
-  output: __S(7138, __c223, 2) as any as S.Schema<Directory>,
+  input: __S(7170, __c224, 2) as any as S.Schema<CreateDirectoryRequest>,
+  output: __S(7202, __c225, 2) as any as S.Schema<Directory>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7070,8 +7142,8 @@ export const createDirectoryGroupRoleMapping: API.OperationMethod<
   CreateDirectoryGroupRoleMappingError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7168, __c224, 0) as any as S.Schema<CreateDirectoryGroupRoleMappingRequest>,
-  output: __S(7200, __c225, 0) as any as S.Schema<DirectoryGroupRoleMapping>,
+  input: __S(7232, __c226, 0) as any as S.Schema<CreateDirectoryGroupRoleMappingRequest>,
+  output: __S(7264, __c227, 0) as any as S.Schema<DirectoryGroupRoleMapping>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7093,8 +7165,8 @@ export const createEmailAddress: API.OperationMethod<
   CreateEmailAddressError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7232, __c226, 0) as any as S.Schema<CreateEmailAddressRequest>,
-  output: __S(1696, __c53, 0) as any as S.Schema<EmailAddress>,
+  input: __S(7296, __c228, 0) as any as S.Schema<CreateEmailAddressRequest>,
+  output: __S(1760, __c55, 0) as any as S.Schema<EmailAddress>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7115,8 +7187,8 @@ export const createEnterpriseConnection: API.OperationMethod<
   CreateEnterpriseConnectionError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7265, __c227, 1) as any as S.Schema<CreateEnterpriseConnectionRequest>,
-  output: __S(7303, __c228, 7) as any as S.Schema<EnterpriseConnection>,
+  input: __S(7329, __c229, 1) as any as S.Schema<CreateEnterpriseConnectionRequest>,
+  output: __S(7367, __c230, 7) as any as S.Schema<EnterpriseConnection>,
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7132,8 +7204,8 @@ export const createEnterpriseConnectionTestRun: API.OperationMethod<
   CreateEnterpriseConnectionTestRunError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7360, __c230, 0) as any as S.Schema<CreateEnterpriseConnectionTestRunRequest>,
-  output: __S(7361, __c230, 1) as any as S.Schema<EnterpriseConnectionTestRunResponse>,
+  input: __S(7424, __c232, 0) as any as S.Schema<CreateEnterpriseConnectionTestRunRequest>,
+  output: __S(7425, __c232, 1) as any as S.Schema<EnterpriseConnectionTestRunResponse>,
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7149,8 +7221,8 @@ export const createInvitation: API.OperationMethod<
   CreateInvitationError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7392, __c231, 0) as any as S.Schema<CreateInvitationRequest>,
-  output: __S(6880, __c215, 0) as any as S.Schema<Invitation>,
+  input: __S(7456, __c233, 0) as any as S.Schema<CreateInvitationRequest>,
+  output: __S(6944, __c217, 0) as any as S.Schema<Invitation>,
   errors: [BadRequest, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7166,8 +7238,8 @@ export const createJWTTemplate: API.OperationMethod<
   CreateJWTTemplateError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7424, __c232, 0) as any as S.Schema<CreateJWTTemplateRequest>,
-  output: __S(7456, __c233, 0) as any as S.Schema<JWTTemplate>,
+  input: __S(7488, __c234, 0) as any as S.Schema<CreateJWTTemplateRequest>,
+  output: __S(7520, __c235, 0) as any as S.Schema<JWTTemplate>,
   errors: [BadRequest, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7183,8 +7255,8 @@ export const createM2MToken: API.OperationMethod<
   CreateM2MTokenError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7488, __c234, 0) as any as S.Schema<CreateM2MTokenRequest>,
-  output: __S(7489, __c234, 1) as any as S.Schema<CreateM2MTokenResponse>,
+  input: __S(7552, __c236, 0) as any as S.Schema<CreateM2MTokenRequest>,
+  output: __S(7553, __c236, 1) as any as S.Schema<CreateM2MTokenResponse>,
   errors: [BadRequest, Conflict, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7200,8 +7272,8 @@ export const createMachine: API.OperationMethod<
   CreateMachineError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7520, __c235, 0) as any as S.Schema<CreateMachineRequest>,
-  output: __S(7521, __c235, 1) as any as S.Schema<CreateMachineResponse>,
+  input: __S(7584, __c237, 0) as any as S.Schema<CreateMachineRequest>,
+  output: __S(7585, __c237, 1) as any as S.Schema<CreateMachineResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7223,8 +7295,8 @@ export const createMachineScope: API.OperationMethod<
   CreateMachineScopeError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7584, __c237, 0) as any as S.Schema<CreateMachineScopeRequest>,
-  output: __S(7585, __c237, 1) as any as S.Schema<MachineScope>,
+  input: __S(7648, __c239, 0) as any as S.Schema<CreateMachineScopeRequest>,
+  output: __S(7649, __c239, 1) as any as S.Schema<MachineScope>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7244,8 +7316,8 @@ export const createOAuthApplication: API.OperationMethod<
   CreateOAuthApplicationError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7616, __c238, 0) as any as S.Schema<CreateOAuthApplicationRequest>,
-  output: __S(7648, __c239, 0) as any as S.Schema<CreateOAuthApplicationResponse>,
+  input: __S(7680, __c240, 0) as any as S.Schema<CreateOAuthApplicationRequest>,
+  output: __S(7712, __c241, 0) as any as S.Schema<CreateOAuthApplicationResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7261,8 +7333,8 @@ export const createOrganization: API.OperationMethod<
   CreateOrganizationError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7680, __c240, 0) as any as S.Schema<CreateOrganizationRequest>,
-  output: __S(1728, __c54, 0) as any as S.Schema<Organization>,
+  input: __S(7744, __c242, 0) as any as S.Schema<CreateOrganizationRequest>,
+  output: __S(1792, __c56, 0) as any as S.Schema<Organization>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7283,8 +7355,8 @@ export const createOrganizationDomain: API.OperationMethod<
   CreateOrganizationDomainError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7712, __c241, 0) as any as S.Schema<CreateOrganizationDomainRequest>,
-  output: __S(7777, __c243, 1) as any as S.Schema<OrganizationDomain>,
+  input: __S(7776, __c243, 0) as any as S.Schema<CreateOrganizationDomainRequest>,
+  output: __S(7841, __c245, 1) as any as S.Schema<OrganizationDomain>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7305,8 +7377,8 @@ export const createOrganizationInvitation: API.OperationMethod<
   CreateOrganizationInvitationError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7808, __c244, 0) as any as S.Schema<CreateOrganizationInvitationRequest>,
-  output: __S(7872, __c246, 0) as any as S.Schema<OrganizationInvitation>,
+  input: __S(7872, __c246, 0) as any as S.Schema<CreateOrganizationInvitationRequest>,
+  output: __S(7936, __c248, 0) as any as S.Schema<OrganizationInvitation>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7327,8 +7399,8 @@ export const createOrganizationInvitationBulk: API.OperationMethod<
   CreateOrganizationInvitationBulkError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7906, __c247, 2) as any as S.Schema<CreateOrganizationInvitationBulkRequest>,
-  output: __S(7937, __c248, 1) as any as S.Schema<OrganizationInvitations>,
+  input: __S(7970, __c249, 2) as any as S.Schema<CreateOrganizationInvitationBulkRequest>,
+  output: __S(8001, __c250, 1) as any as S.Schema<OrganizationInvitations>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7349,8 +7421,8 @@ export const createOrganizationMembership: API.OperationMethod<
   CreateOrganizationMembershipError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7968, __c249, 0) as any as S.Schema<CreateOrganizationMembershipRequest>,
-  output: __S(1761, __c55, 1) as any as S.Schema<OrganizationMembership>,
+  input: __S(8032, __c251, 0) as any as S.Schema<CreateOrganizationMembershipRequest>,
+  output: __S(1825, __c57, 1) as any as S.Schema<OrganizationMembership>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7370,8 +7442,8 @@ export const createOrganizationPermission: API.OperationMethod<
   CreateOrganizationPermissionError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8000, __c250, 0) as any as S.Schema<CreateOrganizationPermissionRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<Permission>,
+  input: __S(8064, __c252, 0) as any as S.Schema<CreateOrganizationPermissionRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<Permission>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7392,8 +7464,8 @@ export const createOrganizationRole: API.OperationMethod<
   CreateOrganizationRoleError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8032, __c251, 0) as any as S.Schema<CreateOrganizationRoleRequest>,
-  output: __S(96, __c3, 0) as any as S.Schema<Role>,
+  input: __S(8096, __c253, 0) as any as S.Schema<CreateOrganizationRoleRequest>,
+  output: __S(192, __c6, 0) as any as S.Schema<Role>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7414,8 +7486,8 @@ export const createPhoneNumber: API.OperationMethod<
   CreatePhoneNumberError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8064, __c252, 0) as any as S.Schema<CreatePhoneNumberRequest>,
-  output: __S(1792, __c56, 0) as any as S.Schema<PhoneNumber>,
+  input: __S(8128, __c254, 0) as any as S.Schema<CreatePhoneNumberRequest>,
+  output: __S(1856, __c58, 0) as any as S.Schema<PhoneNumber>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7431,8 +7503,8 @@ export const createRedirectURL: API.OperationMethod<
   CreateRedirectURLError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8096, __c253, 0) as any as S.Schema<CreateRedirectURLRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<RedirectURL>,
+  input: __S(8160, __c255, 0) as any as S.Schema<CreateRedirectURLRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<RedirectURL>,
   errors: [BadRequest, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7453,8 +7525,8 @@ export const createRoleSet: API.OperationMethod<
   CreateRoleSetError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8160, __c255, 0) as any as S.Schema<CreateRoleSetRequest>,
-  output: __S(8995, __c281, 3) as any as S.Schema<RoleSet>,
+  input: __S(8224, __c257, 0) as any as S.Schema<CreateRoleSetRequest>,
+  output: __S(9059, __c283, 3) as any as S.Schema<RoleSet>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7470,8 +7542,8 @@ export const createSCIMDirectory: API.OperationMethod<
   CreateSCIMDirectoryError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8194, __c256, 2) as any as S.Schema<CreateSCIMDirectoryRequest>,
-  output: __S(7138, __c223, 2) as any as S.Schema<SCIMDirectory>,
+  input: __S(8258, __c258, 2) as any as S.Schema<CreateSCIMDirectoryRequest>,
+  output: __S(7202, __c225, 2) as any as S.Schema<SCIMDirectory>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7492,8 +7564,8 @@ export const createSCIMGroupRoleMapping: API.OperationMethod<
   CreateSCIMGroupRoleMappingError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8224, __c257, 0) as any as S.Schema<CreateSCIMGroupRoleMappingRequest>,
-  output: __S(8256, __c258, 0) as any as S.Schema<SCIMGroupRoleMapping>,
+  input: __S(8288, __c259, 0) as any as S.Schema<CreateSCIMGroupRoleMappingRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SCIMGroupRoleMapping>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7509,8 +7581,8 @@ export const createSession: API.OperationMethod<
   CreateSessionError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8352, __c261, 0) as any as S.Schema<CreateSessionRequest>,
-  output: __S(8387, __c262, 3) as any as S.Schema<Session>,
+  input: __S(8416, __c263, 0) as any as S.Schema<CreateSessionRequest>,
+  output: __S(8451, __c264, 3) as any as S.Schema<Session>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7526,8 +7598,8 @@ export const createSessionToken: API.OperationMethod<
   CreateSessionTokenError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8416, __c263, 0) as any as S.Schema<CreateSessionTokenRequest>,
-  output: __S(8448, __c264, 0) as any as S.Schema<CreateSessionTokenResponse>,
+  input: __S(8480, __c265, 0) as any as S.Schema<CreateSessionTokenRequest>,
+  output: __S(8512, __c266, 0) as any as S.Schema<CreateSessionTokenResponse>,
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7543,8 +7615,8 @@ export const createSessionTokenFromTemplate: API.OperationMethod<
   CreateSessionTokenFromTemplateError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8480, __c265, 0) as any as S.Schema<CreateSessionTokenFromTemplateRequest>,
-  output: __S(8448, __c264, 0) as any as S.Schema<CreateSessionTokenFromTemplateResponse>,
+  input: __S(8544, __c267, 0) as any as S.Schema<CreateSessionTokenFromTemplateRequest>,
+  output: __S(8512, __c266, 0) as any as S.Schema<CreateSessionTokenFromTemplateResponse>,
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7560,8 +7632,8 @@ export const createSignInToken: API.OperationMethod<
   CreateSignInTokenError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8512, __c266, 0) as any as S.Schema<CreateSignInTokenRequest>,
-  output: __S(8544, __c267, 0) as any as S.Schema<SignInToken>,
+  input: __S(8576, __c268, 0) as any as S.Schema<CreateSignInTokenRequest>,
+  output: __S(8608, __c269, 0) as any as S.Schema<SignInToken>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7581,8 +7653,8 @@ export const createSSOBypassAllowlistUser: API.OperationMethod<
   CreateSSOBypassAllowlistUserError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8576, __c268, 0) as any as S.Schema<CreateSSOBypassAllowlistUserRequest>,
-  output: __S(8609, __c269, 1) as any as S.Schema<SSOBypassAllowlistUser>,
+  input: __S(8640, __c270, 0) as any as S.Schema<CreateSSOBypassAllowlistUserRequest>,
+  output: __S(8673, __c271, 1) as any as S.Schema<SSOBypassAllowlistUser>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7598,8 +7670,8 @@ export const createSvixApp: API.OperationMethod<
   CreateSvixAppError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8640, __c270, 0) as any as S.Schema<CreateSvixAppRequest>,
-  output: __S(8672, __c271, 0) as any as S.Schema<SvixURL>,
+  input: __S(8704, __c272, 0) as any as S.Schema<CreateSvixAppRequest>,
+  output: __S(8736, __c273, 0) as any as S.Schema<SvixURL>,
   errors: [BadRequest, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7615,8 +7687,8 @@ export const createTestingToken: API.OperationMethod<
   CreateTestingTokenError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8704, __c272, 0) as any as S.Schema<CreateTestingTokenRequest>,
-  output: __S(8705, __c272, 1) as any as S.Schema<TestingToken>,
+  input: __S(8768, __c274, 0) as any as S.Schema<CreateTestingTokenRequest>,
+  output: __S(8769, __c274, 1) as any as S.Schema<TestingToken>,
   errors: [UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7632,8 +7704,8 @@ export const createUser: API.OperationMethod<
   CreateUserError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8736, __c273, 0) as any as S.Schema<CreateUserRequest>,
-  output: __S(1873, __c58, 17) as any as S.Schema<User>,
+  input: __S(8800, __c275, 0) as any as S.Schema<CreateUserRequest>,
+  output: __S(1937, __c60, 17) as any as S.Schema<User>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7649,8 +7721,8 @@ export const createWaitlistEntry: API.OperationMethod<
   CreateWaitlistEntryError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8800, __c275, 0) as any as S.Schema<CreateWaitlistEntryRequest>,
-  output: __S(7072, __c221, 0) as any as S.Schema<WaitlistEntry>,
+  input: __S(8864, __c277, 0) as any as S.Schema<CreateWaitlistEntryRequest>,
+  output: __S(7136, __c223, 0) as any as S.Schema<WaitlistEntry>,
   errors: [BadRequest, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7666,8 +7738,8 @@ export const deleteAllowlistIdentifier: API.OperationMethod<
   DeleteAllowlistIdentifierError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8832, __c276, 0) as any as S.Schema<DeleteAllowlistIdentifierRequest>,
-  output: __S(8864, __c277, 0) as any as S.Schema<DeletedObject>,
+  input: __S(8896, __c278, 0) as any as S.Schema<DeleteAllowlistIdentifierRequest>,
+  output: __S(8928, __c279, 0) as any as S.Schema<DeletedObject>,
   errors: [NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7683,8 +7755,8 @@ export const deleteApiKey: API.OperationMethod<
   DeleteApiKeyError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9024, __c282, 0) as any as S.Schema<DeleteApiKeyRequest>,
-  output: __S(9025, __c282, 1) as any as S.Schema<DeleteApiKeyResponse>,
+  input: __S(9088, __c284, 0) as any as S.Schema<DeleteApiKeyRequest>,
+  output: __S(9089, __c284, 1) as any as S.Schema<DeleteApiKeyResponse>,
   errors: [BadRequest, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7700,8 +7772,8 @@ export const deleteBackupCode: API.OperationMethod<
   DeleteBackupCodeError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9056, __c283, 0) as any as S.Schema<DeleteBackupCodeRequest>,
-  output: __S(9088, __c284, 0) as any as S.Schema<DeleteBackupCodeResponse>,
+  input: __S(9120, __c285, 0) as any as S.Schema<DeleteBackupCodeRequest>,
+  output: __S(9152, __c286, 0) as any as S.Schema<DeleteBackupCodeResponse>,
   errors: [NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7717,8 +7789,8 @@ export const deleteBlocklistIdentifier: API.OperationMethod<
   DeleteBlocklistIdentifierError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9120, __c285, 0) as any as S.Schema<DeleteBlocklistIdentifierRequest>,
-  output: __S(8864, __c277, 0) as any as S.Schema<DeletedObject>,
+  input: __S(9184, __c287, 0) as any as S.Schema<DeleteBlocklistIdentifierRequest>,
+  output: __S(8928, __c279, 0) as any as S.Schema<DeletedObject>,
   errors: [NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7734,8 +7806,8 @@ export const deleteDirectory: API.OperationMethod<
   DeleteDirectoryError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9152, __c286, 0) as any as S.Schema<DeleteDirectoryRequest>,
-  output: __S(8864, __c277, 0) as any as S.Schema<DeletedObject>,
+  input: __S(9216, __c288, 0) as any as S.Schema<DeleteDirectoryRequest>,
+  output: __S(8928, __c279, 0) as any as S.Schema<DeletedObject>,
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7751,8 +7823,8 @@ export const deleteDirectoryGroupRoleMapping: API.OperationMethod<
   DeleteDirectoryGroupRoleMappingError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9184, __c287, 0) as any as S.Schema<DeleteDirectoryGroupRoleMappingRequest>,
-  output: __S(9216, __c288, 0) as any as S.Schema<DeleteDirectoryGroupRoleMappingResponse>,
+  input: __S(9248, __c289, 0) as any as S.Schema<DeleteDirectoryGroupRoleMappingRequest>,
+  output: __S(9280, __c290, 0) as any as S.Schema<DeleteDirectoryGroupRoleMappingResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7768,8 +7840,8 @@ export const deleteDomain: API.OperationMethod<
   DeleteDomainError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9248, __c289, 0) as any as S.Schema<DeleteDomainRequest>,
-  output: __S(8864, __c277, 0) as any as S.Schema<DeletedObject>,
+  input: __S(9312, __c291, 0) as any as S.Schema<DeleteDomainRequest>,
+  output: __S(8928, __c279, 0) as any as S.Schema<DeletedObject>,
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7785,8 +7857,8 @@ export const deleteEmailAddress: API.OperationMethod<
   DeleteEmailAddressError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9280, __c290, 0) as any as S.Schema<DeleteEmailAddressRequest>,
-  output: __S(8864, __c277, 0) as any as S.Schema<DeletedObject>,
+  input: __S(9344, __c292, 0) as any as S.Schema<DeleteEmailAddressRequest>,
+  output: __S(8928, __c279, 0) as any as S.Schema<DeletedObject>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7802,8 +7874,8 @@ export const deleteEnterpriseConnection: API.OperationMethod<
   DeleteEnterpriseConnectionError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9312, __c291, 0) as any as S.Schema<DeleteEnterpriseConnectionRequest>,
-  output: __S(8864, __c277, 0) as any as S.Schema<DeletedObject>,
+  input: __S(9376, __c293, 0) as any as S.Schema<DeleteEnterpriseConnectionRequest>,
+  output: __S(8928, __c279, 0) as any as S.Schema<DeletedObject>,
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7819,8 +7891,8 @@ export const deleteExternalAccount: API.OperationMethod<
   DeleteExternalAccountError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9344, __c292, 0) as any as S.Schema<DeleteExternalAccountRequest>,
-  output: __S(8864, __c277, 0) as any as S.Schema<DeletedObject>,
+  input: __S(9408, __c294, 0) as any as S.Schema<DeleteExternalAccountRequest>,
+  output: __S(8928, __c279, 0) as any as S.Schema<DeletedObject>,
   errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7836,8 +7908,8 @@ export const deleteInvitation: API.OperationMethod<
   DeleteInvitationError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9376, __c293, 0) as any as S.Schema<DeleteInvitationRequest>,
-  output: __S(8864, __c277, 0) as any as S.Schema<DeletedObject>,
+  input: __S(9440, __c295, 0) as any as S.Schema<DeleteInvitationRequest>,
+  output: __S(8928, __c279, 0) as any as S.Schema<DeletedObject>,
   errors: [NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7853,8 +7925,8 @@ export const deleteJWTTemplate: API.OperationMethod<
   DeleteJWTTemplateError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9504, __c297, 0) as any as S.Schema<DeleteJWTTemplateRequest>,
-  output: __S(8864, __c277, 0) as any as S.Schema<DeletedObject>,
+  input: __S(9568, __c299, 0) as any as S.Schema<DeleteJWTTemplateRequest>,
+  output: __S(8928, __c279, 0) as any as S.Schema<DeletedObject>,
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7875,8 +7947,8 @@ export const deleteMachine: API.OperationMethod<
   DeleteMachineError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9536, __c298, 0) as any as S.Schema<DeleteMachineRequest>,
-  output: __S(9216, __c288, 0) as any as S.Schema<DeleteMachineResponse>,
+  input: __S(9600, __c300, 0) as any as S.Schema<DeleteMachineRequest>,
+  output: __S(9280, __c290, 0) as any as S.Schema<DeleteMachineResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7897,8 +7969,8 @@ export const deleteMachineScope: API.OperationMethod<
   DeleteMachineScopeError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9568, __c299, 0) as any as S.Schema<DeleteMachineScopeRequest>,
-  output: __S(9569, __c299, 1) as any as S.Schema<DeleteMachineScopeResponse>,
+  input: __S(9632, __c301, 0) as any as S.Schema<DeleteMachineScopeRequest>,
+  output: __S(9633, __c301, 1) as any as S.Schema<DeleteMachineScopeResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7914,8 +7986,8 @@ export const deleteOAuthApplication: API.OperationMethod<
   DeleteOAuthApplicationError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9600, __c300, 0) as any as S.Schema<DeleteOAuthApplicationRequest>,
-  output: __S(8864, __c277, 0) as any as S.Schema<DeletedObject>,
+  input: __S(9664, __c302, 0) as any as S.Schema<DeleteOAuthApplicationRequest>,
+  output: __S(8928, __c279, 0) as any as S.Schema<DeletedObject>,
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7931,8 +8003,8 @@ export const deleteOrganization: API.OperationMethod<
   DeleteOrganizationError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9632, __c301, 0) as any as S.Schema<DeleteOrganizationRequest>,
-  output: __S(8864, __c277, 0) as any as S.Schema<DeletedObject>,
+  input: __S(9696, __c303, 0) as any as S.Schema<DeleteOrganizationRequest>,
+  output: __S(8928, __c279, 0) as any as S.Schema<DeletedObject>,
   errors: [NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7948,8 +8020,8 @@ export const deleteOrganizationDomain: API.OperationMethod<
   DeleteOrganizationDomainError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9664, __c302, 0) as any as S.Schema<DeleteOrganizationDomainRequest>,
-  output: __S(8864, __c277, 0) as any as S.Schema<DeletedObject>,
+  input: __S(9728, __c304, 0) as any as S.Schema<DeleteOrganizationDomainRequest>,
+  output: __S(8928, __c279, 0) as any as S.Schema<DeletedObject>,
   errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7965,8 +8037,8 @@ export const deleteOrganizationLogo: API.OperationMethod<
   DeleteOrganizationLogoError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9696, __c303, 0) as any as S.Schema<DeleteOrganizationLogoRequest>,
-  output: __S(1728, __c54, 0) as any as S.Schema<Organization>,
+  input: __S(9760, __c305, 0) as any as S.Schema<DeleteOrganizationLogoRequest>,
+  output: __S(1792, __c56, 0) as any as S.Schema<Organization>,
   errors: [NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7982,8 +8054,8 @@ export const deleteOrganizationMembership: API.OperationMethod<
   DeleteOrganizationMembershipError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9728, __c304, 0) as any as S.Schema<DeleteOrganizationMembershipRequest>,
-  output: __S(1761, __c55, 1) as any as S.Schema<OrganizationMembership>,
+  input: __S(9792, __c306, 0) as any as S.Schema<DeleteOrganizationMembershipRequest>,
+  output: __S(1825, __c57, 1) as any as S.Schema<OrganizationMembership>,
   errors: [NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -7999,8 +8071,8 @@ export const deleteOrganizationPermission: API.OperationMethod<
   DeleteOrganizationPermissionError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9760, __c305, 0) as any as S.Schema<DeleteOrganizationPermissionRequest>,
-  output: __S(8864, __c277, 0) as any as S.Schema<DeletedObject>,
+  input: __S(9824, __c307, 0) as any as S.Schema<DeleteOrganizationPermissionRequest>,
+  output: __S(8928, __c279, 0) as any as S.Schema<DeletedObject>,
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8016,8 +8088,8 @@ export const deleteOrganizationRole: API.OperationMethod<
   DeleteOrganizationRoleError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9792, __c306, 0) as any as S.Schema<DeleteOrganizationRoleRequest>,
-  output: __S(8864, __c277, 0) as any as S.Schema<DeletedObject>,
+  input: __S(9856, __c308, 0) as any as S.Schema<DeleteOrganizationRoleRequest>,
+  output: __S(8928, __c279, 0) as any as S.Schema<DeletedObject>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8033,8 +8105,8 @@ export const deletePhoneNumber: API.OperationMethod<
   DeletePhoneNumberError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9856, __c308, 0) as any as S.Schema<DeletePhoneNumberRequest>,
-  output: __S(8864, __c277, 0) as any as S.Schema<DeletedObject>,
+  input: __S(9920, __c310, 0) as any as S.Schema<DeletePhoneNumberRequest>,
+  output: __S(8928, __c279, 0) as any as S.Schema<DeletedObject>,
   errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8050,8 +8122,8 @@ export const deleteRedirectURL: API.OperationMethod<
   DeleteRedirectURLError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9888, __c309, 0) as any as S.Schema<DeleteRedirectURLRequest>,
-  output: __S(8864, __c277, 0) as any as S.Schema<DeletedObject>,
+  input: __S(9952, __c311, 0) as any as S.Schema<DeleteRedirectURLRequest>,
+  output: __S(8928, __c279, 0) as any as S.Schema<DeletedObject>,
   errors: [NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8067,8 +8139,8 @@ export const deleteSCIMDirectory: API.OperationMethod<
   DeleteSCIMDirectoryError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9920, __c310, 0) as any as S.Schema<DeleteSCIMDirectoryRequest>,
-  output: __S(8864, __c277, 0) as any as S.Schema<DeletedObject>,
+  input: __S(9984, __c312, 0) as any as S.Schema<DeleteSCIMDirectoryRequest>,
+  output: __S(8928, __c279, 0) as any as S.Schema<DeletedObject>,
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8084,8 +8156,8 @@ export const deleteSCIMGroupRoleMapping: API.OperationMethod<
   DeleteSCIMGroupRoleMappingError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9952, __c311, 0) as any as S.Schema<DeleteSCIMGroupRoleMappingRequest>,
-  output: __S(9216, __c288, 0) as any as S.Schema<DeleteSCIMGroupRoleMappingResponse>,
+  input: __S(10016, __c313, 0) as any as S.Schema<DeleteSCIMGroupRoleMappingRequest>,
+  output: __S(9280, __c290, 0) as any as S.Schema<DeleteSCIMGroupRoleMappingResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8101,8 +8173,8 @@ export const deleteSSOBypassAllowlistUser: API.OperationMethod<
   DeleteSSOBypassAllowlistUserError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9984, __c312, 0) as any as S.Schema<DeleteSSOBypassAllowlistUserRequest>,
-  output: __S(8864, __c277, 0) as any as S.Schema<DeletedObject>,
+  input: __S(10048, __c314, 0) as any as S.Schema<DeleteSSOBypassAllowlistUserRequest>,
+  output: __S(8928, __c279, 0) as any as S.Schema<DeletedObject>,
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8118,8 +8190,8 @@ export const deleteSvixApp: API.OperationMethod<
   DeleteSvixAppError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10016, __c313, 0) as any as S.Schema<DeleteSvixAppRequest>,
-  output: __S(3360, __c105, 0) as any as S.Schema<DeleteSvixAppResponse>,
+  input: __S(10080, __c315, 0) as any as S.Schema<DeleteSvixAppRequest>,
+  output: __S(3424, __c107, 0) as any as S.Schema<DeleteSvixAppResponse>,
   errors: [BadRequest, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8135,8 +8207,8 @@ export const deleteTOTP: API.OperationMethod<
   DeleteTOTPError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10048, __c314, 0) as any as S.Schema<DeleteTOTPRequest>,
-  output: __S(9088, __c284, 0) as any as S.Schema<DeleteTOTPResponse>,
+  input: __S(10112, __c316, 0) as any as S.Schema<DeleteTOTPRequest>,
+  output: __S(9152, __c286, 0) as any as S.Schema<DeleteTOTPResponse>,
   errors: [NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8152,8 +8224,8 @@ export const deleteUser: API.OperationMethod<
   DeleteUserError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10080, __c315, 0) as any as S.Schema<DeleteUserRequest>,
-  output: __S(8864, __c277, 0) as any as S.Schema<DeletedObject>,
+  input: __S(10144, __c317, 0) as any as S.Schema<DeleteUserRequest>,
+  output: __S(8928, __c279, 0) as any as S.Schema<DeletedObject>,
   errors: [BadRequest, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8169,8 +8241,8 @@ export const deleteUserPasskey: API.OperationMethod<
   DeleteUserPasskeyError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10112, __c316, 0) as any as S.Schema<DeleteUserPasskeyRequest>,
-  output: __S(8864, __c277, 0) as any as S.Schema<DeletedObject>,
+  input: __S(10176, __c318, 0) as any as S.Schema<DeleteUserPasskeyRequest>,
+  output: __S(8928, __c279, 0) as any as S.Schema<DeletedObject>,
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8186,8 +8258,8 @@ export const deleteUserProfileImage: API.OperationMethod<
   DeleteUserProfileImageError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10144, __c317, 0) as any as S.Schema<DeleteUserProfileImageRequest>,
-  output: __S(1873, __c58, 17) as any as S.Schema<User>,
+  input: __S(10208, __c319, 0) as any as S.Schema<DeleteUserProfileImageRequest>,
+  output: __S(1937, __c60, 17) as any as S.Schema<User>,
   errors: [NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8203,8 +8275,8 @@ export const deleteUserWeb3Wallet: API.OperationMethod<
   DeleteUserWeb3WalletError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10240, __c320, 0) as any as S.Schema<DeleteUserWeb3WalletRequest>,
-  output: __S(8864, __c277, 0) as any as S.Schema<DeletedObject>,
+  input: __S(10304, __c322, 0) as any as S.Schema<DeleteUserWeb3WalletRequest>,
+  output: __S(8928, __c279, 0) as any as S.Schema<DeletedObject>,
   errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8225,8 +8297,8 @@ export const deleteWaitlistEntry: API.OperationMethod<
   DeleteWaitlistEntryError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10272, __c321, 0) as any as S.Schema<DeleteWaitlistEntryRequest>,
-  output: __S(8864, __c277, 0) as any as S.Schema<DeletedObject>,
+  input: __S(10336, __c323, 0) as any as S.Schema<DeleteWaitlistEntryRequest>,
+  output: __S(8928, __c279, 0) as any as S.Schema<DeletedObject>,
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8242,8 +8314,8 @@ export const disableMFA: API.OperationMethod<
   DisableMFAError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10304, __c322, 0) as any as S.Schema<DisableMFARequest>,
-  output: __S(9088, __c284, 0) as any as S.Schema<DisableMFAResponse>,
+  input: __S(10368, __c324, 0) as any as S.Schema<DisableMFARequest>,
+  output: __S(9152, __c286, 0) as any as S.Schema<DisableMFAResponse>,
   errors: [NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8264,8 +8336,8 @@ export const extendBillingSubscriptionItemFreeTrial: API.OperationMethod<
   ExtendBillingSubscriptionItemFreeTrialError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10336, __c323, 0) as any as S.Schema<ExtendBillingSubscriptionItemFreeTrialRequest>,
-  output: __S(6085, __c190, 5) as any as S.Schema<CommerceSubscriptionItem2>,
+  input: __S(10400, __c325, 0) as any as S.Schema<ExtendBillingSubscriptionItemFreeTrialRequest>,
+  output: __S(6149, __c192, 5) as any as S.Schema<CommerceSubscriptionItem2>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8281,8 +8353,8 @@ export const generateSvixAuthURL: API.OperationMethod<
   GenerateSvixAuthURLError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10368, __c324, 0) as any as S.Schema<GenerateSvixAuthURLRequest>,
-  output: __S(8672, __c271, 0) as any as S.Schema<SvixURL>,
+  input: __S(10432, __c326, 0) as any as S.Schema<GenerateSvixAuthURLRequest>,
+  output: __S(8736, __c273, 0) as any as S.Schema<SvixURL>,
   errors: [BadRequest, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8298,8 +8370,8 @@ export const getApiKey: API.OperationMethod<
   GetApiKeyError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10400, __c325, 0) as any as S.Schema<GetApiKeyRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GetApiKeyResponse>,
+  input: __S(10464, __c327, 0) as any as S.Schema<GetApiKeyRequest>,
+  output: __S(10496, __c328, 0) as any as S.Schema<GetApiKeyResponse>,
   errors: [BadRequest, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8315,8 +8387,8 @@ export const getApiKeys: API.OperationMethod<
   GetApiKeysError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10464, __c327, 0) as any as S.Schema<GetApiKeysRequest>,
-  output: __S(10466, __c327, 2) as any as S.Schema<GetApiKeysResponse>,
+  input: __S(10528, __c329, 0) as any as S.Schema<GetApiKeysRequest>,
+  output: __S(10530, __c329, 2) as any as S.Schema<GetApiKeysResponse>,
   errors: [BadRequest, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8332,8 +8404,8 @@ export const getApiKeySecret: API.OperationMethod<
   GetApiKeySecretError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10496, __c328, 0) as any as S.Schema<GetApiKeySecretRequest>,
-  output: __S(10497, __c328, 1) as any as S.Schema<GetApiKeySecretResponse>,
+  input: __S(10560, __c330, 0) as any as S.Schema<GetApiKeySecretRequest>,
+  output: __S(10561, __c330, 1) as any as S.Schema<GetApiKeySecretResponse>,
   errors: [BadRequest, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8349,8 +8421,8 @@ export const getBillingPriceList: API.OperationMethod<
   GetBillingPriceListError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10528, __c329, 0) as any as S.Schema<GetBillingPriceListRequest>,
-  output: __S(10530, __c329, 2) as any as S.Schema<PaginatedBillingPriceResponse>,
+  input: __S(10592, __c331, 0) as any as S.Schema<GetBillingPriceListRequest>,
+  output: __S(10594, __c331, 2) as any as S.Schema<PaginatedBillingPriceResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8366,8 +8438,8 @@ export const getBillingStatement: API.OperationMethod<
   GetBillingStatementError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10560, __c330, 0) as any as S.Schema<GetBillingStatementRequest>,
-  output: __S(10595, __c331, 3) as any as S.Schema<BillingStatement>,
+  input: __S(10624, __c332, 0) as any as S.Schema<GetBillingStatementRequest>,
+  output: __S(10659, __c333, 3) as any as S.Schema<BillingStatement>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8383,8 +8455,8 @@ export const getBillingStatementList: API.OperationMethod<
   GetBillingStatementListError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<GetBillingStatementListRequest>,
-  output: __S(130, __c4, 2) as any as S.Schema<PaginatedBillingStatementResponse>,
+  input: __S(224, __c7, 0) as any as S.Schema<GetBillingStatementListRequest>,
+  output: __S(226, __c7, 2) as any as S.Schema<PaginatedBillingStatementResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8404,8 +8476,8 @@ export const getBillingStatementPaymentAttempts: API.OperationMethod<
   GetBillingStatementPaymentAttemptsError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<GetBillingStatementPaymentAttemptsRequest>,
-  output: __S(161, __c5, 1) as any as S.Schema<PaginatedBillingPaymentAttemptResponse>,
+  input: __S(256, __c8, 0) as any as S.Schema<GetBillingStatementPaymentAttemptsRequest>,
+  output: __S(257, __c8, 1) as any as S.Schema<PaginatedBillingPaymentAttemptResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8421,8 +8493,8 @@ export const getClient: API.OperationMethod<
   GetClientError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<GetClientRequest>,
-  output: __S(256, __c8, 0) as any as S.Schema<Client>,
+  input: __S(288, __c9, 0) as any as S.Schema<GetClientRequest>,
+  output: __S(352, __c11, 0) as any as S.Schema<Client>,
   errors: [BadRequest, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8438,8 +8510,8 @@ export const getCommercePlanList: API.OperationMethod<
   GetCommercePlanListError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<GetCommercePlanListRequest>,
-  output: __S(290, __c9, 2) as any as S.Schema<PaginatedCommercePlanResponse>,
+  input: __S(384, __c12, 0) as any as S.Schema<GetCommercePlanListRequest>,
+  output: __S(386, __c12, 2) as any as S.Schema<PaginatedCommercePlanResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8455,8 +8527,8 @@ export const getCommerceSubscriptionItemList: API.OperationMethod<
   GetCommerceSubscriptionItemListError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<GetCommerceSubscriptionItemListRequest>,
-  output: __S(321, __c10, 1) as any as S.Schema<PaginatedCommerceSubscriptionItemResponse>,
+  input: __S(416, __c13, 0) as any as S.Schema<GetCommerceSubscriptionItemListRequest>,
+  output: __S(417, __c13, 1) as any as S.Schema<PaginatedCommerceSubscriptionItemResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8472,8 +8544,8 @@ export const getDirectory: API.OperationMethod<
   GetDirectoryError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<GetDirectoryRequest>,
-  output: __S(7138, __c223, 2) as any as S.Schema<Directory>,
+  input: __S(480, __c15, 0) as any as S.Schema<GetDirectoryRequest>,
+  output: __S(7202, __c225, 2) as any as S.Schema<Directory>,
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8489,8 +8561,8 @@ export const getDirectoryGroup: API.OperationMethod<
   GetDirectoryGroupError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<GetDirectoryGroupRequest>,
-  output: __S(417, __c13, 1) as any as S.Schema<DirectoryGroup>,
+  input: __S(512, __c16, 0) as any as S.Schema<GetDirectoryGroupRequest>,
+  output: __S(513, __c16, 1) as any as S.Schema<DirectoryGroup>,
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8506,8 +8578,8 @@ export const getEmailAddress: API.OperationMethod<
   GetEmailAddressError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<GetEmailAddressRequest>,
-  output: __S(1696, __c53, 0) as any as S.Schema<EmailAddress>,
+  input: __S(544, __c17, 0) as any as S.Schema<GetEmailAddressRequest>,
+  output: __S(1760, __c55, 0) as any as S.Schema<EmailAddress>,
   errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8523,8 +8595,8 @@ export const getEnterpriseConnection: API.OperationMethod<
   GetEnterpriseConnectionError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<GetEnterpriseConnectionRequest>,
-  output: __S(7303, __c228, 7) as any as S.Schema<EnterpriseConnection>,
+  input: __S(576, __c18, 0) as any as S.Schema<GetEnterpriseConnectionRequest>,
+  output: __S(7367, __c230, 7) as any as S.Schema<EnterpriseConnection>,
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8540,8 +8612,8 @@ export const getInstance: API.OperationMethod<
   GetInstanceError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<GetInstanceRequest>,
-  output: __S(513, __c16, 1) as any as S.Schema<Instance>,
+  input: __S(608, __c19, 0) as any as S.Schema<GetInstanceRequest>,
+  output: __S(609, __c19, 1) as any as S.Schema<Instance>,
   errors: [UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8557,8 +8629,8 @@ export const getInstanceCommunication: API.OperationMethod<
   GetInstanceCommunicationError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<GetInstanceCommunicationRequest>,
-  output: __S(640, __c20, 0) as any as S.Schema<InstanceCommunication>,
+  input: __S(704, __c22, 0) as any as S.Schema<GetInstanceCommunicationRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<InstanceCommunication>,
   errors: [UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8574,8 +8646,8 @@ export const getInstanceOAuthApplicationSettings: API.OperationMethod<
   GetInstanceOAuthApplicationSettingsError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<GetInstanceOAuthApplicationSettingsRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<OAuthApplicationSettings>,
+  input: __S(768, __c24, 0) as any as S.Schema<GetInstanceOAuthApplicationSettingsRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<OAuthApplicationSettings>,
   errors: [UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8591,8 +8663,8 @@ export const getInstanceOrganizationSettings: API.OperationMethod<
   GetInstanceOrganizationSettingsError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<GetInstanceOrganizationSettingsRequest>,
-  output: __S(768, __c24, 0) as any as S.Schema<OrganizationSettings>,
+  input: __S(832, __c26, 0) as any as S.Schema<GetInstanceOrganizationSettingsRequest>,
+  output: __S(864, __c27, 0) as any as S.Schema<OrganizationSettings>,
   errors: [NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8608,8 +8680,8 @@ export const getInstanceProtect: API.OperationMethod<
   GetInstanceProtectError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<GetInstanceProtectRequest>,
-  output: __S(832, __c26, 0) as any as S.Schema<InstanceProtect>,
+  input: __S(896, __c28, 0) as any as S.Schema<GetInstanceProtectRequest>,
+  output: __S(928, __c29, 0) as any as S.Schema<InstanceProtect>,
   errors: [UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8625,8 +8697,8 @@ export const getInterstitial: API.OperationMethod<
   GetInterstitialError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<GetInterstitialRequest>,
-  output: __S(3360, __c105, 0) as any as S.Schema<GetInterstitialResponse>,
+  input: __S(960, __c30, 0) as any as S.Schema<GetInterstitialRequest>,
+  output: __S(3424, __c107, 0) as any as S.Schema<GetInterstitialResponse>,
   errors: [BadRequest, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8638,8 +8710,8 @@ export type GetJWKSError = ClerkOpError;
 /** Retrieve the JSON Web Key Set of the instance Retrieve the JSON Web Key Set of the instance */
 export const getJWKS: API.OperationMethod<GetJWKSRequest, JWKS, GetJWKSError, ClerkOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(896, __c28, 0) as any as S.Schema<GetJWKSRequest>,
-    output: __S(898, __c28, 2) as any as S.Schema<JWKS>,
+    input: __S(992, __c31, 0) as any as S.Schema<GetJWKSRequest>,
+    output: __S(994, __c31, 2) as any as S.Schema<JWKS>,
     errors: [UnknownClerkError],
     protocol: ClerkProtocol,
     retry: Retry.Retry,
@@ -8655,8 +8727,8 @@ export const getJWTTemplate: API.OperationMethod<
   GetJWTTemplateError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<GetJWTTemplateRequest>,
-  output: __S(7456, __c233, 0) as any as S.Schema<JWTTemplate>,
+  input: __S(1024, __c32, 0) as any as S.Schema<GetJWTTemplateRequest>,
+  output: __S(7520, __c235, 0) as any as S.Schema<JWTTemplate>,
   errors: [NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8672,8 +8744,8 @@ export const getLog: API.OperationMethod<
   GetLogError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<GetLogRequest>,
-  output: __S(968, __c30, 8) as any as S.Schema<GetLogResponse>,
+  input: __S(1056, __c33, 0) as any as S.Schema<GetLogRequest>,
+  output: __S(1064, __c33, 8) as any as S.Schema<GetLogResponse>,
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8689,8 +8761,8 @@ export const getLogSchema: API.OperationMethod<
   GetLogSchemaError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<GetLogSchemaRequest>,
-  output: __S(995, __c31, 3) as any as S.Schema<LogSchema>,
+  input: __S(1088, __c34, 0) as any as S.Schema<GetLogSchemaRequest>,
+  output: __S(1091, __c34, 3) as any as S.Schema<LogSchema>,
   errors: [Forbidden, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8706,8 +8778,8 @@ export const getM2MTokens: API.OperationMethod<
   GetM2MTokensError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<GetM2MTokensRequest>,
-  output: __S(1026, __c32, 2) as any as S.Schema<GetM2MTokensResponse>,
+  input: __S(1120, __c35, 0) as any as S.Schema<GetM2MTokensRequest>,
+  output: __S(1122, __c35, 2) as any as S.Schema<GetM2MTokensResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8728,8 +8800,8 @@ export const getMachine: API.OperationMethod<
   GetMachineError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<GetMachineRequest>,
-  output: __S(1152, __c36, 0) as any as S.Schema<GetMachineResponse>,
+  input: __S(1216, __c38, 0) as any as S.Schema<GetMachineRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<GetMachineResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8745,8 +8817,8 @@ export const getMachineSecretKey: API.OperationMethod<
   GetMachineSecretKeyError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<GetMachineSecretKeyRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<GetMachineSecretKeyResponse>,
+  input: __S(1280, __c40, 0) as any as S.Schema<GetMachineSecretKeyRequest>,
+  output: __S(1312, __c41, 0) as any as S.Schema<GetMachineSecretKeyResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8767,8 +8839,8 @@ export const getOAuthAccessToken: API.OperationMethod<
   GetOAuthAccessTokenError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<GetOAuthAccessTokenRequest>,
-  output: __S(1251, __c39, 3) as any as S.Schema<GetOAuthAccessTokenResponse>,
+  input: __S(1344, __c42, 0) as any as S.Schema<GetOAuthAccessTokenRequest>,
+  output: __S(1347, __c42, 3) as any as S.Schema<GetOAuthAccessTokenResponse>,
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8784,8 +8856,8 @@ export const getOAuthApplication: API.OperationMethod<
   GetOAuthApplicationError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<GetOAuthApplicationRequest>,
-  output: __S(1312, __c41, 0) as any as S.Schema<OAuthApplication>,
+  input: __S(1376, __c43, 0) as any as S.Schema<GetOAuthApplicationRequest>,
+  output: __S(1408, __c44, 0) as any as S.Schema<OAuthApplication>,
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8801,8 +8873,8 @@ export const getOrganization: API.OperationMethod<
   GetOrganizationError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<GetOrganizationRequest>,
-  output: __S(1728, __c54, 0) as any as S.Schema<Organization>,
+  input: __S(1440, __c45, 0) as any as S.Schema<GetOrganizationRequest>,
+  output: __S(1792, __c56, 0) as any as S.Schema<Organization>,
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8823,8 +8895,8 @@ export const getOrganizationBillingCreditBalance: API.OperationMethod<
   GetOrganizationBillingCreditBalanceError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<GetOrganizationBillingCreditBalanceRequest>,
-  output: __S(1408, __c44, 0) as any as S.Schema<CommerceCreditBalanceResponse>,
+  input: __S(1472, __c46, 0) as any as S.Schema<GetOrganizationBillingCreditBalanceRequest>,
+  output: __S(1504, __c47, 0) as any as S.Schema<CommerceCreditBalanceResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8845,8 +8917,8 @@ export const getOrganizationBillingSubscription: API.OperationMethod<
   GetOrganizationBillingSubscriptionError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<GetOrganizationBillingSubscriptionRequest>,
-  output: __S(1473, __c46, 1) as any as S.Schema<CommerceSubscription>,
+  input: __S(1536, __c48, 0) as any as S.Schema<GetOrganizationBillingSubscriptionRequest>,
+  output: __S(1569, __c49, 1) as any as S.Schema<CommerceSubscription>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8862,8 +8934,8 @@ export const getOrganizationInvitation: API.OperationMethod<
   GetOrganizationInvitationError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<GetOrganizationInvitationRequest>,
-  output: __S(7872, __c246, 0) as any as S.Schema<OrganizationInvitation>,
+  input: __S(1600, __c50, 0) as any as S.Schema<GetOrganizationInvitationRequest>,
+  output: __S(7936, __c248, 0) as any as S.Schema<OrganizationInvitation>,
   errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8879,8 +8951,8 @@ export const getOrganizationPermission: API.OperationMethod<
   GetOrganizationPermissionError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<GetOrganizationPermissionRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<Permission>,
+  input: __S(1632, __c51, 0) as any as S.Schema<GetOrganizationPermissionRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<Permission>,
   errors: [NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8896,8 +8968,8 @@ export const getOrganizationRole: API.OperationMethod<
   GetOrganizationRoleError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<GetOrganizationRoleRequest>,
-  output: __S(96, __c3, 0) as any as S.Schema<Role>,
+  input: __S(1664, __c52, 0) as any as S.Schema<GetOrganizationRoleRequest>,
+  output: __S(192, __c6, 0) as any as S.Schema<Role>,
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8913,8 +8985,8 @@ export const getPhoneNumber: API.OperationMethod<
   GetPhoneNumberError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<GetPhoneNumberRequest>,
-  output: __S(1792, __c56, 0) as any as S.Schema<PhoneNumber>,
+  input: __S(1952, __c61, 0) as any as S.Schema<GetPhoneNumberRequest>,
+  output: __S(1856, __c58, 0) as any as S.Schema<PhoneNumber>,
   errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8930,8 +9002,8 @@ export const getRedirectURL: API.OperationMethod<
   GetRedirectURLError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<GetRedirectURLRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<RedirectURL>,
+  input: __S(1984, __c62, 0) as any as S.Schema<GetRedirectURLRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<RedirectURL>,
   errors: [NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8947,8 +9019,8 @@ export const getReverification: API.OperationMethod<
   GetReverificationError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<GetReverificationRequest>,
-  output: __S(1953, __c61, 1) as any as S.Schema<Reverification>,
+  input: __S(2016, __c63, 0) as any as S.Schema<GetReverificationRequest>,
+  output: __S(2017, __c63, 1) as any as S.Schema<Reverification>,
   errors: [BadRequest, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8964,8 +9036,8 @@ export const getRoleSet: API.OperationMethod<
   GetRoleSetError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<GetRoleSetRequest>,
-  output: __S(8995, __c281, 3) as any as S.Schema<RoleSet>,
+  input: __S(2048, __c64, 0) as any as S.Schema<GetRoleSetRequest>,
+  output: __S(9059, __c283, 3) as any as S.Schema<RoleSet>,
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8981,8 +9053,8 @@ export const getSCIMDirectory: API.OperationMethod<
   GetSCIMDirectoryError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<GetSCIMDirectoryRequest>,
-  output: __S(7138, __c223, 2) as any as S.Schema<SCIMDirectory>,
+  input: __S(2080, __c65, 0) as any as S.Schema<GetSCIMDirectoryRequest>,
+  output: __S(7202, __c225, 2) as any as S.Schema<SCIMDirectory>,
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -8998,8 +9070,8 @@ export const getSession: API.OperationMethod<
   GetSessionError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<GetSessionRequest>,
-  output: __S(8387, __c262, 3) as any as S.Schema<Session>,
+  input: __S(2112, __c66, 0) as any as S.Schema<GetSessionRequest>,
+  output: __S(8451, __c264, 3) as any as S.Schema<Session>,
   errors: [BadRequest, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9015,8 +9087,8 @@ export const getSessionList: API.OperationMethod<
   GetSessionListError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<GetSessionListRequest>,
-  output: __S(2081, __c65, 1) as any as S.Schema<GetSessionListResponse>,
+  input: __S(2144, __c67, 0) as any as S.Schema<GetSessionListRequest>,
+  output: __S(2145, __c67, 1) as any as S.Schema<GetSessionListResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9032,8 +9104,8 @@ export const getSignUp: API.OperationMethod<
   GetSignUpError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<GetSignUpRequest>,
-  output: __S(2146, __c67, 2) as any as S.Schema<SignUp>,
+  input: __S(2176, __c68, 0) as any as S.Schema<GetSignUpRequest>,
+  output: __S(2210, __c69, 2) as any as S.Schema<SignUp>,
   errors: [Forbidden, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9045,8 +9117,8 @@ export type GetUserError = BadRequest | NotFound | ClerkOpError;
 /** Retrieve a user Retrieve the details of a user */
 export const getUser: API.OperationMethod<GetUserRequest, User, GetUserError, ClerkOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(2176, __c68, 0) as any as S.Schema<GetUserRequest>,
-    output: __S(1873, __c58, 17) as any as S.Schema<User>,
+    input: __S(2240, __c70, 0) as any as S.Schema<GetUserRequest>,
+    output: __S(1937, __c60, 17) as any as S.Schema<User>,
     errors: [BadRequest, NotFound, UnknownClerkError],
     protocol: ClerkProtocol,
     retry: Retry.Retry,
@@ -9067,8 +9139,8 @@ export const getUserBillingCreditBalance: API.OperationMethod<
   GetUserBillingCreditBalanceError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<GetUserBillingCreditBalanceRequest>,
-  output: __S(1408, __c44, 0) as any as S.Schema<CommerceCreditBalanceResponse>,
+  input: __S(2272, __c71, 0) as any as S.Schema<GetUserBillingCreditBalanceRequest>,
+  output: __S(1504, __c47, 0) as any as S.Schema<CommerceCreditBalanceResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9089,8 +9161,8 @@ export const getUserBillingSubscription: API.OperationMethod<
   GetUserBillingSubscriptionError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<GetUserBillingSubscriptionRequest>,
-  output: __S(1473, __c46, 1) as any as S.Schema<CommerceSubscription>,
+  input: __S(2368, __c74, 0) as any as S.Schema<GetUserBillingSubscriptionRequest>,
+  output: __S(1569, __c49, 1) as any as S.Schema<CommerceSubscription>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9106,8 +9178,8 @@ export const getUserList: API.OperationMethod<
   GetUserListError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c73, 0) as any as S.Schema<GetUserListRequest>,
-  output: __S(2273, __c71, 1) as any as S.Schema<GetUserListResponse>,
+  input: __S(2400, __c75, 0) as any as S.Schema<GetUserListRequest>,
+  output: __S(2337, __c73, 1) as any as S.Schema<GetUserListResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9123,8 +9195,8 @@ export const getUsersCount: API.OperationMethod<
   GetUsersCountError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c74, 0) as any as S.Schema<GetUsersCountRequest>,
-  output: __S(2369, __c74, 1) as any as S.Schema<TotalCount>,
+  input: __S(2432, __c76, 0) as any as S.Schema<GetUsersCountRequest>,
+  output: __S(2433, __c76, 1) as any as S.Schema<TotalCount>,
   errors: [UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9143,8 +9215,8 @@ export const instanceGetOrganizationMemberships: API.OperationMethod<
   InstanceGetOrganizationMembershipsError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c75, 0) as any as S.Schema<InstanceGetOrganizationMembershipsRequest>,
-  output: __S(2432, __c76, 0) as any as S.Schema<OrganizationMemberships>,
+  input: __S(2464, __c77, 0) as any as S.Schema<InstanceGetOrganizationMembershipsRequest>,
+  output: __S(2496, __c78, 0) as any as S.Schema<OrganizationMemberships>,
   errors: [BadRequest, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9165,8 +9237,8 @@ export const inviteWaitlistEntry: API.OperationMethod<
   InviteWaitlistEntryError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<InviteWaitlistEntryRequest>,
-  output: __S(7072, __c221, 0) as any as S.Schema<WaitlistEntry>,
+  input: __S(2528, __c79, 0) as any as S.Schema<InviteWaitlistEntryRequest>,
+  output: __S(7136, __c223, 0) as any as S.Schema<WaitlistEntry>,
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9182,8 +9254,8 @@ export const listAllOrganizationDomains: API.OperationMethod<
   ListAllOrganizationDomainsError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<ListAllOrganizationDomainsRequest>,
-  output: __S(2529, __c79, 1) as any as S.Schema<OrganizationDomains>,
+  input: __S(2560, __c80, 0) as any as S.Schema<ListAllOrganizationDomainsRequest>,
+  output: __S(2593, __c81, 1) as any as S.Schema<OrganizationDomains>,
   errors: [Forbidden, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9199,8 +9271,8 @@ export const listAllowlistIdentifiers: API.OperationMethod<
   ListAllowlistIdentifiersError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<ListAllowlistIdentifiersRequest>,
-  output: __S(2562, __c80, 2) as any as S.Schema<ListAllowlistIdentifiersResponse>,
+  input: __S(2624, __c82, 0) as any as S.Schema<ListAllowlistIdentifiersRequest>,
+  output: __S(2626, __c82, 2) as any as S.Schema<ListAllowlistIdentifiersResponse>,
   errors: [UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9216,8 +9288,8 @@ export const listBlocklistIdentifiers: API.OperationMethod<
   ListBlocklistIdentifiersError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<ListBlocklistIdentifiersRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<BlocklistIdentifiers>,
+  input: __S(2656, __c83, 0) as any as S.Schema<ListBlocklistIdentifiersRequest>,
+  output: __S(2658, __c83, 2) as any as S.Schema<BlocklistIdentifiers>,
   errors: [UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9233,8 +9305,8 @@ export const listDirectories: API.OperationMethod<
   ListDirectoriesError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<ListDirectoriesRequest>,
-  output: __S(2657, __c83, 1) as any as S.Schema<ListDirectoriesResponse>,
+  input: __S(2688, __c84, 0) as any as S.Schema<ListDirectoriesRequest>,
+  output: __S(2721, __c85, 1) as any as S.Schema<ListDirectoriesResponse>,
   errors: [Forbidden, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9250,8 +9322,8 @@ export const listDirectoryGroupMembers: API.OperationMethod<
   ListDirectoryGroupMembersError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c84, 0) as any as S.Schema<ListDirectoryGroupMembersRequest>,
-  output: __S(2692, __c84, 4) as any as S.Schema<ListDirectoryGroupMembersResponse>,
+  input: __S(2752, __c86, 0) as any as S.Schema<ListDirectoryGroupMembersRequest>,
+  output: __S(2756, __c86, 4) as any as S.Schema<ListDirectoryGroupMembersResponse>,
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9267,8 +9339,8 @@ export const listDirectoryGroupRoleMappings: API.OperationMethod<
   ListDirectoryGroupRoleMappingsError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<ListDirectoryGroupRoleMappingsRequest>,
-  output: __S(2945, __c92, 1) as any as S.Schema<ListDirectoryGroupRoleMappingsResponse>,
+  input: __S(2976, __c93, 0) as any as S.Schema<ListDirectoryGroupRoleMappingsRequest>,
+  output: __S(3009, __c94, 1) as any as S.Schema<ListDirectoryGroupRoleMappingsResponse>,
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9284,8 +9356,8 @@ export const listDomains: API.OperationMethod<
   ListDomainsError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<ListDomainsRequest>,
-  output: __S(2978, __c93, 2) as any as S.Schema<Domains>,
+  input: __S(3040, __c95, 0) as any as S.Schema<ListDomainsRequest>,
+  output: __S(3042, __c95, 2) as any as S.Schema<Domains>,
   errors: [UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9301,8 +9373,8 @@ export const listEnterpriseConnections: API.OperationMethod<
   ListEnterpriseConnectionsError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<ListEnterpriseConnectionsRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<EnterpriseConnections>,
+  input: __S(3072, __c96, 0) as any as S.Schema<ListEnterpriseConnectionsRequest>,
+  output: __S(3074, __c96, 2) as any as S.Schema<EnterpriseConnections>,
   errors: [Forbidden, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9322,8 +9394,8 @@ export const listEnterpriseConnectionTestRuns: API.OperationMethod<
   ListEnterpriseConnectionTestRunsError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<ListEnterpriseConnectionTestRunsRequest>,
-  output: __S(3048, __c95, 8) as any as S.Schema<EnterpriseConnectionTestRuns>,
+  input: __S(3104, __c97, 0) as any as S.Schema<ListEnterpriseConnectionTestRunsRequest>,
+  output: __S(3112, __c97, 8) as any as S.Schema<EnterpriseConnectionTestRuns>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9343,8 +9415,8 @@ export const listInstanceOrganizationInvitations: API.OperationMethod<
   ListInstanceOrganizationInvitationsError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<ListInstanceOrganizationInvitationsRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<OrganizationInvitationsWithPublicOrganizationData>,
+  input: __S(3136, __c98, 0) as any as S.Schema<ListInstanceOrganizationInvitationsRequest>,
+  output: __S(3170, __c99, 2) as any as S.Schema<OrganizationInvitationsWithPublicOrganizationData>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9360,8 +9432,8 @@ export const listInvitations: API.OperationMethod<
   ListInvitationsError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c98, 0) as any as S.Schema<ListInvitationsRequest>,
-  output: __S(6849, __c214, 1) as any as S.Schema<ListInvitationsResponse>,
+  input: __S(3200, __c100, 0) as any as S.Schema<ListInvitationsRequest>,
+  output: __S(6913, __c216, 1) as any as S.Schema<ListInvitationsResponse>,
   errors: [UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9377,8 +9449,8 @@ export const listJWTTemplates: API.OperationMethod<
   ListJWTTemplatesError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<ListJWTTemplatesRequest>,
-  output: __S(3170, __c99, 2) as any as S.Schema<ListJWTTemplatesResponse>,
+  input: __S(3232, __c101, 0) as any as S.Schema<ListJWTTemplatesRequest>,
+  output: __S(3234, __c101, 2) as any as S.Schema<ListJWTTemplatesResponse>,
   errors: [UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9394,8 +9466,8 @@ export const listLogGroupEvents: API.OperationMethod<
   ListLogGroupEventsError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<ListLogGroupEventsRequest>,
-  output: __S(3202, __c100, 2) as any as S.Schema<ListLogGroupEventsResponse>,
+  input: __S(3264, __c102, 0) as any as S.Schema<ListLogGroupEventsRequest>,
+  output: __S(3266, __c102, 2) as any as S.Schema<ListLogGroupEventsResponse>,
   errors: [Forbidden, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9411,8 +9483,8 @@ export const listLogs: API.OperationMethod<
   ListLogsError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c102, 0) as any as S.Schema<ListLogsRequest>,
-  output: __S(3266, __c102, 2) as any as S.Schema<ListLogsResponse>,
+  input: __S(3328, __c104, 0) as any as S.Schema<ListLogsRequest>,
+  output: __S(3330, __c104, 2) as any as S.Schema<ListLogsResponse>,
   errors: [Forbidden, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9428,8 +9500,8 @@ export const listMachines: API.OperationMethod<
   ListMachinesError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c103, 0) as any as S.Schema<ListMachinesRequest>,
-  output: __S(3298, __c103, 2) as any as S.Schema<ListMachinesResponse>,
+  input: __S(3360, __c105, 0) as any as S.Schema<ListMachinesRequest>,
+  output: __S(3362, __c105, 2) as any as S.Schema<ListMachinesResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9449,8 +9521,8 @@ export const listOAuthApplications: API.OperationMethod<
   ListOAuthApplicationsError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3392, __c106, 0) as any as S.Schema<ListOAuthApplicationsRequest>,
-  output: __S(3394, __c106, 2) as any as S.Schema<OAuthApplications>,
+  input: __S(3456, __c108, 0) as any as S.Schema<ListOAuthApplicationsRequest>,
+  output: __S(3458, __c108, 2) as any as S.Schema<OAuthApplications>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9466,8 +9538,8 @@ export const listOrganizationDomains: API.OperationMethod<
   ListOrganizationDomainsError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<ListOrganizationDomainsRequest>,
-  output: __S(2529, __c79, 1) as any as S.Schema<OrganizationDomains>,
+  input: __S(3488, __c109, 0) as any as S.Schema<ListOrganizationDomainsRequest>,
+  output: __S(2593, __c81, 1) as any as S.Schema<OrganizationDomains>,
   errors: [UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9487,8 +9559,8 @@ export const listOrganizationInvitations: API.OperationMethod<
   ListOrganizationInvitationsError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3456, __c108, 0) as any as S.Schema<ListOrganizationInvitationsRequest>,
-  output: __S(7937, __c248, 1) as any as S.Schema<OrganizationInvitations>,
+  input: __S(3520, __c110, 0) as any as S.Schema<ListOrganizationInvitationsRequest>,
+  output: __S(8001, __c250, 1) as any as S.Schema<OrganizationInvitations>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9504,8 +9576,8 @@ export const listOrganizationMemberships: API.OperationMethod<
   ListOrganizationMembershipsError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c109, 0) as any as S.Schema<ListOrganizationMembershipsRequest>,
-  output: __S(2432, __c76, 0) as any as S.Schema<OrganizationMemberships>,
+  input: __S(3552, __c111, 0) as any as S.Schema<ListOrganizationMembershipsRequest>,
+  output: __S(2496, __c78, 0) as any as S.Schema<OrganizationMemberships>,
   errors: [UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9521,8 +9593,8 @@ export const listOrganizationPermissions: API.OperationMethod<
   ListOrganizationPermissionsError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3520, __c110, 0) as any as S.Schema<ListOrganizationPermissionsRequest>,
-  output: __S(3521, __c110, 1) as any as S.Schema<Permissions>,
+  input: __S(3584, __c112, 0) as any as S.Schema<ListOrganizationPermissionsRequest>,
+  output: __S(3585, __c112, 1) as any as S.Schema<Permissions>,
   errors: [UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9542,8 +9614,8 @@ export const listOrganizationRoles: API.OperationMethod<
   ListOrganizationRolesError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c111, 0) as any as S.Schema<ListOrganizationRolesRequest>,
-  output: __S(3554, __c111, 2) as any as S.Schema<Roles>,
+  input: __S(3616, __c113, 0) as any as S.Schema<ListOrganizationRolesRequest>,
+  output: __S(3618, __c113, 2) as any as S.Schema<Roles>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9559,8 +9631,8 @@ export const listOrganizations: API.OperationMethod<
   ListOrganizationsError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3584, __c112, 0) as any as S.Schema<ListOrganizationsRequest>,
-  output: __S(3586, __c112, 2) as any as S.Schema<Organizations>,
+  input: __S(3648, __c114, 0) as any as S.Schema<ListOrganizationsRequest>,
+  output: __S(3650, __c114, 2) as any as S.Schema<Organizations>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9576,8 +9648,8 @@ export const listRedirectURLs: API.OperationMethod<
   ListRedirectURLsError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c113, 0) as any as S.Schema<ListRedirectURLsRequest>,
-  output: __S(3618, __c113, 2) as any as S.Schema<ListRedirectURLsResponse>,
+  input: __S(3680, __c115, 0) as any as S.Schema<ListRedirectURLsRequest>,
+  output: __S(3682, __c115, 2) as any as S.Schema<ListRedirectURLsResponse>,
   errors: [UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9593,8 +9665,8 @@ export const listRoleSets: API.OperationMethod<
   ListRoleSetsError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3648, __c114, 0) as any as S.Schema<ListRoleSetsRequest>,
-  output: __S(3650, __c114, 2) as any as S.Schema<RoleSets>,
+  input: __S(3712, __c116, 0) as any as S.Schema<ListRoleSetsRequest>,
+  output: __S(3714, __c116, 2) as any as S.Schema<RoleSets>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9610,8 +9682,8 @@ export const listSCIMDirectories: API.OperationMethod<
   ListSCIMDirectoriesError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3680, __c115, 0) as any as S.Schema<ListSCIMDirectoriesRequest>,
-  output: __S(2657, __c83, 1) as any as S.Schema<ListSCIMDirectoriesResponse>,
+  input: __S(3744, __c117, 0) as any as S.Schema<ListSCIMDirectoriesRequest>,
+  output: __S(2721, __c85, 1) as any as S.Schema<ListSCIMDirectoriesResponse>,
   errors: [Forbidden, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9627,8 +9699,8 @@ export const listSCIMGroupRoleMappings: API.OperationMethod<
   ListSCIMGroupRoleMappingsError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3776, __c118, 0) as any as S.Schema<ListSCIMGroupRoleMappingsRequest>,
-  output: __S(3809, __c119, 1) as any as S.Schema<ListSCIMGroupRoleMappingsResponse>,
+  input: __S(3840, __c120, 0) as any as S.Schema<ListSCIMGroupRoleMappingsRequest>,
+  output: __S(3873, __c121, 1) as any as S.Schema<ListSCIMGroupRoleMappingsResponse>,
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9644,8 +9716,8 @@ export const listSSOBypassAllowlistUsers: API.OperationMethod<
   ListSSOBypassAllowlistUsersError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3840, __c120, 0) as any as S.Schema<ListSSOBypassAllowlistUsersRequest>,
-  output: __S(3842, __c120, 2) as any as S.Schema<ListSSOBypassAllowlistUsersResponse>,
+  input: __S(3904, __c122, 0) as any as S.Schema<ListSSOBypassAllowlistUsersRequest>,
+  output: __S(3906, __c122, 2) as any as S.Schema<ListSSOBypassAllowlistUsersResponse>,
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9661,8 +9733,8 @@ export const listUserBiometricCredentials: API.OperationMethod<
   ListUserBiometricCredentialsError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3872, __c121, 0) as any as S.Schema<ListUserBiometricCredentialsRequest>,
-  output: __S(3874, __c121, 2) as any as S.Schema<ListUserBiometricCredentialsResponse>,
+  input: __S(3936, __c123, 0) as any as S.Schema<ListUserBiometricCredentialsRequest>,
+  output: __S(3938, __c123, 2) as any as S.Schema<ListUserBiometricCredentialsResponse>,
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9678,8 +9750,8 @@ export const listWaitlistEntries: API.OperationMethod<
   ListWaitlistEntriesError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3936, __c123, 0) as any as S.Schema<ListWaitlistEntriesRequest>,
-  output: __S(3937, __c123, 1) as any as S.Schema<ListWaitlistEntriesResponse>,
+  input: __S(4000, __c125, 0) as any as S.Schema<ListWaitlistEntriesRequest>,
+  output: __S(4001, __c125, 1) as any as S.Schema<ListWaitlistEntriesResponse>,
   errors: [UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9691,8 +9763,8 @@ export type LockUserError = Forbidden | ClerkOpError;
 /** Lock a user Marks the given user as locked, which means they are not allowed to sign in again until the lock expires. Lock duration can be configured in the instance's restrictions settings. */
 export const lockUser: API.OperationMethod<LockUserRequest, User, LockUserError, ClerkOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(3968, __c124, 0) as any as S.Schema<LockUserRequest>,
-    output: __S(1873, __c58, 17) as any as S.Schema<User>,
+    input: __S(4032, __c126, 0) as any as S.Schema<LockUserRequest>,
+    output: __S(1937, __c60, 17) as any as S.Schema<User>,
     errors: [Forbidden, UnknownClerkError],
     protocol: ClerkProtocol,
     retry: Retry.Retry,
@@ -9712,8 +9784,8 @@ export const mergeOrganizationMetadata: API.OperationMethod<
   MergeOrganizationMetadataError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4000, __c125, 0) as any as S.Schema<MergeOrganizationMetadataRequest>,
-  output: __S(1728, __c54, 0) as any as S.Schema<Organization>,
+  input: __S(4064, __c127, 0) as any as S.Schema<MergeOrganizationMetadataRequest>,
+  output: __S(1792, __c56, 0) as any as S.Schema<Organization>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9729,8 +9801,8 @@ export const mergeUser: API.OperationMethod<
   MergeUserError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4032, __c126, 0) as any as S.Schema<MergeUserRequest>,
-  output: __S(4033, __c126, 1) as any as S.Schema<MergeUserResponse>,
+  input: __S(4096, __c128, 0) as any as S.Schema<MergeUserRequest>,
+  output: __S(4097, __c128, 1) as any as S.Schema<MergeUserResponse>,
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9746,8 +9818,8 @@ export const prepareEmailAddressVerification: API.OperationMethod<
   PrepareEmailAddressVerificationError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4064, __c127, 0) as any as S.Schema<PrepareEmailAddressVerificationRequest>,
-  output: __S(576, __c18, 0) as any as S.Schema<PrepareEmailAddressVerificationResponse>,
+  input: __S(4128, __c129, 0) as any as S.Schema<PrepareEmailAddressVerificationRequest>,
+  output: __S(672, __c21, 0) as any as S.Schema<PrepareEmailAddressVerificationResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9763,8 +9835,8 @@ export const preparePhoneNumberVerification: API.OperationMethod<
   PreparePhoneNumberVerificationError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4096, __c128, 0) as any as S.Schema<PreparePhoneNumberVerificationRequest>,
-  output: __S(576, __c18, 0) as any as S.Schema<PreparePhoneNumberVerificationResponse>,
+  input: __S(4160, __c130, 0) as any as S.Schema<PreparePhoneNumberVerificationRequest>,
+  output: __S(672, __c21, 0) as any as S.Schema<PreparePhoneNumberVerificationResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9780,8 +9852,8 @@ export const refreshSession: API.OperationMethod<
   RefreshSessionError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4128, __c129, 0) as any as S.Schema<RefreshSessionRequest>,
-  output: __S(4129, __c129, 1) as any as S.Schema<RefreshSessionResponse>,
+  input: __S(4192, __c131, 0) as any as S.Schema<RefreshSessionRequest>,
+  output: __S(4193, __c131, 1) as any as S.Schema<RefreshSessionResponse>,
   errors: [BadRequest, Forbidden, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9802,8 +9874,8 @@ export const rejectWaitlistEntry: API.OperationMethod<
   RejectWaitlistEntryError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4192, __c131, 0) as any as S.Schema<RejectWaitlistEntryRequest>,
-  output: __S(7072, __c221, 0) as any as S.Schema<WaitlistEntry>,
+  input: __S(4256, __c133, 0) as any as S.Schema<RejectWaitlistEntryRequest>,
+  output: __S(7136, __c223, 0) as any as S.Schema<WaitlistEntry>,
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9825,8 +9897,8 @@ export const removeBillingSubscriptionItemDiscount: API.OperationMethod<
   RemoveBillingSubscriptionItemDiscountError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4224, __c132, 0) as any as S.Schema<RemoveBillingSubscriptionItemDiscountRequest>,
-  output: __S(10208, __c319, 0) as any as S.Schema<CommerceDiscountRedemptionResponse>,
+  input: __S(4288, __c134, 0) as any as S.Schema<RemoveBillingSubscriptionItemDiscountRequest>,
+  output: __S(10272, __c321, 0) as any as S.Schema<CommerceDiscountRedemptionResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9846,8 +9918,8 @@ export const removePermissionFromOrganizationRole: API.OperationMethod<
   RemovePermissionFromOrganizationRoleError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4256, __c133, 0) as any as S.Schema<RemovePermissionFromOrganizationRoleRequest>,
-  output: __S(96, __c3, 0) as any as S.Schema<Role>,
+  input: __S(4320, __c135, 0) as any as S.Schema<RemovePermissionFromOrganizationRoleRequest>,
+  output: __S(192, __c6, 0) as any as S.Schema<Role>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9863,8 +9935,8 @@ export const removeUserPassword: API.OperationMethod<
   RemoveUserPasswordError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4288, __c134, 0) as any as S.Schema<RemoveUserPasswordRequest>,
-  output: __S(1873, __c58, 17) as any as S.Schema<User>,
+  input: __S(4352, __c136, 0) as any as S.Schema<RemoveUserPasswordRequest>,
+  output: __S(1937, __c60, 17) as any as S.Schema<User>,
   errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9885,8 +9957,8 @@ export const replaceDirectoryGroupRoleMappings: API.OperationMethod<
   ReplaceDirectoryGroupRoleMappingsError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4322, __c135, 2) as any as S.Schema<ReplaceDirectoryGroupRoleMappingsRequest>,
-  output: __S(2945, __c92, 1) as any as S.Schema<ReplaceDirectoryGroupRoleMappingsResponse>,
+  input: __S(4386, __c137, 2) as any as S.Schema<ReplaceDirectoryGroupRoleMappingsRequest>,
+  output: __S(3009, __c94, 1) as any as S.Schema<ReplaceDirectoryGroupRoleMappingsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9906,8 +9978,8 @@ export const replaceOrganizationMetadata: API.OperationMethod<
   ReplaceOrganizationMetadataError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4352, __c136, 0) as any as S.Schema<ReplaceOrganizationMetadataRequest>,
-  output: __S(1728, __c54, 0) as any as S.Schema<Organization>,
+  input: __S(4416, __c138, 0) as any as S.Schema<ReplaceOrganizationMetadataRequest>,
+  output: __S(1792, __c56, 0) as any as S.Schema<Organization>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9928,8 +10000,8 @@ export const replaceRoleInRoleSet: API.OperationMethod<
   ReplaceRoleInRoleSetError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4384, __c137, 0) as any as S.Schema<ReplaceRoleInRoleSetRequest>,
-  output: __S(8995, __c281, 3) as any as S.Schema<RoleSet>,
+  input: __S(4448, __c139, 0) as any as S.Schema<ReplaceRoleInRoleSetRequest>,
+  output: __S(9059, __c283, 3) as any as S.Schema<RoleSet>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9950,8 +10022,8 @@ export const replaceRoleSet: API.OperationMethod<
   ReplaceRoleSetError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4416, __c138, 0) as any as S.Schema<ReplaceRoleSetRequest>,
-  output: __S(8864, __c277, 0) as any as S.Schema<DeletedObject>,
+  input: __S(4480, __c140, 0) as any as S.Schema<ReplaceRoleSetRequest>,
+  output: __S(8928, __c279, 0) as any as S.Schema<DeletedObject>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9972,8 +10044,8 @@ export const replaceSCIMGroupRoleMappings: API.OperationMethod<
   ReplaceSCIMGroupRoleMappingsError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4450, __c139, 2) as any as S.Schema<ReplaceSCIMGroupRoleMappingsRequest>,
-  output: __S(3809, __c119, 1) as any as S.Schema<ReplaceSCIMGroupRoleMappingsResponse>,
+  input: __S(4514, __c141, 2) as any as S.Schema<ReplaceSCIMGroupRoleMappingsRequest>,
+  output: __S(3873, __c121, 1) as any as S.Schema<ReplaceSCIMGroupRoleMappingsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -9994,8 +10066,8 @@ export const replaceUserEmailAddress: API.OperationMethod<
   ReplaceUserEmailAddressError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4480, __c140, 0) as any as S.Schema<ReplaceUserEmailAddressRequest>,
-  output: __S(1696, __c53, 0) as any as S.Schema<EmailAddress>,
+  input: __S(4544, __c142, 0) as any as S.Schema<ReplaceUserEmailAddressRequest>,
+  output: __S(1760, __c55, 0) as any as S.Schema<EmailAddress>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10011,8 +10083,8 @@ export const replaceUserMetadata: API.OperationMethod<
   ReplaceUserMetadataError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4576, __c143, 0) as any as S.Schema<ReplaceUserMetadataRequest>,
-  output: __S(1873, __c58, 17) as any as S.Schema<User>,
+  input: __S(4640, __c145, 0) as any as S.Schema<ReplaceUserMetadataRequest>,
+  output: __S(1937, __c60, 17) as any as S.Schema<User>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10033,8 +10105,8 @@ export const replaceUserPhoneNumber: API.OperationMethod<
   ReplaceUserPhoneNumberError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4608, __c144, 0) as any as S.Schema<ReplaceUserPhoneNumberRequest>,
-  output: __S(1792, __c56, 0) as any as S.Schema<PhoneNumber>,
+  input: __S(4672, __c146, 0) as any as S.Schema<ReplaceUserPhoneNumberRequest>,
+  output: __S(1856, __c58, 0) as any as S.Schema<PhoneNumber>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10050,8 +10122,8 @@ export const revokeActorToken: API.OperationMethod<
   RevokeActorTokenError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4640, __c145, 0) as any as S.Schema<RevokeActorTokenRequest>,
-  output: __S(3744, __c117, 0) as any as S.Schema<ActorToken>,
+  input: __S(4704, __c147, 0) as any as S.Schema<RevokeActorTokenRequest>,
+  output: __S(3808, __c119, 0) as any as S.Schema<ActorToken>,
   errors: [BadRequest, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10067,8 +10139,8 @@ export const revokeAdminPortalLinkToken: API.OperationMethod<
   RevokeAdminPortalLinkTokenError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4672, __c146, 0) as any as S.Schema<RevokeAdminPortalLinkTokenRequest>,
-  output: __S(4673, __c146, 1) as any as S.Schema<RevokeAdminPortalLinkTokenResponse>,
+  input: __S(4736, __c148, 0) as any as S.Schema<RevokeAdminPortalLinkTokenRequest>,
+  output: __S(4737, __c148, 1) as any as S.Schema<RevokeAdminPortalLinkTokenResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10084,8 +10156,8 @@ export const revokeAgentTask: API.OperationMethod<
   RevokeAgentTaskError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4704, __c147, 0) as any as S.Schema<RevokeAgentTaskRequest>,
-  output: __S(4544, __c142, 0) as any as S.Schema<AgentTask>,
+  input: __S(4768, __c149, 0) as any as S.Schema<RevokeAgentTaskRequest>,
+  output: __S(4608, __c144, 0) as any as S.Schema<AgentTask>,
   errors: [BadRequest, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10101,8 +10173,8 @@ export const revokeApiKey: API.OperationMethod<
   RevokeApiKeyError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4736, __c148, 0) as any as S.Schema<RevokeApiKeyRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<RevokeApiKeyResponse>,
+  input: __S(4800, __c150, 0) as any as S.Schema<RevokeApiKeyRequest>,
+  output: __S(10496, __c328, 0) as any as S.Schema<RevokeApiKeyResponse>,
   errors: [BadRequest, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10118,8 +10190,8 @@ export const revokeInvitation: API.OperationMethod<
   RevokeInvitationError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4768, __c149, 0) as any as S.Schema<RevokeInvitationRequest>,
-  output: __S(6880, __c215, 0) as any as S.Schema<RevokeInvitationResponse>,
+  input: __S(4832, __c151, 0) as any as S.Schema<RevokeInvitationRequest>,
+  output: __S(6944, __c217, 0) as any as S.Schema<RevokeInvitationResponse>,
   errors: [BadRequest, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10135,8 +10207,8 @@ export const revokeM2MToken: API.OperationMethod<
   RevokeM2MTokenError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4800, __c150, 0) as any as S.Schema<RevokeM2MTokenRequest>,
-  output: __S(1056, __c33, 0) as any as S.Schema<RevokeM2MTokenResponse>,
+  input: __S(4864, __c152, 0) as any as S.Schema<RevokeM2MTokenRequest>,
+  output: __S(1152, __c36, 0) as any as S.Schema<RevokeM2MTokenResponse>,
   errors: [BadRequest, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10157,8 +10229,8 @@ export const revokeOAuthApplicationToken: API.OperationMethod<
   RevokeOAuthApplicationTokenError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4832, __c151, 0) as any as S.Schema<RevokeOAuthApplicationTokenRequest>,
-  output: __S(3360, __c105, 0) as any as S.Schema<RevokeOAuthApplicationTokenResponse>,
+  input: __S(4896, __c153, 0) as any as S.Schema<RevokeOAuthApplicationTokenRequest>,
+  output: __S(3424, __c107, 0) as any as S.Schema<RevokeOAuthApplicationTokenResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10174,8 +10246,8 @@ export const revokeOrganizationInvitation: API.OperationMethod<
   RevokeOrganizationInvitationError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4864, __c152, 0) as any as S.Schema<RevokeOrganizationInvitationRequest>,
-  output: __S(7872, __c246, 0) as any as S.Schema<OrganizationInvitation>,
+  input: __S(4928, __c154, 0) as any as S.Schema<RevokeOrganizationInvitationRequest>,
+  output: __S(7936, __c248, 0) as any as S.Schema<OrganizationInvitation>,
   errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10191,8 +10263,8 @@ export const revokeSession: API.OperationMethod<
   RevokeSessionError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4960, __c155, 0) as any as S.Schema<RevokeSessionRequest>,
-  output: __S(8387, __c262, 3) as any as S.Schema<Session>,
+  input: __S(5024, __c157, 0) as any as S.Schema<RevokeSessionRequest>,
+  output: __S(8451, __c264, 3) as any as S.Schema<Session>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10208,8 +10280,8 @@ export const revokeSignInToken: API.OperationMethod<
   RevokeSignInTokenError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4992, __c156, 0) as any as S.Schema<RevokeSignInTokenRequest>,
-  output: __S(8544, __c267, 0) as any as S.Schema<SignInToken>,
+  input: __S(5056, __c158, 0) as any as S.Schema<RevokeSignInTokenRequest>,
+  output: __S(8608, __c269, 0) as any as S.Schema<SignInToken>,
   errors: [BadRequest, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10225,8 +10297,8 @@ export const revokeUserBiometricCredential: API.OperationMethod<
   RevokeUserBiometricCredentialError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5024, __c157, 0) as any as S.Schema<RevokeUserBiometricCredentialRequest>,
-  output: __S(3904, __c122, 0) as any as S.Schema<BiometricCredential>,
+  input: __S(5088, __c159, 0) as any as S.Schema<RevokeUserBiometricCredentialRequest>,
+  output: __S(3968, __c124, 0) as any as S.Schema<BiometricCredential>,
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10242,8 +10314,8 @@ export const rotateDirectoryAPIKey: API.OperationMethod<
   RotateDirectoryAPIKeyError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5056, __c158, 0) as any as S.Schema<RotateDirectoryAPIKeyRequest>,
-  output: __S(7138, __c223, 2) as any as S.Schema<Directory>,
+  input: __S(5120, __c160, 0) as any as S.Schema<RotateDirectoryAPIKeyRequest>,
+  output: __S(7202, __c225, 2) as any as S.Schema<Directory>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10264,8 +10336,8 @@ export const rotateMachineSecretKey: API.OperationMethod<
   RotateMachineSecretKeyError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5088, __c159, 0) as any as S.Schema<RotateMachineSecretKeyRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<RotateMachineSecretKeyResponse>,
+  input: __S(5152, __c161, 0) as any as S.Schema<RotateMachineSecretKeyRequest>,
+  output: __S(1312, __c41, 0) as any as S.Schema<RotateMachineSecretKeyResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10281,8 +10353,8 @@ export const rotateOAuthApplicationSecret: API.OperationMethod<
   RotateOAuthApplicationSecretError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5120, __c160, 0) as any as S.Schema<RotateOAuthApplicationSecretRequest>,
-  output: __S(7648, __c239, 0) as any as S.Schema<RotateOAuthApplicationSecretResponse>,
+  input: __S(5184, __c162, 0) as any as S.Schema<RotateOAuthApplicationSecretRequest>,
+  output: __S(7712, __c241, 0) as any as S.Schema<RotateOAuthApplicationSecretResponse>,
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10302,8 +10374,8 @@ export const rotateSCIMDirectoryAPIKey: API.OperationMethod<
   RotateSCIMDirectoryAPIKeyError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5152, __c161, 0) as any as S.Schema<RotateSCIMDirectoryAPIKeyRequest>,
-  output: __S(7138, __c223, 2) as any as S.Schema<SCIMDirectory>,
+  input: __S(5216, __c163, 0) as any as S.Schema<RotateSCIMDirectoryAPIKeyRequest>,
+  output: __S(7202, __c225, 2) as any as S.Schema<SCIMDirectory>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10324,8 +10396,8 @@ export const setUserPasswordCompromised: API.OperationMethod<
   SetUserPasswordCompromisedError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5184, __c162, 0) as any as S.Schema<SetUserPasswordCompromisedRequest>,
-  output: __S(1873, __c58, 17) as any as S.Schema<User>,
+  input: __S(5248, __c164, 0) as any as S.Schema<SetUserPasswordCompromisedRequest>,
+  output: __S(1937, __c60, 17) as any as S.Schema<User>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10341,8 +10413,8 @@ export const setUserProfileImage: API.OperationMethod<
   SetUserProfileImageError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5216, __c163, 0) as any as S.Schema<SetUserProfileImageRequest>,
-  output: __S(1873, __c58, 17) as any as S.Schema<User>,
+  input: __S(5280, __c165, 0) as any as S.Schema<SetUserProfileImageRequest>,
+  output: __S(1937, __c60, 17) as any as S.Schema<User>,
   errors: [BadRequest, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10358,8 +10430,8 @@ export const unbanUser: API.OperationMethod<
   UnbanUserError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5248, __c164, 0) as any as S.Schema<UnbanUserRequest>,
-  output: __S(1873, __c58, 17) as any as S.Schema<User>,
+  input: __S(5312, __c166, 0) as any as S.Schema<UnbanUserRequest>,
+  output: __S(1937, __c60, 17) as any as S.Schema<User>,
   errors: [UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10375,8 +10447,8 @@ export const unbanUser2: API.OperationMethod<
   UnbanUser2Error,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5312, __c166, 0) as any as S.Schema<UnbanUserRequest2>,
-  output: __S(2273, __c71, 1) as any as S.Schema<UnbanUserResponse>,
+  input: __S(5376, __c168, 0) as any as S.Schema<UnbanUserRequest2>,
+  output: __S(2337, __c73, 1) as any as S.Schema<UnbanUserResponse>,
   errors: [BadRequest, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10392,8 +10464,8 @@ export const unlockUser: API.OperationMethod<
   UnlockUserError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5344, __c167, 0) as any as S.Schema<UnlockUserRequest>,
-  output: __S(1873, __c58, 17) as any as S.Schema<User>,
+  input: __S(5408, __c169, 0) as any as S.Schema<UnlockUserRequest>,
+  output: __S(1937, __c60, 17) as any as S.Schema<User>,
   errors: [Forbidden, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10414,8 +10486,8 @@ export const unsetUserPasswordCompromised: API.OperationMethod<
   UnsetUserPasswordCompromisedError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5376, __c168, 0) as any as S.Schema<UnsetUserPasswordCompromisedRequest>,
-  output: __S(1873, __c58, 17) as any as S.Schema<User>,
+  input: __S(5440, __c170, 0) as any as S.Schema<UnsetUserPasswordCompromisedRequest>,
+  output: __S(1937, __c60, 17) as any as S.Schema<User>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10431,8 +10503,8 @@ export const updateApiKey: API.OperationMethod<
   UpdateApiKeyError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5408, __c169, 0) as any as S.Schema<UpdateApiKeyRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<UpdateApiKeyResponse>,
+  input: __S(5472, __c171, 0) as any as S.Schema<UpdateApiKeyRequest>,
+  output: __S(10496, __c328, 0) as any as S.Schema<UpdateApiKeyResponse>,
   errors: [BadRequest, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10453,8 +10525,8 @@ export const updateDirectory: API.OperationMethod<
   UpdateDirectoryError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5440, __c170, 0) as any as S.Schema<UpdateDirectoryRequest>,
-  output: __S(7138, __c223, 2) as any as S.Schema<Directory>,
+  input: __S(5504, __c172, 0) as any as S.Schema<UpdateDirectoryRequest>,
+  output: __S(7202, __c225, 2) as any as S.Schema<Directory>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10475,8 +10547,8 @@ export const updateDomain: API.OperationMethod<
   UpdateDomainError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5504, __c172, 0) as any as S.Schema<UpdateDomainRequest>,
-  output: __S(8324, __c260, 4) as any as S.Schema<Domain>,
+  input: __S(5568, __c174, 0) as any as S.Schema<UpdateDomainRequest>,
+  output: __S(8388, __c262, 4) as any as S.Schema<Domain>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10492,8 +10564,8 @@ export const updateEmailAddress: API.OperationMethod<
   UpdateEmailAddressError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5536, __c173, 0) as any as S.Schema<UpdateEmailAddressRequest>,
-  output: __S(1696, __c53, 0) as any as S.Schema<EmailAddress>,
+  input: __S(5600, __c175, 0) as any as S.Schema<UpdateEmailAddressRequest>,
+  output: __S(1760, __c55, 0) as any as S.Schema<EmailAddress>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10514,8 +10586,8 @@ export const updateEnterpriseConnection: API.OperationMethod<
   UpdateEnterpriseConnectionError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5569, __c174, 1) as any as S.Schema<UpdateEnterpriseConnectionRequest>,
-  output: __S(7303, __c228, 7) as any as S.Schema<EnterpriseConnection>,
+  input: __S(5633, __c176, 1) as any as S.Schema<UpdateEnterpriseConnectionRequest>,
+  output: __S(7367, __c230, 7) as any as S.Schema<EnterpriseConnection>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10531,8 +10603,8 @@ export const updateInstance: API.OperationMethod<
   UpdateInstanceError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5600, __c175, 0) as any as S.Schema<UpdateInstanceRequest>,
-  output: __S(3360, __c105, 0) as any as S.Schema<UpdateInstanceResponse>,
+  input: __S(5664, __c177, 0) as any as S.Schema<UpdateInstanceRequest>,
+  output: __S(3424, __c107, 0) as any as S.Schema<UpdateInstanceResponse>,
   errors: [UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10548,8 +10620,8 @@ export const updateInstanceAuthConfig: API.OperationMethod<
   UpdateInstanceAuthConfigError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5632, __c176, 0) as any as S.Schema<UpdateInstanceAuthConfigRequest>,
-  output: __S(5633, __c176, 1) as any as S.Schema<UpdateInstanceAuthConfigResponse>,
+  input: __S(5696, __c178, 0) as any as S.Schema<UpdateInstanceAuthConfigRequest>,
+  output: __S(5697, __c178, 1) as any as S.Schema<UpdateInstanceAuthConfigResponse>,
   errors: [UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10565,8 +10637,8 @@ export const updateInstanceCommunication: API.OperationMethod<
   UpdateInstanceCommunicationError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5728, __c179, 0) as any as S.Schema<UpdateInstanceCommunicationRequest>,
-  output: __S(640, __c20, 0) as any as S.Schema<InstanceCommunication>,
+  input: __S(5792, __c181, 0) as any as S.Schema<UpdateInstanceCommunicationRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<InstanceCommunication>,
   errors: [UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10582,8 +10654,8 @@ export const updateInstanceOAuthApplicationSettings: API.OperationMethod<
   UpdateInstanceOAuthApplicationSettingsError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5760, __c180, 0) as any as S.Schema<UpdateInstanceOAuthApplicationSettingsRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<OAuthApplicationSettings>,
+  input: __S(5824, __c182, 0) as any as S.Schema<UpdateInstanceOAuthApplicationSettingsRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<OAuthApplicationSettings>,
   errors: [UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10604,8 +10676,8 @@ export const updateInstanceOrganizationSettings: API.OperationMethod<
   UpdateInstanceOrganizationSettingsError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5792, __c181, 0) as any as S.Schema<UpdateInstanceOrganizationSettingsRequest>,
-  output: __S(768, __c24, 0) as any as S.Schema<OrganizationSettings>,
+  input: __S(5856, __c183, 0) as any as S.Schema<UpdateInstanceOrganizationSettingsRequest>,
+  output: __S(864, __c27, 0) as any as S.Schema<OrganizationSettings>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10621,8 +10693,8 @@ export const updateInstanceProtect: API.OperationMethod<
   UpdateInstanceProtectError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5824, __c182, 0) as any as S.Schema<UpdateInstanceProtectRequest>,
-  output: __S(832, __c26, 0) as any as S.Schema<InstanceProtect>,
+  input: __S(5888, __c184, 0) as any as S.Schema<UpdateInstanceProtectRequest>,
+  output: __S(928, __c29, 0) as any as S.Schema<InstanceProtect>,
   errors: [UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10638,8 +10710,8 @@ export const updateInstanceRestrictions: API.OperationMethod<
   UpdateInstanceRestrictionsError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5856, __c183, 0) as any as S.Schema<UpdateInstanceRestrictionsRequest>,
-  output: __S(5857, __c183, 1) as any as S.Schema<InstanceRestrictions>,
+  input: __S(5920, __c185, 0) as any as S.Schema<UpdateInstanceRestrictionsRequest>,
+  output: __S(5921, __c185, 1) as any as S.Schema<InstanceRestrictions>,
   errors: [UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10655,8 +10727,8 @@ export const updateJWTTemplate: API.OperationMethod<
   UpdateJWTTemplateError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5888, __c184, 0) as any as S.Schema<UpdateJWTTemplateRequest>,
-  output: __S(7456, __c233, 0) as any as S.Schema<JWTTemplate>,
+  input: __S(5952, __c186, 0) as any as S.Schema<UpdateJWTTemplateRequest>,
+  output: __S(7520, __c235, 0) as any as S.Schema<JWTTemplate>,
   errors: [BadRequest, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10677,8 +10749,8 @@ export const updateMachine: API.OperationMethod<
   UpdateMachineError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5920, __c185, 0) as any as S.Schema<UpdateMachineRequest>,
-  output: __S(1152, __c36, 0) as any as S.Schema<UpdateMachineResponse>,
+  input: __S(5984, __c187, 0) as any as S.Schema<UpdateMachineRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<UpdateMachineResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10699,8 +10771,8 @@ export const updateOAuthApplication: API.OperationMethod<
   UpdateOAuthApplicationError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5952, __c186, 0) as any as S.Schema<UpdateOAuthApplicationRequest>,
-  output: __S(1312, __c41, 0) as any as S.Schema<OAuthApplication>,
+  input: __S(6016, __c188, 0) as any as S.Schema<UpdateOAuthApplicationRequest>,
+  output: __S(1408, __c44, 0) as any as S.Schema<OAuthApplication>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10721,8 +10793,8 @@ export const updateOrganization: API.OperationMethod<
   UpdateOrganizationError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5984, __c187, 0) as any as S.Schema<UpdateOrganizationRequest>,
-  output: __S(1728, __c54, 0) as any as S.Schema<Organization>,
+  input: __S(6048, __c189, 0) as any as S.Schema<UpdateOrganizationRequest>,
+  output: __S(1792, __c56, 0) as any as S.Schema<Organization>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10743,8 +10815,8 @@ export const updateOrganizationDomain: API.OperationMethod<
   UpdateOrganizationDomainError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6016, __c188, 0) as any as S.Schema<UpdateOrganizationDomainRequest>,
-  output: __S(7777, __c243, 1) as any as S.Schema<OrganizationDomain>,
+  input: __S(6080, __c190, 0) as any as S.Schema<UpdateOrganizationDomainRequest>,
+  output: __S(7841, __c245, 1) as any as S.Schema<OrganizationDomain>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10760,8 +10832,8 @@ export const updateOrganizationMembership: API.OperationMethod<
   UpdateOrganizationMembershipError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6112, __c191, 0) as any as S.Schema<UpdateOrganizationMembershipRequest>,
-  output: __S(1761, __c55, 1) as any as S.Schema<OrganizationMembership>,
+  input: __S(6176, __c193, 0) as any as S.Schema<UpdateOrganizationMembershipRequest>,
+  output: __S(1825, __c57, 1) as any as S.Schema<OrganizationMembership>,
   errors: [NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10781,8 +10853,8 @@ export const updateOrganizationMembershipMetadata: API.OperationMethod<
   UpdateOrganizationMembershipMetadataError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6144, __c192, 0) as any as S.Schema<UpdateOrganizationMembershipMetadataRequest>,
-  output: __S(1761, __c55, 1) as any as S.Schema<OrganizationMembership>,
+  input: __S(6208, __c194, 0) as any as S.Schema<UpdateOrganizationMembershipMetadataRequest>,
+  output: __S(1825, __c57, 1) as any as S.Schema<OrganizationMembership>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10803,8 +10875,8 @@ export const updateOrganizationPermission: API.OperationMethod<
   UpdateOrganizationPermissionError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6176, __c193, 0) as any as S.Schema<UpdateOrganizationPermissionRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<Permission>,
+  input: __S(6240, __c195, 0) as any as S.Schema<UpdateOrganizationPermissionRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<Permission>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10825,8 +10897,8 @@ export const updateOrganizationRole: API.OperationMethod<
   UpdateOrganizationRoleError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6208, __c194, 0) as any as S.Schema<UpdateOrganizationRoleRequest>,
-  output: __S(96, __c3, 0) as any as S.Schema<Role>,
+  input: __S(6272, __c196, 0) as any as S.Schema<UpdateOrganizationRoleRequest>,
+  output: __S(192, __c6, 0) as any as S.Schema<Role>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10842,8 +10914,8 @@ export const updatePhoneNumber: API.OperationMethod<
   UpdatePhoneNumberError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6240, __c195, 0) as any as S.Schema<UpdatePhoneNumberRequest>,
-  output: __S(1792, __c56, 0) as any as S.Schema<PhoneNumber>,
+  input: __S(6304, __c197, 0) as any as S.Schema<UpdatePhoneNumberRequest>,
+  output: __S(1856, __c58, 0) as any as S.Schema<PhoneNumber>,
   errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10864,8 +10936,8 @@ export const updateRoleSet: API.OperationMethod<
   UpdateRoleSetError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6272, __c196, 0) as any as S.Schema<UpdateRoleSetRequest>,
-  output: __S(8995, __c281, 3) as any as S.Schema<RoleSet>,
+  input: __S(6336, __c198, 0) as any as S.Schema<UpdateRoleSetRequest>,
+  output: __S(9059, __c283, 3) as any as S.Schema<RoleSet>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10886,8 +10958,8 @@ export const updateSCIMDirectory: API.OperationMethod<
   UpdateSCIMDirectoryError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6304, __c197, 0) as any as S.Schema<UpdateSCIMDirectoryRequest>,
-  output: __S(7138, __c223, 2) as any as S.Schema<SCIMDirectory>,
+  input: __S(6368, __c199, 0) as any as S.Schema<UpdateSCIMDirectoryRequest>,
+  output: __S(7202, __c225, 2) as any as S.Schema<SCIMDirectory>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10903,8 +10975,8 @@ export const updateSession: API.OperationMethod<
   UpdateSessionError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6336, __c198, 0) as any as S.Schema<UpdateSessionRequest>,
-  output: __S(8387, __c262, 3) as any as S.Schema<Session>,
+  input: __S(6400, __c200, 0) as any as S.Schema<UpdateSessionRequest>,
+  output: __S(8451, __c264, 3) as any as S.Schema<Session>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10920,8 +10992,8 @@ export const updateSignUp: API.OperationMethod<
   UpdateSignUpError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6368, __c199, 0) as any as S.Schema<UpdateSignUpRequest>,
-  output: __S(2146, __c67, 2) as any as S.Schema<SignUp>,
+  input: __S(6432, __c201, 0) as any as S.Schema<UpdateSignUpRequest>,
+  output: __S(2210, __c69, 2) as any as S.Schema<SignUp>,
   errors: [Forbidden, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10937,8 +11009,8 @@ export const updateUser: API.OperationMethod<
   UpdateUserError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6400, __c200, 0) as any as S.Schema<UpdateUserRequest>,
-  output: __S(1873, __c58, 17) as any as S.Schema<User>,
+  input: __S(6464, __c202, 0) as any as S.Schema<UpdateUserRequest>,
+  output: __S(1937, __c60, 17) as any as S.Schema<User>,
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10954,8 +11026,8 @@ export const updateUserMetadata: API.OperationMethod<
   UpdateUserMetadataError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6496, __c203, 0) as any as S.Schema<UpdateUserMetadataRequest>,
-  output: __S(1873, __c58, 17) as any as S.Schema<User>,
+  input: __S(6560, __c205, 0) as any as S.Schema<UpdateUserMetadataRequest>,
+  output: __S(1937, __c60, 17) as any as S.Schema<User>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10971,8 +11043,8 @@ export const uploadOAuthApplicationLogo: API.OperationMethod<
   UploadOAuthApplicationLogoError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6528, __c204, 0) as any as S.Schema<UploadOAuthApplicationLogoRequest>,
-  output: __S(1312, __c41, 0) as any as S.Schema<OAuthApplication>,
+  input: __S(6592, __c206, 0) as any as S.Schema<UploadOAuthApplicationLogoRequest>,
+  output: __S(1408, __c44, 0) as any as S.Schema<OAuthApplication>,
   errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -10988,8 +11060,8 @@ export const uploadOrganizationLogo: API.OperationMethod<
   UploadOrganizationLogoError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6560, __c205, 0) as any as S.Schema<UploadOrganizationLogoRequest>,
-  output: __S(6561, __c205, 1) as any as S.Schema<UploadOrganizationLogoResponse>,
+  input: __S(6624, __c207, 0) as any as S.Schema<UploadOrganizationLogoRequest>,
+  output: __S(6625, __c207, 1) as any as S.Schema<UploadOrganizationLogoResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -11005,8 +11077,8 @@ export const usersGetOrganizationInvitations: API.OperationMethod<
   UsersGetOrganizationInvitationsError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6592, __c206, 0) as any as S.Schema<UsersGetOrganizationInvitationsRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<OrganizationInvitationsWithPublicOrganizationData>,
+  input: __S(6656, __c208, 0) as any as S.Schema<UsersGetOrganizationInvitationsRequest>,
+  output: __S(3170, __c99, 2) as any as S.Schema<OrganizationInvitationsWithPublicOrganizationData>,
   errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -11022,8 +11094,8 @@ export const usersGetOrganizationMemberships: API.OperationMethod<
   UsersGetOrganizationMembershipsError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6624, __c207, 0) as any as S.Schema<UsersGetOrganizationMembershipsRequest>,
-  output: __S(2432, __c76, 0) as any as S.Schema<OrganizationMemberships>,
+  input: __S(6688, __c209, 0) as any as S.Schema<UsersGetOrganizationMembershipsRequest>,
+  output: __S(2496, __c78, 0) as any as S.Schema<OrganizationMemberships>,
   errors: [Forbidden, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -11039,8 +11111,8 @@ export const verifyApiKey: API.OperationMethod<
   VerifyApiKeyError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6656, __c208, 0) as any as S.Schema<VerifyApiKeyRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<VerifyApiKeyResponse>,
+  input: __S(6720, __c210, 0) as any as S.Schema<VerifyApiKeyRequest>,
+  output: __S(10496, __c328, 0) as any as S.Schema<VerifyApiKeyResponse>,
   errors: [BadRequest, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -11056,8 +11128,8 @@ export const verifyClient: API.OperationMethod<
   VerifyClientError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6688, __c209, 0) as any as S.Schema<VerifyClientRequest>,
-  output: __S(256, __c8, 0) as any as S.Schema<Client>,
+  input: __S(6752, __c211, 0) as any as S.Schema<VerifyClientRequest>,
+  output: __S(352, __c11, 0) as any as S.Schema<Client>,
   errors: [BadRequest, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -11073,8 +11145,8 @@ export const verifyDomainProxy: API.OperationMethod<
   VerifyDomainProxyError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6720, __c210, 0) as any as S.Schema<VerifyDomainProxyRequest>,
-  output: __S(6721, __c210, 1) as any as S.Schema<ProxyCheck>,
+  input: __S(6784, __c212, 0) as any as S.Schema<VerifyDomainProxyRequest>,
+  output: __S(6785, __c212, 1) as any as S.Schema<ProxyCheck>,
   errors: [BadRequest, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -11090,8 +11162,8 @@ export const verifyM2MToken: API.OperationMethod<
   VerifyM2MTokenError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6752, __c211, 0) as any as S.Schema<VerifyM2MTokenRequest>,
-  output: __S(1056, __c33, 0) as any as S.Schema<VerifyM2MTokenResponse>,
+  input: __S(6816, __c213, 0) as any as S.Schema<VerifyM2MTokenRequest>,
+  output: __S(1152, __c36, 0) as any as S.Schema<VerifyM2MTokenResponse>,
   errors: [BadRequest, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -11107,8 +11179,8 @@ export const verifyOAuthAccessToken: API.OperationMethod<
   VerifyOAuthAccessTokenError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6784, __c212, 0) as any as S.Schema<VerifyOAuthAccessTokenRequest>,
-  output: __S(6785, __c212, 1) as any as S.Schema<VerifyOAuthAccessTokenResponse>,
+  input: __S(6848, __c214, 0) as any as S.Schema<VerifyOAuthAccessTokenRequest>,
+  output: __S(6849, __c214, 1) as any as S.Schema<VerifyOAuthAccessTokenResponse>,
   errors: [BadRequest, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -11124,8 +11196,8 @@ export const verifyOrganizationDomainOwnership: API.OperationMethod<
   VerifyOrganizationDomainOwnershipError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6912, __c216, 0) as any as S.Schema<VerifyOrganizationDomainOwnershipRequest>,
-  output: __S(7777, __c243, 1) as any as S.Schema<OrganizationDomain>,
+  input: __S(6976, __c218, 0) as any as S.Schema<VerifyOrganizationDomainOwnershipRequest>,
+  output: __S(7841, __c245, 1) as any as S.Schema<OrganizationDomain>,
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -11146,8 +11218,8 @@ export const verifyPassword: API.OperationMethod<
   VerifyPasswordError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6944, __c217, 0) as any as S.Schema<VerifyPasswordRequest>,
-  output: __S(6945, __c217, 1) as any as S.Schema<VerifyPasswordResponse>,
+  input: __S(7008, __c219, 0) as any as S.Schema<VerifyPasswordRequest>,
+  output: __S(7009, __c219, 1) as any as S.Schema<VerifyPasswordResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -11168,8 +11240,8 @@ export const verifyTOTP: API.OperationMethod<
   VerifyTOTPError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6976, __c218, 0) as any as S.Schema<VerifyTOTPRequest>,
-  output: __S(6977, __c218, 1) as any as S.Schema<VerifyTOTPResponse>,
+  input: __S(7040, __c220, 0) as any as S.Schema<VerifyTOTPRequest>,
+  output: __S(7041, __c220, 1) as any as S.Schema<VerifyTOTPResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -11179,6 +11251,55 @@ export const verifyTOTP: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.String,
+          long_message: S.String,
+          code: S.String,
+          meta: S.optional(__S(0, __c0, 0)),
+        }),
+      ).annotate({ identifier: "ClerkError" });
+    case 1:
+      return S.Array(__S(32, __c1, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          errors: __S(33, __c1, 1),
+          meta: S.optional(__S(0, __c0, 0)),
+          clerk_trace_id: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ClerkErrors" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.String,
+          long_message: S.String,
+          code: S.String,
+        }),
+      ).annotate({ identifier: "Error400BodyErrorsItem" });
+    case 1:
+      return S.Array(__S(64, __c2, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          errors: __S(65, __c2, 1),
+        }),
+      ).annotate({ identifier: "Error400Body" });
+  }
+}
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11195,7 +11316,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "AssignPermissionToOrganizationRoleRequest" });
   }
 }
-function __c1(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11212,13 +11333,13 @@ function __c1(j: number): any {
       ).annotate({ identifier: "Permission" });
   }
 }
-function __c2(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(32, __c1, 0));
+      return S.Array(__S(128, __c4, 0));
   }
 }
-function __c3(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11229,14 +11350,14 @@ function __c3(j: number): any {
           key: S.String,
           description: S.NullOr(S.String),
           is_creator_eligible: S.Boolean,
-          permissions: __S(64, __c2, 0),
+          permissions: __S(160, __c5, 0),
           created_at: S.Number,
           updated_at: S.Number,
         }),
       ).annotate({ identifier: "Role" });
   }
 }
-function __c4(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11247,17 +11368,17 @@ function __c4(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/billing/statements", code: 200 })),
       ).annotate({ identifier: "GetBillingStatementListRequest" });
     case 1:
-      return S.Array(__S(10595, __c331, 3));
+      return S.Array(__S(10659, __c333, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(129, __c4, 1),
+          data: __S(225, __c7, 1),
           total_count: S.Number,
         }),
       ).annotate({ identifier: "PaginatedBillingStatementResponse" });
   }
 }
-function __c5(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11277,13 +11398,13 @@ function __c5(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(10625, __c332, 1),
+          data: __S(10689, __c334, 1),
           total_count: S.Number,
         }),
       ).annotate({ identifier: "PaginatedBillingPaymentAttemptResponse" });
   }
 }
-function __c6(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11293,21 +11414,21 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GetClientRequest" });
   }
 }
-function __c7(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(8387, __c262, 3));
+      return S.Array(__S(8451, __c264, 3));
   }
 }
-function __c8(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
           id: S.String,
-          session_ids: __S(8928, __c279, 0),
-          sessions: __S(224, __c7, 0),
+          session_ids: __S(8992, __c281, 0),
+          sessions: __S(320, __c10, 0),
           sign_in_id: S.NullOr(S.String),
           sign_up_id: S.NullOr(S.String),
           last_active_session_id: S.NullOr(S.String),
@@ -11318,7 +11439,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "Client" });
   }
 }
-function __c9(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11330,17 +11451,17 @@ function __c9(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/billing/plans", code: 200 })),
       ).annotate({ identifier: "GetCommercePlanListRequest" });
     case 1:
-      return S.Array(__S(2758, __c86, 6));
+      return S.Array(__S(2822, __c88, 6));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(289, __c9, 1),
+          data: __S(385, __c12, 1),
           total_count: S.Number,
         }),
       ).annotate({ identifier: "PaginatedCommercePlanResponse" });
   }
 }
-function __c10(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11358,19 +11479,19 @@ function __c10(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(352, __c11, 0),
+          data: __S(448, __c14, 0),
           total_count: S.Number,
         }),
       ).annotate({ identifier: "PaginatedCommerceSubscriptionItemResponse" });
   }
 }
-function __c11(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2785, __c87, 1));
+      return S.Array(__S(2849, __c89, 1));
   }
 }
-function __c12(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11380,7 +11501,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GetDirectoryRequest" });
   }
 }
-function __c13(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11406,7 +11527,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "DirectoryGroup" });
   }
 }
-function __c14(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11416,7 +11537,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetEmailAddressRequest" });
   }
 }
-function __c15(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11432,7 +11553,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GetEnterpriseConnectionRequest" });
   }
 }
-function __c16(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11444,8 +11565,8 @@ function __c16(j: number): any {
           object: S.String,
           id: S.String,
           environment_type: S.String,
-          allowed_origins: S.NullOr(__S(8928, __c279, 0)),
-          allowed_subdomains: __S(8928, __c279, 0),
+          allowed_origins: S.NullOr(__S(8992, __c281, 0)),
+          allowed_subdomains: __S(8992, __c281, 0),
           subdomain_allowlist_enabled: S.Boolean,
           workspace_id: S.NullOr(S.String),
           max_allowed_users: S.NullOr(S.Number),
@@ -11453,7 +11574,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "Instance" });
   }
 }
-function __c17(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11472,7 +11593,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "AttemptEmailAddressVerificationRequest" });
   }
 }
-function __c18(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11488,7 +11609,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "AttemptEmailAddressVerificationResponse" });
   }
 }
-function __c19(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11496,18 +11617,18 @@ function __c19(j: number): any {
       ).annotate({ identifier: "GetInstanceCommunicationRequest" });
   }
 }
-function __c20(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          blocked_country_codes: __S(8928, __c279, 0),
+          blocked_country_codes: __S(8992, __c281, 0),
         }),
       ).annotate({ identifier: "InstanceCommunication" });
   }
 }
-function __c21(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11517,15 +11638,15 @@ function __c21(j: number): any {
       ).annotate({ identifier: "GetInstanceOAuthApplicationSettingsRequest" });
   }
 }
-function __c22(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
           dynamic_oauth_client_registration: S.Boolean,
-          dynamic_client_allowed_scopes: S.optional(S.NullOr(__S(8928, __c279, 0))),
-          default_scopes: S.NullOr(__S(8928, __c279, 0)),
+          dynamic_client_allowed_scopes: S.optional(S.NullOr(__S(8992, __c281, 0))),
+          default_scopes: S.NullOr(__S(8992, __c281, 0)),
           oauth_jwt_access_tokens: S.Boolean,
           aud_claim_enabled: S.Boolean,
           aud_claim_refresh_backfill_enabled: S.Boolean,
@@ -11537,7 +11658,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "OAuthApplicationSettings" });
   }
 }
-function __c23(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11547,7 +11668,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "GetInstanceOrganizationSettingsRequest" });
   }
 }
-function __c24(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11563,14 +11684,14 @@ function __c24(j: number): any {
           admin_delete_enabled: S.Boolean,
           domains_enabled: S.Boolean,
           slug_disabled: S.optional(S.Boolean),
-          domains_enrollment_modes: __S(8768, __c274, 0),
+          domains_enrollment_modes: __S(8832, __c276, 0),
           domains_default_role: S.String,
           initial_role_set_key: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "OrganizationSettings" });
   }
 }
-function __c25(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11578,7 +11699,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "GetInstanceProtectRequest" });
   }
 }
-function __c26(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11593,7 +11714,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "InstanceProtect" });
   }
 }
-function __c27(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11609,7 +11730,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "GetInterstitialRequest" });
   }
 }
-function __c28(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11620,12 +11741,12 @@ function __c28(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          keys: S.optional(__S(897, __c28, 1)),
+          keys: S.optional(__S(993, __c31, 1)),
         }),
       ).annotate({ identifier: "JWKS" });
   }
 }
-function __c29(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11635,7 +11756,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "GetJWTTemplateRequest" });
   }
 }
-function __c30(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11660,9 +11781,9 @@ function __c30(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.NullOr(S.String)),
-          application: S.optional(__S(962, __c30, 2)),
-          domain: S.optional(__S(962, __c30, 2)),
-          primary_domain: S.optional(__S(962, __c30, 2)),
+          application: S.optional(__S(1058, __c33, 2)),
+          domain: S.optional(__S(1058, __c33, 2)),
+          primary_domain: S.optional(__S(1058, __c33, 2)),
         }),
       ).annotate({ identifier: "LogEnvironmentContext" });
     case 4:
@@ -11685,10 +11806,10 @@ function __c30(j: number): any {
         S.Struct({
           ip_address: S.optional(S.NullOr(S.String)),
           user_agent: S.optional(S.NullOr(S.String)),
-          browser: S.optional(__S(964, __c30, 4)),
+          browser: S.optional(__S(1060, __c33, 4)),
           device_type: S.optional(S.NullOr(S.String)),
           is_mobile: S.optional(S.NullOr(S.Boolean)),
-          location: S.optional(__S(965, __c30, 5)),
+          location: S.optional(__S(1061, __c33, 5)),
           clerk_js_version: S.optional(S.NullOr(S.String)),
           is_native: S.optional(S.NullOr(S.Boolean)),
         }),
@@ -11696,8 +11817,8 @@ function __c30(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          environment: S.optional(__S(963, __c30, 3)),
-          device: S.optional(S.NullOr(__S(966, __c30, 6))),
+          environment: S.optional(__S(1059, __c33, 3)),
+          device: S.optional(S.NullOr(__S(1062, __c33, 6))),
         }),
       ).annotate({ identifier: "LogContext" });
     case 8:
@@ -11708,7 +11829,7 @@ function __c30(j: number): any {
           event_time: S.Number,
           actor: S.String,
           actor_type: S.optional(S.String),
-          impersonator: S.optional(S.NullOr(__S(961, __c30, 1))),
+          impersonator: S.optional(S.NullOr(__S(1057, __c33, 1))),
           subject: S.String,
           type: S.String,
           client_id: S.optional(S.NullOr(S.String)),
@@ -11717,16 +11838,16 @@ function __c30(j: number): any {
           trace_id: S.String,
           span_id: S.String,
           parent_span_id: S.optional(S.NullOr(S.String)),
-          event_context: __S(967, __c30, 7),
+          event_context: __S(1063, __c33, 7),
           group_id: S.optional(S.NullOr(S.String)),
           group_type: S.optional(S.NullOr(S.String)),
           group_started_at: S.optional(S.NullOr(S.Number)),
-          payload: __S(1632, __c51, 0),
+          payload: __S(0, __c0, 0),
         }),
       ).annotate({ identifier: "GetLogResponse" });
   }
 }
-function __c31(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11740,11 +11861,11 @@ function __c31(j: number): any {
           path: S.String,
           type: S.String,
           optional: S.Boolean,
-          enum: S.optional(__S(8928, __c279, 0)),
+          enum: S.optional(__S(8992, __c281, 0)),
         }),
       ).annotate({ identifier: "LogSchemaField" });
     case 2:
-      return S.Array(__S(993, __c31, 1));
+      return S.Array(__S(1089, __c34, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -11753,13 +11874,13 @@ function __c31(j: number): any {
           description: S.optional(S.String),
           severity: S.optional(S.String),
           docs_group: S.optional(S.String),
-          matched_event_types: S.optional(__S(8928, __c279, 0)),
-          fields: __S(994, __c31, 2),
+          matched_event_types: S.optional(__S(8992, __c281, 0)),
+          fields: __S(1090, __c34, 2),
         }),
       ).annotate({ identifier: "LogSchema" });
   }
 }
-function __c32(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11772,17 +11893,17 @@ function __c32(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/m2m_tokens", code: 200 })),
       ).annotate({ identifier: "GetM2MTokensRequest" });
     case 1:
-      return S.Array(__S(1056, __c33, 0));
+      return S.Array(__S(1152, __c36, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          m2m_tokens: __S(1025, __c32, 1),
+          m2m_tokens: __S(1121, __c35, 1),
           total_count: S.Number,
         }),
       ).annotate({ identifier: "GetM2MTokensResponse" });
   }
 }
-function __c33(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11791,7 +11912,7 @@ function __c33(j: number): any {
           id: S.String,
           subject: S.String,
           claims: S.optional(S.NullOr(S.Unknown)),
-          scopes: S.optional(__S(8928, __c279, 0)),
+          scopes: S.optional(__S(8992, __c281, 0)),
           revoked: S.Boolean,
           revocation_reason: S.NullOr(S.String),
           expired: S.Boolean,
@@ -11803,7 +11924,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "GetM2MTokensResponseM2mTokensItem" });
   }
 }
-function __c34(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11822,7 +11943,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "AttemptPhoneNumberVerificationRequest" });
   }
 }
-function __c35(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11832,7 +11953,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "GetMachineRequest" });
   }
 }
-function __c36(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11844,12 +11965,12 @@ function __c36(j: number): any {
           created_at: S.Number,
           updated_at: S.Number,
           default_token_ttl: S.optional(S.Number),
-          scoped_machines: __S(7553, __c236, 1),
+          scoped_machines: __S(7617, __c238, 1),
         }),
       ).annotate({ identifier: "GetMachineResponse" });
   }
 }
-function __c37(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11859,7 +11980,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "GetMachineSecretKeyRequest" });
   }
 }
-function __c38(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11870,7 +11991,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "GetMachineSecretKeyResponse" });
   }
 }
-function __c39(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11897,22 +12018,22 @@ function __c39(j: number): any {
           token: S.String,
           expires_at: S.NullOr(S.Number),
           provider: S.String,
-          public_metadata: __S(1632, __c51, 0),
+          public_metadata: __S(0, __c0, 0),
           label: S.NullOr(S.String),
-          scopes: S.optional(__S(8928, __c279, 0)),
+          scopes: S.optional(__S(8992, __c281, 0)),
           id_token: S.optional(S.String),
           token_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "OAuthAccessTokenItem" });
     case 2:
-      return S.Array(__S(1249, __c39, 1));
+      return S.Array(__S(1345, __c42, 1));
     case 3:
-      return S.suspend(() => __S(1250, __c39, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1346, __c42, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetOAuthAccessTokenResponse",
       });
   }
 }
-function __c40(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11924,7 +12045,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "GetOAuthApplicationRequest" });
   }
 }
-function __c41(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11944,7 +12065,7 @@ function __c41(j: number): any {
           device_authorization_grant_enabled: S.Boolean,
           public: S.Boolean,
           scopes: S.String,
-          redirect_uris: __S(8928, __c279, 0),
+          redirect_uris: __S(8992, __c281, 0),
           callback_url: S.String,
           authorize_url: S.String,
           token_fetch_url: S.String,
@@ -11957,7 +12078,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "OAuthApplication" });
   }
 }
-function __c42(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11969,7 +12090,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "GetOrganizationRequest" });
   }
 }
-function __c43(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11985,18 +12106,18 @@ function __c43(j: number): any {
       ).annotate({ identifier: "GetOrganizationBillingCreditBalanceRequest" });
   }
 }
-function __c44(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          balance: S.NullOr(__S(9472, __c296, 0)),
+          balance: S.NullOr(__S(9536, __c298, 0)),
         }),
       ).annotate({ identifier: "CommerceCreditBalanceResponse" });
   }
 }
-function __c45(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12012,15 +12133,15 @@ function __c45(j: number): any {
       ).annotate({ identifier: "GetOrganizationBillingSubscriptionRequest" });
   }
 }
-function __c46(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           date: S.Number,
-          amount: __S(9472, __c296, 0),
-          per_unit_totals: S.optional(__S(2854, __c89, 6)),
-          totals: S.optional(S.NullOr(__S(2857, __c89, 9))),
+          amount: __S(9536, __c298, 0),
+          per_unit_totals: S.optional(__S(2918, __c91, 6)),
+          totals: S.optional(S.NullOr(__S(2921, __c91, 9))),
         }),
       ).annotate({ identifier: "CommerceSubscriptionNextPayment" });
     case 1:
@@ -12035,14 +12156,14 @@ function __c46(j: number): any {
           updated_at: S.Number,
           active_at: S.NullOr(S.Number),
           past_due_at: S.NullOr(S.Number),
-          subscription_items: __S(352, __c11, 0),
-          next_payment: S.optional(__S(1472, __c46, 0)),
+          subscription_items: __S(448, __c14, 0),
+          next_payment: S.optional(__S(1568, __c49, 0)),
           eligible_for_free_trial: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CommerceSubscription" });
   }
 }
-function __c47(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12059,7 +12180,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "GetOrganizationInvitationRequest" });
   }
 }
-function __c48(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12071,7 +12192,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "GetOrganizationPermissionRequest" });
   }
 }
-function __c49(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12083,7 +12204,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "GetOrganizationRoleRequest" });
   }
 }
-function __c50(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12093,13 +12214,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "BanUserRequest" });
   }
 }
-function __c51(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.Unknown);
-  }
-}
-function __c52(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12109,10 +12224,10 @@ function __c52(j: number): any {
         }),
       ).annotate({ identifier: "IdentificationLink" });
     case 1:
-      return S.Array(__S(1664, __c52, 0));
+      return S.Array(__S(1728, __c54, 0));
   }
 }
-function __c53(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12122,7 +12237,7 @@ function __c53(j: number): any {
           email_address: S.String,
           reserved: S.Boolean,
           verification: S.NullOr(S.Unknown),
-          linked_to: __S(1665, __c52, 1),
+          linked_to: __S(1729, __c54, 1),
           matches_sso_connection: S.optional(S.Boolean),
           created_at: S.Number,
           updated_at: S.Number,
@@ -12130,7 +12245,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "EmailAddress" });
   }
 }
-function __c54(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12148,8 +12263,8 @@ function __c54(j: number): any {
           admin_delete_enabled: S.Boolean,
           self_serve_sso_enabled: S.optional(S.Boolean),
           self_serve_directory_sync_enabled: S.optional(S.Boolean),
-          public_metadata: __S(1632, __c51, 0),
-          private_metadata: S.optional(__S(1632, __c51, 0)),
+          public_metadata: __S(0, __c0, 0),
+          private_metadata: S.optional(__S(0, __c0, 0)),
           created_by: S.optional(S.String),
           created_at: S.Number,
           updated_at: S.Number,
@@ -12159,7 +12274,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "Organization" });
   }
 }
-function __c55(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12183,18 +12298,18 @@ function __c55(j: number): any {
           object: S.String,
           role: S.String,
           role_name: S.optional(S.String),
-          permissions: __S(8928, __c279, 0),
-          public_metadata: __S(1632, __c51, 0),
-          private_metadata: S.optional(__S(1632, __c51, 0)),
-          organization: __S(1728, __c54, 0),
-          public_user_data: S.optional(__S(1760, __c55, 0)),
+          permissions: __S(8992, __c281, 0),
+          public_metadata: __S(0, __c0, 0),
+          private_metadata: S.optional(__S(0, __c0, 0)),
+          organization: __S(1792, __c56, 0),
+          public_user_data: S.optional(__S(1824, __c57, 0)),
           created_at: S.Number,
           updated_at: S.Number,
         }),
       ).annotate({ identifier: "OrganizationMembership" });
   }
 }
-function __c56(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12206,26 +12321,26 @@ function __c56(j: number): any {
           default_second_factor: S.optional(S.Boolean),
           reserved: S.Boolean,
           verification: S.NullOr(S.Unknown),
-          linked_to: __S(1665, __c52, 1),
-          backup_codes: S.optional(S.NullOr(__S(8928, __c279, 0))),
+          linked_to: __S(1729, __c54, 1),
+          backup_codes: S.optional(S.NullOr(__S(8992, __c281, 0))),
           created_at: S.Number,
           updated_at: S.Number,
         }),
       ).annotate({ identifier: "PhoneNumber" });
   }
 }
-function __c57(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1761, __c55, 1));
+      return S.Array(__S(1825, __c57, 1));
   }
 }
-function __c58(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1696, __c53, 0));
+      return S.Array(__S(1760, __c55, 0));
     case 1:
-      return S.Array(__S(1792, __c56, 0));
+      return S.Array(__S(1856, __c58, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -12238,7 +12353,7 @@ function __c58(j: number): any {
         }),
       ).annotate({ identifier: "Web3Wallet" });
     case 3:
-      return S.Array(__S(1858, __c58, 2));
+      return S.Array(__S(1922, __c60, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -12259,11 +12374,11 @@ function __c58(j: number): any {
           object: S.String,
           name: S.String,
           last_used_at: S.Number,
-          verification: S.NullOr(__S(1860, __c58, 4)),
+          verification: S.NullOr(__S(1924, __c60, 4)),
         }),
       ).annotate({ identifier: "Passkey" });
     case 6:
-      return S.Array(__S(1861, __c58, 5));
+      return S.Array(__S(1925, __c60, 5));
     case 7:
       return S.suspend(() =>
         S.StructWithRest(
@@ -12282,7 +12397,7 @@ function __c58(j: number): any {
             image_url: S.optional(S.NullOr(S.String)),
             username: S.optional(S.NullOr(S.String)),
             phone_number: S.optional(S.NullOr(S.String)),
-            public_metadata: __S(1632, __c51, 0),
+            public_metadata: __S(0, __c0, 0),
             label: S.optional(S.NullOr(S.String)),
             created_at: S.Number,
             updated_at: S.Number,
@@ -12292,7 +12407,7 @@ function __c58(j: number): any {
         ),
       ).annotate({ identifier: "ExternalAccountWithVerification" });
     case 8:
-      return S.Array(__S(1863, __c58, 7));
+      return S.Array(__S(1927, __c60, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -12305,13 +12420,13 @@ function __c58(j: number): any {
           last_name: S.optional(S.NullOr(S.String)),
           provider_user_id: S.optional(S.NullOr(S.String)),
           last_authenticated_at: S.optional(S.NullOr(S.Number)),
-          public_metadata: S.optional(__S(1632, __c51, 0)),
+          public_metadata: S.optional(__S(0, __c0, 0)),
           verification: S.NullOr(S.Unknown),
           saml_connection: S.optional(S.NullOr(S.Unknown)),
         }),
       ).annotate({ identifier: "SAMLAccount" });
     case 10:
-      return S.Array(__S(1865, __c58, 9));
+      return S.Array(__S(1929, __c60, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
@@ -12325,14 +12440,14 @@ function __c58(j: number): any {
           last_name: S.optional(S.NullOr(S.String)),
           provider_user_id: S.optional(S.NullOr(S.String)),
           enterprise_connection_id: S.optional(S.NullOr(S.String)),
-          public_metadata: S.optional(__S(1632, __c51, 0)),
+          public_metadata: S.optional(__S(0, __c0, 0)),
           verification: S.NullOr(S.Unknown),
           enterprise_connection: S.optional(S.NullOr(S.Unknown)),
           last_authenticated_at: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "EnterpriseAccount" });
     case 12:
-      return S.Array(__S(1867, __c58, 11));
+      return S.Array(__S(1931, __c60, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
@@ -12341,7 +12456,7 @@ function __c58(j: number): any {
         }),
       ).annotate({ identifier: "SCIMUserMetadataGroupsItem" });
     case 14:
-      return S.Array(__S(1869, __c58, 13));
+      return S.Array(__S(1933, __c60, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
@@ -12349,14 +12464,14 @@ function __c58(j: number): any {
           directory_name: S.String,
           provider: S.String,
           enterprise_connection_id: S.NullOr(S.String),
-          groups: S.optional(__S(1870, __c58, 14)),
+          groups: S.optional(__S(1934, __c60, 14)),
           directory_id: S.String,
           directory_enabled: S.Boolean,
           external_id: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "SCIMUserMetadata" });
     case 16:
-      return S.Array(__S(1871, __c58, 15));
+      return S.Array(__S(1935, __c60, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
@@ -12374,13 +12489,13 @@ function __c58(j: number): any {
           profile_image_url: S.optional(S.String),
           image_url: S.optional(S.String),
           has_image: S.Boolean,
-          public_metadata: __S(1632, __c51, 0),
-          private_metadata: S.optional(S.NullOr(__S(1632, __c51, 0))),
-          unsafe_metadata: S.optional(__S(1632, __c51, 0)),
-          email_addresses: __S(1856, __c58, 0),
-          phone_numbers: __S(1857, __c58, 1),
-          web3_wallets: __S(1859, __c58, 3),
-          passkeys: __S(1862, __c58, 6),
+          public_metadata: __S(0, __c0, 0),
+          private_metadata: S.optional(S.NullOr(__S(0, __c0, 0))),
+          unsafe_metadata: S.optional(__S(0, __c0, 0)),
+          email_addresses: __S(1920, __c60, 0),
+          phone_numbers: __S(1921, __c60, 1),
+          web3_wallets: __S(1923, __c60, 3),
+          passkeys: __S(1926, __c60, 6),
           password_enabled: S.Boolean,
           two_factor_enabled: S.Boolean,
           totp_enabled: S.Boolean,
@@ -12388,10 +12503,10 @@ function __c58(j: number): any {
           mfa_enabled_at: S.NullOr(S.Number),
           mfa_disabled_at: S.NullOr(S.Number),
           password_last_updated_at: S.optional(S.NullOr(S.Number)),
-          external_accounts: __S(1864, __c58, 8),
-          saml_accounts: __S(1866, __c58, 10),
-          enterprise_accounts: __S(1868, __c58, 12),
-          organization_memberships: S.optional(__S(1824, __c57, 0)),
+          external_accounts: __S(1928, __c60, 8),
+          saml_accounts: __S(1930, __c60, 10),
+          enterprise_accounts: __S(1932, __c60, 12),
+          organization_memberships: S.optional(__S(1888, __c59, 0)),
           last_sign_in_at: S.NullOr(S.Number),
           banned: S.Boolean,
           locked: S.Boolean,
@@ -12406,14 +12521,14 @@ function __c58(j: number): any {
           last_active_at: S.NullOr(S.Number),
           legal_accepted_at: S.NullOr(S.Number),
           bypass_client_trust: S.optional(S.Boolean),
-          directories: S.optional(__S(1872, __c58, 16)),
-          directory: S.optional(__S(1871, __c58, 15)),
-          scim: S.optional(S.NullOr(__S(1871, __c58, 15))),
+          directories: S.optional(__S(1936, __c60, 16)),
+          directory: S.optional(__S(1935, __c60, 15)),
+          scim: S.optional(S.NullOr(__S(1935, __c60, 15))),
         }),
       ).annotate({ identifier: "User" });
   }
 }
-function __c59(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12423,7 +12538,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "GetPhoneNumberRequest" });
   }
 }
-function __c60(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12433,7 +12548,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "GetRedirectURLRequest" });
   }
 }
-function __c61(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12465,7 +12580,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "Reverification" });
   }
 }
-function __c62(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12475,7 +12590,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "GetRoleSetRequest" });
   }
 }
-function __c63(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12485,7 +12600,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "GetSCIMDirectoryRequest" });
   }
 }
-function __c64(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12495,7 +12610,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "GetSessionRequest" });
   }
 }
-function __c65(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12509,12 +12624,12 @@ function __c65(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/sessions", code: 200 })),
       ).annotate({ identifier: "GetSessionListRequest" });
     case 1:
-      return S.suspend(() => __S(224, __c7, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(320, __c10, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetSessionListResponse",
       });
   }
 }
-function __c66(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12524,14 +12639,14 @@ function __c66(j: number): any {
       ).annotate({ identifier: "GetSignUpRequest" });
   }
 }
-function __c67(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             next_action: S.optional(S.String),
-            supported_strategies: S.optional(__S(8928, __c279, 0)),
+            supported_strategies: S.optional(__S(8992, __c281, 0)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -12539,9 +12654,9 @@ function __c67(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          email_address: S.NullOr(__S(2144, __c67, 0)),
-          phone_number: S.NullOr(__S(2144, __c67, 0)),
-          web3_wallet: S.NullOr(__S(2144, __c67, 0)),
+          email_address: S.NullOr(__S(2208, __c69, 0)),
+          phone_number: S.NullOr(__S(2208, __c69, 0)),
+          web3_wallet: S.NullOr(__S(2208, __c69, 0)),
           external_account: S.NullOr(S.Unknown),
         }),
       ).annotate({ identifier: "SignUpVerifications" });
@@ -12551,11 +12666,11 @@ function __c67(j: number): any {
           object: S.String,
           id: S.String,
           status: S.String,
-          required_fields: __S(8928, __c279, 0),
-          optional_fields: __S(8928, __c279, 0),
-          missing_fields: __S(8928, __c279, 0),
-          unverified_fields: __S(8928, __c279, 0),
-          verifications: __S(2145, __c67, 1),
+          required_fields: __S(8992, __c281, 0),
+          optional_fields: __S(8992, __c281, 0),
+          missing_fields: __S(8992, __c281, 0),
+          unverified_fields: __S(8992, __c281, 0),
+          verifications: __S(2209, __c69, 1),
           username: S.NullOr(S.String),
           email_address: S.NullOr(S.String),
           phone_number: S.NullOr(S.String),
@@ -12563,8 +12678,8 @@ function __c67(j: number): any {
           password_enabled: S.Boolean,
           first_name: S.NullOr(S.String),
           last_name: S.NullOr(S.String),
-          unsafe_metadata: S.optional(__S(1632, __c51, 0)),
-          public_metadata: S.optional(__S(1632, __c51, 0)),
+          unsafe_metadata: S.optional(__S(0, __c0, 0)),
+          public_metadata: S.optional(__S(0, __c0, 0)),
           custom_action: S.Boolean,
           external_id: S.NullOr(S.String),
           created_session_id: S.NullOr(S.String),
@@ -12578,7 +12693,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "SignUp" });
   }
 }
-function __c68(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12588,7 +12703,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "GetUserRequest" });
   }
 }
-function __c69(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12598,27 +12713,27 @@ function __c69(j: number): any {
       ).annotate({ identifier: "GetUserBillingCreditBalanceRequest" });
   }
 }
-function __c70(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          user_ids: __S(8928, __c279, 0),
+          user_ids: __S(8992, __c281, 0),
         }).pipe(T.Http({ method: "POST", uri: "/users/ban", code: 200 })),
       ).annotate({ identifier: "BanUserRequest2" });
   }
 }
-function __c71(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1873, __c58, 17));
+      return S.Array(__S(1937, __c60, 17));
     case 1:
-      return S.suspend(() => __S(2272, __c71, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2336, __c73, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "BanUserResponse",
       });
   }
 }
-function __c72(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12628,18 +12743,18 @@ function __c72(j: number): any {
       ).annotate({ identifier: "GetUserBillingSubscriptionRequest" });
   }
 }
-function __c73(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          email_address: S.optional(__S(8928, __c279, 0).pipe(T.Query())),
-          phone_number: S.optional(__S(8928, __c279, 0).pipe(T.Query())),
-          external_id: S.optional(__S(8928, __c279, 0).pipe(T.Query())),
-          username: S.optional(__S(8928, __c279, 0).pipe(T.Query())),
-          web3_wallet: S.optional(__S(8928, __c279, 0).pipe(T.Query())),
-          user_id: S.optional(__S(8928, __c279, 0).pipe(T.Query())),
-          organization_id: S.optional(__S(8928, __c279, 0).pipe(T.Query())),
+          email_address: S.optional(__S(8992, __c281, 0).pipe(T.Query())),
+          phone_number: S.optional(__S(8992, __c281, 0).pipe(T.Query())),
+          external_id: S.optional(__S(8992, __c281, 0).pipe(T.Query())),
+          username: S.optional(__S(8992, __c281, 0).pipe(T.Query())),
+          web3_wallet: S.optional(__S(8992, __c281, 0).pipe(T.Query())),
+          user_id: S.optional(__S(8992, __c281, 0).pipe(T.Query())),
+          organization_id: S.optional(__S(8992, __c281, 0).pipe(T.Query())),
           query: S.optional(S.String.pipe(T.Query())),
           email_address_query: S.optional(S.String.pipe(T.Query())),
           phone_number_query: S.optional(S.String.pipe(T.Query())),
@@ -12654,7 +12769,7 @@ function __c73(j: number): any {
           last_sign_in_at_before: S.optional(S.Number.pipe(T.Query())),
           last_sign_in_at_after: S.optional(S.Number.pipe(T.Query())),
           provider: S.optional(S.String.pipe(T.Query())),
-          provider_user_id: S.optional(__S(8928, __c279, 0).pipe(T.Query())),
+          provider_user_id: S.optional(__S(8992, __c281, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
           starting_after: S.optional(S.String.pipe(T.Query())),
@@ -12663,18 +12778,18 @@ function __c73(j: number): any {
       ).annotate({ identifier: "GetUserListRequest" });
   }
 }
-function __c74(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          email_address: S.optional(__S(8928, __c279, 0).pipe(T.Query())),
-          phone_number: S.optional(__S(8928, __c279, 0).pipe(T.Query())),
-          external_id: S.optional(__S(8928, __c279, 0).pipe(T.Query())),
-          username: S.optional(__S(8928, __c279, 0).pipe(T.Query())),
-          web3_wallet: S.optional(__S(8928, __c279, 0).pipe(T.Query())),
-          user_id: S.optional(__S(8928, __c279, 0).pipe(T.Query())),
-          organization_id: S.optional(__S(8928, __c279, 0).pipe(T.Query())),
+          email_address: S.optional(__S(8992, __c281, 0).pipe(T.Query())),
+          phone_number: S.optional(__S(8992, __c281, 0).pipe(T.Query())),
+          external_id: S.optional(__S(8992, __c281, 0).pipe(T.Query())),
+          username: S.optional(__S(8992, __c281, 0).pipe(T.Query())),
+          web3_wallet: S.optional(__S(8992, __c281, 0).pipe(T.Query())),
+          user_id: S.optional(__S(8992, __c281, 0).pipe(T.Query())),
+          organization_id: S.optional(__S(8992, __c281, 0).pipe(T.Query())),
           query: S.optional(S.String.pipe(T.Query())),
           email_address_query: S.optional(S.String.pipe(T.Query())),
           phone_number_query: S.optional(S.String.pipe(T.Query())),
@@ -12689,7 +12804,7 @@ function __c74(j: number): any {
           last_sign_in_at_before: S.optional(S.Number.pipe(T.Query())),
           last_sign_in_at_after: S.optional(S.Number.pipe(T.Query())),
           provider: S.optional(S.String.pipe(T.Query())),
-          provider_user_id: S.optional(__S(8928, __c279, 0).pipe(T.Query())),
+          provider_user_id: S.optional(__S(8992, __c281, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/users/count", code: 200 })),
       ).annotate({ identifier: "GetUsersCountRequest" });
     case 1:
@@ -12701,7 +12816,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "TotalCount" });
   }
 }
-function __c75(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12713,18 +12828,18 @@ function __c75(j: number): any {
       ).annotate({ identifier: "InstanceGetOrganizationMembershipsRequest" });
   }
 }
-function __c76(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1824, __c57, 0),
+          data: __S(1888, __c59, 0),
           total_count: S.Number,
         }),
       ).annotate({ identifier: "OrganizationMemberships" });
   }
 }
-function __c77(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12741,16 +12856,16 @@ function __c77(j: number): any {
       ).annotate({ identifier: "InviteWaitlistEntryRequest" });
   }
 }
-function __c78(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           organization_id: S.optional(S.String.pipe(T.Query())),
           verified: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
-          enrollment_mode: S.optional(__S(8768, __c274, 0).pipe(T.Query())),
+          enrollment_mode: S.optional(__S(8832, __c276, 0).pipe(T.Query())),
           query: S.optional(S.String.pipe(T.Query())),
-          domains: S.optional(__S(8928, __c279, 0).pipe(T.Query())),
+          domains: S.optional(__S(8992, __c281, 0).pipe(T.Query())),
           order_by: S.optional(S.String.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
@@ -12758,20 +12873,20 @@ function __c78(j: number): any {
       ).annotate({ identifier: "ListAllOrganizationDomainsRequest" });
   }
 }
-function __c79(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(7777, __c243, 1));
+      return S.Array(__S(7841, __c245, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2528, __c79, 0),
+          data: __S(2592, __c81, 0),
           total_count: S.Number,
         }),
       ).annotate({ identifier: "OrganizationDomains" });
   }
 }
-function __c80(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12782,31 +12897,31 @@ function __c80(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/allowlist_identifiers", code: 200 })),
       ).annotate({ identifier: "ListAllowlistIdentifiersRequest" });
     case 1:
-      return S.Array(__S(4928, __c154, 0));
+      return S.Array(__S(4992, __c156, 0));
     case 2:
-      return S.suspend(() => __S(2561, __c80, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2625, __c82, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListAllowlistIdentifiersResponse",
       });
   }
 }
-function __c81(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/blocklist_identifiers", code: 200 })),
       ).annotate({ identifier: "ListBlocklistIdentifiersRequest" });
     case 1:
-      return S.Array(__S(6464, __c202, 0));
+      return S.Array(__S(6528, __c204, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2593, __c81, 1),
+          data: __S(2657, __c83, 1),
           total_count: S.Number,
         }),
       ).annotate({ identifier: "BlocklistIdentifiers" });
   }
 }
-function __c82(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12817,20 +12932,20 @@ function __c82(j: number): any {
       ).annotate({ identifier: "ListDirectoriesRequest" });
   }
 }
-function __c83(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(7138, __c223, 2));
+      return S.Array(__S(7202, __c225, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2656, __c83, 0),
+          data: __S(2720, __c85, 0),
           total_count: S.Number,
         }),
       ).annotate({ identifier: "ListDirectoriesResponse" });
   }
 }
-function __c84(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12856,7 +12971,7 @@ function __c84(j: number): any {
         }),
       ).annotate({ identifier: "DirectoryGroupMember" });
     case 2:
-      return S.Array(__S(2689, __c84, 1));
+      return S.Array(__S(2753, __c86, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -12868,13 +12983,13 @@ function __c84(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2690, __c84, 2),
-          cursor: __S(2691, __c84, 3),
+          data: __S(2754, __c86, 2),
+          cursor: __S(2755, __c86, 3),
         }),
       ).annotate({ identifier: "ListDirectoryGroupMembersResponse" });
   }
 }
-function __c85(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12891,7 +13006,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "CancelCommerceSubscriptionItemRequest" });
   }
 }
-function __c86(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12905,36 +13020,36 @@ function __c86(j: number): any {
         }),
       ).annotate({ identifier: "FeatureResponse" });
     case 1:
-      return S.Array(__S(2752, __c86, 0));
+      return S.Array(__S(2816, __c88, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           starts_at_block: S.Number,
           ends_after_block: S.optional(S.NullOr(S.Number)),
-          fee_per_block: __S(9472, __c296, 0),
+          fee_per_block: __S(9536, __c298, 0),
         }),
       ).annotate({ identifier: "CommercePlanUnitPriceTier" });
     case 3:
-      return S.Array(__S(2754, __c86, 2));
+      return S.Array(__S(2818, __c88, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           block_size: S.Number,
-          tiers: __S(2755, __c86, 3),
+          tiers: __S(2819, __c88, 3),
         }),
       ).annotate({ identifier: "CommercePlanUnitPrice" });
     case 5:
-      return S.Array(__S(2756, __c86, 4));
+      return S.Array(__S(2820, __c88, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
           id: S.String,
           name: S.String,
-          fee: S.NullOr(__S(9472, __c296, 0)),
-          annual_monthly_fee: S.NullOr(__S(9472, __c296, 0)),
-          annual_fee: S.NullOr(__S(9472, __c296, 0)),
+          fee: S.NullOr(__S(9536, __c298, 0)),
+          annual_monthly_fee: S.NullOr(__S(9536, __c298, 0)),
+          annual_fee: S.NullOr(__S(9536, __c298, 0)),
           description: S.NullOr(S.String),
           product_id: S.String,
           is_default: S.Boolean,
@@ -12944,21 +13059,21 @@ function __c86(j: number): any {
           for_payer_type: S.String,
           slug: S.String,
           avatar_url: S.NullOr(S.String),
-          features: S.optional(__S(2753, __c86, 1)),
+          features: S.optional(__S(2817, __c88, 1)),
           free_trial_enabled: S.Boolean,
           free_trial_days: S.NullOr(S.Number),
-          unit_prices: S.optional(__S(2757, __c86, 5)),
+          unit_prices: S.optional(__S(2821, __c88, 5)),
         }),
       ).annotate({ identifier: "CommercePlan" });
   }
 }
-function __c87(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           quantity: S.NullOr(S.Number),
-          tiers: S.optional(__S(2852, __c89, 4)),
+          tiers: S.optional(__S(2916, __c91, 4)),
         }),
       ).annotate({ identifier: "CommerceSubscriptionItemSeatsResponse" });
     case 1:
@@ -12968,17 +13083,17 @@ function __c87(j: number): any {
           id: S.String,
           instance_id: S.String,
           status: S.String,
-          credit: S.optional(__S(2816, __c88, 0)),
-          credits: S.optional(S.NullOr(__S(2850, __c89, 2))),
+          credit: S.optional(__S(2880, __c90, 0)),
+          credits: S.optional(S.NullOr(__S(2914, __c91, 2))),
           plan_id: S.NullOr(S.String),
           price_id: S.optional(S.String),
-          plan: S.optional(S.NullOr(__S(2758, __c86, 6))),
+          plan: S.optional(S.NullOr(__S(2822, __c88, 6))),
           plan_period: S.String,
-          payment_method: S.optional(__S(2880, __c90, 0)),
-          lifetime_paid: S.optional(__S(9472, __c296, 0)),
-          next_payment: S.optional(S.NullOr(__S(2817, __c88, 1))),
+          payment_method: S.optional(__S(2944, __c92, 0)),
+          lifetime_paid: S.optional(__S(9536, __c298, 0)),
+          next_payment: S.optional(S.NullOr(__S(2881, __c90, 1))),
           payer_id: S.String,
-          payer: S.optional(__S(2881, __c90, 1)),
+          payer: S.optional(__S(2945, __c92, 1)),
           is_free_trial: S.Boolean,
           period_start: S.Number,
           period_end: S.NullOr(S.Number),
@@ -12988,38 +13103,38 @@ function __c87(j: number): any {
           ended_at: S.NullOr(S.Number),
           created_at: S.optional(S.Number),
           updated_at: S.optional(S.Number),
-          seats: S.optional(S.NullOr(__S(2784, __c87, 0))),
-          totals: S.optional(S.NullOr(__S(2857, __c89, 9))),
+          seats: S.optional(S.NullOr(__S(2848, __c89, 0))),
+          totals: S.optional(S.NullOr(__S(2921, __c91, 9))),
         }),
       ).annotate({ identifier: "CommerceSubscriptionItem" });
   }
 }
-function __c88(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          amount: S.optional(S.NullOr(__S(9472, __c296, 0))),
+          amount: S.optional(S.NullOr(__S(9536, __c298, 0))),
           cycle_remaining_percent: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CommerceSubscriptionCreditResponse" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          amount: S.optional(S.NullOr(__S(9472, __c296, 0))),
+          amount: S.optional(S.NullOr(__S(9536, __c298, 0))),
           date: S.optional(S.NullOr(S.Number)),
-          per_unit_totals: S.optional(__S(2854, __c89, 6)),
-          totals: S.optional(S.NullOr(__S(2857, __c89, 9))),
+          per_unit_totals: S.optional(__S(2918, __c91, 6)),
+          totals: S.optional(S.NullOr(__S(2921, __c91, 9))),
         }),
       ).annotate({ identifier: "CommerceSubscriptionItemNextPaymentResponse" });
   }
 }
-function __c89(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          amount: __S(9472, __c296, 0),
+          amount: __S(9536, __c298, 0),
           cycle_days_remaining: S.Number,
           cycle_days_total: S.Number,
           cycle_remaining_percent: S.Number,
@@ -13028,42 +13143,42 @@ function __c89(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          remaining_balance: __S(9472, __c296, 0),
-          applied_amount: __S(9472, __c296, 0),
+          remaining_balance: __S(9536, __c298, 0),
+          applied_amount: __S(9536, __c298, 0),
         }),
       ).annotate({ identifier: "CommercePayerCreditResponse" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          proration: S.NullOr(__S(2848, __c89, 0)),
-          payer: S.NullOr(__S(2849, __c89, 1)),
-          total: __S(9472, __c296, 0),
+          proration: S.NullOr(__S(2912, __c91, 0)),
+          payer: S.NullOr(__S(2913, __c91, 1)),
+          total: __S(9536, __c298, 0),
         }),
       ).annotate({ identifier: "CommerceCreditsResponse" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           quantity: S.optional(S.NullOr(S.Number)),
-          fee_per_block: __S(9472, __c296, 0),
-          total: __S(9472, __c296, 0),
+          fee_per_block: __S(9536, __c298, 0),
+          total: __S(9536, __c298, 0),
         }),
       ).annotate({ identifier: "CommercePerUnitTotalTier" });
     case 4:
-      return S.Array(__S(2851, __c89, 3));
+      return S.Array(__S(2915, __c91, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           block_size: S.Number,
-          tiers: __S(2852, __c89, 4),
+          tiers: __S(2916, __c91, 4),
         }),
       ).annotate({ identifier: "CommercePerUnitTotal" });
     case 6:
-      return S.Array(__S(2853, __c89, 5));
+      return S.Array(__S(2917, __c91, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          amount: __S(9472, __c296, 0),
+          amount: __S(9536, __c298, 0),
           cycle_days_passed: S.Number,
           cycle_days_total: S.Number,
           cycle_passed_percent: S.Number,
@@ -13072,25 +13187,25 @@ function __c89(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          proration: S.NullOr(__S(2855, __c89, 7)),
-          total: __S(9472, __c296, 0),
+          proration: S.NullOr(__S(2919, __c91, 7)),
+          total: __S(9536, __c298, 0),
         }),
       ).annotate({ identifier: "CommerceDiscountsResponse" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          subtotal: __S(9472, __c296, 0),
-          base_fee: __S(9472, __c296, 0),
-          tax_total: __S(9472, __c296, 0),
-          grand_total: __S(9472, __c296, 0),
-          per_unit_totals: S.optional(__S(2854, __c89, 6)),
-          credits: S.optional(S.NullOr(__S(2850, __c89, 2))),
-          discounts: S.optional(S.NullOr(__S(2856, __c89, 8))),
+          subtotal: __S(9536, __c298, 0),
+          base_fee: __S(9536, __c298, 0),
+          tax_total: __S(9536, __c298, 0),
+          grand_total: __S(9536, __c298, 0),
+          per_unit_totals: S.optional(__S(2918, __c91, 6)),
+          credits: S.optional(S.NullOr(__S(2914, __c91, 2))),
+          discounts: S.optional(S.NullOr(__S(2920, __c91, 8))),
         }),
       ).annotate({ identifier: "CommerceTotalsResponse" });
   }
 }
-function __c90(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13127,14 +13242,14 @@ function __c90(j: number): any {
           organization_id: S.optional(S.NullOr(S.String)),
           organization_name: S.optional(S.NullOr(S.String)),
           image_url: S.optional(S.String),
-          credits_balance: S.optional(__S(9472, __c296, 0)),
+          credits_balance: S.optional(__S(9536, __c298, 0)),
           created_at: S.optional(S.Number),
           updated_at: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CommercePayerResponse" });
   }
 }
-function __c91(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13150,37 +13265,37 @@ function __c91(j: number): any {
       ).annotate({ identifier: "ListDirectoryGroupRoleMappingsRequest" });
   }
 }
-function __c92(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(7200, __c225, 0));
+      return S.Array(__S(7264, __c227, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2944, __c92, 0),
+          data: __S(3008, __c94, 0),
           total_count: S.Number,
         }),
       ).annotate({ identifier: "ListDirectoryGroupRoleMappingsResponse" });
   }
 }
-function __c93(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/domains", code: 200 })),
       ).annotate({ identifier: "ListDomainsRequest" });
     case 1:
-      return S.Array(__S(8324, __c260, 4));
+      return S.Array(__S(8388, __c262, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2977, __c93, 1),
+          data: __S(3041, __c95, 1),
           total_count: S.Number,
         }),
       ).annotate({ identifier: "Domains" });
   }
 }
-function __c94(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13192,23 +13307,23 @@ function __c94(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/enterprise_connections", code: 200 })),
       ).annotate({ identifier: "ListEnterpriseConnectionsRequest" });
     case 1:
-      return S.Array(__S(7303, __c228, 7));
+      return S.Array(__S(7367, __c230, 7));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(3009, __c94, 1),
+          data: __S(3073, __c96, 1),
           total_count: S.Number,
         }),
       ).annotate({ identifier: "EnterpriseConnections" });
   }
 }
-function __c95(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           enterprise_connection_id: S.String.pipe(T.Label()),
-          status: S.optional(__S(8768, __c274, 0).pipe(T.Query())),
+          status: S.optional(__S(8832, __c276, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
@@ -13238,7 +13353,7 @@ function __c95(j: number): any {
         }),
       ).annotate({ identifier: "EnterpriseConnectionTestRunLogsItem" });
     case 3:
-      return S.Array(__S(3042, __c95, 2));
+      return S.Array(__S(3106, __c97, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -13261,25 +13376,25 @@ function __c95(j: number): any {
           id: S.String,
           status: S.String,
           connection_type: S.String,
-          parsed_user_info: S.optional(S.NullOr(__S(3041, __c95, 1))),
-          logs: S.optional(__S(3043, __c95, 3)),
-          saml: S.optional(S.NullOr(__S(3044, __c95, 4))),
-          oauth: S.optional(S.NullOr(__S(3045, __c95, 5))),
+          parsed_user_info: S.optional(S.NullOr(__S(3105, __c97, 1))),
+          logs: S.optional(__S(3107, __c97, 3)),
+          saml: S.optional(S.NullOr(__S(3108, __c97, 4))),
+          oauth: S.optional(S.NullOr(__S(3109, __c97, 5))),
           created_at: S.Number,
         }),
       ).annotate({ identifier: "EnterpriseConnectionTestRun" });
     case 7:
-      return S.Array(__S(3046, __c95, 6));
+      return S.Array(__S(3110, __c97, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          data: __S(3047, __c95, 7),
+          data: __S(3111, __c97, 7),
           total_count: S.Number,
         }),
       ).annotate({ identifier: "EnterpriseConnectionTestRuns" });
   }
 }
-function __c96(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13293,7 +13408,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "ListInstanceOrganizationInvitationsRequest" });
   }
 }
-function __c97(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13305,36 +13420,36 @@ function __c97(j: number): any {
           role_name: S.String,
           organization_id: S.optional(S.String),
           inviter_id: S.NullOr(S.String),
-          public_inviter_data: S.NullOr(__S(7840, __c245, 0)),
+          public_inviter_data: S.NullOr(__S(7904, __c247, 0)),
           status: S.optional(S.String),
-          public_metadata: __S(1632, __c51, 0),
-          private_metadata: S.optional(__S(1632, __c51, 0)),
+          public_metadata: __S(0, __c0, 0),
+          private_metadata: S.optional(__S(0, __c0, 0)),
           url: S.NullOr(S.String),
           expires_at: S.NullOr(S.Number),
           created_at: S.Number,
           updated_at: S.Number,
-          public_organization_data: S.optional(__S(7744, __c242, 0)),
+          public_organization_data: S.optional(__S(7808, __c244, 0)),
         }),
       ).annotate({ identifier: "OrganizationInvitationWithPublicOrganizationData" });
     case 1:
-      return S.Array(__S(3104, __c97, 0));
+      return S.Array(__S(3168, __c99, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(3105, __c97, 1),
+          data: __S(3169, __c99, 1),
           total_count: S.Number,
         }),
       ).annotate({ identifier: "OrganizationInvitationsWithPublicOrganizationData" });
   }
 }
-function __c98(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String.pipe(T.Query())),
           query: S.optional(S.String.pipe(T.Query())),
-          email_address: S.optional(__S(8928, __c279, 0).pipe(T.Query())),
+          email_address: S.optional(__S(8992, __c281, 0).pipe(T.Query())),
           order_by: S.optional(S.String.pipe(T.Query())),
           paginated: S.optional(S.Boolean.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
@@ -13343,7 +13458,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "ListInvitationsRequest" });
   }
 }
-function __c99(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13354,14 +13469,14 @@ function __c99(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/jwt_templates", code: 200 })),
       ).annotate({ identifier: "ListJWTTemplatesRequest" });
     case 1:
-      return S.Array(__S(7456, __c233, 0));
+      return S.Array(__S(7520, __c235, 0));
     case 2:
-      return S.suspend(() => __S(3169, __c99, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(3233, __c101, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListJWTTemplatesResponse",
       });
   }
 }
-function __c100(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13377,13 +13492,13 @@ function __c100(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(3201, __c100, 1),
-          cursor: S.optional(__S(3232, __c101, 0)),
+          data: __S(3265, __c102, 1),
+          cursor: S.optional(__S(3296, __c103, 0)),
         }),
       ).annotate({ identifier: "ListLogGroupEventsResponse" });
   }
 }
-function __c101(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13401,7 +13516,7 @@ function __c101(j: number): any {
       ).annotate({ identifier: "ListLogGroupEventsResponseCursor" });
   }
 }
-function __c102(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13419,15 +13534,15 @@ function __c102(j: number): any {
           session_id: S.optional(S.String.pipe(T.Query())),
           impersonator_user_id: S.optional(S.String.pipe(T.Query())),
           ip_address: S.optional(S.String.pipe(T.Query())),
-          payload_filter: S.optional(__S(8960, __c280, 0).pipe(T.Query())),
+          payload_filter: S.optional(__S(9024, __c282, 0).pipe(T.Query())),
           payload_fields: S.optional(S.String.pipe(T.Query())),
           filter_match: S.optional(S.String.pipe(T.Query())),
           event_time_after: S.optional(S.Number.pipe(T.Query())),
           event_time_before: S.optional(S.Number.pipe(T.Query())),
           end_user_facing_only: S.optional(S.Boolean.pipe(T.Query())),
           view: S.optional(S.String.pipe(T.Query())),
-          group_type: S.optional(__S(8928, __c279, 0).pipe(T.Query())),
-          status: S.optional(__S(8928, __c279, 0).pipe(T.Query())),
+          group_type: S.optional(__S(8992, __c281, 0).pipe(T.Query())),
+          status: S.optional(__S(8992, __c281, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/logs", code: 200 })),
       ).annotate({ identifier: "ListLogsRequest" });
     case 1:
@@ -13435,13 +13550,13 @@ function __c102(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(3265, __c102, 1),
-          cursor: S.optional(__S(3232, __c101, 0)),
+          data: __S(3329, __c104, 1),
+          cursor: S.optional(__S(3296, __c103, 0)),
         }),
       ).annotate({ identifier: "ListLogsResponse" });
   }
 }
-function __c103(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13453,17 +13568,17 @@ function __c103(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/machines", code: 200 })),
       ).annotate({ identifier: "ListMachinesRequest" });
     case 1:
-      return S.Array(__S(1152, __c36, 0));
+      return S.Array(__S(1248, __c39, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(3297, __c103, 1),
+          data: __S(3361, __c105, 1),
           total_count: S.Number,
         }),
       ).annotate({ identifier: "ListMachinesResponse" });
   }
 }
-function __c104(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13474,7 +13589,7 @@ function __c104(j: number): any {
       ).annotate({ identifier: "ChangeProductionInstanceDomainRequest" });
   }
 }
-function __c105(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -13482,7 +13597,7 @@ function __c105(j: number): any {
       });
   }
 }
-function __c106(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13494,17 +13609,17 @@ function __c106(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/oauth_applications", code: 200 })),
       ).annotate({ identifier: "ListOAuthApplicationsRequest" });
     case 1:
-      return S.Array(__S(1312, __c41, 0));
+      return S.Array(__S(1408, __c44, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(3393, __c106, 1),
+          data: __S(3457, __c108, 1),
           total_count: S.Number,
         }),
       ).annotate({ identifier: "OAuthApplications" });
   }
 }
-function __c107(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13520,7 +13635,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "ListOrganizationDomainsRequest" });
   }
 }
-function __c108(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13537,19 +13652,19 @@ function __c108(j: number): any {
       ).annotate({ identifier: "ListOrganizationInvitationsRequest" });
   }
 }
-function __c109(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           organization_id: S.String.pipe(T.Label()),
           order_by: S.optional(S.String.pipe(T.Query())),
-          user_id: S.optional(__S(8928, __c279, 0).pipe(T.Query())),
-          email_address: S.optional(__S(8928, __c279, 0).pipe(T.Query())),
-          phone_number: S.optional(__S(8928, __c279, 0).pipe(T.Query())),
-          username: S.optional(__S(8928, __c279, 0).pipe(T.Query())),
-          web3_wallet: S.optional(__S(8928, __c279, 0).pipe(T.Query())),
-          role: S.optional(__S(8928, __c279, 0).pipe(T.Query())),
+          user_id: S.optional(__S(8992, __c281, 0).pipe(T.Query())),
+          email_address: S.optional(__S(8992, __c281, 0).pipe(T.Query())),
+          phone_number: S.optional(__S(8992, __c281, 0).pipe(T.Query())),
+          username: S.optional(__S(8992, __c281, 0).pipe(T.Query())),
+          web3_wallet: S.optional(__S(8992, __c281, 0).pipe(T.Query())),
+          role: S.optional(__S(8992, __c281, 0).pipe(T.Query())),
           query: S.optional(S.String.pipe(T.Query())),
           email_address_query: S.optional(S.String.pipe(T.Query())),
           phone_number_query: S.optional(S.String.pipe(T.Query())),
@@ -13567,7 +13682,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "ListOrganizationMembershipsRequest" });
   }
 }
-function __c110(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13581,13 +13696,13 @@ function __c110(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(64, __c2, 0),
+          data: __S(160, __c5, 0),
           total_count: S.Number,
         }),
       ).annotate({ identifier: "Permissions" });
   }
 }
-function __c111(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13599,17 +13714,17 @@ function __c111(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/organization_roles", code: 200 })),
       ).annotate({ identifier: "ListOrganizationRolesRequest" });
     case 1:
-      return S.Array(__S(96, __c3, 0));
+      return S.Array(__S(192, __c6, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(3553, __c111, 1),
+          data: __S(3617, __c113, 1),
           total_count: S.Number,
         }),
       ).annotate({ identifier: "Roles" });
   }
 }
-function __c112(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13617,25 +13732,25 @@ function __c112(j: number): any {
           include_members_count: S.optional(S.Boolean.pipe(T.Query())),
           include_missing_member_with_elevated_permissions: S.optional(S.Boolean.pipe(T.Query())),
           query: S.optional(S.String.pipe(T.Query())),
-          user_id: S.optional(__S(8928, __c279, 0).pipe(T.Query())),
-          organization_id: S.optional(__S(8928, __c279, 0).pipe(T.Query())),
+          user_id: S.optional(__S(8992, __c281, 0).pipe(T.Query())),
+          organization_id: S.optional(__S(8992, __c281, 0).pipe(T.Query())),
           order_by: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/organizations", code: 200 })),
       ).annotate({ identifier: "ListOrganizationsRequest" });
     case 1:
-      return S.Array(__S(1728, __c54, 0));
+      return S.Array(__S(1792, __c56, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(3585, __c112, 1),
+          data: __S(3649, __c114, 1),
           total_count: S.Number,
         }),
       ).annotate({ identifier: "Organizations" });
   }
 }
-function __c113(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13646,14 +13761,14 @@ function __c113(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/redirect_urls", code: 200 })),
       ).annotate({ identifier: "ListRedirectURLsRequest" });
     case 1:
-      return S.Array(__S(8128, __c254, 0));
+      return S.Array(__S(8192, __c256, 0));
     case 2:
-      return S.suspend(() => __S(3617, __c113, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(3681, __c115, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListRedirectURLsResponse",
       });
   }
 }
-function __c114(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13665,17 +13780,17 @@ function __c114(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/role_sets", code: 200 })),
       ).annotate({ identifier: "ListRoleSetsRequest" });
     case 1:
-      return S.Array(__S(8995, __c281, 3));
+      return S.Array(__S(9059, __c283, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(3649, __c114, 1),
+          data: __S(3713, __c116, 1),
           total_count: S.Number,
         }),
       ).annotate({ identifier: "RoleSets" });
   }
 }
-function __c115(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13686,7 +13801,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "ListSCIMDirectoriesRequest" });
   }
 }
-function __c116(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13701,14 +13816,14 @@ function __c116(j: number): any {
       return S.suspend(() =>
         S.Struct({
           user_id: S.String,
-          actor: __S(3712, __c116, 0),
+          actor: __S(3776, __c118, 0),
           expires_in_seconds: S.optional(S.Number),
           session_max_duration_in_seconds: S.optional(S.Number),
         }).pipe(T.Http({ method: "POST", uri: "/actor_tokens", code: 200 })),
       ).annotate({ identifier: "CreateActorTokenRequest" });
   }
 }
-function __c117(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13726,7 +13841,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "ActorToken" });
   }
 }
-function __c118(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13742,20 +13857,20 @@ function __c118(j: number): any {
       ).annotate({ identifier: "ListSCIMGroupRoleMappingsRequest" });
   }
 }
-function __c119(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(8256, __c258, 0));
+      return S.Array(__S(8320, __c260, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(3808, __c119, 0),
+          data: __S(3872, __c121, 0),
           total_count: S.Number,
         }),
       ).annotate({ identifier: "ListSCIMGroupRoleMappingsResponse" });
   }
 }
-function __c120(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13764,14 +13879,14 @@ function __c120(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/sso_bypass_allowlist_users", code: 200 })),
       ).annotate({ identifier: "ListSSOBypassAllowlistUsersRequest" });
     case 1:
-      return S.Array(__S(8609, __c269, 1));
+      return S.Array(__S(8673, __c271, 1));
     case 2:
-      return S.suspend(() => __S(3841, __c120, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(3905, __c122, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListSSOBypassAllowlistUsersResponse",
       });
   }
 }
-function __c121(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13782,17 +13897,17 @@ function __c121(j: number): any {
         ),
       ).annotate({ identifier: "ListUserBiometricCredentialsRequest" });
     case 1:
-      return S.Array(__S(3904, __c122, 0));
+      return S.Array(__S(3968, __c124, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(3873, __c121, 1),
+          data: __S(3937, __c123, 1),
           total_count: S.Number,
         }),
       ).annotate({ identifier: "ListUserBiometricCredentialsResponse" });
   }
 }
-function __c122(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13812,7 +13927,7 @@ function __c122(j: number): any {
       ).annotate({ identifier: "BiometricCredential" });
   }
 }
-function __c123(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13827,13 +13942,13 @@ function __c123(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(7040, __c220, 0),
+          data: __S(7104, __c222, 0),
           total_count: S.Number,
         }),
       ).annotate({ identifier: "ListWaitlistEntriesResponse" });
   }
 }
-function __c124(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13843,21 +13958,21 @@ function __c124(j: number): any {
       ).annotate({ identifier: "LockUserRequest" });
   }
 }
-function __c125(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           organization_id: S.String.pipe(T.Label()),
-          public_metadata: S.optional(__S(1632, __c51, 0)),
-          private_metadata: S.optional(__S(1632, __c51, 0)),
+          public_metadata: S.optional(__S(0, __c0, 0)),
+          private_metadata: S.optional(__S(0, __c0, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/organizations/{organization_id}/metadata", code: 200 }),
         ),
       ).annotate({ identifier: "MergeOrganizationMetadataRequest" });
   }
 }
-function __c126(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13870,13 +13985,13 @@ function __c126(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          user: __S(1873, __c58, 17),
-          deleted_user: __S(1873, __c58, 17),
+          user: __S(1937, __c60, 17),
+          deleted_user: __S(1937, __c60, 17),
         }),
       ).annotate({ identifier: "MergeUserResponse" });
   }
 }
-function __c127(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13892,7 +14007,7 @@ function __c127(j: number): any {
       ).annotate({ identifier: "PrepareEmailAddressVerificationRequest" });
   }
 }
-function __c128(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13908,7 +14023,7 @@ function __c128(j: number): any {
       ).annotate({ identifier: "PreparePhoneNumberVerificationRequest" });
   }
 }
-function __c129(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13917,7 +14032,7 @@ function __c129(j: number): any {
           expired_token: S.String,
           refresh_token: S.String.pipe(T.SensitiveValue({})),
           request_origin: S.String,
-          request_headers: S.optional(S.NullOr(__S(1632, __c51, 0))),
+          request_headers: S.optional(S.NullOr(__S(0, __c0, 0))),
           format: S.optional(S.NullOr(S.String)),
           request_originating_ip: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "POST", uri: "/sessions/{session_id}/refresh", code: 200 })),
@@ -13928,14 +14043,14 @@ function __c129(j: number): any {
       });
   }
 }
-function __c130(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           organization_id: S.optional(S.String),
           it_contact_id: S.optional(S.String),
-          scopes: S.optional(__S(8928, __c279, 0)),
+          scopes: S.optional(__S(8992, __c281, 0)),
           seconds_until_expiration: S.optional(S.Number),
         }).pipe(T.Http({ method: "POST", uri: "/admin_portal_link_tokens", code: 200 })),
       ).annotate({ identifier: "CreateAdminPortalLinkTokenRequest" });
@@ -13948,7 +14063,7 @@ function __c130(j: number): any {
           instance_id: S.String,
           organization_id: S.NullOr(S.String),
           it_contact_id: S.NullOr(S.String),
-          scopes: S.NullOr(__S(8928, __c279, 0)),
+          scopes: S.NullOr(__S(8992, __c281, 0)),
           token: S.String,
           revoked: S.Boolean,
           revocation_reason: S.NullOr(S.String),
@@ -13960,7 +14075,7 @@ function __c130(j: number): any {
       ).annotate({ identifier: "CreateAdminPortalLinkTokenResponse" });
   }
 }
-function __c131(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13976,7 +14091,7 @@ function __c131(j: number): any {
       ).annotate({ identifier: "RejectWaitlistEntryRequest" });
   }
 }
-function __c132(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13993,7 +14108,7 @@ function __c132(j: number): any {
       ).annotate({ identifier: "RemoveBillingSubscriptionItemDiscountRequest" });
   }
 }
-function __c133(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14010,7 +14125,7 @@ function __c133(j: number): any {
       ).annotate({ identifier: "RemovePermissionFromOrganizationRoleRequest" });
   }
 }
-function __c134(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14021,7 +14136,7 @@ function __c134(j: number): any {
       ).annotate({ identifier: "RemoveUserPasswordRequest" });
   }
 }
-function __c135(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14032,12 +14147,12 @@ function __c135(j: number): any {
         }),
       ).annotate({ identifier: "ReplaceDirectoryGroupRoleMappingsRequestMappingsItem" });
     case 1:
-      return S.Array(__S(4320, __c135, 0));
+      return S.Array(__S(4384, __c137, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           directory_id: S.String.pipe(T.Label()),
-          mappings: __S(4321, __c135, 1),
+          mappings: __S(4385, __c137, 1),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -14048,21 +14163,21 @@ function __c135(j: number): any {
       ).annotate({ identifier: "ReplaceDirectoryGroupRoleMappingsRequest" });
   }
 }
-function __c136(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           organization_id: S.String.pipe(T.Label()),
-          public_metadata: S.optional(__S(1632, __c51, 0)),
-          private_metadata: S.optional(__S(1632, __c51, 0)),
+          public_metadata: S.optional(__S(0, __c0, 0)),
+          private_metadata: S.optional(__S(0, __c0, 0)),
         }).pipe(
           T.Http({ method: "PUT", uri: "/organizations/{organization_id}/metadata", code: 200 }),
         ),
       ).annotate({ identifier: "ReplaceOrganizationMetadataRequest" });
   }
 }
-function __c137(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14080,21 +14195,21 @@ function __c137(j: number): any {
       ).annotate({ identifier: "ReplaceRoleInRoleSetRequest" });
   }
 }
-function __c138(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           role_set_key_or_id: S.String.pipe(T.Label()),
           dest_role_set_key: S.String,
-          reassignment_mappings: S.optional(__S(8960, __c280, 0)),
+          reassignment_mappings: S.optional(__S(9024, __c282, 0)),
         }).pipe(
           T.Http({ method: "POST", uri: "/role_sets/{role_set_key_or_id}/replace", code: 200 }),
         ),
       ).annotate({ identifier: "ReplaceRoleSetRequest" });
   }
 }
-function __c139(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14104,12 +14219,12 @@ function __c139(j: number): any {
         }),
       ).annotate({ identifier: "ReplaceSCIMGroupRoleMappingsRequestMappingsItem" });
     case 1:
-      return S.Array(__S(4448, __c139, 0));
+      return S.Array(__S(4512, __c141, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           scim_directory_id: S.String.pipe(T.Label()),
-          mappings: __S(4449, __c139, 1),
+          mappings: __S(4513, __c141, 1),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -14120,7 +14235,7 @@ function __c139(j: number): any {
       ).annotate({ identifier: "ReplaceSCIMGroupRoleMappingsRequest" });
   }
 }
-function __c140(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14133,7 +14248,7 @@ function __c140(j: number): any {
       ).annotate({ identifier: "ReplaceUserEmailAddressRequest" });
   }
 }
-function __c141(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14145,7 +14260,7 @@ function __c141(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          on_behalf_of: __S(4512, __c141, 0),
+          on_behalf_of: __S(4576, __c143, 0),
           permissions: S.String,
           agent_name: S.String,
           task_description: S.String,
@@ -14155,7 +14270,7 @@ function __c141(j: number): any {
       ).annotate({ identifier: "CreateAgentTaskRequest" });
   }
 }
-function __c142(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14169,20 +14284,20 @@ function __c142(j: number): any {
       ).annotate({ identifier: "AgentTask" });
   }
 }
-function __c143(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           user_id: S.String.pipe(T.Label()),
-          public_metadata: S.optional(__S(1632, __c51, 0)),
-          private_metadata: S.optional(__S(1632, __c51, 0)),
-          unsafe_metadata: S.optional(__S(1632, __c51, 0)),
+          public_metadata: S.optional(__S(0, __c0, 0)),
+          private_metadata: S.optional(__S(0, __c0, 0)),
+          unsafe_metadata: S.optional(__S(0, __c0, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/users/{user_id}/metadata", code: 200 })),
       ).annotate({ identifier: "ReplaceUserMetadataRequest" });
   }
 }
-function __c144(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14194,7 +14309,7 @@ function __c144(j: number): any {
       ).annotate({ identifier: "ReplaceUserPhoneNumberRequest" });
   }
 }
-function __c145(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14206,7 +14321,7 @@ function __c145(j: number): any {
       ).annotate({ identifier: "RevokeActorTokenRequest" });
   }
 }
-function __c146(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14230,7 +14345,7 @@ function __c146(j: number): any {
           instance_id: S.String,
           organization_id: S.NullOr(S.String),
           it_contact_id: S.NullOr(S.String),
-          scopes: S.NullOr(__S(8928, __c279, 0)),
+          scopes: S.NullOr(__S(8992, __c281, 0)),
           revoked: S.Boolean,
           revocation_reason: S.NullOr(S.String),
           expired: S.Boolean,
@@ -14241,7 +14356,7 @@ function __c146(j: number): any {
       ).annotate({ identifier: "RevokeAdminPortalLinkTokenResponse" });
   }
 }
-function __c147(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14251,7 +14366,7 @@ function __c147(j: number): any {
       ).annotate({ identifier: "RevokeAgentTaskRequest" });
   }
 }
-function __c148(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14262,7 +14377,7 @@ function __c148(j: number): any {
       ).annotate({ identifier: "RevokeApiKeyRequest" });
   }
 }
-function __c149(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14272,7 +14387,7 @@ function __c149(j: number): any {
       ).annotate({ identifier: "RevokeInvitationRequest" });
   }
 }
-function __c150(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14283,7 +14398,7 @@ function __c150(j: number): any {
       ).annotate({ identifier: "RevokeM2MTokenRequest" });
   }
 }
-function __c151(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14300,7 +14415,7 @@ function __c151(j: number): any {
       ).annotate({ identifier: "RevokeOAuthApplicationTokenRequest" });
   }
 }
-function __c152(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14318,7 +14433,7 @@ function __c152(j: number): any {
       ).annotate({ identifier: "RevokeOrganizationInvitationRequest" });
   }
 }
-function __c153(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14329,7 +14444,7 @@ function __c153(j: number): any {
       ).annotate({ identifier: "CreateAllowlistIdentifierRequest" });
   }
 }
-function __c154(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14346,7 +14461,7 @@ function __c154(j: number): any {
       ).annotate({ identifier: "AllowlistIdentifier" });
   }
 }
-function __c155(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14357,7 +14472,7 @@ function __c155(j: number): any {
       ).annotate({ identifier: "RevokeSessionRequest" });
   }
 }
-function __c156(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14369,7 +14484,7 @@ function __c156(j: number): any {
       ).annotate({ identifier: "RevokeSignInTokenRequest" });
   }
 }
-function __c157(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14386,7 +14501,7 @@ function __c157(j: number): any {
       ).annotate({ identifier: "RevokeUserBiometricCredentialRequest" });
   }
 }
-function __c158(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14398,7 +14513,7 @@ function __c158(j: number): any {
       ).annotate({ identifier: "RotateDirectoryAPIKeyRequest" });
   }
 }
-function __c159(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14411,7 +14526,7 @@ function __c159(j: number): any {
       ).annotate({ identifier: "RotateMachineSecretKeyRequest" });
   }
 }
-function __c160(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14427,7 +14542,7 @@ function __c160(j: number): any {
       ).annotate({ identifier: "RotateOAuthApplicationSecretRequest" });
   }
 }
-function __c161(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14443,7 +14558,7 @@ function __c161(j: number): any {
       ).annotate({ identifier: "RotateSCIMDirectoryAPIKeyRequest" });
   }
 }
-function __c162(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14456,7 +14571,7 @@ function __c162(j: number): any {
       ).annotate({ identifier: "SetUserPasswordCompromisedRequest" });
   }
 }
-function __c163(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14474,7 +14589,7 @@ function __c163(j: number): any {
       ).annotate({ identifier: "SetUserProfileImageRequest" });
   }
 }
-function __c164(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14484,7 +14599,7 @@ function __c164(j: number): any {
       ).annotate({ identifier: "UnbanUserRequest" });
   }
 }
-function __c165(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14494,7 +14609,7 @@ function __c165(j: number): any {
           description: S.optional(S.NullOr(S.String)),
           subject: S.String,
           claims: S.optional(S.NullOr(S.Unknown)),
-          scopes: S.optional(__S(8928, __c279, 0)),
+          scopes: S.optional(__S(8992, __c281, 0)),
           created_by: S.optional(S.NullOr(S.String)),
           seconds_until_expiration: S.optional(S.NullOr(S.Number)),
         }).pipe(T.Http({ method: "POST", uri: "/api_keys", code: 200 })),
@@ -14509,7 +14624,7 @@ function __c165(j: number): any {
           name: S.String,
           description: S.optional(S.NullOr(S.String)),
           claims: S.NullOr(S.Unknown),
-          scopes: __S(8928, __c279, 0),
+          scopes: __S(8992, __c281, 0),
           secret: S.String.pipe(T.SensitiveValue({})),
           revoked: S.Boolean,
           revocation_reason: S.NullOr(S.String),
@@ -14523,17 +14638,17 @@ function __c165(j: number): any {
       ).annotate({ identifier: "CreateApiKeyResponse" });
   }
 }
-function __c166(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          user_ids: __S(8928, __c279, 0),
+          user_ids: __S(8992, __c281, 0),
         }).pipe(T.Http({ method: "POST", uri: "/users/unban", code: 200 })),
       ).annotate({ identifier: "UnbanUserRequest2" });
   }
 }
-function __c167(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14543,7 +14658,7 @@ function __c167(j: number): any {
       ).annotate({ identifier: "UnlockUserRequest" });
   }
 }
-function __c168(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14555,14 +14670,14 @@ function __c168(j: number): any {
       ).annotate({ identifier: "UnsetUserPasswordCompromisedRequest" });
   }
 }
-function __c169(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           apiKeyID: S.String.pipe(T.Label()),
           claims: S.optional(S.NullOr(S.Unknown)),
-          scopes: S.optional(__S(8928, __c279, 0)),
+          scopes: S.optional(__S(8992, __c281, 0)),
           description: S.optional(S.NullOr(S.String)),
           subject: S.optional(S.String),
           seconds_until_expiration: S.optional(S.NullOr(S.Number)),
@@ -14570,7 +14685,7 @@ function __c169(j: number): any {
       ).annotate({ identifier: "UpdateApiKeyRequest" });
   }
 }
-function __c170(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14580,19 +14695,19 @@ function __c170(j: number): any {
           enabled: S.optional(S.Boolean),
           paused: S.optional(S.Boolean),
           provider: S.optional(S.String),
-          attribute_mapping: S.optional(__S(5472, __c171, 0)),
+          attribute_mapping: S.optional(__S(5536, __c173, 0)),
           group_role_mapping_enabled: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "PATCH", uri: "/directories/{directory_id}", code: 200 })),
       ).annotate({ identifier: "UpdateDirectoryRequest" });
   }
 }
-function __c171(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.String));
   }
 }
-function __c172(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14605,7 +14720,7 @@ function __c172(j: number): any {
       ).annotate({ identifier: "UpdateDomainRequest" });
   }
 }
-function __c173(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14618,7 +14733,7 @@ function __c173(j: number): any {
       ).annotate({ identifier: "UpdateEmailAddressRequest" });
   }
 }
-function __c174(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14627,14 +14742,14 @@ function __c174(j: number): any {
           idp_entity_id: S.optional(S.NullOr(S.String)),
           idp_sso_url: S.optional(S.NullOr(S.String)),
           idp_certificate: S.optional(S.NullOr(S.String)),
-          idp_certificates: S.optional(__S(8928, __c279, 0)),
+          idp_certificates: S.optional(__S(8992, __c281, 0)),
           idp_metadata_url: S.optional(S.NullOr(S.String)),
           idp_metadata: S.optional(S.NullOr(S.String)),
-          attribute_mapping: S.optional(S.NullOr(__S(7328, __c229, 0))),
+          attribute_mapping: S.optional(S.NullOr(__S(7392, __c231, 0))),
           allow_subdomains: S.optional(S.NullOr(S.Boolean)),
           allow_idp_initiated: S.optional(S.NullOr(S.Boolean)),
           force_authn: S.optional(S.NullOr(S.Boolean)),
-          login_hint: S.optional(S.NullOr(__S(7296, __c228, 0))),
+          login_hint: S.optional(S.NullOr(__S(7360, __c230, 0))),
         }),
       ).annotate({ identifier: "UpdateEnterpriseConnectionRequestSaml" });
     case 1:
@@ -14642,15 +14757,15 @@ function __c174(j: number): any {
         S.Struct({
           enterprise_connection_id: S.String.pipe(T.Label()),
           name: S.optional(S.NullOr(S.String)),
-          domains: S.optional(S.NullOr(__S(8928, __c279, 0))),
+          domains: S.optional(S.NullOr(__S(8992, __c281, 0))),
           active: S.optional(S.NullOr(S.Boolean)),
           sync_user_attributes: S.optional(S.NullOr(S.Boolean)),
           disable_additional_identifications: S.optional(S.NullOr(S.Boolean)),
           allow_organization_account_linking: S.optional(S.NullOr(S.Boolean)),
           organization_id: S.optional(S.NullOr(S.String)),
-          saml: S.optional(S.NullOr(__S(5568, __c174, 0))),
-          oidc: S.optional(S.NullOr(__S(7329, __c229, 1))),
-          custom_attributes: S.optional(S.NullOr(__S(7298, __c228, 2))),
+          saml: S.optional(S.NullOr(__S(5632, __c176, 0))),
+          oidc: S.optional(S.NullOr(__S(7393, __c231, 1))),
+          custom_attributes: S.optional(S.NullOr(__S(7362, __c230, 2))),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -14661,7 +14776,7 @@ function __c174(j: number): any {
       ).annotate({ identifier: "UpdateEnterpriseConnectionRequest" });
   }
 }
-function __c175(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14671,8 +14786,8 @@ function __c175(j: number): any {
           support_email: S.optional(S.NullOr(S.String)),
           clerk_js_version: S.optional(S.NullOr(S.String)),
           development_origin: S.optional(S.NullOr(S.String)),
-          allowed_origins: S.optional(S.NullOr(__S(8928, __c279, 0))),
-          allowed_subdomains: S.optional(S.NullOr(__S(8928, __c279, 0))),
+          allowed_origins: S.optional(S.NullOr(__S(8992, __c281, 0))),
+          allowed_subdomains: S.optional(S.NullOr(__S(8992, __c281, 0))),
           subdomain_allowlist_enabled: S.optional(S.NullOr(S.Boolean)),
           cookieless_dev: S.optional(S.NullOr(S.Boolean)),
           url_based_session_syncing: S.optional(S.NullOr(S.Boolean)),
@@ -14681,7 +14796,7 @@ function __c175(j: number): any {
       ).annotate({ identifier: "UpdateInstanceRequest" });
   }
 }
-function __c176(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14705,7 +14820,7 @@ function __c176(j: number): any {
       ).annotate({ identifier: "UpdateInstanceAuthConfigResponse" });
   }
 }
-function __c177(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14720,7 +14835,7 @@ function __c177(j: number): any {
       ).annotate({ identifier: "CreateBillingPriceRequest" });
   }
 }
-function __c178(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14733,8 +14848,8 @@ function __c178(j: number): any {
           currency_symbol: S.String,
           amount: S.Number,
           annual_monthly_amount: S.Number,
-          fee: S.NullOr(__S(9472, __c296, 0)),
-          annual_monthly_fee: S.NullOr(__S(9472, __c296, 0)),
+          fee: S.NullOr(__S(9536, __c298, 0)),
+          annual_monthly_fee: S.NullOr(__S(9536, __c298, 0)),
           description: S.optional(S.NullOr(S.String)),
           is_default: S.Boolean,
           created_at: S.Number,
@@ -14743,24 +14858,24 @@ function __c178(j: number): any {
       ).annotate({ identifier: "BillingPriceResponse" });
   }
 }
-function __c179(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          blocked_country_codes: S.optional(S.NullOr(__S(8928, __c279, 0))),
+          blocked_country_codes: S.optional(S.NullOr(__S(8992, __c281, 0))),
         }).pipe(T.Http({ method: "PATCH", uri: "/instance/communication", code: 200 })),
       ).annotate({ identifier: "UpdateInstanceCommunicationRequest" });
   }
 }
-function __c180(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           dynamic_oauth_client_registration: S.optional(S.NullOr(S.Boolean)),
-          dynamic_client_allowed_scopes: S.optional(S.NullOr(__S(8928, __c279, 0))),
-          default_scopes: S.optional(S.NullOr(__S(8928, __c279, 0))),
+          dynamic_client_allowed_scopes: S.optional(S.NullOr(__S(8992, __c281, 0))),
+          default_scopes: S.optional(S.NullOr(__S(8992, __c281, 0))),
           oauth_jwt_access_tokens: S.optional(S.NullOr(S.Boolean)),
           aud_claim_enabled: S.optional(S.NullOr(S.Boolean)),
           aud_claim_refresh_backfill_enabled: S.optional(S.NullOr(S.Boolean)),
@@ -14778,7 +14893,7 @@ function __c180(j: number): any {
       ).annotate({ identifier: "UpdateInstanceOAuthApplicationSettingsRequest" });
   }
 }
-function __c181(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14788,14 +14903,14 @@ function __c181(j: number): any {
           admin_delete_enabled: S.optional(S.NullOr(S.Boolean)),
           domains_enabled: S.optional(S.NullOr(S.Boolean)),
           slug_disabled: S.optional(S.NullOr(S.Boolean)),
-          domains_enrollment_modes: S.optional(__S(8928, __c279, 0)),
+          domains_enrollment_modes: S.optional(__S(8992, __c281, 0)),
           creator_role_id: S.optional(S.NullOr(S.String)),
           domains_default_role_id: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "PATCH", uri: "/instance/organization_settings", code: 200 })),
       ).annotate({ identifier: "UpdateInstanceOrganizationSettingsRequest" });
   }
 }
-function __c182(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14805,7 +14920,7 @@ function __c182(j: number): any {
       ).annotate({ identifier: "UpdateInstanceProtectRequest" });
   }
 }
-function __c183(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14830,7 +14945,7 @@ function __c183(j: number): any {
       ).annotate({ identifier: "InstanceRestrictions" });
   }
 }
-function __c184(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14847,7 +14962,7 @@ function __c184(j: number): any {
       ).annotate({ identifier: "UpdateJWTTemplateRequest" });
   }
 }
-function __c185(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14859,14 +14974,14 @@ function __c185(j: number): any {
       ).annotate({ identifier: "UpdateMachineRequest" });
   }
 }
-function __c186(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           oauth_application_id: S.String.pipe(T.Label()),
           name: S.optional(S.NullOr(S.String)),
-          redirect_uris: S.optional(S.NullOr(__S(8928, __c279, 0))),
+          redirect_uris: S.optional(S.NullOr(__S(8992, __c281, 0))),
           callback_url: S.optional(S.NullOr(S.String)),
           scopes: S.optional(S.NullOr(S.String)),
           consent_screen_enabled: S.optional(S.NullOr(S.Boolean)),
@@ -14882,7 +14997,7 @@ function __c186(j: number): any {
       ).annotate({ identifier: "UpdateOAuthApplicationRequest" });
   }
 }
-function __c187(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14896,12 +15011,12 @@ function __c187(j: number): any {
           self_serve_directory_sync_enabled: S.optional(S.NullOr(S.Boolean)),
           created_at: S.optional(S.NullOr(S.String)),
           role_set_key: S.optional(S.NullOr(S.String)),
-          reassignment_mappings: S.optional(S.NullOr(__S(8960, __c280, 0))),
+          reassignment_mappings: S.optional(S.NullOr(__S(9024, __c282, 0))),
         }).pipe(T.Http({ method: "PATCH", uri: "/organizations/{organization_id}", code: 200 })),
       ).annotate({ identifier: "UpdateOrganizationRequest" });
   }
 }
-function __c188(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14920,7 +15035,7 @@ function __c188(j: number): any {
       ).annotate({ identifier: "UpdateOrganizationDomainRequest" });
   }
 }
-function __c189(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14939,13 +15054,13 @@ function __c189(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          previous_plan: __S(6082, __c190, 2),
-          previous_price: __S(5696, __c178, 0),
+          previous_plan: __S(6146, __c192, 2),
+          previous_price: __S(5760, __c180, 0),
           effective_at: S.Number,
           effective_mode: S.String,
           next_billing_date: S.optional(S.NullOr(S.Number)),
           charged_immediately: S.Boolean,
-          immediate_charge: S.optional(S.NullOr(__S(9472, __c296, 0))),
+          immediate_charge: S.optional(S.NullOr(__S(9536, __c298, 0))),
           previous_subscription_item_status: S.String,
           previous_subscription_item_id: S.String,
         }),
@@ -14954,13 +15069,13 @@ function __c189(j: number): any {
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          subscription_item: __S(6085, __c190, 5),
-          transition: __S(6049, __c189, 1),
+          subscription_item: __S(6149, __c192, 5),
+          transition: __S(6113, __c191, 1),
         }),
       ).annotate({ identifier: "CommercePriceTransitionResponse" });
   }
 }
-function __c190(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14974,16 +15089,16 @@ function __c190(j: number): any {
         }),
       ).annotate({ identifier: "FeatureResponse2" });
     case 1:
-      return S.Array(__S(6080, __c190, 0));
+      return S.Array(__S(6144, __c192, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
           id: S.String,
           name: S.String,
-          fee: S.NullOr(__S(9472, __c296, 0)),
-          annual_monthly_fee: S.NullOr(__S(9472, __c296, 0)),
-          annual_fee: S.NullOr(__S(9472, __c296, 0)),
+          fee: S.NullOr(__S(9536, __c298, 0)),
+          annual_monthly_fee: S.NullOr(__S(9536, __c298, 0)),
+          annual_fee: S.NullOr(__S(9536, __c298, 0)),
           amount: S.Number,
           amount_formatted: S.String,
           annual_monthly_amount: S.Number,
@@ -14998,13 +15113,13 @@ function __c190(j: number): any {
           is_recurring: S.Boolean,
           publicly_visible: S.Boolean,
           has_base_fee: S.Boolean,
-          payer_type: __S(8928, __c279, 0),
+          payer_type: __S(8992, __c281, 0),
           for_payer_type: S.String,
           slug: S.String,
           avatar_url: S.String,
           period: S.optional(S.String),
           interval: S.optional(S.Number),
-          features: __S(6081, __c190, 1),
+          features: __S(6145, __c192, 1),
           free_trial_enabled: S.optional(S.Boolean),
           free_trial_days: S.optional(S.NullOr(S.Number)),
         }),
@@ -15044,7 +15159,7 @@ function __c190(j: number): any {
           organization_id: S.optional(S.String),
           organization_name: S.optional(S.String),
           image_url: S.String,
-          credits_balance: S.optional(__S(9472, __c296, 0)),
+          credits_balance: S.optional(__S(9536, __c298, 0)),
           created_at: S.Number,
           updated_at: S.Number,
         }),
@@ -15056,19 +15171,19 @@ function __c190(j: number): any {
           id: S.String,
           instance_id: S.String,
           status: S.String,
-          credit: S.optional(S.NullOr(__S(2816, __c88, 0))),
+          credit: S.optional(S.NullOr(__S(2880, __c90, 0))),
           plan_id: S.String,
           price_id: S.optional(S.String),
-          plan: S.NullOr(__S(6082, __c190, 2)),
+          plan: S.NullOr(__S(6146, __c192, 2)),
           plan_period: S.String,
           payment_source_id: S.String,
-          payment_source: S.optional(S.NullOr(__S(6083, __c190, 3))),
-          lifetime_paid: S.optional(S.NullOr(__S(9472, __c296, 0))),
-          amount: S.optional(S.NullOr(__S(9472, __c296, 0))),
-          next_invoice: S.optional(S.NullOr(__S(2817, __c88, 1))),
-          next_payment: S.optional(S.NullOr(__S(2817, __c88, 1))),
+          payment_source: S.optional(S.NullOr(__S(6147, __c192, 3))),
+          lifetime_paid: S.optional(S.NullOr(__S(9536, __c298, 0))),
+          amount: S.optional(S.NullOr(__S(9536, __c298, 0))),
+          next_invoice: S.optional(S.NullOr(__S(2881, __c90, 1))),
+          next_payment: S.optional(S.NullOr(__S(2881, __c90, 1))),
           payer_id: S.String,
-          payer: S.optional(S.NullOr(__S(6084, __c190, 4))),
+          payer: S.optional(S.NullOr(__S(6148, __c192, 4))),
           is_free_trial: S.Boolean,
           period_start: S.optional(S.NullOr(S.Number)),
           period_end: S.optional(S.NullOr(S.Number)),
@@ -15082,7 +15197,7 @@ function __c190(j: number): any {
       ).annotate({ identifier: "CommerceSubscriptionItem2" });
   }
 }
-function __c191(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15100,15 +15215,15 @@ function __c191(j: number): any {
       ).annotate({ identifier: "UpdateOrganizationMembershipRequest" });
   }
 }
-function __c192(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           organization_id: S.String.pipe(T.Label()),
           user_id: S.String.pipe(T.Label()),
-          public_metadata: S.optional(__S(1632, __c51, 0)),
-          private_metadata: S.optional(__S(1632, __c51, 0)),
+          public_metadata: S.optional(__S(0, __c0, 0)),
+          private_metadata: S.optional(__S(0, __c0, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -15119,7 +15234,7 @@ function __c192(j: number): any {
       ).annotate({ identifier: "UpdateOrganizationMembershipMetadataRequest" });
   }
 }
-function __c193(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15134,7 +15249,7 @@ function __c193(j: number): any {
       ).annotate({ identifier: "UpdateOrganizationPermissionRequest" });
   }
 }
-function __c194(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15143,14 +15258,14 @@ function __c194(j: number): any {
           name: S.optional(S.NullOr(S.String)),
           key: S.optional(S.NullOr(S.String)),
           description: S.optional(S.NullOr(S.String)),
-          permissions: S.optional(S.NullOr(__S(8928, __c279, 0))),
+          permissions: S.optional(S.NullOr(__S(8992, __c281, 0))),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/organization_roles/{organization_role_id}", code: 200 }),
         ),
       ).annotate({ identifier: "UpdateOrganizationRoleRequest" });
   }
 }
-function __c195(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15163,7 +15278,7 @@ function __c195(j: number): any {
       ).annotate({ identifier: "UpdatePhoneNumberRequest" });
   }
 }
-function __c196(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15179,7 +15294,7 @@ function __c196(j: number): any {
       ).annotate({ identifier: "UpdateRoleSetRequest" });
   }
 }
-function __c197(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15189,7 +15304,7 @@ function __c197(j: number): any {
           enabled: S.optional(S.Boolean),
           paused: S.optional(S.Boolean),
           provider: S.optional(S.String),
-          attribute_mapping: S.optional(__S(5472, __c171, 0)),
+          attribute_mapping: S.optional(__S(5536, __c173, 0)),
           group_role_mapping_enabled: S.optional(S.Boolean),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/scim_directories/{scim_directory_id}", code: 200 }),
@@ -15197,7 +15312,7 @@ function __c197(j: number): any {
       ).annotate({ identifier: "UpdateSCIMDirectoryRequest" });
   }
 }
-function __c198(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15208,7 +15323,7 @@ function __c198(j: number): any {
       ).annotate({ identifier: "UpdateSessionRequest" });
   }
 }
-function __c199(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15220,7 +15335,7 @@ function __c199(j: number): any {
       ).annotate({ identifier: "UpdateSignUpRequest" });
   }
 }
-function __c200(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15243,7 +15358,7 @@ function __c200(j: number): any {
           skip_password_checks: S.optional(S.NullOr(S.Boolean)),
           sign_out_of_other_sessions: S.optional(S.NullOr(S.Boolean)),
           totp_secret: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
-          backup_codes: S.optional(__S(8928, __c279, 0)),
+          backup_codes: S.optional(__S(8992, __c281, 0)),
           delete_self_enabled: S.optional(S.NullOr(S.Boolean)),
           create_organization_enabled: S.optional(S.NullOr(S.Boolean)),
           legal_accepted_at: S.optional(S.NullOr(S.String)),
@@ -15255,7 +15370,7 @@ function __c200(j: number): any {
       ).annotate({ identifier: "UpdateUserRequest" });
   }
 }
-function __c201(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15265,7 +15380,7 @@ function __c201(j: number): any {
       ).annotate({ identifier: "CreateBlocklistIdentifierRequest" });
   }
 }
-function __c202(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15281,20 +15396,20 @@ function __c202(j: number): any {
       ).annotate({ identifier: "BlocklistIdentifier" });
   }
 }
-function __c203(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           user_id: S.String.pipe(T.Label()),
-          public_metadata: S.optional(__S(1632, __c51, 0)),
-          private_metadata: S.optional(__S(1632, __c51, 0)),
-          unsafe_metadata: S.optional(__S(1632, __c51, 0)),
+          public_metadata: S.optional(__S(0, __c0, 0)),
+          private_metadata: S.optional(__S(0, __c0, 0)),
+          unsafe_metadata: S.optional(__S(0, __c0, 0)),
         }).pipe(T.Http({ method: "PATCH", uri: "/users/{user_id}/metadata", code: 200 })),
       ).annotate({ identifier: "UpdateUserMetadataRequest" });
   }
 }
-function __c204(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15313,7 +15428,7 @@ function __c204(j: number): any {
       ).annotate({ identifier: "UploadOAuthApplicationLogoRequest" });
   }
 }
-function __c205(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15346,8 +15461,8 @@ function __c205(j: number): any {
           admin_delete_enabled: S.Boolean,
           self_serve_sso_enabled: S.optional(S.Boolean),
           self_serve_directory_sync_enabled: S.optional(S.Boolean),
-          public_metadata: __S(1632, __c51, 0),
-          private_metadata: S.optional(__S(1632, __c51, 0)),
+          public_metadata: __S(0, __c0, 0),
+          private_metadata: S.optional(__S(0, __c0, 0)),
           created_by: S.optional(S.String),
           created_at: S.Number,
           updated_at: S.Number,
@@ -15358,7 +15473,7 @@ function __c205(j: number): any {
       ).annotate({ identifier: "UploadOrganizationLogoResponse" });
   }
 }
-function __c206(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15373,7 +15488,7 @@ function __c206(j: number): any {
       ).annotate({ identifier: "UsersGetOrganizationInvitationsRequest" });
   }
 }
-function __c207(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15387,7 +15502,7 @@ function __c207(j: number): any {
       ).annotate({ identifier: "UsersGetOrganizationMembershipsRequest" });
   }
 }
-function __c208(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15397,7 +15512,7 @@ function __c208(j: number): any {
       ).annotate({ identifier: "VerifyApiKeyRequest" });
   }
 }
-function __c209(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15407,7 +15522,7 @@ function __c209(j: number): any {
       ).annotate({ identifier: "VerifyClientRequest" });
   }
 }
-function __c210(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15431,7 +15546,7 @@ function __c210(j: number): any {
       ).annotate({ identifier: "ProxyCheck" });
   }
 }
-function __c211(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15441,7 +15556,7 @@ function __c211(j: number): any {
       ).annotate({ identifier: "VerifyM2MTokenRequest" });
   }
 }
-function __c212(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15458,13 +15573,13 @@ function __c212(j: number): any {
       });
   }
 }
-function __c213(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           email_address: S.String,
-          public_metadata: S.optional(S.NullOr(__S(1632, __c51, 0))),
+          public_metadata: S.optional(S.NullOr(__S(0, __c0, 0))),
           redirect_url: S.optional(S.NullOr(S.String)),
           notify: S.optional(S.NullOr(S.Boolean)),
           ignore_existing: S.optional(S.NullOr(S.Boolean)),
@@ -15473,26 +15588,26 @@ function __c213(j: number): any {
         }),
       ).annotate({ identifier: "CreateBulkInvitationsRequestBodyItem" });
     case 1:
-      return S.Array(__S(6816, __c213, 0));
+      return S.Array(__S(6880, __c215, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          body: S.optional(__S(6817, __c213, 1).pipe(T.HttpBody())),
+          body: S.optional(__S(6881, __c215, 1).pipe(T.HttpBody())),
         }).pipe(T.Http({ method: "POST", uri: "/invitations/bulk", code: 200 })),
       ).annotate({ identifier: "CreateBulkInvitationsRequest" });
   }
 }
-function __c214(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(6880, __c215, 0));
+      return S.Array(__S(6944, __c217, 0));
     case 1:
-      return S.suspend(() => __S(6848, __c214, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(6912, __c216, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "CreateBulkInvitationsResponse",
       });
   }
 }
-function __c215(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15500,7 +15615,7 @@ function __c215(j: number): any {
           object: S.String,
           id: S.String,
           email_address: S.String,
-          public_metadata: __S(1632, __c51, 0),
+          public_metadata: __S(0, __c0, 0),
           revoked: S.optional(S.Boolean),
           status: S.String,
           url: S.optional(S.String),
@@ -15511,7 +15626,7 @@ function __c215(j: number): any {
       ).annotate({ identifier: "Invitation" });
   }
 }
-function __c216(j: number): any {
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15528,7 +15643,7 @@ function __c216(j: number): any {
       ).annotate({ identifier: "VerifyOrganizationDomainOwnershipRequest" });
   }
 }
-function __c217(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15546,7 +15661,7 @@ function __c217(j: number): any {
       ).annotate({ identifier: "VerifyPasswordResponse" });
   }
 }
-function __c218(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15565,7 +15680,7 @@ function __c218(j: number): any {
       ).annotate({ identifier: "VerifyTOTPResponse" });
   }
 }
-function __c219(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15575,26 +15690,26 @@ function __c219(j: number): any {
         }),
       ).annotate({ identifier: "CreateBulkWaitlistEntriesRequestBodyItem" });
     case 1:
-      return S.Array(__S(7008, __c219, 0));
+      return S.Array(__S(7072, __c221, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          body: S.optional(__S(7009, __c219, 1).pipe(T.HttpBody())),
+          body: S.optional(__S(7073, __c221, 1).pipe(T.HttpBody())),
         }).pipe(T.Http({ method: "POST", uri: "/waitlist_entries/bulk", code: 200 })),
       ).annotate({ identifier: "CreateBulkWaitlistEntriesRequest" });
     case 3:
-      return S.suspend(() => __S(7040, __c220, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(7104, __c222, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "CreateBulkWaitlistEntriesResponse",
       });
   }
 }
-function __c220(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(7072, __c221, 0));
+      return S.Array(__S(7136, __c223, 0));
   }
 }
-function __c221(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15606,12 +15721,12 @@ function __c221(j: number): any {
           is_locked: S.optional(S.Boolean),
           created_at: S.Number,
           updated_at: S.Number,
-          invitation: S.optional(S.NullOr(__S(6880, __c215, 0))),
+          invitation: S.optional(S.NullOr(__S(6944, __c217, 0))),
         }),
       ).annotate({ identifier: "WaitlistEntry" });
   }
 }
-function __c222(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15625,19 +15740,19 @@ function __c222(j: number): any {
         }),
       ).annotate({ identifier: "CreateDirectoryRequestGroupRoleMappingsItem" });
     case 1:
-      return S.Array(__S(7104, __c222, 0));
+      return S.Array(__S(7168, __c224, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           enterprise_connection_id: S.String,
           name: S.optional(S.String),
           provider: S.String,
-          group_role_mappings: S.optional(__S(7105, __c222, 1)),
+          group_role_mappings: S.optional(__S(7169, __c224, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/directories", code: 200 })),
       ).annotate({ identifier: "CreateDirectoryRequest" });
   }
 }
-function __c223(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15651,7 +15766,7 @@ function __c223(j: number): any {
         }),
       ).annotate({ identifier: "DirectoryCustomAttributesItem" });
     case 1:
-      return S.Array(__S(7136, __c223, 0));
+      return S.Array(__S(7200, __c225, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -15664,8 +15779,8 @@ function __c223(j: number): any {
           enabled: S.Boolean,
           paused: S.Boolean,
           group_role_mapping_enabled: S.Boolean,
-          attribute_mapping: __S(8960, __c280, 0),
-          custom_attributes: S.optional(__S(7137, __c223, 1)),
+          attribute_mapping: __S(9024, __c282, 0),
+          custom_attributes: S.optional(__S(7201, __c225, 1)),
           api_key: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           created_at: S.Number,
           updated_at: S.Number,
@@ -15673,7 +15788,7 @@ function __c223(j: number): any {
       ).annotate({ identifier: "Directory" });
   }
 }
-function __c224(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15693,7 +15808,7 @@ function __c224(j: number): any {
       ).annotate({ identifier: "CreateDirectoryGroupRoleMappingRequest" });
   }
 }
-function __c225(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15706,7 +15821,7 @@ function __c225(j: number): any {
           scim_group_id: S.String,
           directory_group_display_name: S.String,
           scim_group_display_name: S.String,
-          role: S.optional(__S(96, __c3, 0)),
+          role: S.optional(__S(192, __c6, 0)),
           precedence: S.Number,
           created_at: S.Number,
           updated_at: S.Number,
@@ -15714,7 +15829,7 @@ function __c225(j: number): any {
       ).annotate({ identifier: "DirectoryGroupRoleMapping" });
   }
 }
-function __c226(j: number): any {
+function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15728,7 +15843,7 @@ function __c226(j: number): any {
       ).annotate({ identifier: "CreateEmailAddressRequest" });
   }
 }
-function __c227(j: number): any {
+function __c229(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15736,14 +15851,14 @@ function __c227(j: number): any {
           idp_entity_id: S.optional(S.NullOr(S.String)),
           idp_sso_url: S.optional(S.NullOr(S.String)),
           idp_certificate: S.optional(S.NullOr(S.String)),
-          idp_certificates: S.optional(__S(8928, __c279, 0)),
+          idp_certificates: S.optional(__S(8992, __c281, 0)),
           idp_metadata_url: S.optional(S.NullOr(S.String)),
           idp_metadata: S.optional(S.NullOr(S.String)),
-          attribute_mapping: S.optional(S.NullOr(__S(7328, __c229, 0))),
+          attribute_mapping: S.optional(S.NullOr(__S(7392, __c231, 0))),
           allow_subdomains: S.optional(S.NullOr(S.Boolean)),
           allow_idp_initiated: S.optional(S.NullOr(S.Boolean)),
           force_authn: S.optional(S.NullOr(S.Boolean)),
-          login_hint: S.optional(S.NullOr(__S(7296, __c228, 0))),
+          login_hint: S.optional(S.NullOr(__S(7360, __c230, 0))),
         }),
       ).annotate({ identifier: "CreateEnterpriseConnectionRequestSaml" });
     case 1:
@@ -15751,18 +15866,18 @@ function __c227(j: number): any {
         S.Struct({
           name: S.String,
           provider: S.String,
-          domains: __S(8928, __c279, 0),
+          domains: __S(8992, __c281, 0),
           organization_id: S.optional(S.NullOr(S.String)),
           allow_organization_account_linking: S.optional(S.NullOr(S.Boolean)),
           active: S.optional(S.NullOr(S.Boolean)),
-          saml: S.optional(S.NullOr(__S(7264, __c227, 0))),
-          oidc: S.optional(S.NullOr(__S(7329, __c229, 1))),
-          custom_attributes: S.optional(__S(7298, __c228, 2)),
+          saml: S.optional(S.NullOr(__S(7328, __c229, 0))),
+          oidc: S.optional(S.NullOr(__S(7393, __c231, 1))),
+          custom_attributes: S.optional(__S(7362, __c230, 2)),
         }).pipe(T.Http({ method: "POST", uri: "/enterprise_connections", code: 200 })),
       ).annotate({ identifier: "CreateEnterpriseConnectionRequest" });
   }
 }
-function __c228(j: number): any {
+function __c230(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15783,7 +15898,7 @@ function __c228(j: number): any {
         }),
       ).annotate({ identifier: "CreateEnterpriseConnectionRequestCustomAttributesItem" });
     case 2:
-      return S.Array(__S(7297, __c228, 1));
+      return S.Array(__S(7361, __c230, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -15793,7 +15908,7 @@ function __c228(j: number): any {
         }),
       ).annotate({ identifier: "EnterpriseConnectionSamlConnectionIdpCertificatesItem" });
     case 4:
-      return S.Array(__S(7299, __c228, 3));
+      return S.Array(__S(7363, __c230, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -15804,7 +15919,7 @@ function __c228(j: number): any {
           idp_certificate: S.optional(S.NullOr(S.String)),
           idp_certificate_issued_at: S.optional(S.NullOr(S.Number)),
           idp_certificate_expires_at: S.optional(S.NullOr(S.Number)),
-          idp_certificates: S.optional(__S(7300, __c228, 4)),
+          idp_certificates: S.optional(__S(7364, __c230, 4)),
           idp_metadata_url: S.optional(S.NullOr(S.String)),
           acs_url: S.optional(S.NullOr(S.String)),
           sp_entity_id: S.optional(S.NullOr(S.String)),
@@ -15813,7 +15928,7 @@ function __c228(j: number): any {
           allow_idp_initiated: S.optional(S.Boolean),
           allow_subdomains: S.optional(S.Boolean),
           force_authn: S.optional(S.Boolean),
-          login_hint: S.optional(__S(7296, __c228, 0)),
+          login_hint: S.optional(__S(7360, __c230, 0)),
         }),
       ).annotate({ identifier: "EnterpriseConnectionSamlConnection" });
     case 6:
@@ -15842,21 +15957,21 @@ function __c228(j: number): any {
           provider: S.String,
           logo_public_url: S.optional(S.NullOr(S.String)),
           active: S.Boolean,
-          domains: __S(8928, __c279, 0),
+          domains: __S(8992, __c281, 0),
           organization_id: S.optional(S.NullOr(S.String)),
           sync_user_attributes: S.optional(S.Boolean),
           disable_additional_identifications: S.optional(S.Boolean),
           allow_organization_account_linking: S.optional(S.Boolean),
-          custom_attributes: S.optional(__S(7298, __c228, 2)),
-          saml_connection: S.optional(S.NullOr(__S(7301, __c228, 5))),
-          oauth_config: S.optional(S.NullOr(__S(7302, __c228, 6))),
+          custom_attributes: S.optional(__S(7362, __c230, 2)),
+          saml_connection: S.optional(S.NullOr(__S(7365, __c230, 5))),
+          oauth_config: S.optional(S.NullOr(__S(7366, __c230, 6))),
           created_at: S.Number,
           updated_at: S.Number,
         }),
       ).annotate({ identifier: "EnterpriseConnection" });
   }
 }
-function __c229(j: number): any {
+function __c231(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15881,7 +15996,7 @@ function __c229(j: number): any {
       ).annotate({ identifier: "CreateEnterpriseConnectionRequestOidc" });
   }
 }
-function __c230(j: number): any {
+function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15903,13 +16018,13 @@ function __c230(j: number): any {
       ).annotate({ identifier: "EnterpriseConnectionTestRunResponse" });
   }
 }
-function __c231(j: number): any {
+function __c233(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           email_address: S.String,
-          public_metadata: S.optional(__S(1632, __c51, 0)),
+          public_metadata: S.optional(__S(0, __c0, 0)),
           redirect_url: S.optional(S.String),
           notify: S.optional(S.NullOr(S.Boolean)),
           ignore_existing: S.optional(S.NullOr(S.Boolean)),
@@ -15919,7 +16034,7 @@ function __c231(j: number): any {
       ).annotate({ identifier: "CreateInvitationRequest" });
   }
 }
-function __c232(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15935,7 +16050,7 @@ function __c232(j: number): any {
       ).annotate({ identifier: "CreateJWTTemplateRequest" });
   }
 }
-function __c233(j: number): any {
+function __c235(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15954,7 +16069,7 @@ function __c233(j: number): any {
       ).annotate({ identifier: "JWTTemplate" });
   }
 }
-function __c234(j: number): any {
+function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15972,7 +16087,7 @@ function __c234(j: number): any {
           id: S.String,
           subject: S.String,
           claims: S.optional(S.NullOr(S.Unknown)),
-          scopes: S.optional(__S(8928, __c279, 0)),
+          scopes: S.optional(__S(8992, __c281, 0)),
           token: S.String,
           revoked: S.Boolean,
           revocation_reason: S.NullOr(S.String),
@@ -15985,13 +16100,13 @@ function __c234(j: number): any {
       ).annotate({ identifier: "CreateM2MTokenResponse" });
   }
 }
-function __c235(j: number): any {
+function __c237(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          scoped_machines: S.optional(__S(8928, __c279, 0)),
+          scoped_machines: S.optional(__S(8992, __c281, 0)),
           default_token_ttl: S.optional(S.Number),
         }).pipe(T.Http({ method: "POST", uri: "/machines", code: 200 })),
       ).annotate({ identifier: "CreateMachineRequest" });
@@ -16005,13 +16120,13 @@ function __c235(j: number): any {
           created_at: S.Number,
           updated_at: S.Number,
           default_token_ttl: S.optional(S.Number),
-          scoped_machines: __S(7553, __c236, 1),
+          scoped_machines: __S(7617, __c238, 1),
           secret_key: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "CreateMachineResponse" });
   }
 }
-function __c236(j: number): any {
+function __c238(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16026,10 +16141,10 @@ function __c236(j: number): any {
         }),
       ).annotate({ identifier: "MachineWithoutScopedMachines" });
     case 1:
-      return S.Array(__S(7552, __c236, 0));
+      return S.Array(__S(7616, __c238, 0));
   }
 }
-function __c237(j: number): any {
+function __c239(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16049,13 +16164,13 @@ function __c237(j: number): any {
       ).annotate({ identifier: "MachineScope" });
   }
 }
-function __c238(j: number): any {
+function __c240(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          redirect_uris: S.optional(S.NullOr(__S(8928, __c279, 0))),
+          redirect_uris: S.optional(S.NullOr(__S(8992, __c281, 0))),
           callback_url: S.optional(S.NullOr(S.String)),
           scopes: S.optional(S.NullOr(S.String)),
           consent_screen_enabled: S.optional(S.NullOr(S.Boolean)),
@@ -16069,7 +16184,7 @@ function __c238(j: number): any {
       ).annotate({ identifier: "CreateOAuthApplicationRequest" });
   }
 }
-function __c239(j: number): any {
+function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16089,7 +16204,7 @@ function __c239(j: number): any {
           device_authorization_grant_enabled: S.Boolean,
           public: S.Boolean,
           scopes: S.String,
-          redirect_uris: __S(8928, __c279, 0),
+          redirect_uris: __S(8992, __c281, 0),
           callback_url: S.String,
           authorize_url: S.String,
           token_fetch_url: S.String,
@@ -16103,15 +16218,15 @@ function __c239(j: number): any {
       ).annotate({ identifier: "CreateOAuthApplicationResponse" });
   }
 }
-function __c240(j: number): any {
+function __c242(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           created_by: S.optional(S.NullOr(S.String)),
-          private_metadata: S.optional(S.NullOr(__S(1632, __c51, 0))),
-          public_metadata: S.optional(S.NullOr(__S(1632, __c51, 0))),
+          private_metadata: S.optional(S.NullOr(__S(0, __c0, 0))),
+          public_metadata: S.optional(S.NullOr(__S(0, __c0, 0))),
           slug: S.optional(S.NullOr(S.String)),
           max_allowed_memberships: S.optional(S.NullOr(S.Number)),
           created_at: S.optional(S.NullOr(S.String)),
@@ -16120,7 +16235,7 @@ function __c240(j: number): any {
       ).annotate({ identifier: "CreateOrganizationRequest" });
   }
 }
-function __c241(j: number): any {
+function __c243(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16135,7 +16250,7 @@ function __c241(j: number): any {
       ).annotate({ identifier: "CreateOrganizationDomainRequest" });
   }
 }
-function __c242(j: number): any {
+function __c244(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16149,7 +16264,7 @@ function __c242(j: number): any {
       ).annotate({ identifier: "OrganizationInvitationPublicOrganizationData" });
   }
 }
-function __c243(j: number): any {
+function __c245(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16170,19 +16285,19 @@ function __c243(j: number): any {
           name: S.String,
           enrollment_mode: S.String,
           affiliation_email_address: S.NullOr(S.String),
-          affiliation_verification: S.NullOr(__S(7776, __c243, 0)),
-          ownership_verification: S.NullOr(__S(7776, __c243, 0)),
-          verification: S.NullOr(__S(7776, __c243, 0)),
+          affiliation_verification: S.NullOr(__S(7840, __c245, 0)),
+          ownership_verification: S.NullOr(__S(7840, __c245, 0)),
+          verification: S.NullOr(__S(7840, __c245, 0)),
           total_pending_invitations: S.Number,
           total_pending_suggestions: S.Number,
-          public_organization_data: S.optional(S.NullOr(__S(7744, __c242, 0))),
+          public_organization_data: S.optional(S.NullOr(__S(7808, __c244, 0))),
           created_at: S.Number,
           updated_at: S.Number,
         }),
       ).annotate({ identifier: "OrganizationDomain" });
   }
 }
-function __c244(j: number): any {
+function __c246(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16191,8 +16306,8 @@ function __c244(j: number): any {
           email_address: S.String,
           inviter_user_id: S.optional(S.NullOr(S.String)),
           role: S.String,
-          public_metadata: S.optional(S.NullOr(__S(1632, __c51, 0))),
-          private_metadata: S.optional(S.NullOr(__S(1632, __c51, 0))),
+          public_metadata: S.optional(S.NullOr(__S(0, __c0, 0))),
+          private_metadata: S.optional(S.NullOr(__S(0, __c0, 0))),
           redirect_url: S.optional(S.NullOr(S.String)),
           expires_in_days: S.optional(S.NullOr(S.Number)),
           notify: S.optional(S.NullOr(S.Boolean)),
@@ -16206,7 +16321,7 @@ function __c244(j: number): any {
       ).annotate({ identifier: "CreateOrganizationInvitationRequest" });
   }
 }
-function __c245(j: number): any {
+function __c247(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16221,7 +16336,7 @@ function __c245(j: number): any {
       ).annotate({ identifier: "OrganizationInvitationPublicUserData" });
   }
 }
-function __c246(j: number): any {
+function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16233,10 +16348,10 @@ function __c246(j: number): any {
           role_name: S.String,
           organization_id: S.optional(S.String),
           inviter_id: S.NullOr(S.String),
-          public_inviter_data: S.NullOr(__S(7840, __c245, 0)),
+          public_inviter_data: S.NullOr(__S(7904, __c247, 0)),
           status: S.optional(S.String),
-          public_metadata: __S(1632, __c51, 0),
-          private_metadata: S.optional(__S(1632, __c51, 0)),
+          public_metadata: __S(0, __c0, 0),
+          private_metadata: S.optional(__S(0, __c0, 0)),
           url: S.NullOr(S.String),
           expires_at: S.NullOr(S.Number),
           created_at: S.Number,
@@ -16245,7 +16360,7 @@ function __c246(j: number): any {
       ).annotate({ identifier: "OrganizationInvitation" });
   }
 }
-function __c247(j: number): any {
+function __c249(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16253,20 +16368,20 @@ function __c247(j: number): any {
           email_address: S.String,
           inviter_user_id: S.optional(S.NullOr(S.String)),
           role: S.String,
-          public_metadata: S.optional(S.NullOr(__S(1632, __c51, 0))),
-          private_metadata: S.optional(S.NullOr(__S(1632, __c51, 0))),
+          public_metadata: S.optional(S.NullOr(__S(0, __c0, 0))),
+          private_metadata: S.optional(S.NullOr(__S(0, __c0, 0))),
           redirect_url: S.optional(S.NullOr(S.String)),
           expires_in_days: S.optional(S.NullOr(S.Number)),
           notify: S.optional(S.NullOr(S.Boolean)),
         }),
       ).annotate({ identifier: "CreateOrganizationInvitationBulkRequestBodyItem" });
     case 1:
-      return S.Array(__S(7904, __c247, 0));
+      return S.Array(__S(7968, __c249, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           organization_id: S.String.pipe(T.Label()),
-          body: __S(7905, __c247, 1).pipe(T.HttpBody()),
+          body: __S(7969, __c249, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "POST",
@@ -16277,20 +16392,20 @@ function __c247(j: number): any {
       ).annotate({ identifier: "CreateOrganizationInvitationBulkRequest" });
   }
 }
-function __c248(j: number): any {
+function __c250(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(7872, __c246, 0));
+      return S.Array(__S(7936, __c248, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(7936, __c248, 0),
+          data: __S(8000, __c250, 0),
           total_count: S.Number,
         }),
       ).annotate({ identifier: "OrganizationInvitations" });
   }
 }
-function __c249(j: number): any {
+function __c251(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16298,8 +16413,8 @@ function __c249(j: number): any {
           organization_id: S.String.pipe(T.Label()),
           user_id: S.String,
           role: S.String,
-          public_metadata: S.optional(S.NullOr(__S(1632, __c51, 0))),
-          private_metadata: S.optional(S.NullOr(__S(1632, __c51, 0))),
+          public_metadata: S.optional(S.NullOr(__S(0, __c0, 0))),
+          private_metadata: S.optional(S.NullOr(__S(0, __c0, 0))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -16310,7 +16425,7 @@ function __c249(j: number): any {
       ).annotate({ identifier: "CreateOrganizationMembershipRequest" });
   }
 }
-function __c250(j: number): any {
+function __c252(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16322,7 +16437,7 @@ function __c250(j: number): any {
       ).annotate({ identifier: "CreateOrganizationPermissionRequest" });
   }
 }
-function __c251(j: number): any {
+function __c253(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16330,13 +16445,13 @@ function __c251(j: number): any {
           name: S.String,
           key: S.String,
           description: S.optional(S.NullOr(S.String)),
-          permissions: S.optional(S.NullOr(__S(8928, __c279, 0))),
+          permissions: S.optional(S.NullOr(__S(8992, __c281, 0))),
           include_in_initial_role_set: S.optional(S.NullOr(S.Boolean)),
         }).pipe(T.Http({ method: "POST", uri: "/organization_roles", code: 200 })),
       ).annotate({ identifier: "CreateOrganizationRoleRequest" });
   }
 }
-function __c252(j: number): any {
+function __c254(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16350,7 +16465,7 @@ function __c252(j: number): any {
       ).annotate({ identifier: "CreatePhoneNumberRequest" });
   }
 }
-function __c253(j: number): any {
+function __c255(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16360,7 +16475,7 @@ function __c253(j: number): any {
       ).annotate({ identifier: "CreateRedirectURLRequest" });
   }
 }
-function __c254(j: number): any {
+function __c256(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16374,7 +16489,7 @@ function __c254(j: number): any {
       ).annotate({ identifier: "RedirectURL" });
   }
 }
-function __c255(j: number): any {
+function __c257(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16385,12 +16500,12 @@ function __c255(j: number): any {
           default_role_key: S.String,
           creator_role_key: S.String,
           type: S.optional(S.String),
-          roles: __S(8928, __c279, 0),
+          roles: __S(8992, __c281, 0),
         }).pipe(T.Http({ method: "POST", uri: "/role_sets", code: 200 })),
       ).annotate({ identifier: "CreateRoleSetRequest" });
   }
 }
-function __c256(j: number): any {
+function __c258(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16402,19 +16517,19 @@ function __c256(j: number): any {
         }),
       ).annotate({ identifier: "CreateSCIMDirectoryRequestGroupRoleMappingsItem" });
     case 1:
-      return S.Array(__S(8192, __c256, 0));
+      return S.Array(__S(8256, __c258, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           enterprise_connection_id: S.String,
           name: S.optional(S.String),
           provider: S.String,
-          group_role_mappings: S.optional(__S(8193, __c256, 1)),
+          group_role_mappings: S.optional(__S(8257, __c258, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/scim_directories", code: 200 })),
       ).annotate({ identifier: "CreateSCIMDirectoryRequest" });
   }
 }
-function __c257(j: number): any {
+function __c259(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16433,7 +16548,7 @@ function __c257(j: number): any {
       ).annotate({ identifier: "CreateSCIMGroupRoleMappingRequest" });
   }
 }
-function __c258(j: number): any {
+function __c260(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16446,7 +16561,7 @@ function __c258(j: number): any {
           directory_group_id: S.String,
           scim_group_display_name: S.String,
           directory_group_display_name: S.String,
-          role: S.optional(__S(96, __c3, 0)),
+          role: S.optional(__S(192, __c6, 0)),
           precedence: S.Number,
           created_at: S.Number,
           updated_at: S.Number,
@@ -16454,7 +16569,7 @@ function __c258(j: number): any {
       ).annotate({ identifier: "SCIMGroupRoleMapping" });
   }
 }
-function __c259(j: number): any {
+function __c261(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16466,7 +16581,7 @@ function __c259(j: number): any {
       ).annotate({ identifier: "AddDomainRequest" });
   }
 }
-function __c260(j: number): any {
+function __c262(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16477,7 +16592,7 @@ function __c260(j: number): any {
         }),
       ).annotate({ identifier: "CNameTarget" });
     case 1:
-      return S.Array(__S(8320, __c260, 0));
+      return S.Array(__S(8384, __c262, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -16489,7 +16604,7 @@ function __c260(j: number): any {
         }),
       ).annotate({ identifier: "DNSTarget" });
     case 3:
-      return S.Array(__S(8322, __c260, 2));
+      return S.Array(__S(8386, __c262, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -16501,13 +16616,13 @@ function __c260(j: number): any {
           accounts_portal_url: S.optional(S.NullOr(S.String)),
           proxy_url: S.optional(S.NullOr(S.String)),
           development_origin: S.String,
-          cname_targets: S.optional(S.NullOr(__S(8321, __c260, 1))),
-          dns_targets: S.optional(S.NullOr(__S(8323, __c260, 3))),
+          cname_targets: S.optional(S.NullOr(__S(8385, __c262, 1))),
+          dns_targets: S.optional(S.NullOr(__S(8387, __c262, 3))),
         }),
       ).annotate({ identifier: "Domain" });
   }
 }
-function __c261(j: number): any {
+function __c263(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16518,7 +16633,7 @@ function __c261(j: number): any {
       ).annotate({ identifier: "CreateSessionRequest" });
   }
 }
-function __c262(j: number): any {
+function __c264(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16541,7 +16656,7 @@ function __c262(j: number): any {
         }),
       ).annotate({ identifier: "SessionTask" });
     case 2:
-      return S.Array(__S(8385, __c262, 1));
+      return S.Array(__S(8449, __c264, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -16553,17 +16668,17 @@ function __c262(j: number): any {
           status: S.String,
           last_active_organization_id: S.optional(S.NullOr(S.String)),
           last_active_at: S.Number,
-          latest_activity: S.optional(S.NullOr(__S(8384, __c262, 0))),
+          latest_activity: S.optional(S.NullOr(__S(8448, __c264, 0))),
           expire_at: S.Number,
           abandon_at: S.Number,
           updated_at: S.Number,
           created_at: S.Number,
-          tasks: S.optional(S.NullOr(__S(8386, __c262, 2))),
+          tasks: S.optional(S.NullOr(__S(8450, __c264, 2))),
         }),
       ).annotate({ identifier: "Session" });
   }
 }
-function __c263(j: number): any {
+function __c265(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16574,7 +16689,7 @@ function __c263(j: number): any {
       ).annotate({ identifier: "CreateSessionTokenRequest" });
   }
 }
-function __c264(j: number): any {
+function __c266(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16585,7 +16700,7 @@ function __c264(j: number): any {
       ).annotate({ identifier: "CreateSessionTokenResponse" });
   }
 }
-function __c265(j: number): any {
+function __c267(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16603,7 +16718,7 @@ function __c265(j: number): any {
       ).annotate({ identifier: "CreateSessionTokenFromTemplateRequest" });
   }
 }
-function __c266(j: number): any {
+function __c268(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16617,7 +16732,7 @@ function __c266(j: number): any {
       ).annotate({ identifier: "CreateSignInTokenRequest" });
   }
 }
-function __c267(j: number): any {
+function __c269(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16634,7 +16749,7 @@ function __c267(j: number): any {
       ).annotate({ identifier: "SignInToken" });
   }
 }
-function __c268(j: number): any {
+function __c270(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16644,7 +16759,7 @@ function __c268(j: number): any {
       ).annotate({ identifier: "CreateSSOBypassAllowlistUserRequest" });
   }
 }
-function __c269(j: number): any {
+function __c271(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16663,14 +16778,14 @@ function __c269(j: number): any {
         S.Struct({
           object: S.String,
           user_id: S.String,
-          public_user_data: __S(8608, __c269, 0),
+          public_user_data: __S(8672, __c271, 0),
           created_at: S.Number,
           updated_at: S.Number,
         }),
       ).annotate({ identifier: "SSOBypassAllowlistUser" });
   }
 }
-function __c270(j: number): any {
+function __c272(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16678,7 +16793,7 @@ function __c270(j: number): any {
       ).annotate({ identifier: "CreateSvixAppRequest" });
   }
 }
-function __c271(j: number): any {
+function __c273(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16688,7 +16803,7 @@ function __c271(j: number): any {
       ).annotate({ identifier: "SvixURL" });
   }
 }
-function __c272(j: number): any {
+function __c274(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16704,7 +16819,7 @@ function __c272(j: number): any {
       ).annotate({ identifier: "TestingToken" });
   }
 }
-function __c273(j: number): any {
+function __c275(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16714,11 +16829,11 @@ function __c273(j: number): any {
           last_name: S.optional(S.NullOr(S.String)),
           locale: S.optional(S.NullOr(S.String)),
           timezone: S.optional(S.NullOr(S.String)),
-          email_address: S.optional(__S(8928, __c279, 0)),
-          email_address_identification_status: S.optional(__S(8768, __c274, 0)),
-          phone_number: S.optional(__S(8928, __c279, 0)),
-          phone_number_identification_status: S.optional(__S(8768, __c274, 0)),
-          web3_wallet: S.optional(__S(8928, __c279, 0)),
+          email_address: S.optional(__S(8992, __c281, 0)),
+          email_address_identification_status: S.optional(__S(8832, __c276, 0)),
+          phone_number: S.optional(__S(8992, __c281, 0)),
+          phone_number_identification_status: S.optional(__S(8832, __c276, 0)),
+          web3_wallet: S.optional(__S(8992, __c281, 0)),
           username: S.optional(S.NullOr(S.String)),
           password: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           password_digest: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
@@ -16727,10 +16842,10 @@ function __c273(j: number): any {
           skip_password_requirement: S.optional(S.NullOr(S.Boolean)),
           skip_restriction_checks: S.optional(S.NullOr(S.Boolean)),
           totp_secret: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
-          backup_codes: S.optional(__S(8928, __c279, 0)),
-          public_metadata: S.optional(__S(1632, __c51, 0)),
-          private_metadata: S.optional(__S(1632, __c51, 0)),
-          unsafe_metadata: S.optional(__S(1632, __c51, 0)),
+          backup_codes: S.optional(__S(8992, __c281, 0)),
+          public_metadata: S.optional(__S(0, __c0, 0)),
+          private_metadata: S.optional(__S(0, __c0, 0)),
+          unsafe_metadata: S.optional(__S(0, __c0, 0)),
           delete_self_enabled: S.optional(S.NullOr(S.Boolean)),
           legal_accepted_at: S.optional(S.NullOr(S.String)),
           skip_legal_checks: S.optional(S.NullOr(S.Boolean)),
@@ -16745,13 +16860,13 @@ function __c273(j: number): any {
       ).annotate({ identifier: "CreateUserRequest" });
   }
 }
-function __c274(j: number): any {
+function __c276(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c275(j: number): any {
+function __c277(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16762,7 +16877,7 @@ function __c275(j: number): any {
       ).annotate({ identifier: "CreateWaitlistEntryRequest" });
   }
 }
-function __c276(j: number): any {
+function __c278(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16774,7 +16889,7 @@ function __c276(j: number): any {
       ).annotate({ identifier: "DeleteAllowlistIdentifierRequest" });
   }
 }
-function __c277(j: number): any {
+function __c279(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16788,13 +16903,13 @@ function __c277(j: number): any {
       ).annotate({ identifier: "DeletedObject" });
   }
 }
-function __c278(j: number): any {
+function __c280(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           role_set_key_or_id: S.String.pipe(T.Label()),
-          role_keys: __S(8928, __c279, 0),
+          role_keys: __S(8992, __c281, 0),
           default_role_key: S.optional(S.String),
           creator_role_key: S.optional(S.String),
         }).pipe(
@@ -16803,19 +16918,19 @@ function __c278(j: number): any {
       ).annotate({ identifier: "AddRolesToRoleSetRequest" });
   }
 }
-function __c279(j: number): any {
+function __c281(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c280(j: number): any {
+function __c282(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c281(j: number): any {
+function __c283(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16832,7 +16947,7 @@ function __c281(j: number): any {
         }),
       ).annotate({ identifier: "RoleSetItem" });
     case 1:
-      return S.Array(__S(8992, __c281, 0));
+      return S.Array(__S(9056, __c283, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -16845,7 +16960,7 @@ function __c281(j: number): any {
           trigger_type: S.String,
           status: S.String,
           migrated_members: S.Number,
-          mappings: S.optional(S.NullOr(__S(8960, __c280, 0))),
+          mappings: S.optional(S.NullOr(__S(9024, __c282, 0))),
           started_at: S.optional(S.NullOr(S.Number)),
           completed_at: S.optional(S.NullOr(S.Number)),
           created_at: S.Number,
@@ -16860,18 +16975,18 @@ function __c281(j: number): any {
           name: S.String,
           key: S.String,
           description: S.NullOr(S.String),
-          roles: __S(8993, __c281, 1),
-          default_role: S.optional(S.NullOr(__S(8992, __c281, 0))),
-          creator_role: S.optional(S.NullOr(__S(8992, __c281, 0))),
+          roles: __S(9057, __c283, 1),
+          default_role: S.optional(S.NullOr(__S(9056, __c283, 0))),
+          creator_role: S.optional(S.NullOr(__S(9056, __c283, 0))),
           type: S.String,
-          role_set_migration: S.optional(S.NullOr(__S(8994, __c281, 2))),
+          role_set_migration: S.optional(S.NullOr(__S(9058, __c283, 2))),
           created_at: S.Number,
           updated_at: S.Number,
         }),
       ).annotate({ identifier: "RoleSet" });
   }
 }
-function __c282(j: number): any {
+function __c284(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16889,7 +17004,7 @@ function __c282(j: number): any {
       ).annotate({ identifier: "DeleteApiKeyResponse" });
   }
 }
-function __c283(j: number): any {
+function __c285(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16899,7 +17014,7 @@ function __c283(j: number): any {
       ).annotate({ identifier: "DeleteBackupCodeRequest" });
   }
 }
-function __c284(j: number): any {
+function __c286(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16909,7 +17024,7 @@ function __c284(j: number): any {
       ).annotate({ identifier: "DeleteBackupCodeResponse" });
   }
 }
-function __c285(j: number): any {
+function __c287(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16921,7 +17036,7 @@ function __c285(j: number): any {
       ).annotate({ identifier: "DeleteBlocklistIdentifierRequest" });
   }
 }
-function __c286(j: number): any {
+function __c288(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16931,7 +17046,7 @@ function __c286(j: number): any {
       ).annotate({ identifier: "DeleteDirectoryRequest" });
   }
 }
-function __c287(j: number): any {
+function __c289(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16948,7 +17063,7 @@ function __c287(j: number): any {
       ).annotate({ identifier: "DeleteDirectoryGroupRoleMappingRequest" });
   }
 }
-function __c288(j: number): any {
+function __c290(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16960,7 +17075,7 @@ function __c288(j: number): any {
       ).annotate({ identifier: "DeleteDirectoryGroupRoleMappingResponse" });
   }
 }
-function __c289(j: number): any {
+function __c291(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16970,7 +17085,7 @@ function __c289(j: number): any {
       ).annotate({ identifier: "DeleteDomainRequest" });
   }
 }
-function __c290(j: number): any {
+function __c292(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16982,7 +17097,7 @@ function __c290(j: number): any {
       ).annotate({ identifier: "DeleteEmailAddressRequest" });
   }
 }
-function __c291(j: number): any {
+function __c293(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16998,7 +17113,7 @@ function __c291(j: number): any {
       ).annotate({ identifier: "DeleteEnterpriseConnectionRequest" });
   }
 }
-function __c292(j: number): any {
+function __c294(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17015,7 +17130,7 @@ function __c292(j: number): any {
       ).annotate({ identifier: "DeleteExternalAccountRequest" });
   }
 }
-function __c293(j: number): any {
+function __c295(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17025,7 +17140,7 @@ function __c293(j: number): any {
       ).annotate({ identifier: "DeleteInvitationRequest" });
   }
 }
-function __c294(j: number): any {
+function __c296(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17046,7 +17161,7 @@ function __c294(j: number): any {
       ).annotate({ identifier: "AdjustOrganizationBillingCreditBalanceRequest" });
   }
 }
-function __c295(j: number): any {
+function __c297(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17054,7 +17169,7 @@ function __c295(j: number): any {
           object: S.String,
           id: S.String,
           payer_id: S.String,
-          amount: __S(9472, __c296, 0),
+          amount: __S(9536, __c298, 0),
           source_type: S.String,
           source_id: S.String,
           note: S.optional(S.NullOr(S.String)),
@@ -17063,7 +17178,7 @@ function __c295(j: number): any {
       ).annotate({ identifier: "CommerceCreditLedgerResponse" });
   }
 }
-function __c296(j: number): any {
+function __c298(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17076,7 +17191,7 @@ function __c296(j: number): any {
       ).annotate({ identifier: "CommerceMoneyResponse" });
   }
 }
-function __c297(j: number): any {
+function __c299(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17086,7 +17201,7 @@ function __c297(j: number): any {
       ).annotate({ identifier: "DeleteJWTTemplateRequest" });
   }
 }
-function __c298(j: number): any {
+function __c300(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17096,7 +17211,7 @@ function __c298(j: number): any {
       ).annotate({ identifier: "DeleteMachineRequest" });
   }
 }
-function __c299(j: number): any {
+function __c301(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17122,7 +17237,7 @@ function __c299(j: number): any {
       ).annotate({ identifier: "DeleteMachineScopeResponse" });
   }
 }
-function __c300(j: number): any {
+function __c302(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17138,7 +17253,7 @@ function __c300(j: number): any {
       ).annotate({ identifier: "DeleteOAuthApplicationRequest" });
   }
 }
-function __c301(j: number): any {
+function __c303(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17148,7 +17263,7 @@ function __c301(j: number): any {
       ).annotate({ identifier: "DeleteOrganizationRequest" });
   }
 }
-function __c302(j: number): any {
+function __c304(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17165,7 +17280,7 @@ function __c302(j: number): any {
       ).annotate({ identifier: "DeleteOrganizationDomainRequest" });
   }
 }
-function __c303(j: number): any {
+function __c305(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17177,7 +17292,7 @@ function __c303(j: number): any {
       ).annotate({ identifier: "DeleteOrganizationLogoRequest" });
   }
 }
-function __c304(j: number): any {
+function __c306(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17194,7 +17309,7 @@ function __c304(j: number): any {
       ).annotate({ identifier: "DeleteOrganizationMembershipRequest" });
   }
 }
-function __c305(j: number): any {
+function __c307(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17206,7 +17321,7 @@ function __c305(j: number): any {
       ).annotate({ identifier: "DeleteOrganizationPermissionRequest" });
   }
 }
-function __c306(j: number): any {
+function __c308(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17222,7 +17337,7 @@ function __c306(j: number): any {
       ).annotate({ identifier: "DeleteOrganizationRoleRequest" });
   }
 }
-function __c307(j: number): any {
+function __c309(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17237,7 +17352,7 @@ function __c307(j: number): any {
       ).annotate({ identifier: "AdjustUserBillingCreditBalanceRequest" });
   }
 }
-function __c308(j: number): any {
+function __c310(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17247,7 +17362,7 @@ function __c308(j: number): any {
       ).annotate({ identifier: "DeletePhoneNumberRequest" });
   }
 }
-function __c309(j: number): any {
+function __c311(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17257,7 +17372,7 @@ function __c309(j: number): any {
       ).annotate({ identifier: "DeleteRedirectURLRequest" });
   }
 }
-function __c310(j: number): any {
+function __c312(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17269,7 +17384,7 @@ function __c310(j: number): any {
       ).annotate({ identifier: "DeleteSCIMDirectoryRequest" });
   }
 }
-function __c311(j: number): any {
+function __c313(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17286,7 +17401,7 @@ function __c311(j: number): any {
       ).annotate({ identifier: "DeleteSCIMGroupRoleMappingRequest" });
   }
 }
-function __c312(j: number): any {
+function __c314(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17298,7 +17413,7 @@ function __c312(j: number): any {
       ).annotate({ identifier: "DeleteSSOBypassAllowlistUserRequest" });
   }
 }
-function __c313(j: number): any {
+function __c315(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17306,7 +17421,7 @@ function __c313(j: number): any {
       ).annotate({ identifier: "DeleteSvixAppRequest" });
   }
 }
-function __c314(j: number): any {
+function __c316(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17316,7 +17431,7 @@ function __c314(j: number): any {
       ).annotate({ identifier: "DeleteTOTPRequest" });
   }
 }
-function __c315(j: number): any {
+function __c317(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17326,7 +17441,7 @@ function __c315(j: number): any {
       ).annotate({ identifier: "DeleteUserRequest" });
   }
 }
-function __c316(j: number): any {
+function __c318(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17343,7 +17458,7 @@ function __c316(j: number): any {
       ).annotate({ identifier: "DeleteUserPasskeyRequest" });
   }
 }
-function __c317(j: number): any {
+function __c319(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17353,7 +17468,7 @@ function __c317(j: number): any {
       ).annotate({ identifier: "DeleteUserProfileImageRequest" });
   }
 }
-function __c318(j: number): any {
+function __c320(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17370,7 +17485,7 @@ function __c318(j: number): any {
       ).annotate({ identifier: "ApplyBillingSubscriptionItemDiscountRequest" });
   }
 }
-function __c319(j: number): any {
+function __c321(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17384,8 +17499,8 @@ function __c319(j: number): any {
           promo_code: S.optional(S.String),
           effect: S.optional(S.String),
           percent_off: S.optional(S.NullOr(S.Number)),
-          amount_off: S.optional(S.NullOr(__S(9472, __c296, 0))),
-          amount: S.optional(S.NullOr(__S(9472, __c296, 0))),
+          amount_off: S.optional(S.NullOr(__S(9536, __c298, 0))),
+          amount: S.optional(S.NullOr(__S(9536, __c298, 0))),
           cycles_remaining: S.NullOr(S.Number),
           cycles_applied: S.Number,
           status: S.optional(S.String),
@@ -17395,7 +17510,7 @@ function __c319(j: number): any {
       ).annotate({ identifier: "CommerceDiscountRedemptionResponse" });
   }
 }
-function __c320(j: number): any {
+function __c322(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17412,7 +17527,7 @@ function __c320(j: number): any {
       ).annotate({ identifier: "DeleteUserWeb3WalletRequest" });
   }
 }
-function __c321(j: number): any {
+function __c323(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17424,7 +17539,7 @@ function __c321(j: number): any {
       ).annotate({ identifier: "DeleteWaitlistEntryRequest" });
   }
 }
-function __c322(j: number): any {
+function __c324(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17434,7 +17549,7 @@ function __c322(j: number): any {
       ).annotate({ identifier: "DisableMFARequest" });
   }
 }
-function __c323(j: number): any {
+function __c325(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17451,7 +17566,7 @@ function __c323(j: number): any {
       ).annotate({ identifier: "ExtendBillingSubscriptionItemFreeTrialRequest" });
   }
 }
-function __c324(j: number): any {
+function __c326(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17459,7 +17574,7 @@ function __c324(j: number): any {
       ).annotate({ identifier: "GenerateSvixAuthURLRequest" });
   }
 }
-function __c325(j: number): any {
+function __c327(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17469,7 +17584,7 @@ function __c325(j: number): any {
       ).annotate({ identifier: "GetApiKeyRequest" });
   }
 }
-function __c326(j: number): any {
+function __c328(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17481,7 +17596,7 @@ function __c326(j: number): any {
           name: S.String,
           description: S.optional(S.NullOr(S.String)),
           claims: S.NullOr(S.Unknown),
-          scopes: __S(8928, __c279, 0),
+          scopes: __S(8992, __c281, 0),
           revoked: S.Boolean,
           revocation_reason: S.NullOr(S.String),
           expired: S.Boolean,
@@ -17494,7 +17609,7 @@ function __c326(j: number): any {
       ).annotate({ identifier: "GetApiKeyResponse" });
   }
 }
-function __c327(j: number): any {
+function __c329(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17508,17 +17623,17 @@ function __c327(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api_keys", code: 200 })),
       ).annotate({ identifier: "GetApiKeysRequest" });
     case 1:
-      return S.Array(__S(10432, __c326, 0));
+      return S.Array(__S(10496, __c328, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(10465, __c327, 1),
+          data: __S(10529, __c329, 1),
           total_count: S.Number,
         }),
       ).annotate({ identifier: "GetApiKeysResponse" });
   }
 }
-function __c328(j: number): any {
+function __c330(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17534,7 +17649,7 @@ function __c328(j: number): any {
       ).annotate({ identifier: "GetApiKeySecretResponse" });
   }
 }
-function __c329(j: number): any {
+function __c331(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17546,17 +17661,17 @@ function __c329(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/billing/prices", code: 200 })),
       ).annotate({ identifier: "GetBillingPriceListRequest" });
     case 1:
-      return S.Array(__S(5696, __c178, 0));
+      return S.Array(__S(5760, __c180, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(10529, __c329, 1),
+          data: __S(10593, __c331, 1),
           total_count: S.Number,
         }),
       ).annotate({ identifier: "PaginatedBillingPriceResponse" });
   }
 }
-function __c330(j: number): any {
+function __c332(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17566,15 +17681,15 @@ function __c330(j: number): any {
       ).annotate({ identifier: "GetBillingStatementRequest" });
   }
 }
-function __c331(j: number): any {
+function __c333(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          grand_total: __S(9472, __c296, 0),
-          subtotal: __S(9472, __c296, 0),
-          base_fee: __S(9472, __c296, 0),
-          tax_total: __S(9472, __c296, 0),
+          grand_total: __S(9536, __c298, 0),
+          subtotal: __S(9536, __c298, 0),
+          base_fee: __S(9536, __c298, 0),
+          tax_total: __S(9536, __c298, 0),
         }),
       ).annotate({ identifier: "BillingStatementTotals" });
     case 1:
@@ -17582,11 +17697,11 @@ function __c331(j: number): any {
         S.Struct({
           object: S.String,
           timestamp: S.Number,
-          items: __S(10625, __c332, 1),
+          items: __S(10689, __c334, 1),
         }),
       ).annotate({ identifier: "BillingStatementGroupsItem" });
     case 2:
-      return S.Array(__S(10593, __c331, 1));
+      return S.Array(__S(10657, __c333, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -17594,15 +17709,15 @@ function __c331(j: number): any {
           id: S.String,
           instance_id: S.String,
           timestamp: S.Number,
-          payer: __S(2881, __c90, 1),
+          payer: __S(2945, __c92, 1),
           status: S.String,
-          totals: __S(10592, __c331, 0),
-          groups: __S(10594, __c331, 2),
+          totals: __S(10656, __c333, 0),
+          groups: __S(10658, __c333, 2),
         }),
       ).annotate({ identifier: "BillingStatement" });
   }
 }
-function __c332(j: number): any {
+function __c334(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17615,13 +17730,13 @@ function __c332(j: number): any {
           payee_id: S.String,
           payee: S.Unknown,
           payer_id: S.String,
-          payer: __S(2881, __c90, 1),
+          payer: __S(2945, __c92, 1),
           subscription_item_id: S.optional(S.String),
           subscription_item: S.optional(S.Unknown),
-          amount: __S(9472, __c296, 0),
-          totals: S.optional(S.NullOr(__S(2857, __c89, 9))),
+          amount: __S(9536, __c298, 0),
+          totals: S.optional(S.NullOr(__S(2921, __c91, 9))),
           payment_method_id: S.String,
-          payment_method: __S(2880, __c90, 0),
+          payment_method: __S(2944, __c92, 0),
           statement_id: S.String,
           gateway_external_id: S.NullOr(S.String),
           gateway_external_url: S.NullOr(S.String),
@@ -17633,7 +17748,7 @@ function __c332(j: number): any {
         }),
       ).annotate({ identifier: "BillingPaymentAttempt" });
     case 1:
-      return S.Array(__S(10624, __c332, 0));
+      return S.Array(__S(10688, __c334, 0));
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

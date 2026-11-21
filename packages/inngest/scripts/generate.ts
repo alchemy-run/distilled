@@ -75,7 +75,7 @@ const inngestSpec: SdkSpec = {
     retry: "Retry.Retry",
   },
 
-  sourceNote: ".generated-specs (specs/spec-mirror-inngest/specs/v2.json)",
+  sourceNote: ".generated-specs (specs/spec-mirror-inngest)",
 
   // Sensitive member types reference Redacted; pull the import in when used.
   postProcess: (code) =>

@@ -47,6 +47,8 @@ export class InvalidExpirationTtl
     /*@__PURE__*/ S.TaggedError<InvalidExpirationTtl>()("InvalidExpirationTtl", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10034 }],
   ) {}
@@ -56,6 +58,8 @@ export class InvalidObjectIdentifier
     /*@__PURE__*/ S.TaggedError<InvalidObjectIdentifier>()("InvalidObjectIdentifier", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 7003 }],
   ) {}
@@ -65,6 +69,8 @@ export class InvalidRequestBody
     /*@__PURE__*/ S.TaggedError<InvalidRequestBody>()("InvalidRequestBody", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10012 }],
   ) {}
@@ -74,6 +80,8 @@ export class KeyNotFound
     /*@__PURE__*/ S.TaggedError<KeyNotFound>()("KeyNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10009 }],
   ) {}
@@ -83,6 +91,8 @@ export class MethodNotAllowed
     /*@__PURE__*/ S.TaggedError<MethodNotAllowed>()("MethodNotAllowed", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [
       { code: 10405, message: { includes: "not allowed" } },
@@ -95,6 +105,8 @@ export class MinimumKeysRequired
     /*@__PURE__*/ S.TaggedError<MinimumKeysRequired>()("MinimumKeysRequired", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10029 }],
   ) {}
@@ -104,6 +116,8 @@ export class NamespaceNotFound
     /*@__PURE__*/ S.TaggedError<NamespaceNotFound>()("NamespaceNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10013 }],
   ) {}
@@ -113,6 +127,8 @@ export class NamespaceTitleAlreadyExists
     /*@__PURE__*/ S.TaggedError<NamespaceTitleAlreadyExists>()("NamespaceTitleAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10014 }],
   ) {}
@@ -122,6 +138,8 @@ export class TitleRequired
     /*@__PURE__*/ S.TaggedError<TitleRequired>()("TitleRequired", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10019 }],
   ) {}

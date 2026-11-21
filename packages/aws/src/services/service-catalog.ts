@@ -3,6 +3,7 @@ import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
+import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
@@ -107,7 +108,7 @@ export class InvalidStateException
 export class LimitExceededException
   extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()("LimitExceededException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
-  }) {}
+  }).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class OperationNotSupportedException
   extends /*@__PURE__*/ S.TaggedError<OperationNotSupportedException>()(
     "OperationNotSupportedException",
@@ -3528,21 +3529,28 @@ export type ListProvisionedProductPlansError =
 /**
  * Lists the plans for the specified provisioned product or all plans to which the user has access.
  */
-export const listProvisionedProductPlans: API.OperationMethod<
+export const listProvisionedProductPlans: API.PaginatedOperationMethod<
   ListProvisionedProductPlansInput & RegionInput,
   ListProvisionedProductPlansOutput,
   ListProvisionedProductPlansError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ API.make(() => ({
+  Credentials | HttpClient.HttpClient,
+  ProvisionedProductPlanSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1536, __c96, 0) as any as S.Schema<ListProvisionedProductPlansInput>,
   output: __S(1539, __c96, 3) as any as S.Schema<ListProvisionedProductPlansOutput>,
   errors: [InvalidParametersException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProvisionedProductPlans",
+  pagination: {
+    inputToken: "PageToken",
+    outputToken: "NextPageToken",
+    items: "ProvisionedProductPlans",
+    pageSize: "PageSize",
+  } as const,
   telemetry: TELEMETRY,
   span: "ListProvisionedProductPlans",
-}));
+})) as any;
 
 export type ListProvisioningArtifactsError =
   | InvalidParametersException
@@ -3600,21 +3608,28 @@ export type ListRecordHistoryError = InvalidParametersException | CommonErrors;
 /**
  * Lists the specified requests or all performed requests.
  */
-export const listRecordHistory: API.OperationMethod<
+export const listRecordHistory: API.PaginatedOperationMethod<
   ListRecordHistoryInput & RegionInput,
   ListRecordHistoryOutput,
   ListRecordHistoryError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ API.make(() => ({
+  Credentials | HttpClient.HttpClient,
+  RecordDetail
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1600, __c100, 0) as any as S.Schema<ListRecordHistoryInput>,
   output: __S(1602, __c100, 2) as any as S.Schema<ListRecordHistoryOutput>,
   errors: [InvalidParametersException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRecordHistory",
+  pagination: {
+    inputToken: "PageToken",
+    outputToken: "NextPageToken",
+    items: "RecordDetails",
+    pageSize: "PageSize",
+  } as const,
   telemetry: TELEMETRY,
   span: "ListRecordHistory",
-}));
+})) as any;
 
 export type ListResourcesForTagOptionError =
   | InvalidParametersException
@@ -3704,21 +3719,28 @@ export type ListStackInstancesForProvisionedProductError =
 /**
  * Returns summary information about stack instances that are associated with the specified `CFN_STACKSET` type provisioned product. You can filter for stack instances that are associated with a specific Amazon Web Services account name or Region.
  */
-export const listStackInstancesForProvisionedProduct: API.OperationMethod<
+export const listStackInstancesForProvisionedProduct: API.PaginatedOperationMethod<
   ListStackInstancesForProvisionedProductInput & RegionInput,
   ListStackInstancesForProvisionedProductOutput,
   ListStackInstancesForProvisionedProductError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ API.make(() => ({
+  Credentials | HttpClient.HttpClient,
+  StackInstance
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1680, __c105, 0) as any as S.Schema<ListStackInstancesForProvisionedProductInput>,
   output: __S(1683, __c105, 3) as any as S.Schema<ListStackInstancesForProvisionedProductOutput>,
   errors: [InvalidParametersException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListStackInstancesForProvisionedProduct",
+  pagination: {
+    inputToken: "PageToken",
+    outputToken: "NextPageToken",
+    items: "StackInstances",
+    pageSize: "PageSize",
+  } as const,
   telemetry: TELEMETRY,
   span: "ListStackInstancesForProvisionedProduct",
-}));
+})) as any;
 
 export type ListTagOptionsError =
   | InvalidParametersException
@@ -3912,21 +3934,28 @@ export type ScanProvisionedProductsError = InvalidParametersException | CommonEr
  *
  * To use additional filtering, see SearchProvisionedProducts.
  */
-export const scanProvisionedProducts: API.OperationMethod<
+export const scanProvisionedProducts: API.PaginatedOperationMethod<
   ScanProvisionedProductsInput & RegionInput,
   ScanProvisionedProductsOutput,
   ScanProvisionedProductsError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ API.make(() => ({
+  Credentials | HttpClient.HttpClient,
+  ProvisionedProductDetail
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1792, __c112, 0) as any as S.Schema<ScanProvisionedProductsInput>,
   output: __S(1794, __c112, 2) as any as S.Schema<ScanProvisionedProductsOutput>,
   errors: [InvalidParametersException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ScanProvisionedProducts",
+  pagination: {
+    inputToken: "PageToken",
+    outputToken: "NextPageToken",
+    items: "ProvisionedProducts",
+    pageSize: "PageSize",
+  } as const,
   telemetry: TELEMETRY,
   span: "ScanProvisionedProducts",
-}));
+})) as any;
 
 export type SearchProductsError = InvalidParametersException | CommonErrors;
 /**

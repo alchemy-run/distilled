@@ -122,7 +122,7 @@ export class InternalException
       /*@__PURE__*/ T.AwsQueryError({ code: "InternalException", httpResponseCode: 500 }),
       /*@__PURE__*/ T.HttpError(500),
     ),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InvalidTypeException
   extends /*@__PURE__*/ S.TaggedError<InvalidTypeException>()(
     "InvalidTypeException",

@@ -418,6 +418,11 @@
 	url = https://github.com/distilled-mirror/spec-mirror-boat-dev.git
 	ignore = dirty
 	shallow = true
+[submodule "packages/boxd/specs/spec-mirror-boxd"]
+	path = packages/boxd/specs/spec-mirror-boxd
+	url = https://github.com/distilled-mirror/spec-mirror-boxd.git
+	ignore = dirty
+	shallow = true
 [submodule "packages/tailscale/specs/spec-mirror-tailscale"]
 	path = packages/tailscale/specs/spec-mirror-tailscale
 	url = https://github.com/distilled-mirror/spec-mirror-tailscale.git
@@ -561,5 +566,40 @@ shallow = true
 [submodule "packages/clickhouse-cloud/specs/spec-mirror-clickhouse-cloud"]
 	path = packages/clickhouse-cloud/specs/spec-mirror-clickhouse-cloud
 	url = https://github.com/distilled-mirror/spec-mirror-clickhouse-cloud.git
+	ignore = dirty
+	shallow = true
+[submodule "packages/opensearch/specs/spec-mirror-opensearch"]
+	path = packages/opensearch/specs/spec-mirror-opensearch
+	url = https://github.com/distilled-mirror/spec-mirror-opensearch.git
+	ignore = dirty
+	shallow = true
+[submodule "packages/scaleway/specs/spec-mirror-scaleway"]
+	path = packages/scaleway/specs/spec-mirror-scaleway
+	url = https://github.com/distilled-mirror/spec-mirror-scaleway.git
+	ignore = dirty
+	shallow = true
+[submodule "packages/hydradb/specs/spec-mirror-hydradb"]
+	path = packages/hydradb/specs/spec-mirror-hydradb
+	url = https://github.com/distilled-mirror/spec-mirror-hydradb.git
+	ignore = dirty
+	shallow = true
+[submodule "packages/mux/specs/spec-mirror-mux"]
+	path = packages/mux/specs/spec-mirror-mux
+	url = https://github.com/distilled-mirror/spec-mirror-mux.git
+	ignore = dirty
+	shallow = true
+[submodule "packages/tinybird/specs/spec-mirror-tinybird"]
+	path = packages/tinybird/specs/spec-mirror-tinybird
+	url = https://github.com/distilled-mirror/spec-mirror-tinybird.git
+	ignore = dirty
+	shallow = true
+[submodule "packages/twitch/specs/spec-mirror-twitch"]
+	path = packages/twitch/specs/spec-mirror-twitch
+	url = https://github.com/distilled-mirror/spec-mirror-twitch.git
+	ignore = dirty
+	shallow = true
+[submodule "packages/whatsapp/specs/spec-mirror-whatsapp"]
+	path = packages/whatsapp/specs/spec-mirror-whatsapp
+	url = https://github.com/distilled-mirror/spec-mirror-whatsapp.git
 	ignore = dirty
 	shallow = true

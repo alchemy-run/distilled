@@ -12,9 +12,9 @@
  *
  * @example
  * ```ts
- * import * as Dokploy from "@distilled.cloud/dokploy";
+ * import * as Application from "@distilled.cloud/dokploy/application";
  *
- * yield* Dokploy.application.deployApplication({ applicationId: "<application id>" });
+ * yield* Application.deployApplication({ applicationId: "<application id>" });
  * ```
  */
 export * from "./credentials.ts";
@@ -22,4 +22,3 @@ export * from "./errors.ts";
 export * as T from "./traits.ts";
 export { DokployProtocol, type DokployOpError, type DokployOpContext } from "./protocol.ts";
 export * as Retry from "./retry.ts";
-export * from "./services/index.ts";

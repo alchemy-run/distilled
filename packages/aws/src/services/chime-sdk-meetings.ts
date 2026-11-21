@@ -133,7 +133,7 @@ export class LimitExceededException
       RequestId: /*@__PURE__*/ S.optional(S.String),
     },
     /*@__PURE__*/ T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+  ).pipe(C.withBadRequestError, C.withThrottlingError, C.withRetryableError) {}
 export class NotFoundException
   extends /*@__PURE__*/ S.TaggedError<NotFoundException>()(
     "NotFoundException",
@@ -164,7 +164,7 @@ export class ServiceFailureException
       RequestId: /*@__PURE__*/ S.optional(S.String),
     },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ServiceUnavailableException
   extends /*@__PURE__*/ S.TaggedError<ServiceUnavailableException>()(
     "ServiceUnavailableException",
@@ -177,7 +177,7 @@ export class ServiceUnavailableException
       ),
     },
     /*@__PURE__*/ T.HttpError(503),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
     "ThrottlingException",
@@ -187,7 +187,7 @@ export class ThrottlingException
       RequestId: /*@__PURE__*/ S.optional(S.String),
     },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class TooManyTagsException
   extends /*@__PURE__*/ S.TaggedError<TooManyTagsException>()(
     "TooManyTagsException",

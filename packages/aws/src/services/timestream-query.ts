@@ -130,7 +130,7 @@ export class InternalServerException
     "InternalServerException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InvalidEndpointException
   extends /*@__PURE__*/ S.TaggedError<InvalidEndpointException>()(
     "InvalidEndpointException",
@@ -163,7 +163,7 @@ export class ThrottlingException
     "ThrottlingException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class TimestreamNotOnboarded
   extends /*@__PURE__*/ S.TaggedError<TimestreamNotOnboarded>()(
     "TimestreamNotOnboarded",

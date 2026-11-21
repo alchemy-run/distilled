@@ -176,7 +176,7 @@ export class InternalServiceErrorException
     "InternalServiceErrorException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InvalidArgumentException
   extends /*@__PURE__*/ S.TaggedError<InvalidArgumentException>()(
     "InvalidArgumentException",
@@ -200,7 +200,7 @@ export class LimitExceededException
     "LimitExceededException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(403),
-  ).pipe(C.withAuthError) {}
+  ).pipe(C.withAuthError, C.withThrottlingError, C.withRetryableError) {}
 export class ListenerNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ListenerNotFoundException>()(
     "ListenerNotFoundException",
@@ -212,7 +212,7 @@ export class TransactionInProgressException
     "TransactionInProgressException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+  ).pipe(C.withConflictError, C.withThrottlingError, C.withRetryableError) {}
 export interface CustomRoutingEndpointConfiguration {
   EndpointId?: string | undefined;
   AttachmentArn?: string | undefined;

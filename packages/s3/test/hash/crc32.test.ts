@@ -9,7 +9,7 @@ describe("Crc32", () => {
     const crc32 = new Crc32();
     crc32.update(textEncoder.encode("123456789"));
 
-    expect(await crc32.digest()).toEqual(Uint8Array.of(0xcb, 0xf4, 0x39, 0x26));
+    expect(crc32.digest()).toEqual(Uint8Array.of(0xcb, 0xf4, 0x39, 0x26));
   });
 
   test("supports incremental updates and reset", async () => {
@@ -18,7 +18,7 @@ describe("Crc32", () => {
     crc32.update(textEncoder.encode("world"));
 
     const expected = zlib.crc32(textEncoder.encode("helloworld"));
-    expect(await crc32.digest()).toEqual(
+    expect(crc32.digest()).toEqual(
       Uint8Array.of(
         (expected & 0xff000000) >>> 24,
         (expected & 0x00ff0000) >>> 16,
@@ -28,6 +28,6 @@ describe("Crc32", () => {
     );
 
     crc32.reset();
-    expect(await crc32.digest()).toEqual(Uint8Array.of(0, 0, 0, 0));
+    expect(crc32.digest()).toEqual(Uint8Array.of(0, 0, 0, 0));
   });
 });

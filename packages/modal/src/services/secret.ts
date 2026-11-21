@@ -29,6 +29,8 @@ export class EnvironmentNotFound
     /*@__PURE__*/ S.TaggedError<EnvironmentNotFound>()("EnvironmentNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 5, message: { includes: "Environment" } }],
   ) {}
@@ -39,6 +41,8 @@ export class SecretAlreadyExists
     /*@__PURE__*/ S.TaggedError<SecretAlreadyExists>()("SecretAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 6 }],
   ) {}
@@ -49,6 +53,8 @@ export class SecretNotFound
     /*@__PURE__*/ S.TaggedError<SecretNotFound>()("SecretNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 5 }],
   ) {}

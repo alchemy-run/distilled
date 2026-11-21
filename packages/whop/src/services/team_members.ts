@@ -30,36 +30,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 /** The system role to grant. The Partner role can only be granted to the account's attached, verified partner. */
 export type CreateTeamMemberRequestRole =
@@ -217,6 +245,17 @@ export interface UpdateTeamMemberRequest {
   /** The system role to grant. The Partner role can only be granted to the account's attached, verified partner. */
   role: UpdateTeamMemberRequestRole | (string & {});
 }
+export interface V1ErrorResponseError {
+  /** Machine-readable reason for this specific refusal, such as `bank_warning_not_acknowledged`. Only present when the error carries one. */
+  code?: string | undefined;
+  /** Human-readable error message. */
+  message: string;
+  /** Machine-readable error code. */
+  type: string;
+}
+export interface V1ErrorResponse {
+  error: V1ErrorResponseError;
+}
 export type CreateTeamMemberError = BadRequest | Conflict | WhopOpError;
 /** Create Team Member Adds a member to an account's team with a system role. Identify them by exactly one of `user_id` or `email`. If the person has not yet accepted -- or the email does not belong to a Whop account yet -- an invitation is sent instead and the response is `202` with `{ "object": "team_member_invite", "invitation_sent": true }`. If they already have a pending invite, the request fails with a `400`. Custom roles cannot be granted via the API. Granting the `workforce` role is also allowed with the `bounty:create` scope. */
 export const createTeamMember: API.OperationMethod<
@@ -225,8 +264,8 @@ export const createTeamMember: API.OperationMethod<
   CreateTeamMemberError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateTeamMemberRequest>,
-  output: __S(7, __c1, 3) as any as S.Schema<TeamMember>,
+  input: __S(4, __c1, 0) as any as S.Schema<CreateTeamMemberRequest>,
+  output: __S(11, __c2, 3) as any as S.Schema<TeamMember>,
   errors: [BadRequest, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -242,8 +281,8 @@ export const deleteTeamMember: API.OperationMethod<
   DeleteTeamMemberError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<DeleteTeamMemberRequest>,
-  output: __S(9, __c2, 1) as any as S.Schema<DeleteTeamMemberResponse>,
+  input: __S(12, __c3, 0) as any as S.Schema<DeleteTeamMemberRequest>,
+  output: __S(13, __c3, 1) as any as S.Schema<DeleteTeamMemberResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -259,8 +298,8 @@ export const getTeamMember: API.OperationMethod<
   GetTeamMemberError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<GetTeamMemberRequest>,
-  output: __S(7, __c1, 3) as any as S.Schema<TeamMember>,
+  input: __S(16, __c4, 0) as any as S.Schema<GetTeamMemberRequest>,
+  output: __S(11, __c2, 3) as any as S.Schema<TeamMember>,
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -278,8 +317,8 @@ export const listTeamMembers: API.PaginatedOperationMethod<
   TeamMember
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(16, __c4, 0) as any as S.Schema<ListTeamMembersRequest>,
-    output: __S(19, __c4, 3) as any as S.Schema<ListTeamMembersResponse>,
+    input: __S(20, __c5, 0) as any as S.Schema<ListTeamMembersRequest>,
+    output: __S(23, __c5, 3) as any as S.Schema<ListTeamMembersResponse>,
     errors: [BadRequest, Forbidden, NotFound],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -305,8 +344,8 @@ export const updateTeamMember: API.OperationMethod<
   UpdateTeamMemberError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<UpdateTeamMemberRequest>,
-  output: __S(7, __c1, 3) as any as S.Schema<TeamMember>,
+  input: __S(24, __c6, 0) as any as S.Schema<UpdateTeamMemberRequest>,
+  output: __S(11, __c2, 3) as any as S.Schema<TeamMember>,
   errors: [BadRequest, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -320,6 +359,24 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          code: S.optional(S.String),
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "V1ErrorResponseError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "V1ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           account_id: S.String,
           email: S.optional(S.String),
           role: S.String,
@@ -329,7 +386,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateTeamMemberRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -349,7 +406,7 @@ function __c1(j: number): any {
         S.Struct({
           id: S.String,
           name: S.NullOr(S.String),
-          profile_picture: __S(5, __c1, 1),
+          profile_picture: __S(9, __c2, 1),
           username: S.String,
         }),
       ).annotate({ identifier: "UserSummary" });
@@ -357,7 +414,7 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           account_id: S.String,
-          authorized_role: S.NullOr(__S(4, __c1, 0)),
+          authorized_role: S.NullOr(__S(8, __c2, 0)),
           created_at: S.String,
           email: S.NullOr(S.String),
           id: S.String,
@@ -365,12 +422,12 @@ function __c1(j: number): any {
           role: S.String,
           status: S.String,
           updated_at: S.String,
-          user: S.NullOr(__S(6, __c1, 2)),
+          user: S.NullOr(__S(10, __c2, 2)),
         }),
       ).annotate({ identifier: "TeamMember" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -386,7 +443,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "DeleteTeamMemberResponse" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -396,7 +453,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GetTeamMemberRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -416,7 +473,7 @@ function __c4(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/team_members", code: 200 })),
       ).annotate({ identifier: "ListTeamMembersRequest" });
     case 1:
-      return S.Array(__S(7, __c1, 3));
+      return S.Array(__S(11, __c2, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -429,13 +486,13 @@ function __c4(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(17, __c4, 1),
-          page_info: __S(18, __c4, 2),
+          data: __S(21, __c5, 1),
+          page_info: __S(22, __c5, 2),
         }),
       ).annotate({ identifier: "ListTeamMembersResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

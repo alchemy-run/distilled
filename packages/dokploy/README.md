@@ -16,13 +16,15 @@ npm install @distilled.cloud/dokploy effect
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Dokploy from "@distilled.cloud/dokploy";
+import * as Application from "@distilled.cloud/dokploy/application";
+import * as Deployment from "@distilled.cloud/dokploy/deployment";
 
 const program = Effect.gen(function* () {
-  yield* Dokploy.application.deployApplication({
+  yield* Application.deployApplication({
     applicationId: "<application id>",
     title: "Deploy from distilled",
   });
-  return yield* Dokploy.deployment.listDeployments({ applicationId: "<application id>" });
+  return yield* Deployment.listDeployments({ applicationId: "<application id>" });
 });
 
 const Live = Layer.mergeAll(

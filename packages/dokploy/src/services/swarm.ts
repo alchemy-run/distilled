@@ -29,27 +29,48 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorBADREQUEST | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorFORBIDDEN | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorNOTFOUND | string;
+}
 
 export interface GetSwarmContainerStatsRequest {
   serverId?: string | undefined;
@@ -68,6 +89,44 @@ export interface GetSwarmNodesRequest {
   serverId?: string | undefined;
 }
 export type GetSwarmNodesResponse = unknown;
+export interface ErrorBADREQUESTIssuesItem {
+  message: string;
+}
+/** An array of issues that were responsible for the error */
+export type ErrorBADREQUESTIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorBADREQUEST {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorBADREQUESTIssuesList | undefined;
+}
+export type ErrorFORBIDDENIssuesItem = ErrorBADREQUESTIssuesItem;
+/** An array of issues that were responsible for the error */
+export type ErrorFORBIDDENIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorFORBIDDEN {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorFORBIDDENIssuesList | undefined;
+}
+export type ErrorNOTFOUNDIssuesItem = ErrorBADREQUESTIssuesItem;
+/** An array of issues that were responsible for the error */
+export type ErrorNOTFOUNDIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorNOTFOUND {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorNOTFOUNDIssuesList | undefined;
+}
 export type GetSwarmContainerStatsError = BadRequest | Forbidden | NotFound | DokployOpError;
 export const getSwarmContainerStats: API.OperationMethod<
   GetSwarmContainerStatsRequest,
@@ -75,8 +134,8 @@ export const getSwarmContainerStats: API.OperationMethod<
   GetSwarmContainerStatsError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetSwarmContainerStatsRequest>,
-  output: __S(2, __c1, 0) as any as S.Schema<GetSwarmContainerStatsResponse>,
+  input: __S(4, __c1, 0) as any as S.Schema<GetSwarmContainerStatsRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<GetSwarmContainerStatsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -91,8 +150,8 @@ export const getSwarmNodeApps: API.OperationMethod<
   GetSwarmNodeAppsError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c2, 0) as any as S.Schema<GetSwarmNodeAppsRequest>,
-  output: __S(2, __c1, 0) as any as S.Schema<GetSwarmNodeAppsResponse>,
+  input: __S(12, __c3, 0) as any as S.Schema<GetSwarmNodeAppsRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<GetSwarmNodeAppsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -107,8 +166,8 @@ export const getSwarmNodeInfo: API.OperationMethod<
   GetSwarmNodeInfoError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6, __c3, 0) as any as S.Schema<GetSwarmNodeInfoRequest>,
-  output: __S(2, __c1, 0) as any as S.Schema<GetSwarmNodeInfoResponse>,
+  input: __S(16, __c4, 0) as any as S.Schema<GetSwarmNodeInfoRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<GetSwarmNodeInfoResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -123,8 +182,8 @@ export const getSwarmNodes: API.OperationMethod<
   GetSwarmNodesError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c4, 0) as any as S.Schema<GetSwarmNodesRequest>,
-  output: __S(2, __c1, 0) as any as S.Schema<GetSwarmNodesResponse>,
+  input: __S(20, __c5, 0) as any as S.Schema<GetSwarmNodesRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<GetSwarmNodesResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -138,12 +197,32 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          message: S.String,
+        }),
+      ).annotate({ identifier: "ErrorBADREQUESTIssuesItem" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.String,
+          code: S.String,
+          issues: S.optional(__S(1, __c0, 1)),
+        }),
+      ).annotate({ identifier: "ErrorBADREQUEST" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           serverId: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/swarm.getContainerStats", code: 200 })),
       ).annotate({ identifier: "GetSwarmContainerStatsRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -151,7 +230,7 @@ function __c1(j: number): any {
       });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -161,7 +240,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GetSwarmNodeAppsRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -172,7 +251,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GetSwarmNodeInfoRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

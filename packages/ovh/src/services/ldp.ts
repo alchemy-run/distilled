@@ -32,27 +32,48 @@ export class Conflict
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error404Body | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error404Body | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error404Body | string;
+}
 
 export interface CreateDbaasLogChangeContactRequest {
   /** Service name */
@@ -1965,6 +1986,13 @@ export interface StartDbaasLogsInputRequest {
   /** Input ID */
   inputId: string;
 }
+/** Common error model */
+export interface Error404Body {
+  /** Class of the error */
+  class?: string | undefined;
+  /** Error message */
+  message?: string | undefined;
+}
 export type CreateDbaasLogChangeContactError = OvhOpError;
 /** Launch a contact change procedure */
 export const createDbaasLogChangeContact: API.OperationMethod<
@@ -1973,8 +2001,8 @@ export const createDbaasLogChangeContact: API.OperationMethod<
   CreateDbaasLogChangeContactError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(196, __c49, 0) as any as S.Schema<CreateDbaasLogChangeContactRequest>,
-  output: __S(197, __c49, 1) as any as S.Schema<CreateDbaasLogChangeContactResponse>,
+  input: __S(200, __c50, 0) as any as S.Schema<CreateDbaasLogChangeContactRequest>,
+  output: __S(201, __c50, 1) as any as S.Schema<CreateDbaasLogChangeContactResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -1990,8 +2018,8 @@ export const createDbaasLogEncryptionKey: API.OperationMethod<
   CreateDbaasLogEncryptionKeyError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(244, __c61, 0) as any as S.Schema<CreateDbaasLogEncryptionKeyRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(248, __c62, 0) as any as S.Schema<CreateDbaasLogEncryptionKeyRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2007,8 +2035,8 @@ export const createDbaasLogInput: API.OperationMethod<
   CreateDbaasLogInputError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(292, __c73, 0) as any as S.Schema<CreateDbaasLogInputRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(296, __c74, 0) as any as S.Schema<CreateDbaasLogInputRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2024,8 +2052,8 @@ export const createDbaasLogInputConfigtest: API.OperationMethod<
   CreateDbaasLogInputConfigtestError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(340, __c85, 0) as any as S.Schema<CreateDbaasLogInputConfigtestRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(344, __c86, 0) as any as S.Schema<CreateDbaasLogInputConfigtestRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2041,8 +2069,8 @@ export const createDbaasLogInputEnd: API.OperationMethod<
   CreateDbaasLogInputEndError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(388, __c97, 0) as any as S.Schema<CreateDbaasLogInputEndRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(392, __c98, 0) as any as S.Schema<CreateDbaasLogInputEndRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2058,8 +2086,8 @@ export const createDbaasLogInputLogUrl: API.OperationMethod<
   CreateDbaasLogInputLogUrlError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(440, __c110, 0) as any as S.Schema<CreateDbaasLogInputLogUrlRequest>,
-  output: __S(444, __c111, 0) as any as S.Schema<DbaasLogsTemporaryLogsLink>,
+  input: __S(444, __c111, 0) as any as S.Schema<CreateDbaasLogInputLogUrlRequest>,
+  output: __S(448, __c112, 0) as any as S.Schema<DbaasLogsTemporaryLogsLink>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2075,8 +2103,8 @@ export const createDbaasLogOutputGraylogDashboard: API.OperationMethod<
   CreateDbaasLogOutputGraylogDashboardError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(492, __c123, 0) as any as S.Schema<CreateDbaasLogOutputGraylogDashboardRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(496, __c124, 0) as any as S.Schema<CreateDbaasLogOutputGraylogDashboardRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2092,8 +2120,8 @@ export const createDbaasLogOutputGraylogStream: API.OperationMethod<
   CreateDbaasLogOutputGraylogStreamError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateDbaasLogOutputGraylogStreamRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(4, __c1, 0) as any as S.Schema<CreateDbaasLogOutputGraylogStreamRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2113,8 +2141,8 @@ export const createDbaasLogOutputGraylogStreamAlert: API.OperationMethod<
   CreateDbaasLogOutputGraylogStreamAlertError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c12, 0) as any as S.Schema<CreateDbaasLogOutputGraylogStreamAlertRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(52, __c13, 0) as any as S.Schema<CreateDbaasLogOutputGraylogStreamAlertRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2130,8 +2158,8 @@ export const createDbaasLogOutputGraylogStreamArchiveUrl: API.OperationMethod<
   CreateDbaasLogOutputGraylogStreamArchiveUrlError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(92, __c23, 0) as any as S.Schema<CreateDbaasLogOutputGraylogStreamArchiveUrlRequest>,
-  output: __S(444, __c111, 0) as any as S.Schema<DbaasLogsArchiveUrl>,
+  input: __S(96, __c24, 0) as any as S.Schema<CreateDbaasLogOutputGraylogStreamArchiveUrlRequest>,
+  output: __S(448, __c112, 0) as any as S.Schema<DbaasLogsArchiveUrl>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2151,8 +2179,8 @@ export const createDbaasLogOutputGraylogStreamRule: API.OperationMethod<
   CreateDbaasLogOutputGraylogStreamRuleError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c32, 0) as any as S.Schema<CreateDbaasLogOutputGraylogStreamRuleRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(132, __c33, 0) as any as S.Schema<CreateDbaasLogOutputGraylogStreamRuleRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2168,8 +2196,8 @@ export const createDbaasLogOutputMetricTenant: API.OperationMethod<
   CreateDbaasLogOutputMetricTenantError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(132, __c33, 0) as any as S.Schema<CreateDbaasLogOutputMetricTenantRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(136, __c34, 0) as any as S.Schema<CreateDbaasLogOutputMetricTenantRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2185,8 +2213,8 @@ export const createDbaasLogOutputOpensearchAlias: API.OperationMethod<
   CreateDbaasLogOutputOpensearchAliasError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c34, 0) as any as S.Schema<CreateDbaasLogOutputOpensearchAliasRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(140, __c35, 0) as any as S.Schema<CreateDbaasLogOutputOpensearchAliasRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2206,8 +2234,8 @@ export const createDbaasLogOutputOpensearchAliasIndex: API.OperationMethod<
   CreateDbaasLogOutputOpensearchAliasIndexError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(140, __c35, 0) as any as S.Schema<CreateDbaasLogOutputOpensearchAliasIndexRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(144, __c36, 0) as any as S.Schema<CreateDbaasLogOutputOpensearchAliasIndexRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2223,8 +2251,8 @@ export const createDbaasLogOutputOpensearchAliasStream: API.OperationMethod<
   CreateDbaasLogOutputOpensearchAliasStreamError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c36, 0) as any as S.Schema<CreateDbaasLogOutputOpensearchAliasStreamRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(148, __c37, 0) as any as S.Schema<CreateDbaasLogOutputOpensearchAliasStreamRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2240,8 +2268,8 @@ export const createDbaasLogOutputOpensearchIndex: API.OperationMethod<
   CreateDbaasLogOutputOpensearchIndexError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(148, __c37, 0) as any as S.Schema<CreateDbaasLogOutputOpensearchIndexRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(152, __c38, 0) as any as S.Schema<CreateDbaasLogOutputOpensearchIndexRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2257,8 +2285,8 @@ export const createDbaasLogOutputOpensearchOsd: API.OperationMethod<
   CreateDbaasLogOutputOpensearchOsdError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c38, 0) as any as S.Schema<CreateDbaasLogOutputOpensearchOsdRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(156, __c39, 0) as any as S.Schema<CreateDbaasLogOutputOpensearchOsdRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2274,8 +2302,8 @@ export const createDbaasLogRole: API.OperationMethod<
   CreateDbaasLogRoleError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(156, __c39, 0) as any as S.Schema<CreateDbaasLogRoleRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(160, __c40, 0) as any as S.Schema<CreateDbaasLogRoleRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2291,8 +2319,8 @@ export const createDbaasLogRoleMember: API.OperationMethod<
   CreateDbaasLogRoleMemberError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c40, 0) as any as S.Schema<CreateDbaasLogRoleMemberRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(164, __c41, 0) as any as S.Schema<CreateDbaasLogRoleMemberRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2308,8 +2336,8 @@ export const createDbaasLogRolePermissionAlias: API.OperationMethod<
   CreateDbaasLogRolePermissionAliasError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(164, __c41, 0) as any as S.Schema<CreateDbaasLogRolePermissionAliasRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(168, __c42, 0) as any as S.Schema<CreateDbaasLogRolePermissionAliasRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2329,8 +2357,8 @@ export const createDbaasLogRolePermissionDashboard: API.OperationMethod<
   CreateDbaasLogRolePermissionDashboardError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c42, 0) as any as S.Schema<CreateDbaasLogRolePermissionDashboardRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(172, __c43, 0) as any as S.Schema<CreateDbaasLogRolePermissionDashboardRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2346,8 +2374,8 @@ export const createDbaasLogRolePermissionIndex: API.OperationMethod<
   CreateDbaasLogRolePermissionIndexError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(172, __c43, 0) as any as S.Schema<CreateDbaasLogRolePermissionIndexRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(176, __c44, 0) as any as S.Schema<CreateDbaasLogRolePermissionIndexRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2363,8 +2391,8 @@ export const createDbaasLogRolePermissionOsd: API.OperationMethod<
   CreateDbaasLogRolePermissionOsdError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c44, 0) as any as S.Schema<CreateDbaasLogRolePermissionOsdRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(180, __c45, 0) as any as S.Schema<CreateDbaasLogRolePermissionOsdRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2380,8 +2408,8 @@ export const createDbaasLogRolePermissionStream: API.OperationMethod<
   CreateDbaasLogRolePermissionStreamError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(180, __c45, 0) as any as S.Schema<CreateDbaasLogRolePermissionStreamRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(184, __c46, 0) as any as S.Schema<CreateDbaasLogRolePermissionStreamRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2397,8 +2425,8 @@ export const createDbaasLogToken: API.OperationMethod<
   CreateDbaasLogTokenError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c46, 0) as any as S.Schema<CreateDbaasLogTokenRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(188, __c47, 0) as any as S.Schema<CreateDbaasLogTokenRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2414,8 +2442,8 @@ export const createDbaasLogUserChangePassword: API.OperationMethod<
   CreateDbaasLogUserChangePasswordError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(188, __c47, 0) as any as S.Schema<CreateDbaasLogUserChangePasswordRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(192, __c48, 0) as any as S.Schema<CreateDbaasLogUserChangePasswordRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2431,8 +2459,8 @@ export const deleteDbaasLogEncryptionKey: API.OperationMethod<
   DeleteDbaasLogEncryptionKeyError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c48, 0) as any as S.Schema<DeleteDbaasLogEncryptionKeyRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(196, __c49, 0) as any as S.Schema<DeleteDbaasLogEncryptionKeyRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2448,8 +2476,8 @@ export const deleteDbaasLogInput: API.OperationMethod<
   DeleteDbaasLogInputError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(204, __c51, 0) as any as S.Schema<DeleteDbaasLogInputRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(208, __c52, 0) as any as S.Schema<DeleteDbaasLogInputRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2465,8 +2493,8 @@ export const deleteDbaasLogOutputGraylogDashboard: API.OperationMethod<
   DeleteDbaasLogOutputGraylogDashboardError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c52, 0) as any as S.Schema<DeleteDbaasLogOutputGraylogDashboardRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(212, __c53, 0) as any as S.Schema<DeleteDbaasLogOutputGraylogDashboardRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2482,8 +2510,8 @@ export const deleteDbaasLogOutputGraylogStream: API.OperationMethod<
   DeleteDbaasLogOutputGraylogStreamError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(212, __c53, 0) as any as S.Schema<DeleteDbaasLogOutputGraylogStreamRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(216, __c54, 0) as any as S.Schema<DeleteDbaasLogOutputGraylogStreamRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2499,8 +2527,8 @@ export const deleteDbaasLogOutputGraylogStreamAlert: API.OperationMethod<
   DeleteDbaasLogOutputGraylogStreamAlertError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c54, 0) as any as S.Schema<DeleteDbaasLogOutputGraylogStreamAlertRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(220, __c55, 0) as any as S.Schema<DeleteDbaasLogOutputGraylogStreamAlertRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2516,8 +2544,8 @@ export const deleteDbaasLogOutputGraylogStreamRule: API.OperationMethod<
   DeleteDbaasLogOutputGraylogStreamRuleError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(220, __c55, 0) as any as S.Schema<DeleteDbaasLogOutputGraylogStreamRuleRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(224, __c56, 0) as any as S.Schema<DeleteDbaasLogOutputGraylogStreamRuleRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2534,11 +2562,11 @@ export const deleteDbaasLogOutputGraylogStreamSubscription: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    224,
-    __c56,
+    228,
+    __c57,
     0,
   ) as any as S.Schema<DeleteDbaasLogOutputGraylogStreamSubscriptionRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2554,8 +2582,8 @@ export const deleteDbaasLogOutputMetricTenant: API.OperationMethod<
   DeleteDbaasLogOutputMetricTenantError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(228, __c57, 0) as any as S.Schema<DeleteDbaasLogOutputMetricTenantRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(232, __c58, 0) as any as S.Schema<DeleteDbaasLogOutputMetricTenantRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2571,8 +2599,8 @@ export const deleteDbaasLogOutputMetricTenantSubscription: API.OperationMethod<
   DeleteDbaasLogOutputMetricTenantSubscriptionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c58, 0) as any as S.Schema<DeleteDbaasLogOutputMetricTenantSubscriptionRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(236, __c59, 0) as any as S.Schema<DeleteDbaasLogOutputMetricTenantSubscriptionRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2588,8 +2616,8 @@ export const deleteDbaasLogOutputOpensearchAlias: API.OperationMethod<
   DeleteDbaasLogOutputOpensearchAliasError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(236, __c59, 0) as any as S.Schema<DeleteDbaasLogOutputOpensearchAliasRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(240, __c60, 0) as any as S.Schema<DeleteDbaasLogOutputOpensearchAliasRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2605,8 +2633,8 @@ export const deleteDbaasLogOutputOpensearchAliasIndex: API.OperationMethod<
   DeleteDbaasLogOutputOpensearchAliasIndexError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c60, 0) as any as S.Schema<DeleteDbaasLogOutputOpensearchAliasIndexRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(244, __c61, 0) as any as S.Schema<DeleteDbaasLogOutputOpensearchAliasIndexRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2622,8 +2650,8 @@ export const deleteDbaasLogOutputOpensearchAliasStream: API.OperationMethod<
   DeleteDbaasLogOutputOpensearchAliasStreamError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(252, __c63, 0) as any as S.Schema<DeleteDbaasLogOutputOpensearchAliasStreamRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(256, __c64, 0) as any as S.Schema<DeleteDbaasLogOutputOpensearchAliasStreamRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2639,8 +2667,8 @@ export const deleteDbaasLogOutputOpensearchIndex: API.OperationMethod<
   DeleteDbaasLogOutputOpensearchIndexError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c64, 0) as any as S.Schema<DeleteDbaasLogOutputOpensearchIndexRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(260, __c65, 0) as any as S.Schema<DeleteDbaasLogOutputOpensearchIndexRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2656,8 +2684,8 @@ export const deleteDbaasLogOutputOpensearchOsd: API.OperationMethod<
   DeleteDbaasLogOutputOpensearchOsdError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(260, __c65, 0) as any as S.Schema<DeleteDbaasLogOutputOpensearchOsdRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(264, __c66, 0) as any as S.Schema<DeleteDbaasLogOutputOpensearchOsdRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2673,8 +2701,8 @@ export const deleteDbaasLogRole: API.OperationMethod<
   DeleteDbaasLogRoleError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(264, __c66, 0) as any as S.Schema<DeleteDbaasLogRoleRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(268, __c67, 0) as any as S.Schema<DeleteDbaasLogRoleRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2690,8 +2718,8 @@ export const deleteDbaasLogRoleMember: API.OperationMethod<
   DeleteDbaasLogRoleMemberError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(268, __c67, 0) as any as S.Schema<DeleteDbaasLogRoleMemberRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(272, __c68, 0) as any as S.Schema<DeleteDbaasLogRoleMemberRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2707,8 +2735,8 @@ export const deleteDbaasLogRolePermission: API.OperationMethod<
   DeleteDbaasLogRolePermissionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c68, 0) as any as S.Schema<DeleteDbaasLogRolePermissionRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(276, __c69, 0) as any as S.Schema<DeleteDbaasLogRolePermissionRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2724,8 +2752,8 @@ export const deleteDbaasLogToken: API.OperationMethod<
   DeleteDbaasLogTokenError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(276, __c69, 0) as any as S.Schema<DeleteDbaasLogTokenRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(280, __c70, 0) as any as S.Schema<DeleteDbaasLogTokenRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2745,8 +2773,8 @@ export const duplicateDbaasLogsOutputGraylogDashboard: API.OperationMethod<
   DuplicateDbaasLogsOutputGraylogDashboardError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(280, __c70, 0) as any as S.Schema<DuplicateDbaasLogsOutputGraylogDashboardRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(284, __c71, 0) as any as S.Schema<DuplicateDbaasLogsOutputGraylogDashboardRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2762,8 +2790,8 @@ export const getDbaasLog: API.OperationMethod<
   GetDbaasLogError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(284, __c71, 0) as any as S.Schema<GetDbaasLogRequest>,
-  output: __S(287, __c71, 3) as any as S.Schema<DbaasLogsServiceWithIAM>,
+  input: __S(288, __c72, 0) as any as S.Schema<GetDbaasLogRequest>,
+  output: __S(291, __c72, 3) as any as S.Schema<DbaasLogsServiceWithIAM>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2779,8 +2807,8 @@ export const getDbaasLogCluster: API.OperationMethod<
   GetDbaasLogClusterError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c72, 0) as any as S.Schema<GetDbaasLogClusterRequest>,
-  output: __S(289, __c72, 1) as any as S.Schema<DbaasLogsCluster>,
+  input: __S(292, __c73, 0) as any as S.Schema<GetDbaasLogClusterRequest>,
+  output: __S(293, __c73, 1) as any as S.Schema<DbaasLogsCluster>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2796,8 +2824,8 @@ export const getDbaasLogClusterRetention: API.OperationMethod<
   GetDbaasLogClusterRetentionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(300, __c75, 0) as any as S.Schema<GetDbaasLogClusterRetentionRequest>,
-  output: __S(301, __c75, 1) as any as S.Schema<DbaasLogsClusterRetention>,
+  input: __S(304, __c76, 0) as any as S.Schema<GetDbaasLogClusterRetentionRequest>,
+  output: __S(305, __c76, 1) as any as S.Schema<DbaasLogsClusterRetention>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2813,8 +2841,8 @@ export const getDbaasLogEncryptionKey: API.OperationMethod<
   GetDbaasLogEncryptionKeyError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c76, 0) as any as S.Schema<GetDbaasLogEncryptionKeyRequest>,
-  output: __S(305, __c76, 1) as any as S.Schema<DbaasLogsEncryptionKey>,
+  input: __S(308, __c77, 0) as any as S.Schema<GetDbaasLogEncryptionKeyRequest>,
+  output: __S(309, __c77, 1) as any as S.Schema<DbaasLogsEncryptionKey>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2830,8 +2858,8 @@ export const getDbaasLogInput: API.OperationMethod<
   GetDbaasLogInputError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(308, __c77, 0) as any as S.Schema<GetDbaasLogInputRequest>,
-  output: __S(309, __c77, 1) as any as S.Schema<DbaasLogsInput>,
+  input: __S(312, __c78, 0) as any as S.Schema<GetDbaasLogInputRequest>,
+  output: __S(313, __c78, 1) as any as S.Schema<DbaasLogsInput>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2847,8 +2875,8 @@ export const getDbaasLogInputConfigtestResult: API.OperationMethod<
   GetDbaasLogInputConfigtestResultError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(312, __c78, 0) as any as S.Schema<GetDbaasLogInputConfigtestResultRequest>,
-  output: __S(313, __c78, 1) as any as S.Schema<DbaasLogsTestResult>,
+  input: __S(316, __c79, 0) as any as S.Schema<GetDbaasLogInputConfigtestResultRequest>,
+  output: __S(317, __c79, 1) as any as S.Schema<DbaasLogsTestResult>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2864,8 +2892,8 @@ export const getDbaasLogInputConfigurationFlowgger: API.OperationMethod<
   GetDbaasLogInputConfigurationFlowggerError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(316, __c79, 0) as any as S.Schema<GetDbaasLogInputConfigurationFlowggerRequest>,
-  output: __S(317, __c79, 1) as any as S.Schema<DbaasLogsFlowggerConfiguration>,
+  input: __S(320, __c80, 0) as any as S.Schema<GetDbaasLogInputConfigurationFlowggerRequest>,
+  output: __S(321, __c80, 1) as any as S.Schema<DbaasLogsFlowggerConfiguration>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2881,8 +2909,8 @@ export const getDbaasLogInputConfigurationLogstash: API.OperationMethod<
   GetDbaasLogInputConfigurationLogstashError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c80, 0) as any as S.Schema<GetDbaasLogInputConfigurationLogstashRequest>,
-  output: __S(321, __c80, 1) as any as S.Schema<DbaasLogsLogstashConfiguration>,
+  input: __S(324, __c81, 0) as any as S.Schema<GetDbaasLogInputConfigurationLogstashRequest>,
+  output: __S(325, __c81, 1) as any as S.Schema<DbaasLogsLogstashConfiguration>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2898,8 +2926,8 @@ export const getDbaasLogInputEngine: API.OperationMethod<
   GetDbaasLogInputEngineError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(324, __c81, 0) as any as S.Schema<GetDbaasLogInputEngineRequest>,
-  output: __S(325, __c81, 1) as any as S.Schema<DbaasLogsEngine>,
+  input: __S(328, __c82, 0) as any as S.Schema<GetDbaasLogInputEngineRequest>,
+  output: __S(329, __c82, 1) as any as S.Schema<DbaasLogsEngine>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2915,8 +2943,8 @@ export const getDbaasLogInputEngineHelper: API.OperationMethod<
   GetDbaasLogInputEngineHelperError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(328, __c82, 0) as any as S.Schema<GetDbaasLogInputEngineHelperRequest>,
-  output: __S(331, __c82, 3) as any as S.Schema<DbaasLogsHelper>,
+  input: __S(332, __c83, 0) as any as S.Schema<GetDbaasLogInputEngineHelperRequest>,
+  output: __S(335, __c83, 3) as any as S.Schema<DbaasLogsHelper>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2932,8 +2960,8 @@ export const getDbaasLogMetrics: API.OperationMethod<
   GetDbaasLogMetricsError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(332, __c83, 0) as any as S.Schema<GetDbaasLogMetricsRequest>,
-  output: __S(333, __c83, 1) as any as S.Schema<DbaasLogsServiceMetric>,
+  input: __S(336, __c84, 0) as any as S.Schema<GetDbaasLogMetricsRequest>,
+  output: __S(337, __c84, 1) as any as S.Schema<DbaasLogsServiceMetric>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2949,8 +2977,8 @@ export const getDbaasLogOperation: API.OperationMethod<
   GetDbaasLogOperationError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c84, 0) as any as S.Schema<GetDbaasLogOperationRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(340, __c85, 0) as any as S.Schema<GetDbaasLogOperationRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2966,8 +2994,8 @@ export const getDbaasLogOutputGraylogDashboard: API.OperationMethod<
   GetDbaasLogOutputGraylogDashboardError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(344, __c86, 0) as any as S.Schema<GetDbaasLogOutputGraylogDashboardRequest>,
-  output: __S(345, __c86, 1) as any as S.Schema<DbaasLogsDashboard>,
+  input: __S(348, __c87, 0) as any as S.Schema<GetDbaasLogOutputGraylogDashboardRequest>,
+  output: __S(349, __c87, 1) as any as S.Schema<DbaasLogsDashboard>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -2983,8 +3011,8 @@ export const getDbaasLogOutputGraylogStream: API.OperationMethod<
   GetDbaasLogOutputGraylogStreamError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(348, __c87, 0) as any as S.Schema<GetDbaasLogOutputGraylogStreamRequest>,
-  output: __S(349, __c87, 1) as any as S.Schema<DbaasLogsStream>,
+  input: __S(352, __c88, 0) as any as S.Schema<GetDbaasLogOutputGraylogStreamRequest>,
+  output: __S(353, __c88, 1) as any as S.Schema<DbaasLogsStream>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3000,8 +3028,8 @@ export const getDbaasLogOutputGraylogStreamAlert: API.OperationMethod<
   GetDbaasLogOutputGraylogStreamAlertError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c88, 0) as any as S.Schema<GetDbaasLogOutputGraylogStreamAlertRequest>,
-  output: __S(353, __c88, 1) as any as S.Schema<DbaasLogsStreamAlertCondition>,
+  input: __S(356, __c89, 0) as any as S.Schema<GetDbaasLogOutputGraylogStreamAlertRequest>,
+  output: __S(357, __c89, 1) as any as S.Schema<DbaasLogsStreamAlertCondition>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3017,8 +3045,8 @@ export const getDbaasLogOutputGraylogStreamArchive: API.OperationMethod<
   GetDbaasLogOutputGraylogStreamArchiveError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(356, __c89, 0) as any as S.Schema<GetDbaasLogOutputGraylogStreamArchiveRequest>,
-  output: __S(357, __c89, 1) as any as S.Schema<DbaasLogsArchive>,
+  input: __S(360, __c90, 0) as any as S.Schema<GetDbaasLogOutputGraylogStreamArchiveRequest>,
+  output: __S(361, __c90, 1) as any as S.Schema<DbaasLogsArchive>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3034,8 +3062,8 @@ export const getDbaasLogOutputGraylogStreamRule: API.OperationMethod<
   GetDbaasLogOutputGraylogStreamRuleError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(360, __c90, 0) as any as S.Schema<GetDbaasLogOutputGraylogStreamRuleRequest>,
-  output: __S(361, __c90, 1) as any as S.Schema<DbaasLogsStreamRule>,
+  input: __S(364, __c91, 0) as any as S.Schema<GetDbaasLogOutputGraylogStreamRuleRequest>,
+  output: __S(365, __c91, 1) as any as S.Schema<DbaasLogsStreamRule>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3051,8 +3079,8 @@ export const getDbaasLogOutputGraylogStreamSubscription: API.OperationMethod<
   GetDbaasLogOutputGraylogStreamSubscriptionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(364, __c91, 0) as any as S.Schema<GetDbaasLogOutputGraylogStreamSubscriptionRequest>,
-  output: __S(365, __c91, 1) as any as S.Schema<DbaasLogsLogSubscription>,
+  input: __S(368, __c92, 0) as any as S.Schema<GetDbaasLogOutputGraylogStreamSubscriptionRequest>,
+  output: __S(369, __c92, 1) as any as S.Schema<DbaasLogsLogSubscription>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3068,8 +3096,8 @@ export const getDbaasLogOutputMetricTenant: API.OperationMethod<
   GetDbaasLogOutputMetricTenantError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(372, __c93, 0) as any as S.Schema<GetDbaasLogOutputMetricTenantRequest>,
-  output: __S(373, __c93, 1) as any as S.Schema<DbaasLogsMetricTenant>,
+  input: __S(376, __c94, 0) as any as S.Schema<GetDbaasLogOutputMetricTenantRequest>,
+  output: __S(377, __c94, 1) as any as S.Schema<DbaasLogsMetricTenant>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3085,8 +3113,8 @@ export const getDbaasLogOutputMetricTenantSubscription: API.OperationMethod<
   GetDbaasLogOutputMetricTenantSubscriptionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(376, __c94, 0) as any as S.Schema<GetDbaasLogOutputMetricTenantSubscriptionRequest>,
-  output: __S(377, __c94, 1) as any as S.Schema<DbaasLogsMetricSubscription>,
+  input: __S(380, __c95, 0) as any as S.Schema<GetDbaasLogOutputMetricTenantSubscriptionRequest>,
+  output: __S(381, __c95, 1) as any as S.Schema<DbaasLogsMetricSubscription>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3102,8 +3130,8 @@ export const getDbaasLogOutputOpensearchAlias: API.OperationMethod<
   GetDbaasLogOutputOpensearchAliasError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(380, __c95, 0) as any as S.Schema<GetDbaasLogOutputOpensearchAliasRequest>,
-  output: __S(381, __c95, 1) as any as S.Schema<DbaasLogsAlias>,
+  input: __S(384, __c96, 0) as any as S.Schema<GetDbaasLogOutputOpensearchAliasRequest>,
+  output: __S(385, __c96, 1) as any as S.Schema<DbaasLogsAlias>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3119,8 +3147,8 @@ export const getDbaasLogOutputOpensearchIndex: API.OperationMethod<
   GetDbaasLogOutputOpensearchIndexError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c96, 0) as any as S.Schema<GetDbaasLogOutputOpensearchIndexRequest>,
-  output: __S(385, __c96, 1) as any as S.Schema<DbaasLogsIndex>,
+  input: __S(388, __c97, 0) as any as S.Schema<GetDbaasLogOutputOpensearchIndexRequest>,
+  output: __S(389, __c97, 1) as any as S.Schema<DbaasLogsIndex>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3136,8 +3164,8 @@ export const getDbaasLogOutputOpensearchOsd: API.OperationMethod<
   GetDbaasLogOutputOpensearchOsdError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(392, __c98, 0) as any as S.Schema<GetDbaasLogOutputOpensearchOsdRequest>,
-  output: __S(393, __c98, 1) as any as S.Schema<DbaasLogsOsd>,
+  input: __S(396, __c99, 0) as any as S.Schema<GetDbaasLogOutputOpensearchOsdRequest>,
+  output: __S(397, __c99, 1) as any as S.Schema<DbaasLogsOsd>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3153,8 +3181,8 @@ export const getDbaasLogRole: API.OperationMethod<
   GetDbaasLogRoleError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(396, __c99, 0) as any as S.Schema<GetDbaasLogRoleRequest>,
-  output: __S(397, __c99, 1) as any as S.Schema<DbaasLogsRole>,
+  input: __S(400, __c100, 0) as any as S.Schema<GetDbaasLogRoleRequest>,
+  output: __S(401, __c100, 1) as any as S.Schema<DbaasLogsRole>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3170,8 +3198,8 @@ export const getDbaasLogRoleMember: API.OperationMethod<
   GetDbaasLogRoleMemberError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c100, 0) as any as S.Schema<GetDbaasLogRoleMemberRequest>,
-  output: __S(401, __c100, 1) as any as S.Schema<DbaasLogsMember>,
+  input: __S(404, __c101, 0) as any as S.Schema<GetDbaasLogRoleMemberRequest>,
+  output: __S(405, __c101, 1) as any as S.Schema<DbaasLogsMember>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3187,8 +3215,8 @@ export const getDbaasLogRolePermission: API.OperationMethod<
   GetDbaasLogRolePermissionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(404, __c101, 0) as any as S.Schema<GetDbaasLogRolePermissionRequest>,
-  output: __S(405, __c101, 1) as any as S.Schema<DbaasLogsPermission>,
+  input: __S(408, __c102, 0) as any as S.Schema<GetDbaasLogRolePermissionRequest>,
+  output: __S(409, __c102, 1) as any as S.Schema<DbaasLogsPermission>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3204,8 +3232,8 @@ export const getDbaasLogServiceInfos: API.OperationMethod<
   GetDbaasLogServiceInfosError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(408, __c102, 0) as any as S.Schema<GetDbaasLogServiceInfosRequest>,
-  output: __S(409, __c102, 1) as any as S.Schema<ServicesService>,
+  input: __S(412, __c103, 0) as any as S.Schema<GetDbaasLogServiceInfosRequest>,
+  output: __S(413, __c103, 1) as any as S.Schema<ServicesService>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3221,8 +3249,8 @@ export const getDbaasLogToken: API.OperationMethod<
   GetDbaasLogTokenError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c104, 0) as any as S.Schema<GetDbaasLogTokenRequest>,
-  output: __S(417, __c104, 1) as any as S.Schema<DbaasLogsToken>,
+  input: __S(420, __c105, 0) as any as S.Schema<GetDbaasLogTokenRequest>,
+  output: __S(421, __c105, 1) as any as S.Schema<DbaasLogsToken>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3238,8 +3266,8 @@ export const listDbaasLogCluster: API.OperationMethod<
   ListDbaasLogClusterError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(420, __c105, 0) as any as S.Schema<ListDbaasLogClusterRequest>,
-  output: __S(424, __c106, 0) as any as S.Schema<ListDbaasLogClusterResponse>,
+  input: __S(424, __c106, 0) as any as S.Schema<ListDbaasLogClusterRequest>,
+  output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogClusterResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3255,8 +3283,8 @@ export const listDbaasLogClusterRetention: API.OperationMethod<
   ListDbaasLogClusterRetentionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogClusterRetentionRequest>,
-  output: __S(424, __c106, 0) as any as S.Schema<ListDbaasLogClusterRetentionResponse>,
+  input: __S(432, __c108, 0) as any as S.Schema<ListDbaasLogClusterRetentionRequest>,
+  output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogClusterRetentionResponse>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3272,8 +3300,8 @@ export const listDbaasLogEncryptionKey: API.OperationMethod<
   ListDbaasLogEncryptionKeyError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c108, 0) as any as S.Schema<ListDbaasLogEncryptionKeyRequest>,
-  output: __S(424, __c106, 0) as any as S.Schema<ListDbaasLogEncryptionKeyResponse>,
+  input: __S(436, __c109, 0) as any as S.Schema<ListDbaasLogEncryptionKeyRequest>,
+  output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogEncryptionKeyResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3289,8 +3317,8 @@ export const listDbaasLogInput: API.OperationMethod<
   ListDbaasLogInputError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(436, __c109, 0) as any as S.Schema<ListDbaasLogInputRequest>,
-  output: __S(424, __c106, 0) as any as S.Schema<ListDbaasLogInputResponse>,
+  input: __S(440, __c110, 0) as any as S.Schema<ListDbaasLogInputRequest>,
+  output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogInputResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3306,8 +3334,8 @@ export const listDbaasLogInputAction: API.OperationMethod<
   ListDbaasLogInputActionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c112, 0) as any as S.Schema<ListDbaasLogInputActionRequest>,
-  output: __S(451, __c112, 3) as any as S.Schema<ListDbaasLogInputActionResponse>,
+  input: __S(452, __c113, 0) as any as S.Schema<ListDbaasLogInputActionRequest>,
+  output: __S(455, __c113, 3) as any as S.Schema<ListDbaasLogInputActionResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3323,8 +3351,8 @@ export const listDbaasLogInputEngine: API.OperationMethod<
   ListDbaasLogInputEngineError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(452, __c113, 0) as any as S.Schema<ListDbaasLogInputEngineRequest>,
-  output: __S(424, __c106, 0) as any as S.Schema<ListDbaasLogInputEngineResponse>,
+  input: __S(456, __c114, 0) as any as S.Schema<ListDbaasLogInputEngineRequest>,
+  output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogInputEngineResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3340,8 +3368,8 @@ export const listDbaasLogInputEngineHelper: API.OperationMethod<
   ListDbaasLogInputEngineHelperError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(456, __c114, 0) as any as S.Schema<ListDbaasLogInputEngineHelperRequest>,
-  output: __S(424, __c106, 0) as any as S.Schema<ListDbaasLogInputEngineHelperResponse>,
+  input: __S(460, __c115, 0) as any as S.Schema<ListDbaasLogInputEngineHelperRequest>,
+  output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogInputEngineHelperResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3357,8 +3385,8 @@ export const listDbaasLogInputUrl: API.OperationMethod<
   ListDbaasLogInputUrlError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(460, __c115, 0) as any as S.Schema<ListDbaasLogInputUrlRequest>,
-  output: __S(466, __c116, 2) as any as S.Schema<ListDbaasLogInputUrlResponse>,
+  input: __S(464, __c116, 0) as any as S.Schema<ListDbaasLogInputUrlRequest>,
+  output: __S(470, __c117, 2) as any as S.Schema<ListDbaasLogInputUrlResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3374,8 +3402,8 @@ export const listDbaasLogOperation: API.OperationMethod<
   ListDbaasLogOperationError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(468, __c117, 0) as any as S.Schema<ListDbaasLogOperationRequest>,
-  output: __S(424, __c106, 0) as any as S.Schema<ListDbaasLogOperationResponse>,
+  input: __S(472, __c118, 0) as any as S.Schema<ListDbaasLogOperationRequest>,
+  output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogOperationResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3391,8 +3419,8 @@ export const listDbaasLogOutputGraylogDashboard: API.OperationMethod<
   ListDbaasLogOutputGraylogDashboardError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(472, __c118, 0) as any as S.Schema<ListDbaasLogOutputGraylogDashboardRequest>,
-  output: __S(424, __c106, 0) as any as S.Schema<ListDbaasLogOutputGraylogDashboardResponse>,
+  input: __S(476, __c119, 0) as any as S.Schema<ListDbaasLogOutputGraylogDashboardRequest>,
+  output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogOutputGraylogDashboardResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3408,8 +3436,8 @@ export const listDbaasLogOutputGraylogDashboardUrl: API.OperationMethod<
   ListDbaasLogOutputGraylogDashboardUrlError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(476, __c119, 0) as any as S.Schema<ListDbaasLogOutputGraylogDashboardUrlRequest>,
-  output: __S(466, __c116, 2) as any as S.Schema<ListDbaasLogOutputGraylogDashboardUrlResponse>,
+  input: __S(480, __c120, 0) as any as S.Schema<ListDbaasLogOutputGraylogDashboardUrlRequest>,
+  output: __S(470, __c117, 2) as any as S.Schema<ListDbaasLogOutputGraylogDashboardUrlResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3425,8 +3453,8 @@ export const listDbaasLogOutputGraylogStream: API.OperationMethod<
   ListDbaasLogOutputGraylogStreamError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c120, 0) as any as S.Schema<ListDbaasLogOutputGraylogStreamRequest>,
-  output: __S(424, __c106, 0) as any as S.Schema<ListDbaasLogOutputGraylogStreamResponse>,
+  input: __S(484, __c121, 0) as any as S.Schema<ListDbaasLogOutputGraylogStreamRequest>,
+  output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogOutputGraylogStreamResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3442,8 +3470,8 @@ export const listDbaasLogOutputGraylogStreamAlert: API.OperationMethod<
   ListDbaasLogOutputGraylogStreamAlertError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(484, __c121, 0) as any as S.Schema<ListDbaasLogOutputGraylogStreamAlertRequest>,
-  output: __S(424, __c106, 0) as any as S.Schema<ListDbaasLogOutputGraylogStreamAlertResponse>,
+  input: __S(488, __c122, 0) as any as S.Schema<ListDbaasLogOutputGraylogStreamAlertRequest>,
+  output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogOutputGraylogStreamAlertResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3459,8 +3487,8 @@ export const listDbaasLogOutputGraylogStreamArchive: API.OperationMethod<
   ListDbaasLogOutputGraylogStreamArchiveError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(488, __c122, 0) as any as S.Schema<ListDbaasLogOutputGraylogStreamArchiveRequest>,
-  output: __S(424, __c106, 0) as any as S.Schema<ListDbaasLogOutputGraylogStreamArchiveResponse>,
+  input: __S(492, __c123, 0) as any as S.Schema<ListDbaasLogOutputGraylogStreamArchiveRequest>,
+  output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogOutputGraylogStreamArchiveResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3477,13 +3505,13 @@ export const listDbaasLogOutputGraylogStreamArchiveEncryptionKey: API.OperationM
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    496,
-    __c124,
+    500,
+    __c125,
     0,
   ) as any as S.Schema<ListDbaasLogOutputGraylogStreamArchiveEncryptionKeyRequest>,
   output: __S(
-    424,
-    __c106,
+    428,
+    __c107,
     0,
   ) as any as S.Schema<ListDbaasLogOutputGraylogStreamArchiveEncryptionKeyResponse>,
   errors: [NotFound, UnknownOvhError],
@@ -3501,8 +3529,8 @@ export const listDbaasLogOutputGraylogStreamRule: API.OperationMethod<
   ListDbaasLogOutputGraylogStreamRuleError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(500, __c125, 0) as any as S.Schema<ListDbaasLogOutputGraylogStreamRuleRequest>,
-  output: __S(424, __c106, 0) as any as S.Schema<ListDbaasLogOutputGraylogStreamRuleResponse>,
+  input: __S(504, __c126, 0) as any as S.Schema<ListDbaasLogOutputGraylogStreamRuleRequest>,
+  output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogOutputGraylogStreamRuleResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3518,10 +3546,10 @@ export const listDbaasLogOutputGraylogStreamSubscription: API.OperationMethod<
   ListDbaasLogOutputGraylogStreamSubscriptionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(504, __c126, 0) as any as S.Schema<ListDbaasLogOutputGraylogStreamSubscriptionRequest>,
+  input: __S(508, __c127, 0) as any as S.Schema<ListDbaasLogOutputGraylogStreamSubscriptionRequest>,
   output: __S(
-    424,
-    __c106,
+    428,
+    __c107,
     0,
   ) as any as S.Schema<ListDbaasLogOutputGraylogStreamSubscriptionResponse>,
   errors: [NotFound, UnknownOvhError],
@@ -3539,8 +3567,8 @@ export const listDbaasLogOutputGraylogStreamUrl: API.OperationMethod<
   ListDbaasLogOutputGraylogStreamUrlError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(508, __c127, 0) as any as S.Schema<ListDbaasLogOutputGraylogStreamUrlRequest>,
-  output: __S(466, __c116, 2) as any as S.Schema<ListDbaasLogOutputGraylogStreamUrlResponse>,
+  input: __S(512, __c128, 0) as any as S.Schema<ListDbaasLogOutputGraylogStreamUrlRequest>,
+  output: __S(470, __c117, 2) as any as S.Schema<ListDbaasLogOutputGraylogStreamUrlResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3556,8 +3584,8 @@ export const listDbaasLogOutputMetricTenant: API.OperationMethod<
   ListDbaasLogOutputMetricTenantError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c128, 0) as any as S.Schema<ListDbaasLogOutputMetricTenantRequest>,
-  output: __S(424, __c106, 0) as any as S.Schema<ListDbaasLogOutputMetricTenantResponse>,
+  input: __S(516, __c129, 0) as any as S.Schema<ListDbaasLogOutputMetricTenantRequest>,
+  output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogOutputMetricTenantResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3573,10 +3601,10 @@ export const listDbaasLogOutputMetricTenantSubscription: API.OperationMethod<
   ListDbaasLogOutputMetricTenantSubscriptionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(516, __c129, 0) as any as S.Schema<ListDbaasLogOutputMetricTenantSubscriptionRequest>,
+  input: __S(520, __c130, 0) as any as S.Schema<ListDbaasLogOutputMetricTenantSubscriptionRequest>,
   output: __S(
-    424,
-    __c106,
+    428,
+    __c107,
     0,
   ) as any as S.Schema<ListDbaasLogOutputMetricTenantSubscriptionResponse>,
   errors: [NotFound, UnknownOvhError],
@@ -3594,8 +3622,8 @@ export const listDbaasLogOutputMetricTenantUrl: API.OperationMethod<
   ListDbaasLogOutputMetricTenantUrlError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(520, __c130, 0) as any as S.Schema<ListDbaasLogOutputMetricTenantUrlRequest>,
-  output: __S(466, __c116, 2) as any as S.Schema<ListDbaasLogOutputMetricTenantUrlResponse>,
+  input: __S(524, __c131, 0) as any as S.Schema<ListDbaasLogOutputMetricTenantUrlRequest>,
+  output: __S(470, __c117, 2) as any as S.Schema<ListDbaasLogOutputMetricTenantUrlResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3611,8 +3639,8 @@ export const listDbaasLogOutputOpensearchAlias: API.OperationMethod<
   ListDbaasLogOutputOpensearchAliasError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(524, __c131, 0) as any as S.Schema<ListDbaasLogOutputOpensearchAliasRequest>,
-  output: __S(424, __c106, 0) as any as S.Schema<ListDbaasLogOutputOpensearchAliasResponse>,
+  input: __S(528, __c132, 0) as any as S.Schema<ListDbaasLogOutputOpensearchAliasRequest>,
+  output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogOutputOpensearchAliasResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3628,8 +3656,8 @@ export const listDbaasLogOutputOpensearchAliasIndex: API.OperationMethod<
   ListDbaasLogOutputOpensearchAliasIndexError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c132, 0) as any as S.Schema<ListDbaasLogOutputOpensearchAliasIndexRequest>,
-  output: __S(424, __c106, 0) as any as S.Schema<ListDbaasLogOutputOpensearchAliasIndexResponse>,
+  input: __S(532, __c133, 0) as any as S.Schema<ListDbaasLogOutputOpensearchAliasIndexRequest>,
+  output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogOutputOpensearchAliasIndexResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3645,8 +3673,8 @@ export const listDbaasLogOutputOpensearchAliasStream: API.OperationMethod<
   ListDbaasLogOutputOpensearchAliasStreamError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(532, __c133, 0) as any as S.Schema<ListDbaasLogOutputOpensearchAliasStreamRequest>,
-  output: __S(424, __c106, 0) as any as S.Schema<ListDbaasLogOutputOpensearchAliasStreamResponse>,
+  input: __S(536, __c134, 0) as any as S.Schema<ListDbaasLogOutputOpensearchAliasStreamRequest>,
+  output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogOutputOpensearchAliasStreamResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3662,8 +3690,8 @@ export const listDbaasLogOutputOpensearchAliasUrl: API.OperationMethod<
   ListDbaasLogOutputOpensearchAliasUrlError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c1, 0) as any as S.Schema<ListDbaasLogOutputOpensearchAliasUrlRequest>,
-  output: __S(466, __c116, 2) as any as S.Schema<ListDbaasLogOutputOpensearchAliasUrlResponse>,
+  input: __S(8, __c2, 0) as any as S.Schema<ListDbaasLogOutputOpensearchAliasUrlRequest>,
+  output: __S(470, __c117, 2) as any as S.Schema<ListDbaasLogOutputOpensearchAliasUrlResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3679,8 +3707,8 @@ export const listDbaasLogOutputOpensearchIndex: API.OperationMethod<
   ListDbaasLogOutputOpensearchIndexError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<ListDbaasLogOutputOpensearchIndexRequest>,
-  output: __S(424, __c106, 0) as any as S.Schema<ListDbaasLogOutputOpensearchIndexResponse>,
+  input: __S(12, __c3, 0) as any as S.Schema<ListDbaasLogOutputOpensearchIndexRequest>,
+  output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogOutputOpensearchIndexResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3696,8 +3724,8 @@ export const listDbaasLogOutputOpensearchIndexUrl: API.OperationMethod<
   ListDbaasLogOutputOpensearchIndexUrlError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<ListDbaasLogOutputOpensearchIndexUrlRequest>,
-  output: __S(466, __c116, 2) as any as S.Schema<ListDbaasLogOutputOpensearchIndexUrlResponse>,
+  input: __S(16, __c4, 0) as any as S.Schema<ListDbaasLogOutputOpensearchIndexUrlRequest>,
+  output: __S(470, __c117, 2) as any as S.Schema<ListDbaasLogOutputOpensearchIndexUrlResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3713,8 +3741,8 @@ export const listDbaasLogOutputOpensearchOsd: API.OperationMethod<
   ListDbaasLogOutputOpensearchOsdError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<ListDbaasLogOutputOpensearchOsdRequest>,
-  output: __S(424, __c106, 0) as any as S.Schema<ListDbaasLogOutputOpensearchOsdResponse>,
+  input: __S(20, __c5, 0) as any as S.Schema<ListDbaasLogOutputOpensearchOsdRequest>,
+  output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogOutputOpensearchOsdResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3730,8 +3758,8 @@ export const listDbaasLogOutputOpensearchOsdUrl: API.OperationMethod<
   ListDbaasLogOutputOpensearchOsdUrlError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<ListDbaasLogOutputOpensearchOsdUrlRequest>,
-  output: __S(466, __c116, 2) as any as S.Schema<ListDbaasLogOutputOpensearchOsdUrlResponse>,
+  input: __S(24, __c6, 0) as any as S.Schema<ListDbaasLogOutputOpensearchOsdUrlRequest>,
+  output: __S(470, __c117, 2) as any as S.Schema<ListDbaasLogOutputOpensearchOsdUrlResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3747,8 +3775,8 @@ export const listDbaasLogRole: API.OperationMethod<
   ListDbaasLogRoleError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<ListDbaasLogRoleRequest>,
-  output: __S(424, __c106, 0) as any as S.Schema<ListDbaasLogRoleResponse>,
+  input: __S(28, __c7, 0) as any as S.Schema<ListDbaasLogRoleRequest>,
+  output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogRoleResponse>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3764,8 +3792,8 @@ export const listDbaasLogRoleMember: API.OperationMethod<
   ListDbaasLogRoleMemberError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<ListDbaasLogRoleMemberRequest>,
-  output: __S(424, __c106, 0) as any as S.Schema<ListDbaasLogRoleMemberResponse>,
+  input: __S(32, __c8, 0) as any as S.Schema<ListDbaasLogRoleMemberRequest>,
+  output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogRoleMemberResponse>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3781,8 +3809,8 @@ export const listDbaasLogRolePermission: API.OperationMethod<
   ListDbaasLogRolePermissionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c8, 0) as any as S.Schema<ListDbaasLogRolePermissionRequest>,
-  output: __S(424, __c106, 0) as any as S.Schema<ListDbaasLogRolePermissionResponse>,
+  input: __S(36, __c9, 0) as any as S.Schema<ListDbaasLogRolePermissionRequest>,
+  output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogRolePermissionResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3798,8 +3826,8 @@ export const listDbaasLogs: API.OperationMethod<
   ListDbaasLogsError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(38, __c9, 2) as any as S.Schema<ListDbaasLogsRequest>,
-  output: __S(424, __c106, 0) as any as S.Schema<ListDbaasLogsResponse>,
+  input: __S(42, __c10, 2) as any as S.Schema<ListDbaasLogsRequest>,
+  output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogsResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3815,8 +3843,8 @@ export const listDbaasLogToken: API.OperationMethod<
   ListDbaasLogTokenError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(44, __c11, 0) as any as S.Schema<ListDbaasLogTokenRequest>,
-  output: __S(424, __c106, 0) as any as S.Schema<ListDbaasLogTokenResponse>,
+  input: __S(48, __c12, 0) as any as S.Schema<ListDbaasLogTokenRequest>,
+  output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogTokenResponse>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3832,8 +3860,8 @@ export const listDbaasLogUrl: API.OperationMethod<
   ListDbaasLogUrlError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(52, __c13, 0) as any as S.Schema<ListDbaasLogUrlRequest>,
-  output: __S(466, __c116, 2) as any as S.Schema<ListDbaasLogUrlResponse>,
+  input: __S(56, __c14, 0) as any as S.Schema<ListDbaasLogUrlRequest>,
+  output: __S(470, __c117, 2) as any as S.Schema<ListDbaasLogUrlResponse>,
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3849,8 +3877,8 @@ export const putDbaasLog: API.OperationMethod<
   PutDbaasLogError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c14, 0) as any as S.Schema<PutDbaasLogRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(60, __c15, 0) as any as S.Schema<PutDbaasLogRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3866,8 +3894,8 @@ export const putDbaasLogCluster: API.OperationMethod<
   PutDbaasLogClusterError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(60, __c15, 0) as any as S.Schema<PutDbaasLogClusterRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(64, __c16, 0) as any as S.Schema<PutDbaasLogClusterRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3883,8 +3911,8 @@ export const putDbaasLogInput: API.OperationMethod<
   PutDbaasLogInputError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c16, 0) as any as S.Schema<PutDbaasLogInputRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(68, __c17, 0) as any as S.Schema<PutDbaasLogInputRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3900,8 +3928,8 @@ export const putDbaasLogInputConfigurationFlowgger: API.OperationMethod<
   PutDbaasLogInputConfigurationFlowggerError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(68, __c17, 0) as any as S.Schema<PutDbaasLogInputConfigurationFlowggerRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(72, __c18, 0) as any as S.Schema<PutDbaasLogInputConfigurationFlowggerRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3917,8 +3945,8 @@ export const putDbaasLogInputConfigurationLogstash: API.OperationMethod<
   PutDbaasLogInputConfigurationLogstashError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c18, 0) as any as S.Schema<PutDbaasLogInputConfigurationLogstashRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(76, __c19, 0) as any as S.Schema<PutDbaasLogInputConfigurationLogstashRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3934,8 +3962,8 @@ export const putDbaasLogOutputGraylogDashboard: API.OperationMethod<
   PutDbaasLogOutputGraylogDashboardError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(76, __c19, 0) as any as S.Schema<PutDbaasLogOutputGraylogDashboardRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(80, __c20, 0) as any as S.Schema<PutDbaasLogOutputGraylogDashboardRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3951,8 +3979,8 @@ export const putDbaasLogOutputGraylogStream: API.OperationMethod<
   PutDbaasLogOutputGraylogStreamError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c20, 0) as any as S.Schema<PutDbaasLogOutputGraylogStreamRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(84, __c21, 0) as any as S.Schema<PutDbaasLogOutputGraylogStreamRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3968,8 +3996,8 @@ export const putDbaasLogOutputGraylogStreamAlert: API.OperationMethod<
   PutDbaasLogOutputGraylogStreamAlertError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(84, __c21, 0) as any as S.Schema<PutDbaasLogOutputGraylogStreamAlertRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(88, __c22, 0) as any as S.Schema<PutDbaasLogOutputGraylogStreamAlertRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -3985,8 +4013,8 @@ export const putDbaasLogOutputMetricTenant: API.OperationMethod<
   PutDbaasLogOutputMetricTenantError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c22, 0) as any as S.Schema<PutDbaasLogOutputMetricTenantRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(92, __c23, 0) as any as S.Schema<PutDbaasLogOutputMetricTenantRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -4002,8 +4030,8 @@ export const putDbaasLogOutputOpensearchAlias: API.OperationMethod<
   PutDbaasLogOutputOpensearchAliasError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c24, 0) as any as S.Schema<PutDbaasLogOutputOpensearchAliasRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(100, __c25, 0) as any as S.Schema<PutDbaasLogOutputOpensearchAliasRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -4019,8 +4047,8 @@ export const putDbaasLogOutputOpensearchIndex: API.OperationMethod<
   PutDbaasLogOutputOpensearchIndexError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(100, __c25, 0) as any as S.Schema<PutDbaasLogOutputOpensearchIndexRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(104, __c26, 0) as any as S.Schema<PutDbaasLogOutputOpensearchIndexRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -4036,8 +4064,8 @@ export const putDbaasLogOutputOpensearchOsd: API.OperationMethod<
   PutDbaasLogOutputOpensearchOsdError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c26, 0) as any as S.Schema<PutDbaasLogOutputOpensearchOsdRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(108, __c27, 0) as any as S.Schema<PutDbaasLogOutputOpensearchOsdRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -4053,8 +4081,8 @@ export const putDbaasLogRole: API.OperationMethod<
   PutDbaasLogRoleError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(108, __c27, 0) as any as S.Schema<PutDbaasLogRoleRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(112, __c28, 0) as any as S.Schema<PutDbaasLogRoleRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -4070,8 +4098,8 @@ export const putDbaasLogRoleMember: API.OperationMethod<
   PutDbaasLogRoleMemberError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c28, 0) as any as S.Schema<PutDbaasLogRoleMemberRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(116, __c29, 0) as any as S.Schema<PutDbaasLogRoleMemberRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -4087,8 +4115,8 @@ export const putDbaasLogServiceInfos: API.OperationMethod<
   PutDbaasLogServiceInfosError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(116, __c29, 0) as any as S.Schema<PutDbaasLogServiceInfosRequest>,
-  output: __S(40, __c10, 0) as any as S.Schema<PutDbaasLogServiceInfosResponse>,
+  input: __S(120, __c30, 0) as any as S.Schema<PutDbaasLogServiceInfosRequest>,
+  output: __S(44, __c11, 0) as any as S.Schema<PutDbaasLogServiceInfosResponse>,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -4104,8 +4132,8 @@ export const restartDbaasLogsInput: API.OperationMethod<
   RestartDbaasLogsInputError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c30, 0) as any as S.Schema<RestartDbaasLogsInputRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(124, __c31, 0) as any as S.Schema<RestartDbaasLogsInputRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -4121,8 +4149,8 @@ export const startDbaasLogsInput: API.OperationMethod<
   StartDbaasLogsInputError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(124, __c31, 0) as any as S.Schema<StartDbaasLogsInputRequest>,
-  output: __S(248, __c62, 0) as any as S.Schema<DbaasLogsOperation>,
+  input: __S(128, __c32, 0) as any as S.Schema<StartDbaasLogsInputRequest>,
+  output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
@@ -4136,6 +4164,17 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          class: S.optional(S.String),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Error404Body" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           serviceName: S.String.pipe(T.Label()),
           coldStorageCompression: S.optional(S.NullOr(S.String)),
           coldStorageContent: S.optional(S.NullOr(S.String)),
@@ -4143,7 +4182,7 @@ function __c0(j: number): any {
           coldStorageNotifyEnabled: S.optional(S.NullOr(S.Boolean)),
           coldStorageRetention: S.optional(S.NullOr(S.Number)),
           description: S.String,
-          encryptionKeysIds: S.optional(S.NullOr(__S(296, __c74, 0))),
+          encryptionKeysIds: S.optional(S.NullOr(__S(300, __c75, 0))),
           indexingEnabled: S.optional(S.NullOr(S.Boolean)),
           indexingMaxSize: S.optional(S.NullOr(S.Number)),
           indexingNotifyEnabled: S.optional(S.NullOr(S.Boolean)),
@@ -4162,7 +4201,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogOutputGraylogStreamRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4179,7 +4218,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "ListDbaasLogOutputOpensearchAliasUrlRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4196,7 +4235,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "ListDbaasLogOutputOpensearchIndexRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4213,7 +4252,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "ListDbaasLogOutputOpensearchIndexUrlRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4229,7 +4268,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "ListDbaasLogOutputOpensearchOsdRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4246,7 +4285,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "ListDbaasLogOutputOpensearchOsdUrlRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4257,7 +4296,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "ListDbaasLogRoleRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4274,7 +4313,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "ListDbaasLogRoleMemberRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4291,27 +4330,27 @@ function __c8(j: number): any {
       ).annotate({ identifier: "ListDbaasLogRolePermissionRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(40, __c10, 0));
+      return S.Array(__S(44, __c11, 0));
     case 1:
-      return S.Record(S.String, __S(36, __c9, 0));
+      return S.Record(S.String, __S(40, __c10, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          iamTags: S.optional(__S(37, __c9, 1).pipe(T.Query())),
+          iamTags: S.optional(__S(41, __c10, 1).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/dbaas/logs", code: 200 })),
       ).annotate({ identifier: "ListDbaasLogsRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "IamResourceTagFilterInput" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4322,7 +4361,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "ListDbaasLogTokenRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4351,7 +4390,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogOutputGraylogStreamAlertRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4361,7 +4400,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "ListDbaasLogUrlRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4373,16 +4412,16 @@ function __c14(j: number): any {
       ).annotate({ identifier: "PutDbaasLogRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           serviceName: S.String.pipe(T.Label()),
           clusterId: S.String.pipe(T.Label()),
-          archiveAllowedNetworks: S.optional(S.NullOr(__S(296, __c74, 0))),
-          directInputAllowedNetworks: S.optional(S.NullOr(__S(296, __c74, 0))),
-          queryAllowedNetworks: S.optional(S.NullOr(__S(296, __c74, 0))),
+          archiveAllowedNetworks: S.optional(S.NullOr(__S(300, __c75, 0))),
+          directInputAllowedNetworks: S.optional(S.NullOr(__S(300, __c75, 0))),
+          queryAllowedNetworks: S.optional(S.NullOr(__S(300, __c75, 0))),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -4393,14 +4432,14 @@ function __c15(j: number): any {
       ).annotate({ identifier: "PutDbaasLogClusterRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           serviceName: S.String.pipe(T.Label()),
           inputId: S.String.pipe(T.Label()),
-          allowedNetworks: S.optional(S.NullOr(__S(296, __c74, 0))),
+          allowedNetworks: S.optional(S.NullOr(__S(300, __c75, 0))),
           autoscale: S.optional(S.NullOr(S.Boolean)),
           description: S.String,
           engineId: S.String,
@@ -4417,7 +4456,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "PutDbaasLogInputRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4436,7 +4475,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "PutDbaasLogInputConfigurationFlowggerRequest" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4456,7 +4495,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "PutDbaasLogInputConfigurationLogstashRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4475,7 +4514,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "PutDbaasLogOutputGraylogDashboardRequest" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4488,7 +4527,7 @@ function __c20(j: number): any {
           coldStorageNotifyEnabled: S.optional(S.NullOr(S.Boolean)),
           coldStorageRetention: S.optional(S.NullOr(S.Number)),
           description: S.String,
-          encryptionKeysIds: S.optional(S.NullOr(__S(296, __c74, 0))),
+          encryptionKeysIds: S.optional(S.NullOr(__S(300, __c75, 0))),
           indexingEnabled: S.optional(S.NullOr(S.Boolean)),
           indexingMaxSize: S.optional(S.NullOr(S.Number)),
           indexingNotifyEnabled: S.optional(S.NullOr(S.Boolean)),
@@ -4505,7 +4544,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "PutDbaasLogOutputGraylogStreamRequest" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4535,7 +4574,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "PutDbaasLogOutputGraylogStreamAlertRequest" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4556,7 +4595,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "PutDbaasLogOutputMetricTenantRequest" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4574,7 +4613,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogOutputGraylogStreamArchiveUrlRequest" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4592,7 +4631,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "PutDbaasLogOutputOpensearchAliasRequest" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4611,7 +4650,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "PutDbaasLogOutputOpensearchIndexRequest" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4629,7 +4668,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "PutDbaasLogOutputOpensearchOsdRequest" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4644,7 +4683,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "PutDbaasLogRoleRequest" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4663,20 +4702,20 @@ function __c28(j: number): any {
       ).annotate({ identifier: "PutDbaasLogRoleMemberRequest" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           serviceName: S.String.pipe(T.Label()),
-          renew: S.optional(S.NullOr(__S(412, __c103, 0))),
+          renew: S.optional(S.NullOr(__S(416, __c104, 0))),
         }).pipe(
           T.Http({ method: "PUT", uri: "/dbaas/logs/{serviceName}/serviceInfos", code: 200 }),
         ),
       ).annotate({ identifier: "PutDbaasLogServiceInfosRequest" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4693,7 +4732,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "RestartDbaasLogsInputRequest" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4710,7 +4749,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "StartDbaasLogsInputRequest" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4731,7 +4770,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogOutputGraylogStreamRuleRequest" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4751,7 +4790,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogOutputMetricTenantRequest" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4769,7 +4808,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogOutputOpensearchAliasRequest" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4787,7 +4826,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogOutputOpensearchAliasIndexRequest" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4805,7 +4844,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogOutputOpensearchAliasStreamRequest" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4825,7 +4864,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogOutputOpensearchIndexRequest" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4842,7 +4881,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogOutputOpensearchOsdRequest" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4854,7 +4893,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogRoleRequest" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4873,7 +4912,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogRoleMemberRequest" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4891,7 +4930,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogRolePermissionAliasRequest" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4910,7 +4949,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogRolePermissionDashboardRequest" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4929,7 +4968,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogRolePermissionIndexRequest" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4948,7 +4987,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogRolePermissionOsdRequest" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4966,7 +5005,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogRolePermissionStreamRequest" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4978,7 +5017,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogTokenRequest" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4995,7 +5034,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogUserChangePasswordRequest" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5012,7 +5051,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "DeleteDbaasLogEncryptionKeyRequest" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5026,18 +5065,18 @@ function __c49(j: number): any {
         ),
       ).annotate({ identifier: "CreateDbaasLogChangeContactRequest" });
     case 1:
-      return S.suspend(() => __S(200, __c50, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(204, __c51, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "CreateDbaasLogChangeContactResponse",
       });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5050,7 +5089,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "DeleteDbaasLogInputRequest" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5067,7 +5106,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "DeleteDbaasLogOutputGraylogDashboardRequest" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5084,7 +5123,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "DeleteDbaasLogOutputGraylogStreamRequest" });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5102,7 +5141,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "DeleteDbaasLogOutputGraylogStreamAlertRequest" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5120,7 +5159,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "DeleteDbaasLogOutputGraylogStreamRuleRequest" });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5138,7 +5177,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "DeleteDbaasLogOutputGraylogStreamSubscriptionRequest" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5155,7 +5194,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "DeleteDbaasLogOutputMetricTenantRequest" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5173,7 +5212,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "DeleteDbaasLogOutputMetricTenantSubscriptionRequest" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5190,7 +5229,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "DeleteDbaasLogOutputOpensearchAliasRequest" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5208,7 +5247,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "DeleteDbaasLogOutputOpensearchAliasIndexRequest" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5223,7 +5262,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogEncryptionKeyRequest" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5248,7 +5287,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "DbaasLogsOperation" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5266,7 +5305,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "DeleteDbaasLogOutputOpensearchAliasStreamRequest" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5283,7 +5322,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "DeleteDbaasLogOutputOpensearchIndexRequest" });
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5300,7 +5339,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "DeleteDbaasLogOutputOpensearchOsdRequest" });
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5313,7 +5352,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "DeleteDbaasLogRoleRequest" });
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5331,7 +5370,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "DeleteDbaasLogRoleMemberRequest" });
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5349,7 +5388,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "DeleteDbaasLogRolePermissionRequest" });
   }
 }
-function __c69(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5362,7 +5401,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "DeleteDbaasLogTokenRequest" });
   }
 }
-function __c70(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5382,7 +5421,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "DuplicateDbaasLogsOutputGraylogDashboardRequest" });
   }
 }
-function __c71(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5397,7 +5436,7 @@ function __c71(j: number): any {
         S.Struct({
           displayName: S.optional(S.NullOr(S.String)),
           id: S.optional(S.String),
-          tags: S.optional(S.NullOr(__S(285, __c71, 1))),
+          tags: S.optional(S.NullOr(__S(289, __c72, 1))),
           urn: S.optional(S.String),
         }),
       ).annotate({ identifier: "IamResourceMetadata" });
@@ -5406,7 +5445,7 @@ function __c71(j: number): any {
         S.Struct({
           createdAt: S.optional(S.String),
           displayName: S.optional(S.NullOr(S.String)),
-          iam: S.optional(S.NullOr(__S(286, __c71, 2))),
+          iam: S.optional(S.NullOr(__S(290, __c72, 2))),
           isClusterOwner: S.optional(S.Boolean),
           isIamEnabled: S.optional(S.Boolean),
           plan: S.optional(S.String),
@@ -5418,7 +5457,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "DbaasLogsServiceWithIAM" });
   }
 }
-function __c72(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5436,30 +5475,30 @@ function __c72(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          archiveAllowedNetworks: S.optional(__S(296, __c74, 0)),
+          archiveAllowedNetworks: S.optional(__S(300, __c75, 0)),
           certificationLevel: S.optional(S.String),
           clusterId: S.optional(S.String),
           clusterType: S.optional(S.String),
           dedicatedInputPEM: S.optional(S.String),
           defaultRetentionId: S.optional(S.String),
-          directInputAllowedNetworks: S.optional(__S(296, __c74, 0)),
+          directInputAllowedNetworks: S.optional(__S(300, __c75, 0)),
           directInputPEM: S.optional(S.String),
           hostname: S.optional(S.String),
           isDefault: S.optional(S.Boolean),
           isUnlocked: S.optional(S.Boolean),
-          queryAllowedNetworks: S.optional(__S(296, __c74, 0)),
+          queryAllowedNetworks: S.optional(__S(300, __c75, 0)),
           region: S.optional(S.String),
         }),
       ).annotate({ identifier: "DbaasLogsCluster" });
   }
 }
-function __c73(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           serviceName: S.String.pipe(T.Label()),
-          allowedNetworks: S.optional(S.NullOr(__S(296, __c74, 0))),
+          allowedNetworks: S.optional(S.NullOr(__S(300, __c75, 0))),
           autoscale: S.optional(S.NullOr(S.Boolean)),
           description: S.String,
           engineId: S.String,
@@ -5474,13 +5513,13 @@ function __c73(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogInputRequest" });
   }
 }
-function __c74(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c75(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5507,7 +5546,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "DbaasLogsClusterRetention" });
   }
 }
-function __c76(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5538,7 +5577,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "DbaasLogsEncryptionKey" });
   }
 }
-function __c77(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5552,7 +5591,7 @@ function __c77(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          allowedNetworks: S.optional(S.NullOr(__S(296, __c74, 0))),
+          allowedNetworks: S.optional(S.NullOr(__S(300, __c75, 0))),
           autoscale: S.optional(S.NullOr(S.Boolean)),
           createdAt: S.optional(S.String),
           description: S.optional(S.String),
@@ -5575,7 +5614,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "DbaasLogsInput" });
   }
 }
-function __c78(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5601,7 +5640,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "DbaasLogsTestResult" });
   }
 }
-function __c79(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5625,7 +5664,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "DbaasLogsFlowggerConfiguration" });
   }
 }
-function __c80(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5650,7 +5689,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "DbaasLogsLogstashConfiguration" });
   }
 }
-function __c81(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5676,7 +5715,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "DbaasLogsEngine" });
   }
 }
-function __c82(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5700,20 +5739,20 @@ function __c82(j: number): any {
         }),
       ).annotate({ identifier: "DbaasLogsHelperSection" });
     case 2:
-      return S.Array(__S(329, __c82, 1));
+      return S.Array(__S(333, __c83, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
           engineId: S.optional(S.String),
           helperId: S.optional(S.String),
-          sections: S.optional(__S(330, __c82, 2)),
+          sections: S.optional(__S(334, __c83, 2)),
           title: S.optional(S.String),
         }),
       ).annotate({ identifier: "DbaasLogsHelper" });
   }
 }
-function __c83(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5730,7 +5769,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "DbaasLogsServiceMetric" });
   }
 }
-function __c84(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5747,7 +5786,7 @@ function __c84(j: number): any {
       ).annotate({ identifier: "GetDbaasLogOperationRequest" });
   }
 }
-function __c85(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5764,7 +5803,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogInputConfigtestRequest" });
   }
 }
-function __c86(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5792,7 +5831,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "DbaasLogsDashboard" });
   }
 }
-function __c87(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5819,7 +5858,7 @@ function __c87(j: number): any {
           coldStorageRetention: S.optional(S.NullOr(S.Number)),
           createdAt: S.optional(S.String),
           description: S.optional(S.String),
-          encryptionKeysIds: S.optional(S.NullOr(__S(296, __c74, 0))),
+          encryptionKeysIds: S.optional(S.NullOr(__S(300, __c75, 0))),
           indexingCurrentSize: S.optional(S.NullOr(S.Number)),
           indexingEnabled: S.optional(S.NullOr(S.Boolean)),
           indexingMaxSize: S.optional(S.NullOr(S.Number)),
@@ -5839,7 +5878,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "DbaasLogsStream" });
   }
 }
-function __c88(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5875,7 +5914,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "DbaasLogsStreamAlertCondition" });
   }
 }
-function __c89(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5906,7 +5945,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "DbaasLogsArchive" });
   }
 }
-function __c90(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5934,7 +5973,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "DbaasLogsStreamRule" });
   }
 }
-function __c91(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5955,7 +5994,7 @@ function __c91(j: number): any {
         S.Struct({
           createdAt: S.optional(S.String),
           kind: S.optional(S.String),
-          resource: S.optional(__S(368, __c92, 0)),
+          resource: S.optional(__S(372, __c93, 0)),
           serviceName: S.optional(S.String),
           streamId: S.optional(S.String),
           subscriptionId: S.optional(S.String),
@@ -5964,7 +6003,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "DbaasLogsLogSubscription" });
   }
 }
-function __c92(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5975,7 +6014,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "DbaasLogsLogSubscriptionResource" });
   }
 }
-function __c93(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6005,7 +6044,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "DbaasLogsMetricTenant" });
   }
 }
-function __c94(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6026,7 +6065,7 @@ function __c94(j: number): any {
         S.Struct({
           createdAt: S.optional(S.String),
           kind: S.optional(S.String),
-          resource: S.optional(__S(368, __c92, 0)),
+          resource: S.optional(__S(372, __c93, 0)),
           serviceName: S.optional(S.String),
           subscriptionId: S.optional(S.String),
           tenantId: S.optional(S.String),
@@ -6035,7 +6074,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "DbaasLogsMetricSubscription" });
   }
 }
-function __c95(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6065,7 +6104,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "DbaasLogsAlias" });
   }
 }
-function __c96(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6097,7 +6136,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "DbaasLogsIndex" });
   }
 }
-function __c97(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6114,7 +6153,7 @@ function __c97(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogInputEndRequest" });
   }
 }
-function __c98(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6143,7 +6182,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "DbaasLogsOsd" });
   }
 }
-function __c99(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6168,7 +6207,7 @@ function __c99(j: number): any {
       ).annotate({ identifier: "DbaasLogsRole" });
   }
 }
-function __c100(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6194,7 +6233,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "DbaasLogsMember" });
   }
 }
-function __c101(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6224,7 +6263,7 @@ function __c101(j: number): any {
       ).annotate({ identifier: "DbaasLogsPermission" });
   }
 }
-function __c102(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6245,8 +6284,8 @@ function __c102(j: number): any {
           domain: S.optional(S.String),
           engagedUpTo: S.optional(S.NullOr(S.String)),
           expiration: S.optional(S.String),
-          possibleRenewPeriod: S.optional(S.NullOr(__S(200, __c50, 0))),
-          renew: S.optional(S.NullOr(__S(412, __c103, 0))),
+          possibleRenewPeriod: S.optional(S.NullOr(__S(204, __c51, 0))),
+          renew: S.optional(S.NullOr(__S(416, __c104, 0))),
           renewalType: S.optional(S.String),
           serviceId: S.optional(S.Number),
           status: S.optional(S.String),
@@ -6254,7 +6293,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "ServicesService" });
   }
 }
-function __c103(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6268,7 +6307,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "ServiceRenewType" });
   }
 }
-function __c104(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6292,7 +6331,7 @@ function __c104(j: number): any {
       ).annotate({ identifier: "DbaasLogsToken" });
   }
 }
-function __c105(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6303,15 +6342,15 @@ function __c105(j: number): any {
       ).annotate({ identifier: "ListDbaasLogClusterRequest" });
   }
 }
-function __c106(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(296, __c74, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(300, __c75, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListDbaasLogClusterResponse",
       });
   }
 }
-function __c107(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6328,7 +6367,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "ListDbaasLogClusterRetentionRequest" });
   }
 }
-function __c108(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6341,7 +6380,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "ListDbaasLogEncryptionKeyRequest" });
   }
 }
-function __c109(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6352,7 +6391,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "ListDbaasLogInputRequest" });
   }
 }
-function __c110(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6369,7 +6408,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogInputLogUrlRequest" });
   }
 }
-function __c111(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6380,7 +6419,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "DbaasLogsTemporaryLogsLink" });
   }
 }
-function __c112(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6403,14 +6442,14 @@ function __c112(j: number): any {
         }),
       ).annotate({ identifier: "DbaasLogsInputAction" });
     case 2:
-      return S.Array(__S(449, __c112, 1));
+      return S.Array(__S(453, __c113, 1));
     case 3:
-      return S.suspend(() => __S(450, __c112, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(454, __c113, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListDbaasLogInputActionResponse",
       });
   }
 }
-function __c113(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6422,7 +6461,7 @@ function __c113(j: number): any {
       ).annotate({ identifier: "ListDbaasLogInputEngineRequest" });
   }
 }
-function __c114(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6439,7 +6478,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "ListDbaasLogInputEngineHelperRequest" });
   }
 }
-function __c115(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6456,7 +6495,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "ListDbaasLogInputUrlRequest" });
   }
 }
-function __c116(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6466,14 +6505,14 @@ function __c116(j: number): any {
         }),
       ).annotate({ identifier: "DbaasLogsUrl" });
     case 1:
-      return S.Array(__S(464, __c116, 0));
+      return S.Array(__S(468, __c117, 0));
     case 2:
-      return S.suspend(() => __S(465, __c116, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(469, __c117, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListDbaasLogInputUrlResponse",
       });
   }
 }
-function __c117(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6483,7 +6522,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "ListDbaasLogOperationRequest" });
   }
 }
-function __c118(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6500,7 +6539,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "ListDbaasLogOutputGraylogDashboardRequest" });
   }
 }
-function __c119(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6517,7 +6556,7 @@ function __c119(j: number): any {
       ).annotate({ identifier: "ListDbaasLogOutputGraylogDashboardUrlRequest" });
   }
 }
-function __c120(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6534,7 +6573,7 @@ function __c120(j: number): any {
       ).annotate({ identifier: "ListDbaasLogOutputGraylogStreamRequest" });
   }
 }
-function __c121(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6551,7 +6590,7 @@ function __c121(j: number): any {
       ).annotate({ identifier: "ListDbaasLogOutputGraylogStreamAlertRequest" });
   }
 }
-function __c122(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6568,7 +6607,7 @@ function __c122(j: number): any {
       ).annotate({ identifier: "ListDbaasLogOutputGraylogStreamArchiveRequest" });
   }
 }
-function __c123(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6586,7 +6625,7 @@ function __c123(j: number): any {
       ).annotate({ identifier: "CreateDbaasLogOutputGraylogDashboardRequest" });
   }
 }
-function __c124(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6604,7 +6643,7 @@ function __c124(j: number): any {
       ).annotate({ identifier: "ListDbaasLogOutputGraylogStreamArchiveEncryptionKeyRequest" });
   }
 }
-function __c125(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6621,7 +6660,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "ListDbaasLogOutputGraylogStreamRuleRequest" });
   }
 }
-function __c126(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6640,7 +6679,7 @@ function __c126(j: number): any {
       ).annotate({ identifier: "ListDbaasLogOutputGraylogStreamSubscriptionRequest" });
   }
 }
-function __c127(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6657,7 +6696,7 @@ function __c127(j: number): any {
       ).annotate({ identifier: "ListDbaasLogOutputGraylogStreamUrlRequest" });
   }
 }
-function __c128(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6673,7 +6712,7 @@ function __c128(j: number): any {
       ).annotate({ identifier: "ListDbaasLogOutputMetricTenantRequest" });
   }
 }
-function __c129(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6692,7 +6731,7 @@ function __c129(j: number): any {
       ).annotate({ identifier: "ListDbaasLogOutputMetricTenantSubscriptionRequest" });
   }
 }
-function __c130(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6709,7 +6748,7 @@ function __c130(j: number): any {
       ).annotate({ identifier: "ListDbaasLogOutputMetricTenantUrlRequest" });
   }
 }
-function __c131(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6726,7 +6765,7 @@ function __c131(j: number): any {
       ).annotate({ identifier: "ListDbaasLogOutputOpensearchAliasRequest" });
   }
 }
-function __c132(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6743,7 +6782,7 @@ function __c132(j: number): any {
       ).annotate({ identifier: "ListDbaasLogOutputOpensearchAliasIndexRequest" });
   }
 }
-function __c133(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

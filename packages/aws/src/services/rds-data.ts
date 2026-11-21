@@ -125,7 +125,7 @@ export class DatabaseUnavailableException
     "DatabaseUnavailableException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(504),
-  ).pipe(C.withTimeoutError) {}
+  ).pipe(C.withTimeoutError, C.withRetryableError) {}
 export class ForbiddenException
   extends /*@__PURE__*/ S.TaggedError<ForbiddenException>()(
     "ForbiddenException",
@@ -143,7 +143,7 @@ export class InternalServerErrorException
     "InternalServerErrorException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InvalidResourceStateException
   extends /*@__PURE__*/ S.TaggedError<InvalidResourceStateException>()(
     "InvalidResourceStateException",
@@ -173,7 +173,7 @@ export class ServiceUnavailableError
     "ServiceUnavailableError",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(503),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class StatementTimeoutException
   extends /*@__PURE__*/ S.TaggedError<StatementTimeoutException>()(
     "StatementTimeoutException",
@@ -202,14 +202,14 @@ export type ParameterName = string;
 export type BoxedBoolean = boolean;
 export type BoxedLong = number;
 export type BoxedDouble = number;
-export type BooleanArray = boolean[];
-export type LongArray = number[];
-export type DoubleArray = number[];
-export type StringArray = string[];
-export type ArrayOfArray = ArrayValue[];
+export type BooleanArray = (boolean | null)[];
+export type LongArray = (number | null)[];
+export type DoubleArray = (number | null)[];
+export type StringArray = (string | null)[];
+export type ArrayOfArray = (ArrayValue | null)[];
 export type ArrayValue =
   | {
-      booleanValues: boolean[];
+      booleanValues: (boolean | null)[];
       longValues?: undefined;
       doubleValues?: undefined;
       stringValues?: undefined;
@@ -217,7 +217,7 @@ export type ArrayValue =
     }
   | {
       booleanValues?: undefined;
-      longValues: number[];
+      longValues: (number | null)[];
       doubleValues?: undefined;
       stringValues?: undefined;
       arrayValues?: undefined;
@@ -225,7 +225,7 @@ export type ArrayValue =
   | {
       booleanValues?: undefined;
       longValues?: undefined;
-      doubleValues: number[];
+      doubleValues: (number | null)[];
       stringValues?: undefined;
       arrayValues?: undefined;
     }
@@ -233,7 +233,7 @@ export type ArrayValue =
       booleanValues?: undefined;
       longValues?: undefined;
       doubleValues?: undefined;
-      stringValues: string[];
+      stringValues: (string | null)[];
       arrayValues?: undefined;
     }
   | {
@@ -241,7 +241,7 @@ export type ArrayValue =
       longValues?: undefined;
       doubleValues?: undefined;
       stringValues?: undefined;
-      arrayValues: ArrayValue[];
+      arrayValues: (ArrayValue | null)[];
     };
 export type Field =
   | {
@@ -910,14 +910,16 @@ function __c0(j: number): any {
 function __c1(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.Boolean).pipe(/*@__PURE__*/ T.Sparse());
+      return S.Array(/*@__PURE__*/ S.NullOr(S.Boolean)).pipe(/*@__PURE__*/ T.Sparse());
     case 1:
-      return S.Array(S.Number).pipe(/*@__PURE__*/ T.Sparse());
+      return S.Array(/*@__PURE__*/ S.NullOr(S.Number)).pipe(/*@__PURE__*/ T.Sparse());
     case 2:
-      return S.Array(S.String).pipe(/*@__PURE__*/ T.Sparse());
+      return S.Array(/*@__PURE__*/ S.NullOr(S.String)).pipe(/*@__PURE__*/ T.Sparse());
     case 3:
       return S.Array(
-        /*@__PURE__*/ S.suspend(() => __S(20, __c1, 4)).annotate({ identifier: "ArrayValue" }),
+        /*@__PURE__*/ S.NullOr(
+          /*@__PURE__*/ S.suspend(() => __S(20, __c1, 4)).annotate({ identifier: "ArrayValue" }),
+        ),
       ).pipe(/*@__PURE__*/ T.Sparse());
     case 4:
       return S.Union([

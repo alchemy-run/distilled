@@ -12,7 +12,7 @@ export interface GraphQLField {
   readonly errors: readonly string[];
   readonly description?: string;
   readonly deprecated?: string | true;
-  /** The value is a secret: typed `Redacted<string>` and wrapped at runtime. Set by patch. */
+  /** The value is a secret: typed `Redacted<…>` and wrapped at runtime. Set by patch. */
   readonly sensitive?: true;
 }
 export interface GraphQLType {
@@ -166,8 +166,8 @@ export const validateGraphQLModel = (model: GraphQLModel): void => {
       for (const [argName, arg] of Object.entries(field.args))
         checkInput(arg, `${coordinate}(${argName})`);
       for (const error of field.errors) checkError(error, coordinate);
-      if (field.sensitive && model.types[peelRef(field.type).name]?.scalar !== "string")
-        throw new Error(`${coordinate}: only string scalar fields can be sensitive`);
+      if (field.sensitive && model.types[peelRef(field.type).name]?.kind !== "SCALAR")
+        throw new Error(`${coordinate}: only scalar fields can be sensitive`);
     }
     for (const [fieldName, field] of Object.entries(type.inputFields ?? {}))
       checkInput(field, `${name}.${fieldName}`);
@@ -274,12 +274,44 @@ export const generateGraphQLClient = (
     if (inner.startsWith("[") && inner.endsWith("]")) {
       ts = `ReadonlyArray<${tsOutput(inner.slice(1, -1), sensitive)}>`;
     } else if (sensitive) {
-      ts = "Redacted.Redacted<string>";
+      ts = `Redacted.Redacted<${tsNamed(inner)}>`;
     } else {
       const node = connectionNode(inner);
       ts = node ? `ReadonlyArray<${tsNamed(node)}>` : tsNamed(inner);
     }
     return nonNull ? ts : `${ts} | null`;
+  };
+  /** `readonly id: string; readonly first?: number | null | undefined` for a field's arguments. */
+  const argFieldsOf = (
+    field: GraphQLField,
+  ): { readonly ts: string; readonly required: boolean } => {
+    const entries = Object.entries(field.args);
+    const required = entries.filter(([, arg]) => arg.type.endsWith("!"));
+    const optional = entries.filter(([, arg]) => !arg.type.endsWith("!"));
+    return {
+      ts: [
+        ...required.map(([argName, arg]) => `readonly ${argName}: ${tsArg(arg.type)}`),
+        ...optional.map(([argName, arg]) => `readonly ${argName}?: ${tsArg(arg.type)} | undefined`),
+      ].join("; "),
+      required: required.length > 0,
+    };
+  };
+  /**
+   * A non-root object or scalar field with arguments is a call through a
+   * Query (`FieldWithArgs`). List and connection fields keep their
+   * untyped call signature.
+   */
+  const takesArgs = (field: GraphQLField): boolean => {
+    if (Object.keys(field.args).length === 0) return false;
+    const { name, list } = peelRef(field.type);
+    return !list && !connectionNode(name);
+  };
+  /** A field's type in a generated data interface. */
+  const tsField = (field: GraphQLField): string => {
+    const value = tsOutput(field.type, field.sensitive);
+    if (!takesArgs(field)) return value;
+    const args = argFieldsOf(field);
+    return `FieldWithArgs<${value}, { ${args.ts} }${args.required ? "" : ", false"}>`;
   };
   const isObjectLike = (name: string): boolean => {
     const kind = model.types[name]?.kind;
@@ -304,10 +336,16 @@ export const generateGraphQLClient = (
         : `listField(${JSON.stringify(fieldName)}, ${name})`;
     }
     if (isObjectLike(name) || model.types[name]?.kind === "UNION") {
-      return `objectField(${JSON.stringify(fieldName)}, ${name})`;
+      return argTypes
+        ? `objectField(${JSON.stringify(fieldName)}, ${name}, ${argTypes})`
+        : `objectField(${JSON.stringify(fieldName)}, ${name})`;
     }
-    return field.sensitive
-      ? `scalarField(${JSON.stringify(fieldName)}, { sensitive: true })`
+    const options = [
+      ...(argTypes ? [`argTypes: ${argTypes}`] : []),
+      ...(field.sensitive ? ["sensitive: true"] : []),
+    ];
+    return options.length
+      ? `scalarField(${JSON.stringify(fieldName)}, { ${options.join(", ")} })`
       : `scalarField(${JSON.stringify(fieldName)})`;
   };
   // Errors: one tagged class per declared error, a runtime spec per class,
@@ -351,18 +389,13 @@ export const generateGraphQLClient = (
       argEntries.length > 0
         ? `{ ${argEntries.map(([argName, arg]) => `${argName}: ${JSON.stringify(arg.type)}`).join(", ")} }`
         : undefined;
-    const required = argEntries.filter(([, arg]) => arg.type.endsWith("!"));
-    const optional = argEntries.filter(([, arg]) => !arg.type.endsWith("!"));
-    const argFields = [
-      ...required.map(([argName, arg]) => `readonly ${argName}: ${tsArg(arg.type)}`),
-      ...optional.map(([argName, arg]) => `readonly ${argName}?: ${tsArg(arg.type)} | undefined`),
-    ].join("; ");
+    const argFields = argFieldsOf(field);
     const sig =
       argEntries.length === 0
         ? ""
-        : required.length === 0
-          ? `args?: { ${argFields} }`
-          : `args: { ${argFields} }`;
+        : argFields.required
+          ? `args: { ${argFields.ts} }`
+          : `args?: { ${argFields.ts} }`;
     const argsExpr = argEntries.length === 0 ? ", undefined" : ", args";
     const argTypesExpr = argTypes ? `, ${argTypes}` : ", undefined";
     const rest = `${argsExpr}${argTypesExpr}, ${errors.specs}${field.sensitive ? ", { sensitive: true }" : ""}`;
@@ -423,6 +456,13 @@ export const generateGraphQLClient = (
     `  rootList,`,
     `  scalarField,`,
     `  type ErrorSpec,`,
+    ...(objects.some((name) =>
+      Object.entries(model.types[name]!.fields ?? {}).some(
+        (entry) => selectable(entry) && takesArgs(entry[1]),
+      ),
+    )
+      ? [`  type FieldWithArgs,`]
+      : []),
     `  type Query,`,
     `  type TypeMeta,`,
     `} from "@distilled.cloud/core/graphql";`,
@@ -500,10 +540,7 @@ export const generateGraphQLClient = (
     const type = model.types[name]!;
     const fields = Object.entries(type.fields ?? {})
       .filter(selectable)
-      .map(
-        ([fieldName, field]) =>
-          `  readonly ${fieldName}: ${tsOutput(field.type, field.sensitive)};`,
-      );
+      .map(([fieldName, field]) => `  readonly ${fieldName}: ${tsField(field)};`);
     lines.push(documentation(type.description) + `export interface ${name} {`, ...fields, "}", "");
   }
 
@@ -550,5 +587,16 @@ export const generateGraphQLClient = (
     }
   }
   lines.push("};", "");
-  return lines.join("\n") + "\n";
+  // Import only the runtime helpers the module uses (a schema with no
+  // connection root needs no `rootConnection`).
+  const code = lines.join("\n") + "\n";
+  const importEnd = code.indexOf('} from "@distilled.cloud/core/graphql";');
+  const rest = code.slice(importEnd);
+  return (
+    code
+      .slice(0, importEnd)
+      .replace(/^  (\w+),\n/gm, (line, name: string) =>
+        new RegExp(`\\b${name}\\b`).test(rest) ? line : "",
+      ) + rest
+  );
 };

@@ -1,5 +1,4 @@
 import * as API from "@distilled.cloud/core/api";
-import * as Category from "@distilled.cloud/core/category";
 import {
   HTTP_STATUS_MAP,
   InternalServerError,
@@ -26,7 +25,7 @@ import {
   isValidating,
   validateResponse,
 } from "@distilled.cloud/core/response-validation";
-import { parseRetryAfter, parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
+import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
@@ -115,12 +114,7 @@ const decode = ({
         [{ code: envelope.error?.code, message: type ?? message }],
         { body: json === undefined ? text : json, headers },
       );
-      if (typed !== undefined) {
-        if (typeof typed === "object" && typed !== null && Category.isThrottlingError(typed)) {
-          Object.assign(typed, { retryAfter: parseRetryAfter(headers) });
-        }
-        return yield* fail(typed);
-      }
+      if (typed !== undefined) return yield* fail(typed);
       const StatusClass = (HTTP_STATUS_MAP as Record<number, unknown>)[status] as
         | (new (args: {
             message: string;

@@ -19,39 +19,45 @@ const unreadableBody = (cause: unknown) =>
   });
 
 /**
- * Read a ReadableStream as text (for non-streaming responses).
+ * Read a body as text (for non-streaming responses), in the calling fiber.
  * This is lazy - only consumes when called.
  */
-export const readStreamAsText = (
-  stream: string | ReadableStream<Uint8Array>,
-): Effect.Effect<string, ParseError> =>
+export const readStreamAsText = (stream: string | StreamBody): Effect.Effect<string, ParseError> =>
   typeof stream === "string"
     ? Effect.succeed(stream)
-    : Effect.tryPromise({
-        try: () => new globalThis.Response(stream).text(),
-        catch: unreadableBody,
-      });
+    : Effect.map(readStreamAsBytes(stream), (bytes) => new TextDecoder().decode(bytes));
 
 /**
- * Read a ReadableStream fully as raw bytes (for non-streaming binary
- * responses such as httpPayload blobs).
+ * Read a body fully as raw bytes (for non-streaming binary responses such
+ * as httpPayload blobs), in the calling fiber.
  * This is lazy - only consumes when called.
  */
 export const readStreamAsBytes = (
-  stream: string | ReadableStream<Uint8Array>,
+  stream: string | StreamBody,
 ): Effect.Effect<Uint8Array, ParseError> =>
   typeof stream === "string"
     ? Effect.succeed(new TextEncoder().encode(stream))
-    : Effect.tryPromise({
-        try: async () => new Uint8Array(await new globalThis.Response(stream).arrayBuffer()),
-        catch: unreadableBody,
-      });
+    : Stream.mkUint8Array(bodyStream(stream)).pipe(Effect.mapError(unreadableBody));
 
 /**
- * Convert Effect Stream to ReadableStream for fetch.
+ * A streaming body: a web stream, or an Effect stream that runs in the
+ * caller's fiber. A response body is the HttpClient's Effect stream.
  */
-export const effectStreamToReadable = <Err>(stream: Stream.Stream<Uint8Array, Err>) =>
-  Stream.toReadableStream(stream);
+export type StreamBody = ReadableStream<Uint8Array> | Stream.Stream<Uint8Array, unknown>;
+
+/** Whether a body streams (is not a buffered string or bytes). */
+export const isStreamBody = (body: unknown): body is StreamBody =>
+  body instanceof ReadableStream || isEffectStream(body);
+
+/**
+ * A streaming body as an Effect stream. An Effect stream is returned as is,
+ * so it runs in the fiber that sends the request, with its context and
+ * tracing; a web stream is read from that fiber.
+ */
+export const bodyStream = (body: StreamBody): Stream.Stream<Uint8Array, unknown> =>
+  body instanceof ReadableStream
+    ? Stream.fromReadableStream({ evaluate: () => body, onError: (error) => error })
+    : body;
 
 /**
  * Check if a value is an Effect Stream.
@@ -69,108 +75,59 @@ export function isEffectStream(u: unknown): u is Stream.Stream<unknown, unknown,
  */
 export function convertStreamingInput(
   value: string | StreamingInputBody,
-): string | Uint8Array | ReadableStream<Uint8Array> {
+): string | Uint8Array | StreamBody {
   if (typeof value === "string") return value;
   if (value instanceof Uint8Array) return value;
   if (value instanceof ArrayBuffer) return new Uint8Array(value);
   if (typeof globalThis.Blob !== "undefined" && value instanceof globalThis.Blob) {
     return value.stream();
   }
-  if (value instanceof ReadableStream) return value;
-  // Effect Stream - convert to ReadableStream
-  return effectStreamToReadable(value as Stream.Stream<Uint8Array>);
+  // A web stream or an Effect stream: sent as is.
+  return value as StreamBody;
 }
 
 /**
- * Create an Effect Stream from a ReadableStream (for streaming responses).
+ * A streaming response body as the Effect Stream the caller reads. The
+ * HttpClient's stream is returned as is, so it is read in the caller's fiber.
  */
 export const readableToEffectStream = (
-  stream: string | ReadableStream<Uint8Array>,
+  stream: string | StreamBody,
 ): Stream.Stream<Uint8Array, Error, never> =>
   typeof stream === "string"
     ? Stream.fromIterable([new TextEncoder().encode(stream)])
-    : Stream.fromReadableStream({
-        evaluate: () => stream,
-        onError: (e) => (e instanceof Error ? e : new Error(String(e), { cause: e })),
-      });
+    : Stream.mapError(bodyStream(stream), (e) =>
+        e instanceof Error ? e : new Error(String(e), { cause: e }),
+      );
 
 /**
- * Create a buffered ReadableStream that ensures chunks meet minimum size.
- * This matches AWS SDK's createBufferedReadableStream behavior.
- *
- * Small chunks are accumulated until they reach the minimum size.
- * Chunks already at or above minimum size pass through immediately (if buffer is empty).
- * The last chunk can be any size.
+ * `stream` with its chunks joined until each is at least `minSize` bytes,
+ * as the AWS SDK's `createBufferedReadableStream` does. A chunk already that
+ * large passes through when nothing is buffered; the last chunk can be any
+ * size.
  */
-export function createBufferedReadableStream(
-  upstream: ReadableStream<Uint8Array>,
-  minSize: number,
-): ReadableStream<Uint8Array> {
-  const reader = upstream.getReader();
-  let buffer: Uint8Array[] = [];
-  let bufferSize = 0;
+export const minChunkSize =
+  (minSize: number) =>
+  <E, R>(stream: Stream.Stream<Uint8Array, E, R>): Stream.Stream<Uint8Array, E, R> =>
+    Stream.mapAccum(
+      stream,
+      (): Uint8Array[] => [],
+      (buffered, chunk) => {
+        if (buffered.length === 0 && chunk.byteLength >= minSize) return [buffered, [chunk]];
+        const next = [...buffered, chunk];
+        return byteLength(next) >= minSize ? [[], [concatBytes(next)]] : [next, []];
+      },
+      { onHalt: (buffered) => (buffered.length === 0 ? [] : [concatBytes(buffered)]) },
+    );
 
-  const flush = (): Uint8Array | null => {
-    if (bufferSize === 0) return null;
+const byteLength = (chunks: ReadonlyArray<Uint8Array>): number =>
+  chunks.reduce((total, chunk) => total + chunk.byteLength, 0);
 
-    // Combine buffered chunks
-    const combined = new Uint8Array(bufferSize);
-    let offset = 0;
-    for (const chunk of buffer) {
-      combined.set(chunk, offset);
-      offset += chunk.length;
-    }
-
-    // Reset buffer
-    buffer = [];
-    bufferSize = 0;
-
-    return combined;
-  };
-
-  const pull = async (controller: ReadableStreamDefaultController<Uint8Array>) => {
-    const { value, done } = await reader.read();
-
-    if (done) {
-      // Flush any remaining buffered data
-      const remainder = flush();
-      if (remainder) {
-        controller.enqueue(remainder);
-      }
-      controller.close();
-      return;
-    }
-
-    const chunkSize = value.byteLength;
-
-    // If chunk is large enough and buffer is empty, emit immediately
-    if (chunkSize >= minSize && bufferSize === 0) {
-      controller.enqueue(value);
-      return;
-    }
-
-    // Add to buffer
-    buffer.push(value);
-    bufferSize += chunkSize;
-
-    // If buffer is large enough, flush it
-    if (bufferSize >= minSize) {
-      const flushed = flush();
-      if (flushed) {
-        controller.enqueue(flushed);
-      }
-    } else {
-      // Buffer not full yet, need to pull more data
-      await pull(controller);
-    }
-  };
-
-  return new ReadableStream({
-    pull,
-    // An upstream that already errored rejects `cancel()`; releasing it is
-    // best effort, as in Effect's `Stream.fromReadableStream`.
-    cancel(reason) {
-      return reader.cancel(reason).catch(() => {});
-    },
-  });
-}
+const concatBytes = (chunks: ReadonlyArray<Uint8Array>): Uint8Array => {
+  const out = new Uint8Array(byteLength(chunks));
+  let offset = 0;
+  for (const chunk of chunks) {
+    out.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+  return out;
+};

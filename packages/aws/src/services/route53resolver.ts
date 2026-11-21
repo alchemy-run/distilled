@@ -137,7 +137,7 @@ export class LimitExceededException
   extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()("LimitExceededException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     ResourceType: /*@__PURE__*/ S.optional(S.String),
-  }) {}
+  }).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ResourceExistsException
   extends /*@__PURE__*/ S.TaggedError<ResourceExistsException>()("ResourceExistsException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
@@ -169,7 +169,7 @@ export class ServiceQuotaExceededException
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()("ThrottlingException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
-  }) {}
+  }).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class UnknownResourceException
   extends /*@__PURE__*/ S.TaggedError<UnknownResourceException>()("UnknownResourceException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),

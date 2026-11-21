@@ -1,0 +1,19 @@
+{
+  "description": "Cost and Usage Report Service: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.costandusagereportservice#PutReportDefinition/errors/-",
+      "value": {
+        "target": "com.amazonaws.costandusagereportservice#ReportBucketNotVerified"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.costandusagereportservice#ModifyReportDefinition/errors/-",
+      "value": {
+        "target": "com.amazonaws.costandusagereportservice#ReportBucketNotVerified"
+      }
+    }
+  ]
+}

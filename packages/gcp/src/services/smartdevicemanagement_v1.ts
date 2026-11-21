@@ -37,9 +37,9 @@ export class BadRequest
       code: /*@__PURE__*/ S.optional(S.Number),
       message: S.String,
       status: /*@__PURE__*/ S.optional(S.String),
-      reason: /*@__PURE__*/ S.optional(S.String),
-      domain: /*@__PURE__*/ S.optional(S.String),
       details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
   ) {}
@@ -50,9 +50,9 @@ export class Conflict
       code: /*@__PURE__*/ S.optional(S.Number),
       message: S.String,
       status: /*@__PURE__*/ S.optional(S.String),
-      reason: /*@__PURE__*/ S.optional(S.String),
-      domain: /*@__PURE__*/ S.optional(S.String),
       details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
   ) {}
@@ -63,9 +63,9 @@ export class Forbidden
       code: /*@__PURE__*/ S.optional(S.Number),
       message: S.String,
       status: /*@__PURE__*/ S.optional(S.String),
-      reason: /*@__PURE__*/ S.optional(S.String),
-      domain: /*@__PURE__*/ S.optional(S.String),
       details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
   ) {}
@@ -76,9 +76,9 @@ export class NotFound
       code: /*@__PURE__*/ S.optional(S.Number),
       message: S.String,
       status: /*@__PURE__*/ S.optional(S.String),
-      reason: /*@__PURE__*/ S.optional(S.String),
-      domain: /*@__PURE__*/ S.optional(S.String),
       details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
@@ -86,16 +86,14 @@ export class NotFound
 export type DocumentMap = { [key: string]: unknown | undefined };
 /** Request message for SmartDeviceManagementService.ExecuteDeviceCommand */
 export interface GoogleHomeEnterpriseSdmV1ExecuteDeviceCommandRequest {
-  /** The command message to execute, represented as a Struct. */
-  params?: DocumentMap | undefined;
   /** The command name to execute, represented by the fully qualified protobuf message name. */
   command?: string | undefined;
+  /** The command message to execute, represented as a Struct. */
+  params?: DocumentMap | undefined;
 }
-export interface ExecuteCommandEnterprisesDevicesRequest {
+export interface ExecuteCommandEnterprisesDevicesRequest extends GoogleHomeEnterpriseSdmV1ExecuteDeviceCommandRequest {
   /** The name of the device requested. For example: "enterprises/XYZ/devices/123" */
   name: string;
-  /** Request body */
-  body?: GoogleHomeEnterpriseSdmV1ExecuteDeviceCommandRequest | undefined;
 }
 /** Response message for SmartDeviceManagementService.ExecuteDeviceCommand */
 export interface GoogleHomeEnterpriseSdmV1ExecuteDeviceCommandResponse {
@@ -108,23 +106,23 @@ export interface GetEnterprisesDevicesRequest {
 }
 /** Represents device relationships, for instance, structure/room to which the device is assigned to. */
 export interface GoogleHomeEnterpriseSdmV1ParentRelation {
-  /** Output only. The custom name of the relation -- e.g., structure/room where the device is assigned to. */
-  displayName?: string | undefined;
   /** Output only. The name of the relation -- e.g., structure/room where the device is assigned to. For example: "enterprises/XYZ/structures/ABC" or "enterprises/XYZ/structures/ABC/rooms/123" */
   parent?: string | undefined;
+  /** Output only. The custom name of the relation -- e.g., structure/room where the device is assigned to. */
+  displayName?: string | undefined;
 }
 export type GoogleHomeEnterpriseSdmV1ParentRelationList =
   Array<GoogleHomeEnterpriseSdmV1ParentRelation>;
 /** Device resource represents an instance of enterprise managed device in the property. */
 export interface GoogleHomeEnterpriseSdmV1Device {
-  /** Output only. Device traits. */
-  traits?: DocumentMap | undefined;
-  /** Required. The resource name of the device. For example: "enterprises/XYZ/devices/123". */
-  name?: string | undefined;
   /** Output only. Type of the device for general display purposes. For example: "THERMOSTAT". The device type should not be used to deduce or infer functionality of the actual device it is assigned to. Instead, use the returned traits for the device. */
   type?: string | undefined;
+  /** Output only. Device traits. */
+  traits?: DocumentMap | undefined;
   /** Assignee details of the device. */
   parentRelations?: GoogleHomeEnterpriseSdmV1ParentRelationList | undefined;
+  /** Required. The resource name of the device. For example: "enterprises/XYZ/devices/123". */
+  name?: string | undefined;
 }
 export interface GetEnterprisesStructuresRequest {
   /** The name of the structure requested. For example: "enterprises/XYZ/structures/ABC". */
@@ -143,10 +141,10 @@ export interface GetEnterprisesStructuresRoomsRequest {
 }
 /** Room resource represents an instance of sub-space within a structure such as rooms in a hotel suite or rental apartment. */
 export interface GoogleHomeEnterpriseSdmV1Room {
-  /** Room traits. */
-  traits?: DocumentMap | undefined;
   /** Output only. The resource name of the room. For example: "enterprises/XYZ/structures/ABC/rooms/123". */
   name?: string | undefined;
+  /** Room traits. */
+  traits?: DocumentMap | undefined;
 }
 export interface ListEnterprisesDevicesRequest {
   /** The parent enterprise to list devices under. E.g. "enterprises/XYZ". */
@@ -202,6 +200,7 @@ export const executeCommandEnterprisesDevices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExecuteCommandEnterprisesDevices",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type GetEnterprisesDevicesError = NotFound | Forbidden | GcpOpError;
@@ -247,7 +246,7 @@ export const getEnterprisesStructuresRooms: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28, __c7, 0) as any as S.Schema<GetEnterprisesStructuresRoomsRequest>,
-  output: __S(32, __c8, 0) as any as S.Schema<GoogleHomeEnterpriseSdmV1Room>,
+  output: __S(24, __c6, 0) as any as S.Schema<GoogleHomeEnterpriseSdmV1Room>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -263,8 +262,8 @@ export const listEnterprisesDevices: API.OperationMethod<
   ListEnterprisesDevicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<ListEnterprisesDevicesRequest>,
-  output: __S(38, __c9, 2) as any as S.Schema<GoogleHomeEnterpriseSdmV1ListDevicesResponse>,
+  input: __S(32, __c8, 0) as any as S.Schema<ListEnterprisesDevicesRequest>,
+  output: __S(34, __c8, 2) as any as S.Schema<GoogleHomeEnterpriseSdmV1ListDevicesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -280,8 +279,8 @@ export const listEnterprisesStructures: API.OperationMethod<
   ListEnterprisesStructuresError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c10, 0) as any as S.Schema<ListEnterprisesStructuresRequest>,
-  output: __S(42, __c10, 2) as any as S.Schema<GoogleHomeEnterpriseSdmV1ListStructuresResponse>,
+  input: __S(36, __c9, 0) as any as S.Schema<ListEnterprisesStructuresRequest>,
+  output: __S(37, __c9, 1) as any as S.Schema<GoogleHomeEnterpriseSdmV1ListStructuresResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -298,7 +297,7 @@ export const listEnterprisesStructuresRooms: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<ListEnterprisesStructuresRoomsRequest>,
-  output: __S(2, __c0, 2) as any as S.Schema<GoogleHomeEnterpriseSdmV1ListRoomsResponse>,
+  output: __S(1, __c0, 1) as any as S.Schema<GoogleHomeEnterpriseSdmV1ListRoomsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -322,11 +321,9 @@ function __c0(j: number): any {
         ),
       ).annotate({ identifier: "ListEnterprisesStructuresRoomsRequest" });
     case 1:
-      return S.Array(__S(32, __c8, 0));
-    case 2:
       return S.suspend(() =>
         S.Struct({
-          rooms: S.optional(__S(1, __c0, 1)),
+          rooms: S.optional(__S(40, __c10, 0)),
         }),
       ).annotate({ identifier: "GoogleHomeEnterpriseSdmV1ListRoomsResponse" });
   }
@@ -336,16 +333,18 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          params: S.optional(__S(8, __c2, 0)),
           command: S.optional(S.String),
+          params: S.optional(__S(8, __c2, 0)),
         }),
       ).annotate({ identifier: "GoogleHomeEnterpriseSdmV1ExecuteDeviceCommandRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4, __c1, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:executeCommand",
@@ -388,8 +387,8 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          displayName: S.optional(S.String),
           parent: S.optional(S.String),
+          displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleHomeEnterpriseSdmV1ParentRelation" });
     case 1:
@@ -397,10 +396,10 @@ function __c4(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          traits: S.optional(__S(8, __c2, 0)),
-          name: S.optional(S.String),
           type: S.optional(S.String),
+          traits: S.optional(__S(8, __c2, 0)),
           parentRelations: S.optional(__S(17, __c4, 1)),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleHomeEnterpriseSdmV1Device" });
   }
@@ -453,17 +452,6 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          traits: S.optional(__S(8, __c2, 0)),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleHomeEnterpriseSdmV1Room" });
-  }
-}
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           parent: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
@@ -479,12 +467,12 @@ function __c9(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          devices: S.optional(__S(37, __c9, 1)),
+          devices: S.optional(__S(33, __c8, 1)),
         }),
       ).annotate({ identifier: "GoogleHomeEnterpriseSdmV1ListDevicesResponse" });
   }
 }
-function __c10(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -500,13 +488,17 @@ function __c10(j: number): any {
         ),
       ).annotate({ identifier: "ListEnterprisesStructuresRequest" });
     case 1:
-      return S.Array(__S(24, __c6, 0));
-    case 2:
       return S.suspend(() =>
         S.Struct({
-          structures: S.optional(__S(41, __c10, 1)),
+          structures: S.optional(__S(40, __c10, 0)),
         }),
       ).annotate({ identifier: "GoogleHomeEnterpriseSdmV1ListStructuresResponse" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(24, __c6, 0));
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

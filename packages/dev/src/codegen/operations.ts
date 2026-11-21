@@ -9,6 +9,26 @@ export interface OpEntry {
   def: any;
 }
 
+/**
+ * A Smithy service's `errors` are the errors every one of its operations
+ * can return. Append them to each operation's own `errors` list, after the
+ * operation's errors and without duplicates. Mutates `shapes`; idempotent.
+ */
+export const inheritServiceErrors = (shapes: ShapeMap): void => {
+  const common: string[] = [];
+  for (const def of Object.values(shapes) as any[]) {
+    if (def?.type !== "service") continue;
+    for (const e of def.errors ?? []) if (!common.includes(e.target)) common.push(e.target);
+  }
+  if (common.length === 0) return;
+  for (const def of Object.values(shapes) as any[]) {
+    if (def?.type !== "operation") continue;
+    const own: Array<{ target: string }> = def.errors ?? [];
+    const missing = common.filter((target) => !own.some((e) => e.target === target));
+    if (missing.length > 0) def.errors = [...own, ...missing.map((target) => ({ target }))];
+  }
+};
+
 /** All operation shapes, sorted by local name. */
 export const collectOperations = (shapes: ShapeMap): OpEntry[] => {
   const operations: OpEntry[] = [];

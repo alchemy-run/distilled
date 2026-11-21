@@ -4,7 +4,7 @@ import {
   type CompiledOperation,
   type RawGraphQLError,
 } from "@distilled.cloud/core/graphql";
-import * as Telemetry from "@distilled.cloud/core/telemetry";
+import * as Send from "@distilled.cloud/core/send";
 import type * as Context from "effect/Context";
 /**
  * Linear {@link GqlTransport}: POST /graphql with an API key or OAuth token.
@@ -45,7 +45,7 @@ export const GraphQLLive = /*@__PURE__*/ Layer.succeed(GqlTransport, {
         Effect.succeed(fiber.context as Context.Context<any>),
       );
       const url = `${credentials.apiBaseUrl.replace(/\/$/, "")}/graphql`;
-      const response = yield* Telemetry.execute(
+      const response = yield* Send.send(
         context,
         http,
         HttpClientRequest.post(url).pipe(

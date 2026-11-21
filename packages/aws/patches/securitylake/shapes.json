@@ -1,0 +1,10 @@
+{
+  "description": "SecurityLake: Members that hold secrets (sensitive).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.securitylake#HttpsNotificationConfiguration/members/authorizationApiKeyValue/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

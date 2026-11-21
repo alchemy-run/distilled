@@ -29,27 +29,48 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export type GetMetricRequestInterval =
   | "minute"
@@ -357,6 +378,17 @@ export interface ListMetricsResponse {
   /** The available metrics. */
   data: ListMetricsResponseDataList;
 }
+export interface V1ErrorResponseError {
+  /** Machine-readable reason for this specific refusal, such as `bank_warning_not_acknowledged`. Only present when the error carries one. */
+  code?: string | undefined;
+  /** Human-readable error message. */
+  message: string;
+  /** Machine-readable error code. */
+  type: string;
+}
+export interface V1ErrorResponse {
+  error: V1ErrorResponseError;
+}
 export type GetMetricError = BadRequest | Forbidden | NotFound | WhopOpError;
 /** Retrieve Metric Retrieves a metric as a time series of points for an account or user over a time range. The `market_prices` metric is public and requires no authentication. The `funnel` metric measures 2 to 10 ordered events per person. Its first matching event inside from/to anchors the cohort, breakdown and conversion window; later entries do not restart it. Intervening events are allowed, and conversions may occur after to. Funnel values are final conversion percentages; steps include counts and cumulative conversion percentages. Experiment funnels use experiment.exposure as step 1 and breakdown_by=variant. Pass steps using bracket parameters such as steps[1][event]=pixel.page&steps[1][page]=/pricing*&steps[2][event]=payment.completed. */
 export const getMetric: API.OperationMethod<
@@ -365,8 +397,8 @@ export const getMetric: API.OperationMethod<
   GetMetricError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2, __c0, 2) as any as S.Schema<GetMetricRequest>,
-  output: __S(14, __c0, 14) as any as S.Schema<GetMetricResponse>,
+  input: __S(18, __c1, 2) as any as S.Schema<GetMetricRequest>,
+  output: __S(30, __c1, 14) as any as S.Schema<GetMetricResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -382,8 +414,8 @@ export const listMetrics: API.OperationMethod<
   ListMetricsError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<ListMetricsRequest>,
-  output: __S(35, __c2, 3) as any as S.Schema<ListMetricsResponse>,
+  input: __S(48, __c3, 0) as any as S.Schema<ListMetricsRequest>,
+  output: __S(51, __c3, 3) as any as S.Schema<ListMetricsResponse>,
   errors: [],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -393,6 +425,24 @@ export const listMetrics: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "V1ErrorResponseError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "V1ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -419,16 +469,16 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          _1: __S(0, __c0, 0).pipe(T.Body("1")),
-          _2: __S(0, __c0, 0).pipe(T.Body("2")),
-          _3: S.optional(__S(0, __c0, 0).pipe(T.Body("3"))),
-          _4: S.optional(__S(0, __c0, 0).pipe(T.Body("4"))),
-          _5: S.optional(__S(0, __c0, 0).pipe(T.Body("5"))),
-          _6: S.optional(__S(0, __c0, 0).pipe(T.Body("6"))),
-          _7: S.optional(__S(0, __c0, 0).pipe(T.Body("7"))),
-          _8: S.optional(__S(0, __c0, 0).pipe(T.Body("8"))),
-          _9: S.optional(__S(0, __c0, 0).pipe(T.Body("9"))),
-          _10: S.optional(__S(0, __c0, 0).pipe(T.Body("10"))),
+          _1: __S(16, __c1, 0).pipe(T.Body("1")),
+          _2: __S(16, __c1, 0).pipe(T.Body("2")),
+          _3: S.optional(__S(16, __c1, 0).pipe(T.Body("3"))),
+          _4: S.optional(__S(16, __c1, 0).pipe(T.Body("4"))),
+          _5: S.optional(__S(16, __c1, 0).pipe(T.Body("5"))),
+          _6: S.optional(__S(16, __c1, 0).pipe(T.Body("6"))),
+          _7: S.optional(__S(16, __c1, 0).pipe(T.Body("7"))),
+          _8: S.optional(__S(16, __c1, 0).pipe(T.Body("8"))),
+          _9: S.optional(__S(16, __c1, 0).pipe(T.Body("9"))),
+          _10: S.optional(__S(16, __c1, 0).pipe(T.Body("10"))),
         }),
       ).annotate({ identifier: "GetMetricRequestSteps" });
     case 2:
@@ -464,14 +514,14 @@ function __c0(j: number): any {
           access_level: S.optional(S.String.pipe(T.Query())),
           most_recent_action: S.optional(S.String.pipe(T.Query())),
           referred_user_id: S.optional(S.String.pipe(T.Query())),
-          ad_campaign_ids: S.optional(__S(16, __c1, 0).pipe(T.Query())),
-          ad_group_ids: S.optional(__S(16, __c1, 0).pipe(T.Query())),
-          ad_ids: S.optional(__S(16, __c1, 0).pipe(T.Query())),
+          ad_campaign_ids: S.optional(__S(32, __c2, 0).pipe(T.Query())),
+          ad_group_ids: S.optional(__S(32, __c2, 0).pipe(T.Query())),
+          ad_ids: S.optional(__S(32, __c2, 0).pipe(T.Query())),
           snapshot_window: S.optional(S.String.pipe(T.Query())),
           event: S.optional(S.String.pipe(T.Query())),
           conversion_window: S.optional(S.String.pipe(T.Query())),
           mature_only: S.optional(S.Boolean.pipe(T.Query())),
-          steps: S.optional(__S(1, __c0, 1).pipe(T.Query())),
+          steps: S.optional(__S(17, __c1, 1).pipe(T.Query())),
           compare_to: S.optional(S.String.pipe(T.Query())),
           confidence_level: S.optional(S.Number.pipe(T.Query())),
           contactable: S.optional(S.Boolean.pipe(T.Query())),
@@ -512,28 +562,28 @@ function __c0(j: number): any {
         }),
       ).annotate({ identifier: "FunnelStepResult" });
     case 4:
-      return S.Array(__S(3, __c0, 3));
+      return S.Array(__S(19, __c1, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          steps: S.optional(__S(4, __c0, 4)),
+          steps: S.optional(__S(20, __c1, 4)),
           value: S.NullOr(S.Number),
         }),
       ).annotate({ identifier: "GetMetricResponseDataPointsItemBreakdownItem" });
     case 6:
-      return S.Array(__S(5, __c0, 5));
+      return S.Array(__S(21, __c1, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          breakdown: S.optional(__S(6, __c0, 6)),
-          steps: S.optional(__S(4, __c0, 4)),
+          breakdown: S.optional(__S(22, __c1, 6)),
+          steps: S.optional(__S(20, __c1, 4)),
           timestamp: S.Number,
           value: S.NullOr(S.Number),
         }),
       ).annotate({ identifier: "GetMetricResponseDataPointsItem" });
     case 8:
-      return S.Array(__S(7, __c0, 7));
+      return S.Array(__S(23, __c1, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -545,7 +595,7 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           baseline: S.String,
-          difference_confidence_interval: S.NullOr(__S(9, __c0, 9)),
+          difference_confidence_interval: S.NullOr(__S(25, __c1, 9)),
           difference_percentage_points: S.Number,
           relative_lift_percent: S.NullOr(S.Number),
         }),
@@ -553,38 +603,38 @@ function __c0(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          comparison: S.optional(S.NullOr(__S(10, __c0, 10))),
-          confidence_interval: S.optional(S.NullOr(__S(9, __c0, 9))),
+          comparison: S.optional(S.NullOr(__S(26, __c1, 10))),
+          confidence_interval: S.optional(S.NullOr(__S(25, __c1, 9))),
           name: S.String,
-          steps: S.optional(__S(4, __c0, 4)),
+          steps: S.optional(__S(20, __c1, 4)),
           value: S.NullOr(S.Number),
         }),
       ).annotate({ identifier: "GetMetricResponseDataTotalsItem" });
     case 12:
-      return S.Array(__S(11, __c0, 11));
+      return S.Array(__S(27, __c1, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
           currency: S.optional(S.NullOr(S.String)),
-          points: __S(8, __c0, 8),
-          totals: S.optional(S.NullOr(__S(12, __c0, 12))),
+          points: __S(24, __c1, 8),
+          totals: S.optional(S.NullOr(__S(28, __c1, 12))),
         }),
       ).annotate({ identifier: "GetMetricResponseData" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          data: __S(13, __c0, 13),
+          data: __S(29, __c1, 13),
         }),
       ).annotate({ identifier: "GetMetricResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -593,21 +643,21 @@ function __c2(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          breakdowns: S.optional(__S(16, __c1, 0)),
+          breakdowns: S.optional(__S(32, __c2, 0)),
           description: S.String,
           key: S.String,
           name: S.String,
-          properties: __S(16, __c1, 0),
+          properties: __S(32, __c2, 0),
           unit: S.String,
-          windows: S.optional(__S(16, __c1, 0)),
+          windows: S.optional(__S(32, __c2, 0)),
         }),
       ).annotate({ identifier: "ListMetricsResponseDataItem" });
     case 2:
-      return S.Array(__S(33, __c2, 1));
+      return S.Array(__S(49, __c3, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(34, __c2, 2),
+          data: __S(50, __c3, 2),
         }),
       ).annotate({ identifier: "ListMetricsResponse" });
   }

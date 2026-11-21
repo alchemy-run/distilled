@@ -1,0 +1,45 @@
+{
+  "description": "Type the 503 `out_of_capacity` a create or fork gets while Boat has paused new machines. The spec documents it on components.responses.NoReadyMachine, the 503 of POST /sandboxes and POST /sandboxes/{sandboxId}/fork (\"`out_of_capacity`: creates and forks are paused until the provisioning queue drains\"); it generated as the generic ServiceUnavailable. It stays a retryable server error, as ServiceUnavailable was, because the pause ends when the queue drains. Source: spec-mirror-boat-dev 71ab00f.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#OutOfCapacity",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "server",
+          "smithy.api#httpError": 503,
+          "smithy.api#retryable": {},
+          "smithy.api#documentation": "Boat has paused creates and forks until its provisioning queue drains. Retry later.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 503,
+              "body": {
+                "/code": "out_of_capacity"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#Create/errors/-",
+      "value": {
+        "target": "com.boat.api#OutOfCapacity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#Fork/errors/-",
+      "value": {
+        "target": "com.boat.api#OutOfCapacity"
+      }
+    }
+  ]
+}

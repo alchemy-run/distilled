@@ -29,18 +29,32 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorBADREQUEST | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorFORBIDDEN | string;
+}
 
 export interface SetupAdminMonitoringRequestMetricsConfigServerThresholds {
   cpu: number;
@@ -73,6 +87,32 @@ export interface SetupAdminMonitoringRequest {
   metricsConfig: SetupAdminMonitoringRequestMetricsConfig;
 }
 export type SetupAdminMonitoringResponse = unknown;
+export interface ErrorBADREQUESTIssuesItem {
+  message: string;
+}
+/** An array of issues that were responsible for the error */
+export type ErrorBADREQUESTIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorBADREQUEST {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorBADREQUESTIssuesList | undefined;
+}
+export type ErrorFORBIDDENIssuesItem = ErrorBADREQUESTIssuesItem;
+/** An array of issues that were responsible for the error */
+export type ErrorFORBIDDENIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorFORBIDDEN {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorFORBIDDENIssuesList | undefined;
+}
 export type SetupAdminMonitoringError = BadRequest | Forbidden | DokployOpError;
 export const setupAdminMonitoring: API.OperationMethod<
   SetupAdminMonitoringRequest,
@@ -80,8 +120,8 @@ export const setupAdminMonitoring: API.OperationMethod<
   SetupAdminMonitoringError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6, __c0, 6) as any as S.Schema<SetupAdminMonitoringRequest>,
-  output: __S(7, __c0, 7) as any as S.Schema<SetupAdminMonitoringResponse>,
+  input: __S(14, __c1, 6) as any as S.Schema<SetupAdminMonitoringRequest>,
+  output: __S(15, __c1, 7) as any as S.Schema<SetupAdminMonitoringResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -91,6 +131,26 @@ export const setupAdminMonitoring: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.String,
+        }),
+      ).annotate({ identifier: "ErrorBADREQUESTIssuesItem" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.String,
+          code: S.String,
+          issues: S.optional(__S(1, __c0, 1)),
+        }),
+      ).annotate({ identifier: "ErrorBADREQUEST" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -108,7 +168,7 @@ function __c0(j: number): any {
           urlCallback: S.String,
           retentionDays: S.Number,
           cronJob: S.String,
-          thresholds: __S(0, __c0, 0),
+          thresholds: __S(8, __c1, 0),
         }),
       ).annotate({ identifier: "SetupAdminMonitoringRequestMetricsConfigServer" });
     case 2:
@@ -116,28 +176,28 @@ function __c0(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          include: S.optional(__S(2, __c0, 2)),
-          exclude: S.optional(__S(2, __c0, 2)),
+          include: S.optional(__S(10, __c1, 2)),
+          exclude: S.optional(__S(10, __c1, 2)),
         }),
       ).annotate({ identifier: "SetupAdminMonitoringRequestMetricsConfigContainersServices" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           refreshRate: S.Number,
-          services: __S(3, __c0, 3),
+          services: __S(11, __c1, 3),
         }),
       ).annotate({ identifier: "SetupAdminMonitoringRequestMetricsConfigContainers" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          server: __S(1, __c0, 1),
-          containers: __S(4, __c0, 4),
+          server: __S(9, __c1, 1),
+          containers: __S(12, __c1, 4),
         }),
       ).annotate({ identifier: "SetupAdminMonitoringRequestMetricsConfig" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          metricsConfig: __S(5, __c0, 5),
+          metricsConfig: __S(13, __c1, 5),
         }).pipe(T.Http({ method: "POST", uri: "/admin.setupMonitoring", code: 200 })),
       ).annotate({ identifier: "SetupAdminMonitoringRequest" });
     case 7:

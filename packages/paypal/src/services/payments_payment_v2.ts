@@ -31,45 +31,80 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(7, __c0, 7)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(7, __c0, 7)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(7, __c0, 7)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(7, __c0, 7)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(7, __c0, 7)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | string;
+}
 
 export interface AuthorizationsReauthorizeRequestAmount {
   currency_code: string;
@@ -2273,6 +2308,253 @@ export interface VoidAuthorizationResponse {
   supplementary_data?: AuthorizationsReauthorizeResponseSupplementaryData | undefined;
   payee?: AuthorizationsReauthorizeResponsePayee | undefined;
 }
+/** The HTTP method required to make the related call. */
+export type ErrorDetailsItemLinksItemMethod =
+  | "GET"
+  | "POST"
+  | "PUT"
+  | "DELETE"
+  | "HEAD"
+  | "CONNECT"
+  | "OPTIONS"
+  | "PATCH";
+/** An array of sub-schemas. The data must validate against all sub-schemas. */
+export type ErrorDetailsItemLinksItemSchemaAllOfList = Array<unknown>;
+/** An array of sub-schemas. The data must validate against one or more sub-schemas. */
+export type ErrorDetailsItemLinksItemSchemaAnyOfList = Array<unknown>;
+/** An array of sub-schemas. The data must validate against one sub-schema. */
+export type ErrorDetailsItemLinksItemSchemaOneOfList = Array<unknown>;
+/** An array of links. */
+export type ErrorDetailsItemLinksItemSchemaLinksList = Array<unknown>;
+/** The media type and context-encoding scheme. */
+export type ErrorDetailsItemLinksItemSchemaMedia =
+  AuthorizationsReauthorizeResponseLinksItemSchemaMedia;
+export interface ErrorDetailsItemLinksItemSchema {
+  /** Any additional items. */
+  additionalItems?: unknown | undefined;
+  /** The dependencies. */
+  dependencies?: unknown | undefined;
+  /** An item. */
+  items?: unknown | undefined;
+  /** Definitions. */
+  definitions?: unknown | undefined;
+  /** The pattern properties. */
+  patternProperties?: unknown | undefined;
+  /** The properties. */
+  properties?: unknown | undefined;
+  /** An array of sub-schemas. The data must validate against all sub-schemas. */
+  allOf?: ErrorDetailsItemLinksItemSchemaAllOfList | undefined;
+  /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
+  anyOf?: ErrorDetailsItemLinksItemSchemaAnyOfList | undefined;
+  /** An array of sub-schemas. The data must validate against one sub-schema. */
+  oneOf?: ErrorDetailsItemLinksItemSchemaOneOfList | undefined;
+  /** Not. */
+  not?: unknown | undefined;
+  /** An array of links. */
+  links?: ErrorDetailsItemLinksItemSchemaLinksList | undefined;
+  /** The fragment resolution. */
+  fragmentResolution?: string | undefined;
+  /** The media type and context-encoding scheme. */
+  media?: AuthorizationsReauthorizeResponseLinksItemSchemaMedia | undefined;
+  /** To apply this schema to the instances' URIs, start the URIs with this value. */
+  pathStart?: string | undefined;
+}
+/** An array of sub-schemas. The data must validate against all sub-schemas. */
+export type ErrorDetailsItemLinksItemTargetSchemaAllOfList = Array<unknown>;
+/** An array of sub-schemas. The data must validate against one or more sub-schemas. */
+export type ErrorDetailsItemLinksItemTargetSchemaAnyOfList = Array<unknown>;
+/** An array of sub-schemas. The data must validate against one sub-schema. */
+export type ErrorDetailsItemLinksItemTargetSchemaOneOfList = Array<unknown>;
+/** An array of links. */
+export type ErrorDetailsItemLinksItemTargetSchemaLinksList = Array<unknown>;
+/** The media type and context-encoding scheme. */
+export type ErrorDetailsItemLinksItemTargetSchemaMedia =
+  AuthorizationsReauthorizeResponseLinksItemSchemaMedia;
+export interface ErrorDetailsItemLinksItemTargetSchema {
+  /** Any additional items. */
+  additionalItems?: unknown | undefined;
+  /** The dependencies. */
+  dependencies?: unknown | undefined;
+  /** An item. */
+  items?: unknown | undefined;
+  /** Definitions. */
+  definitions?: unknown | undefined;
+  /** The pattern properties. */
+  patternProperties?: unknown | undefined;
+  /** The properties. */
+  properties?: unknown | undefined;
+  /** An array of sub-schemas. The data must validate against all sub-schemas. */
+  allOf?: ErrorDetailsItemLinksItemTargetSchemaAllOfList | undefined;
+  /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
+  anyOf?: ErrorDetailsItemLinksItemTargetSchemaAnyOfList | undefined;
+  /** An array of sub-schemas. The data must validate against one sub-schema. */
+  oneOf?: ErrorDetailsItemLinksItemTargetSchemaOneOfList | undefined;
+  /** Not. */
+  not?: unknown | undefined;
+  /** An array of links. */
+  links?: ErrorDetailsItemLinksItemTargetSchemaLinksList | undefined;
+  /** The fragment resolution. */
+  fragmentResolution?: string | undefined;
+  /** The media type and context-encoding scheme. */
+  media?: AuthorizationsReauthorizeResponseLinksItemSchemaMedia | undefined;
+  /** To apply this schema to the instances' URIs, start the URIs with this value. */
+  pathStart?: string | undefined;
+}
+export interface ErrorDetailsItemLinksItem {
+  /** The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call. */
+  href: string;
+  /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
+  rel: string;
+  /** The HTTP method required to make the related call. */
+  method?: ErrorDetailsItemLinksItemMethod | undefined;
+  /** The link title. */
+  title?: string | undefined;
+  /** The media type, as defined by [RFC 2046](https://www.ietf.org/rfc/rfc2046.txt). Describes the link target. */
+  mediaType?: string | undefined;
+  /** The media type in which to submit the request data. */
+  encType?: string | undefined;
+  schema?: ErrorDetailsItemLinksItemSchema | undefined;
+  targetSchema?: ErrorDetailsItemLinksItemTargetSchema | undefined;
+}
+/** An array of request-related [HATEOAS links](/api/rest/responses/#hateoas-links) that are either relevant to the issue by providing additional information or offering potential resolutions. */
+export type ErrorDetailsItemLinksList = Array<ErrorDetailsItemLinksItem>;
+export interface ErrorDetailsItem {
+  /** The field that caused the error. If this field is in the body, set this value to the field's JSON pointer value. Required for client-side errors. */
+  field?: string | undefined;
+  /** The value of the field that caused the error. */
+  value?: string | undefined;
+  /** The location of the field that caused the error. Value is `body`, `path`, or `query`. */
+  location?: string | undefined;
+  /** The unique, fine-grained application-level error code. */
+  issue: string;
+  /** An array of request-related [HATEOAS links](/api/rest/responses/#hateoas-links) that are either relevant to the issue by providing additional information or offering potential resolutions. */
+  links?: ErrorDetailsItemLinksList | undefined;
+  /** The human-readable description for an issue. The description can change over the lifetime of an API, so clients must not depend on this value. */
+  description?: string | undefined;
+}
+/** An array of additional details about the error. */
+export type ErrorDetailsList = Array<ErrorDetailsItem>;
+/** The HTTP method required to make the related call. */
+export type ErrorLinksItemMethod =
+  | "GET"
+  | "POST"
+  | "PUT"
+  | "DELETE"
+  | "HEAD"
+  | "CONNECT"
+  | "OPTIONS"
+  | "PATCH";
+/** An array of sub-schemas. The data must validate against all sub-schemas. */
+export type ErrorLinksItemSchemaAllOfList = Array<unknown>;
+/** An array of sub-schemas. The data must validate against one or more sub-schemas. */
+export type ErrorLinksItemSchemaAnyOfList = Array<unknown>;
+/** An array of sub-schemas. The data must validate against one sub-schema. */
+export type ErrorLinksItemSchemaOneOfList = Array<unknown>;
+/** An array of links. */
+export type ErrorLinksItemSchemaLinksList = Array<unknown>;
+/** The media type and context-encoding scheme. */
+export type ErrorLinksItemSchemaMedia = AuthorizationsReauthorizeResponseLinksItemSchemaMedia;
+export interface ErrorLinksItemSchema {
+  /** Any additional items. */
+  additionalItems?: unknown | undefined;
+  /** The dependencies. */
+  dependencies?: unknown | undefined;
+  /** An item. */
+  items?: unknown | undefined;
+  /** Definitions. */
+  definitions?: unknown | undefined;
+  /** The pattern properties. */
+  patternProperties?: unknown | undefined;
+  /** The properties. */
+  properties?: unknown | undefined;
+  /** An array of sub-schemas. The data must validate against all sub-schemas. */
+  allOf?: ErrorLinksItemSchemaAllOfList | undefined;
+  /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
+  anyOf?: ErrorLinksItemSchemaAnyOfList | undefined;
+  /** An array of sub-schemas. The data must validate against one sub-schema. */
+  oneOf?: ErrorLinksItemSchemaOneOfList | undefined;
+  /** Not. */
+  not?: unknown | undefined;
+  /** An array of links. */
+  links?: ErrorLinksItemSchemaLinksList | undefined;
+  /** The fragment resolution. */
+  fragmentResolution?: string | undefined;
+  /** The media type and context-encoding scheme. */
+  media?: AuthorizationsReauthorizeResponseLinksItemSchemaMedia | undefined;
+  /** To apply this schema to the instances' URIs, start the URIs with this value. */
+  pathStart?: string | undefined;
+}
+/** An array of sub-schemas. The data must validate against all sub-schemas. */
+export type ErrorLinksItemTargetSchemaAllOfList = Array<unknown>;
+/** An array of sub-schemas. The data must validate against one or more sub-schemas. */
+export type ErrorLinksItemTargetSchemaAnyOfList = Array<unknown>;
+/** An array of sub-schemas. The data must validate against one sub-schema. */
+export type ErrorLinksItemTargetSchemaOneOfList = Array<unknown>;
+/** An array of links. */
+export type ErrorLinksItemTargetSchemaLinksList = Array<unknown>;
+/** The media type and context-encoding scheme. */
+export type ErrorLinksItemTargetSchemaMedia = AuthorizationsReauthorizeResponseLinksItemSchemaMedia;
+export interface ErrorLinksItemTargetSchema {
+  /** Any additional items. */
+  additionalItems?: unknown | undefined;
+  /** The dependencies. */
+  dependencies?: unknown | undefined;
+  /** An item. */
+  items?: unknown | undefined;
+  /** Definitions. */
+  definitions?: unknown | undefined;
+  /** The pattern properties. */
+  patternProperties?: unknown | undefined;
+  /** The properties. */
+  properties?: unknown | undefined;
+  /** An array of sub-schemas. The data must validate against all sub-schemas. */
+  allOf?: ErrorLinksItemTargetSchemaAllOfList | undefined;
+  /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
+  anyOf?: ErrorLinksItemTargetSchemaAnyOfList | undefined;
+  /** An array of sub-schemas. The data must validate against one sub-schema. */
+  oneOf?: ErrorLinksItemTargetSchemaOneOfList | undefined;
+  /** Not. */
+  not?: unknown | undefined;
+  /** An array of links. */
+  links?: ErrorLinksItemTargetSchemaLinksList | undefined;
+  /** The fragment resolution. */
+  fragmentResolution?: string | undefined;
+  /** The media type and context-encoding scheme. */
+  media?: AuthorizationsReauthorizeResponseLinksItemSchemaMedia | undefined;
+  /** To apply this schema to the instances' URIs, start the URIs with this value. */
+  pathStart?: string | undefined;
+}
+export interface ErrorLinksItem {
+  /** The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call. */
+  href: string;
+  /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
+  rel: string;
+  /** The HTTP method required to make the related call. */
+  method?: ErrorLinksItemMethod | undefined;
+  /** The link title. */
+  title?: string | undefined;
+  /** The media type, as defined by [RFC 2046](https://www.ietf.org/rfc/rfc2046.txt). Describes the link target. */
+  mediaType?: string | undefined;
+  /** The media type in which to submit the request data. */
+  encType?: string | undefined;
+  schema?: ErrorLinksItemSchema | undefined;
+  targetSchema?: ErrorLinksItemTargetSchema | undefined;
+}
+/** An array of request-related [HATEOAS links](/api/rest/responses/#hateoas-links). */
+export type ErrorLinksList = Array<ErrorLinksItem>;
+/** The error details. */
+export interface Error {
+  /** The human-readable, unique name of the error. */
+  name: string;
+  /** The message that describes the error. */
+  message: string;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id: string;
+  /** An array of additional details about the error. */
+  details?: ErrorDetailsList | undefined;
+  /** An array of request-related [HATEOAS links](/api/rest/responses/#hateoas-links). */
+  links?: ErrorLinksList | undefined;
+}
 export type AuthorizationsReauthorizeError =
   | BadRequest
   | Forbidden
@@ -2286,8 +2568,8 @@ export const authorizationsReauthorize: API.OperationMethod<
   AuthorizationsReauthorizeError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<AuthorizationsReauthorizeRequest>,
-  output: __S(288, __c9, 0) as any as S.Schema<AuthorizationsReauthorizeResponse>,
+  input: __S(160, __c5, 0) as any as S.Schema<AuthorizationsReauthorizeRequest>,
+  output: __S(320, __c10, 0) as any as S.Schema<AuthorizationsReauthorizeResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -2309,8 +2591,8 @@ export const captureAuthorization: API.OperationMethod<
   CaptureAuthorizationError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(321, __c10, 1) as any as S.Schema<CaptureAuthorizationRequest>,
-  output: __S(354, __c11, 2) as any as S.Schema<CaptureAuthorizationResponse>,
+  input: __S(353, __c11, 1) as any as S.Schema<CaptureAuthorizationRequest>,
+  output: __S(386, __c12, 2) as any as S.Schema<CaptureAuthorizationResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -2326,8 +2608,8 @@ export const findEligibleMethods: API.OperationMethod<
   FindEligibleMethodsError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(423, __c13, 7) as any as S.Schema<FindEligibleMethodsRequest>,
-  output: __S(432, __c13, 16) as any as S.Schema<FindEligibleMethodsResponse>,
+  input: __S(455, __c14, 7) as any as S.Schema<FindEligibleMethodsRequest>,
+  output: __S(464, __c14, 16) as any as S.Schema<FindEligibleMethodsResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -2343,8 +2625,8 @@ export const getAuthorization: API.OperationMethod<
   GetAuthorizationError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<GetAuthorizationRequest>,
-  output: __S(288, __c9, 0) as any as S.Schema<GetAuthorizationResponse>,
+  input: __S(480, __c15, 0) as any as S.Schema<GetAuthorizationRequest>,
+  output: __S(320, __c10, 0) as any as S.Schema<GetAuthorizationResponse>,
   errors: [Forbidden, NotFound, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -2360,8 +2642,8 @@ export const getCapture: API.OperationMethod<
   GetCaptureError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<GetCaptureRequest>,
-  output: __S(354, __c11, 2) as any as S.Schema<GetCaptureResponse>,
+  input: __S(512, __c16, 0) as any as S.Schema<GetCaptureRequest>,
+  output: __S(386, __c12, 2) as any as S.Schema<GetCaptureResponse>,
   errors: [Forbidden, NotFound, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -2377,8 +2659,8 @@ export const getRefund: API.OperationMethod<
   GetRefundError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetRefundRequest>,
-  output: __S(35, __c1, 3) as any as S.Schema<GetRefundResponse>,
+  input: __S(32, __c1, 0) as any as S.Schema<GetRefundRequest>,
+  output: __S(67, __c2, 3) as any as S.Schema<GetRefundResponse>,
   errors: [Forbidden, NotFound, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -2400,8 +2682,8 @@ export const refundCapture: API.OperationMethod<
   RefundCaptureError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(65, __c2, 1) as any as S.Schema<RefundCaptureRequest>,
-  output: __S(35, __c1, 3) as any as S.Schema<RefundCaptureResponse>,
+  input: __S(97, __c3, 1) as any as S.Schema<RefundCaptureRequest>,
+  output: __S(67, __c2, 3) as any as S.Schema<RefundCaptureResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -2422,8 +2704,8 @@ export const voidAuthorization: API.OperationMethod<
   VoidAuthorizationError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c3, 0) as any as S.Schema<VoidAuthorizationRequest>,
-  output: __S(288, __c9, 0) as any as S.Schema<VoidAuthorizationResponse>,
+  input: __S(128, __c4, 0) as any as S.Schema<VoidAuthorizationRequest>,
+  output: __S(320, __c10, 0) as any as S.Schema<VoidAuthorizationResponse>,
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -2435,6 +2717,76 @@ export const voidAuthorization: API.OperationMethod<
 function __c0(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.Unknown);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          binaryEncoding: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AuthorizationsReauthorizeResponseLinksItemSchemaMedia" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          additionalItems: S.optional(S.Unknown),
+          dependencies: S.optional(S.Unknown),
+          items: S.optional(S.Unknown),
+          definitions: S.optional(S.Unknown),
+          patternProperties: S.optional(S.Unknown),
+          properties: S.optional(S.Unknown),
+          allOf: S.optional(__S(0, __c0, 0)),
+          anyOf: S.optional(__S(0, __c0, 0)),
+          oneOf: S.optional(__S(0, __c0, 0)),
+          not: S.optional(S.Unknown),
+          links: S.optional(__S(0, __c0, 0)),
+          fragmentResolution: S.optional(S.String),
+          media: S.optional(__S(1, __c0, 1)),
+          pathStart: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AuthorizationsReauthorizeResponseLinksItemSchema" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          href: S.String,
+          rel: S.String,
+          method: S.optional(S.String),
+          title: S.optional(S.String),
+          mediaType: S.optional(S.String),
+          encType: S.optional(S.String),
+          schema: S.optional(__S(2, __c0, 2)),
+          targetSchema: S.optional(__S(2, __c0, 2)),
+        }),
+      ).annotate({ identifier: "AuthorizationsReauthorizeResponseLinksItem" });
+    case 4:
+      return S.Array(__S(3, __c0, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.optional(S.String),
+          value: S.optional(S.String),
+          location: S.optional(S.String),
+          issue: S.String,
+          links: S.optional(__S(4, __c0, 4)),
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ErrorDetailsItem" });
+    case 6:
+      return S.Array(__S(5, __c0, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          message: S.String,
+          debug_id: S.String,
+          details: S.optional(__S(6, __c0, 6)),
+          links: S.optional(__S(4, __c0, 4)),
+        }),
+      ).annotate({ identifier: "Error" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           refund_id: S.String.pipe(T.Label()),
@@ -2443,57 +2795,57 @@ function __c0(j: number): any {
       ).annotate({ identifier: "GetRefundRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          payable_amount: S.optional(__S(160, __c5, 0)),
-          converted_amount: S.optional(__S(160, __c5, 0)),
-          exchange_rate: S.optional(__S(386, __c12, 2)),
+          payable_amount: S.optional(__S(192, __c6, 0)),
+          converted_amount: S.optional(__S(192, __c6, 0)),
+          exchange_rate: S.optional(__S(418, __c13, 2)),
         }),
       ).annotate({ identifier: "GetRefundResponseSellerPayableBreakdownNetAmountBreakdownItem" });
     case 1:
-      return S.Array(__S(32, __c1, 0));
+      return S.Array(__S(64, __c2, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          gross_amount: S.optional(__S(160, __c5, 0)),
-          paypal_fee: S.optional(__S(160, __c5, 0)),
-          paypal_fee_in_receivable_currency: S.optional(__S(160, __c5, 0)),
-          net_amount: S.optional(__S(160, __c5, 0)),
-          net_amount_in_receivable_currency: S.optional(__S(160, __c5, 0)),
-          platform_fees: S.optional(__S(385, __c12, 1)),
-          net_amount_breakdown: S.optional(__S(33, __c1, 1)),
-          total_refunded_amount: S.optional(__S(160, __c5, 0)),
+          gross_amount: S.optional(__S(192, __c6, 0)),
+          paypal_fee: S.optional(__S(192, __c6, 0)),
+          paypal_fee_in_receivable_currency: S.optional(__S(192, __c6, 0)),
+          net_amount: S.optional(__S(192, __c6, 0)),
+          net_amount_in_receivable_currency: S.optional(__S(192, __c6, 0)),
+          platform_fees: S.optional(__S(417, __c13, 1)),
+          net_amount_breakdown: S.optional(__S(65, __c2, 1)),
+          total_refunded_amount: S.optional(__S(192, __c6, 0)),
         }),
       ).annotate({ identifier: "GetRefundResponseSellerPayableBreakdown" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          status_details: S.optional(__S(224, __c7, 0)),
+          status_details: S.optional(__S(256, __c8, 0)),
           id: S.optional(S.String),
-          amount: S.optional(__S(160, __c5, 0)),
+          amount: S.optional(__S(192, __c6, 0)),
           invoice_id: S.optional(S.String),
           custom_id: S.optional(S.String),
           acquirer_reference_number: S.optional(S.String),
           note_to_payer: S.optional(S.String),
-          seller_payable_breakdown: S.optional(__S(34, __c1, 2)),
-          payer: S.optional(__S(166, __c5, 6)),
-          links: S.optional(__S(165, __c5, 5)),
+          seller_payable_breakdown: S.optional(__S(66, __c2, 2)),
+          payer: S.optional(__S(193, __c6, 1)),
+          links: S.optional(__S(4, __c0, 4)),
           create_time: S.optional(S.Unknown),
           update_time: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "GetRefundResponse" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          platform_fees: S.optional(__S(385, __c12, 1)),
+          platform_fees: S.optional(__S(417, __c13, 1)),
         }),
       ).annotate({ identifier: "RefundCaptureRequestPaymentInstruction" });
     case 1:
@@ -2503,18 +2855,18 @@ function __c2(j: number): any {
           payPalRequestId: S.optional(S.String.pipe(T.Header("PayPal-Request-Id"))),
           prefer: S.optional(S.String.pipe(T.Header("Prefer"))),
           payPalAuthAssertion: S.optional(S.String.pipe(T.Header("PayPal-Auth-Assertion"))),
-          amount: S.optional(__S(160, __c5, 0)),
+          amount: S.optional(__S(192, __c6, 0)),
           custom_id: S.optional(S.String),
           invoice_id: S.optional(S.String),
           note_to_payer: S.optional(S.String),
-          payment_instruction: S.optional(__S(64, __c2, 0)),
+          payment_instruction: S.optional(__S(96, __c3, 0)),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/payments/captures/{capture_id}/refund", code: 200 }),
         ),
       ).annotate({ identifier: "RefundCaptureRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2533,7 +2885,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "VoidAuthorizationRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2542,7 +2894,7 @@ function __c4(j: number): any {
           payPalRequestId: S.optional(S.String.pipe(T.Header("PayPal-Request-Id"))),
           prefer: S.optional(S.String.pipe(T.Header("Prefer"))),
           payPalAuthAssertion: S.optional(S.String.pipe(T.Header("PayPal-Auth-Assertion"))),
-          amount: S.optional(__S(160, __c5, 0)),
+          amount: S.optional(__S(192, __c6, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2553,7 +2905,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "AuthorizationsReauthorizeRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2563,49 +2915,6 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "AuthorizationsReauthorizeRequestAmount" });
     case 1:
-      return S.Array(S.Unknown);
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          binaryEncoding: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AuthorizationsReauthorizeResponseLinksItemSchemaMedia" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          additionalItems: S.optional(S.Unknown),
-          dependencies: S.optional(S.Unknown),
-          items: S.optional(S.Unknown),
-          definitions: S.optional(S.Unknown),
-          patternProperties: S.optional(S.Unknown),
-          properties: S.optional(S.Unknown),
-          allOf: S.optional(__S(161, __c5, 1)),
-          anyOf: S.optional(__S(161, __c5, 1)),
-          oneOf: S.optional(__S(161, __c5, 1)),
-          not: S.optional(S.Unknown),
-          links: S.optional(__S(161, __c5, 1)),
-          fragmentResolution: S.optional(S.String),
-          media: S.optional(__S(162, __c5, 2)),
-          pathStart: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AuthorizationsReauthorizeResponseLinksItemSchema" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          href: S.String,
-          rel: S.String,
-          method: S.optional(S.String),
-          title: S.optional(S.String),
-          mediaType: S.optional(S.String),
-          encType: S.optional(S.String),
-          schema: S.optional(__S(163, __c5, 3)),
-          targetSchema: S.optional(__S(163, __c5, 3)),
-        }),
-      ).annotate({ identifier: "AuthorizationsReauthorizeResponseLinksItem" });
-    case 5:
-      return S.Array(__S(164, __c5, 4));
-    case 6:
       return S.suspend(() =>
         S.Struct({
           email_address: S.optional(S.Unknown),
@@ -2614,18 +2923,18 @@ function __c5(j: number): any {
       ).annotate({ identifier: "AuthorizationsReauthorizeResponsePayee" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          item_total: S.optional(__S(160, __c5, 0)),
-          shipping: S.optional(__S(160, __c5, 0)),
-          handling: S.optional(__S(160, __c5, 0)),
-          tax_total: S.optional(__S(160, __c5, 0)),
-          insurance: S.optional(__S(160, __c5, 0)),
-          shipping_discount: S.optional(__S(160, __c5, 0)),
-          discount: S.optional(__S(160, __c5, 0)),
+          item_total: S.optional(__S(192, __c6, 0)),
+          shipping: S.optional(__S(192, __c6, 0)),
+          handling: S.optional(__S(192, __c6, 0)),
+          tax_total: S.optional(__S(192, __c6, 0)),
+          insurance: S.optional(__S(192, __c6, 0)),
+          shipping_discount: S.optional(__S(192, __c6, 0)),
+          discount: S.optional(__S(192, __c6, 0)),
         }),
       ).annotate({ identifier: "AmountBreakdown" });
     case 1:
@@ -2633,14 +2942,14 @@ function __c6(j: number): any {
         S.Struct({
           currency_code: S.String,
           value: S.String,
-          breakdown: S.optional(__S(192, __c6, 0)),
+          breakdown: S.optional(__S(224, __c7, 0)),
         }),
       ).annotate({ identifier: "AuthorizationsReauthorizeResponseAmount" });
     case 2:
       return S.Array(S.String);
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2650,7 +2959,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "AuthorizationsReauthorizeResponseStatusDetails" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2665,7 +2974,7 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          dispute_categories: S.optional(__S(194, __c6, 2)),
+          dispute_categories: S.optional(__S(226, __c7, 2)),
         }),
       ).annotate({ identifier: "AuthorizationsReauthorizeResponseSellerProtection" });
     case 2:
@@ -2679,32 +2988,9 @@ function __c8(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          related_ids: S.optional(__S(258, __c8, 2)),
+          related_ids: S.optional(__S(290, __c9, 2)),
         }),
       ).annotate({ identifier: "AuthorizationsReauthorizeResponseSupplementaryData" });
-  }
-}
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.String),
-          status_details: S.optional(__S(224, __c7, 0)),
-          id: S.optional(S.String),
-          amount: S.optional(__S(193, __c6, 1)),
-          invoice_id: S.optional(S.String),
-          custom_id: S.optional(S.String),
-          network_transaction_reference: S.optional(__S(256, __c8, 0)),
-          seller_protection: S.optional(__S(257, __c8, 1)),
-          expiration_time: S.optional(S.Unknown),
-          links: S.optional(__S(165, __c5, 5)),
-          create_time: S.optional(S.Unknown),
-          update_time: S.optional(S.Unknown),
-          supplementary_data: S.optional(__S(259, __c8, 3)),
-          payee: S.optional(__S(166, __c5, 6)),
-        }),
-      ).annotate({ identifier: "AuthorizationsReauthorizeResponse" });
   }
 }
 function __c10(j: number): any {
@@ -2712,7 +2998,30 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          platform_fees: S.optional(__S(385, __c12, 1)),
+          status: S.optional(S.String),
+          status_details: S.optional(__S(256, __c8, 0)),
+          id: S.optional(S.String),
+          amount: S.optional(__S(225, __c7, 1)),
+          invoice_id: S.optional(S.String),
+          custom_id: S.optional(S.String),
+          network_transaction_reference: S.optional(__S(288, __c9, 0)),
+          seller_protection: S.optional(__S(289, __c9, 1)),
+          expiration_time: S.optional(S.Unknown),
+          links: S.optional(__S(4, __c0, 4)),
+          create_time: S.optional(S.Unknown),
+          update_time: S.optional(S.Unknown),
+          supplementary_data: S.optional(__S(291, __c9, 3)),
+          payee: S.optional(__S(193, __c6, 1)),
+        }),
+      ).annotate({ identifier: "AuthorizationsReauthorizeResponse" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          platform_fees: S.optional(__S(417, __c13, 1)),
           disbursement_mode: S.optional(S.Unknown),
           payee_pricing_tier_id: S.optional(S.String),
           payee_receivable_fx_rate_id: S.optional(S.String),
@@ -2727,9 +3036,9 @@ function __c10(j: number): any {
           payPalAuthAssertion: S.optional(S.String.pipe(T.Header("PayPal-Auth-Assertion"))),
           invoice_id: S.optional(S.String),
           note_to_payer: S.optional(S.String),
-          amount: S.optional(__S(160, __c5, 0)),
+          amount: S.optional(__S(192, __c6, 0)),
           final_capture: S.optional(S.Boolean),
-          payment_instruction: S.optional(__S(320, __c10, 0)),
+          payment_instruction: S.optional(__S(352, __c11, 0)),
           soft_descriptor: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -2741,18 +3050,18 @@ function __c10(j: number): any {
       ).annotate({ identifier: "CaptureAuthorizationRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          gross_amount: __S(160, __c5, 0),
-          paypal_fee: S.optional(__S(160, __c5, 0)),
-          paypal_fee_in_receivable_currency: S.optional(__S(160, __c5, 0)),
-          net_amount: S.optional(__S(160, __c5, 0)),
-          receivable_amount: S.optional(__S(160, __c5, 0)),
-          exchange_rate: S.optional(__S(386, __c12, 2)),
-          platform_fees: S.optional(__S(385, __c12, 1)),
+          gross_amount: __S(192, __c6, 0),
+          paypal_fee: S.optional(__S(192, __c6, 0)),
+          paypal_fee_in_receivable_currency: S.optional(__S(192, __c6, 0)),
+          net_amount: S.optional(__S(192, __c6, 0)),
+          receivable_amount: S.optional(__S(192, __c6, 0)),
+          exchange_rate: S.optional(__S(418, __c13, 2)),
+          platform_fees: S.optional(__S(417, __c13, 1)),
         }),
       ).annotate({ identifier: "CaptureAuthorizationResponseSellerReceivableBreakdown" });
     case 1:
@@ -2768,37 +3077,37 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          status_details: S.optional(__S(224, __c7, 0)),
+          status_details: S.optional(__S(256, __c8, 0)),
           id: S.optional(S.String),
-          amount: S.optional(__S(193, __c6, 1)),
+          amount: S.optional(__S(225, __c7, 1)),
           invoice_id: S.optional(S.String),
           custom_id: S.optional(S.String),
-          network_transaction_reference: S.optional(__S(256, __c8, 0)),
-          seller_protection: S.optional(__S(257, __c8, 1)),
+          network_transaction_reference: S.optional(__S(288, __c9, 0)),
+          seller_protection: S.optional(__S(289, __c9, 1)),
           final_capture: S.optional(S.Boolean),
-          seller_receivable_breakdown: S.optional(__S(352, __c11, 0)),
+          seller_receivable_breakdown: S.optional(__S(384, __c12, 0)),
           disbursement_mode: S.optional(S.String),
-          links: S.optional(__S(165, __c5, 5)),
-          processor_response: S.optional(__S(353, __c11, 1)),
+          links: S.optional(__S(4, __c0, 4)),
+          processor_response: S.optional(__S(385, __c12, 1)),
           create_time: S.optional(S.Unknown),
           update_time: S.optional(S.Unknown),
-          supplementary_data: S.optional(__S(259, __c8, 3)),
-          payee: S.optional(__S(166, __c5, 6)),
+          supplementary_data: S.optional(__S(291, __c9, 3)),
+          payee: S.optional(__S(193, __c6, 1)),
         }),
       ).annotate({ identifier: "CaptureAuthorizationResponse" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          amount: __S(160, __c5, 0),
-          payee: S.optional(__S(166, __c5, 6)),
+          amount: __S(192, __c6, 0),
+          payee: S.optional(__S(193, __c6, 1)),
         }),
       ).annotate({ identifier: "CaptureAuthorizationRequestPaymentInstructionPlatformFeesItem" });
     case 1:
-      return S.Array(__S(384, __c12, 0));
+      return S.Array(__S(416, __c13, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -2811,7 +3120,7 @@ function __c12(j: number): any {
       });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2833,26 +3142,26 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           country_code: S.optional(S.Unknown),
-          channel: S.optional(__S(416, __c13, 0)),
+          channel: S.optional(__S(448, __c14, 0)),
           id: S.optional(S.String),
           email: S.optional(S.String),
-          phone: S.optional(__S(417, __c13, 1)),
+          phone: S.optional(__S(449, __c14, 1)),
         }),
       ).annotate({ identifier: "FindEligibleMethodsRequestCustomer" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          amount: S.optional(__S(193, __c6, 1)),
-          payee: S.optional(__S(166, __c5, 6)),
+          amount: S.optional(__S(225, __c7, 1)),
+          payee: S.optional(__S(193, __c6, 1)),
         }),
       ).annotate({ identifier: "EligibilityPurchaseUnitRequest" });
     case 4:
-      return S.Array(__S(419, __c13, 3));
+      return S.Array(__S(451, __c14, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           constraint_type: S.String,
-          payment_sources: __S(194, __c6, 2),
+          payment_sources: __S(226, __c7, 2),
         }),
       ).annotate({ identifier: "FindEligibleMethodsRequestPreferencesPaymentSourceConstraint" });
     case 6:
@@ -2861,7 +3170,7 @@ function __c13(j: number): any {
           payment_flow: S.optional(S.String),
           include_account_details: S.optional(S.Boolean),
           include_vault_tokens: S.optional(S.Boolean),
-          payment_source_constraint: S.optional(__S(421, __c13, 5)),
+          payment_source_constraint: S.optional(__S(453, __c14, 5)),
         }),
       ).annotate({ identifier: "FindEligibleMethodsRequestPreferences" });
     case 7:
@@ -2870,9 +3179,9 @@ function __c13(j: number): any {
           payPalAuthAssertion: S.optional(S.String.pipe(T.Header("PayPal-Auth-Assertion"))),
           userAgent: S.optional(S.String.pipe(T.Header("User-Agent"))),
           payPalClientMetadataId: S.optional(S.String.pipe(T.Header("PayPal-Client-Metadata-Id"))),
-          customer: S.optional(__S(418, __c13, 2)),
-          purchase_units: S.optional(__S(420, __c13, 4)),
-          preferences: S.optional(__S(422, __c13, 6)),
+          customer: S.optional(__S(450, __c14, 2)),
+          purchase_units: S.optional(__S(452, __c14, 4)),
+          preferences: S.optional(__S(454, __c14, 6)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/payments/find-eligible-methods", code: 200 })),
       ).annotate({ identifier: "FindEligibleMethodsRequest" });
     case 8:
@@ -2897,10 +3206,10 @@ function __c13(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          paypal: S.optional(__S(424, __c13, 8)),
-          venmo: S.optional(__S(424, __c13, 8)),
-          paypal_credit: S.optional(__S(425, __c13, 9)),
-          paypal_pay_later: S.optional(__S(425, __c13, 9)),
+          paypal: S.optional(__S(456, __c14, 8)),
+          venmo: S.optional(__S(456, __c14, 8)),
+          paypal_credit: S.optional(__S(457, __c14, 9)),
+          paypal_pay_later: S.optional(__S(457, __c14, 9)),
         }),
       ).annotate({ identifier: "FindEligibleMethodsResponseEligibleMethods" });
     case 11:
@@ -2919,30 +3228,30 @@ function __c13(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
-          paypal: S.optional(__S(427, __c13, 11)),
-          venmo: S.optional(__S(428, __c13, 12)),
+          paypal: S.optional(__S(459, __c14, 11)),
+          venmo: S.optional(__S(460, __c14, 12)),
         }),
       ).annotate({ identifier: "FindEligibleMethodsResponsePaymentTokensItemPaymentSource" });
     case 14:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          payment_source: S.optional(__S(429, __c13, 13)),
-          links: S.optional(__S(165, __c5, 5)),
+          payment_source: S.optional(__S(461, __c14, 13)),
+          links: S.optional(__S(4, __c0, 4)),
         }),
       ).annotate({ identifier: "FindEligibleMethodsResponsePaymentTokensItem" });
     case 15:
-      return S.Array(__S(430, __c13, 14));
+      return S.Array(__S(462, __c14, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
-          eligible_methods: S.optional(__S(426, __c13, 10)),
-          payment_tokens: S.optional(__S(431, __c13, 15)),
+          eligible_methods: S.optional(__S(458, __c14, 10)),
+          payment_tokens: S.optional(__S(463, __c14, 15)),
         }),
       ).annotate({ identifier: "FindEligibleMethodsResponse" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2959,7 +3268,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetAuthorizationRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

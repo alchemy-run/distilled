@@ -34,6 +34,8 @@ export class AiSecurityNotEntitled
     /*@__PURE__*/ S.TaggedError<AiSecurityNotEntitled>()("AiSecurityNotEntitled", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 13101, message: { includes: "not entitled" } }],
   ) {}
@@ -43,6 +45,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -52,6 +56,8 @@ export class ZoneNotAuthorized
     /*@__PURE__*/ S.TaggedError<ZoneNotAuthorized>()("ZoneNotAuthorized", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10000, message: { includes: "Authentication error" } }],
   ) {}

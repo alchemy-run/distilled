@@ -118,7 +118,7 @@ export class InternalServerErrorException
     "InternalServerErrorException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class MethodNotAllowedException
   extends /*@__PURE__*/ S.TaggedError<MethodNotAllowedException>()(
     "MethodNotAllowedException",
@@ -136,7 +136,7 @@ export class TooManyRequestsException
     "TooManyRequestsException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class UnauthorizedException
   extends /*@__PURE__*/ S.TaggedError<UnauthorizedException>()(
     "UnauthorizedException",

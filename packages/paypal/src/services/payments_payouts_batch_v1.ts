@@ -31,27 +31,48 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | string;
+}
 
 export interface CancelPayoutsItemRequest {
   /** The ID of the payout item to cancel. */
@@ -395,8 +416,8 @@ export const cancelPayoutsItem: API.OperationMethod<
   CancelPayoutsItemError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CancelPayoutsItemRequest>,
-  output: __S(48, __c3, 0) as any as S.Schema<PayoutItem>,
+  input: __S(16, __c1, 0) as any as S.Schema<CancelPayoutsItemRequest>,
+  output: __S(64, __c4, 0) as any as S.Schema<PayoutItem>,
   errors: [BadRequest, NotFound, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -412,8 +433,8 @@ export const getPayout: API.OperationMethod<
   GetPayoutError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<GetPayoutRequest>,
-  output: __S(68, __c4, 4) as any as S.Schema<PayoutBatch>,
+  input: __S(80, __c5, 0) as any as S.Schema<GetPayoutRequest>,
+  output: __S(84, __c5, 4) as any as S.Schema<PayoutBatch>,
   errors: [NotFound, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -429,8 +450,8 @@ export const getPayoutsItem: API.OperationMethod<
   GetPayoutsItemError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<GetPayoutsItemRequest>,
-  output: __S(48, __c3, 0) as any as S.Schema<PayoutItem>,
+  input: __S(112, __c7, 0) as any as S.Schema<GetPayoutsItemRequest>,
+  output: __S(64, __c4, 0) as any as S.Schema<PayoutItem>,
   errors: [NotFound, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -446,8 +467,8 @@ export const postPayout: API.OperationMethod<
   PostPayoutError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(118, __c7, 6) as any as S.Schema<PostPayoutRequest>,
-  output: __S(120, __c7, 8) as any as S.Schema<Payout>,
+  input: __S(134, __c8, 6) as any as S.Schema<PostPayoutRequest>,
+  output: __S(136, __c8, 8) as any as S.Schema<Payout>,
   errors: [BadRequest, Forbidden, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -457,6 +478,43 @@ export const postPayout: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.optional(S.String),
+          value: S.optional(S.String),
+          location: S.optional(S.String),
+          issue: S.String,
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ErrorDetails2" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          href: S.String,
+          rel: S.String,
+          method: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LinkDescription" });
+    case 3:
+      return S.Array(__S(2, __c0, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          message: S.String,
+          debug_id: S.String,
+          information_link: S.optional(S.String),
+          details: S.optional(__S(1, __c0, 1)),
+          links: S.optional(__S(3, __c0, 3)),
+        }),
+      ).annotate({ identifier: "Error" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -472,7 +530,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CancelPayoutsItemRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -490,11 +548,11 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           recipient_type: S.optional(S.String),
-          amount: __S(32, __c2, 0),
+          amount: __S(48, __c3, 0),
           note: S.optional(S.String),
           receiver: S.String,
           sender_item_id: S.optional(S.String),
-          recipient_name: S.optional(__S(16, __c1, 0)),
+          recipient_name: S.optional(__S(32, __c2, 0)),
           recipient_wallet: S.optional(S.String),
           purpose: S.optional(S.String),
         }),
@@ -502,37 +560,14 @@ function __c1(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          from_amount: S.optional(__S(32, __c2, 0)),
-          to_amount: S.optional(__S(32, __c2, 0)),
+          from_amount: S.optional(__S(48, __c3, 0)),
+          to_amount: S.optional(__S(48, __c3, 0)),
           exchange_rate: S.optional(S.String),
         }),
       ).annotate({ identifier: "PayoutCurrencyConversion" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.optional(S.String),
-          value: S.optional(S.String),
-          location: S.optional(S.String),
-          issue: S.String,
-          description: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ErrorDetails2" });
-    case 4:
-      return S.Array(__S(19, __c1, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          message: S.String,
-          debug_id: S.String,
-          information_link: S.optional(S.String),
-          details: S.optional(__S(20, __c1, 4)),
-          links: S.optional(__S(34, __c2, 2)),
-        }),
-      ).annotate({ identifier: "Error" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -541,19 +576,9 @@ function __c2(j: number): any {
           value: S.String,
         }),
       ).annotate({ identifier: "Currency" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          href: S.String,
-          rel: S.String,
-          method: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "LinkDescription" });
-    case 2:
-      return S.Array(__S(33, __c2, 1));
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -562,19 +587,19 @@ function __c3(j: number): any {
           transaction_id: S.optional(S.String),
           activity_id: S.optional(S.String),
           transaction_status: S.optional(S.String),
-          payout_item_fee: S.optional(__S(32, __c2, 0)),
+          payout_item_fee: S.optional(__S(48, __c3, 0)),
           payout_batch_id: S.String,
           sender_batch_id: S.optional(S.String),
-          payout_item: __S(17, __c1, 1),
-          currency_conversion: S.optional(__S(18, __c1, 2)),
+          payout_item: __S(33, __c2, 1),
+          currency_conversion: S.optional(__S(34, __c2, 2)),
           time_processed: S.optional(S.String),
-          errors: S.optional(__S(21, __c1, 5)),
-          links: S.optional(__S(34, __c2, 2)),
+          errors: S.optional(__S(4, __c0, 4)),
+          links: S.optional(__S(3, __c0, 3)),
         }),
       ).annotate({ identifier: "PayoutItem" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -594,10 +619,10 @@ function __c4(j: number): any {
           time_created: S.optional(S.String),
           time_completed: S.optional(S.String),
           time_closed: S.optional(S.String),
-          sender_batch_header: __S(80, __c5, 0),
+          sender_batch_header: __S(96, __c6, 0),
           funding_source: S.optional(S.String),
-          amount: S.optional(__S(32, __c2, 0)),
-          fees: S.optional(__S(32, __c2, 0)),
+          amount: S.optional(__S(48, __c3, 0)),
+          fees: S.optional(__S(48, __c3, 0)),
         }),
       ).annotate({ identifier: "PayoutBatchHeader" });
     case 2:
@@ -607,30 +632,30 @@ function __c4(j: number): any {
           transaction_id: S.optional(S.String),
           activity_id: S.optional(S.String),
           transaction_status: S.optional(S.String),
-          payout_item_fee: S.optional(__S(32, __c2, 0)),
+          payout_item_fee: S.optional(__S(48, __c3, 0)),
           payout_batch_id: S.String,
-          payout_item: __S(17, __c1, 1),
-          currency_conversion: S.optional(__S(18, __c1, 2)),
+          payout_item: __S(33, __c2, 1),
+          currency_conversion: S.optional(__S(34, __c2, 2)),
           time_processed: S.optional(S.String),
-          errors: S.optional(__S(21, __c1, 5)),
-          links: S.optional(__S(34, __c2, 2)),
+          errors: S.optional(__S(4, __c0, 4)),
+          links: S.optional(__S(3, __c0, 3)),
         }),
       ).annotate({ identifier: "PayoutBatchItems" });
     case 3:
-      return S.Array(__S(66, __c4, 2));
+      return S.Array(__S(82, __c5, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           total_items: S.optional(S.Number),
           total_pages: S.optional(S.Number),
-          batch_header: S.optional(__S(65, __c4, 1)),
-          items: S.optional(__S(67, __c4, 3)),
-          links: S.optional(__S(34, __c2, 2)),
+          batch_header: S.optional(__S(81, __c5, 1)),
+          items: S.optional(__S(83, __c5, 3)),
+          links: S.optional(__S(3, __c0, 3)),
         }),
       ).annotate({ identifier: "PayoutBatch" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -643,7 +668,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "PayoutSenderBatchHeader" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -655,7 +680,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GetPayoutsItemRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -678,7 +703,7 @@ function __c7(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          phone: S.optional(__S(113, __c7, 1)),
+          phone: S.optional(__S(129, __c8, 1)),
         }),
       ).annotate({ identifier: "AlternateNotificationMethod" });
     case 3:
@@ -693,25 +718,25 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           recipient_type: S.optional(S.String),
-          amount: __S(32, __c2, 0),
+          amount: __S(48, __c3, 0),
           note: S.optional(S.String),
           receiver: S.String,
           sender_item_id: S.optional(S.String),
           recipient_wallet: S.optional(S.String),
-          alternate_notification_method: S.optional(__S(114, __c7, 2)),
+          alternate_notification_method: S.optional(__S(130, __c8, 2)),
           notification_language: S.optional(S.String),
-          application_context: S.optional(__S(115, __c7, 3)),
+          application_context: S.optional(__S(131, __c8, 3)),
           purpose: S.optional(S.String),
         }),
       ).annotate({ identifier: "PayoutItemRequest" });
     case 5:
-      return S.Array(__S(116, __c7, 4));
+      return S.Array(__S(132, __c8, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           payPalRequestId: S.optional(S.String.pipe(T.Header("PayPal-Request-Id"))),
-          sender_batch_header: __S(112, __c7, 0),
-          items: __S(117, __c7, 5),
+          sender_batch_header: __S(128, __c8, 0),
+          items: __S(133, __c8, 5),
         }).pipe(T.Http({ method: "POST", uri: "/v1/payments/payouts", code: 200 })),
       ).annotate({ identifier: "PostPayoutRequest" });
     case 7:
@@ -720,14 +745,14 @@ function __c7(j: number): any {
           payout_batch_id: S.String,
           batch_status: S.String,
           time_created: S.optional(S.String),
-          sender_batch_header: __S(80, __c5, 0),
+          sender_batch_header: __S(96, __c6, 0),
         }),
       ).annotate({ identifier: "PayoutHeader" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          batch_header: S.optional(__S(119, __c7, 7)),
-          links: S.optional(__S(34, __c2, 2)),
+          batch_header: S.optional(__S(135, __c8, 7)),
+          links: S.optional(__S(3, __c0, 3)),
         }),
       ).annotate({ identifier: "Payout" });
   }

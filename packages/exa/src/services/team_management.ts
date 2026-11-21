@@ -31,36 +31,87 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?:
+    | Error400Body2
+    | Error400Body3
+    | Error400Body
+    | Error400Body5
+    | Error400Body4
+    | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(8, __c1, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error409Body | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error403Body2 | Error403Body | Error403Body3 | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error404Body2 | Error404Body3 | Error404Body | string;
+}
 
 export interface CreateApiKeyRequest {
   /** Optional name for the API key */
@@ -314,6 +365,26 @@ export interface UpdateApiKeyResponseApiKey {
 export interface UpdateApiKeyResponse {
   apiKey?: UpdateApiKeyResponseApiKey | undefined;
 }
+export interface Error400Body2 {
+  error?: string | undefined;
+}
+export type Error400Body3 = Error400Body2;
+export type Error400Body = Error400Body2;
+export type Error400Body5 = Error400Body2;
+export type Error400Body4 = Error400Body2;
+export type Error409BodyCode = "previous_secret_active" | "rotation_conflict";
+export interface Error409Body {
+  error?: string | undefined;
+  code?: Error409BodyCode | undefined;
+  /** When the previous secret stops working. Present with `previous_secret_active`. */
+  previousSecretExpiresAt?: string | undefined;
+}
+export type Error403Body2 = Error400Body2;
+export type Error403Body = Error400Body2;
+export type Error403Body3 = Error400Body2;
+export type Error404Body2 = Error400Body2;
+export type Error404Body3 = Error400Body2;
+export type Error404Body = Error400Body2;
 export type CreateApiKeyError = BadRequest | ExaOpError;
 /** Create API key Creates a new API key for the authenticated team. Optionally specify a name, rate limit, and budget for the API key. The response returns the new key in `secret`. Use `publicId` to refer to the key in later requests. */
 export const createApiKey: API.OperationMethod<
@@ -322,8 +393,8 @@ export const createApiKey: API.OperationMethod<
   CreateApiKeyError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<CreateApiKeyRequest>,
-  output: __S(26, __c3, 2) as any as S.Schema<CreateApiKeyResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<CreateApiKeyRequest>,
+  output: __S(42, __c5, 2) as any as S.Schema<CreateApiKeyResponse>,
   errors: [BadRequest, UnknownExaError],
   protocol: ExaTeamManagementProtocol,
   retry: Retry.Retry,
@@ -339,8 +410,8 @@ export const deleteApiKey: API.OperationMethod<
   DeleteApiKeyError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<DeleteApiKeyRequest>,
-  output: __S(33, __c4, 1) as any as S.Schema<DeleteApiKeyResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<DeleteApiKeyRequest>,
+  output: __S(49, __c6, 1) as any as S.Schema<DeleteApiKeyResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownExaError],
   protocol: ExaTeamManagementProtocol,
   retry: Retry.Retry,
@@ -356,8 +427,8 @@ export const getApiKey: API.OperationMethod<
   GetApiKeyError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<GetApiKeyRequest>,
-  output: __S(42, __c5, 2) as any as S.Schema<GetApiKeyResponse>,
+  input: __S(56, __c7, 0) as any as S.Schema<GetApiKeyRequest>,
+  output: __S(58, __c7, 2) as any as S.Schema<GetApiKeyResponse>,
   errors: [BadRequest, NotFound, UnknownExaError],
   protocol: ExaTeamManagementProtocol,
   retry: Retry.Retry,
@@ -373,8 +444,8 @@ export const getApiKeyUsage: API.OperationMethod<
   GetApiKeyUsageError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<GetApiKeyUsageRequest>,
-  output: __S(52, __c6, 4) as any as S.Schema<GetApiKeyUsageResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<GetApiKeyUsageRequest>,
+  output: __S(68, __c8, 4) as any as S.Schema<GetApiKeyUsageResponse>,
   errors: [BadRequest, NotFound, UnknownExaError],
   protocol: ExaTeamManagementProtocol,
   retry: Retry.Retry,
@@ -390,8 +461,8 @@ export const getTeamCredits: API.OperationMethod<
   GetTeamCreditsError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<GetTeamCreditsRequest>,
-  output: __S(67, __c8, 3) as any as S.Schema<GetTeamCreditsResponse>,
+  input: __S(80, __c10, 0) as any as S.Schema<GetTeamCreditsRequest>,
+  output: __S(83, __c10, 3) as any as S.Schema<GetTeamCreditsResponse>,
   errors: [NotFound, UnknownExaError],
   protocol: ExaTeamManagementProtocol,
   retry: Retry.Retry,
@@ -407,8 +478,8 @@ export const listApiKeys: API.OperationMethod<
   ListApiKeysError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<ListApiKeysRequest>,
-  output: __S(73, __c9, 1) as any as S.Schema<ListApiKeysResponse>,
+  input: __S(88, __c11, 0) as any as S.Schema<ListApiKeysRequest>,
+  output: __S(89, __c11, 1) as any as S.Schema<ListApiKeysResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownExaError],
   protocol: ExaTeamManagementProtocol,
   retry: Retry.Retry,
@@ -424,8 +495,8 @@ export const revokePreviousApiKeySecret: API.OperationMethod<
   RevokePreviousApiKeySecretError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<RevokePreviousApiKeySecretRequest>,
-  output: __S(2, __c0, 2) as any as S.Schema<RevokePreviousApiKeySecretResponse>,
+  input: __S(16, __c2, 0) as any as S.Schema<RevokePreviousApiKeySecretRequest>,
+  output: __S(18, __c2, 2) as any as S.Schema<RevokePreviousApiKeySecretResponse>,
   errors: [Forbidden, NotFound, UnknownExaError],
   protocol: ExaTeamManagementProtocol,
   retry: Retry.Retry,
@@ -441,8 +512,8 @@ export const rotateApiKey: API.OperationMethod<
   RotateApiKeyError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<RotateApiKeyRequest>,
-  output: __S(10, __c1, 2) as any as S.Schema<RotateApiKeyResponse>,
+  input: __S(24, __c3, 0) as any as S.Schema<RotateApiKeyRequest>,
+  output: __S(26, __c3, 2) as any as S.Schema<RotateApiKeyResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownExaError],
   protocol: ExaTeamManagementProtocol,
   retry: Retry.Retry,
@@ -458,8 +529,8 @@ export const updateApiKey: API.OperationMethod<
   UpdateApiKeyError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<UpdateApiKeyRequest>,
-  output: __S(18, __c2, 2) as any as S.Schema<UpdateApiKeyResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<UpdateApiKeyRequest>,
+  output: __S(34, __c4, 2) as any as S.Schema<UpdateApiKeyResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownExaError],
   protocol: ExaTeamManagementProtocol,
   retry: Retry.Retry,
@@ -469,6 +540,28 @@ export const updateApiKey: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          error: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Error400Body2" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          error: S.optional(S.String),
+          code: S.optional(S.String),
+          previousSecretExpiresAt: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Error409Body" });
+  }
+}
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -486,13 +579,13 @@ function __c0(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          apiKey: S.optional(__S(1, __c0, 1)),
+          apiKey: S.optional(__S(17, __c2, 1)),
           revoked: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "RevokePreviousApiKeySecretResponse" });
   }
 }
-function __c1(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -520,12 +613,12 @@ function __c1(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          apiKey: S.optional(__S(9, __c1, 1)),
+          apiKey: S.optional(__S(25, __c3, 1)),
         }),
       ).annotate({ identifier: "RotateApiKeyResponse" });
   }
 }
-function __c2(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -554,12 +647,12 @@ function __c2(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          apiKey: S.optional(__S(17, __c2, 1)),
+          apiKey: S.optional(__S(33, __c4, 1)),
         }),
       ).annotate({ identifier: "UpdateApiKeyResponse" });
   }
 }
-function __c3(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -587,12 +680,12 @@ function __c3(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          apiKey: S.optional(__S(25, __c3, 1)),
+          apiKey: S.optional(__S(41, __c5, 1)),
         }),
       ).annotate({ identifier: "CreateApiKeyResponse" });
   }
 }
-function __c4(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -608,7 +701,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "DeleteApiKeyResponse" });
   }
 }
-function __c5(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -633,12 +726,12 @@ function __c5(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          apiKey: S.optional(__S(41, __c5, 1)),
+          apiKey: S.optional(__S(57, __c7, 1)),
         }),
       ).annotate({ identifier: "GetApiKeyResponse" });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -666,7 +759,7 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "GetApiKeyUsageResponseCostBreakdownItem" });
     case 3:
-      return S.Array(__S(50, __c6, 2));
+      return S.Array(__S(66, __c8, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -674,15 +767,15 @@ function __c6(j: number): any {
           api_key_id: S.optional(S.String.pipe(T.SensitiveValue({}))),
           api_key_name: S.optional(S.NullOr(S.String)),
           team_id: S.optional(S.String),
-          period: S.optional(__S(49, __c6, 1)),
+          period: S.optional(__S(65, __c8, 1)),
           total_cost_usd: S.optional(S.Number),
-          cost_breakdown: S.optional(__S(51, __c6, 3)),
-          metadata: S.optional(__S(56, __c7, 0)),
+          cost_breakdown: S.optional(__S(67, __c8, 3)),
+          metadata: S.optional(__S(72, __c9, 0)),
         }),
       ).annotate({ identifier: "GetApiKeyUsageResponse" });
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -692,7 +785,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetApiKeyUsageResponseMetadata" });
   }
 }
-function __c8(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -706,18 +799,18 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "GetTeamCreditsResponseExpiringCreditsItem" });
     case 2:
-      return S.Array(__S(65, __c8, 1));
+      return S.Array(__S(81, __c10, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           credits_usd: S.optional(S.Number),
-          expiring_credits: S.optional(__S(66, __c8, 2)),
-          metadata: S.optional(__S(56, __c7, 0)),
+          expiring_credits: S.optional(__S(82, __c10, 2)),
+          metadata: S.optional(__S(72, __c9, 0)),
         }),
       ).annotate({ identifier: "GetTeamCreditsResponse" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

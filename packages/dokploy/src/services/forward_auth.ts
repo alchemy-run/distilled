@@ -29,27 +29,48 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorBADREQUEST | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorFORBIDDEN | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorNOTFOUND | string;
+}
 
 export interface DeployForwardAuthOnServerRequest {
   serverId: string | null;
@@ -93,6 +114,44 @@ export interface SetForwardAuthDomainRequest {
   customCertResolver?: string | undefined;
 }
 export type SetForwardAuthDomainResponse = unknown;
+export interface ErrorBADREQUESTIssuesItem {
+  message: string;
+}
+/** An array of issues that were responsible for the error */
+export type ErrorBADREQUESTIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorBADREQUEST {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorBADREQUESTIssuesList | undefined;
+}
+export type ErrorFORBIDDENIssuesItem = ErrorBADREQUESTIssuesItem;
+/** An array of issues that were responsible for the error */
+export type ErrorFORBIDDENIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorFORBIDDEN {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorFORBIDDENIssuesList | undefined;
+}
+export type ErrorNOTFOUNDIssuesItem = ErrorBADREQUESTIssuesItem;
+/** An array of issues that were responsible for the error */
+export type ErrorNOTFOUNDIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorNOTFOUND {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorNOTFOUNDIssuesList | undefined;
+}
 export type DeployForwardAuthOnServerError = BadRequest | Forbidden | DokployOpError;
 export const deployForwardAuthOnServer: API.OperationMethod<
   DeployForwardAuthOnServerRequest,
@@ -100,8 +159,8 @@ export const deployForwardAuthOnServer: API.OperationMethod<
   DeployForwardAuthOnServerError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6, __c3, 0) as any as S.Schema<DeployForwardAuthOnServerRequest>,
-  output: __S(8, __c4, 0) as any as S.Schema<DeployForwardAuthOnServerResponse>,
+  input: __S(16, __c4, 0) as any as S.Schema<DeployForwardAuthOnServerRequest>,
+  output: __S(20, __c5, 0) as any as S.Schema<DeployForwardAuthOnServerResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -116,8 +175,8 @@ export const disableForwardAuth: API.OperationMethod<
   DisableForwardAuthError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10, __c5, 0) as any as S.Schema<DisableForwardAuthRequest>,
-  output: __S(8, __c4, 0) as any as S.Schema<DisableForwardAuthResponse>,
+  input: __S(24, __c6, 0) as any as S.Schema<DisableForwardAuthRequest>,
+  output: __S(20, __c5, 0) as any as S.Schema<DisableForwardAuthResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -132,8 +191,8 @@ export const enableForwardAuth: API.OperationMethod<
   EnableForwardAuthError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c6, 0) as any as S.Schema<EnableForwardAuthRequest>,
-  output: __S(8, __c4, 0) as any as S.Schema<EnableForwardAuthResponse>,
+  input: __S(28, __c7, 0) as any as S.Schema<EnableForwardAuthRequest>,
+  output: __S(20, __c5, 0) as any as S.Schema<EnableForwardAuthResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -148,8 +207,8 @@ export const getForwardAuthDomain: API.OperationMethod<
   GetForwardAuthDomainError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14, __c7, 0) as any as S.Schema<GetForwardAuthDomainRequest>,
-  output: __S(8, __c4, 0) as any as S.Schema<GetForwardAuthDomainResponse>,
+  input: __S(32, __c8, 0) as any as S.Schema<GetForwardAuthDomainRequest>,
+  output: __S(20, __c5, 0) as any as S.Schema<GetForwardAuthDomainResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -164,8 +223,8 @@ export const getForwardAuthServerStatus: API.OperationMethod<
   GetForwardAuthServerStatusError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c8, 0) as any as S.Schema<GetForwardAuthServerStatusRequest>,
-  output: __S(8, __c4, 0) as any as S.Schema<GetForwardAuthServerStatusResponse>,
+  input: __S(36, __c9, 0) as any as S.Schema<GetForwardAuthServerStatusRequest>,
+  output: __S(20, __c5, 0) as any as S.Schema<GetForwardAuthServerStatusResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -180,8 +239,8 @@ export const getForwardAuthStatus: API.OperationMethod<
   GetForwardAuthStatusError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18, __c9, 0) as any as S.Schema<GetForwardAuthStatusRequest>,
-  output: __S(8, __c4, 0) as any as S.Schema<GetForwardAuthStatusResponse>,
+  input: __S(40, __c10, 0) as any as S.Schema<GetForwardAuthStatusRequest>,
+  output: __S(20, __c5, 0) as any as S.Schema<GetForwardAuthStatusResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -196,8 +255,8 @@ export const listForwardAuthProviders: API.OperationMethod<
   ListForwardAuthProvidersError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c10, 0) as any as S.Schema<ListForwardAuthProvidersRequest>,
-  output: __S(8, __c4, 0) as any as S.Schema<ListForwardAuthProvidersResponse>,
+  input: __S(44, __c11, 0) as any as S.Schema<ListForwardAuthProvidersRequest>,
+  output: __S(20, __c5, 0) as any as S.Schema<ListForwardAuthProvidersResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -212,8 +271,8 @@ export const removeForwardAuthDomain: API.OperationMethod<
   RemoveForwardAuthDomainError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<RemoveForwardAuthDomainRequest>,
-  output: __S(8, __c4, 0) as any as S.Schema<RemoveForwardAuthDomainResponse>,
+  input: __S(4, __c1, 0) as any as S.Schema<RemoveForwardAuthDomainRequest>,
+  output: __S(20, __c5, 0) as any as S.Schema<RemoveForwardAuthDomainResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -228,8 +287,8 @@ export const removeForwardAuthOnServer: API.OperationMethod<
   RemoveForwardAuthOnServerError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2, __c1, 0) as any as S.Schema<RemoveForwardAuthOnServerRequest>,
-  output: __S(8, __c4, 0) as any as S.Schema<RemoveForwardAuthOnServerResponse>,
+  input: __S(8, __c2, 0) as any as S.Schema<RemoveForwardAuthOnServerRequest>,
+  output: __S(20, __c5, 0) as any as S.Schema<RemoveForwardAuthOnServerResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -244,8 +303,8 @@ export const setForwardAuthDomain: API.OperationMethod<
   SetForwardAuthDomainError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c2, 0) as any as S.Schema<SetForwardAuthDomainRequest>,
-  output: __S(8, __c4, 0) as any as S.Schema<SetForwardAuthDomainResponse>,
+  input: __S(12, __c3, 0) as any as S.Schema<SetForwardAuthDomainRequest>,
+  output: __S(20, __c5, 0) as any as S.Schema<SetForwardAuthDomainResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -259,12 +318,32 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          message: S.String,
+        }),
+      ).annotate({ identifier: "ErrorBADREQUESTIssuesItem" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.String,
+          code: S.String,
+          issues: S.optional(__S(1, __c0, 1)),
+        }),
+      ).annotate({ identifier: "ErrorBADREQUEST" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           serverId: S.NullOr(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/forwardAuth.removeAuthDomain", code: 200 })),
       ).annotate({ identifier: "RemoveForwardAuthDomainRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -274,7 +353,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "RemoveForwardAuthOnServerRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -288,7 +367,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "SetForwardAuthDomainRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -299,7 +378,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "DeployForwardAuthOnServerRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -307,7 +386,7 @@ function __c4(j: number): any {
       });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -317,7 +396,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "DisableForwardAuthRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -327,7 +406,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "EnableForwardAuthRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -337,7 +416,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetForwardAuthDomainRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -345,7 +424,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetForwardAuthServerStatusRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -355,7 +434,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GetForwardAuthStatusRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
