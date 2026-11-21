@@ -9,7 +9,7 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  *     (`https://<console>/proxy/<app>/integration`) or relayed through the
  *     cloud connector on `api.ui.com`
  *     (`/v1/connector/consoles/<consoleId>/proxy/<app>/integration`). Locally
- *     the key is created in the application under Settings → Control Plane →
+ *     the key is created in the application under Settings > Control Plane >
  *     Integrations; through the connector it is a Site Manager key
  *     (unifi.ui.com/settings/api-keys), which also needs console firmware
  *     >= 5.0.3. {@link ConsoleCredentials} holds the key and where the
