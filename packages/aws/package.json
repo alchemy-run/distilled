@@ -131,6 +131,12 @@
       "bun": "./src/sigv4.ts",
       "worker": "./src/sigv4.ts",
       "default": "./lib/sigv4.js"
+    },
+    "./Signer": {
+      "types": "./lib/signer.d.ts",
+      "bun": "./src/signer.ts",
+      "worker": "./src/signer.ts",
+      "default": "./lib/signer.js"
     }
   },
   "scripts": {
