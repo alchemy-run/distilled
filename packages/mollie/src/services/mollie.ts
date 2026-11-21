@@ -11822,7 +11822,9 @@ function __c2(j: number): any {
         S.Struct({
           customerId: S.String.pipe(T.Label()),
           subscriptionId: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
           testmode: S.optional(S.NullOr(S.Boolean)),
@@ -11883,7 +11885,9 @@ function __c4(j: number): any {
         S.Struct({
           paymentId: S.String.pipe(T.Label()),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/payments/{paymentId}/routes", code: 200 })),
@@ -11929,7 +11933,9 @@ function __c5(j: number): any {
           sort: S.optional(S.String.pipe(T.Query())),
           profileId: S.optional(S.String.pipe(T.Query())),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/payments", code: 200 })),
@@ -11946,7 +11952,9 @@ function __c6(j: number): any {
           limit: S.optional(S.Number.pipe(T.Query())),
           sort: S.optional(S.String.pipe(T.Query())),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/payouts", code: 200 })),
@@ -11992,7 +12000,9 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/permissions", code: 200 })),
@@ -12032,7 +12042,9 @@ function __c8(j: number): any {
         S.Struct({
           from: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/profiles", code: 200 })),
@@ -12096,7 +12108,9 @@ function __c9(j: number): any {
           limit: S.optional(S.Number.pipe(T.Query())),
           embed: S.optional(S.String.pipe(T.Query())),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/payments/{paymentId}/refunds", code: 200 })),
@@ -12111,7 +12125,9 @@ function __c10(j: number): any {
           from: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/sales-invoices", code: 200 })),
@@ -12189,7 +12205,9 @@ function __c11(j: number): any {
           from: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           embed: S.optional(S.String.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(
@@ -12242,7 +12260,9 @@ function __c12(j: number): any {
           limit: S.optional(S.Number.pipe(T.Query())),
           embed: S.optional(S.String.pipe(T.Query())),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(
@@ -12293,7 +12313,9 @@ function __c13(j: number): any {
           limit: S.optional(S.Number.pipe(T.Query())),
           sort: S.optional(S.String.pipe(T.Query())),
           profileId: S.optional(S.String.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(
@@ -12373,7 +12395,9 @@ function __c14(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
           name: S.String,
@@ -12429,7 +12453,9 @@ function __c17(j: number): any {
           from: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           embed: S.optional(S.String.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(
@@ -12484,7 +12510,9 @@ function __c18(j: number): any {
           year: S.optional(S.String.pipe(T.Query())),
           month: S.optional(S.String.pipe(T.Query())),
           currencies: S.optional(S.String.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/settlements", code: 200 })),
@@ -12519,7 +12547,9 @@ function __c19(j: number): any {
           sort: S.optional(S.String.pipe(T.Query())),
           profileId: S.optional(S.String.pipe(T.Query())),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(
@@ -12542,7 +12572,9 @@ function __c20(j: number): any {
           limit: S.optional(S.Number.pipe(T.Query())),
           sort: S.optional(S.String.pipe(T.Query())),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(
@@ -12560,7 +12592,9 @@ function __c21(j: number): any {
           limit: S.optional(S.Number.pipe(T.Query())),
           sort: S.optional(S.String.pipe(T.Query())),
           profileId: S.optional(S.String.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/terminals/pairing-codes", code: 200 })),
@@ -12594,7 +12628,9 @@ function __c22(j: number): any {
           limit: S.optional(S.Number.pipe(T.Query())),
           sort: S.optional(S.String.pipe(T.Query())),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/terminals", code: 200 })),
@@ -12642,7 +12678,9 @@ function __c23(j: number): any {
         S.Struct({
           from: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/unmatched-credit-transfers", code: 200 })),
@@ -12697,7 +12735,9 @@ function __c24(j: number): any {
           sort: S.optional(S.String.pipe(T.Query())),
           eventTypes: S.optional(S.String.pipe(T.Query())),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/webhooks", code: 200 })),
@@ -12741,7 +12781,9 @@ function __c25(j: number): any {
       return S.suspend(() =>
         S.Struct({
           unmatchedCreditTransferId: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
           paymentIds: __S(1056, __c66, 0),
@@ -12784,7 +12826,9 @@ function __c27(j: number): any {
       return S.suspend(() =>
         S.Struct({
           paymentId: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
           profileId: S.optional(S.String),
@@ -12805,7 +12849,9 @@ function __c28(j: number): any {
       return S.suspend(() =>
         S.Struct({
           paymentId: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
           description: S.optional(S.String),
@@ -12852,7 +12898,9 @@ function __c30(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
           validationUrl: S.String,
@@ -12872,7 +12920,9 @@ function __c31(j: number): any {
       return S.suspend(() =>
         S.Struct({
           include: S.optional(S.String.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
           profileId: S.String,
@@ -12886,7 +12936,9 @@ function __c32(j: number): any {
       return S.suspend(() =>
         S.Struct({
           unmatchedCreditTransferId: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(
@@ -12906,7 +12958,9 @@ function __c33(j: number): any {
         S.Struct({
           customerId: S.String.pipe(T.Label()),
           mandateId: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
           testmode: S.optional(S.NullOr(S.Boolean)),
@@ -12926,7 +12980,9 @@ function __c34(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pairingCodeId: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(
@@ -12965,7 +13021,9 @@ function __c35(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
           organization: S.optional(__S(560, __c35, 0)),
@@ -12980,7 +13038,9 @@ function __c36(j: number): any {
       return S.suspend(() =>
         S.Struct({
           webhookId: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
           testmode: S.optional(S.Boolean),
@@ -12994,7 +13054,9 @@ function __c37(j: number): any {
       return S.suspend(() =>
         S.Struct({
           customerId: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
           name: S.optional(S.NullOr(S.String)),
@@ -13012,7 +13074,9 @@ function __c38(j: number): any {
       return S.suspend(() =>
         S.Struct({
           paymentId: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
           description: S.optional(S.String),
@@ -13039,7 +13103,9 @@ function __c39(j: number): any {
       return S.suspend(() =>
         S.Struct({
           paymentLinkId: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
           description: S.optional(S.String),
@@ -13077,7 +13143,9 @@ function __c40(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
           owner: __S(640, __c40, 0),
@@ -13114,7 +13182,9 @@ function __c41(j: number): any {
       return S.suspend(() =>
         S.Struct({
           profileId: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
           name: S.optional(S.NullOr(S.String)),
@@ -13141,7 +13211,9 @@ function __c42(j: number): any {
       return S.suspend(() =>
         S.Struct({
           salesInvoiceId: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
           testmode: S.optional(S.NullOr(S.Boolean)),
@@ -13166,7 +13238,9 @@ function __c43(j: number): any {
         S.Struct({
           customerId: S.String.pipe(T.Label()),
           subscriptionId: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
           amount: S.optional(__S(2128, __c133, 0)),
@@ -13194,7 +13268,9 @@ function __c44(j: number): any {
       return S.suspend(() =>
         S.Struct({
           webhookId: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
           name: S.optional(S.String),
@@ -13218,7 +13294,9 @@ function __c45(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
           creditorBankAccount: __S(720, __c45, 0),
@@ -13251,7 +13329,9 @@ function __c46(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
           amount: __S(2128, __c133, 0),
@@ -13300,7 +13380,9 @@ function __c48(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
           name: S.optional(S.NullOr(S.String)),
@@ -13347,7 +13429,9 @@ function __c50(j: number): any {
       return S.suspend(() =>
         S.Struct({
           customerId: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
           description: S.String,
@@ -13416,7 +13500,9 @@ function __c52(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
           debtorIban: S.String,
@@ -13437,7 +13523,9 @@ function __c53(j: number): any {
       return S.suspend(() =>
         S.Struct({
           customerId: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
           id: S.optional(S.String),
@@ -13507,7 +13595,9 @@ function __c56(j: number): any {
       return S.suspend(() =>
         S.Struct({
           include: S.optional(S.String.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
           description: S.String,
@@ -13555,7 +13645,9 @@ function __c57(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
           description: S.String,
@@ -13646,7 +13738,9 @@ function __c60(j: number): any {
       return S.suspend(() =>
         S.Struct({
           paymentId: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
           amount: __S(2128, __c133, 0),
@@ -13686,7 +13780,9 @@ function __c62(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
           balanceId: S.String,
@@ -13702,7 +13798,9 @@ function __c63(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
           name: S.String,
@@ -13790,7 +13888,9 @@ function __c67(j: number): any {
       return S.suspend(() =>
         S.Struct({
           paymentId: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
           description: S.optional(S.NullOr(S.String)),
@@ -13869,7 +13969,9 @@ function __c71(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
           reportType: S.String,
@@ -13884,7 +13986,9 @@ function __c72(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
           testmode: S.optional(S.NullOr(S.Boolean)),
@@ -14039,7 +14143,9 @@ function __c76(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
           amount: __S(2128, __c133, 0),
@@ -14132,7 +14238,9 @@ function __c79(j: number): any {
       return S.suspend(() =>
         S.Struct({
           customerId: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
           amount: S.optional(__S(2128, __c133, 0)),
@@ -14160,7 +14268,7 @@ function __c80(j: number): any {
         S.Struct({
           xClientSignature: S.String.pipe(T.Header("X-Client-Signature")),
           xClientSignedAt: S.String.pipe(T.Header("X-Client-Signed-At")),
-          idempotencyKey: S.String.pipe(T.Header("Idempotency-Key")),
+          idempotencyKey: S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
           debtorIban: S.String,
           creditor: __S(2065, __c129, 1),
           amount: __S(2128, __c133, 0),
@@ -14224,7 +14332,9 @@ function __c82(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
           name: S.String,
@@ -14257,7 +14367,9 @@ function __c83(j: number): any {
       return S.suspend(() =>
         S.Struct({
           customerId: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
           testmode: S.optional(S.NullOr(S.Boolean)),
@@ -14271,7 +14383,9 @@ function __c84(j: number): any {
       return S.suspend(() =>
         S.Struct({
           paymentLinkId: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
           testmode: S.optional(S.NullOr(S.Boolean)),
@@ -14285,7 +14399,9 @@ function __c85(j: number): any {
       return S.suspend(() =>
         S.Struct({
           profileId: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "DELETE", uri: "/v2/profiles/{profileId}", code: 200 })),
@@ -14298,7 +14414,9 @@ function __c86(j: number): any {
       return S.suspend(() =>
         S.Struct({
           salesInvoiceId: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
           testmode: S.optional(S.NullOr(S.Boolean)),
@@ -14314,7 +14432,9 @@ function __c87(j: number): any {
       return S.suspend(() =>
         S.Struct({
           webhookId: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
           testmode: S.optional(S.Boolean),
@@ -14329,7 +14449,9 @@ function __c88(j: number): any {
         S.Struct({
           profileId: S.String.pipe(T.Label()),
           methodId: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(
@@ -14350,7 +14472,9 @@ function __c89(j: number): any {
           profileId: S.String.pipe(T.Label()),
           methodId: S.String.pipe(T.Label()),
           issuerId: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(
@@ -14370,7 +14494,9 @@ function __c90(j: number): any {
         S.Struct({
           profileId: S.String.pipe(T.Label()),
           methodId: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(
@@ -14447,7 +14573,9 @@ function __c94(j: number): any {
           profileId: S.String.pipe(T.Label()),
           methodId: S.String.pipe(T.Label()),
           issuerId: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
           contractId: S.optional(S.NullOr(S.String)),
@@ -14472,7 +14600,9 @@ function __c95(j: number): any {
         S.Struct({
           balanceId: S.String.pipe(T.Label()),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/balances/{balanceId}", code: 200 })),
@@ -14535,7 +14665,9 @@ function __c99(j: number): any {
           until: S.String.pipe(T.Query()),
           grouping: S.optional(S.String.pipe(T.Query())),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/balances/{balanceId}/report", code: 200 })),
@@ -14650,7 +14782,9 @@ function __c100(j: number): any {
         S.Struct({
           businessAccountId: S.String.pipe(T.Label()),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(
@@ -14671,7 +14805,9 @@ function __c101(j: number): any {
           businessAccountId: S.String.pipe(T.Label()),
           transactionId: S.String.pipe(T.Label()),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(
@@ -14721,7 +14857,9 @@ function __c103(j: number): any {
           captureId: S.String.pipe(T.Label()),
           embed: S.optional(S.String.pipe(T.Query())),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(
@@ -14743,7 +14881,9 @@ function __c104(j: number): any {
           chargebackId: S.String.pipe(T.Label()),
           embed: S.optional(S.String.pipe(T.Query())),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(
@@ -14788,7 +14928,9 @@ function __c106(j: number): any {
         S.Struct({
           organizationId: S.String.pipe(T.Label()),
           embed: S.optional(S.String.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/clients/{organizationId}", code: 200 })),
@@ -14938,7 +15080,9 @@ function __c112(j: number): any {
         S.Struct({
           balanceTransferId: S.String.pipe(T.Label()),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(
@@ -14956,7 +15100,9 @@ function __c113(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/organizations/me", code: 200 })),
@@ -14968,7 +15114,9 @@ function __c114(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/profiles/me", code: 200 })),
@@ -14982,7 +15130,9 @@ function __c115(j: number): any {
         S.Struct({
           customerId: S.String.pipe(T.Label()),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/customers/{customerId}", code: 200 })),
@@ -14996,7 +15146,9 @@ function __c116(j: number): any {
         S.Struct({
           draftTransferId: S.String.pipe(T.Label()),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(
@@ -15015,7 +15167,9 @@ function __c117(j: number): any {
       return S.suspend(() =>
         S.Struct({
           invoiceId: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/invoices/{invoiceId}", code: 200 })),
@@ -15072,7 +15226,9 @@ function __c119(j: number): any {
           customerId: S.String.pipe(T.Label()),
           mandateId: S.String.pipe(T.Label()),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(
@@ -15097,7 +15253,9 @@ function __c120(j: number): any {
           include: S.optional(S.String.pipe(T.Query())),
           sequenceType: S.optional(S.String.pipe(T.Query())),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/methods/{methodId}", code: 200 })),
@@ -15109,7 +15267,9 @@ function __c121(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/settlements/next", code: 200 })),
@@ -15192,7 +15352,9 @@ function __c124(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/onboarding/me", code: 200 })),
@@ -15204,7 +15366,9 @@ function __c125(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/settlements/open", code: 200 })),
@@ -15218,7 +15382,9 @@ function __c126(j: number): any {
         S.Struct({
           organizationId: S.String.pipe(T.Label()),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/organizations/{organizationId}", code: 200 })),
@@ -15230,7 +15396,9 @@ function __c127(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/organizations/me/partner", code: 200 })),
@@ -15274,7 +15442,9 @@ function __c128(j: number): any {
       return S.suspend(() =>
         S.Struct({
           draftTransferId: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
           testmode: S.optional(S.NullOr(S.Boolean)),
@@ -15381,7 +15551,9 @@ function __c135(j: number): any {
           include: S.optional(S.String.pipe(T.Query())),
           embed: S.optional(S.String.pipe(T.Query())),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/payments/{paymentId}", code: 200 })),
@@ -15395,7 +15567,9 @@ function __c136(j: number): any {
         S.Struct({
           paymentLinkId: S.String.pipe(T.Label()),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/payment-links/{paymentLinkId}", code: 200 })),
@@ -15409,7 +15583,9 @@ function __c137(j: number): any {
         S.Struct({
           paymentId: S.String.pipe(T.Label()),
           routeId: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(
@@ -15438,7 +15614,9 @@ function __c138(j: number): any {
         S.Struct({
           payoutId: S.String.pipe(T.Label()),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/payouts/{payoutId}", code: 200 })),
@@ -15452,7 +15630,9 @@ function __c139(j: number): any {
         S.Struct({
           permissionId: S.String.pipe(T.Label()),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/permissions/{permissionId}", code: 200 })),
@@ -15474,7 +15654,9 @@ function __c140(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/balances/primary", code: 200 })),
@@ -15488,7 +15670,9 @@ function __c141(j: number): any {
         S.Struct({
           profileId: S.String.pipe(T.Label()),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/profiles/{profileId}", code: 200 })),
@@ -15504,7 +15688,9 @@ function __c142(j: number): any {
           refundId: S.String.pipe(T.Label()),
           embed: S.optional(S.String.pipe(T.Query())),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(
@@ -15519,7 +15705,9 @@ function __c143(j: number): any {
       return S.suspend(() =>
         S.Struct({
           reportId: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/reports/{reportId}", code: 200 })),
@@ -15558,7 +15746,9 @@ function __c144(j: number): any {
         S.Struct({
           salesInvoiceId: S.String.pipe(T.Label()),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/sales-invoices/{salesInvoiceId}", code: 200 })),
@@ -15571,7 +15761,9 @@ function __c145(j: number): any {
       return S.suspend(() =>
         S.Struct({
           paymentId: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
           testmode: S.optional(S.NullOr(S.Boolean)),
@@ -15854,7 +16046,9 @@ function __c155(j: number): any {
       return S.suspend(() =>
         S.Struct({
           sessionId: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/sessions/{sessionId}", code: 200 })),
@@ -15867,7 +16061,9 @@ function __c156(j: number): any {
       return S.suspend(() =>
         S.Struct({
           settlementId: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/settlements/{settlementId}", code: 200 })),
@@ -15914,7 +16110,9 @@ function __c158(j: number): any {
           customerId: S.String.pipe(T.Label()),
           subscriptionId: S.String.pipe(T.Label()),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(
@@ -15934,7 +16132,9 @@ function __c159(j: number): any {
         S.Struct({
           terminalId: S.String.pipe(T.Label()),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/terminals/{terminalId}", code: 200 })),
@@ -15966,7 +16166,9 @@ function __c160(j: number): any {
         S.Struct({
           pairingCodeId: S.String.pipe(T.Label()),
           include: S.optional(S.String.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(
@@ -16016,7 +16218,9 @@ function __c162(j: number): any {
         S.Struct({
           businessAccountsTransferId: S.String.pipe(T.Label()),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(
@@ -16035,7 +16239,9 @@ function __c163(j: number): any {
       return S.suspend(() =>
         S.Struct({
           unmatchedCreditTransferId: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(
@@ -16109,7 +16315,9 @@ function __c166(j: number): any {
         S.Struct({
           webhookId: S.String.pipe(T.Label()),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/webhooks/{webhookId}", code: 200 })),
@@ -16142,7 +16350,9 @@ function __c168(j: number): any {
         S.Struct({
           webhookEventId: S.String.pipe(T.Label()),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/events/{webhookEventId}", code: 200 })),
@@ -16186,7 +16396,9 @@ function __c169(j: number): any {
           sort: S.optional(S.String.pipe(T.Query())),
           profileId: S.optional(S.String.pipe(T.Query())),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/chargebacks", code: 200 })),
@@ -16259,7 +16471,9 @@ function __c173(j: number): any {
         S.Struct({
           payoutId: S.String.pipe(T.Label()),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "DELETE", uri: "/v2/payouts/{payoutId}", code: 200 })),
@@ -16310,7 +16524,9 @@ function __c176(j: number): any {
           sequenceType: S.optional(S.String.pipe(T.Query())),
           profileId: S.optional(S.String.pipe(T.Query())),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/methods/all", code: 200 })),
@@ -16370,7 +16586,9 @@ function __c177(j: number): any {
           embed: S.optional(S.String.pipe(T.Query())),
           profileId: S.optional(S.String.pipe(T.Query())),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/refunds", code: 200 })),
@@ -16424,7 +16642,9 @@ function __c179(j: number): any {
           limit: S.optional(S.Number.pipe(T.Query())),
           profileId: S.optional(S.String.pipe(T.Query())),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/subscriptions", code: 200 })),
@@ -16495,7 +16715,9 @@ function __c181(j: number): any {
           from: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/balances", code: 200 })),
@@ -16552,7 +16774,9 @@ function __c182(j: number): any {
           from: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/balances/{balanceId}/transactions", code: 200 })),
@@ -16629,7 +16853,9 @@ function __c183(j: number): any {
           limit: S.optional(S.Number.pipe(T.Query())),
           sort: S.optional(S.String.pipe(T.Query())),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/business-accounts/accounts", code: 200 })),
@@ -16664,7 +16890,9 @@ function __c184(j: number): any {
           limit: S.optional(S.Number.pipe(T.Query())),
           sort: S.optional(S.String.pipe(T.Query())),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(
@@ -16697,7 +16925,9 @@ function __c185(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/capabilities", code: 200 })),
@@ -16734,7 +16964,9 @@ function __c186(j: number): any {
           limit: S.optional(S.Number.pipe(T.Query())),
           embed: S.optional(S.String.pipe(T.Query())),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/payments/{paymentId}/captures", code: 200 })),
@@ -16797,7 +17029,9 @@ function __c188(j: number): any {
           limit: S.optional(S.Number.pipe(T.Query())),
           embed: S.optional(S.String.pipe(T.Query())),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/payments/{paymentId}/chargebacks", code: 200 })),
@@ -16812,7 +17046,9 @@ function __c189(j: number): any {
           paymentId: S.String.pipe(T.Label()),
           refundId: S.String.pipe(T.Label()),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(
@@ -16839,7 +17075,9 @@ function __c191(j: number): any {
           embed: S.optional(S.String.pipe(T.Query())),
           from: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/clients", code: 200 })),
@@ -16890,7 +17128,9 @@ function __c192(j: number): any {
           limit: S.optional(S.Number.pipe(T.Query())),
           sort: S.optional(S.String.pipe(T.Query())),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/connect/balance-transfers", code: 200 })),
@@ -16924,7 +17164,9 @@ function __c193(j: number): any {
           sort: S.optional(S.String.pipe(T.Query())),
           profileId: S.optional(S.String.pipe(T.Query())),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/customers/{customerId}/payments", code: 200 })),
@@ -17034,7 +17276,9 @@ function __c196(j: number): any {
           limit: S.optional(S.Number.pipe(T.Query())),
           sort: S.optional(S.String.pipe(T.Query())),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/customers", code: 200 })),
@@ -17110,7 +17354,9 @@ function __c197(j: number): any {
           limit: S.optional(S.Number.pipe(T.Query())),
           status: S.optional(S.String.pipe(T.Query())),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/business-accounts/draft-transfers", code: 200 })),
@@ -17143,7 +17389,9 @@ function __c198(j: number): any {
           from: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           sort: S.optional(S.String.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/invoices", code: 200 })),
@@ -17202,7 +17450,9 @@ function __c199(j: number): any {
           sort: S.optional(S.String.pipe(T.Query())),
           scopes: S.optional(__S(2368, __c148, 0).pipe(T.Query())),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/customers/{customerId}/mandates", code: 200 })),
@@ -17264,7 +17514,9 @@ function __c200(j: number): any {
           profileId: S.optional(S.String.pipe(T.Query())),
           include: S.optional(S.String.pipe(T.Query())),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/methods", code: 200 })),
@@ -17311,7 +17563,9 @@ function __c201(j: number): any {
           limit: S.optional(S.Number.pipe(T.Query())),
           sort: S.optional(S.String.pipe(T.Query())),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(
@@ -17355,7 +17609,9 @@ function __c202(j: number): any {
           from: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           testmode: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("idempotency-key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("idempotency-key"), T.IdempotencyToken()),
+          ),
           xClientSignature: S.optional(S.String.pipe(T.Header("X-Client-Signature"))),
           xClientSignedAt: S.optional(S.String.pipe(T.Header("X-Client-Signed-At"))),
         }).pipe(T.Http({ method: "GET", uri: "/v2/payment-links", code: 200 })),

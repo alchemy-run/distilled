@@ -504,7 +504,7 @@ function __c1(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           metadata: S.optional(S.NullOr(__S(48, __c3, 0))),
-          idempotency_key: S.String.pipe(T.Header("Idempotency-Key")),
+          idempotency_key: S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
         }).pipe(T.Http({ method: "POST", uri: "/trades/{id}/cancel", code: 200 })),
       ).annotate({ identifier: "CancelTradeRequest" });
   }
@@ -656,7 +656,7 @@ function __c4(j: number): any {
           orders: __S(66, __c4, 2),
           provider: S.String,
           slippage_bps: S.optional(S.NullOr(S.Number)),
-          idempotency_key: S.String.pipe(T.Header("Idempotency-Key")),
+          idempotency_key: S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
         }).pipe(T.Http({ method: "POST", uri: "/trades", code: 200 })),
       ).annotate({ identifier: "CreateTradeRequest" });
   }
@@ -718,7 +718,7 @@ function __c7(j: number): any {
           market: S.String,
           metadata: S.optional(S.NullOr(__S(48, __c3, 0))),
           provider: S.String,
-          idempotency_key: S.String.pipe(T.Header("Idempotency-Key")),
+          idempotency_key: S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
         }).pipe(T.Http({ method: "POST", uri: "/trades/leverage", code: 200 })),
       ).annotate({ identifier: "UpdateTradeLeverageRequest" });
   }

@@ -542,7 +542,7 @@ function __c5(j: number): any {
         S.Struct({
           host: S.String.pipe(T.Label()),
           project: S.String.pipe(T.Label()),
-          idempotencyKey: S.String.pipe(T.Header("Idempotency-Key")),
+          idempotencyKey: S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
           auto_stop_minutes: S.optional(S.NullOr(S.Number)),
           claim_timeout_ms: S.optional(S.Number),
           description: S.optional(S.String),
