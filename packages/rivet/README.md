@@ -55,3 +55,7 @@ typed per operation:
 
 Everything else surfaces as the shared HTTP status classes or `UnknownRivetError`, whose `code`
 is the `<group>.<code>` pair.
+
+A 404 without `x-rivet-ray-id` did not come from the engine, which sends that header on every
+response. A platform's router answered instead, as Railway does while the engine behind it is
+starting. It surfaces as `EngineNotReady`, never as a missing pool or namespace.
