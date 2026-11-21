@@ -1,3 +1,4 @@
+import { refreshing } from "@distilled.cloud/core/token-cache";
 /**
  * GitHub App authentication -- hand-written.
  *
@@ -38,7 +39,6 @@ import * as HttpClient from "effect/http/HttpClient";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
-import * as Semaphore from "effect/Semaphore";
 import {
   type Config,
   Credentials,
@@ -211,31 +211,15 @@ const REFRESH_WINDOW_MS = 60_000;
  * reuse the token until a minute before it expires, and concurrent requests
  * share one mint.
  */
-const refreshing = (
+const refreshingLayer = (
   mint: Effect.Effect<Minted, GithubAppAuthError, HttpClient.HttpClient>,
-): Layer.Layer<Credentials> => {
-  const lock = Semaphore.makeUnsafe(1);
-  let cached: Minted | undefined;
-  const fresh = () => cached !== undefined && Date.now() < cached.expiresAt - REFRESH_WINDOW_MS;
-  const resolve = Effect.suspend(() =>
-    fresh()
-      ? Effect.succeed(cached!.config)
-      : Semaphore.withPermit(
-          lock,
-          Effect.suspend(() =>
-            fresh()
-              ? Effect.succeed(cached!.config)
-              : withHttpClient(mint).pipe(
-                  Effect.map((minted) => {
-                    cached = minted;
-                    return minted.config;
-                  }),
-                ),
-          ),
-        ),
+): Layer.Layer<Credentials> =>
+  Layer.succeed(
+    Credentials,
+    refreshing(withHttpClient(mint), (minted) => minted.expiresAt - REFRESH_WINDOW_MS).pipe(
+      Effect.map((minted) => minted.config),
+    ),
   );
-  return Layer.succeed(Credentials, resolve);
-};
 
 /**
  * Run `effect` with the calling fiber's `HttpClient` (an operation always
@@ -262,7 +246,7 @@ const endpoint = (config: AppConfig) => ({
  * endpoints need {@link installationCredentials}.
  */
 export const appCredentials = (config: AppConfig): Layer.Layer<Credentials> =>
-  refreshing(
+  refreshingLayer(
     Effect.map(appJwt(config), (token) => ({
       config: { token, ...endpoint(config) },
       expiresAt: Date.now() + JWT_LIFETIME_SECONDS * 1000,
@@ -278,7 +262,7 @@ export const appCredentials = (config: AppConfig): Layer.Layer<Credentials> =>
  * `cause`.
  */
 export const installationCredentials = (config: InstallationConfig): Layer.Layer<Credentials> =>
-  refreshing(
+  refreshingLayer(
     Effect.gen(function* () {
       const jwt = yield* appJwt(config);
       const minted = yield* createInstallationAccessToken({

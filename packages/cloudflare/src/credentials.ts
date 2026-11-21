@@ -10,13 +10,13 @@
  */
 import * as Config from "@distilled.cloud/core/config";
 import { ConfigError } from "@distilled.cloud/core/errors";
+import { refreshing } from "@distilled.cloud/core/token-cache";
 import * as Context from "effect/Context";
 import * as Data from "effect/Data";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
-import * as Semaphore from "effect/Semaphore";
 
 export const DEFAULT_API_BASE_URL = "https://api.cloudflare.com/client/v4";
 
@@ -145,32 +145,10 @@ const getRefreshAt = (credentials: ResolvedCredentials): number => {
 const isExpired = (expiresAt?: number): boolean =>
   expiresAt !== undefined && Date.now() >= expiresAt - CREDENTIAL_REFRESH_WINDOW_MS;
 
+/** Concurrent calls on a cold or stale cache share one refresh. */
 const createCachedCredentialsEffect = <E>(
   resolve: Effect.Effect<ResolvedCredentials, E>,
-): Effect.Effect<ResolvedCredentials, E> => {
-  // Concurrent calls on a cold or stale cache share one refresh.
-  const lock = Semaphore.makeUnsafe(1);
-  let cachedCreds: ResolvedCredentials | undefined;
-  let refreshAt = 0;
-  const fresh = () => cachedCreds !== undefined && Date.now() < refreshAt;
-
-  return Effect.suspend(() =>
-    fresh()
-      ? Effect.succeed(cachedCreds!)
-      : Semaphore.withPermit(
-          lock,
-          Effect.suspend(() =>
-            fresh()
-              ? Effect.succeed(cachedCreds!)
-              : Effect.map(resolve, (credentials) => {
-                  cachedCreds = credentials;
-                  refreshAt = getRefreshAt(credentials);
-                  return credentials;
-                }),
-          ),
-        ),
-  );
-};
+): Effect.Effect<ResolvedCredentials, E> => refreshing(resolve, getRefreshAt);
 
 const wrapOAuthError = <A>(
   message: string,

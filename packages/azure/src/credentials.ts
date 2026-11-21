@@ -27,6 +27,7 @@
  */
 import * as EffectConfig from "@distilled.cloud/core/config";
 import { ConfigError } from "@distilled.cloud/core/errors";
+import { refreshing } from "@distilled.cloud/core/token-cache";
 import * as Clock from "effect/Clock";
 import * as Effect from "effect/Effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
@@ -36,7 +37,6 @@ import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
 import * as Schedule from "effect/Schedule";
-import * as Semaphore from "effect/Semaphore";
 import {
   type AzureCredentialsError,
   type Config,
@@ -61,40 +61,19 @@ const REFRESH_WINDOW_MS = 5 * 60 * 1000;
 
 /**
  * One cached token per scope, minted again `REFRESH_WINDOW_MS` before it
- * expires. Concurrent calls for a scope share one mint: check the cache,
- * take the scope's one-permit `Semaphore`, check again (AGENTS.md rule 16).
- * Call once per layer value.
+ * expires. Concurrent calls for a scope share one mint (core `refreshing`,
+ * AGENTS.md rule 16). Call once per layer value.
  */
 const cachePerScope = <E>(
   mint: (scope: string) => Effect.Effect<AccessToken, E>,
 ): ((scope: string) => Effect.Effect<Redacted.Redacted<string>, E>) => {
   const byScope = new Map<string, Effect.Effect<Redacted.Redacted<string>, E>>();
-  const forScope = (scope: string) => {
-    const lock = Semaphore.makeUnsafe(1);
-    let cached: AccessToken | undefined;
-    const fresh = Effect.map(Clock.currentTimeMillis, (now) =>
-      cached !== undefined && now < cached.expiresAt - REFRESH_WINDOW_MS ? cached.value : undefined,
-    );
-    return Effect.flatMap(fresh, (hit) =>
-      hit !== undefined
-        ? Effect.succeed(hit)
-        : Semaphore.withPermit(
-            lock,
-            Effect.flatMap(fresh, (again) =>
-              again !== undefined
-                ? Effect.succeed(again)
-                : Effect.map(mint(scope), (token) => {
-                    cached = token;
-                    return token.value;
-                  }),
-            ),
-          ),
-    );
-  };
   return (scope) => {
     let token = byScope.get(scope);
     if (token === undefined) {
-      token = forScope(scope);
+      token = refreshing(mint(scope), (minted) => minted.expiresAt - REFRESH_WINDOW_MS).pipe(
+        Effect.map((minted) => minted.value),
+      );
       byScope.set(scope, token);
     }
     return token;

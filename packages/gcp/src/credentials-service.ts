@@ -4,6 +4,7 @@
  * so a provider can refresh or rotate the token. Each provider under
  * `credential-providers/` builds its layer from this module.
  */
+import { refreshing } from "@distilled.cloud/core/token-cache";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
@@ -11,7 +12,6 @@ import * as HttpClient from "effect/http/HttpClient";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import type * as Redacted from "effect/Redacted";
-import * as Semaphore from "effect/Semaphore";
 import type { GCPCredentialsError } from "./errors.ts";
 
 export interface Config {
@@ -83,27 +83,9 @@ export const createRefreshingProvider = (
   source: TokenSource,
   overrides: ProviderOverrides = {},
 ): Layer.Layer<Credentials> => {
-  const lock = Semaphore.makeUnsafe(1);
-  let cached: Token | undefined;
-  const fresh = () => cached !== undefined && Date.now() < cached.expiresAt - REFRESH_WINDOW_MS;
-
-  const resolve = Effect.suspend(() =>
-    fresh()
-      ? Effect.succeed(cached!)
-      : Semaphore.withPermit(
-          lock,
-          Effect.suspend(() =>
-            fresh()
-              ? Effect.succeed(cached!)
-              : withHttpClient(source).pipe(
-                  Effect.tap((token) =>
-                    Effect.sync(() => {
-                      cached = token;
-                    }),
-                  ),
-                ),
-          ),
-        ),
+  const resolve = refreshing(
+    withHttpClient(source),
+    (token) => token.expiresAt - REFRESH_WINDOW_MS,
   ).pipe(
     Effect.map((token): Config => ({
       accessToken: token.accessToken,

@@ -1,5 +1,6 @@
 import * as EffectConfig from "@distilled.cloud/core/config";
 import { ConfigError } from "@distilled.cloud/core/errors";
+import { refreshing } from "@distilled.cloud/core/token-cache";
 /**
  * Starburst Galaxy credentials -- hand-written.
  *
@@ -22,15 +23,12 @@ import { ConfigError } from "@distilled.cloud/core/errors";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Equal from "effect/Equal";
-import * as Exit from "effect/Exit";
 import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
-import * as Option from "effect/Option";
 import type * as Redacted from "effect/Redacted";
 import * as Schema from "effect/Schema";
-import * as SynchronizedRef from "effect/SynchronizedRef";
 
 /** The token endpoint, relative to the account's origin. */
 const TOKEN_PATH = "/oauth/v2/token";
@@ -101,9 +99,9 @@ const reuseFor = (expiresInSeconds: number): number => {
 /**
  * Builds the OAuth client-credentials token cache. The returned effect posts
  * the exchange through the captured `HttpClient` and reuses the token for
- * {@link reuseFor} its `expires_in`. `Effect.cachedWithTTL` shares one
- * in-flight exchange between concurrent resolutions of a cold or stale cache
- * and holds no lock across the request; a failed exchange is not cached.
+ * {@link reuseFor} its `expires_in`. Concurrent resolutions of a cold or
+ * stale cache share one exchange (core `refreshing`); a failed exchange is
+ * not cached.
  * Exchange errors carry the status, never the secret or a token.
  */
 export const makeClientCredentials = (
@@ -134,13 +132,12 @@ export const makeClientCredentials = (
         );
       return {
         config: { accessToken: token.access_token, apiBaseUrl },
-        expiresIn: token.expires_in,
+        refreshAt: Date.now() + reuseFor(token.expires_in),
       };
     });
-    const cached = yield* Effect.cachedWithTTL(exchange, (exit) =>
-      Exit.isSuccess(exit) ? reuseFor(exit.value.expiresIn) : 0,
+    return refreshing(exchange, (token) => token.refreshAt).pipe(
+      Effect.map((token) => token.config),
     );
-    return Effect.map(cached, (token) => token.config);
   });
 
 /**
@@ -198,14 +195,18 @@ export const CredentialsFromEnv: Layer.Layer<Credentials, never, HttpClient.Http
     Credentials,
     Effect.gen(function* () {
       const client = yield* HttpClient.HttpClient;
-      const current = yield* SynchronizedRef.make(Option.none<EnvClient>());
+      let current: EnvClient | undefined;
       const resolveFor = (config: ClientCredentials) =>
-        SynchronizedRef.modifyEffect(current, (env) =>
-          Option.isSome(env) && Equal.equals(env.value.config, config)
-            ? Effect.succeed([env.value.resolve, env] as const)
+        Effect.suspend(() =>
+          current !== undefined && Equal.equals(current.config, config)
+            ? Effect.succeed(current.resolve)
             : makeClientCredentials(config).pipe(
                 Effect.provideService(HttpClient.HttpClient, client),
-                Effect.map((resolve) => [resolve, Option.some({ config, resolve })] as const),
+                Effect.tap((resolve) =>
+                  Effect.sync(() => {
+                    current = { config, resolve };
+                  }),
+                ),
               ),
         ).pipe(Effect.flatten);
       return Effect.flatMap(envConfig, resolveFor);
