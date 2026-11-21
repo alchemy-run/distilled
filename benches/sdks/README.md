@@ -108,7 +108,10 @@ same measurement, cut down to finish within the other CI jobs:
   `bundle` SDKs are only bundled from `src/`; `runtime` SDKs are also built
   (`tsrs -b`, `bundle-lib.ts`, `strip-lib-docs.ts` for just those packages)
   and probed. A changed SDK whose `src/` is over `runtimeMaxSrcMB` is only
-  bundled: its `bundle-lib.ts` build alone exceeds the budget.
+  bundled: its `bundle-lib.ts` build alone exceeds the budget. The panel's
+  large SDKs (`aws`, `cloudflare`, `gcp`) are probed like whole-SDK memory
+  below: only when their inputs differ from main's run; otherwise main's
+  numbers are copied.
 - **Cut:** no strict variants, no imports or typecheck suites, no official
   SDKs, latency sampled for 400 ms (`--budget`). Each runtime probe runs 3
   times (`--repeats`): timings keep the fastest run, heap the median.

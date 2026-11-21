@@ -243,6 +243,25 @@ const entry = (p: Program) =>
   (programs[p.name] ??= { pkg: p.pkg, protocol: p.target.protocol, label: p.target.label });
 const errors: string[] = [];
 const cores = cpus().length;
+const sizes: CiRun["sizes"] = {};
+
+/**
+ * Runtime SDKs to build and probe now. A whole-SDK one (`providers`: aws,
+ * cloudflare, gcp) takes minutes to build, so like its whole-SDK heap it is
+ * measured only when its inputs differ from the --reuse run; otherwise that
+ * run's numbers are copied.
+ */
+const runtimeToMeasure = runtimeSdks.filter((pkg) => {
+  if (!providerSdks.includes(pkg)) return true;
+  const own = programsOf([pkg]);
+  const prev = own.map((p) => reuseFrom?.programs[p.name]?.runtime);
+  const inputs = inputsOf(pkg);
+  if (own.length === 0 || prev.some((r) => r?.inputs !== inputs)) return true;
+  own.forEach((p, i) => (entry(p).runtime = { ...prev[i]!, reused: true }));
+  const size = reuseFrom?.sizes[pkg];
+  if (size) sizes[pkg] = size;
+  return false;
+});
 
 //#region bundle (src/, no build)
 
@@ -275,7 +294,7 @@ await phase("bundle", async () => {
 await phase("build", async () => {
   const dirs = [
     "packages/core",
-    ...[...new Set([...runtimeSdks, ...providersToMeasure])].map((p) => `packages/${p}`),
+    ...[...new Set([...runtimeToMeasure, ...providersToMeasure])].map((p) => `packages/${p}`),
   ];
   // The same steps as `pnpm build`, limited to these packages.
   const steps: Array<[string, string, string[]]> = [
@@ -298,9 +317,8 @@ await phase("build", async () => {
 
 //#region size (npm pack of what was built)
 
-const sizes: CiRun["sizes"] = {};
 await phase("size", async () => {
-  await pool(["core", ...runtimeSdks], Math.max(2, cores / 2), async (pkg) => {
+  await pool(["core", ...runtimeToMeasure], Math.max(2, cores / 2), async (pkg) => {
     try {
       const s = await packSize(join(PACKAGES, pkg));
       sizes[pkg] = { tarball: s.tarball, unpacked: s.unpacked, files: s.files };
@@ -337,7 +355,7 @@ await phase("runtime", async () => {
     mockRoundtripP50Us: b.mockRoundtrip?.p50Us,
   };
   // Parallel probes inflate cold-start timings, so keep a few cores idle.
-  await pool(programsOf(runtimeSdks), Math.max(1, Math.floor(cores / 3)), async (p) => {
+  await pool(programsOf(runtimeToMeasure), Math.max(1, Math.floor(cores / 3)), async (p) => {
     const req: ProbeRequest = {
       mode: "op",
       imports: resolveImports(p.target),
@@ -375,6 +393,7 @@ await phase("runtime", async () => {
       p50Us: min((r) => r.latency.p50Us),
       gcPer1k: min((r) => r.gcPer1k),
       maxRss: mid((r) => r.maxRss),
+      ...(providerSdks.includes(p.pkg) ? { inputs: inputsOf(p.pkg) } : {}),
     };
     const r = entry(p).runtime!;
     log(
