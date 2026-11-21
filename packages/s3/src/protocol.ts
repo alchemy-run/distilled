@@ -47,6 +47,10 @@ import type * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import * as Stream from "effect/Stream";
+import {
+  fillIdempotencyTokens,
+  findIdempotencyTokenProps,
+} from "./client/generate-idempotency-tokens.ts";
 import type { Operation } from "./client/operation.ts";
 import { type PresignSettings, Presigning } from "./client/presigning.ts";
 import {
@@ -92,6 +96,8 @@ export type AwsOpContext = Credentials.Credentials | HttpClient.HttpClient;
 
 interface Prepared {
   readonly op: Operation;
+  /** Input members marked `smithy.api#idempotencyToken`. */
+  readonly idempotencyTokenProps: string[];
   /** Set by {@link planOf}. */
   readonly plan?: Plan;
   readonly handler: ProtocolHandler | LazyHandler | undefined;
@@ -168,6 +174,7 @@ const prepare = (config: API.ProtocolOperationConfig): Prepared => {
       (prop) => !hasHttpPayload(prop) && !isStreamingType(prop.type),
     ),
     regionInput: !getPropertySignatures(inputAst).some((prop) => prop.name === "region"),
+    idempotencyTokenProps: findIdempotencyTokenProps(op.input),
   };
   preparedOps.set(config, prepared);
   return prepared;
@@ -682,9 +689,12 @@ const decodeWith = (
  * -> decode. The operation's plan is compiled on its first call (the
  * protocol implementation loads then).
  */
-const call = (op: API.PreparedOperation, input: unknown): Effect.Effect<unknown> =>
-  Effect.withFiber((fiber) => {
-    const prepared = prepare(op.config);
+const call = (op: API.PreparedOperation, callInput: unknown): Effect.Effect<unknown> => {
+  const prepared = prepare(op.config);
+  // Fill missing idempotency tokens once per call, outside the effect that
+  // core retries, so every attempt sends the same token.
+  const input = fillIdempotencyTokens(callInput, prepared.idempotencyTokenProps);
+  return Effect.withFiber((fiber) => {
     const context = fiber.context as Context.Context<any>;
     const run = (plan: Plan) => {
       const client = Context.get(context, HttpClient.HttpClient);
@@ -707,6 +717,7 @@ const call = (op: API.PreparedOperation, input: unknown): Effect.Effect<unknown>
           run,
         );
   }) as Effect.Effect<unknown>;
+};
 
 /**
  * The Protocol layer every generated AWS operation references. Failure and
