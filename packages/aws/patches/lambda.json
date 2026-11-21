@@ -263,6 +263,31 @@
           }
         }
       ]
+    },
+    "createCapacityProvider": {
+      "syntheticErrors": [
+        {
+          "name": "CapacityProviderOperatorRoleNotAssumable",
+          "from": "InvalidParameterValueException",
+          "message": {
+            "includes": "The operator role is invalid or doesn't have sufficient permissions"
+          }
+        },
+        {
+          "name": "CapacityProviderSecurityGroupNotFound",
+          "from": "InvalidParameterValueException",
+          "message": {
+            "includes": "One or more security group IDs are invalid"
+          }
+        },
+        {
+          "name": "CapacityProviderSubnetNotFound",
+          "from": "InvalidParameterValueException",
+          "message": {
+            "includes": "One or more subnet IDs are invalid"
+          }
+        }
+      ]
     }
   }
 }
