@@ -1,0 +1,190 @@
+{
+  "description": "The docs reference the user object as `{ \"schema\": \"user\" }` (and the profile as `{ \"schema\": \"user_profile\" }`), which have no JSON twins, so users.info, users.list and users.lookupByEmail returned untyped Documents. Model the documented objects (https://docs.slack.dev/reference/objects/user-object). Only `id` is required: bots, guests and deactivated members omit most fields.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.slack.users#UserProfile",
+      "value": {
+        "type": "structure",
+        "members": {
+          "display_name": {
+            "target": "smithy.api#String"
+          },
+          "display_name_normalized": {
+            "target": "smithy.api#String"
+          },
+          "real_name": {
+            "target": "smithy.api#String"
+          },
+          "real_name_normalized": {
+            "target": "smithy.api#String"
+          },
+          "first_name": {
+            "target": "smithy.api#String"
+          },
+          "last_name": {
+            "target": "smithy.api#String"
+          },
+          "email": {
+            "target": "smithy.api#String"
+          },
+          "title": {
+            "target": "smithy.api#String"
+          },
+          "phone": {
+            "target": "smithy.api#String"
+          },
+          "status_text": {
+            "target": "smithy.api#String"
+          },
+          "status_emoji": {
+            "target": "smithy.api#String"
+          },
+          "image_24": {
+            "target": "smithy.api#String"
+          },
+          "image_32": {
+            "target": "smithy.api#String"
+          },
+          "image_48": {
+            "target": "smithy.api#String"
+          },
+          "image_72": {
+            "target": "smithy.api#String"
+          },
+          "image_192": {
+            "target": "smithy.api#String"
+          },
+          "image_512": {
+            "target": "smithy.api#String"
+          },
+          "team": {
+            "target": "smithy.api#String"
+          },
+          "status_expiration": {
+            "target": "smithy.api#Long"
+          },
+          "bot_id": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "A member's profile. `email` needs the `users:read.email` scope."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.slack.users#User",
+      "value": {
+        "type": "structure",
+        "members": {
+          "id": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "User ID (`U\u2026`/`W\u2026`).",
+              "smithy.api#required": {}
+            }
+          },
+          "team_id": {
+            "target": "smithy.api#String"
+          },
+          "name": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Username (deprecated in the UI; prefer `profile.display_name`)."
+            }
+          },
+          "real_name": {
+            "target": "smithy.api#String"
+          },
+          "deleted": {
+            "target": "smithy.api#Boolean",
+            "traits": {
+              "smithy.api#documentation": "Whether the account is deactivated."
+            }
+          },
+          "color": {
+            "target": "smithy.api#String"
+          },
+          "tz": {
+            "target": "smithy.api#String"
+          },
+          "tz_label": {
+            "target": "smithy.api#String"
+          },
+          "tz_offset": {
+            "target": "smithy.api#Integer"
+          },
+          "is_admin": {
+            "target": "smithy.api#Boolean"
+          },
+          "is_owner": {
+            "target": "smithy.api#Boolean"
+          },
+          "is_primary_owner": {
+            "target": "smithy.api#Boolean"
+          },
+          "is_restricted": {
+            "target": "smithy.api#Boolean",
+            "traits": {
+              "smithy.api#documentation": "Multi-channel guest."
+            }
+          },
+          "is_ultra_restricted": {
+            "target": "smithy.api#Boolean",
+            "traits": {
+              "smithy.api#documentation": "Single-channel guest."
+            }
+          },
+          "is_bot": {
+            "target": "smithy.api#Boolean"
+          },
+          "is_app_user": {
+            "target": "smithy.api#Boolean"
+          },
+          "is_email_confirmed": {
+            "target": "smithy.api#Boolean"
+          },
+          "updated": {
+            "target": "smithy.api#Long"
+          },
+          "locale": {
+            "target": "smithy.api#String"
+          },
+          "profile": {
+            "target": "com.slack.users#UserProfile"
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "A workspace member. See https://docs.slack.dev/reference/objects/user-object"
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.slack.users#UsersInfoResponse/members/user/target",
+      "value": "com.slack.users#User"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.slack.users#UsersInfoResponseUsersList/member/target",
+      "value": "com.slack.users#User"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.slack.users#UsersListResponseMembersList/member/target",
+      "value": "com.slack.users#User"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.slack.users#LookupByEmailResponse/members/user/target",
+      "value": "com.slack.users#User"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.slack.users#ProfileGetResponse/members/profile/target",
+      "value": "com.slack.users#UserProfile"
+    }
+  ]
+}

@@ -580,10 +580,33 @@ export interface GetProfileRequest {
   /** User to retrieve profile info for */
   user?: string | undefined;
 }
+/** A member's profile. `email` needs the `users:read.email` scope. */
+export interface UserProfile {
+  display_name?: string | undefined;
+  display_name_normalized?: string | undefined;
+  real_name?: string | undefined;
+  real_name_normalized?: string | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  title?: string | undefined;
+  phone?: string | undefined;
+  status_text?: string | undefined;
+  status_emoji?: string | undefined;
+  image_24?: string | undefined;
+  image_32?: string | undefined;
+  image_48?: string | undefined;
+  image_72?: string | undefined;
+  image_192?: string | undefined;
+  image_512?: string | undefined;
+  team?: string | undefined;
+  status_expiration?: number | undefined;
+  bot_id?: string | undefined;
+}
 export interface GetProfileResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
-  profile: unknown;
+  profile: UserProfile;
 }
 export interface ListUsersRequest {
   /** Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/apis/web-api/pagination) for more detail. */
@@ -595,7 +618,35 @@ export interface ListUsersRequest {
   /** encoded team id to list users in, required if org token is used */
   team_id?: string | undefined;
 }
-export type ListUsersResponseMembersList = Array<unknown>;
+/** A workspace member. See https://docs.slack.dev/reference/objects/user-object */
+export interface User {
+  /** User ID (`U...`/`W...`). */
+  id: string;
+  team_id?: string | undefined;
+  /** Username (deprecated in the UI; prefer `profile.display_name`). */
+  name?: string | undefined;
+  real_name?: string | undefined;
+  /** Whether the account is deactivated. */
+  deleted?: boolean | undefined;
+  color?: string | undefined;
+  tz?: string | undefined;
+  tz_label?: string | undefined;
+  tz_offset?: number | undefined;
+  is_admin?: boolean | undefined;
+  is_owner?: boolean | undefined;
+  is_primary_owner?: boolean | undefined;
+  /** Multi-channel guest. */
+  is_restricted?: boolean | undefined;
+  /** Single-channel guest. */
+  is_ultra_restricted?: boolean | undefined;
+  is_bot?: boolean | undefined;
+  is_app_user?: boolean | undefined;
+  is_email_confirmed?: boolean | undefined;
+  updated?: number | undefined;
+  locale?: string | undefined;
+  profile?: UserProfile | undefined;
+}
+export type ListUsersResponseMembersList = Array<User>;
 /** Pagination metadata. An empty `next_cursor` means the last page. */
 export interface ListUsersResponseResponseMetadata {
   /** Cursor for the next page -- pass as `cursor` on the next call. */
@@ -617,7 +668,7 @@ export interface LookupByEmailRequest {
 export interface LookupByEmailResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
-  user: unknown;
+  user: User;
 }
 export interface LookupDiscoverableContactRequest {
   email: string;
@@ -712,11 +763,11 @@ export interface UsersInfoRequest {
   /** User to get info on */
   user?: string | undefined;
 }
-export type UsersInfoResponseUsersList = Array<unknown>;
+export type UsersInfoResponseUsersList = Array<User>;
 export interface UsersInfoResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
-  user?: unknown | undefined;
+  user?: User | undefined;
   users?: UsersInfoResponseUsersList | undefined;
 }
 export type DeletePhotoError = SlackOpError;
@@ -777,11 +828,11 @@ export const listUsers: API.PaginatedOperationMethod<
   ListUsersResponse,
   ListUsersError,
   SlackOpContext,
-  unknown
+  User
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(16, __c4, 0) as any as S.Schema<ListUsersRequest>,
-    output: __S(17, __c4, 1) as any as S.Schema<ListUsersResponse>,
+    input: __S(20, __c5, 0) as any as S.Schema<ListUsersRequest>,
+    output: __S(21, __c5, 1) as any as S.Schema<ListUsersResponse>,
     errors: [InvalidCursor, LimitRequired, MissingArgument, SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
@@ -806,8 +857,8 @@ export const lookupByEmail: API.OperationMethod<
   LookupByEmailError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<LookupByEmailRequest>,
-  output: __S(29, __c7, 1) as any as S.Schema<LookupByEmailResponse>,
+  input: __S(36, __c9, 0) as any as S.Schema<LookupByEmailRequest>,
+  output: __S(37, __c9, 1) as any as S.Schema<LookupByEmailResponse>,
   errors: [EnterpriseIsRestricted, UsersNotFound, SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -828,8 +879,8 @@ export const lookupDiscoverableContact: API.OperationMethod<
   LookupDiscoverableContactError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c8, 0) as any as S.Schema<LookupDiscoverableContactRequest>,
-  output: __S(33, __c8, 1) as any as S.Schema<LookupDiscoverableContactResponse>,
+  input: __S(40, __c10, 0) as any as S.Schema<LookupDiscoverableContactRequest>,
+  output: __S(41, __c10, 1) as any as S.Schema<LookupDiscoverableContactResponse>,
   errors: [
     InvalidArguments,
     NotAllowed,
@@ -852,7 +903,7 @@ export const setActive: API.OperationMethod<
   SetActiveError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<SetActiveRequest>,
+  input: __S(44, __c11, 0) as any as S.Schema<SetActiveRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<SetActiveResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -869,8 +920,8 @@ export const setPhoto: API.OperationMethod<
   SetPhotoError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c10, 0) as any as S.Schema<SetPhotoRequest>,
-  output: __S(42, __c10, 2) as any as S.Schema<SetPhotoResponse>,
+  input: __S(48, __c12, 0) as any as S.Schema<SetPhotoRequest>,
+  output: __S(50, __c12, 2) as any as S.Schema<SetPhotoResponse>,
   errors: [BadImage, TooLarge, TooManyFrames, SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -886,7 +937,7 @@ export const setPresence: API.OperationMethod<
   SetPresenceError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(44, __c11, 0) as any as S.Schema<SetPresenceRequest>,
+  input: __S(52, __c13, 0) as any as S.Schema<SetPresenceRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<SetPresenceResponse>,
   errors: [InvalidPresence, SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -922,8 +973,8 @@ export const setProfile: API.OperationMethod<
   SetProfileError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c12, 0) as any as S.Schema<SetProfileRequest>,
-  output: __S(49, __c12, 1) as any as S.Schema<SetProfileResponse>,
+  input: __S(56, __c14, 0) as any as S.Schema<SetProfileRequest>,
+  output: __S(57, __c14, 1) as any as S.Schema<SetProfileResponse>,
   errors: [
     CannotUpdateAdminUser,
     EmailTaken,
@@ -969,8 +1020,8 @@ export const usersConversations: API.PaginatedOperationMethod<
   unknown
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(52, __c13, 0) as any as S.Schema<UsersConversationsRequest>,
-    output: __S(53, __c13, 1) as any as S.Schema<UsersConversationsResponse>,
+    input: __S(60, __c15, 0) as any as S.Schema<UsersConversationsRequest>,
+    output: __S(62, __c15, 2) as any as S.Schema<UsersConversationsResponse>,
     errors: [
       InvalidCursor,
       InvalidLimit,
@@ -1004,7 +1055,7 @@ export const usersIdentity: API.OperationMethod<
   UsersIdentityError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c14, 0) as any as S.Schema<UsersIdentityRequest>,
+  input: __S(64, __c16, 0) as any as S.Schema<UsersIdentityRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<UsersIdentityResponse>,
   errors: [EmailNotVerified, InvalidUserId, SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -1021,8 +1072,8 @@ export const usersInfo: API.OperationMethod<
   UsersInfoError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(60, __c15, 0) as any as S.Schema<UsersInfoRequest>,
-  output: __S(61, __c15, 1) as any as S.Schema<UsersInfoResponse>,
+  input: __S(68, __c17, 0) as any as S.Schema<UsersInfoRequest>,
+  output: __S(69, __c17, 1) as any as S.Schema<UsersInfoResponse>,
   errors: [TooManyUsers, UserNotFound, UserNotVisible, SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -1084,12 +1135,41 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          profile: S.Unknown,
+          profile: __S(16, __c4, 0),
         }),
       ).annotate({ identifier: "GetProfileResponse" });
   }
 }
 function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          display_name: S.optional(S.String),
+          display_name_normalized: S.optional(S.String),
+          real_name: S.optional(S.String),
+          real_name_normalized: S.optional(S.String),
+          first_name: S.optional(S.String),
+          last_name: S.optional(S.String),
+          email: S.optional(S.String),
+          title: S.optional(S.String),
+          phone: S.optional(S.String),
+          status_text: S.optional(S.String),
+          status_emoji: S.optional(S.String),
+          image_24: S.optional(S.String),
+          image_32: S.optional(S.String),
+          image_48: S.optional(S.String),
+          image_72: S.optional(S.String),
+          image_192: S.optional(S.String),
+          image_512: S.optional(S.String),
+          team: S.optional(S.String),
+          status_expiration: S.optional(S.Number),
+          bot_id: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UserProfile" });
+  }
+}
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1104,15 +1184,44 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          members: __S(24, __c6, 0),
+          members: __S(32, __c8, 0),
           cache_ts: S.Number,
-          response_metadata: S.optional(__S(20, __c5, 0)),
+          response_metadata: S.optional(__S(28, __c7, 0)),
           offset: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListUsersResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          team_id: S.optional(S.String),
+          name: S.optional(S.String),
+          real_name: S.optional(S.String),
+          deleted: S.optional(S.Boolean),
+          color: S.optional(S.String),
+          tz: S.optional(S.String),
+          tz_label: S.optional(S.String),
+          tz_offset: S.optional(S.Number),
+          is_admin: S.optional(S.Boolean),
+          is_owner: S.optional(S.Boolean),
+          is_primary_owner: S.optional(S.Boolean),
+          is_restricted: S.optional(S.Boolean),
+          is_ultra_restricted: S.optional(S.Boolean),
+          is_bot: S.optional(S.Boolean),
+          is_app_user: S.optional(S.Boolean),
+          is_email_confirmed: S.optional(S.Boolean),
+          updated: S.optional(S.Number),
+          locale: S.optional(S.String),
+          profile: S.optional(__S(16, __c4, 0)),
+        }),
+      ).annotate({ identifier: "User" });
+  }
+}
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1122,13 +1231,13 @@ function __c5(j: number): any {
       ).annotate({ identifier: "ListUsersResponseResponseMetadata" });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.Unknown);
+      return S.Array(__S(24, __c6, 0));
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1140,12 +1249,12 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          user: S.Unknown,
+          user: __S(24, __c6, 0),
         }),
       ).annotate({ identifier: "LookupByEmailResponse" });
   }
 }
-function __c8(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1162,7 +1271,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "LookupDiscoverableContactResponse" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1170,7 +1279,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "SetActiveRequest" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1194,12 +1303,12 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          profile: __S(41, __c10, 1),
+          profile: __S(49, __c12, 1),
         }),
       ).annotate({ identifier: "SetPhotoResponse" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1209,7 +1318,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "SetPresenceRequest" });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1231,7 +1340,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "SetProfileResponse" });
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1246,16 +1355,18 @@ function __c13(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/users.conversations", code: 200 })),
       ).annotate({ identifier: "UsersConversationsRequest" });
     case 1:
+      return S.Array(S.Unknown);
+    case 2:
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          channels: __S(24, __c6, 0),
-          response_metadata: S.optional(__S(20, __c5, 0)),
+          channels: __S(61, __c15, 1),
+          response_metadata: S.optional(__S(28, __c7, 0)),
         }),
       ).annotate({ identifier: "UsersConversationsResponse" });
   }
 }
-function __c14(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1263,7 +1374,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "UsersIdentityRequest" });
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1276,8 +1387,8 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          user: S.optional(S.Unknown),
-          users: S.optional(__S(24, __c6, 0)),
+          user: S.optional(__S(24, __c6, 0)),
+          users: S.optional(__S(32, __c8, 0)),
         }),
       ).annotate({ identifier: "UsersInfoResponse" });
   }
