@@ -1,73 +1,90 @@
 {
-  "description": "The Iceberg REST spec requires the Idempotency-Key header to be a UUIDv7 (\"Key format: UUIDv7 in string form (RFC 9562)\", the header's own description in the spec). Core fills idempotency tokens with random v4 UUIDs, so the converter's `smithy.api#idempotencyToken` mark is removed here: the key stays a caller-supplied optional header until the token fill can make UUIDv7.",
+  "description": "The Iceberg REST spec requires the Idempotency-Key header to be a UUIDv7 (\"Key format: UUIDv7 in string form (RFC 9562)\", the header's own description in the spec). Ask core for a v7 key on each operation that takes the header (`finalizeConvert` already marks it `smithy.api#idempotencyToken`).",
   "patches": [
     {
-      "op": "remove",
-      "path": "/shapes/org.apache.iceberg.rest#CreateNamespaceRequest/members/idempotencyKey/traits/smithy.api#idempotencyToken"
+      "op": "add",
+      "path": "/shapes/org.apache.iceberg.rest#CreateNamespaceRequest/members/idempotencyKey/traits/distilled.idempotency#format",
+      "value": "uuidv7"
     },
     {
-      "op": "remove",
-      "path": "/shapes/org.apache.iceberg.rest#DropNamespaceRequest/members/idempotencyKey/traits/smithy.api#idempotencyToken"
+      "op": "add",
+      "path": "/shapes/org.apache.iceberg.rest#DropNamespaceRequest/members/idempotencyKey/traits/distilled.idempotency#format",
+      "value": "uuidv7"
     },
     {
-      "op": "remove",
-      "path": "/shapes/org.apache.iceberg.rest#UpdatePropertiesRequest/members/idempotencyKey/traits/smithy.api#idempotencyToken"
+      "op": "add",
+      "path": "/shapes/org.apache.iceberg.rest#UpdatePropertiesRequest/members/idempotencyKey/traits/distilled.idempotency#format",
+      "value": "uuidv7"
     },
     {
-      "op": "remove",
-      "path": "/shapes/org.apache.iceberg.rest#CreateTableRequest/members/idempotencyKey/traits/smithy.api#idempotencyToken"
+      "op": "add",
+      "path": "/shapes/org.apache.iceberg.rest#CreateTableRequest/members/idempotencyKey/traits/distilled.idempotency#format",
+      "value": "uuidv7"
     },
     {
-      "op": "remove",
-      "path": "/shapes/org.apache.iceberg.rest#PlanTableScanRequest/members/idempotencyKey/traits/smithy.api#idempotencyToken"
+      "op": "add",
+      "path": "/shapes/org.apache.iceberg.rest#PlanTableScanRequest/members/idempotencyKey/traits/distilled.idempotency#format",
+      "value": "uuidv7"
     },
     {
-      "op": "remove",
-      "path": "/shapes/org.apache.iceberg.rest#CancelPlanningRequest/members/idempotencyKey/traits/smithy.api#idempotencyToken"
+      "op": "add",
+      "path": "/shapes/org.apache.iceberg.rest#CancelPlanningRequest/members/idempotencyKey/traits/distilled.idempotency#format",
+      "value": "uuidv7"
     },
     {
-      "op": "remove",
-      "path": "/shapes/org.apache.iceberg.rest#FetchScanTasksRequest/members/idempotencyKey/traits/smithy.api#idempotencyToken"
+      "op": "add",
+      "path": "/shapes/org.apache.iceberg.rest#FetchScanTasksRequest/members/idempotencyKey/traits/distilled.idempotency#format",
+      "value": "uuidv7"
     },
     {
-      "op": "remove",
-      "path": "/shapes/org.apache.iceberg.rest#RegisterTableRequest/members/idempotencyKey/traits/smithy.api#idempotencyToken"
+      "op": "add",
+      "path": "/shapes/org.apache.iceberg.rest#RegisterTableRequest/members/idempotencyKey/traits/distilled.idempotency#format",
+      "value": "uuidv7"
     },
     {
-      "op": "remove",
-      "path": "/shapes/org.apache.iceberg.rest#UpdateTableRequest/members/idempotencyKey/traits/smithy.api#idempotencyToken"
+      "op": "add",
+      "path": "/shapes/org.apache.iceberg.rest#UpdateTableRequest/members/idempotencyKey/traits/distilled.idempotency#format",
+      "value": "uuidv7"
     },
     {
-      "op": "remove",
-      "path": "/shapes/org.apache.iceberg.rest#DropTableRequest/members/idempotencyKey/traits/smithy.api#idempotencyToken"
+      "op": "add",
+      "path": "/shapes/org.apache.iceberg.rest#DropTableRequest/members/idempotencyKey/traits/distilled.idempotency#format",
+      "value": "uuidv7"
     },
     {
-      "op": "remove",
-      "path": "/shapes/org.apache.iceberg.rest#UnregisterTableRequest/members/idempotencyKey/traits/smithy.api#idempotencyToken"
+      "op": "add",
+      "path": "/shapes/org.apache.iceberg.rest#UnregisterTableRequest/members/idempotencyKey/traits/distilled.idempotency#format",
+      "value": "uuidv7"
     },
     {
-      "op": "remove",
-      "path": "/shapes/org.apache.iceberg.rest#RenameTableRequest/members/idempotencyKey/traits/smithy.api#idempotencyToken"
+      "op": "add",
+      "path": "/shapes/org.apache.iceberg.rest#RenameTableRequest/members/idempotencyKey/traits/distilled.idempotency#format",
+      "value": "uuidv7"
     },
     {
-      "op": "remove",
-      "path": "/shapes/org.apache.iceberg.rest#CommitTransactionRequest/members/idempotencyKey/traits/smithy.api#idempotencyToken"
+      "op": "add",
+      "path": "/shapes/org.apache.iceberg.rest#CommitTransactionRequest/members/idempotencyKey/traits/distilled.idempotency#format",
+      "value": "uuidv7"
     },
     {
-      "op": "remove",
-      "path": "/shapes/org.apache.iceberg.rest#ReplaceViewRequest/members/idempotencyKey/traits/smithy.api#idempotencyToken"
+      "op": "add",
+      "path": "/shapes/org.apache.iceberg.rest#ReplaceViewRequest/members/idempotencyKey/traits/distilled.idempotency#format",
+      "value": "uuidv7"
     },
     {
-      "op": "remove",
-      "path": "/shapes/org.apache.iceberg.rest#DropViewRequest/members/idempotencyKey/traits/smithy.api#idempotencyToken"
+      "op": "add",
+      "path": "/shapes/org.apache.iceberg.rest#DropViewRequest/members/idempotencyKey/traits/distilled.idempotency#format",
+      "value": "uuidv7"
     },
     {
-      "op": "remove",
-      "path": "/shapes/org.apache.iceberg.rest#RenameViewRequest/members/idempotencyKey/traits/smithy.api#idempotencyToken"
+      "op": "add",
+      "path": "/shapes/org.apache.iceberg.rest#RenameViewRequest/members/idempotencyKey/traits/distilled.idempotency#format",
+      "value": "uuidv7"
     },
     {
-      "op": "remove",
-      "path": "/shapes/org.apache.iceberg.rest#RegisterViewRequest/members/idempotencyKey/traits/smithy.api#idempotencyToken"
+      "op": "add",
+      "path": "/shapes/org.apache.iceberg.rest#RegisterViewRequest/members/idempotencyKey/traits/distilled.idempotency#format",
+      "value": "uuidv7"
     }
   ]
 }

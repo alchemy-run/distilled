@@ -900,7 +900,13 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         .map(([trait, builder]) => `${builder}(${JSON.stringify(info.traits[trait])})`),
       ...(STRING_ENCODED_TRAIT in info.traits ? ["T.StringEncoded()"] : []),
       // Core fills a missing token once per call, before the retry.
-      ...("smithy.api#idempotencyToken" in info.traits ? ["T.IdempotencyToken()"] : []),
+      ...("smithy.api#idempotencyToken" in info.traits
+        ? [
+            info.traits["distilled.idempotency#format"] === "uuidv7"
+              ? `T.IdempotencyToken("uuidv7")`
+              : "T.IdempotencyToken()",
+          ]
+        : []),
       ...(spec.memberExtraPipes?.(info) ?? []),
     ]);
 

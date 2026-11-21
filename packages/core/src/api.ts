@@ -489,9 +489,28 @@ interface Prepared extends PreparedOperation {
   service?: ProtocolShape;
   /** The operation span's facts, from the telemetry traits; built on the first traced call. */
   info?: Telemetry.OperationInfo;
-  /** Input members marked `T.IdempotencyToken()`; read on the first call. */
-  idempotencyTokens?: ReadonlyArray<string>;
+  /** Input members marked `T.IdempotencyToken()`, with their format; read on the first call. */
+  idempotencyTokens?: ReadonlyArray<readonly [name: string, format: unknown]>;
 }
+
+/** A UUIDv7 (RFC 9562): 48-bit Unix milliseconds, then version, variant and random bits. */
+const uuidv7 = (): string => {
+  const b = globalThis.crypto.getRandomValues(new Uint8Array(16));
+  const ms = Date.now();
+  const high = Math.floor(ms / 2 ** 32);
+  const low = ms % 2 ** 32;
+  b[0] = high >>> 8;
+  b[1] = high & 0xff;
+  b[2] = low >>> 24;
+  b[3] = (low >>> 16) & 0xff;
+  b[4] = (low >>> 8) & 0xff;
+  b[5] = low & 0xff;
+  b[6] = (b[6]! & 0x0f) | 0x70;
+  b[8] = (b[8]! & 0x3f) | 0x80;
+  let hex = "";
+  for (const x of b) hex += x.toString(16).padStart(2, "0");
+  return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
+};
 
 /**
  * `input` with each missing idempotency token set to a new UUID. Called once
@@ -499,18 +518,19 @@ interface Prepared extends PreparedOperation {
  * caller's own value and object are left as they are.
  */
 const withIdempotencyTokens = (p: Prepared, input: unknown): unknown => {
-  const names = (p.idempotencyTokens ??= getProps(p.inputAst).flatMap((prop) =>
-    typeof prop.name === "string" && getAnn(prop.type, idempotencyTokenSymbol) !== undefined
-      ? [prop.name]
-      : [],
-  ));
-  if (names.length === 0 || input === null || typeof input !== "object") return input;
+  const tokens = (p.idempotencyTokens ??= getProps(p.inputAst).flatMap((prop) => {
+    const format = getAnn(prop.type, idempotencyTokenSymbol);
+    return typeof prop.name === "string" && format !== undefined
+      ? [[prop.name, format] as const]
+      : [];
+  }));
+  if (tokens.length === 0 || input === null || typeof input !== "object") return input;
   let filled: Record<string, unknown> | undefined;
-  for (const name of names) {
+  for (const [name, format] of tokens) {
     if ((input as Record<string, unknown>)[name] === undefined) {
       filled ??= { ...(input as Record<string, unknown>) };
       // `globalThis.crypto`, not `node:crypto`, so this runs in browsers too.
-      filled[name] = globalThis.crypto.randomUUID();
+      filled[name] = format === "uuidv7" ? uuidv7() : globalThis.crypto.randomUUID();
     }
   }
   return filled ?? input;

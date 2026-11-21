@@ -2606,7 +2606,9 @@ function __c3(j: number): any {
           xIcebergAccessDelegation: S.optional(
             __S(160, __c5, 0).pipe(T.Header("X-Iceberg-Access-Delegation")),
           ),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken("uuidv7")),
+          ),
         })
           .pipe(
             T.Http({
@@ -2648,7 +2650,9 @@ function __c6(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken("uuidv7")),
+          ),
           table_changes: __S(193, __c6, 1).pipe(T.Body("table-changes")),
         })
           .pipe(T.Http({ method: "POST", uri: "/transactions/commit", code: 200 }))
@@ -2680,7 +2684,9 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken("uuidv7")),
+          ),
           namespace: __S(32, __c1, 0),
           properties: S.optional(__S(320, __c10, 0)),
         })
@@ -2723,7 +2729,9 @@ function __c11(j: number): any {
           xIcebergAccessDelegation: S.optional(
             __S(160, __c5, 0).pipe(T.Header("X-Iceberg-Access-Delegation")),
           ),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken("uuidv7")),
+          ),
           name: S.String,
           location: S.optional(S.String),
           schema: __S(384, __c12, 0),
@@ -3115,7 +3123,9 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           namespace: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken("uuidv7")),
+          ),
         })
           .pipe(T.Http({ method: "DELETE", uri: "/namespaces/{namespace}", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
@@ -3130,7 +3140,9 @@ function __c23(j: number): any {
           namespace: S.String.pipe(T.Label()),
           table: S.String.pipe(T.Label()),
           purgeRequested: S.optional(S.Boolean.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken("uuidv7")),
+          ),
         })
           .pipe(
             T.Http({ method: "DELETE", uri: "/namespaces/{namespace}/tables/{table}", code: 200 }),
@@ -3146,7 +3158,9 @@ function __c24(j: number): any {
         S.Struct({
           namespace: S.String.pipe(T.Label()),
           view: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken("uuidv7")),
+          ),
         })
           .pipe(
             T.Http({ method: "DELETE", uri: "/namespaces/{namespace}/views/{view}", code: 200 }),
@@ -3250,7 +3264,9 @@ function __c26(j: number): any {
         S.Struct({
           namespace: S.String.pipe(T.Label()),
           table: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken("uuidv7")),
+          ),
           plan_task: S.String.pipe(T.Body("plan-task")),
         })
           .pipe(
@@ -3588,7 +3604,9 @@ function __c40(j: number): any {
           xIcebergAccessDelegation: S.optional(
             __S(160, __c5, 0).pipe(T.Header("X-Iceberg-Access-Delegation")),
           ),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken("uuidv7")),
+          ),
           snapshot_id: S.optional(S.Number.pipe(T.Body("snapshot-id"))),
           select: S.optional(__S(32, __c1, 0)),
           filter: S.optional(S.Unknown),
@@ -3623,7 +3641,9 @@ function __c41(j: number): any {
           xIcebergAccessDelegation: S.optional(
             __S(160, __c5, 0).pipe(T.Header("X-Iceberg-Access-Delegation")),
           ),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken("uuidv7")),
+          ),
           name: S.String,
           metadata_location: S.String.pipe(T.Body("metadata-location")),
           overwrite: S.optional(S.Boolean),
@@ -3639,7 +3659,9 @@ function __c42(j: number): any {
       return S.suspend(() =>
         S.Struct({
           namespace: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken("uuidv7")),
+          ),
           name: S.String,
           metadata_location: S.String.pipe(T.Body("metadata-location")),
         })
@@ -3653,7 +3675,9 @@ function __c43(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken("uuidv7")),
+          ),
           source: __S(224, __c7, 0),
           destination: __S(224, __c7, 0),
         })
@@ -3667,7 +3691,9 @@ function __c44(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken("uuidv7")),
+          ),
           source: __S(224, __c7, 0),
           destination: __S(224, __c7, 0),
         })
@@ -3694,7 +3720,9 @@ function __c45(j: number): any {
         S.Struct({
           namespace: S.String.pipe(T.Label()),
           view: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken("uuidv7")),
+          ),
           identifier: S.optional(__S(224, __c7, 0)),
           requirements: S.optional(__S(1441, __c45, 1)),
           updates: __S(1442, __c45, 2),
@@ -3779,7 +3807,9 @@ function __c49(j: number): any {
         S.Struct({
           namespace: S.String.pipe(T.Label()),
           table: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken("uuidv7")),
+          ),
         })
           .pipe(
             T.Http({
@@ -3809,7 +3839,9 @@ function __c51(j: number): any {
       return S.suspend(() =>
         S.Struct({
           namespace: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken("uuidv7")),
+          ),
           removals: S.optional(__S(32, __c1, 0)),
           updates: S.optional(__S(320, __c10, 0)),
         })
@@ -3833,7 +3865,9 @@ function __c52(j: number): any {
         S.Struct({
           namespace: S.String.pipe(T.Label()),
           table: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken("uuidv7")),
+          ),
           identifier: S.optional(__S(224, __c7, 0)),
           requirements: __S(256, __c8, 0),
           updates: __S(257, __c8, 1),
