@@ -1399,16 +1399,12 @@ export interface PatchSettingsDatasourcesRequest extends Omit<DataSource, "name"
   "debugOptions.enableDebugging"?: boolean | undefined;
   /** Only applies to [`settings.datasources.patch`](https://developers.google.com/workspace/cloud-search/docs/reference/rest/v1/settings.datasources/patch). Update mask to control which fields to update. Example field paths: `name`, `displayName`. * If `update_mask` is non-empty, then only the fields specified in the `update_mask` are updated. * If you specify a field in the `update_mask`, but don't specify its value in the source, that field is cleared. * If the `update_mask` is not present or empty or has the value `*`, then all fields are updated. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). The name of the datasource resource. Format: datasources/{source_id}. The name is ignored when creating a datasource. */
-  bodyName?: string | undefined;
 }
 export interface PatchSettingsSearchapplicationsRequest extends Omit<SearchApplication, "name"> {
   /** Only applies to [`settings.searchapplications.patch`](https://developers.google.com/workspace/cloud-search/docs/reference/rest/v1/settings.searchapplications/patch). Update mask to control which fields to update. Example field paths: `search_application.name`, `search_application.displayName`. * If `update_mask` is non-empty, then only the fields specified in the `update_mask` are updated. * If you specify a field in the `update_mask`, but don't specify its value in the `search_application`, then that field is cleared. * If the `update_mask` is not present or empty or has the value `*`, then all fields are updated. */
   updateMask?: string | undefined;
   /** The name of the Search Application. Format: searchapplications/{application_id}. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). The name of the Search Application. Format: searchapplications/{application_id}. */
-  bodyName?: string | undefined;
 }
 export type PollItemsRequestStatusCodesItemEnum =
   | "CODE_UNSPECIFIED"
@@ -1898,8 +1894,6 @@ export interface UpdateSettingsSearchapplicationsRequest extends Omit<SearchAppl
   name: string;
   /** Only applies to [`settings.searchapplications.patch`](https://developers.google.com/workspace/cloud-search/docs/reference/rest/v1/settings.searchapplications/patch). Update mask to control which fields to update. Example field paths: `search_application.name`, `search_application.displayName`. * If `update_mask` is non-empty, then only the fields specified in the `update_mask` are updated. * If you specify a field in the `update_mask`, but don't specify its value in the `search_application`, then that field is cleared. * If the `update_mask` is not present or empty or has the value `*`, then all fields are updated. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). The name of the Search Application. Format: searchapplications/{application_id}. */
-  bodyName?: string | undefined;
 }
 /** Start upload file request. */
 export interface StartUploadItemRequest {
@@ -1920,8 +1914,6 @@ export interface Media {
 export interface UploadMediaRequest extends Omit<Media, "resourceName"> {
   /** Name of the media that is being downloaded. See ReadRequest.resource_name. */
   resourceName: string;
-  /** The request body's `resourceName` (`resourceName` is the path parameter). Name of the media resource. */
-  bodyResourceName?: string | undefined;
 }
 export type CheckAccessDebugDatasourcesItemsError =
   | NotFound
@@ -4240,7 +4232,6 @@ function __c38(j: number): any {
             name: S.String.pipe(T.Label()),
             "debugOptions.enableDebugging": S.optional(S.Boolean.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4261,7 +4252,6 @@ function __c39(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4928,7 +4918,6 @@ function __c56(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4980,7 +4969,6 @@ function __c58(j: number): any {
           __S(1856, __c58, 0),
           S.Struct({
             resourceName: S.String.pipe(T.Label()),
-            bodyResourceName: S.optional(S.String.pipe(T.Body("resourceName"))),
           }),
         ).pipe(
           T.Http({

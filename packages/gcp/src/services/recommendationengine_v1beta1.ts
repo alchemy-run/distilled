@@ -624,8 +624,6 @@ export interface PatchProjectsLocationsCatalogsRequest extends Omit<
   updateMask?: string | undefined;
   /** The fully qualified resource name of the catalog. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). The fully qualified resource name of the catalog. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsCatalogsCatalogItemsRequest extends GoogleCloudRecommendationengineV1beta1CatalogItem {
   /** Required. Full resource name of catalog item, such as `projects/*\/locations/global/catalogs/default_catalog/catalogItems/some_catalog_item_id`. */
@@ -1731,7 +1729,6 @@ function __c18(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

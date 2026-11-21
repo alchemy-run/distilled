@@ -14194,8 +14194,6 @@ export interface AttachDiskInstancesRequest extends Omit<AttachedDisk, "forceAtt
   instance: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** The request body's `forceAttach` (`forceAttach` is the query parameter). [Input Only] Whether to force attach the regional disk even if it's currently attached to another instance. If you try to force attach a zonal disk to an instance, you will receive an error. */
-  bodyForceAttach?: boolean | undefined;
 }
 /** The network endpoint. */
 export interface NetworkEndpoint {
@@ -15128,8 +15126,6 @@ export interface CreateSnapshotDisksRequest extends Omit<Snapshot, "guestFlush">
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** The request body's `guestFlush` (`guestFlush` is the query parameter). [Input Only] Whether to attempt an application consistent snapshot by informing the OS to prepare for the snapshot process. */
-  bodyGuestFlush?: boolean | undefined;
 }
 export interface CreateSnapshotRegionDisksRequest extends Omit<Snapshot, "region"> {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -15140,8 +15136,6 @@ export interface CreateSnapshotRegionDisksRequest extends Omit<Snapshot, "region
   region: string;
   /** Project ID for this request. */
   project: string;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the snapshot resides. Only applicable for regional snapshots. */
-  bodyRegion?: string | undefined;
 }
 export interface DeleteAccessConfigInstancesRequest {
   /** Project ID for this request. */
@@ -22092,8 +22086,6 @@ export interface InsertAddressesRequest extends Omit<Address, "region"> {
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] The URL of the region where a regional address resides. For regional addresses, you must specify the region as a path parameter in the HTTP request URL. *This field is not applicable to global addresses.* */
-  bodyRegion?: string | undefined;
 }
 export interface InsertAutoscalersRequest extends Omit<Autoscaler, "zone"> {
   /** Project ID for this request. */
@@ -22102,8 +22094,6 @@ export interface InsertAutoscalersRequest extends Omit<Autoscaler, "zone"> {
   zone: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** The request body's `zone` (`zone` is the path parameter). Output only. [Output Only] URL of thezone where the instance group resides (for autoscalers living in zonal scope). */
-  bodyZone?: string | undefined;
 }
 export interface InsertBackendBucketsRequest extends BackendBucket {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -22134,10 +22124,6 @@ export interface InsertDisksRequest extends Omit<Disk, "sourceImage" | "zone"> {
   zone: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** The request body's `sourceImage` (`sourceImage` is the query parameter). The source image used to create this disk. If the source image is deleted, this field will not be set. To create a disk with one of the public operating system images, specify the image by its family name. For example, specifyfamily/debian-9 to use the latest Debian 9 image: projects/debian-cloud/global/images/family/debian-9 Alternatively, use a specific version of a public operating system image: projects/debian-cloud/global/images/debian-9-stretch-vYYYYMMDD To create a disk with a custom image that you created, specify the image name in the following format: global/images/my-custom-image You can also specify a custom image by its image family, which returns the latest version of the image in that family. Replace the image name with family/family-name: global/images/family/my-image-family */
-  bodySourceImage?: string | undefined;
-  /** The request body's `zone` (`zone` is the path parameter). Output only. [Output Only] URL of the zone where the disk resides. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyZone?: string | undefined;
 }
 export interface InsertExternalVpnGatewaysRequest extends ExternalVpnGateway {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -22164,8 +22150,6 @@ export interface InsertForwardingRulesRequest extends Omit<ForwardingRule, "regi
   region: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the regional forwarding rule resides. This field is not applicable to global forwarding rules. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyRegion?: string | undefined;
 }
 export interface InsertFutureReservationsRequest extends Omit<FutureReservation, "zone"> {
   /** Name of the zone for this request. Name should conform to RFC1035. */
@@ -22174,8 +22158,6 @@ export interface InsertFutureReservationsRequest extends Omit<FutureReservation,
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** The request body's `zone` (`zone` is the path parameter). Output only. [Output Only] URL of the Zone where this future reservation resides. */
-  bodyZone?: string | undefined;
 }
 export interface InsertGlobalAddressesRequest extends Address {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -22245,8 +22227,6 @@ export interface InsertInstanceGroupManagerResizeRequestsRequest extends Omit<
   project: string;
   /** The name of the managed instance group to which the resize request will be added. Name should conform to RFC1035 or be a resource ID. */
   instanceGroupManager: string;
-  /** The request body's `zone` (`zone` is the path parameter). Output only. The URL of a zone where the resize request is located. Populated only for zonal resize requests. */
-  bodyZone?: string | undefined;
 }
 export interface InsertInstanceGroupManagersRequest extends Omit<InstanceGroupManager, "zone"> {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -22255,8 +22235,6 @@ export interface InsertInstanceGroupManagersRequest extends Omit<InstanceGroupMa
   zone: string;
   /** Project ID for this request. */
   project: string;
-  /** The request body's `zone` (`zone` is the path parameter). Output only. The URL of azone where the managed instance group is located (for zonal resources). */
-  bodyZone?: string | undefined;
 }
 export interface InsertInstanceGroupsRequest extends Omit<InstanceGroup, "zone"> {
   /** The name of the zone where you want to create the instance group. */
@@ -22265,8 +22243,6 @@ export interface InsertInstanceGroupsRequest extends Omit<InstanceGroup, "zone">
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** The request body's `zone` (`zone` is the path parameter). Output only. [Output Only] The URL of thezone where the instance group is located (for zonal resources). */
-  bodyZone?: string | undefined;
 }
 export interface InsertInstancesRequest extends Omit<Instance, "sourceMachineImage" | "zone"> {
   /** Project ID for this request. */
@@ -22279,10 +22255,6 @@ export interface InsertInstancesRequest extends Omit<Instance, "sourceMachineIma
   sourceInstanceTemplate?: string | undefined;
   /** The name of the zone for this request. */
   zone: string;
-  /** The request body's `sourceMachineImage` (`sourceMachineImage` is the query parameter). Source machine image */
-  bodySourceMachineImage?: string | undefined;
-  /** The request body's `zone` (`zone` is the path parameter). Output only. [Output Only] URL of the zone where the instance resides. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyZone?: string | undefined;
 }
 export interface InsertInstanceTemplatesRequest extends InstanceTemplate {
   /** Project ID for this request. */
@@ -22302,10 +22274,6 @@ export interface InsertInstantSnapshotGroupsRequest extends Omit<
   zone: string;
   /** begin_interface: MixerMutationRequestBuilder */
   sourceConsistencyGroup?: string | undefined;
-  /** The request body's `zone` (`zone` is the path parameter). Output only. [Output Only] URL of the zone where the instant snapshot group resides. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyZone?: string | undefined;
-  /** The request body's `sourceConsistencyGroup` (`sourceConsistencyGroup` is the query parameter). */
-  bodySourceConsistencyGroup?: string | undefined;
 }
 export interface InsertInstantSnapshotsRequest extends Omit<InstantSnapshot, "zone"> {
   /** Name of the zone for this request. */
@@ -22314,8 +22282,6 @@ export interface InsertInstantSnapshotsRequest extends Omit<InstantSnapshot, "zo
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** The request body's `zone` (`zone` is the path parameter). Output only. [Output Only] URL of the zone where the instant snapshot resides. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyZone?: string | undefined;
 }
 export interface InsertInterconnectAttachmentGroupsRequest extends InterconnectAttachmentGroup {
   /** Project ID for this request. */
@@ -22335,8 +22301,6 @@ export interface InsertInterconnectAttachmentsRequest extends Omit<
   validateOnly?: boolean | undefined;
   /** Name of the region for this request. */
   region: string;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the regional interconnect attachment resides. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyRegion?: string | undefined;
 }
 export interface InsertInterconnectGroupsRequest extends InterconnectGroup {
   /** Project ID for this request. */
@@ -22363,8 +22327,6 @@ export interface InsertMachineImagesRequest extends Omit<MachineImage, "sourceIn
   requestId?: string | undefined;
   /** Required. Source instance that is used to create the machine image from. */
   sourceInstance?: string | undefined;
-  /** The request body's `sourceInstance` (`sourceInstance` is the query parameter). The source instance used to create the machine image. You can provide this as a partial or full URL to the resource. For example, the following are valid values: - https://www.googleapis.com/compute/v1/projects/project/zones/zone/instances/instance - projects/project/zones/zone/instances/instance */
-  bodySourceInstance?: string | undefined;
 }
 export interface InsertNetworkAttachmentsRequest extends Omit<NetworkAttachment, "region"> {
   /** Project ID for this request. */
@@ -22373,8 +22335,6 @@ export interface InsertNetworkAttachmentsRequest extends Omit<NetworkAttachment,
   requestId?: string | undefined;
   /** Name of the region of this request. */
   region: string;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the network attachment resides. This field applies only to the region resource. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyRegion?: string | undefined;
 }
 export interface InsertNetworkEdgeSecurityServicesRequest extends Omit<
   NetworkEdgeSecurityService,
@@ -22388,8 +22348,6 @@ export interface InsertNetworkEdgeSecurityServicesRequest extends Omit<
   project: string;
   /** If true, the request will not be committed. */
   validateOnly?: boolean | undefined;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the resource resides. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyRegion?: string | undefined;
 }
 export interface InsertNetworkEndpointGroupsRequest extends Omit<NetworkEndpointGroup, "zone"> {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -22398,8 +22356,6 @@ export interface InsertNetworkEndpointGroupsRequest extends Omit<NetworkEndpoint
   zone: string;
   /** Project ID for this request. */
   project: string;
-  /** The request body's `zone` (`zone` is the path parameter). Output only. [Output Only] The URL of thezone where the network endpoint group is located. */
-  bodyZone?: string | undefined;
 }
 export interface InsertNetworkFirewallPoliciesRequest extends FirewallPolicy {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -22422,8 +22378,6 @@ export interface InsertNodeGroupsRequest extends Omit<NodeGroup, "zone"> {
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** The request body's `zone` (`zone` is the path parameter). Output only. [Output Only] The name of the zone where the node group resides, such as us-central1-a. */
-  bodyZone?: string | undefined;
 }
 export interface InsertNodeTemplatesRequest extends Omit<NodeTemplate, "region"> {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -22432,8 +22386,6 @@ export interface InsertNodeTemplatesRequest extends Omit<NodeTemplate, "region">
   project: string;
   /** The name of the region for this request. */
   region: string;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] The name of the region where the node template resides, such as us-central1. */
-  bodyRegion?: string | undefined;
 }
 export interface InsertOrganizationSecurityPoliciesRequest extends SecurityPolicy {
   /** Parent ID for this request. The ID can be either be "folders/[FOLDER_ID]" if the parent is a folder or "organizations/[ORGANIZATION_ID]" if the parent is an organization. */
@@ -22448,8 +22400,6 @@ export interface InsertPacketMirroringsRequest extends Omit<PacketMirroring, "re
   region: string;
   /** Project ID for this request. */
   project: string;
-  /** The request body's `region` (`region` is the path parameter). [Output Only] URI of the region where the packetMirroring resides. */
-  bodyRegion?: string | undefined;
 }
 export interface InsertPublicAdvertisedPrefixesRequest extends PublicAdvertisedPrefix {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -22467,8 +22417,6 @@ export interface InsertPublicDelegatedPrefixesRequest extends Omit<
   region: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the public delegated prefix resides. This field applies only to the region resource. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyRegion?: string | undefined;
 }
 export interface InsertRegionAutoscalersRequest extends Omit<Autoscaler, "region"> {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -22477,8 +22425,6 @@ export interface InsertRegionAutoscalersRequest extends Omit<Autoscaler, "region
   project: string;
   /** Name of the region scoping this request. */
   region: string;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of theregion where the instance group resides (for autoscalers living in regional scope). */
-  bodyRegion?: string | undefined;
 }
 export interface InsertRegionBackendBucketsRequest extends Omit<BackendBucket, "region"> {
   /** Project ID for this request. */
@@ -22487,8 +22433,6 @@ export interface InsertRegionBackendBucketsRequest extends Omit<BackendBucket, "
   requestId?: string | undefined;
   /** Name of the region of this request. */
   region: string;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the regional backend bucket resides. This field is not applicable to global backend buckets. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyRegion?: string | undefined;
 }
 export interface InsertRegionBackendServicesRequest extends Omit<BackendService, "region"> {
   /** Name of the region scoping this request. */
@@ -22497,8 +22441,6 @@ export interface InsertRegionBackendServicesRequest extends Omit<BackendService,
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the regional backend service resides. This field is not applicable to global backend services. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyRegion?: string | undefined;
 }
 export interface InsertRegionCommitmentsRequest extends Omit<Commitment, "region"> {
   /** Name of the region for this request. */
@@ -22507,8 +22449,6 @@ export interface InsertRegionCommitmentsRequest extends Omit<Commitment, "region
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the commitment and committed resources are located. */
-  bodyRegion?: string | undefined;
 }
 export interface InsertRegionCompositeHealthChecksRequest extends Omit<
   CompositeHealthCheck,
@@ -22520,8 +22460,6 @@ export interface InsertRegionCompositeHealthChecksRequest extends Omit<
   region: string;
   /** Project ID for this request. */
   project: string;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the composite health check resides. This field applies only to the regional resource. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyRegion?: string | undefined;
 }
 export interface InsertRegionDisksRequest extends Omit<Disk, "sourceImage" | "region"> {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -22532,10 +22470,6 @@ export interface InsertRegionDisksRequest extends Omit<Disk, "sourceImage" | "re
   region: string;
   /** Project ID for this request. */
   project: string;
-  /** The request body's `sourceImage` (`sourceImage` is the query parameter). The source image used to create this disk. If the source image is deleted, this field will not be set. To create a disk with one of the public operating system images, specify the image by its family name. For example, specifyfamily/debian-9 to use the latest Debian 9 image: projects/debian-cloud/global/images/family/debian-9 Alternatively, use a specific version of a public operating system image: projects/debian-cloud/global/images/debian-9-stretch-vYYYYMMDD To create a disk with a custom image that you created, specify the image name in the following format: global/images/my-custom-image You can also specify a custom image by its image family, which returns the latest version of the image in that family. Replace the image name with family/family-name: global/images/family/my-image-family */
-  bodySourceImage?: string | undefined;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the disk resides. Only applicable for regional resources. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyRegion?: string | undefined;
 }
 export interface InsertRegionHealthAggregationPoliciesRequest extends Omit<
   HealthAggregationPolicy,
@@ -22547,8 +22481,6 @@ export interface InsertRegionHealthAggregationPoliciesRequest extends Omit<
   project: string;
   /** Name of the region scoping this request. */
   region: string;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the health aggregation policy resides. This field applies only to the regional resource. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyRegion?: string | undefined;
 }
 export interface InsertRegionHealthChecksRequest extends Omit<HealthCheck, "region"> {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -22557,8 +22489,6 @@ export interface InsertRegionHealthChecksRequest extends Omit<HealthCheck, "regi
   project: string;
   /** Name of the region scoping this request. */
   region: string;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] Region where the health check resides. Not applicable to global health checks. */
-  bodyRegion?: string | undefined;
 }
 export interface InsertRegionHealthCheckServicesRequest extends Omit<HealthCheckService, "region"> {
   /** Project ID for this request. */
@@ -22567,8 +22497,6 @@ export interface InsertRegionHealthCheckServicesRequest extends Omit<HealthCheck
   region: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the health check service resides. This field is not applicable to global health check services. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyRegion?: string | undefined;
 }
 export interface InsertRegionHealthSourcesRequest extends Omit<HealthSource, "region"> {
   /** Name of the region scoping this request. */
@@ -22577,8 +22505,6 @@ export interface InsertRegionHealthSourcesRequest extends Omit<HealthSource, "re
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the health source resides. This field applies only to the regional resource. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyRegion?: string | undefined;
 }
 export interface InsertRegionInstanceGroupManagerResizeRequestsRequest extends Omit<
   InstanceGroupManagerResizeRequest,
@@ -22592,8 +22518,6 @@ export interface InsertRegionInstanceGroupManagerResizeRequestsRequest extends O
   project: string;
   /** Name of the region scoping this request. Name should conform to RFC1035. */
   region: string;
-  /** The request body's `region` (`region` is the path parameter). Output only. The URL of a region where the resize request is located. Populated only for regional resize requests. */
-  bodyRegion?: string | undefined;
 }
 export interface InsertRegionInstanceGroupManagersRequest extends Omit<
   InstanceGroupManager,
@@ -22605,8 +22529,6 @@ export interface InsertRegionInstanceGroupManagersRequest extends Omit<
   region: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] The URL of theregion where the managed instance group resides (for regional resources). */
-  bodyRegion?: string | undefined;
 }
 export interface InsertRegionInstanceTemplatesRequest extends Omit<InstanceTemplate, "region"> {
   /** The name of the region for this request. */
@@ -22615,8 +22537,6 @@ export interface InsertRegionInstanceTemplatesRequest extends Omit<InstanceTempl
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the instance template resides. Only applicable for regional resources. */
-  bodyRegion?: string | undefined;
 }
 export interface InsertRegionInstantSnapshotGroupsRequest extends Omit<
   InstantSnapshotGroup,
@@ -22630,10 +22550,6 @@ export interface InsertRegionInstantSnapshotGroupsRequest extends Omit<
   project: string;
   /** Name of the region for this request. */
   region: string;
-  /** The request body's `sourceConsistencyGroup` (`sourceConsistencyGroup` is the query parameter). */
-  bodySourceConsistencyGroup?: string | undefined;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the instant snapshot group resides. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyRegion?: string | undefined;
 }
 export interface InsertRegionInstantSnapshotsRequest extends Omit<InstantSnapshot, "region"> {
   /** Name of the region for this request. */
@@ -22642,8 +22558,6 @@ export interface InsertRegionInstantSnapshotsRequest extends Omit<InstantSnapsho
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the instant snapshot resides. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyRegion?: string | undefined;
 }
 export interface InsertRegionNetworkEndpointGroupsRequest extends Omit<
   NetworkEndpointGroup,
@@ -22655,8 +22569,6 @@ export interface InsertRegionNetworkEndpointGroupsRequest extends Omit<
   region: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] The URL of theregion where the network endpoint group is located. */
-  bodyRegion?: string | undefined;
 }
 export interface InsertRegionNetworkFirewallPoliciesRequest extends Omit<FirewallPolicy, "region"> {
   /** Name of the region scoping this request. */
@@ -22665,8 +22577,6 @@ export interface InsertRegionNetworkFirewallPoliciesRequest extends Omit<Firewal
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the regional firewall policy resides. This field is not applicable to global firewall policies. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyRegion?: string | undefined;
 }
 export interface InsertRegionNotificationEndpointsRequest extends Omit<
   NotificationEndpoint,
@@ -22678,8 +22588,6 @@ export interface InsertRegionNotificationEndpointsRequest extends Omit<
   region: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the notification endpoint resides. This field applies only to the regional resource. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyRegion?: string | undefined;
 }
 export interface InsertRegionSecurityPoliciesRequest extends Omit<SecurityPolicy, "region"> {
   /** Project ID for this request. */
@@ -22690,8 +22598,6 @@ export interface InsertRegionSecurityPoliciesRequest extends Omit<SecurityPolicy
   requestId?: string | undefined;
   /** If true, the request will not be committed. */
   validateOnly?: boolean | undefined;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the regional security policy resides. This field is not applicable to global security policies. */
-  bodyRegion?: string | undefined;
 }
 export interface InsertRegionSnapshotsRequest extends Omit<Snapshot, "region"> {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -22700,8 +22606,6 @@ export interface InsertRegionSnapshotsRequest extends Omit<Snapshot, "region"> {
   project: string;
   /** Name of the region for this request. */
   region: string;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the snapshot resides. Only applicable for regional snapshots. */
-  bodyRegion?: string | undefined;
 }
 export interface InsertRegionSslCertificatesRequest extends Omit<SslCertificate, "region"> {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -22710,8 +22614,6 @@ export interface InsertRegionSslCertificatesRequest extends Omit<SslCertificate,
   project: string;
   /** Name of the region scoping this request. */
   region: string;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the regional SSL Certificate resides. This field is not applicable to global SSL Certificate. */
-  bodyRegion?: string | undefined;
 }
 export interface InsertRegionSslPoliciesRequest extends Omit<SslPolicy, "region"> {
   /** Name of the region scoping this request. */
@@ -22720,8 +22622,6 @@ export interface InsertRegionSslPoliciesRequest extends Omit<SslPolicy, "region"
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the regional SSL policy resides. This field is not applicable to global SSL policies. */
-  bodyRegion?: string | undefined;
 }
 export interface InsertRegionTargetHttpProxiesRequest extends Omit<TargetHttpProxy, "region"> {
   /** Project ID for this request. */
@@ -22730,8 +22630,6 @@ export interface InsertRegionTargetHttpProxiesRequest extends Omit<TargetHttpPro
   requestId?: string | undefined;
   /** Name of the region scoping this request. */
   region: string;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the regional Target HTTP Proxy resides. This field is not applicable to global Target HTTP Proxies. */
-  bodyRegion?: string | undefined;
 }
 export interface InsertRegionTargetHttpsProxiesRequest extends Omit<TargetHttpsProxy, "region"> {
   /** Name of the region scoping this request. */
@@ -22740,8 +22638,6 @@ export interface InsertRegionTargetHttpsProxiesRequest extends Omit<TargetHttpsP
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the regional TargetHttpsProxy resides. This field is not applicable to global TargetHttpsProxies. */
-  bodyRegion?: string | undefined;
 }
 export interface InsertRegionTargetTcpProxiesRequest extends Omit<TargetTcpProxy, "region"> {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -22750,8 +22646,6 @@ export interface InsertRegionTargetTcpProxiesRequest extends Omit<TargetTcpProxy
   project: string;
   /** Name of the region scoping this request. */
   region: string;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the regional TCP proxy resides. This field is not applicable to global TCP proxy. */
-  bodyRegion?: string | undefined;
 }
 export interface InsertRegionUrlMapsRequest extends Omit<UrlMap, "region"> {
   /** Project ID for this request. */
@@ -22760,8 +22654,6 @@ export interface InsertRegionUrlMapsRequest extends Omit<UrlMap, "region"> {
   requestId?: string | undefined;
   /** Name of the region scoping this request. */
   region: string;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the regional URL map resides. This field is not applicable to global URL maps. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyRegion?: string | undefined;
 }
 export interface InsertReservationsRequest extends Omit<Reservation, "zone"> {
   /** Name of the zone for this request. */
@@ -22770,8 +22662,6 @@ export interface InsertReservationsRequest extends Omit<Reservation, "zone"> {
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** The request body's `zone` (`zone` is the path parameter). Zone in which the reservation resides. A zone must be provided if the reservation is created within a commitment. */
-  bodyZone?: string | undefined;
 }
 export interface InsertResourcePoliciesRequest extends Omit<ResourcePolicy, "region"> {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -22780,8 +22670,6 @@ export interface InsertResourcePoliciesRequest extends Omit<ResourcePolicy, "reg
   project: string;
   /** Name of the region for this request. */
   region: string;
-  /** The request body's `region` (`region` is the path parameter). */
-  bodyRegion?: string | undefined;
 }
 export interface InsertRolloutPlansRequest extends RolloutPlan {
   /** Project ID for this request. */
@@ -22796,8 +22684,6 @@ export interface InsertRoutersRequest extends Omit<Router, "region"> {
   requestId?: string | undefined;
   /** Name of the region for this request. */
   region: string;
-  /** The request body's `region` (`region` is the path parameter). [Output Only] URI of the region where the router resides. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyRegion?: string | undefined;
 }
 export interface InsertRoutesRequest extends Route {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -22820,8 +22706,6 @@ export interface InsertServiceAttachmentsRequest extends Omit<ServiceAttachment,
   region: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the service attachment resides. This field applies only to the region resource. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyRegion?: string | undefined;
 }
 export interface InsertSnapshotsRequest extends Snapshot {
   /** Project ID for this request. */
@@ -22848,8 +22732,6 @@ export interface InsertStoragePoolsRequest extends Omit<StoragePool, "zone"> {
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** The request body's `zone` (`zone` is the path parameter). Output only. [Output Only] URL of the zone where the storage pool resides. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyZone?: string | undefined;
 }
 export interface InsertSubnetworksRequest extends Omit<Subnetwork, "region"> {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -22858,8 +22740,6 @@ export interface InsertSubnetworksRequest extends Omit<Subnetwork, "region"> {
   project: string;
   /** Name of the region scoping this request. */
   region: string;
-  /** The request body's `region` (`region` is the path parameter). URL of the region where the Subnetwork resides. This field can be set only at resource creation time. */
-  bodyRegion?: string | undefined;
 }
 export interface InsertTargetGrpcProxiesRequest extends TargetGrpcProxy {
   /** Project ID for this request. */
@@ -22886,8 +22766,6 @@ export interface InsertTargetInstancesRequest extends Omit<TargetInstance, "zone
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** The request body's `zone` (`zone` is the path parameter). Output only. [Output Only] URL of the zone where the target instance resides. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyZone?: string | undefined;
 }
 export interface InsertTargetPoolsRequest extends Omit<TargetPool, "region"> {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -22896,8 +22774,6 @@ export interface InsertTargetPoolsRequest extends Omit<TargetPool, "region"> {
   project: string;
   /** Name of the region scoping this request. */
   region: string;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the target pool resides. */
-  bodyRegion?: string | undefined;
 }
 export interface InsertTargetSslProxiesRequest extends TargetSslProxy {
   /** Project ID for this request. */
@@ -22918,8 +22794,6 @@ export interface InsertTargetVpnGatewaysRequest extends Omit<TargetVpnGateway, "
   project: string;
   /** Name of the region for this request. */
   region: string;
-  /** The request body's `region` (`region` is the path parameter). [Output Only] URL of the region where the target VPN gateway resides. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyRegion?: string | undefined;
 }
 export interface InsertUrlMapsRequest extends UrlMap {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -22934,8 +22808,6 @@ export interface InsertVpnGatewaysRequest extends Omit<VpnGateway, "region"> {
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the VPN gateway resides. */
-  bodyRegion?: string | undefined;
 }
 export interface InsertVpnTunnelsRequest extends Omit<VpnTunnel, "region"> {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -22944,8 +22816,6 @@ export interface InsertVpnTunnelsRequest extends Omit<VpnTunnel, "region"> {
   project: string;
   /** Name of the region for this request. */
   region: string;
-  /** The request body's `region` (`region` is the path parameter). [Output Only] URL of the region where the VPN tunnel resides. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyRegion?: string | undefined;
 }
 export interface InsertWireGroupsRequest extends WireGroup {
   crossSiteNetwork: string;
@@ -31731,8 +31601,6 @@ export interface PatchAutoscalersRequest extends Omit<Autoscaler, "zone"> {
   zone: string;
   /** Name of the autoscaler to patch. */
   autoscaler?: string | undefined;
-  /** The request body's `zone` (`zone` is the path parameter). Output only. [Output Only] URL of thezone where the instance group resides (for autoscalers living in zonal scope). */
-  bodyZone?: string | undefined;
 }
 export interface PatchBackendBucketsRequest extends BackendBucket {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -31785,8 +31653,6 @@ export interface PatchForwardingRulesRequest extends Omit<ForwardingRule, "regio
   project: string;
   /** Name of the region scoping this request. */
   region: string;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the regional forwarding rule resides. This field is not applicable to global forwarding rules. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyRegion?: string | undefined;
 }
 export interface PatchGlobalForwardingRulesRequest extends ForwardingRule {
   /** Name of the ForwardingRule resource to patch. */
@@ -31858,8 +31724,6 @@ export interface PatchInstanceGroupManagersRequest extends Omit<InstanceGroupMan
   instanceGroupManager: string;
   /** Project ID for this request. */
   project: string;
-  /** The request body's `zone` (`zone` is the path parameter). Output only. The URL of azone where the managed instance group is located (for zonal resources). */
-  bodyZone?: string | undefined;
 }
 export interface PatchInstanceSettingsRequest extends Omit<InstanceSettings, "zone"> {
   /** The zone scoping this request. It should conform to RFC1035. */
@@ -31870,8 +31734,6 @@ export interface PatchInstanceSettingsRequest extends Omit<InstanceSettings, "zo
   updateMask?: string | undefined;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** The request body's `zone` (`zone` is the path parameter). Output only. [Output Only] URL of the zone where the resource resides You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyZone?: string | undefined;
 }
 export interface PatchInterconnectAttachmentGroupsRequest extends InterconnectAttachmentGroup {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). end_interface: MixerMutationRequestBuilder */
@@ -31895,8 +31757,6 @@ export interface PatchInterconnectAttachmentsRequest extends Omit<
   requestId?: string | undefined;
   /** Name of the region scoping this request. */
   region: string;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the regional interconnect attachment resides. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyRegion?: string | undefined;
 }
 export interface PatchInterconnectGroupsRequest extends InterconnectGroup {
   /** The list of fields to update. */
@@ -31935,8 +31795,6 @@ export interface PatchNetworkAttachmentsRequest extends Omit<NetworkAttachment, 
   project: string;
   /** Name of the region for this request. */
   region: string;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the network attachment resides. This field applies only to the region resource. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyRegion?: string | undefined;
 }
 export interface PatchNetworkEdgeSecurityServicesRequest extends Omit<
   NetworkEdgeSecurityService,
@@ -31953,8 +31811,6 @@ export interface PatchNetworkEdgeSecurityServicesRequest extends Omit<
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the resource resides. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyRegion?: string | undefined;
 }
 export interface PatchNetworkFirewallPoliciesRequest extends FirewallPolicy {
   /** Project ID for this request. */
@@ -31981,8 +31837,6 @@ export interface PatchNodeGroupsRequest extends Omit<NodeGroup, "zone"> {
   requestId?: string | undefined;
   /** The name of the zone for this request. */
   zone: string;
-  /** The request body's `zone` (`zone` is the path parameter). Output only. [Output Only] The name of the zone where the node group resides, such as us-central1-a. */
-  bodyZone?: string | undefined;
 }
 export interface PatchOrganizationSecurityPoliciesRequest extends SecurityPolicy {
   /** Name of the security policy to update. */
@@ -31990,10 +31844,7 @@ export interface PatchOrganizationSecurityPoliciesRequest extends SecurityPolicy
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
 }
-export interface PatchPacketMirroringRuleNetworkFirewallPoliciesRequest extends Omit<
-  FirewallPolicyRule,
-  "priority"
-> {
+export interface PatchPacketMirroringRuleNetworkFirewallPoliciesRequest extends FirewallPolicyRule {
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -32001,9 +31852,7 @@ export interface PatchPacketMirroringRuleNetworkFirewallPoliciesRequest extends 
   /** Name of the firewall policy to update. */
   firewallPolicy: string;
   /** The priority of the rule to patch. */
-  priority?: number | undefined;
-  /** The request body's `priority` (`priority` is the query parameter). An integer indicating the priority of a rule in the list. The priority must be a positive value between 0 and 2147483647. Rules are evaluated from highest to lowest priority where 0 is the highest priority and 2147483647 is the lowest priority. */
-  bodyPriority?: number | undefined;
+  rulePriority: number;
 }
 export interface PatchPacketMirroringsRequest extends Omit<PacketMirroring, "region"> {
   /** Name of the region for this request. */
@@ -32014,8 +31863,6 @@ export interface PatchPacketMirroringsRequest extends Omit<PacketMirroring, "reg
   project: string;
   /** Name of the PacketMirroring resource to patch. */
   packetMirroring: string;
-  /** The request body's `region` (`region` is the path parameter). [Output Only] URI of the region where the packetMirroring resides. */
-  bodyRegion?: string | undefined;
 }
 /** InstanceGroupManagers.patchPerInstanceConfigs */
 export interface InstanceGroupManagersPatchPerInstanceConfigsReq {
@@ -32062,8 +31909,6 @@ export interface PatchPublicDelegatedPrefixesRequest extends Omit<PublicDelegate
   region: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the public delegated prefix resides. This field applies only to the region resource. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyRegion?: string | undefined;
 }
 export interface PatchRegionAutoscalersRequest extends Omit<Autoscaler, "region"> {
   /** Name of the region scoping this request. */
@@ -32074,8 +31919,6 @@ export interface PatchRegionAutoscalersRequest extends Omit<Autoscaler, "region"
   project: string;
   /** Name of the autoscaler to patch. */
   autoscaler?: string | undefined;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of theregion where the instance group resides (for autoscalers living in regional scope). */
-  bodyRegion?: string | undefined;
 }
 export interface PatchRegionBackendBucketsRequest extends Omit<BackendBucket, "region"> {
   /** Name of the region scoping this request. */
@@ -32086,8 +31929,6 @@ export interface PatchRegionBackendBucketsRequest extends Omit<BackendBucket, "r
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the regional backend bucket resides. This field is not applicable to global backend buckets. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyRegion?: string | undefined;
 }
 export interface PatchRegionBackendServicesRequest extends Omit<BackendService, "region"> {
   /** Project ID for this request. */
@@ -32098,8 +31939,6 @@ export interface PatchRegionBackendServicesRequest extends Omit<BackendService, 
   region: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the regional backend service resides. This field is not applicable to global backend services. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyRegion?: string | undefined;
 }
 export interface PatchRegionCompositeHealthChecksRequest extends Omit<
   CompositeHealthCheck,
@@ -32113,8 +31952,6 @@ export interface PatchRegionCompositeHealthChecksRequest extends Omit<
   project: string;
   /** Name of the region scoping this request. */
   region: string;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the composite health check resides. This field applies only to the regional resource. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyRegion?: string | undefined;
 }
 export interface PatchRegionHealthAggregationPoliciesRequest extends Omit<
   HealthAggregationPolicy,
@@ -32128,8 +31965,6 @@ export interface PatchRegionHealthAggregationPoliciesRequest extends Omit<
   healthAggregationPolicy: string;
   /** Project ID for this request. */
   project: string;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the health aggregation policy resides. This field applies only to the regional resource. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyRegion?: string | undefined;
 }
 export interface PatchRegionHealthChecksRequest extends Omit<HealthCheck, "region"> {
   /** Name of the region scoping this request. */
@@ -32140,8 +31975,6 @@ export interface PatchRegionHealthChecksRequest extends Omit<HealthCheck, "regio
   healthCheck: string;
   /** Project ID for this request. */
   project: string;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] Region where the health check resides. Not applicable to global health checks. */
-  bodyRegion?: string | undefined;
 }
 export interface PatchRegionHealthCheckServicesRequest extends Omit<HealthCheckService, "region"> {
   /** Name of the HealthCheckService to update. The name must be 1-63 characters long, and comply with RFC1035. */
@@ -32152,8 +31985,6 @@ export interface PatchRegionHealthCheckServicesRequest extends Omit<HealthCheckS
   region: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the health check service resides. This field is not applicable to global health check services. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyRegion?: string | undefined;
 }
 export interface PatchRegionHealthSourcesRequest extends Omit<HealthSource, "region"> {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -32164,8 +31995,6 @@ export interface PatchRegionHealthSourcesRequest extends Omit<HealthSource, "reg
   region: string;
   /** Name of the HealthSource to update. The name must be 1-63 characters long, and comply with RFC1035. */
   healthSource: string;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the health source resides. This field applies only to the regional resource. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyRegion?: string | undefined;
 }
 export interface PatchRegionInstanceGroupManagersRequest extends Omit<
   InstanceGroupManager,
@@ -32179,8 +32008,6 @@ export interface PatchRegionInstanceGroupManagersRequest extends Omit<
   requestId?: string | undefined;
   /** Name of the region scoping this request. */
   region: string;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] The URL of theregion where the managed instance group resides (for regional resources). */
-  bodyRegion?: string | undefined;
 }
 export interface PatchRegionNetworkFirewallPoliciesRequest extends Omit<FirewallPolicy, "region"> {
   /** Project ID for this request. */
@@ -32191,8 +32018,6 @@ export interface PatchRegionNetworkFirewallPoliciesRequest extends Omit<Firewall
   firewallPolicy: string;
   /** Name of the region scoping this request. */
   region: string;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the regional firewall policy resides. This field is not applicable to global firewall policies. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyRegion?: string | undefined;
 }
 export interface PatchRegionSecurityPoliciesRequest extends Omit<SecurityPolicy, "region"> {
   /** Name of the security policy to update. */
@@ -32205,8 +32030,6 @@ export interface PatchRegionSecurityPoliciesRequest extends Omit<SecurityPolicy,
   requestId?: string | undefined;
   /** Name of the region scoping this request. */
   region: string;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the regional security policy resides. This field is not applicable to global security policies. */
-  bodyRegion?: string | undefined;
 }
 export interface PatchRegionSnapshotSettingsRequest extends SnapshotSettings {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -32227,8 +32050,6 @@ export interface PatchRegionSslPoliciesRequest extends Omit<SslPolicy, "region">
   sslPolicy: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the regional SSL policy resides. This field is not applicable to global SSL policies. */
-  bodyRegion?: string | undefined;
 }
 export interface PatchRegionTargetHttpsProxiesRequest extends Omit<TargetHttpsProxy, "region"> {
   /** Project ID for this request. */
@@ -32239,8 +32060,6 @@ export interface PatchRegionTargetHttpsProxiesRequest extends Omit<TargetHttpsPr
   requestId?: string | undefined;
   /** Name of the region for this request. */
   region: string;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the regional TargetHttpsProxy resides. This field is not applicable to global TargetHttpsProxies. */
-  bodyRegion?: string | undefined;
 }
 export interface PatchRegionUrlMapsRequest extends Omit<UrlMap, "region"> {
   /** Name of the UrlMap resource to patch. */
@@ -32251,8 +32070,6 @@ export interface PatchRegionUrlMapsRequest extends Omit<UrlMap, "region"> {
   region: string;
   /** Project ID for this request. */
   project: string;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the regional URL map resides. This field is not applicable to global URL maps. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyRegion?: string | undefined;
 }
 export interface PatchResourcePoliciesRequest extends Omit<ResourcePolicy, "region"> {
   /** Id of the resource policy to patch. */
@@ -32265,8 +32082,6 @@ export interface PatchResourcePoliciesRequest extends Omit<ResourcePolicy, "regi
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** The request body's `region` (`region` is the path parameter). */
-  bodyRegion?: string | undefined;
 }
 export interface PatchRoutePolicyRoutersRequest extends RoutePolicy {
   /** Project ID for this request. */
@@ -32287,23 +32102,16 @@ export interface PatchRoutersRequest extends Omit<Router, "region"> {
   router: string;
   /** Project ID for this request. */
   project: string;
-  /** The request body's `region` (`region` is the path parameter). [Output Only] URI of the region where the router resides. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyRegion?: string | undefined;
 }
-export interface PatchRuleFirewallPoliciesRequest extends Omit<FirewallPolicyRule, "priority"> {
-  /** The priority of the rule to patch. */
-  priority?: number | undefined;
+export interface PatchRuleFirewallPoliciesRequest extends FirewallPolicyRule {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Name of the firewall policy to update. */
   firewallPolicy: string;
-  /** The request body's `priority` (`priority` is the query parameter). An integer indicating the priority of a rule in the list. The priority must be a positive value between 0 and 2147483647. Rules are evaluated from highest to lowest priority where 0 is the highest priority and 2147483647 is the lowest priority. */
-  bodyPriority?: number | undefined;
+  /** The priority of the rule to patch. */
+  rulePriority: number;
 }
-export interface PatchRuleNetworkFirewallPoliciesRequest extends Omit<
-  FirewallPolicyRule,
-  "priority"
-> {
+export interface PatchRuleNetworkFirewallPoliciesRequest extends FirewallPolicyRule {
   /** Name of the firewall policy to update. */
   firewallPolicy: string;
   /** Project ID for this request. */
@@ -32311,46 +32119,29 @@ export interface PatchRuleNetworkFirewallPoliciesRequest extends Omit<
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** The priority of the rule to patch. */
-  priority?: number | undefined;
-  /** The request body's `priority` (`priority` is the query parameter). An integer indicating the priority of a rule in the list. The priority must be a positive value between 0 and 2147483647. Rules are evaluated from highest to lowest priority where 0 is the highest priority and 2147483647 is the lowest priority. */
-  bodyPriority?: number | undefined;
+  rulePriority: number;
 }
-export interface PatchRuleOrganizationSecurityPoliciesRequest extends Omit<
-  SecurityPolicyRule,
-  "priority"
-> {
-  /** The priority of the rule to patch. */
-  priority?: number | undefined;
+export interface PatchRuleOrganizationSecurityPoliciesRequest extends SecurityPolicyRule {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Name of the security policy to update. */
   securityPolicy: string;
-  /** The request body's `priority` (`priority` is the query parameter). An integer indicating the priority of a rule in the list. The priority must be a positive value between 0 and 2147483647. Rules are evaluated from highest to lowest priority where 0 is the highest priority and 2147483647 is the lowest priority. */
-  bodyPriority?: number | undefined;
+  /** The priority of the rule to patch. */
+  rulePriority: number;
 }
-export interface PatchRuleRegionNetworkFirewallPoliciesRequest extends Omit<
-  FirewallPolicyRule,
-  "priority"
-> {
+export interface PatchRuleRegionNetworkFirewallPoliciesRequest extends FirewallPolicyRule {
   /** Name of the region scoping this request. */
   region: string;
   /** Name of the firewall policy to update. */
   firewallPolicy: string;
-  /** The priority of the rule to patch. */
-  priority?: number | undefined;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** The request body's `priority` (`priority` is the query parameter). An integer indicating the priority of a rule in the list. The priority must be a positive value between 0 and 2147483647. Rules are evaluated from highest to lowest priority where 0 is the highest priority and 2147483647 is the lowest priority. */
-  bodyPriority?: number | undefined;
-}
-export interface PatchRuleRegionSecurityPoliciesRequest extends Omit<
-  SecurityPolicyRule,
-  "priority"
-> {
   /** The priority of the rule to patch. */
-  priority?: number | undefined;
+  rulePriority: number;
+}
+export interface PatchRuleRegionSecurityPoliciesRequest extends SecurityPolicyRule {
   /** Indicates fields to be cleared as part of this request. */
   updateMask?: string | undefined;
   /** Name of the region scoping this request. */
@@ -32361,22 +32152,20 @@ export interface PatchRuleRegionSecurityPoliciesRequest extends Omit<
   validateOnly?: boolean | undefined;
   /** Project ID for this request. */
   project: string;
-  /** The request body's `priority` (`priority` is the query parameter). An integer indicating the priority of a rule in the list. The priority must be a positive value between 0 and 2147483647. Rules are evaluated from highest to lowest priority where 0 is the highest priority and 2147483647 is the lowest priority. */
-  bodyPriority?: number | undefined;
+  /** The priority of the rule to patch. */
+  rulePriority: number;
 }
-export interface PatchRuleSecurityPoliciesRequest extends Omit<SecurityPolicyRule, "priority"> {
+export interface PatchRuleSecurityPoliciesRequest extends SecurityPolicyRule {
   /** Name of the security policy to update. */
   securityPolicy: string;
   /** Project ID for this request. */
   project: string;
-  /** The priority of the rule to patch. */
-  priority?: number | undefined;
   /** Indicates fields to be cleared as part of this request. */
   updateMask?: string | undefined;
   /** If true, the request will not be committed. */
   validateOnly?: boolean | undefined;
-  /** The request body's `priority` (`priority` is the query parameter). An integer indicating the priority of a rule in the list. The priority must be a positive value between 0 and 2147483647. Rules are evaluated from highest to lowest priority where 0 is the highest priority and 2147483647 is the lowest priority. */
-  bodyPriority?: number | undefined;
+  /** The priority of the rule to patch. */
+  rulePriority: number;
 }
 export interface PatchSecurityPoliciesRequest extends SecurityPolicy {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -32397,8 +32186,6 @@ export interface PatchServiceAttachmentsRequest extends Omit<ServiceAttachment, 
   region: string;
   /** The resource id of the ServiceAttachment to patch. It should conform to RFC1035 resource name or be a string form on an unsigned long number. */
   serviceAttachment: string;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the service attachment resides. This field applies only to the region resource. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyRegion?: string | undefined;
 }
 export interface PatchSnapshotSettingsRequest extends SnapshotSettings {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -32427,8 +32214,6 @@ export interface PatchSubnetworksRequest extends Omit<Subnetwork, "region"> {
   project: string;
   /** The drain timeout specifies the upper bound in seconds on the amount of time allowed to drain connections from the current ACTIVE subnetwork to the current BACKUP subnetwork. The drain timeout is only applicable when the following conditions are true: - the subnetwork being patched has purpose = INTERNAL_HTTPS_LOAD_BALANCER - the subnetwork being patched has role = BACKUP - the patch request is setting the role to ACTIVE. Note that after this patch operation the roles of the ACTIVE and BACKUP subnetworks will be swapped. */
   drainTimeoutSeconds?: number | undefined;
-  /** The request body's `region` (`region` is the path parameter). URL of the region where the Subnetwork resides. This field can be set only at resource creation time. */
-  bodyRegion?: string | undefined;
 }
 export interface PatchTargetGrpcProxiesRequest extends TargetGrpcProxy {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -32576,8 +32361,6 @@ export interface PreviewRoutersRequest extends Omit<Router, "region"> {
   project: string;
   /** Name of the Router resource to query. */
   router: string;
-  /** The request body's `region` (`region` is the path parameter). [Output Only] URI of the region where the router resides. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyRegion?: string | undefined;
 }
 export interface RoutersPreviewResponse {
   /** Preview of given router. */
@@ -34841,8 +34624,6 @@ export interface UpdateAutoscalersRequest extends Omit<Autoscaler, "zone"> {
   autoscaler?: string | undefined;
   /** Name of the zone for this request. */
   zone: string;
-  /** The request body's `zone` (`zone` is the path parameter). Output only. [Output Only] URL of thezone where the instance group resides (for autoscalers living in zonal scope). */
-  bodyZone?: string | undefined;
 }
 export interface UpdateBackendBucketsRequest extends BackendBucket {
   /** Project ID for this request. */
@@ -34872,8 +34653,6 @@ export interface UpdateDisksRequest extends Omit<Disk, "zone"> {
   /** update_mask indicates fields to be updated as part of this request. */
   updateMask?: string | undefined;
   paths?: StringList | undefined;
-  /** The request body's `zone` (`zone` is the path parameter). Output only. [Output Only] URL of the zone where the disk resides. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyZone?: string | undefined;
 }
 export interface UpdateDisplayDeviceInstancesRequest extends DisplayDevice {
   /** Name of the instance scoping this request. */
@@ -34904,8 +34683,6 @@ export interface UpdateFutureReservationsRequest extends Omit<FutureReservation,
   futureReservation: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** The request body's `zone` (`zone` is the path parameter). Output only. [Output Only] URL of the Zone where this future reservation resides. */
-  bodyZone?: string | undefined;
 }
 export interface UpdateGlobalVmExtensionPoliciesRequest extends GlobalVmExtensionPolicy {
   /** Name of the global VM extension policy to update. */
@@ -34963,8 +34740,6 @@ export interface UpdateInstancesRequest extends Omit<Instance, "zone"> {
   requestId?: string | undefined;
   /** Name of the instance resource to update. */
   instance: string;
-  /** The request body's `zone` (`zone` is the path parameter). Output only. [Output Only] URL of the zone where the instance resides. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyZone?: string | undefined;
 }
 export interface DiskUpdateKmsKeyRequest {
   /** Optional. The new KMS key to replace the current one on the disk. If empty, the disk will be re-encrypted using the primary version of the disk's current KMS key. The KMS key can be provided in the following formats: - projects/project_id/locations/location/keyRings/key_ring/cryptoKeys/key Where project is the project ID or project number. */
@@ -35103,8 +34878,6 @@ export interface UpdateRegionAutoscalersRequest extends Omit<Autoscaler, "region
   autoscaler?: string | undefined;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of theregion where the instance group resides (for autoscalers living in regional scope). */
-  bodyRegion?: string | undefined;
 }
 export interface UpdateRegionBackendServicesRequest extends Omit<BackendService, "region"> {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -35115,8 +34888,6 @@ export interface UpdateRegionBackendServicesRequest extends Omit<BackendService,
   project: string;
   /** Name of the region scoping this request. */
   region: string;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the regional backend service resides. This field is not applicable to global backend services. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyRegion?: string | undefined;
 }
 export interface UpdateRegionCommitmentsRequest extends Omit<Commitment, "region"> {
   /** update_mask indicates fields to be updated as part of this request. */
@@ -35130,8 +34901,6 @@ export interface UpdateRegionCommitmentsRequest extends Omit<Commitment, "region
   project: string;
   /** Name of the commitment that you want to update. */
   commitment: string;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the commitment and committed resources are located. */
-  bodyRegion?: string | undefined;
 }
 export interface UpdateRegionDisksRequest extends Omit<Disk, "region"> {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -35145,8 +34914,6 @@ export interface UpdateRegionDisksRequest extends Omit<Disk, "region"> {
   disk: string;
   /** Project ID for this request. */
   project: string;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the disk resides. Only applicable for regional resources. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyRegion?: string | undefined;
 }
 export interface UpdateRegionHealthChecksRequest extends Omit<HealthCheck, "region"> {
   /** Name of the HealthCheck resource to update. */
@@ -35157,8 +34924,6 @@ export interface UpdateRegionHealthChecksRequest extends Omit<HealthCheck, "regi
   region: string;
   /** Project ID for this request. */
   project: string;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] Region where the health check resides. Not applicable to global health checks. */
-  bodyRegion?: string | undefined;
 }
 export interface UpdateRegionUrlMapsRequest extends Omit<UrlMap, "region"> {
   /** Name of the UrlMap resource to update. */
@@ -35169,8 +34934,6 @@ export interface UpdateRegionUrlMapsRequest extends Omit<UrlMap, "region"> {
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** The request body's `region` (`region` is the path parameter). Output only. [Output Only] URL of the region where the regional URL map resides. This field is not applicable to global URL maps. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyRegion?: string | undefined;
 }
 export interface UpdateReservationsRequest extends Omit<Reservation, "zone"> {
   /** Name of the zone for this request. */
@@ -35184,8 +34947,6 @@ export interface UpdateReservationsRequest extends Omit<Reservation, "zone"> {
   /** Update_mask indicates fields to be updated as part of this request. */
   updateMask?: string | undefined;
   paths?: StringList | undefined;
-  /** The request body's `zone` (`zone` is the path parameter). Zone in which the reservation resides. A zone must be provided if the reservation is created within a commitment. */
-  bodyZone?: string | undefined;
 }
 export interface UpdateReservationSlotsRequest extends Omit<ReservationSlot, "zone"> {
   /** The name of the zone for this request, formatted as RFC1035. */
@@ -35198,8 +34959,6 @@ export interface UpdateReservationSlotsRequest extends Omit<ReservationSlot, "zo
   project: string;
   /** The name of the sub-block resource. */
   parentName: string;
-  /** The request body's `zone` (`zone` is the path parameter). Output only. [Output Only] The zone in which the reservation slot resides. */
-  bodyZone?: string | undefined;
 }
 export interface UpdateRoutePolicyRoutersRequest extends RoutePolicy {
   /** Name of the region for this request. */
@@ -35220,8 +34979,6 @@ export interface UpdateRoutersRequest extends Omit<Router, "region"> {
   requestId?: string | undefined;
   /** Name of the region for this request. */
   region: string;
-  /** The request body's `region` (`region` is the path parameter). [Output Only] URI of the region where the router resides. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyRegion?: string | undefined;
 }
 export interface UpdateShieldedInstanceConfigInstancesRequest extends ShieldedInstanceConfig {
   /** The name of the zone for this request. */
@@ -35244,8 +35001,6 @@ export interface UpdateStoragePoolsRequest extends Omit<StoragePool, "zone"> {
   zone: string;
   /** update_mask indicates fields to be updated as part of this request. */
   updateMask?: string | undefined;
-  /** The request body's `zone` (`zone` is the path parameter). Output only. [Output Only] URL of the zone where the storage pool resides. You must specify this field as part of the HTTP request URL. It is not settable as a field in the request body. */
-  bodyZone?: string | undefined;
 }
 export interface UpdateUrlMapsRequest extends UrlMap {
   /** Project ID for this request. */
@@ -55758,7 +55513,6 @@ function __c10(j: number): any {
             project: S.String.pipe(T.Label()),
             autoscaler: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -55781,7 +55535,6 @@ function __c11(j: number): any {
             backendService: S.String.pipe(T.Label()),
             project: S.String.pipe(T.Label()),
             region: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -55825,7 +55578,6 @@ function __c13(j: number): any {
             paths: S.optional(__S(15520, __c485, 0).pipe(T.Query())),
             project: S.String.pipe(T.Label()),
             commitment: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -55850,7 +55602,6 @@ function __c14(j: number): any {
             paths: S.optional(__S(15520, __c485, 0).pipe(T.Query())),
             disk: S.String.pipe(T.Label()),
             project: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -55873,7 +55624,6 @@ function __c15(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             region: S.String.pipe(T.Label()),
             project: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -55896,7 +55646,6 @@ function __c16(j: number): any {
             region: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
             project: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -55921,7 +55670,6 @@ function __c17(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
             paths: S.optional(__S(15520, __c485, 0).pipe(T.Query())),
-            bodyZone: S.optional(S.String.pipe(T.Body("zone"))),
           }),
         ).pipe(
           T.Http({
@@ -55945,7 +55693,6 @@ function __c18(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             project: S.String.pipe(T.Label()),
             parentName: S.String.pipe(T.Label()),
-            bodyZone: S.optional(S.String.pipe(T.Body("zone"))),
           }),
         ).pipe(
           T.Http({
@@ -55990,7 +55737,6 @@ function __c20(j: number): any {
             router: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
             region: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -56036,7 +55782,6 @@ function __c22(j: number): any {
             storagePool: S.String.pipe(T.Label()),
             zone: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyZone: S.optional(S.String.pipe(T.Body("zone"))),
           }),
         ).pipe(
           T.Http({
@@ -56749,7 +56494,6 @@ function __c49(j: number): any {
             disk: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
             project: S.String.pipe(T.Label()),
-            bodyGuestFlush: S.optional(S.Boolean.pipe(T.Body("guestFlush"))),
           }),
         ).pipe(
           T.Http({
@@ -56822,7 +56566,6 @@ function __c51(j: number): any {
             disk: S.String.pipe(T.Label()),
             region: S.String.pipe(T.Label()),
             project: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -69201,7 +68944,6 @@ function __c547(j: number): any {
             region: S.String.pipe(T.Label()),
             project: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -69223,7 +68965,6 @@ function __c548(j: number): any {
             project: S.String.pipe(T.Label()),
             zone: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
-            bodyZone: S.optional(S.String.pipe(T.Body("zone"))),
           }),
         ).pipe(
           T.Http({
@@ -69684,8 +69425,6 @@ function __c565(j: number): any {
             sourceImage: S.optional(S.String.pipe(T.Query())),
             zone: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
-            bodySourceImage: S.optional(S.String.pipe(T.Body("sourceImage"))),
-            bodyZone: S.optional(S.String.pipe(T.Body("zone"))),
           }),
         ).pipe(
           T.Http({
@@ -69767,7 +69506,6 @@ function __c569(j: number): any {
             project: S.String.pipe(T.Label()),
             region: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -69789,7 +69527,6 @@ function __c570(j: number): any {
             zone: S.String.pipe(T.Label()),
             project: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
-            bodyZone: S.optional(S.String.pipe(T.Body("zone"))),
           }),
         ).pipe(
           T.Http({
@@ -70109,7 +69846,6 @@ function __c584(j: number): any {
             zone: S.String.pipe(T.Label()),
             project: S.String.pipe(T.Label()),
             instanceGroupManager: S.String.pipe(T.Label()),
-            bodyZone: S.optional(S.String.pipe(T.Body("zone"))),
           }),
         ).pipe(
           T.Http({
@@ -70131,7 +69867,6 @@ function __c585(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             zone: S.String.pipe(T.Label()),
             project: S.String.pipe(T.Label()),
-            bodyZone: S.optional(S.String.pipe(T.Body("zone"))),
           }),
         ).pipe(
           T.Http({
@@ -70153,7 +69888,6 @@ function __c586(j: number): any {
             zone: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
             project: S.String.pipe(T.Label()),
-            bodyZone: S.optional(S.String.pipe(T.Body("zone"))),
           }),
         ).pipe(
           T.Http({
@@ -70263,8 +69997,6 @@ function __c590(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             sourceInstanceTemplate: S.optional(S.String.pipe(T.Query())),
             zone: S.String.pipe(T.Label()),
-            bodySourceMachineImage: S.optional(S.String.pipe(T.Body("sourceMachineImage"))),
-            bodyZone: S.optional(S.String.pipe(T.Body("zone"))),
           }),
         ).pipe(
           T.Http({
@@ -70307,8 +70039,6 @@ function __c592(j: number): any {
             project: S.String.pipe(T.Label()),
             zone: S.String.pipe(T.Label()),
             sourceConsistencyGroup: S.optional(S.String.pipe(T.Query())),
-            bodyZone: S.optional(S.String.pipe(T.Body("zone"))),
-            bodySourceConsistencyGroup: S.optional(S.String.pipe(T.Body("sourceConsistencyGroup"))),
           }),
         ).pipe(
           T.Http({
@@ -70330,7 +70060,6 @@ function __c593(j: number): any {
             zone: S.String.pipe(T.Label()),
             project: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
-            bodyZone: S.optional(S.String.pipe(T.Body("zone"))),
           }),
         ).pipe(
           T.Http({
@@ -70373,7 +70102,6 @@ function __c595(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
             region: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -70455,7 +70183,6 @@ function __c599(j: number): any {
             project: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
             sourceInstance: S.optional(S.String.pipe(T.Query())),
-            bodySourceInstance: S.optional(S.String.pipe(T.Body("sourceInstance"))),
           }),
         ).pipe(
           T.Http({
@@ -70653,7 +70380,6 @@ function __c604(j: number): any {
             project: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
             region: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -70676,7 +70402,6 @@ function __c605(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             project: S.String.pipe(T.Label()),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -70698,7 +70423,6 @@ function __c606(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             zone: S.String.pipe(T.Label()),
             project: S.String.pipe(T.Label()),
-            bodyZone: S.optional(S.String.pipe(T.Body("zone"))),
           }),
         ).pipe(
           T.Http({
@@ -70761,7 +70485,6 @@ function __c609(j: number): any {
             initialNodeCount: S.Number.pipe(T.Query()),
             requestId: S.optional(S.String.pipe(T.Query())),
             project: S.String.pipe(T.Label()),
-            bodyZone: S.optional(S.String.pipe(T.Body("zone"))),
           }),
         ).pipe(
           T.Http({
@@ -70783,7 +70506,6 @@ function __c610(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             project: S.String.pipe(T.Label()),
             region: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -70825,7 +70547,6 @@ function __c612(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             region: S.String.pipe(T.Label()),
             project: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -70958,7 +70679,6 @@ function __c617(j: number): any {
             project: S.String.pipe(T.Label()),
             region: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -70980,7 +70700,6 @@ function __c618(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             project: S.String.pipe(T.Label()),
             region: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -71002,7 +70721,6 @@ function __c619(j: number): any {
             project: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
             region: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -71024,7 +70742,6 @@ function __c620(j: number): any {
             region: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
             project: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -71046,7 +70763,6 @@ function __c621(j: number): any {
             region: S.String.pipe(T.Label()),
             project: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -71068,7 +70784,6 @@ function __c622(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             region: S.String.pipe(T.Label()),
             project: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -71091,8 +70806,6 @@ function __c623(j: number): any {
             sourceImage: S.optional(S.String.pipe(T.Query())),
             region: S.String.pipe(T.Label()),
             project: S.String.pipe(T.Label()),
-            bodySourceImage: S.optional(S.String.pipe(T.Body("sourceImage"))),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -71114,7 +70827,6 @@ function __c624(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             project: S.String.pipe(T.Label()),
             region: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -71136,7 +70848,6 @@ function __c625(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             project: S.String.pipe(T.Label()),
             region: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -71158,7 +70869,6 @@ function __c626(j: number): any {
             project: S.String.pipe(T.Label()),
             region: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -71267,7 +70977,6 @@ function __c630(j: number): any {
             region: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
             project: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -71290,7 +70999,6 @@ function __c631(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             project: S.String.pipe(T.Label()),
             region: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -71312,7 +71020,6 @@ function __c632(j: number): any {
             project: S.String.pipe(T.Label()),
             region: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -71334,7 +71041,6 @@ function __c633(j: number): any {
             region: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
             project: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -71357,8 +71063,6 @@ function __c634(j: number): any {
             sourceConsistencyGroup: S.optional(S.String.pipe(T.Query())),
             project: S.String.pipe(T.Label()),
             region: S.String.pipe(T.Label()),
-            bodySourceConsistencyGroup: S.optional(S.String.pipe(T.Body("sourceConsistencyGroup"))),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -71380,7 +71084,6 @@ function __c635(j: number): any {
             region: S.String.pipe(T.Label()),
             project: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -71402,7 +71105,6 @@ function __c636(j: number): any {
             project: S.String.pipe(T.Label()),
             region: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -71424,7 +71126,6 @@ function __c637(j: number): any {
             region: S.String.pipe(T.Label()),
             project: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -71446,7 +71147,6 @@ function __c638(j: number): any {
             project: S.String.pipe(T.Label()),
             region: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -71469,7 +71169,6 @@ function __c639(j: number): any {
             region: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -71578,7 +71277,6 @@ function __c643(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             project: S.String.pipe(T.Label()),
             region: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -71600,7 +71298,6 @@ function __c644(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             project: S.String.pipe(T.Label()),
             region: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -71622,7 +71319,6 @@ function __c645(j: number): any {
             region: S.String.pipe(T.Label()),
             project: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -71644,7 +71340,6 @@ function __c646(j: number): any {
             project: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
             region: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -71666,7 +71361,6 @@ function __c647(j: number): any {
             region: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
             project: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -71688,7 +71382,6 @@ function __c648(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             project: S.String.pipe(T.Label()),
             region: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -71710,7 +71403,6 @@ function __c649(j: number): any {
             project: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
             region: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -71732,7 +71424,6 @@ function __c650(j: number): any {
             zone: S.String.pipe(T.Label()),
             project: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
-            bodyZone: S.optional(S.String.pipe(T.Body("zone"))),
           }),
         ).pipe(
           T.Http({
@@ -71754,7 +71445,6 @@ function __c651(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             project: S.String.pipe(T.Label()),
             region: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -71905,7 +71595,6 @@ function __c656(j: number): any {
             project: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
             region: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -71968,7 +71657,6 @@ function __c659(j: number): any {
             project: S.String.pipe(T.Label()),
             region: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -72050,7 +71738,6 @@ function __c663(j: number): any {
             zone: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
             project: S.String.pipe(T.Label()),
-            bodyZone: S.optional(S.String.pipe(T.Body("zone"))),
           }),
         ).pipe(
           T.Http({
@@ -72072,7 +71759,6 @@ function __c664(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             project: S.String.pipe(T.Label()),
             region: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -72242,7 +71928,6 @@ function __c673(j: number): any {
             zone: S.String.pipe(T.Label()),
             project: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
-            bodyZone: S.optional(S.String.pipe(T.Body("zone"))),
           }),
         ).pipe(
           T.Http({
@@ -72264,7 +71949,6 @@ function __c674(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             project: S.String.pipe(T.Label()),
             region: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -72326,7 +72010,6 @@ function __c677(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             project: S.String.pipe(T.Label()),
             region: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -72368,7 +72051,6 @@ function __c679(j: number): any {
             region: S.String.pipe(T.Label()),
             project: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -72390,7 +72072,6 @@ function __c680(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             project: S.String.pipe(T.Label()),
             region: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -79570,7 +79251,6 @@ function __c933(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             zone: S.String.pipe(T.Label()),
             autoscaler: S.optional(S.String.pipe(T.Query())),
-            bodyZone: S.optional(S.String.pipe(T.Body("zone"))),
           }),
         ).pipe(
           T.Http({
@@ -79699,7 +79379,6 @@ function __c939(j: number): any {
             forwardingRule: S.String.pipe(T.Label()),
             project: S.String.pipe(T.Label()),
             region: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -79986,7 +79665,6 @@ function __c952(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             instanceGroupManager: S.String.pipe(T.Label()),
             project: S.String.pipe(T.Label()),
-            bodyZone: S.optional(S.String.pipe(T.Body("zone"))),
           }),
         ).pipe(
           T.Http({
@@ -80009,7 +79687,6 @@ function __c953(j: number): any {
             project: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
-            bodyZone: S.optional(S.String.pipe(T.Body("zone"))),
           }),
         ).pipe(
           T.Http({
@@ -80054,7 +79731,6 @@ function __c955(j: number): any {
             project: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
             region: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -80248,7 +79924,6 @@ function __c962(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             project: S.String.pipe(T.Label()),
             region: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -80273,7 +79948,6 @@ function __c963(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
             project: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -80338,7 +80012,6 @@ function __c966(j: number): any {
             nodeGroup: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
             zone: S.String.pipe(T.Label()),
-            bodyZone: S.optional(S.String.pipe(T.Body("zone"))),
           }),
         ).pipe(
           T.Http({
@@ -80380,8 +80053,7 @@ function __c968(j: number): any {
             project: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
             firewallPolicy: S.String.pipe(T.Label()),
-            priority: S.optional(S.Number.pipe(T.Query())),
-            bodyPriority: S.optional(S.Number.pipe(T.Body("priority"))),
+            rulePriority: S.Number.pipe(T.Query("priority")),
           }),
         ).pipe(
           T.Http({
@@ -80404,7 +80076,6 @@ function __c969(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             project: S.String.pipe(T.Label()),
             packetMirroring: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -80576,7 +80247,6 @@ function __c977(j: number): any {
             project: S.String.pipe(T.Label()),
             region: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -80599,7 +80269,6 @@ function __c978(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             project: S.String.pipe(T.Label()),
             autoscaler: S.optional(S.String.pipe(T.Query())),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -80622,7 +80291,6 @@ function __c979(j: number): any {
             backendBucket: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
             project: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -80645,7 +80313,6 @@ function __c980(j: number): any {
             backendService: S.String.pipe(T.Label()),
             region: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -80668,7 +80335,6 @@ function __c981(j: number): any {
             compositeHealthCheck: S.String.pipe(T.Label()),
             project: S.String.pipe(T.Label()),
             region: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -80691,7 +80357,6 @@ function __c982(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             healthAggregationPolicy: S.String.pipe(T.Label()),
             project: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -80714,7 +80379,6 @@ function __c983(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             healthCheck: S.String.pipe(T.Label()),
             project: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -80737,7 +80401,6 @@ function __c984(j: number): any {
             project: S.String.pipe(T.Label()),
             region: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -80901,7 +80564,6 @@ function __c988(j: number): any {
             project: S.String.pipe(T.Label()),
             region: S.String.pipe(T.Label()),
             healthSource: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -80924,7 +80586,6 @@ function __c989(j: number): any {
             project: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
             region: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -80947,7 +80608,6 @@ function __c990(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             firewallPolicy: S.String.pipe(T.Label()),
             region: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -80971,7 +80631,6 @@ function __c991(j: number): any {
             project: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
             region: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -81016,7 +80675,6 @@ function __c993(j: number): any {
             project: S.String.pipe(T.Label()),
             sslPolicy: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -81039,7 +80697,6 @@ function __c994(j: number): any {
             targetHttpsProxy: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
             region: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -81062,7 +80719,6 @@ function __c995(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             region: S.String.pipe(T.Label()),
             project: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -81086,7 +80742,6 @@ function __c996(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             project: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -81199,7 +80854,6 @@ function __c1001(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             router: S.String.pipe(T.Label()),
             project: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -81218,10 +80872,9 @@ function __c1002(j: number): any {
         S.Extend(
           __S(3493, __c109, 5),
           S.Struct({
-            priority: S.optional(S.Number.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
             firewallPolicy: S.String.pipe(T.Label()),
-            bodyPriority: S.optional(S.Number.pipe(T.Body("priority"))),
+            rulePriority: S.Number.pipe(T.Query("priority")),
           }),
         ).pipe(
           T.Http({
@@ -81243,8 +80896,7 @@ function __c1003(j: number): any {
             firewallPolicy: S.String.pipe(T.Label()),
             project: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
-            priority: S.optional(S.Number.pipe(T.Query())),
-            bodyPriority: S.optional(S.Number.pipe(T.Body("priority"))),
+            rulePriority: S.Number.pipe(T.Query("priority")),
           }),
         ).pipe(
           T.Http({
@@ -81263,10 +80915,9 @@ function __c1004(j: number): any {
         S.Extend(
           __S(6228, __c194, 20),
           S.Struct({
-            priority: S.optional(S.Number.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
             securityPolicy: S.String.pipe(T.Label()),
-            bodyPriority: S.optional(S.Number.pipe(T.Body("priority"))),
+            rulePriority: S.Number.pipe(T.Query("priority")),
           }),
         ).pipe(
           T.Http({
@@ -81287,10 +80938,9 @@ function __c1005(j: number): any {
           S.Struct({
             region: S.String.pipe(T.Label()),
             firewallPolicy: S.String.pipe(T.Label()),
-            priority: S.optional(S.Number.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
             project: S.String.pipe(T.Label()),
-            bodyPriority: S.optional(S.Number.pipe(T.Body("priority"))),
+            rulePriority: S.Number.pipe(T.Query("priority")),
           }),
         ).pipe(
           T.Http({
@@ -81309,13 +80959,12 @@ function __c1006(j: number): any {
         S.Extend(
           __S(6228, __c194, 20),
           S.Struct({
-            priority: S.optional(S.Number.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
             region: S.String.pipe(T.Label()),
             securityPolicy: S.String.pipe(T.Label()),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
             project: S.String.pipe(T.Label()),
-            bodyPriority: S.optional(S.Number.pipe(T.Body("priority"))),
+            rulePriority: S.Number.pipe(T.Query("priority")),
           }),
         ).pipe(
           T.Http({
@@ -81336,10 +80985,9 @@ function __c1007(j: number): any {
           S.Struct({
             securityPolicy: S.String.pipe(T.Label()),
             project: S.String.pipe(T.Label()),
-            priority: S.optional(S.Number.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-            bodyPriority: S.optional(S.Number.pipe(T.Body("priority"))),
+            rulePriority: S.Number.pipe(T.Query("priority")),
           }),
         ).pipe(
           T.Http({
@@ -81384,7 +81032,6 @@ function __c1009(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             region: S.String.pipe(T.Label()),
             serviceAttachment: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -81526,7 +81173,6 @@ function __c1015(j: number): any {
             region: S.String.pipe(T.Label()),
             project: S.String.pipe(T.Label()),
             drainTimeoutSeconds: S.optional(S.Number.pipe(T.Query())),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -81867,7 +81513,6 @@ function __c1031(j: number): any {
             region: S.String.pipe(T.Label()),
             project: S.String.pipe(T.Label()),
             router: S.String.pipe(T.Label()),
-            bodyRegion: S.optional(S.String.pipe(T.Body("region"))),
           }),
         ).pipe(
           T.Http({
@@ -85206,7 +84851,6 @@ function __c1173(j: number): any {
             project: S.String.pipe(T.Label()),
             instance: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
-            bodyForceAttach: S.optional(S.Boolean.pipe(T.Body("forceAttach"))),
           }),
         ).pipe(
           T.Http({
@@ -88330,7 +87974,6 @@ function __c1319(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             autoscaler: S.optional(S.String.pipe(T.Query())),
             zone: S.String.pipe(T.Label()),
-            bodyZone: S.optional(S.String.pipe(T.Body("zone"))),
           }),
         ).pipe(
           T.Http({
@@ -88397,7 +88040,6 @@ function __c1322(j: number): any {
             zone: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
             paths: S.optional(__S(15520, __c485, 0).pipe(T.Query())),
-            bodyZone: S.optional(S.String.pipe(T.Body("zone"))),
           }),
         ).pipe(
           T.Http({
@@ -88484,7 +88126,6 @@ function __c1326(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             futureReservation: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
-            bodyZone: S.optional(S.String.pipe(T.Body("zone"))),
           }),
         ).pipe(
           T.Http({
@@ -88594,7 +88235,6 @@ function __c1331(j: number): any {
             discardLocalSsd: S.optional(S.Boolean.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
             instance: S.String.pipe(T.Label()),
-            bodyZone: S.optional(S.String.pipe(T.Body("zone"))),
           }),
         ).pipe(
           T.Http({

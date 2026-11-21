@@ -1535,8 +1535,6 @@ export interface PatchProjectsLocationsMembershipsFeaturesRequest extends Omit<
   updateMask?: string | undefined;
   /** Idempotent request UUID. */
   requestId?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Output only. The resource name of the membershipFeature, in the format: `projects/{project}/locations/{location}/memberships/{membership}/features/{feature}`. Note that `membershipFeatures` is shortened to `features` in the resource name. (see http://go/aip/122#collection-identifiers) */
-  bodyName?: string | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -1835,7 +1833,6 @@ function __c3(j: number): any {
             allowMissing: S.optional(S.Boolean.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

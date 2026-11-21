@@ -371,8 +371,6 @@ export interface CreateProjectsIndexesRequest extends Omit<
 > {
   /** Project ID against which to make the request. */
   projectId: string;
-  /** The request body's `projectId` (`projectId` is the path parameter). Output only. Project ID. */
-  bodyProjectId?: string | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -2100,7 +2098,6 @@ function __c28(j: number): any {
           __S(930, __c29, 2),
           S.Struct({
             projectId: S.String.pipe(T.Label()),
-            bodyProjectId: S.optional(S.String.pipe(T.Body("projectId"))),
           }),
         ).pipe(
           T.Http({

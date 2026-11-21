@@ -203,8 +203,6 @@ export interface InsertTasksRequest extends Omit<Task, "parent"> {
   previous?: string | undefined;
   /** Optional. Parent task identifier. If the task is created at the top level, this parameter is omitted. An assigned task cannot be a parent task, nor can it have a parent. Setting the parent to an assigned task results in failure of the request. */
   parent?: string | undefined;
-  /** The request body's `parent` (`parent` is the query parameter). Output only. Parent task identifier. This field is omitted if it is a top-level task. Use the "move" method to move the task under a different parent or to the top level. A parent task can never be an assigned task (from Chat Spaces, Docs). This field is read-only. */
-  bodyParent?: string | undefined;
 }
 export interface ListTasklistsRequest {
   /** Optional. Token specifying the result page to return. */
@@ -580,7 +578,6 @@ function __c0(j: number): any {
             tasklist: S.String.pipe(T.Label()),
             previous: S.optional(S.String.pipe(T.Query())),
             parent: S.optional(S.String.pipe(T.Query())),
-            bodyParent: S.optional(S.String.pipe(T.Body("parent"))),
           }),
         ).pipe(
           T.Http({

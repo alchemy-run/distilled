@@ -4663,8 +4663,6 @@ export interface PatchProjectsLocationsAutonomousDatabasesRequest extends Omit<
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the Exadata resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then the service treats this as an implied field mask equivalent to all fields that are populated (have a non-empty value). To clear or unset a field, the field must be explicitly specified in the `update_mask`. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The name of the Autonomous Database resource in the following format: projects/{project}/locations/{region}/autonomousDatabases/{autonomous_database} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsCloudExadataInfrastructuresRequest extends Omit<
   CloudExadataInfrastructure,
@@ -4676,8 +4674,6 @@ export interface PatchProjectsLocationsCloudExadataInfrastructuresRequest extend
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the Exadata resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then the service treats this as an implied field mask equivalent to all fields that are populated (have a non-empty value). To clear or unset a field, the field must be explicitly specified in the `update_mask`. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The name of the Exadata Infrastructure resource with the format: projects/{project}/locations/{region}/cloudExadataInfrastructures/{cloud_exadata_infrastructure} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsCloudVmClustersRequest extends Omit<CloudVmCluster, "name"> {
   /** Optional. A mask specifying which fields in the VM Cluster should be updated. A field specified in the mask is overwritten. If a mask isn't provided, the service treats this as an implied field mask equivalent to all fields that are populated (have a non-empty value). To clear or unset a field, the field must be explicitly specified in the `update_mask`. */
@@ -4686,8 +4682,6 @@ export interface PatchProjectsLocationsCloudVmClustersRequest extends Omit<Cloud
   requestId?: string | undefined;
   /** Identifier. The name of the VM Cluster resource with the format: projects/{project}/locations/{region}/cloudVmClusters/{cloud_vm_cluster} */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The name of the VM Cluster resource with the format: projects/{project}/locations/{region}/cloudVmClusters/{cloud_vm_cluster} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsDatabaseConnectionsRequest extends Omit<
   DatabaseConnection,
@@ -4699,8 +4693,6 @@ export interface PatchProjectsLocationsDatabaseConnectionsRequest extends Omit<
   requestId?: string | undefined;
   /** Optional. A mask specifying which fields in the DatabaseConnection should be updated. A field specified in the mask is overwritten. If a mask isn't provided then all the fields in the DatabaseConnection are overwritten. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the DatabaseConnection. Format: projects/{project}/locations/{location}/databaseConnections/{database_connection} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsDbSystemsRequest extends Omit<DbSystem, "name"> {
   /** Identifier. The name of the DbSystem resource in the following format: projects/{project}/locations/{region}/dbSystems/{db_system} */
@@ -4709,8 +4701,6 @@ export interface PatchProjectsLocationsDbSystemsRequest extends Omit<DbSystem, "
   requestId?: string | undefined;
   /** Optional. A mask specifying which fields in the DbSystem should be updated. A field specified in the mask is updated. If a mask isn't provided, the service treats this as an implied field mask equivalent to all fields that are populated (have a non-empty value). */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The name of the DbSystem resource in the following format: projects/{project}/locations/{region}/dbSystems/{db_system} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsExadbVmClustersRequest extends Omit<ExadbVmCluster, "name"> {
   /** Identifier. The name of the ExadbVmCluster resource in the following format: projects/{project}/locations/{region}/exadbVmClusters/{exadb_vm_cluster} */
@@ -4719,8 +4709,6 @@ export interface PatchProjectsLocationsExadbVmClustersRequest extends Omit<Exadb
   requestId?: string | undefined;
   /** Optional. A mask specifying which fields in th VM Cluster should be updated. A field specified in the mask is overwritten. If a mask isn't provided then the service treats this as an implied field mask equivalent to all fields that are populated (have a non-empty value). To clear or unset a field, the field must be explicitly specified in the `update_mask`. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The name of the ExadbVmCluster resource in the following format: projects/{project}/locations/{region}/exadbVmClusters/{exadb_vm_cluster} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsExascaleDbStorageVaultsRequest extends Omit<
   ExascaleDbStorageVault,
@@ -4732,8 +4720,6 @@ export interface PatchProjectsLocationsExascaleDbStorageVaultsRequest extends Om
   requestId?: string | undefined;
   /** Identifier. The resource name of the ExascaleDbStorageVault. Format: projects/{project}/locations/{location}/exascaleDbStorageVaults/{exascale_db_storage_vault} */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the ExascaleDbStorageVault. Format: projects/{project}/locations/{location}/exascaleDbStorageVaults/{exascale_db_storage_vault} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsGoldengateConnectionAssignmentsRequest extends Omit<
   GoldengateConnectionAssignment,
@@ -4745,8 +4731,6 @@ export interface PatchProjectsLocationsGoldengateConnectionAssignmentsRequest ex
   name: string;
   /** Optional. A mask specifying which fields in the GoldengateConnectionAssignment should be updated. A field specified in the mask is updated. If a mask isn't provided, the service treats this as an implied field mask equivalent to all fields that are populated (have a non-empty value). To clear or unset a field, the field must be explicitly specified in the `update_mask`. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The name of the GoldengateConnectionAssignment resource in the following format: projects/{project}/locations/{region}/goldengateConnectionAssignments/{goldengate_connection_assignment} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsGoldengateConnectionsRequest extends Omit<
   GoldengateConnection,
@@ -4758,8 +4742,6 @@ export interface PatchProjectsLocationsGoldengateConnectionsRequest extends Omit
   requestId?: string | undefined;
   /** Identifier. The name of the GoldengateConnection resource in the following format: projects/{project}/locations/{region}/goldengateConnections/{goldengate_connection} */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The name of the GoldengateConnection resource in the following format: projects/{project}/locations/{region}/goldengateConnections/{goldengate_connection} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsGoldengateDeploymentsRequest extends Omit<
   GoldengateDeployment,
@@ -4771,8 +4753,6 @@ export interface PatchProjectsLocationsGoldengateDeploymentsRequest extends Omit
   requestId?: string | undefined;
   /** Identifier. The name of the GoldengateDeployment resource in the following format: projects/{project}/locations/{region}/goldengateDeployments/{goldengate_deployment} */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The name of the GoldengateDeployment resource in the following format: projects/{project}/locations/{region}/goldengateDeployments/{goldengate_deployment} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsOdbNetworksRequest extends Omit<OdbNetwork, "name"> {
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -4781,8 +4761,6 @@ export interface PatchProjectsLocationsOdbNetworksRequest extends Omit<OdbNetwor
   name: string;
   /** Optional. A mask specifying which fields in the OdbNetwork should be updated. A field specified in the mask is updated. If a mask isn't provided, the service treats this as an implied field mask equivalent to all fields that are populated (have a non-empty value). To clear or unset a field, the field must be explicitly specified in the `update_mask`. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The name of the OdbNetwork resource in the following format: projects/{project}/locations/{region}/odbNetworks/{odb_network} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsOdbNetworksOdbDnsZonesRequest extends Omit<
   OdbDnsZone,
@@ -4794,8 +4772,6 @@ export interface PatchProjectsLocationsOdbNetworksOdbDnsZonesRequest extends Omi
   requestId?: string | undefined;
   /** Optional. A mask specifying which fields in the OdbDnsZone should be updated. A field specified in the mask is updated. If a mask isn't provided, the service treats this as an implied field mask equivalent to all fields that are populated (have a non-empty value). To clear or unset a field, the field must be explicitly specified in the `update_mask`. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The name of the OdbDnsZone resource in the following format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbDnsZones/{odb_dns_zone} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsOdbNetworksOdbSubnetsRequest extends Omit<
   OdbSubnet,
@@ -4807,8 +4783,6 @@ export interface PatchProjectsLocationsOdbNetworksOdbSubnetsRequest extends Omit
   requestId?: string | undefined;
   /** Identifier. The name of the OdbSubnet resource in the following format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The name of the OdbSubnet resource in the following format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} */
-  bodyName?: string | undefined;
 }
 /** Request message for RefreshAutonomousDatabase method. */
 export interface RefreshAutonomousDatabaseRequest {
@@ -7765,7 +7739,6 @@ function __c2(j: number): any {
             name: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -7787,7 +7760,6 @@ function __c3(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -7809,7 +7781,6 @@ function __c4(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -7831,7 +7802,6 @@ function __c5(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -7853,7 +7823,6 @@ function __c6(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -7875,7 +7844,6 @@ function __c7(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -7897,7 +7865,6 @@ function __c8(j: number): any {
             name: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -7919,7 +7886,6 @@ function __c9(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -12123,7 +12089,6 @@ function __c139(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -12145,7 +12110,6 @@ function __c140(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -12167,7 +12131,6 @@ function __c141(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -12189,7 +12152,6 @@ function __c142(j: number): any {
             name: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -12211,7 +12173,6 @@ function __c143(j: number): any {
             name: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

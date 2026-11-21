@@ -797,8 +797,6 @@ export interface PatchProjectsAppsTestCasesRequest extends Omit<
   name: string;
   /** Optional. If set to true, and the test case is not found, a new test case will be created. */
   allowMissing?: boolean | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The name of the test case resource. Format: `projects/{project_number}/apps/{app}/testCases/{test_case}` */
-  bodyName?: string | undefined;
 }
 export interface UpdateTestConfigProjectsAppsRequest extends Omit<
   GoogleFirebaseAppdistroV1alphaTestConfig,
@@ -808,8 +806,6 @@ export interface UpdateTestConfigProjectsAppsRequest extends Omit<
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The name of the test configuration resource. Format: `projects/{project_number}/apps/{app}/testConfig` */
-  bodyName?: string | undefined;
 }
 export type BatchDeleteProjectsAppsTestCasesError =
   | NotFound
@@ -1703,7 +1699,6 @@ function __c18(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -1724,7 +1719,6 @@ function __c19(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

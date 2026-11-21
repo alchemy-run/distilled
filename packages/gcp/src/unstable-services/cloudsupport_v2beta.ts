@@ -619,8 +619,6 @@ export interface PatchCasesRequest extends Omit<Case, "name"> {
   name: string;
   /** A list of attributes of the case that should be updated. Supported values are `priority`, `display_name`, and `subscriber_email_addresses`. If no fields are specified, all supported fields are updated. Be careful - if you do not provide a field mask, then you might accidentally clear some fields. For example, if you leave the field mask empty and do not provide a value for `subscriber_email_addresses`, then `subscriber_email_addresses` is updated to empty. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name for the case. */
-  bodyName?: string | undefined;
 }
 export interface PatchOrganizationsSupportEventSubscriptionsRequest extends Omit<
   SupportEventSubscription,
@@ -630,8 +628,6 @@ export interface PatchOrganizationsSupportEventSubscriptionsRequest extends Omit
   name: string;
   /** Optional. The list of fields to update. The only supported value is pub_sub_topic. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the support event subscription. */
-  bodyName?: string | undefined;
 }
 export type SearchCaseClassificationsProduct_productLineEnum =
   | "PRODUCT_LINE_UNSPECIFIED"
@@ -1432,7 +1428,6 @@ function __c13(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -1453,7 +1448,6 @@ function __c14(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

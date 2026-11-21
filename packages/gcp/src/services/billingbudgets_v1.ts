@@ -278,8 +278,6 @@ export interface PatchBillingAccountsBudgetsRequest extends Omit<
   name: string;
   /** Optional. Indicates which fields in the provided budget to update. Read-only fields (such as `name`) cannot be changed. If this is not provided, then only fields with non-default values from the request are updated. See https://developers.google.com/protocol-buffers/docs/proto3#default for more details about default values. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Output only. Resource name of the budget. The resource name implies the scope of a budget. Values are of the form `billingAccounts/{billingAccountId}/budgets/{budgetId}`. */
-  bodyName?: string | undefined;
 }
 export type CreateBillingAccountsBudgetsError =
   | NotFound
@@ -578,7 +576,6 @@ function __c6(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

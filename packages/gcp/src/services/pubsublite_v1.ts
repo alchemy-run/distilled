@@ -494,8 +494,6 @@ export interface PatchAdminProjectsLocationsReservationsRequest extends Omit<Res
   name: string;
   /** Required. A mask specifying the reservation fields to change. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). The name of the reservation. Structured like: projects/{project_number}/locations/{location}/reservations/{reservation_id} */
-  bodyName?: string | undefined;
 }
 export interface PatchAdminProjectsLocationsSubscriptionsRequest extends Omit<
   Subscription,
@@ -505,16 +503,12 @@ export interface PatchAdminProjectsLocationsSubscriptionsRequest extends Omit<
   updateMask?: string | undefined;
   /** The name of the subscription. Structured like: projects/{project_number}/locations/{location}/subscriptions/{subscription_id} */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). The name of the subscription. Structured like: projects/{project_number}/locations/{location}/subscriptions/{subscription_id} */
-  bodyName?: string | undefined;
 }
 export interface PatchAdminProjectsLocationsTopicsRequest extends Omit<Topic, "name"> {
   /** Required. A mask specifying the topic fields to change. */
   updateMask?: string | undefined;
   /** The name of the topic. Structured like: projects/{project_number}/locations/{location}/topics/{topic_id} */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). The name of the topic. Structured like: projects/{project_number}/locations/{location}/topics/{topic_id} */
-  bodyName?: string | undefined;
 }
 export type SeekSubscriptionRequestNamedTargetEnum = "NAMED_TARGET_UNSPECIFIED" | "TAIL" | "HEAD";
 /** Request for SeekSubscription. */
@@ -1662,7 +1656,6 @@ function __c24(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -1683,7 +1676,6 @@ function __c25(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -1704,7 +1696,6 @@ function __c26(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

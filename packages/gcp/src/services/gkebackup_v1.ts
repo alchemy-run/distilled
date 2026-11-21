@@ -1399,48 +1399,36 @@ export interface PatchProjectsLocationsBackupChannelsRequest extends Omit<Backup
   name: string;
   /** Optional. This is used to specify the fields to be overwritten in the BackupChannel targeted for update. The values for each of these updated fields will be taken from the `backup_channel` provided with this request. Field names are relative to the root of the resource (e.g., `description`, `labels`, etc.) If no `update_mask` is provided, all fields in `backup_channel` will be written to the target BackupChannel resource. Note that OUTPUT_ONLY and IMMUTABLE fields in `backup_channel` are ignored and are not used to update the target BackupChannel. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The fully qualified name of the BackupChannel. `projects/*\/locations/*\/backupChannels/*` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsBackupPlansRequest extends Omit<BackupPlan, "name"> {
   /** Output only. Identifier. The full name of the BackupPlan resource. Format: `projects/*\/locations/*\/backupPlans/*` */
   name: string;
   /** Optional. This is used to specify the fields to be overwritten in the BackupPlan targeted for update. The values for each of these updated fields will be taken from the `backup_plan` provided with this request. Field names are relative to the root of the resource (e.g., `description`, `backup_config.include_volume_data`, etc.) If no `update_mask` is provided, all fields in `backup_plan` will be written to the target BackupPlan resource. Note that OUTPUT_ONLY and IMMUTABLE fields in `backup_plan` are ignored and are not used to update the target BackupPlan. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Output only. Identifier. The full name of the BackupPlan resource. Format: `projects/*\/locations/*\/backupPlans/*` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsBackupPlansBackupsRequest extends Omit<Backup, "name"> {
   /** Output only. Identifier. The fully qualified name of the Backup. `projects/*\/locations/*\/backupPlans/*\/backups/*` */
   name: string;
   /** Optional. This is used to specify the fields to be overwritten in the Backup targeted for update. The values for each of these updated fields will be taken from the `backup_plan` provided with this request. Field names are relative to the root of the resource. If no `update_mask` is provided, all fields in `backup` will be written to the target Backup resource. Note that OUTPUT_ONLY and IMMUTABLE fields in `backup` are ignored and are not used to update the target Backup. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Output only. Identifier. The fully qualified name of the Backup. `projects/*\/locations/*\/backupPlans/*\/backups/*` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsRestoreChannelsRequest extends Omit<RestoreChannel, "name"> {
   /** Identifier. The fully qualified name of the RestoreChannel. `projects/*\/locations/*\/restoreChannels/*` */
   name: string;
   /** Optional. This is used to specify the fields to be overwritten in the RestoreChannel targeted for update. The values for each of these updated fields will be taken from the `restore_channel` provided with this request. Field names are relative to the root of the resource (e.g., `description`, `destination_project_id`, etc.) If no `update_mask` is provided, all fields in `restore_channel` will be written to the target RestoreChannel resource. Note that OUTPUT_ONLY and IMMUTABLE fields in `restore_channel` are ignored and are not used to update the target RestoreChannel. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The fully qualified name of the RestoreChannel. `projects/*\/locations/*\/restoreChannels/*` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsRestorePlansRequest extends Omit<RestorePlan, "name"> {
   /** Output only. Identifier. The full name of the RestorePlan resource. Format: `projects/*\/locations/*\/restorePlans/*`. */
   name: string;
   /** Optional. This is used to specify the fields to be overwritten in the RestorePlan targeted for update. The values for each of these updated fields will be taken from the `restore_plan` provided with this request. Field names are relative to the root of the resource. If no `update_mask` is provided, all fields in `restore_plan` will be written to the target RestorePlan resource. Note that OUTPUT_ONLY and IMMUTABLE fields in `restore_plan` are ignored and are not used to update the target RestorePlan. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Output only. Identifier. The full name of the RestorePlan resource. Format: `projects/*\/locations/*\/restorePlans/*`. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsRestorePlansRestoresRequest extends Omit<Restore, "name"> {
   /** Optional. This is used to specify the fields to be overwritten in the Restore targeted for update. The values for each of these updated fields will be taken from the `restore` provided with this request. Field names are relative to the root of the resource. If no `update_mask` is provided, all fields in `restore` will be written to the target Restore resource. Note that OUTPUT_ONLY and IMMUTABLE fields in `restore` are ignored and are not used to update the target Restore. */
   updateMask?: string | undefined;
   /** Output only. Identifier. The full name of the Restore resource. Format: `projects/*\/locations/*\/restorePlans/*\/restores/*` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Output only. Identifier. The full name of the Restore resource. Format: `projects/*\/locations/*\/restorePlans/*\/restores/*` */
-  bodyName?: string | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
@@ -1487,8 +1475,6 @@ export interface SetTagsRequest {
 export interface SetTagsProjectsLocationsBackupPlansRequest extends Omit<SetTagsRequest, "name"> {
   /** Required. The full resource name of the service resource. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Required. The full resource name of the service resource. */
-  bodyName?: string | undefined;
 }
 /** Response message for SetTags. */
 export interface SetTagsResponse {
@@ -1502,8 +1488,6 @@ export interface SetTagsResponse {
 export interface SetTagsProjectsLocationsRestorePlansRequest extends Omit<SetTagsRequest, "name"> {
   /** Required. The full resource name of the service resource. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Required. The full resource name of the service resource. */
-  bodyName?: string | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
@@ -4225,7 +4209,6 @@ function __c56(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4246,7 +4229,6 @@ function __c57(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4267,7 +4249,6 @@ function __c58(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4288,7 +4269,6 @@ function __c59(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4309,7 +4289,6 @@ function __c60(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4330,7 +4309,6 @@ function __c61(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4666,7 +4644,6 @@ function __c76(j: number): any {
           __S(1232, __c77, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4699,7 +4676,6 @@ function __c78(j: number): any {
           __S(1232, __c77, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

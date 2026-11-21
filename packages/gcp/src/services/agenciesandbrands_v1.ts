@@ -531,8 +531,6 @@ export interface PatchAgenciesReportsRequest extends Omit<Report, "name"> {
   updateMask?: string | undefined;
   /** Identifier. The resource name of the report. Report resource name have the form: `agencies/{account_id}/reports/{report_id}` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the report. Report resource name have the form: `agencies/{account_id}/reports/{report_id}` */
-  bodyName?: string | undefined;
 }
 /** Request message for a running a report. */
 export interface RunReportRequest {}
@@ -692,7 +690,6 @@ function __c0(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

@@ -666,8 +666,6 @@ export interface PatchPartnersSubscriptionsLineItemsRequest extends Omit<
   updateMask?: string | undefined;
   /** Optional. An idempotency ID for the request. A random UUID is recommended. Restricted to 36 ASCII characters. */
   requestId?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name of the line item. Format: partners/{partner}/subscriptions/{subscription}/lineItems/{lineItem} */
-  bodyName?: string | undefined;
 }
 export type ProvisionPartnersSubscriptionsCycleOptions_initialCycleDuration_unitEnum =
   | "UNIT_UNSPECIFIED"
@@ -1154,7 +1152,6 @@ function __c3(j: number): any {
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

@@ -605,8 +605,6 @@ export interface PatchProjectsLocationsInstancesRequest extends Omit<Instance, "
   requestId?: string | undefined;
   /** Identifier. The name of the instance. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The name of the instance. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsInstancesMirrorsRequest extends Omit<Mirror, "name"> {
   /** Optional. The unique ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in the same update request being executed for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. The request ID must be a valid UUID version 4 with the exception that zero UUID is not supported (`00000000-0000-0000-0000-000000000000`). This request is only idempotent if a `request_id` is provided. */
@@ -615,8 +613,6 @@ export interface PatchProjectsLocationsInstancesMirrorsRequest extends Omit<Mirr
   name: string;
   /** Optional. Fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If no mask is provided then all fields present in the request are overwritten. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Name of the mirror. Format: `projects/{project}/locations/{location}/instances/{instance}/mirrors/{mirror}` */
-  bodyName?: string | undefined;
 }
 export type RescheduleRescheduleTypeEnum =
   | "RESCHEDULE_TYPE_UNSPECIFIED"
@@ -1704,7 +1700,6 @@ function __c18(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://lustre.googleapis.com/" }),
@@ -1722,7 +1717,6 @@ function __c19(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://lustre.googleapis.com/" }),

@@ -816,8 +816,6 @@ export interface PatchOrganizationsLocationsWorkloadsRequest extends Omit<
   updateMask?: string | undefined;
   /** Optional. The resource name of the workload. Format: organizations/{organization}/locations/{location}/workloads/{workload} Read-only. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Optional. The resource name of the workload. Format: organizations/{organization}/locations/{location}/workloads/{workload} Read-only. */
-  bodyName?: string | undefined;
 }
 export type GoogleCloudAssuredworkloadsV1beta1RestrictAllowedResourcesRequestRestrictionTypeEnum =
   | "RESTRICTION_TYPE_UNSPECIFIED"
@@ -1540,7 +1538,6 @@ function __c9(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

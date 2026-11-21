@@ -740,14 +740,6 @@ export interface CreateProjectsHistoriesExecutionsStepsPerfMetricsSummaryRequest
   projectId: string;
   /** A tool results history ID. */
   historyId: string;
-  /** The request body's `historyId` (`historyId` is the path parameter). A tool results history ID. @OutputOnly */
-  bodyHistoryId?: string | undefined;
-  /** The request body's `executionId` (`executionId` is the path parameter). A tool results execution ID. @OutputOnly */
-  bodyExecutionId?: string | undefined;
-  /** The request body's `stepId` (`stepId` is the path parameter). A tool results step ID. @OutputOnly */
-  bodyStepId?: string | undefined;
-  /** The request body's `projectId` (`projectId` is the path parameter). The cloud project @OutputOnly */
-  bodyProjectId?: string | undefined;
 }
 export type BasicPerfSampleSeriesPerfMetricTypeEnum =
   | "perfMetricTypeUnspecified"
@@ -809,14 +801,6 @@ export interface CreateProjectsHistoriesExecutionsStepsPerfSampleSeriesRequest e
   projectId: string;
   /** A tool results step ID. */
   stepId: string;
-  /** The request body's `stepId` (`stepId` is the path parameter). A tool results step ID. @OutputOnly */
-  bodyStepId?: string | undefined;
-  /** The request body's `historyId` (`historyId` is the path parameter). A tool results history ID. @OutputOnly */
-  bodyHistoryId?: string | undefined;
-  /** The request body's `executionId` (`executionId` is the path parameter). A tool results execution ID. @OutputOnly */
-  bodyExecutionId?: string | undefined;
-  /** The request body's `projectId` (`projectId` is the path parameter). The cloud project @OutputOnly */
-  bodyProjectId?: string | undefined;
 }
 export interface GetPerfMetricsSummaryProjectsHistoriesExecutionsStepsRequest {
   /** A tool results history ID. */
@@ -1235,8 +1219,6 @@ export interface PatchProjectsHistoriesExecutionsRequest extends Omit<Execution,
   executionId: string;
   /** A unique request ID for server to detect duplicated requests. For example, a UUID. Optional, but strongly recommended. */
   requestId?: string | undefined;
-  /** The request body's `executionId` (`executionId` is the path parameter). A unique identifier within a History for this Execution. Returns INVALID_ARGUMENT if this field is set or overwritten by the caller. - In response always set - In create/update request: never set */
-  bodyExecutionId?: string | undefined;
 }
 export interface PatchProjectsHistoriesExecutionsStepsRequest extends Omit<Step, "stepId"> {
   /** A History id. Required. */
@@ -1249,8 +1231,6 @@ export interface PatchProjectsHistoriesExecutionsStepsRequest extends Omit<Step,
   requestId?: string | undefined;
   /** A Project id. Required. */
   projectId: string;
-  /** The request body's `stepId` (`stepId` is the path parameter). A unique identifier within a Execution for this Step. Returns INVALID_ARGUMENT if this field is set or overwritten by the caller. - In response: always set - In create/update request: never set */
-  bodyStepId?: string | undefined;
 }
 /** Request message for StepService.PublishXunitXmlFiles. */
 export interface PublishXunitXmlFilesRequest {
@@ -1895,10 +1875,6 @@ function __c0(j: number): any {
             historyId: S.String.pipe(T.Label()),
             projectId: S.String.pipe(T.Label()),
             stepId: S.String.pipe(T.Label()),
-            bodyStepId: S.optional(S.String.pipe(T.Body("stepId"))),
-            bodyHistoryId: S.optional(S.String.pipe(T.Body("historyId"))),
-            bodyExecutionId: S.optional(S.String.pipe(T.Body("executionId"))),
-            bodyProjectId: S.optional(S.String.pipe(T.Body("projectId"))),
           }),
         ).pipe(
           T.Http({
@@ -2518,7 +2494,6 @@ function __c25(j: number): any {
             projectId: S.String.pipe(T.Label()),
             executionId: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
-            bodyExecutionId: S.optional(S.String.pipe(T.Body("executionId"))),
           }),
         ).pipe(
           T.Http({
@@ -2542,7 +2517,6 @@ function __c26(j: number): any {
             executionId: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
             projectId: S.String.pipe(T.Label()),
-            bodyStepId: S.optional(S.String.pipe(T.Body("stepId"))),
           }),
         ).pipe(
           T.Http({
@@ -3130,10 +3104,6 @@ function __c45(j: number): any {
             stepId: S.String.pipe(T.Label()),
             projectId: S.String.pipe(T.Label()),
             historyId: S.String.pipe(T.Label()),
-            bodyHistoryId: S.optional(S.String.pipe(T.Body("historyId"))),
-            bodyExecutionId: S.optional(S.String.pipe(T.Body("executionId"))),
-            bodyStepId: S.optional(S.String.pipe(T.Body("stepId"))),
-            bodyProjectId: S.optional(S.String.pipe(T.Body("projectId"))),
           }),
         ).pipe(
           T.Http({

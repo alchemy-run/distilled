@@ -766,8 +766,6 @@ export interface PatchLocationsRequest extends Omit<Location, "name"> {
   updateMask?: string | undefined;
   /** Identifier. Google identifier for this location in the form: `locations/{location_id}`. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Google identifier for this location in the form: `locations/{location_id}`. */
-  bodyName?: string | undefined;
 }
 export interface SearchChainsRequest {
   /** Required. Search for a chain by its name. Exact/partial/fuzzy/related queries are supported. Examples: "walmart", "wal-mart", "walmmmart", "U+6C83U+5C14U+739B" */
@@ -811,8 +809,6 @@ export interface UpdateAttributesLocationsRequest extends Omit<Attributes, "name
   attributeMask?: string | undefined;
   /** Required. Google identifier for this location in the form of `locations/{location_id}/attributes`. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Required. Google identifier for this location in the form of `locations/{location_id}/attributes`. */
-  bodyName?: string | undefined;
 }
 export type BatchGetCategoriesError = NotFound | Forbidden | GcpOpError;
 /** Returns a list of business categories for the provided language and GConcept ids. */
@@ -1328,7 +1324,6 @@ function __c7(j: number): any {
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -1412,7 +1407,6 @@ function __c10(j: number): any {
           S.Struct({
             attributeMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

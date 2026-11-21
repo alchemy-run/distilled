@@ -220,8 +220,6 @@ export interface AddPatientFilterProjectsLocationsCollectionsDataStoresRequest e
 > {
   /** Required. Full resource name of DataStore, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. If the caller does not have permission to access the DataStore, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested DataStore does not exist, a NOT_FOUND error is returned. If the requested DataStore already has a patient filter, an ALREADY_EXISTS error will be returned. */
   dataStore: string;
-  /** The request body's `dataStore` (`dataStore` is the path parameter). Required. Full resource name of DataStore, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. If the caller does not have permission to access the DataStore, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested DataStore does not exist, a NOT_FOUND error is returned. If the requested DataStore already has a patient filter, an ALREADY_EXISTS error will be returned. */
-  bodyDataStore?: string | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -253,8 +251,6 @@ export interface AddPatientFilterProjectsLocationsDataStoresRequest extends Omit
 > {
   /** Required. Full resource name of DataStore, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. If the caller does not have permission to access the DataStore, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested DataStore does not exist, a NOT_FOUND error is returned. If the requested DataStore already has a patient filter, an ALREADY_EXISTS error will be returned. */
   dataStore: string;
-  /** The request body's `dataStore` (`dataStore` is the path parameter). Required. Full resource name of DataStore, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. If the caller does not have permission to access the DataStore, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested DataStore does not exist, a NOT_FOUND error is returned. If the requested DataStore already has a patient filter, an ALREADY_EXISTS error will be returned. */
-  bodyDataStore?: string | undefined;
 }
 /** Related questions specification. */
 export interface GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestRelatedQuestionsSpec {
@@ -5760,8 +5756,6 @@ export interface DeletePatientFilterProjectsLocationsCollectionsDataStoresReques
 > {
   /** Required. Full resource name of DataStore, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. If the caller does not have permission to access the DataStore, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested DataStore does not exist, a NOT_FOUND error is returned. If the requested DataStore does not have a patient filter, a NOT_FOUND error will be returned. */
   dataStore: string;
-  /** The request body's `dataStore` (`dataStore` is the path parameter). Required. Full resource name of DataStore, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. If the caller does not have permission to access the DataStore, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested DataStore does not exist, a NOT_FOUND error is returned. If the requested DataStore does not have a patient filter, a NOT_FOUND error will be returned. */
-  bodyDataStore?: string | undefined;
 }
 export interface DeletePatientFilterProjectsLocationsDataStoresRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaDeletePatientFiltersRequest,
@@ -5769,8 +5763,6 @@ export interface DeletePatientFilterProjectsLocationsDataStoresRequest extends O
 > {
   /** Required. Full resource name of DataStore, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. If the caller does not have permission to access the DataStore, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested DataStore does not exist, a NOT_FOUND error is returned. If the requested DataStore does not have a patient filter, a NOT_FOUND error will be returned. */
   dataStore: string;
-  /** The request body's `dataStore` (`dataStore` is the path parameter). Required. Full resource name of DataStore, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. If the caller does not have permission to access the DataStore, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested DataStore does not exist, a NOT_FOUND error is returned. If the requested DataStore does not have a patient filter, a NOT_FOUND error will be returned. */
-  bodyDataStore?: string | undefined;
 }
 export interface DeleteProjectsLocationsAuthorizationsRequest {
   /** Required. Resource name of Authorization. Format: `projects/{project}/locations/{location}/authorizations/{authorization}` If the caller does not have permission to delete the authorization, regardless of whether or not it exists, a `PERMISSION_DENIED` error is returned. If the authorization to delete does not exist, a `NOT_FOUND` error is returned. */
@@ -9960,8 +9952,6 @@ export interface PatchProjectsRequest extends Omit<
   updateMask?: string | undefined;
   /** Output only. Full resource name of the project, for example `projects/{project}`. Note that when making requests, project number and project id are both acceptable, but the server will always respond in project number. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Output only. Full resource name of the project, for example `projects/{project}`. Note that when making requests, project number and project id are both acceptable, but the server will always respond in project number. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsAuthorizationsRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaAuthorization,
@@ -9971,8 +9961,6 @@ export interface PatchProjectsLocationsAuthorizationsRequest extends Omit<
   name: string;
   /** The list of fields to update. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name of the authorization. Format: `projects/{project}/locations/{location}/authorizations/{authorization}` It must be a UTF-8 encoded string with a length limit of 1024 characters. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsCmekConfigsRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaCmekConfig,
@@ -9982,8 +9970,6 @@ export interface PatchProjectsLocationsCmekConfigsRequest extends Omit<
   setDefault?: boolean | undefined;
   /** Required. The name of the CmekConfig of the form `projects/{project}/locations/{location}/cmekConfig` or `projects/{project}/locations/{location}/cmekConfigs/{cmek_config}`. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Required. The name of the CmekConfig of the form `projects/{project}/locations/{location}/cmekConfig` or `projects/{project}/locations/{location}/cmekConfigs/{cmek_config}`. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsCollectionsRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaCollection,
@@ -9993,8 +9979,6 @@ export interface PatchProjectsLocationsCollectionsRequest extends Omit<
   name: string;
   /** Optional. The list of fields to be updated. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Immutable. The full resource name of the Collection. Format: `projects/{project}/locations/{location}/collections/{collection_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsCollectionsDataStoresRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaDataStore,
@@ -10004,8 +9988,6 @@ export interface PatchProjectsLocationsCollectionsDataStoresRequest extends Omit
   updateMask?: string | undefined;
   /** Immutable. Identifier. The full resource name of the data store. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Immutable. Identifier. The full resource name of the data store. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaDocument,
@@ -10017,8 +9999,6 @@ export interface PatchProjectsLocationsCollectionsDataStoresBranchesDocumentsReq
   name: string;
   /** Indicates which fields in the provided imported 'document' to update. If not set, by default updates all fields. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Immutable. The full resource name of the document. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}/documents/{document_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsCollectionsDataStoresControlsRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaControl,
@@ -10028,8 +10008,6 @@ export interface PatchProjectsLocationsCollectionsDataStoresControlsRequest exte
   updateMask?: string | undefined;
   /** Immutable. Fully qualified name `projects/*\/locations/global/dataStore/*\/controls/*` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Immutable. Fully qualified name `projects/*\/locations/global/dataStore/*\/controls/*` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsCollectionsDataStoresConversationsRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaConversation,
@@ -10039,8 +10017,6 @@ export interface PatchProjectsLocationsCollectionsDataStoresConversationsRequest
   name: string;
   /** Indicates which fields in the provided Conversation to update. The following are NOT supported: * Conversation.name If not set or empty, all supported fields are updated. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Immutable. Fully qualified name `projects/{project}/locations/global/collections/{collection}/dataStore/*\/conversations/*` or `projects/{project}/locations/global/collections/{collection}/engines/*\/conversations/*`. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsCollectionsDataStoresSchemasRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaSchema,
@@ -10050,8 +10026,6 @@ export interface PatchProjectsLocationsCollectionsDataStoresSchemasRequest exten
   name: string;
   /** If set to true, and the Schema is not found, a new Schema is created. In this situation, `update_mask` is ignored. */
   allowMissing?: boolean | undefined;
-  /** The request body's `name` (`name` is the path parameter). Immutable. The full resource name of the schema, in the format of `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/schemas/{schema}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsCollectionsDataStoresServingConfigsRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaServingConfig,
@@ -10061,8 +10035,6 @@ export interface PatchProjectsLocationsCollectionsDataStoresServingConfigsReques
   updateMask?: string | undefined;
   /** Immutable. Fully qualified name `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}/servingConfigs/{serving_config_id}` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Immutable. Fully qualified name `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}/servingConfigs/{serving_config_id}` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsCollectionsDataStoresSessionsRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaSession,
@@ -10072,8 +10044,6 @@ export interface PatchProjectsLocationsCollectionsDataStoresSessionsRequest exte
   name: string;
   /** Indicates which fields in the provided Session to update. The following are NOT supported: * Session.name If not set or empty, all supported fields are updated. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Immutable. Fully qualified name `projects/{project}/locations/global/collections/{collection}/engines/{engine}/sessions/*` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaTargetSite,
@@ -10081,8 +10051,6 @@ export interface PatchProjectsLocationsCollectionsDataStoresSiteSearchEngineTarg
 > {
   /** Output only. The fully qualified resource name of the target site. `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine/targetSites/{target_site}` The `target_site_id` is system-generated. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Output only. The fully qualified resource name of the target site. `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine/targetSites/{target_site}` The `target_site_id` is system-generated. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsCollectionsDataStoresWidgetConfigsRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaWidgetConfig,
@@ -10092,8 +10060,6 @@ export interface PatchProjectsLocationsCollectionsDataStoresWidgetConfigsRequest
   name: string;
   /** Indicates which fields in the provided WidgetConfig to update. The following are the only supported fields: * WidgetConfig.enable_autocomplete If not set, all supported fields are updated. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Immutable. The full resource name of the widget config. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}/widgetConfigs/{widget_config_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsCollectionsEnginesRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaEngine,
@@ -10103,8 +10069,6 @@ export interface PatchProjectsLocationsCollectionsEnginesRequest extends Omit<
   name: string;
   /** Indicates which fields in the provided Engine to update. If an unsupported or unknown field is provided, an INVALID_ARGUMENT error is returned. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Immutable. Identifier. The fully qualified resource name of the engine. This field must be a UTF-8 encoded string with a length limit of 1024 characters. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}` engine should be 1-63 characters, and valid characters are /a-z0-9*\/. Otherwise, an INVALID_ARGUMENT error is returned. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsCollectionsEnginesAssistantsRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaAssistant,
@@ -10114,8 +10078,6 @@ export interface PatchProjectsLocationsCollectionsEnginesAssistantsRequest exten
   updateMask?: string | undefined;
   /** Immutable. Resource name of the assistant. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/assistants/{assistant}` It must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Immutable. Resource name of the assistant. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/assistants/{assistant}` It must be a UTF-8 encoded string with a length limit of 1024 characters. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsCollectionsEnginesAssistantsAgentsRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaAgent,
@@ -10125,8 +10087,6 @@ export interface PatchProjectsLocationsCollectionsEnginesAssistantsAgentsRequest
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name of the agent. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/assistants/{assistant}/agents/{agent}` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsCollectionsEnginesAssistantsCannedQueriesRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaCannedQuery,
@@ -10136,8 +10096,6 @@ export interface PatchProjectsLocationsCollectionsEnginesAssistantsCannedQueries
   updateMask?: string | undefined;
   /** Immutable. Resource name of the canned query. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/assistants/{assistant}/cannedQueries/{canned_query}` It must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Immutable. Resource name of the canned query. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/assistants/{assistant}/cannedQueries/{canned_query}` It must be a UTF-8 encoded string with a length limit of 1024 characters. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsCollectionsEnginesControlsRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaControl,
@@ -10147,8 +10105,6 @@ export interface PatchProjectsLocationsCollectionsEnginesControlsRequest extends
   name: string;
   /** Optional. Indicates which fields in the provided Control to update. The following are NOT supported: * Control.name * Control.solution_type If not set or empty, all supported fields are updated. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Immutable. Fully qualified name `projects/*\/locations/global/dataStore/*\/controls/*` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsCollectionsEnginesConversationsRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaConversation,
@@ -10158,8 +10114,6 @@ export interface PatchProjectsLocationsCollectionsEnginesConversationsRequest ex
   updateMask?: string | undefined;
   /** Immutable. Fully qualified name `projects/{project}/locations/global/collections/{collection}/dataStore/*\/conversations/*` or `projects/{project}/locations/global/collections/{collection}/engines/*\/conversations/*`. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Immutable. Fully qualified name `projects/{project}/locations/global/collections/{collection}/dataStore/*\/conversations/*` or `projects/{project}/locations/global/collections/{collection}/engines/*\/conversations/*`. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsCollectionsEnginesServingConfigsRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaServingConfig,
@@ -10169,8 +10123,6 @@ export interface PatchProjectsLocationsCollectionsEnginesServingConfigsRequest e
   updateMask?: string | undefined;
   /** Immutable. Fully qualified name `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}/servingConfigs/{serving_config_id}` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Immutable. Fully qualified name `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}/servingConfigs/{serving_config_id}` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsCollectionsEnginesSessionsRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaSession,
@@ -10180,8 +10132,6 @@ export interface PatchProjectsLocationsCollectionsEnginesSessionsRequest extends
   name: string;
   /** Indicates which fields in the provided Session to update. The following are NOT supported: * Session.name If not set or empty, all supported fields are updated. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Immutable. Fully qualified name `projects/{project}/locations/global/collections/{collection}/engines/{engine}/sessions/*` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsCollectionsEnginesWidgetConfigsRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaWidgetConfig,
@@ -10191,8 +10141,6 @@ export interface PatchProjectsLocationsCollectionsEnginesWidgetConfigsRequest ex
   name: string;
   /** Indicates which fields in the provided WidgetConfig to update. The following are the only supported fields: * WidgetConfig.enable_autocomplete If not set, all supported fields are updated. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Immutable. The full resource name of the widget config. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}/widgetConfigs/{widget_config_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsDataStoresRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaDataStore,
@@ -10202,8 +10150,6 @@ export interface PatchProjectsLocationsDataStoresRequest extends Omit<
   updateMask?: string | undefined;
   /** Immutable. Identifier. The full resource name of the data store. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Immutable. Identifier. The full resource name of the data store. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsDataStoresBranchesDocumentsRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaDocument,
@@ -10215,8 +10161,6 @@ export interface PatchProjectsLocationsDataStoresBranchesDocumentsRequest extend
   name: string;
   /** If set to `true` and the Document is not found, a new Document is be created. */
   allowMissing?: boolean | undefined;
-  /** The request body's `name` (`name` is the path parameter). Immutable. The full resource name of the document. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}/documents/{document_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsDataStoresControlsRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaControl,
@@ -10226,8 +10170,6 @@ export interface PatchProjectsLocationsDataStoresControlsRequest extends Omit<
   updateMask?: string | undefined;
   /** Immutable. Fully qualified name `projects/*\/locations/global/dataStore/*\/controls/*` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Immutable. Fully qualified name `projects/*\/locations/global/dataStore/*\/controls/*` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsDataStoresConversationsRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaConversation,
@@ -10237,8 +10179,6 @@ export interface PatchProjectsLocationsDataStoresConversationsRequest extends Om
   name: string;
   /** Indicates which fields in the provided Conversation to update. The following are NOT supported: * Conversation.name If not set or empty, all supported fields are updated. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Immutable. Fully qualified name `projects/{project}/locations/global/collections/{collection}/dataStore/*\/conversations/*` or `projects/{project}/locations/global/collections/{collection}/engines/*\/conversations/*`. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsDataStoresSchemasRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaSchema,
@@ -10248,8 +10188,6 @@ export interface PatchProjectsLocationsDataStoresSchemasRequest extends Omit<
   name: string;
   /** If set to true, and the Schema is not found, a new Schema is created. In this situation, `update_mask` is ignored. */
   allowMissing?: boolean | undefined;
-  /** The request body's `name` (`name` is the path parameter). Immutable. The full resource name of the schema, in the format of `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/schemas/{schema}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsDataStoresServingConfigsRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaServingConfig,
@@ -10259,8 +10197,6 @@ export interface PatchProjectsLocationsDataStoresServingConfigsRequest extends O
   updateMask?: string | undefined;
   /** Immutable. Fully qualified name `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}/servingConfigs/{serving_config_id}` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Immutable. Fully qualified name `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}/servingConfigs/{serving_config_id}` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsDataStoresSessionsRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaSession,
@@ -10270,8 +10206,6 @@ export interface PatchProjectsLocationsDataStoresSessionsRequest extends Omit<
   updateMask?: string | undefined;
   /** Immutable. Fully qualified name `projects/{project}/locations/global/collections/{collection}/engines/{engine}/sessions/*` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Immutable. Fully qualified name `projects/{project}/locations/global/collections/{collection}/engines/{engine}/sessions/*` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaTargetSite,
@@ -10279,8 +10213,6 @@ export interface PatchProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequ
 > {
   /** Output only. The fully qualified resource name of the target site. `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine/targetSites/{target_site}` The `target_site_id` is system-generated. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Output only. The fully qualified resource name of the target site. `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine/targetSites/{target_site}` The `target_site_id` is system-generated. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsDataStoresWidgetConfigsRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaWidgetConfig,
@@ -10290,8 +10222,6 @@ export interface PatchProjectsLocationsDataStoresWidgetConfigsRequest extends Om
   name: string;
   /** Indicates which fields in the provided WidgetConfig to update. The following are the only supported fields: * WidgetConfig.enable_autocomplete If not set, all supported fields are updated. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Immutable. The full resource name of the widget config. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}/widgetConfigs/{widget_config_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsLicenseConfigsRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaLicenseConfig,
@@ -10301,8 +10231,6 @@ export interface PatchProjectsLocationsLicenseConfigsRequest extends Omit<
   updateMask?: string | undefined;
   /** Immutable. Identifier. The fully qualified resource name of the license config. Format: `projects/{project}/locations/{location}/licenseConfigs/{license_config}` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Immutable. Identifier. The fully qualified resource name of the license config. Format: `projects/{project}/locations/{location}/licenseConfigs/{license_config}` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsSampleQuerySetsRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaSampleQuerySet,
@@ -10312,8 +10240,6 @@ export interface PatchProjectsLocationsSampleQuerySetsRequest extends Omit<
   name: string;
   /** Indicates which fields in the provided imported 'sample query set' to update. If not set, will by default update all fields. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The full resource name of the SampleQuerySet, in the format of `projects/{project}/locations/{location}/sampleQuerySets/{sample_query_set}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsSampleQuerySetsSampleQueriesRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaSampleQuery,
@@ -10323,8 +10249,6 @@ export interface PatchProjectsLocationsSampleQuerySetsSampleQueriesRequest exten
   updateMask?: string | undefined;
   /** Identifier. The full resource name of the sample query, in the format of `projects/{project}/locations/{location}/sampleQuerySets/{sample_query_set}/sampleQueries/{sample_query}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The full resource name of the sample query, in the format of `projects/{project}/locations/{location}/sampleQuerySets/{sample_query_set}/sampleQueries/{sample_query}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsUserStoresRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaUserStore,
@@ -10334,8 +10258,6 @@ export interface PatchProjectsLocationsUserStoresRequest extends Omit<
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Immutable. The full resource name of the User Store, in the format of `projects/{project}/locations/{location}/userStores/{user_store}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
-  bodyName?: string | undefined;
 }
 /** Request for pausing training of an engine. */
 export type GoogleCloudDiscoveryengineV1alphaPauseEngineRequest =
@@ -10668,8 +10590,6 @@ export interface RemovePatientFilterProjectsLocationsCollectionsDataStoresReques
 > {
   /** Required. Full resource name of DataStore, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. If the caller does not have permission to access the DataStore, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested DataStore does not exist, a NOT_FOUND error is returned. If the requested DataStore does not have a patient filter, a NOT_FOUND error will be returned */
   dataStore: string;
-  /** The request body's `dataStore` (`dataStore` is the path parameter). Required. Full resource name of DataStore, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. If the caller does not have permission to access the DataStore, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested DataStore does not exist, a NOT_FOUND error is returned. If the requested DataStore does not have a patient filter, a NOT_FOUND error will be returned */
-  bodyDataStore?: string | undefined;
 }
 export interface RemovePatientFilterProjectsLocationsDataStoresRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaRemovePatientFilterRequest,
@@ -10677,8 +10597,6 @@ export interface RemovePatientFilterProjectsLocationsDataStoresRequest extends O
 > {
   /** Required. Full resource name of DataStore, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. If the caller does not have permission to access the DataStore, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested DataStore does not exist, a NOT_FOUND error is returned. If the requested DataStore does not have a patient filter, a NOT_FOUND error will be returned */
   dataStore: string;
-  /** The request body's `dataStore` (`dataStore` is the path parameter). Required. Full resource name of DataStore, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. If the caller does not have permission to access the DataStore, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested DataStore does not exist, a NOT_FOUND error is returned. If the requested DataStore does not have a patient filter, a NOT_FOUND error will be returned */
-  bodyDataStore?: string | undefined;
 }
 /** Request message for CompletionService.RemoveSuggestion method. */
 export interface GoogleCloudDiscoveryengineV1alphaRemoveSuggestionRequest {
@@ -10712,8 +10630,6 @@ export interface ReplacePatientFilterProjectsLocationsCollectionsDataStoresReque
 > {
   /** Required. Full resource name of DataStore, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. If the caller does not have permission to access the DataStore, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested DataStore does not exist, a NOT_FOUND error is returned. If the requested DataStore already has a patient filter, an ALREADY_EXISTS error will be returned. */
   dataStore: string;
-  /** The request body's `dataStore` (`dataStore` is the path parameter). Required. Full resource name of DataStore, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. If the caller does not have permission to access the DataStore, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested DataStore does not exist, a NOT_FOUND error is returned. If the requested DataStore already has a patient filter, an ALREADY_EXISTS error will be returned. */
-  bodyDataStore?: string | undefined;
 }
 export interface ReplacePatientFilterProjectsLocationsDataStoresRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaReplacePatientFilterRequest,
@@ -10721,8 +10637,6 @@ export interface ReplacePatientFilterProjectsLocationsDataStoresRequest extends 
 > {
   /** Required. Full resource name of DataStore, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. If the caller does not have permission to access the DataStore, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested DataStore does not exist, a NOT_FOUND error is returned. If the requested DataStore already has a patient filter, an ALREADY_EXISTS error will be returned. */
   dataStore: string;
-  /** The request body's `dataStore` (`dataStore` is the path parameter). Required. Full resource name of DataStore, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. If the caller does not have permission to access the DataStore, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested DataStore does not exist, a NOT_FOUND error is returned. If the requested DataStore already has a patient filter, an ALREADY_EXISTS error will be returned. */
-  bodyDataStore?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaReportConsentChangeRequestConsentChangeActionEnum =
   | "CONSENT_CHANGE_ACTION_UNSPECIFIED"
@@ -10785,8 +10699,6 @@ export interface SearchLiteProjectsLocationsCollectionsDataStoresServingConfigsR
 > {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store/servingConfigs/default_serving_config`. This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
-  /** The request body's `servingConfig` (`servingConfig` is the path parameter). Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store/servingConfigs/default_serving_config`. This field is used to identify the serving configuration name, set of models used to make the search. */
-  bodyServingConfig?: string | undefined;
 }
 /** Useful attribute for search result refinements. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchResponseGuidedSearchResultRefinementAttribute {
@@ -11027,8 +10939,6 @@ export interface SearchLiteProjectsLocationsCollectionsEnginesServingConfigsRequ
 > {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store/servingConfigs/default_serving_config`. This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
-  /** The request body's `servingConfig` (`servingConfig` is the path parameter). Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store/servingConfigs/default_serving_config`. This field is used to identify the serving configuration name, set of models used to make the search. */
-  bodyServingConfig?: string | undefined;
 }
 export interface SearchLiteProjectsLocationsDataStoresServingConfigsRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaSearchRequest,
@@ -11036,8 +10946,6 @@ export interface SearchLiteProjectsLocationsDataStoresServingConfigsRequest exte
 > {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store/servingConfigs/default_serving_config`. This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
-  /** The request body's `servingConfig` (`servingConfig` is the path parameter). Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store/servingConfigs/default_serving_config`. This field is used to identify the serving configuration name, set of models used to make the search. */
-  bodyServingConfig?: string | undefined;
 }
 export interface SearchProjectsLocationsCollectionsDataStoresServingConfigsRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaSearchRequest,
@@ -11045,8 +10953,6 @@ export interface SearchProjectsLocationsCollectionsDataStoresServingConfigsReque
 > {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store/servingConfigs/default_serving_config`. This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
-  /** The request body's `servingConfig` (`servingConfig` is the path parameter). Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store/servingConfigs/default_serving_config`. This field is used to identify the serving configuration name, set of models used to make the search. */
-  bodyServingConfig?: string | undefined;
 }
 export interface SearchProjectsLocationsCollectionsEnginesServingConfigsRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaSearchRequest,
@@ -11054,8 +10960,6 @@ export interface SearchProjectsLocationsCollectionsEnginesServingConfigsRequest 
 > {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store/servingConfigs/default_serving_config`. This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
-  /** The request body's `servingConfig` (`servingConfig` is the path parameter). Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store/servingConfigs/default_serving_config`. This field is used to identify the serving configuration name, set of models used to make the search. */
-  bodyServingConfig?: string | undefined;
 }
 export interface SearchProjectsLocationsDataStoresServingConfigsRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaSearchRequest,
@@ -11063,8 +10967,6 @@ export interface SearchProjectsLocationsDataStoresServingConfigsRequest extends 
 > {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store/servingConfigs/default_serving_config`. This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
-  /** The request body's `servingConfig` (`servingConfig` is the path parameter). Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store/servingConfigs/default_serving_config`. This field is used to identify the serving configuration name, set of models used to make the search. */
-  bodyServingConfig?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSetDedicatedCrawlRateRequestModeEnum =
   | "MODE_UNSPECIFIED"
@@ -11206,8 +11108,6 @@ export interface StartProjectsLocationsCollectionsEnginesSessionsAlphaEvolveExpe
 > {
   /** Required. Experiment to start. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/sessions/{session}/alphaEvolveExperiments/{alpha_evolve_experiment}` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Required. Experiment to start. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/sessions/{session}/alphaEvolveExperiments/{alpha_evolve_experiment}` */
-  bodyName?: string | undefined;
 }
 export interface StreamAnswerProjectsLocationsCollectionsDataStoresServingConfigsRequest extends GoogleCloudDiscoveryengineV1alphaAnswerQueryRequest {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/*\/servingConfigs/default_serving_config`. Or the resource name of the agent engine serving config, such as: `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_agent_answer`. (use when `enable_agent_invocation` set to true, and you have custom `AI_MODE` agent engine configured) This field is used to identify the serving configuration name, set of models used to make the search. */
@@ -11409,8 +11309,6 @@ export interface UpdateAclConfigProjectsLocationsRequest extends Omit<
 > {
   /** Immutable. The full resource name of the acl configuration. Format: `projects/{project}/locations/{location}/aclConfig`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Immutable. The full resource name of the acl configuration. Format: `projects/{project}/locations/{location}/aclConfig`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
-  bodyName?: string | undefined;
 }
 export interface UpdateCmekConfigProjectsLocationsRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaCmekConfig,
@@ -11420,8 +11318,6 @@ export interface UpdateCmekConfigProjectsLocationsRequest extends Omit<
   name: string;
   /** Set the following CmekConfig as the default to be used for child resources if one is not specified. */
   setDefault?: boolean | undefined;
-  /** The request body's `name` (`name` is the path parameter). Required. The name of the CmekConfig of the form `projects/{project}/locations/{location}/cmekConfig` or `projects/{project}/locations/{location}/cmekConfigs/{cmek_config}`. */
-  bodyName?: string | undefined;
 }
 export interface UpdateCompletionConfigProjectsLocationsCollectionsDataStoresRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaCompletionConfig,
@@ -11431,8 +11327,6 @@ export interface UpdateCompletionConfigProjectsLocationsCollectionsDataStoresReq
   name: string;
   /** Indicates which fields in the provided CompletionConfig to update. The following are the only supported fields: * CompletionConfig.matching_order * CompletionConfig.max_suggestions * CompletionConfig.min_prefix_length * CompletionConfig.query_model * CompletionConfig.enable_mode * CompletionConfig.query_frequency_threshold * CompletionConfig.num_unique_users_threshold * CompletionConfig.should_serve_content_suggestions * CompletionConfig.filter_pii_suggestions_using_dlp If not set, all supported fields are updated. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Required. Immutable. Fully qualified name `projects/*\/locations/*\/dataStores/*\/completionConfig` `projects/*\/locations/*\/collections/*\/dataStores/*\/completionConfig` `projects/*\/locations/*\/collections/*\/engines/*\/completionConfig` */
-  bodyName?: string | undefined;
 }
 export interface UpdateCompletionConfigProjectsLocationsCollectionsEnginesRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaCompletionConfig,
@@ -11442,8 +11336,6 @@ export interface UpdateCompletionConfigProjectsLocationsCollectionsEnginesReques
   name: string;
   /** Indicates which fields in the provided CompletionConfig to update. The following are the only supported fields: * CompletionConfig.matching_order * CompletionConfig.max_suggestions * CompletionConfig.min_prefix_length * CompletionConfig.query_model * CompletionConfig.enable_mode * CompletionConfig.query_frequency_threshold * CompletionConfig.num_unique_users_threshold * CompletionConfig.should_serve_content_suggestions * CompletionConfig.filter_pii_suggestions_using_dlp If not set, all supported fields are updated. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Required. Immutable. Fully qualified name `projects/*\/locations/*\/dataStores/*\/completionConfig` `projects/*\/locations/*\/collections/*\/dataStores/*\/completionConfig` `projects/*\/locations/*\/collections/*\/engines/*\/completionConfig` */
-  bodyName?: string | undefined;
 }
 export interface UpdateCompletionConfigProjectsLocationsDataStoresRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaCompletionConfig,
@@ -11453,8 +11345,6 @@ export interface UpdateCompletionConfigProjectsLocationsDataStoresRequest extend
   updateMask?: string | undefined;
   /** Required. Immutable. Fully qualified name `projects/*\/locations/*\/dataStores/*\/completionConfig` `projects/*\/locations/*\/collections/*\/dataStores/*\/completionConfig` `projects/*\/locations/*\/collections/*\/engines/*\/completionConfig` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Required. Immutable. Fully qualified name `projects/*\/locations/*\/dataStores/*\/completionConfig` `projects/*\/locations/*\/collections/*\/dataStores/*\/completionConfig` `projects/*\/locations/*\/collections/*\/engines/*\/completionConfig` */
-  bodyName?: string | undefined;
 }
 export interface UpdateConfigProjectsLocationsCollectionsEnginesAnalyticsRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaAnalyticsConfig,
@@ -11464,8 +11354,6 @@ export interface UpdateConfigProjectsLocationsCollectionsEnginesAnalyticsRequest
   updateMask?: string | undefined;
   /** Required. The resource name of the analytics customer config. Format: `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}/analytics/config` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Required. The resource name of the analytics customer config. Format: `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}/analytics/config` */
-  bodyName?: string | undefined;
 }
 export interface UpdateDataConnectorProjectsLocationsCollectionsRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaDataConnector,
@@ -11475,8 +11363,6 @@ export interface UpdateDataConnectorProjectsLocationsCollectionsRequest extends 
   name: string;
   /** Indicates which fields in the provided DataConnector to update. Supported field paths include: - `refresh_interval` - `params` - `auto_run_disabled` - `action_config` - `action_config.action_params` - `action_config.service_name` - `destination_configs` - `blocking_reasons` - `sync_mode` - `incremental_sync_disabled` - `incremental_refresh_interval` - `data_protection_policy` Note: Support for these fields may vary depending on the connector type. For example, not all connectors support `destination_configs`. If an unsupported or unknown field path is provided, the request will return an `INVALID_ARGUMENT` error. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The full resource name of the Data Connector. Format: `projects/*\/locations/*\/collections/*\/dataConnector`. */
-  bodyName?: string | undefined;
 }
 export interface UpdateDocumentProcessingConfigProjectsLocationsCollectionsDataStoresRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfig,
@@ -11486,8 +11372,6 @@ export interface UpdateDocumentProcessingConfigProjectsLocationsCollectionsDataS
   updateMask?: string | undefined;
   /** The full resource name of the Document Processing Config. Format: `projects/*\/locations/*\/collections/*\/dataStores/*\/documentProcessingConfig`. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). The full resource name of the Document Processing Config. Format: `projects/*\/locations/*\/collections/*\/dataStores/*\/documentProcessingConfig`. */
-  bodyName?: string | undefined;
 }
 export interface UpdateDocumentProcessingConfigProjectsLocationsDataStoresRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfig,
@@ -11497,8 +11381,6 @@ export interface UpdateDocumentProcessingConfigProjectsLocationsDataStoresReques
   updateMask?: string | undefined;
   /** The full resource name of the Document Processing Config. Format: `projects/*\/locations/*\/collections/*\/dataStores/*\/documentProcessingConfig`. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). The full resource name of the Document Processing Config. Format: `projects/*\/locations/*\/collections/*\/dataStores/*\/documentProcessingConfig`. */
-  bodyName?: string | undefined;
 }
 export interface UpdateProjectsLocationsUserStoresUserAvailabilityRequest extends Omit<
   GoogleCloudDiscoveryengineV1alphaUpdateUserAvailabilityRequest,
@@ -11506,8 +11388,6 @@ export interface UpdateProjectsLocationsUserStoresUserAvailabilityRequest extend
 > {
   /** Optional. The parent UserStore resource name, format: `projects/{project}/locations/{location}/userStores/{user_store_id}`. */
   parent: string;
-  /** The request body's `parent` (`parent` is the path parameter). Optional. The parent UserStore resource name, format: `projects/{project}/locations/{location}/userStores/{user_store_id}`. */
-  bodyParent?: string | undefined;
 }
 export interface WriteProjectsLocationsCollectionsDataStoresUserEventsRequest extends GoogleCloudDiscoveryengineV1alphaUserEvent {
   /** If set to true, the user event is written asynchronously after validation, and the API responds without waiting for the write. */
@@ -27888,7 +27768,6 @@ function __c272(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -27909,7 +27788,6 @@ function __c273(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -27930,7 +27808,6 @@ function __c274(j: number): any {
           S.Struct({
             setDefault: S.optional(S.Boolean.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -27951,7 +27828,6 @@ function __c275(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -27972,7 +27848,6 @@ function __c276(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -27994,7 +27869,6 @@ function __c277(j: number): any {
             allowMissing: S.optional(S.Boolean.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -28017,7 +27891,6 @@ function __c278(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -28086,7 +27959,6 @@ function __c280(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -28107,7 +27979,6 @@ function __c281(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -28128,7 +27999,6 @@ function __c282(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -28151,7 +28021,6 @@ function __c283(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -28171,7 +28040,6 @@ function __c284(j: number): any {
           __S(419, __c13, 3),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -28194,7 +28062,6 @@ function __c285(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -28215,7 +28082,6 @@ function __c286(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -28236,7 +28102,6 @@ function __c287(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -28257,7 +28122,6 @@ function __c288(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -28278,7 +28142,6 @@ function __c289(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -28343,7 +28206,6 @@ function __c292(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -28364,7 +28226,6 @@ function __c293(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -28385,7 +28246,6 @@ function __c294(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -28406,7 +28266,6 @@ function __c295(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -28427,7 +28286,6 @@ function __c296(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -28448,7 +28306,6 @@ function __c297(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -28470,7 +28327,6 @@ function __c298(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -28491,7 +28347,6 @@ function __c299(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -28512,7 +28367,6 @@ function __c300(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -28533,7 +28387,6 @@ function __c301(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -28791,7 +28644,6 @@ function __c307(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -28812,7 +28664,6 @@ function __c308(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -28832,7 +28683,6 @@ function __c309(j: number): any {
           __S(419, __c13, 3),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -28855,7 +28705,6 @@ function __c310(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -28876,7 +28725,6 @@ function __c311(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -28897,7 +28745,6 @@ function __c312(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -28918,7 +28765,6 @@ function __c313(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -28939,7 +28785,6 @@ function __c314(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -29563,7 +29408,6 @@ function __c342(j: number): any {
           __S(10976, __c343, 0),
           S.Struct({
             dataStore: S.String.pipe(T.Label()),
-            bodyDataStore: S.optional(S.String.pipe(T.Body("dataStore"))),
           }),
         ).pipe(
           T.Http({
@@ -29596,7 +29440,6 @@ function __c344(j: number): any {
           __S(10976, __c343, 0),
           S.Struct({
             dataStore: S.String.pipe(T.Label()),
-            bodyDataStore: S.optional(S.String.pipe(T.Body("dataStore"))),
           }),
         ).pipe(
           T.Http({
@@ -29666,7 +29509,6 @@ function __c347(j: number): any {
           __S(14592, __c456, 0),
           S.Struct({
             dataStore: S.String.pipe(T.Label()),
-            bodyDataStore: S.optional(S.String.pipe(T.Body("dataStore"))),
           }),
         ).pipe(
           T.Http({
@@ -29688,7 +29530,6 @@ function __c348(j: number): any {
           __S(14592, __c456, 0),
           S.Struct({
             dataStore: S.String.pipe(T.Label()),
-            bodyDataStore: S.optional(S.String.pipe(T.Body("dataStore"))),
           }),
         ).pipe(
           T.Http({
@@ -29801,7 +29642,6 @@ function __c353(j: number): any {
           __S(15094, __c471, 22),
           S.Struct({
             servingConfig: S.String.pipe(T.Label()),
-            bodyServingConfig: S.optional(S.String.pipe(T.Body("servingConfig"))),
           }),
         ).pipe(
           T.Http({
@@ -30010,7 +29850,6 @@ function __c355(j: number): any {
           __S(15094, __c471, 22),
           S.Struct({
             servingConfig: S.String.pipe(T.Label()),
-            bodyServingConfig: S.optional(S.String.pipe(T.Body("servingConfig"))),
           }),
         ).pipe(
           T.Http({
@@ -30032,7 +29871,6 @@ function __c356(j: number): any {
           __S(15094, __c471, 22),
           S.Struct({
             servingConfig: S.String.pipe(T.Label()),
-            bodyServingConfig: S.optional(S.String.pipe(T.Body("servingConfig"))),
           }),
         ).pipe(
           T.Http({
@@ -30407,7 +30245,6 @@ function __c364(j: number): any {
           __S(15094, __c471, 22),
           S.Struct({
             servingConfig: S.String.pipe(T.Label()),
-            bodyServingConfig: S.optional(S.String.pipe(T.Body("servingConfig"))),
           }),
         ).pipe(
           T.Http({
@@ -30429,7 +30266,6 @@ function __c365(j: number): any {
           __S(15094, __c471, 22),
           S.Struct({
             servingConfig: S.String.pipe(T.Label()),
-            bodyServingConfig: S.optional(S.String.pipe(T.Body("servingConfig"))),
           }),
         ).pipe(
           T.Http({
@@ -30449,7 +30285,6 @@ function __c366(j: number): any {
           __S(15094, __c471, 22),
           S.Struct({
             servingConfig: S.String.pipe(T.Label()),
-            bodyServingConfig: S.optional(S.String.pipe(T.Body("servingConfig"))),
           }),
         ).pipe(
           T.Http({
@@ -30748,7 +30583,6 @@ function __c379(j: number): any {
           __S(13824, __c432, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -31078,7 +30912,6 @@ function __c388(j: number): any {
           __S(1056, __c33, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -31099,7 +30932,6 @@ function __c389(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             setDefault: S.optional(S.Boolean.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -31120,7 +30952,6 @@ function __c390(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -31143,7 +30974,6 @@ function __c391(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -31166,7 +30996,6 @@ function __c392(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -31187,7 +31016,6 @@ function __c393(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -31208,7 +31036,6 @@ function __c394(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -31229,7 +31056,6 @@ function __c395(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -31252,7 +31078,6 @@ function __c396(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -31328,7 +31153,6 @@ function __c399(j: number): any {
           __S(3744, __c117, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
-            bodyParent: S.optional(S.String.pipe(T.Body("parent"))),
           }),
         ).pipe(
           T.Http({
@@ -33128,7 +32952,6 @@ function __c454(j: number): any {
           __S(14592, __c456, 0),
           S.Struct({
             dataStore: S.String.pipe(T.Label()),
-            bodyDataStore: S.optional(S.String.pipe(T.Body("dataStore"))),
           }),
         ).pipe(
           T.Http({
@@ -33673,7 +33496,6 @@ function __c474(j: number): any {
           __S(14592, __c456, 0),
           S.Struct({
             dataStore: S.String.pipe(T.Label()),
-            bodyDataStore: S.optional(S.String.pipe(T.Body("dataStore"))),
           }),
         ).pipe(
           T.Http({
@@ -33945,7 +33767,6 @@ function __c484(j: number): any {
           __S(15520, __c485, 0),
           S.Struct({
             dataStore: S.String.pipe(T.Label()),
-            bodyDataStore: S.optional(S.String.pipe(T.Body("dataStore"))),
           }),
         ).pipe(
           T.Http({
@@ -33977,7 +33798,6 @@ function __c486(j: number): any {
           __S(15520, __c485, 0),
           S.Struct({
             dataStore: S.String.pipe(T.Label()),
-            bodyDataStore: S.optional(S.String.pipe(T.Body("dataStore"))),
           }),
         ).pipe(
           T.Http({

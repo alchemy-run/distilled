@@ -1101,8 +1101,6 @@ export interface PatchProjectsLocationsFederationsRequest extends Omit<Federatio
   requestId?: string | undefined;
   /** Immutable. The relative resource name of the federation, of the form: projects/{project_number}/locations/{location_id}/federations/{federation_id}`. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Immutable. The relative resource name of the federation, of the form: projects/{project_number}/locations/{location_id}/federations/{federation_id}`. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsServicesRequest extends Omit<Service, "name"> {
   /** Required. A field mask used to specify the fields to be overwritten in the metastore service resource by the update. Fields specified in the update_mask are relative to the resource (not to the full request). A field is overwritten if it is in the mask. */
@@ -1111,8 +1109,6 @@ export interface PatchProjectsLocationsServicesRequest extends Omit<Service, "na
   requestId?: string | undefined;
   /** Immutable. Identifier. The relative resource name of the metastore service, in the following format:projects/{project_number}/locations/{location_id}/services/{service_id}. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Immutable. Identifier. The relative resource name of the metastore service, in the following format:projects/{project_number}/locations/{location_id}/services/{service_id}. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsServicesMetadataImportsRequest extends Omit<
   MetadataImport,
@@ -1124,8 +1120,6 @@ export interface PatchProjectsLocationsServicesMetadataImportsRequest extends Om
   updateMask?: string | undefined;
   /** Immutable. Identifier. The relative resource name of the metadata import, of the form:projects/{project_number}/locations/{location_id}/services/{service_id}/metadataImports/{metadata_import_id}. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Immutable. Identifier. The relative resource name of the metadata import, of the form:projects/{project_number}/locations/{location_id}/services/{service_id}/metadataImports/{metadata_import_id}. */
-  bodyName?: string | undefined;
 }
 /** Request message for DataprocMetastore.QueryMetadata. */
 export interface QueryMetadataRequest {
@@ -3445,7 +3439,6 @@ function __c37(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3523,7 +3516,6 @@ function __c41(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3545,7 +3537,6 @@ function __c42(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

@@ -474,24 +474,18 @@ export interface PatchProjectsAppsReleasesRequest extends Omit<
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). The name of the release resource. Format: `projects/{project_number}/apps/{app}/releases/{release}` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsGroupsRequest extends Omit<GoogleFirebaseAppdistroV1Group, "name"> {
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
   /** The name of the group resource. Format: `projects/{project_number}/groups/{group_alias}` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). The name of the group resource. Format: `projects/{project_number}/groups/{group_alias}` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsTestersRequest extends Omit<GoogleFirebaseAppdistroV1Tester, "name"> {
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
   /** The name of the tester resource. Format: `projects/{project_number}/testers/{email_address}` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). The name of the tester resource. Format: `projects/{project_number}/testers/{email_address}` */
-  bodyName?: string | undefined;
 }
 export type GdataCompositeMediaReferenceTypeEnum =
   | "PATH"
@@ -1729,7 +1723,6 @@ function __c20(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -1750,7 +1743,6 @@ function __c21(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -1771,7 +1763,6 @@ function __c22(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

@@ -2480,16 +2480,12 @@ export interface PatchProjectsLocationsApiHubInstancesRequest extends Omit<
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Format: `projects/{project}/locations/{location}/apiHubInstances/{apiHubInstance}`. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsApisRequest extends Omit<GoogleCloudApihubV1Api, "name"> {
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
   /** Identifier. The name of the API resource in the API Hub. Format: `projects/{project}/locations/{location}/apis/{api}` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The name of the API resource in the API Hub. Format: `projects/{project}/locations/{location}/apis/{api}` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsApisVersionsRequest extends Omit<
   GoogleCloudApihubV1Version,
@@ -2499,8 +2495,6 @@ export interface PatchProjectsLocationsApisVersionsRequest extends Omit<
   name: string;
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The name of the version. Format: `projects/{project}/locations/{location}/apis/{api}/versions/{version}` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsApisVersionsOperationsRequest extends Omit<
   GoogleCloudApihubV1ApiOperation,
@@ -2510,8 +2504,6 @@ export interface PatchProjectsLocationsApisVersionsOperationsRequest extends Omi
   updateMask?: string | undefined;
   /** Identifier. The name of the operation. Format: `projects/{project}/locations/{location}/apis/{api}/versions/{version}/operations/{operation}` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The name of the operation. Format: `projects/{project}/locations/{location}/apis/{api}/versions/{version}/operations/{operation}` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsApisVersionsSpecsRequest extends Omit<
   GoogleCloudApihubV1Spec,
@@ -2521,8 +2513,6 @@ export interface PatchProjectsLocationsApisVersionsSpecsRequest extends Omit<
   name: string;
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The name of the spec. Format: `projects/{project}/locations/{location}/apis/{api}/versions/{version}/specs/{spec}` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsAttributesRequest extends Omit<
   GoogleCloudApihubV1Attribute,
@@ -2532,8 +2522,6 @@ export interface PatchProjectsLocationsAttributesRequest extends Omit<
   updateMask?: string | undefined;
   /** Identifier. The name of the attribute in the API Hub. Format: `projects/{project}/locations/{location}/attributes/{attribute}` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The name of the attribute in the API Hub. Format: `projects/{project}/locations/{location}/attributes/{attribute}` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsCurationsRequest extends Omit<
   GoogleCloudApihubV1Curation,
@@ -2543,8 +2531,6 @@ export interface PatchProjectsLocationsCurationsRequest extends Omit<
   updateMask?: string | undefined;
   /** Identifier. The name of the curation. Format: `projects/{project}/locations/{location}/curations/{curation}` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The name of the curation. Format: `projects/{project}/locations/{location}/curations/{curation}` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsDependenciesRequest extends Omit<
   GoogleCloudApihubV1Dependency,
@@ -2554,8 +2540,6 @@ export interface PatchProjectsLocationsDependenciesRequest extends Omit<
   name: string;
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The name of the dependency in the API Hub. Format: `projects/{project}/locations/{location}/dependencies/{dependency}` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsDeploymentsRequest extends Omit<
   GoogleCloudApihubV1Deployment,
@@ -2565,8 +2549,6 @@ export interface PatchProjectsLocationsDeploymentsRequest extends Omit<
   updateMask?: string | undefined;
   /** Identifier. The name of the deployment. Format: `projects/{project}/locations/{location}/deployments/{deployment}` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The name of the deployment. Format: `projects/{project}/locations/{location}/deployments/{deployment}` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsExternalApisRequest extends Omit<
   GoogleCloudApihubV1ExternalApi,
@@ -2576,8 +2558,6 @@ export interface PatchProjectsLocationsExternalApisRequest extends Omit<
   updateMask?: string | undefined;
   /** Identifier. Format: `projects/{project}/locations/{location}/externalApi/{externalApi}`. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Format: `projects/{project}/locations/{location}/externalApi/{externalApi}`. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsPluginsInstancesRequest extends Omit<
   GoogleCloudApihubV1PluginInstance,
@@ -2587,8 +2567,6 @@ export interface PatchProjectsLocationsPluginsInstancesRequest extends Omit<
   updateMask?: string | undefined;
   /** Identifier. The unique name of the plugin instance resource. Format: `projects/{project}/locations/{location}/plugins/{plugin}/instances/{instance}` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The unique name of the plugin instance resource. Format: `projects/{project}/locations/{location}/plugins/{plugin}/instances/{instance}` */
-  bodyName?: string | undefined;
 }
 /** The SearchResources method's request. */
 export interface GoogleCloudApihubV1SearchResourcesRequest {
@@ -2641,8 +2619,6 @@ export interface UpdateStyleGuideProjectsLocationsPluginsRequest extends Omit<
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The name of the style guide. Format: `projects/{project}/locations/{location}/plugins/{plugin}/styleGuide` */
-  bodyName?: string | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -5052,7 +5028,6 @@ function __c1(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apihub.googleapis.com/" }),
@@ -5069,7 +5044,6 @@ function __c2(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apihub.googleapis.com/" }),
@@ -5086,7 +5060,6 @@ function __c3(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apihub.googleapis.com/" }),
@@ -5157,7 +5130,6 @@ function __c5(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apihub.googleapis.com/" }),
@@ -8088,7 +8060,6 @@ function __c133(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apihub.googleapis.com/" }),
@@ -8105,7 +8076,6 @@ function __c134(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apihub.googleapis.com/" }),
@@ -8122,7 +8092,6 @@ function __c135(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apihub.googleapis.com/" }),
@@ -8139,7 +8108,6 @@ function __c136(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apihub.googleapis.com/" }),
@@ -8156,7 +8124,6 @@ function __c137(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apihub.googleapis.com/" }),
@@ -8173,7 +8140,6 @@ function __c138(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apihub.googleapis.com/" }),
@@ -8190,7 +8156,6 @@ function __c139(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apihub.googleapis.com/" }),
@@ -8207,7 +8172,6 @@ function __c140(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apihub.googleapis.com/" }),

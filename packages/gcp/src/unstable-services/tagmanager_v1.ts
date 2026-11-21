@@ -234,8 +234,6 @@ export interface Container {
 export interface CreateAccountsContainersRequest extends Omit<Container, "accountId"> {
   /** The GTM Account ID. */
   accountId: string;
-  /** The request body's `accountId` (`accountId` is the path parameter). GTM Account ID. */
-  bodyAccountId?: string | undefined;
 }
 export type EnvironmentTypeEnum = "user" | "live" | "latest" | "draft";
 /** Represents a Google Tag Manager Environment. Note that a user can create, delete and update environments of type USER, but can only update the enable_debug and url fields of environments of other types. */
@@ -272,10 +270,6 @@ export interface CreateAccountsContainersEnvironmentsRequest extends Omit<
   containerId: string;
   /** The GTM Account ID. */
   accountId: string;
-  /** The request body's `accountId` (`accountId` is the path parameter). GTM Account ID. */
-  bodyAccountId?: string | undefined;
-  /** The request body's `containerId` (`containerId` is the path parameter). GTM Container ID. */
-  bodyContainerId?: string | undefined;
 }
 /** Represents a Google Tag Manager Folder. */
 export interface Folder {
@@ -298,10 +292,6 @@ export interface CreateAccountsContainersFoldersRequest extends Omit<
   accountId: string;
   /** The GTM Container ID. */
   containerId: string;
-  /** The request body's `containerId` (`containerId` is the path parameter). GTM Container ID. */
-  bodyContainerId?: string | undefined;
-  /** The request body's `accountId` (`accountId` is the path parameter). GTM Account ID. */
-  bodyAccountId?: string | undefined;
 }
 export type ParameterList = Array<Parameter>;
 export type ParameterTypeEnum =
@@ -389,10 +379,6 @@ export interface CreateAccountsContainersTagsRequest extends Omit<
   accountId: string;
   /** The GTM Container ID. */
   containerId: string;
-  /** The request body's `containerId` (`containerId` is the path parameter). GTM Container ID. */
-  bodyContainerId?: string | undefined;
-  /** The request body's `accountId` (`accountId` is the path parameter). GTM Account ID. */
-  bodyAccountId?: string | undefined;
 }
 export type ConditionTypeEnum =
   | "equals"
@@ -501,10 +487,6 @@ export interface CreateAccountsContainersTriggersRequest extends Omit<
   accountId: string;
   /** The GTM Container ID. */
   containerId: string;
-  /** The request body's `accountId` (`accountId` is the path parameter). GTM Account ID. */
-  bodyAccountId?: string | undefined;
-  /** The request body's `containerId` (`containerId` is the path parameter). GTM Container ID. */
-  bodyContainerId?: string | undefined;
 }
 /** Represents a Google Tag Manager Variable. */
 export interface Variable {
@@ -543,10 +525,6 @@ export interface CreateAccountsContainersVariablesRequest extends Omit<
   accountId: string;
   /** The GTM Container ID. */
   containerId: string;
-  /** The request body's `containerId` (`containerId` is the path parameter). GTM Container ID. */
-  bodyContainerId?: string | undefined;
-  /** The request body's `accountId` (`accountId` is the path parameter). GTM Account ID. */
-  bodyAccountId?: string | undefined;
 }
 /** Options for new container versions. */
 export interface CreateContainerVersionRequestVersionOptions {
@@ -650,8 +628,6 @@ export interface UserAccess {
 export interface CreateAccountsPermissionsRequest extends Omit<UserAccess, "accountId"> {
   /** The GTM Account ID. */
   accountId: string;
-  /** The request body's `accountId` (`accountId` is the path parameter). GTM Account ID. */
-  bodyAccountId?: string | undefined;
 }
 export interface DeleteAccountsContainersRequest {
   /** The GTM Container ID. */
@@ -972,10 +948,6 @@ export interface UpdateAccountsRequest extends Omit<Account, "fingerprint" | "ac
   fingerprint?: string | undefined;
   /** The GTM Account ID. */
   accountId: string;
-  /** The request body's `fingerprint` (`fingerprint` is the query parameter). The fingerprint of the GTM Account as computed at storage time. This value is recomputed whenever the account is modified. */
-  bodyFingerprint?: string | undefined;
-  /** The request body's `accountId` (`accountId` is the path parameter). The Account ID uniquely identifies the GTM Account. */
-  bodyAccountId?: string | undefined;
 }
 export interface UpdateAccountsContainersRequest extends Omit<
   Container,
@@ -987,12 +959,6 @@ export interface UpdateAccountsContainersRequest extends Omit<
   containerId: string;
   /** When provided, this fingerprint must match the fingerprint of the container in storage. */
   fingerprint?: string | undefined;
-  /** The request body's `containerId` (`containerId` is the path parameter). The Container ID uniquely identifies the GTM Container. */
-  bodyContainerId?: string | undefined;
-  /** The request body's `fingerprint` (`fingerprint` is the query parameter). The fingerprint of the GTM Container as computed at storage time. This value is recomputed whenever the account is modified. */
-  bodyFingerprint?: string | undefined;
-  /** The request body's `accountId` (`accountId` is the path parameter). GTM Account ID. */
-  bodyAccountId?: string | undefined;
 }
 export interface UpdateAccountsContainersEnvironmentsRequest extends Omit<
   Environment,
@@ -1006,14 +972,6 @@ export interface UpdateAccountsContainersEnvironmentsRequest extends Omit<
   containerId: string;
   /** The GTM Account ID. */
   accountId: string;
-  /** The request body's `accountId` (`accountId` is the path parameter). GTM Account ID. */
-  bodyAccountId?: string | undefined;
-  /** The request body's `environmentId` (`environmentId` is the path parameter). GTM Environment ID uniquely identifies the GTM Environment. */
-  bodyEnvironmentId?: string | undefined;
-  /** The request body's `fingerprint` (`fingerprint` is the query parameter). The fingerprint of the GTM environment as computed at storage time. This value is recomputed whenever the environment is modified. */
-  bodyFingerprint?: string | undefined;
-  /** The request body's `containerId` (`containerId` is the path parameter). GTM Container ID. */
-  bodyContainerId?: string | undefined;
 }
 export interface UpdateAccountsContainersFoldersRequest extends Omit<
   Folder,
@@ -1027,14 +985,6 @@ export interface UpdateAccountsContainersFoldersRequest extends Omit<
   folderId: string;
   /** When provided, this fingerprint must match the fingerprint of the folder in storage. */
   fingerprint?: string | undefined;
-  /** The request body's `containerId` (`containerId` is the path parameter). GTM Container ID. */
-  bodyContainerId?: string | undefined;
-  /** The request body's `folderId` (`folderId` is the path parameter). The Folder ID uniquely identifies the GTM Folder. */
-  bodyFolderId?: string | undefined;
-  /** The request body's `fingerprint` (`fingerprint` is the query parameter). The fingerprint of the GTM Folder as computed at storage time. This value is recomputed whenever the folder is modified. */
-  bodyFingerprint?: string | undefined;
-  /** The request body's `accountId` (`accountId` is the path parameter). GTM Account ID. */
-  bodyAccountId?: string | undefined;
 }
 export interface UpdateAccountsContainersMove_foldersRequest extends Omit<
   Folder,
@@ -1052,12 +1002,6 @@ export interface UpdateAccountsContainersMove_foldersRequest extends Omit<
   containerId: string;
   /** The variables to be moved to the folder. */
   variableId?: StringList | undefined;
-  /** The request body's `containerId` (`containerId` is the path parameter). GTM Container ID. */
-  bodyContainerId?: string | undefined;
-  /** The request body's `folderId` (`folderId` is the path parameter). The Folder ID uniquely identifies the GTM Folder. */
-  bodyFolderId?: string | undefined;
-  /** The request body's `accountId` (`accountId` is the path parameter). GTM Account ID. */
-  bodyAccountId?: string | undefined;
 }
 export interface UpdateAccountsContainersMove_foldersResponse {}
 export interface UpdateAccountsContainersReauthorize_environmentsRequest extends Omit<
@@ -1070,12 +1014,6 @@ export interface UpdateAccountsContainersReauthorize_environmentsRequest extends
   containerId: string;
   /** The GTM Environment ID. */
   environmentId: string;
-  /** The request body's `accountId` (`accountId` is the path parameter). GTM Account ID. */
-  bodyAccountId?: string | undefined;
-  /** The request body's `environmentId` (`environmentId` is the path parameter). GTM Environment ID uniquely identifies the GTM Environment. */
-  bodyEnvironmentId?: string | undefined;
-  /** The request body's `containerId` (`containerId` is the path parameter). GTM Container ID. */
-  bodyContainerId?: string | undefined;
 }
 export interface UpdateAccountsContainersTagsRequest extends Omit<
   Tag,
@@ -1089,14 +1027,6 @@ export interface UpdateAccountsContainersTagsRequest extends Omit<
   accountId: string;
   /** When provided, this fingerprint must match the fingerprint of the tag in storage. */
   fingerprint?: string | undefined;
-  /** The request body's `fingerprint` (`fingerprint` is the query parameter). The fingerprint of the GTM Tag as computed at storage time. This value is recomputed whenever the tag is modified. */
-  bodyFingerprint?: string | undefined;
-  /** The request body's `containerId` (`containerId` is the path parameter). GTM Container ID. */
-  bodyContainerId?: string | undefined;
-  /** The request body's `tagId` (`tagId` is the path parameter). The Tag ID uniquely identifies the GTM Tag. */
-  bodyTagId?: string | undefined;
-  /** The request body's `accountId` (`accountId` is the path parameter). GTM Account ID. */
-  bodyAccountId?: string | undefined;
 }
 export interface UpdateAccountsContainersTriggersRequest extends Omit<
   Trigger,
@@ -1110,14 +1040,6 @@ export interface UpdateAccountsContainersTriggersRequest extends Omit<
   accountId: string;
   /** When provided, this fingerprint must match the fingerprint of the trigger in storage. */
   fingerprint?: string | undefined;
-  /** The request body's `accountId` (`accountId` is the path parameter). GTM Account ID. */
-  bodyAccountId?: string | undefined;
-  /** The request body's `triggerId` (`triggerId` is the path parameter). The Trigger ID uniquely identifies the GTM Trigger. */
-  bodyTriggerId?: string | undefined;
-  /** The request body's `containerId` (`containerId` is the path parameter). GTM Container ID. */
-  bodyContainerId?: string | undefined;
-  /** The request body's `fingerprint` (`fingerprint` is the query parameter). The fingerprint of the GTM Trigger as computed at storage time. This value is recomputed whenever the trigger is modified. */
-  bodyFingerprint?: string | undefined;
 }
 export interface UpdateAccountsContainersVariablesRequest extends Omit<
   Variable,
@@ -1131,14 +1053,6 @@ export interface UpdateAccountsContainersVariablesRequest extends Omit<
   accountId: string;
   /** The GTM Container ID. */
   containerId: string;
-  /** The request body's `containerId` (`containerId` is the path parameter). GTM Container ID. */
-  bodyContainerId?: string | undefined;
-  /** The request body's `fingerprint` (`fingerprint` is the query parameter). The fingerprint of the GTM Variable as computed at storage time. This value is recomputed whenever the variable is modified. */
-  bodyFingerprint?: string | undefined;
-  /** The request body's `accountId` (`accountId` is the path parameter). GTM Account ID. */
-  bodyAccountId?: string | undefined;
-  /** The request body's `variableId` (`variableId` is the path parameter). The Variable ID uniquely identifies the GTM Variable. */
-  bodyVariableId?: string | undefined;
 }
 export interface UpdateAccountsContainersVersionsRequest extends Omit<
   ContainerVersion,
@@ -1152,14 +1066,6 @@ export interface UpdateAccountsContainersVersionsRequest extends Omit<
   accountId: string;
   /** The GTM Container ID. */
   containerId: string;
-  /** The request body's `containerVersionId` (`containerVersionId` is the path parameter). The Container Version ID uniquely identifies the GTM Container Version. */
-  bodyContainerVersionId?: string | undefined;
-  /** The request body's `accountId` (`accountId` is the path parameter). GTM Account ID. */
-  bodyAccountId?: string | undefined;
-  /** The request body's `fingerprint` (`fingerprint` is the query parameter). The fingerprint of the GTM Container Version as computed at storage time. This value is recomputed whenever the container version is modified. */
-  bodyFingerprint?: string | undefined;
-  /** The request body's `containerId` (`containerId` is the path parameter). GTM Container ID. */
-  bodyContainerId?: string | undefined;
 }
 export interface UpdateAccountsPermissionsRequest extends Omit<
   UserAccess,
@@ -1169,10 +1075,6 @@ export interface UpdateAccountsPermissionsRequest extends Omit<
   accountId: string;
   /** The GTM User ID. */
   permissionId: string;
-  /** The request body's `permissionId` (`permissionId` is the path parameter). Account Permission ID. */
-  bodyPermissionId?: string | undefined;
-  /** The request body's `accountId` (`accountId` is the path parameter). GTM Account ID. */
-  bodyAccountId?: string | undefined;
 }
 export type CreateAccountsContainersError =
   | NotFound
@@ -2249,7 +2151,6 @@ function __c7(j: number): any {
           __S(67, __c8, 3),
           S.Struct({
             accountId: S.String.pipe(T.Label()),
-            bodyAccountId: S.optional(S.String.pipe(T.Body("accountId"))),
           }),
         ).pipe(
           T.Http({
@@ -2894,7 +2795,6 @@ function __c39(j: number): any {
           __S(328, __c41, 0),
           S.Struct({
             accountId: S.String.pipe(T.Label()),
-            bodyAccountId: S.optional(S.String.pipe(T.Body("accountId"))),
           }),
         ).pipe(
           T.Http({
@@ -2983,8 +2883,6 @@ function __c45(j: number): any {
           S.Struct({
             fingerprint: S.optional(S.String.pipe(T.Query())),
             accountId: S.String.pipe(T.Label()),
-            bodyFingerprint: S.optional(S.String.pipe(T.Body("fingerprint"))),
-            bodyAccountId: S.optional(S.String.pipe(T.Body("accountId"))),
           }),
         ).pipe(
           T.Http({
@@ -3006,9 +2904,6 @@ function __c46(j: number): any {
             accountId: S.String.pipe(T.Label()),
             containerId: S.String.pipe(T.Label()),
             fingerprint: S.optional(S.String.pipe(T.Query())),
-            bodyContainerId: S.optional(S.String.pipe(T.Body("containerId"))),
-            bodyFingerprint: S.optional(S.String.pipe(T.Body("fingerprint"))),
-            bodyAccountId: S.optional(S.String.pipe(T.Body("accountId"))),
           }),
         ).pipe(
           T.Http({
@@ -3031,10 +2926,6 @@ function __c47(j: number): any {
             environmentId: S.String.pipe(T.Label()),
             containerId: S.String.pipe(T.Label()),
             accountId: S.String.pipe(T.Label()),
-            bodyAccountId: S.optional(S.String.pipe(T.Body("accountId"))),
-            bodyEnvironmentId: S.optional(S.String.pipe(T.Body("environmentId"))),
-            bodyFingerprint: S.optional(S.String.pipe(T.Body("fingerprint"))),
-            bodyContainerId: S.optional(S.String.pipe(T.Body("containerId"))),
           }),
         ).pipe(
           T.Http({
@@ -3057,10 +2948,6 @@ function __c48(j: number): any {
             containerId: S.String.pipe(T.Label()),
             folderId: S.String.pipe(T.Label()),
             fingerprint: S.optional(S.String.pipe(T.Query())),
-            bodyContainerId: S.optional(S.String.pipe(T.Body("containerId"))),
-            bodyFolderId: S.optional(S.String.pipe(T.Body("folderId"))),
-            bodyFingerprint: S.optional(S.String.pipe(T.Body("fingerprint"))),
-            bodyAccountId: S.optional(S.String.pipe(T.Body("accountId"))),
           }),
         ).pipe(
           T.Http({
@@ -3085,9 +2972,6 @@ function __c49(j: number): any {
             triggerId: S.optional(__S(336, __c42, 0).pipe(T.Query())),
             containerId: S.String.pipe(T.Label()),
             variableId: S.optional(__S(336, __c42, 0).pipe(T.Query())),
-            bodyContainerId: S.optional(S.String.pipe(T.Body("containerId"))),
-            bodyFolderId: S.optional(S.String.pipe(T.Body("folderId"))),
-            bodyAccountId: S.optional(S.String.pipe(T.Body("accountId"))),
           }),
         ).pipe(
           T.Http({
@@ -3109,9 +2993,6 @@ function __c50(j: number): any {
             accountId: S.String.pipe(T.Label()),
             containerId: S.String.pipe(T.Label()),
             environmentId: S.String.pipe(T.Label()),
-            bodyAccountId: S.optional(S.String.pipe(T.Body("accountId"))),
-            bodyEnvironmentId: S.optional(S.String.pipe(T.Body("environmentId"))),
-            bodyContainerId: S.optional(S.String.pipe(T.Body("containerId"))),
           }),
         ).pipe(
           T.Http({
@@ -3134,10 +3015,6 @@ function __c51(j: number): any {
             tagId: S.String.pipe(T.Label()),
             accountId: S.String.pipe(T.Label()),
             fingerprint: S.optional(S.String.pipe(T.Query())),
-            bodyFingerprint: S.optional(S.String.pipe(T.Body("fingerprint"))),
-            bodyContainerId: S.optional(S.String.pipe(T.Body("containerId"))),
-            bodyTagId: S.optional(S.String.pipe(T.Body("tagId"))),
-            bodyAccountId: S.optional(S.String.pipe(T.Body("accountId"))),
           }),
         ).pipe(
           T.Http({
@@ -3160,10 +3037,6 @@ function __c52(j: number): any {
             triggerId: S.String.pipe(T.Label()),
             accountId: S.String.pipe(T.Label()),
             fingerprint: S.optional(S.String.pipe(T.Query())),
-            bodyAccountId: S.optional(S.String.pipe(T.Body("accountId"))),
-            bodyTriggerId: S.optional(S.String.pipe(T.Body("triggerId"))),
-            bodyContainerId: S.optional(S.String.pipe(T.Body("containerId"))),
-            bodyFingerprint: S.optional(S.String.pipe(T.Body("fingerprint"))),
           }),
         ).pipe(
           T.Http({
@@ -3184,8 +3057,6 @@ function __c53(j: number): any {
           S.Struct({
             containerId: S.String.pipe(T.Label()),
             accountId: S.String.pipe(T.Label()),
-            bodyAccountId: S.optional(S.String.pipe(T.Body("accountId"))),
-            bodyContainerId: S.optional(S.String.pipe(T.Body("containerId"))),
           }),
         ).pipe(
           T.Http({
@@ -3229,10 +3100,6 @@ function __c55(j: number): any {
             variableId: S.String.pipe(T.Label()),
             accountId: S.String.pipe(T.Label()),
             containerId: S.String.pipe(T.Label()),
-            bodyContainerId: S.optional(S.String.pipe(T.Body("containerId"))),
-            bodyFingerprint: S.optional(S.String.pipe(T.Body("fingerprint"))),
-            bodyAccountId: S.optional(S.String.pipe(T.Body("accountId"))),
-            bodyVariableId: S.optional(S.String.pipe(T.Body("variableId"))),
           }),
         ).pipe(
           T.Http({
@@ -3255,10 +3122,6 @@ function __c56(j: number): any {
             fingerprint: S.optional(S.String.pipe(T.Query())),
             accountId: S.String.pipe(T.Label()),
             containerId: S.String.pipe(T.Label()),
-            bodyContainerVersionId: S.optional(S.String.pipe(T.Body("containerVersionId"))),
-            bodyAccountId: S.optional(S.String.pipe(T.Body("accountId"))),
-            bodyFingerprint: S.optional(S.String.pipe(T.Body("fingerprint"))),
-            bodyContainerId: S.optional(S.String.pipe(T.Body("containerId"))),
           }),
         ).pipe(
           T.Http({
@@ -3279,8 +3142,6 @@ function __c57(j: number): any {
           S.Struct({
             accountId: S.String.pipe(T.Label()),
             permissionId: S.String.pipe(T.Label()),
-            bodyPermissionId: S.optional(S.String.pipe(T.Body("permissionId"))),
-            bodyAccountId: S.optional(S.String.pipe(T.Body("accountId"))),
           }),
         ).pipe(
           T.Http({
@@ -3301,8 +3162,6 @@ function __c58(j: number): any {
           S.Struct({
             accountId: S.String.pipe(T.Label()),
             containerId: S.String.pipe(T.Label()),
-            bodyContainerId: S.optional(S.String.pipe(T.Body("containerId"))),
-            bodyAccountId: S.optional(S.String.pipe(T.Body("accountId"))),
           }),
         ).pipe(
           T.Http({
@@ -3337,8 +3196,6 @@ function __c60(j: number): any {
           S.Struct({
             accountId: S.String.pipe(T.Label()),
             containerId: S.String.pipe(T.Label()),
-            bodyContainerId: S.optional(S.String.pipe(T.Body("containerId"))),
-            bodyAccountId: S.optional(S.String.pipe(T.Body("accountId"))),
           }),
         ).pipe(
           T.Http({
@@ -3421,8 +3278,6 @@ function __c63(j: number): any {
           S.Struct({
             accountId: S.String.pipe(T.Label()),
             containerId: S.String.pipe(T.Label()),
-            bodyAccountId: S.optional(S.String.pipe(T.Body("accountId"))),
-            bodyContainerId: S.optional(S.String.pipe(T.Body("containerId"))),
           }),
         ).pipe(
           T.Http({
@@ -3489,8 +3344,6 @@ function __c65(j: number): any {
           S.Struct({
             accountId: S.String.pipe(T.Label()),
             containerId: S.String.pipe(T.Label()),
-            bodyContainerId: S.optional(S.String.pipe(T.Body("containerId"))),
-            bodyAccountId: S.optional(S.String.pipe(T.Body("accountId"))),
           }),
         ).pipe(
           T.Http({

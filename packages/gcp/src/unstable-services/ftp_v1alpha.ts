@@ -453,16 +453,12 @@ export interface PatchProjectsLocationsServersRequest extends Omit<Server, "name
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the Server resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields present in the request will be overwritten. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. name of resource */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsServersUsersRequest extends Omit<User, "name"> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the User resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields present in the request will be overwritten. */
   updateMask?: string | undefined;
   /** Identifier. User-friendly name via which User will be identified. projects/{project}/locations/{location}/servers/{server}/users/{user} */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. User-friendly name via which User will be identified. projects/{project}/locations/{location}/servers/{server}/users/{user} */
-  bodyName?: string | undefined;
 }
 /** Request message for starting a Server. */
 export type StartServerRequest = CancelOperationRequest;
@@ -1040,7 +1036,6 @@ function __c9(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -1061,7 +1056,6 @@ function __c10(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

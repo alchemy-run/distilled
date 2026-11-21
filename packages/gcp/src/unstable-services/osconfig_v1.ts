@@ -1424,16 +1424,12 @@ export interface PatchProjectsLocationsOsPolicyAssignmentsRequest extends Omit<
   updateMask?: string | undefined;
   /** Optional. A unique identifier for this request. Restricted to 36 ASCII characters. A random UUID is recommended. This request is only idempotent if a `request_id` is provided. */
   requestId?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Resource name. Format: `projects/{project_number}/locations/{location}/osPolicyAssignments/{os_policy_assignment_id}` This field is ignored when you create an OS policy assignment. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsPatchDeploymentsRequest extends Omit<PatchDeployment, "name"> {
   /** Unique name for the patch deployment resource in a project. The patch deployment name is in the form: `projects/{project_id}/patchDeployments/{patch_deployment_id}`. This field is ignored when you create a new patch deployment. */
   name: string;
   /** Optional. Field mask that controls which fields of the patch deployment should be updated. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Unique name for the patch deployment resource in a project. The patch deployment name is in the form: `projects/{project_id}/patchDeployments/{patch_deployment_id}`. This field is ignored when you create a new patch deployment. */
-  bodyName?: string | undefined;
 }
 /** A request message for pausing a patch deployment. */
 export type PausePatchDeploymentRequest = CancelOperationRequest;
@@ -1459,8 +1455,6 @@ export interface UpdateProjectFeatureSettingsProjectsLocationsGlobalRequest exte
   name: string;
   /** Optional. Field mask that controls which fields of the ProjectFeatureSettings should be updated. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Required. Immutable. Name specifies the URL for the ProjectFeatureSettings resource: projects/project_id/locations/global/projectFeatureSettings. */
-  bodyName?: string | undefined;
 }
 export type CancelProjectsLocationsOsPolicyAssignmentsOperationsError =
   | NotFound
@@ -2704,7 +2698,6 @@ function __c22(j: number): any {
             allowMissing: S.optional(S.Boolean.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2725,7 +2718,6 @@ function __c23(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2780,7 +2772,6 @@ function __c26(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

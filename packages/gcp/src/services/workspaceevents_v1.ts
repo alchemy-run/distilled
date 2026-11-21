@@ -238,8 +238,6 @@ export interface PatchSubscriptionsRequest extends Omit<Subscription, "name"> {
   updateMask?: string | undefined;
   /** Optional. If set to `true`, validates and previews the request, but doesn't update the subscription. */
   validateOnly?: boolean | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name of the subscription. Format: `subscriptions/{subscription}` */
-  bodyName?: string | undefined;
 }
 /** The request message for SubscriptionsService.ReactivateSubscription. */
 export interface ReactivateSubscriptionRequest {}
@@ -445,7 +443,6 @@ function __c0(j: number): any {
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

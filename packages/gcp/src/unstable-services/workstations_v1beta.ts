@@ -852,8 +852,6 @@ export interface PatchProjectsLocationsWorkstationClustersRequest extends Omit<
   allowMissing?: boolean | undefined;
   /** Optional. If set, validate the request and preview the result, but do not actually apply it. */
   validateOnly?: boolean | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Full name of this workstation cluster. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsWorkstationClustersWorkstationConfigsRequest extends Omit<
   WorkstationConfig,
@@ -867,8 +865,6 @@ export interface PatchProjectsLocationsWorkstationClustersWorkstationConfigsRequ
   allowMissing?: boolean | undefined;
   /** Required. Mask specifying which fields in the workstation configuration should be updated. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Full name of this workstation configuration. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest extends Omit<
   Workstation,
@@ -882,8 +878,6 @@ export interface PatchProjectsLocationsWorkstationClustersWorkstationConfigsWork
   validateOnly?: boolean | undefined;
   /** Required. Mask specifying which fields in the workstation should be updated. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Full name of this workstation. */
-  bodyName?: string | undefined;
 }
 /** Represents an OAuth 2.0 access token and its associated metadata. */
 export interface OAuthToken {
@@ -2187,7 +2181,6 @@ function __c18(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             allowMissing: S.optional(S.Boolean.pipe(T.Query())),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2210,7 +2203,6 @@ function __c19(j: number): any {
             name: S.String.pipe(T.Label()),
             allowMissing: S.optional(S.Boolean.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2235,7 +2227,6 @@ function __c20(j: number): any {
             allowMissing: S.optional(S.Boolean.pipe(T.Query())),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

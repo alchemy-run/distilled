@@ -1602,8 +1602,6 @@ export interface PatchAccountsChannelPartnerLinksChannelPartnerRepricingConfigsR
 > {
   /** Output only. Resource name of the ChannelPartnerRepricingConfig. Format: accounts/{account_id}/channelPartnerLinks/{channel_partner_id}/channelPartnerRepricingConfigs/{id}. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Output only. Resource name of the ChannelPartnerRepricingConfig. Format: accounts/{account_id}/channelPartnerLinks/{channel_partner_id}/channelPartnerRepricingConfigs/{id}. */
-  bodyName?: string | undefined;
 }
 export interface PatchAccountsChannelPartnerLinksCustomersRequest extends Omit<
   GoogleCloudChannelV1Customer,
@@ -1613,16 +1611,12 @@ export interface PatchAccountsChannelPartnerLinksCustomersRequest extends Omit<
   updateMask?: string | undefined;
   /** Output only. Resource name of the customer. Format: accounts/{account_id}/customers/{customer_id} */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Output only. Resource name of the customer. Format: accounts/{account_id}/customers/{customer_id} */
-  bodyName?: string | undefined;
 }
 export interface PatchAccountsCustomersRequest extends Omit<GoogleCloudChannelV1Customer, "name"> {
   /** The update mask that applies to the resource. Optional. */
   updateMask?: string | undefined;
   /** Output only. Resource name of the customer. Format: accounts/{account_id}/customers/{customer_id} */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Output only. Resource name of the customer. Format: accounts/{account_id}/customers/{customer_id} */
-  bodyName?: string | undefined;
 }
 export interface PatchAccountsCustomersCustomerRepricingConfigsRequest extends Omit<
   GoogleCloudChannelV1CustomerRepricingConfig,
@@ -1630,8 +1624,6 @@ export interface PatchAccountsCustomersCustomerRepricingConfigsRequest extends O
 > {
   /** Output only. Resource name of the CustomerRepricingConfig. Format: accounts/{account_id}/customers/{customer_id}/customerRepricingConfigs/{id}. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Output only. Resource name of the CustomerRepricingConfig. Format: accounts/{account_id}/customers/{customer_id}/customerRepricingConfigs/{id}. */
-  bodyName?: string | undefined;
 }
 /** Information needed to create an Admin User for Google Workspace. */
 export interface GoogleCloudChannelV1AdminUser {
@@ -1709,8 +1701,6 @@ export interface RegisterAccountsRequest extends Omit<
 > {
   /** Optional. Resource name of the account. Required if integrator is not provided. Otherwise, leave this field empty/unset. */
   account: string;
-  /** The request body's `account` (`account` is the path parameter). Optional. Resource name of the account. Required if integrator is not provided. Otherwise, leave this field empty/unset. */
-  bodyAccount?: string | undefined;
 }
 /** Response Message for RegisterSubscriber. */
 export interface GoogleCloudChannelV1RegisterSubscriberResponse {
@@ -1723,8 +1713,6 @@ export interface RegisterSubscriberIntegratorsRequest extends Omit<
 > {
   /** Optional. Resource name of the integrator. Required if account is not provided. Otherwise, leave this field empty/unset. */
   integrator: string;
-  /** The request body's `integrator` (`integrator` is the path parameter). Optional. Resource name of the integrator. Required if account is not provided. Otherwise, leave this field empty/unset. */
-  bodyIntegrator?: string | undefined;
 }
 /** Request message for CloudChannelReportsService.RunReportJob. */
 export interface GoogleCloudChannelV1RunReportJobRequest {
@@ -1792,8 +1780,6 @@ export interface UnregisterAccountsRequest extends Omit<
 > {
   /** Optional. Resource name of the account. Required if integrator is not provided. Otherwise, leave this field empty/unset. */
   account: string;
-  /** The request body's `account` (`account` is the path parameter). Optional. Resource name of the account. Required if integrator is not provided. Otherwise, leave this field empty/unset. */
-  bodyAccount?: string | undefined;
 }
 /** Response Message for UnregisterSubscriber. */
 export interface GoogleCloudChannelV1UnregisterSubscriberResponse {
@@ -1806,8 +1792,6 @@ export interface UnregisterSubscriberIntegratorsRequest extends Omit<
 > {
   /** Optional. Resource name of the integrator. Required if account is not provided. Otherwise, leave this field empty/unset. */
   integrator: string;
-  /** The request body's `integrator` (`integrator` is the path parameter). Optional. Resource name of the integrator. Required if account is not provided. Otherwise, leave this field empty/unset. */
-  bodyIntegrator?: string | undefined;
 }
 export type ActivateAccountsCustomersEntitlementsError =
   | NotFound
@@ -4964,7 +4948,6 @@ function __c72(j: number): any {
           __S(128, __c8, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4987,7 +4970,6 @@ function __c73(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5008,7 +4990,6 @@ function __c74(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5028,7 +5009,6 @@ function __c75(j: number): any {
           __S(224, __c14, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5158,7 +5138,6 @@ function __c80(j: number): any {
           __S(1296, __c81, 0),
           S.Struct({
             account: S.String.pipe(T.Label()),
-            bodyAccount: S.optional(S.String.pipe(T.Body("account"))),
           }),
         ).pipe(
           T.Http({
@@ -5200,7 +5179,6 @@ function __c83(j: number): any {
           __S(1296, __c81, 0),
           S.Struct({
             integrator: S.String.pipe(T.Label()),
-            bodyIntegrator: S.optional(S.String.pipe(T.Body("integrator"))),
           }),
         ).pipe(
           T.Http({
@@ -5338,7 +5316,6 @@ function __c89(j: number): any {
           __S(1440, __c90, 0),
           S.Struct({
             account: S.String.pipe(T.Label()),
-            bodyAccount: S.optional(S.String.pipe(T.Body("account"))),
           }),
         ).pipe(
           T.Http({
@@ -5370,7 +5347,6 @@ function __c91(j: number): any {
           __S(1440, __c90, 0),
           S.Struct({
             integrator: S.String.pipe(T.Label()),
-            bodyIntegrator: S.optional(S.String.pipe(T.Body("integrator"))),
           }),
         ).pipe(
           T.Http({

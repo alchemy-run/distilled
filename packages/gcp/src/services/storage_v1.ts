@@ -1325,16 +1325,12 @@ export interface BucketStorageLayout {
 export interface InsertAnywhereCachesRequest extends Omit<AnywhereCache, "bucket"> {
   /** Name of the parent bucket. */
   bucket: string;
-  /** The request body's `bucket` (`bucket` is the path parameter). The name of the bucket containing this cache instance. */
-  bodyBucket?: string | undefined;
 }
 export interface InsertBucketAccessControlsRequest extends Omit<BucketAccessControl, "bucket"> {
   /** Name of a bucket. */
   bucket: string;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** The request body's `bucket` (`bucket` is the path parameter). The name of the bucket. */
-  bodyBucket?: string | undefined;
 }
 export type InsertBucketsPredefinedAclEnum =
   | "authenticatedRead"
@@ -1375,22 +1371,16 @@ export interface InsertDefaultObjectAccessControlsRequest extends Omit<
   bucket: string;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** The request body's `bucket` (`bucket` is the path parameter). The name of the bucket. */
-  bodyBucket?: string | undefined;
 }
 export interface InsertFoldersRequest extends Omit<Folder, "bucket"> {
   /** Name of the bucket in which the folder resides. */
   bucket: string;
   /** If true, any parent folder which doesn't exist will be created automatically. */
   recursive?: boolean | undefined;
-  /** The request body's `bucket` (`bucket` is the path parameter). The name of the bucket containing this folder. */
-  bodyBucket?: string | undefined;
 }
 export interface InsertManagedFoldersRequest extends Omit<ManagedFolder, "bucket"> {
   /** Name of the bucket containing the managed folder. */
   bucket: string;
-  /** The request body's `bucket` (`bucket` is the path parameter). The name of the bucket containing this managed folder. */
-  bodyBucket?: string | undefined;
 }
 export interface InsertNotificationsRequest extends Notification {
   /** The parent bucket of the notification. */
@@ -1410,12 +1400,6 @@ export interface InsertObjectAccessControlsRequest extends Omit<
   object: string;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** The request body's `bucket` (`bucket` is the path parameter). The name of the bucket. */
-  bodyBucket?: string | undefined;
-  /** The request body's `generation` (`generation` is the query parameter). The content generation of the object, if applied to an object. */
-  bodyGeneration?: string | undefined;
-  /** The request body's `object` (`object` is the path parameter). The name of the object, if applied to an object. */
-  bodyObject?: string | undefined;
 }
 export type InsertObjectsPredefinedAclEnum =
   | "authenticatedRead"
@@ -1451,20 +1435,10 @@ export interface InsertObjectsRequest extends Omit<
   projection?: InsertObjectsProjectionEnum | (string & {}) | undefined;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** The request body's `bucket` (`bucket` is the path parameter). The name of the bucket containing this object. */
-  bodyBucket?: string | undefined;
-  /** The request body's `contentEncoding` (`contentEncoding` is the query parameter). Content-Encoding of the object data. */
-  bodyContentEncoding?: string | undefined;
-  /** The request body's `kmsKeyName` (`kmsKeyName` is the query parameter). Not currently supported. Specifying the parameter causes the request to fail with status code 400 - Bad Request. */
-  bodyKmsKeyName?: string | undefined;
-  /** The request body's `name` (`name` is the query parameter). The name of the object. Required if not specified by URL parameter. */
-  bodyName?: string | undefined;
 }
 export interface InsertRapidCachesRequest extends Omit<RapidCache, "bucket"> {
   /** Name of the parent bucket. */
   bucket: string;
-  /** The request body's `bucket` (`bucket` is the path parameter). The name of the bucket containing this cache instance. */
-  bodyBucket?: string | undefined;
 }
 export interface ListAnywhereCachesRequest {
   /** Name of the parent bucket. */
@@ -1769,10 +1743,6 @@ export interface PatchBucketAccessControlsRequest extends Omit<
   entity: string;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** The request body's `bucket` (`bucket` is the path parameter). The name of the bucket. */
-  bodyBucket?: string | undefined;
-  /** The request body's `entity` (`entity` is the path parameter). The entity holding the permission, in one of the following forms: - user-userId - user-email - group-groupId - group-email - domain-domain - project-team-projectId - allUsers - allAuthenticatedUsers Examples: - The user liz@example.com would be user-liz@example.com. - The group example@googlegroups.com would be group-example@googlegroups.com. - To refer to all members of the Google Apps for Business domain example.com, the entity would be domain-example.com. */
-  bodyEntity?: string | undefined;
 }
 export type PatchBucketsPredefinedAclEnum =
   | "authenticatedRead"
@@ -1817,10 +1787,6 @@ export interface PatchDefaultObjectAccessControlsRequest extends Omit<
   entity: string;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** The request body's `bucket` (`bucket` is the path parameter). The name of the bucket. */
-  bodyBucket?: string | undefined;
-  /** The request body's `entity` (`entity` is the path parameter). The entity holding the permission, in one of the following forms: - user-userId - user-email - group-groupId - group-email - domain-domain - project-team-projectId - allUsers - allAuthenticatedUsers Examples: - The user liz@example.com would be user-liz@example.com. - The group example@googlegroups.com would be group-example@googlegroups.com. - To refer to all members of the Google Apps for Business domain example.com, the entity would be domain-example.com. */
-  bodyEntity?: string | undefined;
 }
 export interface PatchObjectAccessControlsRequest extends Omit<
   ObjectAccessControl,
@@ -1836,14 +1802,6 @@ export interface PatchObjectAccessControlsRequest extends Omit<
   object: string;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** The request body's `bucket` (`bucket` is the path parameter). The name of the bucket. */
-  bodyBucket?: string | undefined;
-  /** The request body's `entity` (`entity` is the path parameter). The entity holding the permission, in one of the following forms: - user-userId - user-email - group-groupId - group-email - domain-domain - project-team-projectId - allUsers - allAuthenticatedUsers Examples: - The user liz@example.com would be user-liz@example.com. - The group example@googlegroups.com would be group-example@googlegroups.com. - To refer to all members of the Google Apps for Business domain example.com, the entity would be domain-example.com. */
-  bodyEntity?: string | undefined;
-  /** The request body's `generation` (`generation` is the query parameter). The content generation of the object, if applied to an object. */
-  bodyGeneration?: string | undefined;
-  /** The request body's `object` (`object` is the path parameter). The name of the object, if applied to an object. */
-  bodyObject?: string | undefined;
 }
 export type PatchObjectsPredefinedAclEnum =
   | "authenticatedRead"
@@ -1876,10 +1834,6 @@ export interface PatchObjectsRequest extends Omit<Storage_Object, "bucket" | "ge
   projection?: PatchObjectsProjectionEnum | (string & {}) | undefined;
   /** The project to be billed for this request, for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** The request body's `bucket` (`bucket` is the path parameter). The name of the bucket containing this object. */
-  bodyBucket?: string | undefined;
-  /** The request body's `generation` (`generation` is the query parameter). The content generation of this object. Used for object versioning. */
-  bodyGeneration?: string | undefined;
 }
 export type RelocateBucketRequestDestinationCustomPlacementConfig = BucketCustomPlacementConfig;
 /** A Relocate Bucket request. */
@@ -2085,10 +2039,6 @@ export interface UpdateAnywhereCachesRequest extends Omit<
   bucket: string;
   /** The ID of requested Anywhere Cache instance. */
   anywhereCacheId: string;
-  /** The request body's `bucket` (`bucket` is the path parameter). The name of the bucket containing this cache instance. */
-  bodyBucket?: string | undefined;
-  /** The request body's `anywhereCacheId` (`anywhereCacheId` is the path parameter). The ID of the Anywhere cache instance. */
-  bodyAnywhereCacheId?: string | undefined;
 }
 export interface UpdateBucketAccessControlsRequest extends Omit<
   BucketAccessControl,
@@ -2100,10 +2050,6 @@ export interface UpdateBucketAccessControlsRequest extends Omit<
   entity: string;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** The request body's `bucket` (`bucket` is the path parameter). The name of the bucket. */
-  bodyBucket?: string | undefined;
-  /** The request body's `entity` (`entity` is the path parameter). The entity holding the permission, in one of the following forms: - user-userId - user-email - group-groupId - group-email - domain-domain - project-team-projectId - allUsers - allAuthenticatedUsers Examples: - The user liz@example.com would be user-liz@example.com. - The group example@googlegroups.com would be group-example@googlegroups.com. - To refer to all members of the Google Apps for Business domain example.com, the entity would be domain-example.com. */
-  bodyEntity?: string | undefined;
 }
 export type UpdateBucketsPredefinedAclEnum =
   | "authenticatedRead"
@@ -2148,10 +2094,6 @@ export interface UpdateDefaultObjectAccessControlsRequest extends Omit<
   entity: string;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** The request body's `bucket` (`bucket` is the path parameter). The name of the bucket. */
-  bodyBucket?: string | undefined;
-  /** The request body's `entity` (`entity` is the path parameter). The entity holding the permission, in one of the following forms: - user-userId - user-email - group-groupId - group-email - domain-domain - project-team-projectId - allUsers - allAuthenticatedUsers Examples: - The user liz@example.com would be user-liz@example.com. - The group example@googlegroups.com would be group-example@googlegroups.com. - To refer to all members of the Google Apps for Business domain example.com, the entity would be domain-example.com. */
-  bodyEntity?: string | undefined;
 }
 export interface UpdateManagedFoldersRequest extends Omit<ManagedFolder, "bucket"> {
   /** The name of the bucket containing the managed folder. */
@@ -2162,8 +2104,6 @@ export interface UpdateManagedFoldersRequest extends Omit<ManagedFolder, "bucket
   ifMetagenerationMatch?: string | undefined;
   /** Makes the operation conditional on whether the metageneration of the managed folder doesn't match the specified value. */
   ifMetagenerationNotMatch?: string | undefined;
-  /** The request body's `bucket` (`bucket` is the path parameter). The name of the bucket containing this managed folder. */
-  bodyBucket?: string | undefined;
 }
 export interface UpdateObjectAccessControlsRequest extends Omit<
   ObjectAccessControl,
@@ -2179,14 +2119,6 @@ export interface UpdateObjectAccessControlsRequest extends Omit<
   object: string;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** The request body's `bucket` (`bucket` is the path parameter). The name of the bucket. */
-  bodyBucket?: string | undefined;
-  /** The request body's `entity` (`entity` is the path parameter). The entity holding the permission, in one of the following forms: - user-userId - user-email - group-groupId - group-email - domain-domain - project-team-projectId - allUsers - allAuthenticatedUsers Examples: - The user liz@example.com would be user-liz@example.com. - The group example@googlegroups.com would be group-example@googlegroups.com. - To refer to all members of the Google Apps for Business domain example.com, the entity would be domain-example.com. */
-  bodyEntity?: string | undefined;
-  /** The request body's `generation` (`generation` is the query parameter). The content generation of the object, if applied to an object. */
-  bodyGeneration?: string | undefined;
-  /** The request body's `object` (`object` is the path parameter). The name of the object, if applied to an object. */
-  bodyObject?: string | undefined;
 }
 export type UpdateObjectsPredefinedAclEnum =
   | "authenticatedRead"
@@ -2219,10 +2151,6 @@ export interface UpdateObjectsRequest extends Omit<Storage_Object, "bucket" | "g
   projection?: UpdateObjectsProjectionEnum | (string & {}) | undefined;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** The request body's `bucket` (`bucket` is the path parameter). The name of the bucket containing this object. */
-  bodyBucket?: string | undefined;
-  /** The request body's `generation` (`generation` is the query parameter). The content generation of this object. Used for object versioning. */
-  bodyGeneration?: string | undefined;
 }
 export interface UpdateProjectsHmacKeysRequest extends Omit<
   HmacKeyMetadata,
@@ -2234,20 +2162,12 @@ export interface UpdateProjectsHmacKeysRequest extends Omit<
   projectId: string;
   /** The project to be billed for this request. */
   userProject?: string | undefined;
-  /** The request body's `accessId` (`accessId` is the path parameter). The ID of the HMAC Key. */
-  bodyAccessId?: string | undefined;
-  /** The request body's `projectId` (`projectId` is the path parameter). Project ID owning the service account to which the key authenticates. */
-  bodyProjectId?: string | undefined;
 }
 export interface UpdateRapidCachesRequest extends Omit<RapidCache, "bucket" | "rapidCacheId"> {
   /** Name of the parent bucket. */
   bucket: string;
   /** The ID of the requested Rapid Cache instance. */
   rapidCacheId: string;
-  /** The request body's `bucket` (`bucket` is the path parameter). The name of the bucket containing this cache instance. */
-  bodyBucket?: string | undefined;
-  /** The request body's `rapidCacheId` (`rapidCacheId` is the path parameter). The ID of the Rapid cache instance. */
-  bodyRapidCacheId?: string | undefined;
 }
 export interface ViewFullContextObjectsRequest {
   /** Name of the bucket in which the object resides. */
@@ -5137,7 +5057,6 @@ function __c51(j: number): any {
           __S(704, __c22, 0),
           S.Struct({
             bucket: S.String.pipe(T.Label()),
-            bodyBucket: S.optional(S.String.pipe(T.Body("bucket"))),
           }),
         ).pipe(
           T.Http({
@@ -5158,7 +5077,6 @@ function __c52(j: number): any {
           S.Struct({
             bucket: S.String.pipe(T.Label()),
             userProject: S.optional(S.String.pipe(T.Query())),
-            bodyBucket: S.optional(S.String.pipe(T.Body("bucket"))),
           }),
         ).pipe(
           T.Http({
@@ -5203,7 +5121,6 @@ function __c54(j: number): any {
           S.Struct({
             bucket: S.String.pipe(T.Label()),
             userProject: S.optional(S.String.pipe(T.Query())),
-            bodyBucket: S.optional(S.String.pipe(T.Body("bucket"))),
           }),
         ).pipe(
           T.Http({
@@ -5224,7 +5141,6 @@ function __c55(j: number): any {
           S.Struct({
             bucket: S.String.pipe(T.Label()),
             recursive: S.optional(S.Boolean.pipe(T.Query())),
-            bodyBucket: S.optional(S.String.pipe(T.Body("bucket"))),
           }),
         ).pipe(
           T.Http({
@@ -5244,7 +5160,6 @@ function __c56(j: number): any {
           __S(1283, __c40, 3),
           S.Struct({
             bucket: S.String.pipe(T.Label()),
-            bodyBucket: S.optional(S.String.pipe(T.Body("bucket"))),
           }),
         ).pipe(
           T.Http({
@@ -5287,9 +5202,6 @@ function __c58(j: number): any {
             generation: S.optional(S.String.pipe(T.Query())),
             object: S.String.pipe(T.Label()),
             userProject: S.optional(S.String.pipe(T.Query())),
-            bodyBucket: S.optional(S.String.pipe(T.Body("bucket"))),
-            bodyGeneration: S.optional(S.String.pipe(T.Body("generation"))),
-            bodyObject: S.optional(S.String.pipe(T.Body("object"))),
           }),
         ).pipe(
           T.Http({
@@ -5319,10 +5231,6 @@ function __c59(j: number): any {
             predefinedAcl: S.optional(S.String.pipe(T.Query())),
             projection: S.optional(S.String.pipe(T.Query())),
             userProject: S.optional(S.String.pipe(T.Query())),
-            bodyBucket: S.optional(S.String.pipe(T.Body("bucket"))),
-            bodyContentEncoding: S.optional(S.String.pipe(T.Body("contentEncoding"))),
-            bodyKmsKeyName: S.optional(S.String.pipe(T.Body("kmsKeyName"))),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5342,7 +5250,6 @@ function __c60(j: number): any {
           __S(1568, __c49, 0),
           S.Struct({
             bucket: S.String.pipe(T.Label()),
-            bodyBucket: S.optional(S.String.pipe(T.Body("bucket"))),
           }),
         ).pipe(
           T.Http({
@@ -5761,8 +5668,6 @@ function __c76(j: number): any {
             bucket: S.String.pipe(T.Label()),
             entity: S.String.pipe(T.Label()),
             userProject: S.optional(S.String.pipe(T.Query())),
-            bodyBucket: S.optional(S.String.pipe(T.Body("bucket"))),
-            bodyEntity: S.optional(S.String.pipe(T.Body("entity"))),
           }),
         ).pipe(
           T.Http({
@@ -5809,8 +5714,6 @@ function __c78(j: number): any {
             bucket: S.String.pipe(T.Label()),
             entity: S.String.pipe(T.Label()),
             userProject: S.optional(S.String.pipe(T.Query())),
-            bodyBucket: S.optional(S.String.pipe(T.Body("bucket"))),
-            bodyEntity: S.optional(S.String.pipe(T.Body("entity"))),
           }),
         ).pipe(
           T.Http({
@@ -5834,10 +5737,6 @@ function __c79(j: number): any {
             generation: S.optional(S.String.pipe(T.Query())),
             object: S.String.pipe(T.Label()),
             userProject: S.optional(S.String.pipe(T.Query())),
-            bodyBucket: S.optional(S.String.pipe(T.Body("bucket"))),
-            bodyEntity: S.optional(S.String.pipe(T.Body("entity"))),
-            bodyGeneration: S.optional(S.String.pipe(T.Body("generation"))),
-            bodyObject: S.optional(S.String.pipe(T.Body("object"))),
           }),
         ).pipe(
           T.Http({
@@ -5867,8 +5766,6 @@ function __c80(j: number): any {
             predefinedAcl: S.optional(S.String.pipe(T.Query())),
             projection: S.optional(S.String.pipe(T.Query())),
             userProject: S.optional(S.String.pipe(T.Query())),
-            bodyBucket: S.optional(S.String.pipe(T.Body("bucket"))),
-            bodyGeneration: S.optional(S.String.pipe(T.Body("generation"))),
           }),
         ).pipe(
           T.Http({
@@ -6214,8 +6111,6 @@ function __c96(j: number): any {
           S.Struct({
             bucket: S.String.pipe(T.Label()),
             anywhereCacheId: S.String.pipe(T.Label()),
-            bodyBucket: S.optional(S.String.pipe(T.Body("bucket"))),
-            bodyAnywhereCacheId: S.optional(S.String.pipe(T.Body("anywhereCacheId"))),
           }),
         ).pipe(
           T.Http({
@@ -6237,8 +6132,6 @@ function __c97(j: number): any {
             bucket: S.String.pipe(T.Label()),
             entity: S.String.pipe(T.Label()),
             userProject: S.optional(S.String.pipe(T.Query())),
-            bodyBucket: S.optional(S.String.pipe(T.Body("bucket"))),
-            bodyEntity: S.optional(S.String.pipe(T.Body("entity"))),
           }),
         ).pipe(
           T.Http({
@@ -6285,8 +6178,6 @@ function __c99(j: number): any {
             bucket: S.String.pipe(T.Label()),
             entity: S.String.pipe(T.Label()),
             userProject: S.optional(S.String.pipe(T.Query())),
-            bodyBucket: S.optional(S.String.pipe(T.Body("bucket"))),
-            bodyEntity: S.optional(S.String.pipe(T.Body("entity"))),
           }),
         ).pipe(
           T.Http({
@@ -6309,7 +6200,6 @@ function __c100(j: number): any {
             managedFolder: S.String.pipe(T.Label()),
             ifMetagenerationMatch: S.optional(S.String.pipe(T.Query())),
             ifMetagenerationNotMatch: S.optional(S.String.pipe(T.Query())),
-            bodyBucket: S.optional(S.String.pipe(T.Body("bucket"))),
           }),
         ).pipe(
           T.Http({
@@ -6333,10 +6223,6 @@ function __c101(j: number): any {
             generation: S.optional(S.String.pipe(T.Query())),
             object: S.String.pipe(T.Label()),
             userProject: S.optional(S.String.pipe(T.Query())),
-            bodyBucket: S.optional(S.String.pipe(T.Body("bucket"))),
-            bodyEntity: S.optional(S.String.pipe(T.Body("entity"))),
-            bodyGeneration: S.optional(S.String.pipe(T.Body("generation"))),
-            bodyObject: S.optional(S.String.pipe(T.Body("object"))),
           }),
         ).pipe(
           T.Http({
@@ -6435,8 +6321,6 @@ function __c106(j: number): any {
             predefinedAcl: S.optional(S.String.pipe(T.Query())),
             projection: S.optional(S.String.pipe(T.Query())),
             userProject: S.optional(S.String.pipe(T.Query())),
-            bodyBucket: S.optional(S.String.pipe(T.Body("bucket"))),
-            bodyGeneration: S.optional(S.String.pipe(T.Body("generation"))),
           }),
         ).pipe(
           T.Http({
@@ -6458,8 +6342,6 @@ function __c107(j: number): any {
             accessId: S.String.pipe(T.Label()),
             projectId: S.String.pipe(T.Label()),
             userProject: S.optional(S.String.pipe(T.Query())),
-            bodyAccessId: S.optional(S.String.pipe(T.Body("accessId"))),
-            bodyProjectId: S.optional(S.String.pipe(T.Body("projectId"))),
           }),
         ).pipe(
           T.Http({
@@ -6480,8 +6362,6 @@ function __c108(j: number): any {
           S.Struct({
             bucket: S.String.pipe(T.Label()),
             rapidCacheId: S.String.pipe(T.Label()),
-            bodyBucket: S.optional(S.String.pipe(T.Body("bucket"))),
-            bodyRapidCacheId: S.optional(S.String.pipe(T.Body("rapidCacheId"))),
           }),
         ).pipe(
           T.Http({

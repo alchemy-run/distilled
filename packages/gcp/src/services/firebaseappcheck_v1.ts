@@ -672,8 +672,6 @@ export interface PatchProjectsAppsAppAttestConfigRequest extends Omit<
   updateMask?: string | undefined;
   /** Required. The relative resource name of the App Attest configuration object, in the format: ``` projects/{project_number}/apps/{app_id}/appAttestConfig ``` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Required. The relative resource name of the App Attest configuration object, in the format: ``` projects/{project_number}/apps/{app_id}/appAttestConfig ``` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsAppsDebugTokensRequest extends Omit<
   GoogleFirebaseAppcheckV1DebugToken,
@@ -683,8 +681,6 @@ export interface PatchProjectsAppsDebugTokensRequest extends Omit<
   name: string;
   /** Required. A comma-separated list of names of fields in the DebugToken to update. Example: `display_name`. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Required. The relative resource name of the debug token, in the format: ``` projects/{project_number}/apps/{app_id}/debugTokens/{debug_token_id} ``` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsAppsDeviceCheckConfigRequest extends Omit<
   GoogleFirebaseAppcheckV1DeviceCheckConfig,
@@ -694,8 +690,6 @@ export interface PatchProjectsAppsDeviceCheckConfigRequest extends Omit<
   updateMask?: string | undefined;
   /** Required. The relative resource name of the DeviceCheck configuration object, in the format: ``` projects/{project_number}/apps/{app_id}/deviceCheckConfig ``` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Required. The relative resource name of the DeviceCheck configuration object, in the format: ``` projects/{project_number}/apps/{app_id}/deviceCheckConfig ``` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsAppsPlayIntegrityConfigRequest extends Omit<
   GoogleFirebaseAppcheckV1PlayIntegrityConfig,
@@ -705,8 +699,6 @@ export interface PatchProjectsAppsPlayIntegrityConfigRequest extends Omit<
   name: string;
   /** Required. A comma-separated list of names of fields in the PlayIntegrityConfig to update. Example: `token_ttl`. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Required. The relative resource name of the Play Integrity configuration object, in the format: ``` projects/{project_number}/apps/{app_id}/playIntegrityConfig ``` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsAppsRecaptchaEnterpriseConfigRequest extends Omit<
   GoogleFirebaseAppcheckV1RecaptchaEnterpriseConfig,
@@ -716,8 +708,6 @@ export interface PatchProjectsAppsRecaptchaEnterpriseConfigRequest extends Omit<
   name: string;
   /** Required. A comma-separated list of names of fields in the RecaptchaEnterpriseConfig to update. Example: `site_key`. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Required. The relative resource name of the reCAPTCHA Enterprise configuration object, in the format: ``` projects/{project_number}/apps/{app_id}/recaptchaEnterpriseConfig ``` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsAppsRecaptchaV3ConfigRequest extends Omit<
   GoogleFirebaseAppcheckV1RecaptchaV3Config,
@@ -727,8 +717,6 @@ export interface PatchProjectsAppsRecaptchaV3ConfigRequest extends Omit<
   name: string;
   /** Required. A comma-separated list of names of fields in the RecaptchaV3Config to update. Example: `site_secret`. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Required. The relative resource name of the reCAPTCHA v3 configuration object, in the format: ``` projects/{project_number}/apps/{app_id}/recaptchaV3Config ``` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsServicesRequest extends Omit<
   GoogleFirebaseAppcheckV1Service,
@@ -738,8 +726,6 @@ export interface PatchProjectsServicesRequest extends Omit<
   updateMask?: string | undefined;
   /** Required. The relative resource name of the service configuration object, in the format: ``` projects/{project_number}/services/{service_id} ``` Note that the `service_id` element must be a supported service ID. Currently, the following service IDs are supported. Firebase and Google Cloud services: * `identitytoolkit.googleapis.com` (Firebase Authentication) * `firebasedataconnect.googleapis.com` (Firebase SQL Connect) * `firestore.googleapis.com` (Cloud Firestore) * `firebasedatabase.googleapis.com` (Firebase Realtime Database) * `firebasestorage.googleapis.com` (Cloud Storage for Firebase) * `firebaseml.googleapis.com` (Firebase AI Logic) Google Maps Platform services: * `maps-backend.googleapis.com` (Maps JavaScript API) * `places.googleapis.com` (Places API (New)) Other supported Google services: * `oauth2.googleapis.com` (Google Identity for iOS) Note: While all the supported `service_id`s may appear to be subdomains of `googleapis.com`, the `service_id` has no semantic meaning beyond identifying the service to App Check. It is not intended to represent the actual domain to which your apps send traffic, nor is it necessarily the API that should be enabled to use the service. For information on using these Google services, consult their documentation. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Required. The relative resource name of the service configuration object, in the format: ``` projects/{project_number}/services/{service_id} ``` Note that the `service_id` element must be a supported service ID. Currently, the following service IDs are supported. Firebase and Google Cloud services: * `identitytoolkit.googleapis.com` (Firebase Authentication) * `firebasedataconnect.googleapis.com` (Firebase SQL Connect) * `firestore.googleapis.com` (Cloud Firestore) * `firebasedatabase.googleapis.com` (Firebase Realtime Database) * `firebasestorage.googleapis.com` (Cloud Storage for Firebase) * `firebaseml.googleapis.com` (Firebase AI Logic) Google Maps Platform services: * `maps-backend.googleapis.com` (Maps JavaScript API) * `places.googleapis.com` (Places API (New)) Other supported Google services: * `oauth2.googleapis.com` (Google Identity for iOS) Note: While all the supported `service_id`s may appear to be subdomains of `googleapis.com`, the `service_id` has no semantic meaning beyond identifying the service to App Check. It is not intended to represent the actual domain to which your apps send traffic, nor is it necessarily the API that should be enabled to use the service. For information on using these Google services, consult their documentation. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsServicesResourcePoliciesRequest extends Omit<
   GoogleFirebaseAppcheckV1ResourcePolicy,
@@ -749,8 +735,6 @@ export interface PatchProjectsServicesResourcePoliciesRequest extends Omit<
   updateMask?: string | undefined;
   /** Required. Identifier. The relative name of the resource policy object, in the format: ``` projects/{project_number}/services/{service_id}/resourcePolicies/{resource_policy_id} ``` Note that the `service_id` element must be a supported service ID. Currently, the following service IDs are supported: * `oauth2.googleapis.com` (Google Identity for iOS) `resource_policy_id` is a system-generated UID. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Required. Identifier. The relative name of the resource policy object, in the format: ``` projects/{project_number}/services/{service_id}/resourcePolicies/{resource_policy_id} ``` Note that the `service_id` element must be a supported service ID. Currently, the following service IDs are supported: * `oauth2.googleapis.com` (Google Identity for iOS) `resource_policy_id` is a system-generated UID. */
-  bodyName?: string | undefined;
 }
 export type BatchGetProjectsAppsAppAttestConfigError =
   | NotFound
@@ -2673,7 +2657,6 @@ function __c44(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2694,7 +2677,6 @@ function __c45(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2715,7 +2697,6 @@ function __c46(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2736,7 +2717,6 @@ function __c47(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2757,7 +2737,6 @@ function __c48(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2778,7 +2757,6 @@ function __c49(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2799,7 +2777,6 @@ function __c50(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2862,7 +2839,6 @@ function __c54(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

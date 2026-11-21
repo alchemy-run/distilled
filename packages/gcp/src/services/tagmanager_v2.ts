@@ -1834,8 +1834,6 @@ export interface MoveEntitiesToFolderAccountsContainersWorkspacesFoldersRequest 
   variableId?: StringList | undefined;
   /** The tags to be moved to the folder. */
   tagId?: StringList | undefined;
-  /** The request body's `path` (`path` is the path parameter). GTM Folder's API relative path. */
-  bodyPath?: string | undefined;
 }
 export interface MoveEntitiesToFolderAccountsContainersWorkspacesFoldersResponse {}
 export interface MoveTagIdAccountsContainersRequest {
@@ -1886,8 +1884,6 @@ export interface ReauthorizeAccountsContainersEnvironmentsRequest extends Omit<
 > {
   /** GTM Environment's API relative path. */
   path: string;
-  /** The request body's `path` (`path` is the path parameter). GTM Environment's API relative path. */
-  bodyPath?: string | undefined;
 }
 export interface Resolve_conflictAccountsContainersWorkspacesRequest extends Entity {
   /** When provided, this fingerprint must match the fingerprint of the entity_in_workspace in the merge conflict. */
@@ -2147,20 +2143,12 @@ export interface UpdateAccountsRequest extends Omit<Account, "fingerprint" | "pa
   path: string;
   /** When provided, this fingerprint must match the fingerprint of the account in storage. */
   fingerprint?: string | undefined;
-  /** The request body's `fingerprint` (`fingerprint` is the query parameter). The fingerprint of the GTM Account as computed at storage time. This value is recomputed whenever the account is modified. */
-  bodyFingerprint?: string | undefined;
-  /** The request body's `path` (`path` is the path parameter). GTM Account's API relative path. */
-  bodyPath?: string | undefined;
 }
 export interface UpdateAccountsContainersRequest extends Omit<Container, "path" | "fingerprint"> {
   /** When provided, this fingerprint must match the fingerprint of the container in storage. */
   fingerprint?: string | undefined;
   /** GTM Container's API relative path. */
   path: string;
-  /** The request body's `path` (`path` is the path parameter). GTM Container's API relative path. */
-  bodyPath?: string | undefined;
-  /** The request body's `fingerprint` (`fingerprint` is the query parameter). The fingerprint of the GTM Container as computed at storage time. This value is recomputed whenever the account is modified. */
-  bodyFingerprint?: string | undefined;
 }
 export interface UpdateAccountsContainersEnvironmentsRequest extends Omit<
   Environment,
@@ -2170,10 +2158,6 @@ export interface UpdateAccountsContainersEnvironmentsRequest extends Omit<
   path: string;
   /** When provided, this fingerprint must match the fingerprint of the environment in storage. */
   fingerprint?: string | undefined;
-  /** The request body's `path` (`path` is the path parameter). GTM Environment's API relative path. */
-  bodyPath?: string | undefined;
-  /** The request body's `fingerprint` (`fingerprint` is the query parameter). The fingerprint of the GTM environment as computed at storage time. This value is recomputed whenever the environment is modified. */
-  bodyFingerprint?: string | undefined;
 }
 export interface UpdateAccountsContainersVersionsRequest extends Omit<
   ContainerVersion,
@@ -2183,10 +2167,6 @@ export interface UpdateAccountsContainersVersionsRequest extends Omit<
   path: string;
   /** When provided, this fingerprint must match the fingerprint of the container version in storage. */
   fingerprint?: string | undefined;
-  /** The request body's `path` (`path` is the path parameter). GTM Container Version's API relative path. */
-  bodyPath?: string | undefined;
-  /** The request body's `fingerprint` (`fingerprint` is the query parameter). The fingerprint of the GTM Container Version as computed at storage time. This value is recomputed whenever the container version is modified. */
-  bodyFingerprint?: string | undefined;
 }
 export interface UpdateAccountsContainersWorkspacesRequest extends Omit<
   Workspace,
@@ -2196,10 +2176,6 @@ export interface UpdateAccountsContainersWorkspacesRequest extends Omit<
   path: string;
   /** When provided, this fingerprint must match the fingerprint of the workspace in storage. */
   fingerprint?: string | undefined;
-  /** The request body's `path` (`path` is the path parameter). GTM Workspace's API relative path. */
-  bodyPath?: string | undefined;
-  /** The request body's `fingerprint` (`fingerprint` is the query parameter). The fingerprint of the GTM Workspace as computed at storage time. This value is recomputed whenever the workspace is modified. */
-  bodyFingerprint?: string | undefined;
 }
 export interface UpdateAccountsContainersWorkspacesClientsRequest extends Omit<
   Client,
@@ -2209,10 +2185,6 @@ export interface UpdateAccountsContainersWorkspacesClientsRequest extends Omit<
   path: string;
   /** When provided, this fingerprint must match the fingerprint of the client in storage. */
   fingerprint?: string | undefined;
-  /** The request body's `fingerprint` (`fingerprint` is the query parameter). The fingerprint of the GTM Client as computed at storage time. This value is recomputed whenever the client is modified. */
-  bodyFingerprint?: string | undefined;
-  /** The request body's `path` (`path` is the path parameter). GTM client's API relative path. */
-  bodyPath?: string | undefined;
 }
 export interface UpdateAccountsContainersWorkspacesFoldersRequest extends Omit<
   Folder,
@@ -2222,10 +2194,6 @@ export interface UpdateAccountsContainersWorkspacesFoldersRequest extends Omit<
   fingerprint?: string | undefined;
   /** GTM Folder's API relative path. */
   path: string;
-  /** The request body's `fingerprint` (`fingerprint` is the query parameter). The fingerprint of the GTM Folder as computed at storage time. This value is recomputed whenever the folder is modified. */
-  bodyFingerprint?: string | undefined;
-  /** The request body's `path` (`path` is the path parameter). GTM Folder's API relative path. */
-  bodyPath?: string | undefined;
 }
 export interface UpdateAccountsContainersWorkspacesGtag_configRequest extends Omit<
   GtagConfig,
@@ -2235,10 +2203,6 @@ export interface UpdateAccountsContainersWorkspacesGtag_configRequest extends Om
   path: string;
   /** When provided, this fingerprint must match the fingerprint of the config in storage. */
   fingerprint?: string | undefined;
-  /** The request body's `fingerprint` (`fingerprint` is the query parameter). The fingerprint of the Google tag config as computed at storage time. This value is recomputed whenever the config is modified. */
-  bodyFingerprint?: string | undefined;
-  /** The request body's `path` (`path` is the path parameter). Google tag config's API relative path. */
-  bodyPath?: string | undefined;
 }
 export interface UpdateAccountsContainersWorkspacesTagsRequest extends Omit<
   Tag,
@@ -2248,10 +2212,6 @@ export interface UpdateAccountsContainersWorkspacesTagsRequest extends Omit<
   path: string;
   /** When provided, this fingerprint must match the fingerprint of the tag in storage. */
   fingerprint?: string | undefined;
-  /** The request body's `fingerprint` (`fingerprint` is the query parameter). The fingerprint of the GTM Tag as computed at storage time. This value is recomputed whenever the tag is modified. */
-  bodyFingerprint?: string | undefined;
-  /** The request body's `path` (`path` is the path parameter). GTM Tag's API relative path. */
-  bodyPath?: string | undefined;
 }
 export interface UpdateAccountsContainersWorkspacesTemplatesRequest extends Omit<
   CustomTemplate,
@@ -2261,10 +2221,6 @@ export interface UpdateAccountsContainersWorkspacesTemplatesRequest extends Omit
   fingerprint?: string | undefined;
   /** GTM Custom Template's API relative path. */
   path: string;
-  /** The request body's `path` (`path` is the path parameter). GTM Custom Template's API relative path. */
-  bodyPath?: string | undefined;
-  /** The request body's `fingerprint` (`fingerprint` is the query parameter). The fingerprint of the GTM Custom Template as computed at storage time. This value is recomputed whenever the template is modified. */
-  bodyFingerprint?: string | undefined;
 }
 export interface UpdateAccountsContainersWorkspacesTransformationsRequest extends Omit<
   Transformation,
@@ -2274,10 +2230,6 @@ export interface UpdateAccountsContainersWorkspacesTransformationsRequest extend
   fingerprint?: string | undefined;
   /** GTM Transformation's API relative path. */
   path: string;
-  /** The request body's `path` (`path` is the path parameter). GTM transformation's API relative path. */
-  bodyPath?: string | undefined;
-  /** The request body's `fingerprint` (`fingerprint` is the query parameter). The fingerprint of the GTM Transformation as computed at storage time. This value is recomputed whenever the transformation is modified. */
-  bodyFingerprint?: string | undefined;
 }
 export interface UpdateAccountsContainersWorkspacesTriggersRequest extends Omit<
   Trigger,
@@ -2287,10 +2239,6 @@ export interface UpdateAccountsContainersWorkspacesTriggersRequest extends Omit<
   path: string;
   /** When provided, this fingerprint must match the fingerprint of the trigger in storage. */
   fingerprint?: string | undefined;
-  /** The request body's `fingerprint` (`fingerprint` is the query parameter). The fingerprint of the GTM Trigger as computed at storage time. This value is recomputed whenever the trigger is modified. */
-  bodyFingerprint?: string | undefined;
-  /** The request body's `path` (`path` is the path parameter). GTM Trigger's API relative path. */
-  bodyPath?: string | undefined;
 }
 export interface UpdateAccountsContainersWorkspacesVariablesRequest extends Omit<
   Variable,
@@ -2300,10 +2248,6 @@ export interface UpdateAccountsContainersWorkspacesVariablesRequest extends Omit
   path: string;
   /** When provided, this fingerprint must match the fingerprint of the variable in storage. */
   fingerprint?: string | undefined;
-  /** The request body's `fingerprint` (`fingerprint` is the query parameter). The fingerprint of the GTM Variable as computed at storage time. This value is recomputed whenever the variable is modified. */
-  bodyFingerprint?: string | undefined;
-  /** The request body's `path` (`path` is the path parameter). GTM Variable's API relative path. */
-  bodyPath?: string | undefined;
 }
 export interface UpdateAccountsContainersWorkspacesZonesRequest extends Omit<
   Zone,
@@ -2313,16 +2257,10 @@ export interface UpdateAccountsContainersWorkspacesZonesRequest extends Omit<
   fingerprint?: string | undefined;
   /** GTM Zone's API relative path. */
   path: string;
-  /** The request body's `path` (`path` is the path parameter). GTM Zone's API relative path. */
-  bodyPath?: string | undefined;
-  /** The request body's `fingerprint` (`fingerprint` is the query parameter). The fingerprint of the GTM Zone as computed at storage time. This value is recomputed whenever the zone is modified. */
-  bodyFingerprint?: string | undefined;
 }
 export interface UpdateAccountsUser_permissionsRequest extends Omit<UserPermission, "path"> {
   /** GTM UserPermission's API relative path. */
   path: string;
-  /** The request body's `path` (`path` is the path parameter). GTM UserPermission's API relative path. */
-  bodyPath?: string | undefined;
 }
 export type BulkUpdateAccountsContainersWorkspacesError =
   | NotFound
@@ -4831,8 +4769,6 @@ function __c2(j: number): any {
           S.Struct({
             path: S.String.pipe(T.Label()),
             fingerprint: S.optional(S.String.pipe(T.Query())),
-            bodyPath: S.optional(S.String.pipe(T.Body("path"))),
-            bodyFingerprint: S.optional(S.String.pipe(T.Body("fingerprint"))),
           }),
         ).pipe(
           T.Http({
@@ -4853,8 +4789,6 @@ function __c3(j: number): any {
           S.Struct({
             path: S.String.pipe(T.Label()),
             fingerprint: S.optional(S.String.pipe(T.Query())),
-            bodyFingerprint: S.optional(S.String.pipe(T.Body("fingerprint"))),
-            bodyPath: S.optional(S.String.pipe(T.Body("path"))),
           }),
         ).pipe(
           T.Http({
@@ -4875,8 +4809,6 @@ function __c4(j: number): any {
           S.Struct({
             fingerprint: S.optional(S.String.pipe(T.Query())),
             path: S.String.pipe(T.Label()),
-            bodyFingerprint: S.optional(S.String.pipe(T.Body("fingerprint"))),
-            bodyPath: S.optional(S.String.pipe(T.Body("path"))),
           }),
         ).pipe(
           T.Http({
@@ -4897,8 +4829,6 @@ function __c5(j: number): any {
           S.Struct({
             path: S.String.pipe(T.Label()),
             fingerprint: S.optional(S.String.pipe(T.Query())),
-            bodyFingerprint: S.optional(S.String.pipe(T.Body("fingerprint"))),
-            bodyPath: S.optional(S.String.pipe(T.Body("path"))),
           }),
         ).pipe(
           T.Http({
@@ -4919,8 +4849,6 @@ function __c6(j: number): any {
           S.Struct({
             path: S.String.pipe(T.Label()),
             fingerprint: S.optional(S.String.pipe(T.Query())),
-            bodyFingerprint: S.optional(S.String.pipe(T.Body("fingerprint"))),
-            bodyPath: S.optional(S.String.pipe(T.Body("path"))),
           }),
         ).pipe(
           T.Http({
@@ -4941,8 +4869,6 @@ function __c7(j: number): any {
           S.Struct({
             fingerprint: S.optional(S.String.pipe(T.Query())),
             path: S.String.pipe(T.Label()),
-            bodyPath: S.optional(S.String.pipe(T.Body("path"))),
-            bodyFingerprint: S.optional(S.String.pipe(T.Body("fingerprint"))),
           }),
         ).pipe(
           T.Http({
@@ -4963,8 +4889,6 @@ function __c8(j: number): any {
           S.Struct({
             fingerprint: S.optional(S.String.pipe(T.Query())),
             path: S.String.pipe(T.Label()),
-            bodyPath: S.optional(S.String.pipe(T.Body("path"))),
-            bodyFingerprint: S.optional(S.String.pipe(T.Body("fingerprint"))),
           }),
         ).pipe(
           T.Http({
@@ -4985,8 +4909,6 @@ function __c9(j: number): any {
           S.Struct({
             path: S.String.pipe(T.Label()),
             fingerprint: S.optional(S.String.pipe(T.Query())),
-            bodyFingerprint: S.optional(S.String.pipe(T.Body("fingerprint"))),
-            bodyPath: S.optional(S.String.pipe(T.Body("path"))),
           }),
         ).pipe(
           T.Http({
@@ -5007,8 +4929,6 @@ function __c10(j: number): any {
           S.Struct({
             path: S.String.pipe(T.Label()),
             fingerprint: S.optional(S.String.pipe(T.Query())),
-            bodyFingerprint: S.optional(S.String.pipe(T.Body("fingerprint"))),
-            bodyPath: S.optional(S.String.pipe(T.Body("path"))),
           }),
         ).pipe(
           T.Http({
@@ -5029,8 +4949,6 @@ function __c11(j: number): any {
           S.Struct({
             fingerprint: S.optional(S.String.pipe(T.Query())),
             path: S.String.pipe(T.Label()),
-            bodyPath: S.optional(S.String.pipe(T.Body("path"))),
-            bodyFingerprint: S.optional(S.String.pipe(T.Body("fingerprint"))),
           }),
         ).pipe(
           T.Http({
@@ -5069,7 +4987,6 @@ function __c13(j: number): any {
           __S(187, __c23, 3),
           S.Struct({
             path: S.String.pipe(T.Label()),
-            bodyPath: S.optional(S.String.pipe(T.Body("path"))),
           }),
         ).pipe(
           T.Http({
@@ -7041,7 +6958,6 @@ function __c116(j: number): any {
             path: S.String.pipe(T.Label()),
             variableId: S.optional(__S(656, __c82, 0).pipe(T.Query())),
             tagId: S.optional(__S(656, __c82, 0).pipe(T.Query())),
-            bodyPath: S.optional(S.String.pipe(T.Body("path"))),
           }),
         ).pipe(
           T.Http({
@@ -7174,7 +7090,6 @@ function __c122(j: number): any {
           __S(960, __c120, 0),
           S.Struct({
             path: S.String.pipe(T.Label()),
-            bodyPath: S.optional(S.String.pipe(T.Body("path"))),
           }),
         ).pipe(
           T.Http({
@@ -7536,8 +7451,6 @@ function __c139(j: number): any {
           S.Struct({
             path: S.String.pipe(T.Label()),
             fingerprint: S.optional(S.String.pipe(T.Query())),
-            bodyFingerprint: S.optional(S.String.pipe(T.Body("fingerprint"))),
-            bodyPath: S.optional(S.String.pipe(T.Body("path"))),
           }),
         ).pipe(
           T.Http({
@@ -7558,8 +7471,6 @@ function __c140(j: number): any {
           S.Struct({
             fingerprint: S.optional(S.String.pipe(T.Query())),
             path: S.String.pipe(T.Label()),
-            bodyPath: S.optional(S.String.pipe(T.Body("path"))),
-            bodyFingerprint: S.optional(S.String.pipe(T.Body("fingerprint"))),
           }),
         ).pipe(
           T.Http({
@@ -7580,8 +7491,6 @@ function __c141(j: number): any {
           S.Struct({
             path: S.String.pipe(T.Label()),
             fingerprint: S.optional(S.String.pipe(T.Query())),
-            bodyPath: S.optional(S.String.pipe(T.Body("path"))),
-            bodyFingerprint: S.optional(S.String.pipe(T.Body("fingerprint"))),
           }),
         ).pipe(
           T.Http({
@@ -7602,8 +7511,6 @@ function __c142(j: number): any {
           S.Struct({
             path: S.String.pipe(T.Label()),
             fingerprint: S.optional(S.String.pipe(T.Query())),
-            bodyPath: S.optional(S.String.pipe(T.Body("path"))),
-            bodyFingerprint: S.optional(S.String.pipe(T.Body("fingerprint"))),
           }),
         ).pipe(
           T.Http({

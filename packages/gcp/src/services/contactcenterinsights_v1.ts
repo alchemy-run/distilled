@@ -267,8 +267,6 @@ export interface BulkAnalyzeProjectsLocationsConversationsRequest extends Omit<
 > {
   /** Required. The parent resource to create analyses in. */
   parent: string;
-  /** The request body's `parent` (`parent` is the path parameter). Required. The parent resource to create analyses in. */
-  bodyParent?: string | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -300,8 +298,6 @@ export interface BulkAnalyzeProjectsLocationsConversationsSegmentsRequest extend
 > {
   /** Required. The parent resource to create analyses in. */
   parent: string;
-  /** The request body's `parent` (`parent` is the path parameter). Required. The parent resource to create analyses in. */
-  bodyParent?: string | undefined;
 }
 /** Request for the BulkDeleteFeedbackLabels endpoint. */
 export interface GoogleCloudContactcenterinsightsV1BulkDeleteFeedbackLabelsRequest {
@@ -316,8 +312,6 @@ export interface BulkDeleteFeedbackLabelsProjectsLocationsRequest extends Omit<
 > {
   /** Required. The parent resource for new feedback labels. */
   parent: string;
-  /** The request body's `parent` (`parent` is the path parameter). Required. The parent resource for new feedback labels. */
-  bodyParent?: string | undefined;
 }
 export interface BulkDeleteFeedbackLabelsProjectsLocationsDatasetsRequest extends Omit<
   GoogleCloudContactcenterinsightsV1BulkDeleteFeedbackLabelsRequest,
@@ -325,8 +319,6 @@ export interface BulkDeleteFeedbackLabelsProjectsLocationsDatasetsRequest extend
 > {
   /** Required. The parent resource for new feedback labels. */
   parent: string;
-  /** The request body's `parent` (`parent` is the path parameter). Required. The parent resource for new feedback labels. */
-  bodyParent?: string | undefined;
 }
 /** The request to delete conversations in bulk. */
 export interface GoogleCloudContactcenterinsightsV1BulkDeleteConversationsRequest {
@@ -345,8 +337,6 @@ export interface BulkDeleteProjectsLocationsConversationsRequest extends Omit<
 > {
   /** Required. The parent resource to delete conversations from. Format: projects/{project}/locations/{location} */
   parent: string;
-  /** The request body's `parent` (`parent` is the path parameter). Required. The parent resource to delete conversations from. Format: projects/{project}/locations/{location} */
-  bodyParent?: string | undefined;
 }
 export interface BulkDeleteProjectsLocationsDatasetsConversationsRequest extends Omit<
   GoogleCloudContactcenterinsightsV1BulkDeleteConversationsRequest,
@@ -354,8 +344,6 @@ export interface BulkDeleteProjectsLocationsDatasetsConversationsRequest extends
 > {
   /** Required. The parent resource to delete conversations from. Format: projects/{project}/locations/{location} */
   parent: string;
-  /** The request body's `parent` (`parent` is the path parameter). Required. The parent resource to delete conversations from. Format: projects/{project}/locations/{location} */
-  bodyParent?: string | undefined;
 }
 /** Google Sheets document details to write the feedback labels to. */
 export interface GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsRequestSheetsDestination {
@@ -421,8 +409,6 @@ export interface BulkDownloadFeedbackLabelsProjectsLocationsRequest extends Omit
 > {
   /** Required. The parent resource for new feedback labels. */
   parent: string;
-  /** The request body's `parent` (`parent` is the path parameter). Required. The parent resource for new feedback labels. */
-  bodyParent?: string | undefined;
 }
 export interface BulkDownloadFeedbackLabelsProjectsLocationsDatasetsRequest extends Omit<
   GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsRequest,
@@ -430,8 +416,6 @@ export interface BulkDownloadFeedbackLabelsProjectsLocationsDatasetsRequest exte
 > {
   /** Required. The parent resource for new feedback labels. */
   parent: string;
-  /** The request body's `parent` (`parent` is the path parameter). Required. The parent resource for new feedback labels. */
-  bodyParent?: string | undefined;
 }
 export type GoogleCloudContactcenterinsightsV1BulkUploadFeedbackLabelsRequestGcsSourceFormatEnum =
   | "FORMAT_UNSPECIFIED"
@@ -2647,8 +2631,6 @@ export interface DeployProjectsLocationsIssueModelsRequest extends Omit<
 > {
   /** Required. The issue model to deploy. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Required. The issue model to deploy. */
-  bodyName?: string | undefined;
 }
 /** The request to deploy a QaScorecardRevision */
 export type GoogleCloudContactcenterinsightsV1DeployQaScorecardRevisionRequest =
@@ -2723,8 +2705,6 @@ export interface ExportProjectsLocationsDatasetsInsightsdataRequest extends Omit
 > {
   /** Required. The parent resource to export data from. */
   parent: string;
-  /** The request body's `parent` (`parent` is the path parameter). Required. The parent resource to export data from. */
-  bodyParent?: string | undefined;
 }
 export interface ExportProjectsLocationsInsightsdataRequest extends Omit<
   GoogleCloudContactcenterinsightsV1ExportInsightsDataRequest,
@@ -2732,8 +2712,6 @@ export interface ExportProjectsLocationsInsightsdataRequest extends Omit<
 > {
   /** Required. The parent resource to export data from. */
   parent: string;
-  /** The request body's `parent` (`parent` is the path parameter). Required. The parent resource to export data from. */
-  bodyParent?: string | undefined;
 }
 /** Google Cloud Storage Object URI to save the issue model to. */
 export interface GoogleCloudContactcenterinsightsV1ExportIssueModelRequestGcsDestination {
@@ -2755,8 +2733,6 @@ export interface ExportProjectsLocationsIssueModelsRequest extends Omit<
 > {
   /** Required. The issue model to export. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Required. The issue model to export. */
-  bodyName?: string | undefined;
 }
 /** The message to finalize an assessment. Finalizing makes an assessment and its notes immutable. */
 export type GoogleCloudContactcenterinsightsV1FinalizeAssessmentRequest =
@@ -3162,8 +3138,6 @@ export interface ImportProjectsLocationsIssueModelsRequest extends Omit<
 > {
   /** Required. The parent resource of the issue model. */
   parent: string;
-  /** The request body's `parent` (`parent` is the path parameter). Required. The parent resource of the issue model. */
-  bodyParent?: string | undefined;
 }
 /** Configuration that applies to all conversations. */
 export interface GoogleCloudContactcenterinsightsV1IngestConversationsRequestConversationConfig {
@@ -3235,8 +3209,6 @@ export interface IngestProjectsLocationsConversationsRequest extends Omit<
 > {
   /** Required. The parent resource for new conversations. */
   parent: string;
-  /** The request body's `parent` (`parent` is the path parameter). Required. The parent resource for new conversations. */
-  bodyParent?: string | undefined;
 }
 export interface IngestProjectsLocationsDatasetsConversationsRequest extends Omit<
   GoogleCloudContactcenterinsightsV1IngestConversationsRequest,
@@ -3244,8 +3216,6 @@ export interface IngestProjectsLocationsDatasetsConversationsRequest extends Omi
 > {
   /** Required. The parent resource for new conversations. */
   parent: string;
-  /** The request body's `parent` (`parent` is the path parameter). Required. The parent resource for new conversations. */
-  bodyParent?: string | undefined;
 }
 /** The request to initialize a location-level encryption specification. */
 export interface GoogleCloudContactcenterinsightsV1InitializeEncryptionSpecRequest {
@@ -3785,8 +3755,6 @@ export interface PatchProjectsLocationsAnalysisRulesRequest extends Omit<
   name: string;
   /** Optional. The list of fields to be updated. If the update_mask is not provided, the update will be applied to all fields. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the analysis rule. Format: projects/{project}/locations/{location}/analysisRules/{analysis_rule} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsAssessmentRulesRequest extends Omit<
   GoogleCloudContactcenterinsightsV1AssessmentRule,
@@ -3796,8 +3764,6 @@ export interface PatchProjectsLocationsAssessmentRulesRequest extends Omit<
   name: string;
   /** Optional. The list of fields to be updated. If the update_mask is not provided, the update will be applied to all fields. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the assessment rule. Format: projects/{project}/locations/{location}/assessmentRules/{assessment_rule} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsAuthorizedViewSetsRequest extends Omit<
   GoogleCloudContactcenterinsightsV1AuthorizedViewSet,
@@ -3807,8 +3773,6 @@ export interface PatchProjectsLocationsAuthorizedViewSetsRequest extends Omit<
   updateMask?: string | undefined;
   /** Identifier. The resource name of the AuthorizedViewSet. Format: projects/{project}/locations/{location}/authorizedViewSets/{authorized_view_set} */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the AuthorizedViewSet. Format: projects/{project}/locations/{location}/authorizedViewSets/{authorized_view_set} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest extends Omit<
   GoogleCloudContactcenterinsightsV1AuthorizedView,
@@ -3818,8 +3782,6 @@ export interface PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest 
   updateMask?: string | undefined;
   /** Identifier. The resource name of the AuthorizedView. Format: projects/{project}/locations/{location}/authorizedViewSets/{authorized_view_set}/authorizedViews/{authorized_view} */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the AuthorizedView. Format: projects/{project}/locations/{location}/authorizedViewSets/{authorized_view_set}/authorizedViews/{authorized_view} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesRequest extends Omit<
   GoogleCloudContactcenterinsightsV1Note,
@@ -3829,8 +3791,6 @@ export interface PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversa
   updateMask?: string | undefined;
   /** Identifier. The resource name of the note. Format: projects/{project}/locations/{location}/conversations/{conversation}/assessments/{assessment}/notes/{note} */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the note. Format: projects/{project}/locations/{location}/conversations/{conversation}/assessments/{assessment}/notes/{note} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsRequest extends Omit<
   GoogleCloudContactcenterinsightsV1FeedbackLabel,
@@ -3840,8 +3800,6 @@ export interface PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversa
   name: string;
   /** Required. The list of fields to be updated. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Immutable. Resource name of the FeedbackLabel. Format: projects/{project}/locations/{location}/conversations/{conversation}/feedbackLabels/{feedback_label} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsAutoLabelingRulesRequest extends Omit<
   GoogleCloudContactcenterinsightsV1AutoLabelingRule,
@@ -3851,8 +3809,6 @@ export interface PatchProjectsLocationsAutoLabelingRulesRequest extends Omit<
   updateMask?: string | undefined;
   /** Identifier. The resource name of the auto-labeling rule. Format: projects/{project}/locations/{location}/autoLabelingRules/{auto_labeling_rule} */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the auto-labeling rule. Format: projects/{project}/locations/{location}/autoLabelingRules/{auto_labeling_rule} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsConversationsRequest extends Omit<
   GoogleCloudContactcenterinsightsV1Conversation,
@@ -3866,8 +3822,6 @@ export interface PatchProjectsLocationsConversationsRequest extends Omit<
   name: string;
   /** Optional. Defaults to false. If set to true, and the conversation is not found, a new conversation will be created. In this situation, `update_mask` is ignored. */
   allowMissing?: boolean | undefined;
-  /** The request body's `name` (`name` is the path parameter). Immutable. The resource name of the conversation. Format: projects/{project}/locations/{location}/conversations/{conversation} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsConversationsAssessmentsNotesRequest extends Omit<
   GoogleCloudContactcenterinsightsV1Note,
@@ -3877,8 +3831,6 @@ export interface PatchProjectsLocationsConversationsAssessmentsNotesRequest exte
   name: string;
   /** Optional. The list of fields to be updated. If the update_mask is empty, all updateable fields will be updated. Acceptable fields include: * `content` */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the note. Format: projects/{project}/locations/{location}/conversations/{conversation}/assessments/{assessment}/notes/{note} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsConversationsFeedbackLabelsRequest extends Omit<
   GoogleCloudContactcenterinsightsV1FeedbackLabel,
@@ -3888,8 +3840,6 @@ export interface PatchProjectsLocationsConversationsFeedbackLabelsRequest extend
   name: string;
   /** Required. The list of fields to be updated. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Immutable. Resource name of the FeedbackLabel. Format: projects/{project}/locations/{location}/conversations/{conversation}/feedbackLabels/{feedback_label} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsDashboardsRequest extends Omit<
   GoogleCloudContactcenterinsightsV1Dashboard,
@@ -3899,8 +3849,6 @@ export interface PatchProjectsLocationsDashboardsRequest extends Omit<
   name: string;
   /** Optional. List of fields to be updated. All possible fields can be updated by passing `*`, or a subset of the following updateable fields can be provided: * `display_name` * `root_container` * `description` */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Dashboard resource name. Format: projects/{project}/locations/{location}/dashboards/{dashboard} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsDatasetsRequest extends Omit<
   GoogleCloudContactcenterinsightsV1Dataset,
@@ -3910,8 +3858,6 @@ export interface PatchProjectsLocationsDatasetsRequest extends Omit<
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Immutable. Identifier. Resource name of the dataset. Format: projects/{project}/locations/{location}/datasets/{dataset} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsDatasetsConversationsFeedbackLabelsRequest extends Omit<
   GoogleCloudContactcenterinsightsV1FeedbackLabel,
@@ -3921,8 +3867,6 @@ export interface PatchProjectsLocationsDatasetsConversationsFeedbackLabelsReques
   name: string;
   /** Required. The list of fields to be updated. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Immutable. Resource name of the FeedbackLabel. Format: projects/{project}/locations/{location}/conversations/{conversation}/feedbackLabels/{feedback_label} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsIssueModelsRequest extends Omit<
   GoogleCloudContactcenterinsightsV1IssueModel,
@@ -3932,8 +3876,6 @@ export interface PatchProjectsLocationsIssueModelsRequest extends Omit<
   updateMask?: string | undefined;
   /** Immutable. The resource name of the issue model. Format: projects/{project}/locations/{location}/issueModels/{issue_model} */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Immutable. The resource name of the issue model. Format: projects/{project}/locations/{location}/issueModels/{issue_model} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsIssueModelsIssuesRequest extends Omit<
   GoogleCloudContactcenterinsightsV1Issue,
@@ -3943,8 +3885,6 @@ export interface PatchProjectsLocationsIssueModelsIssuesRequest extends Omit<
   updateMask?: string | undefined;
   /** Immutable. The resource name of the issue. Format: projects/{project}/locations/{location}/issueModels/{issue_model}/issues/{issue} */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Immutable. The resource name of the issue. Format: projects/{project}/locations/{location}/issueModels/{issue_model}/issues/{issue} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsPhraseMatchersRequest extends Omit<
   GoogleCloudContactcenterinsightsV1PhraseMatcher,
@@ -3954,8 +3894,6 @@ export interface PatchProjectsLocationsPhraseMatchersRequest extends Omit<
   name: string;
   /** The list of fields to be updated. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). The resource name of the phrase matcher. Format: projects/{project}/locations/{location}/phraseMatchers/{phrase_matcher} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsQaQuestionTagsRequest extends Omit<
   GoogleCloudContactcenterinsightsV1QaQuestionTag,
@@ -3965,8 +3903,6 @@ export interface PatchProjectsLocationsQaQuestionTagsRequest extends Omit<
   updateMask?: string | undefined;
   /** Identifier. Resource name for the QaQuestionTag Format projects/{project}/locations/{location}/qaQuestionTags/{qa_question_tag} In the above format, the last segment, i.e., qa_question_tag, is a server-generated ID corresponding to the tag resource. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name for the QaQuestionTag Format projects/{project}/locations/{location}/qaQuestionTags/{qa_question_tag} In the above format, the last segment, i.e., qa_question_tag, is a server-generated ID corresponding to the tag resource. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsQaScorecardsRequest extends Omit<
   GoogleCloudContactcenterinsightsV1QaScorecard,
@@ -3976,8 +3912,6 @@ export interface PatchProjectsLocationsQaScorecardsRequest extends Omit<
   updateMask?: string | undefined;
   /** Identifier. The scorecard name. Format: projects/{project}/locations/{location}/qaScorecards/{qa_scorecard} */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The scorecard name. Format: projects/{project}/locations/{location}/qaScorecards/{qa_scorecard} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsQaScorecardsRevisionsQaQuestionsRequest extends Omit<
   GoogleCloudContactcenterinsightsV1QaQuestion,
@@ -3987,8 +3921,6 @@ export interface PatchProjectsLocationsQaScorecardsRevisionsQaQuestionsRequest e
   updateMask?: string | undefined;
   /** Identifier. The resource name of the question. Format: projects/{project}/locations/{location}/qaScorecards/{qa_scorecard}/revisions/{revision}/qaQuestions/{qa_question} */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the question. Format: projects/{project}/locations/{location}/qaScorecards/{qa_scorecard}/revisions/{revision}/qaQuestions/{qa_question} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsViewsRequest extends Omit<
   GoogleCloudContactcenterinsightsV1View,
@@ -3998,8 +3930,6 @@ export interface PatchProjectsLocationsViewsRequest extends Omit<
   updateMask?: string | undefined;
   /** Immutable. The resource name of the view. Format: projects/{project}/locations/{location}/views/{view} */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Immutable. The resource name of the view. Format: projects/{project}/locations/{location}/views/{view} */
-  bodyName?: string | undefined;
 }
 /** The message to publish an assessment. Draft and appealed assessments can be published. Publishing simply changes the state of the assessment to published, allowing the console and authorized views to filter on the state. */
 export type GoogleCloudContactcenterinsightsV1PublishAssessmentRequest =
@@ -4251,8 +4181,6 @@ export interface SampleProjectsLocationsConversationsRequest extends Omit<
 > {
   /** Required. The parent resource of the dataset. */
   parent: string;
-  /** The request body's `parent` (`parent` is the path parameter). Required. The parent resource of the dataset. */
-  bodyParent?: string | undefined;
 }
 export interface SampleProjectsLocationsDatasetsConversationsRequest extends Omit<
   GoogleCloudContactcenterinsightsV1SampleConversationsRequest,
@@ -4260,8 +4188,6 @@ export interface SampleProjectsLocationsDatasetsConversationsRequest extends Omi
 > {
   /** Required. The parent resource of the dataset. */
   parent: string;
-  /** The request body's `parent` (`parent` is the path parameter). Required. The parent resource of the dataset. */
-  bodyParent?: string | undefined;
 }
 export interface SearchProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest {
   /** Optional. The maximum number of view to return in the response. If the value is zero, the service will select a default size. A call might return fewer objects than requested. A non-empty `next_page_token` in the response indicates that more data is available. */
@@ -4367,8 +4293,6 @@ export interface UndeployProjectsLocationsIssueModelsRequest extends Omit<
 > {
   /** Required. The issue model to undeploy. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Required. The issue model to undeploy. */
-  bodyName?: string | undefined;
 }
 /** The request to undeploy a QaScorecardRevision */
 export type GoogleCloudContactcenterinsightsV1UndeployQaScorecardRevisionRequest =
@@ -4387,8 +4311,6 @@ export interface UpdateCorrelationConfigProjectsLocationsRequest extends Omit<
   name: string;
   /** Optional. The list of fields to be updated. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Immutable. Identifier. The resource name of the correlation config. Format: projects/{project}/locations/{location}/correlationConfig */
-  bodyName?: string | undefined;
 }
 export interface UpdateSettingsProjectsLocationsRequest extends Omit<
   GoogleCloudContactcenterinsightsV1Settings,
@@ -4398,8 +4320,6 @@ export interface UpdateSettingsProjectsLocationsRequest extends Omit<
   name: string;
   /** Required. The list of fields to be updated. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Immutable. The resource name of the settings resource. Format: projects/{project}/locations/{location}/settings */
-  bodyName?: string | undefined;
 }
 /** Request to upload a conversation. */
 export interface GoogleCloudContactcenterinsightsV1UploadConversationRequest {
@@ -4420,8 +4340,6 @@ export interface UploadProjectsLocationsConversationsRequest extends Omit<
 > {
   /** Required. The parent resource of the conversation. */
   parent: string;
-  /** The request body's `parent` (`parent` is the path parameter). Required. The parent resource of the conversation. */
-  bodyParent?: string | undefined;
 }
 export type AppealProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsError =
   | NotFound
@@ -8795,7 +8713,6 @@ function __c0(j: number): any {
           __S(32, __c1, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
-            bodyParent: S.optional(S.String.pipe(T.Body("parent"))),
           }),
         ).pipe(
           T.Http({
@@ -8989,7 +8906,6 @@ function __c12(j: number): any {
           __S(32, __c1, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
-            bodyParent: S.optional(S.String.pipe(T.Body("parent"))),
           }),
         ).pipe(
           T.Http({
@@ -9179,7 +9095,6 @@ function __c21(j: number): any {
           __S(672, __c21, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
-            bodyParent: S.optional(S.String.pipe(T.Body("parent"))),
           }),
         ).pipe(
           T.Http({
@@ -9199,7 +9114,6 @@ function __c22(j: number): any {
           __S(739, __c23, 3),
           S.Struct({
             parent: S.String.pipe(T.Label()),
-            bodyParent: S.optional(S.String.pipe(T.Body("parent"))),
           }),
         ).pipe(
           T.Http({
@@ -9268,7 +9182,6 @@ function __c24(j: number): any {
           __S(739, __c23, 3),
           S.Struct({
             parent: S.String.pipe(T.Label()),
-            bodyParent: S.optional(S.String.pipe(T.Body("parent"))),
           }),
         ).pipe(
           T.Http({
@@ -9315,7 +9228,6 @@ function __c26(j: number): any {
           __S(864, __c27, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
-            bodyParent: S.optional(S.String.pipe(T.Body("parent"))),
           }),
         ).pipe(
           T.Http({
@@ -9648,7 +9560,6 @@ function __c44(j: number): any {
           __S(864, __c27, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
-            bodyParent: S.optional(S.String.pipe(T.Body("parent"))),
           }),
         ).pipe(
           T.Http({
@@ -9914,7 +9825,6 @@ function __c56(j: number): any {
           __S(1826, __c57, 2),
           S.Struct({
             parent: S.String.pipe(T.Label()),
-            bodyParent: S.optional(S.String.pipe(T.Body("parent"))),
           }),
         ).pipe(
           T.Http({
@@ -10230,7 +10140,6 @@ function __c68(j: number): any {
           __S(1826, __c57, 2),
           S.Struct({
             parent: S.String.pipe(T.Label()),
-            bodyParent: S.optional(S.String.pipe(T.Body("parent"))),
           }),
         ).pipe(
           T.Http({
@@ -10251,7 +10160,6 @@ function __c69(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -10272,7 +10180,6 @@ function __c70(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -10293,7 +10200,6 @@ function __c71(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -10314,7 +10220,6 @@ function __c72(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -10335,7 +10240,6 @@ function __c73(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -10359,7 +10263,6 @@ function __c74(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -10383,7 +10286,6 @@ function __c75(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -10408,7 +10310,6 @@ function __c76(j: number): any {
             ),
             name: S.String.pipe(T.Label()),
             allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -10429,7 +10330,6 @@ function __c77(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -10450,7 +10350,6 @@ function __c78(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -10521,7 +10420,6 @@ function __c81(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -10542,7 +10440,6 @@ function __c82(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -10563,7 +10460,6 @@ function __c83(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -10586,7 +10482,6 @@ function __c84(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -10607,7 +10502,6 @@ function __c85(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -10628,7 +10522,6 @@ function __c86(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -10649,7 +10542,6 @@ function __c87(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -10670,7 +10562,6 @@ function __c88(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -10691,7 +10582,6 @@ function __c89(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -10712,7 +10602,6 @@ function __c90(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -11032,7 +10921,6 @@ function __c100(j: number): any {
           __S(3232, __c101, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
-            bodyParent: S.optional(S.String.pipe(T.Body("parent"))),
           }),
         ).pipe(
           T.Http({
@@ -11064,7 +10952,6 @@ function __c102(j: number): any {
           __S(3232, __c101, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
-            bodyParent: S.optional(S.String.pipe(T.Body("parent"))),
           }),
         ).pipe(
           T.Http({
@@ -11316,7 +11203,6 @@ function __c112(j: number): any {
           __S(6656, __c208, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -11354,7 +11240,6 @@ function __c114(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -11375,7 +11260,6 @@ function __c115(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -11405,7 +11289,6 @@ function __c116(j: number): any {
           __S(3712, __c116, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
-            bodyParent: S.optional(S.String.pipe(T.Body("parent"))),
           }),
         ).pipe(
           T.Http({
@@ -13979,7 +13862,6 @@ function __c207(j: number): any {
           __S(6656, __c208, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -14026,7 +13908,6 @@ function __c210(j: number): any {
           __S(6753, __c211, 1),
           S.Struct({
             parent: S.String.pipe(T.Label()),
-            bodyParent: S.optional(S.String.pipe(T.Body("parent"))),
           }),
         ).pipe(
           T.Http({
@@ -14072,7 +13953,6 @@ function __c212(j: number): any {
           __S(6753, __c211, 1),
           S.Struct({
             parent: S.String.pipe(T.Label()),
-            bodyParent: S.optional(S.String.pipe(T.Body("parent"))),
           }),
         ).pipe(
           T.Http({
@@ -14099,7 +13979,6 @@ function __c213(j: number): any {
           __S(6816, __c213, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -14151,7 +14030,6 @@ function __c216(j: number): any {
           __S(6944, __c217, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
-            bodyParent: S.optional(S.String.pipe(T.Body("parent"))),
           }),
         ).pipe(
           T.Http({
@@ -14574,7 +14452,6 @@ function __c236(j: number): any {
           __S(6944, __c217, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
-            bodyParent: S.optional(S.String.pipe(T.Body("parent"))),
           }),
         ).pipe(
           T.Http({

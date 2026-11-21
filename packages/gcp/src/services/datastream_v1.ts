@@ -1762,8 +1762,6 @@ export interface PatchProjectsLocationsConnectionProfilesRequest extends Omit<
   name: string;
   /** Optional. Only validate the connection profile, but don't update any resources. The default is false. */
   validateOnly?: boolean | undefined;
-  /** The request body's `name` (`name` is the path parameter). Output only. Identifier. The resource's name. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsStreamsRequest extends Omit<Stream, "name"> {
   /** Optional. Update the stream without validating it. */
@@ -1776,8 +1774,6 @@ export interface PatchProjectsLocationsStreamsRequest extends Omit<Stream, "name
   updateMask?: string | undefined;
   /** Output only. Identifier. The stream's name. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Output only. Identifier. The stream's name. */
-  bodyName?: string | undefined;
 }
 /** CDC strategy to start replicating from the most recent position in the source. */
 export type MostRecentStartPosition = CancelOperationRequest;
@@ -3092,7 +3088,6 @@ function __c23(j: number): any {
             force: S.optional(S.Boolean.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3116,7 +3111,6 @@ function __c24(j: number): any {
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

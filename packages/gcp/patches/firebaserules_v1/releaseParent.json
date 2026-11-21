@@ -1,0 +1,15 @@
+{
+  "description": "projects.releases.create takes the owning project as the path `name` (`projects/{project_id}`) and the new Release, whose own `name` (`projects/{project_id}/releases/{release_id}`) the spec marks Required, as the body. Flattening the body into the input gave both the same member name, and the path parameter won, so the release name could not be sent. This patch renames the path member to `parent`, the name the project has in every other create method.",
+  "patches": [
+    {
+      "op": "move",
+      "from": "/shapes/com.gcp.firebaserules_v1#CreateProjectsReleasesRequest/members/name",
+      "path": "/shapes/com.gcp.firebaserules_v1#CreateProjectsReleasesRequest/members/parent"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.gcp.firebaserules_v1#CreateProjectsReleases/traits/smithy.api#http/uri",
+      "value": "v1/{+parent}/releases"
+    }
+  ]
+}

@@ -337,8 +337,6 @@ export interface PatchProjectsSecretsRequest extends Omit<Secret, "name"> {
   updateMask?: string | undefined;
   /** Output only. The resource name of the Secret in the format `projects/*\/secrets/*`. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Output only. The resource name of the Secret in the format `projects/*\/secrets/*`. */
-  bodyName?: string | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
@@ -948,7 +946,6 @@ function __c11(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

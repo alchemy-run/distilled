@@ -2978,8 +2978,6 @@ export interface PatchProjectsLocationsConnectionsRequest extends Omit<Connectio
   updateMask?: string | undefined;
   /** Output only. Resource name of the Connection. Format: projects/{project}/locations/{location}/connections/{connection} */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Output only. Resource name of the Connection. Format: projects/{project}/locations/{location}/connections/{connection} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsConnectionsEndUserAuthenticationsRequest extends Omit<
   EndUserAuthentication,
@@ -2989,8 +2987,6 @@ export interface PatchProjectsLocationsConnectionsEndUserAuthenticationsRequest 
   name: string;
   /** Required. The list of fields to update. A field will be overwritten if it is in the mask. You can modify only the fields listed below. To update the EndUserAuthentication details: * `notify_endpoint_destination` */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Required. Identifier. Resource name of the EndUserAuthentication. Format: projects/{project}/locations/{location}/connections/{connection}/endUserAuthentications/{end_user_authentication} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsConnectionsEventSubscriptionsRequest extends Omit<
   EventSubscription,
@@ -3000,8 +2996,6 @@ export interface PatchProjectsLocationsConnectionsEventSubscriptionsRequest exte
   name: string;
   /** Required. The list of fields to update. Fields are specified relative to the Subscription. A field will be overwritten if it is in the mask. You can modify only the fields listed below. To update the EventSubscription details: * `serviceAccount` */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Required. Identifier. Resource name of the EventSubscription. Format: projects/{project}/locations/{location}/connections/{connection}/eventSubscriptions/{event_subscription} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsEndpointAttachmentsRequest extends Omit<
   EndpointAttachment,
@@ -3011,8 +3005,6 @@ export interface PatchProjectsLocationsEndpointAttachmentsRequest extends Omit<
   name: string;
   /** Required. The list of fields to update. Fields are specified relative to the endpointAttachment. A field will be overwritten if it is in the mask. You can modify only the fields listed below. To update the endpointAttachment details: * `description` * `labels` */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Output only. Resource name of the Endpoint Attachment. Format: projects/{project}/locations/{location}/endpointAttachments/{endpoint_attachment} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsGlobalCustomConnectorsRequest extends Omit<
   CustomConnector,
@@ -3022,16 +3014,12 @@ export interface PatchProjectsLocationsGlobalCustomConnectorsRequest extends Omi
   name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the Connector resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. Set the mask as "*" for full replacement, which means all fields will be overwritten. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name of the CustomConnector. Format: projects/{project}/locations/{location}/customConnectors/{connector} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsGlobalManagedZonesRequest extends Omit<ManagedZone, "name"> {
   /** Required. The list of fields to update. Fields are specified relative to the managedZone. A field will be overwritten if it is in the mask. You can modify only the fields listed below. To update the managedZone details: * `description` * `labels` * `target_project` * `target_network` */
   updateMask?: string | undefined;
   /** Output only. Resource name of the Managed Zone. Format: projects/{project}/locations/global/managedZones/{managed_zone} */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Output only. Resource name of the Managed Zone. Format: projects/{project}/locations/global/managedZones/{managed_zone} */
-  bodyName?: string | undefined;
 }
 /** Request message for ConnectorsService.PublishCustomConnectorVersion */
 export interface PublishCustomConnectorVersionRequest {
@@ -3144,16 +3132,12 @@ export interface UpdateRegionalSettingsProjectsLocationsRequest extends Omit<
   name: string;
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Output only. Resource name of the Connection. Format: projects/{project}/locations/{location}/regionalSettings */
-  bodyName?: string | undefined;
 }
 export interface UpdateSettingsProjectsLocationsGlobalRequest extends Omit<Settings, "name"> {
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
   /** Output only. Resource name of the Connection. Format: projects/{project}/locations/global/settings} */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Output only. Resource name of the Connection. Format: projects/{project}/locations/global/settings} */
-  bodyName?: string | undefined;
 }
 export type ValidateCustomConnectorSpecRequestSpecTypeEnum =
   | "CUSTOM_CONNECTOR_TYPE_UNSPECIFIED"
@@ -7639,7 +7623,6 @@ function __c91(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -7660,7 +7643,6 @@ function __c92(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -7681,7 +7663,6 @@ function __c93(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -7702,7 +7683,6 @@ function __c94(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -7723,7 +7703,6 @@ function __c95(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -7744,7 +7723,6 @@ function __c96(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8115,7 +8093,6 @@ function __c113(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8136,7 +8113,6 @@ function __c114(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

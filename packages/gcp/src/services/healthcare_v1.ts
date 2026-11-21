@@ -2168,8 +2168,6 @@ export interface PatchProjectsLocationsDatasetsRequest extends Omit<Dataset, "na
   name: string;
   /** Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name of the dataset, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}`. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsDatasetsConsentStoresRequest extends Omit<
   ConsentStore,
@@ -2179,8 +2177,6 @@ export interface PatchProjectsLocationsDatasetsConsentStoresRequest extends Omit
   name: string;
   /** Required. The update mask that applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask. Only the `labels`, `default_consent_ttl`, and `enable_consent_create_on_update` fields are allowed to be updated. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name of the consent store, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}`. Cannot be changed after creation. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsDatasetsConsentStoresAttributeDefinitionsRequest extends Omit<
   AttributeDefinition,
@@ -2190,8 +2186,6 @@ export interface PatchProjectsLocationsDatasetsConsentStoresAttributeDefinitions
   name: string;
   /** Required. The update mask that applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask. Only the `description`, `allowed_values`, `consent_default_values` and `data_mapping_default_value` fields can be updated. The updated `allowed_values` must contain all values from the previous `allowed_values`. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name of the Attribute definition, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/attributeDefinitions/{attribute_definition_id}`. Cannot be changed after creation. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsDatasetsConsentStoresConsentsRequest extends Omit<
   Consent,
@@ -2201,8 +2195,6 @@ export interface PatchProjectsLocationsDatasetsConsentStoresConsentsRequest exte
   name: string;
   /** Required. The update mask to apply to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask. Only the `user_id`, `policies`, `consent_artifact`, and `metadata` fields can be updated. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name of the Consent, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/consents/{consent_id}`. Cannot be changed after creation. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsDatasetsConsentStoresUserDataMappingsRequest extends Omit<
   UserDataMapping,
@@ -2212,24 +2204,18 @@ export interface PatchProjectsLocationsDatasetsConsentStoresUserDataMappingsRequ
   name: string;
   /** Required. The update mask that applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask. Only the `data_id`, `user_id` and `resource_attributes` fields can be updated. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Resource name of the User data mapping, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/userDataMappings/{user_data_mapping_id}`. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsDatasetsDicomStoresRequest extends Omit<DicomStore, "name"> {
   /** Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
   /** Identifier. Resource name of the DICOM store, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name of the DICOM store, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsDatasetsFhirStoresRequest extends Omit<FhirStore, "name"> {
   /** Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
   /** Output only. Identifier. Resource name of the FHIR store, of the form `projects/{project_id}/locations/{location}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Output only. Identifier. Resource name of the FHIR store, of the form `projects/{project_id}/locations/{location}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsDatasetsFhirStoresFhirRequest extends HttpBody {
   /** Required. The name of the resource to update. */
@@ -2240,8 +2226,6 @@ export interface PatchProjectsLocationsDatasetsHl7V2StoresRequest extends Omit<H
   updateMask?: string | undefined;
   /** Identifier. Resource name of the HL7v2 store, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/hl7V2Stores/{hl7v2_store_id}`. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name of the HL7v2 store, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/hl7V2Stores/{hl7v2_store_id}`. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsDatasetsHl7V2StoresMessagesRequest extends Omit<
   Message,
@@ -2251,8 +2235,6 @@ export interface PatchProjectsLocationsDatasetsHl7V2StoresMessagesRequest extend
   updateMask?: string | undefined;
   /** Output only. Resource name of the Message, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/hl7V2Stores/{hl7_v2_store_id}/messages/{message_id}`. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Output only. Resource name of the Message, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/hl7V2Stores/{hl7_v2_store_id}/messages/{message_id}`. */
-  bodyName?: string | undefined;
 }
 export interface Patient_consent_enforcement_statusProjectsLocationsDatasetsFhirStoresFhirRequest {
   /** Optional. The maximum number of results on a page. If not specified, 100 is used. May not be larger than 1000. */
@@ -6595,7 +6577,6 @@ function __c15(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -6616,7 +6597,6 @@ function __c16(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -6637,7 +6617,6 @@ function __c17(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -6660,7 +6639,6 @@ function __c18(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -6681,7 +6659,6 @@ function __c19(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -6704,7 +6681,6 @@ function __c20(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -6725,7 +6701,6 @@ function __c21(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -6765,7 +6740,6 @@ function __c23(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -6786,7 +6760,6 @@ function __c24(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

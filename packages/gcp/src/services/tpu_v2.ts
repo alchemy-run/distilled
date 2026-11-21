@@ -737,8 +737,6 @@ export interface PatchProjectsLocationsNodesRequest extends Omit<Node, "name"> {
   updateMask?: string | undefined;
   /** Output only. Immutable. The name of the TPU. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Output only. Immutable. The name of the TPU. */
-  bodyName?: string | undefined;
 }
 /** Request for ResetQueuedResource. */
 export type ResetQueuedResourceRequest = Spot;
@@ -1684,7 +1682,6 @@ function __c18(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://tpu.googleapis.com/" }),

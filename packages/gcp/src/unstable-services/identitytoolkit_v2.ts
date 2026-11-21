@@ -1200,8 +1200,6 @@ export interface PatchProjectsDefaultSupportedIdpConfigsRequest extends Omit<
   name: string;
   /** The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). The name of the DefaultSupportedIdpConfig resource, for example: "projects/my-awesome-project/defaultSupportedIdpConfigs/google.com" */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsInboundSamlConfigsRequest extends Omit<
   GoogleCloudIdentitytoolkitAdminV2InboundSamlConfig,
@@ -1211,8 +1209,6 @@ export interface PatchProjectsInboundSamlConfigsRequest extends Omit<
   name: string;
   /** The update mask applies to the resource. Empty update mask will result in updating nothing. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). The name of the InboundSamlConfig resource, for example: 'projects/my-awesome-project/inboundSamlConfigs/my-config-id'. Ignored during create requests. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsOauthIdpConfigsRequest extends Omit<
   GoogleCloudIdentitytoolkitAdminV2OAuthIdpConfig,
@@ -1222,8 +1218,6 @@ export interface PatchProjectsOauthIdpConfigsRequest extends Omit<
   updateMask?: string | undefined;
   /** The name of the OAuthIdpConfig resource, for example: 'projects/my-awesome-project/oauthIdpConfigs/oauth-config-id'. Ignored during create requests. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). The name of the OAuthIdpConfig resource, for example: 'projects/my-awesome-project/oauthIdpConfigs/oauth-config-id'. Ignored during create requests. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsTenantsRequest extends Omit<
   GoogleCloudIdentitytoolkitAdminV2Tenant,
@@ -1233,8 +1227,6 @@ export interface PatchProjectsTenantsRequest extends Omit<
   name: string;
   /** If provided, only update fields set in the update mask. Otherwise, all settable fields will be updated. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Output only. Resource name of a tenant. For example: "projects/{project-id}/tenants/{tenant-id}" */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsTenantsDefaultSupportedIdpConfigsRequest extends Omit<
   GoogleCloudIdentitytoolkitAdminV2DefaultSupportedIdpConfig,
@@ -1244,8 +1236,6 @@ export interface PatchProjectsTenantsDefaultSupportedIdpConfigsRequest extends O
   updateMask?: string | undefined;
   /** The name of the DefaultSupportedIdpConfig resource, for example: "projects/my-awesome-project/defaultSupportedIdpConfigs/google.com" */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). The name of the DefaultSupportedIdpConfig resource, for example: "projects/my-awesome-project/defaultSupportedIdpConfigs/google.com" */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsTenantsInboundSamlConfigsRequest extends Omit<
   GoogleCloudIdentitytoolkitAdminV2InboundSamlConfig,
@@ -1255,8 +1245,6 @@ export interface PatchProjectsTenantsInboundSamlConfigsRequest extends Omit<
   updateMask?: string | undefined;
   /** The name of the InboundSamlConfig resource, for example: 'projects/my-awesome-project/inboundSamlConfigs/my-config-id'. Ignored during create requests. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). The name of the InboundSamlConfig resource, for example: 'projects/my-awesome-project/inboundSamlConfigs/my-config-id'. Ignored during create requests. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsTenantsOauthIdpConfigsRequest extends Omit<
   GoogleCloudIdentitytoolkitAdminV2OAuthIdpConfig,
@@ -1266,8 +1254,6 @@ export interface PatchProjectsTenantsOauthIdpConfigsRequest extends Omit<
   name: string;
   /** The update mask applies to the resource. Empty update mask will result in updating nothing. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). The name of the OAuthIdpConfig resource, for example: 'projects/my-awesome-project/oauthIdpConfigs/oauth-config-id'. Ignored during create requests. */
-  bodyName?: string | undefined;
 }
 export type GoogleCloudIdentitytoolkitV2RevokeTokenRequestTokenTypeEnum =
   | "TOKEN_TYPE_UNSPECIFIED"
@@ -1431,8 +1417,6 @@ export interface UpdateConfigProjectsRequest extends Omit<
   name: string;
   /** The update mask applies to the resource. Fields set in the config but not included in this update mask will be ignored. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Output only. The name of the Config resource. Example: "projects/my-awesome-project/config" */
-  bodyName?: string | undefined;
 }
 /** Withdraws MFA. */
 export interface GoogleCloudIdentitytoolkitV2WithdrawMfaRequest {
@@ -3549,7 +3533,6 @@ function __c40(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3570,7 +3553,6 @@ function __c41(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3591,7 +3573,6 @@ function __c42(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3612,7 +3593,6 @@ function __c43(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3633,7 +3613,6 @@ function __c44(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3654,7 +3633,6 @@ function __c45(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3675,7 +3653,6 @@ function __c46(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3941,7 +3918,6 @@ function __c55(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

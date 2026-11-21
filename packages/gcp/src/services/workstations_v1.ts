@@ -826,8 +826,6 @@ export interface PatchProjectsLocationsWorkstationClustersRequest extends Omit<
   name: string;
   /** Optional. If set, and the workstation cluster is not found, a new workstation cluster will be created. In this situation, update_mask is ignored. */
   allowMissing?: boolean | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Full name of this workstation cluster. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsWorkstationClustersWorkstationConfigsRequest extends Omit<
   WorkstationConfig,
@@ -841,8 +839,6 @@ export interface PatchProjectsLocationsWorkstationClustersWorkstationConfigsRequ
   updateMask?: string | undefined;
   /** Optional. If set and the workstation configuration is not found, a new workstation configuration will be created. In this situation, update_mask is ignored. */
   allowMissing?: boolean | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Full name of this workstation configuration. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest extends Omit<
   Workstation,
@@ -856,8 +852,6 @@ export interface PatchProjectsLocationsWorkstationClustersWorkstationConfigsWork
   allowMissing?: boolean | undefined;
   /** Optional. If set, validate the request and preview the result, but do not actually apply it. */
   validateOnly?: boolean | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Full name of this workstation. */
-  bodyName?: string | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
@@ -2208,7 +2202,6 @@ function __c21(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2231,7 +2224,6 @@ function __c22(j: number): any {
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
             allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2256,7 +2248,6 @@ function __c23(j: number): any {
             name: S.String.pipe(T.Label()),
             allowMissing: S.optional(S.Boolean.pipe(T.Query())),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

@@ -126,8 +126,6 @@ export interface AppendSpreadsheetsValuesRequest extends Omit<ValueRange, "range
   insertDataOption?: AppendSpreadsheetsValuesInsertDataOptionEnum | (string & {}) | undefined;
   /** The [A1 notation](https://developers.google.com/workspace/sheets/api/guides/concepts#cell) of a range to search for a logical table of data. Values are appended after the last row of the table. */
   range: string;
-  /** The request body's `range` (`range` is the path parameter). The range the values cover, in [A1 notation](https://developers.google.com/workspace/sheets/api/guides/concepts#cell). For output, this range indicates the entire requested range, even though the values will exclude trailing rows and columns. When appending values, this field represents the range to search for a table, after which values will be appended. */
-  bodyRange?: string | undefined;
 }
 /** The response when updating a range of values in a spreadsheet. */
 export interface UpdateValuesResponse {
@@ -3717,8 +3715,6 @@ export interface UpdateSpreadsheetsValuesRequest extends Omit<ValueRange, "range
     | undefined;
   /** How the input data should be interpreted. */
   valueInputOption?: UpdateSpreadsheetsValuesValueInputOptionEnum | (string & {}) | undefined;
-  /** The request body's `range` (`range` is the path parameter). The range the values cover, in [A1 notation](https://developers.google.com/workspace/sheets/api/guides/concepts#cell). For output, this range indicates the entire requested range, even though the values will exclude trailing rows and columns. When appending values, this field represents the range to search for a table, after which values will be appended. */
-  bodyRange?: string | undefined;
 }
 export type AppendSpreadsheetsValuesError =
   | NotFound
@@ -6479,7 +6475,6 @@ function __c21(j: number): any {
             includeValuesInResponse: S.optional(S.Boolean.pipe(T.Query())),
             responseDateTimeRenderOption: S.optional(S.String.pipe(T.Query())),
             valueInputOption: S.optional(S.String.pipe(T.Query())),
-            bodyRange: S.optional(S.String.pipe(T.Body("range"))),
           }),
         ).pipe(
           T.Http({
@@ -6505,7 +6500,6 @@ function __c22(j: number): any {
             includeValuesInResponse: S.optional(S.Boolean.pipe(T.Query())),
             insertDataOption: S.optional(S.String.pipe(T.Query())),
             range: S.String.pipe(T.Label()),
-            bodyRange: S.optional(S.String.pipe(T.Body("range"))),
           }),
         ).pipe(
           T.Http({

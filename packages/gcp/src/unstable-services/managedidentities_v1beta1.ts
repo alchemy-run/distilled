@@ -651,24 +651,18 @@ export interface PatchProjectsLocationsGlobalDomainsRequest extends Omit<Domain,
   updateMask?: string | undefined;
   /** Output only. The unique name of the domain using the form: `projects/{project_id}/locations/global/domains/{domain_name}`. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Output only. The unique name of the domain using the form: `projects/{project_id}/locations/global/domains/{domain_name}`. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsGlobalDomainsBackupsRequest extends Omit<Backup, "name"> {
   /** Output only. The unique name of the Backup in the form of projects/{project_id}/locations/global/domains/{domain_name}/backups/{name} */
   name: string;
   /** Required. Mask of fields to update. At least one path must be supplied in this field. The elements of the repeated paths field may only include these fields from Backup: * `labels` */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Output only. The unique name of the Backup in the form of projects/{project_id}/locations/global/domains/{domain_name}/backups/{name} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsGlobalPeeringsRequest extends Omit<Peering, "name"> {
   /** Output only. Unique name of the peering in this scope including projects and location using the form: `projects/{project_id}/locations/global/peerings/{peering_id}`. */
   name: string;
   /** Required. Mask of fields to update. At least one path must be supplied in this field. The elements of the repeated paths field may only include these fields from Peering: * `labels` */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Output only. Unique name of the peering in this scope including projects and location using the form: `projects/{project_id}/locations/global/peerings/{peering_id}`. */
-  bodyName?: string | undefined;
 }
 /** Request message for ReconfigureTrust */
 export interface ReconfigureTrustRequest {
@@ -750,8 +744,6 @@ export interface UpdateLdapssettingsProjectsLocationsGlobalDomainsRequest extend
   name: string;
   /** Required. Mask of fields to update. At least one path must be supplied in this field. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). The resource name of the LDAPS settings. Uses the form: `projects/{project}/locations/{location}/domains/{domain}`. */
-  bodyName?: string | undefined;
 }
 /** Request message for ValidateTrust */
 export interface ValidateTrustRequest {
@@ -2376,7 +2368,6 @@ function __c29(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2397,7 +2388,6 @@ function __c30(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2418,7 +2408,6 @@ function __c31(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2732,7 +2721,6 @@ function __c49(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

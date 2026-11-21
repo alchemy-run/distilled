@@ -414,8 +414,6 @@ export interface CreateProjectsLocationsProvisioningConfigsRequest extends Omit<
   email?: string | undefined;
   /** Required. The parent project and location containing the ProvisioningConfig. */
   parent: string;
-  /** The request body's `email` (`email` is the query parameter). Email provided to send a confirmation with provisioning config to. Deprecated in favour of email field in request messages. */
-  bodyEmail?: string | undefined;
 }
 /** An SSH key, used for authorizing with the interactive serial console feature. */
 export interface SSHKey {
@@ -1131,24 +1129,18 @@ export interface PatchProjectsLocationsInstancesRequest extends Omit<Instance, "
   name: string;
   /** The list of fields to update. The currently supported fields are: `labels` `hyperthreading_enabled` `os_image` `ssh_keys` `kms_key_version` */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Immutable. The resource name of this `Instance`. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. Format: `projects/{project}/locations/{location}/instances/{instance}` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsNetworksRequest extends Omit<Network, "name"> {
   /** Output only. The resource name of this `Network`. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. Format: `projects/{project}/locations/{location}/networks/{network}` */
   name: string;
   /** The list of fields to update. The only currently supported fields are: `labels`, `reservations`, `vrf.vlan_attachments` */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Output only. The resource name of this `Network`. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. Format: `projects/{project}/locations/{location}/networks/{network}` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsNfsSharesRequest extends Omit<NfsShare, "name"> {
   /** The list of fields to update. The only currently supported fields are: `labels` `allowed_clients` */
   updateMask?: string | undefined;
   /** Immutable. The name of the NFS share. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Immutable. The name of the NFS share. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsProvisioningConfigsRequest extends Omit<
   ProvisioningConfig,
@@ -1160,18 +1152,12 @@ export interface PatchProjectsLocationsProvisioningConfigsRequest extends Omit<
   updateMask?: string | undefined;
   /** Output only. The system-generated name of the provisioning config. This follows the UUID format. */
   name: string;
-  /** The request body's `email` (`email` is the query parameter). Email provided to send a confirmation with provisioning config to. Deprecated in favour of email field in request messages. */
-  bodyEmail?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Output only. The system-generated name of the provisioning config. This follows the UUID format. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsVolumesRequest extends Omit<Volume, "name"> {
   /** The list of fields to update. The only currently supported fields are: 'labels' */
   updateMask?: string | undefined;
   /** Output only. The resource name of this `Volume`. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. Format: `projects/{project}/locations/{location}/volumes/{volume}` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Output only. The resource name of this `Volume`. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. Format: `projects/{project}/locations/{location}/volumes/{volume}` */
-  bodyName?: string | undefined;
 }
 /** Message requesting to perform reimage operation on a server. */
 export interface ReimageInstanceRequest {
@@ -3359,7 +3345,6 @@ function __c42(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3380,7 +3365,6 @@ function __c43(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3401,7 +3385,6 @@ function __c44(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3423,8 +3406,6 @@ function __c45(j: number): any {
             email: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyEmail: S.optional(S.String.pipe(T.Body("email"))),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3445,7 +3426,6 @@ function __c46(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3807,7 +3787,6 @@ function __c63(j: number): any {
           S.Struct({
             email: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
-            bodyEmail: S.optional(S.String.pipe(T.Body("email"))),
           }),
         ).pipe(
           T.Http({

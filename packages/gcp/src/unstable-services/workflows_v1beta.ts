@@ -243,8 +243,6 @@ export interface PatchProjectsLocationsWorkflowsRequest extends Omit<Workflow, "
   name: string;
   /** List of fields to be updated. If not present, the entire workflow will be updated. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). The resource name of the workflow. Format: projects/{project}/locations/{location}/workflows/{workflow} */
-  bodyName?: string | undefined;
 }
 export type CreateProjectsLocationsWorkflowsError =
   | NotFound
@@ -547,7 +545,6 @@ function __c4(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

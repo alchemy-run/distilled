@@ -156,14 +156,10 @@ export interface SiteVerificationWebResourceListResponse {
 export interface PatchWebResourceRequest extends Omit<SiteVerificationWebResourceResource, "id"> {
   /** The id of a verified site or domain. */
   id: string;
-  /** The request body's `id` (`id` is the path parameter). The string used to identify this site. This value should be used in the "id" portion of the REST URL for the Get, Update, and Delete operations. */
-  bodyId?: string | undefined;
 }
 export interface UpdateWebResourceRequest extends Omit<SiteVerificationWebResourceResource, "id"> {
   /** The id of a verified site or domain. */
   id: string;
-  /** The request body's `id` (`id` is the path parameter). The string used to identify this site. This value should be used in the "id" portion of the REST URL for the Get, Update, and Delete operations. */
-  bodyId?: string | undefined;
 }
 export type DeleteWebResourceError =
   | NotFound
@@ -366,7 +362,6 @@ function __c0(j: number): any {
           __S(22, __c5, 2),
           S.Struct({
             id: S.String.pipe(T.Label()),
-            bodyId: S.optional(S.String.pipe(T.Body("id"))),
           }),
         ).pipe(
           T.Http({
@@ -386,7 +381,6 @@ function __c1(j: number): any {
           __S(22, __c5, 2),
           S.Struct({
             id: S.String.pipe(T.Label()),
-            bodyId: S.optional(S.String.pipe(T.Body("id"))),
           }),
         ).pipe(
           T.Http({

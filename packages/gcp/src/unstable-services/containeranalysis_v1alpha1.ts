@@ -911,8 +911,6 @@ export interface CreateProjectsNotesRequest extends Omit<Note, "name"> {
   parent: string;
   /** The name of the project. Should be of the form "providers/{provider_id}". @Deprecated */
   name?: string | undefined;
-  /** The request body's `name` (`name` is the query parameter). The name of the note in the form "projects/{provider_project_id}/notes/{NOTE_ID}" */
-  bodyName?: string | undefined;
 }
 /** A DSSE signature */
 export interface EnvelopeSignature {
@@ -2121,8 +2119,6 @@ export interface CreateProjectsOccurrencesRequest extends Omit<Occurrence, "name
   name?: string | undefined;
   /** This field contains the project Id for example: "projects/{project_id}" */
   parent: string;
-  /** The request body's `name` (`name` is the query parameter). Output only. The name of the `Occurrence` in the form "projects/{project_id}/occurrences/{OCCURRENCE_ID}" */
-  bodyName?: string | undefined;
 }
 /** Request for creating an operation */
 export interface CreateOperationRequest {
@@ -2142,8 +2138,6 @@ export interface CreateProvidersNotesRequest extends Omit<Note, "name"> {
   name: string;
   /** The ID to use for this note. */
   noteId?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). The name of the note in the form "projects/{provider_project_id}/notes/{NOTE_ID}" */
-  bodyName?: string | undefined;
 }
 export interface DeleteProjectsNotesRequest {
   /** The name of the note in the form of "providers/{provider_id}/notes/{NOTE_ID}" */
@@ -2394,16 +2388,12 @@ export interface PatchProjectsNotesRequest extends Omit<Note, "name"> {
   name: string;
   /** The fields to update. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). The name of the note in the form "projects/{provider_project_id}/notes/{NOTE_ID}" */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsOccurrencesRequest extends Omit<Occurrence, "name"> {
   /** The fields to update. */
   updateMask?: string | undefined;
   /** The name of the occurrence. Should be of the form "projects/{project_id}/occurrences/{OCCURRENCE_ID}". */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Output only. The name of the `Occurrence` in the form "projects/{project_id}/occurrences/{OCCURRENCE_ID}" */
-  bodyName?: string | undefined;
 }
 /** Request for updating an existing operation */
 export interface UpdateOperationRequest {
@@ -2421,16 +2411,12 @@ export interface PatchProjectsScanConfigsRequest extends Omit<ScanConfig, "name"
   name: string;
   /** The fields to update. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Output only. The name of the ScanConfig in the form "projects/{project_id}/scanConfigs/{scan_config_id}". */
-  bodyName?: string | undefined;
 }
 export interface PatchProvidersNotesRequest extends Omit<Note, "name"> {
   /** The fields to update. */
   updateMask?: string | undefined;
   /** The name of the note. Should be of the form "projects/{provider_id}/notes/{note_id}". */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). The name of the note in the form "projects/{provider_project_id}/notes/{NOTE_ID}" */
-  bodyName?: string | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
@@ -3539,7 +3525,6 @@ function __c22(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3560,7 +3545,6 @@ function __c23(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3607,7 +3591,6 @@ function __c25(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3628,7 +3611,6 @@ function __c26(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3784,7 +3766,6 @@ function __c35(j: number): any {
             noteId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
             name: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4260,7 +4241,6 @@ function __c41(j: number): any {
           S.Struct({
             name: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5184,7 +5164,6 @@ function __c48(j: number): any {
             parent: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             noteId: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

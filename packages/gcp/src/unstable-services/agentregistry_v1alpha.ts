@@ -372,8 +372,6 @@ export interface CreateProjectsLocationsSkillsRequest extends Omit<Skill, "skill
   parent: string;
   /** Optional. Signed UUID request idempotency token. */
   requestId?: string | undefined;
-  /** The request body's `skillId` (`skillId` is the query parameter). Output only. A stable, globally unique logical identifier for the skill. It is securely constructed by the backend by combining the associated `publisher`'s verified namespace and the skill's resource ID to enforce strict ownership. For example, the prefix `google-` is reserved exclusively for first-party Google publishers to prevent namespace squatting. Example: `urn:skill:google-workspace:create-docs` */
-  bodySkillId?: string | undefined;
 }
 export interface CreateProjectsLocationsSkillsRevisionsRequest extends SkillRevision {
   /** Optional. Custom, user-defined unique revision identifier. Format: 4-63 characters, matching regex `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$` */
@@ -1129,8 +1127,6 @@ export interface PatchProjectsLocationsBindingsRequest extends Omit<Binding, "na
   updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Required. Identifier. The resource name of the Binding. Format: `projects/{project}/locations/{location}/bindings/{binding}`. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsServicesRequest extends Omit<Service, "name"> {
   /** Identifier. The resource name of the Service. Format: `projects/{project}/locations/{location}/services/{service}`. */
@@ -1139,8 +1135,6 @@ export interface PatchProjectsLocationsServicesRequest extends Omit<Service, "na
   requestId?: string | undefined;
   /** Optional. Field mask is used to specify the fields to be overwritten in the Service resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields present in the request will be overwritten. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the Service. Format: `projects/{project}/locations/{location}/services/{service}`. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsSkillsRequest extends Omit<Skill, "name"> {
   /** Identifier. Resource name of the Skill. Format: `projects/{project}/locations/{location}/skills/{skill}` The `{skill}` segment acts as the resource ID. If the skill is associated with a Publisher, this segment typically uses a hyphenated namespace prefix corresponding to the publisher (e.g., `google-workspace-create-docs`). */
@@ -1149,8 +1143,6 @@ export interface PatchProjectsLocationsSkillsRequest extends Omit<Skill, "name">
   updateMask?: string | undefined;
   /** Optional. Signed UUID request idempotency token. */
   requestId?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name of the Skill. Format: `projects/{project}/locations/{location}/skills/{skill}` The `{skill}` segment acts as the resource ID. If the skill is associated with a Publisher, this segment typically uses a hyphenated namespace prefix corresponding to the publisher (e.g., `google-workspace-create-docs`). */
-  bodyName?: string | undefined;
 }
 /** Message for searching Agents */
 export interface SearchAgentsRequest {
@@ -3417,7 +3409,6 @@ function __c55(j: number): any {
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3439,7 +3430,6 @@ function __c56(j: number): any {
             name: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3461,7 +3451,6 @@ function __c57(j: number): any {
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3821,7 +3810,6 @@ function __c76(j: number): any {
             skillId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
-            bodySkillId: S.optional(S.String.pipe(T.Body("skillId"))),
           }),
         ).pipe(
           T.Http({

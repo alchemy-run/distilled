@@ -874,8 +874,6 @@ export interface PatchProjectsLocationsRegistrationsRequest extends Omit<Registr
   validateOnly?: boolean | undefined;
   /** Required. The field mask describing which fields to update as a comma-separated list. For example, if only the labels are being updated, the `update_mask` is `"labels"`. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Output only. Name of the `Registration` resource, in the format `projects/*\/locations/*\/registrations/`. */
-  bodyName?: string | undefined;
 }
 export type RegisterDomainRequestContactNoticesItemEnum =
   | "CONTACT_NOTICE_UNSPECIFIED"
@@ -2196,7 +2194,6 @@ function __c20(j: number): any {
             name: S.String.pipe(T.Label()),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

@@ -360,16 +360,12 @@ export interface PatchProjectsLocationsCatalogsDatabasesRequest extends Omit<Dat
   updateMask?: string | undefined;
   /** Output only. The resource name. Format: projects/{project_id_or_number}/locations/{location_id}/catalogs/{catalog_id}/databases/{database_id} */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Output only. The resource name. Format: projects/{project_id_or_number}/locations/{location_id}/catalogs/{catalog_id}/databases/{database_id} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsCatalogsDatabasesTablesRequest extends Omit<Table, "name"> {
   /** The list of fields to update. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask If not set, defaults to all of the fields that are allowed to update. */
   updateMask?: string | undefined;
   /** Output only. The resource name. Format: projects/{project_id_or_number}/locations/{location_id}/catalogs/{catalog_id}/databases/{database_id}/tables/{table_id} */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Output only. The resource name. Format: projects/{project_id_or_number}/locations/{location_id}/catalogs/{catalog_id}/databases/{database_id}/tables/{table_id} */
-  bodyName?: string | undefined;
 }
 /** Request message for the RenameTable method in MetastoreService */
 export interface RenameTableRequest {
@@ -1318,7 +1314,6 @@ function __c13(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -1339,7 +1334,6 @@ function __c14(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

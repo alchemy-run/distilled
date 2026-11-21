@@ -2109,8 +2109,6 @@ export interface PatchProjectsLocationsBareMetalAdminClustersRequest extends Omi
   validateOnly?: boolean | undefined;
   /** Required. Field mask is used to specify the fields to be overwritten in the BareMetalAdminCluster resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all populated fields in the BareMetalAdminCluster message will be updated. Empty fields will be ignored unless a field mask is used. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Immutable. The bare metal admin cluster resource name. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsBareMetalClustersRequest extends Omit<
   BareMetalCluster,
@@ -2124,8 +2122,6 @@ export interface PatchProjectsLocationsBareMetalClustersRequest extends Omit<
   updateMask?: string | undefined;
   /** If set to true, and the bare metal cluster is not found, the request will create a new bare metal cluster with the provided configuration. The user must have both create and update permission to call Update with allow_missing set to true. */
   allowMissing?: boolean | undefined;
-  /** The request body's `name` (`name` is the path parameter). Immutable. The bare metal user cluster resource name. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest extends Omit<
   BareMetalNodePool,
@@ -2139,8 +2135,6 @@ export interface PatchProjectsLocationsBareMetalClustersBareMetalNodePoolsReques
   validateOnly?: boolean | undefined;
   /** Required. Field mask is used to specify the fields to be overwritten in the BareMetalNodePool resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all populated fields in the BareMetalNodePool message will be updated. Empty fields will be ignored unless a field mask is used. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Immutable. The bare metal node pool resource name. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsVmwareAdminClustersRequest extends Omit<
   VmwareAdminCluster,
@@ -2154,8 +2148,6 @@ export interface PatchProjectsLocationsVmwareAdminClustersRequest extends Omit<
   skipValidations?: StringList | undefined;
   /** Validate the request without actually doing any updates. */
   validateOnly?: boolean | undefined;
-  /** The request body's `name` (`name` is the path parameter). Immutable. The VMware admin cluster resource name. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsVmwareClustersRequest extends Omit<VmwareCluster, "name"> {
   /** Required. Field mask is used to specify the fields to be overwritten in the VMwareCluster resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all populated fields in the VmwareCluster message will be updated. Empty fields will be ignored unless a field mask is used. */
@@ -2165,8 +2157,6 @@ export interface PatchProjectsLocationsVmwareClustersRequest extends Omit<Vmware
   skipValidations?: StringList | undefined;
   /** Immutable. The VMware user cluster resource name. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Immutable. The VMware user cluster resource name. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsVmwareClustersVmwareNodePoolsRequest extends Omit<
   VmwareNodePool,
@@ -2178,8 +2168,6 @@ export interface PatchProjectsLocationsVmwareClustersVmwareNodePoolsRequest exte
   validateOnly?: boolean | undefined;
   /** Immutable. The resource name of this node pool. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Immutable. The resource name of this node pool. */
-  bodyName?: string | undefined;
 }
 export interface QueryVersionConfigProjectsLocationsBareMetalAdminClustersRequest {
   /** Required. The parent of the project and location to query for version config. Format: "projects/{project}/locations/{location}" */
@@ -5553,7 +5541,6 @@ function __c54(j: number): any {
             name: S.String.pipe(T.Label()),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5576,7 +5563,6 @@ function __c55(j: number): any {
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
             allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5599,7 +5585,6 @@ function __c56(j: number): any {
             allowMissing: S.optional(S.Boolean.pipe(T.Query())),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -6067,7 +6052,6 @@ function __c70(j: number): any {
             name: S.String.pipe(T.Label()),
             skipValidations: S.optional(__S(2144, __c67, 0).pipe(T.Query())),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -6090,7 +6074,6 @@ function __c71(j: number): any {
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
             skipValidations: S.optional(__S(2144, __c67, 0).pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -6112,7 +6095,6 @@ function __c72(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

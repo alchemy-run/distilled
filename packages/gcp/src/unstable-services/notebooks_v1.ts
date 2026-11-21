@@ -1190,8 +1190,6 @@ export interface PatchProjectsLocationsRuntimesRequest extends Omit<Runtime, "na
   requestId?: string | undefined;
   /** Output only. The resource name of the runtime. Format: `projects/{project}/locations/{location}/runtimes/{runtimeId}` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Output only. The resource name of the runtime. Format: `projects/{project}/locations/{location}/runtimes/{runtimeId}` */
-  bodyName?: string | undefined;
 }
 /** Request for getting a new access token. */
 export interface RefreshRuntimeTokenInternalRequest {
@@ -3493,7 +3491,6 @@ function __c31(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

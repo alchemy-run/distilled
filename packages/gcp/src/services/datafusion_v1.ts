@@ -567,8 +567,6 @@ export interface PatchProjectsLocationsInstancesRequest extends Omit<Instance, "
   name: string;
   /** Field mask is used to specify the fields that the update will overwrite in an instance resource. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask, the label field will be overwritten. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Output only. The name of this instance is in the form of projects/{project}/locations/{location}/instances/{instance}. */
-  bodyName?: string | undefined;
 }
 /** Request message for restarting a Data Fusion instance. */
 export type RestartInstanceRequest = CancelOperationRequest;
@@ -1268,7 +1266,6 @@ function __c11(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

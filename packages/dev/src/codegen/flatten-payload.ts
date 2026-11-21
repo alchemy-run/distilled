@@ -21,24 +21,13 @@
  *
  * A payload stays a `body` member when its target is not a structure with
  * members (a map, a list, a document, an empty request object), or when the
- * structure also takes undeclared keys.
- *
- * On a name clash, the path or query parameter keeps the name, and the body
- * field moves to a `body`-prefixed member that is sent in the body under the
- * field's wire name:
- *
- *   firebaserules.createProjectsReleases({
- *     name: "projects/p",                       // path
- *     bodyName: "projects/p/releases/prod",     // body `name`
- *     rulesetName,
- *   })
+ * structure also takes undeclared keys. On a name clash, the path or query
+ * parameter wins and the body field is left out — the rule the OpenAPI
+ * converter follows ("labels win, then query, then body").
  */
 import { ADDITIONAL_PROPERTIES_TRAIT } from "./members.ts";
-import { upperFirst } from "./naming.ts";
 
 const PAYLOAD_TRAIT = "smithy.api#httpPayload";
-const JSON_NAME_TRAIT = "smithy.api#jsonName";
-const DOC_TRAIT = "smithy.api#documentation";
 
 /**
  * Member-level marker: the member's structure target is inlined into the
@@ -47,9 +36,6 @@ const DOC_TRAIT = "smithy.api#documentation";
  */
 export const SPREAD_TRAIT = "com.distilled.codegen#spread";
 
-/** The input member a body field moves to when a parameter has its name. */
-const shadowedBodyMemberName = (name: string): string => `body${upperFirst(name)}`;
-
 /**
  * Mark every operation's structure payload to be inlined into its input, in
  * place. Returns a one-line summary for the generate log.
@@ -57,8 +43,8 @@ const shadowedBodyMemberName = (name: string): string => `body${upperFirst(name)
 export const flattenStructurePayloads = (model: { shapes: Record<string, any> }): string | void => {
   const shapes = model.shapes;
   let flattened = 0;
-  let renamed = 0;
-  for (const [opId, def] of Object.entries<any>(shapes)) {
+  let shadowed = 0;
+  for (const def of Object.values(shapes)) {
     if (def?.type !== "operation" || def.input?.target === undefined) continue;
     const input = shapes[def.input.target];
     if (input?.type !== "structure") continue;
@@ -74,32 +60,13 @@ export const flattenStructurePayloads = (model: { shapes: Record<string, any> })
     ) {
       continue;
     }
+    for (const name of Object.keys(body.members)) {
+      if (name !== payloadName && name in input.members) shadowed++;
+    }
     const { [PAYLOAD_TRAIT]: _payload, ...traits } = member.traits;
     input.members[payloadName] = { ...member, traits: { ...traits, [SPREAD_TRAIT]: {} } };
-    for (const [name, field] of Object.entries<any>(body.members)) {
-      if (name === payloadName || !(name in input.members)) continue;
-      const moved = shadowedBodyMemberName(name);
-      if (moved in input.members || moved in body.members) {
-        throw new Error(
-          `${opId}: body field "${name}" clashes with a parameter, and "${moved}" is taken too`,
-        );
-      }
-      const fieldTraits = field.traits ?? {};
-      const wire = fieldTraits[JSON_NAME_TRAIT] ?? name;
-      const kind = "smithy.api#httpLabel" in (input.members[name].traits ?? {}) ? "path" : "query";
-      const doc = fieldTraits[DOC_TRAIT];
-      input.members[moved] = {
-        ...field,
-        traits: {
-          ...fieldTraits,
-          [JSON_NAME_TRAIT]: wire,
-          [DOC_TRAIT]: `The request body's \`${wire}\` (\`${name}\` is the ${kind} parameter).${doc ? ` ${doc}` : ""}`,
-        },
-      };
-      renamed++;
-    }
     flattened++;
   }
   if (flattened === 0) return;
-  return `flattened ${flattened} request bodies (${renamed} body fields renamed to body* past a parameter)`;
+  return `flattened ${flattened} request bodies (${shadowed} body fields shadowed by a parameter)`;
 };

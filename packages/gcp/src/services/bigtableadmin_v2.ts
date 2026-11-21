@@ -287,8 +287,6 @@ export interface CreateInstanceRequest {
 export interface CreateProjectsInstancesRequest extends Omit<CreateInstanceRequest, "parent"> {
   /** Required. The unique name of the project in which to create the new instance. Values are of the form `projects/{project}`. */
   parent: string;
-  /** The request body's `parent` (`parent` is the path parameter). Required. The unique name of the project in which to create the new instance. Values are of the form `projects/{project}`. */
-  bodyParent?: string | undefined;
 }
 /** Unconditionally routes all read/write requests to a specific cluster. This option preserves read-your-writes consistency but does not improve availability. */
 export interface SingleClusterRouting {
@@ -1487,16 +1485,12 @@ export interface PartialUpdateClusterProjectsInstancesClustersRequest extends Om
   updateMask?: string | undefined;
   /** The unique name of the cluster. Values are of the form `projects/{project}/instances/{instance}/clusters/a-z*`. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). The unique name of the cluster. Values are of the form `projects/{project}/instances/{instance}/clusters/a-z*`. */
-  bodyName?: string | undefined;
 }
 export interface PartialUpdateInstanceProjectsInstancesRequest extends Omit<Instance, "name"> {
   /** The unique name of the instance. Values are of the form `projects/{project}/instances/a-z+[a-z0-9]`. */
   name: string;
   /** Required. The subset of Instance fields which should be replaced. Must be explicitly set. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). The unique name of the instance. Values are of the form `projects/{project}/instances/a-z+[a-z0-9]`. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsInstancesAppProfilesRequest extends Omit<AppProfile, "name"> {
   /** If true, ignore safety checks when updating the app profile. */
@@ -1505,24 +1499,18 @@ export interface PatchProjectsInstancesAppProfilesRequest extends Omit<AppProfil
   updateMask?: string | undefined;
   /** The unique name of the app profile, up to 50 characters long. Values are of the form `projects/{project}/instances/{instance}/appProfiles/_a-zA-Z0-9*`. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). The unique name of the app profile, up to 50 characters long. Values are of the form `projects/{project}/instances/{instance}/appProfiles/_a-zA-Z0-9*`. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsInstancesClustersBackupsRequest extends Omit<Backup, "name"> {
   /** A globally unique identifier for the backup which cannot be changed. Values are of the form `projects/{project}/instances/{instance}/clusters/{cluster}/ backups/_a-zA-Z0-9*` The final segment of the name must be between 1 and 50 characters in length. The backup is stored in the cluster identified by the prefix of the backup name of the form `projects/{project}/instances/{instance}/clusters/{cluster}`. */
   name: string;
   /** Required. A mask specifying which fields (e.g. `expire_time`) in the Backup resource should be updated. This mask is relative to the Backup resource, not to the request message. The field mask must always be specified; this prevents any future fields from being erased accidentally by clients that do not know about them. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). A globally unique identifier for the backup which cannot be changed. Values are of the form `projects/{project}/instances/{instance}/clusters/{cluster}/ backups/_a-zA-Z0-9*` The final segment of the name must be between 1 and 50 characters in length. The backup is stored in the cluster identified by the prefix of the backup name of the form `projects/{project}/instances/{instance}/clusters/{cluster}`. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsInstancesLogicalViewsRequest extends Omit<LogicalView, "name"> {
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
   /** Identifier. The unique name of the logical view. Format: `projects/{project}/instances/{instance}/logicalViews/{logical_view}` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The unique name of the logical view. Format: `projects/{project}/instances/{instance}/logicalViews/{logical_view}` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsInstancesMaterializedViewsRequest extends Omit<
   MaterializedView,
@@ -1532,8 +1520,6 @@ export interface PatchProjectsInstancesMaterializedViewsRequest extends Omit<
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The unique name of the materialized view. Format: `projects/{project}/instances/{instance}/materializedViews/{materialized_view}` Views: `SCHEMA_VIEW`, `REPLICATION_VIEW`, `FULL`. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsInstancesTablesRequest extends Omit<Table, "name"> {
   /** Required. The list of fields to update. A mask specifying which fields (e.g. `change_stream_config`) in the `table` field should be updated. This mask is relative to the `table` field, not to the request message. The wildcard (*) path is currently not supported. Currently UpdateTable is only supported for the following fields: * `change_stream_config` * `change_stream_config.retention_period` * `deletion_protection` * `automated_backup_policy` * `automated_backup_policy.retention_period` * `automated_backup_policy.frequency` * `automated_backup_policy.locations` * `row_key_schema` If `column_families` is set in `update_mask`, it will return an UNIMPLEMENTED error. */
@@ -1542,8 +1528,6 @@ export interface PatchProjectsInstancesTablesRequest extends Omit<Table, "name">
   ignoreWarnings?: boolean | undefined;
   /** The unique name of the table. Values are of the form `projects/{project}/instances/{instance}/tables/_a-zA-Z0-9*`. Views: `NAME_ONLY`, `SCHEMA_VIEW`, `REPLICATION_VIEW`, `STATS_VIEW`, `FULL` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). The unique name of the table. Values are of the form `projects/{project}/instances/{instance}/tables/_a-zA-Z0-9*`. Views: `NAME_ONLY`, `SCHEMA_VIEW`, `REPLICATION_VIEW`, `STATS_VIEW`, `FULL` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsInstancesTablesAuthorizedViewsRequest extends Omit<
   AuthorizedView,
@@ -1555,8 +1539,6 @@ export interface PatchProjectsInstancesTablesAuthorizedViewsRequest extends Omit
   updateMask?: string | undefined;
   /** Optional. If true, ignore the safety checks when updating the AuthorizedView. */
   ignoreWarnings?: boolean | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The name of this AuthorizedView. Values are of the form `projects/{project}/instances/{instance}/tables/{table}/authorizedViews/{authorized_view}` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsInstancesTablesSchemaBundlesRequest extends Omit<
   SchemaBundle,
@@ -1568,8 +1550,6 @@ export interface PatchProjectsInstancesTablesSchemaBundlesRequest extends Omit<
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The unique name identifying this schema bundle. Values are of the form `projects/{project}/instances/{instance}/tables/{table}/schemaBundles/{schema_bundle}` */
-  bodyName?: string | undefined;
 }
 /** The request for RestoreTable. */
 export interface RestoreTableRequest {
@@ -1671,20 +1651,14 @@ export interface UpdateMemoryLayerProjectsInstancesClustersRequest extends Omit<
   updateMask?: string | undefined;
   /** Identifier. Name of the memory layer. This is always: "projects/{project}/instances/{instance}/clusters/{cluster}/memoryLayer". */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Name of the memory layer. This is always: "projects/{project}/instances/{instance}/clusters/{cluster}/memoryLayer". */
-  bodyName?: string | undefined;
 }
 export interface UpdateProjectsInstancesRequest extends Omit<Instance, "name"> {
   /** The unique name of the instance. Values are of the form `projects/{project}/instances/a-z+[a-z0-9]`. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). The unique name of the instance. Values are of the form `projects/{project}/instances/a-z+[a-z0-9]`. */
-  bodyName?: string | undefined;
 }
 export interface UpdateProjectsInstancesClustersRequest extends Omit<Cluster, "name"> {
   /** The unique name of the cluster. Values are of the form `projects/{project}/instances/{instance}/clusters/a-z*`. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). The unique name of the cluster. Values are of the form `projects/{project}/instances/{instance}/clusters/a-z*`. */
-  bodyName?: string | undefined;
 }
 export type CheckConsistencyProjectsInstancesTablesError =
   | NotFound
@@ -5195,7 +5169,6 @@ function __c64(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5216,7 +5189,6 @@ function __c65(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5238,7 +5210,6 @@ function __c66(j: number): any {
             ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5259,7 +5230,6 @@ function __c67(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5280,7 +5250,6 @@ function __c68(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5301,7 +5270,6 @@ function __c69(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5323,7 +5291,6 @@ function __c70(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5345,7 +5312,6 @@ function __c71(j: number): any {
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
             ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5367,7 +5333,6 @@ function __c72(j: number): any {
             ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5818,7 +5783,6 @@ function __c97(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5838,7 +5802,6 @@ function __c98(j: number): any {
           __S(3296, __c103, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5858,7 +5821,6 @@ function __c99(j: number): any {
           __S(3237, __c101, 5),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5889,7 +5851,6 @@ function __c100(j: number): any {
           __S(3201, __c100, 1),
           S.Struct({
             parent: S.String.pipe(T.Label()),
-            bodyParent: S.optional(S.String.pipe(T.Body("parent"))),
           }),
         ).pipe(
           T.Http({

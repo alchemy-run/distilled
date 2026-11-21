@@ -471,8 +471,6 @@ export interface ChangequorumProjectsInstancesDatabasesRequest extends Omit<
 > {
   /** Required. Name of the database in which to apply `ChangeQuorum`. Values are of the form `projects//instances//databases/`. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Required. Name of the database in which to apply `ChangeQuorum`. Values are of the form `projects//instances//databases/`. */
-  bodyName?: string | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
@@ -2158,16 +2156,12 @@ export interface PatchProjectsInstancesBackupsRequest extends Omit<Backup, "name
   name: string;
   /** Required. A mask specifying which fields (for example, `expire_time`) in the backup resource should be updated. This mask is relative to the backup resource, not to the request message. The field mask must always be specified; this prevents any future fields from being erased accidentally by clients that do not know about them. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Output only for the CreateBackup operation. Required for the UpdateBackup operation. A globally unique identifier for the backup which cannot be changed. Values are of the form `projects/{project}/instances/{instance}/backups/a-z*[a-z0-9]` The final segment of the name must be between 2 and 60 characters in length. The backup is stored in the location(s) specified in the instance configuration of the instance containing the backup, identified by the prefix of the backup name of the form `projects/{project}/instances/{instance}`. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsInstancesDatabasesRequest extends Omit<Database, "name"> {
   /** Required. The list of fields to update. Currently, only `enable_drop_protection` field can be updated. */
   updateMask?: string | undefined;
   /** Required. The name of the database. Values are of the form `projects//instances//databases/`, where `` is as specified in the `CREATE DATABASE` statement. This name can be passed to other API methods to identify the database. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Required. The name of the database. Values are of the form `projects//instances//databases/`, where `` is as specified in the `CREATE DATABASE` statement. This name can be passed to other API methods to identify the database. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsInstancesDatabasesBackupSchedulesRequest extends Omit<
   BackupSchedule,
@@ -2177,8 +2171,6 @@ export interface PatchProjectsInstancesDatabasesBackupSchedulesRequest extends O
   updateMask?: string | undefined;
   /** Identifier. Output only for the CreateBackupSchedule operation. Required for the UpdateBackupSchedule operation. A globally unique identifier for the backup schedule which cannot be changed. Values are of the form `projects//instances//databases//backupSchedules/a-z*[a-z0-9]` The final segment of the name must be between 2 and 60 characters in length. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Output only for the CreateBackupSchedule operation. Required for the UpdateBackupSchedule operation. A globally unique identifier for the backup schedule which cannot be changed. Values are of the form `projects//instances//databases//backupSchedules/a-z*[a-z0-9]` The final segment of the name must be between 2 and 60 characters in length. */
-  bodyName?: string | undefined;
 }
 /** The request for UpdateInstancePartition. */
 export interface UpdateInstancePartitionRequest {
@@ -5045,7 +5037,6 @@ function __c24(j: number): any {
           __S(768, __c24, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -7422,7 +7413,6 @@ function __c127(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -7443,7 +7433,6 @@ function __c128(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -7464,7 +7453,6 @@ function __c129(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

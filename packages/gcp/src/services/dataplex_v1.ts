@@ -552,8 +552,6 @@ export interface BatchChangeMetadataProjectsLocationsEntryGroupsRequest extends 
 > {
   /** Required. The resource name of the EntryGroup on which the batch change applies. Format: projects/{project_number_or_id}/locations/{location_id}/entryGroups/{entry_group_id} */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Required. The resource name of the EntryGroup on which the batch change applies. Format: projects/{project_number_or_id}/locations/{location_id}/entryGroups/{entry_group_id} */
-  bodyName?: string | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface GoogleLongrunningOperation {
@@ -2161,27 +2159,17 @@ export interface CreateProjectsLocationsGlossariesRequest extends GoogleCloudDat
   /** Required. Glossary ID: Glossary identifier. */
   glossaryId?: string | undefined;
 }
-export interface CreateProjectsLocationsGlossariesCategoriesRequest extends Omit<
-  GoogleCloudDataplexV1GlossaryCategory,
-  "parent"
-> {
+export interface CreateProjectsLocationsGlossariesCategoriesRequest extends GoogleCloudDataplexV1GlossaryCategory {
   /** Required. GlossaryCategory identifier. */
   categoryId?: string | undefined;
   /** Required. The parent resource where this GlossaryCategory will be created. Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id} where locationId refers to a Google Cloud region. */
-  parent: string;
-  /** The request body's `parent` (`parent` is the path parameter). Required. The immediate parent of the GlossaryCategory in the resource-hierarchy. It can either be a Glossary or a GlossaryCategory. Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id} OR projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id}/categories/{category_id} */
-  bodyParent?: string | undefined;
+  glossary: string;
 }
-export interface CreateProjectsLocationsGlossariesTermsRequest extends Omit<
-  GoogleCloudDataplexV1GlossaryTerm,
-  "parent"
-> {
-  /** Required. The parent resource where the GlossaryTerm will be created. Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id} where location_id refers to a Google Cloud region. */
-  parent: string;
+export interface CreateProjectsLocationsGlossariesTermsRequest extends GoogleCloudDataplexV1GlossaryTerm {
   /** Required. GlossaryTerm identifier. */
   termId?: string | undefined;
-  /** The request body's `parent` (`parent` is the path parameter). Required. The immediate parent of the GlossaryTerm in the resource-hierarchy. It can either be a Glossary or a GlossaryCategory. Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id} OR projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id}/categories/{category_id} */
-  bodyParent?: string | undefined;
+  /** Required. The parent resource where the GlossaryTerm will be created. Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id} where location_id refers to a Google Cloud region. */
+  glossary: string;
 }
 /** Settings to manage association of Dataproc Metastore with a lake. */
 export interface GoogleCloudDataplexV1LakeMetastore {
@@ -4404,8 +4392,6 @@ export interface PatchOrganizationsLocationsEncryptionConfigsRequest extends Omi
   updateMask?: string | undefined;
   /** Identifier. The resource name of the EncryptionConfig. Format: organizations/{organization}/locations/{location}/encryptionConfigs/{encryption_config} Global location is not supported. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the EncryptionConfig. Format: organizations/{organization}/locations/{location}/encryptionConfigs/{encryption_config} Global location is not supported. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsAspectTypesRequest extends Omit<
   GoogleCloudDataplexV1AspectType,
@@ -4417,8 +4403,6 @@ export interface PatchProjectsLocationsAspectTypesRequest extends Omit<
   name: string;
   /** Required. Mask of fields to update. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Output only. The relative resource name of the AspectType, of the form: projects/{project_number}/locations/{location_id}/aspectTypes/{aspect_type_id}. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsChangeRequestsRequest extends Omit<
   GoogleCloudDataplexV1ChangeRequest,
@@ -4428,8 +4412,6 @@ export interface PatchProjectsLocationsChangeRequestsRequest extends Omit<
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The relative resource name of the ChangeRequest, of the form: projects/{project_number}/locations/{location_id}/changeRequests/{change_request_id} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsDataDomainsRequest extends Omit<
   GoogleCloudDataplexV1DataDomain,
@@ -4441,8 +4423,6 @@ export interface PatchProjectsLocationsDataDomainsRequest extends Omit<
   updateMask?: string | undefined;
   /** Optional. Only validate the request, but do not perform mutations. */
   validateOnly?: boolean | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The relative resource name of the DataDomain, of the form: projects/{project_id_or_number}/locations/{location_id}/dataDomains/{data_domain_id} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsDataProductsRequest extends Omit<
   GoogleCloudDataplexV1DataProduct,
@@ -4454,8 +4434,6 @@ export interface PatchProjectsLocationsDataProductsRequest extends Omit<
   validateOnly?: boolean | undefined;
   /** Optional. The list of fields to update. If this is empty or not set, then all the fields will be updated. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name of the data product. Format: projects/{project_id_or_number}/locations/{location_id}/dataProducts/{data_product_id}. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsDataProductsDataAssetsRequest extends Omit<
   GoogleCloudDataplexV1DataAsset,
@@ -4467,8 +4445,6 @@ export interface PatchProjectsLocationsDataProductsDataAssetsRequest extends Omi
   validateOnly?: boolean | undefined;
   /** Identifier. Resource name of the data asset. Format: projects/{project_id_or_number}/locations/{location_id}/dataProducts/{data_product_id}/dataAssets/{data_asset_id} */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name of the data asset. Format: projects/{project_id_or_number}/locations/{location_id}/dataProducts/{data_product_id}/dataAssets/{data_asset_id} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsDataScansRequest extends Omit<
   GoogleCloudDataplexV1DataScan,
@@ -4480,8 +4456,6 @@ export interface PatchProjectsLocationsDataScansRequest extends Omit<
   name: string;
   /** Optional. Mask of fields to update. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Output only. Identifier. The relative resource name of the scan, of the form: projects/{project}/locations/{location_id}/dataScans/{datascan_id}, where project refers to a project_id or project_number and location_id refers to a Google Cloud region. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsEntryGroupsRequest extends Omit<
   GoogleCloudDataplexV1EntryGroup,
@@ -4493,8 +4467,6 @@ export interface PatchProjectsLocationsEntryGroupsRequest extends Omit<
   updateMask?: string | undefined;
   /** Optional. The service validates the request, without performing any mutations. The default is false. */
   validateOnly?: boolean | undefined;
-  /** The request body's `name` (`name` is the path parameter). Output only. The relative resource name of the EntryGroup, in the format projects/{project_id_or_number}/locations/{location_id}/entryGroups/{entry_group_id}. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsEntryGroupsEntriesRequest extends Omit<
   GoogleCloudDataplexV1Entry,
@@ -4510,8 +4482,6 @@ export interface PatchProjectsLocationsEntryGroupsEntriesRequest extends Omit<
   updateMask?: string | undefined;
   /** Optional. If set to true and the entry doesn't exist, the service will create it. */
   allowMissing?: boolean | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The relative resource name of the entry, in the format projects/{project_id_or_number}/locations/{location_id}/entryGroups/{entry_group_id}/entries/{entry_id}. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsEntryGroupsEntryLinksRequest extends Omit<
   GoogleCloudDataplexV1EntryLink,
@@ -4523,8 +4493,6 @@ export interface PatchProjectsLocationsEntryGroupsEntryLinksRequest extends Omit
   allowMissing?: boolean | undefined;
   /** Optional. The map keys of the Aspects which the service should modify. It should be the aspect type reference in the format {project_id_or_number}.{location_id}.{aspect_type_id}.If this field is left empty, the service treats it as specifying exactly those Aspects present in the request. */
   aspectKeys?: StringList | undefined;
-  /** The request body's `name` (`name` is the path parameter). Output only. Immutable. Identifier. The relative resource name of the Entry Link, of the form: projects/{project_id_or_number}/locations/{location_id}/entryGroups/{entry_group_id}/entryLinks/{entry_link_id} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsEntryTypesRequest extends Omit<
   GoogleCloudDataplexV1EntryType,
@@ -4536,8 +4504,6 @@ export interface PatchProjectsLocationsEntryTypesRequest extends Omit<
   name: string;
   /** Optional. The service validates the request without performing any mutations. The default is false. */
   validateOnly?: boolean | undefined;
-  /** The request body's `name` (`name` is the path parameter). Output only. The relative resource name of the EntryType, of the form: projects/{project_number}/locations/{location_id}/entryTypes/{entry_type_id}. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsGlossariesRequest extends Omit<
   GoogleCloudDataplexV1Glossary,
@@ -4549,8 +4515,6 @@ export interface PatchProjectsLocationsGlossariesRequest extends Omit<
   validateOnly?: boolean | undefined;
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Output only. Identifier. The resource name of the Glossary. Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsGlossariesCategoriesRequest extends Omit<
   GoogleCloudDataplexV1GlossaryCategory,
@@ -4560,8 +4524,6 @@ export interface PatchProjectsLocationsGlossariesCategoriesRequest extends Omit<
   updateMask?: string | undefined;
   /** Output only. Identifier. The resource name of the GlossaryCategory. Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id}/categories/{category_id} */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Output only. Identifier. The resource name of the GlossaryCategory. Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id}/categories/{category_id} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsGlossariesTermsRequest extends Omit<
   GoogleCloudDataplexV1GlossaryTerm,
@@ -4571,8 +4533,6 @@ export interface PatchProjectsLocationsGlossariesTermsRequest extends Omit<
   name: string;
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Output only. Identifier. The resource name of the GlossaryTerm. Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id}/terms/{term_id} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsLakesRequest extends Omit<
   GoogleCloudDataplexV1Lake,
@@ -4584,8 +4544,6 @@ export interface PatchProjectsLocationsLakesRequest extends Omit<
   name: string;
   /** Optional. Only validate the request, but do not perform mutations. The default is false. */
   validateOnly?: boolean | undefined;
-  /** The request body's `name` (`name` is the path parameter). Output only. The relative resource name of the lake, of the form: projects/{project_number}/locations/{location_id}/lakes/{lake_id}. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsLakesTasksRequest extends Omit<
   GoogleCloudDataplexV1Task,
@@ -4597,8 +4555,6 @@ export interface PatchProjectsLocationsLakesTasksRequest extends Omit<
   validateOnly?: boolean | undefined;
   /** Required. Mask of fields to update. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Output only. The relative resource name of the task, of the form: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/ tasks/{task_id}. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsLakesZonesRequest extends Omit<
   GoogleCloudDataplexV1Zone,
@@ -4610,8 +4566,6 @@ export interface PatchProjectsLocationsLakesZonesRequest extends Omit<
   validateOnly?: boolean | undefined;
   /** Output only. The relative resource name of the zone, of the form: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Output only. The relative resource name of the zone, of the form: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsLakesZonesAssetsRequest extends Omit<
   GoogleCloudDataplexV1Asset,
@@ -4623,8 +4577,6 @@ export interface PatchProjectsLocationsLakesZonesAssetsRequest extends Omit<
   updateMask?: string | undefined;
   /** Output only. The relative resource name of the asset, of the form: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/assets/{asset_id}. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Output only. The relative resource name of the asset, of the form: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/assets/{asset_id}. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsMetadataFeedsRequest extends Omit<
   GoogleCloudDataplexV1MetadataFeed,
@@ -4636,8 +4588,6 @@ export interface PatchProjectsLocationsMetadataFeedsRequest extends Omit<
   validateOnly?: boolean | undefined;
   /** Identifier. The resource name of the metadata feed, in the format projects/{project_id_or_number}/locations/{location_id}/metadataFeeds/{metadata_feed_id}. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the metadata feed, in the format projects/{project_id_or_number}/locations/{location_id}/metadataFeeds/{metadata_feed_id}. */
-  bodyName?: string | undefined;
 }
 /** Request message for RejectChangeRequest. */
 export interface GoogleCloudDataplexV1RejectChangeRequestRequest {
@@ -4949,8 +4899,6 @@ export interface UpdateProjectsLocationsLakesZonesEntitiesRequest extends Omit<
   name: string;
   /** Optional. Only validate the request, but do not perform mutations. The default is false. */
   validateOnly?: boolean | undefined;
-  /** The request body's `name` (`name` is the path parameter). Output only. The resource name of the entity, of the form: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/entities/{id}. */
-  bodyName?: string | undefined;
 }
 export type ApproveProjectsLocationsChangeRequestsError =
   | NotFound
@@ -10826,7 +10774,6 @@ function __c54(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -10848,7 +10795,6 @@ function __c55(j: number): any {
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -10869,7 +10815,6 @@ function __c56(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -10891,7 +10836,6 @@ function __c57(j: number): any {
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -10913,7 +10857,6 @@ function __c58(j: number): any {
             name: S.String.pipe(T.Label()),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -10935,7 +10878,6 @@ function __c59(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -10957,7 +10899,6 @@ function __c60(j: number): any {
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -10979,7 +10920,6 @@ function __c61(j: number): any {
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -11081,7 +11021,6 @@ function __c65(j: number): any {
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
             allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -11103,7 +11042,6 @@ function __c66(j: number): any {
             name: S.String.pipe(T.Label()),
             allowMissing: S.optional(S.Boolean.pipe(T.Query())),
             aspectKeys: S.optional(__S(5728, __c179, 0).pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -11125,7 +11063,6 @@ function __c67(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -11147,7 +11084,6 @@ function __c68(j: number): any {
             name: S.String.pipe(T.Label()),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -11168,7 +11104,6 @@ function __c69(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -11189,7 +11124,6 @@ function __c70(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -11211,7 +11145,6 @@ function __c71(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -11233,7 +11166,6 @@ function __c72(j: number): any {
             name: S.String.pipe(T.Label()),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -11255,7 +11187,6 @@ function __c73(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -11277,7 +11208,6 @@ function __c74(j: number): any {
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -11346,7 +11276,6 @@ function __c77(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -13305,7 +13234,6 @@ function __c139(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
@@ -13393,13 +13321,12 @@ function __c143(j: number): any {
           __S(5568, __c174, 0),
           S.Struct({
             categoryId: S.optional(S.String.pipe(T.Query())),
-            parent: S.String.pipe(T.Label()),
-            bodyParent: S.optional(S.String.pipe(T.Body("parent"))),
+            glossary: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
             method: "POST",
-            uri: "v1/{+parent}/categories",
+            uri: "v1/{+glossary}/categories",
             baseUrl: "https://dataplex.googleapis.com/",
           }),
         ),
@@ -13413,14 +13340,13 @@ function __c144(j: number): any {
         S.Extend(
           __S(5600, __c175, 0),
           S.Struct({
-            parent: S.String.pipe(T.Label()),
             termId: S.optional(S.String.pipe(T.Query())),
-            bodyParent: S.optional(S.String.pipe(T.Body("parent"))),
+            glossary: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
             method: "POST",
-            uri: "v1/{+parent}/terms",
+            uri: "v1/{+glossary}/terms",
             baseUrl: "https://dataplex.googleapis.com/",
           }),
         ),
@@ -14850,7 +14776,6 @@ function __c196(j: number): any {
           __S(5896, __c184, 8),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

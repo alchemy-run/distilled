@@ -523,32 +523,24 @@ export interface PatchProjectsLocationsBucketsRequest extends Omit<Bucket, "name
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Name of the bucket. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID] */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsBucketsDatasetsLinksRequest extends Omit<Link, "name"> {
   /** Identifier. Name of the link. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID]/datasets/[DATASET_ID]/links/[LINK_ID] */
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Name of the link. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID]/datasets/[DATASET_ID]/links/[LINK_ID] */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsScopesRequest extends Omit<Scope, "name"> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the Scope resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field is overwritten when it is in the mask. If the user does not provide a mask, then all fields present in the request are overwritten. */
   updateMask?: string | undefined;
   /** Identifier. Name of the resource. The format is: projects/{project}/locations/{location}/scopes/{scope} The `{location}` field must be set to `global`. The `{scope}` field must be set to `_Default`. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Name of the resource. The format is: projects/{project}/locations/{location}/scopes/{scope} The `{location}` field must be set to `global`. The `{scope}` field must be set to `_Default`. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsTraceScopesRequest extends Omit<TraceScope, "name"> {
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
   /** Identifier. The resource name of the trace scope. For example: projects/my-project/locations/global/traceScopes/my-trace-scope */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the trace scope. For example: projects/my-project/locations/global/traceScopes/my-trace-scope */
-  bodyName?: string | undefined;
 }
 /** Request for reprovisioning a bucket, replaces configuration with that of the configured Observability settings. */
 export type ReprovisionBucketRequest = CancelOperationRequest;
@@ -563,24 +555,18 @@ export interface UpdateSettingsFoldersLocationsRequest extends Omit<Settings, "n
   name: string;
   /** Optional. The field mask specifying which fields of the settings are to be updated. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the settings. */
-  bodyName?: string | undefined;
 }
 export interface UpdateSettingsOrganizationsLocationsRequest extends Omit<Settings, "name"> {
   /** Optional. The field mask specifying which fields of the settings are to be updated. */
   updateMask?: string | undefined;
   /** Identifier. The resource name of the settings. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the settings. */
-  bodyName?: string | undefined;
 }
 export interface UpdateSettingsProjectsLocationsRequest extends Omit<Settings, "name"> {
   /** Optional. The field mask specifying which fields of the settings are to be updated. */
   updateMask?: string | undefined;
   /** Identifier. The resource name of the settings. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the settings. */
-  bodyName?: string | undefined;
 }
 export type CancelFoldersLocationsOperationsError =
   | NotFound
@@ -2184,7 +2170,6 @@ function __c40(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2205,7 +2190,6 @@ function __c41(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2226,7 +2210,6 @@ function __c42(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2247,7 +2230,6 @@ function __c43(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2285,7 +2267,6 @@ function __c45(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2306,7 +2287,6 @@ function __c46(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2327,7 +2307,6 @@ function __c47(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

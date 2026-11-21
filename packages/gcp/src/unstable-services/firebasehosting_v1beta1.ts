@@ -916,16 +916,12 @@ export interface PatchProjectsSitesRequest extends Omit<Site, "name"> {
   updateMask?: string | undefined;
   /** Output only. The fully-qualified resource name of the Hosting site, in the format: projects/PROJECT_IDENTIFIER/sites/SITE_ID PROJECT_IDENTIFIER: the Firebase project's [`ProjectNumber`](https://firebase.google.com/docs/reference/firebase-management/rest/v1beta1/projects#FirebaseProject.FIELDS.project_number) ***(recommended)*** or its [`ProjectId`](https://firebase.google.com/docs/reference/firebase-management/rest/v1beta1/projects#FirebaseProject.FIELDS.project_id). Learn more about using project identifiers in Google's [AIP 2510 standard](https://google.aip.dev/cloud/2510). */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Output only. The fully-qualified resource name of the Hosting site, in the format: projects/PROJECT_IDENTIFIER/sites/SITE_ID PROJECT_IDENTIFIER: the Firebase project's [`ProjectNumber`](https://firebase.google.com/docs/reference/firebase-management/rest/v1beta1/projects#FirebaseProject.FIELDS.project_number) ***(recommended)*** or its [`ProjectId`](https://firebase.google.com/docs/reference/firebase-management/rest/v1beta1/projects#FirebaseProject.FIELDS.project_id). Learn more about using project identifiers in Google's [AIP 2510 standard](https://google.aip.dev/cloud/2510). */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsSitesChannelsRequest extends Omit<Channel, "name"> {
   /** A comma-separated list of fields to be updated in this request. */
   updateMask?: string | undefined;
   /** The fully-qualified resource name for the channel, in the format: sites/ SITE_ID/channels/CHANNEL_ID */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). The fully-qualified resource name for the channel, in the format: sites/ SITE_ID/channels/CHANNEL_ID */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsSitesCustomDomainsRequest extends Omit<CustomDomain, "name"> {
   /** If true, Hosting validates that it's possible to complete your request but doesn't actually create or update the `CustomDomain`. */
@@ -936,32 +932,24 @@ export interface PatchProjectsSitesCustomDomainsRequest extends Omit<CustomDomai
   name: string;
   /** If true, Hosting creates the `CustomDomain` if it doesn't already exist. */
   allowMissing?: boolean | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The fully-qualified name of the `CustomDomain`. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsSitesVersionsRequest extends Omit<Version, "name"> {
   /** A set of field names from your [version](../sites.versions) that you want to update. A field will be overwritten if, and only if, it's in the mask. If a mask is not provided then a default mask of only [`status`](../sites.versions#Version.FIELDS.status) will be used. */
   updateMask?: string | undefined;
   /** The fully-qualified resource name for the version, in the format: sites/ SITE_ID/versions/VERSION_ID This name is provided in the response body when you call [`CreateVersion`](sites.versions/create). */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). The fully-qualified resource name for the version, in the format: sites/ SITE_ID/versions/VERSION_ID This name is provided in the response body when you call [`CreateVersion`](sites.versions/create). */
-  bodyName?: string | undefined;
 }
 export interface PatchSitesChannelsRequest extends Omit<Channel, "name"> {
   /** The fully-qualified resource name for the channel, in the format: sites/ SITE_ID/channels/CHANNEL_ID */
   name: string;
   /** A comma-separated list of fields to be updated in this request. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). The fully-qualified resource name for the channel, in the format: sites/ SITE_ID/channels/CHANNEL_ID */
-  bodyName?: string | undefined;
 }
 export interface PatchSitesVersionsRequest extends Omit<Version, "name"> {
   /** The fully-qualified resource name for the version, in the format: sites/ SITE_ID/versions/VERSION_ID This name is provided in the response body when you call [`CreateVersion`](sites.versions/create). */
   name: string;
   /** A set of field names from your [version](../sites.versions) that you want to update. A field will be overwritten if, and only if, it's in the mask. If a mask is not provided then a default mask of only [`status`](../sites.versions#Version.FIELDS.status) will be used. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). The fully-qualified resource name for the version, in the format: sites/ SITE_ID/versions/VERSION_ID This name is provided in the response body when you call [`CreateVersion`](sites.versions/create). */
-  bodyName?: string | undefined;
 }
 export interface PopulateVersionFilesRequest {
   /** A set of file paths to the hashes corresponding to assets that should be added to the version. A file path to an empty hash will remove the path from the version. Calculate a hash by Gzipping the file then taking the SHA256 hash of the newly compressed file. */
@@ -3358,7 +3346,6 @@ function __c61(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3379,7 +3366,6 @@ function __c62(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3402,7 +3388,6 @@ function __c63(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3464,7 +3449,6 @@ function __c67(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3485,7 +3469,6 @@ function __c68(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3506,7 +3489,6 @@ function __c69(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

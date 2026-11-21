@@ -4648,8 +4648,6 @@ export interface PatchProjectsLocationsAuthConfigsRequest extends Omit<
   "clientCertificate.encryptedPrivateKey"?: string | undefined;
   /** 'passphrase' should be left unset if private key is not encrypted. Note that 'passphrase' is not the password for web server, but an extra layer of security to protected private key. */
   "clientCertificate.passphrase"?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Resource name of the auth config. For more information, see Manage authentication profiles. projects/{project}/locations/{location}/authConfigs/{authConfig}. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsCertificatesRequest extends Omit<
   GoogleCloudIntegrationsV1alphaCertificate,
@@ -4659,8 +4657,6 @@ export interface PatchProjectsLocationsCertificatesRequest extends Omit<
   updateMask?: string | undefined;
   /** Output only. Auto generated primary key */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Output only. Auto generated primary key */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsIntegrationsVersionsRequest extends Omit<
   GoogleCloudIntegrationsV1alphaIntegrationVersion,
@@ -4670,8 +4666,6 @@ export interface PatchProjectsLocationsIntegrationsVersionsRequest extends Omit<
   updateMask?: string | undefined;
   /** Output only. Auto-generated primary key. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Output only. Auto-generated primary key. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsIntegrationsVersionsTestCasesRequest extends Omit<
   GoogleCloudIntegrationsV1alphaTestCase,
@@ -4681,8 +4675,6 @@ export interface PatchProjectsLocationsIntegrationsVersionsTestCasesRequest exte
   name: string;
   /** Optional. Field mask specifying the fields in the above integration that have been modified and need to be updated. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Output only. Auto-generated primary key. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsProductsAuthConfigsRequest extends Omit<
   GoogleCloudIntegrationsV1alphaAuthConfig,
@@ -4698,8 +4690,6 @@ export interface PatchProjectsLocationsProductsAuthConfigsRequest extends Omit<
   "clientCertificate.encryptedPrivateKey"?: string | undefined;
   /** 'passphrase' should be left unset if private key is not encrypted. Note that 'passphrase' is not the password for web server, but an extra layer of security to protected private key. */
   "clientCertificate.passphrase"?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Resource name of the auth config. For more information, see Manage authentication profiles. projects/{project}/locations/{location}/authConfigs/{authConfig}. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsProductsCertificatesRequest extends Omit<
   GoogleCloudIntegrationsV1alphaCertificate,
@@ -4709,8 +4699,6 @@ export interface PatchProjectsLocationsProductsCertificatesRequest extends Omit<
   name: string;
   /** Field mask specifying the fields in the above Certificate that have been modified and need to be updated. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Output only. Auto generated primary key */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsProductsIntegrationsVersionsRequest extends Omit<
   GoogleCloudIntegrationsV1alphaIntegrationVersion,
@@ -4720,8 +4708,6 @@ export interface PatchProjectsLocationsProductsIntegrationsVersionsRequest exten
   name: string;
   /** Field mask specifying the fields in the above integration that have been modified and need to be updated. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Output only. Auto-generated primary key. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsProductsSfdcInstancesRequest extends Omit<
   GoogleCloudIntegrationsV1alphaSfdcInstance,
@@ -4731,8 +4717,6 @@ export interface PatchProjectsLocationsProductsSfdcInstancesRequest extends Omit
   updateMask?: string | undefined;
   /** Resource name of the SFDC instance projects/{project}/locations/{location}/sfdcInstances/{sfdcInstance}. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Resource name of the SFDC instance projects/{project}/locations/{location}/sfdcInstances/{sfdcInstance}. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest extends Omit<
   GoogleCloudIntegrationsV1alphaSfdcChannel,
@@ -4742,8 +4726,6 @@ export interface PatchProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest 
   updateMask?: string | undefined;
   /** Resource name of the SFDC channel projects/{project}/locations/{location}/sfdcInstances/{sfdc_instance}/sfdcChannels/{sfdc_channel}. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Resource name of the SFDC channel projects/{project}/locations/{location}/sfdcInstances/{sfdc_instance}/sfdcChannels/{sfdc_channel}. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsSfdcInstancesRequest extends Omit<
   GoogleCloudIntegrationsV1alphaSfdcInstance,
@@ -4753,8 +4735,6 @@ export interface PatchProjectsLocationsSfdcInstancesRequest extends Omit<
   updateMask?: string | undefined;
   /** Resource name of the SFDC instance projects/{project}/locations/{location}/sfdcInstances/{sfdcInstance}. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Resource name of the SFDC instance projects/{project}/locations/{location}/sfdcInstances/{sfdcInstance}. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsSfdcInstancesSfdcChannelsRequest extends Omit<
   GoogleCloudIntegrationsV1alphaSfdcChannel,
@@ -4764,8 +4744,6 @@ export interface PatchProjectsLocationsSfdcInstancesSfdcChannelsRequest extends 
   updateMask?: string | undefined;
   /** Resource name of the SFDC channel projects/{project}/locations/{location}/sfdcInstances/{sfdc_instance}/sfdcChannels/{sfdc_channel}. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Resource name of the SFDC channel projects/{project}/locations/{location}/sfdcInstances/{sfdc_instance}/sfdcChannels/{sfdc_channel}. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsTemplatesRequest extends Omit<
   GoogleCloudIntegrationsV1alphaTemplate,
@@ -4775,8 +4753,6 @@ export interface PatchProjectsLocationsTemplatesRequest extends Omit<
   updateMask?: string | undefined;
   /** Identifier. Resource name of the template. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name of the template. */
-  bodyName?: string | undefined;
 }
 export type GoogleCloudIntegrationsV1alphaProvisionClientPostProcessorRequestWorkflowsItemEnum =
   | "SAMPLE_INTEGRATIONS_UNSPECIFIED"
@@ -9308,7 +9284,6 @@ function __c12(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -9329,7 +9304,6 @@ function __c13(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -9350,7 +9324,6 @@ function __c14(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -9371,7 +9344,6 @@ function __c15(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -13463,7 +13435,6 @@ function __c174(j: number): any {
             "clientCertificate.sslCertificate": S.optional(S.String.pipe(T.Query())),
             "clientCertificate.encryptedPrivateKey": S.optional(S.String.pipe(T.Query())),
             "clientCertificate.passphrase": S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -13484,7 +13455,6 @@ function __c175(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -13505,7 +13475,6 @@ function __c176(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -13526,7 +13495,6 @@ function __c177(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -13550,7 +13518,6 @@ function __c178(j: number): any {
             "clientCertificate.sslCertificate": S.optional(S.String.pipe(T.Query())),
             "clientCertificate.encryptedPrivateKey": S.optional(S.String.pipe(T.Query())),
             "clientCertificate.passphrase": S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -13571,7 +13538,6 @@ function __c179(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -13592,7 +13558,6 @@ function __c180(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -13613,7 +13578,6 @@ function __c181(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

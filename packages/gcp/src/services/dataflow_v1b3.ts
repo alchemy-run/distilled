@@ -838,12 +838,6 @@ export interface CreateProjectsJobsRequest extends Omit<
   location?: string | undefined;
   /** Deprecated. This field is now in the Job message. */
   replaceJobId?: string | undefined;
-  /** The request body's `projectId` (`projectId` is the path parameter). The ID of the Google Cloud project that the job belongs to. */
-  bodyProjectId?: string | undefined;
-  /** The request body's `replaceJobId` (`replaceJobId` is the query parameter). If this job is an update of an existing job, this field is the job ID of the job it replaced. When sending a `CreateJobRequest`, you can update a job by specifying it here. The job named here is stopped, and its intermediate state is transferred to this job. */
-  bodyReplaceJobId?: string | undefined;
-  /** The request body's `location` (`location` is the query parameter). Optional. The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains this job. */
-  bodyLocation?: string | undefined;
 }
 export interface CreateProjectsLocationsConfigStoreSettingsRequest extends ConfigStoreSetting {
   /** Required. The ID to use for the setting. */
@@ -868,12 +862,6 @@ export interface CreateProjectsLocationsJobsRequest extends Omit<
   view?: CreateProjectsLocationsJobsViewEnum | (string & {}) | undefined;
   /** The ID of the Cloud Platform project that the job belongs to. */
   projectId: string;
-  /** The request body's `projectId` (`projectId` is the path parameter). The ID of the Google Cloud project that the job belongs to. */
-  bodyProjectId?: string | undefined;
-  /** The request body's `replaceJobId` (`replaceJobId` is the query parameter). If this job is an update of an existing job, this field is the job ID of the job it replaced. When sending a `CreateJobRequest`, you can update a job by specifying it here. The job named here is stopped, and its intermediate state is transferred to this job. */
-  bodyReplaceJobId?: string | undefined;
-  /** The request body's `location` (`location` is the path parameter). Optional. The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains this job. */
-  bodyLocation?: string | undefined;
 }
 export type RuntimeEnvironmentStreamingModeEnum =
   | "STREAMING_MODE_UNSPECIFIED"
@@ -945,8 +933,6 @@ export interface CreateProjectsLocationsTemplatesRequest extends Omit<
   projectId: string;
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) to which to direct the request. */
   location: string;
-  /** The request body's `location` (`location` is the path parameter). The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) to which to direct the request. */
-  bodyLocation?: string | undefined;
 }
 export interface CreateProjectsTemplatesRequest extends CreateJobFromTemplateRequest {
   /** Required. The ID of the Cloud Platform project that the job belongs to. */
@@ -1014,8 +1000,6 @@ export interface GetConfigProjectsLocationsJobsDebugRequest extends Omit<
   jobId: string;
   /** The project id. */
   projectId: string;
-  /** The request body's `location` (`location` is the path parameter). The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the job specified by job_id. */
-  bodyLocation?: string | undefined;
 }
 export interface GetExecutionDetailsProjectsLocationsJobsRequest {
   /** If specified, determines the maximum number of stages to return. If unspecified, the service may choose an appropriate default, or may return an arbitrarily large number of results. */
@@ -2226,8 +2210,6 @@ export interface LeaseProjectsLocationsJobsWorkItemsRequest extends Omit<
   jobId: string;
   /** Identifies the project this worker belongs to. */
   projectId: string;
-  /** The request body's `location` (`location` is the path parameter). The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the WorkItem's job. */
-  bodyLocation?: string | undefined;
 }
 export interface ListFoldersLocationsConfigStoreSettingsRequest {
   /** Required. The parent resource whose settings are being listed. */
@@ -2915,8 +2897,6 @@ export interface ReportStatusProjectsLocationsJobsWorkItemsRequest extends Omit<
   projectId: string;
   /** The job which the WorkItem is part of. */
   jobId: string;
-  /** The request body's `location` (`location` is the path parameter). The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the WorkItem's job. */
-  bodyLocation?: string | undefined;
 }
 /** Request message for ResolveConfigStoreSetting. */
 export interface ResolveConfigStoreSettingRequest {}
@@ -2982,8 +2962,6 @@ export interface SendCaptureProjectsLocationsJobsDebugRequest extends Omit<
   jobId: string;
   /** The project id. */
   projectId: string;
-  /** The request body's `location` (`location` is the path parameter). The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the job specified by job_id. */
-  bodyLocation?: string | undefined;
 }
 /** Request to create a snapshot of a job. */
 export interface SnapshotJobRequest {
@@ -3009,8 +2987,6 @@ export interface SnapshotProjectsLocationsJobsRequest extends Omit<SnapshotJobRe
   location: string;
   /** The job to be snapshotted. */
   jobId: string;
-  /** The request body's `location` (`location` is the path parameter). The location that contains this job. */
-  bodyLocation?: string | undefined;
 }
 export interface UpdateProjectsJobsRequest extends Omit<Job, "projectId" | "location"> {
   /** The list of fields to update relative to Job. If empty, only RequestedJobState will be considered for update. If the FieldMask is not empty and RequestedJobState is none/empty, The fields specified in the update mask will be the only ones considered for update. If both RequestedJobState and update_mask are specified, an error will be returned as we cannot update both state and mask. */
@@ -3021,10 +2997,6 @@ export interface UpdateProjectsJobsRequest extends Omit<Job, "projectId" | "loca
   jobId: string;
   /** The ID of the Cloud Platform project that the job belongs to. */
   projectId: string;
-  /** The request body's `projectId` (`projectId` is the path parameter). The ID of the Google Cloud project that the job belongs to. */
-  bodyProjectId?: string | undefined;
-  /** The request body's `location` (`location` is the query parameter). Optional. The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains this job. */
-  bodyLocation?: string | undefined;
 }
 export interface UpdateProjectsLocationsJobsRequest extends Omit<Job, "projectId" | "location"> {
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains this job. */
@@ -3035,10 +3007,6 @@ export interface UpdateProjectsLocationsJobsRequest extends Omit<Job, "projectId
   jobId: string;
   /** The ID of the Cloud Platform project that the job belongs to. */
   projectId: string;
-  /** The request body's `projectId` (`projectId` is the path parameter). The ID of the Google Cloud project that the job belongs to. */
-  bodyProjectId?: string | undefined;
-  /** The request body's `location` (`location` is the path parameter). Optional. The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains this job. */
-  bodyLocation?: string | undefined;
 }
 /** WorkerHealthReport contains information about the health of a worker. The VM should be identified by the labels attached to the WorkerMessage that this health ping belongs to. */
 export interface WorkerHealthReport {
@@ -3340,8 +3308,6 @@ export interface WorkerMessagesProjectsLocationsRequest extends Omit<
   projectId: string;
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the job. */
   location: string;
-  /** The request body's `location` (`location` is the path parameter). The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the job. */
-  bodyLocation?: string | undefined;
 }
 export type AggregatedProjectsJobsError = NotFound | Forbidden | GcpOpError;
 /** List the jobs of a project across all regions. **Note:** This method doesn't support filtering the list of jobs by name. # IAM Permissions Requires the `dataflow.jobs.list` permission on the project. */
@@ -4511,7 +4477,6 @@ function __c0(j: number): any {
           S.Struct({
             projectId: S.String.pipe(T.Label()),
             location: S.String.pipe(T.Label()),
-            bodyLocation: S.optional(S.String.pipe(T.Body("location"))),
           }),
         ).pipe(
           T.Http({
@@ -4722,7 +4687,6 @@ function __c12(j: number): any {
             location: S.String.pipe(T.Label()),
             jobId: S.String.pipe(T.Label()),
             projectId: S.String.pipe(T.Label()),
-            bodyLocation: S.optional(S.String.pipe(T.Body("location"))),
           }),
         ).pipe(
           T.Http({
@@ -5936,7 +5900,6 @@ function __c44(j: number): any {
             location: S.String.pipe(T.Label()),
             jobId: S.String.pipe(T.Label()),
             projectId: S.String.pipe(T.Label()),
-            bodyLocation: S.optional(S.String.pipe(T.Body("location"))),
           }),
         ).pipe(
           T.Http({
@@ -7109,7 +7072,6 @@ function __c69(j: number): any {
             location: S.String.pipe(T.Label()),
             projectId: S.String.pipe(T.Label()),
             jobId: S.String.pipe(T.Label()),
-            bodyLocation: S.optional(S.String.pipe(T.Body("location"))),
           }),
         ).pipe(
           T.Http({
@@ -7265,7 +7227,6 @@ function __c78(j: number): any {
             location: S.String.pipe(T.Label()),
             jobId: S.String.pipe(T.Label()),
             projectId: S.String.pipe(T.Label()),
-            bodyLocation: S.optional(S.String.pipe(T.Body("location"))),
           }),
         ).pipe(
           T.Http({
@@ -7320,7 +7281,6 @@ function __c81(j: number): any {
             projectId: S.String.pipe(T.Label()),
             location: S.String.pipe(T.Label()),
             jobId: S.String.pipe(T.Label()),
-            bodyLocation: S.optional(S.String.pipe(T.Body("location"))),
           }),
         ).pipe(
           T.Http({
@@ -7343,8 +7303,6 @@ function __c82(j: number): any {
             location: S.optional(S.String.pipe(T.Query())),
             jobId: S.String.pipe(T.Label()),
             projectId: S.String.pipe(T.Label()),
-            bodyProjectId: S.optional(S.String.pipe(T.Body("projectId"))),
-            bodyLocation: S.optional(S.String.pipe(T.Body("location"))),
           }),
         ).pipe(
           T.Http({
@@ -7367,8 +7325,6 @@ function __c83(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             jobId: S.String.pipe(T.Label()),
             projectId: S.String.pipe(T.Label()),
-            bodyProjectId: S.optional(S.String.pipe(T.Body("projectId"))),
-            bodyLocation: S.optional(S.String.pipe(T.Body("location"))),
           }),
         ).pipe(
           T.Http({
@@ -7688,7 +7644,6 @@ function __c88(j: number): any {
           S.Struct({
             projectId: S.String.pipe(T.Label()),
             location: S.String.pipe(T.Label()),
-            bodyLocation: S.optional(S.String.pipe(T.Body("location"))),
           }),
         ).pipe(
           T.Http({
@@ -7711,9 +7666,6 @@ function __c89(j: number): any {
             view: S.optional(S.String.pipe(T.Query())),
             location: S.optional(S.String.pipe(T.Query())),
             replaceJobId: S.optional(S.String.pipe(T.Query())),
-            bodyProjectId: S.optional(S.String.pipe(T.Body("projectId"))),
-            bodyReplaceJobId: S.optional(S.String.pipe(T.Body("replaceJobId"))),
-            bodyLocation: S.optional(S.String.pipe(T.Body("location"))),
           }),
         ).pipe(
           T.Http({
@@ -7756,9 +7708,6 @@ function __c91(j: number): any {
             replaceJobId: S.optional(S.String.pipe(T.Query())),
             view: S.optional(S.String.pipe(T.Query())),
             projectId: S.String.pipe(T.Label()),
-            bodyProjectId: S.optional(S.String.pipe(T.Body("projectId"))),
-            bodyReplaceJobId: S.optional(S.String.pipe(T.Body("replaceJobId"))),
-            bodyLocation: S.optional(S.String.pipe(T.Body("location"))),
           }),
         ).pipe(
           T.Http({

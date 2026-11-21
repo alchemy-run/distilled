@@ -331,14 +331,10 @@ export interface UndeleteProjectsRequest {
 export interface UpdateOrganizationsRequest extends Omit<Organization, "name"> {
   /** Output only. The resource name of the organization. This is the organization's relative path in the API. Its format is "organizations/[organization_id]". For example, "organizations/1234". */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Output only. The resource name of the organization. This is the organization's relative path in the API. Its format is "organizations/[organization_id]". For example, "organizations/1234". */
-  bodyName?: string | undefined;
 }
 export interface UpdateProjectsRequest extends Omit<Project, "projectId"> {
   /** The project ID (for example, `my-project-123`). */
   projectId: string;
-  /** The request body's `projectId` (`projectId` is the path parameter). The unique, user-assigned ID of the Project. It must be 6 to 30 lowercase letters, digits, or hyphens. It must start with a letter. Trailing hyphens are prohibited. Example: `tokyo-rain-123` Read-only after creation. */
-  bodyProjectId?: string | undefined;
 }
 export type CreateProjectsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Creates a Project resource. Initially, the Project resource is owned by its creator exclusively. The creator can later grant permission to others to read or update the Project. Several APIs are activated automatically for the Project, including Google Cloud Storage. The parent is identified by a specified ResourceId, which must include both an ID and a type, such as project, folder, or organization. This method does not associate the new project with a billing account. You can set or update the billing account associated with a project using the [`projects.updateBillingInfo`] (/billing/reference/rest/v1/projects/updateBillingInfo) method. */
@@ -829,7 +825,6 @@ function __c10(j: number): any {
           __S(193, __c24, 1),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -849,7 +844,6 @@ function __c11(j: number): any {
           __S(105, __c13, 1),
           S.Struct({
             projectId: S.String.pipe(T.Label()),
-            bodyProjectId: S.optional(S.String.pipe(T.Body("projectId"))),
           }),
         ).pipe(
           T.Http({

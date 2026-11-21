@@ -1462,8 +1462,6 @@ export interface InsertChildrenRequest extends ChildReference {
 export interface InsertCommentsRequest extends Omit<Comment, "fileId"> {
   /** The ID of the file. */
   fileId: string;
-  /** The request body's `fileId` (`fileId` is the path parameter). The file which this comment is addressing. */
-  bodyFileId?: string | undefined;
 }
 export interface InsertDrivesRequest extends Drive {
   /** Required. An ID, such as a random UUID, which uniquely identifies this user's request for idempotent creation of a shared drive. A repeated request by the same user and with the same request ID will avoid creating duplicates by attempting to create the same shared drive. If the shared drive already exists a 409 error will be returned. */
@@ -1942,10 +1940,6 @@ export interface PatchCommentsRequest extends Omit<Comment, "fileId" | "commentI
   commentId: string;
   /** The ID of the file. */
   fileId: string;
-  /** The request body's `fileId` (`fileId` is the path parameter). The file which this comment is addressing. */
-  bodyFileId?: string | undefined;
-  /** The request body's `commentId` (`commentId` is the path parameter). The ID of the comment. */
-  bodyCommentId?: string | undefined;
 }
 export type PatchFilesModifiedDateBehaviorEnum =
   | "fromBody"
@@ -2019,8 +2013,6 @@ export interface PatchPropertiesRequest extends Omit<Property, "visibility"> {
   propertyKey: string;
   /** The ID of the file. */
   fileId: string;
-  /** The request body's `visibility` (`visibility` is the query parameter). The visibility of this property. Allowed values are PRIVATE (default) and PUBLIC. Private properties can only be retrieved using an authenticated request. An authenticated request uses an access token obtained with a OAuth 2 client ID. You cannot use an API key to retrieve private properties. */
-  bodyVisibility?: string | undefined;
 }
 export interface PatchRepliesRequest extends Omit<CommentReply, "replyId"> {
   /** The ID of the reply. */
@@ -2029,8 +2021,6 @@ export interface PatchRepliesRequest extends Omit<CommentReply, "replyId"> {
   commentId: string;
   /** The ID of the file. */
   fileId: string;
-  /** The request body's `replyId` (`replyId` is the path parameter). The ID of the reply. */
-  bodyReplyId?: string | undefined;
 }
 export interface PatchRevisionsRequest extends Revision {
   /** The ID for the file. */
@@ -2108,10 +2098,6 @@ export interface UpdateCommentsRequest extends Omit<Comment, "fileId" | "comment
   commentId: string;
   /** The ID of the file. */
   fileId: string;
-  /** The request body's `fileId` (`fileId` is the path parameter). The file which this comment is addressing. */
-  bodyFileId?: string | undefined;
-  /** The request body's `commentId` (`commentId` is the path parameter). The ID of the comment. */
-  bodyCommentId?: string | undefined;
 }
 export interface UpdateDrivesRequest extends Drive {
   /** Issue the request as a domain administrator; if set to true, then the requester will be granted access if they are an administrator of the domain to which the shared drive belongs. */
@@ -2191,8 +2177,6 @@ export interface UpdatePropertiesRequest extends Omit<Property, "visibility"> {
   visibility?: string | undefined;
   /** The ID of the file. */
   fileId: string;
-  /** The request body's `visibility` (`visibility` is the query parameter). The visibility of this property. Allowed values are PRIVATE (default) and PUBLIC. Private properties can only be retrieved using an authenticated request. An authenticated request uses an access token obtained with a OAuth 2 client ID. You cannot use an API key to retrieve private properties. */
-  bodyVisibility?: string | undefined;
 }
 export interface UpdateRepliesRequest extends Omit<CommentReply, "replyId"> {
   /** The ID of the reply. */
@@ -2201,8 +2185,6 @@ export interface UpdateRepliesRequest extends Omit<CommentReply, "replyId"> {
   fileId: string;
   /** The ID of the comment. */
   commentId: string;
-  /** The request body's `replyId` (`replyId` is the path parameter). The ID of the reply. */
-  bodyReplyId?: string | undefined;
 }
 export interface UpdateRevisionsRequest extends Revision {
   /** The ID for the file. */
@@ -4667,7 +4649,6 @@ function __c35(j: number): any {
           __S(673, __c21, 1),
           S.Struct({
             fileId: S.String.pipe(T.Label()),
-            bodyFileId: S.optional(S.String.pipe(T.Body("fileId"))),
           }),
         ).pipe(
           T.Http({
@@ -5774,8 +5755,6 @@ function __c71(j: number): any {
           S.Struct({
             commentId: S.String.pipe(T.Label()),
             fileId: S.String.pipe(T.Label()),
-            bodyFileId: S.optional(S.String.pipe(T.Body("fileId"))),
-            bodyCommentId: S.optional(S.String.pipe(T.Body("commentId"))),
           }),
         ).pipe(
           T.Http({
@@ -5877,7 +5856,6 @@ function __c75(j: number): any {
             visibility: S.optional(S.String.pipe(T.Query())),
             propertyKey: S.String.pipe(T.Label()),
             fileId: S.String.pipe(T.Label()),
-            bodyVisibility: S.optional(S.String.pipe(T.Body("visibility"))),
           }),
         ).pipe(
           T.Http({
@@ -5899,7 +5877,6 @@ function __c76(j: number): any {
             replyId: S.String.pipe(T.Label()),
             commentId: S.String.pipe(T.Label()),
             fileId: S.String.pipe(T.Label()),
-            bodyReplyId: S.optional(S.String.pipe(T.Body("replyId"))),
           }),
         ).pipe(
           T.Http({
@@ -6049,8 +6026,6 @@ function __c84(j: number): any {
           S.Struct({
             commentId: S.String.pipe(T.Label()),
             fileId: S.String.pipe(T.Label()),
-            bodyFileId: S.optional(S.String.pipe(T.Body("fileId"))),
-            bodyCommentId: S.optional(S.String.pipe(T.Body("commentId"))),
           }),
         ).pipe(
           T.Http({
@@ -6173,7 +6148,6 @@ function __c89(j: number): any {
             propertyKey: S.String.pipe(T.Label()),
             visibility: S.optional(S.String.pipe(T.Query())),
             fileId: S.String.pipe(T.Label()),
-            bodyVisibility: S.optional(S.String.pipe(T.Body("visibility"))),
           }),
         ).pipe(
           T.Http({
@@ -6195,7 +6169,6 @@ function __c90(j: number): any {
             replyId: S.String.pipe(T.Label()),
             fileId: S.String.pipe(T.Label()),
             commentId: S.String.pipe(T.Label()),
-            bodyReplyId: S.optional(S.String.pipe(T.Body("replyId"))),
           }),
         ).pipe(
           T.Http({

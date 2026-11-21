@@ -1239,8 +1239,6 @@ export interface PatchAccountTypesAccountsUserListDirectLicensesRequest extends 
 > {
   updateMask?: string | undefined;
   name: string;
-  /** The request body's `name` (`name` is the path parameter). */
-  bodyName?: string | undefined;
 }
 export interface PatchAccountTypesAccountsUserListGlobalLicensesRequest extends Omit<
   UserListGlobalLicense,
@@ -1248,15 +1246,11 @@ export interface PatchAccountTypesAccountsUserListGlobalLicensesRequest extends 
 > {
   name: string;
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). */
-  bodyName?: string | undefined;
 }
 export interface PatchAccountTypesAccountsUserListsRequest extends Omit<UserList, "name"> {
   name: string;
   updateMask?: string | undefined;
   validateOnly?: boolean | undefined;
-  /** The request body's `name` (`name` is the path parameter). */
-  bodyName?: string | undefined;
 }
 export interface RemoveAllAudienceMembersRequest {
   removeAsOfTime?: string | undefined;
@@ -2992,7 +2986,6 @@ function __c25(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3013,7 +3006,6 @@ function __c26(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3035,7 +3027,6 @@ function __c27(j: number): any {
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

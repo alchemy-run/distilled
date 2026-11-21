@@ -189,8 +189,6 @@ export interface BulkEditAdvertisersChannelsSitesRequest extends Omit<
   channelId: string;
   /** The ID of the advertiser that owns the parent channel. */
   advertiserId: string;
-  /** The request body's `advertiserId` (`advertiserId` is the path parameter). The ID of the advertiser that owns the parent channel. */
-  bodyAdvertiserId?: string | undefined;
 }
 /** Response message for SiteService.BulkEditSites. */
 export interface BulkEditSitesResponse {
@@ -2058,8 +2056,6 @@ export interface BulkEditPartnersChannelsSitesRequest extends Omit<
   partnerId: string;
   /** Required. The ID of the parent channel to which the sites belong. */
   channelId: string;
-  /** The request body's `partnerId` (`partnerId` is the path parameter). The ID of the partner that owns the parent channel. */
-  bodyPartnerId?: string | undefined;
 }
 export interface BulkListAssignedTargetingOptionsAdvertisersAdGroupsRequest {
   /** Optional. Requested page size. The size must be an integer between `1` and `5000`. If unspecified, the default is `5000`. Returns error code `INVALID_ARGUMENT` if an invalid value is specified. */
@@ -3563,8 +3559,6 @@ export interface AdGroupAd {
 export interface CreateAdvertisersAdGroupAdsRequest extends Omit<AdGroupAd, "advertiserId"> {
   /** Output only. The unique ID of the advertiser the ad belongs to. */
   advertiserId: string;
-  /** The request body's `advertiserId` (`advertiserId` is the path parameter). Output only. The unique ID of the advertiser the ad belongs to. */
-  bodyAdvertiserId?: string | undefined;
 }
 /** The details of a creative assigned to the ad group. */
 export interface CreativeAssignment {
@@ -3688,8 +3682,6 @@ export interface AdGroup {
 export interface CreateAdvertisersAdGroupsRequest extends Omit<AdGroup, "advertiserId"> {
   /** Output only. The unique ID of the advertiser the ad group belongs to. */
   advertiserId: string;
-  /** The request body's `advertiserId` (`advertiserId` is the path parameter). Output only. The unique ID of the advertiser the ad group belongs to. */
-  bodyAdvertiserId?: string | undefined;
 }
 export type CreateAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsTargetingTypeEnum =
   | "TARGETING_TYPE_UNSPECIFIED"
@@ -3761,8 +3753,6 @@ export interface CreateAdvertisersAdGroupsTargetingTypesAssignedTargetingOptions
   targetingType:
     | CreateAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsTargetingTypeEnum
     | (string & {});
-  /** The request body's `targetingType` (`targetingType` is the path parameter). Output only. Identifies the type of this assigned targeting option. */
-  bodyTargetingType?: AssignedTargetingOptionTargetingTypeEnum | (string & {}) | undefined;
 }
 export type CreateAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsYoutubeAssetTypeEnum =
   | "YOUTUBE_ASSET_TYPE_UNSPECIFIED"
@@ -3873,8 +3863,6 @@ export interface CreateAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociati
   "linkedEntity.lineItemId"?: string | undefined;
   /** Required. The ID of the advertiser that the linked entity belongs to. */
   advertiserId: string;
-  /** The request body's `youtubeAssetType` (`youtubeAssetType` is the path parameter). Required. The type of YouTube asset associated with the resource. */
-  bodyYoutubeAssetType?: YoutubeAssetAssociationYoutubeAssetTypeEnum | (string & {}) | undefined;
 }
 export type CampaignGoalCampaignGoalTypeEnum =
   | "CAMPAIGN_GOAL_TYPE_UNSPECIFIED"
@@ -4013,8 +4001,6 @@ export interface Campaign {
 export interface CreateAdvertisersCampaignsRequest extends Omit<Campaign, "advertiserId"> {
   /** Output only. The unique ID of the advertiser the campaign belongs to. */
   advertiserId: string;
-  /** The request body's `advertiserId` (`advertiserId` is the path parameter). Output only. The unique ID of the advertiser the campaign belongs to. */
-  bodyAdvertiserId?: string | undefined;
 }
 /** A single channel. Channels are custom groups of related websites and apps. */
 export interface Channel {
@@ -4041,10 +4027,6 @@ export interface CreateAdvertisersChannelsRequest extends Omit<
   advertiserId: string;
   /** The ID of the partner that owns the created channel. */
   partnerId?: string | undefined;
-  /** The request body's `advertiserId` (`advertiserId` is the path parameter). The ID of the advertiser that owns the channel. */
-  bodyAdvertiserId?: string | undefined;
-  /** The request body's `partnerId` (`partnerId` is the query parameter). The ID of the partner that owns the channel. */
-  bodyPartnerId?: string | undefined;
 }
 export interface CreateAdvertisersChannelsSitesRequest extends Site {
   /** Required. The ID of the parent channel in which the site will be created. */
@@ -4525,8 +4507,6 @@ export interface Creative {
 export interface CreateAdvertisersCreativesRequest extends Omit<Creative, "advertiserId"> {
   /** Output only. The unique ID of the advertiser the creative belongs to. */
   advertiserId: string;
-  /** The request body's `advertiserId` (`advertiserId` is the path parameter). Output only. The unique ID of the advertiser the creative belongs to. */
-  bodyAdvertiserId?: string | undefined;
 }
 export type InsertionOrderReservationTypeEnum =
   | "RESERVATION_TYPE_UNSPECIFIED"
@@ -4662,14 +4642,10 @@ export interface CreateAdvertisersInsertionOrdersRequest extends Omit<
 > {
   /** Output only. The unique ID of the advertiser the insertion order belongs to. */
   advertiserId: string;
-  /** The request body's `advertiserId` (`advertiserId` is the path parameter). Output only. The unique ID of the advertiser the insertion order belongs to. */
-  bodyAdvertiserId?: string | undefined;
 }
 export interface CreateAdvertisersLineItemsRequest extends Omit<LineItem, "advertiserId"> {
   /** Output only. The unique ID of the advertiser the line item belongs to. */
   advertiserId: string;
-  /** The request body's `advertiserId` (`advertiserId` is the path parameter). Output only. The unique ID of the advertiser the line item belongs to. */
-  bodyAdvertiserId?: string | undefined;
 }
 export type CreateAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsTargetingTypeEnum =
   | "TARGETING_TYPE_UNSPECIFIED"
@@ -4741,8 +4717,6 @@ export interface CreateAdvertisersLineItemsTargetingTypesAssignedTargetingOption
   targetingType:
     | CreateAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsTargetingTypeEnum
     | (string & {});
-  /** The request body's `targetingType` (`targetingType` is the path parameter). Output only. Identifies the type of this assigned targeting option. */
-  bodyTargetingType?: AssignedTargetingOptionTargetingTypeEnum | (string & {}) | undefined;
 }
 export type CreateAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociationsYoutubeAssetTypeEnum =
   | "YOUTUBE_ASSET_TYPE_UNSPECIFIED"
@@ -4763,8 +4737,6 @@ export interface CreateAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociat
   lineItemId: string;
   /** Required. The ID of the advertiser that the linked entity belongs to. */
   advertiserId: string;
-  /** The request body's `youtubeAssetType` (`youtubeAssetType` is the path parameter). Required. The type of YouTube asset associated with the resource. */
-  bodyYoutubeAssetType?: YoutubeAssetAssociationYoutubeAssetTypeEnum | (string & {}) | undefined;
 }
 export type LocationListLocationTypeEnum =
   | "TARGETING_LOCATION_TYPE_UNSPECIFIED"
@@ -4786,8 +4758,6 @@ export interface LocationList {
 export interface CreateAdvertisersLocationListsRequest extends Omit<LocationList, "advertiserId"> {
   /** Required. The ID of the DV360 advertiser to which the location list belongs. */
   advertiserId: string;
-  /** The request body's `advertiserId` (`advertiserId` is the path parameter). Required. Immutable. The unique ID of the advertiser the location list belongs to. */
-  bodyAdvertiserId?: string | undefined;
 }
 export interface CreateAdvertisersLocationListsAssignedLocationsRequest extends AssignedLocation {
   /** Required. The ID of the DV360 advertiser to which the location list belongs. */
@@ -4814,8 +4784,6 @@ export interface CreateAdvertisersNegativeKeywordListsRequest extends Omit<
 > {
   /** Required. The ID of the DV360 advertiser to which the negative keyword list will belong. */
   advertiserId: string;
-  /** The request body's `advertiserId` (`advertiserId` is the path parameter). Output only. The unique ID of the advertiser the negative keyword list belongs to. */
-  bodyAdvertiserId?: string | undefined;
 }
 export interface CreateAdvertisersNegativeKeywordListsNegativeKeywordsRequest extends NegativeKeyword {
   /** Required. The ID of the DV360 advertiser to which the parent negative keyword list belongs. */
@@ -4891,8 +4859,6 @@ export interface CreateAdvertisersTargetingTypesAssignedTargetingOptionsRequest 
   targetingType:
     | CreateAdvertisersTargetingTypesAssignedTargetingOptionsTargetingTypeEnum
     | (string & {});
-  /** The request body's `targetingType` (`targetingType` is the path parameter). Output only. Identifies the type of this assigned targeting option. */
-  bodyTargetingType?: AssignedTargetingOptionTargetingTypeEnum | (string & {}) | undefined;
 }
 export type CustomBiddingAlgorithmEntityStatusEnum =
   | "ENTITY_STATUS_UNSPECIFIED"
@@ -5006,8 +4972,6 @@ export interface CreateCustomBiddingAlgorithmsRulesRequest extends Omit<
   customBiddingAlgorithmId: string;
   /** The ID of the advertiser that owns the parent custom bidding algorithm. */
   advertiserId?: string | undefined;
-  /** The request body's `customBiddingAlgorithmId` (`customBiddingAlgorithmId` is the path parameter). Output only. The unique ID of the custom bidding algorithm that the rules resource belongs to. */
-  bodyCustomBiddingAlgorithmId?: string | undefined;
 }
 export type CustomBiddingScriptStateEnum =
   | "STATE_UNSPECIFIED"
@@ -5065,8 +5029,6 @@ export interface CreateCustomBiddingAlgorithmsScriptsRequest extends Omit<
   advertiserId?: string | undefined;
   /** The ID of the partner that owns the parent custom bidding algorithm. Only this partner will have write access to this custom bidding script. */
   partnerId?: string | undefined;
-  /** The request body's `customBiddingAlgorithmId` (`customBiddingAlgorithmId` is the path parameter). Output only. The unique ID of the custom bidding algorithm the script belongs to. */
-  bodyCustomBiddingAlgorithmId?: string | undefined;
 }
 export type GuaranteedOrderExchangeEnum =
   | "EXCHANGE_UNSPECIFIED"
@@ -5268,10 +5230,6 @@ export interface CreatePartnersChannelsRequest extends Omit<Channel, "advertiser
   partnerId: string;
   /** The ID of the advertiser that owns the created channel. */
   advertiserId?: string | undefined;
-  /** The request body's `advertiserId` (`advertiserId` is the query parameter). The ID of the advertiser that owns the channel. */
-  bodyAdvertiserId?: string | undefined;
-  /** The request body's `partnerId` (`partnerId` is the path parameter). The ID of the partner that owns the channel. */
-  bodyPartnerId?: string | undefined;
 }
 export interface CreatePartnersChannelsSitesRequest extends Site {
   /** Required. The ID of the parent channel in which the site will be created. */
@@ -5349,8 +5307,6 @@ export interface CreatePartnersTargetingTypesAssignedTargetingOptionsRequest ext
   targetingType:
     | CreatePartnersTargetingTypesAssignedTargetingOptionsTargetingTypeEnum
     | (string & {});
-  /** The request body's `targetingType` (`targetingType` is the path parameter). Output only. Identifies the type of this assigned targeting option. */
-  bodyTargetingType?: AssignedTargetingOptionTargetingTypeEnum | (string & {}) | undefined;
 }
 /** A filtering option for filtering on Inventory Source entities. */
 export interface InventorySourceFilter {
@@ -9603,8 +9559,6 @@ export interface PatchAdvertisersRequest extends Omit<Advertiser, "advertiserId"
   advertiserId: string;
   /** Required. The mask to control which fields to update. */
   updateMask?: string | undefined;
-  /** The request body's `advertiserId` (`advertiserId` is the path parameter). Output only. The unique ID of the advertiser. Assigned by the system. */
-  bodyAdvertiserId?: string | undefined;
 }
 export interface PatchAdvertisersAdAssetsRequest extends Omit<AdAsset, "adAssetId"> {
   /** Required. The ID of the advertiser this ad asset belongs to. */
@@ -9613,8 +9567,6 @@ export interface PatchAdvertisersAdAssetsRequest extends Omit<AdAsset, "adAssetI
   adAssetId: string;
   /** Required. The list of fields to update. Only AdAsset.synthetic_content_attestation_status is mutable. */
   updateMask?: string | undefined;
-  /** The request body's `adAssetId` (`adAssetId` is the path parameter). Output only. The ID of the ad asset. Referred to as the asset ID when assigned to an ad. */
-  bodyAdAssetId?: string | undefined;
 }
 export interface PatchAdvertisersAdGroupAdsRequest extends Omit<
   AdGroupAd,
@@ -9626,10 +9578,6 @@ export interface PatchAdvertisersAdGroupAdsRequest extends Omit<
   updateMask?: string | undefined;
   /** Output only. The unique ID of the ad. Assigned by the system. */
   adGroupAdId: string;
-  /** The request body's `advertiserId` (`advertiserId` is the path parameter). Output only. The unique ID of the advertiser the ad belongs to. */
-  bodyAdvertiserId?: string | undefined;
-  /** The request body's `adGroupAdId` (`adGroupAdId` is the path parameter). Output only. The unique ID of the ad. Assigned by the system. */
-  bodyAdGroupAdId?: string | undefined;
 }
 export interface PatchAdvertisersAdGroupsRequest extends Omit<
   AdGroup,
@@ -9641,10 +9589,6 @@ export interface PatchAdvertisersAdGroupsRequest extends Omit<
   advertiserId: string;
   /** Output only. The unique ID of the ad group. Assigned by the system. */
   adGroupId: string;
-  /** The request body's `adGroupId` (`adGroupId` is the path parameter). Output only. The unique ID of the ad group. Assigned by the system. */
-  bodyAdGroupId?: string | undefined;
-  /** The request body's `advertiserId` (`advertiserId` is the path parameter). Output only. The unique ID of the advertiser the ad group belongs to. */
-  bodyAdvertiserId?: string | undefined;
 }
 export interface PatchAdvertisersCampaignsRequest extends Omit<
   Campaign,
@@ -9656,10 +9600,6 @@ export interface PatchAdvertisersCampaignsRequest extends Omit<
   updateMask?: string | undefined;
   /** Output only. The unique ID of the advertiser the campaign belongs to. */
   advertiserId: string;
-  /** The request body's `advertiserId` (`advertiserId` is the path parameter). Output only. The unique ID of the advertiser the campaign belongs to. */
-  bodyAdvertiserId?: string | undefined;
-  /** The request body's `campaignId` (`campaignId` is the path parameter). Output only. The unique ID of the campaign. Assigned by the system. */
-  bodyCampaignId?: string | undefined;
 }
 export interface PatchAdvertisersChannelsRequest extends Omit<
   Channel,
@@ -9673,12 +9613,6 @@ export interface PatchAdvertisersChannelsRequest extends Omit<
   advertiserId: string;
   /** Output only. The unique ID of the channel. Assigned by the system. */
   channelId: string;
-  /** The request body's `advertiserId` (`advertiserId` is the path parameter). The ID of the advertiser that owns the channel. */
-  bodyAdvertiserId?: string | undefined;
-  /** The request body's `channelId` (`channelId` is the path parameter). Output only. The unique ID of the channel. Assigned by the system. */
-  bodyChannelId?: string | undefined;
-  /** The request body's `partnerId` (`partnerId` is the query parameter). The ID of the partner that owns the channel. */
-  bodyPartnerId?: string | undefined;
 }
 export interface PatchAdvertisersCreativesRequest extends Omit<
   Creative,
@@ -9690,10 +9624,6 @@ export interface PatchAdvertisersCreativesRequest extends Omit<
   updateMask?: string | undefined;
   /** Output only. The unique ID of the advertiser the creative belongs to. */
   advertiserId: string;
-  /** The request body's `creativeId` (`creativeId` is the path parameter). Output only. The unique ID of the creative. Assigned by the system. */
-  bodyCreativeId?: string | undefined;
-  /** The request body's `advertiserId` (`advertiserId` is the path parameter). Output only. The unique ID of the advertiser the creative belongs to. */
-  bodyAdvertiserId?: string | undefined;
 }
 export interface PatchAdvertisersInsertionOrdersRequest extends Omit<
   InsertionOrder,
@@ -9705,10 +9635,6 @@ export interface PatchAdvertisersInsertionOrdersRequest extends Omit<
   insertionOrderId: string;
   /** Required. The mask to control which fields to update. */
   updateMask?: string | undefined;
-  /** The request body's `advertiserId` (`advertiserId` is the path parameter). Output only. The unique ID of the advertiser the insertion order belongs to. */
-  bodyAdvertiserId?: string | undefined;
-  /** The request body's `insertionOrderId` (`insertionOrderId` is the path parameter). Output only. The unique ID of the insertion order. Assigned by the system. */
-  bodyInsertionOrderId?: string | undefined;
 }
 export interface PatchAdvertisersLineItemsRequest extends Omit<
   LineItem,
@@ -9720,10 +9646,6 @@ export interface PatchAdvertisersLineItemsRequest extends Omit<
   updateMask?: string | undefined;
   /** Output only. The unique ID of the advertiser the line item belongs to. */
   advertiserId: string;
-  /** The request body's `lineItemId` (`lineItemId` is the path parameter). Output only. The unique ID of the line item. Assigned by the system. */
-  bodyLineItemId?: string | undefined;
-  /** The request body's `advertiserId` (`advertiserId` is the path parameter). Output only. The unique ID of the advertiser the line item belongs to. */
-  bodyAdvertiserId?: string | undefined;
 }
 export interface PatchAdvertisersLocationListsRequest extends Omit<
   LocationList,
@@ -9735,10 +9657,6 @@ export interface PatchAdvertisersLocationListsRequest extends Omit<
   advertiserId: string;
   /** Required. The mask to control which fields to update. */
   updateMask?: string | undefined;
-  /** The request body's `advertiserId` (`advertiserId` is the path parameter). Required. Immutable. The unique ID of the advertiser the location list belongs to. */
-  bodyAdvertiserId?: string | undefined;
-  /** The request body's `locationListId` (`locationListId` is the path parameter). Output only. The unique ID of the location list. Assigned by the system. */
-  bodyLocationListId?: string | undefined;
 }
 export interface PatchAdvertisersNegativeKeywordListsRequest extends Omit<
   NegativeKeywordList,
@@ -9750,10 +9668,6 @@ export interface PatchAdvertisersNegativeKeywordListsRequest extends Omit<
   updateMask?: string | undefined;
   /** Required. The ID of the DV360 advertiser to which the negative keyword list belongs. */
   advertiserId: string;
-  /** The request body's `negativeKeywordListId` (`negativeKeywordListId` is the path parameter). Output only. The unique ID of the negative keyword list. Assigned by the system. */
-  bodyNegativeKeywordListId?: string | undefined;
-  /** The request body's `advertiserId` (`advertiserId` is the path parameter). Output only. The unique ID of the advertiser the negative keyword list belongs to. */
-  bodyAdvertiserId?: string | undefined;
 }
 export interface PatchCustomBiddingAlgorithmsRequest extends Omit<
   CustomBiddingAlgorithm,
@@ -9763,8 +9677,6 @@ export interface PatchCustomBiddingAlgorithmsRequest extends Omit<
   updateMask?: string | undefined;
   /** Output only. The unique ID of the custom bidding algorithm. Assigned by the system. */
   customBiddingAlgorithmId: string;
-  /** The request body's `customBiddingAlgorithmId` (`customBiddingAlgorithmId` is the path parameter). Output only. The unique ID of the custom bidding algorithm. Assigned by the system. */
-  bodyCustomBiddingAlgorithmId?: string | undefined;
 }
 export interface PatchFloodlightGroupsRequest extends Omit<FloodlightGroup, "floodlightGroupId"> {
   /** Required. The mask to control which fields to update. */
@@ -9773,8 +9685,6 @@ export interface PatchFloodlightGroupsRequest extends Omit<FloodlightGroup, "flo
   partnerId?: string | undefined;
   /** Output only. The unique ID of the Floodlight group. Assigned by the system. */
   floodlightGroupId: string;
-  /** The request body's `floodlightGroupId` (`floodlightGroupId` is the path parameter). Output only. The unique ID of the Floodlight group. Assigned by the system. */
-  bodyFloodlightGroupId?: string | undefined;
 }
 export interface PatchGuaranteedOrdersRequest extends Omit<GuaranteedOrder, "guaranteedOrderId"> {
   /** The ID of the partner that the request is being made within. */
@@ -9785,8 +9695,6 @@ export interface PatchGuaranteedOrdersRequest extends Omit<GuaranteedOrder, "gua
   guaranteedOrderId: string;
   /** The ID of the advertiser that the request is being made within. */
   advertiserId?: string | undefined;
-  /** The request body's `guaranteedOrderId` (`guaranteedOrderId` is the path parameter). Output only. The unique identifier of the guaranteed order. The guaranteed order IDs have the format `{exchange}-{legacy_guaranteed_order_id}`. */
-  bodyGuaranteedOrderId?: string | undefined;
 }
 export interface PatchInventorySourceGroupsRequest extends Omit<
   InventorySourceGroup,
@@ -9800,8 +9708,6 @@ export interface PatchInventorySourceGroupsRequest extends Omit<
   inventorySourceGroupId: string;
   /** The ID of the partner that owns the inventory source group. Only this partner has write access to this group. */
   partnerId?: string | undefined;
-  /** The request body's `inventorySourceGroupId` (`inventorySourceGroupId` is the path parameter). Output only. The unique ID of the inventory source group. Assigned by the system. */
-  bodyInventorySourceGroupId?: string | undefined;
 }
 export interface PatchPartnersChannelsRequest extends Omit<
   Channel,
@@ -9815,20 +9721,12 @@ export interface PatchPartnersChannelsRequest extends Omit<
   advertiserId?: string | undefined;
   /** Output only. The unique ID of the channel. Assigned by the system. */
   channelId: string;
-  /** The request body's `advertiserId` (`advertiserId` is the query parameter). The ID of the advertiser that owns the channel. */
-  bodyAdvertiserId?: string | undefined;
-  /** The request body's `channelId` (`channelId` is the path parameter). Output only. The unique ID of the channel. Assigned by the system. */
-  bodyChannelId?: string | undefined;
-  /** The request body's `partnerId` (`partnerId` is the path parameter). The ID of the partner that owns the channel. */
-  bodyPartnerId?: string | undefined;
 }
 export interface PatchUsersRequest extends Omit<User, "userId"> {
   /** Output only. The unique ID of the user. Assigned by the system. */
   userId: string;
   /** Required. The mask to control which fields to update. */
   updateMask?: string | undefined;
-  /** The request body's `userId` (`userId` is the path parameter). Output only. The unique ID of the user. Assigned by the system. */
-  bodyUserId?: string | undefined;
 }
 /** Request message for SiteService.ReplaceSites. */
 export interface ReplaceSitesRequest {
@@ -9847,8 +9745,6 @@ export interface ReplaceAdvertisersChannelsSitesRequest extends Omit<
   advertiserId: string;
   /** Required. The ID of the parent channel whose sites will be replaced. */
   channelId: string;
-  /** The request body's `advertiserId` (`advertiserId` is the path parameter). The ID of the advertiser that owns the parent channel. */
-  bodyAdvertiserId?: string | undefined;
 }
 /** Response message for SiteService.ReplaceSites. */
 export interface ReplaceSitesResponse {
@@ -9879,8 +9775,6 @@ export interface ReplacePartnersChannelsSitesRequest extends Omit<
   channelId: string;
   /** The ID of the partner that owns the parent channel. */
   partnerId: string;
-  /** The request body's `partnerId` (`partnerId` is the path parameter). The ID of the partner that owns the parent channel. */
-  bodyPartnerId?: string | undefined;
 }
 export type SearchTargetingTypesTargetingOptionsTargetingTypeEnum =
   | "TARGETING_TYPE_UNSPECIFIED"
@@ -10029,8 +9923,6 @@ export interface CreateAssetResponse {
 export interface UploadMediaRequest extends Omit<GoogleBytestreamMedia, "resourceName"> {
   /** Name of the media that is being downloaded. See ReadRequest.resource_name. */
   resourceName: string;
-  /** The request body's `resourceName` (`resourceName` is the path parameter). Name of the media resource. */
-  bodyResourceName?: string | undefined;
 }
 export interface UploadRulesCustomBiddingAlgorithmsRequest {
   /** The ID of the partner that owns the parent custom bidding algorithm. */
@@ -15017,7 +14909,6 @@ function __c44(j: number): any {
           S.Struct({
             partnerId: S.String.pipe(T.Label()),
             channelId: S.String.pipe(T.Label()),
-            bodyPartnerId: S.optional(S.String.pipe(T.Body("partnerId"))),
           }),
         ).pipe(
           T.Http({
@@ -15820,7 +15711,6 @@ function __c74(j: number): any {
           S.Struct({
             advertiserId: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyAdvertiserId: S.optional(S.String.pipe(T.Body("advertiserId"))),
           }),
         ).pipe(
           T.Http({
@@ -15842,7 +15732,6 @@ function __c75(j: number): any {
             advertiserId: S.String.pipe(T.Label()),
             adAssetId: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyAdAssetId: S.optional(S.String.pipe(T.Body("adAssetId"))),
           }),
         ).pipe(
           T.Http({
@@ -15864,8 +15753,6 @@ function __c76(j: number): any {
             advertiserId: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
             adGroupAdId: S.String.pipe(T.Label()),
-            bodyAdvertiserId: S.optional(S.String.pipe(T.Body("advertiserId"))),
-            bodyAdGroupAdId: S.optional(S.String.pipe(T.Body("adGroupAdId"))),
           }),
         ).pipe(
           T.Http({
@@ -15887,8 +15774,6 @@ function __c77(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             advertiserId: S.String.pipe(T.Label()),
             adGroupId: S.String.pipe(T.Label()),
-            bodyAdGroupId: S.optional(S.String.pipe(T.Body("adGroupId"))),
-            bodyAdvertiserId: S.optional(S.String.pipe(T.Body("advertiserId"))),
           }),
         ).pipe(
           T.Http({
@@ -16266,8 +16151,6 @@ function __c87(j: number): any {
             campaignId: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
             advertiserId: S.String.pipe(T.Label()),
-            bodyAdvertiserId: S.optional(S.String.pipe(T.Body("advertiserId"))),
-            bodyCampaignId: S.optional(S.String.pipe(T.Body("campaignId"))),
           }),
         ).pipe(
           T.Http({
@@ -16290,9 +16173,6 @@ function __c88(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             advertiserId: S.String.pipe(T.Label()),
             channelId: S.String.pipe(T.Label()),
-            bodyAdvertiserId: S.optional(S.String.pipe(T.Body("advertiserId"))),
-            bodyChannelId: S.optional(S.String.pipe(T.Body("channelId"))),
-            bodyPartnerId: S.optional(S.String.pipe(T.Body("partnerId"))),
           }),
         ).pipe(
           T.Http({
@@ -16314,8 +16194,6 @@ function __c89(j: number): any {
             creativeId: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
             advertiserId: S.String.pipe(T.Label()),
-            bodyCreativeId: S.optional(S.String.pipe(T.Body("creativeId"))),
-            bodyAdvertiserId: S.optional(S.String.pipe(T.Body("advertiserId"))),
           }),
         ).pipe(
           T.Http({
@@ -16337,8 +16215,6 @@ function __c90(j: number): any {
             advertiserId: S.String.pipe(T.Label()),
             insertionOrderId: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyAdvertiserId: S.optional(S.String.pipe(T.Body("advertiserId"))),
-            bodyInsertionOrderId: S.optional(S.String.pipe(T.Body("insertionOrderId"))),
           }),
         ).pipe(
           T.Http({
@@ -16360,8 +16236,6 @@ function __c91(j: number): any {
             lineItemId: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
             advertiserId: S.String.pipe(T.Label()),
-            bodyLineItemId: S.optional(S.String.pipe(T.Body("lineItemId"))),
-            bodyAdvertiserId: S.optional(S.String.pipe(T.Body("advertiserId"))),
           }),
         ).pipe(
           T.Http({
@@ -16383,8 +16257,6 @@ function __c92(j: number): any {
             locationListId: S.String.pipe(T.Label()),
             advertiserId: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyAdvertiserId: S.optional(S.String.pipe(T.Body("advertiserId"))),
-            bodyLocationListId: S.optional(S.String.pipe(T.Body("locationListId"))),
           }),
         ).pipe(
           T.Http({
@@ -16406,8 +16278,6 @@ function __c93(j: number): any {
             negativeKeywordListId: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
             advertiserId: S.String.pipe(T.Label()),
-            bodyNegativeKeywordListId: S.optional(S.String.pipe(T.Body("negativeKeywordListId"))),
-            bodyAdvertiserId: S.optional(S.String.pipe(T.Body("advertiserId"))),
           }),
         ).pipe(
           T.Http({
@@ -16428,9 +16298,6 @@ function __c94(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             customBiddingAlgorithmId: S.String.pipe(T.Label()),
-            bodyCustomBiddingAlgorithmId: S.optional(
-              S.String.pipe(T.Body("customBiddingAlgorithmId")),
-            ),
           }),
         ).pipe(
           T.Http({
@@ -16452,7 +16319,6 @@ function __c95(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             partnerId: S.optional(S.String.pipe(T.Query())),
             floodlightGroupId: S.String.pipe(T.Label()),
-            bodyFloodlightGroupId: S.optional(S.String.pipe(T.Body("floodlightGroupId"))),
           }),
         ).pipe(
           T.Http({
@@ -16475,7 +16341,6 @@ function __c96(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             guaranteedOrderId: S.String.pipe(T.Label()),
             advertiserId: S.optional(S.String.pipe(T.Query())),
-            bodyGuaranteedOrderId: S.optional(S.String.pipe(T.Body("guaranteedOrderId"))),
           }),
         ).pipe(
           T.Http({
@@ -16616,7 +16481,6 @@ function __c100(j: number): any {
             advertiserId: S.optional(S.String.pipe(T.Query())),
             inventorySourceGroupId: S.String.pipe(T.Label()),
             partnerId: S.optional(S.String.pipe(T.Query())),
-            bodyInventorySourceGroupId: S.optional(S.String.pipe(T.Body("inventorySourceGroupId"))),
           }),
         ).pipe(
           T.Http({
@@ -16639,9 +16503,6 @@ function __c101(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             advertiserId: S.optional(S.String.pipe(T.Query())),
             channelId: S.String.pipe(T.Label()),
-            bodyAdvertiserId: S.optional(S.String.pipe(T.Body("advertiserId"))),
-            bodyChannelId: S.optional(S.String.pipe(T.Body("channelId"))),
-            bodyPartnerId: S.optional(S.String.pipe(T.Body("partnerId"))),
           }),
         ).pipe(
           T.Http({
@@ -16662,7 +16523,6 @@ function __c102(j: number): any {
           S.Struct({
             userId: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyUserId: S.optional(S.String.pipe(T.Body("userId"))),
           }),
         ).pipe(
           T.Http({
@@ -16683,7 +16543,6 @@ function __c103(j: number): any {
           S.Struct({
             advertiserId: S.String.pipe(T.Label()),
             channelId: S.String.pipe(T.Label()),
-            bodyAdvertiserId: S.optional(S.String.pipe(T.Body("advertiserId"))),
           }),
         ).pipe(
           T.Http({
@@ -16742,7 +16601,6 @@ function __c106(j: number): any {
           S.Struct({
             channelId: S.String.pipe(T.Label()),
             partnerId: S.String.pipe(T.Label()),
-            bodyPartnerId: S.optional(S.String.pipe(T.Body("partnerId"))),
           }),
         ).pipe(
           T.Http({
@@ -16869,7 +16727,6 @@ function __c110(j: number): any {
           __S(4832, __c151, 0),
           S.Struct({
             resourceName: S.String.pipe(T.Label()),
-            bodyResourceName: S.optional(S.String.pipe(T.Body("resourceName"))),
           }),
         ).pipe(
           T.Http({
@@ -16954,7 +16811,6 @@ function __c115(j: number): any {
           __S(3884, __c121, 12),
           S.Struct({
             advertiserId: S.String.pipe(T.Label()),
-            bodyAdvertiserId: S.optional(S.String.pipe(T.Body("advertiserId"))),
           }),
         ).pipe(
           T.Http({
@@ -17424,7 +17280,6 @@ function __c122(j: number): any {
           __S(3943, __c123, 7),
           S.Struct({
             advertiserId: S.String.pipe(T.Label()),
-            bodyAdvertiserId: S.optional(S.String.pipe(T.Body("advertiserId"))),
           }),
         ).pipe(
           T.Http({
@@ -17512,7 +17367,6 @@ function __c124(j: number): any {
             adGroupId: S.String.pipe(T.Label()),
             advertiserId: S.String.pipe(T.Label()),
             targetingType: S.String.pipe(T.Label()),
-            bodyTargetingType: S.optional(S.String.pipe(T.Body("targetingType"))),
           }),
         ).pipe(
           T.Http({
@@ -17537,7 +17391,6 @@ function __c125(j: number): any {
             adGroupId: S.String.pipe(T.Label()),
             "linkedEntity.lineItemId": S.optional(S.String.pipe(T.Query())),
             advertiserId: S.String.pipe(T.Label()),
-            bodyYoutubeAssetType: S.optional(S.String.pipe(T.Body("youtubeAssetType"))),
           }),
         ).pipe(
           T.Http({
@@ -17630,7 +17483,6 @@ function __c127(j: number): any {
           __S(4134, __c129, 6),
           S.Struct({
             advertiserId: S.String.pipe(T.Label()),
-            bodyAdvertiserId: S.optional(S.String.pipe(T.Body("advertiserId"))),
           }),
         ).pipe(
           T.Http({
@@ -17729,8 +17581,6 @@ function __c130(j: number): any {
           S.Struct({
             advertiserId: S.String.pipe(T.Label()),
             partnerId: S.optional(S.String.pipe(T.Query())),
-            bodyAdvertiserId: S.optional(S.String.pipe(T.Body("advertiserId"))),
-            bodyPartnerId: S.optional(S.String.pipe(T.Body("partnerId"))),
           }),
         ).pipe(
           T.Http({
@@ -17787,7 +17637,6 @@ function __c133(j: number): any {
           __S(4304, __c134, 16),
           S.Struct({
             advertiserId: S.String.pipe(T.Label()),
-            bodyAdvertiserId: S.optional(S.String.pipe(T.Body("advertiserId"))),
           }),
         ).pipe(
           T.Http({
@@ -17975,7 +17824,6 @@ function __c136(j: number): any {
           __S(4388, __c137, 4),
           S.Struct({
             advertiserId: S.String.pipe(T.Label()),
-            bodyAdvertiserId: S.optional(S.String.pipe(T.Body("advertiserId"))),
           }),
         ).pipe(
           T.Http({
@@ -18050,7 +17898,6 @@ function __c138(j: number): any {
           __S(2771, __c86, 19),
           S.Struct({
             advertiserId: S.String.pipe(T.Label()),
-            bodyAdvertiserId: S.optional(S.String.pipe(T.Body("advertiserId"))),
           }),
         ).pipe(
           T.Http({
@@ -18072,7 +17919,6 @@ function __c139(j: number): any {
             advertiserId: S.String.pipe(T.Label()),
             lineItemId: S.String.pipe(T.Label()),
             targetingType: S.String.pipe(T.Label()),
-            bodyTargetingType: S.optional(S.String.pipe(T.Body("targetingType"))),
           }),
         ).pipe(
           T.Http({
@@ -18097,7 +17943,6 @@ function __c140(j: number): any {
             "linkedEntity.adGroupId": S.optional(S.String.pipe(T.Query())),
             lineItemId: S.String.pipe(T.Label()),
             advertiserId: S.String.pipe(T.Label()),
-            bodyYoutubeAssetType: S.optional(S.String.pipe(T.Body("youtubeAssetType"))),
           }),
         ).pipe(
           T.Http({
@@ -18119,7 +17964,6 @@ function __c141(j: number): any {
           __S(4544, __c142, 0),
           S.Struct({
             advertiserId: S.String.pipe(T.Label()),
-            bodyAdvertiserId: S.optional(S.String.pipe(T.Body("advertiserId"))),
           }),
         ).pipe(
           T.Http({
@@ -18173,7 +18017,6 @@ function __c144(j: number): any {
           __S(4640, __c145, 0),
           S.Struct({
             advertiserId: S.String.pipe(T.Label()),
-            bodyAdvertiserId: S.optional(S.String.pipe(T.Body("advertiserId"))),
           }),
         ).pipe(
           T.Http({
@@ -18228,7 +18071,6 @@ function __c147(j: number): any {
           S.Struct({
             advertiserId: S.String.pipe(T.Label()),
             targetingType: S.String.pipe(T.Label()),
-            bodyTargetingType: S.optional(S.String.pipe(T.Body("targetingType"))),
           }),
         ).pipe(
           T.Http({
@@ -18293,9 +18135,6 @@ function __c150(j: number): any {
             partnerId: S.optional(S.String.pipe(T.Query())),
             customBiddingAlgorithmId: S.String.pipe(T.Label()),
             advertiserId: S.optional(S.String.pipe(T.Query())),
-            bodyCustomBiddingAlgorithmId: S.optional(
-              S.String.pipe(T.Body("customBiddingAlgorithmId")),
-            ),
           }),
         ).pipe(
           T.Http({
@@ -18350,9 +18189,6 @@ function __c153(j: number): any {
             customBiddingAlgorithmId: S.String.pipe(T.Label()),
             advertiserId: S.optional(S.String.pipe(T.Query())),
             partnerId: S.optional(S.String.pipe(T.Query())),
-            bodyCustomBiddingAlgorithmId: S.optional(
-              S.String.pipe(T.Body("customBiddingAlgorithmId")),
-            ),
           }),
         ).pipe(
           T.Http({
@@ -18569,8 +18405,6 @@ function __c163(j: number): any {
           S.Struct({
             partnerId: S.String.pipe(T.Label()),
             advertiserId: S.optional(S.String.pipe(T.Query())),
-            bodyAdvertiserId: S.optional(S.String.pipe(T.Body("advertiserId"))),
-            bodyPartnerId: S.optional(S.String.pipe(T.Body("partnerId"))),
           }),
         ).pipe(
           T.Http({
@@ -18612,7 +18446,6 @@ function __c165(j: number): any {
           S.Struct({
             partnerId: S.String.pipe(T.Label()),
             targetingType: S.String.pipe(T.Label()),
-            bodyTargetingType: S.optional(S.String.pipe(T.Body("targetingType"))),
           }),
         ).pipe(
           T.Http({
@@ -19003,7 +18836,6 @@ function __c185(j: number): any {
           S.Struct({
             channelId: S.String.pipe(T.Label()),
             advertiserId: S.String.pipe(T.Label()),
-            bodyAdvertiserId: S.optional(S.String.pipe(T.Body("advertiserId"))),
           }),
         ).pipe(
           T.Http({

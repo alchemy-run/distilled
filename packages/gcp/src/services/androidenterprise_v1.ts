@@ -1607,8 +1607,6 @@ export interface UpdateWebappsRequest extends Omit<WebApp, "webAppId"> {
   enterpriseId: string;
   /** The ID of the web app. */
   webAppId: string;
-  /** The request body's `webAppId` (`webAppId` is the path parameter). The ID of the application. A string of the form "app:<package name>" where the package name always starts with the prefix "com.google.enterprise.webapp." followed by a random id. */
-  bodyWebAppId?: string | undefined;
 }
 export type AcknowledgeNotificationSetEnterprisesError =
   | NotFound
@@ -5318,7 +5316,6 @@ function __c99(j: number): any {
           S.Struct({
             enterpriseId: S.String.pipe(T.Label()),
             webAppId: S.String.pipe(T.Label()),
-            bodyWebAppId: S.optional(S.String.pipe(T.Body("webAppId"))),
           }),
         ).pipe(
           T.Http({

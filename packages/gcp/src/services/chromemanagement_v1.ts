@@ -3530,8 +3530,6 @@ export interface PatchCustomersChromeBrowsersRequest extends Omit<
   name: string;
   /** Optional. The update mask that can be used to specify which fields to update. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Format: customers/{customer_id}/chromeBrowsers/{browser_permanent_id} */
-  bodyName?: string | undefined;
 }
 export interface PatchCustomersConnectorConfigsRequest extends Omit<
   GoogleChromeManagementVersionsV1ConnectorConfig,
@@ -3541,8 +3539,6 @@ export interface PatchCustomersConnectorConfigsRequest extends Omit<
   name: string;
   /** Optional. The update mask that can be used to specify which fields to update. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Format: customers/{customer}/connectorConfigs/{connector_config} */
-  bodyName?: string | undefined;
 }
 export type QueryContentTransfersBreakdownsCustomersEnterpriseSecurityInsightsBreakdownEnum =
   | "CONTENT_TRANSFERS_BREAKDOWN_DIMENSION_UNSPECIFIED"
@@ -8489,7 +8485,6 @@ function __c81(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8510,7 +8505,6 @@ function __c82(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

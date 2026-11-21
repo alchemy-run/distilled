@@ -2740,8 +2740,6 @@ export interface PatchProjectsLocationsConnectionProfilesRequest extends Omit<
   updateMask?: string | undefined;
   /** The name of this connection profile resource in the form of projects/{project}/locations/{location}/connectionProfiles/{connectionProfile}. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). The name of this connection profile resource in the form of projects/{project}/locations/{location}/connectionProfiles/{connectionProfile}. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsConversionWorkspacesRequest extends Omit<
   ConversionWorkspace,
@@ -2753,8 +2751,6 @@ export interface PatchProjectsLocationsConversionWorkspacesRequest extends Omit<
   requestId?: string | undefined;
   /** Full name of the workspace resource, in the form of: projects/{project}/locations/{location}/conversionWorkspaces/{conversion_workspace}. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Full name of the workspace resource, in the form of: projects/{project}/locations/{location}/conversionWorkspaces/{conversion_workspace}. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsMigrationJobsRequest extends Omit<MigrationJob, "name"> {
   /** Optional. A unique ID used to identify the request. If the server receives two requests with the same ID, then the second request is ignored. It is recommended to always set this value to a UUID. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
@@ -2763,8 +2759,6 @@ export interface PatchProjectsLocationsMigrationJobsRequest extends Omit<Migrati
   updateMask?: string | undefined;
   /** The name (URI) of this migration job resource, in the form of: projects/{project}/locations/{location}/migrationJobs/{migrationJob}. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). The name (URI) of this migration job resource, in the form of: projects/{project}/locations/{location}/migrationJobs/{migrationJob}. */
-  bodyName?: string | undefined;
 }
 /** Request message for 'PromoteMigrationJob' request. */
 export interface PromoteMigrationJobRequest {
@@ -6552,7 +6546,6 @@ function __c57(j: number): any {
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -6574,7 +6567,6 @@ function __c58(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -6596,7 +6588,6 @@ function __c59(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

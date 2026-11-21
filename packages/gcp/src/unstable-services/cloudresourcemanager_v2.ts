@@ -111,8 +111,6 @@ export interface Folder {
 export interface CreateFoldersRequest extends Omit<Folder, "parent"> {
   /** Required. The resource name of the new Folder's parent. Must be of the form `folders/{folder_id}` or `organizations/{org_id}`. */
   parent?: string | undefined;
-  /** The request body's `parent` (`parent` is the query parameter). Required. The Folder's parent's resource name. Updates to the folder's parent must be performed via MoveFolder. */
-  bodyParent?: string | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -249,8 +247,6 @@ export interface PatchFoldersRequest extends Omit<Folder, "name"> {
   updateMask?: string | undefined;
   /** Output only. The resource name of the Folder. Its format is `folders/{folder_id}`, for example: "folders/1234". */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Output only. The resource name of the Folder. Its format is `folders/{folder_id}`, for example: "folders/1234". */
-  bodyName?: string | undefined;
 }
 /** The request message for searching folders. */
 export interface SearchFoldersRequest {
@@ -548,7 +544,6 @@ function __c1(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -660,7 +655,6 @@ function __c6(j: number): any {
           __S(65, __c8, 1),
           S.Struct({
             parent: S.optional(S.String.pipe(T.Query())),
-            bodyParent: S.optional(S.String.pipe(T.Body("parent"))),
           }),
         ).pipe(
           T.Http({

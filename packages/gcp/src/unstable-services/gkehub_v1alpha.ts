@@ -3120,16 +3120,12 @@ export interface PatchProjectsLocationsFeaturesRequest extends Omit<Feature, "na
   requestId?: string | undefined;
   /** Mask of fields to update. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Output only. The full, unique name of this Feature resource in the format `projects/*\/locations/*\/features/*`. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsFleetsRequest extends Omit<Fleet, "name"> {
   /** Output only. The full, unique resource name of this fleet in the format of `projects/{project}/locations/{location}/fleets/{fleet}`. Each Google Cloud project can have at most one fleet resource, named "default". */
   name: string;
   /** Required. The fields to be updated; */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Output only. The full, unique resource name of this fleet in the format of `projects/{project}/locations/{location}/fleets/{fleet}`. Each Google Cloud project can have at most one fleet resource, named "default". */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsMembershipsRequest extends Omit<Membership, "name"> {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -3138,8 +3134,6 @@ export interface PatchProjectsLocationsMembershipsRequest extends Omit<Membershi
   updateMask?: string | undefined;
   /** Required. The Membership resource name in the format `projects/*\/locations/*\/memberships/*`. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Output only. The full, unique name of this Membership resource in the format `projects/*\/locations/*\/memberships/{membership_id}`, set during creation. `membership_id` must be a valid RFC 1123 compliant DNS label: 1. At most 63 characters in length 2. It must consist of lower case alphanumeric characters or `-` 3. It must start and end with an alphanumeric character Which can be expressed as the regex: `[a-z0-9]([-a-z0-9]*[a-z0-9])?`, with a maximum length of 63 characters. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsMembershipsBindingsRequest extends Omit<
   MembershipBinding,
@@ -3149,8 +3143,6 @@ export interface PatchProjectsLocationsMembershipsBindingsRequest extends Omit<
   updateMask?: string | undefined;
   /** The resource name for the membershipbinding itself `projects/{project}/locations/{location}/memberships/{membership}/bindings/{membershipbinding}` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). The resource name for the membershipbinding itself `projects/{project}/locations/{location}/memberships/{membership}/bindings/{membershipbinding}` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsMembershipsRbacrolebindingsRequest extends Omit<
   RBACRoleBinding,
@@ -3160,8 +3152,6 @@ export interface PatchProjectsLocationsMembershipsRbacrolebindingsRequest extend
   updateMask?: string | undefined;
   /** The resource name for the rbacrolebinding `projects/{project}/locations/{location}/scopes/{scope}/rbacrolebindings/{rbacrolebinding}` or `projects/{project}/locations/{location}/memberships/{membership}/rbacrolebindings/{rbacrolebinding}` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). The resource name for the rbacrolebinding `projects/{project}/locations/{location}/scopes/{scope}/rbacrolebindings/{rbacrolebinding}` or `projects/{project}/locations/{location}/memberships/{membership}/rbacrolebindings/{rbacrolebinding}` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsRolloutSequencesRequest extends Omit<
   RolloutSequence,
@@ -3171,24 +3161,18 @@ export interface PatchProjectsLocationsRolloutSequencesRequest extends Omit<
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Name of the rollout sequence in the format of: projects/{PROJECT_ID}/locations/global/rolloutSequences/{NAME} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsScopesRequest extends Omit<Scope, "name"> {
   /** The resource name for the scope `projects/{project}/locations/{location}/scopes/{scope}` */
   name: string;
   /** Required. The fields to be updated. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). The resource name for the scope `projects/{project}/locations/{location}/scopes/{scope}` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsScopesNamespacesRequest extends Omit<Namespace, "name"> {
   /** The resource name for the namespace `projects/{project}/locations/{location}/namespaces/{namespace}` */
   name: string;
   /** Required. The fields to be updated. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). The resource name for the namespace `projects/{project}/locations/{location}/namespaces/{namespace}` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsScopesRbacrolebindingsRequest extends Omit<
   RBACRoleBinding,
@@ -3198,8 +3182,6 @@ export interface PatchProjectsLocationsScopesRbacrolebindingsRequest extends Omi
   updateMask?: string | undefined;
   /** The resource name for the rbacrolebinding `projects/{project}/locations/{location}/scopes/{scope}/rbacrolebindings/{rbacrolebinding}` or `projects/{project}/locations/{location}/memberships/{membership}/rbacrolebindings/{rbacrolebinding}` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). The resource name for the rbacrolebinding `projects/{project}/locations/{location}/scopes/{scope}/rbacrolebindings/{rbacrolebinding}` or `projects/{project}/locations/{location}/memberships/{membership}/rbacrolebindings/{rbacrolebinding}` */
-  bodyName?: string | undefined;
 }
 /** Request message for pausing a rollout. */
 export type PauseRolloutRequest = CancelOperationRequest;
@@ -7505,7 +7487,6 @@ function __c78(j: number): any {
             name: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -7526,7 +7507,6 @@ function __c79(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -7548,7 +7528,6 @@ function __c80(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -7569,7 +7548,6 @@ function __c81(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -7590,7 +7568,6 @@ function __c82(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -7611,7 +7588,6 @@ function __c83(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -7632,7 +7608,6 @@ function __c84(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -7653,7 +7628,6 @@ function __c85(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -7674,7 +7648,6 @@ function __c86(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

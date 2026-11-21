@@ -395,8 +395,6 @@ export interface PatchServicesConsumerQuotaMetricsLimitsProducerOverridesRequest
   updateMask?: string | undefined;
   /** Whether to force the update of the quota override. Setting the force parameter to 'true' ignores all quota safety checks that would fail the request. QuotaSafetyCheck lists all such validations. */
   force?: boolean | undefined;
-  /** The request body's `name` (`name` is the path parameter). The resource name of the producer override. An example name would be: `services/compute.googleapis.com/projects/123/consumerQuotaMetrics/compute.googleapis.com%2Fcpus/limits/%2Fproject%2Fregion/producerOverrides/4a3f2c1d` */
-  bodyName?: string | undefined;
 }
 export interface PatchServicesConsumerQuotaMetricsLimitsProducerQuotaPoliciesRequest extends Omit<
   V1Beta1ProducerQuotaPolicy,
@@ -412,8 +410,6 @@ export interface PatchServicesConsumerQuotaMetricsLimitsProducerQuotaPoliciesReq
   forceJustification?: string | undefined;
   /** The resource name of the producer policy. An example name would be: `services/compute.googleapis.com/organizations/123/consumerQuotaMetrics/compute.googleapis.com%2Fcpus/limits/%2Fproject%2Fregion/producerQuotaPolicies/4a3f2c1d` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). The resource name of the producer policy. An example name would be: `services/compute.googleapis.com/organizations/123/consumerQuotaMetrics/compute.googleapis.com%2Fcpus/limits/%2Fproject%2Fregion/producerQuotaPolicies/4a3f2c1d` */
-  bodyName?: string | undefined;
 }
 export type CreateServicesConsumerQuotaMetricsLimitsProducerOverridesError =
   | NotFound
@@ -936,7 +932,6 @@ function __c8(j: number): any {
             forceOnly: S.optional(__S(104, __c13, 0).pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
             force: S.optional(S.Boolean.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -960,7 +955,6 @@ function __c9(j: number): any {
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
             forceJustification: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

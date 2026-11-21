@@ -100,8 +100,6 @@ export interface CreateProjectsRegistrationsTopicSubscriptionsRequest extends Om
   parent: string;
   /** Required. The ID to use for the subscription, which is the topic name. This will become the last segment of the TopicSubscription's resource name. Topic names match the pattern of "[a-zA-Z0-9-_.~%]{1,900}". */
   topicName?: string | undefined;
-  /** The request body's `topicName` (`topicName` is the query parameter). Output only. The ID of the TopicSubscription, which is the topic name. This corresponds to the {topicSubscription} segment in the resource name. Topic names match the pattern of "[a-zA-Z0-9-_.~%]{1,900}". */
-  bodyTopicName?: string | undefined;
 }
 export interface DeleteProjectsRegistrationsTopicSubscriptionsRequest {
   /** Required. The name of the topic subscription to delete. Format: projects/{project}/registrations/{registration}/topicSubscriptions/{topicSubscription} */
@@ -139,8 +137,6 @@ export interface PatchProjectsRegistrationsTopicSubscriptionsRequest extends Omi
   name: string;
   /** Optional. If set to true, and the topic subscription is not found, a new topic subscription will be created. */
   allowMissing?: boolean | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the subscription. Format: projects/{project}/registrations/{registration}/topicSubscriptions/{topicSubscription} The {registration} part contains the registration ID (e.g., FID). */
-  bodyName?: string | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
 /** A Background Sync message that is sent to Android devices. */
@@ -592,7 +588,6 @@ function __c0(j: number): any {
           S.Struct({
             parent: S.String.pipe(T.Label()),
             topicName: S.optional(S.String.pipe(T.Query())),
-            bodyTopicName: S.optional(S.String.pipe(T.Body("topicName"))),
           }),
         ).pipe(
           T.Http({
@@ -683,7 +678,6 @@ function __c6(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://fcm.googleapis.com/" }),

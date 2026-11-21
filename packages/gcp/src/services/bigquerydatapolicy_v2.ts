@@ -259,8 +259,6 @@ export interface PatchProjectsLocationsDataPoliciesRequest extends Omit<DataPoli
   allowMissing?: boolean | undefined;
   /** Optional. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask If not set, defaults to all of the fields that are allowed to update. Updates to the `name` and `dataPolicyId` fields are not allowed. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name of this data policy, in the format of `projects/{project_number}/locations/{location_id}/dataPolicies/{data_policy_id}`. */
-  bodyName?: string | undefined;
 }
 /** Request message for the RemoveGrantees method. */
 export interface RemoveGranteesRequest {
@@ -523,7 +521,6 @@ function __c0(j: number): any {
             name: S.String.pipe(T.Label()),
             allowMissing: S.optional(S.Boolean.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

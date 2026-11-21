@@ -307,12 +307,6 @@ export interface AddonsProjectsZonesClustersRequest extends Omit<
   projectId: string;
   /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
   clusterId: string;
-  /** The request body's `zone` (`zone` is the path parameter). Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
-  bodyZone?: string | undefined;
-  /** The request body's `clusterId` (`clusterId` is the path parameter). Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
-  bodyClusterId?: string | undefined;
-  /** The request body's `projectId` (`projectId` is the path parameter). Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  bodyProjectId?: string | undefined;
 }
 export type OperationStatusEnum =
   | "STATUS_UNSPECIFIED"
@@ -500,14 +494,6 @@ export interface AutoscalingProjectsZonesClustersNodePoolsRequest extends Omit<
   clusterId: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
-  /** The request body's `zone` (`zone` is the path parameter). Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
-  bodyZone?: string | undefined;
-  /** The request body's `clusterId` (`clusterId` is the path parameter). Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
-  bodyClusterId?: string | undefined;
-  /** The request body's `nodePoolId` (`nodePoolId` is the path parameter). Deprecated. The name of the node pool to upgrade. This field has been deprecated and replaced by the name field. */
-  bodyNodePoolId?: string | undefined;
-  /** The request body's `projectId` (`projectId` is the path parameter). Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  bodyProjectId?: string | undefined;
 }
 /** CancelOperationRequest cancels a single operation. */
 export interface CancelOperationRequest {
@@ -526,8 +512,6 @@ export interface CancelProjectsLocationsOperationsRequest extends Omit<
 > {
   /** The name (project, location, operation id) of the operation to cancel. Specified in the format `projects/*\/locations/*\/operations/*`. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). The name (project, location, operation id) of the operation to cancel. Specified in the format `projects/*\/locations/*\/operations/*`. */
-  bodyName?: string | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
@@ -541,12 +525,6 @@ export interface CancelProjectsZonesOperationsRequest extends Omit<
   operationId: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the operation resides. This field has been deprecated and replaced by the name field. */
   zone: string;
-  /** The request body's `projectId` (`projectId` is the path parameter). Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  bodyProjectId?: string | undefined;
-  /** The request body's `operationId` (`operationId` is the path parameter). Deprecated. The server-assigned `name` of the operation. This field has been deprecated and replaced by the name field. */
-  bodyOperationId?: string | undefined;
-  /** The request body's `zone` (`zone` is the path parameter). Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the operation resides. This field has been deprecated and replaced by the name field. */
-  bodyZone?: string | undefined;
 }
 export interface CheckAutopilotCompatibilityProjectsLocationsClustersRequest {
   /** The name (project, location, cluster) of the cluster to retrieve. Specified in the format `projects/*\/locations/*\/clusters/*`. */
@@ -611,8 +589,6 @@ export interface CompleteIpRotationProjectsLocationsClustersRequest extends Omit
 > {
   /** The name (project, location, cluster name) of the cluster to complete IP rotation. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). The name (project, location, cluster name) of the cluster to complete IP rotation. Specified in the format `projects/*\/locations/*\/clusters/*`. */
-  bodyName?: string | undefined;
 }
 export interface CompleteIpRotationProjectsZonesClustersRequest extends Omit<
   CompleteIPRotationRequest,
@@ -624,12 +600,6 @@ export interface CompleteIpRotationProjectsZonesClustersRequest extends Omit<
   projectId: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
-  /** The request body's `projectId` (`projectId` is the path parameter). Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  bodyProjectId?: string | undefined;
-  /** The request body's `zone` (`zone` is the path parameter). Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
-  bodyZone?: string | undefined;
-  /** The request body's `clusterId` (`clusterId` is the path parameter). Deprecated. The name of the cluster. This field has been deprecated and replaced by the name field. */
-  bodyClusterId?: string | undefined;
 }
 /** CompleteNodePoolUpgradeRequest sets the name of target node pool to complete upgrade. */
 export interface CompleteNodePoolUpgradeRequest {}
@@ -2849,8 +2819,6 @@ export interface CreateProjectsLocationsClustersRequest extends Omit<
 > {
   /** The parent (project and location) where the cluster will be created. Specified in the format `projects/*\/locations/*`. */
   parent: string;
-  /** The request body's `parent` (`parent` is the path parameter). The parent (project and location) where the cluster will be created. Specified in the format `projects/*\/locations/*`. */
-  bodyParent?: string | undefined;
 }
 /** CreateNodePoolRequest creates a node pool for a cluster. */
 export interface CreateNodePoolRequest {
@@ -2871,8 +2839,6 @@ export interface CreateProjectsLocationsClustersNodePoolsRequest extends Omit<
 > {
   /** The parent (project, location, cluster name) where the node pool will be created. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   parent: string;
-  /** The request body's `parent` (`parent` is the path parameter). The parent (project, location, cluster name) where the node pool will be created. Specified in the format `projects/*\/locations/*\/clusters/*`. */
-  bodyParent?: string | undefined;
 }
 export interface CreateProjectsZonesClustersRequest extends Omit<
   CreateClusterRequest,
@@ -2882,10 +2848,6 @@ export interface CreateProjectsZonesClustersRequest extends Omit<
   projectId: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the parent field. */
   zone: string;
-  /** The request body's `zone` (`zone` is the path parameter). Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the parent field. */
-  bodyZone?: string | undefined;
-  /** The request body's `projectId` (`projectId` is the path parameter). Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the parent field. */
-  bodyProjectId?: string | undefined;
 }
 export interface CreateProjectsZonesClustersNodePoolsRequest extends Omit<
   CreateNodePoolRequest,
@@ -2897,12 +2859,6 @@ export interface CreateProjectsZonesClustersNodePoolsRequest extends Omit<
   projectId: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the parent field. */
   zone: string;
-  /** The request body's `zone` (`zone` is the path parameter). Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the parent field. */
-  bodyZone?: string | undefined;
-  /** The request body's `clusterId` (`clusterId` is the path parameter). Deprecated. The name of the cluster. This field has been deprecated and replaced by the parent field. */
-  bodyClusterId?: string | undefined;
-  /** The request body's `projectId` (`projectId` is the path parameter). Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the parent field. */
-  bodyProjectId?: string | undefined;
 }
 export interface DeleteProjectsLocationsClustersRequest {
   /** The name (project, location, cluster) of the cluster to delete. Specified in the format `projects/*\/locations/*\/clusters/*`. */
@@ -3286,12 +3242,6 @@ export interface LegacyAbacProjectsZonesClustersRequest extends Omit<
   projectId: string;
   /** Deprecated. The name of the cluster to update. This field has been deprecated and replaced by the name field. */
   clusterId: string;
-  /** The request body's `projectId` (`projectId` is the path parameter). Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  bodyProjectId?: string | undefined;
-  /** The request body's `clusterId` (`clusterId` is the path parameter). Deprecated. The name of the cluster to update. This field has been deprecated and replaced by the name field. */
-  bodyClusterId?: string | undefined;
-  /** The request body's `zone` (`zone` is the path parameter). Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
-  bodyZone?: string | undefined;
 }
 export interface ListProjectsAggregatedUsableSubnetworksRequest {
   /** The parent project where subnetworks are usable. Specified in the format `projects/*`. */
@@ -3436,12 +3386,6 @@ export interface LocationsProjectsZonesClustersRequest extends Omit<
   projectId: string;
   /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
   clusterId: string;
-  /** The request body's `zone` (`zone` is the path parameter). Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
-  bodyZone?: string | undefined;
-  /** The request body's `clusterId` (`clusterId` is the path parameter). Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
-  bodyClusterId?: string | undefined;
-  /** The request body's `projectId` (`projectId` is the path parameter). Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  bodyProjectId?: string | undefined;
 }
 /** SetLoggingServiceRequest sets the logging service of a cluster. */
 export interface SetLoggingServiceRequest {
@@ -3466,12 +3410,6 @@ export interface LoggingProjectsZonesClustersRequest extends Omit<
   projectId: string;
   /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
   clusterId: string;
-  /** The request body's `zone` (`zone` is the path parameter). Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
-  bodyZone?: string | undefined;
-  /** The request body's `clusterId` (`clusterId` is the path parameter). Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
-  bodyClusterId?: string | undefined;
-  /** The request body's `projectId` (`projectId` is the path parameter). Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  bodyProjectId?: string | undefined;
 }
 /** UpdateMasterRequest updates the master of the cluster. */
 export interface UpdateMasterRequest {
@@ -3496,12 +3434,6 @@ export interface MasterProjectsZonesClustersRequest extends Omit<
   zone: string;
   /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
   clusterId: string;
-  /** The request body's `projectId` (`projectId` is the path parameter). Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  bodyProjectId?: string | undefined;
-  /** The request body's `zone` (`zone` is the path parameter). Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
-  bodyZone?: string | undefined;
-  /** The request body's `clusterId` (`clusterId` is the path parameter). Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
-  bodyClusterId?: string | undefined;
 }
 /** SetMonitoringServiceRequest sets the monitoring service of a cluster. */
 export interface SetMonitoringServiceRequest {
@@ -3526,12 +3458,6 @@ export interface MonitoringProjectsZonesClustersRequest extends Omit<
   clusterId: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
-  /** The request body's `zone` (`zone` is the path parameter). Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
-  bodyZone?: string | undefined;
-  /** The request body's `clusterId` (`clusterId` is the path parameter). Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
-  bodyClusterId?: string | undefined;
-  /** The request body's `projectId` (`projectId` is the path parameter). Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  bodyProjectId?: string | undefined;
 }
 /** SetLabelsRequest sets the Google Cloud Platform labels on a Google Container Engine cluster, which will in turn set them for Google Compute Engine resources used by that cluster */
 export interface SetLabelsRequest {
@@ -3558,12 +3484,6 @@ export interface ResourceLabelsProjectsZonesClustersRequest extends Omit<
   projectId: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
-  /** The request body's `zone` (`zone` is the path parameter). Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
-  bodyZone?: string | undefined;
-  /** The request body's `projectId` (`projectId` is the path parameter). Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  bodyProjectId?: string | undefined;
-  /** The request body's `clusterId` (`clusterId` is the path parameter). Deprecated. The name of the cluster. This field has been deprecated and replaced by the name field. */
-  bodyClusterId?: string | undefined;
 }
 /** RollbackNodePoolUpgradeRequest rollbacks the previously Aborted or Failed NodePool upgrade. This will be an no-op if the last upgrade successfully completed. */
 export interface RollbackNodePoolUpgradeRequest {
@@ -3586,8 +3506,6 @@ export interface RollbackProjectsLocationsClustersNodePoolsRequest extends Omit<
 > {
   /** The name (project, location, cluster, node pool id) of the node poll to rollback upgrade. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). The name (project, location, cluster, node pool id) of the node poll to rollback upgrade. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
-  bodyName?: string | undefined;
 }
 export interface RollbackProjectsZonesClustersNodePoolsRequest extends Omit<
   RollbackNodePoolUpgradeRequest,
@@ -3601,14 +3519,6 @@ export interface RollbackProjectsZonesClustersNodePoolsRequest extends Omit<
   nodePoolId: string;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
-  /** The request body's `zone` (`zone` is the path parameter). Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
-  bodyZone?: string | undefined;
-  /** The request body's `clusterId` (`clusterId` is the path parameter). Deprecated. The name of the cluster to rollback. This field has been deprecated and replaced by the name field. */
-  bodyClusterId?: string | undefined;
-  /** The request body's `nodePoolId` (`nodePoolId` is the path parameter). Deprecated. The name of the node pool to rollback. This field has been deprecated and replaced by the name field. */
-  bodyNodePoolId?: string | undefined;
-  /** The request body's `projectId` (`projectId` is the path parameter). Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  bodyProjectId?: string | undefined;
 }
 export interface SetAddonsProjectsLocationsClustersRequest extends Omit<
   SetAddonsConfigRequest,
@@ -3616,8 +3526,6 @@ export interface SetAddonsProjectsLocationsClustersRequest extends Omit<
 > {
   /** The name (project, location, cluster) of the cluster to set addons. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). The name (project, location, cluster) of the cluster to set addons. Specified in the format `projects/*\/locations/*\/clusters/*`. */
-  bodyName?: string | undefined;
 }
 export interface SetAutoscalingProjectsLocationsClustersNodePoolsRequest extends Omit<
   SetNodePoolAutoscalingRequest,
@@ -3625,8 +3533,6 @@ export interface SetAutoscalingProjectsLocationsClustersNodePoolsRequest extends
 > {
   /** The name (project, location, cluster, node pool) of the node pool to set autoscaler settings. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). The name (project, location, cluster, node pool) of the node pool to set autoscaler settings. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
-  bodyName?: string | undefined;
 }
 export interface SetLegacyAbacProjectsLocationsClustersRequest extends Omit<
   SetLegacyAbacRequest,
@@ -3634,8 +3540,6 @@ export interface SetLegacyAbacProjectsLocationsClustersRequest extends Omit<
 > {
   /** The name (project, location, cluster name) of the cluster to set legacy abac. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). The name (project, location, cluster name) of the cluster to set legacy abac. Specified in the format `projects/*\/locations/*\/clusters/*`. */
-  bodyName?: string | undefined;
 }
 export interface SetLocationsProjectsLocationsClustersRequest extends Omit<
   SetLocationsRequest,
@@ -3643,8 +3547,6 @@ export interface SetLocationsProjectsLocationsClustersRequest extends Omit<
 > {
   /** The name (project, location, cluster) of the cluster to set locations. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). The name (project, location, cluster) of the cluster to set locations. Specified in the format `projects/*\/locations/*\/clusters/*`. */
-  bodyName?: string | undefined;
 }
 export interface SetLoggingProjectsLocationsClustersRequest extends Omit<
   SetLoggingServiceRequest,
@@ -3652,8 +3554,6 @@ export interface SetLoggingProjectsLocationsClustersRequest extends Omit<
 > {
   /** The name (project, location, cluster) of the cluster to set logging. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). The name (project, location, cluster) of the cluster to set logging. Specified in the format `projects/*\/locations/*\/clusters/*`. */
-  bodyName?: string | undefined;
 }
 /** SetMaintenancePolicyRequest sets the maintenance policy for a cluster. */
 export interface SetMaintenancePolicyRequest {
@@ -3674,8 +3574,6 @@ export interface SetMaintenancePolicyProjectsLocationsClustersRequest extends Om
 > {
   /** The name (project, location, cluster name) of the cluster to set maintenance policy. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). The name (project, location, cluster name) of the cluster to set maintenance policy. Specified in the format `projects/*\/locations/*\/clusters/*`. */
-  bodyName?: string | undefined;
 }
 export interface SetMaintenancePolicyProjectsZonesClustersRequest extends Omit<
   SetMaintenancePolicyRequest,
@@ -3687,12 +3585,6 @@ export interface SetMaintenancePolicyProjectsZonesClustersRequest extends Omit<
   projectId: string;
   /** Required. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. */
   zone: string;
-  /** The request body's `zone` (`zone` is the path parameter). Required. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. */
-  bodyZone?: string | undefined;
-  /** The request body's `projectId` (`projectId` is the path parameter). Required. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). */
-  bodyProjectId?: string | undefined;
-  /** The request body's `clusterId` (`clusterId` is the path parameter). Required. The name of the cluster to update. */
-  bodyClusterId?: string | undefined;
 }
 /** SetNodePoolManagementRequest sets the node management properties of a node pool. */
 export interface SetNodePoolManagementRequest {
@@ -3715,8 +3607,6 @@ export interface SetManagementProjectsLocationsClustersNodePoolsRequest extends 
 > {
   /** The name (project, location, cluster, node pool id) of the node pool to set management properties. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). The name (project, location, cluster, node pool id) of the node pool to set management properties. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
-  bodyName?: string | undefined;
 }
 export interface SetManagementProjectsZonesClustersNodePoolsRequest extends Omit<
   SetNodePoolManagementRequest,
@@ -3730,14 +3620,6 @@ export interface SetManagementProjectsZonesClustersNodePoolsRequest extends Omit
   projectId: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
-  /** The request body's `nodePoolId` (`nodePoolId` is the path parameter). Deprecated. The name of the node pool to update. This field has been deprecated and replaced by the name field. */
-  bodyNodePoolId?: string | undefined;
-  /** The request body's `projectId` (`projectId` is the path parameter). Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  bodyProjectId?: string | undefined;
-  /** The request body's `zone` (`zone` is the path parameter). Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
-  bodyZone?: string | undefined;
-  /** The request body's `clusterId` (`clusterId` is the path parameter). Deprecated. The name of the cluster to update. This field has been deprecated and replaced by the name field. */
-  bodyClusterId?: string | undefined;
 }
 export type SetMasterAuthRequestActionEnum =
   | "UNKNOWN"
@@ -3765,8 +3647,6 @@ export interface SetMasterAuthProjectsLocationsClustersRequest extends Omit<
 > {
   /** The name (project, location, cluster) of the cluster to set auth. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). The name (project, location, cluster) of the cluster to set auth. Specified in the format `projects/*\/locations/*\/clusters/*`. */
-  bodyName?: string | undefined;
 }
 export interface SetMasterAuthProjectsZonesClustersRequest extends Omit<
   SetMasterAuthRequest,
@@ -3778,12 +3658,6 @@ export interface SetMasterAuthProjectsZonesClustersRequest extends Omit<
   zone: string;
   /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
   clusterId: string;
-  /** The request body's `zone` (`zone` is the path parameter). Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
-  bodyZone?: string | undefined;
-  /** The request body's `clusterId` (`clusterId` is the path parameter). Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
-  bodyClusterId?: string | undefined;
-  /** The request body's `projectId` (`projectId` is the path parameter). Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  bodyProjectId?: string | undefined;
 }
 export interface SetMonitoringProjectsLocationsClustersRequest extends Omit<
   SetMonitoringServiceRequest,
@@ -3791,8 +3665,6 @@ export interface SetMonitoringProjectsLocationsClustersRequest extends Omit<
 > {
   /** The name (project, location, cluster) of the cluster to set monitoring. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). The name (project, location, cluster) of the cluster to set monitoring. Specified in the format `projects/*\/locations/*\/clusters/*`. */
-  bodyName?: string | undefined;
 }
 /** SetNetworkPolicyRequest enables/disables network policy for a cluster. */
 export interface SetNetworkPolicyRequest {
@@ -3813,8 +3685,6 @@ export interface SetNetworkPolicyProjectsLocationsClustersRequest extends Omit<
 > {
   /** The name (project, location, cluster name) of the cluster to set networking policy. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). The name (project, location, cluster name) of the cluster to set networking policy. Specified in the format `projects/*\/locations/*\/clusters/*`. */
-  bodyName?: string | undefined;
 }
 export interface SetNetworkPolicyProjectsZonesClustersRequest extends Omit<
   SetNetworkPolicyRequest,
@@ -3826,12 +3696,6 @@ export interface SetNetworkPolicyProjectsZonesClustersRequest extends Omit<
   clusterId: string;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
-  /** The request body's `zone` (`zone` is the path parameter). Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
-  bodyZone?: string | undefined;
-  /** The request body's `clusterId` (`clusterId` is the path parameter). Deprecated. The name of the cluster. This field has been deprecated and replaced by the name field. */
-  bodyClusterId?: string | undefined;
-  /** The request body's `projectId` (`projectId` is the path parameter). Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  bodyProjectId?: string | undefined;
 }
 export interface SetResourceLabelsProjectsLocationsClustersRequest extends Omit<
   SetLabelsRequest,
@@ -3839,8 +3703,6 @@ export interface SetResourceLabelsProjectsLocationsClustersRequest extends Omit<
 > {
   /** The name (project, location, cluster name) of the cluster to set labels. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). The name (project, location, cluster name) of the cluster to set labels. Specified in the format `projects/*\/locations/*\/clusters/*`. */
-  bodyName?: string | undefined;
 }
 /** SetNodePoolSizeRequest sets the size of a node pool. */
 export interface SetNodePoolSizeRequest {
@@ -3863,8 +3725,6 @@ export interface SetSizeProjectsLocationsClustersNodePoolsRequest extends Omit<
 > {
   /** The name (project, location, cluster, node pool id) of the node pool to set size. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). The name (project, location, cluster, node pool id) of the node pool to set size. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
-  bodyName?: string | undefined;
 }
 export interface SetSizeProjectsZonesClustersNodePoolsRequest extends Omit<
   SetNodePoolSizeRequest,
@@ -3878,14 +3738,6 @@ export interface SetSizeProjectsZonesClustersNodePoolsRequest extends Omit<
   zone: string;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
-  /** The request body's `projectId` (`projectId` is the path parameter). Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  bodyProjectId?: string | undefined;
-  /** The request body's `zone` (`zone` is the path parameter). Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
-  bodyZone?: string | undefined;
-  /** The request body's `clusterId` (`clusterId` is the path parameter). Deprecated. The name of the cluster to update. This field has been deprecated and replaced by the name field. */
-  bodyClusterId?: string | undefined;
-  /** The request body's `nodePoolId` (`nodePoolId` is the path parameter). Deprecated. The name of the node pool to update. This field has been deprecated and replaced by the name field. */
-  bodyNodePoolId?: string | undefined;
 }
 /** StartIPRotationRequest creates a new IP for the cluster and then performs a node upgrade on each node pool to point to the new IP. */
 export interface StartIPRotationRequest {
@@ -3906,8 +3758,6 @@ export interface StartIpRotationProjectsLocationsClustersRequest extends Omit<
 > {
   /** The name (project, location, cluster name) of the cluster to start IP rotation. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). The name (project, location, cluster name) of the cluster to start IP rotation. Specified in the format `projects/*\/locations/*\/clusters/*`. */
-  bodyName?: string | undefined;
 }
 export interface StartIpRotationProjectsZonesClustersRequest extends Omit<
   StartIPRotationRequest,
@@ -3919,12 +3769,6 @@ export interface StartIpRotationProjectsZonesClustersRequest extends Omit<
   zone: string;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
-  /** The request body's `zone` (`zone` is the path parameter). Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
-  bodyZone?: string | undefined;
-  /** The request body's `projectId` (`projectId` is the path parameter). Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  bodyProjectId?: string | undefined;
-  /** The request body's `clusterId` (`clusterId` is the path parameter). Deprecated. The name of the cluster. This field has been deprecated and replaced by the name field. */
-  bodyClusterId?: string | undefined;
 }
 export interface UpdateMasterProjectsLocationsClustersRequest extends Omit<
   UpdateMasterRequest,
@@ -3932,8 +3776,6 @@ export interface UpdateMasterProjectsLocationsClustersRequest extends Omit<
 > {
   /** The name (project, location, cluster) of the cluster to update. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). The name (project, location, cluster) of the cluster to update. Specified in the format `projects/*\/locations/*\/clusters/*`. */
-  bodyName?: string | undefined;
 }
 export type ClusterUpdateDesiredPrivateIpv6GoogleAccessEnum =
   | "PRIVATE_IPV6_GOOGLE_ACCESS_UNSPECIFIED"
@@ -4172,8 +4014,6 @@ export interface UpdateClusterRequest {
 export interface UpdateProjectsLocationsClustersRequest extends Omit<UpdateClusterRequest, "name"> {
   /** The name (project, location, cluster) of the cluster to update. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). The name (project, location, cluster) of the cluster to update. Specified in the format `projects/*\/locations/*\/clusters/*`. */
-  bodyName?: string | undefined;
 }
 /** Collection of [Resource Manager labels](https://cloud.google.com/resource-manager/docs/creating-managing-labels). */
 export interface ResourceLabels {
@@ -4283,8 +4123,6 @@ export interface UpdateProjectsLocationsClustersNodePoolsRequest extends Omit<
 > {
   /** The name (project, location, cluster, node pool) of the node pool to update. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). The name (project, location, cluster, node pool) of the node pool to update. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
-  bodyName?: string | undefined;
 }
 export interface UpdateProjectsZonesClustersRequest extends Omit<
   UpdateClusterRequest,
@@ -4296,12 +4134,6 @@ export interface UpdateProjectsZonesClustersRequest extends Omit<
   zone: string;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
-  /** The request body's `zone` (`zone` is the path parameter). Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
-  bodyZone?: string | undefined;
-  /** The request body's `clusterId` (`clusterId` is the path parameter). Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
-  bodyClusterId?: string | undefined;
-  /** The request body's `projectId` (`projectId` is the path parameter). Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  bodyProjectId?: string | undefined;
 }
 export interface UpdateProjectsZonesClustersNodePoolsRequest extends Omit<
   UpdateNodePoolRequest,
@@ -4315,14 +4147,6 @@ export interface UpdateProjectsZonesClustersNodePoolsRequest extends Omit<
   projectId: string;
   /** Deprecated. The name of the node pool to upgrade. This field has been deprecated and replaced by the name field. */
   nodePoolId: string;
-  /** The request body's `nodePoolId` (`nodePoolId` is the path parameter). Deprecated. The name of the node pool to upgrade. This field has been deprecated and replaced by the name field. */
-  bodyNodePoolId?: string | undefined;
-  /** The request body's `clusterId` (`clusterId` is the path parameter). Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
-  bodyClusterId?: string | undefined;
-  /** The request body's `projectId` (`projectId` is the path parameter). Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  bodyProjectId?: string | undefined;
-  /** The request body's `zone` (`zone` is the path parameter). Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
-  bodyZone?: string | undefined;
 }
 export type AddonsProjectsZonesClustersError =
   | NotFound
@@ -5944,7 +5768,6 @@ function __c3(j: number): any {
           __S(128, __c4, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5979,9 +5802,6 @@ function __c5(j: number): any {
             clusterId: S.String.pipe(T.Label()),
             projectId: S.String.pipe(T.Label()),
             zone: S.String.pipe(T.Label()),
-            bodyProjectId: S.optional(S.String.pipe(T.Body("projectId"))),
-            bodyZone: S.optional(S.String.pipe(T.Body("zone"))),
-            bodyClusterId: S.optional(S.String.pipe(T.Body("clusterId"))),
           }),
         ).pipe(
           T.Http({
@@ -6018,7 +5838,6 @@ function __c7(j: number): any {
           __S(512, __c16, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
-            bodyParent: S.optional(S.String.pipe(T.Body("parent"))),
           }),
         ).pipe(
           T.Http({
@@ -7541,7 +7360,6 @@ function __c25(j: number): any {
           __S(832, __c26, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
-            bodyParent: S.optional(S.String.pipe(T.Body("parent"))),
           }),
         ).pipe(
           T.Http({
@@ -7576,8 +7394,6 @@ function __c27(j: number): any {
           S.Struct({
             projectId: S.String.pipe(T.Label()),
             zone: S.String.pipe(T.Label()),
-            bodyZone: S.optional(S.String.pipe(T.Body("zone"))),
-            bodyProjectId: S.optional(S.String.pipe(T.Body("projectId"))),
           }),
         ).pipe(
           T.Http({
@@ -7599,9 +7415,6 @@ function __c28(j: number): any {
             clusterId: S.String.pipe(T.Label()),
             projectId: S.String.pipe(T.Label()),
             zone: S.String.pipe(T.Label()),
-            bodyZone: S.optional(S.String.pipe(T.Body("zone"))),
-            bodyClusterId: S.optional(S.String.pipe(T.Body("clusterId"))),
-            bodyProjectId: S.optional(S.String.pipe(T.Body("projectId"))),
           }),
         ).pipe(
           T.Http({
@@ -8100,9 +7913,6 @@ function __c52(j: number): any {
             zone: S.String.pipe(T.Label()),
             projectId: S.String.pipe(T.Label()),
             clusterId: S.String.pipe(T.Label()),
-            bodyProjectId: S.optional(S.String.pipe(T.Body("projectId"))),
-            bodyClusterId: S.optional(S.String.pipe(T.Body("clusterId"))),
-            bodyZone: S.optional(S.String.pipe(T.Body("zone"))),
           }),
         ).pipe(
           T.Http({
@@ -8332,9 +8142,6 @@ function __c64(j: number): any {
             zone: S.String.pipe(T.Label()),
             projectId: S.String.pipe(T.Label()),
             clusterId: S.String.pipe(T.Label()),
-            bodyZone: S.optional(S.String.pipe(T.Body("zone"))),
-            bodyClusterId: S.optional(S.String.pipe(T.Body("clusterId"))),
-            bodyProjectId: S.optional(S.String.pipe(T.Body("projectId"))),
           }),
         ).pipe(
           T.Http({
@@ -8370,9 +8177,6 @@ function __c66(j: number): any {
             zone: S.String.pipe(T.Label()),
             projectId: S.String.pipe(T.Label()),
             clusterId: S.String.pipe(T.Label()),
-            bodyZone: S.optional(S.String.pipe(T.Body("zone"))),
-            bodyClusterId: S.optional(S.String.pipe(T.Body("clusterId"))),
-            bodyProjectId: S.optional(S.String.pipe(T.Body("projectId"))),
           }),
         ).pipe(
           T.Http({
@@ -8408,9 +8212,6 @@ function __c68(j: number): any {
             projectId: S.String.pipe(T.Label()),
             zone: S.String.pipe(T.Label()),
             clusterId: S.String.pipe(T.Label()),
-            bodyProjectId: S.optional(S.String.pipe(T.Body("projectId"))),
-            bodyZone: S.optional(S.String.pipe(T.Body("zone"))),
-            bodyClusterId: S.optional(S.String.pipe(T.Body("clusterId"))),
           }),
         ).pipe(
           T.Http({
@@ -8446,9 +8247,6 @@ function __c70(j: number): any {
             projectId: S.String.pipe(T.Label()),
             clusterId: S.String.pipe(T.Label()),
             zone: S.String.pipe(T.Label()),
-            bodyZone: S.optional(S.String.pipe(T.Body("zone"))),
-            bodyClusterId: S.optional(S.String.pipe(T.Body("clusterId"))),
-            bodyProjectId: S.optional(S.String.pipe(T.Body("projectId"))),
           }),
         ).pipe(
           T.Http({
@@ -8484,9 +8282,6 @@ function __c72(j: number): any {
             clusterId: S.String.pipe(T.Label()),
             projectId: S.String.pipe(T.Label()),
             zone: S.String.pipe(T.Label()),
-            bodyZone: S.optional(S.String.pipe(T.Body("zone"))),
-            bodyProjectId: S.optional(S.String.pipe(T.Body("projectId"))),
-            bodyClusterId: S.optional(S.String.pipe(T.Body("clusterId"))),
           }),
         ).pipe(
           T.Http({
@@ -8523,9 +8318,6 @@ function __c74(j: number): any {
             zone: S.String.pipe(T.Label()),
             projectId: S.String.pipe(T.Label()),
             clusterId: S.String.pipe(T.Label()),
-            bodyZone: S.optional(S.String.pipe(T.Body("zone"))),
-            bodyClusterId: S.optional(S.String.pipe(T.Body("clusterId"))),
-            bodyProjectId: S.optional(S.String.pipe(T.Body("projectId"))),
           }),
         ).pipe(
           T.Http({
@@ -8710,7 +8502,6 @@ function __c80(j: number): any {
           __S(2592, __c81, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8748,10 +8539,6 @@ function __c82(j: number): any {
             zone: S.String.pipe(T.Label()),
             nodePoolId: S.String.pipe(T.Label()),
             projectId: S.String.pipe(T.Label()),
-            bodyZone: S.optional(S.String.pipe(T.Body("zone"))),
-            bodyClusterId: S.optional(S.String.pipe(T.Body("clusterId"))),
-            bodyNodePoolId: S.optional(S.String.pipe(T.Body("nodePoolId"))),
-            bodyProjectId: S.optional(S.String.pipe(T.Body("projectId"))),
           }),
         ).pipe(
           T.Http({
@@ -8771,7 +8558,6 @@ function __c83(j: number): any {
           __S(2464, __c77, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8791,7 +8577,6 @@ function __c84(j: number): any {
           __S(3040, __c95, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8811,7 +8596,6 @@ function __c85(j: number): any {
           __S(1696, __c53, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8831,7 +8615,6 @@ function __c86(j: number): any {
           __S(2080, __c65, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8851,7 +8634,6 @@ function __c87(j: number): any {
           __S(2144, __c67, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8871,7 +8653,6 @@ function __c88(j: number): any {
           __S(2848, __c89, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8907,9 +8688,6 @@ function __c90(j: number): any {
             clusterId: S.String.pipe(T.Label()),
             projectId: S.String.pipe(T.Label()),
             zone: S.String.pipe(T.Label()),
-            bodyZone: S.optional(S.String.pipe(T.Body("zone"))),
-            bodyProjectId: S.optional(S.String.pipe(T.Body("projectId"))),
-            bodyClusterId: S.optional(S.String.pipe(T.Body("clusterId"))),
           }),
         ).pipe(
           T.Http({
@@ -8929,7 +8707,6 @@ function __c91(j: number): any {
           __S(2944, __c92, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8967,10 +8744,6 @@ function __c93(j: number): any {
             nodePoolId: S.String.pipe(T.Label()),
             clusterId: S.String.pipe(T.Label()),
             zone: S.String.pipe(T.Label()),
-            bodyZone: S.optional(S.String.pipe(T.Body("zone"))),
-            bodyClusterId: S.optional(S.String.pipe(T.Body("clusterId"))),
-            bodyNodePoolId: S.optional(S.String.pipe(T.Body("nodePoolId"))),
-            bodyProjectId: S.optional(S.String.pipe(T.Body("projectId"))),
           }),
         ).pipe(
           T.Http({
@@ -9024,10 +8797,6 @@ function __c96(j: number): any {
             nodePoolId: S.String.pipe(T.Label()),
             projectId: S.String.pipe(T.Label()),
             zone: S.String.pipe(T.Label()),
-            bodyNodePoolId: S.optional(S.String.pipe(T.Body("nodePoolId"))),
-            bodyProjectId: S.optional(S.String.pipe(T.Body("projectId"))),
-            bodyZone: S.optional(S.String.pipe(T.Body("zone"))),
-            bodyClusterId: S.optional(S.String.pipe(T.Body("clusterId"))),
           }),
         ).pipe(
           T.Http({
@@ -9047,7 +8816,6 @@ function __c97(j: number): any {
           __S(3136, __c98, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -9084,9 +8852,6 @@ function __c99(j: number): any {
             projectId: S.String.pipe(T.Label()),
             zone: S.String.pipe(T.Label()),
             clusterId: S.String.pipe(T.Label()),
-            bodyZone: S.optional(S.String.pipe(T.Body("zone"))),
-            bodyClusterId: S.optional(S.String.pipe(T.Body("clusterId"))),
-            bodyProjectId: S.optional(S.String.pipe(T.Body("projectId"))),
           }),
         ).pipe(
           T.Http({
@@ -9106,7 +8871,6 @@ function __c100(j: number): any {
           __S(2272, __c71, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -9126,7 +8890,6 @@ function __c101(j: number): any {
           __S(3264, __c102, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -9162,9 +8925,6 @@ function __c103(j: number): any {
             zone: S.String.pipe(T.Label()),
             clusterId: S.String.pipe(T.Label()),
             projectId: S.String.pipe(T.Label()),
-            bodyZone: S.optional(S.String.pipe(T.Body("zone"))),
-            bodyClusterId: S.optional(S.String.pipe(T.Body("clusterId"))),
-            bodyProjectId: S.optional(S.String.pipe(T.Body("projectId"))),
           }),
         ).pipe(
           T.Http({
@@ -9184,7 +8944,6 @@ function __c104(j: number): any {
           __S(2336, __c73, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -9204,7 +8963,6 @@ function __c105(j: number): any {
           __S(3392, __c106, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -9242,10 +9000,6 @@ function __c107(j: number): any {
             clusterId: S.String.pipe(T.Label()),
             zone: S.String.pipe(T.Label()),
             projectId: S.String.pipe(T.Label()),
-            bodyProjectId: S.optional(S.String.pipe(T.Body("projectId"))),
-            bodyZone: S.optional(S.String.pipe(T.Body("zone"))),
-            bodyClusterId: S.optional(S.String.pipe(T.Body("clusterId"))),
-            bodyNodePoolId: S.optional(S.String.pipe(T.Body("nodePoolId"))),
           }),
         ).pipe(
           T.Http({
@@ -9265,7 +9019,6 @@ function __c108(j: number): any {
           __S(3488, __c109, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -9299,7 +9052,6 @@ function __c110(j: number): any {
           __S(3552, __c111, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -9340,9 +9092,6 @@ function __c113(j: number): any {
             clusterId: S.String.pipe(T.Label()),
             zone: S.String.pipe(T.Label()),
             projectId: S.String.pipe(T.Label()),
-            bodyZone: S.optional(S.String.pipe(T.Body("zone"))),
-            bodyProjectId: S.optional(S.String.pipe(T.Body("projectId"))),
-            bodyClusterId: S.optional(S.String.pipe(T.Body("clusterId"))),
           }),
         ).pipe(
           T.Http({
@@ -9362,7 +9111,6 @@ function __c114(j: number): any {
           __S(2208, __c69, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -9382,7 +9130,6 @@ function __c115(j: number): any {
           __S(3715, __c116, 3),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -9518,7 +9265,6 @@ function __c117(j: number): any {
           __S(3778, __c118, 2),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -9603,9 +9349,6 @@ function __c119(j: number): any {
             clusterId: S.String.pipe(T.Label()),
             zone: S.String.pipe(T.Label()),
             projectId: S.String.pipe(T.Label()),
-            bodyZone: S.optional(S.String.pipe(T.Body("zone"))),
-            bodyClusterId: S.optional(S.String.pipe(T.Body("clusterId"))),
-            bodyProjectId: S.optional(S.String.pipe(T.Body("projectId"))),
           }),
         ).pipe(
           T.Http({
@@ -9628,10 +9371,6 @@ function __c120(j: number): any {
             clusterId: S.String.pipe(T.Label()),
             projectId: S.String.pipe(T.Label()),
             nodePoolId: S.String.pipe(T.Label()),
-            bodyNodePoolId: S.optional(S.String.pipe(T.Body("nodePoolId"))),
-            bodyClusterId: S.optional(S.String.pipe(T.Body("clusterId"))),
-            bodyProjectId: S.optional(S.String.pipe(T.Body("projectId"))),
-            bodyZone: S.optional(S.String.pipe(T.Body("zone"))),
           }),
         ).pipe(
           T.Http({
@@ -9653,9 +9392,6 @@ function __c121(j: number): any {
             projectId: S.String.pipe(T.Label()),
             operationId: S.String.pipe(T.Label()),
             zone: S.String.pipe(T.Label()),
-            bodyProjectId: S.optional(S.String.pipe(T.Body("projectId"))),
-            bodyOperationId: S.optional(S.String.pipe(T.Body("operationId"))),
-            bodyZone: S.optional(S.String.pipe(T.Body("zone"))),
           }),
         ).pipe(
           T.Http({

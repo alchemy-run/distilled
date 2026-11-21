@@ -3157,8 +3157,6 @@ export interface UpdateLodgingLocationsRequest extends Omit<Lodging, "name"> {
   updateMask?: string | undefined;
   /** Required. Google identifier for this location in the form: `locations/{location_id}/lodging` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Required. Google identifier for this location in the form: `locations/{location_id}/lodging` */
-  bodyName?: string | undefined;
 }
 export type GetGoogleUpdatedLocationsLodgingError = NotFound | Forbidden | GcpOpError;
 /** Returns the Google updated Lodging of a specific location. */
@@ -4077,7 +4075,6 @@ function __c4(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

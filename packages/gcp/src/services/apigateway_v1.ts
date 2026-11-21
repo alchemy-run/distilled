@@ -490,8 +490,6 @@ export interface PatchProjectsLocationsApisRequest extends Omit<ApigatewayApi, "
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the Api resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. The request fails if `update_mask` is missing or empty. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name of the API. Format: projects/{project}/locations/global/apis/{api} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsApisConfigsRequest extends Omit<
   ApigatewayApiConfig,
@@ -501,16 +499,12 @@ export interface PatchProjectsLocationsApisConfigsRequest extends Omit<
   updateMask?: string | undefined;
   /** Identifier. Resource name of the API Config. Format: projects/{project}/locations/global/apis/{api}/configs/{api_config} */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name of the API Config. Format: projects/{project}/locations/global/apis/{api}/configs/{api_config} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsGatewaysRequest extends Omit<ApigatewayGateway, "name"> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the Gateway resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. The request fails if `update_mask` is missing or empty. */
   updateMask?: string | undefined;
   /** Identifier. Resource name of the Gateway. Format: projects/{project}/locations/{location}/gateways/{gateway} */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name of the Gateway. Format: projects/{project}/locations/{location}/gateways/{gateway} */
-  bodyName?: string | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface ApigatewaySetIamPolicyRequest {
@@ -1564,7 +1558,6 @@ function __c18(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -1585,7 +1578,6 @@ function __c19(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -1606,7 +1598,6 @@ function __c20(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

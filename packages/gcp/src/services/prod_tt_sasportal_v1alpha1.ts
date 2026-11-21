@@ -796,64 +796,48 @@ export interface PatchCustomersRequest extends Omit<SasPortalCustomer, "name"> {
   name: string;
   /** Fields to be updated. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Output only. Resource name of the customer. */
-  bodyName?: string | undefined;
 }
 export interface PatchCustomersDeploymentsRequest extends Omit<SasPortalDeployment, "name"> {
   /** Output only. Resource name. */
   name: string;
   /** Fields to be updated. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Output only. Resource name. */
-  bodyName?: string | undefined;
 }
 export interface PatchCustomersDevicesRequest extends Omit<SasPortalDevice, "name"> {
   /** Fields to be updated. */
   updateMask?: string | undefined;
   /** Output only. The resource path name. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Output only. The resource path name. */
-  bodyName?: string | undefined;
 }
 export interface PatchCustomersNodesRequest extends Omit<SasPortalNode, "name"> {
   /** Output only. Resource name. */
   name: string;
   /** Fields to be updated. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Output only. Resource name. */
-  bodyName?: string | undefined;
 }
 export interface PatchDeploymentsDevicesRequest extends Omit<SasPortalDevice, "name"> {
   /** Output only. The resource path name. */
   name: string;
   /** Fields to be updated. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Output only. The resource path name. */
-  bodyName?: string | undefined;
 }
 export interface PatchNodesDeploymentsRequest extends Omit<SasPortalDeployment, "name"> {
   /** Fields to be updated. */
   updateMask?: string | undefined;
   /** Output only. Resource name. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Output only. Resource name. */
-  bodyName?: string | undefined;
 }
 export interface PatchNodesDevicesRequest extends Omit<SasPortalDevice, "name"> {
   /** Fields to be updated. */
   updateMask?: string | undefined;
   /** Output only. The resource path name. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Output only. The resource path name. */
-  bodyName?: string | undefined;
 }
 export interface PatchNodesNodesRequest extends Omit<SasPortalNode, "name"> {
   /** Fields to be updated. */
   updateMask?: string | undefined;
   /** Output only. Resource name. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Output only. Resource name. */
-  bodyName?: string | undefined;
 }
 /** Request for [ProvisionDeployment]. [spectrum.sas.portal.v1alpha1.Provisioning.ProvisionDeployment]. GCP Project, Organization Info, and caller's GAIA ID should be retrieved from the RPC handler, and used as inputs to create a new SAS organization (if not exists) and a new SAS deployment. */
 export interface SasPortalProvisionDeploymentRequest {
@@ -3921,7 +3905,6 @@ function __c72(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3942,7 +3925,6 @@ function __c73(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3963,7 +3945,6 @@ function __c74(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4015,7 +3996,6 @@ function __c77(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4036,7 +4016,6 @@ function __c78(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4057,7 +4036,6 @@ function __c79(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4078,7 +4056,6 @@ function __c80(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4099,7 +4076,6 @@ function __c81(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

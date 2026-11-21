@@ -1081,8 +1081,6 @@ export interface PatchProjectsLocationsCaPoolsRequest extends Omit<CaPool, "name
   updateMask?: string | undefined;
   /** Optional. An ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name for this CaPool in the format `projects/*\/locations/*\/caPools/*`. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsCaPoolsCertificateAuthoritiesRequest extends Omit<
   CertificateAuthority,
@@ -1094,8 +1092,6 @@ export interface PatchProjectsLocationsCaPoolsCertificateAuthoritiesRequest exte
   requestId?: string | undefined;
   /** Required. A list of fields to be updated in this request. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name for this CertificateAuthority in the format `projects/*\/locations/*\/caPools/*\/certificateAuthorities/*`. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsRequest extends Omit<
   CertificateRevocationList,
@@ -1107,8 +1103,6 @@ export interface PatchProjectsLocationsCaPoolsCertificateAuthoritiesCertificateR
   updateMask?: string | undefined;
   /** Optional. An ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name for this CertificateRevocationList in the format `projects/*\/locations/*\/caPools/*certificateAuthorities/*\/ certificateRevocationLists/*`. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsCaPoolsCertificatesRequest extends Omit<
   Certificate,
@@ -1120,8 +1114,6 @@ export interface PatchProjectsLocationsCaPoolsCertificatesRequest extends Omit<
   updateMask?: string | undefined;
   /** Optional. An ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name for this Certificate in the format `projects/*\/locations/*\/caPools/*\/certificates/*`. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsCertificateTemplatesRequest extends Omit<
   CertificateTemplate,
@@ -1133,8 +1125,6 @@ export interface PatchProjectsLocationsCertificateTemplatesRequest extends Omit<
   requestId?: string | undefined;
   /** Required. A list of fields to be updated in this request. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name for this CertificateTemplate in the format `projects/*\/locations/*\/certificateTemplates/*`. */
-  bodyName?: string | undefined;
 }
 export type RevokeCertificateRequestReasonEnum =
   | "REVOCATION_REASON_UNSPECIFIED"
@@ -2850,7 +2840,6 @@ function __c29(j: number): any {
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2872,7 +2861,6 @@ function __c30(j: number): any {
             name: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2894,7 +2882,6 @@ function __c31(j: number): any {
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2919,7 +2906,6 @@ function __c32(j: number): any {
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2941,7 +2927,6 @@ function __c33(j: number): any {
             name: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

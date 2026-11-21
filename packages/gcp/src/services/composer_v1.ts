@@ -819,8 +819,6 @@ export interface PatchProjectsLocationsEnvironmentsRequest extends Omit<Environm
   updateMask?: string | undefined;
   /** The relative resource name of the environment to update, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}" */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the environment, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}" EnvironmentId must start with a lowercase letter followed by up to 63 lowercase letters, numbers, or hyphens, and cannot end with a hyphen. */
-  bodyName?: string | undefined;
 }
 /** Poll Airflow Command request. */
 export interface PollAirflowCommandRequest {
@@ -914,8 +912,6 @@ export interface UpdateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsReque
 > {
   /** Identifier. The resource name of the ConfigMap, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}/userWorkloadsConfigMaps/{userWorkloadsConfigMapId}" */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the ConfigMap, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}/userWorkloadsConfigMaps/{userWorkloadsConfigMapId}" */
-  bodyName?: string | undefined;
 }
 export interface UpdateProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest extends Omit<
   UserWorkloadsSecret,
@@ -923,8 +919,6 @@ export interface UpdateProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest 
 > {
   /** Identifier. The resource name of the Secret, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}/userWorkloadsSecrets/{userWorkloadsSecretId}" */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the Secret, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}/userWorkloadsSecrets/{userWorkloadsSecretId}" */
-  bodyName?: string | undefined;
 }
 export type CheckUpgradeProjectsLocationsEnvironmentsError =
   | NotFound
@@ -2080,7 +2074,6 @@ function __c19(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2246,7 +2239,6 @@ function __c25(j: number): any {
           __S(1120, __c35, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://composer.googleapis.com/" }),
@@ -2264,7 +2256,6 @@ function __c26(j: number): any {
           __S(1120, __c35, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://composer.googleapis.com/" }),

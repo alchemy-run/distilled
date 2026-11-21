@@ -886,8 +886,6 @@ export interface PatchProjectsLocationsGlossariesRequest extends Omit<Glossary, 
   name: string;
   /** The list of fields to be updated. Currently, only `display_name` and `input_config` are supported. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the glossary. Glossary names have the form `projects/{project-number-or-id}/locations/{location-id}/glossaries/{glossary-id}`. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsGlossariesGlossaryEntriesRequest extends Omit<
   GlossaryEntry,
@@ -895,8 +893,6 @@ export interface PatchProjectsLocationsGlossariesGlossaryEntriesRequest extends 
 > {
   /** Identifier. The resource name of the entry. Format: `projects/*\/locations/*\/glossaries/*\/glossaryEntries/*` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the entry. Format: `projects/*\/locations/*\/glossaries/*\/glossaryEntries/*` */
-  bodyName?: string | undefined;
 }
 /** A single refinement entry for RefineTextRequest. */
 export interface RefinementEntry {
@@ -3171,7 +3167,6 @@ function __c47(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3191,7 +3186,6 @@ function __c48(j: number): any {
           __S(84, __c5, 4),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

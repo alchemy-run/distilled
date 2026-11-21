@@ -735,8 +735,6 @@ export interface PatchOrganizationsLocationsPostureDeploymentsRequest extends Om
   updateMask?: string | undefined;
   /** Required. Identifier. The name of the posture deployment, in the format `organizations/{organization}/locations/global/postureDeployments/{deployment_id}`. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Required. Identifier. The name of the posture deployment, in the format `organizations/{organization}/locations/global/postureDeployments/{deployment_id}`. */
-  bodyName?: string | undefined;
 }
 export interface PatchOrganizationsLocationsPosturesRequest extends Omit<
   Posture,
@@ -748,10 +746,6 @@ export interface PatchOrganizationsLocationsPosturesRequest extends Omit<
   updateMask?: string | undefined;
   /** Required. The revision ID of the posture to update. If the posture revision that you update is currently deployed, then a new revision of the posture is created. */
   revisionId?: string | undefined;
-  /** The request body's `revisionId` (`revisionId` is the query parameter). Output only. Immutable. An opaque eight-character string that identifies the revision of the posture. A posture can have multiple revisions; when you deploy a posture, you deploy a specific revision of the posture. */
-  bodyRevisionId?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Required. Identifier. The name of the posture, in the format `organizations/{organization}/locations/global/postures/{posture_id}`. */
-  bodyName?: string | undefined;
 }
 export type CancelOrganizationsLocationsOperationsError =
   | NotFound
@@ -1667,7 +1661,6 @@ function __c19(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -1689,8 +1682,6 @@ function __c20(j: number): any {
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
             revisionId: S.optional(S.String.pipe(T.Query())),
-            bodyRevisionId: S.optional(S.String.pipe(T.Body("revisionId"))),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

@@ -485,8 +485,6 @@ export interface PatchProjectsLocationsFunctionsRequest extends Omit<CloudFuncti
   name: string;
   /** Required. The list of fields in `CloudFunction` that have to be updated. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). A user-defined name of the function. Function names must be unique globally and match pattern `projects/*\/locations/*\/functions/*` */
-  bodyName?: string | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
@@ -943,7 +941,6 @@ function __c5(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

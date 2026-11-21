@@ -2007,8 +2007,6 @@ export interface PatchProjectsLocationsInstancesRequest extends Omit<
   updateMask?: string | undefined;
   /** Optional. If set to `true`, and if the Instance does not exist, it will create a new one. The caller must have `run.instances.create` permissions if this is set to `true` and the Instance does not exist. */
   allowMissing?: boolean | undefined;
-  /** The request body's `name` (`name` is the path parameter). The fully qualified name of this Instance. In `CreateInstanceRequest`, this field is ignored, and instead composed from `CreateInstanceRequest.parent` and `CreateInstanceRequest.instance_id`. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsJobsRequest extends Omit<GoogleCloudRunV2Job, "name"> {
   /** The fully qualified name of this Job. Format: projects/{project}/locations/{location}/jobs/{job} */
@@ -2017,8 +2015,6 @@ export interface PatchProjectsLocationsJobsRequest extends Omit<GoogleCloudRunV2
   allowMissing?: boolean | undefined;
   /** Indicates that the request should be validated and default values populated, without persisting the request or updating any resources. */
   validateOnly?: boolean | undefined;
-  /** The request body's `name` (`name` is the path parameter). The fully qualified name of this Job. Format: projects/{project}/locations/{location}/jobs/{job} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsServicesRequest extends Omit<
   GoogleCloudRunV2Service,
@@ -2034,8 +2030,6 @@ export interface PatchProjectsLocationsServicesRequest extends Omit<
   name: string;
   /** Indicates that the request should be validated and default values populated, without persisting the request or updating any resources. */
   validateOnly?: boolean | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The fully qualified name of this Service. In CreateServiceRequest, this field is ignored, and instead composed from CreateServiceRequest.parent and CreateServiceRequest.service_id. Format: projects/{project}/locations/{location}/services/{service_id} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsWorkerPoolsRequest extends Omit<
   GoogleCloudRunV2WorkerPool,
@@ -2051,8 +2045,6 @@ export interface PatchProjectsLocationsWorkerPoolsRequest extends Omit<
   validateOnly?: boolean | undefined;
   /** Optional. If set to true, a new revision will be created from the template even if the system doesn't detect any changes from the previously deployed revision. This may be useful for cases where the underlying resources need to be recreated or reinitialized. For example if the image is specified by label, but the underlying image digest has changed) or if the container performs deployment initialization work that needs to be performed again. */
   forceNewRevision?: boolean | undefined;
-  /** The request body's `name` (`name` is the path parameter). The fully qualified name of this WorkerPool. In CreateWorkerPoolRequest, this field is ignored, and instead composed from CreateWorkerPoolRequest.parent and CreateWorkerPoolRequest.worker_id. Format: `projects/{project}/locations/{location}/workerPools/{worker_id}` */
-  bodyName?: string | undefined;
 }
 /** Per-container override specification. */
 export interface GoogleCloudRunV2ContainerOverride {
@@ -4352,7 +4344,6 @@ function __c43(j: number): any {
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
             allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://run.googleapis.com/" }),
@@ -4370,7 +4361,6 @@ function __c44(j: number): any {
             name: S.String.pipe(T.Label()),
             allowMissing: S.optional(S.Boolean.pipe(T.Query())),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://run.googleapis.com/" }),
@@ -4390,7 +4380,6 @@ function __c45(j: number): any {
             forceNewRevision: S.optional(S.Boolean.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://run.googleapis.com/" }),
@@ -4410,7 +4399,6 @@ function __c46(j: number): any {
             name: S.String.pipe(T.Label()),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
             forceNewRevision: S.optional(S.Boolean.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://run.googleapis.com/" }),

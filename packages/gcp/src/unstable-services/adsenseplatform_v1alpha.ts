@@ -345,16 +345,12 @@ export interface PatchAccountsPlatformsChildAccountsSitesRequest extends Omit<
   name: string;
   /** Optional. The list of fields to update - currently only supports updating the `platform_group` field. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Format: accounts/{account}/platforms/{platform}/childAccounts/{child_account}/sites/{platform_child_site} */
-  bodyName?: string | undefined;
 }
 export interface PatchAccountsPlatformsGroupsRequest extends Omit<PlatformGroup, "name"> {
   /** Identifier. Format: accounts/{account}/platforms/{platform}/groups/{platform_group} */
   name: string;
   /** Optional. The list of fields to update - currently only supports updating the `description` field. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Format: accounts/{account}/platforms/{platform}/groups/{platform_group} */
-  bodyName?: string | undefined;
 }
 export interface RequestReviewPlatformsAccountsSitesRequest {
   /** Required. The name of the site to submit for review. Format: platforms/{platform}/accounts/{account}/sites/{site} */
@@ -992,7 +988,6 @@ function __c12(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -1013,7 +1008,6 @@ function __c13(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

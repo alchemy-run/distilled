@@ -377,8 +377,6 @@ export interface AddProjectsLocationsAgentsTasksArtifactsRequest extends Omit<
 > {
   /** Optional. The task to link the file to. Format: projects/{project}/locations/{location}/agents/{agent}/tasks/{task} Exactly one of `task` and `collaborative_project` must be set. */
   task: string;
-  /** The request body's `task` (`task` is the path parameter). Optional. The task to link the file to. Format: projects/{project}/locations/{location}/agents/{agent}/tasks/{task} Exactly one of `task` and `collaborative_project` must be set. */
-  bodyTask?: string | undefined;
 }
 /** Response for ArtifactService.AddArtifact. */
 export interface GoogleCloudAiplatformV1beta1AddArtifactResponse {
@@ -391,8 +389,6 @@ export interface AddProjectsLocationsCollaborativeProjectsArtifactsRequest exten
 > {
   /** Optional. The collaborative project to link the file to. Format: projects/{project}/locations/{location}/collaborativeProjects/{collaborative_project} Exactly one of `task` and `collaborative_project` must be set. */
   collaborativeProject: string;
-  /** The request body's `collaborativeProject` (`collaborativeProject` is the path parameter). Optional. The collaborative project to link the file to. Format: projects/{project}/locations/{location}/collaborativeProjects/{collaborative_project} Exactly one of `task` and `collaborative_project` must be set. */
-  bodyCollaborativeProject?: string | undefined;
 }
 /** A message representing a metric in the measurement. */
 export interface GoogleCloudAiplatformV1beta1MeasurementMetric {
@@ -1025,8 +1021,6 @@ export interface AppendEventProjectsLocationsReasoningEnginesSessionsRequest ext
 > {
   /** Required. The resource name of the session to append event to. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}/sessions/{session}` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the event. Format:`projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}/sessions/{session}/events/{event}`. */
-  bodyName?: string | undefined;
 }
 /** Response message for SessionService.AppendEvent. */
 export interface GoogleCloudAiplatformV1beta1AppendEventResponse {}
@@ -1036,8 +1030,6 @@ export interface AppendEventReasoningEnginesSessionsRequest extends Omit<
 > {
   /** Required. The resource name of the session to append event to. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}/sessions/{session}` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the event. Format:`projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}/sessions/{session}/events/{event}`. */
-  bodyName?: string | undefined;
 }
 /** An event payload describing a change to the task-level metadata. */
 export interface GoogleCloudAiplatformV1beta1A2aTaskMetadataChange {
@@ -17526,8 +17518,6 @@ export interface EmbedContentProjectsLocationsPublishersModelsRequest extends Om
 > {
   /** Required. The name of the publisher model requested to serve the prediction. Format: `projects/{project}/locations/{location}/publishers/*\/models/*` */
   model: string;
-  /** The request body's `model` (`model` is the path parameter). Required. The name of the publisher model requested to serve the prediction. Format: `projects/{project}/locations/{location}/publishers/*\/models/*` */
-  bodyModel?: string | undefined;
 }
 /** A list of floats representing an embedding. */
 export type GoogleCloudAiplatformV1beta1EmbedContentResponseEmbedding =
@@ -17606,8 +17596,6 @@ export interface EvaluateDatasetProjectsLocationsRequest extends Omit<
 > {
   /** Required. The resource name of the Location to evaluate the dataset. Format: `projects/{project}/locations/{location}` */
   location: string;
-  /** The request body's `location` (`location` is the path parameter). Required. The resource name of the Location to evaluate the dataset. Format: `projects/{project}/locations/{location}` */
-  bodyLocation?: string | undefined;
 }
 export interface EvaluateDatasetV1beta1Request extends GoogleCloudAiplatformV1beta1EvaluateDatasetRequest {}
 /** Spec for summarization verbosity score metric. */
@@ -18475,8 +18463,6 @@ export interface EvaluateInstancesProjectsLocationsRequest extends Omit<
 > {
   /** Required. The resource name of the Location to evaluate the instances. Format: `projects/{project}/locations/{location}` */
   location: string;
-  /** The request body's `location` (`location` is the path parameter). Required. The resource name of the Location to evaluate the instances. Format: `projects/{project}/locations/{location}` */
-  bodyLocation?: string | undefined;
 }
 /** Spec for summarization verbosity result. */
 export interface GoogleCloudAiplatformV1beta1SummarizationVerbosityResult {
@@ -19899,8 +19885,6 @@ export interface GenerateInstanceRubricsProjectsLocationsRequest extends Omit<
 > {
   /** Required. The resource name of the Location to generate rubrics from. Format: `projects/{project}/locations/{location}` */
   location: string;
-  /** The request body's `location` (`location` is the path parameter). Required. The resource name of the Location to generate rubrics from. Format: `projects/{project}/locations/{location}` */
-  bodyLocation?: string | undefined;
 }
 /** Response message for EvaluationService.GenerateInstanceRubrics. */
 export interface GoogleCloudAiplatformV1beta1GenerateInstanceRubricsResponse {
@@ -22983,8 +22967,6 @@ export interface InvokeProjectsLocationsEndpointsDeployedModelsInvokeRequest ext
   deployedModelId: string;
   /** Required. The name of the Endpoint requested to serve the prediction. Format: `projects/{project}/locations/{location}/endpoints/{endpoint}` */
   endpoint: string;
-  /** The request body's `deployedModelId` (`deployedModelId` is the path parameter). ID of the DeployedModel that serves the invoke request. */
-  bodyDeployedModelId?: string | undefined;
 }
 export interface InvokeProjectsLocationsEndpointsInvokeRequest extends GoogleCloudAiplatformV1beta1InvokeRequest {
   /** Required. The name of the Endpoint requested to serve the prediction. Format: `projects/{project}/locations/{location}/endpoints/{endpoint}` */
@@ -27173,8 +27155,6 @@ export interface PatchDatasetsRequest extends Omit<GoogleCloudAiplatformV1beta1D
   name: string;
   /** Required. The update mask applies to the resource. For the `FieldMask` definition, see google.protobuf.FieldMask. Updatable fields: * `display_name` * `description` * `labels` */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Output only. Identifier. The resource name of the Dataset. Format: `projects/{project}/locations/{location}/datasets/{dataset}` */
-  bodyName?: string | undefined;
 }
 export interface PatchDatasetsDatasetVersionsRequest extends Omit<
   GoogleCloudAiplatformV1beta1DatasetVersion,
@@ -27184,8 +27164,6 @@ export interface PatchDatasetsDatasetVersionsRequest extends Omit<
   name: string;
   /** Required. The update mask applies to the resource. For the `FieldMask` definition, see google.protobuf.FieldMask. Updatable fields: * `display_name` */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Output only. Identifier. The resource name of the DatasetVersion. Format: `projects/{project}/locations/{location}/datasets/{dataset}/datasetVersions/{dataset_version}` */
-  bodyName?: string | undefined;
 }
 export interface PatchMemoryBanksMemoriesRequest extends Omit<
   GoogleCloudAiplatformV1beta1Memory,
@@ -27195,8 +27173,6 @@ export interface PatchMemoryBanksMemoriesRequest extends Omit<
   updateMask?: string | undefined;
   /** Identifier. Represents the resource name of the Memory. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}/memories/{memory}` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Represents the resource name of the Memory. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}/memories/{memory}` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsAgentsRequest extends Omit<
   GoogleCloudAiplatformV1beta1Agent,
@@ -27206,8 +27182,6 @@ export interface PatchProjectsLocationsAgentsRequest extends Omit<
   name: string;
   /** Optional. The list of fields to update. If not present, all fields are updated. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the agent. Format: `projects/{project}/locations/{location}/agents/{agent}`. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsAgentsTasksRequest extends Omit<
   GoogleCloudAiplatformV1beta1Task,
@@ -27217,8 +27191,6 @@ export interface PatchProjectsLocationsAgentsTasksRequest extends Omit<
   name: string;
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name of the task. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsCachedContentsRequest extends Omit<
   GoogleCloudAiplatformV1beta1CachedContent,
@@ -27228,8 +27200,6 @@ export interface PatchProjectsLocationsCachedContentsRequest extends Omit<
   name: string;
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Immutable. Identifier. The server-generated resource name of the cached content Format: projects/{project}/locations/{location}/cachedContents/{cached_content} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsCollaborativeProjectsRequest extends Omit<
   GoogleCloudAiplatformV1beta1CollaborativeProject,
@@ -27239,8 +27209,6 @@ export interface PatchProjectsLocationsCollaborativeProjectsRequest extends Omit
   name: string;
   /** Required. The fields to update: `display_name`, `trusted_participants`, or `*` for both. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the project. The service assigns the final ID segment. Format: `projects/{project}/locations/{location}/collaborativeProjects/{collaborative_project}`. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsDatasetsRequest extends Omit<
   GoogleCloudAiplatformV1beta1Dataset,
@@ -27250,8 +27218,6 @@ export interface PatchProjectsLocationsDatasetsRequest extends Omit<
   updateMask?: string | undefined;
   /** Output only. Identifier. The resource name of the Dataset. Format: `projects/{project}/locations/{location}/datasets/{dataset}` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Output only. Identifier. The resource name of the Dataset. Format: `projects/{project}/locations/{location}/datasets/{dataset}` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsDatasetsDatasetVersionsRequest extends Omit<
   GoogleCloudAiplatformV1beta1DatasetVersion,
@@ -27261,8 +27227,6 @@ export interface PatchProjectsLocationsDatasetsDatasetVersionsRequest extends Om
   name: string;
   /** Required. The update mask applies to the resource. For the `FieldMask` definition, see google.protobuf.FieldMask. Updatable fields: * `display_name` */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Output only. Identifier. The resource name of the DatasetVersion. Format: `projects/{project}/locations/{location}/datasets/{dataset}/datasetVersions/{dataset_version}` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsDeploymentResourcePoolsRequest extends Omit<
   GoogleCloudAiplatformV1beta1DeploymentResourcePool,
@@ -27272,8 +27236,6 @@ export interface PatchProjectsLocationsDeploymentResourcePoolsRequest extends Om
   name: string;
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Immutable. The resource name of the DeploymentResourcePool. Format: `projects/{project}/locations/{location}/deploymentResourcePools/{deployment_resource_pool}` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsDetectorsRequest extends Omit<
   GoogleCloudAiplatformV1beta1Detector,
@@ -27283,8 +27245,6 @@ export interface PatchProjectsLocationsDetectorsRequest extends Omit<
   updateMask?: string | undefined;
   /** Identifier. The resource name of the detector. Format: `projects/{project}/locations/{location}/detectors/{detector}` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the detector. Format: `projects/{project}/locations/{location}/detectors/{detector}` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsEndpointsRequest extends Omit<
   GoogleCloudAiplatformV1beta1Endpoint,
@@ -27294,8 +27254,6 @@ export interface PatchProjectsLocationsEndpointsRequest extends Omit<
   updateMask?: string | undefined;
   /** Identifier. The resource name of the Endpoint. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the Endpoint. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsEvaluationExperimentsRequest extends Omit<
   GoogleCloudAiplatformV1beta1EvaluationExperiment,
@@ -27305,8 +27263,6 @@ export interface PatchProjectsLocationsEvaluationExperimentsRequest extends Omit
   updateMask?: string | undefined;
   /** Identifier. The resource name of the EvaluationExperiment. This is a unique identifier. Format: `projects/{project}/locations/{location}/evaluationExperiments/{evaluation_experiment}` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the EvaluationExperiment. This is a unique identifier. Format: `projects/{project}/locations/{location}/evaluationExperiments/{evaluation_experiment}` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsEvaluationSetsRequest extends Omit<
   GoogleCloudAiplatformV1beta1EvaluationSet,
@@ -27316,8 +27272,6 @@ export interface PatchProjectsLocationsEvaluationSetsRequest extends Omit<
   updateMask?: string | undefined;
   /** Identifier. The resource name of the EvaluationSet. Format: `projects/{project}/locations/{location}/evaluationSets/{evaluation_set}` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the EvaluationSet. Format: `projects/{project}/locations/{location}/evaluationSets/{evaluation_set}` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsExampleStoresRequest extends Omit<
   GoogleCloudAiplatformV1beta1ExampleStore,
@@ -27327,8 +27281,6 @@ export interface PatchProjectsLocationsExampleStoresRequest extends Omit<
   name: string;
   /** Optional. Mask specifying which fields to update. Supported fields: * `display_name` * `description` */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the ExampleStore. This is a unique identifier. Format: projects/{project}/locations/{location}/exampleStores/{example_store} */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsExtensionsRequest extends Omit<
   GoogleCloudAiplatformV1beta1Extension,
@@ -27338,8 +27290,6 @@ export interface PatchProjectsLocationsExtensionsRequest extends Omit<
   name: string;
   /** Required. Mask specifying which fields to update. Supported fields: * `display_name` * `description` * `runtime_config` * `tool_use_examples` * `manifest.description` */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the Extension. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsFeatureGroupsRequest extends Omit<
   GoogleCloudAiplatformV1beta1FeatureGroup,
@@ -27349,8 +27299,6 @@ export interface PatchProjectsLocationsFeatureGroupsRequest extends Omit<
   updateMask?: string | undefined;
   /** Identifier. Name of the FeatureGroup. Format: `projects/{project}/locations/{location}/featureGroups/{featureGroup}` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Name of the FeatureGroup. Format: `projects/{project}/locations/{location}/featureGroups/{featureGroup}` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsFeatureGroupsFeatureMonitorsRequest extends Omit<
   GoogleCloudAiplatformV1beta1FeatureMonitor,
@@ -27360,8 +27308,6 @@ export interface PatchProjectsLocationsFeatureGroupsFeatureMonitorsRequest exten
   updateMask?: string | undefined;
   /** Identifier. Name of the FeatureMonitor. Format: `projects/{project}/locations/{location}/featureGroups/{featureGroup}/featureMonitors/{featureMonitor}` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Name of the FeatureMonitor. Format: `projects/{project}/locations/{location}/featureGroups/{featureGroup}/featureMonitors/{featureMonitor}` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsFeatureGroupsFeaturesRequest extends Omit<
   GoogleCloudAiplatformV1beta1Feature,
@@ -27371,8 +27317,6 @@ export interface PatchProjectsLocationsFeatureGroupsFeaturesRequest extends Omit
   updateMask?: string | undefined;
   /** Immutable. Name of the Feature. Format: `projects/{project}/locations/{location}/featurestores/{featurestore}/entityTypes/{entity_type}/features/{feature}` `projects/{project}/locations/{location}/featureGroups/{feature_group}/features/{feature}` The last part feature is assigned by the client. The feature can be up to 64 characters long and can consist only of ASCII Latin letters A-Z and a-z, underscore(_), and ASCII digits 0-9 starting with a letter. The value will be unique given an entity type. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Immutable. Name of the Feature. Format: `projects/{project}/locations/{location}/featurestores/{featurestore}/entityTypes/{entity_type}/features/{feature}` `projects/{project}/locations/{location}/featureGroups/{feature_group}/features/{feature}` The last part feature is assigned by the client. The feature can be up to 64 characters long and can consist only of ASCII Latin letters A-Z and a-z, underscore(_), and ASCII digits 0-9 starting with a letter. The value will be unique given an entity type. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsFeatureOnlineStoresRequest extends Omit<
   GoogleCloudAiplatformV1beta1FeatureOnlineStore,
@@ -27382,8 +27326,6 @@ export interface PatchProjectsLocationsFeatureOnlineStoresRequest extends Omit<
   updateMask?: string | undefined;
   /** Identifier. Name of the FeatureOnlineStore. Format: `projects/{project}/locations/{location}/featureOnlineStores/{featureOnlineStore}` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Name of the FeatureOnlineStore. Format: `projects/{project}/locations/{location}/featureOnlineStores/{featureOnlineStore}` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsFeatureOnlineStoresFeatureViewsRequest extends Omit<
   GoogleCloudAiplatformV1beta1FeatureView,
@@ -27393,8 +27335,6 @@ export interface PatchProjectsLocationsFeatureOnlineStoresFeatureViewsRequest ex
   name: string;
   /** Field mask is used to specify the fields to be overwritten in the FeatureView resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then only the non-empty fields present in the request will be overwritten. Set the update_mask to `*` to override all fields. Updatable fields: * `labels` * `service_agent_type` * `big_query_source` * `big_query_source.uri` * `big_query_source.entity_id_columns` * `feature_registry_source` * `feature_registry_source.feature_groups` * `sync_config` * `sync_config.cron` * `optimized_config.automatic_resources` */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Name of the FeatureView. Format: `projects/{project}/locations/{location}/featureOnlineStores/{feature_online_store}/featureViews/{feature_view}` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsFeaturestoresRequest extends Omit<
   GoogleCloudAiplatformV1beta1Featurestore,
@@ -27404,8 +27344,6 @@ export interface PatchProjectsLocationsFeaturestoresRequest extends Omit<
   name: string;
   /** Field mask is used to specify the fields to be overwritten in the Featurestore resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then only the non-empty fields present in the request will be overwritten. Set the update_mask to `*` to override all fields. Updatable fields: * `labels` * `online_serving_config.fixed_node_count` * `online_serving_config.scaling` * `online_storage_ttl_days` */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Output only. Name of the Featurestore. Format: `projects/{project}/locations/{location}/featurestores/{featurestore}` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsFeaturestoresEntityTypesRequest extends Omit<
   GoogleCloudAiplatformV1beta1EntityType,
@@ -27415,8 +27353,6 @@ export interface PatchProjectsLocationsFeaturestoresEntityTypesRequest extends O
   name: string;
   /** Field mask is used to specify the fields to be overwritten in the EntityType resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then only the non-empty fields present in the request will be overwritten. Set the update_mask to `*` to override all fields. Updatable fields: * `description` * `labels` * `monitoring_config.snapshot_analysis.disabled` * `monitoring_config.snapshot_analysis.monitoring_interval_days` * `monitoring_config.snapshot_analysis.staleness_days` * `monitoring_config.import_features_analysis.state` * `monitoring_config.import_features_analysis.anomaly_detection_baseline` * `monitoring_config.numerical_threshold_config.value` * `monitoring_config.categorical_threshold_config.value` * `offline_storage_ttl_days` */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Immutable. Name of the EntityType. Format: `projects/{project}/locations/{location}/featurestores/{featurestore}/entityTypes/{entity_type}` The last part entity_type is assigned by the client. The entity_type can be up to 64 characters long and can consist only of ASCII Latin letters A-Z and a-z and underscore(_), and ASCII digits 0-9 starting with a letter. The value will be unique given a featurestore. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsFeaturestoresEntityTypesFeaturesRequest extends Omit<
   GoogleCloudAiplatformV1beta1Feature,
@@ -27426,8 +27362,6 @@ export interface PatchProjectsLocationsFeaturestoresEntityTypesFeaturesRequest e
   updateMask?: string | undefined;
   /** Immutable. Name of the Feature. Format: `projects/{project}/locations/{location}/featurestores/{featurestore}/entityTypes/{entity_type}/features/{feature}` `projects/{project}/locations/{location}/featureGroups/{feature_group}/features/{feature}` The last part feature is assigned by the client. The feature can be up to 64 characters long and can consist only of ASCII Latin letters A-Z and a-z, underscore(_), and ASCII digits 0-9 starting with a letter. The value will be unique given an entity type. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Immutable. Name of the Feature. Format: `projects/{project}/locations/{location}/featurestores/{featurestore}/entityTypes/{entity_type}/features/{feature}` `projects/{project}/locations/{location}/featureGroups/{feature_group}/features/{feature}` The last part feature is assigned by the client. The feature can be up to 64 characters long and can consist only of ASCII Latin letters A-Z and a-z, underscore(_), and ASCII digits 0-9 starting with a letter. The value will be unique given an entity type. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsIndexEndpointsRequest extends Omit<
   GoogleCloudAiplatformV1beta1IndexEndpoint,
@@ -27437,8 +27371,6 @@ export interface PatchProjectsLocationsIndexEndpointsRequest extends Omit<
   name: string;
   /** Required. The update mask applies to the resource. See google.protobuf.FieldMask. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Output only. The resource name of the IndexEndpoint. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsIndexesRequest extends Omit<
   GoogleCloudAiplatformV1beta1Index,
@@ -27448,8 +27380,6 @@ export interface PatchProjectsLocationsIndexesRequest extends Omit<
   updateMask?: string | undefined;
   /** Output only. The resource name of the Index. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Output only. The resource name of the Index. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsMemoryBanksMemoriesRequest extends Omit<
   GoogleCloudAiplatformV1beta1Memory,
@@ -27459,8 +27389,6 @@ export interface PatchProjectsLocationsMemoryBanksMemoriesRequest extends Omit<
   updateMask?: string | undefined;
   /** Identifier. Represents the resource name of the Memory. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}/memories/{memory}` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Represents the resource name of the Memory. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}/memories/{memory}` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsMetadataStoresArtifactsRequest extends Omit<
   GoogleCloudAiplatformV1beta1Artifact,
@@ -27472,8 +27400,6 @@ export interface PatchProjectsLocationsMetadataStoresArtifactsRequest extends Om
   allowMissing?: boolean | undefined;
   /** Output only. The resource name of the Artifact. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Output only. The resource name of the Artifact. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsMetadataStoresContextsRequest extends Omit<
   GoogleCloudAiplatformV1beta1Context,
@@ -27485,8 +27411,6 @@ export interface PatchProjectsLocationsMetadataStoresContextsRequest extends Omi
   updateMask?: string | undefined;
   /** Immutable. The resource name of the Context. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Immutable. The resource name of the Context. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsMetadataStoresExecutionsRequest extends Omit<
   GoogleCloudAiplatformV1beta1Execution,
@@ -27498,8 +27422,6 @@ export interface PatchProjectsLocationsMetadataStoresExecutionsRequest extends O
   allowMissing?: boolean | undefined;
   /** Optional. A FieldMask indicating which fields should be updated. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Output only. The resource name of the Execution. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsModelDeploymentMonitoringJobsRequest extends Omit<
   GoogleCloudAiplatformV1beta1ModelDeploymentMonitoringJob,
@@ -27509,8 +27431,6 @@ export interface PatchProjectsLocationsModelDeploymentMonitoringJobsRequest exte
   name: string;
   /** Required. The update mask is used to specify the fields to be overwritten in the ModelDeploymentMonitoringJob resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then only the non-empty fields present in the request will be overwritten. Set the update_mask to `*` to override all fields. For the objective config, the user can either provide the update mask for model_deployment_monitoring_objective_configs or any combination of its nested fields, such as: model_deployment_monitoring_objective_configs.objective_config.training_dataset. Updatable fields: * `display_name` * `model_deployment_monitoring_schedule_config` * `model_monitoring_alert_config` * `logging_sampling_strategy` * `labels` * `log_ttl` * `enable_monitoring_pipeline_logs` . and * `model_deployment_monitoring_objective_configs` . or * `model_deployment_monitoring_objective_configs.objective_config.training_dataset` * `model_deployment_monitoring_objective_configs.objective_config.training_prediction_skew_detection_config` * `model_deployment_monitoring_objective_configs.objective_config.prediction_drift_detection_config` */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Output only. Resource name of a ModelDeploymentMonitoringJob. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsModelMonitorsRequest extends Omit<
   GoogleCloudAiplatformV1beta1ModelMonitor,
@@ -27520,8 +27440,6 @@ export interface PatchProjectsLocationsModelMonitorsRequest extends Omit<
   name: string;
   /** Required. Mask specifying which fields to update. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Immutable. Resource name of the ModelMonitor. Format: `projects/{project}/locations/{location}/modelMonitors/{model_monitor}`. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsModelsRequest extends Omit<
   GoogleCloudAiplatformV1beta1Model,
@@ -27531,8 +27449,6 @@ export interface PatchProjectsLocationsModelsRequest extends Omit<
   name: string;
   /** Required. The update mask applies to the resource. For the `FieldMask` definition, see google.protobuf.FieldMask. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the Model. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsNotebookRuntimeTemplatesRequest extends Omit<
   GoogleCloudAiplatformV1beta1NotebookRuntimeTemplate,
@@ -27542,8 +27458,6 @@ export interface PatchProjectsLocationsNotebookRuntimeTemplatesRequest extends O
   name: string;
   /** Required. The update mask applies to the resource. For the `FieldMask` definition, see google.protobuf.FieldMask. Input format: `{paths: "${updated_field}"}` Updatable fields: * `encryption_spec.kms_key_name` * `display_name` * `software_config.post_startup_script_config.post_startup_script` * `software_config.post_startup_script_config.post_startup_script_url` * `software_config.post_startup_script_config.post_startup_script_behavior` * `software_config.env` * `software_config.colab_image.release_name` * `software_config.custom_container_config.image_uri` */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). The resource name of the NotebookRuntimeTemplate. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsOnlineEvaluatorsRequest extends Omit<
   GoogleCloudAiplatformV1beta1OnlineEvaluator,
@@ -27553,8 +27467,6 @@ export interface PatchProjectsLocationsOnlineEvaluatorsRequest extends Omit<
   name: string;
   /** Optional. Field mask is used to control which fields get updated. If the mask is not present, all fields will be updated. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the OnlineEvaluator. Format: projects/{project}/locations/{location}/onlineEvaluators/{id}. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsPersistentResourcesRequest extends Omit<
   GoogleCloudAiplatformV1beta1PersistentResource,
@@ -27564,8 +27476,6 @@ export interface PatchProjectsLocationsPersistentResourcesRequest extends Omit<
   name: string;
   /** Required. Specify the fields to be overwritten in the PersistentResource by the update method. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Immutable. Resource name of a PersistentResource. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsRagCorporaRequest extends Omit<
   GoogleCloudAiplatformV1beta1RagCorpus,
@@ -27573,8 +27483,6 @@ export interface PatchProjectsLocationsRagCorporaRequest extends Omit<
 > {
   /** Output only. The resource name of the RagCorpus. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Output only. The resource name of the RagCorpus. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsRagCorporaRagFilesRagMetadataRequest extends Omit<
   GoogleCloudAiplatformV1beta1RagMetadata,
@@ -27582,8 +27490,6 @@ export interface PatchProjectsLocationsRagCorporaRagFilesRagMetadataRequest exte
 > {
   /** Identifier. Resource name of the RagMetadata. Format: `projects/{project}/locations/{location}/ragCorpora/{rag_corpus}/ragFiles/{rag_file}/ragMetadata/{rag_metadata}` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name of the RagMetadata. Format: `projects/{project}/locations/{location}/ragCorpora/{rag_corpus}/ragFiles/{rag_file}/ragMetadata/{rag_metadata}` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsReasoningEnginesRequest extends Omit<
   GoogleCloudAiplatformV1beta1ReasoningEngine,
@@ -27593,8 +27499,6 @@ export interface PatchProjectsLocationsReasoningEnginesRequest extends Omit<
   name: string;
   /** Optional. Mask specifying which fields to update. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the ReasoningEngine. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsReasoningEnginesFeedbackEntriesRequest extends Omit<
   GoogleCloudAiplatformV1beta1FeedbackEntry,
@@ -27604,8 +27508,6 @@ export interface PatchProjectsLocationsReasoningEnginesFeedbackEntriesRequest ex
   name: string;
   /** Optional. The field mask that controls which fields are updated. If unset or empty, all mutable fields of the FeedbackEntry are replaced with the values from feedback_entry. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name. Assigned by the server on create. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}/feedbackEntries/{feedback_entry}` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsReasoningEnginesMemoriesRequest extends Omit<
   GoogleCloudAiplatformV1beta1Memory,
@@ -27615,8 +27517,6 @@ export interface PatchProjectsLocationsReasoningEnginesMemoriesRequest extends O
   name: string;
   /** Optional. Mask specifying which fields to update. The following fields are immutable: * `scope` * `memory_type` */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Represents the resource name of the Memory. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}/memories/{memory}` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsReasoningEnginesSandboxEnvironmentTemplatesRequest extends Omit<
   GoogleCloudAiplatformV1beta1SandboxEnvironmentTemplate,
@@ -27626,8 +27526,6 @@ export interface PatchProjectsLocationsReasoningEnginesSandboxEnvironmentTemplat
   updateMask?: string | undefined;
   /** Identifier. The resource name of the SandboxEnvironmentTemplate. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}/sandboxEnvironmentTemplates/{sandbox_environment_template}` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the SandboxEnvironmentTemplate. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}/sandboxEnvironmentTemplates/{sandbox_environment_template}` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsReasoningEnginesSessionsRequest extends Omit<
   GoogleCloudAiplatformV1beta1Session,
@@ -27637,8 +27535,6 @@ export interface PatchProjectsLocationsReasoningEnginesSessionsRequest extends O
   name: string;
   /** Optional. Field mask is used to control which fields get updated. If the mask is not present, all fields will be updated. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the session. Format: 'projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}/sessions/{session}'. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsSchedulesRequest extends Omit<
   GoogleCloudAiplatformV1beta1Schedule,
@@ -27648,8 +27544,6 @@ export interface PatchProjectsLocationsSchedulesRequest extends Omit<
   name: string;
   /** Required. The update mask applies to the resource. See google.protobuf.FieldMask. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Immutable. The resource name of the Schedule. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsSemanticGovernancePoliciesRequest extends Omit<
   GoogleCloudAiplatformV1beta1SemanticGovernancePolicy,
@@ -27659,8 +27553,6 @@ export interface PatchProjectsLocationsSemanticGovernancePoliciesRequest extends
   name: string;
   /** Optional. `update_mask` is used to specify the fields to be overwritten in the SemanticGovernancePolicy resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the mask is not present, then all fields that are populated in the request message will be overwritten. Set the `update_mask` to `*` to override all fields. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name of the SemanticGovernancePolicy. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsServingProfilesRequest extends Omit<
   GoogleCloudAiplatformV1beta1ServingProfile,
@@ -27670,8 +27562,6 @@ export interface PatchProjectsLocationsServingProfilesRequest extends Omit<
   updateMask?: string | undefined;
   /** Identifier. The resource name of the ServingProfile. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the ServingProfile. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsSkillsRequest extends Omit<
   GoogleCloudAiplatformV1beta1Skill,
@@ -27681,8 +27571,6 @@ export interface PatchProjectsLocationsSkillsRequest extends Omit<
   updateMask?: string | undefined;
   /** Identifier. The resource name of the Skill. Format: `projects/{project}/locations/{location}/skills/{skill}` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the Skill. Format: `projects/{project}/locations/{location}/skills/{skill}` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsSpecialistPoolsRequest extends Omit<
   GoogleCloudAiplatformV1beta1SpecialistPool,
@@ -27692,8 +27580,6 @@ export interface PatchProjectsLocationsSpecialistPoolsRequest extends Omit<
   updateMask?: string | undefined;
   /** Required. The resource name of the SpecialistPool. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Required. The resource name of the SpecialistPool. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsTensorboardsRequest extends Omit<
   GoogleCloudAiplatformV1beta1Tensorboard,
@@ -27703,8 +27589,6 @@ export interface PatchProjectsLocationsTensorboardsRequest extends Omit<
   updateMask?: string | undefined;
   /** Output only. Name of the Tensorboard. Format: `projects/{project}/locations/{location}/tensorboards/{tensorboard}` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Output only. Name of the Tensorboard. Format: `projects/{project}/locations/{location}/tensorboards/{tensorboard}` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsTensorboardsExperimentsRequest extends Omit<
   GoogleCloudAiplatformV1beta1TensorboardExperiment,
@@ -27714,8 +27598,6 @@ export interface PatchProjectsLocationsTensorboardsExperimentsRequest extends Om
   name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the TensorboardExperiment resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field is overwritten if it's in the mask. If the user does not provide a mask then all fields are overwritten if new values are specified. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Output only. Name of the TensorboardExperiment. Format: `projects/{project}/locations/{location}/tensorboards/{tensorboard}/experiments/{experiment}` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsTensorboardsExperimentsRunsRequest extends Omit<
   GoogleCloudAiplatformV1beta1TensorboardRun,
@@ -27725,8 +27607,6 @@ export interface PatchProjectsLocationsTensorboardsExperimentsRunsRequest extend
   name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the TensorboardRun resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field is overwritten if it's in the mask. If the user does not provide a mask then all fields are overwritten if new values are specified. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Output only. Name of the TensorboardRun. Format: `projects/{project}/locations/{location}/tensorboards/{tensorboard}/experiments/{experiment}/runs/{run}` */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsTensorboardsExperimentsRunsTimeSeriesRequest extends Omit<
   GoogleCloudAiplatformV1beta1TensorboardTimeSeries,
@@ -27736,8 +27616,6 @@ export interface PatchProjectsLocationsTensorboardsExperimentsRunsTimeSeriesRequ
   updateMask?: string | undefined;
   /** Output only. Name of the TensorboardTimeSeries. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Output only. Name of the TensorboardTimeSeries. */
-  bodyName?: string | undefined;
 }
 export interface PatchReasoningEnginesRequest extends Omit<
   GoogleCloudAiplatformV1beta1ReasoningEngine,
@@ -27747,8 +27625,6 @@ export interface PatchReasoningEnginesRequest extends Omit<
   updateMask?: string | undefined;
   /** Identifier. The resource name of the ReasoningEngine. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the ReasoningEngine. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}` */
-  bodyName?: string | undefined;
 }
 export interface PatchReasoningEnginesMemoriesRequest extends Omit<
   GoogleCloudAiplatformV1beta1Memory,
@@ -27758,8 +27634,6 @@ export interface PatchReasoningEnginesMemoriesRequest extends Omit<
   name: string;
   /** Optional. Mask specifying which fields to update. The following fields are immutable: * `scope` * `memory_type` */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Represents the resource name of the Memory. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}/memories/{memory}` */
-  bodyName?: string | undefined;
 }
 export interface PatchReasoningEnginesSandboxEnvironmentTemplatesRequest extends Omit<
   GoogleCloudAiplatformV1beta1SandboxEnvironmentTemplate,
@@ -27769,8 +27643,6 @@ export interface PatchReasoningEnginesSandboxEnvironmentTemplatesRequest extends
   name: string;
   /** Optional. The fields to update. Only these paths are supported: * `custom_container_environment.custom_container_spec.image_uri` * `warm_pool_config.target_instance_count` * `warm_pool_config.update_strategy` */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the SandboxEnvironmentTemplate. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}/sandboxEnvironmentTemplates/{sandbox_environment_template}` */
-  bodyName?: string | undefined;
 }
 export interface PatchReasoningEnginesSessionsRequest extends Omit<
   GoogleCloudAiplatformV1beta1Session,
@@ -27780,8 +27652,6 @@ export interface PatchReasoningEnginesSessionsRequest extends Omit<
   updateMask?: string | undefined;
   /** Identifier. The resource name of the session. Format: 'projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}/sessions/{session}'. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the session. Format: 'projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}/sessions/{session}'. */
-  bodyName?: string | undefined;
 }
 /** Request message for JobService.PauseModelDeploymentMonitoringJob. */
 export type GoogleCloudAiplatformV1beta1PauseModelDeploymentMonitoringJobRequest =
@@ -29405,8 +29275,6 @@ export interface SnapshotProjectsLocationsReasoningEnginesSandboxEnvironmentsReq
 > {
   /** Required. The resource name of the sandbox environment to snapshot. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}/sandboxEnvironments/{sandbox_environment}`. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the SandboxEnvironmentSnapshot. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}/sandboxEnvironmentSnapshots/{sandbox_environment_snapshot}` */
-  bodyName?: string | undefined;
 }
 export interface SnapshotReasoningEnginesSandboxEnvironmentsRequest extends Omit<
   GoogleCloudAiplatformV1beta1SandboxEnvironmentSnapshot,
@@ -29414,8 +29282,6 @@ export interface SnapshotReasoningEnginesSandboxEnvironmentsRequest extends Omit
 > {
   /** Required. The resource name of the sandbox environment to snapshot. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}/sandboxEnvironments/{sandbox_environment}`. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the SandboxEnvironmentSnapshot. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}/sandboxEnvironmentSnapshots/{sandbox_environment_snapshot}` */
-  bodyName?: string | undefined;
 }
 /** Request message for NotebookService.StartNotebookRuntime. */
 export type GoogleCloudAiplatformV1beta1StartNotebookRuntimeRequest =
@@ -30381,8 +30247,6 @@ export interface UpdateCacheConfigProjectsRequest extends Omit<
   name: string;
   /** Optional. The list of fields of `cache_config` to update. Supported paths are `disable_cache`, `retention_config` (and its subfields such as `retention_config.retention_type`), and the special value `*`; any other path returns `INVALID_ARGUMENT`. Fields not covered by the mask keep their stored value. If the mask is omitted, it is treated as an implied mask covering the fields populated in `cache_config`, so updating one field never clears another. `retention_config` is covered only when the request carries it. `disable_cache` is always covered: it is a bare `bool`, so the server cannot tell a request that omits it from one that sets it to `false`. `*` requests full replacement of the resource: every settable field is written from the request, clearing `retention_config` when the request omits it. It cannot be combined with other paths. Prefer naming fields explicitly -- a caller that sends `*` without knowing about a field added to `CacheConfig` later would silently reset that field. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Name of the cache config. Format: - `projects/{project}/cacheConfig`. */
-  bodyName?: string | undefined;
 }
 /** Request message for ModelService.UpdateExplanationDataset. */
 export interface GoogleCloudAiplatformV1beta1UpdateExplanationDatasetRequest {
@@ -30401,8 +30265,6 @@ export interface UpdateFeedbackContextProjectsLocationsReasoningEnginesFeedbackE
   name: string;
   /** Optional. The field mask that controls which fields are updated. If unset or empty, all mutable fields of the FeedbackContext are replaced with the values from feedback_context. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name. Assigned by the server on create. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}/feedbackEntries/{feedback_entry}/feedbackContext` */
-  bodyName?: string | undefined;
 }
 /** Request message for EndpointService.UpdateEndpointLongRunning. */
 export interface GoogleCloudAiplatformV1beta1UpdateEndpointLongRunningRequest {
@@ -30419,8 +30281,6 @@ export interface UpdateRagEngineConfigProjectsLocationsRequest extends Omit<
 > {
   /** Identifier. The name of the RagEngineConfig. Format: `projects/{project}/locations/{location}/ragEngineConfig` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The name of the RagEngineConfig. Format: `projects/{project}/locations/{location}/ragEngineConfig` */
-  bodyName?: string | undefined;
 }
 export interface UpdateSemanticGovernancePolicyEngineProjectsLocationsRequest extends Omit<
   GoogleCloudAiplatformV1beta1SemanticGovernancePolicyEngine,
@@ -30430,8 +30290,6 @@ export interface UpdateSemanticGovernancePolicyEngineProjectsLocationsRequest ex
   updateMask?: string | undefined;
   /** Identifier. The resource name of the SemanticGovernancePolicyEngine. Format: projects/{project}/locations/{location}/semanticGovernancePolicyEngine */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the SemanticGovernancePolicyEngine. Format: projects/{project}/locations/{location}/semanticGovernancePolicyEngine */
-  bodyName?: string | undefined;
 }
 /** Request message for NotebookService.UpgradeNotebookRuntime. */
 export type GoogleCloudAiplatformV1beta1UpgradeNotebookRuntimeRequest =
@@ -31519,8 +31377,6 @@ export interface WriteProjectsLocationsTensorboardsExperimentsRunsRequest extend
 > {
   /** Required. The resource name of the TensorboardRun to write data to. Format: `projects/{project}/locations/{location}/tensorboards/{tensorboard}/experiments/{experiment}/runs/{run}` */
   tensorboardRun: string;
-  /** The request body's `tensorboardRun` (`tensorboardRun` is the path parameter). Required. The resource name of the TensorboardRun to write data to. Format: `projects/{project}/locations/{location}/tensorboards/{tensorboard}/experiments/{experiment}/runs/{run}` */
-  bodyTensorboardRun?: string | undefined;
 }
 /** Response message for TensorboardService.WriteTensorboardRunData. */
 export interface GoogleCloudAiplatformV1beta1WriteTensorboardRunDataResponse {}
@@ -75320,7 +75176,6 @@ function __c260(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -75341,7 +75196,6 @@ function __c261(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -75362,7 +75216,6 @@ function __c262(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -75383,7 +75236,6 @@ function __c263(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -75404,7 +75256,6 @@ function __c264(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -75425,7 +75276,6 @@ function __c265(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -75462,7 +75312,6 @@ function __c267(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -75483,7 +75332,6 @@ function __c268(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -75504,7 +75352,6 @@ function __c269(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -75525,7 +75372,6 @@ function __c270(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -75546,7 +75392,6 @@ function __c271(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -75567,7 +75412,6 @@ function __c272(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -75588,7 +75432,6 @@ function __c273(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -75609,7 +75452,6 @@ function __c274(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -75630,7 +75472,6 @@ function __c275(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -75651,7 +75492,6 @@ function __c276(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -75688,7 +75528,6 @@ function __c278(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -75709,7 +75548,6 @@ function __c279(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -75730,7 +75568,6 @@ function __c280(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -75751,7 +75588,6 @@ function __c281(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -75772,7 +75608,6 @@ function __c282(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -75793,7 +75628,6 @@ function __c283(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -75814,7 +75648,6 @@ function __c284(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -75835,7 +75668,6 @@ function __c285(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -75856,7 +75688,6 @@ function __c286(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -75877,7 +75708,6 @@ function __c287(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -75914,7 +75744,6 @@ function __c289(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -75936,7 +75765,6 @@ function __c290(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             allowMissing: S.optional(S.Boolean.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -75958,7 +75786,6 @@ function __c291(j: number): any {
             allowMissing: S.optional(S.Boolean.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -75980,7 +75807,6 @@ function __c292(j: number): any {
             name: S.String.pipe(T.Label()),
             allowMissing: S.optional(S.Boolean.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -76001,7 +75827,6 @@ function __c293(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -76022,7 +75847,6 @@ function __c294(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -76043,7 +75867,6 @@ function __c295(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -76064,7 +75887,6 @@ function __c296(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -76085,7 +75907,6 @@ function __c297(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -76106,7 +75927,6 @@ function __c298(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -76144,7 +75964,6 @@ function __c300(j: number): any {
           __S(31409, __c981, 17),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -76164,7 +75983,6 @@ function __c301(j: number): any {
           __S(40068, __c1252, 4),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -76185,7 +76003,6 @@ function __c302(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -76206,7 +76023,6 @@ function __c303(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -76227,7 +76043,6 @@ function __c304(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -76248,7 +76063,6 @@ function __c305(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -76271,7 +76085,6 @@ function __c306(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -76292,7 +76105,6 @@ function __c307(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -76313,7 +76125,6 @@ function __c308(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -76334,7 +76145,6 @@ function __c309(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -76373,7 +76183,6 @@ function __c311(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -76394,7 +76203,6 @@ function __c312(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -76415,7 +76223,6 @@ function __c313(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -76436,7 +76243,6 @@ function __c314(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -76457,7 +76263,6 @@ function __c315(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -76478,7 +76283,6 @@ function __c316(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -76501,7 +76305,6 @@ function __c317(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -76522,7 +76325,6 @@ function __c318(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -76543,7 +76345,6 @@ function __c319(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -76564,7 +76365,6 @@ function __c320(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -79744,7 +79544,6 @@ function __c456(j: number): any {
           __S(56128, __c1754, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -79766,7 +79565,6 @@ function __c457(j: number): any {
           __S(56128, __c1754, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -81346,7 +81144,6 @@ function __c525(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -81392,7 +81189,6 @@ function __c527(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -81455,7 +81251,6 @@ function __c530(j: number): any {
           __S(57762, __c1805, 2),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -81476,7 +81271,6 @@ function __c531(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -84691,7 +84485,6 @@ function __c711(j: number): any {
           __S(22720, __c710, 0),
           S.Struct({
             tensorboardRun: S.String.pipe(T.Label()),
-            bodyTensorboardRun: S.optional(S.String.pipe(T.Body("tensorboardRun"))),
           }),
         ).pipe(
           T.Http({
@@ -87480,7 +87273,6 @@ function __c840(j: number): any {
           __S(26912, __c841, 0),
           S.Struct({
             task: S.String.pipe(T.Label()),
-            bodyTask: S.optional(S.String.pipe(T.Body("task"))),
           }),
         ).pipe(
           T.Http({
@@ -88120,7 +87912,6 @@ function __c864(j: number): any {
           __S(26912, __c841, 0),
           S.Struct({
             collaborativeProject: S.String.pipe(T.Label()),
-            bodyCollaborativeProject: S.optional(S.String.pipe(T.Body("collaborativeProject"))),
           }),
         ).pipe(
           T.Http({
@@ -91101,7 +90892,6 @@ function __c954(j: number): any {
           __S(30755, __c961, 3),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -92618,7 +92408,6 @@ function __c985(j: number): any {
           __S(30755, __c961, 3),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -102638,7 +102427,6 @@ function __c1411(j: number): any {
           __S(42433, __c1326, 1),
           S.Struct({
             model: S.String.pipe(T.Label()),
-            bodyModel: S.optional(S.String.pipe(T.Body("model"))),
           }),
         ).pipe(
           T.Http({
@@ -102780,7 +102568,6 @@ function __c1417(j: number): any {
           __S(45376, __c1418, 0),
           S.Struct({
             location: S.String.pipe(T.Label()),
-            bodyLocation: S.optional(S.String.pipe(T.Body("location"))),
           }),
         ).pipe(
           T.Http({
@@ -102828,7 +102615,6 @@ function __c1420(j: number): any {
           __S(45546, __c1423, 10),
           S.Struct({
             location: S.String.pipe(T.Label()),
-            bodyLocation: S.optional(S.String.pipe(T.Body("location"))),
           }),
         ).pipe(
           T.Http({
@@ -105025,7 +104811,6 @@ function __c1477(j: number): any {
           __S(47296, __c1478, 0),
           S.Struct({
             location: S.String.pipe(T.Label()),
-            bodyLocation: S.optional(S.String.pipe(T.Body("location"))),
           }),
         ).pipe(
           T.Http({
@@ -112994,7 +112779,6 @@ function __c1859(j: number): any {
             invokeId: S.String.pipe(T.Label()),
             deployedModelId: S.String.pipe(T.Label()),
             endpoint: S.String.pipe(T.Label()),
-            bodyDeployedModelId: S.optional(S.String.pipe(T.Body("deployedModelId"))),
           }),
         ).pipe(
           T.Http({

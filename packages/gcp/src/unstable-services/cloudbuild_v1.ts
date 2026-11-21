@@ -194,10 +194,6 @@ export interface CancelProjectsBuildsRequest extends Omit<CancelBuildRequest, "p
   id: string;
   /** Required. ID of the project. */
   projectId: string;
-  /** The request body's `projectId` (`projectId` is the path parameter). Required. ID of the project. */
-  bodyProjectId?: string | undefined;
-  /** The request body's `id` (`id` is the path parameter). Required. ID of the build. */
-  bodyId?: string | undefined;
 }
 /** Location of the source manifest in Cloud Storage. This feature is in Preview; see description [here](https://github.com/GoogleCloudPlatform/cloud-builders/tree/master/gcs-fetcher). */
 export interface StorageSourceManifest {
@@ -913,8 +909,6 @@ export interface Build {
 export interface CancelProjectsLocationsBuildsRequest extends Omit<CancelBuildRequest, "name"> {
   /** The name of the `Build` to cancel. Format: `projects/{project}/locations/{location}/builds/{build}` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). The name of the `Build` to cancel. Format: `projects/{project}/locations/{location}/builds/{build}` */
-  bodyName?: string | undefined;
 }
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
@@ -927,8 +921,6 @@ export interface CreateProjectsBuildsRequest extends Omit<Build, "projectId"> {
   parent?: string | undefined;
   /** Required. ID of the project. */
   projectId: string;
-  /** The request body's `projectId` (`projectId` is the path parameter). Output only. ID of the project. */
-  bodyProjectId?: string | undefined;
 }
 /** GitHubEnterpriseSecrets represents the names of all necessary secrets in Secret Manager for a GitHub Enterprise server. Format is: projects//secrets/. */
 export interface GitHubEnterpriseSecrets {
@@ -1024,8 +1016,6 @@ export interface CreateProjectsLocationsBuildsRequest extends Omit<Build, "proje
   projectId?: string | undefined;
   /** The parent resource where this build will be created. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** The request body's `projectId` (`projectId` is the query parameter). Output only. ID of the project. */
-  bodyProjectId?: string | undefined;
 }
 export interface CreateProjectsLocationsGithubEnterpriseConfigsRequest extends GitHubEnterpriseConfig {
   /** ID of the project. */
@@ -1634,8 +1624,6 @@ export interface PatchProjectsGithubEnterpriseConfigsRequest extends Omit<
   name: string;
   /** Update mask for the resource. If this is set, the server will only update the fields specified in the field mask. Otherwise, a full update of the mutable resource fields will be performed. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The full resource name for the GitHubEnterpriseConfig For example: "projects/{$project_id}/locations/{$location_id}/githubEnterpriseConfigs/{$config_id}" */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsBitbucketServerConfigsRequest extends Omit<
   BitbucketServerConfig,
@@ -1645,8 +1633,6 @@ export interface PatchProjectsLocationsBitbucketServerConfigsRequest extends Omi
   name: string;
   /** Update mask for the resource. If this is set, the server will only update the fields specified in the field mask. Otherwise, a full update of the mutable resource fields will be performed. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name for the config. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsGithubEnterpriseConfigsRequest extends Omit<
   GitHubEnterpriseConfig,
@@ -1656,8 +1642,6 @@ export interface PatchProjectsLocationsGithubEnterpriseConfigsRequest extends Om
   updateMask?: string | undefined;
   /** Identifier. The full resource name for the GitHubEnterpriseConfig For example: "projects/{$project_id}/locations/{$location_id}/githubEnterpriseConfigs/{$config_id}" */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The full resource name for the GitHubEnterpriseConfig For example: "projects/{$project_id}/locations/{$location_id}/githubEnterpriseConfigs/{$config_id}" */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsTriggersRequest extends Omit<BuildTrigger, "resourceName"> {
   /** Update mask for the resource. If this is set, the server will only update the fields specified in the field mask. Otherwise, a full update of the mutable resource fields will be performed. */
@@ -1668,8 +1652,6 @@ export interface PatchProjectsLocationsTriggersRequest extends Omit<BuildTrigger
   projectId?: string | undefined;
   /** Required. ID of the `BuildTrigger` to update. */
   triggerId?: string | undefined;
-  /** The request body's `resourceName` (`resourceName` is the path parameter). The `Trigger` name with format: `projects/{project}/locations/{location}/triggers/{trigger}`, where {trigger} is a unique identifier generated by the service. */
-  bodyResourceName?: string | undefined;
 }
 export interface PatchProjectsLocationsWorkerPoolsRequest extends Omit<WorkerPool, "name"> {
   /** Optional. A mask specifying which fields in `worker_pool` to update. */
@@ -1678,8 +1660,6 @@ export interface PatchProjectsLocationsWorkerPoolsRequest extends Omit<WorkerPoo
   name: string;
   /** If set, validate the request and preview the response, but do not actually post it. */
   validateOnly?: boolean | undefined;
-  /** The request body's `name` (`name` is the path parameter). Output only. The resource name of the `WorkerPool`, with format `projects/{project}/locations/{location}/workerPools/{worker_pool}`. The value of `{worker_pool}` is provided by `worker_pool_id` in `CreateWorkerPool` request and the value of `{location}` is determined by the endpoint accessed. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsTriggersRequest extends BuildTrigger {
   /** Required. ID of the project that owns the trigger. */
@@ -1731,16 +1711,10 @@ export interface RetryProjectsBuildsRequest extends Omit<RetryBuildRequest, "pro
   id: string;
   /** Required. ID of the project. */
   projectId: string;
-  /** The request body's `projectId` (`projectId` is the path parameter). Required. ID of the project. */
-  bodyProjectId?: string | undefined;
-  /** The request body's `id` (`id` is the path parameter). Required. Build ID of the original build. */
-  bodyId?: string | undefined;
 }
 export interface RetryProjectsLocationsBuildsRequest extends Omit<RetryBuildRequest, "name"> {
   /** The name of the `Build` to retry. Format: `projects/{project}/locations/{location}/builds/{build}` */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). The name of the `Build` to retry. Format: `projects/{project}/locations/{location}/builds/{build}` */
-  bodyName?: string | undefined;
 }
 /** Specifies a build trigger to run and the source to use. */
 export interface RunBuildTriggerRequest {
@@ -1762,8 +1736,6 @@ export interface RunProjectsTriggersRequest extends Omit<RepoSource, "projectId"
   triggerId: string;
   /** The name of the `Trigger` to run. Format: `projects/{project}/locations/{location}/triggers/{trigger}` */
   name?: string | undefined;
-  /** The request body's `projectId` (`projectId` is the path parameter). Optional. ID of the project that owns the Cloud Source Repository. If omitted, the project ID requesting the build is assumed. */
-  bodyProjectId?: string | undefined;
 }
 export interface WebhookProjectsLocationsTriggersRequest extends HttpBody {
   /** Name of the trigger to run the payload against */
@@ -2986,7 +2958,6 @@ function __c1(j: number): any {
           S.Struct({
             parent: S.optional(S.String.pipe(T.Query())),
             projectId: S.String.pipe(T.Label()),
-            bodyProjectId: S.optional(S.String.pipe(T.Body("projectId"))),
           }),
         ).pipe(
           T.Http({
@@ -3109,7 +3080,6 @@ function __c6(j: number): any {
           S.Struct({
             projectId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
-            bodyProjectId: S.optional(S.String.pipe(T.Body("projectId"))),
           }),
         ).pipe(
           T.Http({
@@ -4012,7 +3982,6 @@ function __c47(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4033,7 +4002,6 @@ function __c48(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4054,7 +4022,6 @@ function __c49(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4077,7 +4044,6 @@ function __c50(j: number): any {
             resourceName: S.String.pipe(T.Label()),
             projectId: S.optional(S.String.pipe(T.Query())),
             triggerId: S.optional(S.String.pipe(T.Query())),
-            bodyResourceName: S.optional(S.String.pipe(T.Body("resourceName"))),
           }),
         ).pipe(
           T.Http({
@@ -4099,7 +4065,6 @@ function __c51(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4239,8 +4204,6 @@ function __c58(j: number): any {
           S.Struct({
             id: S.String.pipe(T.Label()),
             projectId: S.String.pipe(T.Label()),
-            bodyProjectId: S.optional(S.String.pipe(T.Body("projectId"))),
-            bodyId: S.optional(S.String.pipe(T.Body("id"))),
           }),
         ).pipe(
           T.Http({
@@ -4272,7 +4235,6 @@ function __c60(j: number): any {
           __S(1888, __c59, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4321,7 +4283,6 @@ function __c62(j: number): any {
             projectId: S.String.pipe(T.Label()),
             triggerId: S.String.pipe(T.Label()),
             name: S.optional(S.String.pipe(T.Query())),
-            bodyProjectId: S.optional(S.String.pipe(T.Body("projectId"))),
           }),
         ).pipe(
           T.Http({
@@ -4485,8 +4446,6 @@ function __c70(j: number): any {
           S.Struct({
             id: S.String.pipe(T.Label()),
             projectId: S.String.pipe(T.Label()),
-            bodyProjectId: S.optional(S.String.pipe(T.Body("projectId"))),
-            bodyId: S.optional(S.String.pipe(T.Body("id"))),
           }),
         ).pipe(
           T.Http({
@@ -5065,7 +5024,6 @@ function __c78(j: number): any {
           __S(2272, __c71, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

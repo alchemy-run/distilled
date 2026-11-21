@@ -428,8 +428,6 @@ export interface PatchProjectsLocationsTaxonomiesRequest extends Omit<
   updateMask?: string | undefined;
   /** Identifier. Resource name of this taxonomy in URL format. Note: Policy tag manager generates unique taxonomy IDs. */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name of this taxonomy in URL format. Note: Policy tag manager generates unique taxonomy IDs. */
-  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsTaxonomiesPolicyTagsRequest extends Omit<
   GoogleCloudDatacatalogV1PolicyTag,
@@ -439,8 +437,6 @@ export interface PatchProjectsLocationsTaxonomiesPolicyTagsRequest extends Omit<
   name: string;
   /** Specifies the fields to update. You can update only display name, description, and parent policy tag. If not set, defaults to all updatable fields. For more information, see [FieldMask] (https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask). */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name of this policy tag in the URL format. The policy tag manager generates unique taxonomy IDs and policy tag IDs. */
-  bodyName?: string | undefined;
 }
 /** Request message for ReplaceTaxonomy. */
 export interface GoogleCloudDatacatalogV1ReplaceTaxonomyRequest {
@@ -1631,7 +1627,6 @@ function __c20(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -1652,7 +1647,6 @@ function __c21(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

@@ -526,14 +526,10 @@ export interface PatchAccountsCssProductInputsRequest extends Omit<CssProductInp
   updateMask?: string | undefined;
   /** Identifier. The name of the CSS Product input. Format: `accounts/{account}/cssProductInputs/{css_product_input}`, where the last section `css_product_input` consists of 3 parts: contentLanguage~feedLabel~offerId. Example: accounts/123/cssProductInputs/de~DE~rawProvidedId123 */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The name of the CSS Product input. Format: `accounts/{account}/cssProductInputs/{css_product_input}`, where the last section `css_product_input` consists of 3 parts: contentLanguage~feedLabel~offerId. Example: accounts/123/cssProductInputs/de~DE~rawProvidedId123 */
-  bodyName?: string | undefined;
 }
 export interface PatchAccountsLabelsRequest extends Omit<AccountLabel, "name"> {
   /** Identifier. The resource name of the label. Format: accounts/{account}/labels/{label} */
   name: string;
-  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the label. Format: accounts/{account}/labels/{label} */
-  bodyName?: string | undefined;
 }
 /** The request message for the `UpdateLabels` method. */
 export interface UpdateAccountLabelsRequest {
@@ -938,7 +934,6 @@ function __c4(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://css.googleapis.com/" }),
@@ -954,7 +949,6 @@ function __c5(j: number): any {
           __S(128, __c8, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://css.googleapis.com/" }),

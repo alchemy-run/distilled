@@ -226,8 +226,6 @@ export interface PatchProjectsLocationsConnectionsRequest extends Omit<Connectio
   name: string;
   /** Required. Update mask for the connection fields to be updated. */
   updateMask?: string | undefined;
-  /** The request body's `name` (`name` is the path parameter). The resource name of the connection in the form of: `projects/{project_id}/locations/{location_id}/connections/{connection_id}` */
-  bodyName?: string | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
@@ -754,7 +752,6 @@ function __c13(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
