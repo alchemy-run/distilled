@@ -32,10 +32,10 @@ catalog:
   graphql: "^16.11.0"
   husky: "^9.1.7"
   mitata: "^1.0.34"
-  oxfmt: "^0.72.0"
-  oxlint: "^1.87.0"
+  oxfmt: "^0.79.0"
+  oxlint: "^1.94.0"
   rolldown: "1.2.13"
-  tsrs: "0.18.0-ts7.1.0-dev.20260929"
+  tsrs: "7.1.0-beta.tsrs3"
   # Only benches/sdks: it measures the consumer typecheck with the compiler SDK users run.
   typescript: "^7.0.2"
   vite: "8.3.4"

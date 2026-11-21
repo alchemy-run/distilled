@@ -996,7 +996,8 @@ export interface BulkSetGuildApplicationCommandsRequest {
   body: BulkSetGuildApplicationCommandsRequestBodyList | null;
 }
 export type BulkSetGuildApplicationCommandsResponseBodyList = Array<ApplicationCommandResponse>;
-export type BulkSetGuildApplicationCommandsResponse = BulkSetGuildApplicationCommandsResponseBodyList | null;
+export type BulkSetGuildApplicationCommandsResponse =
+  BulkSetGuildApplicationCommandsResponseBodyList | null;
 export interface BulkUpdateGuildChannelsRequestBodyItem {
   id?: string | null | undefined;
   position?: number | null | undefined;
@@ -4695,7 +4696,8 @@ export interface ApplicationRoleConnectionsMetadataItemResponse {
 }
 export type GetApplicationRoleConnectionsMetadataResponseBodyList =
   Array<ApplicationRoleConnectionsMetadataItemResponse>;
-export type GetApplicationRoleConnectionsMetadataResponse = GetApplicationRoleConnectionsMetadataResponseBodyList | null;
+export type GetApplicationRoleConnectionsMetadataResponse =
+  GetApplicationRoleConnectionsMetadataResponseBodyList | null;
 export interface GetApplicationUserRoleConnectionRequest {
   application_id: string;
 }
@@ -5604,7 +5606,8 @@ export interface ListGuildApplicationCommandsRequest {
   with_localizations?: boolean | undefined;
 }
 export type ListGuildApplicationCommandsResponseBodyList = Array<ApplicationCommandResponse>;
-export type ListGuildApplicationCommandsResponse = ListGuildApplicationCommandsResponseBodyList | null;
+export type ListGuildApplicationCommandsResponse =
+  ListGuildApplicationCommandsResponseBodyList | null;
 export type AuditLogActionTypes =
   | 1
   | 10
@@ -5875,7 +5878,8 @@ export interface ListGuildScheduledEventExceptionUsersRequest {
 }
 export type ListGuildScheduledEventExceptionUsersResponseBodyList =
   Array<ScheduledEventUserResponse>;
-export type ListGuildScheduledEventExceptionUsersResponse = ListGuildScheduledEventExceptionUsersResponseBodyList | null;
+export type ListGuildScheduledEventExceptionUsersResponse =
+  ListGuildScheduledEventExceptionUsersResponseBodyList | null;
 export interface ListGuildScheduledEventsRequest {
   guild_id: string;
   with_user_count?: boolean | undefined;
@@ -5900,7 +5904,8 @@ export interface ListGuildScheduledEventUsersRequest {
   after?: string | undefined;
 }
 export type ListGuildScheduledEventUsersResponseBodyList = Array<ScheduledEventUserResponse>;
-export type ListGuildScheduledEventUsersResponse = ListGuildScheduledEventUsersResponseBodyList | null;
+export type ListGuildScheduledEventUsersResponse =
+  ListGuildScheduledEventUsersResponseBodyList | null;
 export interface ListGuildSoundboardSoundsRequest {
   guild_id: string;
 }
@@ -6519,7 +6524,8 @@ export interface UpdateApplicationRoleConnectionsMetadataRequest {
 }
 export type UpdateApplicationRoleConnectionsMetadataResponseBodyList =
   Array<ApplicationRoleConnectionsMetadataItemResponse>;
-export type UpdateApplicationRoleConnectionsMetadataResponse = UpdateApplicationRoleConnectionsMetadataResponseBodyList | null;
+export type UpdateApplicationRoleConnectionsMetadataResponse =
+  UpdateApplicationRoleConnectionsMetadataResponseBodyList | null;
 export type UpdateApplicationUserRoleConnectionRequestMetadataMap = {
   [key: string]: string | undefined;
 };
