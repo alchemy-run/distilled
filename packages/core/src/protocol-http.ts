@@ -119,20 +119,46 @@ export const withResponseHeaders = (
 
 export { isOpaqueValue };
 
+/** A key dictionary's lookup tables, each built on first use. */
+const dictionaryTables = /*@__PURE__*/ new WeakMap<
+  KeyDictionaryEntries,
+  { encode?: Record<string, string>; decode?: Record<string, string>; first?: Map<string, string> }
+>();
+const tablesOf = (dict: KeyDictionaryEntries) => {
+  let tables = dictionaryTables.get(dict);
+  if (tables === undefined) dictionaryTables.set(dict, (tables = {}));
+  return tables;
+};
+
 /** TS name -> wire name (encode) or every wire spelling -> TS name (decode). */
 const renameTable = (
   dict: KeyDictionaryEntries,
   direction: "encode" | "decode",
 ): Record<string, string> =>
-  direction === "decode"
-    ? Object.fromEntries(
-        Object.entries(dict).flatMap(([ts, wire]) =>
-          typeof wire === "string" ? [[wire, ts] as const] : wire.map((w) => [w, ts] as const),
-        ),
-      )
-    : Object.fromEntries(
-        Object.entries(dict).map(([ts, wire]) => [ts, typeof wire === "string" ? wire : wire[0]!]),
-      );
+  (tablesOf(dict)[direction] ??=
+    direction === "decode"
+      ? Object.fromEntries(
+          Object.entries(dict).flatMap(([ts, wire]) =>
+            typeof wire === "string" ? [[wire, ts] as const] : wire.map((w) => [w, ts] as const),
+          ),
+        )
+      : Object.fromEntries(
+          Object.entries(dict).map(([ts, wire]) => [
+            ts,
+            typeof wire === "string" ? wire : wire[0]!,
+          ]),
+        ));
+
+/** The TS name of the first entry whose wire name is `wire` (not a list of spellings). */
+const tsNameOf = (dict: KeyDictionaryEntries, wire: string): string | undefined => {
+  const tables = tablesOf(dict);
+  if (tables.first === undefined) {
+    tables.first = new Map();
+    for (const [ts, w] of Object.entries(dict))
+      if (typeof w === "string" && !tables.first.has(w)) tables.first.set(w, ts);
+  }
+  return tables.first.get(wire);
+};
 
 /**
  * Deep-rename keys via a plain dictionary (see `T.KeyDictionary`). An entry
@@ -242,6 +268,47 @@ interface UnionCasesValue {
 const verbatimEncode = /*@__PURE__*/ new WeakMap<AST.AST, boolean>();
 const verbatimDecode = /*@__PURE__*/ new WeakMap<AST.AST, boolean>();
 
+/** What {@link mapKeys} reads from a schema node, once per node. */
+interface NodeFacts {
+  readonly dict: KeyDictionaryEntries | undefined;
+  readonly unionCases: UnionCasesValue | undefined;
+  readonly node: AST.AST;
+  /** A struct's members: TS name, wire name, type, and whether it is `StringEncoded()`. */
+  readonly members: ReadonlyArray<readonly [string, string, AST.AST, boolean]>;
+  /** The keys the members take: TS names (encode) and wire names (decode). */
+  readonly tsNames: ReadonlySet<string>;
+  readonly wireNames: ReadonlySet<string>;
+}
+const nodeFacts = /*@__PURE__*/ new WeakMap<AST.AST, NodeFacts>();
+const factsOf = (ast: AST.AST): NodeFacts => {
+  let facts = nodeFacts.get(ast);
+  if (facts === undefined) {
+    const node = resolveNode(ast);
+    const members =
+      node._tag === "Objects"
+        ? ((node as any).propertySignatures as readonly AST.PropertySignature[]).map(
+            (p) =>
+              [
+                String(p.name),
+                nameOf(p, bodySymbol),
+                p.type,
+                hasPropAnn(p, stringEncodedSymbol),
+              ] as const,
+          )
+        : [];
+    facts = {
+      dict: getAnn(ast, keyDictionarySymbol) as KeyDictionaryEntries | undefined,
+      unionCases: getAnn(ast, unionCasesSymbol) as UnionCasesValue | undefined,
+      node,
+      members,
+      tsNames: new Set(members.map((m) => m[0])),
+      wireNames: new Set(members.map((m) => m[1])),
+    };
+    nodeFacts.set(ast, facts);
+  }
+  return facts;
+};
+
 export const mapKeys = (
   ast: AST.AST,
   value: unknown,
@@ -251,7 +318,8 @@ export const mapKeys = (
   if (value === null || value === undefined || typeof value !== "object" || isOpaqueValue(value)) {
     return value;
   }
-  const dict = (getAnn(ast, keyDictionarySymbol) as KeyDictionaryEntries | undefined) ?? fallback;
+  const facts = factsOf(ast);
+  const dict = facts.dict ?? fallback;
 
   // Discriminated union whose cases the API returns merged (every case's
   // keys present, `null` for the inactive ones). Map wire names, then keep
@@ -268,7 +336,7 @@ export const mapKeys = (
   // a Worker binding's `json`) maps its value by that one. Encode takes this
   // path only for a union that has such members: it picks the case the same
   // way, then renames the top-level keys.
-  const unionCases = getAnn(ast, unionCasesSymbol) as UnionCasesValue | undefined;
+  const unionCases = facts.unionCases;
   if (
     unionCases &&
     (direction === "decode" || unionCases.dictionaries !== undefined) &&
@@ -322,7 +390,7 @@ export const mapKeys = (
     return out;
   }
 
-  const node = resolveNode(ast);
+  const node = facts.node;
 
   // Schema-level union member (a merged response struct whose arms disagree
   // on a member's type -- see the codegen's response-union merge): pick the
@@ -369,36 +437,33 @@ export const mapKeys = (
   }
 
   if (node._tag === "Objects" && !Array.isArray(value)) {
-    const props = (node as any).propertySignatures as readonly AST.PropertySignature[];
+    const members = facts.members;
     const isigs = (node as any).indexSignatures as readonly { type: AST.AST }[] | undefined;
-    if (props.length === 0 && !(isigs && isigs.length)) {
+    if (members.length === 0 && !(isigs && isigs.length)) {
       // opaque object -- dictionary fallback or verbatim
       return dict ? mapKeysByDictionary(dict, value, direction) : value;
     }
     const out: Record<string, unknown> = {};
-    const consumed = new Set<string>();
-    for (const p of props) {
-      const tsName = String(p.name);
-      const wire = nameOf(p, bodySymbol);
+    const consumed = direction === "encode" ? facts.tsNames : facts.wireNames;
+    for (const [tsName, wire, type, stringEncoded] of members) {
       const from = direction === "encode" ? tsName : wire;
       const to = direction === "encode" ? wire : tsName;
-      consumed.add(from);
       const v = (value as Record<string, unknown>)[from];
       if (v === undefined) continue;
       // A `StringEncoded()` member nested in a body struct (e.g. Azure's
       // `hardwareProfile.dynamicMemoryEnabled`) stringifies here -- the
       // top-level pass in `buildRequest` only sees the outermost member.
       out[to] =
-        direction === "encode" && hasPropAnn(p, stringEncodedSymbol)
+        direction === "encode" && stringEncoded
           ? stringEncode(v)
-          : mapKeys(p.type, v, direction, dict);
+          : mapKeys(type, v, direction, dict);
     }
     for (const [k, v] of Object.entries(value as Record<string, unknown>)) {
       if (consumed.has(k) || v === undefined) continue;
       const renamed = dict
         ? direction === "encode"
           ? (dict[k] ?? k)
-          : (Object.entries(dict).find(([, w]) => w === k)?.[0] ?? k)
+          : (tsNameOf(dict, k) ?? k)
         : k;
 
       out[typeof renamed === "string" ? renamed : renamed[0]] =
