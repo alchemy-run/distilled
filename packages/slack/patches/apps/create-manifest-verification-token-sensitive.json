@@ -1,0 +1,10 @@
+{
+  "description": "apps.manifest.create returns the new app's `verification_token`, the legacy shared secret Slack sends with every Events API and interactivity request. Mark it sensitive like `client_secret` and `signing_secret` beside it. See https://docs.slack.dev/authentication/verifying-requests-from-slack#deprecation",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.slack.apps#ManifestCreateResponseCredentials/members/verification_token/traits",
+      "value": { "smithy.api#sensitive": {} }
+    }
+  ]
+}
