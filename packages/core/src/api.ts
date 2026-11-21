@@ -15,7 +15,7 @@ import type * as AST from "effect/SchemaAST";
 import * as Scope from "effect/Scope";
 import * as Stream from "effect/Stream";
 import { SingleShotGen } from "effect/Utils";
-import { getAnn, rawResponseRootSymbol } from "./annotations.ts";
+import { getAnn, getProps, rawResponseRootSymbol } from "./annotations.ts";
 import { isThrottling } from "./category.ts";
 import * as Pagination from "./pagination.ts";
 import { takeLastRequest } from "./retry-state.ts";
@@ -32,6 +32,7 @@ import {
 import { SdkError } from "./sdk-error.ts";
 import * as Send from "./send.ts";
 import * as Telemetry from "./telemetry.ts";
+import { idempotencyTokenSymbol } from "./trait.ts";
 
 //#region Protocol
 
@@ -488,7 +489,32 @@ interface Prepared extends PreparedOperation {
   service?: ProtocolShape;
   /** The operation span's facts, from the telemetry traits; built on the first traced call. */
   info?: Telemetry.OperationInfo;
+  /** Input members marked `T.IdempotencyToken()`; read on the first call. */
+  idempotencyTokens?: ReadonlyArray<string>;
 }
+
+/**
+ * `input` with each missing idempotency token set to a new UUID. Called once
+ * per call, outside the retry, so every attempt sends the same token; the
+ * caller's own value and object are left as they are.
+ */
+const withIdempotencyTokens = (p: Prepared, input: unknown): unknown => {
+  const names = (p.idempotencyTokens ??= getProps(p.inputAst).flatMap((prop) =>
+    typeof prop.name === "string" && getAnn(prop.type, idempotencyTokenSymbol) !== undefined
+      ? [prop.name]
+      : [],
+  ));
+  if (names.length === 0 || input === null || typeof input !== "object") return input;
+  let filled: Record<string, unknown> | undefined;
+  for (const name of names) {
+    if ((input as Record<string, unknown>)[name] === undefined) {
+      filled ??= { ...(input as Record<string, unknown>) };
+      // `globalThis.crypto`, not `node:crypto`, so this runs in browsers too.
+      filled[name] = globalThis.crypto.randomUUID();
+    }
+  }
+  return filled ?? input;
+};
 
 const infoOf = (p: Prepared): Telemetry.OperationInfo =>
   (p.info ??= Telemetry.operationInfo(
@@ -564,7 +590,11 @@ export const encodeRequest = <I, O, E, R>(
     const prepared = prepareOr(state);
     if (prepared instanceof SdkError) return Effect.fail(prepared);
     const encode = (service: ProtocolShape) =>
-      service.encode({ input, inputAst: prepared.inputAst, config: prepared.cfg });
+      service.encode({
+        input: withIdempotencyTokens(prepared, input),
+        inputAst: prepared.inputAst,
+        config: prepared.cfg,
+      });
     if (prepared.service !== undefined) return encode(prepared.service);
     return Effect.flatMap(protocolContext(prepared.cfg.protocol), (protocolCtx) =>
       encode((prepared.service = Context.get(protocolCtx, Protocol))),
@@ -602,13 +632,15 @@ const callUntraced = (
   // Warm path: the operation is prepared and its protocol built, so the call
   // is whatever the protocol returns, with no wrapper effects around it.
   const p = state.prepared;
-  if (p?.service !== undefined) return applyRetry(runWith(p, p.service, input), p.cfg, debug);
+  if (p?.service !== undefined) {
+    return applyRetry(runWith(p, p.service, withIdempotencyTokens(p, input)), p.cfg, debug);
+  }
   return Effect.suspend(() => {
     const prepared = prepareOr(state);
     if (prepared instanceof SdkError) return Effect.fail(prepared);
+    const callInput = withIdempotencyTokens(prepared, input);
     // The retry wraps only `runWith`, as on the warm path, so a protocol's
-    // `call` runs once per call and can fix per-call values (idempotency
-    // tokens) that every attempt reuses.
+    // `call` runs once per call.
     return Effect.flatMap(
       debug === undefined
         ? protocolContext(prepared.cfg.protocol)
@@ -617,7 +649,7 @@ const callUntraced = (
           }),
       (protocolCtx) => {
         const service = (prepared.service = Context.get(protocolCtx, Protocol));
-        return applyRetry(runWith(prepared, service, input), prepared.cfg, debug);
+        return applyRetry(runWith(prepared, service, callInput), prepared.cfg, debug);
       },
     );
   });
