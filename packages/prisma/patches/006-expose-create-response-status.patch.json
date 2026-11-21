@@ -1,0 +1,29 @@
+{
+  "description": "Add an `httpStatus` member to the outputs of createServiceDomain and createWorkspaceDomainOwnership, bound to the HTTP response code. The spec is correct: it documents 201 when the call created the resource and 200 when it already existed (`POST /v1/services/{serviceId}/domains`: 200 \"Custom domain already registered on this service\"; `POST /v1/workspaces/{workspaceId}/domain-ownerships`: 200 \"The workspace already holds a domain ownership for the domain\"). This is an SDK addition that exposes what the spec documents: the body is the same in both cases, so only the status tells the two apart. The member is required because the protocol sets it on every successful response.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.prisma#PostV1ServicesByServiceIdDomainsResponse/members/httpStatus",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#required": {},
+          "smithy.api#httpResponseCode": {},
+          "smithy.api#documentation": "The HTTP status of the last attempt: 201 when it created the resource, 200 when the resource already existed. After a retry, a resource this call created can come back with 200."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.prisma#PostV1WorkspacesByWorkspaceIdDomainOwnershipsResponse/members/httpStatus",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#required": {},
+          "smithy.api#httpResponseCode": {},
+          "smithy.api#documentation": "The HTTP status of the last attempt: 201 when it created the resource, 200 when the resource already existed. After a retry, a resource this call created can come back with 200."
+        }
+      }
+    }
+  ]
+}

@@ -350,9 +350,10 @@ export interface SdkSpec {
   readonly extraRoots?: (selected: readonly OpEntry[], shapes: ShapeMap) => Iterable<string>;
 
   /**
-   * Provider member bindings as data, checked in order between the generic
-   * header binding and `smithy.api#httpPayload`. The driver's cascade:
-   * label → query → header → extraBindings → rawBody (httpPayload) → body.
+   * Provider member bindings as data, checked in order after the generic
+   * bindings and before `smithy.api#httpPayload`. The driver's cascade:
+   * label → query → header → responseCode → extraBindings → rawBody (httpPayload)
+   * → body.
    *
    * `pipe` is emitted for the member; `tsType` overrides its interface
    * type (e.g. file uploads → `(File | Blob)[]`).
@@ -783,7 +784,9 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         ? "query"
         : "smithy.api#httpHeader" in traits
           ? "header"
-          : (extraBindingOf(traits) ?? ("smithy.api#httpPayload" in traits ? "rawBody" : "body"));
+          : "smithy.api#httpResponseCode" in traits
+            ? "responseCode"
+            : (extraBindingOf(traits) ?? ("smithy.api#httpPayload" in traits ? "rawBody" : "body"));
 
   // Shapes reachable from any response/error root — used to scope the
   // blanket-nullable-optionals rule to reads (the wire returns explicit
@@ -867,8 +870,9 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
   };
 
   // Generic pipes for the smithy bindings (the SDK's traits module exports
-  // core's Label/Query/Header/HttpBody/Body builders under these names);
-  // provider bindings and member traits append theirs via memberExtraPipes.
+  // core's Label/Query/Header/ResponseCode/HttpBody/Body builders under
+  // these names); provider bindings and member traits append theirs via
+  // memberExtraPipes.
   const genericPipes = (info: EmittedMember): string[] => {
     switch (info.binding) {
       case "label":
@@ -877,6 +881,8 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         return [info.wire === info.tsName ? "T.Query()" : `T.Query(${q(info.wire)})`];
       case "header":
         return [info.wire === info.tsName ? "T.Header()" : `T.Header(${q(info.wire)})`];
+      case "responseCode":
+        return ["T.ResponseCode()"];
       case "rawBody":
         return ["T.HttpBody()"];
       case "body":
