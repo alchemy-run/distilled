@@ -24,6 +24,7 @@ Response:
 
 ## Checklist
 
+- [ ] I followed every rule in [CONTRIBUTING.md](https://github.com/alchemy-run/distilled/blob/main/CONTRIBUTING.md) and in [External contributors](https://github.com/alchemy-run/distilled/blob/main/AGENTS.md#external-contributors) in AGENTS.md
 - [ ] One change, with no commits from another open PR (rule 10)
 - [ ] A breaking change has `!` in the title, for example `fix(axiom)!: redact API tokens` (rule 11)
 - [ ] A spec or patch change commits the `pnpm generate <pkg>` output and its `distilled.generatedAt` stamp (rule 12)
