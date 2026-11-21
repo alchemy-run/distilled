@@ -31,6 +31,10 @@ export interface CiProgram {
     readonly p50Us: number;
     readonly gcPer1k: number;
     readonly maxRss: number;
+    /** git trees of the SDK's inputs, for a whole-SDK (`providers`) one. */
+    readonly inputs?: string;
+    /** Copied from the --reuse run because the inputs matched. */
+    readonly reused?: boolean;
   };
 }
 
