@@ -866,7 +866,9 @@ function __c1(j: number): any {
           url: S.optional(S.NullOr(S.String)),
           user: S.optional(S.NullOr(__S(33, __c1, 1))),
           value: S.optional(S.NullOr(S.Number)),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/events", code: 200 })),
       ).annotate({ identifier: "CreateEventRequest" });
     case 3:
@@ -1169,7 +1171,9 @@ function __c6(j: number): any {
         S.Struct({
           account_id: S.optional(S.String),
           url: S.optional(S.String),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/events/validate_pixel", code: 200 })),
       ).annotate({ identifier: "ValidatePixelRequest" });
     case 1:

@@ -332,7 +332,9 @@ function __c1(j: number): any {
           account_id: S.optional(S.String),
           payment_id: S.String,
           tracking_number: S.String,
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/shipments", code: 200 })),
       ).annotate({ identifier: "CreateShipmentRequest" });
   }

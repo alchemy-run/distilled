@@ -6384,7 +6384,9 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           amount: __S(1280, __c40, 0),
           expiresAt: S.optional(S.String),
           merchantAccount: S.String,
@@ -6413,7 +6415,9 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           merchantAccount: S.String,
           order: __S(128, __c4, 0),
         }).pipe(T.Http({ method: "POST", uri: "/orders/cancel", code: 200 })),
@@ -6483,7 +6487,9 @@ function __c5(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           accountInfo: S.optional(__S(1728, __c54, 0)),
           additionalAmount: S.optional(__S(1280, __c40, 0)),
           additionalData: S.optional(__S(32, __c1, 0)),
@@ -7004,7 +7010,9 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           paymentPspReference: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           adjustAuthType: S.optional(S.String),
           adjustAuthorisationData: S.optional(S.String),
           amount: __S(1280, __c40, 0),
@@ -7046,7 +7054,9 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           paymentPspReference: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           applicationInfo: S.optional(__S(1348, __c42, 4)),
           merchantAccount: S.String,
           reference: S.optional(S.String),
@@ -7076,7 +7086,9 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           paymentPspReference: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           amount: __S(1280, __c40, 0),
           applicationInfo: S.optional(__S(1348, __c42, 4)),
           enhancedSchemeData: S.optional(__S(310, __c9, 22)),
@@ -7112,7 +7124,9 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           allowedPaymentMethods: S.optional(__S(1408, __c44, 0)),
           amount: __S(1280, __c40, 0),
           applicationInfo: S.optional(__S(1348, __c42, 4)),
@@ -7243,7 +7257,9 @@ function __c21(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           additionalData: S.optional(__S(32, __c1, 0)),
           allowedPaymentMethods: S.optional(__S(1408, __c44, 0)),
           amount: S.optional(__S(1280, __c40, 0)),
@@ -7449,7 +7465,9 @@ function __c22(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           accountInfo: S.optional(__S(1728, __c54, 0)),
           additionalAmount: S.optional(__S(1280, __c40, 0)),
           additionalData: S.optional(__S(32, __c1, 0)),
@@ -7516,7 +7534,9 @@ function __c23(j: number): any {
       return S.suspend(() =>
         S.Struct({
           paymentPspReference: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           amount: __S(1280, __c40, 0),
           applicationInfo: S.optional(__S(1348, __c42, 4)),
           capturePspReference: S.optional(S.String),
@@ -7555,7 +7575,9 @@ function __c24(j: number): any {
       return S.suspend(() =>
         S.Struct({
           paymentPspReference: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           applicationInfo: S.optional(__S(1348, __c42, 4)),
           merchantAccount: S.String,
           reference: S.optional(S.String),
@@ -7613,7 +7635,9 @@ function __c25(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           authenticationData: S.optional(__S(801, __c25, 1)),
           details: __S(802, __c25, 2),
           paymentData: S.optional(S.String),
@@ -7668,7 +7692,9 @@ function __c26(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           amount: S.optional(__S(1280, __c40, 0)),
           deliveryAddress: S.optional(__S(1856, __c58, 0)),
           deliveryMethods: S.optional(__S(833, __c26, 1)),
@@ -7704,7 +7730,9 @@ function __c27(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           accountInfo: S.optional(__S(1728, __c54, 0)),
           additionalAmount: S.optional(__S(1280, __c40, 0)),
           additionalData: S.optional(__S(32, __c1, 0)),
@@ -7868,7 +7896,9 @@ function __c28(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           merchantAccount: S.String,
           opi: S.optional(__S(416, __c13, 0)),
           paymentMethod: __S(896, __c28, 0),
@@ -8070,7 +8100,9 @@ function __c35(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           displayName: S.String,
           domainName: S.String,
           merchantIdentifier: S.String,
@@ -8206,7 +8238,9 @@ function __c41(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           applicationInfo: S.optional(__S(1348, __c42, 4)),
           merchantAccount: S.String,
           paymentReference: S.String,
@@ -8276,7 +8310,9 @@ function __c43(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           cardNumber: S.optional(S.String),
           countryCode: S.optional(S.String),
           encryptedCardNumber: S.optional(S.String),
@@ -8316,7 +8352,9 @@ function __c45(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           accountInfo: S.optional(__S(1728, __c54, 0)),
           amount: __S(1280, __c40, 0),
           applicationInfo: S.optional(__S(1348, __c42, 4)),
@@ -8832,7 +8870,9 @@ function __c60(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           currency: S.String,
           label: S.optional(S.String),
           locale: S.optional(S.String),
@@ -8937,7 +8977,9 @@ function __c62(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           amount: S.optional(__S(1280, __c40, 0)),
           baseUrl: S.String,
           merchantAccount: S.String,

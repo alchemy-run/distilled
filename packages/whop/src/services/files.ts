@@ -302,7 +302,9 @@ function __c1(j: number): any {
           id: S.String.pipe(T.Label()),
           multipart_parts: __S(9, __c1, 1),
           multipart_upload_id: S.String,
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/files/{id}/complete", code: 200 })),
       ).annotate({ identifier: "CompleteFileRequest" });
   }
@@ -348,7 +350,9 @@ function __c3(j: number): any {
           filename: S.String,
           multipart: S.optional(S.Boolean),
           visibility: S.optional(S.String),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/files", code: 200 })),
       ).annotate({ identifier: "CreateFileRequest" });
   }

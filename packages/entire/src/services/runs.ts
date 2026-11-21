@@ -1020,7 +1020,9 @@ function __c5(j: number): any {
           host: S.String.pipe(T.Label()),
           project: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/v1/{host}/{project}/runs/{id}/retry", code: 200 }),
         ),
@@ -1034,7 +1036,9 @@ function __c6(j: number): any {
         S.Struct({
           repo_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/v1/repos/{repo_id}/runs/{id}/retry", code: 200 }),
         ),
@@ -1049,7 +1053,7 @@ function __c7(j: number): any {
           host: S.String.pipe(T.Label()),
           project: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          idempotencyKey: S.String.pipe(T.Header("Idempotency-Key")),
+          idempotencyKey: S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
           head_sha: S.optional(S.String),
           target: __S(256, __c8, 0),
         }).pipe(
@@ -1075,7 +1079,7 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           repo_id: S.String.pipe(T.Label()),
-          idempotencyKey: S.String.pipe(T.Header("Idempotency-Key")),
+          idempotencyKey: S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
           agent_id: S.String,
           head_sha: S.optional(S.String),
           target: __S(256, __c8, 0),

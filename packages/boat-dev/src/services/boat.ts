@@ -8208,7 +8208,9 @@ function __c90(j: number): any {
       return S.suspend(() =>
         S.Struct({
           org: S.optional(S.String.pipe(T.Query())),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           xBoatOrg: S.optional(S.String.pipe(T.Header("X-Boat-Org"))),
           type: S.optional(S.String),
           ttlSeconds: S.optional(S.NullOr(S.Number)),
@@ -8966,7 +8968,9 @@ function __c129(j: number): any {
       return S.suspend(() =>
         S.Struct({
           sandboxId: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           labels: S.optional(__S(2944, __c92, 0)),
           failFast: S.optional(S.Boolean),
           monitoring: S.optional(S.Boolean),

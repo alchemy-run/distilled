@@ -673,7 +673,9 @@ function __c1(j: number): any {
           spend_limit_frequency: S.optional(S.String),
           transaction_limit: S.optional(S.Number),
           user_id: S.optional(S.String),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/cards", code: 200 })),
       ).annotate({ identifier: "CreateCardRequest" });
   }

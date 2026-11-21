@@ -4177,7 +4177,7 @@ function __c41(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.String.pipe(T.Header("Idempotency-Key")),
+          idempotencyKey: S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
           decrementOperations: S.optional(__S(1313, __c41, 1)),
           incrementOperations: S.optional(__S(1313, __c41, 1)),
           setFiniteOperations: S.optional(__S(1313, __c41, 1)),
@@ -4900,7 +4900,7 @@ function __c75(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.String.pipe(T.Header("Idempotency-Key")),
+          idempotencyKey: S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
           billingAddress: S.optional(__S(2528, __c79, 0)),
           channelName: S.String,
           createdOn: S.String,

@@ -1834,7 +1834,7 @@ function __c18(j: number): any {
         S.Struct({
           host: S.String.pipe(T.Label()),
           project: S.String.pipe(T.Label()),
-          idempotencyKey: S.String.pipe(T.Header("Idempotency-Key")),
+          idempotencyKey: S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
           description: S.optional(S.String),
           environment: S.optional(__S(288, __c18, 0)),
           environment_id: S.optional(S.String),

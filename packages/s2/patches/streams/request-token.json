@@ -1,0 +1,10 @@
+{
+  "description": "S2's spec documents `s2-request-token` as a \"Client-specified request token for idempotent retries\" on CreateBasin and CreateStream (specs/openapi.json in the mirror). Mark it `smithy.api#idempotencyToken` so the SDK fills a new token per call, the same on every automatic retry.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.s2.streams#CreateStreamRequest/members/s2RequestToken/traits/smithy.api#idempotencyToken",
+      "value": {}
+    }
+  ]
+}
