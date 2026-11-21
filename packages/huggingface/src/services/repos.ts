@@ -33,9 +33,16 @@ export class Conflict
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error409Body | string;
+}
 
 /** The region where the repository is hosted. */
 export type CreateRepositoryRequestBodyCase0Region = "us" | "eu";
@@ -685,6 +692,10 @@ export interface MoveRepoRequest {
   type?: MoveRepoRequestType | (string & {}) | undefined;
 }
 export interface MoveRepoResponse {}
+export interface Error409Body {
+  error: string;
+  url: string;
+}
 export type CreateRepositoryError = Conflict | HuggingFaceOpError;
 /** Create repository */
 export const createRepository: API.OperationMethod<
@@ -693,8 +704,8 @@ export const createRepository: API.OperationMethod<
   CreateRepositoryError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateRepositoryRequest>,
-  output: __S(1, __c0, 1) as any as S.Schema<CreateRepositoryResponse>,
+  input: __S(8, __c1, 0) as any as S.Schema<CreateRepositoryRequest>,
+  output: __S(9, __c1, 1) as any as S.Schema<CreateRepositoryResponse>,
   errors: [Conflict],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -710,8 +721,8 @@ export const duplicateRepository: API.OperationMethod<
   DuplicateRepositoryError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c1, 4) as any as S.Schema<DuplicateRepositoryRequest>,
-  output: __S(13, __c1, 5) as any as S.Schema<DuplicateRepositoryResponse>,
+  input: __S(20, __c2, 4) as any as S.Schema<DuplicateRepositoryRequest>,
+  output: __S(21, __c2, 5) as any as S.Schema<DuplicateRepositoryResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -727,8 +738,8 @@ export const duplicationStatus: API.OperationMethod<
   DuplicationStatusError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<DuplicationStatusRequest>,
-  output: __S(17, __c2, 1) as any as S.Schema<DuplicationStatusResponse>,
+  input: __S(24, __c3, 0) as any as S.Schema<DuplicationStatusRequest>,
+  output: __S(25, __c3, 1) as any as S.Schema<DuplicationStatusResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -744,8 +755,8 @@ export const moveRepo: API.OperationMethod<
   MoveRepoError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<MoveRepoRequest>,
-  output: __S(25, __c3, 1) as any as S.Schema<MoveRepoResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<MoveRepoRequest>,
+  output: __S(33, __c4, 1) as any as S.Schema<MoveRepoResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -755,6 +766,17 @@ export const moveRepo: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          error: S.String,
+          url: S.String,
+        }),
+      ).annotate({ identifier: "Error409Body" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -773,7 +795,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateRepositoryResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -784,7 +806,7 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "CreateRepositoryRequestBodyCase3SecretsItem" });
     case 1:
-      return S.Array(__S(8, __c1, 0));
+      return S.Array(__S(16, __c2, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -797,7 +819,7 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "CreateRepositoryRequestBodyCase3VolumesItem" });
     case 3:
-      return S.Array(__S(10, __c1, 2));
+      return S.Array(__S(18, __c2, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -810,9 +832,9 @@ function __c1(j: number): any {
           resourceGroupId: S.optional(S.NullOr(S.String)),
           hardware: S.optional(S.String),
           sleepTimeSeconds: S.optional(S.Unknown),
-          secrets: S.optional(__S(9, __c1, 1)),
-          variables: S.optional(__S(9, __c1, 1)),
-          volumes: S.optional(__S(11, __c1, 3)),
+          secrets: S.optional(__S(17, __c2, 1)),
+          variables: S.optional(__S(17, __c2, 1)),
+          volumes: S.optional(__S(19, __c2, 3)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -830,7 +852,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "DuplicateRepositoryResponse" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -856,7 +878,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "DuplicationStatusResponse" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

@@ -14,7 +14,7 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 
-/** Default EAS GraphQL host. The endpoint path (`/graphql`) is set per operation. */
+/** Default EAS GraphQL host. The transport posts to `<host>/graphql`. */
 export const DEFAULT_API_BASE_URL = "https://api.expo.dev";
 
 export interface Config {

@@ -389,16 +389,67 @@ export interface AFDDomainHttpsParameters {
   secret?: ResourceReference | undefined;
 }
 /** Supported scenarios for establishing mTLS connection. */
-export type MtlsScenarioType =
-  | "ClientCertificateRequiredAndValidated"
-  | "ClientCertificateRequiredAndOriginValidates"
-  | "ClientCertificateValidatedIfPresented"
-  | "CompleteMtlsPassthroughToOrigin";
+export type ClientCertificateRequiredAndOriginValidatesAdvancedSettingsScenario =
+  "ClientCertificateRequiredAndOriginValidates";
 /** Contains the properties to configure mutual TLS for a custom domain with FQDN. Mutual TLS cannot be configured for custom domains with wildcard host names. */
-export interface AFDDomainMtlsParameters {
+export interface ClientCertificateRequiredAndOriginValidatesAdvancedSettings {
   /** Supported scenarios for establishing mTLS connection. */
-  scenario: MtlsScenarioType | (string & {});
+  scenario: ClientCertificateRequiredAndOriginValidatesAdvancedSettingsScenario;
 }
+/** Supported scenarios for establishing mTLS connection. */
+export type ClientCertificateRequiredAndValidatedAdvancedSettingsScenario =
+  "ClientCertificateRequiredAndValidated";
+/** List of one or two of Resource References (ie. subs/rg/profile/secret) to Secrets of type MtlsCertificateChain to use in mutual TLS handshake as the trusted issuer certificate chain. */
+export type ClientCertificateRequiredAndValidatedAdvancedSettingsSecretsList =
+  Array<ResourceReference>;
+/** List of FQDNs that will be accepted for mutual TLS validation. */
+export type ClientCertificateRequiredAndValidatedAdvancedSettingsAllowedFqdnsList = Array<string>;
+/** Set to Enabled by default. If set to Disabled, revocation status of client certificate chain will be checked before establishing mutual TLS connection. */
+export type CertificateRevocationCheckEnabledState = "Enabled" | "Disabled";
+/** Advanced settings for MtlsScenarioType enum value: ClientCertificateRequiredAndValidated. */
+export interface ClientCertificateRequiredAndValidatedAdvancedSettings {
+  /** Supported scenarios for establishing mTLS connection. */
+  scenario: ClientCertificateRequiredAndValidatedAdvancedSettingsScenario;
+  /** List of one or two of Resource References (ie. subs/rg/profile/secret) to Secrets of type MtlsCertificateChain to use in mutual TLS handshake as the trusted issuer certificate chain. */
+  secrets: ClientCertificateRequiredAndValidatedAdvancedSettingsSecretsList;
+  /** List of FQDNs that will be accepted for mutual TLS validation. */
+  allowedFqdns?: ClientCertificateRequiredAndValidatedAdvancedSettingsAllowedFqdnsList | undefined;
+  /** Set to Enabled by default. If set to Disabled, revocation status of client certificate chain will be checked before establishing mutual TLS connection. */
+  certificateRevocationCheck?: CertificateRevocationCheckEnabledState | (string & {}) | undefined;
+}
+/** Supported scenarios for establishing mTLS connection. */
+export type ClientCertificateValidatedIfPresentedAdvancedSettingsScenario =
+  "ClientCertificateValidatedIfPresented";
+/** List of one or two of Resource References (ie. subs/rg/profile/secret) to Secrets of type MtlsCertificateChain to use in mutual TLS handshake as the trusted issuer certificate chain. */
+export type ClientCertificateValidatedIfPresentedAdvancedSettingsSecretsList =
+  Array<ResourceReference>;
+/** List of FQDNs that will be accepted for mutual TLS validation. */
+export type ClientCertificateValidatedIfPresentedAdvancedSettingsAllowedFqdnsList = Array<string>;
+/** Advanced settings for MtlsScenarioType enum value: ClientCertificateValidatedIfPresented. */
+export interface ClientCertificateValidatedIfPresentedAdvancedSettings {
+  /** Supported scenarios for establishing mTLS connection. */
+  scenario: ClientCertificateValidatedIfPresentedAdvancedSettingsScenario;
+  /** List of one or two of Resource References (ie. subs/rg/profile/secret) to Secrets of type MtlsCertificateChain to use in mutual TLS handshake as the trusted issuer certificate chain. */
+  secrets: ClientCertificateValidatedIfPresentedAdvancedSettingsSecretsList;
+  /** List of FQDNs that will be accepted for mutual TLS validation. */
+  allowedFqdns?: ClientCertificateValidatedIfPresentedAdvancedSettingsAllowedFqdnsList | undefined;
+  /** Set to Enabled by default. If set to Disabled, revocation status of client certificate chain will be checked before establishing mutual TLS connection. */
+  certificateRevocationCheck?: CertificateRevocationCheckEnabledState | (string & {}) | undefined;
+}
+/** Supported scenarios for establishing mTLS connection. */
+export type CompleteMtlsPassthroughToOriginAdvancedSettingsScenario =
+  "CompleteMtlsPassthroughToOrigin";
+/** Contains the properties to configure mutual TLS for a custom domain with FQDN. Mutual TLS cannot be configured for custom domains with wildcard host names. */
+export interface CompleteMtlsPassthroughToOriginAdvancedSettings {
+  /** Supported scenarios for establishing mTLS connection. */
+  scenario: CompleteMtlsPassthroughToOriginAdvancedSettingsScenario;
+}
+/** Contains the properties to configure mutual TLS for a custom domain with FQDN. Mutual TLS cannot be configured for custom domains with wildcard host names. */
+export type AFDDomainMtlsParameters =
+  | ClientCertificateRequiredAndOriginValidatesAdvancedSettings
+  | ClientCertificateRequiredAndValidatedAdvancedSettings
+  | ClientCertificateValidatedIfPresentedAdvancedSettings
+  | CompleteMtlsPassthroughToOriginAdvancedSettings;
 /** Key-Value pair representing migration properties for domains. */
 export type AFDDomainPropertiesInputExtendedPropertiesMap = { [key: string]: string | undefined };
 /** The JSON object that contains the properties of the domain to create. */
@@ -824,20 +875,69 @@ export type CustomHttpsProvisioningSubstate =
   | "DeletingCertificate"
   | "CertificateDeleted";
 /** Defines the source of the SSL certificate. */
-export type CertificateSource = "AzureKeyVault" | "Cdn";
+export type CdnManagedHttpsParametersCertificateSource = "Cdn";
 /** Defines the TLS extension protocol that is used for secure delivery. */
 export type ProtocolType = "ServerNameIndication" | "IPBased";
 /** TLS protocol version that will be used for Https */
 export type MinimumTlsVersion = "None" | "TLS10" | "TLS12";
-/** The JSON object that contains the properties to secure a custom domain. */
-export interface CustomDomainHttpsParameters {
-  /** Defines the source of the SSL certificate. */
-  certificateSource: CertificateSource;
-  /** Defines the TLS extension protocol that is used for secure delivery. */
-  protocolType: ProtocolType;
-  /** TLS protocol version that will be used for Https */
-  minimumTlsVersion?: MinimumTlsVersion | undefined;
+export type CdnCertificateSourceParametersTypeName = "CdnCertificateSourceParameters";
+/** Type of certificate used */
+export type CertificateType = "Shared" | "Dedicated";
+/** Defines the parameters for using CDN managed certificate for securing custom domain. */
+export interface CdnCertificateSourceParameters {
+  typeName: CdnCertificateSourceParametersTypeName | (string & {});
+  /** Type of certificate used */
+  certificateType: CertificateType | (string & {});
 }
+/** Defines the certificate source parameters using CDN managed certificate for enabling SSL. */
+export interface CdnManagedHttpsParameters {
+  /** Defines the source of the SSL certificate. */
+  certificateSource: CdnManagedHttpsParametersCertificateSource;
+  /** Defines the TLS extension protocol that is used for secure delivery. */
+  protocolType: ProtocolType | (string & {});
+  /** TLS protocol version that will be used for Https */
+  minimumTlsVersion?: MinimumTlsVersion | (string & {}) | undefined;
+  /** Defines the certificate source parameters using CDN managed certificate for enabling SSL. */
+  certificateSourceParameters: CdnCertificateSourceParameters;
+}
+/** Defines the source of the SSL certificate. */
+export type UserManagedHttpsParametersCertificateSource = "AzureKeyVault";
+export type KeyVaultCertificateSourceParametersTypeName = "KeyVaultCertificateSourceParameters";
+/** Describes the action that shall be taken when the certificate is updated in Key Vault. */
+export type UpdateRule = "NoAction";
+/** Describes the action that shall be taken when the certificate is removed from Key Vault. */
+export type DeleteRule = "NoAction";
+/** Describes the parameters for using a user's KeyVault certificate for securing custom domain. */
+export interface KeyVaultCertificateSourceParameters {
+  typeName: KeyVaultCertificateSourceParametersTypeName | (string & {});
+  /** Subscription Id of the user's Key Vault containing the SSL certificate */
+  subscriptionId: string;
+  /** Resource group of the user's Key Vault containing the SSL certificate */
+  resourceGroupName: string;
+  /** The name of the user's Key Vault containing the SSL certificate */
+  vaultName: string;
+  /** The name of Key Vault Secret (representing the full certificate PFX) in Key Vault. */
+  secretName: string;
+  /** The version(GUID) of Key Vault Secret in Key Vault. */
+  secretVersion?: string | undefined;
+  /** Describes the action that shall be taken when the certificate is updated in Key Vault. */
+  updateRule: UpdateRule | (string & {});
+  /** Describes the action that shall be taken when the certificate is removed from Key Vault. */
+  deleteRule: DeleteRule | (string & {});
+}
+/** Defines the certificate source parameters using user's keyvault certificate for enabling SSL. */
+export interface UserManagedHttpsParameters {
+  /** Defines the source of the SSL certificate. */
+  certificateSource: UserManagedHttpsParametersCertificateSource;
+  /** Defines the TLS extension protocol that is used for secure delivery. */
+  protocolType: ProtocolType | (string & {});
+  /** TLS protocol version that will be used for Https */
+  minimumTlsVersion?: MinimumTlsVersion | (string & {}) | undefined;
+  /** Defines the certificate source parameters using user's keyvault certificate for enabling SSL. */
+  certificateSourceParameters: KeyVaultCertificateSourceParameters;
+}
+/** The JSON object that contains the properties to secure a custom domain. */
+export type CustomDomainHttpsParameters = CdnManagedHttpsParameters | UserManagedHttpsParameters;
 /** The JSON object that contains the properties of the custom domain to create. */
 export interface CustomDomainProperties {
   /** The host name of the custom domain. Must be a domain name. */
@@ -1129,55 +1229,987 @@ export interface UrlSigningKey {
 }
 /** List of keys used to validate the signed URL hashes. */
 export type EndpointPropertiesInputUrlSigningKeysList = Array<UrlSigningKey>;
-/** Request variable to compare with. */
-export type MatchVariable =
-  | "RemoteAddress"
-  | "RequestMethod"
-  | "QueryString"
-  | "PostArgs"
-  | "RequestUri"
-  | "RequestHeader"
-  | "RequestBody"
-  | "RequestScheme"
-  | "UrlPath"
-  | "UrlFileExtension"
-  | "UrlFileName"
-  | "HttpVersion"
-  | "Cookies"
-  | "IsDevice"
-  | "SocketAddr"
-  | "ClientPort"
-  | "ServerPort"
-  | "HostName"
-  | "SslProtocol";
-/** A condition for the delivery rule. */
-export interface DeliveryRuleCondition {
-  /** The name of the condition for the delivery rule. */
-  name: MatchVariable | (string & {});
-  /** Condition parameters (polymorphic on `name`, discriminated by `parameters.typeName`). */
-  parameters?: unknown | undefined;
+/** The name of the condition for the delivery rule. */
+export type DeliveryRuleClientPortConditionName = "ClientPort";
+export type ClientPortMatchConditionParametersTypeName =
+  "DeliveryRuleClientPortConditionParameters";
+/** Describes operator to be matched */
+export type ClientPortOperator =
+  | "Any"
+  | "Equal"
+  | "Contains"
+  | "BeginsWith"
+  | "EndsWith"
+  | "LessThan"
+  | "LessThanOrEqual"
+  | "GreaterThan"
+  | "GreaterThanOrEqual"
+  | "RegEx";
+/** The match value for the condition of the delivery rule */
+export type ClientPortMatchConditionParametersMatchValuesList = Array<string>;
+/** Describes what transforms are applied before matching */
+export type Transform =
+  | "Lowercase"
+  | "Uppercase"
+  | "Trim"
+  | "UrlDecode"
+  | "UrlEncode"
+  | "RemoveNulls";
+/** List of transforms */
+export type ClientPortMatchConditionParametersTransformsList = Array<Transform | (string & {})>;
+/** Defines the parameters for ClientPort match conditions */
+export interface ClientPortMatchConditionParameters {
+  typeName: ClientPortMatchConditionParametersTypeName | (string & {});
+  /** Describes operator to be matched */
+  operator: ClientPortOperator | (string & {});
+  /** Describes if this is negate condition or not */
+  negateCondition?: boolean | undefined;
+  /** The match value for the condition of the delivery rule */
+  matchValues?: ClientPortMatchConditionParametersMatchValuesList | undefined;
+  /** List of transforms */
+  transforms?: ClientPortMatchConditionParametersTransformsList | undefined;
 }
+/** Defines the ClientPort condition for the delivery rule. */
+export interface DeliveryRuleClientPortCondition {
+  /** The name of the condition for the delivery rule. */
+  name: DeliveryRuleClientPortConditionName;
+  /** Defines the parameters for the condition. */
+  parameters: ClientPortMatchConditionParameters;
+}
+/** The name of the condition for the delivery rule. */
+export type DeliveryRuleCookiesConditionName = "Cookies";
+export type CookiesMatchConditionParametersTypeName = "DeliveryRuleCookiesConditionParameters";
+/** Describes operator to be matched */
+export type CookiesOperator =
+  | "Any"
+  | "Equal"
+  | "Contains"
+  | "BeginsWith"
+  | "EndsWith"
+  | "LessThan"
+  | "LessThanOrEqual"
+  | "GreaterThan"
+  | "GreaterThanOrEqual"
+  | "RegEx";
+/** The match value for the condition of the delivery rule */
+export type CookiesMatchConditionParametersMatchValuesList = Array<string>;
+/** List of transforms */
+export type CookiesMatchConditionParametersTransformsList = Array<Transform | (string & {})>;
+/** Defines the parameters for Cookies match conditions */
+export interface CookiesMatchConditionParameters {
+  typeName: CookiesMatchConditionParametersTypeName | (string & {});
+  /** Name of Cookies to be matched */
+  selector?: string | undefined;
+  /** Describes operator to be matched */
+  operator: CookiesOperator | (string & {});
+  /** Describes if this is negate condition or not */
+  negateCondition?: boolean | undefined;
+  /** The match value for the condition of the delivery rule */
+  matchValues?: CookiesMatchConditionParametersMatchValuesList | undefined;
+  /** List of transforms */
+  transforms?: CookiesMatchConditionParametersTransformsList | undefined;
+}
+/** Defines the Cookies condition for the delivery rule. */
+export interface DeliveryRuleCookiesCondition {
+  /** The name of the condition for the delivery rule. */
+  name: DeliveryRuleCookiesConditionName;
+  /** Defines the parameters for the condition. */
+  parameters: CookiesMatchConditionParameters;
+}
+/** The name of the condition for the delivery rule. */
+export type DeliveryRuleHostNameConditionName = "HostName";
+export type HostNameMatchConditionParametersTypeName = "DeliveryRuleHostNameConditionParameters";
+/** Describes operator to be matched */
+export type HostNameOperator =
+  | "Any"
+  | "Equal"
+  | "Contains"
+  | "BeginsWith"
+  | "EndsWith"
+  | "LessThan"
+  | "LessThanOrEqual"
+  | "GreaterThan"
+  | "GreaterThanOrEqual"
+  | "RegEx";
+/** The match value for the condition of the delivery rule */
+export type HostNameMatchConditionParametersMatchValuesList = Array<string>;
+/** List of transforms */
+export type HostNameMatchConditionParametersTransformsList = Array<Transform | (string & {})>;
+/** Defines the parameters for HostName match conditions */
+export interface HostNameMatchConditionParameters {
+  typeName: HostNameMatchConditionParametersTypeName | (string & {});
+  /** Describes operator to be matched */
+  operator: HostNameOperator | (string & {});
+  /** Describes if this is negate condition or not */
+  negateCondition?: boolean | undefined;
+  /** The match value for the condition of the delivery rule */
+  matchValues?: HostNameMatchConditionParametersMatchValuesList | undefined;
+  /** List of transforms */
+  transforms?: HostNameMatchConditionParametersTransformsList | undefined;
+}
+/** Defines the HostName condition for the delivery rule. */
+export interface DeliveryRuleHostNameCondition {
+  /** The name of the condition for the delivery rule. */
+  name: DeliveryRuleHostNameConditionName;
+  /** Defines the parameters for the condition. */
+  parameters: HostNameMatchConditionParameters;
+}
+/** The name of the condition for the delivery rule. */
+export type DeliveryRuleHttpVersionConditionName = "HttpVersion";
+export type HttpVersionMatchConditionParametersTypeName =
+  "DeliveryRuleHttpVersionConditionParameters";
+/** Describes operator to be matched */
+export type HttpVersionOperator = "Equal";
+/** The match value for the condition of the delivery rule */
+export type HttpVersionMatchConditionParametersMatchValuesList = Array<string>;
+/** List of transforms */
+export type HttpVersionMatchConditionParametersTransformsList = Array<Transform | (string & {})>;
+/** Defines the parameters for HttpVersion match conditions */
+export interface HttpVersionMatchConditionParameters {
+  typeName: HttpVersionMatchConditionParametersTypeName | (string & {});
+  /** Describes operator to be matched */
+  operator: HttpVersionOperator | (string & {});
+  /** Describes if this is negate condition or not */
+  negateCondition?: boolean | undefined;
+  /** The match value for the condition of the delivery rule */
+  matchValues?: HttpVersionMatchConditionParametersMatchValuesList | undefined;
+  /** List of transforms */
+  transforms?: HttpVersionMatchConditionParametersTransformsList | undefined;
+}
+/** Defines the HttpVersion condition for the delivery rule. */
+export interface DeliveryRuleHttpVersionCondition {
+  /** The name of the condition for the delivery rule. */
+  name: DeliveryRuleHttpVersionConditionName;
+  /** Defines the parameters for the condition. */
+  parameters: HttpVersionMatchConditionParameters;
+}
+/** The name of the condition for the delivery rule. */
+export type DeliveryRuleIsDeviceConditionName = "IsDevice";
+export type IsDeviceMatchConditionParametersTypeName = "DeliveryRuleIsDeviceConditionParameters";
+/** Describes operator to be matched */
+export type IsDeviceOperator = "Equal";
+export type IsDeviceMatchValue = "Mobile" | "Desktop";
+/** The match value for the condition of the delivery rule */
+export type IsDeviceMatchConditionParametersMatchValuesList = Array<
+  IsDeviceMatchValue | (string & {})
+>;
+/** List of transforms */
+export type IsDeviceMatchConditionParametersTransformsList = Array<Transform | (string & {})>;
+/** Defines the parameters for IsDevice match conditions */
+export interface IsDeviceMatchConditionParameters {
+  typeName: IsDeviceMatchConditionParametersTypeName | (string & {});
+  /** Describes operator to be matched */
+  operator: IsDeviceOperator | (string & {});
+  /** Describes if this is negate condition or not */
+  negateCondition?: boolean | undefined;
+  /** The match value for the condition of the delivery rule */
+  matchValues?: IsDeviceMatchConditionParametersMatchValuesList | undefined;
+  /** List of transforms */
+  transforms?: IsDeviceMatchConditionParametersTransformsList | undefined;
+}
+/** Defines the IsDevice condition for the delivery rule. */
+export interface DeliveryRuleIsDeviceCondition {
+  /** The name of the condition for the delivery rule. */
+  name: DeliveryRuleIsDeviceConditionName;
+  /** Defines the parameters for the condition. */
+  parameters: IsDeviceMatchConditionParameters;
+}
+/** The name of the condition for the delivery rule. */
+export type DeliveryRulePostArgsConditionName = "PostArgs";
+export type PostArgsMatchConditionParametersTypeName = "DeliveryRulePostArgsConditionParameters";
+/** Describes operator to be matched */
+export type PostArgsOperator =
+  | "Any"
+  | "Equal"
+  | "Contains"
+  | "BeginsWith"
+  | "EndsWith"
+  | "LessThan"
+  | "LessThanOrEqual"
+  | "GreaterThan"
+  | "GreaterThanOrEqual"
+  | "RegEx";
+/** The match value for the condition of the delivery rule */
+export type PostArgsMatchConditionParametersMatchValuesList = Array<string>;
+/** List of transforms */
+export type PostArgsMatchConditionParametersTransformsList = Array<Transform | (string & {})>;
+/** Defines the parameters for PostArgs match conditions */
+export interface PostArgsMatchConditionParameters {
+  typeName: PostArgsMatchConditionParametersTypeName | (string & {});
+  /** Name of PostArg to be matched */
+  selector?: string | undefined;
+  /** Describes operator to be matched */
+  operator: PostArgsOperator | (string & {});
+  /** Describes if this is negate condition or not */
+  negateCondition?: boolean | undefined;
+  /** The match value for the condition of the delivery rule */
+  matchValues?: PostArgsMatchConditionParametersMatchValuesList | undefined;
+  /** List of transforms */
+  transforms?: PostArgsMatchConditionParametersTransformsList | undefined;
+}
+/** Defines the PostArgs condition for the delivery rule. */
+export interface DeliveryRulePostArgsCondition {
+  /** The name of the condition for the delivery rule. */
+  name: DeliveryRulePostArgsConditionName;
+  /** Defines the parameters for the condition. */
+  parameters: PostArgsMatchConditionParameters;
+}
+/** The name of the condition for the delivery rule. */
+export type DeliveryRuleQueryStringConditionName = "QueryString";
+export type QueryStringMatchConditionParametersTypeName =
+  "DeliveryRuleQueryStringConditionParameters";
+/** Describes operator to be matched */
+export type QueryStringOperator =
+  | "Any"
+  | "Equal"
+  | "Contains"
+  | "BeginsWith"
+  | "EndsWith"
+  | "LessThan"
+  | "LessThanOrEqual"
+  | "GreaterThan"
+  | "GreaterThanOrEqual"
+  | "RegEx";
+/** The match value for the condition of the delivery rule */
+export type QueryStringMatchConditionParametersMatchValuesList = Array<string>;
+/** List of transforms */
+export type QueryStringMatchConditionParametersTransformsList = Array<Transform | (string & {})>;
+/** Defines the parameters for QueryString match conditions */
+export interface QueryStringMatchConditionParameters {
+  typeName: QueryStringMatchConditionParametersTypeName | (string & {});
+  /** Describes operator to be matched */
+  operator: QueryStringOperator | (string & {});
+  /** Describes if this is negate condition or not */
+  negateCondition?: boolean | undefined;
+  /** The match value for the condition of the delivery rule */
+  matchValues?: QueryStringMatchConditionParametersMatchValuesList | undefined;
+  /** List of transforms */
+  transforms?: QueryStringMatchConditionParametersTransformsList | undefined;
+}
+/** Defines the QueryString condition for the delivery rule. */
+export interface DeliveryRuleQueryStringCondition {
+  /** The name of the condition for the delivery rule. */
+  name: DeliveryRuleQueryStringConditionName;
+  /** Defines the parameters for the condition. */
+  parameters: QueryStringMatchConditionParameters;
+}
+/** The name of the condition for the delivery rule. */
+export type DeliveryRuleRemoteAddressConditionName = "RemoteAddress";
+export type RemoteAddressMatchConditionParametersTypeName =
+  "DeliveryRuleRemoteAddressConditionParameters";
+/** Describes operator to be matched */
+export type RemoteAddressOperator = "Any" | "IPMatch" | "GeoMatch";
+/** Match values to match against. The operator will apply to each value in here with OR semantics. If any of them match the variable with the given operator this match condition is considered a match. */
+export type RemoteAddressMatchConditionParametersMatchValuesList = Array<string>;
+/** List of transforms */
+export type RemoteAddressMatchConditionParametersTransformsList = Array<Transform | (string & {})>;
+/** Defines the parameters for RemoteAddress match conditions */
+export interface RemoteAddressMatchConditionParameters {
+  typeName: RemoteAddressMatchConditionParametersTypeName | (string & {});
+  /** Describes operator to be matched */
+  operator: RemoteAddressOperator | (string & {});
+  /** Describes if this is negate condition or not */
+  negateCondition?: boolean | undefined;
+  /** Match values to match against. The operator will apply to each value in here with OR semantics. If any of them match the variable with the given operator this match condition is considered a match. */
+  matchValues?: RemoteAddressMatchConditionParametersMatchValuesList | undefined;
+  /** List of transforms */
+  transforms?: RemoteAddressMatchConditionParametersTransformsList | undefined;
+}
+/** Defines the RemoteAddress condition for the delivery rule. */
+export interface DeliveryRuleRemoteAddressCondition {
+  /** The name of the condition for the delivery rule. */
+  name: DeliveryRuleRemoteAddressConditionName;
+  /** Defines the parameters for the condition. */
+  parameters: RemoteAddressMatchConditionParameters;
+}
+/** The name of the condition for the delivery rule. */
+export type DeliveryRuleRequestBodyConditionName = "RequestBody";
+export type RequestBodyMatchConditionParametersTypeName =
+  "DeliveryRuleRequestBodyConditionParameters";
+/** Describes operator to be matched */
+export type RequestBodyOperator =
+  | "Any"
+  | "Equal"
+  | "Contains"
+  | "BeginsWith"
+  | "EndsWith"
+  | "LessThan"
+  | "LessThanOrEqual"
+  | "GreaterThan"
+  | "GreaterThanOrEqual"
+  | "RegEx";
+/** The match value for the condition of the delivery rule */
+export type RequestBodyMatchConditionParametersMatchValuesList = Array<string>;
+/** List of transforms */
+export type RequestBodyMatchConditionParametersTransformsList = Array<Transform | (string & {})>;
+/** Defines the parameters for RequestBody match conditions */
+export interface RequestBodyMatchConditionParameters {
+  typeName: RequestBodyMatchConditionParametersTypeName | (string & {});
+  /** Describes operator to be matched */
+  operator: RequestBodyOperator | (string & {});
+  /** Describes if this is negate condition or not */
+  negateCondition?: boolean | undefined;
+  /** The match value for the condition of the delivery rule */
+  matchValues?: RequestBodyMatchConditionParametersMatchValuesList | undefined;
+  /** List of transforms */
+  transforms?: RequestBodyMatchConditionParametersTransformsList | undefined;
+}
+/** Defines the RequestBody condition for the delivery rule. */
+export interface DeliveryRuleRequestBodyCondition {
+  /** The name of the condition for the delivery rule. */
+  name: DeliveryRuleRequestBodyConditionName;
+  /** Defines the parameters for the condition. */
+  parameters: RequestBodyMatchConditionParameters;
+}
+/** The name of the condition for the delivery rule. */
+export type DeliveryRuleRequestHeaderConditionName = "RequestHeader";
+export type RequestHeaderMatchConditionParametersTypeName =
+  "DeliveryRuleRequestHeaderConditionParameters";
+/** Describes operator to be matched */
+export type RequestHeaderOperator =
+  | "Any"
+  | "Equal"
+  | "Contains"
+  | "BeginsWith"
+  | "EndsWith"
+  | "LessThan"
+  | "LessThanOrEqual"
+  | "GreaterThan"
+  | "GreaterThanOrEqual"
+  | "RegEx";
+/** The match value for the condition of the delivery rule */
+export type RequestHeaderMatchConditionParametersMatchValuesList = Array<string>;
+/** List of transforms */
+export type RequestHeaderMatchConditionParametersTransformsList = Array<Transform | (string & {})>;
+/** Defines the parameters for RequestHeader match conditions */
+export interface RequestHeaderMatchConditionParameters {
+  typeName: RequestHeaderMatchConditionParametersTypeName | (string & {});
+  /** Name of Header to be matched */
+  selector?: string | undefined;
+  /** Describes operator to be matched */
+  operator: RequestHeaderOperator | (string & {});
+  /** Describes if this is negate condition or not */
+  negateCondition?: boolean | undefined;
+  /** The match value for the condition of the delivery rule */
+  matchValues?: RequestHeaderMatchConditionParametersMatchValuesList | undefined;
+  /** List of transforms */
+  transforms?: RequestHeaderMatchConditionParametersTransformsList | undefined;
+}
+/** Defines the RequestHeader condition for the delivery rule. */
+export interface DeliveryRuleRequestHeaderCondition {
+  /** The name of the condition for the delivery rule. */
+  name: DeliveryRuleRequestHeaderConditionName;
+  /** Defines the parameters for the condition. */
+  parameters: RequestHeaderMatchConditionParameters;
+}
+/** The name of the condition for the delivery rule. */
+export type DeliveryRuleRequestMethodConditionName = "RequestMethod";
+export type RequestMethodMatchConditionParametersTypeName =
+  "DeliveryRuleRequestMethodConditionParameters";
+/** Describes operator to be matched */
+export type RequestMethodOperator = "Equal";
+/** List of transforms */
+export type RequestMethodMatchConditionParametersTransformsList = Array<Transform | (string & {})>;
+export type RequestMethodMatchValue =
+  | "GET"
+  | "HEAD"
+  | "POST"
+  | "PUT"
+  | "DELETE"
+  | "OPTIONS"
+  | "TRACE";
+/** The match value for the condition of the delivery rule */
+export type RequestMethodMatchConditionParametersMatchValuesList = Array<
+  RequestMethodMatchValue | (string & {})
+>;
+/** Defines the parameters for RequestMethod match conditions */
+export interface RequestMethodMatchConditionParameters {
+  typeName: RequestMethodMatchConditionParametersTypeName | (string & {});
+  /** Describes operator to be matched */
+  operator: RequestMethodOperator | (string & {});
+  /** Describes if this is negate condition or not */
+  negateCondition?: boolean | undefined;
+  /** List of transforms */
+  transforms?: RequestMethodMatchConditionParametersTransformsList | undefined;
+  /** The match value for the condition of the delivery rule */
+  matchValues?: RequestMethodMatchConditionParametersMatchValuesList | undefined;
+}
+/** Defines the RequestMethod condition for the delivery rule. */
+export interface DeliveryRuleRequestMethodCondition {
+  /** The name of the condition for the delivery rule. */
+  name: DeliveryRuleRequestMethodConditionName;
+  /** Defines the parameters for the condition. */
+  parameters: RequestMethodMatchConditionParameters;
+}
+/** The name of the condition for the delivery rule. */
+export type DeliveryRuleRequestSchemeConditionName = "RequestScheme";
+export type RequestSchemeMatchConditionParametersTypeName =
+  "DeliveryRuleRequestSchemeConditionParameters";
+/** Describes operator to be matched */
+export type RequestSchemeMatchConditionParametersOperator = "Equal";
+/** List of transforms */
+export type RequestSchemeMatchConditionParametersTransformsList = Array<Transform | (string & {})>;
+export type RequestSchemeMatchValue = "HTTP" | "HTTPS";
+/** The match value for the condition of the delivery rule */
+export type RequestSchemeMatchConditionParametersMatchValuesList = Array<
+  RequestSchemeMatchValue | (string & {})
+>;
+/** Defines the parameters for RequestScheme match conditions */
+export interface RequestSchemeMatchConditionParameters {
+  typeName: RequestSchemeMatchConditionParametersTypeName | (string & {});
+  /** Describes operator to be matched */
+  operator: RequestSchemeMatchConditionParametersOperator | (string & {});
+  /** Describes if this is negate condition or not */
+  negateCondition?: boolean | undefined;
+  /** List of transforms */
+  transforms?: RequestSchemeMatchConditionParametersTransformsList | undefined;
+  /** The match value for the condition of the delivery rule */
+  matchValues?: RequestSchemeMatchConditionParametersMatchValuesList | undefined;
+}
+/** Defines the RequestScheme condition for the delivery rule. */
+export interface DeliveryRuleRequestSchemeCondition {
+  /** The name of the condition for the delivery rule. */
+  name: DeliveryRuleRequestSchemeConditionName;
+  /** Defines the parameters for the condition. */
+  parameters: RequestSchemeMatchConditionParameters;
+}
+/** The name of the condition for the delivery rule. */
+export type DeliveryRuleRequestUriConditionName = "RequestUri";
+export type RequestUriMatchConditionParametersTypeName =
+  "DeliveryRuleRequestUriConditionParameters";
+/** Describes operator to be matched */
+export type RequestUriOperator =
+  | "Any"
+  | "Equal"
+  | "Contains"
+  | "BeginsWith"
+  | "EndsWith"
+  | "LessThan"
+  | "LessThanOrEqual"
+  | "GreaterThan"
+  | "GreaterThanOrEqual"
+  | "RegEx";
+/** The match value for the condition of the delivery rule */
+export type RequestUriMatchConditionParametersMatchValuesList = Array<string>;
+/** List of transforms */
+export type RequestUriMatchConditionParametersTransformsList = Array<Transform | (string & {})>;
+/** Defines the parameters for RequestUri match conditions */
+export interface RequestUriMatchConditionParameters {
+  typeName: RequestUriMatchConditionParametersTypeName | (string & {});
+  /** Describes operator to be matched */
+  operator: RequestUriOperator | (string & {});
+  /** Describes if this is negate condition or not */
+  negateCondition?: boolean | undefined;
+  /** The match value for the condition of the delivery rule */
+  matchValues?: RequestUriMatchConditionParametersMatchValuesList | undefined;
+  /** List of transforms */
+  transforms?: RequestUriMatchConditionParametersTransformsList | undefined;
+}
+/** Defines the RequestUri condition for the delivery rule. */
+export interface DeliveryRuleRequestUriCondition {
+  /** The name of the condition for the delivery rule. */
+  name: DeliveryRuleRequestUriConditionName;
+  /** Defines the parameters for the condition. */
+  parameters: RequestUriMatchConditionParameters;
+}
+/** The name of the condition for the delivery rule. */
+export type DeliveryRuleServerPortConditionName = "ServerPort";
+export type ServerPortMatchConditionParametersTypeName =
+  "DeliveryRuleServerPortConditionParameters";
+/** Describes operator to be matched */
+export type ServerPortOperator =
+  | "Any"
+  | "Equal"
+  | "Contains"
+  | "BeginsWith"
+  | "EndsWith"
+  | "LessThan"
+  | "LessThanOrEqual"
+  | "GreaterThan"
+  | "GreaterThanOrEqual"
+  | "RegEx";
+/** The match value for the condition of the delivery rule */
+export type ServerPortMatchConditionParametersMatchValuesList = Array<string>;
+/** List of transforms */
+export type ServerPortMatchConditionParametersTransformsList = Array<Transform | (string & {})>;
+/** Defines the parameters for ServerPort match conditions */
+export interface ServerPortMatchConditionParameters {
+  typeName: ServerPortMatchConditionParametersTypeName | (string & {});
+  /** Describes operator to be matched */
+  operator: ServerPortOperator | (string & {});
+  /** Describes if this is negate condition or not */
+  negateCondition?: boolean | undefined;
+  /** The match value for the condition of the delivery rule */
+  matchValues?: ServerPortMatchConditionParametersMatchValuesList | undefined;
+  /** List of transforms */
+  transforms?: ServerPortMatchConditionParametersTransformsList | undefined;
+}
+/** Defines the ServerPort condition for the delivery rule. */
+export interface DeliveryRuleServerPortCondition {
+  /** The name of the condition for the delivery rule. */
+  name: DeliveryRuleServerPortConditionName;
+  /** Defines the parameters for the condition. */
+  parameters: ServerPortMatchConditionParameters;
+}
+/** The name of the condition for the delivery rule. */
+export type DeliveryRuleSocketAddrConditionName = "SocketAddr";
+export type SocketAddrMatchConditionParametersTypeName =
+  "DeliveryRuleSocketAddrConditionParameters";
+/** Describes operator to be matched */
+export type SocketAddrOperator = "Any" | "IPMatch";
+/** The match value for the condition of the delivery rule */
+export type SocketAddrMatchConditionParametersMatchValuesList = Array<string>;
+/** List of transforms */
+export type SocketAddrMatchConditionParametersTransformsList = Array<Transform | (string & {})>;
+/** Defines the parameters for SocketAddress match conditions */
+export interface SocketAddrMatchConditionParameters {
+  typeName: SocketAddrMatchConditionParametersTypeName | (string & {});
+  /** Describes operator to be matched */
+  operator: SocketAddrOperator | (string & {});
+  /** Describes if this is negate condition or not */
+  negateCondition?: boolean | undefined;
+  /** The match value for the condition of the delivery rule */
+  matchValues?: SocketAddrMatchConditionParametersMatchValuesList | undefined;
+  /** List of transforms */
+  transforms?: SocketAddrMatchConditionParametersTransformsList | undefined;
+}
+/** Defines the SocketAddress condition for the delivery rule. */
+export interface DeliveryRuleSocketAddrCondition {
+  /** The name of the condition for the delivery rule. */
+  name: DeliveryRuleSocketAddrConditionName;
+  /** Defines the parameters for the condition. */
+  parameters: SocketAddrMatchConditionParameters;
+}
+/** The name of the condition for the delivery rule. */
+export type DeliveryRuleSslProtocolConditionName = "SslProtocol";
+export type SslProtocolMatchConditionParametersTypeName =
+  "DeliveryRuleSslProtocolConditionParameters";
+/** Describes operator to be matched */
+export type SslProtocolOperator = "Equal";
+/** The protocol of an established TLS connection. */
+export type SslProtocol = "TLSv1" | "TLSv1.1" | "TLSv1.2";
+/** The match value for the condition of the delivery rule */
+export type SslProtocolMatchConditionParametersMatchValuesList = Array<SslProtocol | (string & {})>;
+/** List of transforms */
+export type SslProtocolMatchConditionParametersTransformsList = Array<Transform | (string & {})>;
+/** Defines the parameters for SslProtocol match conditions */
+export interface SslProtocolMatchConditionParameters {
+  typeName: SslProtocolMatchConditionParametersTypeName | (string & {});
+  /** Describes operator to be matched */
+  operator: SslProtocolOperator | (string & {});
+  /** Describes if this is negate condition or not */
+  negateCondition?: boolean | undefined;
+  /** The match value for the condition of the delivery rule */
+  matchValues?: SslProtocolMatchConditionParametersMatchValuesList | undefined;
+  /** List of transforms */
+  transforms?: SslProtocolMatchConditionParametersTransformsList | undefined;
+}
+/** Defines the SslProtocol condition for the delivery rule. */
+export interface DeliveryRuleSslProtocolCondition {
+  /** The name of the condition for the delivery rule. */
+  name: DeliveryRuleSslProtocolConditionName;
+  /** Defines the parameters for the condition. */
+  parameters: SslProtocolMatchConditionParameters;
+}
+/** The name of the condition for the delivery rule. */
+export type DeliveryRuleUrlFileExtensionConditionName = "UrlFileExtension";
+export type UrlFileExtensionMatchConditionParametersTypeName =
+  "DeliveryRuleUrlFileExtensionMatchConditionParameters";
+/** Describes operator to be matched */
+export type UrlFileExtensionOperator =
+  | "Any"
+  | "Equal"
+  | "Contains"
+  | "BeginsWith"
+  | "EndsWith"
+  | "LessThan"
+  | "LessThanOrEqual"
+  | "GreaterThan"
+  | "GreaterThanOrEqual"
+  | "RegEx";
+/** The match value for the condition of the delivery rule */
+export type UrlFileExtensionMatchConditionParametersMatchValuesList = Array<string>;
+/** List of transforms */
+export type UrlFileExtensionMatchConditionParametersTransformsList = Array<
+  Transform | (string & {})
+>;
+/** Defines the parameters for UrlFileExtension match conditions */
+export interface UrlFileExtensionMatchConditionParameters {
+  typeName: UrlFileExtensionMatchConditionParametersTypeName | (string & {});
+  /** Describes operator to be matched */
+  operator: UrlFileExtensionOperator | (string & {});
+  /** Describes if this is negate condition or not */
+  negateCondition?: boolean | undefined;
+  /** The match value for the condition of the delivery rule */
+  matchValues?: UrlFileExtensionMatchConditionParametersMatchValuesList | undefined;
+  /** List of transforms */
+  transforms?: UrlFileExtensionMatchConditionParametersTransformsList | undefined;
+}
+/** Defines the UrlFileExtension condition for the delivery rule. */
+export interface DeliveryRuleUrlFileExtensionCondition {
+  /** The name of the condition for the delivery rule. */
+  name: DeliveryRuleUrlFileExtensionConditionName;
+  /** Defines the parameters for the condition. */
+  parameters: UrlFileExtensionMatchConditionParameters;
+}
+/** The name of the condition for the delivery rule. */
+export type DeliveryRuleUrlFileNameConditionName = "UrlFileName";
+export type UrlFileNameMatchConditionParametersTypeName =
+  "DeliveryRuleUrlFilenameConditionParameters";
+/** Describes operator to be matched */
+export type UrlFileNameOperator =
+  | "Any"
+  | "Equal"
+  | "Contains"
+  | "BeginsWith"
+  | "EndsWith"
+  | "LessThan"
+  | "LessThanOrEqual"
+  | "GreaterThan"
+  | "GreaterThanOrEqual"
+  | "RegEx";
+/** The match value for the condition of the delivery rule */
+export type UrlFileNameMatchConditionParametersMatchValuesList = Array<string>;
+/** List of transforms */
+export type UrlFileNameMatchConditionParametersTransformsList = Array<Transform | (string & {})>;
+/** Defines the parameters for UrlFilename match conditions */
+export interface UrlFileNameMatchConditionParameters {
+  typeName: UrlFileNameMatchConditionParametersTypeName | (string & {});
+  /** Describes operator to be matched */
+  operator: UrlFileNameOperator | (string & {});
+  /** Describes if this is negate condition or not */
+  negateCondition?: boolean | undefined;
+  /** The match value for the condition of the delivery rule */
+  matchValues?: UrlFileNameMatchConditionParametersMatchValuesList | undefined;
+  /** List of transforms */
+  transforms?: UrlFileNameMatchConditionParametersTransformsList | undefined;
+}
+/** Defines the UrlFileName condition for the delivery rule. */
+export interface DeliveryRuleUrlFileNameCondition {
+  /** The name of the condition for the delivery rule. */
+  name: DeliveryRuleUrlFileNameConditionName;
+  /** Defines the parameters for the condition. */
+  parameters: UrlFileNameMatchConditionParameters;
+}
+/** The name of the condition for the delivery rule. */
+export type DeliveryRuleUrlPathConditionName = "UrlPath";
+export type UrlPathMatchConditionParametersTypeName = "DeliveryRuleUrlPathMatchConditionParameters";
+/** Describes operator to be matched */
+export type UrlPathOperator =
+  | "Any"
+  | "Equal"
+  | "Contains"
+  | "BeginsWith"
+  | "EndsWith"
+  | "LessThan"
+  | "LessThanOrEqual"
+  | "GreaterThan"
+  | "GreaterThanOrEqual"
+  | "Wildcard"
+  | "RegEx";
+/** The match value for the condition of the delivery rule */
+export type UrlPathMatchConditionParametersMatchValuesList = Array<string>;
+/** List of transforms */
+export type UrlPathMatchConditionParametersTransformsList = Array<Transform | (string & {})>;
+/** Defines the parameters for UrlPath match conditions */
+export interface UrlPathMatchConditionParameters {
+  typeName: UrlPathMatchConditionParametersTypeName | (string & {});
+  /** Describes operator to be matched */
+  operator: UrlPathOperator | (string & {});
+  /** Describes if this is negate condition or not */
+  negateCondition?: boolean | undefined;
+  /** The match value for the condition of the delivery rule */
+  matchValues?: UrlPathMatchConditionParametersMatchValuesList | undefined;
+  /** List of transforms */
+  transforms?: UrlPathMatchConditionParametersTransformsList | undefined;
+}
+/** Defines the UrlPath condition for the delivery rule. */
+export interface DeliveryRuleUrlPathCondition {
+  /** The name of the condition for the delivery rule. */
+  name: DeliveryRuleUrlPathConditionName;
+  /** Defines the parameters for the condition. */
+  parameters: UrlPathMatchConditionParameters;
+}
+/** A condition for the delivery rule. */
+export type DeliveryRuleCondition =
+  | DeliveryRuleClientPortCondition
+  | DeliveryRuleCookiesCondition
+  | DeliveryRuleHostNameCondition
+  | DeliveryRuleHttpVersionCondition
+  | DeliveryRuleIsDeviceCondition
+  | DeliveryRulePostArgsCondition
+  | DeliveryRuleQueryStringCondition
+  | DeliveryRuleRemoteAddressCondition
+  | DeliveryRuleRequestBodyCondition
+  | DeliveryRuleRequestHeaderCondition
+  | DeliveryRuleRequestMethodCondition
+  | DeliveryRuleRequestSchemeCondition
+  | DeliveryRuleRequestUriCondition
+  | DeliveryRuleServerPortCondition
+  | DeliveryRuleSocketAddrCondition
+  | DeliveryRuleSslProtocolCondition
+  | DeliveryRuleUrlFileExtensionCondition
+  | DeliveryRuleUrlFileNameCondition
+  | DeliveryRuleUrlPathCondition;
 /** A list of conditions that must be matched for the actions to be executed */
 export type DeliveryRuleConditionsList = Array<DeliveryRuleCondition>;
 /** The name of the action for the delivery rule. */
-export type DeliveryRuleActionName =
-  | "CacheExpiration"
-  | "CacheKeyQueryString"
-  | "ModifyRequestHeader"
-  | "ModifyResponseHeader"
-  | "UrlRedirect"
-  | "UrlRewrite"
-  | "UrlSigning"
-  | "OriginGroupOverride"
-  | "RouteConfigurationOverride"
-  | "EdgeAction";
-/** An action for the delivery rule. */
-export interface DeliveryRuleAction {
-  /** The name of the action for the delivery rule. */
-  name: DeliveryRuleActionName | (string & {});
-  /** Action parameters (polymorphic on `name`, discriminated by `parameters.typeName`). */
-  parameters?: unknown | undefined;
+export type DeliveryRuleCacheExpirationActionName = "CacheExpiration";
+export type CacheExpirationActionParametersTypeName = "DeliveryRuleCacheExpirationActionParameters";
+/** Caching behavior for the requests */
+export type CacheBehavior = "BypassCache" | "Override" | "SetIfMissing";
+/** The level at which the content needs to be cached. */
+export type CacheType = "All";
+/** Defines the parameters for the cache expiration action. */
+export interface CacheExpirationActionParameters {
+  typeName: CacheExpirationActionParametersTypeName | (string & {});
+  /** Caching behavior for the requests */
+  cacheBehavior: CacheBehavior | (string & {});
+  /** The level at which the content needs to be cached. */
+  cacheType: CacheType | (string & {});
+  /** The duration for which the content needs to be cached. Allowed format is [d.]hh:mm:ss */
+  cacheDuration?: string | null | undefined;
 }
+/** Defines the cache expiration action for the delivery rule. */
+export interface DeliveryRuleCacheExpirationAction {
+  /** The name of the action for the delivery rule. */
+  name: DeliveryRuleCacheExpirationActionName;
+  /** Defines the parameters for the action. */
+  parameters: CacheExpirationActionParameters;
+}
+/** The name of the action for the delivery rule. */
+export type DeliveryRuleCacheKeyQueryStringActionName = "CacheKeyQueryString";
+export type CacheKeyQueryStringActionParametersTypeName =
+  "DeliveryRuleCacheKeyQueryStringBehaviorActionParameters";
+/** Caching behavior for the requests */
+export type QueryStringBehavior = "Include" | "IncludeAll" | "Exclude" | "ExcludeAll";
+/** Defines the parameters for the cache-key query string action. */
+export interface CacheKeyQueryStringActionParameters {
+  typeName: CacheKeyQueryStringActionParametersTypeName | (string & {});
+  /** Caching behavior for the requests */
+  queryStringBehavior: QueryStringBehavior | (string & {});
+  /** query parameters to include or exclude (comma separated). */
+  queryParameters?: string | null | undefined;
+}
+/** Defines the cache-key query string action for the delivery rule. */
+export interface DeliveryRuleCacheKeyQueryStringAction {
+  /** The name of the action for the delivery rule. */
+  name: DeliveryRuleCacheKeyQueryStringActionName;
+  /** Defines the parameters for the action. */
+  parameters: CacheKeyQueryStringActionParameters;
+}
+/** The name of the action for the delivery rule. */
+export type DeliveryRuleRequestHeaderActionName = "ModifyRequestHeader";
+export type HeaderActionParametersTypeName = "DeliveryRuleHeaderActionParameters";
+/** Action to perform */
+export type HeaderAction = "Append" | "Overwrite" | "Delete";
+/** Defines the parameters for the request header action. */
+export interface HeaderActionParameters {
+  typeName: HeaderActionParametersTypeName | (string & {});
+  /** Action to perform */
+  headerAction: HeaderAction | (string & {});
+  /** Name of the header to modify */
+  headerName: string;
+  /** Value for the specified action */
+  value?: string | undefined;
+}
+/** Defines the request header action for the delivery rule. */
+export interface DeliveryRuleRequestHeaderAction {
+  /** The name of the action for the delivery rule. */
+  name: DeliveryRuleRequestHeaderActionName;
+  /** Defines the parameters for the action. */
+  parameters: HeaderActionParameters;
+}
+/** The name of the action for the delivery rule. */
+export type DeliveryRuleResponseHeaderActionName = "ModifyResponseHeader";
+/** Defines the response header action for the delivery rule. */
+export interface DeliveryRuleResponseHeaderAction {
+  /** The name of the action for the delivery rule. */
+  name: DeliveryRuleResponseHeaderActionName;
+  /** Defines the parameters for the action. */
+  parameters: HeaderActionParameters;
+}
+/** The name of the action for the delivery rule. */
+export type DeliveryRuleRouteConfigurationOverrideActionName = "RouteConfigurationOverride";
+export type RouteConfigurationOverrideActionParametersTypeName =
+  "DeliveryRuleRouteConfigurationOverrideActionParameters";
+/** Protocol this rule will use when forwarding traffic to backends. */
+export type ForwardingProtocol = "HttpOnly" | "HttpsOnly" | "MatchRequest";
+/** Defines the parameters for the origin group override configuration. */
+export interface OriginGroupOverride {
+  /** defines the OriginGroup that would override the DefaultOriginGroup on route. */
+  originGroup?: ResourceReference | undefined;
+  /** Protocol this rule will use when forwarding traffic to backends. */
+  forwardingProtocol?: ForwardingProtocol | (string & {}) | undefined;
+}
+/** Defines how Frontdoor caches requests that include query strings. You can ignore any query strings when caching, ignore specific query strings, cache every request with a unique URL, or cache specific query strings. */
+export type RuleQueryStringCachingBehavior =
+  | "IgnoreQueryString"
+  | "UseQueryString"
+  | "IgnoreSpecifiedQueryStrings"
+  | "IncludeSpecifiedQueryStrings";
+/** Indicates whether content compression is enabled. If compression is enabled, content will be served as compressed if user requests for a compressed version. Content won't be compressed on AzureFrontDoor when requested content is smaller than 1 byte or larger than 1 MB. */
+export type RuleIsCompressionEnabled = "Enabled" | "Disabled";
+/** Caching behavior for the requests */
+export type RuleCacheBehavior = "HonorOrigin" | "OverrideAlways" | "OverrideIfOriginMissing";
+/** Caching settings for a caching-type route. To disable caching, do not provide a cacheConfiguration object. */
+export interface CacheConfiguration {
+  /** Defines how Frontdoor caches requests that include query strings. You can ignore any query strings when caching, ignore specific query strings, cache every request with a unique URL, or cache specific query strings. */
+  queryStringCachingBehavior?: RuleQueryStringCachingBehavior | (string & {}) | undefined;
+  /** query parameters to include or exclude (comma separated). */
+  queryParameters?: string | undefined;
+  /** Indicates whether content compression is enabled. If compression is enabled, content will be served as compressed if user requests for a compressed version. Content won't be compressed on AzureFrontDoor when requested content is smaller than 1 byte or larger than 1 MB. */
+  isCompressionEnabled?: RuleIsCompressionEnabled | (string & {}) | undefined;
+  /** Caching behavior for the requests */
+  cacheBehavior?: RuleCacheBehavior | (string & {}) | undefined;
+  /** The duration for which the content needs to be cached. Allowed format is [d.]hh:mm:ss */
+  cacheDuration?: string | undefined;
+}
+/** Defines the parameters for the route configuration override action. */
+export interface RouteConfigurationOverrideActionParameters {
+  typeName: RouteConfigurationOverrideActionParametersTypeName | (string & {});
+  /** A reference to the origin group override configuration. Leave empty to use the default origin group on route. */
+  originGroupOverride?: OriginGroupOverride | undefined;
+  /** The caching configuration associated with this rule. To disable caching, do not provide a cacheConfiguration object. */
+  cacheConfiguration?: CacheConfiguration | undefined;
+}
+/** Defines the route configuration override action for the delivery rule. Only applicable to Frontdoor Standard/Premium Profiles. */
+export interface DeliveryRuleRouteConfigurationOverrideAction {
+  /** The name of the action for the delivery rule. */
+  name: DeliveryRuleRouteConfigurationOverrideActionName;
+  /** Defines the parameters for the action. */
+  parameters: RouteConfigurationOverrideActionParameters;
+}
+/** The name of the action for the delivery rule. */
+export type EdgeActionName = "EdgeAction";
+export type DeliveryRuleEdgeActionParametersTypeName = "DeliveryRuleEdgeActionParameters";
+/** Defines at which point in the request processing pipeline the edge action will be invoked. */
+export type InvocationPoint = "ClientRequest" | "OriginRequest" | "ClientResponse";
+/** Defines the parameters for the edge action. */
+export interface DeliveryRuleEdgeActionParameters {
+  typeName: DeliveryRuleEdgeActionParametersTypeName | (string & {});
+  /** defines the edge action that will be invoked. */
+  edgeActionReference: ResourceReference;
+  /** Defines at which point in the request processing pipeline the edge action will be invoked. */
+  invocationPoint: InvocationPoint | (string & {});
+}
+/** Defines the edge action for the delivery rule. */
+export interface EdgeAction {
+  /** The name of the action for the delivery rule. */
+  name: EdgeActionName;
+  /** Defines the parameters for the action. */
+  parameters: DeliveryRuleEdgeActionParameters;
+}
+/** The name of the action for the delivery rule. */
+export type OriginGroupOverrideActionName = "OriginGroupOverride";
+export type OriginGroupOverrideActionParametersTypeName =
+  "DeliveryRuleOriginGroupOverrideActionParameters";
+/** Defines the parameters for the origin group override action. */
+export interface OriginGroupOverrideActionParameters {
+  typeName: OriginGroupOverrideActionParametersTypeName | (string & {});
+  /** defines the OriginGroup that would override the DefaultOriginGroup. */
+  originGroup: ResourceReference;
+}
+/** Defines the origin group override action for the delivery rule. */
+export interface OriginGroupOverrideAction {
+  /** The name of the action for the delivery rule. */
+  name: OriginGroupOverrideActionName;
+  /** Defines the parameters for the action. */
+  parameters: OriginGroupOverrideActionParameters;
+}
+/** The name of the action for the delivery rule. */
+export type UrlRedirectActionName = "UrlRedirect";
+export type UrlRedirectActionParametersTypeName = "DeliveryRuleUrlRedirectActionParameters";
+/** The redirect type the rule will use when redirecting traffic. */
+export type RedirectType = "Moved" | "Found" | "TemporaryRedirect" | "PermanentRedirect";
+/** Protocol to use for the redirect. The default value is MatchRequest */
+export type DestinationProtocol = "MatchRequest" | "Http" | "Https";
+/** Defines the parameters for the url redirect action. */
+export interface UrlRedirectActionParameters {
+  typeName: UrlRedirectActionParametersTypeName | (string & {});
+  /** The redirect type the rule will use when redirecting traffic. */
+  redirectType: RedirectType | (string & {});
+  /** Protocol to use for the redirect. The default value is MatchRequest */
+  destinationProtocol?: DestinationProtocol | (string & {}) | undefined;
+  /** The full path to redirect. Path cannot be empty and must start with /. Leave empty to use the incoming path as destination path. */
+  customPath?: string | undefined;
+  /** Host to redirect. Leave empty to use the incoming host as the destination host. */
+  customHostname?: string | undefined;
+  /** The set of query strings to be placed in the redirect URL. Setting this value would replace any existing query string; leave empty to preserve the incoming query string. Query string must be in <key>=<value> format. ? and & will be added automatically so do not include them. */
+  customQueryString?: string | undefined;
+  /** Fragment to add to the redirect URL. Fragment is the part of the URL that comes after #. Do not include the #. */
+  customFragment?: string | undefined;
+}
+/** Defines the url redirect action for the delivery rule. */
+export interface UrlRedirectAction {
+  /** The name of the action for the delivery rule. */
+  name: UrlRedirectActionName;
+  /** Defines the parameters for the action. */
+  parameters: UrlRedirectActionParameters;
+}
+/** The name of the action for the delivery rule. */
+export type UrlRewriteActionName = "UrlRewrite";
+export type UrlRewriteActionParametersTypeName = "DeliveryRuleUrlRewriteActionParameters";
+/** Defines the parameters for the url rewrite action. */
+export interface UrlRewriteActionParameters {
+  typeName: UrlRewriteActionParametersTypeName | (string & {});
+  /** define a request URI pattern that identifies the type of requests that may be rewritten. If value is blank, all strings are matched. */
+  sourcePattern: string;
+  /** Define the relative URL to which the above requests will be rewritten by. */
+  destination: string;
+  /** Whether to preserve unmatched path. Default value is true. */
+  preserveUnmatchedPath?: boolean | undefined;
+}
+/** Defines the url rewrite action for the delivery rule. */
+export interface UrlRewriteAction {
+  /** The name of the action for the delivery rule. */
+  name: UrlRewriteActionName;
+  /** Defines the parameters for the action. */
+  parameters: UrlRewriteActionParameters;
+}
+/** The name of the action for the delivery rule. */
+export type UrlSigningActionName = "UrlSigning";
+export type UrlSigningActionParametersTypeName = "DeliveryRuleUrlSigningActionParameters";
+/** Algorithm to use for URL signing */
+export type Algorithm = "SHA256";
+/** Indicates the purpose of the parameter */
+export type ParamIndicator = "Expires" | "KeyId" | "Signature";
+/** Defines how to identify a parameter for a specific purpose e.g. expires */
+export interface UrlSigningParamIdentifier {
+  /** Indicates the purpose of the parameter */
+  paramIndicator: ParamIndicator | (string & {});
+  /** Parameter name */
+  paramName: string;
+}
+/** Defines which query string parameters in the url to be considered for expires, key id etc. */
+export type UrlSigningActionParametersParameterNameOverrideList = Array<UrlSigningParamIdentifier>;
+/** Defines the parameters for the Url Signing action. */
+export interface UrlSigningActionParameters {
+  typeName: UrlSigningActionParametersTypeName | (string & {});
+  /** Algorithm to use for URL signing */
+  algorithm?: Algorithm | (string & {}) | undefined;
+  /** Defines which query string parameters in the url to be considered for expires, key id etc. */
+  parameterNameOverride?: UrlSigningActionParametersParameterNameOverrideList | undefined;
+}
+/** Defines the url signing action for the delivery rule. */
+export interface UrlSigningAction {
+  /** The name of the action for the delivery rule. */
+  name: UrlSigningActionName;
+  /** Defines the parameters for the action. */
+  parameters: UrlSigningActionParameters;
+}
+/** An action for the delivery rule. */
+export type DeliveryRuleAction =
+  | DeliveryRuleCacheExpirationAction
+  | DeliveryRuleCacheKeyQueryStringAction
+  | DeliveryRuleRequestHeaderAction
+  | DeliveryRuleResponseHeaderAction
+  | DeliveryRuleRouteConfigurationOverrideAction
+  | EdgeAction
+  | OriginGroupOverrideAction
+  | UrlRedirectAction
+  | UrlRewriteAction
+  | UrlSigningAction;
 /** A list of actions that are executed when all the conditions of a rule are satisfied. */
 export type DeliveryRuleActionsList = Array<DeliveryRuleAction>;
 /** A rule that specifies a set of actions and conditions */
@@ -1980,39 +3012,75 @@ export interface CreateRuleSetResponse {
   retryAfter?: number | undefined;
 }
 /** The type of the secret resource. */
-export type SecretType =
-  | "UrlSigningKey"
-  | "CustomerCertificate"
-  | "ManagedCertificate"
-  | "AzureFirstPartyManagedCertificate"
-  | "MtlsCertificateChain";
-/** The json object containing secret parameters */
-export interface SecretParameters {
+export type AfdSecretMtlsCertificateChainInputType = "MtlsCertificateChain";
+/** Server-side certificate used for mTLS validation */
+export interface AfdSecretMtlsCertificateChainInput {
   /** The type of the secret resource. */
-  type: SecretType | (string & {});
-  /** UrlSigningKey / CustomerCertificate / MtlsCertificateChain / AzureFirstPartyManagedCertificate: Key Vault secret reference. */
-  secretSource?: ResourceReference | undefined;
-  /** Version of the Key Vault secret. */
-  secretVersion?: string | undefined;
-  /** CustomerCertificate / MtlsCertificateChain: use the latest secret version automatically. */
-  useLatestVersion?: boolean | undefined;
-  /** UrlSigningKey: key id used to sign URLs. */
-  keyId?: string | undefined;
-  /** CustomerCertificate: list of subject alternative names (string array). */
-  subjectAlternativeNames?: unknown | undefined;
-  /** Certificate subject (read-only). */
-  subject?: string | undefined;
-  /** Certificate expiration date (read-only). */
-  expirationDate?: string | undefined;
-  /** Certificate issuing authority (read-only). */
-  certificateAuthority?: string | undefined;
-  /** Certificate thumbprint (read-only). */
-  thumbprint?: string | undefined;
+  type: AfdSecretMtlsCertificateChainInputType;
+  /** Resource reference to the Azure Key Vault secret. Expected to be in format of /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/secrets/{secretName} */
+  secretSource: ResourceReference;
+  /** Version of the secret to be used */
+  secretVersion: string;
 }
+/** The type of the secret resource. */
+export type AzureFirstPartyManagedCertificateParametersInputType =
+  "AzureFirstPartyManagedCertificate";
+/** The list of SANs. */
+export type AzureFirstPartyManagedCertificateParametersInputSubjectAlternativeNamesList =
+  Array<string>;
+/** Azure FirstParty Managed Certificate provided by other first party resource providers to enable HTTPS. */
+export interface AzureFirstPartyManagedCertificateParametersInput {
+  /** The type of the secret resource. */
+  type: AzureFirstPartyManagedCertificateParametersInputType;
+  /** The list of SANs. */
+  subjectAlternativeNames?:
+    | AzureFirstPartyManagedCertificateParametersInputSubjectAlternativeNamesList
+    | undefined;
+}
+/** The type of the secret resource. */
+export type CustomerCertificateParametersInputType = "CustomerCertificate";
+/** Customer Certificate used for https */
+export interface CustomerCertificateParametersInput {
+  /** The type of the secret resource. */
+  type: CustomerCertificateParametersInputType;
+  /** Resource reference to the Azure Key Vault certificate. Expected to be in format of /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/secrets/{certificateName} */
+  secretSource: ResourceReference;
+  /** Version of the secret to be used */
+  secretVersion?: string | undefined;
+  /** Whether to use the latest version for the certificate */
+  useLatestVersion?: boolean | undefined;
+}
+/** The type of the secret resource. */
+export type ManagedCertificateParametersInputType = "ManagedCertificate";
+/** Managed Certificate used for https */
+export interface ManagedCertificateParametersInput {
+  /** The type of the secret resource. */
+  type: ManagedCertificateParametersInputType;
+}
+/** The type of the secret resource. */
+export type UrlSigningKeyParametersType = "UrlSigningKey";
+/** Url signing key parameters */
+export interface UrlSigningKeyParameters {
+  /** The type of the secret resource. */
+  type: UrlSigningKeyParametersType;
+  /** Defines the customer defined key Id. This id will exist in the incoming request to indicate the key used to form the hash. */
+  keyId: string;
+  /** Resource reference to the Azure Key Vault secret. Expected to be in format of /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/secrets/{secretName} */
+  secretSource: ResourceReference;
+  /** Version of the secret to be used */
+  secretVersion: string;
+}
+/** The json object containing secret parameters */
+export type SecretParametersInput =
+  | AfdSecretMtlsCertificateChainInput
+  | AzureFirstPartyManagedCertificateParametersInput
+  | CustomerCertificateParametersInput
+  | ManagedCertificateParametersInput
+  | UrlSigningKeyParameters;
 /** The JSON object that contains the properties of the Secret to create. */
 export interface SecretPropertiesInput {
   /** object which contains secret parameters */
-  parameters?: SecretParameters | undefined;
+  parameters?: SecretParametersInput | undefined;
 }
 export interface CreateSecretRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2026,6 +3094,85 @@ export interface CreateSecretRequest {
   /** The JSON object that contains the properties of the Secret to create. */
   properties?: SecretPropertiesInput | undefined;
 }
+/** The type of the secret resource. */
+export type AfdSecretMtlsCertificateChainType = "MtlsCertificateChain";
+/** Server-side certificate used for mTLS validation */
+export interface AfdSecretMtlsCertificateChain {
+  /** The type of the secret resource. */
+  type: AfdSecretMtlsCertificateChainType;
+  /** Resource reference to the Azure Key Vault secret. Expected to be in format of /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/secrets/{secretName} */
+  secretSource: ResourceReference;
+  /** Version of the secret to be used */
+  secretVersion: string;
+  /** Soonest expiration date among certificates in customer's certificate chain in ISO 8601 compliant format yyyy-MM-ddTHH:mm:ss.fffffffK in UTC */
+  expirationDate?: string | undefined;
+}
+/** The type of the secret resource. */
+export type AzureFirstPartyManagedCertificateParametersType = "AzureFirstPartyManagedCertificate";
+/** The list of SANs. */
+export type AzureFirstPartyManagedCertificateParametersSubjectAlternativeNamesList = Array<string>;
+/** Azure FirstParty Managed Certificate provided by other first party resource providers to enable HTTPS. */
+export interface AzureFirstPartyManagedCertificateParameters {
+  /** The type of the secret resource. */
+  type: AzureFirstPartyManagedCertificateParametersType;
+  /** Resource reference to the Azure Key Vault certificate. Expected to be in format of /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/secrets/{certificateName} */
+  secretSource?: ResourceReference | undefined;
+  /** Subject name in the certificate. */
+  subject?: string | undefined;
+  /** Certificate expiration date. */
+  expirationDate?: string | undefined;
+  /** Certificate issuing authority. */
+  certificateAuthority?: string | undefined;
+  /** The list of SANs. */
+  subjectAlternativeNames?:
+    | AzureFirstPartyManagedCertificateParametersSubjectAlternativeNamesList
+    | undefined;
+  /** Certificate thumbprint. */
+  thumbprint?: string | undefined;
+}
+/** The type of the secret resource. */
+export type CustomerCertificateParametersType = "CustomerCertificate";
+/** The list of SANs. */
+export type CustomerCertificateParametersSubjectAlternativeNamesList = Array<string>;
+/** Customer Certificate used for https */
+export interface CustomerCertificateParameters {
+  /** The type of the secret resource. */
+  type: CustomerCertificateParametersType;
+  /** Resource reference to the Azure Key Vault certificate. Expected to be in format of /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/secrets/{certificateName} */
+  secretSource: ResourceReference;
+  /** Version of the secret to be used */
+  secretVersion?: string | undefined;
+  /** Whether to use the latest version for the certificate */
+  useLatestVersion?: boolean | undefined;
+  /** Subject name in the certificate. */
+  subject?: string | undefined;
+  /** Certificate expiration date. */
+  expirationDate?: string | undefined;
+  /** Certificate issuing authority. */
+  certificateAuthority?: string | undefined;
+  /** The list of SANs. */
+  subjectAlternativeNames?: CustomerCertificateParametersSubjectAlternativeNamesList | undefined;
+  /** Certificate thumbprint. */
+  thumbprint?: string | undefined;
+}
+/** The type of the secret resource. */
+export type ManagedCertificateParametersType = "ManagedCertificate";
+/** Managed Certificate used for https */
+export interface ManagedCertificateParameters {
+  /** The type of the secret resource. */
+  type: ManagedCertificateParametersType;
+  /** Subject name in the certificate. */
+  subject?: string | undefined;
+  /** Certificate expiration date. */
+  expirationDate?: string | undefined;
+}
+/** The json object containing secret parameters */
+export type SecretParameters =
+  | AfdSecretMtlsCertificateChain
+  | AzureFirstPartyManagedCertificateParameters
+  | CustomerCertificateParameters
+  | ManagedCertificateParameters
+  | UrlSigningKeyParameters;
 /** The JSON object that contains the properties of the Secret to create. */
 export interface SecretProperties {
   /** Provisioning status */
@@ -2055,20 +3202,44 @@ export interface CreateSecretResponse {
   location?: string | undefined;
 }
 /** The type of the Security policy to create. */
-export type SecurityPolicyType = "WebApplicationFirewall";
-/** The json object containing security policy parameters */
-export interface SecurityPolicyPropertiesParameters {
+export type SecurityPolicyWebApplicationFirewallParametersInputType = "WebApplicationFirewall";
+/** List of domains. */
+export type SecurityPolicyWebApplicationFirewallAssociationInputDomainsList =
+  Array<ResourceReference>;
+/** List of paths */
+export type SecurityPolicyWebApplicationFirewallAssociationInputPatternsToMatchList = Array<string>;
+/** List of routes. */
+export type SecurityPolicyWebApplicationFirewallAssociationInputRoutesList =
+  Array<ResourceReference>;
+/** settings for security policy patterns to match */
+export interface SecurityPolicyWebApplicationFirewallAssociationInput {
+  /** List of domains. */
+  domains?: SecurityPolicyWebApplicationFirewallAssociationInputDomainsList | undefined;
+  /** List of paths */
+  patternsToMatch?:
+    | SecurityPolicyWebApplicationFirewallAssociationInputPatternsToMatchList
+    | undefined;
+  /** List of routes. */
+  routes?: SecurityPolicyWebApplicationFirewallAssociationInputRoutesList | undefined;
+}
+/** Waf associations */
+export type SecurityPolicyWebApplicationFirewallParametersInputAssociationsList =
+  Array<SecurityPolicyWebApplicationFirewallAssociationInput>;
+/** The json object containing security policy waf parameters */
+export interface SecurityPolicyWebApplicationFirewallParametersInput {
   /** The type of the Security policy to create. */
-  type: SecurityPolicyType | (string & {});
-  /** WebApplicationFirewall: the Front Door WAF policy (Microsoft.Network/frontDoorWebApplicationFirewallPolicies). */
+  type: SecurityPolicyWebApplicationFirewallParametersInputType | (string & {});
+  /** Resource ID. */
   wafPolicy?: ResourceReference | undefined;
-  /** WebApplicationFirewall: domains (`{ domains: [{ id }], patternsToMatch: string[] }[]`) the policy applies to. */
-  associations?: unknown | undefined;
+  /** Waf associations */
+  associations?: SecurityPolicyWebApplicationFirewallParametersInputAssociationsList | undefined;
+  /** Indicates if this is a profile-level WAF policy. */
+  isProfileLevel?: boolean | undefined;
 }
 /** The json object that contains properties required to create a security policy */
 export interface SecurityPolicyPropertiesInput {
   /** object which contains security policy parameters */
-  parameters?: SecurityPolicyPropertiesParameters | undefined;
+  parameters?: SecurityPolicyWebApplicationFirewallParametersInput | undefined;
 }
 export interface CreateSecurityPolicyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2082,6 +3253,38 @@ export interface CreateSecurityPolicyRequest {
   /** The json object that contains properties required to create a security policy */
   properties?: SecurityPolicyPropertiesInput | undefined;
 }
+/** The type of the Security policy to create. */
+export type SecurityPolicyWebApplicationFirewallParametersType = "WebApplicationFirewall";
+/** List of domains. */
+export type SecurityPolicyWebApplicationFirewallAssociationDomainsList =
+  Array<ActivatedResourceReference>;
+/** List of paths */
+export type SecurityPolicyWebApplicationFirewallAssociationPatternsToMatchList = Array<string>;
+/** List of routes. */
+export type SecurityPolicyWebApplicationFirewallAssociationRoutesList = Array<ResourceReference>;
+/** settings for security policy patterns to match */
+export interface SecurityPolicyWebApplicationFirewallAssociation {
+  /** List of domains. */
+  domains?: SecurityPolicyWebApplicationFirewallAssociationDomainsList | undefined;
+  /** List of paths */
+  patternsToMatch?: SecurityPolicyWebApplicationFirewallAssociationPatternsToMatchList | undefined;
+  /** List of routes. */
+  routes?: SecurityPolicyWebApplicationFirewallAssociationRoutesList | undefined;
+}
+/** Waf associations */
+export type SecurityPolicyWebApplicationFirewallParametersAssociationsList =
+  Array<SecurityPolicyWebApplicationFirewallAssociation>;
+/** The json object containing security policy waf parameters */
+export interface SecurityPolicyWebApplicationFirewallParameters {
+  /** The type of the Security policy to create. */
+  type: SecurityPolicyWebApplicationFirewallParametersType;
+  /** Resource ID. */
+  wafPolicy?: ResourceReference | undefined;
+  /** Waf associations */
+  associations?: SecurityPolicyWebApplicationFirewallParametersAssociationsList | undefined;
+  /** Indicates if this is a profile-level WAF policy. */
+  isProfileLevel?: boolean | undefined;
+}
 /** The json object that contains properties required to create a security policy */
 export interface SecurityPolicyProperties {
   /** Provisioning status */
@@ -2090,7 +3293,7 @@ export interface SecurityPolicyProperties {
   /** The name of the profile which holds the security policy. */
   profileName?: string | undefined;
   /** object which contains security policy parameters */
-  parameters?: SecurityPolicyPropertiesParameters | undefined;
+  parameters?: SecurityPolicyWebApplicationFirewallParameters | undefined;
 }
 export interface CreateSecurityPolicyResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2486,12 +3689,7 @@ export interface EnableCustomDomainCustomHttpsRequest {
   endpointName: string;
   /** Name of the custom domain within an endpoint. */
   customDomainName: string;
-  /** Defines the source of the SSL certificate. */
-  certificateSource: CertificateSource | (string & {});
-  /** Defines the TLS extension protocol that is used for secure delivery. */
-  protocolType: ProtocolType | (string & {});
-  /** TLS protocol version that will be used for Https */
-  minimumTlsVersion?: MinimumTlsVersion | (string & {}) | undefined;
+  body?: CustomDomainHttpsParameters | undefined;
 }
 export interface EnableCustomDomainCustomHttpsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3773,7 +4971,7 @@ export interface ListEdgeActionByResourceGroupRequest {
 /** Resource tags. */
 export type EdgeActionTagsMap = { [key: string]: string | undefined };
 /** Concrete tracked resource types can be created by aliasing this type using a specific property type. */
-export interface EdgeAction {
+export interface EdgeAction_2 {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string | undefined;
   /** The name of the resource */
@@ -3792,7 +4990,7 @@ export interface EdgeAction {
   sku: SkuType;
 }
 /** The EdgeAction items on this page */
-export type EdgeActionListResultValueList = Array<EdgeAction>;
+export type EdgeActionListResultValueList = Array<EdgeAction_2>;
 /** The response of a EdgeAction list operation. */
 export interface EdgeActionListResult {
   /** The EdgeAction items on this page */
@@ -4597,7 +5795,7 @@ export interface CanMigrateResult {
   retryAfter?: number | undefined;
 }
 /** The json object that contains properties required to update a security policy */
-export type SecurityPolicyUpdateProperties = SecurityPolicyPropertiesInput;
+export type SecurityPolicyUpdatePropertiesInput = SecurityPolicyPropertiesInput;
 export interface PatchSecurityPolicyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -5632,6 +6830,13 @@ export interface ValidateCustomDomainOutput {
   /** Error message describing why the custom domain is not valid. */
   message?: string | undefined;
 }
+/** The type of the secret resource. */
+export type SecretType =
+  | "UrlSigningKey"
+  | "CustomerCertificate"
+  | "ManagedCertificate"
+  | "AzureFirstPartyManagedCertificate"
+  | "MtlsCertificateChain";
 export interface ValidateAFDProfileSecretRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -5724,8 +6929,8 @@ export const CheckAFDProfileEndpointNameAvailability: API.OperationMethod<
   CheckAFDProfileEndpointNameAvailabilityError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c75, 0) as any as S.Schema<CheckAFDProfileEndpointNameAvailabilityRequest>,
-  output: __S(2432, __c76, 0) as any as S.Schema<CheckEndpointNameAvailabilityOutput>,
+  input: __S(2368, __c74, 0) as any as S.Schema<CheckAFDProfileEndpointNameAvailabilityRequest>,
+  output: __S(2400, __c75, 0) as any as S.Schema<CheckEndpointNameAvailabilityOutput>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5759,7 +6964,7 @@ export const CheckEndpointNameAvailability: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3456, __c108, 0) as any as S.Schema<CheckEndpointNameAvailabilityRequest>,
-  output: __S(2432, __c76, 0) as any as S.Schema<CheckEndpointNameAvailabilityOutput>,
+  output: __S(2400, __c75, 0) as any as S.Schema<CheckEndpointNameAvailabilityOutput>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5843,8 +7048,8 @@ export const CreateAFDEndpoint: API.OperationMethod<
   CreateAFDEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6177, __c193, 1) as any as S.Schema<CreateAFDEndpointRequest>,
-  output: __S(6178, __c193, 2) as any as S.Schema<CreateAFDEndpointResponse>,
+  input: __S(6241, __c195, 1) as any as S.Schema<CreateAFDEndpointRequest>,
+  output: __S(6242, __c195, 2) as any as S.Schema<CreateAFDEndpointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5877,8 +7082,8 @@ export const CreateAFDOriginGroup: API.OperationMethod<
   CreateAFDOriginGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<CreateAFDOriginGroupRequest>,
-  output: __S(801, __c25, 1) as any as S.Schema<CreateAFDOriginGroupResponse>,
+  input: __S(768, __c24, 0) as any as S.Schema<CreateAFDOriginGroupRequest>,
+  output: __S(769, __c24, 1) as any as S.Schema<CreateAFDOriginGroupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5894,8 +7099,8 @@ export const CreateCustomDomain: API.OperationMethod<
   CreateCustomDomainError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1281, __c40, 1) as any as S.Schema<CreateCustomDomainRequest>,
-  output: __S(1282, __c40, 2) as any as S.Schema<CreateCustomDomainResponse>,
+  input: __S(1249, __c39, 1) as any as S.Schema<CreateCustomDomainRequest>,
+  output: __S(1250, __c39, 2) as any as S.Schema<CreateCustomDomainResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5911,8 +7116,8 @@ export const CreateEdgeAction: API.OperationMethod<
   CreateEdgeActionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<CreateEdgeActionRequest>,
-  output: __S(1665, __c52, 1) as any as S.Schema<CreateEdgeActionResponse>,
+  input: __S(1632, __c51, 0) as any as S.Schema<CreateEdgeActionRequest>,
+  output: __S(1633, __c51, 1) as any as S.Schema<CreateEdgeActionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5928,8 +7133,8 @@ export const CreateEdgeActionExecutionFilter: API.OperationMethod<
   CreateEdgeActionExecutionFilterError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1921, __c60, 1) as any as S.Schema<CreateEdgeActionExecutionFilterRequest>,
-  output: __S(1922, __c60, 2) as any as S.Schema<CreateEdgeActionExecutionFilterResponse>,
+  input: __S(1889, __c59, 1) as any as S.Schema<CreateEdgeActionExecutionFilterRequest>,
+  output: __S(1890, __c59, 2) as any as S.Schema<CreateEdgeActionExecutionFilterResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5945,8 +7150,8 @@ export const CreateEdgeActionVersion: API.OperationMethod<
   CreateEdgeActionVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1985, __c62, 1) as any as S.Schema<CreateEdgeActionVersionRequest>,
-  output: __S(1986, __c62, 2) as any as S.Schema<CreateEdgeActionVersionResponse>,
+  input: __S(1953, __c61, 1) as any as S.Schema<CreateEdgeActionVersionRequest>,
+  output: __S(1954, __c61, 2) as any as S.Schema<CreateEdgeActionVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5962,8 +7167,8 @@ export const CreateEndpoint: API.OperationMethod<
   CreateEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2049, __c64, 1) as any as S.Schema<CreateEndpointRequest>,
-  output: __S(2050, __c64, 2) as any as S.Schema<CreateEndpointResponse>,
+  input: __S(2017, __c63, 1) as any as S.Schema<CreateEndpointRequest>,
+  output: __S(2018, __c63, 2) as any as S.Schema<CreateEndpointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5979,8 +7184,8 @@ export const CreateOrigin: API.OperationMethod<
   CreateOriginError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<CreateOriginRequest>,
-  output: __S(2209, __c69, 1) as any as S.Schema<CreateOriginResponse>,
+  input: __S(2176, __c68, 0) as any as S.Schema<CreateOriginRequest>,
+  output: __S(2177, __c68, 1) as any as S.Schema<CreateOriginResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5996,8 +7201,8 @@ export const CreateOriginGroup: API.OperationMethod<
   CreateOriginGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<CreateOriginGroupRequest>,
-  output: __S(2273, __c71, 1) as any as S.Schema<CreateOriginGroupResponse>,
+  input: __S(2240, __c70, 0) as any as S.Schema<CreateOriginGroupRequest>,
+  output: __S(2241, __c70, 1) as any as S.Schema<CreateOriginGroupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6013,8 +7218,8 @@ export const CreateProfile: API.OperationMethod<
   CreateProfileError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c73, 0) as any as S.Schema<CreateProfileRequest>,
-  output: __S(2337, __c73, 1) as any as S.Schema<CreateProfileResponse>,
+  input: __S(2304, __c72, 0) as any as S.Schema<CreateProfileRequest>,
+  output: __S(2305, __c72, 1) as any as S.Schema<CreateProfileResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6030,8 +7235,8 @@ export const CreateRoute: API.OperationMethod<
   CreateRouteError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<CreateRouteRequest>,
-  output: __S(2465, __c77, 1) as any as S.Schema<CreateRouteResponse>,
+  input: __S(2432, __c76, 0) as any as S.Schema<CreateRouteRequest>,
+  output: __S(2433, __c76, 1) as any as S.Schema<CreateRouteResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6081,8 +7286,8 @@ export const CreateSecret: API.OperationMethod<
   CreateSecretError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2721, __c85, 1) as any as S.Schema<CreateSecretRequest>,
-  output: __S(2722, __c85, 2) as any as S.Schema<CreateSecretResponse>,
+  input: __S(2726, __c85, 6) as any as S.Schema<CreateSecretRequest>,
+  output: __S(2727, __c85, 7) as any as S.Schema<CreateSecretResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6303,7 +7508,7 @@ export const DeletePolicy: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3328, __c104, 0) as any as S.Schema<DeletePolicyRequest>,
-  output: __S(1696, __c53, 0) as any as S.Schema<DeletePolicyResponse>,
+  output: __S(1664, __c52, 0) as any as S.Schema<DeletePolicyResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6345,12 +7550,12 @@ export const DeleteRoute: API.OperationMethod<
   span: "DeleteRoute",
 }));
 
-export type DeleteRuleError = AzureOpError;
+export type DeleteRule2Error = AzureOpError;
 /** Deletes an existing delivery rule within a rule set. */
-export const DeleteRule: API.OperationMethod<
+export const DeleteRule2: API.OperationMethod<
   DeleteRuleRequest,
   DeleteRuleResponse,
-  DeleteRuleError,
+  DeleteRule2Error,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3424, __c107, 0) as any as S.Schema<DeleteRuleRequest>,
@@ -6359,7 +7564,7 @@ export const DeleteRule: API.OperationMethod<
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
-  span: "DeleteRule",
+  span: "DeleteRule2",
 }));
 
 export type DeleteRuleSetError = AzureOpError;
@@ -7050,8 +8255,8 @@ export const ListCustomDomainByEndpoint: API.OperationMethod<
   ListCustomDomainByEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5792, __c181, 0) as any as S.Schema<ListCustomDomainByEndpointRequest>,
-  output: __S(5794, __c181, 2) as any as S.Schema<CustomDomainListResult>,
+  input: __S(5856, __c183, 0) as any as S.Schema<ListCustomDomainByEndpointRequest>,
+  output: __S(5858, __c183, 2) as any as S.Schema<CustomDomainListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7067,8 +8272,8 @@ export const ListEdgeActionByResourceGroup: API.OperationMethod<
   ListEdgeActionByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5824, __c182, 0) as any as S.Schema<ListEdgeActionByResourceGroupRequest>,
-  output: __S(5857, __c183, 1) as any as S.Schema<EdgeActionListResult>,
+  input: __S(5888, __c184, 0) as any as S.Schema<ListEdgeActionByResourceGroupRequest>,
+  output: __S(5921, __c185, 1) as any as S.Schema<EdgeActionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7084,8 +8289,8 @@ export const ListEdgeActionBySubscription: API.OperationMethod<
   ListEdgeActionBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5888, __c184, 0) as any as S.Schema<ListEdgeActionBySubscriptionRequest>,
-  output: __S(5857, __c183, 1) as any as S.Schema<EdgeActionListResult>,
+  input: __S(5952, __c186, 0) as any as S.Schema<ListEdgeActionBySubscriptionRequest>,
+  output: __S(5921, __c185, 1) as any as S.Schema<EdgeActionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7101,8 +8306,8 @@ export const ListEdgeActionExecutionFilterByEdgeAction: API.OperationMethod<
   ListEdgeActionExecutionFilterByEdgeActionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5920, __c185, 0) as any as S.Schema<ListEdgeActionExecutionFilterByEdgeActionRequest>,
-  output: __S(5922, __c185, 2) as any as S.Schema<EdgeActionExecutionFilterListResult>,
+  input: __S(5984, __c187, 0) as any as S.Schema<ListEdgeActionExecutionFilterByEdgeActionRequest>,
+  output: __S(5986, __c187, 2) as any as S.Schema<EdgeActionExecutionFilterListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7118,8 +8323,8 @@ export const ListEdgeActionVersionByEdgeAction: API.OperationMethod<
   ListEdgeActionVersionByEdgeActionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5952, __c186, 0) as any as S.Schema<ListEdgeActionVersionByEdgeActionRequest>,
-  output: __S(5954, __c186, 2) as any as S.Schema<EdgeActionVersionListResult>,
+  input: __S(6016, __c188, 0) as any as S.Schema<ListEdgeActionVersionByEdgeActionRequest>,
+  output: __S(6018, __c188, 2) as any as S.Schema<EdgeActionVersionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7135,8 +8340,8 @@ export const ListEdgeNodes: API.OperationMethod<
   ListEdgeNodesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5984, __c187, 0) as any as S.Schema<ListEdgeNodesRequest>,
-  output: __S(5992, __c187, 8) as any as S.Schema<EdgenodeResult>,
+  input: __S(6048, __c189, 0) as any as S.Schema<ListEdgeNodesRequest>,
+  output: __S(6056, __c189, 8) as any as S.Schema<EdgenodeResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7152,8 +8357,8 @@ export const ListEndpointByProfile: API.OperationMethod<
   ListEndpointByProfileError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6016, __c188, 0) as any as S.Schema<ListEndpointByProfileRequest>,
-  output: __S(6018, __c188, 2) as any as S.Schema<EndpointListResult>,
+  input: __S(6080, __c190, 0) as any as S.Schema<ListEndpointByProfileRequest>,
+  output: __S(6082, __c190, 2) as any as S.Schema<EndpointListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7169,8 +8374,8 @@ export const ListEndpointResourceUsage: API.OperationMethod<
   ListEndpointResourceUsageError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6048, __c189, 0) as any as S.Schema<ListEndpointResourceUsageRequest>,
-  output: __S(6082, __c190, 2) as any as S.Schema<ResourceUsageListResult>,
+  input: __S(6112, __c191, 0) as any as S.Schema<ListEndpointResourceUsageRequest>,
+  output: __S(6146, __c192, 2) as any as S.Schema<ResourceUsageListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7186,8 +8391,8 @@ export const ListManagedRuleSets: API.OperationMethod<
   ListManagedRuleSetsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6112, __c191, 0) as any as S.Schema<ListManagedRuleSetsRequest>,
-  output: __S(6120, __c191, 8) as any as S.Schema<ManagedRuleSetDefinitionList>,
+  input: __S(6176, __c193, 0) as any as S.Schema<ListManagedRuleSetsRequest>,
+  output: __S(6184, __c193, 8) as any as S.Schema<ManagedRuleSetDefinitionList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7203,8 +8408,8 @@ export const ListOperations: API.OperationMethod<
   ListOperationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6144, __c192, 0) as any as S.Schema<ListOperationsRequest>,
-  output: __S(6158, __c192, 14) as any as S.Schema<OperationsListResult>,
+  input: __S(6208, __c194, 0) as any as S.Schema<ListOperationsRequest>,
+  output: __S(6222, __c194, 14) as any as S.Schema<OperationsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7220,8 +8425,8 @@ export const ListOriginByEndpoint: API.OperationMethod<
   ListOriginByEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6240, __c195, 0) as any as S.Schema<ListOriginByEndpointRequest>,
-  output: __S(6242, __c195, 2) as any as S.Schema<OriginListResult>,
+  input: __S(6304, __c197, 0) as any as S.Schema<ListOriginByEndpointRequest>,
+  output: __S(6306, __c197, 2) as any as S.Schema<OriginListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7237,8 +8442,8 @@ export const ListOriginGroupByEndpoint: API.OperationMethod<
   ListOriginGroupByEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6272, __c196, 0) as any as S.Schema<ListOriginGroupByEndpointRequest>,
-  output: __S(6274, __c196, 2) as any as S.Schema<OriginGroupListResult>,
+  input: __S(6336, __c198, 0) as any as S.Schema<ListOriginGroupByEndpointRequest>,
+  output: __S(6338, __c198, 2) as any as S.Schema<OriginGroupListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7254,8 +8459,8 @@ export const ListPolicies: API.OperationMethod<
   ListPoliciesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6304, __c197, 0) as any as S.Schema<ListPoliciesRequest>,
-  output: __S(6306, __c197, 2) as any as S.Schema<CdnWebApplicationFirewallPolicyList>,
+  input: __S(6368, __c199, 0) as any as S.Schema<ListPoliciesRequest>,
+  output: __S(6370, __c199, 2) as any as S.Schema<CdnWebApplicationFirewallPolicyList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7271,8 +8476,8 @@ export const ListProfileByResourceGroup: API.OperationMethod<
   ListProfileByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6336, __c198, 0) as any as S.Schema<ListProfileByResourceGroupRequest>,
-  output: __S(6369, __c199, 1) as any as S.Schema<ProfileListResult>,
+  input: __S(6400, __c200, 0) as any as S.Schema<ListProfileByResourceGroupRequest>,
+  output: __S(6433, __c201, 1) as any as S.Schema<ProfileListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7288,8 +8493,8 @@ export const ListProfileResourceUsage: API.OperationMethod<
   ListProfileResourceUsageError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6400, __c200, 0) as any as S.Schema<ListProfileResourceUsageRequest>,
-  output: __S(6082, __c190, 2) as any as S.Schema<ResourceUsageListResult>,
+  input: __S(6464, __c202, 0) as any as S.Schema<ListProfileResourceUsageRequest>,
+  output: __S(6146, __c192, 2) as any as S.Schema<ResourceUsageListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7305,8 +8510,8 @@ export const ListProfiles: API.OperationMethod<
   ListProfilesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6432, __c201, 0) as any as S.Schema<ListProfilesRequest>,
-  output: __S(6369, __c199, 1) as any as S.Schema<ProfileListResult>,
+  input: __S(6496, __c203, 0) as any as S.Schema<ListProfilesRequest>,
+  output: __S(6433, __c201, 1) as any as S.Schema<ProfileListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7322,8 +8527,8 @@ export const ListProfileSupportedOptimizationTypes: API.OperationMethod<
   ListProfileSupportedOptimizationTypesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6464, __c202, 0) as any as S.Schema<ListProfileSupportedOptimizationTypesRequest>,
-  output: __S(6465, __c202, 1) as any as S.Schema<SupportedOptimizationTypesListResult>,
+  input: __S(6528, __c204, 0) as any as S.Schema<ListProfileSupportedOptimizationTypesRequest>,
+  output: __S(6529, __c204, 1) as any as S.Schema<SupportedOptimizationTypesListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7339,8 +8544,8 @@ export const ListResourceUsage: API.OperationMethod<
   ListResourceUsageError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6496, __c203, 0) as any as S.Schema<ListResourceUsageRequest>,
-  output: __S(6082, __c190, 2) as any as S.Schema<ResourceUsageListResult>,
+  input: __S(6560, __c205, 0) as any as S.Schema<ListResourceUsageRequest>,
+  output: __S(6146, __c192, 2) as any as S.Schema<ResourceUsageListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7356,8 +8561,8 @@ export const ListRouteByEndpoint: API.OperationMethod<
   ListRouteByEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6528, __c204, 0) as any as S.Schema<ListRouteByEndpointRequest>,
-  output: __S(6530, __c204, 2) as any as S.Schema<RouteListResult>,
+  input: __S(6592, __c206, 0) as any as S.Schema<ListRouteByEndpointRequest>,
+  output: __S(6594, __c206, 2) as any as S.Schema<RouteListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7373,8 +8578,8 @@ export const ListRuleByRuleSet: API.OperationMethod<
   ListRuleByRuleSetError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6560, __c205, 0) as any as S.Schema<ListRuleByRuleSetRequest>,
-  output: __S(6562, __c205, 2) as any as S.Schema<RuleListResult>,
+  input: __S(6624, __c207, 0) as any as S.Schema<ListRuleByRuleSetRequest>,
+  output: __S(6626, __c207, 2) as any as S.Schema<RuleListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7390,8 +8595,8 @@ export const ListRuleSetByProfile: API.OperationMethod<
   ListRuleSetByProfileError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<ListRuleSetByProfileRequest>,
-  output: __S(418, __c13, 2) as any as S.Schema<RuleSetListResult>,
+  input: __S(384, __c12, 0) as any as S.Schema<ListRuleSetByProfileRequest>,
+  output: __S(386, __c12, 2) as any as S.Schema<RuleSetListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7407,7 +8612,7 @@ export const ListRuleSetResourceUsage: API.OperationMethod<
   ListRuleSetResourceUsageError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<ListRuleSetResourceUsageRequest>,
+  input: __S(416, __c13, 0) as any as S.Schema<ListRuleSetResourceUsageRequest>,
   output: __S(5539, __c173, 3) as any as S.Schema<UsagesListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -7424,8 +8629,8 @@ export const ListSecretByProfile: API.OperationMethod<
   ListSecretByProfileError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<ListSecretByProfileRequest>,
-  output: __S(482, __c15, 2) as any as S.Schema<SecretListResult>,
+  input: __S(448, __c14, 0) as any as S.Schema<ListSecretByProfileRequest>,
+  output: __S(450, __c14, 2) as any as S.Schema<SecretListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7441,8 +8646,8 @@ export const ListSecurityPolicyByProfile: API.OperationMethod<
   ListSecurityPolicyByProfileError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<ListSecurityPolicyByProfileRequest>,
-  output: __S(514, __c16, 2) as any as S.Schema<SecurityPolicyListResult>,
+  input: __S(480, __c15, 0) as any as S.Schema<ListSecurityPolicyByProfileRequest>,
+  output: __S(482, __c15, 2) as any as S.Schema<SecurityPolicyListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7458,8 +8663,8 @@ export const MigrateProfile: API.OperationMethod<
   MigrateProfileError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(546, __c17, 2) as any as S.Schema<MigrateProfileRequest>,
-  output: __S(577, __c18, 1) as any as S.Schema<MigrateResult>,
+  input: __S(514, __c16, 2) as any as S.Schema<MigrateProfileRequest>,
+  output: __S(545, __c17, 1) as any as S.Schema<MigrateResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7475,8 +8680,8 @@ export const MigrateProfilesCan: API.OperationMethod<
   MigrateProfilesCanError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<MigrateProfilesCanRequest>,
-  output: __S(643, __c20, 3) as any as S.Schema<CanMigrateResult>,
+  input: __S(576, __c18, 0) as any as S.Schema<MigrateProfilesCanRequest>,
+  output: __S(611, __c19, 3) as any as S.Schema<CanMigrateResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7492,8 +8697,8 @@ export const PatchSecurityPolicy: API.OperationMethod<
   PatchSecurityPolicyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<PatchSecurityPolicyRequest>,
-  output: __S(673, __c21, 1) as any as S.Schema<PatchSecurityPolicyResponse>,
+  input: __S(640, __c20, 0) as any as S.Schema<PatchSecurityPolicyRequest>,
+  output: __S(641, __c20, 1) as any as S.Schema<PatchSecurityPolicyResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7509,8 +8714,8 @@ export const PoliciesCreateOrUpdate: API.OperationMethod<
   PoliciesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(705, __c22, 1) as any as S.Schema<PoliciesCreateOrUpdateRequest>,
-  output: __S(706, __c22, 2) as any as S.Schema<PoliciesCreateOrUpdateResponse>,
+  input: __S(673, __c21, 1) as any as S.Schema<PoliciesCreateOrUpdateRequest>,
+  output: __S(674, __c21, 2) as any as S.Schema<PoliciesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7526,8 +8731,8 @@ export const ProfilesCdnCanMigrateToAfd: API.OperationMethod<
   ProfilesCdnCanMigrateToAfdError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<ProfilesCdnCanMigrateToAfdRequest>,
-  output: __S(643, __c20, 3) as any as S.Schema<CanMigrateResult>,
+  input: __S(704, __c22, 0) as any as S.Schema<ProfilesCdnCanMigrateToAfdRequest>,
+  output: __S(611, __c19, 3) as any as S.Schema<CanMigrateResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7543,8 +8748,8 @@ export const ProfilesCdnMigrateToAfd: API.OperationMethod<
   ProfilesCdnMigrateToAfdError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(770, __c24, 2) as any as S.Schema<ProfilesCdnMigrateToAfdRequest>,
-  output: __S(577, __c18, 1) as any as S.Schema<MigrateResult>,
+  input: __S(738, __c23, 2) as any as S.Schema<ProfilesCdnMigrateToAfdRequest>,
+  output: __S(545, __c17, 1) as any as S.Schema<MigrateResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7560,7 +8765,7 @@ export const PurgeAFDEndpointContent: API.OperationMethod<
   PurgeAFDEndpointContentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<PurgeAFDEndpointContentRequest>,
+  input: __S(896, __c28, 0) as any as S.Schema<PurgeAFDEndpointContentRequest>,
   output: __S(5216, __c163, 0) as any as S.Schema<PurgeAFDEndpointContentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -7577,7 +8782,7 @@ export const PurgeEndpointContent: API.OperationMethod<
   PurgeEndpointContentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<PurgeEndpointContentRequest>,
+  input: __S(928, __c29, 0) as any as S.Schema<PurgeEndpointContentRequest>,
   output: __S(3776, __c118, 0) as any as S.Schema<PurgeEndpointContentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -7594,7 +8799,7 @@ export const RefreshAFDCustomDomainValidationToken: API.OperationMethod<
   RefreshAFDCustomDomainValidationTokenError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<RefreshAFDCustomDomainValidationTokenRequest>,
+  input: __S(960, __c30, 0) as any as S.Schema<RefreshAFDCustomDomainValidationTokenRequest>,
   output: __S(5216, __c163, 0) as any as S.Schema<RefreshAFDCustomDomainValidationTokenResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -7611,8 +8816,8 @@ export const StartEndpoint: API.OperationMethod<
   StartEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<StartEndpointRequest>,
-  output: __S(1056, __c33, 0) as any as S.Schema<StartEndpointResponse>,
+  input: __S(992, __c31, 0) as any as S.Schema<StartEndpointRequest>,
+  output: __S(1024, __c32, 0) as any as S.Schema<StartEndpointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7628,8 +8833,8 @@ export const StopEndpoint: API.OperationMethod<
   StopEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<StopEndpointRequest>,
-  output: __S(1056, __c33, 0) as any as S.Schema<StopEndpointResponse>,
+  input: __S(1056, __c33, 0) as any as S.Schema<StopEndpointRequest>,
+  output: __S(1024, __c32, 0) as any as S.Schema<StopEndpointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7645,7 +8850,7 @@ export const SwapEdgeActionVersionDefault: API.OperationMethod<
   SwapEdgeActionVersionDefaultError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<SwapEdgeActionVersionDefaultRequest>,
+  input: __S(1088, __c34, 0) as any as S.Schema<SwapEdgeActionVersionDefaultRequest>,
   output: __S(5216, __c163, 0) as any as S.Schema<SwapEdgeActionVersionDefaultResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -7662,8 +8867,8 @@ export const UpdateAFDCustomDomain: API.OperationMethod<
   UpdateAFDCustomDomainError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1153, __c36, 1) as any as S.Schema<UpdateAFDCustomDomainRequest>,
-  output: __S(1154, __c36, 2) as any as S.Schema<UpdateAFDCustomDomainResponse>,
+  input: __S(1121, __c35, 1) as any as S.Schema<UpdateAFDCustomDomainRequest>,
+  output: __S(1122, __c35, 2) as any as S.Schema<UpdateAFDCustomDomainResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7679,8 +8884,8 @@ export const UpdateAFDEndpoint: API.OperationMethod<
   UpdateAFDEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1185, __c37, 1) as any as S.Schema<UpdateAFDEndpointRequest>,
-  output: __S(1186, __c37, 2) as any as S.Schema<UpdateAFDEndpointResponse>,
+  input: __S(1153, __c36, 1) as any as S.Schema<UpdateAFDEndpointRequest>,
+  output: __S(1154, __c36, 2) as any as S.Schema<UpdateAFDEndpointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7696,8 +8901,8 @@ export const UpdateAFDOrigin: API.OperationMethod<
   UpdateAFDOriginError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<UpdateAFDOriginRequest>,
-  output: __S(1217, __c38, 1) as any as S.Schema<UpdateAFDOriginResponse>,
+  input: __S(1184, __c37, 0) as any as S.Schema<UpdateAFDOriginRequest>,
+  output: __S(1185, __c37, 1) as any as S.Schema<UpdateAFDOriginResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7713,8 +8918,8 @@ export const UpdateAFDOriginGroup: API.OperationMethod<
   UpdateAFDOriginGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<UpdateAFDOriginGroupRequest>,
-  output: __S(1249, __c39, 1) as any as S.Schema<UpdateAFDOriginGroupResponse>,
+  input: __S(1216, __c38, 0) as any as S.Schema<UpdateAFDOriginGroupRequest>,
+  output: __S(1217, __c38, 1) as any as S.Schema<UpdateAFDOriginGroupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7730,8 +8935,8 @@ export const UpdateEdgeAction: API.OperationMethod<
   UpdateEdgeActionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1345, __c42, 1) as any as S.Schema<UpdateEdgeActionRequest>,
-  output: __S(1346, __c42, 2) as any as S.Schema<UpdateEdgeActionResponse>,
+  input: __S(1313, __c41, 1) as any as S.Schema<UpdateEdgeActionRequest>,
+  output: __S(1314, __c41, 2) as any as S.Schema<UpdateEdgeActionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7747,8 +8952,8 @@ export const UpdateEdgeActionExecutionFilter: API.OperationMethod<
   UpdateEdgeActionExecutionFilterError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1377, __c43, 1) as any as S.Schema<UpdateEdgeActionExecutionFilterRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<UpdateEdgeActionExecutionFilterResponse>,
+  input: __S(1345, __c42, 1) as any as S.Schema<UpdateEdgeActionExecutionFilterRequest>,
+  output: __S(1346, __c42, 2) as any as S.Schema<UpdateEdgeActionExecutionFilterResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7764,7 +8969,7 @@ export const UpdateEdgeActionVersion: API.OperationMethod<
   UpdateEdgeActionVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1409, __c44, 1) as any as S.Schema<UpdateEdgeActionVersionRequest>,
+  input: __S(1377, __c43, 1) as any as S.Schema<UpdateEdgeActionVersionRequest>,
   output: __S(3616, __c113, 0) as any as S.Schema<UpdateEdgeActionVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -7781,8 +8986,8 @@ export const UpdateEndpoint: API.OperationMethod<
   UpdateEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1441, __c45, 1) as any as S.Schema<UpdateEndpointRequest>,
-  output: __S(1056, __c33, 0) as any as S.Schema<UpdateEndpointResponse>,
+  input: __S(1409, __c44, 1) as any as S.Schema<UpdateEndpointRequest>,
+  output: __S(1024, __c32, 0) as any as S.Schema<UpdateEndpointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7798,8 +9003,8 @@ export const UpdateOrigin: API.OperationMethod<
   UpdateOriginError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1473, __c46, 1) as any as S.Schema<UpdateOriginRequest>,
-  output: __S(1474, __c46, 2) as any as S.Schema<UpdateOriginResponse>,
+  input: __S(1441, __c45, 1) as any as S.Schema<UpdateOriginRequest>,
+  output: __S(1442, __c45, 2) as any as S.Schema<UpdateOriginResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7815,8 +9020,8 @@ export const UpdateOriginGroup: API.OperationMethod<
   UpdateOriginGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1505, __c47, 1) as any as S.Schema<UpdateOriginGroupRequest>,
-  output: __S(1506, __c47, 2) as any as S.Schema<UpdateOriginGroupResponse>,
+  input: __S(1473, __c46, 1) as any as S.Schema<UpdateOriginGroupRequest>,
+  output: __S(1474, __c46, 2) as any as S.Schema<UpdateOriginGroupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7832,8 +9037,8 @@ export const UpdatePolicy: API.OperationMethod<
   UpdatePolicyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<UpdatePolicyRequest>,
-  output: __S(1537, __c48, 1) as any as S.Schema<UpdatePolicyResponse>,
+  input: __S(1504, __c47, 0) as any as S.Schema<UpdatePolicyRequest>,
+  output: __S(1505, __c47, 1) as any as S.Schema<UpdatePolicyResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7849,7 +9054,7 @@ export const UpdateProfile: API.OperationMethod<
   UpdateProfileError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<UpdateProfileRequest>,
+  input: __S(1536, __c48, 0) as any as S.Schema<UpdateProfileRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<UpdateProfileResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -7866,8 +9071,8 @@ export const UpdateRoute: API.OperationMethod<
   UpdateRouteError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<UpdateRouteRequest>,
-  output: __S(1601, __c50, 1) as any as S.Schema<UpdateRouteResponse>,
+  input: __S(1568, __c49, 0) as any as S.Schema<UpdateRouteRequest>,
+  output: __S(1569, __c49, 1) as any as S.Schema<UpdateRouteResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7875,21 +9080,21 @@ export const UpdateRoute: API.OperationMethod<
   span: "UpdateRoute",
 }));
 
-export type UpdateRuleError = AzureOpError;
+export type UpdateRule2Error = AzureOpError;
 /** Updates an existing delivery rule within a rule set. */
-export const UpdateRule: API.OperationMethod<
+export const UpdateRule2: API.OperationMethod<
   UpdateRuleRequest,
   UpdateRuleResponse,
-  UpdateRuleError,
+  UpdateRule2Error,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<UpdateRuleRequest>,
-  output: __S(1633, __c51, 1) as any as S.Schema<UpdateRuleResponse>,
+  input: __S(1600, __c50, 0) as any as S.Schema<UpdateRuleRequest>,
+  output: __S(1601, __c50, 1) as any as S.Schema<UpdateRuleResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
-  span: "UpdateRule",
+  span: "UpdateRule2",
 }));
 
 export type ValidateAFDEndpointCustomDomainError = AzureOpError;
@@ -7900,8 +9105,8 @@ export const ValidateAFDEndpointCustomDomain: API.OperationMethod<
   ValidateAFDEndpointCustomDomainError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<ValidateAFDEndpointCustomDomainRequest>,
-  output: __S(1792, __c56, 0) as any as S.Schema<ValidateCustomDomainOutput>,
+  input: __S(1728, __c54, 0) as any as S.Schema<ValidateAFDEndpointCustomDomainRequest>,
+  output: __S(1760, __c55, 0) as any as S.Schema<ValidateCustomDomainOutput>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7917,8 +9122,8 @@ export const ValidateAFDProfileSecret: API.OperationMethod<
   ValidateAFDProfileSecretError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<ValidateAFDProfileSecretRequest>,
-  output: __S(1825, __c57, 1) as any as S.Schema<ValidateSecretOutput>,
+  input: __S(1792, __c56, 0) as any as S.Schema<ValidateAFDProfileSecretRequest>,
+  output: __S(1793, __c56, 1) as any as S.Schema<ValidateSecretOutput>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7934,8 +9139,8 @@ export const ValidateEndpointCustomDomain: API.OperationMethod<
   ValidateEndpointCustomDomainError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<ValidateEndpointCustomDomainRequest>,
-  output: __S(1792, __c56, 0) as any as S.Schema<ValidateCustomDomainOutput>,
+  input: __S(1824, __c57, 0) as any as S.Schema<ValidateEndpointCustomDomainRequest>,
+  output: __S(1760, __c55, 0) as any as S.Schema<ValidateCustomDomainOutput>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7951,8 +9156,8 @@ export const ValidateProbe: API.OperationMethod<
   ValidateProbeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<ValidateProbeRequest>,
-  output: __S(1889, __c59, 1) as any as S.Schema<ValidateProbeOutput>,
+  input: __S(1856, __c58, 0) as any as S.Schema<ValidateProbeRequest>,
+  output: __S(1857, __c58, 1) as any as S.Schema<ValidateProbeOutput>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8158,7 +9363,7 @@ function __c9(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(385, __c12, 1)),
+          properties: S.optional(__S(353, __c11, 1)),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
           location: S.optional(S.String.pipe(T.Header("Location"))),
         }),
@@ -8177,22 +9382,16 @@ function __c10(j: number): any {
           originHostHeader: S.optional(S.String),
           priority: S.optional(S.Number),
           weight: S.optional(S.Number),
-          sharedPrivateLinkResource: S.optional(__S(384, __c12, 0)),
+          sharedPrivateLinkResource: S.optional(__S(352, __c11, 0)),
           enabledState: S.optional(S.String),
           enforceCertificateNameCheck: S.optional(S.Boolean),
           certificateNameCheckValidationMode: S.optional(S.String),
-          customCertificateSubjects: S.optional(__S(352, __c11, 0)),
+          customCertificateSubjects: S.optional(__S(5728, __c179, 0)),
         }),
       ).annotate({ identifier: "AFDOriginPropertiesInput" });
   }
 }
 function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8215,18 +9414,18 @@ function __c12(j: number): any {
           originHostHeader: S.optional(S.String),
           priority: S.optional(S.Number),
           weight: S.optional(S.Number),
-          sharedPrivateLinkResource: S.optional(__S(384, __c12, 0)),
+          sharedPrivateLinkResource: S.optional(__S(352, __c11, 0)),
           enabledState: S.optional(S.String),
           enforceCertificateNameCheck: S.optional(S.Boolean),
           certificateNameCheckValidationMode: S.optional(S.String),
-          customCertificateSubjects: S.optional(__S(352, __c11, 0)),
+          customCertificateSubjects: S.optional(__S(5728, __c179, 0)),
           provisioningState: S.optional(S.String),
           deploymentStatus: S.optional(S.String),
         }),
       ).annotate({ identifier: "AFDOriginProperties" });
   }
 }
-function __c13(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8248,13 +9447,13 @@ function __c13(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(417, __c13, 1),
+          value: __S(385, __c12, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "RuleSetListResult" });
   }
 }
-function __c14(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8274,7 +9473,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "ListRuleSetResourceUsageRequest" });
   }
 }
-function __c15(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8296,13 +9495,13 @@ function __c15(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(481, __c15, 1),
+          value: __S(449, __c14, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SecretListResult" });
   }
 }
-function __c16(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8324,13 +9523,13 @@ function __c16(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(513, __c16, 1),
+          value: __S(481, __c15, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SecurityPolicyListResult" });
   }
 }
-function __c17(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8340,7 +9539,7 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "MigrationWebApplicationFirewallMapping" });
     case 1:
-      return S.Array(__S(544, __c17, 0));
+      return S.Array(__S(512, __c16, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -8349,7 +9548,7 @@ function __c17(j: number): any {
           sku: __S(128, __c4, 0),
           classicResourceReference: __S(192, __c6, 0),
           profileName: S.String,
-          migrationWebApplicationFirewallMappings: S.optional(__S(545, __c17, 1)),
+          migrationWebApplicationFirewallMappings: S.optional(__S(513, __c16, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -8361,7 +9560,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "MigrateProfileRequest" });
   }
 }
-function __c18(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8374,14 +9573,14 @@ function __c18(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(576, __c18, 0)),
+          properties: S.optional(__S(544, __c17, 0)),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "MigrateResult" });
   }
 }
-function __c19(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8400,7 +9599,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "MigrateProfilesCanRequest" });
   }
 }
-function __c20(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8412,13 +9611,13 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "MigrationErrorType" });
     case 1:
-      return S.Array(__S(640, __c20, 0));
+      return S.Array(__S(608, __c19, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           canMigrate: S.optional(S.Boolean),
           defaultSku: S.optional(S.String),
-          errors: S.optional(__S(641, __c20, 1)),
+          errors: S.optional(__S(609, __c19, 1)),
         }),
       ).annotate({ identifier: "CanMigrateProperties" });
     case 3:
@@ -8426,14 +9625,14 @@ function __c20(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(642, __c20, 2)),
+          properties: S.optional(__S(610, __c19, 2)),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "CanMigrateResult" });
   }
 }
-function __c21(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8442,7 +9641,7 @@ function __c21(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           profileName: S.String.pipe(T.Label()),
           securityPolicyName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(2816, __c88, 0)),
+          properties: S.optional(__S(2819, __c88, 3)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -8459,14 +9658,14 @@ function __c21(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(2849, __c89, 1)),
+          properties: S.optional(__S(2851, __c89, 3)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           location: S.optional(S.String.pipe(T.Header("Location"))),
         }),
       ).annotate({ identifier: "PatchSecurityPolicyResponse" });
   }
 }
-function __c22(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8486,7 +9685,7 @@ function __c22(j: number): any {
           policyName: S.String.pipe(T.Label()),
           tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
-          properties: S.optional(__S(704, __c22, 0)),
+          properties: S.optional(__S(672, __c21, 0)),
           etag: S.optional(S.String),
           sku: __S(128, __c4, 0),
         }).pipe(
@@ -8516,7 +9715,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "PoliciesCreateOrUpdateResponse" });
   }
 }
-function __c23(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8535,7 +9734,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "ProfilesCdnCanMigrateToAfdRequest" });
   }
 }
-function __c24(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8545,7 +9744,7 @@ function __c24(j: number): any {
         }),
       ).annotate({ identifier: "MigrationEndpointMapping" });
     case 1:
-      return S.Array(__S(768, __c24, 0));
+      return S.Array(__S(736, __c23, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -8553,7 +9752,7 @@ function __c24(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           profileName: S.String.pipe(T.Label()),
           sku: __S(128, __c4, 0),
-          migrationEndpointMappings: S.optional(__S(769, __c24, 1)),
+          migrationEndpointMappings: S.optional(__S(737, __c23, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -8565,7 +9764,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "ProfilesCdnMigrateToAfdRequest" });
   }
 }
-function __c25(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8574,7 +9773,7 @@ function __c25(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           profileName: S.String.pipe(T.Label()),
           originGroupName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(832, __c26, 0)),
+          properties: S.optional(__S(800, __c25, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -8591,7 +9790,7 @@ function __c25(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(898, __c28, 2)),
+          properties: S.optional(__S(866, __c27, 2)),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           location: S.optional(S.String.pipe(T.Header("Location"))),
@@ -8599,21 +9798,21 @@ function __c25(j: number): any {
       ).annotate({ identifier: "CreateAFDOriginGroupResponse" });
   }
 }
-function __c26(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          loadBalancingSettings: S.optional(__S(896, __c28, 0)),
-          healthProbeSettings: S.optional(__S(864, __c27, 0)),
+          loadBalancingSettings: S.optional(__S(864, __c27, 0)),
+          healthProbeSettings: S.optional(__S(832, __c26, 0)),
           trafficRestorationTimeToHealedOrNewEndpointsInMinutes: S.optional(S.Number),
           sessionAffinityState: S.optional(S.String),
-          authentication: S.optional(__S(897, __c28, 1)),
+          authentication: S.optional(__S(865, __c27, 1)),
         }),
       ).annotate({ identifier: "AFDOriginGroupPropertiesInput" });
   }
 }
-function __c27(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8626,7 +9825,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "HealthProbeParameters" });
   }
 }
-function __c28(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8649,18 +9848,18 @@ function __c28(j: number): any {
       return S.suspend(() =>
         S.Struct({
           profileName: S.optional(S.String),
-          loadBalancingSettings: S.optional(__S(896, __c28, 0)),
-          healthProbeSettings: S.optional(__S(864, __c27, 0)),
+          loadBalancingSettings: S.optional(__S(864, __c27, 0)),
+          healthProbeSettings: S.optional(__S(832, __c26, 0)),
           trafficRestorationTimeToHealedOrNewEndpointsInMinutes: S.optional(S.Number),
           sessionAffinityState: S.optional(S.String),
-          authentication: S.optional(__S(897, __c28, 1)),
+          authentication: S.optional(__S(865, __c27, 1)),
           provisioningState: S.optional(S.String),
           deploymentStatus: S.optional(S.String),
         }),
       ).annotate({ identifier: "AFDOriginGroupProperties" });
   }
 }
-function __c29(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8669,8 +9868,8 @@ function __c29(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           profileName: S.String.pipe(T.Label()),
           endpointName: S.String.pipe(T.Label()),
-          contentPaths: __S(352, __c11, 0),
-          domains: S.optional(__S(352, __c11, 0)),
+          contentPaths: __S(5728, __c179, 0),
+          domains: S.optional(__S(5728, __c179, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -8682,7 +9881,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "PurgeAFDEndpointContentRequest" });
   }
 }
-function __c30(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8691,7 +9890,7 @@ function __c30(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           profileName: S.String.pipe(T.Label()),
           endpointName: S.String.pipe(T.Label()),
-          contentPaths: __S(352, __c11, 0),
+          contentPaths: __S(5728, __c179, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -8703,7 +9902,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "PurgeEndpointContentRequest" });
   }
 }
-function __c31(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8723,7 +9922,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "RefreshAFDCustomDomainValidationTokenRequest" });
   }
 }
-function __c32(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8743,7 +9942,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "StartEndpointRequest" });
   }
 }
-function __c33(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8754,13 +9953,13 @@ function __c33(j: number): any {
           systemData: S.optional(__S(224, __c7, 0)),
           tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
-          properties: S.optional(__S(2193, __c68, 17)),
+          properties: S.optional(__S(2161, __c67, 17)),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
         }),
       ).annotate({ identifier: "StartEndpointResponse" });
   }
 }
-function __c34(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8780,7 +9979,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "StopEndpointRequest" });
   }
 }
-function __c35(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8800,13 +9999,13 @@ function __c35(j: number): any {
       ).annotate({ identifier: "SwapEdgeActionVersionDefaultRequest" });
   }
 }
-function __c36(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          tlsSettings: S.optional(__S(5761, __c180, 1)),
-          mtlsSettings: S.optional(__S(5762, __c180, 2)),
+          tlsSettings: S.optional(__S(5825, __c182, 1)),
+          mtlsSettings: S.optional(__S(5828, __c182, 4)),
           azureDnsZone: S.optional(__S(192, __c6, 0)),
           preValidatedCustomDomainResourceId: S.optional(__S(192, __c6, 0)),
         }),
@@ -8818,7 +10017,7 @@ function __c36(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           profileName: S.String.pipe(T.Label()),
           customDomainName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1152, __c36, 0)),
+          properties: S.optional(__S(1120, __c35, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -8835,7 +10034,7 @@ function __c36(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(5764, __c180, 4)),
+          properties: S.optional(__S(5830, __c182, 6)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -8843,7 +10042,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "UpdateAFDCustomDomainResponse" });
   }
 }
-function __c37(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8860,7 +10059,7 @@ function __c37(j: number): any {
           profileName: S.String.pipe(T.Label()),
           endpointName: S.String.pipe(T.Label()),
           tags: S.optional(__S(256, __c8, 0)),
-          properties: S.optional(__S(1184, __c37, 0)),
+          properties: S.optional(__S(1152, __c36, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -8879,14 +10078,14 @@ function __c37(j: number): any {
           systemData: S.optional(__S(224, __c7, 0)),
           tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
-          properties: S.optional(__S(6208, __c194, 0)),
+          properties: S.optional(__S(6272, __c196, 0)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
         }),
       ).annotate({ identifier: "UpdateAFDEndpointResponse" });
   }
 }
-function __c38(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8913,14 +10112,14 @@ function __c38(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(385, __c12, 1)),
+          properties: S.optional(__S(353, __c11, 1)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           location: S.optional(S.String.pipe(T.Header("Location"))),
         }),
       ).annotate({ identifier: "UpdateAFDOriginResponse" });
   }
 }
-function __c39(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8929,7 +10128,7 @@ function __c39(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           profileName: S.String.pipe(T.Label()),
           originGroupName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(832, __c26, 0)),
+          properties: S.optional(__S(800, __c25, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -8946,7 +10145,7 @@ function __c39(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(898, __c28, 2)),
+          properties: S.optional(__S(866, __c27, 2)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -8954,7 +10153,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "UpdateAFDOriginGroupResponse" });
   }
 }
-function __c40(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8970,7 +10169,7 @@ function __c40(j: number): any {
           profileName: S.String.pipe(T.Label()),
           endpointName: S.String.pipe(T.Label()),
           customDomainName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1280, __c40, 0)),
+          properties: S.optional(__S(1248, __c39, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -8987,38 +10186,70 @@ function __c40(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(1313, __c41, 1)),
+          properties: S.optional(__S(1285, __c40, 5)),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "CreateCustomDomainResponse" });
   }
 }
-function __c41(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          typeName: S.String,
+          certificateType: S.String,
+        }),
+      ).annotate({ identifier: "CdnCertificateSourceParameters" });
+    case 1:
       return S.suspend(() =>
         S.Struct({
           certificateSource: S.String,
           protocolType: S.String,
           minimumTlsVersion: S.optional(S.String),
+          certificateSourceParameters: __S(1280, __c40, 0),
         }),
-      ).annotate({ identifier: "CustomDomainHttpsParameters" });
-    case 1:
+      ).annotate({ identifier: "CdnManagedHttpsParameters" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          typeName: S.String,
+          subscriptionId: S.String,
+          resourceGroupName: S.String,
+          vaultName: S.String,
+          secretName: S.String,
+          secretVersion: S.optional(S.String),
+          updateRule: S.String,
+          deleteRule: S.String,
+        }),
+      ).annotate({ identifier: "KeyVaultCertificateSourceParameters" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          certificateSource: S.String,
+          protocolType: S.String,
+          minimumTlsVersion: S.optional(S.String),
+          certificateSourceParameters: __S(1282, __c40, 2),
+        }),
+      ).annotate({ identifier: "UserManagedHttpsParameters" });
+    case 4:
+      return S.Union([__S(1281, __c40, 1), __S(1283, __c40, 3)]);
+    case 5:
       return S.suspend(() =>
         S.Struct({
           hostName: S.String,
           resourceState: S.optional(S.String),
           customHttpsProvisioningState: S.optional(S.String),
           customHttpsProvisioningSubstate: S.optional(S.String),
-          customHttpsParameters: S.optional(__S(1312, __c41, 0)),
+          customHttpsParameters: S.optional(__S(1284, __c40, 4)),
           validationData: S.optional(S.String),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomDomainProperties" });
   }
 }
-function __c42(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9034,7 +10265,7 @@ function __c42(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           edgeActionName: S.String.pipe(T.Label()),
           properties: S.optional(S.Unknown),
-          sku: S.optional(__S(1344, __c42, 0)),
+          sku: S.optional(__S(1312, __c41, 0)),
           tags: S.optional(__S(256, __c8, 0)),
         }).pipe(
           T.Http({
@@ -9054,8 +10285,8 @@ function __c42(j: number): any {
           systemData: S.optional(__S(224, __c7, 0)),
           tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
-          properties: S.optional(__S(1731, __c54, 3)),
-          sku: __S(1728, __c54, 0),
+          properties: S.optional(__S(1699, __c53, 3)),
+          sku: __S(1696, __c53, 0),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -9063,7 +10294,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "UpdateEdgeActionResponse" });
   }
 }
-function __c43(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9081,7 +10312,7 @@ function __c43(j: number): any {
           edgeActionName: S.String.pipe(T.Label()),
           executionFilter: S.String.pipe(T.Label()),
           tags: S.optional(__S(256, __c8, 0)),
-          properties: S.optional(__S(1376, __c43, 0)),
+          properties: S.optional(__S(1344, __c42, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -9100,7 +10331,7 @@ function __c43(j: number): any {
           systemData: S.optional(__S(224, __c7, 0)),
           tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
-          properties: S.optional(__S(1952, __c61, 0)),
+          properties: S.optional(__S(1920, __c60, 0)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -9108,7 +10339,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "UpdateEdgeActionExecutionFilterResponse" });
   }
 }
-function __c44(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9125,7 +10356,7 @@ function __c44(j: number): any {
           edgeActionName: S.String.pipe(T.Label()),
           version: S.String.pipe(T.Label()),
           tags: S.optional(__S(256, __c8, 0)),
-          properties: S.optional(__S(1408, __c44, 0)),
+          properties: S.optional(__S(1376, __c43, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -9137,13 +10368,13 @@ function __c44(j: number): any {
       ).annotate({ identifier: "UpdateEdgeActionVersionRequest" });
   }
 }
-function __c45(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           originPath: S.optional(S.String),
-          contentTypesToCompress: S.optional(__S(352, __c11, 0)),
+          contentTypesToCompress: S.optional(__S(5728, __c179, 0)),
           originHostHeader: S.optional(S.String),
           isCompressionEnabled: S.optional(S.Boolean),
           isHttpAllowed: S.optional(S.Boolean),
@@ -9151,10 +10382,10 @@ function __c45(j: number): any {
           queryStringCachingBehavior: S.optional(S.String),
           optimizationType: S.optional(S.String),
           probePath: S.optional(S.String),
-          geoFilters: S.optional(__S(2177, __c68, 1)),
+          geoFilters: S.optional(__S(2145, __c67, 1)),
           defaultOriginGroup: S.optional(__S(192, __c6, 0)),
-          urlSigningKeys: S.optional(__S(2180, __c68, 4)),
-          deliveryPolicy: S.optional(__S(2183, __c68, 7)),
+          urlSigningKeys: S.optional(__S(2148, __c67, 4)),
+          deliveryPolicy: S.optional(__S(2151, __c67, 7)),
           webApplicationFirewallPolicyLink: S.optional(__S(192, __c6, 0)),
         }),
       ).annotate({ identifier: "EndpointPropertiesUpdateParameters" });
@@ -9166,7 +10397,7 @@ function __c45(j: number): any {
           profileName: S.String.pipe(T.Label()),
           endpointName: S.String.pipe(T.Label()),
           tags: S.optional(__S(256, __c8, 0)),
-          properties: S.optional(__S(1440, __c45, 0)),
+          properties: S.optional(__S(1408, __c44, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -9178,7 +10409,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "UpdateEndpointRequest" });
   }
 }
-function __c46(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9204,7 +10435,7 @@ function __c46(j: number): any {
           profileName: S.String.pipe(T.Label()),
           endpointName: S.String.pipe(T.Label()),
           originName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1472, __c46, 0)),
+          properties: S.optional(__S(1440, __c45, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -9221,21 +10452,21 @@ function __c46(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(2240, __c70, 0)),
+          properties: S.optional(__S(2208, __c69, 0)),
           location: S.optional(S.String.pipe(T.Header("Location"))),
         }),
       ).annotate({ identifier: "UpdateOriginResponse" });
   }
 }
-function __c47(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          healthProbeSettings: S.optional(__S(864, __c27, 0)),
-          origins: S.optional(__S(2080, __c65, 0)),
+          healthProbeSettings: S.optional(__S(832, __c26, 0)),
+          origins: S.optional(__S(5760, __c180, 0)),
           trafficRestorationTimeToHealedOrNewEndpointsInMinutes: S.optional(S.Number),
-          responseBasedOriginErrorDetectionSettings: S.optional(__S(2114, __c66, 2)),
+          responseBasedOriginErrorDetectionSettings: S.optional(__S(2050, __c64, 2)),
         }),
       ).annotate({ identifier: "OriginGroupUpdatePropertiesParameters" });
     case 1:
@@ -9246,7 +10477,7 @@ function __c47(j: number): any {
           profileName: S.String.pipe(T.Label()),
           endpointName: S.String.pipe(T.Label()),
           originGroupName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1504, __c47, 0)),
+          properties: S.optional(__S(1472, __c46, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -9263,13 +10494,13 @@ function __c47(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(2304, __c72, 0)),
+          properties: S.optional(__S(2272, __c71, 0)),
           location: S.optional(S.String.pipe(T.Header("Location"))),
         }),
       ).annotate({ identifier: "UpdateOriginGroupResponse" });
   }
 }
-function __c48(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9304,7 +10535,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "UpdatePolicyResponse" });
   }
 }
-function __c49(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9313,8 +10544,8 @@ function __c49(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           profileName: S.String.pipe(T.Label()),
           tags: S.optional(__S(256, __c8, 0)),
-          identity: S.optional(__S(2370, __c74, 2)),
-          properties: S.optional(__S(2368, __c74, 0)),
+          identity: S.optional(__S(2338, __c73, 2)),
+          properties: S.optional(__S(2336, __c73, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -9326,7 +10557,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "UpdateProfileRequest" });
   }
 }
-function __c50(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9336,7 +10567,7 @@ function __c50(j: number): any {
           profileName: S.String.pipe(T.Label()),
           endpointName: S.String.pipe(T.Label()),
           routeName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(2496, __c78, 0)),
+          properties: S.optional(__S(2464, __c77, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -9353,7 +10584,7 @@ function __c50(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(2532, __c79, 4)),
+          properties: S.optional(__S(2530, __c79, 2)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -9361,7 +10592,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "UpdateRouteResponse" });
   }
 }
-function __c51(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9395,7 +10626,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "UpdateRuleResponse" });
   }
 }
-function __c52(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9405,8 +10636,8 @@ function __c52(j: number): any {
           edgeActionName: S.String.pipe(T.Label()),
           tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
-          properties: S.optional(__S(1696, __c53, 0)),
-          sku: __S(1728, __c54, 0),
+          properties: S.optional(__S(1664, __c52, 0)),
+          sku: __S(1696, __c53, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -9425,21 +10656,21 @@ function __c52(j: number): any {
           systemData: S.optional(__S(224, __c7, 0)),
           tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
-          properties: S.optional(__S(1731, __c54, 3)),
-          sku: __S(1728, __c54, 0),
+          properties: S.optional(__S(1699, __c53, 3)),
+          sku: __S(1696, __c53, 0),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "CreateEdgeActionResponse" });
   }
 }
-function __c53(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "EdgeActionPropertiesInput" });
   }
 }
-function __c54(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9456,17 +10687,17 @@ function __c54(j: number): any {
         }),
       ).annotate({ identifier: "EdgeActionAttachment" });
     case 2:
-      return S.Array(__S(1729, __c54, 1));
+      return S.Array(__S(1697, __c53, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           provisioningState: S.optional(S.String),
-          attachments: __S(1730, __c54, 2),
+          attachments: __S(1698, __c53, 2),
         }),
       ).annotate({ identifier: "EdgeActionProperties" });
   }
 }
-function __c55(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9487,7 +10718,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "ValidateAFDEndpointCustomDomainRequest" });
   }
 }
-function __c56(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9499,7 +10730,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "ValidateCustomDomainOutput" });
   }
 }
-function __c57(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9528,7 +10759,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "ValidateSecretOutput" });
   }
 }
-function __c58(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9549,7 +10780,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "ValidateEndpointCustomDomainRequest" });
   }
 }
-function __c59(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9575,7 +10806,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "ValidateProbeOutput" });
   }
 }
-function __c60(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9594,7 +10825,7 @@ function __c60(j: number): any {
           executionFilter: S.String.pipe(T.Label()),
           tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
-          properties: S.optional(__S(1920, __c60, 0)),
+          properties: S.optional(__S(1888, __c59, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -9613,14 +10844,14 @@ function __c60(j: number): any {
           systemData: S.optional(__S(224, __c7, 0)),
           tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
-          properties: S.optional(__S(1952, __c61, 0)),
+          properties: S.optional(__S(1920, __c60, 0)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "CreateEdgeActionExecutionFilterResponse" });
   }
 }
-function __c61(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9634,7 +10865,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "EdgeActionExecutionFilterProperties" });
   }
 }
-function __c62(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9652,7 +10883,7 @@ function __c62(j: number): any {
           version: S.String.pipe(T.Label()),
           tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
-          properties: S.optional(__S(1984, __c62, 0)),
+          properties: S.optional(__S(1952, __c61, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -9671,14 +10902,14 @@ function __c62(j: number): any {
           systemData: S.optional(__S(224, __c7, 0)),
           tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
-          properties: S.optional(__S(2016, __c63, 0)),
+          properties: S.optional(__S(1984, __c62, 0)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "CreateEdgeActionVersionResponse" });
   }
 }
-function __c63(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9692,13 +10923,13 @@ function __c63(j: number): any {
       ).annotate({ identifier: "EdgeActionVersionProperties" });
   }
 }
-function __c64(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           originPath: S.optional(S.String),
-          contentTypesToCompress: S.optional(__S(352, __c11, 0)),
+          contentTypesToCompress: S.optional(__S(5728, __c179, 0)),
           originHostHeader: S.optional(S.String),
           isCompressionEnabled: S.optional(S.Boolean),
           isHttpAllowed: S.optional(S.Boolean),
@@ -9706,13 +10937,13 @@ function __c64(j: number): any {
           queryStringCachingBehavior: S.optional(S.String),
           optimizationType: S.optional(S.String),
           probePath: S.optional(S.String),
-          geoFilters: S.optional(__S(2177, __c68, 1)),
+          geoFilters: S.optional(__S(2145, __c67, 1)),
           defaultOriginGroup: S.optional(__S(192, __c6, 0)),
-          urlSigningKeys: S.optional(__S(2180, __c68, 4)),
-          deliveryPolicy: S.optional(__S(2183, __c68, 7)),
+          urlSigningKeys: S.optional(__S(2148, __c67, 4)),
+          deliveryPolicy: S.optional(__S(2151, __c67, 7)),
           webApplicationFirewallPolicyLink: S.optional(__S(192, __c6, 0)),
-          origins: __S(2186, __c68, 10),
-          originGroups: S.optional(__S(2189, __c68, 13)),
+          origins: __S(2154, __c67, 10),
+          originGroups: S.optional(__S(2157, __c67, 13)),
         }),
       ).annotate({ identifier: "EndpointPropertiesInput" });
     case 1:
@@ -9724,7 +10955,7 @@ function __c64(j: number): any {
           endpointName: S.String.pipe(T.Label()),
           tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
-          properties: S.optional(__S(2048, __c64, 0)),
+          properties: S.optional(__S(2016, __c63, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -9743,20 +10974,14 @@ function __c64(j: number): any {
           systemData: S.optional(__S(224, __c7, 0)),
           tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
-          properties: S.optional(__S(2193, __c68, 17)),
+          properties: S.optional(__S(2161, __c67, 17)),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
         }),
       ).annotate({ identifier: "CreateEndpointResponse" });
   }
 }
-function __c65(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(192, __c6, 0));
-  }
-}
-function __c66(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9766,15 +10991,298 @@ function __c66(j: number): any {
         }),
       ).annotate({ identifier: "HttpErrorRangeParameters" });
     case 1:
-      return S.Array(__S(2112, __c66, 0));
+      return S.Array(__S(2048, __c64, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           responseBasedDetectedErrorTypes: S.optional(S.String),
           responseBasedFailoverThresholdPercentage: S.optional(S.Number),
-          httpErrorRanges: S.optional(__S(2113, __c66, 1)),
+          httpErrorRanges: S.optional(__S(2049, __c64, 1)),
         }),
       ).annotate({ identifier: "ResponseBasedOriginErrorDetectionParameters" });
+  }
+}
+function __c65(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          typeName: S.String,
+          operator: S.String,
+          negateCondition: S.optional(S.Boolean),
+          matchValues: S.optional(__S(5728, __c179, 0)),
+          transforms: S.optional(__S(5792, __c181, 0)),
+        }),
+      ).annotate({ identifier: "ClientPortMatchConditionParameters" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          parameters: __S(2080, __c65, 0),
+        }),
+      ).annotate({ identifier: "DeliveryRuleClientPortCondition" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          typeName: S.String,
+          selector: S.optional(S.String),
+          operator: S.String,
+          negateCondition: S.optional(S.Boolean),
+          matchValues: S.optional(__S(5728, __c179, 0)),
+          transforms: S.optional(__S(5792, __c181, 0)),
+        }),
+      ).annotate({ identifier: "CookiesMatchConditionParameters" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          parameters: __S(2082, __c65, 2),
+        }),
+      ).annotate({ identifier: "DeliveryRuleCookiesCondition" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          typeName: S.String,
+          operator: S.String,
+          negateCondition: S.optional(S.Boolean),
+          matchValues: S.optional(__S(5792, __c181, 0)),
+          transforms: S.optional(__S(5792, __c181, 0)),
+        }),
+      ).annotate({ identifier: "IsDeviceMatchConditionParameters" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          parameters: __S(2084, __c65, 4),
+        }),
+      ).annotate({ identifier: "DeliveryRuleIsDeviceCondition" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          typeName: S.String,
+          operator: S.String,
+          negateCondition: S.optional(S.Boolean),
+          transforms: S.optional(__S(5792, __c181, 0)),
+          matchValues: S.optional(__S(5792, __c181, 0)),
+        }),
+      ).annotate({ identifier: "RequestMethodMatchConditionParameters" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          parameters: __S(2086, __c65, 6),
+        }),
+      ).annotate({ identifier: "DeliveryRuleRequestMethodCondition" });
+    case 8:
+      return S.Union([
+        __S(2081, __c65, 1),
+        __S(2083, __c65, 3),
+        __S(2081, __c65, 1),
+        __S(2081, __c65, 1),
+        __S(2085, __c65, 5),
+        __S(2083, __c65, 3),
+        __S(2081, __c65, 1),
+        __S(2081, __c65, 1),
+        __S(2081, __c65, 1),
+        __S(2083, __c65, 3),
+        __S(2087, __c65, 7),
+        __S(2087, __c65, 7),
+        __S(2081, __c65, 1),
+        __S(2081, __c65, 1),
+        __S(2081, __c65, 1),
+        __S(2085, __c65, 5),
+        __S(2081, __c65, 1),
+        __S(2081, __c65, 1),
+        __S(2081, __c65, 1),
+      ]);
+    case 9:
+      return S.Array(__S(2088, __c65, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          typeName: S.String,
+          cacheBehavior: S.String,
+          cacheType: S.String,
+          cacheDuration: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "CacheExpirationActionParameters" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          parameters: __S(2090, __c65, 10),
+        }),
+      ).annotate({ identifier: "DeliveryRuleCacheExpirationAction" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          typeName: S.String,
+          queryStringBehavior: S.String,
+          queryParameters: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "CacheKeyQueryStringActionParameters" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          parameters: __S(2092, __c65, 12),
+        }),
+      ).annotate({ identifier: "DeliveryRuleCacheKeyQueryStringAction" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          typeName: S.String,
+          headerAction: S.String,
+          headerName: S.String,
+          value: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HeaderActionParameters" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          parameters: __S(2094, __c65, 14),
+        }),
+      ).annotate({ identifier: "DeliveryRuleRequestHeaderAction" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          originGroup: S.optional(__S(192, __c6, 0)),
+          forwardingProtocol: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OriginGroupOverride" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          queryStringCachingBehavior: S.optional(S.String),
+          queryParameters: S.optional(S.String),
+          isCompressionEnabled: S.optional(S.String),
+          cacheBehavior: S.optional(S.String),
+          cacheDuration: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CacheConfiguration" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          typeName: S.String,
+          originGroupOverride: S.optional(__S(2096, __c65, 16)),
+          cacheConfiguration: S.optional(__S(2097, __c65, 17)),
+        }),
+      ).annotate({ identifier: "RouteConfigurationOverrideActionParameters" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          parameters: __S(2098, __c65, 18),
+        }),
+      ).annotate({ identifier: "DeliveryRuleRouteConfigurationOverrideAction" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          typeName: S.String,
+          edgeActionReference: __S(192, __c6, 0),
+          invocationPoint: S.String,
+        }),
+      ).annotate({ identifier: "DeliveryRuleEdgeActionParameters" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          parameters: __S(2100, __c65, 20),
+        }),
+      ).annotate({ identifier: "EdgeAction" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          typeName: S.String,
+          originGroup: __S(192, __c6, 0),
+        }),
+      ).annotate({ identifier: "OriginGroupOverrideActionParameters" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          parameters: __S(2102, __c65, 22),
+        }),
+      ).annotate({ identifier: "OriginGroupOverrideAction" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          typeName: S.String,
+          redirectType: S.String,
+          destinationProtocol: S.optional(S.String),
+          customPath: S.optional(S.String),
+          customHostname: S.optional(S.String),
+          customQueryString: S.optional(S.String),
+          customFragment: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UrlRedirectActionParameters" });
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          parameters: __S(2104, __c65, 24),
+        }),
+      ).annotate({ identifier: "UrlRedirectAction" });
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          typeName: S.String,
+          sourcePattern: S.String,
+          destination: S.String,
+          preserveUnmatchedPath: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "UrlRewriteActionParameters" });
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          parameters: __S(2106, __c65, 26),
+        }),
+      ).annotate({ identifier: "UrlRewriteAction" });
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          paramIndicator: S.String,
+          paramName: S.String,
+        }),
+      ).annotate({ identifier: "UrlSigningParamIdentifier" });
+    case 29:
+      return S.Array(__S(2108, __c65, 28));
+    case 30:
+      return S.suspend(() =>
+        S.Struct({
+          typeName: S.String,
+          algorithm: S.optional(S.String),
+          parameterNameOverride: S.optional(__S(2109, __c65, 29)),
+        }),
+      ).annotate({ identifier: "UrlSigningActionParameters" });
+    case 31:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          parameters: __S(2110, __c65, 30),
+        }),
+      ).annotate({ identifier: "UrlSigningAction" });
+  }
+}
+function __c66(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Union([
+        __S(2091, __c65, 11),
+        __S(2093, __c65, 13),
+        __S(2095, __c65, 15),
+        __S(2095, __c65, 15),
+        __S(2099, __c65, 19),
+        __S(2101, __c65, 21),
+        __S(2103, __c65, 23),
+        __S(2105, __c65, 25),
+        __S(2107, __c65, 27),
+        __S(2111, __c65, 31),
+      ]);
+    case 1:
+      return S.Array(__S(2112, __c66, 0));
   }
 }
 function __c67(j: number): any {
@@ -9782,26 +11290,13 @@ function __c67(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String,
-          parameters: S.optional(S.Unknown),
-        }),
-      ).annotate({ identifier: "DeliveryRuleCondition" });
-    case 1:
-      return S.Array(__S(2144, __c67, 0));
-  }
-}
-function __c68(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           relativePath: S.String,
           action: S.String,
-          countryCodes: __S(352, __c11, 0),
+          countryCodes: __S(5728, __c179, 0),
         }),
       ).annotate({ identifier: "GeoFilter" });
     case 1:
-      return S.Array(__S(2176, __c68, 0));
+      return S.Array(__S(2144, __c67, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -9817,27 +11312,27 @@ function __c68(j: number): any {
       return S.suspend(() =>
         S.Struct({
           keyId: S.String,
-          keySourceParameters: __S(2178, __c68, 2),
+          keySourceParameters: __S(2146, __c67, 2),
         }),
       ).annotate({ identifier: "UrlSigningKey" });
     case 4:
-      return S.Array(__S(2179, __c68, 3));
+      return S.Array(__S(2147, __c67, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           order: S.Number,
-          conditions: S.optional(__S(2145, __c67, 1)),
-          actions: __S(2145, __c67, 1),
+          conditions: S.optional(__S(2089, __c65, 9)),
+          actions: __S(2113, __c66, 1),
         }),
       ).annotate({ identifier: "DeliveryRule" });
     case 6:
-      return S.Array(__S(2181, __c68, 5));
+      return S.Array(__S(2149, __c67, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          rules: __S(2182, __c68, 6),
+          rules: __S(2150, __c67, 6),
         }),
       ).annotate({ identifier: "EndpointPropertiesUpdateParametersDeliveryPolicy" });
     case 8:
@@ -9861,29 +11356,29 @@ function __c68(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          properties: S.optional(__S(2184, __c68, 8)),
+          properties: S.optional(__S(2152, __c67, 8)),
         }),
       ).annotate({ identifier: "DeepCreatedOrigin" });
     case 10:
-      return S.Array(__S(2185, __c68, 9));
+      return S.Array(__S(2153, __c67, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          healthProbeSettings: S.optional(__S(864, __c27, 0)),
-          origins: __S(2080, __c65, 0),
+          healthProbeSettings: S.optional(__S(832, __c26, 0)),
+          origins: __S(5760, __c180, 0),
           trafficRestorationTimeToHealedOrNewEndpointsInMinutes: S.optional(S.Number),
-          responseBasedOriginErrorDetectionSettings: S.optional(__S(2114, __c66, 2)),
+          responseBasedOriginErrorDetectionSettings: S.optional(__S(2050, __c64, 2)),
         }),
       ).annotate({ identifier: "DeepCreatedOriginGroupProperties" });
     case 12:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          properties: S.optional(__S(2187, __c68, 11)),
+          properties: S.optional(__S(2155, __c67, 11)),
         }),
       ).annotate({ identifier: "DeepCreatedOriginGroup" });
     case 13:
-      return S.Array(__S(2188, __c68, 12));
+      return S.Array(__S(2156, __c67, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
@@ -9895,16 +11390,16 @@ function __c68(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          properties: S.optional(__S(2190, __c68, 14)),
+          properties: S.optional(__S(2158, __c67, 14)),
         }),
       ).annotate({ identifier: "DeepCreatedCustomDomain" });
     case 16:
-      return S.Array(__S(2191, __c68, 15));
+      return S.Array(__S(2159, __c67, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
           originPath: S.optional(S.String),
-          contentTypesToCompress: S.optional(__S(352, __c11, 0)),
+          contentTypesToCompress: S.optional(__S(5728, __c179, 0)),
           originHostHeader: S.optional(S.String),
           isCompressionEnabled: S.optional(S.Boolean),
           isHttpAllowed: S.optional(S.Boolean),
@@ -9912,22 +11407,22 @@ function __c68(j: number): any {
           queryStringCachingBehavior: S.optional(S.String),
           optimizationType: S.optional(S.String),
           probePath: S.optional(S.String),
-          geoFilters: S.optional(__S(2177, __c68, 1)),
+          geoFilters: S.optional(__S(2145, __c67, 1)),
           defaultOriginGroup: S.optional(__S(192, __c6, 0)),
-          urlSigningKeys: S.optional(__S(2180, __c68, 4)),
-          deliveryPolicy: S.optional(__S(2183, __c68, 7)),
+          urlSigningKeys: S.optional(__S(2148, __c67, 4)),
+          deliveryPolicy: S.optional(__S(2151, __c67, 7)),
           webApplicationFirewallPolicyLink: S.optional(__S(192, __c6, 0)),
           hostName: S.optional(S.String),
-          origins: __S(2186, __c68, 10),
-          originGroups: S.optional(__S(2189, __c68, 13)),
-          customDomains: S.optional(__S(2192, __c68, 16)),
+          origins: __S(2154, __c67, 10),
+          originGroups: S.optional(__S(2157, __c67, 13)),
+          customDomains: S.optional(__S(2160, __c67, 16)),
           resourceState: S.optional(S.String),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "EndpointProperties" });
   }
 }
-function __c69(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9937,7 +11432,7 @@ function __c69(j: number): any {
           profileName: S.String.pipe(T.Label()),
           endpointName: S.String.pipe(T.Label()),
           originName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(2240, __c70, 0)),
+          properties: S.optional(__S(2208, __c69, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -9954,14 +11449,14 @@ function __c69(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(2240, __c70, 0)),
+          properties: S.optional(__S(2208, __c69, 0)),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "CreateOriginResponse" });
   }
 }
-function __c70(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9984,7 +11479,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "OriginProperties" });
   }
 }
-function __c71(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9994,7 +11489,7 @@ function __c71(j: number): any {
           profileName: S.String.pipe(T.Label()),
           endpointName: S.String.pipe(T.Label()),
           originGroupName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(2304, __c72, 0)),
+          properties: S.optional(__S(2272, __c71, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -10011,29 +11506,29 @@ function __c71(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(2304, __c72, 0)),
+          properties: S.optional(__S(2272, __c71, 0)),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "CreateOriginGroupResponse" });
   }
 }
-function __c72(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          healthProbeSettings: S.optional(__S(864, __c27, 0)),
-          origins: S.optional(__S(2080, __c65, 0)),
+          healthProbeSettings: S.optional(__S(832, __c26, 0)),
+          origins: S.optional(__S(5760, __c180, 0)),
           trafficRestorationTimeToHealedOrNewEndpointsInMinutes: S.optional(S.Number),
-          responseBasedOriginErrorDetectionSettings: S.optional(__S(2114, __c66, 2)),
+          responseBasedOriginErrorDetectionSettings: S.optional(__S(2050, __c64, 2)),
           resourceState: S.optional(S.String),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "OriginGroupProperties" });
   }
 }
-function __c73(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10043,9 +11538,9 @@ function __c73(j: number): any {
           profileName: S.String.pipe(T.Label()),
           tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
-          properties: S.optional(__S(2368, __c74, 0)),
+          properties: S.optional(__S(2336, __c73, 0)),
           sku: __S(128, __c4, 0),
-          identity: S.optional(__S(2370, __c74, 2)),
+          identity: S.optional(__S(2338, __c73, 2)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -10074,7 +11569,7 @@ function __c73(j: number): any {
       ).annotate({ identifier: "CreateProfileResponse" });
   }
 }
-function __c74(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10084,17 +11579,17 @@ function __c74(j: number): any {
         }),
       ).annotate({ identifier: "ProfilePropertiesInput" });
     case 1:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(1696, __c53, 0)));
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(1664, __c52, 0)));
     case 2:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          userAssignedIdentities: S.optional(__S(2369, __c74, 1)),
+          userAssignedIdentities: S.optional(__S(2337, __c73, 1)),
         }),
       ).annotate({ identifier: "CreateProfileRequestIdentity" });
   }
 }
-function __c75(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10116,7 +11611,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "CheckAFDProfileEndpointNameAvailabilityRequest" });
   }
 }
-function __c76(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10129,7 +11624,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "CheckEndpointNameAvailabilityOutput" });
   }
 }
-function __c77(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10139,7 +11634,7 @@ function __c77(j: number): any {
           profileName: S.String.pipe(T.Label()),
           endpointName: S.String.pipe(T.Label()),
           routeName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(2496, __c78, 0)),
+          properties: S.optional(__S(2464, __c77, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -10156,7 +11651,7 @@ function __c77(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(2532, __c79, 4)),
+          properties: S.optional(__S(2530, __c79, 2)),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           location: S.optional(S.String.pipe(T.Header("Location"))),
@@ -10164,17 +11659,17 @@ function __c77(j: number): any {
       ).annotate({ identifier: "CreateRouteResponse" });
   }
 }
-function __c78(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          customDomains: S.optional(__S(2080, __c65, 0)),
+          customDomains: S.optional(__S(5760, __c180, 0)),
           originGroup: S.optional(__S(192, __c6, 0)),
           originPath: S.optional(S.String),
-          ruleSets: S.optional(__S(2080, __c65, 0)),
-          supportedProtocols: S.optional(__S(5728, __c179, 0)),
-          patternsToMatch: S.optional(__S(352, __c11, 0)),
+          ruleSets: S.optional(__S(5760, __c180, 0)),
+          supportedProtocols: S.optional(__S(5792, __c181, 0)),
+          patternsToMatch: S.optional(__S(5728, __c179, 0)),
           cacheConfiguration: S.optional(__S(2529, __c79, 1)),
           forwardingProtocol: S.optional(S.String),
           linkToDefaultDomain: S.optional(S.String),
@@ -10184,12 +11679,25 @@ function __c78(j: number): any {
       ).annotate({ identifier: "RoutePropertiesInput" });
   }
 }
+function __c78(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          isActive: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ActivatedResourceReference" });
+    case 1:
+      return S.Array(__S(2496, __c78, 0));
+  }
+}
 function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          contentTypesToCompress: S.optional(__S(352, __c11, 0)),
+          contentTypesToCompress: S.optional(__S(5728, __c179, 0)),
           isCompressionEnabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CompressionSettings" });
@@ -10204,22 +11712,13 @@ function __c79(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
-          isActive: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "ActivatedResourceReference" });
-    case 3:
-      return S.Array(__S(2530, __c79, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
           endpointName: S.optional(S.String),
-          customDomains: S.optional(__S(2531, __c79, 3)),
+          customDomains: S.optional(__S(2497, __c78, 1)),
           originGroup: S.optional(__S(192, __c6, 0)),
           originPath: S.optional(S.String),
-          ruleSets: S.optional(__S(2080, __c65, 0)),
-          supportedProtocols: S.optional(__S(5728, __c179, 0)),
-          patternsToMatch: S.optional(__S(352, __c11, 0)),
+          ruleSets: S.optional(__S(5760, __c180, 0)),
+          supportedProtocols: S.optional(__S(5792, __c181, 0)),
+          patternsToMatch: S.optional(__S(5728, __c179, 0)),
           cacheConfiguration: S.optional(__S(2529, __c79, 1)),
           forwardingProtocol: S.optional(S.String),
           linkToDefaultDomain: S.optional(S.String),
@@ -10272,8 +11771,8 @@ function __c81(j: number): any {
       return S.suspend(() =>
         S.Struct({
           order: S.optional(S.Number),
-          conditions: S.optional(__S(2145, __c67, 1)),
-          actions: S.optional(__S(2145, __c67, 1)),
+          conditions: S.optional(__S(2089, __c65, 9)),
+          actions: S.optional(__S(2113, __c66, 1)),
           matchProcessingBehavior: S.optional(S.String),
         }),
       ).annotate({ identifier: "RulePropertiesInput" });
@@ -10286,8 +11785,8 @@ function __c82(j: number): any {
         S.Struct({
           ruleSetName: S.optional(S.String),
           order: S.optional(S.Number),
-          conditions: S.optional(__S(2145, __c67, 1)),
-          actions: S.optional(__S(2145, __c67, 1)),
+          conditions: S.optional(__S(2089, __c65, 9)),
+          actions: S.optional(__S(2113, __c66, 1)),
           matchProcessingBehavior: S.optional(S.String),
           provisioningState: S.optional(S.String),
           deploymentStatus: S.optional(S.String),
@@ -10302,8 +11801,8 @@ function __c83(j: number): any {
         S.Struct({
           ruleName: S.String,
           order: S.optional(S.Number),
-          conditions: S.optional(__S(2145, __c67, 1)),
-          actions: S.optional(__S(2145, __c67, 1)),
+          conditions: S.optional(__S(2089, __c65, 9)),
+          actions: S.optional(__S(2113, __c66, 1)),
           matchProcessingBehavior: S.optional(S.String),
         }),
       ).annotate({ identifier: "BatchRulePropertiesInput" });
@@ -10356,8 +11855,8 @@ function __c84(j: number): any {
           ruleName: S.String,
           ruleSetName: S.optional(S.String),
           order: S.optional(S.Number),
-          conditions: S.optional(__S(2145, __c67, 1)),
-          actions: S.optional(__S(2145, __c67, 1)),
+          conditions: S.optional(__S(2089, __c65, 9)),
+          actions: S.optional(__S(2113, __c66, 1)),
           matchProcessingBehavior: S.optional(S.String),
         }),
       ).annotate({ identifier: "BatchRuleProperties" });
@@ -10380,17 +11879,55 @@ function __c85(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parameters: S.optional(__S(2752, __c86, 0)),
+          type: S.String,
+          secretSource: __S(192, __c6, 0),
+          secretVersion: S.String,
+        }),
+      ).annotate({ identifier: "AfdSecretMtlsCertificateChainInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          subjectAlternativeNames: S.optional(__S(5728, __c179, 0)),
+        }),
+      ).annotate({ identifier: "AzureFirstPartyManagedCertificateParametersInput" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          secretSource: __S(192, __c6, 0),
+          secretVersion: S.optional(S.String),
+          useLatestVersion: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "CustomerCertificateParametersInput" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+        }),
+      ).annotate({ identifier: "ManagedCertificateParametersInput" });
+    case 4:
+      return S.Union([
+        __S(2720, __c85, 0),
+        __S(2721, __c85, 1),
+        __S(2722, __c85, 2),
+        __S(2723, __c85, 3),
+        __S(2752, __c86, 0),
+      ]);
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          parameters: S.optional(__S(2724, __c85, 4)),
         }),
       ).annotate({ identifier: "SecretPropertiesInput" });
-    case 1:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           profileName: S.String.pipe(T.Label()),
           secretName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(2720, __c85, 0)),
+          properties: S.optional(__S(2725, __c85, 5)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -10400,14 +11937,14 @@ function __c85(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CreateSecretRequest" });
-    case 2:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(2753, __c86, 1)),
+          properties: S.optional(__S(2758, __c86, 6)),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           location: S.optional(S.String.pipe(T.Header("Location"))),
@@ -10421,24 +11958,69 @@ function __c86(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.String,
+          keyId: S.String,
+          secretSource: __S(192, __c6, 0),
+          secretVersion: S.String,
+        }),
+      ).annotate({ identifier: "UrlSigningKeyParameters" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          secretSource: __S(192, __c6, 0),
+          secretVersion: S.String,
+          expirationDate: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AfdSecretMtlsCertificateChain" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
           secretSource: S.optional(__S(192, __c6, 0)),
-          secretVersion: S.optional(S.String),
-          useLatestVersion: S.optional(S.Boolean),
-          keyId: S.optional(S.String),
-          subjectAlternativeNames: S.optional(S.Unknown),
           subject: S.optional(S.String),
           expirationDate: S.optional(S.String),
           certificateAuthority: S.optional(S.String),
+          subjectAlternativeNames: S.optional(__S(5728, __c179, 0)),
           thumbprint: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SecretParameters" });
-    case 1:
+      ).annotate({ identifier: "AzureFirstPartyManagedCertificateParameters" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          secretSource: __S(192, __c6, 0),
+          secretVersion: S.optional(S.String),
+          useLatestVersion: S.optional(S.Boolean),
+          subject: S.optional(S.String),
+          expirationDate: S.optional(S.String),
+          certificateAuthority: S.optional(S.String),
+          subjectAlternativeNames: S.optional(__S(5728, __c179, 0)),
+          thumbprint: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CustomerCertificateParameters" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          subject: S.optional(S.String),
+          expirationDate: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ManagedCertificateParameters" });
+    case 5:
+      return S.Union([
+        __S(2753, __c86, 1),
+        __S(2754, __c86, 2),
+        __S(2755, __c86, 3),
+        __S(2756, __c86, 4),
+        __S(2752, __c86, 0),
+      ]);
+    case 6:
       return S.suspend(() =>
         S.Struct({
           provisioningState: S.optional(S.String),
           deploymentStatus: S.optional(S.String),
           profileName: S.optional(S.String),
-          parameters: S.optional(__S(2752, __c86, 0)),
+          parameters: S.optional(__S(2757, __c86, 5)),
         }),
       ).annotate({ identifier: "SecretProperties" });
   }
@@ -10452,7 +12034,7 @@ function __c87(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           profileName: S.String.pipe(T.Label()),
           securityPolicyName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(2816, __c88, 0)),
+          properties: S.optional(__S(2819, __c88, 3)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -10469,7 +12051,7 @@ function __c87(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(2849, __c89, 1)),
+          properties: S.optional(__S(2851, __c89, 3)),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           location: S.optional(S.String.pipe(T.Header("Location"))),
@@ -10482,7 +12064,26 @@ function __c88(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parameters: S.optional(__S(2848, __c89, 0)),
+          domains: S.optional(__S(5760, __c180, 0)),
+          patternsToMatch: S.optional(__S(5728, __c179, 0)),
+          routes: S.optional(__S(5760, __c180, 0)),
+        }),
+      ).annotate({ identifier: "SecurityPolicyWebApplicationFirewallAssociationInput" });
+    case 1:
+      return S.Array(__S(2816, __c88, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          wafPolicy: S.optional(__S(192, __c6, 0)),
+          associations: S.optional(__S(2817, __c88, 1)),
+          isProfileLevel: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "SecurityPolicyWebApplicationFirewallParametersInput" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          parameters: S.optional(__S(2818, __c88, 2)),
         }),
       ).annotate({ identifier: "SecurityPolicyPropertiesInput" });
   }
@@ -10492,18 +12093,29 @@ function __c89(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          domains: S.optional(__S(2497, __c78, 1)),
+          patternsToMatch: S.optional(__S(5728, __c179, 0)),
+          routes: S.optional(__S(5760, __c180, 0)),
+        }),
+      ).annotate({ identifier: "SecurityPolicyWebApplicationFirewallAssociation" });
+    case 1:
+      return S.Array(__S(2848, __c89, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
           type: S.String,
           wafPolicy: S.optional(__S(192, __c6, 0)),
-          associations: S.optional(S.Unknown),
+          associations: S.optional(__S(2849, __c89, 1)),
+          isProfileLevel: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "SecurityPolicyPropertiesParameters" });
-    case 1:
+      ).annotate({ identifier: "SecurityPolicyWebApplicationFirewallParameters" });
+    case 3:
       return S.suspend(() =>
         S.Struct({
           provisioningState: S.optional(S.String),
           deploymentStatus: S.optional(S.String),
           profileName: S.optional(S.String),
-          parameters: S.optional(__S(2848, __c89, 0)),
+          parameters: S.optional(__S(2850, __c89, 2)),
         }),
       ).annotate({ identifier: "SecurityPolicyProperties" });
   }
@@ -10968,7 +12580,7 @@ function __c113(j: number): any {
           systemData: S.optional(__S(224, __c7, 0)),
           tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
-          properties: S.optional(__S(2016, __c63, 0)),
+          properties: S.optional(__S(1984, __c62, 0)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -11006,7 +12618,7 @@ function __c115(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(1313, __c41, 1)),
+          properties: S.optional(__S(1285, __c40, 5)),
           location: S.optional(S.String.pipe(T.Header("Location"))),
         }),
       ).annotate({ identifier: "DisableCustomDomainCustomHttpsResponse" });
@@ -11022,9 +12634,7 @@ function __c116(j: number): any {
           profileName: S.String.pipe(T.Label()),
           endpointName: S.String.pipe(T.Label()),
           customDomainName: S.String.pipe(T.Label()),
-          certificateSource: S.String,
-          protocolType: S.String,
-          minimumTlsVersion: S.optional(S.String),
+          body: S.optional(__S(1284, __c40, 4).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -11045,7 +12655,7 @@ function __c117(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           profileName: S.String.pipe(T.Label()),
           endpointName: S.String.pipe(T.Label()),
-          contentPaths: __S(352, __c11, 0),
+          contentPaths: __S(5728, __c179, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -11122,7 +12732,7 @@ function __c121(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(5764, __c180, 4)),
+          properties: S.optional(__S(5830, __c182, 6)),
         }),
       ).annotate({ identifier: "GetAFDCustomDomainResponse" });
   }
@@ -11158,7 +12768,7 @@ function __c123(j: number): any {
           systemData: S.optional(__S(224, __c7, 0)),
           tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
-          properties: S.optional(__S(6208, __c194, 0)),
+          properties: S.optional(__S(6272, __c196, 0)),
         }),
       ).annotate({ identifier: "GetAFDEndpointResponse" });
   }
@@ -11211,7 +12821,7 @@ function __c126(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(385, __c12, 1)),
+          properties: S.optional(__S(353, __c11, 1)),
         }),
       ).annotate({ identifier: "GetAFDOriginResponse" });
   }
@@ -11245,7 +12855,7 @@ function __c128(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(898, __c28, 2)),
+          properties: S.optional(__S(866, __c27, 2)),
         }),
       ).annotate({ identifier: "GetAFDOriginGroupResponse" });
   }
@@ -11280,7 +12890,7 @@ function __c130(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(1313, __c41, 1)),
+          properties: S.optional(__S(1285, __c40, 5)),
         }),
       ).annotate({ identifier: "GetCustomDomainResponse" });
   }
@@ -11315,8 +12925,8 @@ function __c132(j: number): any {
           systemData: S.optional(__S(224, __c7, 0)),
           tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
-          properties: S.optional(__S(1731, __c54, 3)),
-          sku: __S(1728, __c54, 0),
+          properties: S.optional(__S(1699, __c53, 3)),
+          sku: __S(1696, __c53, 0),
         }),
       ).annotate({ identifier: "GetEdgeActionResponse" });
   }
@@ -11352,7 +12962,7 @@ function __c134(j: number): any {
           systemData: S.optional(__S(224, __c7, 0)),
           tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
-          properties: S.optional(__S(1952, __c61, 0)),
+          properties: S.optional(__S(1920, __c60, 0)),
         }),
       ).annotate({ identifier: "GetEdgeActionExecutionFilterResponse" });
   }
@@ -11388,7 +12998,7 @@ function __c136(j: number): any {
           systemData: S.optional(__S(224, __c7, 0)),
           tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
-          properties: S.optional(__S(2016, __c63, 0)),
+          properties: S.optional(__S(1984, __c62, 0)),
         }),
       ).annotate({ identifier: "GetEdgeActionVersionResponse" });
   }
@@ -11454,7 +13064,7 @@ function __c139(j: number): any {
           systemData: S.optional(__S(224, __c7, 0)),
           tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
-          properties: S.optional(__S(2193, __c68, 17)),
+          properties: S.optional(__S(2161, __c67, 17)),
         }),
       ).annotate({ identifier: "GetEndpointResponse" });
   }
@@ -11488,7 +13098,7 @@ function __c140(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          continents: S.optional(__S(2080, __c65, 0)),
+          continents: S.optional(__S(5760, __c180, 0)),
           countryOrRegions: S.optional(__S(4482, __c140, 2)),
         }),
       ).annotate({ identifier: "ContinentsResponse" });
@@ -11502,15 +13112,15 @@ function __c141(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           profileName: S.String.pipe(T.Label()),
-          metrics: __S(5728, __c179, 0).pipe(T.Query()),
+          metrics: __S(5792, __c181, 0).pipe(T.Query()),
           dateTimeBegin: S.String.pipe(T.Query()),
           dateTimeEnd: S.String.pipe(T.Query()),
           granularity: S.String.pipe(T.Query()),
-          groupBy: S.optional(__S(5728, __c179, 0).pipe(T.Query())),
-          continents: S.optional(__S(352, __c11, 0).pipe(T.Query())),
-          countryOrRegions: S.optional(__S(352, __c11, 0).pipe(T.Query())),
-          customDomains: __S(352, __c11, 0).pipe(T.Query()),
-          protocols: __S(352, __c11, 0).pipe(T.Query()),
+          groupBy: S.optional(__S(5792, __c181, 0).pipe(T.Query())),
+          continents: S.optional(__S(5728, __c179, 0).pipe(T.Query())),
+          countryOrRegions: S.optional(__S(5728, __c179, 0).pipe(T.Query())),
+          customDomains: __S(5728, __c179, 0).pipe(T.Query()),
+          protocols: __S(5728, __c179, 0).pipe(T.Query()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -11594,12 +13204,12 @@ function __c144(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           profileName: S.String.pipe(T.Label()),
-          rankings: __S(5728, __c179, 0).pipe(T.Query()),
-          metrics: __S(5728, __c179, 0).pipe(T.Query()),
+          rankings: __S(5792, __c181, 0).pipe(T.Query()),
+          metrics: __S(5792, __c181, 0).pipe(T.Query()),
           maxRanking: S.Number.pipe(T.Query()),
           dateTimeBegin: S.String.pipe(T.Query()),
           dateTimeEnd: S.String.pipe(T.Query()),
-          customDomains: S.optional(__S(352, __c11, 0).pipe(T.Query())),
+          customDomains: S.optional(__S(5728, __c179, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -11707,13 +13317,13 @@ function __c147(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           profileName: S.String.pipe(T.Label()),
-          metrics: __S(5728, __c179, 0).pipe(T.Query()),
+          metrics: __S(5792, __c181, 0).pipe(T.Query()),
           dateTimeBegin: S.String.pipe(T.Query()),
           dateTimeEnd: S.String.pipe(T.Query()),
           granularity: S.String.pipe(T.Query()),
-          actions: S.optional(__S(5728, __c179, 0).pipe(T.Query())),
-          groupBy: S.optional(__S(5728, __c179, 0).pipe(T.Query())),
-          ruleTypes: S.optional(__S(5728, __c179, 0).pipe(T.Query())),
+          actions: S.optional(__S(5792, __c181, 0).pipe(T.Query())),
+          groupBy: S.optional(__S(5792, __c181, 0).pipe(T.Query())),
+          ruleTypes: S.optional(__S(5792, __c181, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -11733,13 +13343,13 @@ function __c148(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           profileName: S.String.pipe(T.Label()),
-          metrics: __S(5728, __c179, 0).pipe(T.Query()),
+          metrics: __S(5792, __c181, 0).pipe(T.Query()),
           dateTimeBegin: S.String.pipe(T.Query()),
           dateTimeEnd: S.String.pipe(T.Query()),
           maxRanking: S.Number.pipe(T.Query()),
-          rankings: __S(5728, __c179, 0).pipe(T.Query()),
-          actions: S.optional(__S(5728, __c179, 0).pipe(T.Query())),
-          ruleTypes: S.optional(__S(5728, __c179, 0).pipe(T.Query())),
+          rankings: __S(5792, __c181, 0).pipe(T.Query()),
+          actions: S.optional(__S(5792, __c181, 0).pipe(T.Query())),
+          ruleTypes: S.optional(__S(5792, __c181, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -11752,7 +13362,7 @@ function __c148(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          groupValues: S.optional(__S(352, __c11, 0)),
+          groupValues: S.optional(__S(5728, __c179, 0)),
           metrics: S.optional(__S(4641, __c145, 1)),
         }),
       ).annotate({ identifier: "WafRankingsResponseDataItem" });
@@ -11763,7 +13373,7 @@ function __c148(j: number): any {
         S.Struct({
           dateTimeBegin: S.optional(S.String),
           dateTimeEnd: S.optional(S.String),
-          groups: S.optional(__S(352, __c11, 0)),
+          groups: S.optional(__S(5728, __c179, 0)),
           data: S.optional(__S(4738, __c148, 2)),
         }),
       ).annotate({ identifier: "WafRankingsResponse" });
@@ -11799,7 +13409,7 @@ function __c150(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(2240, __c70, 0)),
+          properties: S.optional(__S(2208, __c69, 0)),
         }),
       ).annotate({ identifier: "GetOriginResponse" });
   }
@@ -11834,7 +13444,7 @@ function __c152(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(2304, __c72, 0)),
+          properties: S.optional(__S(2272, __c71, 0)),
         }),
       ).annotate({ identifier: "GetOriginGroupResponse" });
   }
@@ -11895,8 +13505,8 @@ function __c155(j: number): any {
           selector: S.optional(S.String),
           operator: S.String,
           negateCondition: S.optional(S.Boolean),
-          matchValue: __S(352, __c11, 0),
-          transforms: S.optional(__S(5728, __c179, 0)),
+          matchValue: __S(5728, __c179, 0),
+          transforms: S.optional(__S(5792, __c181, 0)),
         }),
       ).annotate({ identifier: "MatchCondition" });
     case 2:
@@ -11982,7 +13592,7 @@ function __c155(j: number): any {
           rateLimitRules: S.optional(__S(4965, __c155, 5)),
           customRules: S.optional(__S(4968, __c155, 8)),
           managedRules: S.optional(__S(4975, __c155, 15)),
-          endpointLinks: S.optional(__S(2080, __c65, 0)),
+          endpointLinks: S.optional(__S(5760, __c180, 0)),
           extendedProperties: S.optional(__S(256, __c8, 0)),
           provisioningState: S.optional(S.String),
           resourceState: S.optional(S.String),
@@ -12058,7 +13668,7 @@ function __c159(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(2532, __c79, 4)),
+          properties: S.optional(__S(2530, __c79, 2)),
         }),
       ).annotate({ identifier: "GetRouteResponse" });
   }
@@ -12192,7 +13802,7 @@ function __c167(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(2753, __c86, 1)),
+          properties: S.optional(__S(2758, __c86, 6)),
         }),
       ).annotate({ identifier: "GetSecretResponse" });
   }
@@ -12226,7 +13836,7 @@ function __c169(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(2849, __c89, 1)),
+          properties: S.optional(__S(2851, __c89, 3)),
         }),
       ).annotate({ identifier: "GetSecurityPolicyResponse" });
   }
@@ -12438,8 +14048,8 @@ function __c178(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          tlsSettings: S.optional(__S(5761, __c180, 1)),
-          mtlsSettings: S.optional(__S(5762, __c180, 2)),
+          tlsSettings: S.optional(__S(5825, __c182, 1)),
+          mtlsSettings: S.optional(__S(5828, __c182, 4)),
           azureDnsZone: S.optional(__S(192, __c6, 0)),
           preValidatedCustomDomainResourceId: S.optional(__S(192, __c6, 0)),
           hostName: S.String,
@@ -12470,7 +14080,7 @@ function __c178(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(5764, __c180, 4)),
+          properties: S.optional(__S(5830, __c182, 6)),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
         }),
@@ -12486,10 +14096,22 @@ function __c179(j: number): any {
 function __c180(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(__S(192, __c6, 0));
+  }
+}
+function __c181(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c182(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
-          cipherSuiteSetForTls12: S.optional(__S(5728, __c179, 0)),
-          cipherSuiteSetForTls13: S.optional(__S(5728, __c179, 0)),
+          cipherSuiteSetForTls12: S.optional(__S(5792, __c181, 0)),
+          cipherSuiteSetForTls13: S.optional(__S(5792, __c181, 0)),
         }),
       ).annotate({ identifier: "AFDDomainHttpsCustomizedCipherSuiteSet" });
     case 1:
@@ -12498,9 +14120,9 @@ function __c180(j: number): any {
           certificateType: S.String,
           cipherSuiteSetType: S.optional(S.String),
           minimumTlsVersion: S.optional(S.String),
-          customizedCipherSuiteSet: S.optional(__S(5760, __c180, 0)),
+          customizedCipherSuiteSet: S.optional(__S(5824, __c182, 0)),
           serverTlsGroupPolicy: S.optional(S.String),
-          serverTlsGroups: S.optional(__S(5728, __c179, 0)),
+          serverTlsGroups: S.optional(__S(5792, __c181, 0)),
           secret: S.optional(__S(192, __c6, 0)),
         }),
       ).annotate({ identifier: "AFDDomainHttpsParameters" });
@@ -12509,20 +14131,36 @@ function __c180(j: number): any {
         S.Struct({
           scenario: S.String,
         }),
-      ).annotate({ identifier: "AFDDomainMtlsParameters" });
+      ).annotate({ identifier: "ClientCertificateRequiredAndOriginValidatesAdvancedSettings" });
     case 3:
+      return S.suspend(() =>
+        S.Struct({
+          scenario: S.String,
+          secrets: __S(5760, __c180, 0),
+          allowedFqdns: S.optional(__S(5728, __c179, 0)),
+          certificateRevocationCheck: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ClientCertificateRequiredAndValidatedAdvancedSettings" });
+    case 4:
+      return S.Union([
+        __S(5826, __c182, 2),
+        __S(5827, __c182, 3),
+        __S(5827, __c182, 3),
+        __S(5826, __c182, 2),
+      ]);
+    case 5:
       return S.suspend(() =>
         S.Struct({
           validationToken: S.optional(S.String),
           expirationDate: S.optional(S.String),
         }),
       ).annotate({ identifier: "DomainValidationProperties" });
-    case 4:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           profileName: S.optional(S.String),
-          tlsSettings: S.optional(__S(5761, __c180, 1)),
-          mtlsSettings: S.optional(__S(5762, __c180, 2)),
+          tlsSettings: S.optional(__S(5825, __c182, 1)),
+          mtlsSettings: S.optional(__S(5828, __c182, 4)),
           azureDnsZone: S.optional(__S(192, __c6, 0)),
           preValidatedCustomDomainResourceId: S.optional(__S(192, __c6, 0)),
           provisioningState: S.optional(S.String),
@@ -12530,12 +14168,12 @@ function __c180(j: number): any {
           domainValidationState: S.optional(S.String),
           hostName: S.String,
           extendedProperties: S.optional(__S(256, __c8, 0)),
-          validationProperties: S.optional(__S(5763, __c180, 3)),
+          validationProperties: S.optional(__S(5829, __c182, 5)),
         }),
       ).annotate({ identifier: "AFDDomainProperties" });
   }
 }
-function __c181(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12558,13 +14196,13 @@ function __c181(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(5793, __c181, 1),
+          value: __S(5857, __c183, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomDomainListResult" });
   }
 }
-function __c182(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12582,20 +14220,20 @@ function __c182(j: number): any {
       ).annotate({ identifier: "ListEdgeActionByResourceGroupRequest" });
   }
 }
-function __c183(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(4224, __c132, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(5856, __c183, 0),
+          value: __S(5920, __c185, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "EdgeActionListResult" });
   }
 }
-function __c184(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12612,7 +14250,7 @@ function __c184(j: number): any {
       ).annotate({ identifier: "ListEdgeActionBySubscriptionRequest" });
   }
 }
-function __c185(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12634,13 +14272,13 @@ function __c185(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(5921, __c185, 1),
+          value: __S(5985, __c187, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "EdgeActionExecutionFilterListResult" });
   }
 }
-function __c186(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12662,13 +14300,13 @@ function __c186(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(5953, __c186, 1),
+          value: __S(6017, __c188, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "EdgeActionVersionListResult" });
   }
 }
-function __c187(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12689,21 +14327,21 @@ function __c187(j: number): any {
         }),
       ).annotate({ identifier: "CidrIpAddress" });
     case 2:
-      return S.Array(__S(5985, __c187, 1));
+      return S.Array(__S(6049, __c189, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           deliveryRegion: S.optional(S.String),
-          ipv4Addresses: S.optional(__S(5986, __c187, 2)),
-          ipv6Addresses: S.optional(__S(5986, __c187, 2)),
+          ipv4Addresses: S.optional(__S(6050, __c189, 2)),
+          ipv6Addresses: S.optional(__S(6050, __c189, 2)),
         }),
       ).annotate({ identifier: "IpAddressGroup" });
     case 4:
-      return S.Array(__S(5987, __c187, 3));
+      return S.Array(__S(6051, __c189, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          ipAddressGroups: __S(5988, __c187, 4),
+          ipAddressGroups: __S(6052, __c189, 4),
         }),
       ).annotate({ identifier: "EdgeNodeProperties" });
     case 6:
@@ -12713,21 +14351,21 @@ function __c187(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(5989, __c187, 5)),
+          properties: S.optional(__S(6053, __c189, 5)),
         }),
       ).annotate({ identifier: "EdgeNode" });
     case 7:
-      return S.Array(__S(5990, __c187, 6));
+      return S.Array(__S(6054, __c189, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          value: __S(5991, __c187, 7),
+          value: __S(6055, __c189, 7),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "EdgenodeResult" });
   }
 }
-function __c188(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12749,13 +14387,13 @@ function __c188(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(6017, __c188, 1),
+          value: __S(6081, __c190, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "EndpointListResult" });
   }
 }
-function __c189(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12775,7 +14413,7 @@ function __c189(j: number): any {
       ).annotate({ identifier: "ListEndpointResourceUsageRequest" });
   }
 }
-function __c190(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12787,17 +14425,17 @@ function __c190(j: number): any {
         }),
       ).annotate({ identifier: "ResourceUsage" });
     case 1:
-      return S.Array(__S(6080, __c190, 0));
+      return S.Array(__S(6144, __c192, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(6081, __c190, 1),
+          value: __S(6145, __c192, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ResourceUsageListResult" });
   }
 }
-function __c191(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12820,24 +14458,24 @@ function __c191(j: number): any {
         }),
       ).annotate({ identifier: "ManagedRuleDefinition" });
     case 2:
-      return S.Array(__S(6113, __c191, 1));
+      return S.Array(__S(6177, __c193, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           ruleGroupName: S.optional(S.String),
           description: S.optional(S.String),
-          rules: S.optional(__S(6114, __c191, 2)),
+          rules: S.optional(__S(6178, __c193, 2)),
         }),
       ).annotate({ identifier: "ManagedRuleGroupDefinition" });
     case 4:
-      return S.Array(__S(6115, __c191, 3));
+      return S.Array(__S(6179, __c193, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           provisioningState: S.optional(S.String),
           ruleSetType: S.optional(S.String),
           ruleSetVersion: S.optional(S.String),
-          ruleGroups: S.optional(__S(6116, __c191, 4)),
+          ruleGroups: S.optional(__S(6180, __c193, 4)),
         }),
       ).annotate({ identifier: "ManagedRuleSetDefinitionProperties" });
     case 6:
@@ -12847,22 +14485,22 @@ function __c191(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c7, 0)),
-          properties: S.optional(__S(6117, __c191, 5)),
+          properties: S.optional(__S(6181, __c193, 5)),
           sku: S.optional(__S(128, __c4, 0)),
         }),
       ).annotate({ identifier: "ManagedRuleSetDefinition" });
     case 7:
-      return S.Array(__S(6118, __c191, 6));
+      return S.Array(__S(6182, __c193, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          value: __S(6119, __c191, 7),
+          value: __S(6183, __c193, 7),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ManagedRuleSetDefinitionList" });
   }
 }
-function __c192(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12894,7 +14532,7 @@ function __c192(j: number): any {
         }),
       ).annotate({ identifier: "LogSpecification" });
     case 3:
-      return S.Array(__S(6146, __c192, 2));
+      return S.Array(__S(6210, __c194, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -12903,7 +14541,7 @@ function __c192(j: number): any {
         }),
       ).annotate({ identifier: "MetricAvailability" });
     case 5:
-      return S.Array(__S(6148, __c192, 4));
+      return S.Array(__S(6212, __c194, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -12913,7 +14551,7 @@ function __c192(j: number): any {
         }),
       ).annotate({ identifier: "DimensionProperties" });
     case 7:
-      return S.Array(__S(6150, __c192, 6));
+      return S.Array(__S(6214, __c194, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -12922,27 +14560,27 @@ function __c192(j: number): any {
           displayDescription: S.optional(S.String),
           unit: S.optional(S.String),
           aggregationType: S.optional(S.String),
-          availabilities: S.optional(__S(6149, __c192, 5)),
-          supportedTimeGrainTypes: S.optional(__S(352, __c11, 0)),
-          dimensions: S.optional(__S(6151, __c192, 7)),
+          availabilities: S.optional(__S(6213, __c194, 5)),
+          supportedTimeGrainTypes: S.optional(__S(5728, __c179, 0)),
+          dimensions: S.optional(__S(6215, __c194, 7)),
           fillGapWithZero: S.optional(S.Boolean),
           metricFilterPattern: S.optional(S.String),
           isInternal: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "MetricSpecification" });
     case 9:
-      return S.Array(__S(6152, __c192, 8));
+      return S.Array(__S(6216, __c194, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          logSpecifications: S.optional(__S(6147, __c192, 3)),
-          metricSpecifications: S.optional(__S(6153, __c192, 9)),
+          logSpecifications: S.optional(__S(6211, __c194, 3)),
+          metricSpecifications: S.optional(__S(6217, __c194, 9)),
         }),
       ).annotate({ identifier: "ServiceSpecification" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          serviceSpecification: S.optional(__S(6154, __c192, 10)),
+          serviceSpecification: S.optional(__S(6218, __c194, 10)),
         }),
       ).annotate({ identifier: "OperationProperties" });
     case 12:
@@ -12950,23 +14588,23 @@ function __c192(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           isDataAction: S.optional(S.Boolean),
-          display: S.optional(__S(6145, __c192, 1)),
+          display: S.optional(__S(6209, __c194, 1)),
           origin: S.optional(S.String),
-          properties: S.optional(__S(6155, __c192, 11)),
+          properties: S.optional(__S(6219, __c194, 11)),
         }),
       ).annotate({ identifier: "Operation" });
     case 13:
-      return S.Array(__S(6156, __c192, 12));
+      return S.Array(__S(6220, __c194, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
-          value: __S(6157, __c192, 13),
+          value: __S(6221, __c194, 13),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OperationsListResult" });
   }
 }
-function __c193(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12985,7 +14623,7 @@ function __c193(j: number): any {
           endpointName: S.String.pipe(T.Label()),
           tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
-          properties: S.optional(__S(6176, __c193, 0)),
+          properties: S.optional(__S(6240, __c195, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -13004,7 +14642,7 @@ function __c193(j: number): any {
           systemData: S.optional(__S(224, __c7, 0)),
           tags: S.optional(__S(256, __c8, 0)),
           location: S.String,
-          properties: S.optional(__S(6208, __c194, 0)),
+          properties: S.optional(__S(6272, __c196, 0)),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
@@ -13012,7 +14650,7 @@ function __c193(j: number): any {
       ).annotate({ identifier: "CreateAFDEndpointResponse" });
   }
 }
-function __c194(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13028,7 +14666,7 @@ function __c194(j: number): any {
       ).annotate({ identifier: "AFDEndpointProperties" });
   }
 }
-function __c195(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13051,13 +14689,13 @@ function __c195(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(6241, __c195, 1),
+          value: __S(6305, __c197, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OriginListResult" });
   }
 }
-function __c196(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13080,13 +14718,13 @@ function __c196(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(6273, __c196, 1),
+          value: __S(6337, __c198, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OriginGroupListResult" });
   }
 }
-function __c197(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13107,13 +14745,13 @@ function __c197(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(6305, __c197, 1),
+          value: __S(6369, __c199, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "CdnWebApplicationFirewallPolicyList" });
   }
 }
-function __c198(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13131,20 +14769,20 @@ function __c198(j: number): any {
       ).annotate({ identifier: "ListProfileByResourceGroupRequest" });
   }
 }
-function __c199(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(5024, __c157, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(6368, __c199, 0),
+          value: __S(6432, __c201, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProfileListResult" });
   }
 }
-function __c200(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13163,7 +14801,7 @@ function __c200(j: number): any {
       ).annotate({ identifier: "ListProfileResourceUsageRequest" });
   }
 }
-function __c201(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13180,7 +14818,7 @@ function __c201(j: number): any {
       ).annotate({ identifier: "ListProfilesRequest" });
   }
 }
-function __c202(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13200,12 +14838,12 @@ function __c202(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          supportedOptimizationTypes: S.optional(__S(5728, __c179, 0)),
+          supportedOptimizationTypes: S.optional(__S(5792, __c181, 0)),
         }),
       ).annotate({ identifier: "SupportedOptimizationTypesListResult" });
   }
 }
-function __c203(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13222,7 +14860,7 @@ function __c203(j: number): any {
       ).annotate({ identifier: "ListResourceUsageRequest" });
   }
 }
-function __c204(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13245,13 +14883,13 @@ function __c204(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(6529, __c204, 1),
+          value: __S(6593, __c206, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "RouteListResult" });
   }
 }
-function __c205(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13274,7 +14912,7 @@ function __c205(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(6561, __c205, 1),
+          value: __S(6625, __c207, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "RuleListResult" });

@@ -58,6 +58,8 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   initial_default: "initial-default",
   key_id: "key-id",
   key_metadata: "key-metadata",
+  last_assigned_field_id: "last-assigned-field-id",
+  last_assigned_partition_id: "last-assigned-partition-id",
   last_column_id: "last-column-id",
   last_partition_id: "last-partition-id",
   last_sequence_number: "last-sequence-number",
@@ -151,133 +153,240 @@ export class AlreadyExistsException
     /*@__PURE__*/ S.TaggedError<AlreadyExistsException>()("AlreadyExistsException", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(64, __c2, 0)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [
       { status: 409, body: { "/error/type": "AlreadyExistsException" } },
       { status: 409, body: { "/error/type": "NamespaceAlreadyExists" } },
       { status: 409, body: { "/error/type": "EntityAlreadyExists" } },
     ],
-  ) {}
+  )
+{
+  declare readonly body?: IcebergErrorResponse | ErrorModel | string;
+}
 
 export class CommitFailedException
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<CommitFailedException>()("CommitFailedException", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(64, __c2, 0)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [
       { status: 409, body: { "/error/type": "CommitFailedException" } },
       { status: 409, body: { "/error/type": "CatalogCommitConflicts" } },
     ],
-  ) {}
+  )
+{
+  declare readonly body?: IcebergErrorResponse | ErrorModel | string;
+}
 
 export class CommitStateUnknownException
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<CommitStateUnknownException>()("CommitStateUnknownException", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(64, __c2, 0)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 500 }, { status: 502 }, { status: 504 }],
-  ) {}
+  )
+{
+  declare readonly body?: IcebergErrorResponse | ErrorModel | string;
+}
 
 export class NamespaceNotEmptyException
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NamespaceNotEmptyException>()("NamespaceNotEmptyException", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [
       { status: 409, body: { "/error/type": "NamespaceNotEmptyException" } },
       { status: 409, body: { "/error/type": "NamespaceNotEmpty" } },
     ],
-  ) {}
+  )
+{
+  declare readonly body?: IcebergErrorResponse | string;
+}
 
 export class NoSuchFunctionException
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NoSuchFunctionException>()("NoSuchFunctionException", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404, body: { "/error/type": "NoSuchFunctionException" } }],
-  ) {}
+  )
+{
+  declare readonly body?: IcebergErrorResponse | string;
+}
 
 export class NoSuchNamespaceException
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NoSuchNamespaceException>()("NoSuchNamespaceException", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(64, __c2, 0)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [
       { status: 404, body: { "/error/type": "NoSuchNamespaceException" } },
       { status: 404, body: { "/error/type": "NamespaceActionForbidden" } },
     ],
-  ) {}
+  )
+{
+  declare readonly body?: IcebergErrorResponse | ErrorModel | string;
+}
 
 export class NoSuchPlanIdException
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NoSuchPlanIdException>()("NoSuchPlanIdException", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404, body: { "/error/type": "NoSuchPlanIdException" } }],
-  ) {}
+  )
+{
+  declare readonly body?: IcebergErrorResponse | string;
+}
 
 export class NoSuchPlanTaskException
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NoSuchPlanTaskException>()("NoSuchPlanTaskException", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404, body: { "/error/type": "NoSuchPlanTaskException" } }],
-  ) {}
+  )
+{
+  declare readonly body?: IcebergErrorResponse | string;
+}
 
 export class NoSuchTableException
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NoSuchTableException>()("NoSuchTableException", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [
       { status: 404, body: { "/error/type": "NoSuchTableException" } },
       { status: 404, body: { "/error/type": "TableActionForbidden" } },
     ],
-  ) {}
+  )
+{
+  declare readonly body?: IcebergErrorResponse | string;
+}
 
 export class NoSuchViewException
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NoSuchViewException>()("NoSuchViewException", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(64, __c2, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404, body: { "/error/type": "NoSuchViewException" } }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorModel | string;
+}
 
 export class NoSuchWarehouseException
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NoSuchWarehouseException>()("NoSuchWarehouseException", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404, body: { "/error/type": "NoSuchWarehouseException" } }],
-  ) {}
+  )
+{
+  declare readonly body?: IcebergErrorResponse | string;
+}
 
 export class UnprocessableEntityException
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntityException>()("UnprocessableEntityException", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422, body: { "/error/type": "UnprocessableEntityException" } }],
-  ) {}
+  )
+{
+  declare readonly body?: IcebergErrorResponse | string;
+}
 
 export class UnsupportedOperationException
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnsupportedOperationException>()("UnsupportedOperationException", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(64, __c2, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 406, body: { "/error/type": "UnsupportedOperationException" } }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorModel | string;
+}
 
 export type CancelPlanningRequestXIcebergAccessDelegationItem =
   | "vended-credentials"
@@ -305,19 +414,76 @@ export interface TableIdentifier {
   namespace: Namespace;
   name: string;
 }
-export interface TableRequirement {
-  type: string;
+export type AssertCreateType = "assert-create";
+/** The table must not already exist; used for create transactions */
+export interface AssertCreate {
+  type: AssertCreateType;
 }
-export type CommitTableRequestInputRequirementsList = Array<TableRequirement>;
-/** Assigning a UUID to a table/view should only be done when creating the table/view. It is not safe to re-assign the UUID if a table/view already has a UUID assigned */
-export interface AssignUUIDUpdate {
-  action: string;
+export type AssertTableUUIDType = "assert-table-uuid";
+/** The table UUID must match the requirement's `uuid` */
+export interface AssertTableUUID {
+  type: AssertTableUUIDType;
   uuid: string;
 }
+export type AssertRefSnapshotIdType = "assert-ref-snapshot-id";
+/** The table branch or tag identified by the requirement's `ref` must reference the requirement's `snapshot-id`. The `snapshot-id` field is required in this object, but in the case of a `null` the ref must not already exist. */
+export interface AssertRefSnapshotId {
+  type: AssertRefSnapshotIdType;
+  ref: string;
+  snapshot_id: number | null;
+}
+export type AssertLastAssignedFieldIdType = "assert-last-assigned-field-id";
+/** The table's last assigned column id must match the requirement's `last-assigned-field-id` */
+export interface AssertLastAssignedFieldId {
+  type: AssertLastAssignedFieldIdType;
+  last_assigned_field_id: number;
+}
+export type AssertCurrentSchemaIdType = "assert-current-schema-id";
+/** The table's current schema id must match the requirement's `current-schema-id` */
+export interface AssertCurrentSchemaId {
+  type: AssertCurrentSchemaIdType;
+  current_schema_id: number;
+}
+export type AssertLastAssignedPartitionIdType = "assert-last-assigned-partition-id";
+/** The table's last assigned partition id must match the requirement's `last-assigned-partition-id` */
+export interface AssertLastAssignedPartitionId {
+  type: AssertLastAssignedPartitionIdType;
+  last_assigned_partition_id: number;
+}
+export type AssertDefaultSpecIdType = "assert-default-spec-id";
+/** The table's default spec id must match the requirement's `default-spec-id` */
+export interface AssertDefaultSpecId {
+  type: AssertDefaultSpecIdType;
+  default_spec_id: number;
+}
+export type AssertDefaultSortOrderIdType = "assert-default-sort-order-id";
+/** The table's default sort order id must match the requirement's `default-sort-order-id` */
+export interface AssertDefaultSortOrderId {
+  type: AssertDefaultSortOrderIdType;
+  default_sort_order_id: number;
+}
+export type TableRequirement =
+  | AssertCreate
+  | AssertTableUUID
+  | AssertRefSnapshotId
+  | AssertLastAssignedFieldId
+  | AssertCurrentSchemaId
+  | AssertLastAssignedPartitionId
+  | AssertDefaultSpecId
+  | AssertDefaultSortOrderId;
+export type CommitTableRequestInputRequirementsList = Array<TableRequirement>;
+export type AssignUUIDUpdateAction = "assign-uuid";
+/** Assigning a UUID to a table/view should only be done when creating the table/view. It is not safe to re-assign the UUID if a table/view already has a UUID assigned */
+export interface AssignUUIDUpdate {
+  action: AssignUUIDUpdateAction;
+  uuid: string;
+}
+export type UpgradeFormatVersionUpdateAction = "upgrade-format-version";
 export interface UpgradeFormatVersionUpdate {
-  action: string;
+  action: UpgradeFormatVersionUpdateAction;
   format_version: number;
 }
+export type AddSchemaUpdateInputAction = "add-schema";
 export type StructTypeFieldsList = Array<StructField>;
 export interface StructType {
   type: string;
@@ -356,16 +522,18 @@ export interface SchemaInput {
   identifier_field_ids?: SchemaInputIdentifierFieldIdsList | undefined;
 }
 export interface AddSchemaUpdateInput {
-  action: string;
+  action: AddSchemaUpdateInputAction;
   schema: SchemaInput;
   /** This optional field is **DEPRECATED for REMOVAL** since it more safe to handle this internally, and shouldn't be exposed to the clients. The highest assigned column ID for the table. This is used to ensure columns are always assigned an unused ID when evolving schemas. When omitted, it will be computed on the server side. */
   last_column_id?: number | undefined;
 }
+export type SetCurrentSchemaUpdateAction = "set-current-schema";
 export interface SetCurrentSchemaUpdate {
-  action: string;
+  action: SetCurrentSchemaUpdateAction;
   /** Schema ID to set as current, or -1 to set last added schema */
   schema_id: number;
 }
+export type AddPartitionSpecUpdateInputAction = "add-spec";
 export interface PartitionField {
   field_id?: number | undefined;
   source_id: number;
@@ -377,14 +545,16 @@ export interface PartitionSpecInput {
   fields: PartitionSpecInputFieldsList;
 }
 export interface AddPartitionSpecUpdateInput {
-  action: string;
+  action: AddPartitionSpecUpdateInputAction;
   spec: PartitionSpecInput;
 }
+export type SetDefaultSpecUpdateAction = "set-default-spec";
 export interface SetDefaultSpecUpdate {
-  action: string;
+  action: SetDefaultSpecUpdateAction;
   /** Partition spec ID to set as the default, or -1 to set last added spec */
   spec_id: number;
 }
+export type AddSortOrderUpdateInputAction = "add-sort-order";
 export type SortDirection = "asc" | "desc";
 export type NullOrder = "nulls-first" | "nulls-last";
 export interface SortField {
@@ -398,14 +568,16 @@ export interface SortOrderInput {
   fields: SortOrderInputFieldsList;
 }
 export interface AddSortOrderUpdateInput {
-  action: string;
+  action: AddSortOrderUpdateInputAction;
   sort_order: SortOrderInput;
 }
+export type SetDefaultSortOrderUpdateAction = "set-default-sort-order";
 export interface SetDefaultSortOrderUpdate {
-  action: string;
+  action: SetDefaultSortOrderUpdateAction;
   /** Sort order ID to set as the default, or -1 to set last added sort order */
   sort_order_id: number;
 }
+export type AddSnapshotUpdateAction = "add-snapshot";
 export type SnapshotSummaryOperation = "append" | "replace" | "overwrite" | "delete";
 export interface SnapshotSummary {
   operation: SnapshotSummaryOperation | (string & {});
@@ -426,12 +598,13 @@ export interface Snapshot {
   schema_id?: number | undefined;
 }
 export interface AddSnapshotUpdate {
-  action: string;
+  action: AddSnapshotUpdateAction;
   snapshot: Snapshot;
 }
+export type SetSnapshotRefUpdateAction = "set-snapshot-ref";
 export type SetSnapshotRefUpdateType = "tag" | "branch";
 export interface SetSnapshotRefUpdate {
-  action: string;
+  action: SetSnapshotRefUpdateAction;
   type: SetSnapshotRefUpdateType | (string & {});
   snapshot_id: number;
   max_ref_age_ms?: number | undefined;
@@ -439,29 +612,35 @@ export interface SetSnapshotRefUpdate {
   min_snapshots_to_keep?: number | undefined;
   ref_name: string;
 }
+export type RemoveSnapshotsUpdateAction = "remove-snapshots";
 export type RemoveSnapshotsUpdateSnapshotIdsList = Array<number>;
 export interface RemoveSnapshotsUpdate {
-  action: string;
+  action: RemoveSnapshotsUpdateAction;
   snapshot_ids: RemoveSnapshotsUpdateSnapshotIdsList;
 }
+export type RemoveSnapshotRefUpdateAction = "remove-snapshot-ref";
 export interface RemoveSnapshotRefUpdate {
-  action: string;
+  action: RemoveSnapshotRefUpdateAction;
   ref_name: string;
 }
+export type SetLocationUpdateAction = "set-location";
 export interface SetLocationUpdate {
-  action: string;
+  action: SetLocationUpdateAction;
   location: string;
 }
+export type SetPropertiesUpdateAction = "set-properties";
 export type SetPropertiesUpdateUpdatesMap = { [key: string]: string | undefined };
 export interface SetPropertiesUpdate {
-  action: string;
+  action: SetPropertiesUpdateAction;
   updates: SetPropertiesUpdateUpdatesMap;
 }
+export type RemovePropertiesUpdateAction = "remove-properties";
 export type RemovePropertiesUpdateRemovalsList = Array<string>;
 export interface RemovePropertiesUpdate {
-  action: string;
+  action: RemovePropertiesUpdateAction;
   removals: RemovePropertiesUpdateRemovalsList;
 }
+export type SetStatisticsUpdateAction = "set-statistics";
 export type BlobMetadataFieldsList = Array<number>;
 export type BlobMetadataPropertiesMap = { [key: string]: string | undefined };
 export interface BlobMetadata {
@@ -480,35 +659,44 @@ export interface StatisticsFile {
   blob_metadata: StatisticsFileBlobMetadataList;
 }
 export interface SetStatisticsUpdate {
-  action: string;
+  action: SetStatisticsUpdateAction;
   /** This optional field is **DEPRECATED for REMOVAL** since it contains redundant information. Clients should use the `statistics.snapshot-id` field instead. */
   snapshot_id?: number | undefined;
   statistics: StatisticsFile;
 }
+export type RemoveStatisticsUpdateAction = "remove-statistics";
 export interface RemoveStatisticsUpdate {
-  action: string;
+  action: RemoveStatisticsUpdateAction;
   snapshot_id: number;
 }
+export type SetPartitionStatisticsUpdateAction = "set-partition-statistics";
 export interface PartitionStatisticsFile {
   snapshot_id: number;
   statistics_path: string;
   file_size_in_bytes: number;
 }
 export interface SetPartitionStatisticsUpdate {
-  action: string;
+  action: SetPartitionStatisticsUpdateAction;
   partition_statistics: PartitionStatisticsFile;
 }
-export type RemovePartitionStatisticsUpdate = RemoveStatisticsUpdate;
+export type RemovePartitionStatisticsUpdateAction = "remove-partition-statistics";
+export interface RemovePartitionStatisticsUpdate {
+  action: RemovePartitionStatisticsUpdateAction;
+  snapshot_id: number;
+}
+export type RemovePartitionSpecsUpdateAction = "remove-partition-specs";
 export type RemovePartitionSpecsUpdateSpecIdsList = Array<number>;
 export interface RemovePartitionSpecsUpdate {
-  action: string;
+  action: RemovePartitionSpecsUpdateAction;
   spec_ids: RemovePartitionSpecsUpdateSpecIdsList;
 }
+export type RemoveSchemasUpdateAction = "remove-schemas";
 export type RemoveSchemasUpdateSchemaIdsList = Array<number>;
 export interface RemoveSchemasUpdate {
-  action: string;
+  action: RemoveSchemasUpdateAction;
   schema_ids: RemoveSchemasUpdateSchemaIdsList;
 }
+export type AddEncryptionKeyUpdateAction = "add-encryption-key";
 export type EncryptedKeyPropertiesMap = { [key: string]: string | undefined };
 export interface EncryptedKey {
   key_id: string;
@@ -517,11 +705,12 @@ export interface EncryptedKey {
   properties?: EncryptedKeyPropertiesMap | undefined;
 }
 export interface AddEncryptionKeyUpdate {
-  action: string;
+  action: AddEncryptionKeyUpdateAction;
   encryption_key: EncryptedKey;
 }
+export type RemoveEncryptionKeyUpdateAction = "remove-encryption-key";
 export interface RemoveEncryptionKeyUpdate {
-  action: string;
+  action: RemoveEncryptionKeyUpdateAction;
   key_id: string;
 }
 export type TableUpdateInput =
@@ -543,7 +732,7 @@ export type TableUpdateInput =
   | SetStatisticsUpdate
   | RemoveStatisticsUpdate
   | SetPartitionStatisticsUpdate
-  | RemoveStatisticsUpdate
+  | RemovePartitionStatisticsUpdate
   | RemovePartitionSpecsUpdate
   | RemoveSchemasUpdate
   | AddEncryptionKeyUpdate
@@ -692,17 +881,87 @@ export interface RemoteSigningConfig {
   /** Static headers the signer client MUST include unchanged in every request to the signing endpoint. */
   headers?: MultiValuedMap | undefined;
 }
-export interface Action {
-  action: string;
+export type MaskAlphanumAction = "mask-alphanum";
+/** Redacts the column value using the following rules to transform Unicode code points: - Digits (U+0030-U+0039, 0-9) are replaced with 'n' - The following punctuation characters are kept as-is: U+0028 '(' LEFT PARENTHESIS U+0029 ')' RIGHT PARENTHESIS U+002C ',' COMMA U+002E '.' FULL STOP U+002D '-' HYPHEN-MINUS U+0040 '@' COMMERCIAL AT - All other Unicode characters (including letters, whitespace, and any punctuation not listed above) are replaced with 'x' For example: "iceberg16112018@apache.org" -> "xxxxxxxnnnnnnnn@xxxxxx.xxx" NULL input is preserved (NULL -> NULL). Applicable to: string */
+export interface MaskAlphanum {
+  action: MaskAlphanumAction;
   /** Field ID of the column being projected. */
   field_id: number;
 }
+export type MaskToFixedValueAction = "mask-to-fixed-value";
+/** Replaces the column value with a type-specific fixed value. Readers must use exactly the values listed below to ensure consistency across implementations. Fixed values by type: - boolean: false - int: 0 - long: 0 - float: 0.0 - double: 0.0 - decimal(p, s): 0 (the unscaled value is 0) - string: "XXXXXXXX" - date: 1970-01-01 - time: 00:00:00 - timestamp: 1970-01-01T00:00:00 - timestamptz: 1970-01-01T00:00:00+00:00 - timestamp_ns: 1970-01-01T00:00:00.000000000 - timestamptz_ns: 1970-01-01T00:00:00.000000000+00:00 - uuid: 00000000-0000-0000-0000-000000000000 - fixed(n): n zero bytes - binary: empty byte sequence - variant: an empty variant object - list: empty list [] - map: empty map {} - struct: struct with each field set to its type-specific default (applied recursively) NULL input is also replaced with the type-specific fixed value; NULL is not preserved. Applicable to: the types with a fixed value defined above. A server must not return mask-to-fixed-value for any other type. */
+export interface MaskToFixedValue {
+  action: MaskToFixedValueAction;
+  /** Field ID of the column being projected. */
+  field_id: number;
+}
+export type ReplaceWithNullAction = "replace-with-null";
+/** Replaces the column value with NULL. NULL input is preserved (NULL -> NULL). Applicable to: all optional types. A server must not return replace-with-null for a required (non-nullable) field; a reader that receives one must fail the query. */
+export interface ReplaceWithNull {
+  action: ReplaceWithNullAction;
+  /** Field ID of the column being projected. */
+  field_id: number;
+}
+export type ShowFirst4Action = "show-first-4";
+/** Preserves the first 4 Unicode code points of the column value and redacts the remainder using mask-alphanum rules (see MaskAlphanum for the exact character rules). Values with 4 or fewer Unicode code points are returned unchanged. For example: "iceberg16112018@apache.org" -> "icebxxxnnnnnnnn@xxxxxx.xxx" NULL input is preserved (NULL -> NULL). Applicable to: string */
+export interface ShowFirst4 {
+  action: ShowFirst4Action;
+  /** Field ID of the column being projected. */
+  field_id: number;
+}
+export type ShowLast4Action = "show-last-4";
+/** Redacts all Unicode code points except the last 4 using mask-alphanum rules (see MaskAlphanum for the exact character rules). Values with 4 or fewer Unicode code points are returned unchanged. For example: "4111-1111-1111-4444" -> "nnnn-nnnn-nnnn-4444" NULL input is preserved (NULL -> NULL). Applicable to: string */
+export interface ShowLast4 {
+  action: ShowLast4Action;
+  /** Field ID of the column being projected. */
+  field_id: number;
+}
+export type TruncateToYearAction = "truncate-to-year";
+/** Truncates the column value to year precision, setting month, day, and time components to their minimum values. The output type matches the input type. For example: 2024-07-15 -> 2024-01-01 For timestamptz and timestamptz_ns, truncation is performed in UTC. NULL input is preserved (NULL -> NULL). Applicable to: date, timestamp, timestamptz, timestamp_ns, timestamptz_ns */
+export interface TruncateToYear {
+  action: TruncateToYearAction;
+  /** Field ID of the column being projected. */
+  field_id: number;
+}
+export type TruncateToMonthAction = "truncate-to-month";
+/** Truncates the column value to year and month precision, setting day and time components to their minimum values. The output type matches the input type. For example: 2024-07-15 -> 2024-07-01 For timestamptz and timestamptz_ns, truncation is performed in UTC. NULL input is preserved (NULL -> NULL). Applicable to: date, timestamp, timestamptz, timestamp_ns, timestamptz_ns */
+export interface TruncateToMonth {
+  action: TruncateToMonthAction;
+  /** Field ID of the column being projected. */
+  field_id: number;
+}
+export type Sha256GlobalAction = "sha-256-global";
+/** Applies SHA-256. Deterministic across all queries and readers: the same input always produces the same output. Input-to-bytes encoding by type: - string: UTF-8 encoded bytes - int: 4 bytes, little-endian - long: 8 bytes, little-endian - binary: raw bytes as-is Output encoding by type: - string: 64-character lowercase hexadecimal string - int: first 4 bytes of the digest, read as a little-endian int - long: first 8 bytes of the digest, read as a little-endian long - binary: the full 32-byte raw SHA-256 digest NULL input is preserved (NULL -> NULL). Applicable to: string, int, long, binary */
+export interface Sha256Global {
+  action: Sha256GlobalAction;
+  /** Field ID of the column being projected. */
+  field_id: number;
+}
+export type Sha256QueryLocalAction = "sha-256-query-local";
+/** Applies SHA-256 with a per-query random salt, making the output non-deterministic across queries while remaining consistent within a single query. The definition of a query is left to the implementation. The reader must generate a cryptographically random salt of at least 16 bytes for each query. For each column value, the reader must encode the value to bytes using sha-256-global's input rules, prepend the per-query salt, and compute SHA-256 over the result. Output encoding follows the same rules as sha-256-global. NULL input is preserved (NULL -> NULL). Applicable to: string, int, long, binary */
+export interface Sha256QueryLocal {
+  action: Sha256QueryLocalAction;
+  /** Field ID of the column being projected. */
+  field_id: number;
+}
+export type Action =
+  | MaskAlphanum
+  | MaskToFixedValue
+  | ReplaceWithNull
+  | ShowFirst4
+  | ShowLast4
+  | TruncateToYear
+  | TruncateToMonth
+  | Sha256Global
+  | Sha256QueryLocal;
 /** A list of columns that require specific actions to be applied when reading. A server must not return an action for a column whose type is not listed in that action's "Applicable to" set. If absent or empty, no required actions apply; columns not listed are not subject to any required action. 1. For each column listed, the reader must apply the specified action before returning values for that column. 2. The reader must replace all output references to the column with the result of the action, presenting the result under the original field-id. For example, if the action for field-id `9` is mask-alphanum, the reader must return the masked value as field-id `9` in the query output. 3. A server must not return more than one projection for the same field-id in required-column-projections. If a duplicate field-id appears, the reader must fail the query. 4. A server must not return a projection that targets a map's key field-id; a reader that receives one must fail the query. Applying an action to keys can produce duplicate or null keys, which readers silently coalesce or reject, causing data loss. 5. A reader must enforce projections on the columns it is actually reading. Projections referencing columns that are not being read do not apply. 6. A server must not return projections on both a nested-typed field (struct, list, or map) and any field-id nested within it at any depth. A reader that receives such a response must fail the query. */
 export type ReadRestrictionsRequiredColumnProjectionsList = Array<Action>;
 /** Deprecated. Use the bare boolean literal `true` as a predicate instead. */
-export type TrueExpression = TableRequirement;
+export interface TrueExpression {
+  type: string;
+}
 /** Deprecated. Use the bare boolean literal `false` as a predicate instead. */
-export type FalseExpression = TableRequirement;
+export type FalseExpression = TrueExpression;
 export interface AndOrPredicate {
   type: string;
   left: Predicate;
@@ -792,8 +1051,8 @@ export interface SetPredicate {
 }
 export type Predicate =
   | boolean
-  | TableRequirement
-  | TableRequirement
+  | TrueExpression
+  | TrueExpression
   | AndOrPredicate
   | NotPredicate
   | UnaryPredicate
@@ -934,6 +1193,7 @@ export interface FetchPlanningResultRequest {
   /** Optional signal to the server that the client supports delegated access via a comma-separated list of access mechanisms. The server may choose to supply access via any or none of the requested mechanisms. The value `none` signals that the client is able to operate without any access delegation mechanism. Specific properties and handling for `vended-credentials` and `remote-signing` are documented in the `LoadTableResult` schema section of this spec document. */
   xIcebergAccessDelegation?: FetchPlanningResultRequestXIcebergAccessDelegationList | undefined;
 }
+export type PositionDeleteFileContent = "position-deletes";
 export type FileFormat = "avro" | "orc" | "parquet" | "puffin";
 /** A list of partition field values ordered based on the fields of the partition spec specified by the `spec-id` */
 export type PositionDeleteFilePartitionList = Array<PrimitiveTypeValue>;
@@ -946,7 +1206,7 @@ export interface FieldStatistics {
 /** Container struct for per-field metrics structs */
 export type PositionDeleteFileContentStatsMap = { [key: string]: FieldStatistics | undefined };
 export interface PositionDeleteFile {
-  content: string;
+  content: PositionDeleteFileContent;
   file_path: string;
   file_format: FileFormat;
   spec_id: number;
@@ -968,6 +1228,7 @@ export interface PositionDeleteFile {
   /** Length, in bytes, of the delete content; required if content-offset is present */
   content_size_in_bytes?: number | undefined;
 }
+export type EqualityDeleteFileContent = "equality-deletes";
 /** A list of partition field values ordered based on the fields of the partition spec specified by the `spec-id` */
 export type EqualityDeleteFilePartitionList = Array<PrimitiveTypeValue>;
 /** List of splittable offsets */
@@ -977,7 +1238,7 @@ export type EqualityDeleteFileContentStatsMap = { [key: string]: FieldStatistics
 /** List of equality field IDs */
 export type EqualityDeleteFileEqualityIdsList = Array<number>;
 export interface EqualityDeleteFile {
-  content: string;
+  content: EqualityDeleteFileContent;
   file_path: string;
   file_format: FileFormat;
   spec_id: number;
@@ -1000,6 +1261,7 @@ export interface EqualityDeleteFile {
 export type DeleteFile = PositionDeleteFile | EqualityDeleteFile;
 /** Delete files referenced by file scan tasks */
 export type CompletedPlanningResultDeleteFilesList = Array<DeleteFile>;
+export type DataFileContent = "data";
 /** A list of partition field values ordered based on the fields of the partition spec specified by the `spec-id` */
 export type DataFilePartitionList = Array<PrimitiveTypeValue>;
 /** List of splittable offsets */
@@ -1027,7 +1289,7 @@ export interface ValueMap {
   values?: ValueMapValuesList | undefined;
 }
 export interface DataFile {
-  content: string;
+  content: DataFileContent;
   file_path: string;
   file_format: FileFormat;
   spec_id: number;
@@ -1491,12 +1753,14 @@ export interface AssertViewUUID {
   uuid: string;
 }
 export type ReplaceViewRequestRequirementsList = Array<AssertViewUUID>;
+export type AddViewVersionUpdateAction = "add-view-version";
 export interface AddViewVersionUpdate {
-  action: string;
+  action: AddViewVersionUpdateAction;
   view_version: ViewVersion;
 }
+export type SetCurrentViewVersionUpdateAction = "set-current-view-version";
 export interface SetCurrentViewVersionUpdate {
-  action: string;
+  action: SetCurrentViewVersionUpdateAction;
   /** The view version id to set as current, or -1 to set last added view version id */
   view_version_id: number;
 }
@@ -1629,6 +1893,10 @@ export interface ViewExistsRequest {
   view: string;
 }
 export interface ViewExistsResponse {}
+/** JSON wrapper for all error responses (non-2xx) */
+export interface IcebergErrorResponse {
+  error: ErrorModel;
+}
 export type CancelPlanningError =
   | NoSuchNamespaceException
   | NoSuchPlanIdException
@@ -1641,8 +1909,8 @@ export const cancelPlanning: API.OperationMethod<
   CancelPlanningError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CancelPlanningRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<CancelPlanningResponse>,
+  input: __S(96, __c3, 0) as any as S.Schema<CancelPlanningRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<CancelPlanningResponse>,
   errors: [NoSuchNamespaceException, NoSuchPlanIdException, NoSuchTableException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -1662,8 +1930,8 @@ export const commitTransaction: API.OperationMethod<
   CommitTransactionError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(98, __c3, 2) as any as S.Schema<CommitTransactionRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<CommitTransactionResponse>,
+  input: __S(194, __c6, 2) as any as S.Schema<CommitTransactionRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<CommitTransactionResponse>,
   errors: [CommitFailedException, CommitStateUnknownException, NoSuchTableException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -1682,8 +1950,8 @@ export const createNamespace: API.OperationMethod<
   CreateNamespaceError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<CreateNamespaceRequest>,
-  output: __S(225, __c7, 1) as any as S.Schema<CreateNamespaceResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<CreateNamespaceRequest>,
+  output: __S(289, __c9, 1) as any as S.Schema<CreateNamespaceResponse>,
   errors: [AlreadyExistsException, UnsupportedOperationException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -1699,8 +1967,8 @@ export const createTable: API.OperationMethod<
   CreateTableError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(290, __c9, 2) as any as S.Schema<CreateTableRequest>,
-  output: __S(484, __c15, 4) as any as S.Schema<LoadTableResult>,
+  input: __S(354, __c11, 2) as any as S.Schema<CreateTableRequest>,
+  output: __S(547, __c17, 3) as any as S.Schema<LoadTableResult>,
   errors: [AlreadyExistsException, NoSuchNamespaceException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -1716,8 +1984,8 @@ export const createView: API.OperationMethod<
   CreateViewError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<CreateViewRequest>,
-  output: __S(615, __c19, 7) as any as S.Schema<LoadViewResult>,
+  input: __S(640, __c20, 0) as any as S.Schema<CreateViewRequest>,
+  output: __S(679, __c21, 7) as any as S.Schema<LoadViewResult>,
   errors: [AlreadyExistsException, NoSuchNamespaceException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -1736,8 +2004,8 @@ export const dropNamespace: API.OperationMethod<
   DropNamespaceError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<DropNamespaceRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<DropNamespaceResponse>,
+  input: __S(704, __c22, 0) as any as S.Schema<DropNamespaceRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<DropNamespaceResponse>,
   errors: [NamespaceNotEmptyException, NoSuchNamespaceException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -1753,8 +2021,8 @@ export const dropTable: API.OperationMethod<
   DropTableError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<DropTableRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<DropTableResponse>,
+  input: __S(736, __c23, 0) as any as S.Schema<DropTableRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<DropTableResponse>,
   errors: [NoSuchTableException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -1770,8 +2038,8 @@ export const dropView: API.OperationMethod<
   DropViewError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<DropViewRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<DropViewResponse>,
+  input: __S(768, __c24, 0) as any as S.Schema<DropViewRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<DropViewResponse>,
   errors: [NoSuchViewException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -1791,8 +2059,8 @@ export const fetchPlanningResult: API.OperationMethod<
   FetchPlanningResultError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<FetchPlanningResultRequest>,
-  output: __S(737, __c23, 1) as any as S.Schema<FetchPlanningResultResponse>,
+  input: __S(800, __c25, 0) as any as S.Schema<FetchPlanningResultRequest>,
+  output: __S(801, __c25, 1) as any as S.Schema<FetchPlanningResultResponse>,
   errors: [NoSuchNamespaceException, NoSuchPlanIdException, NoSuchTableException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -1812,8 +2080,8 @@ export const fetchScanTasks: API.OperationMethod<
   FetchScanTasksError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(777, __c24, 9) as any as S.Schema<FetchScanTasksRequest>,
-  output: __S(778, __c24, 10) as any as S.Schema<FetchScanTasksResponse>,
+  input: __S(841, __c26, 9) as any as S.Schema<FetchScanTasksRequest>,
+  output: __S(842, __c26, 10) as any as S.Schema<FetchScanTasksResponse>,
   errors: [NoSuchNamespaceException, NoSuchPlanTaskException, NoSuchTableException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -1829,8 +2097,8 @@ export const getConfig: API.OperationMethod<
   GetConfigError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<GetConfigRequest>,
-  output: __S(801, __c25, 1) as any as S.Schema<CatalogConfig>,
+  input: __S(864, __c27, 0) as any as S.Schema<GetConfigRequest>,
+  output: __S(865, __c27, 1) as any as S.Schema<CatalogConfig>,
   errors: [NoSuchWarehouseException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -1848,8 +2116,8 @@ export const listFunctions: API.PaginatedOperationMethod<
   CatalogObjectIdentifier
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(832, __c26, 0) as any as S.Schema<ListFunctionsRequest>,
-    output: __S(833, __c26, 1) as any as S.Schema<ListFunctionsResponse>,
+    input: __S(896, __c28, 0) as any as S.Schema<ListFunctionsRequest>,
+    output: __S(897, __c28, 1) as any as S.Schema<ListFunctionsResponse>,
     errors: [NoSuchNamespaceException],
     protocol: IcebergProtocol,
     retry: Retry.Retry,
@@ -1876,8 +2144,8 @@ export const listNamespaces: API.PaginatedOperationMethod<
   Namespace
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(896, __c28, 0) as any as S.Schema<ListNamespacesRequest>,
-    output: __S(897, __c28, 1) as any as S.Schema<ListNamespacesResponse>,
+    input: __S(960, __c30, 0) as any as S.Schema<ListNamespacesRequest>,
+    output: __S(961, __c30, 1) as any as S.Schema<ListNamespacesResponse>,
     errors: [NoSuchNamespaceException],
     protocol: IcebergProtocol,
     retry: Retry.Retry,
@@ -1904,8 +2172,8 @@ export const listTables: API.PaginatedOperationMethod<
   TableIdentifier
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(928, __c29, 0) as any as S.Schema<ListTablesRequest>,
-    output: __S(961, __c30, 1) as any as S.Schema<ListTablesResponse>,
+    input: __S(992, __c31, 0) as any as S.Schema<ListTablesRequest>,
+    output: __S(1025, __c32, 1) as any as S.Schema<ListTablesResponse>,
     errors: [NoSuchNamespaceException],
     protocol: IcebergProtocol,
     retry: Retry.Retry,
@@ -1932,8 +2200,8 @@ export const listViews: API.PaginatedOperationMethod<
   TableIdentifier
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(992, __c31, 0) as any as S.Schema<ListViewsRequest>,
-    output: __S(961, __c30, 1) as any as S.Schema<ListTablesResponse>,
+    input: __S(1056, __c33, 0) as any as S.Schema<ListViewsRequest>,
+    output: __S(1025, __c32, 1) as any as S.Schema<ListTablesResponse>,
     errors: [NoSuchNamespaceException],
     protocol: IcebergProtocol,
     retry: Retry.Retry,
@@ -1958,8 +2226,8 @@ export const loadCredentials: API.OperationMethod<
   LoadCredentialsError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<LoadCredentialsRequest>,
-  output: __S(1025, __c32, 1) as any as S.Schema<LoadCredentialsResponse>,
+  input: __S(1088, __c34, 0) as any as S.Schema<LoadCredentialsRequest>,
+  output: __S(1089, __c34, 1) as any as S.Schema<LoadCredentialsResponse>,
   errors: [NoSuchTableException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -1975,8 +2243,8 @@ export const loadFunction: API.OperationMethod<
   LoadFunctionError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<LoadFunctionRequest>,
-  output: __S(1070, __c33, 14) as any as S.Schema<LoadFunctionResult>,
+  input: __S(1120, __c35, 0) as any as S.Schema<LoadFunctionRequest>,
+  output: __S(1134, __c35, 14) as any as S.Schema<LoadFunctionResult>,
   errors: [NoSuchFunctionException, NoSuchNamespaceException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -1992,8 +2260,8 @@ export const loadNamespaceMetadata: API.OperationMethod<
   LoadNamespaceMetadataError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<LoadNamespaceMetadataRequest>,
-  output: __S(1089, __c34, 1) as any as S.Schema<GetNamespaceResponse>,
+  input: __S(1152, __c36, 0) as any as S.Schema<LoadNamespaceMetadataRequest>,
+  output: __S(1153, __c36, 1) as any as S.Schema<GetNamespaceResponse>,
   errors: [NoSuchNamespaceException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -2009,8 +2277,8 @@ export const loadTable: API.OperationMethod<
   LoadTableError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<LoadTableRequest>,
-  output: __S(484, __c15, 4) as any as S.Schema<LoadTableResult>,
+  input: __S(1184, __c37, 0) as any as S.Schema<LoadTableRequest>,
+  output: __S(547, __c17, 3) as any as S.Schema<LoadTableResult>,
   errors: [NoSuchTableException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -2026,8 +2294,8 @@ export const loadView: API.OperationMethod<
   LoadViewError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<LoadViewRequest>,
-  output: __S(615, __c19, 7) as any as S.Schema<LoadViewResult>,
+  input: __S(1216, __c38, 0) as any as S.Schema<LoadViewRequest>,
+  output: __S(679, __c21, 7) as any as S.Schema<LoadViewResult>,
   errors: [NoSuchViewException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -2043,8 +2311,8 @@ export const namespaceExists: API.OperationMethod<
   NamespaceExistsError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<NamespaceExistsRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<NamespaceExistsResponse>,
+  input: __S(1248, __c39, 0) as any as S.Schema<NamespaceExistsRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<NamespaceExistsResponse>,
   errors: [],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -2064,8 +2332,8 @@ export const planTableScan: API.OperationMethod<
   PlanTableScanError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<PlanTableScanRequest>,
-  output: __S(1217, __c38, 1) as any as S.Schema<PlanTableScanResponse>,
+  input: __S(1280, __c40, 0) as any as S.Schema<PlanTableScanRequest>,
+  output: __S(1281, __c40, 1) as any as S.Schema<PlanTableScanResponse>,
   errors: [NoSuchNamespaceException, NoSuchTableException, UnsupportedOperationException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -2081,8 +2349,8 @@ export const registerTable: API.OperationMethod<
   RegisterTableError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<RegisterTableRequest>,
-  output: __S(484, __c15, 4) as any as S.Schema<LoadTableResult>,
+  input: __S(1312, __c41, 0) as any as S.Schema<RegisterTableRequest>,
+  output: __S(547, __c17, 3) as any as S.Schema<LoadTableResult>,
   errors: [AlreadyExistsException, NoSuchNamespaceException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -2098,8 +2366,8 @@ export const registerView: API.OperationMethod<
   RegisterViewError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<RegisterViewRequest>,
-  output: __S(615, __c19, 7) as any as S.Schema<LoadViewResult>,
+  input: __S(1344, __c42, 0) as any as S.Schema<RegisterViewRequest>,
+  output: __S(679, __c21, 7) as any as S.Schema<LoadViewResult>,
   errors: [AlreadyExistsException, NoSuchNamespaceException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -2119,8 +2387,8 @@ export const renameTable: API.OperationMethod<
   RenameTableError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<RenameTableRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<RenameTableResponse>,
+  input: __S(1376, __c43, 0) as any as S.Schema<RenameTableRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<RenameTableResponse>,
   errors: [NoSuchNamespaceException, NoSuchTableException, UnsupportedOperationException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -2140,8 +2408,8 @@ export const renameView: API.OperationMethod<
   RenameViewError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<RenameViewRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<RenameViewResponse>,
+  input: __S(1408, __c44, 0) as any as S.Schema<RenameViewRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<RenameViewResponse>,
   errors: [NoSuchNamespaceException, NoSuchViewException, UnsupportedOperationException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -2161,8 +2429,8 @@ export const replaceView: API.OperationMethod<
   ReplaceViewError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1379, __c43, 3) as any as S.Schema<ReplaceViewRequest>,
-  output: __S(615, __c19, 7) as any as S.Schema<LoadViewResult>,
+  input: __S(1443, __c45, 3) as any as S.Schema<ReplaceViewRequest>,
+  output: __S(679, __c21, 7) as any as S.Schema<LoadViewResult>,
   errors: [CommitFailedException, CommitStateUnknownException, NoSuchViewException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -2178,8 +2446,8 @@ export const reportMetrics: API.OperationMethod<
   ReportMetricsError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<ReportMetricsRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<ReportMetricsResponse>,
+  input: __S(1472, __c46, 0) as any as S.Schema<ReportMetricsRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<ReportMetricsResponse>,
   errors: [NoSuchTableException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -2195,8 +2463,8 @@ export const signRequest: API.OperationMethod<
   SignRequestError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<SignRequestRequest>,
-  output: __S(1441, __c45, 1) as any as S.Schema<RemoteSignResult>,
+  input: __S(1504, __c47, 0) as any as S.Schema<SignRequestRequest>,
+  output: __S(1505, __c47, 1) as any as S.Schema<RemoteSignResult>,
   errors: [],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -2212,8 +2480,8 @@ export const tableExists: API.OperationMethod<
   TableExistsError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<TableExistsRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<TableExistsResponse>,
+  input: __S(1536, __c48, 0) as any as S.Schema<TableExistsRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<TableExistsResponse>,
   errors: [],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -2229,8 +2497,8 @@ export const unregisterTable: API.OperationMethod<
   UnregisterTableError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<UnregisterTableRequest>,
-  output: __S(1536, __c48, 0) as any as S.Schema<UnregisterTableResult>,
+  input: __S(1568, __c49, 0) as any as S.Schema<UnregisterTableRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<UnregisterTableResult>,
   errors: [NoSuchTableException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -2250,8 +2518,8 @@ export const updateProperties: API.OperationMethod<
   UpdatePropertiesError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<UpdatePropertiesRequest>,
-  output: __S(1569, __c49, 1) as any as S.Schema<UpdateNamespacePropertiesResponse>,
+  input: __S(1632, __c51, 0) as any as S.Schema<UpdatePropertiesRequest>,
+  output: __S(1633, __c51, 1) as any as S.Schema<UpdateNamespacePropertiesResponse>,
   errors: [NoSuchNamespaceException, UnprocessableEntityException, UnsupportedOperationException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -2271,8 +2539,8 @@ export const updateTable: API.OperationMethod<
   UpdateTableError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<UpdateTableRequest>,
-  output: __S(1536, __c48, 0) as any as S.Schema<CommitTableResponse>,
+  input: __S(1664, __c52, 0) as any as S.Schema<UpdateTableRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<CommitTableResponse>,
   errors: [CommitFailedException, CommitStateUnknownException, NoSuchTableException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -2288,8 +2556,8 @@ export const viewExists: API.OperationMethod<
   ViewExistsError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<ViewExistsRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<ViewExistsResponse>,
+  input: __S(1696, __c53, 0) as any as S.Schema<ViewExistsRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<ViewExistsResponse>,
   errors: [],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -2303,11 +2571,40 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          error: __S(64, __c2, 0),
+        }),
+      ).annotate({ identifier: "IcebergErrorResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.String,
+          type: S.String,
+          code: S.Number,
+          stack: S.optional(__S(32, __c1, 0)),
+        }),
+      ).annotate({ identifier: "ErrorModel" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           namespace: S.String.pipe(T.Label()),
           table: S.String.pipe(T.Label()),
           plan_id: S.String.pipe(T.Label()),
           xIcebergAccessDelegation: S.optional(
-            __S(64, __c2, 0).pipe(T.Header("X-Iceberg-Access-Delegation")),
+            __S(160, __c5, 0).pipe(T.Header("X-Iceberg-Access-Delegation")),
           ),
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         })
@@ -2322,7 +2619,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CancelPlanningRequest" });
   }
 }
-function __c1(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY))).annotate({
@@ -2330,50 +2627,10 @@ function __c1(j: number): any {
       });
   }
 }
-function __c2(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c3(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          identifier: S.optional(__S(160, __c5, 0)),
-          requirements: __S(193, __c6, 1),
-          updates: __S(194, __c6, 2),
-        }),
-      ).annotate({ identifier: "CommitTableRequestInput" });
-    case 1:
-      return S.Array(__S(96, __c3, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          table_changes: __S(97, __c3, 1).pipe(T.Body("table-changes")),
-        })
-          .pipe(T.Http({ method: "POST", uri: "/transactions/commit", code: 200 }))
-          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "CommitTransactionRequest" });
-  }
-}
-function __c4(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
 function __c5(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: __S(128, __c4, 0),
-          name: S.String,
-        }),
-      ).annotate({ identifier: "TableIdentifier" });
+      return S.Array(S.String);
   }
 }
 function __c6(j: number): any {
@@ -2381,13 +2638,22 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          type: S.String,
+          identifier: S.optional(__S(224, __c7, 0)),
+          requirements: __S(256, __c8, 0),
+          updates: __S(257, __c8, 1),
         }),
-      ).annotate({ identifier: "TableRequirement" });
+      ).annotate({ identifier: "CommitTableRequestInput" });
     case 1:
       return S.Array(__S(192, __c6, 0));
     case 2:
-      return S.Array(S.Unknown);
+      return S.suspend(() =>
+        S.Struct({
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          table_changes: __S(193, __c6, 1).pipe(T.Body("table-changes")),
+        })
+          .pipe(T.Http({ method: "POST", uri: "/transactions/commit", code: 200 }))
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "CommitTransactionRequest" });
   }
 }
 function __c7(j: number): any {
@@ -2395,26 +2661,18 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          namespace: __S(128, __c4, 0),
-          properties: S.optional(__S(256, __c8, 0)),
-        })
-          .pipe(T.Http({ method: "POST", uri: "/namespaces", code: 200 }))
-          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "CreateNamespaceRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: __S(128, __c4, 0),
-          properties: S.optional(__S(256, __c8, 0)),
-        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "CreateNamespaceResponse" });
+          namespace: __S(32, __c1, 0),
+          name: S.String,
+        }),
+      ).annotate({ identifier: "TableIdentifier" });
   }
 }
 function __c8(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.String);
+      return S.Array(S.Unknown);
+    case 1:
+      return S.Array(S.Unknown);
   }
 }
 function __c9(j: number): any {
@@ -2422,13 +2680,40 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          fields: __S(545, __c17, 1),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          namespace: __S(32, __c1, 0),
+          properties: S.optional(__S(320, __c10, 0)),
+        })
+          .pipe(T.Http({ method: "POST", uri: "/namespaces", code: 200 }))
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "CreateNamespaceRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: __S(32, __c1, 0),
+          properties: S.optional(__S(320, __c10, 0)),
+        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "CreateNamespaceResponse" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.String);
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          fields: __S(609, __c19, 1),
         }),
       ).annotate({ identifier: "PartitionSpecInput" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          fields: __S(547, __c17, 3),
+          fields: __S(611, __c19, 3),
         }),
       ).annotate({ identifier: "SortOrderInput" });
     case 2:
@@ -2436,38 +2721,20 @@ function __c9(j: number): any {
         S.Struct({
           namespace: S.String.pipe(T.Label()),
           xIcebergAccessDelegation: S.optional(
-            __S(64, __c2, 0).pipe(T.Header("X-Iceberg-Access-Delegation")),
+            __S(160, __c5, 0).pipe(T.Header("X-Iceberg-Access-Delegation")),
           ),
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
           name: S.String,
           location: S.optional(S.String),
-          schema: __S(320, __c10, 0),
-          partition_spec: S.optional(__S(288, __c9, 0).pipe(T.Body("partition-spec"))),
-          write_order: S.optional(__S(289, __c9, 1).pipe(T.Body("write-order"))),
+          schema: __S(384, __c12, 0),
+          partition_spec: S.optional(__S(352, __c11, 0).pipe(T.Body("partition-spec"))),
+          write_order: S.optional(__S(353, __c11, 1).pipe(T.Body("write-order"))),
           stage_create: S.optional(S.Boolean.pipe(T.Body("stage-create"))),
-          properties: S.optional(__S(256, __c8, 0)),
+          properties: S.optional(__S(320, __c10, 0)),
         })
           .pipe(T.Http({ method: "POST", uri: "/namespaces/{namespace}/tables", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateTableRequest" });
-  }
-}
-function __c10(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.String,
-          fields: __S(417, __c13, 1),
-          identifier_field_ids: S.optional(__S(352, __c11, 0).pipe(T.Body("identifier-field-ids"))),
-        }),
-      ).annotate({ identifier: "SchemaInput" });
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Number);
   }
 }
 function __c12(j: number): any {
@@ -2475,22 +2742,40 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          type: S.String,
+          fields: __S(481, __c15, 1),
+          identifier_field_ids: S.optional(__S(416, __c13, 0).pipe(T.Body("identifier-field-ids"))),
+        }),
+      ).annotate({ identifier: "SchemaInput" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Number);
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           field_id: S.Number.pipe(T.Body("field-id")),
-          labels: __S(256, __c8, 0),
+          labels: __S(320, __c10, 0),
         }),
       ).annotate({ identifier: "FieldLabels" });
     case 1:
-      return S.Array(__S(384, __c12, 0));
+      return S.Array(__S(448, __c14, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          object_labels: S.optional(__S(256, __c8, 0).pipe(T.Body("object-labels"))),
-          fields: S.optional(__S(385, __c12, 1)),
+          object_labels: S.optional(__S(320, __c10, 0).pipe(T.Body("object-labels"))),
+          fields: S.optional(__S(449, __c14, 1)),
         }),
       ).annotate({ identifier: "Labels" });
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2505,83 +2790,76 @@ function __c13(j: number): any {
         }),
       ).annotate({ identifier: "StructField" });
     case 1:
-      return S.Array(__S(416, __c13, 0));
+      return S.Array(__S(480, __c15, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          fields: __S(417, __c13, 1),
+          fields: __S(481, __c15, 1),
           schema_id: S.optional(S.Number.pipe(T.Body("schema-id"))),
-          identifier_field_ids: S.optional(__S(352, __c11, 0).pipe(T.Body("identifier-field-ids"))),
+          identifier_field_ids: S.optional(__S(416, __c13, 0).pipe(T.Body("identifier-field-ids"))),
         }),
       ).annotate({ identifier: "Schema" });
     case 3:
-      return S.Array(__S(418, __c13, 2));
-  }
-}
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          prefix: S.String,
-          config: __S(256, __c8, 0),
-        }),
-      ).annotate({ identifier: "StorageCredential" });
-    case 1:
-      return S.Array(__S(448, __c14, 0));
-  }
-}
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          properties: S.optional(__S(256, __c8, 0)),
-          headers: S.optional(__S(512, __c16, 0)),
-        }),
-      ).annotate({ identifier: "RemoteSigningConfig" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          action: S.String,
-          field_id: S.Number.pipe(T.Body("field-id")),
-        }),
-      ).annotate({ identifier: "Action" });
-    case 2:
-      return S.Array(__S(481, __c15, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          required_column_projections: S.optional(
-            __S(482, __c15, 2).pipe(T.Body("required-column-projections")),
-          ),
-          required_row_filter: S.optional(S.Unknown.pipe(T.Body("required-row-filter"))),
-        }),
-      ).annotate({ identifier: "ReadRestrictions" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          metadata_location: S.optional(S.NullOr(S.String).pipe(T.Body("metadata-location"))),
-          metadata: __S(569, __c17, 25),
-          config: S.optional(__S(256, __c8, 0)),
-          storage_credentials: S.optional(__S(449, __c14, 1).pipe(T.Body("storage-credentials"))),
-          remote_signing_config: S.optional(
-            __S(480, __c15, 0).pipe(T.Body("remote-signing-config")),
-          ),
-          read_restrictions: S.optional(__S(483, __c15, 3).pipe(T.Body("read-restrictions"))),
-          labels: S.optional(__S(386, __c12, 2)),
-        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "LoadTableResult" });
+      return S.Array(__S(482, __c15, 2));
   }
 }
 function __c16(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, __S(128, __c4, 0));
+      return S.suspend(() =>
+        S.Struct({
+          prefix: S.String,
+          config: __S(320, __c10, 0),
+        }),
+      ).annotate({ identifier: "StorageCredential" });
+    case 1:
+      return S.Array(__S(512, __c16, 0));
   }
 }
 function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          properties: S.optional(__S(320, __c10, 0)),
+          headers: S.optional(__S(576, __c18, 0)),
+        }),
+      ).annotate({ identifier: "RemoteSigningConfig" });
+    case 1:
+      return S.Array(S.Unknown);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          required_column_projections: S.optional(
+            __S(545, __c17, 1).pipe(T.Body("required-column-projections")),
+          ),
+          required_row_filter: S.optional(S.Unknown.pipe(T.Body("required-row-filter"))),
+        }),
+      ).annotate({ identifier: "ReadRestrictions" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          metadata_location: S.optional(S.NullOr(S.String).pipe(T.Body("metadata-location"))),
+          metadata: __S(633, __c19, 25),
+          config: S.optional(__S(320, __c10, 0)),
+          storage_credentials: S.optional(__S(513, __c16, 1).pipe(T.Body("storage-credentials"))),
+          remote_signing_config: S.optional(
+            __S(544, __c17, 0).pipe(T.Body("remote-signing-config")),
+          ),
+          read_restrictions: S.optional(__S(546, __c17, 2).pipe(T.Body("read-restrictions"))),
+          labels: S.optional(__S(450, __c14, 2)),
+        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "LoadTableResult" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, __S(32, __c1, 0));
+  }
+}
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2593,7 +2871,7 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "PartitionField" });
     case 1:
-      return S.Array(__S(544, __c17, 0));
+      return S.Array(__S(608, __c19, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -2604,7 +2882,7 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "SortField" });
     case 3:
-      return S.Array(__S(546, __c17, 2));
+      return S.Array(__S(610, __c19, 2));
     case 4:
       return S.suspend(() =>
         S.StructWithRest(
@@ -2624,7 +2902,7 @@ function __c17(j: number): any {
           manifest_list: S.String.pipe(T.Body("manifest-list")),
           first_row_id: S.optional(S.Number.pipe(T.Body("first-row-id"))),
           added_rows: S.optional(S.Number.pipe(T.Body("added-rows"))),
-          summary: __S(548, __c17, 4),
+          summary: __S(612, __c19, 4),
           schema_id: S.optional(S.Number.pipe(T.Body("schema-id"))),
         }),
       ).annotate({ identifier: "Snapshot" });
@@ -2634,12 +2912,12 @@ function __c17(j: number): any {
           type: S.String,
           snapshot_id: S.Number.pipe(T.Body("snapshot-id")),
           sequence_number: S.Number.pipe(T.Body("sequence-number")),
-          fields: __S(352, __c11, 0),
-          properties: S.optional(__S(256, __c8, 0)),
+          fields: __S(416, __c13, 0),
+          properties: S.optional(__S(320, __c10, 0)),
         }),
       ).annotate({ identifier: "BlobMetadata" });
     case 7:
-      return S.Array(__S(550, __c17, 6));
+      return S.Array(__S(614, __c19, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -2647,7 +2925,7 @@ function __c17(j: number): any {
           statistics_path: S.String.pipe(T.Body("statistics-path")),
           file_size_in_bytes: S.Number.pipe(T.Body("file-size-in-bytes")),
           file_footer_size_in_bytes: S.Number.pipe(T.Body("file-footer-size-in-bytes")),
-          blob_metadata: __S(551, __c17, 7).pipe(T.Body("blob-metadata")),
+          blob_metadata: __S(615, __c19, 7).pipe(T.Body("blob-metadata")),
         }),
       ).annotate({ identifier: "StatisticsFile" });
     case 9:
@@ -2664,31 +2942,31 @@ function __c17(j: number): any {
           key_id: S.String.pipe(T.Body("key-id")),
           encrypted_key_metadata: S.String.pipe(T.Body("encrypted-key-metadata")),
           encrypted_by_id: S.optional(S.String.pipe(T.Body("encrypted-by-id"))),
-          properties: S.optional(__S(256, __c8, 0)),
+          properties: S.optional(__S(320, __c10, 0)),
         }),
       ).annotate({ identifier: "EncryptedKey" });
     case 11:
       return S.suspend(() =>
         S.Struct({
           spec_id: S.optional(S.Number.pipe(T.Body("spec-id"))),
-          fields: __S(545, __c17, 1),
+          fields: __S(609, __c19, 1),
         }),
       ).annotate({ identifier: "PartitionSpec" });
     case 12:
-      return S.Array(__S(555, __c17, 11));
+      return S.Array(__S(619, __c19, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
           order_id: S.Number.pipe(T.Body("order-id")),
-          fields: __S(547, __c17, 3),
+          fields: __S(611, __c19, 3),
         }),
       ).annotate({ identifier: "SortOrder" });
     case 14:
-      return S.Array(__S(557, __c17, 13));
+      return S.Array(__S(621, __c19, 13));
     case 15:
-      return S.Array(__S(554, __c17, 10));
+      return S.Array(__S(618, __c19, 10));
     case 16:
-      return S.Array(__S(549, __c17, 5));
+      return S.Array(__S(613, __c19, 5));
     case 17:
       return S.suspend(() =>
         S.Struct({
@@ -2700,7 +2978,7 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "SnapshotReference" });
     case 18:
-      return S.Record(S.String, __S(561, __c17, 17));
+      return S.Record(S.String, __S(625, __c19, 17));
     case 19:
       return S.suspend(() =>
         S.Struct({
@@ -2709,7 +2987,7 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "SnapshotLogItem" });
     case 20:
-      return S.Array(__S(563, __c17, 19));
+      return S.Array(__S(627, __c19, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
@@ -2718,11 +2996,11 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "MetadataLogItem" });
     case 22:
-      return S.Array(__S(565, __c17, 21));
+      return S.Array(__S(629, __c19, 21));
     case 23:
-      return S.Array(__S(552, __c17, 8));
+      return S.Array(__S(616, __c19, 8));
     case 24:
-      return S.Array(__S(553, __c17, 9));
+      return S.Array(__S(617, __c19, 9));
     case 25:
       return S.suspend(() =>
         S.Struct({
@@ -2731,31 +3009,31 @@ function __c17(j: number): any {
           location: S.optional(S.String),
           last_updated_ms: S.optional(S.Number.pipe(T.Body("last-updated-ms"))),
           next_row_id: S.optional(S.Number.pipe(T.Body("next-row-id"))),
-          properties: S.optional(__S(256, __c8, 0)),
-          schemas: S.optional(__S(419, __c13, 3)),
+          properties: S.optional(__S(320, __c10, 0)),
+          schemas: S.optional(__S(483, __c15, 3)),
           current_schema_id: S.optional(S.Number.pipe(T.Body("current-schema-id"))),
           last_column_id: S.optional(S.Number.pipe(T.Body("last-column-id"))),
-          partition_specs: S.optional(__S(556, __c17, 12).pipe(T.Body("partition-specs"))),
+          partition_specs: S.optional(__S(620, __c19, 12).pipe(T.Body("partition-specs"))),
           default_spec_id: S.optional(S.Number.pipe(T.Body("default-spec-id"))),
           last_partition_id: S.optional(S.Number.pipe(T.Body("last-partition-id"))),
-          sort_orders: S.optional(__S(558, __c17, 14).pipe(T.Body("sort-orders"))),
+          sort_orders: S.optional(__S(622, __c19, 14).pipe(T.Body("sort-orders"))),
           default_sort_order_id: S.optional(S.Number.pipe(T.Body("default-sort-order-id"))),
-          encryption_keys: S.optional(__S(559, __c17, 15).pipe(T.Body("encryption-keys"))),
-          snapshots: S.optional(__S(560, __c17, 16)),
-          refs: S.optional(__S(562, __c17, 18)),
+          encryption_keys: S.optional(__S(623, __c19, 15).pipe(T.Body("encryption-keys"))),
+          snapshots: S.optional(__S(624, __c19, 16)),
+          refs: S.optional(__S(626, __c19, 18)),
           current_snapshot_id: S.optional(S.Number.pipe(T.Body("current-snapshot-id"))),
           last_sequence_number: S.optional(S.Number.pipe(T.Body("last-sequence-number"))),
-          snapshot_log: S.optional(__S(564, __c17, 20).pipe(T.Body("snapshot-log"))),
-          metadata_log: S.optional(__S(566, __c17, 22).pipe(T.Body("metadata-log"))),
-          statistics: S.optional(__S(567, __c17, 23)),
+          snapshot_log: S.optional(__S(628, __c19, 20).pipe(T.Body("snapshot-log"))),
+          metadata_log: S.optional(__S(630, __c19, 22).pipe(T.Body("metadata-log"))),
+          statistics: S.optional(__S(631, __c19, 23)),
           partition_statistics: S.optional(
-            __S(568, __c17, 24).pipe(T.Body("partition-statistics")),
+            __S(632, __c19, 24).pipe(T.Body("partition-statistics")),
           ),
         }),
       ).annotate({ identifier: "TableMetadata" });
   }
 }
-function __c18(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2763,16 +3041,16 @@ function __c18(j: number): any {
           namespace: S.String.pipe(T.Label()),
           name: S.String,
           location: S.optional(S.String),
-          schema: __S(320, __c10, 0),
-          view_version: __S(610, __c19, 2).pipe(T.Body("view-version")),
-          properties: __S(256, __c8, 0),
+          schema: __S(384, __c12, 0),
+          view_version: __S(674, __c21, 2).pipe(T.Body("view-version")),
+          properties: __S(320, __c10, 0),
         })
           .pipe(T.Http({ method: "POST", uri: "/namespaces/{namespace}/views", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateViewRequest" });
   }
 }
-function __c19(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2783,21 +3061,21 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "SQLViewRepresentation" });
     case 1:
-      return S.Array(__S(608, __c19, 0));
+      return S.Array(__S(672, __c21, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           version_id: S.Number.pipe(T.Body("version-id")),
           timestamp_ms: S.Number.pipe(T.Body("timestamp-ms")),
           schema_id: S.Number.pipe(T.Body("schema-id")),
-          summary: __S(256, __c8, 0),
-          representations: __S(609, __c19, 1),
+          summary: __S(320, __c10, 0),
+          representations: __S(673, __c21, 1),
           default_catalog: S.optional(S.String.pipe(T.Body("default-catalog"))),
-          default_namespace: __S(128, __c4, 0).pipe(T.Body("default-namespace")),
+          default_namespace: __S(32, __c1, 0).pipe(T.Body("default-namespace")),
         }),
       ).annotate({ identifier: "ViewVersion" });
     case 3:
-      return S.Array(__S(610, __c19, 2));
+      return S.Array(__S(674, __c21, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -2806,7 +3084,7 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "ViewHistoryEntry" });
     case 5:
-      return S.Array(__S(612, __c19, 4));
+      return S.Array(__S(676, __c21, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -2814,24 +3092,24 @@ function __c19(j: number): any {
           format_version: S.Number.pipe(T.Body("format-version")),
           location: S.String,
           current_version_id: S.Number.pipe(T.Body("current-version-id")),
-          versions: __S(611, __c19, 3),
-          version_log: __S(613, __c19, 5).pipe(T.Body("version-log")),
-          schemas: __S(419, __c13, 3),
-          properties: S.optional(__S(256, __c8, 0)),
+          versions: __S(675, __c21, 3),
+          version_log: __S(677, __c21, 5).pipe(T.Body("version-log")),
+          schemas: __S(483, __c15, 3),
+          properties: S.optional(__S(320, __c10, 0)),
         }),
       ).annotate({ identifier: "ViewMetadata" });
     case 7:
       return S.suspend(() =>
         S.Struct({
           metadata_location: S.String.pipe(T.Body("metadata-location")),
-          metadata: __S(614, __c19, 6),
-          config: S.optional(__S(256, __c8, 0)),
-          labels: S.optional(__S(386, __c12, 2)),
+          metadata: __S(678, __c21, 6),
+          config: S.optional(__S(320, __c10, 0)),
+          labels: S.optional(__S(450, __c14, 2)),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "LoadViewResult" });
   }
 }
-function __c20(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2844,7 +3122,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "DropNamespaceRequest" });
   }
 }
-function __c21(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2861,7 +3139,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "DropTableRequest" });
   }
 }
-function __c22(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2877,7 +3155,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "DropViewRequest" });
   }
 }
-function __c23(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2886,7 +3164,7 @@ function __c23(j: number): any {
           table: S.String.pipe(T.Label()),
           plan_id: S.String.pipe(T.Label()),
           xIcebergAccessDelegation: S.optional(
-            __S(64, __c2, 0).pipe(T.Header("X-Iceberg-Access-Delegation")),
+            __S(160, __c5, 0).pipe(T.Header("X-Iceberg-Access-Delegation")),
           ),
         })
           .pipe(
@@ -2904,7 +3182,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "FetchPlanningResultResponse" });
   }
 }
-function __c24(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -2915,21 +3193,21 @@ function __c24(j: number): any {
         }),
       ).annotate({ identifier: "FieldStatistics" });
     case 2:
-      return S.Record(S.String, __S(769, __c24, 1));
+      return S.Record(S.String, __S(833, __c26, 1));
     case 3:
       return S.Array(S.Unknown);
     case 4:
       return S.suspend(() =>
         S.Struct({
-          keys: S.optional(__S(352, __c11, 0)),
-          values: S.optional(__S(352, __c11, 0)),
+          keys: S.optional(__S(416, __c13, 0)),
+          values: S.optional(__S(416, __c13, 0)),
         }),
       ).annotate({ identifier: "CountMap" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          keys: S.optional(__S(352, __c11, 0)),
-          values: S.optional(__S(768, __c24, 0)),
+          keys: S.optional(__S(416, __c13, 0)),
+          values: S.optional(__S(832, __c26, 0)),
         }),
       ).annotate({ identifier: "ValueMap" });
     case 6:
@@ -2939,34 +3217,34 @@ function __c24(j: number): any {
           file_path: S.String.pipe(T.Body("file-path")),
           file_format: S.String.pipe(T.Body("file-format")),
           spec_id: S.Number.pipe(T.Body("spec-id")),
-          partition: __S(768, __c24, 0),
+          partition: __S(832, __c26, 0),
           file_size_in_bytes: S.Number.pipe(T.Body("file-size-in-bytes")),
           record_count: S.Number.pipe(T.Body("record-count")),
           key_metadata: S.optional(S.String.pipe(T.Body("key-metadata"))),
-          split_offsets: S.optional(__S(352, __c11, 0).pipe(T.Body("split-offsets"))),
+          split_offsets: S.optional(__S(416, __c13, 0).pipe(T.Body("split-offsets"))),
           sort_order_id: S.optional(S.Number.pipe(T.Body("sort-order-id"))),
-          content_stats: S.optional(__S(770, __c24, 2).pipe(T.Body("content-stats"))),
+          content_stats: S.optional(__S(834, __c26, 2).pipe(T.Body("content-stats"))),
           first_row_id: S.optional(S.Number.pipe(T.Body("first-row-id"))),
-          column_sizes: S.optional(__S(772, __c24, 4).pipe(T.Body("column-sizes"))),
-          value_counts: S.optional(__S(772, __c24, 4).pipe(T.Body("value-counts"))),
-          null_value_counts: S.optional(__S(772, __c24, 4).pipe(T.Body("null-value-counts"))),
-          nan_value_counts: S.optional(__S(772, __c24, 4).pipe(T.Body("nan-value-counts"))),
-          lower_bounds: S.optional(__S(773, __c24, 5).pipe(T.Body("lower-bounds"))),
-          upper_bounds: S.optional(__S(773, __c24, 5).pipe(T.Body("upper-bounds"))),
+          column_sizes: S.optional(__S(836, __c26, 4).pipe(T.Body("column-sizes"))),
+          value_counts: S.optional(__S(836, __c26, 4).pipe(T.Body("value-counts"))),
+          null_value_counts: S.optional(__S(836, __c26, 4).pipe(T.Body("null-value-counts"))),
+          nan_value_counts: S.optional(__S(836, __c26, 4).pipe(T.Body("nan-value-counts"))),
+          lower_bounds: S.optional(__S(837, __c26, 5).pipe(T.Body("lower-bounds"))),
+          upper_bounds: S.optional(__S(837, __c26, 5).pipe(T.Body("upper-bounds"))),
         }),
       ).annotate({ identifier: "DataFile" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          data_file: __S(774, __c24, 6).pipe(T.Body("data-file")),
+          data_file: __S(838, __c26, 6).pipe(T.Body("data-file")),
           delete_file_references: S.optional(
-            __S(352, __c11, 0).pipe(T.Body("delete-file-references")),
+            __S(416, __c13, 0).pipe(T.Body("delete-file-references")),
           ),
           residual_filter: S.optional(S.Unknown.pipe(T.Body("residual-filter"))),
         }),
       ).annotate({ identifier: "FileScanTask" });
     case 8:
-      return S.Array(__S(775, __c24, 7));
+      return S.Array(__S(839, __c26, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -2987,14 +3265,14 @@ function __c24(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          delete_files: S.optional(__S(771, __c24, 3).pipe(T.Body("delete-files"))),
-          file_scan_tasks: S.optional(__S(776, __c24, 8).pipe(T.Body("file-scan-tasks"))),
-          plan_tasks: S.optional(__S(128, __c4, 0).pipe(T.Body("plan-tasks"))),
+          delete_files: S.optional(__S(835, __c26, 3).pipe(T.Body("delete-files"))),
+          file_scan_tasks: S.optional(__S(840, __c26, 8).pipe(T.Body("file-scan-tasks"))),
+          plan_tasks: S.optional(__S(32, __c1, 0).pipe(T.Body("plan-tasks"))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "FetchScanTasksResponse" });
   }
 }
-function __c25(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3007,15 +3285,15 @@ function __c25(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          overrides: __S(256, __c8, 0),
-          defaults: __S(256, __c8, 0),
-          endpoints: S.optional(__S(128, __c4, 0)),
+          overrides: __S(320, __c10, 0),
+          defaults: __S(320, __c10, 0),
+          endpoints: S.optional(__S(32, __c1, 0)),
           idempotency_key_lifetime: S.optional(S.String.pipe(T.Body("idempotency-key-lifetime"))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CatalogConfig" });
   }
 }
-function __c26(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3031,18 +3309,18 @@ function __c26(j: number): any {
       return S.suspend(() =>
         S.Struct({
           next_page_token: S.optional(S.NullOr(S.String).pipe(T.Body("next-page-token"))),
-          identifiers: __S(864, __c27, 0),
+          identifiers: __S(928, __c29, 0),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListFunctionsResponse" });
   }
 }
-function __c27(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(128, __c4, 0));
+      return S.Array(__S(32, __c1, 0));
   }
 }
-function __c28(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3058,12 +3336,12 @@ function __c28(j: number): any {
       return S.suspend(() =>
         S.Struct({
           next_page_token: S.optional(S.NullOr(S.String).pipe(T.Body("next-page-token"))),
-          namespaces: __S(864, __c27, 0),
+          namespaces: __S(928, __c29, 0),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListNamespacesResponse" });
   }
 }
-function __c29(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3077,20 +3355,20 @@ function __c29(j: number): any {
       ).annotate({ identifier: "ListTablesRequest" });
   }
 }
-function __c30(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(160, __c5, 0));
+      return S.Array(__S(224, __c7, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           next_page_token: S.optional(S.NullOr(S.String).pipe(T.Body("next-page-token"))),
-          identifiers: __S(960, __c30, 0),
+          identifiers: __S(1024, __c32, 0),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListTablesResponse" });
   }
 }
-function __c31(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3104,7 +3382,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "ListViewsRequest" });
   }
 }
-function __c32(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3126,12 +3404,12 @@ function __c32(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          storage_credentials: __S(449, __c14, 1).pipe(T.Body("storage-credentials")),
+          storage_credentials: __S(513, __c16, 1).pipe(T.Body("storage-credentials")),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "LoadCredentialsResponse" });
   }
 }
-function __c33(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3157,7 +3435,7 @@ function __c33(j: number): any {
         }),
       ).annotate({ identifier: "FunctionParameter" });
     case 2:
-      return S.Array(__S(1057, __c33, 1));
+      return S.Array(__S(1121, __c35, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -3167,35 +3445,35 @@ function __c33(j: number): any {
         }),
       ).annotate({ identifier: "FunctionSQLRepresentation" });
     case 4:
-      return S.Array(__S(1059, __c33, 3));
+      return S.Array(__S(1123, __c35, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           version_id: S.Number.pipe(T.Body("version-id")),
-          representations: __S(1060, __c33, 4),
+          representations: __S(1124, __c35, 4),
           deterministic: S.optional(S.Boolean),
           on_null_input: S.optional(S.String.pipe(T.Body("on-null-input"))),
           timestamp_ms: S.Number.pipe(T.Body("timestamp-ms")),
         }),
       ).annotate({ identifier: "FunctionDefinitionVersion" });
     case 6:
-      return S.Array(__S(1061, __c33, 5));
+      return S.Array(__S(1125, __c35, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           definition_id: S.String.pipe(T.Body("definition-id")),
           specific_name: S.optional(S.String.pipe(T.Body("specific-name"))),
-          parameters: __S(1058, __c33, 2),
+          parameters: __S(1122, __c35, 2),
           return_type: S.Unknown.pipe(T.Body("return-type")),
           return_nullable: S.optional(S.Boolean.pipe(T.Body("return-nullable"))),
-          versions: __S(1062, __c33, 6),
+          versions: __S(1126, __c35, 6),
           current_version_id: S.Number.pipe(T.Body("current-version-id")),
           function_type: S.String.pipe(T.Body("function-type")),
           doc: S.optional(S.String),
         }),
       ).annotate({ identifier: "FunctionDefinition" });
     case 8:
-      return S.Array(__S(1063, __c33, 7));
+      return S.Array(__S(1127, __c35, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -3204,25 +3482,25 @@ function __c33(j: number): any {
         }),
       ).annotate({ identifier: "FunctionDefinitionVersionRef" });
     case 10:
-      return S.Array(__S(1065, __c33, 9));
+      return S.Array(__S(1129, __c35, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
           timestamp_ms: S.Number.pipe(T.Body("timestamp-ms")),
-          definition_versions: __S(1066, __c33, 10).pipe(T.Body("definition-versions")),
+          definition_versions: __S(1130, __c35, 10).pipe(T.Body("definition-versions")),
         }),
       ).annotate({ identifier: "FunctionDefinitionLogEntry" });
     case 12:
-      return S.Array(__S(1067, __c33, 11));
+      return S.Array(__S(1131, __c35, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
           function_uuid: S.String.pipe(T.Body("function-uuid")),
           format_version: S.Number.pipe(T.Body("format-version")),
-          definitions: __S(1064, __c33, 8),
-          definition_log: __S(1068, __c33, 12).pipe(T.Body("definition-log")),
+          definitions: __S(1128, __c35, 8),
+          definition_log: __S(1132, __c35, 12).pipe(T.Body("definition-log")),
           location: S.optional(S.String),
-          properties: S.optional(__S(256, __c8, 0)),
+          properties: S.optional(__S(320, __c10, 0)),
           secure: S.optional(S.Boolean),
           doc: S.optional(S.String),
         }),
@@ -3231,12 +3509,12 @@ function __c33(j: number): any {
       return S.suspend(() =>
         S.Struct({
           metadata_location: S.optional(S.String.pipe(T.Body("metadata-location"))),
-          metadata: __S(1069, __c33, 13),
+          metadata: __S(1133, __c35, 13),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "LoadFunctionResult" });
   }
 }
-function __c34(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3249,13 +3527,13 @@ function __c34(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          namespace: __S(128, __c4, 0),
-          properties: S.optional(S.NullOr(__S(256, __c8, 0))),
+          namespace: __S(32, __c1, 0),
+          properties: S.optional(S.NullOr(__S(320, __c10, 0))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetNamespaceResponse" });
   }
 }
-function __c35(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3265,7 +3543,7 @@ function __c35(j: number): any {
           snapshots: S.optional(S.String.pipe(T.Query())),
           referenced_by: S.optional(S.String.pipe(T.Query("referenced-by"))),
           xIcebergAccessDelegation: S.optional(
-            __S(64, __c2, 0).pipe(T.Header("X-Iceberg-Access-Delegation")),
+            __S(160, __c5, 0).pipe(T.Header("X-Iceberg-Access-Delegation")),
           ),
           ifNoneMatch: S.optional(S.String.pipe(T.Header("If-None-Match"))),
         })
@@ -3274,7 +3552,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "LoadTableRequest" });
   }
 }
-function __c36(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3288,7 +3566,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "LoadViewRequest" });
   }
 }
-function __c37(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3300,7 +3578,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "NamespaceExistsRequest" });
   }
 }
-function __c38(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3308,18 +3586,18 @@ function __c38(j: number): any {
           namespace: S.String.pipe(T.Label()),
           table: S.String.pipe(T.Label()),
           xIcebergAccessDelegation: S.optional(
-            __S(64, __c2, 0).pipe(T.Header("X-Iceberg-Access-Delegation")),
+            __S(160, __c5, 0).pipe(T.Header("X-Iceberg-Access-Delegation")),
           ),
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
           snapshot_id: S.optional(S.Number.pipe(T.Body("snapshot-id"))),
-          select: S.optional(__S(128, __c4, 0)),
+          select: S.optional(__S(32, __c1, 0)),
           filter: S.optional(S.Unknown),
           min_rows_requested: S.optional(S.Number.pipe(T.Body("min-rows-requested"))),
           case_sensitive: S.optional(S.Boolean.pipe(T.Body("case-sensitive"))),
           use_snapshot_schema: S.optional(S.Boolean.pipe(T.Body("use-snapshot-schema"))),
           start_snapshot_id: S.optional(S.Number.pipe(T.Body("start-snapshot-id"))),
           end_snapshot_id: S.optional(S.Number.pipe(T.Body("end-snapshot-id"))),
-          stats_fields: S.optional(__S(128, __c4, 0).pipe(T.Body("stats-fields"))),
+          stats_fields: S.optional(__S(32, __c1, 0).pipe(T.Body("stats-fields"))),
         })
           .pipe(
             T.Http({
@@ -3336,14 +3614,14 @@ function __c38(j: number): any {
       ).annotate({ identifier: "PlanTableScanResponse" });
   }
 }
-function __c39(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           namespace: S.String.pipe(T.Label()),
           xIcebergAccessDelegation: S.optional(
-            __S(64, __c2, 0).pipe(T.Header("X-Iceberg-Access-Delegation")),
+            __S(160, __c5, 0).pipe(T.Header("X-Iceberg-Access-Delegation")),
           ),
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
           name: S.String,
@@ -3355,7 +3633,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "RegisterTableRequest" });
   }
 }
-function __c40(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3370,35 +3648,35 @@ function __c40(j: number): any {
       ).annotate({ identifier: "RegisterViewRequest" });
   }
 }
-function __c41(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          source: __S(160, __c5, 0),
-          destination: __S(160, __c5, 0),
+          source: __S(224, __c7, 0),
+          destination: __S(224, __c7, 0),
         })
           .pipe(T.Http({ method: "POST", uri: "/tables/rename", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "RenameTableRequest" });
   }
 }
-function __c42(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          source: __S(160, __c5, 0),
-          destination: __S(160, __c5, 0),
+          source: __S(224, __c7, 0),
+          destination: __S(224, __c7, 0),
         })
           .pipe(T.Http({ method: "POST", uri: "/views/rename", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "RenameViewRequest" });
   }
 }
-function __c43(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3408,7 +3686,7 @@ function __c43(j: number): any {
         }),
       ).annotate({ identifier: "AssertViewUUID" });
     case 1:
-      return S.Array(__S(1376, __c43, 0));
+      return S.Array(__S(1440, __c45, 0));
     case 2:
       return S.Array(S.Unknown);
     case 3:
@@ -3417,16 +3695,16 @@ function __c43(j: number): any {
           namespace: S.String.pipe(T.Label()),
           view: S.String.pipe(T.Label()),
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          identifier: S.optional(__S(160, __c5, 0)),
-          requirements: S.optional(__S(1377, __c43, 1)),
-          updates: __S(1378, __c43, 2),
+          identifier: S.optional(__S(224, __c7, 0)),
+          requirements: S.optional(__S(1441, __c45, 1)),
+          updates: __S(1442, __c45, 2),
         })
           .pipe(T.Http({ method: "POST", uri: "/namespaces/{namespace}/views/{view}", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ReplaceViewRequest" });
   }
 }
-function __c44(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3446,7 +3724,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "ReportMetricsRequest" });
   }
 }
-function __c45(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3456,8 +3734,8 @@ function __c45(j: number): any {
           region: S.String,
           uri: S.String,
           method: S.String,
-          headers: __S(512, __c16, 0),
-          properties: S.optional(__S(256, __c8, 0)),
+          headers: __S(576, __c18, 0),
+          properties: S.optional(__S(320, __c10, 0)),
           body: S.optional(S.String),
           provider: S.optional(S.String),
         })
@@ -3474,12 +3752,12 @@ function __c45(j: number): any {
       return S.suspend(() =>
         S.Struct({
           uri: S.String,
-          headers: __S(512, __c16, 0),
+          headers: __S(576, __c18, 0),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "RemoteSignResult" });
   }
 }
-function __c46(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3494,7 +3772,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "TableExistsRequest" });
   }
 }
-function __c47(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3514,26 +3792,26 @@ function __c47(j: number): any {
       ).annotate({ identifier: "UnregisterTableRequest" });
   }
 }
-function __c48(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           metadata_location: S.String.pipe(T.Body("metadata-location")),
-          metadata: __S(569, __c17, 25),
+          metadata: __S(633, __c19, 25),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "UnregisterTableResult" });
   }
 }
-function __c49(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           namespace: S.String.pipe(T.Label()),
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          removals: S.optional(__S(128, __c4, 0)),
-          updates: S.optional(__S(256, __c8, 0)),
+          removals: S.optional(__S(32, __c1, 0)),
+          updates: S.optional(__S(320, __c10, 0)),
         })
           .pipe(T.Http({ method: "POST", uri: "/namespaces/{namespace}/properties", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
@@ -3541,14 +3819,14 @@ function __c49(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          updated: __S(128, __c4, 0),
-          removed: __S(128, __c4, 0),
-          missing: S.optional(S.NullOr(__S(128, __c4, 0))),
+          updated: __S(32, __c1, 0),
+          removed: __S(32, __c1, 0),
+          missing: S.optional(S.NullOr(__S(32, __c1, 0))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "UpdateNamespacePropertiesResponse" });
   }
 }
-function __c50(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3556,9 +3834,9 @@ function __c50(j: number): any {
           namespace: S.String.pipe(T.Label()),
           table: S.String.pipe(T.Label()),
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          identifier: S.optional(__S(160, __c5, 0)),
-          requirements: __S(193, __c6, 1),
-          updates: __S(194, __c6, 2),
+          identifier: S.optional(__S(224, __c7, 0)),
+          requirements: __S(256, __c8, 0),
+          updates: __S(257, __c8, 1),
         })
           .pipe(
             T.Http({ method: "POST", uri: "/namespaces/{namespace}/tables/{table}", code: 200 }),
@@ -3567,7 +3845,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "UpdateTableRequest" });
   }
 }
-function __c51(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

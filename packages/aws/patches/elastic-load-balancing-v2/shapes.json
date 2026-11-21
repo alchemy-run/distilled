@@ -1,0 +1,10 @@
+{
+  "description": "Elastic Load Balancing v2: Members that hold secrets (sensitive).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.elasticloadbalancingv2#AuthenticateOidcActionConfig/members/ClientSecret/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

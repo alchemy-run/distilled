@@ -30,36 +30,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export interface CheckUserAccessRequest {
   /** The user_ tag or username to check access for. */
@@ -890,6 +918,17 @@ export interface UpdateUserPreferencesRequest {
   /** Records the user's acceptance of Whop's terms and policies. Only `true` is accepted -- the server stamps `terms_accepted_at` and acceptance cannot be withdrawn here. */
   terms_accepted?: boolean | undefined;
 }
+export interface V1ErrorResponseError {
+  /** Machine-readable reason for this specific refusal, such as `bank_warning_not_acknowledged`. Only present when the error carries one. */
+  code?: string | undefined;
+  /** Human-readable error message. */
+  message: string;
+  /** Machine-readable error code. */
+  type: string;
+}
+export interface V1ErrorResponse {
+  error: V1ErrorResponseError;
+}
 export type CheckUserAccessError = WhopOpError;
 /** Check User Access Checks whether a user has access to an account, product, or experience the caller can reach. */
 export const checkUserAccess: API.OperationMethod<
@@ -898,8 +937,8 @@ export const checkUserAccess: API.OperationMethod<
   CheckUserAccessError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<CheckUserAccessRequest>,
-  output: __S(417, __c13, 1) as any as S.Schema<CheckUserAccessResponse>,
+  input: __S(448, __c14, 0) as any as S.Schema<CheckUserAccessRequest>,
+  output: __S(449, __c14, 1) as any as S.Schema<CheckUserAccessResponse>,
   errors: [],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -915,8 +954,8 @@ export const createOauthGrant: API.OperationMethod<
   CreateOauthGrantError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<CreateOauthGrantRequest>,
-  output: __S(480, __c15, 0) as any as S.Schema<OauthGrant>,
+  input: __S(480, __c15, 0) as any as S.Schema<CreateOauthGrantRequest>,
+  output: __S(512, __c16, 0) as any as S.Schema<OauthGrant>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -932,8 +971,8 @@ export const createPasskey: API.OperationMethod<
   CreatePasskeyError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<CreatePasskeyRequest>,
-  output: __S(576, __c18, 0) as any as S.Schema<Passkey>,
+  input: __S(576, __c18, 0) as any as S.Schema<CreatePasskeyRequest>,
+  output: __S(608, __c19, 0) as any as S.Schema<Passkey>,
   errors: [BadRequest, Forbidden, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -954,8 +993,8 @@ export const createPasskeyChallenge: API.OperationMethod<
   CreatePasskeyChallengeError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<CreatePasskeyChallengeRequest>,
-  output: __S(609, __c19, 1) as any as S.Schema<CreatePasskeyChallengeResponse>,
+  input: __S(640, __c20, 0) as any as S.Schema<CreatePasskeyChallengeRequest>,
+  output: __S(641, __c20, 1) as any as S.Schema<CreatePasskeyChallengeResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -971,8 +1010,8 @@ export const deletePasskey: API.OperationMethod<
   DeletePasskeyError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<DeletePasskeyRequest>,
-  output: __S(641, __c20, 1) as any as S.Schema<DeletePasskeyResponse>,
+  input: __S(672, __c21, 0) as any as S.Schema<DeletePasskeyRequest>,
+  output: __S(673, __c21, 1) as any as S.Schema<DeletePasskeyResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -984,8 +1023,8 @@ export type GetUserError = NotFound | WhopOpError;
 /** Retrieve User Retrieves a user by `user_` tag or username, or the authenticated user with the reserved id `me`. Profiles include linked social accounts -- reading your own profile returns every linked account, other profiles only what is public on Whop (the primary Discord and the X account). The self-only fields are populated only when the id is `me`: `email` (email-read scope), `staff` (Whop staff only, staff-read scope), `balance` and `earnings_usd` (balance-read scope), and the opt-in `balance_history`. They are always `null` when addressing a user by tag or username. */
 export const getUser: API.OperationMethod<GetUserRequest, User, GetUserError, WhopOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(672, __c21, 0) as any as S.Schema<GetUserRequest>,
-    output: __S(738, __c23, 2) as any as S.Schema<User>,
+    input: __S(704, __c22, 0) as any as S.Schema<GetUserRequest>,
+    output: __S(770, __c24, 2) as any as S.Schema<User>,
     errors: [NotFound],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -1001,8 +1040,8 @@ export const getUserPreferences: API.OperationMethod<
   GetUserPreferencesError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetUserPreferencesRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<UserPreferences>,
+  input: __S(32, __c1, 0) as any as S.Schema<GetUserPreferencesRequest>,
+  output: __S(64, __c2, 0) as any as S.Schema<UserPreferences>,
   errors: [],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1020,8 +1059,8 @@ export const listOauthGrants: API.PaginatedOperationMethod<
   OauthGrant
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(64, __c2, 0) as any as S.Schema<ListOauthGrantsRequest>,
-    output: __S(66, __c2, 2) as any as S.Schema<ListOauthGrantsResponse>,
+    input: __S(96, __c3, 0) as any as S.Schema<ListOauthGrantsRequest>,
+    output: __S(98, __c3, 2) as any as S.Schema<ListOauthGrantsResponse>,
     errors: [BadRequest, Forbidden],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -1049,8 +1088,8 @@ export const listPasskeys: API.PaginatedOperationMethod<
   Passkey
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(128, __c4, 0) as any as S.Schema<ListPasskeysRequest>,
-    output: __S(130, __c4, 2) as any as S.Schema<ListPasskeysResponse>,
+    input: __S(160, __c5, 0) as any as S.Schema<ListPasskeysRequest>,
+    output: __S(162, __c5, 2) as any as S.Schema<ListPasskeysResponse>,
     errors: [BadRequest, Forbidden],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -1078,8 +1117,8 @@ export const listUserNotificationExperiencePreferences: API.PaginatedOperationMe
   ExperienceNotificationPreference
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(160, __c5, 0) as any as S.Schema<ListUserNotificationExperiencePreferencesRequest>,
-    output: __S(163, __c5, 3) as any as S.Schema<ListUserNotificationExperiencePreferencesResponse>,
+    input: __S(192, __c6, 0) as any as S.Schema<ListUserNotificationExperiencePreferencesRequest>,
+    output: __S(195, __c6, 3) as any as S.Schema<ListUserNotificationExperiencePreferencesResponse>,
     errors: [],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -1107,8 +1146,8 @@ export const listUserNotificationTopicPreferences: API.PaginatedOperationMethod<
   UserNotificationPreference
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(224, __c7, 0) as any as S.Schema<ListUserNotificationTopicPreferencesRequest>,
-    output: __S(227, __c7, 3) as any as S.Schema<ListUserNotificationTopicPreferencesResponse>,
+    input: __S(256, __c8, 0) as any as S.Schema<ListUserNotificationTopicPreferencesRequest>,
+    output: __S(259, __c8, 3) as any as S.Schema<ListUserNotificationTopicPreferencesResponse>,
     errors: [],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -1134,8 +1173,8 @@ export const listUserRecommendedActions: API.OperationMethod<
   ListUserRecommendedActionsError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<ListUserRecommendedActionsRequest>,
-  output: __S(259, __c8, 3) as any as S.Schema<ListUserRecommendedActionsResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<ListUserRecommendedActionsRequest>,
+  output: __S(291, __c9, 3) as any as S.Schema<ListUserRecommendedActionsResponse>,
   errors: [Forbidden],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1153,8 +1192,8 @@ export const listUsers: API.PaginatedOperationMethod<
   User
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(288, __c9, 0) as any as S.Schema<ListUsersRequest>,
-    output: __S(290, __c9, 2) as any as S.Schema<ListUsersResponse>,
+    input: __S(320, __c10, 0) as any as S.Schema<ListUsersRequest>,
+    output: __S(322, __c10, 2) as any as S.Schema<ListUsersResponse>,
     errors: [],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -1180,8 +1219,8 @@ export const setUserNotificationPreferences: API.OperationMethod<
   SetUserNotificationPreferencesError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(323, __c10, 3) as any as S.Schema<SetUserNotificationPreferencesRequest>,
-  output: __S(326, __c10, 6) as any as S.Schema<SetUserNotificationPreferencesResponse>,
+  input: __S(355, __c11, 3) as any as S.Schema<SetUserNotificationPreferencesRequest>,
+  output: __S(358, __c11, 6) as any as S.Schema<SetUserNotificationPreferencesResponse>,
   errors: [BadRequest, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1197,8 +1236,8 @@ export const updateUser: API.OperationMethod<
   UpdateUserError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(353, __c11, 1) as any as S.Schema<UpdateUserRequest>,
-  output: __S(738, __c23, 2) as any as S.Schema<User>,
+  input: __S(385, __c12, 1) as any as S.Schema<UpdateUserRequest>,
+  output: __S(770, __c24, 2) as any as S.Schema<User>,
   errors: [],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1214,8 +1253,8 @@ export const updateUserPreferences: API.OperationMethod<
   UpdateUserPreferencesError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<UpdateUserPreferencesRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<UserPreferences>,
+  input: __S(416, __c13, 0) as any as S.Schema<UpdateUserPreferencesRequest>,
+  output: __S(64, __c2, 0) as any as S.Schema<UserPreferences>,
   errors: [BadRequest],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1228,11 +1267,29 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "V1ErrorResponseError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "V1ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/users/me/preferences", code: 200 })),
       ).annotate({ identifier: "GetUserPreferencesRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1245,7 +1302,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "UserPreferences" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1260,17 +1317,17 @@ function __c2(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/users/me/oauth_grants", code: 200 })),
       ).annotate({ identifier: "ListOauthGrantsRequest" });
     case 1:
-      return S.Array(__S(480, __c15, 0));
+      return S.Array(__S(512, __c16, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(65, __c2, 1),
-          page_info: __S(96, __c3, 0),
+          data: __S(97, __c3, 1),
+          page_info: __S(128, __c4, 0),
         }),
       ).annotate({ identifier: "ListOauthGrantsResponse" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1283,7 +1340,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "ListOauthGrantsResponsePageInfo" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1297,17 +1354,17 @@ function __c4(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/users/me/passkeys", code: 200 })),
       ).annotate({ identifier: "ListPasskeysRequest" });
     case 1:
-      return S.Array(__S(576, __c18, 0));
+      return S.Array(__S(608, __c19, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(129, __c4, 1),
-          page_info: __S(96, __c3, 0),
+          data: __S(161, __c5, 1),
+          page_info: __S(128, __c4, 0),
         }),
       ).annotate({ identifier: "ListPasskeysResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1327,21 +1384,21 @@ function __c5(j: number): any {
         S.Struct({
           level: S.String,
           object: S.String,
-          scope: __S(192, __c6, 0),
+          scope: __S(224, __c7, 0),
         }),
       ).annotate({ identifier: "ExperienceNotificationPreference" });
     case 2:
-      return S.Array(__S(161, __c5, 1));
+      return S.Array(__S(193, __c6, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(162, __c5, 2),
-          page_info: __S(96, __c3, 0),
+          data: __S(194, __c6, 2),
+          page_info: __S(128, __c4, 0),
         }),
       ).annotate({ identifier: "ListUserNotificationExperiencePreferencesResponse" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1355,7 +1412,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "NotificationPreferenceScope" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1378,22 +1435,22 @@ function __c7(j: number): any {
           id: S.String,
           level: S.String,
           object: S.String,
-          scope: __S(192, __c6, 0),
+          scope: __S(224, __c7, 0),
           updated_at: S.String,
         }),
       ).annotate({ identifier: "UserNotificationPreference" });
     case 2:
-      return S.Array(__S(225, __c7, 1));
+      return S.Array(__S(257, __c8, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(226, __c7, 2),
-          page_info: __S(96, __c3, 0),
+          data: __S(258, __c8, 2),
+          page_info: __S(128, __c4, 0),
         }),
       ).annotate({ identifier: "ListUserNotificationTopicPreferencesResponse" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1407,7 +1464,7 @@ function __c8(j: number): any {
           account_id: S.NullOr(S.String),
           account_name: S.NullOr(S.String),
           action: S.String,
-          blocked_capabilities: __S(512, __c16, 0),
+          blocked_capabilities: __S(544, __c17, 0),
           cta: S.String,
           cta_label: S.String,
           description: S.String,
@@ -1419,16 +1476,16 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "UserRecommendedAction" });
     case 2:
-      return S.Array(__S(257, __c8, 1));
+      return S.Array(__S(289, __c9, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(258, __c8, 2),
+          data: __S(290, __c9, 2),
         }),
       ).annotate({ identifier: "ListUserRecommendedActionsResponse" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1441,17 +1498,17 @@ function __c9(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/users", code: 200 })),
       ).annotate({ identifier: "ListUsersRequest" });
     case 1:
-      return S.Array(__S(738, __c23, 2));
+      return S.Array(__S(770, __c24, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(289, __c9, 1),
-          page_info: __S(96, __c3, 0),
+          data: __S(321, __c10, 1),
+          page_info: __S(128, __c4, 0),
         }),
       ).annotate({ identifier: "ListUsersResponse" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1467,15 +1524,15 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           level: S.NullOr(S.String),
-          scope: __S(320, __c10, 0),
+          scope: __S(352, __c11, 0),
         }),
       ).annotate({ identifier: "SetUserNotificationPreferencesRequestPreferencesItem" });
     case 2:
-      return S.Array(__S(321, __c10, 1));
+      return S.Array(__S(353, __c11, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          preferences: __S(322, __c10, 2),
+          preferences: __S(354, __c11, 2),
         }).pipe(T.Http({ method: "PATCH", uri: "/users/me/preferences/notifications", code: 200 })),
       ).annotate({ identifier: "SetUserNotificationPreferencesRequest" });
     case 4:
@@ -1483,20 +1540,20 @@ function __c10(j: number): any {
         S.Struct({
           level: S.NullOr(S.String),
           object: S.String,
-          scope: __S(192, __c6, 0),
+          scope: __S(224, __c7, 0),
         }),
       ).annotate({ identifier: "NotificationPreferenceState" });
     case 5:
-      return S.Array(__S(324, __c10, 4));
+      return S.Array(__S(356, __c11, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          data: __S(325, __c10, 5),
+          data: __S(357, __c11, 5),
         }),
       ).annotate({ identifier: "SetUserNotificationPreferencesResponse" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1510,16 +1567,16 @@ function __c11(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           account_id: S.optional(S.String.pipe(T.Query())),
-          banner: S.optional(S.NullOr(__S(352, __c11, 0))),
+          banner: S.optional(S.NullOr(__S(384, __c12, 0))),
           bio: S.optional(S.String),
           name: S.optional(S.String),
-          profile_picture: S.optional(__S(352, __c11, 0)),
+          profile_picture: S.optional(__S(384, __c12, 0)),
           username: S.optional(S.String),
         }).pipe(T.Http({ method: "PATCH", uri: "/users/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateUserRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1531,7 +1588,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "UpdateUserPreferencesRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1549,7 +1606,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "CheckUserAccessResponse" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1561,7 +1618,7 @@ function __c14(j: number): any {
           consent_shown: S.optional(S.Boolean),
           nonce: S.optional(S.String),
           redirect_uri: S.String,
-          requested_scopes: __S(512, __c16, 0),
+          requested_scopes: __S(544, __c17, 0),
           response_type: S.optional(S.String),
           state: S.optional(S.String),
           idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
@@ -1569,7 +1626,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "CreateOauthGrantRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1581,18 +1638,18 @@ function __c15(j: number): any {
           id: S.String,
           redirect_url: S.optional(S.String),
           revoked_at: S.NullOr(S.String),
-          scopes: __S(512, __c16, 0),
+          scopes: __S(544, __c17, 0),
         }),
       ).annotate({ identifier: "OauthGrant" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1606,7 +1663,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "CreatePasskeyRequest" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1620,7 +1677,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "Passkey" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1638,7 +1695,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "CreatePasskeyChallengeResponse" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1658,7 +1715,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "DeletePasskeyResponse" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1676,7 +1733,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "GetUserRequest" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1688,7 +1745,7 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "UserBalanceBusiness" });
     case 1:
-      return S.Array(__S(704, __c22, 0));
+      return S.Array(__S(736, __c23, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1703,7 +1760,7 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "UserBalanceCash" });
     case 3:
-      return S.Array(__S(706, __c22, 2));
+      return S.Array(__S(738, __c23, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -1712,14 +1769,14 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "AccountBalanceSettlement" });
     case 5:
-      return S.Array(__S(708, __c22, 4));
+      return S.Array(__S(740, __c23, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           available: S.String,
           in_transit: S.String,
           pending: S.String,
-          pending_settlements: __S(709, __c22, 5),
+          pending_settlements: __S(741, __c23, 5),
           reserve: S.String,
         }),
       ).annotate({ identifier: "AccountBalanceBreakdown" });
@@ -1727,7 +1784,7 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           balance: S.String,
-          breakdown: __S(710, __c22, 6),
+          breakdown: __S(742, __c23, 6),
           icon_url: S.NullOr(S.String),
           name: S.NullOr(S.String),
           price_usd: S.NullOr(S.Number),
@@ -1736,15 +1793,15 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "UserBalanceToken" });
     case 8:
-      return S.Array(__S(711, __c22, 7));
+      return S.Array(__S(743, __c23, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          businesses: __S(705, __c22, 1),
+          businesses: __S(737, __c23, 1),
           businesses_total_usd: S.String,
-          cash: __S(707, __c22, 3),
+          cash: __S(739, __c23, 3),
           cash_usd: S.String,
-          crypto: __S(712, __c22, 8),
+          crypto: __S(744, __c23, 8),
           crypto_usd: S.String,
           pending_usd: S.String,
           total_usd: S.String,
@@ -1759,11 +1816,11 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "UserBalanceHistoryPoint" });
     case 11:
-      return S.Array(__S(714, __c22, 10));
+      return S.Array(__S(746, __c23, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
-          data: __S(715, __c22, 11),
+          data: __S(747, __c23, 11),
           last: S.Number,
           max: S.Number,
           min: S.Number,
@@ -1788,10 +1845,10 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           first_earned_at: S.NullOr(S.String),
-          owned_accounts: __S(718, __c22, 14),
-          partners: __S(718, __c22, 14),
-          personal: __S(718, __c22, 14),
-          total: __S(718, __c22, 14),
+          owned_accounts: __S(750, __c23, 14),
+          partners: __S(750, __c23, 14),
+          personal: __S(750, __c23, 14),
+          total: __S(750, __c23, 14),
         }),
       ).annotate({ identifier: "UserEarnings" });
     case 16:
@@ -1813,17 +1870,17 @@ function __c22(j: number): any {
           external_id: S.NullOr(S.String),
           id: S.String,
           name: S.NullOr(S.String),
-          parent_social_account: S.NullOr(__S(720, __c22, 16)),
+          parent_social_account: S.NullOr(__S(752, __c23, 16)),
           platform: S.String,
           profile_picture_url: S.NullOr(S.String),
-          scopes: __S(512, __c16, 0),
+          scopes: __S(544, __c17, 0),
           url: S.NullOr(S.String),
           username: S.NullOr(S.String),
           verified: S.Boolean,
         }),
       ).annotate({ identifier: "SocialAccount" });
     case 18:
-      return S.Array(__S(721, __c22, 17));
+      return S.Array(__S(753, __c23, 17));
     case 19:
       return S.suspend(() =>
         S.Struct({
@@ -1845,11 +1902,11 @@ function __c22(j: number): any {
     case 21:
       return S.suspend(() =>
         S.Struct({
-          account_value: __S(724, __c22, 20),
-          total_margin_used: __S(724, __c22, 20),
-          total_position_notional: __S(724, __c22, 20),
-          total_raw_usd: __S(724, __c22, 20),
-          withdrawable: __S(724, __c22, 20),
+          account_value: __S(756, __c23, 20),
+          total_margin_used: __S(756, __c23, 20),
+          total_position_notional: __S(756, __c23, 20),
+          total_raw_usd: __S(756, __c23, 20),
+          withdrawable: __S(756, __c23, 20),
         }),
       ).annotate({ identifier: "TradingMarginSummary" });
     case 22:
@@ -1860,14 +1917,14 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "TradingWebsocketSubscription" });
     case 23:
-      return S.Array(__S(726, __c22, 22));
+      return S.Array(__S(758, __c23, 22));
     case 24:
       return S.suspend(() =>
         S.Struct({
           address: S.String,
           builder_fee_bps: S.NullOr(S.String),
-          margin_summary: __S(725, __c22, 21),
-          websocket_subscriptions: __S(727, __c22, 23),
+          margin_summary: __S(757, __c23, 21),
+          websocket_subscriptions: __S(759, __c23, 23),
           websocket_url: S.String,
         }),
       ).annotate({ identifier: "TradingHyperliquidAccount" });
@@ -1875,7 +1932,7 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           reduce_only: S.NullOr(S.Boolean),
-          trigger_price: S.NullOr(__S(724, __c22, 20)),
+          trigger_price: S.NullOr(__S(756, __c23, 20)),
         }),
       ).annotate({ identifier: "TradingHyperliquidOrder" });
     case 26:
@@ -1883,13 +1940,13 @@ function __c22(j: number): any {
         S.Struct({
           client_order_id: S.NullOr(S.String),
           created_at: S.NullOr(S.String),
-          hyperliquid: S.NullOr(__S(729, __c22, 25)),
+          hyperliquid: S.NullOr(__S(761, __c23, 25)),
           id: S.String,
           market: S.String,
           object: S.String,
           order_type: S.String,
           original_size: S.NullOr(S.String),
-          price: __S(724, __c22, 20),
+          price: __S(756, __c23, 20),
           provider_order_id: S.NullOr(S.String),
           side: S.String,
           size: S.String,
@@ -1899,13 +1956,13 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "TradingOrder" });
     case 27:
-      return S.Array(__S(730, __c22, 26));
+      return S.Array(__S(762, __c23, 26));
     case 28:
       return S.suspend(() =>
         S.Struct({
-          all_time: S.NullOr(__S(724, __c22, 20)),
-          since_change: S.NullOr(__S(724, __c22, 20)),
-          since_open: S.NullOr(__S(724, __c22, 20)),
+          all_time: S.NullOr(__S(756, __c23, 20)),
+          since_change: S.NullOr(__S(756, __c23, 20)),
+          since_open: S.NullOr(__S(756, __c23, 20)),
         }),
       ).annotate({ identifier: "TradingCumulativeFunding" });
     case 29:
@@ -1918,42 +1975,42 @@ function __c22(j: number): any {
     case 30:
       return S.suspend(() =>
         S.Struct({
-          cumulative_funding: __S(732, __c22, 28),
-          leverage: __S(733, __c22, 29),
-          liquidation_price: S.NullOr(__S(724, __c22, 20)),
-          margin_used: __S(724, __c22, 20),
+          cumulative_funding: __S(764, __c23, 28),
+          leverage: __S(765, __c23, 29),
+          liquidation_price: S.NullOr(__S(756, __c23, 20)),
+          margin_used: __S(756, __c23, 20),
           return_on_equity: S.String,
         }),
       ).annotate({ identifier: "TradingHyperliquidPosition" });
     case 31:
       return S.suspend(() =>
         S.Struct({
-          entry_price: S.NullOr(__S(724, __c22, 20)),
-          hyperliquid: S.NullOr(__S(734, __c22, 30)),
+          entry_price: S.NullOr(__S(756, __c23, 20)),
+          hyperliquid: S.NullOr(__S(766, __c23, 30)),
           id: S.String,
           market: S.String,
           object: S.String,
-          position_value: __S(724, __c22, 20),
+          position_value: __S(756, __c23, 20),
           side: S.String,
           size: S.String,
-          unrealized_pnl: __S(724, __c22, 20),
+          unrealized_pnl: __S(756, __c23, 20),
         }),
       ).annotate({ identifier: "TradingPosition" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(735, __c22, 31));
+      return S.Array(__S(767, __c23, 31));
     case 1:
       return S.suspend(() =>
         S.Struct({
           account_id: S.NullOr(S.String),
-          hyperliquid: S.NullOr(__S(728, __c22, 24)),
+          hyperliquid: S.NullOr(__S(760, __c23, 24)),
           id: S.String,
           object: S.String,
-          open_orders: __S(731, __c22, 27),
-          positions: __S(736, __c23, 0),
+          open_orders: __S(763, __c23, 27),
+          positions: __S(768, __c24, 0),
           provider: S.String,
           user_id: S.NullOr(S.String),
         }),
@@ -1961,19 +2018,19 @@ function __c23(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          balance: S.NullOr(__S(713, __c22, 9)),
-          balance_history: S.NullOr(__S(716, __c22, 12)),
-          banner: S.NullOr(__S(717, __c22, 13)),
+          balance: S.NullOr(__S(745, __c23, 9)),
+          balance_history: S.NullOr(__S(748, __c23, 12)),
+          banner: S.NullOr(__S(749, __c23, 13)),
           bio: S.NullOr(S.String),
           created_at: S.String,
-          earnings_usd: S.NullOr(__S(719, __c22, 15)),
+          earnings_usd: S.NullOr(__S(751, __c23, 15)),
           email: S.NullOr(S.String),
           id: S.String,
           name: S.NullOr(S.String),
-          profile_picture: __S(717, __c22, 13),
-          social_accounts: __S(722, __c22, 18),
-          staff: S.NullOr(__S(723, __c22, 19)),
-          trading: S.NullOr(__S(737, __c23, 1)),
+          profile_picture: __S(749, __c23, 13),
+          social_accounts: __S(754, __c23, 18),
+          staff: S.NullOr(__S(755, __c23, 19)),
+          trading: S.NullOr(__S(769, __c24, 1)),
           username: S.String,
           verification: S.Unknown,
           whop_partner_enabled_at: S.NullOr(S.String),

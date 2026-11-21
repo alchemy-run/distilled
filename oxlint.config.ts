@@ -14,6 +14,22 @@ const DEFECT_MODULES = [
   "Cause",
 ];
 
+/** Effect APIs that start a fiber detached from the caller's (context, interruption, tracing). */
+const RUNNERS = [
+  "runPromise",
+  "runPromiseWith",
+  "runPromiseExit",
+  "runPromiseExitWith",
+  "runSync",
+  "runSyncWith",
+  "runSyncExit",
+  "runSyncExitWith",
+  "runFork",
+  "runForkWith",
+  "runCallback",
+  "runCallbackWith",
+];
+
 export default defineConfig({
   // Upstream conformance suites, submoduled (see packages/core/conformance).
   ignorePatterns: ["packages/core/conformance/connect/**", "packages/core/conformance/protobuf/**"],
@@ -45,9 +61,16 @@ export default defineConfig({
             message:
               "A rejected Effect.promise is a defect. Use Effect.tryPromise({ try, catch }) with a typed error.",
           },
+          ...RUNNERS.map((property) => ({
+            object: "Effect",
+            property,
+            message:
+              "Effect.run* starts a fiber outside the caller's: it loses its context, interruption and tracing, and its failure is no typed error. Return the Effect instead.",
+          })),
         ],
         "no-empty": ["error", { allowEmptyCatch: false }],
         "distilled/no-swallowed-catch": "error",
+        "distilled/explain-ignored-failure": "error",
         "no-eval": "error",
         "typescript/no-implied-eval": "error",
         "distilled/no-function-constructor": "error",
@@ -61,6 +84,7 @@ export default defineConfig({
         "no-restricted-properties": "off",
         "no-empty": "off",
         "distilled/no-swallowed-catch": "off",
+        "distilled/explain-ignored-failure": "off",
         "distilled/no-function-constructor": "off",
         "distilled/no-throw-in-effect": "off",
       },

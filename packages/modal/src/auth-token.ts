@@ -12,7 +12,7 @@ import * as Effect from "effect/Effect";
 import * as HttpClient from "effect/http/HttpClient";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
+import { authTokenError, Credentials, type Config } from "./credentials.ts";
 import * as Retry from "./retry.ts";
 import { getAuthToken } from "./services/auth.ts";
 
@@ -59,7 +59,12 @@ export const withAuthToken: Layer.Layer<Credentials, never, Credentials | HttpCl
       const base = yield* Credentials;
       const http = yield* HttpClient.HttpClient;
       let cached:
-        | { readonly tokenId: string; readonly token: string; readonly refreshAt: number }
+        | {
+            readonly tokenId: string;
+            readonly token: string;
+            readonly refreshAt: number;
+            readonly expiresAt: number;
+          }
         | undefined;
 
       const fetch = Effect.fn(function* (config: Config) {
@@ -71,13 +76,14 @@ export const withAuthToken: Layer.Layer<Credentials, never, Credentials | HttpCl
           Effect.provideService(Credentials, Effect.succeed(config)),
           Effect.provideService(HttpClient.HttpClient, http),
         );
-        if (!token) return undefined;
+        if (!token) return yield* Effect.fail(new Error("Modal returned an empty auth token"));
         const now = (yield* Clock.currentTimeMillis) / 1000;
-        const lifetime = (expiryOf(token) ?? now + FALLBACK_LIFETIME_SECONDS) - now;
+        const expiresAt = expiryOf(token) ?? now + FALLBACK_LIFETIME_SECONDS;
         cached = {
           tokenId: identityOf(config),
           token,
-          refreshAt: now + lifetime * REFRESH_FRACTION,
+          refreshAt: now + (expiresAt - now) * REFRESH_FRACTION,
+          expiresAt,
         };
         return token;
       });
@@ -95,13 +101,25 @@ export const withAuthToken: Layer.Layer<Credentials, never, Credentials | HttpCl
         // would leave every later call waiting on it. Calls that race a
         // refresh each fetch one.
         const now = (yield* Clock.currentTimeMillis) / 1000;
+        const current =
+          cached !== undefined && cached.tokenId === identityOf(config) ? cached : undefined;
+        // As Modal's clients do: a failed refresh keeps a token that has not
+        // expired, with a warning; with no such token the call fails with
+        // the reason, before it reaches Modal without the header.
         const token =
-          cached !== undefined && cached.tokenId === identityOf(config) && now < cached.refreshAt
-            ? cached.token
-            : // A failed fetch leaves the request without the header; the
-              // calls that need it then fail with Modal's own auth error.
-              yield* fetch(config).pipe(Effect.catch(() => Effect.succeed(cached?.token)));
-        return token === undefined ? config : { ...config, authToken: Redacted.make(token) };
+          current !== undefined && now < current.refreshAt
+            ? current.token
+            : yield* fetch(config).pipe(
+                Effect.catch((cause) =>
+                  current !== undefined && now < current.expiresAt
+                    ? Effect.as(
+                        Effect.logWarning("Could not refresh the Modal auth token", cause),
+                        current.token,
+                      )
+                    : Effect.fail(authTokenError(cause)),
+                ),
+              );
+        return { ...config, authToken: Redacted.make(token) };
       });
     }),
   );

@@ -29,36 +29,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: WizardRunError | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: WizardRunError | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: WizardRunError | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: WizardRunError | string;
+}
 
 export interface CreateWizardInstallRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -625,6 +653,16 @@ export interface UpdateWizardRunsTaskRequest {
   tasks: UpdateWizardRunsTaskRequestTasksList;
 }
 export interface UpdateWizardRunsTaskResponse {}
+export interface WizardRunError {
+  /** Error category. */
+  type: string;
+  /** Machine-readable error code. */
+  code: string;
+  /** What happened and how to continue. */
+  detail: string;
+  /** Request field associated with the error, when available. */
+  attr: string | null;
+}
 export type CreateWizardInstallError =
   | BadRequest
   | Forbidden
@@ -638,8 +676,8 @@ export const createWizardInstall: API.OperationMethod<
   CreateWizardInstallError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<CreateWizardInstallRequest>,
-  output: __S(113, __c14, 1) as any as S.Schema<WizardInstallStart>,
+  input: __S(120, __c15, 0) as any as S.Schema<CreateWizardInstallRequest>,
+  output: __S(121, __c15, 1) as any as S.Schema<WizardInstallStart>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -655,8 +693,8 @@ export const createWizardRun: API.OperationMethod<
   CreateWizardRunError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<CreateWizardRunRequest>,
-  output: __S(145, __c18, 1) as any as S.Schema<WizardRun>,
+  input: __S(128, __c16, 0) as any as S.Schema<CreateWizardRunRequest>,
+  output: __S(153, __c19, 1) as any as S.Schema<WizardRun>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -672,8 +710,8 @@ export const createWizardScan: API.OperationMethod<
   CreateWizardScanError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(156, __c19, 4) as any as S.Schema<CreateWizardScanRequest>,
-  output: __S(157, __c19, 5) as any as S.Schema<WizardScanResult>,
+  input: __S(164, __c20, 4) as any as S.Schema<CreateWizardScanRequest>,
+  output: __S(165, __c20, 5) as any as S.Schema<WizardScanResult>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -689,8 +727,8 @@ export const createWizardSession: API.OperationMethod<
   CreateWizardSessionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<CreateWizardSessionRequest>,
-  output: __S(173, __c21, 5) as any as S.Schema<WizardSessionDTO>,
+  input: __S(168, __c21, 0) as any as S.Schema<CreateWizardSessionRequest>,
+  output: __S(181, __c22, 5) as any as S.Schema<WizardSessionDTO>,
   errors: [Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -706,8 +744,8 @@ export const getWizardInstall: API.OperationMethod<
   GetWizardInstallError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<GetWizardInstallRequest>,
-  output: __S(177, __c22, 1) as any as S.Schema<WizardInstallStatus>,
+  input: __S(184, __c23, 0) as any as S.Schema<GetWizardInstallRequest>,
+  output: __S(185, __c23, 1) as any as S.Schema<WizardInstallStatus>,
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -723,8 +761,8 @@ export const getWizardRun: API.OperationMethod<
   GetWizardRunError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<GetWizardRunRequest>,
-  output: __S(145, __c18, 1) as any as S.Schema<WizardRun>,
+  input: __S(200, __c25, 0) as any as S.Schema<GetWizardRunRequest>,
+  output: __S(153, __c19, 1) as any as S.Schema<WizardRun>,
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -740,8 +778,8 @@ export const getWizardRunsArtifactsContent: API.OperationMethod<
   GetWizardRunsArtifactsContentError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetWizardRunsArtifactsContentRequest>,
-  output: __S(8, __c1, 0) as any as S.Schema<GetWizardRunsArtifactsContentResponse>,
+  input: __S(8, __c1, 0) as any as S.Schema<GetWizardRunsArtifactsContentRequest>,
+  output: __S(16, __c2, 0) as any as S.Schema<GetWizardRunsArtifactsContentResponse>,
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -757,8 +795,8 @@ export const getWizardRunsStream: API.OperationMethod<
   GetWizardRunsStreamError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<GetWizardRunsStreamRequest>,
-  output: __S(8, __c1, 0) as any as S.Schema<GetWizardRunsStreamResponse>,
+  input: __S(24, __c3, 0) as any as S.Schema<GetWizardRunsStreamRequest>,
+  output: __S(16, __c2, 0) as any as S.Schema<GetWizardRunsStreamResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -774,8 +812,8 @@ export const getWizardRunsTask: API.OperationMethod<
   GetWizardRunsTaskError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<GetWizardRunsTaskRequest>,
-  output: __S(27, __c3, 3) as any as S.Schema<WizardRunTaskList>,
+  input: __S(32, __c4, 0) as any as S.Schema<GetWizardRunsTaskRequest>,
+  output: __S(35, __c4, 3) as any as S.Schema<WizardRunTaskList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -791,8 +829,8 @@ export const getWizardSession: API.OperationMethod<
   GetWizardSessionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<GetWizardSessionRequest>,
-  output: __S(173, __c21, 5) as any as S.Schema<WizardSessionDTO>,
+  input: __S(40, __c5, 0) as any as S.Schema<GetWizardSessionRequest>,
+  output: __S(181, __c22, 5) as any as S.Schema<WizardSessionDTO>,
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -808,8 +846,8 @@ export const getWizardSessionsLatest: API.OperationMethod<
   GetWizardSessionsLatestError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<GetWizardSessionsLatestRequest>,
-  output: __S(173, __c21, 5) as any as S.Schema<WizardSessionDTO>,
+  input: __S(48, __c6, 0) as any as S.Schema<GetWizardSessionsLatestRequest>,
+  output: __S(181, __c22, 5) as any as S.Schema<WizardSessionDTO>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -825,8 +863,8 @@ export const getWizardSessionsStream: API.OperationMethod<
   GetWizardSessionsStreamError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<GetWizardSessionsStreamRequest>,
-  output: __S(8, __c1, 0) as any as S.Schema<GetWizardSessionsStreamResponse>,
+  input: __S(56, __c7, 0) as any as S.Schema<GetWizardSessionsStreamRequest>,
+  output: __S(16, __c2, 0) as any as S.Schema<GetWizardSessionsStreamResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -842,8 +880,8 @@ export const listWizardRegistry: API.OperationMethod<
   ListWizardRegistryError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<ListWizardRegistryRequest>,
-  output: __S(58, __c7, 2) as any as S.Schema<PaginatedWizardProgramList>,
+  input: __S(64, __c8, 0) as any as S.Schema<ListWizardRegistryRequest>,
+  output: __S(66, __c8, 2) as any as S.Schema<PaginatedWizardProgramList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -859,8 +897,8 @@ export const listWizardRuns: API.OperationMethod<
   ListWizardRunsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<ListWizardRunsRequest>,
-  output: __S(66, __c8, 2) as any as S.Schema<PaginatedWizardRunList>,
+  input: __S(72, __c9, 0) as any as S.Schema<ListWizardRunsRequest>,
+  output: __S(74, __c9, 2) as any as S.Schema<PaginatedWizardRunList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -876,8 +914,8 @@ export const listWizardRunsArtifacts: API.OperationMethod<
   ListWizardRunsArtifactsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<ListWizardRunsArtifactsRequest>,
-  output: __S(74, __c9, 2) as any as S.Schema<PaginatedWizardRunArtifactList>,
+  input: __S(80, __c10, 0) as any as S.Schema<ListWizardRunsArtifactsRequest>,
+  output: __S(82, __c10, 2) as any as S.Schema<PaginatedWizardRunArtifactList>,
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -893,8 +931,8 @@ export const listWizardSessions: API.OperationMethod<
   ListWizardSessionsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<ListWizardSessionsRequest>,
-  output: __S(82, __c10, 2) as any as S.Schema<PaginatedWizardSessionDTOList>,
+  input: __S(88, __c11, 0) as any as S.Schema<ListWizardSessionsRequest>,
+  output: __S(90, __c11, 2) as any as S.Schema<PaginatedWizardSessionDTOList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -910,8 +948,8 @@ export const listWizardToolCatalog: API.OperationMethod<
   ListWizardToolCatalogError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<ListWizardToolCatalogRequest>,
-  output: __S(93, __c11, 5) as any as S.Schema<WizardToolCatalog>,
+  input: __S(96, __c12, 0) as any as S.Schema<ListWizardToolCatalogRequest>,
+  output: __S(101, __c12, 5) as any as S.Schema<WizardToolCatalog>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -932,8 +970,8 @@ export const updateWizardRunsPartial: API.OperationMethod<
   UpdateWizardRunsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<UpdateWizardRunsPartialRequest>,
-  output: __S(145, __c18, 1) as any as S.Schema<WizardRun>,
+  input: __S(104, __c13, 0) as any as S.Schema<UpdateWizardRunsPartialRequest>,
+  output: __S(153, __c19, 1) as any as S.Schema<WizardRun>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -949,8 +987,8 @@ export const updateWizardRunsTask: API.OperationMethod<
   UpdateWizardRunsTaskError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<UpdateWizardRunsTaskRequest>,
-  output: __S(8, __c1, 0) as any as S.Schema<UpdateWizardRunsTaskResponse>,
+  input: __S(112, __c14, 0) as any as S.Schema<UpdateWizardRunsTaskRequest>,
+  output: __S(16, __c2, 0) as any as S.Schema<UpdateWizardRunsTaskResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -960,6 +998,19 @@ export const updateWizardRunsTask: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          code: S.String,
+          detail: S.String,
+          attr: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "WizardRunError" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -977,7 +1028,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "GetWizardRunsArtifactsContentRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -985,7 +1036,7 @@ function __c1(j: number): any {
       });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1002,7 +1053,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GetWizardRunsStreamRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1030,16 +1081,16 @@ function __c3(j: number): any {
         }),
       ).annotate({ identifier: "WizardRunTask" });
     case 2:
-      return S.Array(__S(25, __c3, 1));
+      return S.Array(__S(33, __c4, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          tasks: __S(26, __c3, 2),
+          tasks: __S(34, __c4, 2),
         }),
       ).annotate({ identifier: "WizardRunTaskList" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1056,7 +1107,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetWizardSessionRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1074,7 +1125,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GetWizardSessionsLatestRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1092,7 +1143,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GetWizardSessionsStreamRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1105,34 +1156,6 @@ function __c7(j: number): any {
         ),
       ).annotate({ identifier: "ListWizardRegistryRequest" });
     case 1:
-      return S.Array(__S(137, __c17, 1));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          count: S.Number,
-          next: S.optional(S.NullOr(S.String)),
-          previous: S.optional(S.NullOr(S.String)),
-          results: __S(57, __c7, 1),
-        }),
-      ).annotate({ identifier: "PaginatedWizardProgramList" });
-  }
-}
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          created_after: S.optional(S.String.pipe(T.Query())),
-          created_by_id: S.optional(S.Number.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          offset: S.optional(S.Number.pipe(T.Query())),
-          status: S.optional(__S(136, __c17, 0).pipe(T.Query())),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/api/projects/{project_id}/wizard/runs/", code: 200 }),
-        ),
-      ).annotate({ identifier: "ListWizardRunsRequest" });
-    case 1:
       return S.Array(__S(145, __c18, 1));
     case 2:
       return S.suspend(() =>
@@ -1142,10 +1165,38 @@ function __c8(j: number): any {
           previous: S.optional(S.NullOr(S.String)),
           results: __S(65, __c8, 1),
         }),
-      ).annotate({ identifier: "PaginatedWizardRunList" });
+      ).annotate({ identifier: "PaginatedWizardProgramList" });
   }
 }
 function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          created_after: S.optional(S.String.pipe(T.Query())),
+          created_by_id: S.optional(S.Number.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
+          status: S.optional(__S(144, __c18, 0).pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/api/projects/{project_id}/wizard/runs/", code: 200 }),
+        ),
+      ).annotate({ identifier: "ListWizardRunsRequest" });
+    case 1:
+      return S.Array(__S(153, __c19, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          count: S.Number,
+          next: S.optional(S.NullOr(S.String)),
+          previous: S.optional(S.NullOr(S.String)),
+          results: __S(73, __c9, 1),
+        }),
+      ).annotate({ identifier: "PaginatedWizardRunList" });
+  }
+}
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1170,12 +1221,12 @@ function __c9(j: number): any {
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(73, __c9, 1),
+          results: __S(81, __c10, 1),
         }),
       ).annotate({ identifier: "PaginatedWizardRunArtifactList" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1190,32 +1241,32 @@ function __c10(j: number): any {
         ),
       ).annotate({ identifier: "ListWizardSessionsRequest" });
     case 1:
-      return S.Array(__S(173, __c21, 5));
+      return S.Array(__S(181, __c22, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(81, __c10, 1),
+          results: __S(89, __c11, 1),
         }),
       ).annotate({ identifier: "PaginatedWizardSessionDTOList" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/wizard/tool_catalog/", code: 200 })),
       ).annotate({ identifier: "ListWizardToolCatalogRequest" });
     case 1:
-      return S.Record(S.String, __S(128, __c16, 0));
+      return S.Record(S.String, __S(136, __c17, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          env_key_patterns: __S(128, __c16, 0),
-          script_hosts: __S(128, __c16, 0),
-          packages: __S(89, __c11, 1),
+          env_key_patterns: __S(136, __c17, 0),
+          script_hosts: __S(136, __c17, 0),
+          packages: __S(97, __c12, 1),
         }),
       ).annotate({ identifier: "WizardCatalogToolSignals" });
     case 3:
@@ -1226,23 +1277,23 @@ function __c11(j: number): any {
           warehouse_source_type: S.NullOr(S.String),
           warehouse_destination_type: S.NullOr(S.String),
           wizard_setup_mode: S.NullOr(S.String),
-          alternative_to: __S(128, __c16, 0),
-          superseded_by: __S(128, __c16, 0),
-          signals: __S(90, __c11, 2),
+          alternative_to: __S(136, __c17, 0),
+          superseded_by: __S(136, __c17, 0),
+          signals: __S(98, __c12, 2),
         }),
       ).annotate({ identifier: "WizardCatalogTool" });
     case 4:
-      return S.Array(__S(91, __c11, 3));
+      return S.Array(__S(99, __c12, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           schema_version: S.Number,
-          tools: __S(92, __c11, 4),
+          tools: __S(100, __c12, 4),
         }),
       ).annotate({ identifier: "WizardToolCatalog" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1261,14 +1312,14 @@ function __c12(j: number): any {
       ).annotate({ identifier: "UpdateWizardRunsPartialRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           run_id: S.String.pipe(T.Label()),
-          tasks: __S(185, __c23, 1),
+          tasks: __S(193, __c24, 1),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -1279,7 +1330,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "UpdateWizardRunsTaskRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1302,7 +1353,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "WizardInstallStart" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1319,13 +1370,13 @@ function __c15(j: number): any {
       ).annotate({ identifier: "CreateWizardRunRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -1336,15 +1387,15 @@ function __c17(j: number): any {
           name: S.String,
           description: S.String,
           wizard_version: S.String,
-          command: __S(128, __c16, 0),
-          tags: __S(128, __c16, 0),
-          required_programs: __S(128, __c16, 0),
-          supported_environments: __S(136, __c17, 0),
+          command: __S(136, __c17, 0),
+          tags: __S(136, __c17, 0),
+          required_programs: __S(136, __c17, 0),
+          supported_environments: __S(144, __c18, 0),
         }),
       ).annotate({ identifier: "WizardProgram" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1361,10 +1412,10 @@ function __c18(j: number): any {
           id: S.String,
           team_id: S.Number,
           created_by_id: S.NullOr(S.Number),
-          created_by: S.NullOr(__S(144, __c18, 0)),
+          created_by: S.NullOr(__S(152, __c19, 0)),
           environment: S.String,
           workspace: S.Unknown,
-          program: __S(137, __c17, 1),
+          program: __S(145, __c18, 1),
           status: S.String,
           error_code: S.NullOr(S.String),
           error_message: S.NullOr(S.String),
@@ -1378,7 +1429,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "WizardRun" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1389,16 +1440,16 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "WizardScanSignal" });
     case 1:
-      return S.Array(__S(152, __c19, 0));
+      return S.Array(__S(160, __c20, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           kind: S.String,
-          signals: __S(153, __c19, 1),
+          signals: __S(161, __c20, 1),
         }),
       ).annotate({ identifier: "WizardScanTool" });
     case 3:
-      return S.Array(__S(154, __c19, 2));
+      return S.Array(__S(162, __c20, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -1408,7 +1459,7 @@ function __c19(j: number): any {
           wizard_version: S.String,
           workspace_fingerprint: S.String,
           scanned_at: S.String,
-          tools: __S(155, __c19, 3),
+          tools: __S(163, __c20, 3),
           complete: S.optional(S.Boolean),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/projects/{project_id}/wizard/scans/", code: 200 }),
@@ -1423,29 +1474,29 @@ function __c19(j: number): any {
       ).annotate({ identifier: "WizardScanResult" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          pending_input: S.optional(S.NullOr(__S(168, __c21, 0))),
+          pending_input: S.optional(S.NullOr(__S(176, __c22, 0))),
           handoff_text: S.optional(S.NullOr(S.String)),
           session_id: S.String,
           workflow_id: S.String,
           skill_id: S.String,
           started_at: S.String,
           run_phase: S.String,
-          tasks: __S(170, __c21, 2),
-          event_plan: S.optional(S.NullOr(__S(171, __c21, 3))),
-          error: S.optional(S.NullOr(__S(171, __c21, 3))),
+          tasks: __S(178, __c22, 2),
+          event_plan: S.optional(S.NullOr(__S(179, __c22, 3))),
+          error: S.optional(S.NullOr(__S(179, __c22, 3))),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/projects/{project_id}/wizard/sessions/", code: 200 }),
         ),
       ).annotate({ identifier: "CreateWizardSessionRequest" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1454,7 +1505,7 @@ function __c21(j: number): any {
           asked_at: S.optional(S.String),
           question_count: S.optional(S.Number),
           sensitive: S.optional(S.Boolean),
-          prompts: S.optional(__S(128, __c16, 0)),
+          prompts: S.optional(__S(136, __c17, 0)),
         }),
       ).annotate({ identifier: "PendingInput" });
     case 1:
@@ -1466,7 +1517,7 @@ function __c21(j: number): any {
         }),
       ).annotate({ identifier: "WizardTaskDTO" });
     case 2:
-      return S.Array(__S(169, __c21, 1));
+      return S.Array(__S(177, __c22, 1));
     case 3:
       return S.Record(S.String, S.Unknown);
     case 4:
@@ -1480,18 +1531,18 @@ function __c21(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          pending_input: S.NullOr(__S(168, __c21, 0)),
+          pending_input: S.NullOr(__S(176, __c22, 0)),
           session_id: S.String,
           team_id: S.Number,
           workflow_id: S.String,
           skill_id: S.String,
           started_at: S.String,
           run_phase: S.String,
-          tasks: __S(170, __c21, 2),
-          event_plan: S.NullOr(__S(171, __c21, 3)),
-          error: S.NullOr(__S(171, __c21, 3)),
+          tasks: __S(178, __c22, 2),
+          event_plan: S.NullOr(__S(179, __c22, 3)),
+          error: S.NullOr(__S(179, __c22, 3)),
           handoff_text: S.NullOr(S.String),
-          created_by: S.NullOr(__S(172, __c21, 4)),
+          created_by: S.NullOr(__S(180, __c22, 4)),
           created_at: S.String,
           updated_at: S.String,
           is_stale: S.Boolean,
@@ -1499,7 +1550,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "WizardSessionDTO" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1522,13 +1573,13 @@ function __c22(j: number): any {
           error_code: S.NullOr(S.String),
           error_message: S.NullOr(S.String),
           pull_request_url: S.NullOr(S.String),
-          tasks: __S(185, __c23, 1),
+          tasks: __S(193, __c24, 1),
           next_step: S.String,
         }),
       ).annotate({ identifier: "WizardInstallStatus" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1538,10 +1589,10 @@ function __c23(j: number): any {
         }),
       ).annotate({ identifier: "WizardInstallTask" });
     case 1:
-      return S.Array(__S(184, __c23, 0));
+      return S.Array(__S(192, __c24, 0));
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

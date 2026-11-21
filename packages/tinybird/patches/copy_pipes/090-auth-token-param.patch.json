@@ -1,0 +1,20 @@
+{
+  "description": "The `token` parameter is an auth token -- \"Auth token. Only required if no Bearer Authorization header is sent\" (https://www.tinybird.co/docs/api-reference). The SDK already sends the configured token as Bearer; a token passed here is a secret, so it is sensitive.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.copy_pipes#PostV0PipesPipeNodesNodeCopyRequest/members/token/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.copy_pipes#PutV0PipesPipeNodesNodeCopyRequest/members/token/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.copy_pipes#PostV0PipesPipeCopyRequest/members/token/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

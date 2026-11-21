@@ -103,7 +103,7 @@ export class InternalServerException
     "InternalServerException",
     { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
@@ -125,7 +125,7 @@ export class ThrottlingException
       quotaCode: /*@__PURE__*/ S.optional(S.String),
     },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()("ValidationException", {
     message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
@@ -1295,6 +1295,7 @@ export interface CreatePentestInput {
   vpcConfig?: VpcConfig | undefined;
   networkTrafficConfig?: NetworkTrafficConfig | undefined;
   codeRemediationStrategy?: CodeRemediationStrategy | undefined;
+  cleanUpStrategy?: CleanUpStrategy | undefined;
   disableManagedSkills?: SkillType[] | undefined;
   maxTaskHours?: number | undefined;
   reportDestination?: ReportDestination | undefined;
@@ -2585,6 +2586,7 @@ export interface UpdatePentestInput {
   vpcConfig?: VpcConfig | undefined;
   networkTrafficConfig?: NetworkTrafficConfig | undefined;
   codeRemediationStrategy?: CodeRemediationStrategy | undefined;
+  cleanUpStrategy?: CleanUpStrategy | undefined;
   disableManagedSkills?: SkillType[] | undefined;
   maxTaskHours?: number | undefined;
   reportDestination?: ReportDestination | undefined;
@@ -6741,6 +6743,7 @@ function __c54(j: number): any {
           vpcConfig: S.optional(__S(16, __c1, 0)),
           networkTrafficConfig: S.optional(__S(146, __c9, 2)),
           codeRemediationStrategy: S.optional(S.String),
+          cleanUpStrategy: S.optional(S.String),
           disableManagedSkills: S.optional(__S(80, __c5, 0)),
           maxTaskHours: S.optional(S.Number),
           reportDestination: S.optional(__S(55, __c3, 7)),
@@ -8878,6 +8881,7 @@ function __c128(j: number): any {
           vpcConfig: S.optional(__S(16, __c1, 0)),
           networkTrafficConfig: S.optional(__S(146, __c9, 2)),
           codeRemediationStrategy: S.optional(S.String),
+          cleanUpStrategy: S.optional(S.String),
           disableManagedSkills: S.optional(__S(80, __c5, 0)),
           maxTaskHours: S.optional(S.Number),
           reportDestination: S.optional(__S(55, __c3, 7)),

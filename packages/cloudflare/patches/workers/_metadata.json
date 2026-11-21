@@ -1,5 +1,5 @@
 {
-  "description": "Key dictionary / op aliases for workers (mined from distilled)",
+  "description": "Key dictionary / op aliases for workers (mined from distilled). cache_options is keyed by its TS name cacheOptions: the mined v0 entry cache -> cache_options renamed the per-export `cache` key of Worker exports, which the API names `cache`.",
   "patches": [
     {
       "op": "add",
@@ -14,7 +14,7 @@
         "bodyPart": "body_part",
         "bucketName": "bucket_name",
         "bytesRead": "bytes_read",
-        "cache": "cache_options",
+        "cacheOptions": "cache_options",
         "capnpSchema": "capnp_schema",
         "certId": "cert_id",
         "certificateId": "certificate_id",
@@ -50,6 +50,7 @@
         "htmlHandling": "html_handling",
         "indexName": "index_name",
         "instanceName": "instance_name",
+        "internalEnv": "internal_env",
         "invocationLogs": "invocation_logs",
         "keepAssets": "keep_assets",
         "keepBindings": "keep_bindings",
@@ -81,6 +82,7 @@
         "propagationPolicy": "propagation_policy",
         "queueName": "queue_name",
         "renamedClasses": "renamed_classes",
+        "renamedTo": "renamed_to",
         "resultInfo": "result_info",
         "rowsRead": "rows_read",
         "runWorkerFirst": "run_worker_first",
@@ -96,7 +98,9 @@
         "tailConsumers": "tail_consumers",
         "tailUrl": "tail_url",
         "totalCount": "total_count",
+        "transferFrom": "transfer_from",
         "transferredClasses": "transferred_classes",
+        "transferredTo": "transferred_to",
         "tunnelId": "tunnel_id",
         "usageModel": "usage_model",
         "versionId": "version_id",

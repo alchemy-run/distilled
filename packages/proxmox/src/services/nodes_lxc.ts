@@ -30,6 +30,8 @@ export class GuestNotFound
     /*@__PURE__*/ S.TaggedError<GuestNotFound>()("GuestNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [
       {
@@ -2014,7 +2016,7 @@ export interface PutNodesByNodeLxcByVmidConfigRequest {
 }
 export type PutNodesByNodeLxcByVmidConfigResponse = null;
 export interface PutNodesByNodeLxcByVmidFirewallAliasesByNameRequest {
-  cidr: string;
+  cidr?: string | undefined;
   comment?: string | undefined;
   digest?: string | undefined;
   name: string;
@@ -4719,7 +4721,7 @@ function __c58(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          cidr: S.String,
+          cidr: S.optional(S.String),
           comment: S.optional(S.String),
           digest: S.optional(S.String),
           name: S.String.pipe(T.Label()),

@@ -24,6 +24,16 @@ import * as Schema from "./schema-lite-typed.ts";
  */
 export const DurationSchema = /*@__PURE__*/ Schema.declare<Duration.Duration>(Duration.isDuration);
 
+/**
+ * Fields every error built from an HTTP response declares: the parsed body
+ * (the raw text when it wasn't JSON) and the response headers, for whatever
+ * the SDK does not type -- a request ID, nested details.
+ */
+export const ResponseErrorFields = {
+  body: /*@__PURE__*/ Schema.optional(Schema.Unknown),
+  headers: /*@__PURE__*/ Schema.optional(/*@__PURE__*/ Schema.Record(Schema.String, Schema.String)),
+};
+
 // ============================================================================
 // Common HTTP Status Error Classes
 // ============================================================================
@@ -34,6 +44,7 @@ export const DurationSchema = /*@__PURE__*/ Schema.declare<Duration.Duration>(Du
 export class Unauthorized
   extends /*@__PURE__*/ Schema.TaggedError<Unauthorized>()("Unauthorized", {
     message: Schema.String,
+    ...ResponseErrorFields,
   }).pipe(Category.withAuthError) {}
 
 /**
@@ -42,6 +53,7 @@ export class Unauthorized
 export class Forbidden
   extends /*@__PURE__*/ Schema.TaggedError<Forbidden>()("Forbidden", {
     message: Schema.String,
+    ...ResponseErrorFields,
   }).pipe(Category.withAuthError) {}
 
 /**
@@ -50,6 +62,7 @@ export class Forbidden
 export class NotFound
   extends /*@__PURE__*/ Schema.TaggedError<NotFound>()("NotFound", {
     message: Schema.String,
+    ...ResponseErrorFields,
   }).pipe(Category.withNotFoundError) {}
 
 /**
@@ -58,6 +71,7 @@ export class NotFound
 export class BadRequest
   extends /*@__PURE__*/ Schema.TaggedError<BadRequest>()("BadRequest", {
     message: Schema.String,
+    ...ResponseErrorFields,
   }).pipe(Category.withBadRequestError) {}
 
 /**
@@ -66,6 +80,7 @@ export class BadRequest
 export class Conflict
   extends /*@__PURE__*/ Schema.TaggedError<Conflict>()("Conflict", {
     message: Schema.String,
+    ...ResponseErrorFields,
   }).pipe(Category.withConflictError) {}
 
 /**
@@ -74,6 +89,7 @@ export class Conflict
 export class UnprocessableEntity
   extends /*@__PURE__*/ Schema.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
     message: Schema.String,
+    ...ResponseErrorFields,
   }).pipe(Category.withBadRequestError) {}
 
 /**
@@ -82,6 +98,7 @@ export class UnprocessableEntity
 export class TooManyRequests
   extends /*@__PURE__*/ Schema.TaggedError<TooManyRequests>()("TooManyRequests", {
     message: Schema.String,
+    ...ResponseErrorFields,
     retryAfter: /*@__PURE__*/ Schema.optional(DurationSchema),
   }).pipe(
     Category.withThrottlingError,
@@ -94,6 +111,7 @@ export class TooManyRequests
 export class Locked
   extends /*@__PURE__*/ Schema.TaggedError<Locked>()("Locked", {
     message: Schema.String,
+    ...ResponseErrorFields,
     retryAfter: /*@__PURE__*/ Schema.optional(DurationSchema),
   }).pipe(Category.withLockedError, /*@__PURE__*/ Category.withRetryable()) {}
 
@@ -108,6 +126,7 @@ export class Locked
 export class InternalServerError
   extends /*@__PURE__*/ Schema.TaggedError<InternalServerError>()("InternalServerError", {
     message: Schema.String,
+    ...ResponseErrorFields,
     code: /*@__PURE__*/ Schema.optional(Schema.Number),
     retryAfter: /*@__PURE__*/ Schema.optional(DurationSchema),
   }).pipe(Category.withServerError, /*@__PURE__*/ Category.withRetryable()) {}
@@ -118,6 +137,7 @@ export class InternalServerError
 export class BadGateway
   extends /*@__PURE__*/ Schema.TaggedError<BadGateway>()("BadGateway", {
     message: Schema.String,
+    ...ResponseErrorFields,
     retryAfter: /*@__PURE__*/ Schema.optional(DurationSchema),
   }).pipe(Category.withServerError, /*@__PURE__*/ Category.withRetryable()) {}
 
@@ -127,6 +147,7 @@ export class BadGateway
 export class ServiceUnavailable
   extends /*@__PURE__*/ Schema.TaggedError<ServiceUnavailable>()("ServiceUnavailable", {
     message: Schema.String,
+    ...ResponseErrorFields,
     retryAfter: /*@__PURE__*/ Schema.optional(DurationSchema),
   }).pipe(Category.withServerError, /*@__PURE__*/ Category.withRetryable()) {}
 
@@ -136,6 +157,7 @@ export class ServiceUnavailable
 export class GatewayTimeout
   extends /*@__PURE__*/ Schema.TaggedError<GatewayTimeout>()("GatewayTimeout", {
     message: Schema.String,
+    ...ResponseErrorFields,
     retryAfter: /*@__PURE__*/ Schema.optional(DurationSchema),
   }).pipe(Category.withServerError, /*@__PURE__*/ Category.withRetryable()) {}
 
@@ -186,8 +208,8 @@ export const DEFAULT_ERROR_STATUSES = /*@__PURE__*/ new Set([401, 429, 500, 502,
 
 /**
  * HTTP status codes whose corresponding error class in {@link HTTP_STATUS_MAP}
- * declares a `retryAfter` field. The retry policy honors `error.retryAfter`
- * with precedence over the default backoff for these.
+ * declares a `retryAfter` field. The retry policy waits at least
+ * `error.retryAfter` for these.
  *
  * `matchError` implementations should only pass `retryAfter` into the
  * constructor when the status is in this set; passing it on non-retryable

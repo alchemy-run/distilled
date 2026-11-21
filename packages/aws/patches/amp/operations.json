@@ -1,0 +1,19 @@
+{
+  "description": "amp: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.amp#CreateLoggingConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.amp#ConflictException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.amp#CreateQueryLoggingConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.amp#ConflictException"
+      }
+    }
+  ]
+}

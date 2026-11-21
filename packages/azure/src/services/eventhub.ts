@@ -33,20 +33,22 @@ const TELEMETRY = {
 } as const;
 
 /** Application Group Policy types */
-export type ApplicationGroupPolicyType = "ThrottlingPolicy";
-/** Properties of the Application Group policy */
-export interface ApplicationGroupPolicy {
+export type ThrottlingPolicyType = "ThrottlingPolicy";
+/** Metric Id on which the throttle limit should be set, MetricId can be discovered by hovering over Metric in the Metrics section of Event Hub Namespace inside Azure Portal */
+export type MetricId = "IncomingBytes" | "OutgoingBytes" | "IncomingMessages" | "OutgoingMessages";
+/** Properties of the throttling policy */
+export interface ThrottlingPolicy {
   /** The Name of this policy */
   name: string;
   /** Application Group Policy types */
-  type: ApplicationGroupPolicyType | (string & {});
-  /** ThrottlingPolicy: the threshold limit above which the application group will be throttled. Rate limit is always per second. */
-  rateLimitThreshold?: number | undefined;
-  /** ThrottlingPolicy: metric to throttle on (IncomingBytes, OutgoingBytes, IncomingMessages, OutgoingMessages). */
-  metricId?: string | undefined;
+  type: ThrottlingPolicyType | (string & {});
+  /** The Threshold limit above which the application group will be throttled.Rate limit is always per second. */
+  rateLimitThreshold: number;
+  /** Metric Id on which the throttle limit should be set, MetricId can be discovered by hovering over Metric in the Metrics section of Event Hub Namespace inside Azure Portal */
+  metricId: MetricId | (string & {});
 }
 /** List of group policies that define the behavior of application group. The policies can support resource governance scenarios such as limiting ingress or egress traffic. */
-export type ApplicationGroupPropertiesPoliciesList = Array<ApplicationGroupPolicy>;
+export type ApplicationGroupPropertiesPoliciesList = Array<ThrottlingPolicy>;
 export interface ApplicationGroupProperties {
   /** Determines if Application Group is allowed to create connection with namespace or not. Once the isEnabled is set to false, all the existing connections of application group gets dropped and no new connections will be allowed */
   isEnabled?: boolean | undefined;
@@ -3524,10 +3526,10 @@ function __c1(j: number): any {
         S.Struct({
           name: S.String,
           type: S.String,
-          rateLimitThreshold: S.optional(S.Number),
-          metricId: S.optional(S.String),
+          rateLimitThreshold: S.Number,
+          metricId: S.String,
         }),
-      ).annotate({ identifier: "ApplicationGroupPolicy" });
+      ).annotate({ identifier: "ThrottlingPolicy" });
     case 1:
       return S.Array(__S(16, __c1, 0));
     case 2:

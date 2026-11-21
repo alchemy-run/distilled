@@ -225,10 +225,7 @@ export interface DeleteDigitalTwinsEndpointRequest {
   endpointName: string;
 }
 /** The type of Digital Twins endpoint */
-export type DigitalTwinsEndpointResourcePropertiesEndpointType =
-  | "EventHub"
-  | "EventGrid"
-  | "ServiceBus";
+export type ServiceBusEndpointType = "ServiceBus";
 /** The provisioning state. */
 export type DigitalTwinsEndpointResourcePropertiesProvisioningState =
   | "Provisioning"
@@ -254,10 +251,10 @@ export interface ManagedIdentityReference {
   /** The user identity ARM resource id if the managed identity type is 'UserAssigned'. */
   userAssignedIdentity?: string | null | undefined;
 }
-/** Properties related to Digital Twins Endpoint */
-export interface DigitalTwinsEndpointResourceProperties {
+/** Properties related to ServiceBus. */
+export interface ServiceBus {
   /** The type of Digital Twins endpoint */
-  endpointType: DigitalTwinsEndpointResourcePropertiesEndpointType;
+  endpointType: ServiceBusEndpointType;
   /** The provisioning state. */
   provisioningState?: DigitalTwinsEndpointResourcePropertiesProvisioningState | null | undefined;
   /** Time when the Endpoint was added to DigitalTwinsInstance. */
@@ -270,25 +267,69 @@ export interface DigitalTwinsEndpointResourceProperties {
   deadLetterUri?: string | null | undefined;
   /** Managed identity properties for the endpoint. */
   identity?: ManagedIdentityReference | null | undefined;
-  /** EventHub (KeyBased): primary connection string. */
-  connectionStringPrimaryKey?: string | null | undefined;
-  /** EventHub (KeyBased): secondary connection string. */
-  connectionStringSecondaryKey?: string | null | undefined;
-  /** ServiceBus (KeyBased): primary connection string. */
+  /** PrimaryConnectionString of the endpoint for key-based authentication. Will be obfuscated during read. */
   primaryConnectionString?: string | null | undefined;
-  /** ServiceBus (KeyBased): secondary connection string. */
+  /** SecondaryConnectionString of the endpoint for key-based authentication. Will be obfuscated during read. */
   secondaryConnectionString?: string | null | undefined;
-  /** EventHub/ServiceBus (IdentityBased): the URL of the namespace, e.g. sb://<namespace>.servicebus.windows.net. */
+  /** The URL of the ServiceBus namespace for identity-based authentication. It must include the protocol 'sb://'. */
   endpointUri?: string | null | undefined;
-  /** EventHub/ServiceBus (IdentityBased): the event hub, queue, or topic name. */
+  /** The ServiceBus Topic name for identity-based authentication. */
   entityPath?: string | null | undefined;
-  /** EventGrid: the topic endpoint URL. */
-  TopicEndpoint?: string | null | undefined;
-  /** EventGrid: primary access key. Obfuscated on read. */
-  accessKey1?: string | null | undefined;
-  /** EventGrid: secondary access key. Obfuscated on read. */
+}
+/** The type of Digital Twins endpoint */
+export type EventHubEndpointType = "EventHub";
+/** Properties related to EventHub. */
+export interface EventHub {
+  /** The type of Digital Twins endpoint */
+  endpointType: EventHubEndpointType;
+  /** The provisioning state. */
+  provisioningState?: DigitalTwinsEndpointResourcePropertiesProvisioningState | null | undefined;
+  /** Time when the Endpoint was added to DigitalTwinsInstance. */
+  createdTime?: string | null | undefined;
+  /** Specifies the authentication type being used for connecting to the endpoint. Defaults to 'KeyBased'. If 'KeyBased' is selected, a connection string must be specified (at least the primary connection string). If 'IdentityBased' is select, the endpointUri and entityPath properties must be specified. */
+  authenticationType?: DigitalTwinsEndpointResourcePropertiesAuthenticationType | undefined;
+  /** Dead letter storage secret for key-based authentication. Will be obfuscated during read. */
+  deadLetterSecret?: string | null | undefined;
+  /** Dead letter storage URL for identity-based authentication. */
+  deadLetterUri?: string | null | undefined;
+  /** Managed identity properties for the endpoint. */
+  identity?: ManagedIdentityReference | null | undefined;
+  /** PrimaryConnectionString of the endpoint for key-based authentication. Will be obfuscated during read. */
+  connectionStringPrimaryKey?: string | null | undefined;
+  /** SecondaryConnectionString of the endpoint for key-based authentication. Will be obfuscated during read. */
+  connectionStringSecondaryKey?: string | null | undefined;
+  /** The URL of the EventHub namespace for identity-based authentication. It must include the protocol 'sb://'. */
+  endpointUri?: string | null | undefined;
+  /** The EventHub name in the EventHub namespace for identity-based authentication. */
+  entityPath?: string | null | undefined;
+}
+/** The type of Digital Twins endpoint */
+export type EventGridEndpointType = "EventGrid";
+/** Properties related to EventGrid. */
+export interface EventGrid {
+  /** The type of Digital Twins endpoint */
+  endpointType: EventGridEndpointType;
+  /** The provisioning state. */
+  provisioningState?: DigitalTwinsEndpointResourcePropertiesProvisioningState | null | undefined;
+  /** Time when the Endpoint was added to DigitalTwinsInstance. */
+  createdTime?: string | null | undefined;
+  /** Specifies the authentication type being used for connecting to the endpoint. Defaults to 'KeyBased'. If 'KeyBased' is selected, a connection string must be specified (at least the primary connection string). If 'IdentityBased' is select, the endpointUri and entityPath properties must be specified. */
+  authenticationType?: DigitalTwinsEndpointResourcePropertiesAuthenticationType | undefined;
+  /** Dead letter storage secret for key-based authentication. Will be obfuscated during read. */
+  deadLetterSecret?: string | null | undefined;
+  /** Dead letter storage URL for identity-based authentication. */
+  deadLetterUri?: string | null | undefined;
+  /** Managed identity properties for the endpoint. */
+  identity?: ManagedIdentityReference | null | undefined;
+  /** EventGrid Topic Endpoint. */
+  TopicEndpoint: string;
+  /** EventGrid secondary accesskey. Will be obfuscated during read. */
+  accessKey1: string | null;
+  /** EventGrid secondary accesskey. Will be obfuscated during read. */
   accessKey2?: string | null | undefined;
 }
+/** Properties related to Digital Twins Endpoint */
+export type DigitalTwinsEndpointResourceProperties = ServiceBus | EventHub | EventGrid;
 export interface DeleteDigitalTwinsEndpointResponse {
   /** The resource identifier. */
   id?: string | undefined;
@@ -325,7 +366,7 @@ export interface DeleteTimeSeriesDatabaseConnectionRequest {
   cleanupConnectionArtifacts?: boolean | undefined;
 }
 /** The type of time series connection resource. */
-export type TimeSeriesDatabaseConnectionPropertiesConnectionType = "AzureDataExplorer";
+export type AzureDataExplorerConnectionPropertiesConnectionType = "AzureDataExplorer";
 /** The provisioning state. */
 export type TimeSeriesDatabaseConnectionPropertiesProvisioningState =
   | "Provisioning"
@@ -340,36 +381,41 @@ export type TimeSeriesDatabaseConnectionPropertiesProvisioningState =
   | "Restoring"
   | "Moving"
   | "Disabled";
-/** Properties of a time series database connection resource. */
-export interface TimeSeriesDatabaseConnectionProperties {
+/** Specifies whether or not to record twin / relationship property and item removals, including removals of indexed or keyed values (such as map entries, array elements, etc.). This feature is de-activated unless explicitly set to 'true'. Setting this property to 'true' will generate an additional column in the property events table in ADX. */
+export type AzureDataExplorerConnectionPropertiesRecordPropertyAndItemRemovals = "true" | "false";
+/** Properties of a time series database connection to Azure Data Explorer with data being sent via an EventHub. */
+export interface AzureDataExplorerConnectionProperties {
   /** The type of time series connection resource. */
-  connectionType: TimeSeriesDatabaseConnectionPropertiesConnectionType;
+  connectionType: AzureDataExplorerConnectionPropertiesConnectionType;
   /** The provisioning state. */
   provisioningState?: TimeSeriesDatabaseConnectionPropertiesProvisioningState | undefined;
   /** Managed identity properties for the time series database connection resource. */
   identity?: ManagedIdentityReference | null | undefined;
   /** The resource ID of the Azure Data Explorer cluster. */
-  adxResourceId?: string | null | undefined;
-  /** The URI of the Azure Data Explorer cluster, e.g. https://<cluster>.<region>.kusto.windows.net. */
-  adxEndpointUri?: string | null | undefined;
+  adxResourceId: string;
+  /** The URI of the Azure Data Explorer endpoint. */
+  adxEndpointUri: string;
   /** The name of the Azure Data Explorer database. */
-  adxDatabaseName?: string | null | undefined;
+  adxDatabaseName: string;
   /** The name of the Azure Data Explorer table used for storing updates to properties of twins and relationships. Defaults to AdtPropertyEvents. */
   adxTableName?: string | null | undefined;
   /** The name of the Azure Data Explorer table used for recording twin lifecycle events. The table will not be created if this property is left unspecified. */
   adxTwinLifecycleEventsTableName?: string | null | undefined;
   /** The name of the Azure Data Explorer table used for recording relationship lifecycle events. The table will not be created if this property is left unspecified. */
   adxRelationshipLifecycleEventsTableName?: string | null | undefined;
-  /** The URL of the EventHub namespace for identity-based authentication, e.g. sb://<namespace>.servicebus.windows.net. */
-  eventHubEndpointUri?: string | null | undefined;
+  /** The URL of the EventHub namespace for identity-based authentication. It must include the protocol sb:// */
+  eventHubEndpointUri: string;
   /** The EventHub name in the EventHub namespace for identity-based authentication. */
-  eventHubEntityPath?: string | null | undefined;
+  eventHubEntityPath: string;
   /** The resource ID of the EventHub namespace. */
-  eventHubNamespaceResourceId?: string | null | undefined;
+  eventHubNamespaceResourceId: string;
   /** The EventHub consumer group to use when ADX reads from EventHub. Defaults to $Default. */
   eventHubConsumerGroup?: string | null | undefined;
-  /** Whether to record property and item removals ('true' / 'false'). Defaults to 'false'. */
-  recordPropertyAndItemRemovals?: string | null | undefined;
+  /** Specifies whether or not to record twin / relationship property and item removals, including removals of indexed or keyed values (such as map entries, array elements, etc.). This feature is de-activated unless explicitly set to 'true'. Setting this property to 'true' will generate an additional column in the property events table in ADX. */
+  recordPropertyAndItemRemovals?:
+    | AzureDataExplorerConnectionPropertiesRecordPropertyAndItemRemovals
+    | null
+    | undefined;
 }
 export interface DeleteTimeSeriesDatabaseConnectionResponse {
   /** The resource identifier. */
@@ -381,7 +427,7 @@ export interface DeleteTimeSeriesDatabaseConnectionResponse {
   /** Metadata pertaining to creation and last modification of the resource. */
   systemData?: SystemData | undefined;
   /** Properties of a specific time series database connection. */
-  properties?: TimeSeriesDatabaseConnectionProperties | undefined;
+  properties?: AzureDataExplorerConnectionProperties | undefined;
 }
 /** The resource tags. */
 export type DigitalTwinsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -478,21 +524,14 @@ export interface DigitalTwinsCreateOrUpdateResponse {
   properties?: DigitalTwinsProperties | undefined;
 }
 /** The type of Digital Twins endpoint */
-export type DigitalTwinsEndpointResourcePropertiesInputEndpointType =
-  | "EventHub"
-  | "EventGrid"
-  | "ServiceBus";
-/** Specifies the authentication type being used for connecting to the endpoint. Defaults to 'KeyBased'. If 'KeyBased' is selected, a connection string must be specified (at least the primary connection string). If 'IdentityBased' is select, the endpointUri and entityPath properties must be specified. */
-export type DigitalTwinsEndpointResourcePropertiesInputAuthenticationType =
-  | "KeyBased"
-  | "IdentityBased";
-/** Properties related to Digital Twins Endpoint */
-export interface DigitalTwinsEndpointResourcePropertiesInput {
+export type ServiceBusInputEndpointType = "ServiceBus";
+/** Properties related to ServiceBus. */
+export interface ServiceBusInput {
   /** The type of Digital Twins endpoint */
-  endpointType: DigitalTwinsEndpointResourcePropertiesInputEndpointType | (string & {});
+  endpointType: ServiceBusInputEndpointType;
   /** Specifies the authentication type being used for connecting to the endpoint. Defaults to 'KeyBased'. If 'KeyBased' is selected, a connection string must be specified (at least the primary connection string). If 'IdentityBased' is select, the endpointUri and entityPath properties must be specified. */
   authenticationType?:
-    | DigitalTwinsEndpointResourcePropertiesInputAuthenticationType
+    | DigitalTwinsEndpointResourcePropertiesAuthenticationType
     | (string & {})
     | undefined;
   /** Dead letter storage secret for key-based authentication. Will be obfuscated during read. */
@@ -501,25 +540,70 @@ export interface DigitalTwinsEndpointResourcePropertiesInput {
   deadLetterUri?: string | null | undefined;
   /** Managed identity properties for the endpoint. */
   identity?: ManagedIdentityReference | null | undefined;
-  /** EventHub (KeyBased): primary connection string. */
-  connectionStringPrimaryKey?: string | null | undefined;
-  /** EventHub (KeyBased): secondary connection string. */
-  connectionStringSecondaryKey?: string | null | undefined;
-  /** ServiceBus (KeyBased): primary connection string. */
+  /** PrimaryConnectionString of the endpoint for key-based authentication. Will be obfuscated during read. */
   primaryConnectionString?: string | null | undefined;
-  /** ServiceBus (KeyBased): secondary connection string. */
+  /** SecondaryConnectionString of the endpoint for key-based authentication. Will be obfuscated during read. */
   secondaryConnectionString?: string | null | undefined;
-  /** EventHub/ServiceBus (IdentityBased): the URL of the namespace, e.g. sb://<namespace>.servicebus.windows.net. */
+  /** The URL of the ServiceBus namespace for identity-based authentication. It must include the protocol 'sb://'. */
   endpointUri?: string | null | undefined;
-  /** EventHub/ServiceBus (IdentityBased): the event hub, queue, or topic name. */
+  /** The ServiceBus Topic name for identity-based authentication. */
   entityPath?: string | null | undefined;
-  /** EventGrid: the topic endpoint URL. */
-  TopicEndpoint?: string | null | undefined;
-  /** EventGrid: primary access key. Obfuscated on read. */
-  accessKey1?: string | null | undefined;
-  /** EventGrid: secondary access key. Obfuscated on read. */
+}
+/** The type of Digital Twins endpoint */
+export type EventHubInputEndpointType = "EventHub";
+/** Properties related to EventHub. */
+export interface EventHubInput {
+  /** The type of Digital Twins endpoint */
+  endpointType: EventHubInputEndpointType;
+  /** Specifies the authentication type being used for connecting to the endpoint. Defaults to 'KeyBased'. If 'KeyBased' is selected, a connection string must be specified (at least the primary connection string). If 'IdentityBased' is select, the endpointUri and entityPath properties must be specified. */
+  authenticationType?:
+    | DigitalTwinsEndpointResourcePropertiesAuthenticationType
+    | (string & {})
+    | undefined;
+  /** Dead letter storage secret for key-based authentication. Will be obfuscated during read. */
+  deadLetterSecret?: string | null | undefined;
+  /** Dead letter storage URL for identity-based authentication. */
+  deadLetterUri?: string | null | undefined;
+  /** Managed identity properties for the endpoint. */
+  identity?: ManagedIdentityReference | null | undefined;
+  /** PrimaryConnectionString of the endpoint for key-based authentication. Will be obfuscated during read. */
+  connectionStringPrimaryKey?: string | null | undefined;
+  /** SecondaryConnectionString of the endpoint for key-based authentication. Will be obfuscated during read. */
+  connectionStringSecondaryKey?: string | null | undefined;
+  /** The URL of the EventHub namespace for identity-based authentication. It must include the protocol 'sb://'. */
+  endpointUri?: string | null | undefined;
+  /** The EventHub name in the EventHub namespace for identity-based authentication. */
+  entityPath?: string | null | undefined;
+}
+/** The type of Digital Twins endpoint */
+export type EventGridInputEndpointType = "EventGrid";
+/** Properties related to EventGrid. */
+export interface EventGridInput {
+  /** The type of Digital Twins endpoint */
+  endpointType: EventGridInputEndpointType;
+  /** Specifies the authentication type being used for connecting to the endpoint. Defaults to 'KeyBased'. If 'KeyBased' is selected, a connection string must be specified (at least the primary connection string). If 'IdentityBased' is select, the endpointUri and entityPath properties must be specified. */
+  authenticationType?:
+    | DigitalTwinsEndpointResourcePropertiesAuthenticationType
+    | (string & {})
+    | undefined;
+  /** Dead letter storage secret for key-based authentication. Will be obfuscated during read. */
+  deadLetterSecret?: string | null | undefined;
+  /** Dead letter storage URL for identity-based authentication. */
+  deadLetterUri?: string | null | undefined;
+  /** Managed identity properties for the endpoint. */
+  identity?: ManagedIdentityReference | null | undefined;
+  /** EventGrid Topic Endpoint. */
+  TopicEndpoint: string;
+  /** EventGrid secondary accesskey. Will be obfuscated during read. */
+  accessKey1: string | null;
+  /** EventGrid secondary accesskey. Will be obfuscated during read. */
   accessKey2?: string | null | undefined;
 }
+/** Properties related to Digital Twins Endpoint */
+export type DigitalTwinsEndpointResourcePropertiesInput =
+  | ServiceBusInput
+  | EventHubInput
+  | EventGridInput;
 export interface DigitalTwinsEndpointCreateOrUpdateRequest {
   /** The subscription identifier. */
   subscriptionId: string;
@@ -658,7 +742,7 @@ export interface GetTimeSeriesDatabaseConnectionResponse {
   /** Metadata pertaining to creation and last modification of the resource. */
   systemData?: SystemData | undefined;
   /** Properties of a specific time series database connection. */
-  properties?: TimeSeriesDatabaseConnectionProperties | undefined;
+  properties?: AzureDataExplorerConnectionProperties | undefined;
 }
 export interface ListDigitalTwinByResourceGroupRequest {
   /** The subscription identifier. */
@@ -815,7 +899,7 @@ export interface TimeSeriesDatabaseConnection {
   /** Metadata pertaining to creation and last modification of the resource. */
   systemData?: SystemData | undefined;
   /** Properties of a specific time series database connection. */
-  properties?: TimeSeriesDatabaseConnectionProperties | undefined;
+  properties?: AzureDataExplorerConnectionProperties | undefined;
 }
 /** A list of time series database connection resources. */
 export type TimeSeriesDatabaseConnectionListResultValueList = Array<TimeSeriesDatabaseConnection>;
@@ -839,35 +923,35 @@ export interface PrivateEndpointConnectionsCreateOrUpdateRequest {
   properties: ConnectionPropertiesInput;
 }
 /** The type of time series connection resource. */
-export type TimeSeriesDatabaseConnectionPropertiesInputConnectionType = "AzureDataExplorer";
-/** Properties of a time series database connection resource. */
-export interface TimeSeriesDatabaseConnectionPropertiesInput {
+export type AzureDataExplorerConnectionPropertiesInputConnectionType = "AzureDataExplorer";
+/** Properties of a time series database connection to Azure Data Explorer with data being sent via an EventHub. */
+export interface AzureDataExplorerConnectionPropertiesInput {
   /** The type of time series connection resource. */
-  connectionType: TimeSeriesDatabaseConnectionPropertiesInputConnectionType | (string & {});
+  connectionType: AzureDataExplorerConnectionPropertiesInputConnectionType | (string & {});
   /** Managed identity properties for the time series database connection resource. */
   identity?: ManagedIdentityReference | null | undefined;
   /** The resource ID of the Azure Data Explorer cluster. */
-  adxResourceId?: string | null | undefined;
-  /** The URI of the Azure Data Explorer cluster, e.g. https://<cluster>.<region>.kusto.windows.net. */
-  adxEndpointUri?: string | null | undefined;
+  adxResourceId: string;
+  /** The URI of the Azure Data Explorer endpoint. */
+  adxEndpointUri: string;
   /** The name of the Azure Data Explorer database. */
-  adxDatabaseName?: string | null | undefined;
+  adxDatabaseName: string;
   /** The name of the Azure Data Explorer table used for storing updates to properties of twins and relationships. Defaults to AdtPropertyEvents. */
   adxTableName?: string | null | undefined;
   /** The name of the Azure Data Explorer table used for recording twin lifecycle events. The table will not be created if this property is left unspecified. */
   adxTwinLifecycleEventsTableName?: string | null | undefined;
   /** The name of the Azure Data Explorer table used for recording relationship lifecycle events. The table will not be created if this property is left unspecified. */
   adxRelationshipLifecycleEventsTableName?: string | null | undefined;
-  /** The URL of the EventHub namespace for identity-based authentication, e.g. sb://<namespace>.servicebus.windows.net. */
-  eventHubEndpointUri?: string | null | undefined;
+  /** The URL of the EventHub namespace for identity-based authentication. It must include the protocol sb:// */
+  eventHubEndpointUri: string;
   /** The EventHub name in the EventHub namespace for identity-based authentication. */
-  eventHubEntityPath?: string | null | undefined;
+  eventHubEntityPath: string;
   /** The resource ID of the EventHub namespace. */
-  eventHubNamespaceResourceId?: string | null | undefined;
+  eventHubNamespaceResourceId: string;
   /** The EventHub consumer group to use when ADX reads from EventHub. Defaults to $Default. */
   eventHubConsumerGroup?: string | null | undefined;
-  /** Whether to record property and item removals ('true' / 'false'). Defaults to 'false'. */
-  recordPropertyAndItemRemovals?: string | null | undefined;
+  /** Specifies whether or not to record twin / relationship property and item removals, including removals of indexed or keyed values (such as map entries, array elements, etc.). This feature is de-activated unless explicitly set to 'true'. Setting this property to 'true' will generate an additional column in the property events table in ADX. */
+  recordPropertyAndItemRemovals?: boolean | null | undefined;
 }
 export interface TimeSeriesDatabaseConnectionsCreateOrUpdateRequest {
   /** The subscription identifier. */
@@ -879,7 +963,7 @@ export interface TimeSeriesDatabaseConnectionsCreateOrUpdateRequest {
   /** Name of time series database connection. */
   timeSeriesDatabaseConnectionName: string;
   /** Properties of a specific time series database connection. */
-  properties?: TimeSeriesDatabaseConnectionPropertiesInput | undefined;
+  properties?: AzureDataExplorerConnectionPropertiesInput | undefined;
 }
 export interface TimeSeriesDatabaseConnectionsCreateOrUpdateResponse {
   /** The resource identifier. */
@@ -891,7 +975,7 @@ export interface TimeSeriesDatabaseConnectionsCreateOrUpdateResponse {
   /** Metadata pertaining to creation and last modification of the resource. */
   systemData?: SystemData | undefined;
   /** Properties of a specific time series database connection. */
-  properties?: TimeSeriesDatabaseConnectionProperties | undefined;
+  properties?: AzureDataExplorerConnectionProperties | undefined;
 }
 /** Instance patch properties */
 export type UpdateDigitalTwinRequestTagsMap = { [key: string]: string | undefined };
@@ -983,7 +1067,7 @@ export const DeleteDigitalTwinsEndpoint: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(152, __c19, 0) as any as S.Schema<DeleteDigitalTwinsEndpointRequest>,
-  output: __S(169, __c21, 1) as any as S.Schema<DeleteDigitalTwinsEndpointResponse>,
+  output: __S(172, __c21, 4) as any as S.Schema<DeleteDigitalTwinsEndpointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1050,8 +1134,8 @@ export const DigitalTwinsEndpointCreateOrUpdate: API.OperationMethod<
   DigitalTwinsEndpointCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(249, __c31, 1) as any as S.Schema<DigitalTwinsEndpointCreateOrUpdateRequest>,
-  output: __S(169, __c21, 1) as any as S.Schema<DigitalTwinsEndpointCreateOrUpdateResponse>,
+  input: __S(252, __c31, 4) as any as S.Schema<DigitalTwinsEndpointCreateOrUpdateRequest>,
+  output: __S(172, __c21, 4) as any as S.Schema<DigitalTwinsEndpointCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1085,7 +1169,7 @@ export const GetDigitalTwinsEndpoint: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(264, __c33, 0) as any as S.Schema<GetDigitalTwinsEndpointRequest>,
-  output: __S(169, __c21, 1) as any as S.Schema<GetDigitalTwinsEndpointResponse>,
+  output: __S(172, __c21, 4) as any as S.Schema<GetDigitalTwinsEndpointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1605,7 +1689,7 @@ function __c13(j: number): any {
         ),
       ).annotate({ identifier: "ListDigitalTwinsEndpointRequest" });
     case 1:
-      return S.Array(__S(169, __c21, 1));
+      return S.Array(__S(172, __c21, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1804,25 +1888,53 @@ function __c21(j: number): any {
           deadLetterSecret: S.optional(S.NullOr(S.String)),
           deadLetterUri: S.optional(S.NullOr(S.String)),
           identity: S.optional(S.NullOr(__S(160, __c20, 0))),
-          connectionStringPrimaryKey: S.optional(S.NullOr(S.String)),
-          connectionStringSecondaryKey: S.optional(S.NullOr(S.String)),
           primaryConnectionString: S.optional(S.NullOr(S.String)),
           secondaryConnectionString: S.optional(S.NullOr(S.String)),
           endpointUri: S.optional(S.NullOr(S.String)),
           entityPath: S.optional(S.NullOr(S.String)),
-          TopicEndpoint: S.optional(S.NullOr(S.String)),
-          accessKey1: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "ServiceBus" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          endpointType: S.String,
+          provisioningState: S.optional(S.NullOr(S.String)),
+          createdTime: S.optional(S.NullOr(S.String)),
+          authenticationType: S.optional(S.String),
+          deadLetterSecret: S.optional(S.NullOr(S.String)),
+          deadLetterUri: S.optional(S.NullOr(S.String)),
+          identity: S.optional(S.NullOr(__S(160, __c20, 0))),
+          connectionStringPrimaryKey: S.optional(S.NullOr(S.String)),
+          connectionStringSecondaryKey: S.optional(S.NullOr(S.String)),
+          endpointUri: S.optional(S.NullOr(S.String)),
+          entityPath: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "EventHub" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          endpointType: S.String,
+          provisioningState: S.optional(S.NullOr(S.String)),
+          createdTime: S.optional(S.NullOr(S.String)),
+          authenticationType: S.optional(S.String),
+          deadLetterSecret: S.optional(S.NullOr(S.String)),
+          deadLetterUri: S.optional(S.NullOr(S.String)),
+          identity: S.optional(S.NullOr(__S(160, __c20, 0))),
+          TopicEndpoint: S.String,
+          accessKey1: S.NullOr(S.String),
           accessKey2: S.optional(S.NullOr(S.String)),
         }),
-      ).annotate({ identifier: "DigitalTwinsEndpointResourceProperties" });
-    case 1:
+      ).annotate({ identifier: "EventGrid" });
+    case 3:
+      return S.Union([__S(168, __c21, 0), __S(169, __c21, 1), __S(170, __c21, 2)]);
+    case 4:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(16, __c2, 0)),
-          properties: __S(168, __c21, 0),
+          properties: __S(171, __c21, 3),
         }),
       ).annotate({ identifier: "DeleteDigitalTwinsEndpointResponse" });
   }
@@ -1834,19 +1946,19 @@ function __c22(j: number): any {
         S.Struct({
           connectionType: S.String,
           identity: S.optional(S.NullOr(__S(160, __c20, 0))),
-          adxResourceId: S.optional(S.NullOr(S.String)),
-          adxEndpointUri: S.optional(S.NullOr(S.String)),
-          adxDatabaseName: S.optional(S.NullOr(S.String)),
+          adxResourceId: S.String,
+          adxEndpointUri: S.String,
+          adxDatabaseName: S.String,
           adxTableName: S.optional(S.NullOr(S.String)),
           adxTwinLifecycleEventsTableName: S.optional(S.NullOr(S.String)),
           adxRelationshipLifecycleEventsTableName: S.optional(S.NullOr(S.String)),
-          eventHubEndpointUri: S.optional(S.NullOr(S.String)),
-          eventHubEntityPath: S.optional(S.NullOr(S.String)),
-          eventHubNamespaceResourceId: S.optional(S.NullOr(S.String)),
+          eventHubEndpointUri: S.String,
+          eventHubEntityPath: S.String,
+          eventHubNamespaceResourceId: S.String,
           eventHubConsumerGroup: S.optional(S.NullOr(S.String)),
-          recordPropertyAndItemRemovals: S.optional(S.NullOr(S.String)),
+          recordPropertyAndItemRemovals: S.optional(S.NullOr(S.Boolean).pipe(T.StringEncoded())),
         }),
-      ).annotate({ identifier: "TimeSeriesDatabaseConnectionPropertiesInput" });
+      ).annotate({ identifier: "AzureDataExplorerConnectionPropertiesInput" });
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -1951,19 +2063,19 @@ function __c27(j: number): any {
           connectionType: S.String,
           provisioningState: S.optional(S.String),
           identity: S.optional(S.NullOr(__S(160, __c20, 0))),
-          adxResourceId: S.optional(S.NullOr(S.String)),
-          adxEndpointUri: S.optional(S.NullOr(S.String)),
-          adxDatabaseName: S.optional(S.NullOr(S.String)),
+          adxResourceId: S.String,
+          adxEndpointUri: S.String,
+          adxDatabaseName: S.String,
           adxTableName: S.optional(S.NullOr(S.String)),
           adxTwinLifecycleEventsTableName: S.optional(S.NullOr(S.String)),
           adxRelationshipLifecycleEventsTableName: S.optional(S.NullOr(S.String)),
-          eventHubEndpointUri: S.optional(S.NullOr(S.String)),
-          eventHubEntityPath: S.optional(S.NullOr(S.String)),
-          eventHubNamespaceResourceId: S.optional(S.NullOr(S.String)),
+          eventHubEndpointUri: S.String,
+          eventHubEntityPath: S.String,
+          eventHubNamespaceResourceId: S.String,
           eventHubConsumerGroup: S.optional(S.NullOr(S.String)),
           recordPropertyAndItemRemovals: S.optional(S.NullOr(S.String)),
         }),
-      ).annotate({ identifier: "TimeSeriesDatabaseConnectionProperties" });
+      ).annotate({ identifier: "AzureDataExplorerConnectionProperties" });
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -2049,25 +2161,49 @@ function __c31(j: number): any {
           deadLetterSecret: S.optional(S.NullOr(S.String)),
           deadLetterUri: S.optional(S.NullOr(S.String)),
           identity: S.optional(S.NullOr(__S(160, __c20, 0))),
-          connectionStringPrimaryKey: S.optional(S.NullOr(S.String)),
-          connectionStringSecondaryKey: S.optional(S.NullOr(S.String)),
           primaryConnectionString: S.optional(S.NullOr(S.String)),
           secondaryConnectionString: S.optional(S.NullOr(S.String)),
           endpointUri: S.optional(S.NullOr(S.String)),
           entityPath: S.optional(S.NullOr(S.String)),
-          TopicEndpoint: S.optional(S.NullOr(S.String)),
-          accessKey1: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "ServiceBusInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          endpointType: S.String,
+          authenticationType: S.optional(S.String),
+          deadLetterSecret: S.optional(S.NullOr(S.String)),
+          deadLetterUri: S.optional(S.NullOr(S.String)),
+          identity: S.optional(S.NullOr(__S(160, __c20, 0))),
+          connectionStringPrimaryKey: S.optional(S.NullOr(S.String)),
+          connectionStringSecondaryKey: S.optional(S.NullOr(S.String)),
+          endpointUri: S.optional(S.NullOr(S.String)),
+          entityPath: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "EventHubInput" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          endpointType: S.String,
+          authenticationType: S.optional(S.String),
+          deadLetterSecret: S.optional(S.NullOr(S.String)),
+          deadLetterUri: S.optional(S.NullOr(S.String)),
+          identity: S.optional(S.NullOr(__S(160, __c20, 0))),
+          TopicEndpoint: S.String,
+          accessKey1: S.NullOr(S.String),
           accessKey2: S.optional(S.NullOr(S.String)),
         }),
-      ).annotate({ identifier: "DigitalTwinsEndpointResourcePropertiesInput" });
-    case 1:
+      ).annotate({ identifier: "EventGridInput" });
+    case 3:
+      return S.Union([__S(248, __c31, 0), __S(249, __c31, 1), __S(250, __c31, 2)]);
+    case 4:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
           endpointName: S.String.pipe(T.Label()),
-          properties: __S(248, __c31, 0),
+          properties: __S(251, __c31, 3),
         }).pipe(
           T.Http({
             method: "PUT",

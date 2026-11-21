@@ -1,0 +1,40 @@
+{
+  "description": "Type config-version mismatches on PlatformPatchConfig and PlatformPutConfig as ConfigVersionConflict. The current official spec (https://github.com/clerk/openapi-specs/blob/94753d1d8a648806e4dc529beec8bb76daa13859/platform/beta.yml) documents If-Match and generic 409 Conflict responses but does not distinguish the error code. Clerk's official catalogue (https://clerk.com/docs/guides/development/errors/platform-api) documents HTTP 409 with errors[0].code config_version_conflict. Earlier live probes on 2026-10-02, recorded in #701 (https://github.com/wyattjoh/distilled/blob/29a40f857b7b23c789c75a3b139d238c1c493c46/packages/clerk/patches/platform/config-version-conflict.patch.json), observed that response on both PATCH and PUT config, including stale versions and dry runs; no new live validation was performed for this patch. Match status and body code, retaining generic Conflict for other 409 responses and the generator's numeric code field.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#ConfigVersionConflict",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "The supplied If-Match config version does not match the current version (Clerk config_version_conflict, HTTP 409). Re-fetch the config and retry with its current version.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "body": {
+                "/errors/0/code": "config_version_conflict"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformPatchConfig/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ConfigVersionConflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformPutConfig/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ConfigVersionConflict"
+      }
+    }
+  ]
+}

@@ -1,0 +1,223 @@
+{
+  "description": "ECS: Error shapes the model does not declare, for the errors operations.json list (a shape with aws.codegen#synthetic matches its base wire error by message); categories (distilled.errors#categories) the error traits do not express.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ecs#ServiceLinkedRoleNotAssumable",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "InvalidParameterException",
+            "message": {
+              "includes": "Unable to assume the service linked role"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.amazonaws.ecs#InvalidParameterException/members",
+      "path": "/shapes/com.amazonaws.ecs#ServiceLinkedRoleNotAssumable/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ecs#ServiceRoleNotAssumable",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "InvalidParameterException",
+            "message": {
+              "includes": "Unable to assume role"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.amazonaws.ecs#InvalidParameterException/members",
+      "path": "/shapes/com.amazonaws.ecs#ServiceRoleNotAssumable/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ecs#InfrastructureRoleAccessDenied",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "ClientException",
+            "message": {
+              "includes": "ServiceAccessDeniedException for ECSInfrastructureRole"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.amazonaws.ecs#ClientException/members",
+      "path": "/shapes/com.amazonaws.ecs#InfrastructureRoleAccessDenied/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ecs#UpdateInProgressException/traits/distilled.errors#categories",
+      "value": ["ConflictError", "RetryableError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ecs#ClusterContainsServicesException/traits/distilled.errors#categories",
+      "value": ["DependencyViolationError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ecs#ClusterContainsTasksException/traits/distilled.errors#categories",
+      "value": ["DependencyViolationError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ecs#ClusterContainsContainerInstancesException/traits/distilled.errors#categories",
+      "value": ["DependencyViolationError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ecs#ClusterContainsCapacityProviderException/traits/distilled.errors#categories",
+      "value": ["DependencyViolationError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ecs#ClusterNotFoundException/traits/distilled.errors#categories",
+      "value": ["NotFoundError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ecs#ServiceNotFoundException/traits/distilled.errors#categories",
+      "value": ["NotFoundError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ecs#ResourceNotFoundException/traits/distilled.errors#categories",
+      "value": ["NotFoundError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ecs#TaskSetNotFoundException/traits/distilled.errors#categories",
+      "value": ["NotFoundError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ecs#NamespaceNotFoundException/traits/distilled.errors#categories",
+      "value": ["NotFoundError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ecs#ServiceDeploymentNotFoundException/traits/distilled.errors#categories",
+      "value": ["NotFoundError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ecs#DaemonNotFoundException/traits/distilled.errors#categories",
+      "value": ["NotFoundError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ecs#LimitExceededException/traits/distilled.errors#categories",
+      "value": ["QuotaError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ecs#AttributeLimitExceededException/traits/distilled.errors#categories",
+      "value": ["QuotaError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ecs#InvalidParameterException/traits/distilled.errors#categories",
+      "value": ["BadRequestError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ecs#ClientException/traits/distilled.errors#categories",
+      "value": ["BadRequestError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ecs#UnsupportedFeatureException/traits/distilled.errors#categories",
+      "value": ["BadRequestError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ecs#BlockedException/traits/distilled.errors#categories",
+      "value": ["BadRequestError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ecs#MissingVersionException/traits/distilled.errors#categories",
+      "value": ["BadRequestError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ecs#PlatformUnknownException/traits/distilled.errors#categories",
+      "value": ["BadRequestError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ecs#PlatformTaskDefinitionIncompatibilityException/traits/distilled.errors#categories",
+      "value": ["BadRequestError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ecs#ServerException/traits/distilled.errors#categories",
+      "value": ["ServerError", "RetryableError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ecs#ResourceInUseException/traits/distilled.errors#categories",
+      "value": ["ConflictError", "RetryableError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ecs#ConflictException/traits/distilled.errors#categories",
+      "value": ["ConflictError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ecs#ServiceNotActiveException/traits/distilled.errors#categories",
+      "value": ["ConflictError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ecs#DaemonNotActiveException/traits/distilled.errors#categories",
+      "value": ["ConflictError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ecs#TargetNotConnectedException/traits/distilled.errors#categories",
+      "value": ["ConflictError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ecs#TargetNotFoundException/traits/distilled.errors#categories",
+      "value": ["NotFoundError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ecs#ServiceLinkedRoleNotAssumable/traits/distilled.errors#categories",
+      "value": ["BadRequestError", "RetryableError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ecs#ServiceRoleNotAssumable/traits/distilled.errors#categories",
+      "value": ["BadRequestError", "RetryableError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ecs#InfrastructureRoleAccessDenied/traits/distilled.errors#categories",
+      "value": ["BadRequestError", "RetryableError"]
+    }
+  ]
+}

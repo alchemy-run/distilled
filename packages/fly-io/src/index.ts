@@ -5,29 +5,24 @@
  * written by `scripts/convert.ts` (OpenAPI -> Smithy via the shared core
  * converter). Everything else in this folder is hand-written.
  *
- * The generated barrel is re-exported at the package root, same as every
- * other distilled SDK's service modules:
+ * The package root exports only the shared runtime; each service is imported
+ * from its own subpath:
  *
- * @example Package namespace
- * ```ts
- * import * as Fly from "@distilled.cloud/fly-io";
- *
- * yield* Fly.machines.listApps({ org_slug });
- * yield* Fly.mpg.createCluster({
- *   name, region, org_slug, plan, pg_major_version: "16", storage_in_gb: 10,
- * });
- * yield* Fly.addons.createAddOn({
- *   input: { type: "tigris", name, options: { website: { domain_name: "" } } },
- * });
- * yield* Fly.sprites.createSprite({ name, labels: ["alchemy"] });
- * ```
- *
- * @example Per-service path
+ * @example
  * ```ts
  * import * as Machines from "@distilled.cloud/fly-io/machines";
+ * import * as Mpg from "@distilled.cloud/fly-io/mpg";
+ * import * as Sprites from "@distilled.cloud/fly-io/sprites";
  *
  * yield* Machines.listApps({ org_slug });
+ * yield* Mpg.createCluster({
+ *   name, region, org_slug, plan, pg_major_version: "16", storage_in_gb: 10,
+ * });
+ * yield* Sprites.createSprite({ name, labels: ["alchemy"] });
  * ```
+ *
+ * The GraphQL API (add-ons, remote builders, organizations, ...) is a Query
+ * SDK at `@distilled.cloud/fly-io/GraphQL`.
  */
 export * from "./credentials.ts";
 export * from "./errors.ts";
@@ -35,7 +30,6 @@ export * as T from "./traits.ts";
 export {
   FlyIoProtocol,
   FlyApiProtocol,
-  FlyGraphqlProtocol,
   SpritesProtocol,
   MachineIdentity,
   type FlyIoOpError,
@@ -45,4 +39,3 @@ export {
 } from "./protocol.ts";
 export * as Retry from "./retry.ts";
 export * as Pagination from "./pagination.ts";
-export * from "./services/index.ts";

@@ -30,27 +30,48 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class PayloadTooLarge
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<PayloadTooLarge>()("PayloadTooLarge", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 413 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 /** The dimensions associated with the profile */
 export interface CreateProfileRequestDimensions {
@@ -459,6 +480,27 @@ export interface UpdateProfileRequest {
   /** The user data directory associated with the profile */
   userDataDir: Blob | Uint8Array | ArrayBuffer;
 }
+export interface ErrorResponseContextItem {
+  keyword: string;
+  message: string;
+  params: unknown;
+}
+export type ErrorResponseContextList = Array<ErrorResponseContextItem>;
+/** An error response from the API */
+export interface ErrorResponse {
+  /** Stable machine-readable reason, e.g. 'budget_exceeded' or 'profile_not_ready'. Branch on this instead of parsing the message. */
+  code?: string | undefined;
+  context?: ErrorResponseContextList | undefined;
+  error?: string | undefined;
+  linkToDocs?: string | undefined;
+  message: string;
+  /** The request field that caused the error, if any. */
+  param?: string | undefined;
+  /** Seconds to wait before retrying. Also sent as the Retry-After header. */
+  retryAfterSeconds?: number | undefined;
+  /** Whether the same request can succeed later without changes. False means fix the request or the account first. */
+  retryable?: boolean | undefined;
+}
 export type CreateProfileError = BadRequest | NotFound | PayloadTooLarge | SteelOpError;
 /** Create a profile Create a new profile */
 export const createProfile: API.OperationMethod<
@@ -467,8 +509,8 @@ export const createProfile: API.OperationMethod<
   CreateProfileError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateProfileRequest>,
-  output: __S(55, __c1, 23) as any as S.Schema<Profile>,
+  input: __S(32, __c1, 0) as any as S.Schema<CreateProfileRequest>,
+  output: __S(87, __c2, 23) as any as S.Schema<Profile>,
   errors: [BadRequest, NotFound, PayloadTooLarge, UnknownSteelError],
   protocol: SteelProtocol,
   retry: Retry.Retry,
@@ -484,8 +526,8 @@ export const getProfile: API.OperationMethod<
   GetProfileError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<GetProfileRequest>,
-  output: __S(55, __c1, 23) as any as S.Schema<Profile>,
+  input: __S(96, __c3, 0) as any as S.Schema<GetProfileRequest>,
+  output: __S(87, __c2, 23) as any as S.Schema<Profile>,
   errors: [BadRequest, NotFound, UnknownSteelError],
   protocol: SteelProtocol,
   retry: Retry.Retry,
@@ -501,8 +543,8 @@ export const listProfiles: API.OperationMethod<
   ListProfilesError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c3, 0) as any as S.Schema<ListProfilesRequest>,
-  output: __S(98, __c3, 2) as any as S.Schema<ProfileListResponse>,
+  input: __S(128, __c4, 0) as any as S.Schema<ListProfilesRequest>,
+  output: __S(130, __c4, 2) as any as S.Schema<ProfileListResponse>,
   errors: [BadRequest, UnknownSteelError],
   protocol: SteelProtocol,
   retry: Retry.Retry,
@@ -518,8 +560,8 @@ export const updateProfile: API.OperationMethod<
   UpdateProfileError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<UpdateProfileRequest>,
-  output: __S(55, __c1, 23) as any as S.Schema<Profile>,
+  input: __S(160, __c5, 0) as any as S.Schema<UpdateProfileRequest>,
+  output: __S(87, __c2, 23) as any as S.Schema<Profile>,
   errors: [BadRequest, NotFound, PayloadTooLarge, UnknownSteelError],
   protocol: SteelProtocol,
   retry: Retry.Retry,
@@ -533,7 +575,34 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dimensions: S.optional(__S(32, __c1, 0)),
+          keyword: S.String,
+          message: S.String,
+          params: S.Unknown,
+        }),
+      ).annotate({ identifier: "ErrorResponseContextItem" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          context: S.optional(__S(1, __c0, 1)),
+          error: S.optional(S.String),
+          linkToDocs: S.optional(S.String),
+          message: S.String,
+          param: S.optional(S.String),
+          retryAfterSeconds: S.optional(S.Number),
+          retryable: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          dimensions: S.optional(__S(64, __c2, 0)),
           projectId: S.optional(S.String),
           proxyUrl: S.optional(S.String),
           useProxy: S.optional(S.String),
@@ -549,7 +618,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateProfileRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -589,14 +658,14 @@ function __c1(j: number): any {
         ),
       ).annotate({ identifier: "ProfileFingerprintFingerprintMultimediaDevicesMicrosItem" });
     case 6:
-      return S.Array(__S(37, __c1, 5));
+      return S.Array(__S(69, __c2, 5));
     case 7:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            micros: __S(38, __c1, 6),
-            speakers: __S(38, __c1, 6),
-            webcams: __S(38, __c1, 6),
+            micros: __S(70, __c2, 6),
+            speakers: __S(70, __c2, 6),
+            webcams: __S(70, __c2, 6),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -606,9 +675,9 @@ function __c1(j: number): any {
         S.StructWithRest(
           S.Struct({
             globalPrivacyControl: S.NullOr(S.Boolean),
-            installedApps: __S(36, __c1, 4),
+            installedApps: __S(68, __c2, 4),
             pdfViewerEnabled: S.NullOr(S.Boolean),
-            vendorFlavors: __S(36, __c1, 4),
+            vendorFlavors: __S(68, __c2, 4),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -624,12 +693,12 @@ function __c1(j: number): any {
         ),
       ).annotate({ identifier: "ProfileFingerprintFingerprintNavigatorUserAgentDataBrandsItem" });
     case 10:
-      return S.Array(__S(41, __c1, 9));
+      return S.Array(__S(73, __c2, 9));
     case 11:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            brands: __S(42, __c1, 10),
+            brands: __S(74, __c2, 10),
             mobile: S.NullOr(S.Boolean),
             platform: S.NullOr(S.String),
           }),
@@ -645,17 +714,17 @@ function __c1(j: number): any {
             appVersion: S.NullOr(S.String),
             deviceMemory: S.NullOr(S.Number),
             doNotTrack: S.optional(S.NullOr(S.String)),
-            extraProperties: __S(40, __c1, 8),
+            extraProperties: __S(72, __c2, 8),
             hardwareConcurrency: S.NullOr(S.Number),
             language: S.NullOr(S.String),
-            languages: __S(36, __c1, 4),
+            languages: __S(68, __c2, 4),
             maxTouchPoints: S.NullOr(S.Number),
             oscpu: S.NullOr(S.String),
             platform: S.NullOr(S.String),
             product: S.NullOr(S.String),
             productSub: S.NullOr(S.String),
             userAgent: S.NullOr(S.String),
-            userAgentData: __S(43, __c1, 11),
+            userAgentData: __S(75, __c2, 11),
             vendor: S.NullOr(S.String),
             vendorSub: S.NullOr(S.String),
             webdriver: S.NullOr(S.Boolean),
@@ -678,27 +747,27 @@ function __c1(j: number): any {
         identifier: "ProfileFingerprintFingerprintPluginsDataPluginsItemMimeTypesItem",
       });
     case 14:
-      return S.Array(__S(45, __c1, 13));
+      return S.Array(__S(77, __c2, 13));
     case 15:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             description: S.NullOr(S.String),
             filename: S.NullOr(S.String),
-            mimeTypes: __S(46, __c1, 14),
+            mimeTypes: __S(78, __c2, 14),
             name: S.NullOr(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "ProfileFingerprintFingerprintPluginsDataPluginsItem" });
     case 16:
-      return S.Array(__S(47, __c1, 15));
+      return S.Array(__S(79, __c2, 15));
     case 17:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            mimeTypes: __S(36, __c1, 4),
-            plugins: __S(48, __c1, 16),
+            mimeTypes: __S(68, __c2, 4),
+            plugins: __S(80, __c2, 16),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -744,17 +813,17 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            audioCodecs: __S(34, __c1, 2),
-            battery: __S(35, __c1, 3),
-            fonts: __S(36, __c1, 4),
+            audioCodecs: __S(66, __c2, 2),
+            battery: __S(67, __c2, 3),
+            fonts: __S(68, __c2, 4),
             mockWebRTC: S.NullOr(S.Boolean),
-            multimediaDevices: __S(39, __c1, 7),
-            navigator: __S(44, __c1, 12),
-            pluginsData: __S(49, __c1, 17),
-            screen: __S(50, __c1, 18),
+            multimediaDevices: __S(71, __c2, 7),
+            navigator: __S(76, __c2, 12),
+            pluginsData: __S(81, __c2, 17),
+            screen: __S(82, __c2, 18),
             slim: S.NullOr(S.Boolean),
-            videoCard: __S(51, __c1, 19),
-            videoCodecs: __S(34, __c1, 2),
+            videoCard: __S(83, __c2, 19),
+            videoCodecs: __S(66, __c2, 2),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -785,8 +854,8 @@ function __c1(j: number): any {
     case 22:
       return S.suspend(() =>
         S.Struct({
-          fingerprint: __S(52, __c1, 20),
-          headers: __S(53, __c1, 21),
+          fingerprint: __S(84, __c2, 20),
+          headers: __S(85, __c2, 21),
         }),
       ).annotate({ identifier: "ProfileFingerprint" });
     case 23:
@@ -794,9 +863,9 @@ function __c1(j: number): any {
         S.Struct({
           createdAt: S.String,
           credentialsConfig: S.NullOr(S.Unknown),
-          dimensions: S.NullOr(__S(32, __c1, 0)),
-          extensionIds: S.NullOr(__S(33, __c1, 1)),
-          fingerprint: S.NullOr(__S(54, __c1, 22)),
+          dimensions: S.NullOr(__S(64, __c2, 0)),
+          extensionIds: S.NullOr(__S(65, __c2, 1)),
+          fingerprint: S.NullOr(__S(86, __c2, 22)),
           id: S.String,
           projectId: S.NullOr(S.String),
           sourceSessionId: S.NullOr(S.String),
@@ -808,7 +877,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "Profile" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -819,7 +888,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GetProfileRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -828,24 +897,24 @@ function __c3(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/profiles", code: 200 })),
       ).annotate({ identifier: "ListProfilesRequest" });
     case 1:
-      return S.Array(__S(55, __c1, 23));
+      return S.Array(__S(87, __c2, 23));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
-          profiles: __S(97, __c3, 1),
+          profiles: __S(129, __c4, 1),
         }),
       ).annotate({ identifier: "ProfileListResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           projectId: S.optional(S.String.pipe(T.Query())),
-          dimensions: S.optional(__S(32, __c1, 0)),
+          dimensions: S.optional(__S(64, __c2, 0)),
           proxyUrl: S.optional(S.String),
           useProxy: S.optional(S.String),
           userAgent: S.optional(S.String),

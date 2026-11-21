@@ -29,27 +29,48 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorBADREQUEST | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorFORBIDDEN | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorNOTFOUND | string;
+}
 
 export type AssignSettingsDomainServerRequestCertificateType = "letsencrypt" | "none" | "custom";
 export interface AssignSettingsDomainServerRequest {
@@ -250,6 +271,44 @@ export interface WriteSettingsTraefikEnvRequest {
   serverId?: string | undefined;
 }
 export type WriteSettingsTraefikEnvResponse = unknown;
+export interface ErrorBADREQUESTIssuesItem {
+  message: string;
+}
+/** An array of issues that were responsible for the error */
+export type ErrorBADREQUESTIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorBADREQUEST {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorBADREQUESTIssuesList | undefined;
+}
+export type ErrorFORBIDDENIssuesItem = ErrorBADREQUESTIssuesItem;
+/** An array of issues that were responsible for the error */
+export type ErrorFORBIDDENIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorFORBIDDEN {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorFORBIDDENIssuesList | undefined;
+}
+export type ErrorNOTFOUNDIssuesItem = ErrorBADREQUESTIssuesItem;
+/** An array of issues that were responsible for the error */
+export type ErrorNOTFOUNDIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorNOTFOUND {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorNOTFOUNDIssuesList | undefined;
+}
 export type AssignSettingsDomainServerError = BadRequest | Forbidden | DokployOpError;
 export const assignSettingsDomainServer: API.OperationMethod<
   AssignSettingsDomainServerRequest,
@@ -257,8 +316,8 @@ export const assignSettingsDomainServer: API.OperationMethod<
   AssignSettingsDomainServerError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c20, 0) as any as S.Schema<AssignSettingsDomainServerRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<AssignSettingsDomainServerResponse>,
+  input: __S(84, __c21, 0) as any as S.Schema<AssignSettingsDomainServerRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<AssignSettingsDomainServerResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -273,8 +332,8 @@ export const checkSettingsGPUStatus: API.OperationMethod<
   CheckSettingsGPUStatusError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c32, 0) as any as S.Schema<CheckSettingsGPUStatusRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<CheckSettingsGPUStatusResponse>,
+  input: __S(132, __c33, 0) as any as S.Schema<CheckSettingsGPUStatusRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<CheckSettingsGPUStatusResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -293,8 +352,8 @@ export const checkSettingsInfrastructureHealth: API.OperationMethod<
   CheckSettingsInfrastructureHealthError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(172, __c43, 0) as any as S.Schema<CheckSettingsInfrastructureHealthRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<CheckSettingsInfrastructureHealthResponse>,
+  input: __S(176, __c44, 0) as any as S.Schema<CheckSettingsInfrastructureHealthRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<CheckSettingsInfrastructureHealthResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -309,8 +368,8 @@ export const cleanSettingsAll: API.OperationMethod<
   CleanSettingsAllError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c54, 0) as any as S.Schema<CleanSettingsAllRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<CleanSettingsAllResponse>,
+  input: __S(220, __c55, 0) as any as S.Schema<CleanSettingsAllRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<CleanSettingsAllResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -325,8 +384,8 @@ export const cleanSettingsAllDeploymentQueue: API.OperationMethod<
   CleanSettingsAllDeploymentQueueError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(220, __c55, 0) as any as S.Schema<CleanSettingsAllDeploymentQueueRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<CleanSettingsAllDeploymentQueueResponse>,
+  input: __S(224, __c56, 0) as any as S.Schema<CleanSettingsAllDeploymentQueueRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<CleanSettingsAllDeploymentQueueResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -341,8 +400,8 @@ export const cleanSettingsDockerBuilder: API.OperationMethod<
   CleanSettingsDockerBuilderError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c56, 0) as any as S.Schema<CleanSettingsDockerBuilderRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<CleanSettingsDockerBuilderResponse>,
+  input: __S(228, __c57, 0) as any as S.Schema<CleanSettingsDockerBuilderRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<CleanSettingsDockerBuilderResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -357,8 +416,8 @@ export const cleanSettingsDockerPrune: API.OperationMethod<
   CleanSettingsDockerPruneError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(228, __c57, 0) as any as S.Schema<CleanSettingsDockerPruneRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<CleanSettingsDockerPruneResponse>,
+  input: __S(232, __c58, 0) as any as S.Schema<CleanSettingsDockerPruneRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<CleanSettingsDockerPruneResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -373,8 +432,8 @@ export const cleanSettingsMonitoring: API.OperationMethod<
   CleanSettingsMonitoringError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CleanSettingsMonitoringRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<CleanSettingsMonitoringResponse>,
+  input: __S(4, __c1, 0) as any as S.Schema<CleanSettingsMonitoringRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<CleanSettingsMonitoringResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -389,8 +448,8 @@ export const cleanSettingsSSHPrivateKey: API.OperationMethod<
   CleanSettingsSSHPrivateKeyError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c1, 0) as any as S.Schema<CleanSettingsSSHPrivateKeyRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<CleanSettingsSSHPrivateKeyResponse>,
+  input: __S(8, __c2, 0) as any as S.Schema<CleanSettingsSSHPrivateKeyRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<CleanSettingsSSHPrivateKeyResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -405,8 +464,8 @@ export const cleanSettingsStoppedContainers: API.OperationMethod<
   CleanSettingsStoppedContainersError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<CleanSettingsStoppedContainersRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<CleanSettingsStoppedContainersResponse>,
+  input: __S(12, __c3, 0) as any as S.Schema<CleanSettingsStoppedContainersRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<CleanSettingsStoppedContainersResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -421,8 +480,8 @@ export const cleanSettingsUnusedImages: API.OperationMethod<
   CleanSettingsUnusedImagesError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<CleanSettingsUnusedImagesRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<CleanSettingsUnusedImagesResponse>,
+  input: __S(16, __c4, 0) as any as S.Schema<CleanSettingsUnusedImagesRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<CleanSettingsUnusedImagesResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -437,8 +496,8 @@ export const cleanSettingsUnusedVolumes: API.OperationMethod<
   CleanSettingsUnusedVolumesError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<CleanSettingsUnusedVolumesRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<CleanSettingsUnusedVolumesResponse>,
+  input: __S(20, __c5, 0) as any as S.Schema<CleanSettingsUnusedVolumesRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<CleanSettingsUnusedVolumesResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -453,8 +512,8 @@ export const getSettingsDockerDiskUsage: API.OperationMethod<
   GetSettingsDockerDiskUsageError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<GetSettingsDockerDiskUsageRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<GetSettingsDockerDiskUsageResponse>,
+  input: __S(24, __c6, 0) as any as S.Schema<GetSettingsDockerDiskUsageRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<GetSettingsDockerDiskUsageResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -469,8 +528,8 @@ export const getSettingsDokployCloudIps: API.OperationMethod<
   GetSettingsDokployCloudIpsError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<GetSettingsDokployCloudIpsRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<GetSettingsDokployCloudIpsResponse>,
+  input: __S(28, __c7, 0) as any as S.Schema<GetSettingsDokployCloudIpsRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<GetSettingsDokployCloudIpsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -485,8 +544,8 @@ export const getSettingsDokployVersion: API.OperationMethod<
   GetSettingsDokployVersionError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<GetSettingsDokployVersionRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<GetSettingsDokployVersionResponse>,
+  input: __S(32, __c8, 0) as any as S.Schema<GetSettingsDokployVersionRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<GetSettingsDokployVersionResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -501,8 +560,8 @@ export const getSettingsHealth: API.OperationMethod<
   GetSettingsHealthError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c8, 0) as any as S.Schema<GetSettingsHealthRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<GetSettingsHealthResponse>,
+  input: __S(36, __c9, 0) as any as S.Schema<GetSettingsHealthRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<GetSettingsHealthResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -517,8 +576,8 @@ export const getSettingsIp: API.OperationMethod<
   GetSettingsIpError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<GetSettingsIpRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<GetSettingsIpResponse>,
+  input: __S(40, __c10, 0) as any as S.Schema<GetSettingsIpRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<GetSettingsIpResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -533,8 +592,8 @@ export const getSettingsLogCleanupStatus: API.OperationMethod<
   GetSettingsLogCleanupStatusError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c10, 0) as any as S.Schema<GetSettingsLogCleanupStatusRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<GetSettingsLogCleanupStatusResponse>,
+  input: __S(44, __c11, 0) as any as S.Schema<GetSettingsLogCleanupStatusRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<GetSettingsLogCleanupStatusResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -549,8 +608,8 @@ export const getSettingsOpenApiDocument: API.OperationMethod<
   GetSettingsOpenApiDocumentError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(44, __c11, 0) as any as S.Schema<GetSettingsOpenApiDocumentRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<GetSettingsOpenApiDocumentResponse>,
+  input: __S(48, __c12, 0) as any as S.Schema<GetSettingsOpenApiDocumentRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<GetSettingsOpenApiDocumentResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -565,8 +624,8 @@ export const getSettingsPanelPortStatus: API.OperationMethod<
   GetSettingsPanelPortStatusError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c12, 0) as any as S.Schema<GetSettingsPanelPortStatusRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<GetSettingsPanelPortStatusResponse>,
+  input: __S(52, __c13, 0) as any as S.Schema<GetSettingsPanelPortStatusRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<GetSettingsPanelPortStatusResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -581,8 +640,8 @@ export const getSettingsPostHogConfig: API.OperationMethod<
   GetSettingsPostHogConfigError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(52, __c13, 0) as any as S.Schema<GetSettingsPostHogConfigRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<GetSettingsPostHogConfigResponse>,
+  input: __S(56, __c14, 0) as any as S.Schema<GetSettingsPostHogConfigRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<GetSettingsPostHogConfigResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -597,8 +656,8 @@ export const getSettingsReleaseTag: API.OperationMethod<
   GetSettingsReleaseTagError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c14, 0) as any as S.Schema<GetSettingsReleaseTagRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<GetSettingsReleaseTagResponse>,
+  input: __S(60, __c15, 0) as any as S.Schema<GetSettingsReleaseTagRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<GetSettingsReleaseTagResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -613,8 +672,8 @@ export const getSettingsTraefikOverview: API.OperationMethod<
   GetSettingsTraefikOverviewError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(60, __c15, 0) as any as S.Schema<GetSettingsTraefikOverviewRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<GetSettingsTraefikOverviewResponse>,
+  input: __S(64, __c16, 0) as any as S.Schema<GetSettingsTraefikOverviewRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<GetSettingsTraefikOverviewResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -629,8 +688,8 @@ export const getSettingsTraefikPorts: API.OperationMethod<
   GetSettingsTraefikPortsError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c16, 0) as any as S.Schema<GetSettingsTraefikPortsRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<GetSettingsTraefikPortsResponse>,
+  input: __S(68, __c17, 0) as any as S.Schema<GetSettingsTraefikPortsRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<GetSettingsTraefikPortsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -645,8 +704,8 @@ export const getSettingsUpdateData: API.OperationMethod<
   GetSettingsUpdateDataError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(68, __c17, 0) as any as S.Schema<GetSettingsUpdateDataRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<GetSettingsUpdateDataResponse>,
+  input: __S(72, __c18, 0) as any as S.Schema<GetSettingsUpdateDataRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<GetSettingsUpdateDataResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -661,8 +720,8 @@ export const getWebServerSettings: API.OperationMethod<
   GetWebServerSettingsError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c18, 0) as any as S.Schema<GetWebServerSettingsRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<GetWebServerSettingsResponse>,
+  input: __S(76, __c19, 0) as any as S.Schema<GetWebServerSettingsRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<GetWebServerSettingsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -677,8 +736,8 @@ export const haveActivateRequests: API.OperationMethod<
   HaveActivateRequestsError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(76, __c19, 0) as any as S.Schema<HaveActivateRequestsRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<HaveActivateRequestsResponse>,
+  input: __S(80, __c20, 0) as any as S.Schema<HaveActivateRequestsRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<HaveActivateRequestsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -697,8 +756,8 @@ export const haveTraefikDashboardPortEnabled: API.OperationMethod<
   HaveTraefikDashboardPortEnabledError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c22, 0) as any as S.Schema<HaveTraefikDashboardPortEnabledRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<HaveTraefikDashboardPortEnabledResponse>,
+  input: __S(92, __c23, 0) as any as S.Schema<HaveTraefikDashboardPortEnabledRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<HaveTraefikDashboardPortEnabledResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -713,8 +772,8 @@ export const isCloud: API.OperationMethod<
   IsCloudError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(92, __c23, 0) as any as S.Schema<IsCloudRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<IsCloudResponse>,
+  input: __S(96, __c24, 0) as any as S.Schema<IsCloudRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<IsCloudResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -729,8 +788,8 @@ export const isUserSubscribed: API.OperationMethod<
   IsUserSubscribedError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c24, 0) as any as S.Schema<IsUserSubscribedRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<IsUserSubscribedResponse>,
+  input: __S(100, __c25, 0) as any as S.Schema<IsUserSubscribedRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<IsUserSubscribedResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -745,8 +804,8 @@ export const readSettingsDirectories: API.OperationMethod<
   ReadSettingsDirectoriesError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(100, __c25, 0) as any as S.Schema<ReadSettingsDirectoriesRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<ReadSettingsDirectoriesResponse>,
+  input: __S(104, __c26, 0) as any as S.Schema<ReadSettingsDirectoriesRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<ReadSettingsDirectoriesResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -765,8 +824,8 @@ export const readSettingsMiddlewareTraefikConfig: API.OperationMethod<
   ReadSettingsMiddlewareTraefikConfigError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c26, 0) as any as S.Schema<ReadSettingsMiddlewareTraefikConfigRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<ReadSettingsMiddlewareTraefikConfigResponse>,
+  input: __S(108, __c27, 0) as any as S.Schema<ReadSettingsMiddlewareTraefikConfigRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<ReadSettingsMiddlewareTraefikConfigResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -781,8 +840,8 @@ export const readSettingsTraefikConfig: API.OperationMethod<
   ReadSettingsTraefikConfigError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(108, __c27, 0) as any as S.Schema<ReadSettingsTraefikConfigRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<ReadSettingsTraefikConfigResponse>,
+  input: __S(112, __c28, 0) as any as S.Schema<ReadSettingsTraefikConfigRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<ReadSettingsTraefikConfigResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -797,8 +856,8 @@ export const readSettingsTraefikEnv: API.OperationMethod<
   ReadSettingsTraefikEnvError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c28, 0) as any as S.Schema<ReadSettingsTraefikEnvRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<ReadSettingsTraefikEnvResponse>,
+  input: __S(116, __c29, 0) as any as S.Schema<ReadSettingsTraefikEnvRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<ReadSettingsTraefikEnvResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -813,8 +872,8 @@ export const readSettingsTraefikFile: API.OperationMethod<
   ReadSettingsTraefikFileError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(116, __c29, 0) as any as S.Schema<ReadSettingsTraefikFileRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<ReadSettingsTraefikFileResponse>,
+  input: __S(120, __c30, 0) as any as S.Schema<ReadSettingsTraefikFileRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<ReadSettingsTraefikFileResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -833,8 +892,8 @@ export const readSettingsWebServerTraefikConfig: API.OperationMethod<
   ReadSettingsWebServerTraefikConfigError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c30, 0) as any as S.Schema<ReadSettingsWebServerTraefikConfigRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<ReadSettingsWebServerTraefikConfigResponse>,
+  input: __S(124, __c31, 0) as any as S.Schema<ReadSettingsWebServerTraefikConfigRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<ReadSettingsWebServerTraefikConfigResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -849,8 +908,8 @@ export const reloadSettingsServer: API.OperationMethod<
   ReloadSettingsServerError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(124, __c31, 0) as any as S.Schema<ReloadSettingsServerRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<ReloadSettingsServerResponse>,
+  input: __S(128, __c32, 0) as any as S.Schema<ReloadSettingsServerRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<ReloadSettingsServerResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -865,8 +924,8 @@ export const reloadSettingsTraefik: API.OperationMethod<
   ReloadSettingsTraefikError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(132, __c33, 0) as any as S.Schema<ReloadSettingsTraefikRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<ReloadSettingsTraefikResponse>,
+  input: __S(136, __c34, 0) as any as S.Schema<ReloadSettingsTraefikRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<ReloadSettingsTraefikResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -881,8 +940,8 @@ export const saveSettingsSSHPrivateKey: API.OperationMethod<
   SaveSettingsSSHPrivateKeyError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c34, 0) as any as S.Schema<SaveSettingsSSHPrivateKeyRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<SaveSettingsSSHPrivateKeyResponse>,
+  input: __S(140, __c35, 0) as any as S.Schema<SaveSettingsSSHPrivateKeyRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<SaveSettingsSSHPrivateKeyResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -897,8 +956,8 @@ export const setupSettingsGPU: API.OperationMethod<
   SetupSettingsGPUError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(140, __c35, 0) as any as S.Schema<SetupSettingsGPURequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<SetupSettingsGPUResponse>,
+  input: __S(144, __c36, 0) as any as S.Schema<SetupSettingsGPURequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<SetupSettingsGPUResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -913,8 +972,8 @@ export const toggleSettingsDashboard: API.OperationMethod<
   ToggleSettingsDashboardError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c36, 0) as any as S.Schema<ToggleSettingsDashboardRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<ToggleSettingsDashboardResponse>,
+  input: __S(148, __c37, 0) as any as S.Schema<ToggleSettingsDashboardRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<ToggleSettingsDashboardResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -929,8 +988,8 @@ export const toggleSettingsPanelPort: API.OperationMethod<
   ToggleSettingsPanelPortError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(148, __c37, 0) as any as S.Schema<ToggleSettingsPanelPortRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<ToggleSettingsPanelPortResponse>,
+  input: __S(152, __c38, 0) as any as S.Schema<ToggleSettingsPanelPortRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<ToggleSettingsPanelPortResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -945,8 +1004,8 @@ export const toggleSettingsRequests: API.OperationMethod<
   ToggleSettingsRequestsError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c38, 0) as any as S.Schema<ToggleSettingsRequestsRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<ToggleSettingsRequestsResponse>,
+  input: __S(156, __c39, 0) as any as S.Schema<ToggleSettingsRequestsRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<ToggleSettingsRequestsResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -961,8 +1020,8 @@ export const updateSettingsBuildsConcurrency: API.OperationMethod<
   UpdateSettingsBuildsConcurrencyError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(156, __c39, 0) as any as S.Schema<UpdateSettingsBuildsConcurrencyRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<UpdateSettingsBuildsConcurrencyResponse>,
+  input: __S(160, __c40, 0) as any as S.Schema<UpdateSettingsBuildsConcurrencyRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<UpdateSettingsBuildsConcurrencyResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -977,8 +1036,8 @@ export const updateSettingsDockerCleanup: API.OperationMethod<
   UpdateSettingsDockerCleanupError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c40, 0) as any as S.Schema<UpdateSettingsDockerCleanupRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<UpdateSettingsDockerCleanupResponse>,
+  input: __S(164, __c41, 0) as any as S.Schema<UpdateSettingsDockerCleanupRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<UpdateSettingsDockerCleanupResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -993,8 +1052,8 @@ export const updateSettingsEnforceSSO: API.OperationMethod<
   UpdateSettingsEnforceSSOError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(164, __c41, 0) as any as S.Schema<UpdateSettingsEnforceSSORequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<UpdateSettingsEnforceSSOResponse>,
+  input: __S(168, __c42, 0) as any as S.Schema<UpdateSettingsEnforceSSORequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<UpdateSettingsEnforceSSOResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -1009,8 +1068,8 @@ export const updateSettingsLogCleanup: API.OperationMethod<
   UpdateSettingsLogCleanupError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c42, 0) as any as S.Schema<UpdateSettingsLogCleanupRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<UpdateSettingsLogCleanupResponse>,
+  input: __S(172, __c43, 0) as any as S.Schema<UpdateSettingsLogCleanupRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<UpdateSettingsLogCleanupResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -1025,8 +1084,8 @@ export const updateSettingsMiddlewareTraefikConfig: API.OperationMethod<
   UpdateSettingsMiddlewareTraefikConfigError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c44, 0) as any as S.Schema<UpdateSettingsMiddlewareTraefikConfigRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<UpdateSettingsMiddlewareTraefikConfigResponse>,
+  input: __S(180, __c45, 0) as any as S.Schema<UpdateSettingsMiddlewareTraefikConfigRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<UpdateSettingsMiddlewareTraefikConfigResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -1041,8 +1100,8 @@ export const updateSettingsRemoteServersOnly: API.OperationMethod<
   UpdateSettingsRemoteServersOnlyError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(180, __c45, 0) as any as S.Schema<UpdateSettingsRemoteServersOnlyRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<UpdateSettingsRemoteServersOnlyResponse>,
+  input: __S(184, __c46, 0) as any as S.Schema<UpdateSettingsRemoteServersOnlyRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<UpdateSettingsRemoteServersOnlyResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -1057,8 +1116,8 @@ export const updateSettingsServer: API.OperationMethod<
   UpdateSettingsServerError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c46, 0) as any as S.Schema<UpdateSettingsServerRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<UpdateSettingsServerResponse>,
+  input: __S(188, __c47, 0) as any as S.Schema<UpdateSettingsServerRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<UpdateSettingsServerResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -1073,8 +1132,8 @@ export const updateSettingsServerIp: API.OperationMethod<
   UpdateSettingsServerIpError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(188, __c47, 0) as any as S.Schema<UpdateSettingsServerIpRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<UpdateSettingsServerIpResponse>,
+  input: __S(192, __c48, 0) as any as S.Schema<UpdateSettingsServerIpRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<UpdateSettingsServerIpResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -1089,8 +1148,8 @@ export const updateSettingsTraefik: API.OperationMethod<
   UpdateSettingsTraefikError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c48, 0) as any as S.Schema<UpdateSettingsTraefikRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<UpdateSettingsTraefikResponse>,
+  input: __S(196, __c49, 0) as any as S.Schema<UpdateSettingsTraefikRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<UpdateSettingsTraefikResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -1105,8 +1164,8 @@ export const updateSettingsTraefikConfig: API.OperationMethod<
   UpdateSettingsTraefikConfigError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(196, __c49, 0) as any as S.Schema<UpdateSettingsTraefikConfigRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<UpdateSettingsTraefikConfigResponse>,
+  input: __S(200, __c50, 0) as any as S.Schema<UpdateSettingsTraefikConfigRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<UpdateSettingsTraefikConfigResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -1121,8 +1180,8 @@ export const updateSettingsTraefikFile: API.OperationMethod<
   UpdateSettingsTraefikFileError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c50, 0) as any as S.Schema<UpdateSettingsTraefikFileRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<UpdateSettingsTraefikFileResponse>,
+  input: __S(204, __c51, 0) as any as S.Schema<UpdateSettingsTraefikFileRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<UpdateSettingsTraefikFileResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -1137,8 +1196,8 @@ export const updateSettingsTraefikPorts: API.OperationMethod<
   UpdateSettingsTraefikPortsError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(206, __c51, 2) as any as S.Schema<UpdateSettingsTraefikPortsRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<UpdateSettingsTraefikPortsResponse>,
+  input: __S(210, __c52, 2) as any as S.Schema<UpdateSettingsTraefikPortsRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<UpdateSettingsTraefikPortsResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -1153,8 +1212,8 @@ export const updateSettingsWebServerTraefikConfig: API.OperationMethod<
   UpdateSettingsWebServerTraefikConfigError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c52, 0) as any as S.Schema<UpdateSettingsWebServerTraefikConfigRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<UpdateSettingsWebServerTraefikConfigResponse>,
+  input: __S(212, __c53, 0) as any as S.Schema<UpdateSettingsWebServerTraefikConfigRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<UpdateSettingsWebServerTraefikConfigResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -1169,8 +1228,8 @@ export const writeSettingsTraefikEnv: API.OperationMethod<
   WriteSettingsTraefikEnvError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(212, __c53, 0) as any as S.Schema<WriteSettingsTraefikEnvRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<WriteSettingsTraefikEnvResponse>,
+  input: __S(216, __c54, 0) as any as S.Schema<WriteSettingsTraefikEnvRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<WriteSettingsTraefikEnvResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -1183,11 +1242,31 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({
+          message: S.String,
+        }),
+      ).annotate({ identifier: "ErrorBADREQUESTIssuesItem" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.String,
+          code: S.String,
+          issues: S.optional(__S(1, __c0, 1)),
+        }),
+      ).annotate({ identifier: "ErrorBADREQUEST" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "POST", uri: "/settings.cleanMonitoring", code: 200 })),
       ).annotate({ identifier: "CleanSettingsMonitoringRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1197,7 +1276,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "CleanSettingsSSHPrivateKeyRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1207,7 +1286,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "CleanSettingsStoppedContainersRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1217,7 +1296,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "CleanSettingsUnusedImagesRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1227,7 +1306,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "CleanSettingsUnusedVolumesRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1237,7 +1316,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GetSettingsDockerDiskUsageRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1247,7 +1326,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GetSettingsDokployCloudIpsRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1255,7 +1334,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetSettingsDokployVersionRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1263,7 +1342,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetSettingsHealthRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1271,7 +1350,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GetSettingsIpRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1281,7 +1360,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetSettingsLogCleanupStatusRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1291,7 +1370,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetSettingsOpenApiDocumentRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1301,7 +1380,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GetSettingsPanelPortStatusRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1309,7 +1388,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetSettingsPostHogConfigRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1317,7 +1396,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetSettingsReleaseTagRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1327,7 +1406,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GetSettingsTraefikOverviewRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1337,7 +1416,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GetSettingsTraefikPortsRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1345,7 +1424,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "GetSettingsUpdateDataRequest" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1355,7 +1434,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetWebServerSettingsRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1365,7 +1444,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "HaveActivateRequestsRequest" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1378,7 +1457,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "AssignSettingsDomainServerRequest" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -1386,7 +1465,7 @@ function __c21(j: number): any {
       });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1398,7 +1477,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "HaveTraefikDashboardPortEnabledRequest" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1406,7 +1485,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "IsCloudRequest" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1414,7 +1493,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "IsUserSubscribedRequest" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1424,7 +1503,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "ReadSettingsDirectoriesRequest" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1434,7 +1513,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "ReadSettingsMiddlewareTraefikConfigRequest" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1442,7 +1521,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "ReadSettingsTraefikConfigRequest" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1452,7 +1531,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "ReadSettingsTraefikEnvRequest" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1463,7 +1542,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "ReadSettingsTraefikFileRequest" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1473,7 +1552,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "ReadSettingsWebServerTraefikConfigRequest" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1481,7 +1560,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "ReloadSettingsServerRequest" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1491,7 +1570,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "CheckSettingsGPUStatusRequest" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1501,7 +1580,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "ReloadSettingsTraefikRequest" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1511,7 +1590,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "SaveSettingsSSHPrivateKeyRequest" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1521,7 +1600,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "SetupSettingsGPURequest" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1532,7 +1611,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "ToggleSettingsDashboardRequest" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1542,7 +1621,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "ToggleSettingsPanelPortRequest" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1552,7 +1631,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "ToggleSettingsRequestsRequest" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1562,7 +1641,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "UpdateSettingsBuildsConcurrencyRequest" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1573,7 +1652,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "UpdateSettingsDockerCleanupRequest" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1583,7 +1662,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "UpdateSettingsEnforceSSORequest" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1593,7 +1672,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "UpdateSettingsLogCleanupRequest" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1603,7 +1682,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "CheckSettingsInfrastructureHealthRequest" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1615,7 +1694,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "UpdateSettingsMiddlewareTraefikConfigRequest" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1625,7 +1704,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "UpdateSettingsRemoteServersOnlyRequest" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1633,7 +1712,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "UpdateSettingsServerRequest" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1643,7 +1722,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "UpdateSettingsServerIpRequest" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1653,7 +1732,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "UpdateSettingsTraefikRequest" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1663,7 +1742,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "UpdateSettingsTraefikConfigRequest" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1675,7 +1754,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "UpdateSettingsTraefikFileRequest" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1686,17 +1765,17 @@ function __c51(j: number): any {
         }),
       ).annotate({ identifier: "UpdateSettingsTraefikPortsRequestAdditionalPortsItem" });
     case 1:
-      return S.Array(__S(204, __c51, 0));
+      return S.Array(__S(208, __c52, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           serverId: S.optional(S.String),
-          additionalPorts: __S(205, __c51, 1),
+          additionalPorts: __S(209, __c52, 1),
         }).pipe(T.Http({ method: "POST", uri: "/settings.updateTraefikPorts", code: 200 })),
       ).annotate({ identifier: "UpdateSettingsTraefikPortsRequest" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1708,7 +1787,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "UpdateSettingsWebServerTraefikConfigRequest" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1719,7 +1798,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "WriteSettingsTraefikEnvRequest" });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1729,7 +1808,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "CleanSettingsAllRequest" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1739,7 +1818,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "CleanSettingsAllDeploymentQueueRequest" });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1749,7 +1828,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "CleanSettingsDockerBuilderRequest" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

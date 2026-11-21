@@ -30,27 +30,48 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 /** Value for the credential */
 export type CreateCredentialRequestValueMap = {
@@ -131,6 +152,27 @@ export interface UpdateCredentialRequest {
   /** Value for the credential */
   value?: UpdateCredentialRequestValueMap | undefined;
 }
+export interface ErrorResponseContextItem {
+  keyword: string;
+  message: string;
+  params: unknown;
+}
+export type ErrorResponseContextList = Array<ErrorResponseContextItem>;
+/** An error response from the API */
+export interface ErrorResponse {
+  /** Stable machine-readable reason, e.g. 'budget_exceeded' or 'profile_not_ready'. Branch on this instead of parsing the message. */
+  code?: string | undefined;
+  context?: ErrorResponseContextList | undefined;
+  error?: string | undefined;
+  linkToDocs?: string | undefined;
+  message: string;
+  /** The request field that caused the error, if any. */
+  param?: string | undefined;
+  /** Seconds to wait before retrying. Also sent as the Retry-After header. */
+  retryAfterSeconds?: number | undefined;
+  /** Whether the same request can succeed later without changes. False means fix the request or the account first. */
+  retryable?: boolean | undefined;
+}
 export type CreateCredentialError = BadRequest | Conflict | SteelOpError;
 /** Stores credentials Encrypts and stores credentials for an origin */
 export const createCredential: API.OperationMethod<
@@ -139,8 +181,8 @@ export const createCredential: API.OperationMethod<
   CreateCredentialError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateCredentialRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<CredentialMetadata>,
+  input: __S(4, __c1, 0) as any as S.Schema<CreateCredentialRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<CredentialMetadata>,
   errors: [BadRequest, Conflict, UnknownSteelError],
   protocol: SteelProtocol,
   retry: Retry.Retry,
@@ -156,8 +198,8 @@ export const deleteCredential: API.OperationMethod<
   DeleteCredentialError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<DeleteCredentialRequest>,
-  output: __S(13, __c3, 1) as any as S.Schema<SuccessResponse>,
+  input: __S(16, __c4, 0) as any as S.Schema<DeleteCredentialRequest>,
+  output: __S(17, __c4, 1) as any as S.Schema<SuccessResponse>,
   errors: [NotFound, UnknownSteelError],
   protocol: SteelProtocol,
   retry: Retry.Retry,
@@ -173,8 +215,8 @@ export const listCredentials: API.OperationMethod<
   ListCredentialsError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<ListCredentialsRequest>,
-  output: __S(18, __c4, 2) as any as S.Schema<CredentialList>,
+  input: __S(20, __c5, 0) as any as S.Schema<ListCredentialsRequest>,
+  output: __S(22, __c5, 2) as any as S.Schema<CredentialList>,
   errors: [BadRequest, NotFound, UnknownSteelError],
   protocol: SteelProtocol,
   retry: Retry.Retry,
@@ -190,8 +232,8 @@ export const updateCredential: API.OperationMethod<
   UpdateCredentialError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<UpdateCredentialRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<CredentialMetadata>,
+  input: __S(24, __c6, 0) as any as S.Schema<UpdateCredentialRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<CredentialMetadata>,
   errors: [BadRequest, NotFound, UnknownSteelError],
   protocol: SteelProtocol,
   retry: Retry.Retry,
@@ -205,16 +247,43 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          keyword: S.String,
+          message: S.String,
+          params: S.Unknown,
+        }),
+      ).annotate({ identifier: "ErrorResponseContextItem" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          context: S.optional(__S(1, __c0, 1)),
+          error: S.optional(S.String),
+          linkToDocs: S.optional(S.String),
+          message: S.String,
+          param: S.optional(S.String),
+          retryAfterSeconds: S.optional(S.Number),
+          retryable: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           label: S.optional(S.String),
           namespace: S.optional(S.String),
           origin: S.optional(S.String),
           projectId: S.optional(S.String),
-          value: __S(8, __c2, 0),
+          value: __S(12, __c3, 0),
         }).pipe(T.Http({ method: "POST", uri: "/v1/credentials", code: 200 })),
       ).annotate({ identifier: "CreateCredentialRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228,13 +297,13 @@ function __c1(j: number): any {
       ).annotate({ identifier: "CredentialMetadata" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.SensitiveValue({})));
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -252,7 +321,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "SuccessResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -263,16 +332,16 @@ function __c4(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/credentials", code: 200 })),
       ).annotate({ identifier: "ListCredentialsRequest" });
     case 1:
-      return S.Array(__S(4, __c1, 0));
+      return S.Array(__S(8, __c2, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          credentials: __S(17, __c4, 1),
+          credentials: __S(21, __c5, 1),
         }),
       ).annotate({ identifier: "CredentialList" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -281,7 +350,7 @@ function __c5(j: number): any {
           namespace: S.optional(S.String),
           origin: S.optional(S.String),
           projectId: S.optional(S.String),
-          value: S.optional(__S(8, __c2, 0)),
+          value: S.optional(__S(12, __c3, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/v1/credentials", code: 200 })),
       ).annotate({ identifier: "UpdateCredentialRequest" });
   }

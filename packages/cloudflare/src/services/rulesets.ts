@@ -124,6 +124,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -133,6 +135,8 @@ export class PhaseNotEntitled
     /*@__PURE__*/ S.TaggedError<PhaseNotEntitled>()("PhaseNotEntitled", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 50002 }, { status: 400, message: { includes: "not entitled" } }],
   ) {}
@@ -142,6 +146,8 @@ export class RulesetNotFound
     /*@__PURE__*/ S.TaggedError<RulesetNotFound>()("RulesetNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10003 }, { code: 10001 }],
   ) {}
@@ -152,6 +158,8 @@ export class RulesetRuleNotFound
     /*@__PURE__*/ S.TaggedError<RulesetRuleNotFound>()("RulesetRuleNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404, message: { includes: "could not find rule" } }],
   ) {}

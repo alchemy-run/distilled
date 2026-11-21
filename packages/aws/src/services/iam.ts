@@ -616,7 +616,7 @@ export class PolicyEvaluationException
       /*@__PURE__*/ T.AwsQueryError({ code: "PolicyEvaluation", httpResponseCode: 500 }),
       /*@__PURE__*/ T.HttpError(500),
     ),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class PolicyNotAttachableException
   extends /*@__PURE__*/ S.TaggedError<PolicyNotAttachableException>()(
     "PolicyNotAttachableException",

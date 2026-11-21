@@ -241,11 +241,9 @@ export interface LfpInventory {
   /** Optional. The time when the inventory is collected. If not set, it will be set to the time when the inventory is submitted. */
   collectionTime?: string | undefined;
 }
-export interface InsertAccountsLfpInventoriesRequest {
+export interface InsertAccountsLfpInventoriesRequest extends LfpInventory {
   /** Required. The LFP provider account. Format: `accounts/{account}` */
   parent: string;
-  /** Request body */
-  body?: LfpInventory | undefined;
 }
 /** A sale for the merchant. */
 export interface LfpSale {
@@ -274,17 +272,13 @@ export interface LfpSale {
   /** Required. The two-letter ISO 639-1 language code for the item. */
   contentLanguage?: string | undefined;
 }
-export interface InsertAccountsLfpSalesRequest {
+export interface InsertAccountsLfpSalesRequest extends LfpSale {
   /** Required. The LFP provider account. Format: `accounts/{lfp_partner}` */
   parent: string;
-  /** Request body */
-  body?: LfpSale | undefined;
 }
-export interface InsertAccountsLfpStoresRequest {
+export interface InsertAccountsLfpStoresRequest extends LfpStore {
   /** Required. The LFP provider account Format: `accounts/{account}` */
   parent: string;
-  /** Request body */
-  body?: LfpStore | undefined;
 }
 export interface ListAccountsLfpStoresRequest {
   /** Required. The Merchant Center id of the merchant to list stores for. */
@@ -607,10 +601,12 @@ function __c5(j: number): any {
       ).annotate({ identifier: "LfpInventory" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(40, __c5, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(40, __c5, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "lfp/v1beta/{+parent}/lfpInventories:insert",
@@ -652,10 +648,12 @@ function __c7(j: number): any {
       ).annotate({ identifier: "LfpSale" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(56, __c7, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(56, __c7, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "lfp/v1beta/{+parent}/lfpSales:insert",
@@ -669,10 +667,12 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(33, __c4, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(33, __c4, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "lfp/v1beta/{+parent}/lfpStores:insert",

@@ -1,0 +1,15 @@
+{
+  "description": "Resource Groups: Members the API always returns (required).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.resourcegroups#GetGroupOutput/members/Group/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.resourcegroups#CreateGroupOutput/members/Group/traits/smithy.api#required",
+      "value": {}
+    }
+  ]
+}

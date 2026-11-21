@@ -14,9 +14,10 @@ npm install @distilled.cloud/datadog effect
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Datadog from "@distilled.cloud/datadog";
+import * as V1 from "@distilled.cloud/datadog/v1";
 
 const program = Effect.gen(function* () {
-  const result = yield* Datadog.v1.listDashboards({});
+  const result = yield* V1.listDashboards({});
   return result;
 });
 

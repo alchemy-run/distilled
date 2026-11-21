@@ -30,36 +30,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export interface ArchiveAffiliateRequest {
   /** The internal ID of the affiliate to archive. */
@@ -399,6 +427,17 @@ export interface UpdateOverrideAffiliateResponse {
   /** The total earnings paid to this affiliate for referrals to this specific plan, in USD. */
   total_referral_earnings_usd: number;
 }
+export interface Error400BodyError {
+  /** A short string indicating the specific error code, e.g. 'parameter_missing', 'parameter_invalid', 'invalid_json' */
+  code?: string | null | undefined;
+  message: string;
+  /** The parameter that caused the error, if applicable */
+  param?: string | null | undefined;
+  type: string;
+}
+export interface Error400Body {
+  error: Error400BodyError;
+}
 export type ArchiveAffiliateError =
   | BadRequest
   | Forbidden
@@ -412,8 +451,8 @@ export const archiveAffiliate: API.OperationMethod<
   ArchiveAffiliateError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<ArchiveAffiliateRequest>,
-  output: __S(24, __c6, 0) as any as S.Schema<ArchiveAffiliateResponse>,
+  input: __S(24, __c6, 0) as any as S.Schema<ArchiveAffiliateRequest>,
+  output: __S(28, __c7, 0) as any as S.Schema<ArchiveAffiliateResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -434,8 +473,8 @@ export const createAffiliate: API.OperationMethod<
   CreateAffiliateError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<CreateAffiliateRequest>,
-  output: __S(34, __c8, 2) as any as S.Schema<Affiliate>,
+  input: __S(32, __c8, 0) as any as S.Schema<CreateAffiliateRequest>,
+  output: __S(38, __c9, 2) as any as S.Schema<Affiliate>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -456,8 +495,8 @@ export const createOverrideAffiliate: API.OperationMethod<
   CreateOverrideAffiliateError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<CreateOverrideAffiliateRequest>,
-  output: __S(40, __c10, 0) as any as S.Schema<CreateOverrideAffiliateResponse>,
+  input: __S(40, __c10, 0) as any as S.Schema<CreateOverrideAffiliateRequest>,
+  output: __S(44, __c11, 0) as any as S.Schema<CreateOverrideAffiliateResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -478,8 +517,8 @@ export const deleteOverrideAffiliate: API.OperationMethod<
   DeleteOverrideAffiliateError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(44, __c11, 0) as any as S.Schema<DeleteOverrideAffiliateRequest>,
-  output: __S(24, __c6, 0) as any as S.Schema<DeleteOverrideAffiliateResponse>,
+  input: __S(48, __c12, 0) as any as S.Schema<DeleteOverrideAffiliateRequest>,
+  output: __S(28, __c7, 0) as any as S.Schema<DeleteOverrideAffiliateResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -500,8 +539,8 @@ export const getAffiliate: API.OperationMethod<
   GetAffiliateError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c12, 0) as any as S.Schema<GetAffiliateRequest>,
-  output: __S(34, __c8, 2) as any as S.Schema<Affiliate>,
+  input: __S(52, __c13, 0) as any as S.Schema<GetAffiliateRequest>,
+  output: __S(38, __c9, 2) as any as S.Schema<Affiliate>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -522,8 +561,8 @@ export const getOverrideAffiliate: API.OperationMethod<
   GetOverrideAffiliateError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(52, __c13, 0) as any as S.Schema<GetOverrideAffiliateRequest>,
-  output: __S(40, __c10, 0) as any as S.Schema<GetOverrideAffiliateResponse>,
+  input: __S(56, __c14, 0) as any as S.Schema<GetOverrideAffiliateRequest>,
+  output: __S(44, __c11, 0) as any as S.Schema<GetOverrideAffiliateResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -546,8 +585,8 @@ export const listAffiliate: API.PaginatedOperationMethod<
   AffiliateListItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(0, __c0, 0) as any as S.Schema<ListAffiliateRequest>,
-    output: __S(2, __c0, 2) as any as S.Schema<ListAffiliateResponse>,
+    input: __S(4, __c1, 0) as any as S.Schema<ListAffiliateRequest>,
+    output: __S(6, __c1, 2) as any as S.Schema<ListAffiliateResponse>,
     errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -580,8 +619,8 @@ export const listOverridesAffiliate: API.PaginatedOperationMethod<
   ListOverridesAffiliateResponseDataItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(8, __c2, 0) as any as S.Schema<ListOverridesAffiliateRequest>,
-    output: __S(10, __c2, 2) as any as S.Schema<ListOverridesAffiliateResponse>,
+    input: __S(12, __c3, 0) as any as S.Schema<ListOverridesAffiliateRequest>,
+    output: __S(14, __c3, 2) as any as S.Schema<ListOverridesAffiliateResponse>,
     errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -612,8 +651,8 @@ export const unarchiveAffiliate: API.OperationMethod<
   UnarchiveAffiliateError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<UnarchiveAffiliateRequest>,
-  output: __S(24, __c6, 0) as any as S.Schema<UnarchiveAffiliateResponse>,
+  input: __S(16, __c4, 0) as any as S.Schema<UnarchiveAffiliateRequest>,
+  output: __S(28, __c7, 0) as any as S.Schema<UnarchiveAffiliateResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -634,8 +673,8 @@ export const updateOverrideAffiliate: API.OperationMethod<
   UpdateOverrideAffiliateError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<UpdateOverrideAffiliateRequest>,
-  output: __S(40, __c10, 0) as any as S.Schema<UpdateOverrideAffiliateResponse>,
+  input: __S(20, __c5, 0) as any as S.Schema<UpdateOverrideAffiliateRequest>,
+  output: __S(44, __c11, 0) as any as S.Schema<UpdateOverrideAffiliateResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -645,6 +684,25 @@ export const updateOverrideAffiliate: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.NullOr(S.String)),
+          message: S.String,
+          param: S.optional(S.NullOr(S.String)),
+          type: S.String,
+        }),
+      ).annotate({ identifier: "Error400BodyError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "Error400Body" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -661,17 +719,17 @@ function __c0(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/affiliates", code: 200 })),
       ).annotate({ identifier: "ListAffiliateRequest" });
     case 1:
-      return S.Array(__S(34, __c8, 2));
+      return S.Array(__S(38, __c9, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1, __c0, 1),
-          page_info: __S(4, __c1, 0),
+          data: __S(5, __c1, 1),
+          page_info: __S(8, __c2, 0),
         }),
       ).annotate({ identifier: "ListAffiliateResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -684,7 +742,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "PageInfo" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -698,17 +756,17 @@ function __c2(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/affiliates/{id}/overrides", code: 200 })),
       ).annotate({ identifier: "ListOverridesAffiliateRequest" });
     case 1:
-      return S.Array(__S(40, __c10, 0));
+      return S.Array(__S(44, __c11, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(9, __c2, 1),
-          page_info: __S(4, __c1, 0),
+          data: __S(13, __c3, 1),
+          page_info: __S(8, __c2, 0),
         }),
       ).annotate({ identifier: "ListOverridesAffiliateResponse" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -718,7 +776,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "UnarchiveAffiliateRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -735,7 +793,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "UpdateOverrideAffiliateRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -745,7 +803,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "ArchiveAffiliateRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Boolean.pipe(T.RawResponseRoot())).annotate({
@@ -753,7 +811,7 @@ function __c6(j: number): any {
       });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -764,7 +822,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "CreateAffiliateRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -785,7 +843,7 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           active_members_count: S.Number,
-          company: __S(32, __c8, 0),
+          company: __S(36, __c9, 0),
           created_at: S.String,
           customer_retention_rate: S.String,
           customer_retention_rate_ninety_days: S.String,
@@ -797,12 +855,12 @@ function __c8(j: number): any {
           total_referrals_count: S.Number,
           total_revenue_usd: S.String,
           updated_at: S.String,
-          user: __S(33, __c8, 1),
+          user: __S(37, __c9, 1),
         }),
       ).annotate({ identifier: "Affiliate" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -813,7 +871,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "CreateOverrideAffiliateRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -834,7 +892,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "CreateOverrideAffiliateResponse" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -847,7 +905,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "DeleteOverrideAffiliateRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -857,7 +915,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GetAffiliateRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

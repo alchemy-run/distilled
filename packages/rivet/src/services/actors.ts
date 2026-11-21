@@ -31,27 +31,51 @@ export class CommandDeadlineElapsed
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<CommandDeadlineElapsed>()("CommandDeadlineElapsed", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+      retryAfter: /*@__PURE__*/ S.optional(S.Duration),
     }).pipe(C.withServerError, C.withRetryableError, C.withThrottlingError),
     [{ status: 400, message: { includes: "command deadline elapsed" } }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 /** The control plane's storage host had no capacity for the command (`command_capacity`; its outcome may be unknown). Retry after a short delay. */
 export class StorageCommandCapacity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<StorageCommandCapacity>()("StorageCommandCapacity", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+      retryAfter: /*@__PURE__*/ S.optional(S.Duration),
     }).pipe(C.withServerError, C.withRetryableError, C.withThrottlingError),
     [{ status: 400, message: { includes: "(command_capacity)" } }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 /** The control plane's storage refused the command (`depot.overloaded`) -- answered while the storage layer is still starting or under load. Retry after a short delay. */
 export class StorageOverloaded
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<StorageOverloaded>()("StorageOverloaded", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+      retryAfter: /*@__PURE__*/ S.optional(S.Duration),
     }).pipe(C.withServerError, C.withRetryableError, C.withThrottlingError),
     [{ status: 400, headers: { "x-rivet-error": "depot.overloaded" } }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export interface CreateActorRequest {
   /** Name of the namespace to operate in. Defaults to `default`. */
@@ -185,6 +209,17 @@ export interface SleepActorRequest {
   namespace?: string | undefined;
 }
 export type SleepActorResponse = unknown;
+/** A structured error. The response also carries an `x-rivet-error: <group>.<code>` header. */
+export interface ErrorResponse {
+  /** Error group, for example `actor`. */
+  group: string;
+  /** Error code within the group, for example `not_found`. */
+  code: string;
+  /** Human-readable error message. */
+  message: string;
+  /** Extra details. Only present on some errors raised while authenticating or authorizing the request. */
+  metadata?: unknown | undefined;
+}
 export type CreateActorError =
   | StorageOverloaded
   | StorageCommandCapacity
@@ -197,8 +232,8 @@ export const createActor: API.OperationMethod<
   CreateActorError,
   RivetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<CreateActorRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<ActorsCreateResponse>,
+  input: __S(16, __c2, 0) as any as S.Schema<CreateActorRequest>,
+  output: __S(32, __c4, 0) as any as S.Schema<ActorsCreateResponse>,
   errors: [StorageOverloaded, StorageCommandCapacity, CommandDeadlineElapsed, UnknownRivetError],
   protocol: RivetProtocol,
   retry: Retry.Retry,
@@ -218,8 +253,8 @@ export const deleteActor: API.OperationMethod<
   DeleteActorError,
   RivetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<DeleteActorRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<DeleteActorResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<DeleteActorRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<DeleteActorResponse>,
   errors: [StorageOverloaded, StorageCommandCapacity, CommandDeadlineElapsed, UnknownRivetError],
   protocol: RivetProtocol,
   retry: Retry.Retry,
@@ -239,8 +274,8 @@ export const getActor: API.OperationMethod<
   GetActorError,
   RivetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<GetActorRequest>,
-  output: __S(49, __c6, 1) as any as S.Schema<ActorsGetResponse>,
+  input: __S(56, __c7, 0) as any as S.Schema<GetActorRequest>,
+  output: __S(57, __c7, 1) as any as S.Schema<ActorsGetResponse>,
   errors: [StorageOverloaded, StorageCommandCapacity, CommandDeadlineElapsed, UnknownRivetError],
   protocol: RivetProtocol,
   retry: Retry.Retry,
@@ -260,8 +295,8 @@ export const getOrCreateActor: API.OperationMethod<
   GetOrCreateActorError,
   RivetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<GetOrCreateActorRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<ActorsGetOrCreateResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<GetOrCreateActorRequest>,
+  output: __S(32, __c4, 0) as any as S.Schema<ActorsGetOrCreateResponse>,
   errors: [StorageOverloaded, StorageCommandCapacity, CommandDeadlineElapsed, UnknownRivetError],
   protocol: RivetProtocol,
   retry: Retry.Retry,
@@ -281,8 +316,8 @@ export const listActorNames: API.OperationMethod<
   ListActorNamesError,
   RivetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<ListActorNamesRequest>,
-  output: __S(68, __c8, 4) as any as S.Schema<ActorsListNamesResponse>,
+  input: __S(72, __c9, 0) as any as S.Schema<ListActorNamesRequest>,
+  output: __S(76, __c9, 4) as any as S.Schema<ActorsListNamesResponse>,
   errors: [StorageOverloaded, StorageCommandCapacity, CommandDeadlineElapsed, UnknownRivetError],
   protocol: RivetProtocol,
   retry: Retry.Retry,
@@ -304,8 +339,8 @@ export const listActors: API.PaginatedOperationMethod<
   Actor
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(72, __c9, 0) as any as S.Schema<ListActorsRequest>,
-    output: __S(75, __c9, 3) as any as S.Schema<ActorsListResponse>,
+    input: __S(80, __c10, 0) as any as S.Schema<ListActorsRequest>,
+    output: __S(83, __c10, 3) as any as S.Schema<ActorsListResponse>,
     errors: [StorageOverloaded, StorageCommandCapacity, CommandDeadlineElapsed, UnknownRivetError],
     protocol: RivetProtocol,
     retry: Retry.Retry,
@@ -334,8 +369,8 @@ export const rescheduleActor: API.OperationMethod<
   RescheduleActorError,
   RivetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<RescheduleActorRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<RescheduleActorResponse>,
+  input: __S(88, __c11, 0) as any as S.Schema<RescheduleActorRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<RescheduleActorResponse>,
   errors: [StorageOverloaded, StorageCommandCapacity, CommandDeadlineElapsed, UnknownRivetError],
   protocol: RivetProtocol,
   retry: Retry.Retry,
@@ -355,8 +390,8 @@ export const sleepActor: API.OperationMethod<
   SleepActorError,
   RivetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<SleepActorRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<SleepActorResponse>,
+  input: __S(8, __c1, 0) as any as S.Schema<SleepActorRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<SleepActorResponse>,
   errors: [StorageOverloaded, StorageCommandCapacity, CommandDeadlineElapsed, UnknownRivetError],
   protocol: RivetProtocol,
   retry: Retry.Retry,
@@ -370,13 +405,26 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          group: S.String,
+          code: S.String,
+          message: S.String,
+          metadata: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           actor_id: S.String.pipe(T.Label()),
           namespace: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "POST", uri: "/actors/{actor_id}/sleep", code: 200 })),
       ).annotate({ identifier: "SleepActorRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -390,7 +438,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "CreateActorRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -411,18 +459,18 @@ function __c2(j: number): any {
       ).annotate({ identifier: "Actor" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          actor: __S(16, __c2, 0),
+          actor: __S(24, __c3, 0),
           created: S.Boolean,
         }),
       ).annotate({ identifier: "ActorsCreateResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -433,7 +481,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "DeleteActorRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -441,7 +489,7 @@ function __c5(j: number): any {
       });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -453,12 +501,12 @@ function __c6(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          actor: __S(16, __c2, 0),
+          actor: __S(24, __c3, 0),
         }),
       ).annotate({ identifier: "ActorsGetResponse" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -472,7 +520,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetOrCreateActorRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -485,20 +533,20 @@ function __c8(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          metadata: __S(65, __c8, 1),
+          metadata: __S(73, __c9, 1),
         }),
       ).annotate({ identifier: "ActorName" });
     case 3:
-      return S.Record(S.String, __S(66, __c8, 2));
+      return S.Record(S.String, __S(74, __c9, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          names: __S(67, __c8, 3),
+          names: __S(75, __c9, 3),
         }),
       ).annotate({ identifier: "ActorsListNamesResponse" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -514,7 +562,7 @@ function __c9(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/actors", code: 200 })),
       ).annotate({ identifier: "ListActorsRequest" });
     case 1:
-      return S.Array(__S(16, __c2, 0));
+      return S.Array(__S(24, __c3, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -524,13 +572,13 @@ function __c9(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          actors: __S(73, __c9, 1),
-          pagination: __S(74, __c9, 2),
+          actors: __S(81, __c10, 1),
+          pagination: __S(82, __c10, 2),
         }),
       ).annotate({ identifier: "ActorsListResponse" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

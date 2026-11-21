@@ -29,15 +29,24 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: PlanGateErrorBody | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
   ) {}
@@ -47,6 +56,8 @@ export class NotFound
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
@@ -4631,6 +4642,23 @@ export interface V1VerifyDnsConfigRequest {
   /** Project ref */
   ref: string;
 }
+/** Machine-readable marker for plan-gated denials */
+export type PlanGateErrorBodyErrorCode = "entitlement_required";
+/** Present on entitlement denials. Other errors with this status code (validation, billing state) carry only message. */
+export interface PlanGateErrorBodyError {
+  /** Machine-readable marker for plan-gated denials */
+  code: PlanGateErrorBodyErrorCode;
+  /** Entitlement feature key that failed the check */
+  feature: string;
+  /** Billing page URL for the organization, present when the org is resolvable */
+  upgrade_url?: string | undefined;
+}
+export interface PlanGateErrorBody {
+  /** Human-readable explanation of the plan gate */
+  message: string;
+  /** Present on entitlement denials. Other errors with this status code (validation, billing state) carry only message. */
+  error?: PlanGateErrorBodyError | undefined;
+}
 export type V1AcceptInviteExternalJitAccessError = SupabaseOpError;
 /** Accepts invitation for JIT database access Accepts the invitation to JIT database access */
 export const v1AcceptInviteExternalJitAccess: API.OperationMethod<
@@ -4639,8 +4667,8 @@ export const v1AcceptInviteExternalJitAccess: API.OperationMethod<
   V1AcceptInviteExternalJitAccessError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c104, 0) as any as S.Schema<V1AcceptInviteExternalJitAccessRequest>,
-  output: __S(1696, __c106, 0) as any as S.Schema<JitAccessResponseOutput>,
+  input: __S(1680, __c105, 0) as any as S.Schema<V1AcceptInviteExternalJitAccessRequest>,
+  output: __S(1712, __c107, 0) as any as S.Schema<JitAccessResponseOutput>,
   errors: [],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -4656,8 +4684,8 @@ export const v1ActivateCustomHostname: API.OperationMethod<
   V1ActivateCustomHostnameError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1904, __c119, 0) as any as S.Schema<V1ActivateCustomHostnameRequest>,
-  output: __S(1976, __c123, 8) as any as S.Schema<UpdateCustomHostnameResponseOutput>,
+  input: __S(1920, __c120, 0) as any as S.Schema<V1ActivateCustomHostnameRequest>,
+  output: __S(1992, __c124, 8) as any as S.Schema<UpdateCustomHostnameResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -4673,8 +4701,8 @@ export const v1ActivateVanitySubdomainConfig: API.OperationMethod<
   V1ActivateVanitySubdomainConfigError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2160, __c135, 0) as any as S.Schema<V1ActivateVanitySubdomainConfigRequest>,
-  output: __S(2161, __c135, 1) as any as S.Schema<ActivateVanitySubdomainResponseOutput>,
+  input: __S(2176, __c136, 0) as any as S.Schema<V1ActivateVanitySubdomainConfigRequest>,
+  output: __S(2177, __c136, 1) as any as S.Schema<ActivateVanitySubdomainResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -4690,8 +4718,8 @@ export const v1ApplyAMigration: API.OperationMethod<
   V1ApplyAMigrationError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c150, 0) as any as S.Schema<V1ApplyAMigrationRequest>,
-  output: __S(2416, __c151, 0) as any as S.Schema<V1ApplyAMigrationResponse>,
+  input: __S(2416, __c151, 0) as any as S.Schema<V1ApplyAMigrationRequest>,
+  output: __S(2432, __c152, 0) as any as S.Schema<V1ApplyAMigrationResponse>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -4707,8 +4735,8 @@ export const v1ApplyProjectAddon: API.OperationMethod<
   V1ApplyProjectAddonError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2641, __c165, 1) as any as S.Schema<V1ApplyProjectAddonRequest>,
-  output: __S(2416, __c151, 0) as any as S.Schema<V1ApplyProjectAddonResponse>,
+  input: __S(2657, __c166, 1) as any as S.Schema<V1ApplyProjectAddonRequest>,
+  output: __S(2432, __c152, 0) as any as S.Schema<V1ApplyProjectAddonResponse>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -4724,8 +4752,8 @@ export const v1AuthorizeJitAccess: API.OperationMethod<
   V1AuthorizeJitAccessError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2864, __c179, 0) as any as S.Schema<V1AuthorizeJitAccessRequest>,
-  output: __S(2865, __c179, 1) as any as S.Schema<JitAuthorizeAccessResponseOutput>,
+  input: __S(2880, __c180, 0) as any as S.Schema<V1AuthorizeJitAccessRequest>,
+  output: __S(2881, __c180, 1) as any as S.Schema<JitAuthorizeAccessResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -4741,8 +4769,8 @@ export const v1AuthorizeUser: API.OperationMethod<
   V1AuthorizeUserError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c194, 0) as any as S.Schema<V1AuthorizeUserRequest>,
-  output: __S(2416, __c151, 0) as any as S.Schema<V1AuthorizeUserResponse>,
+  input: __S(3120, __c195, 0) as any as S.Schema<V1AuthorizeUserRequest>,
+  output: __S(2432, __c152, 0) as any as S.Schema<V1AuthorizeUserResponse>,
   errors: [Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -4758,8 +4786,8 @@ export const v1BulkCreateSecrets: API.OperationMethod<
   V1BulkCreateSecretsError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2, __c0, 2) as any as S.Schema<V1BulkCreateSecretsRequest>,
-  output: __S(2416, __c151, 0) as any as S.Schema<V1BulkCreateSecretsResponse>,
+  input: __S(18, __c1, 2) as any as S.Schema<V1BulkCreateSecretsRequest>,
+  output: __S(2432, __c152, 0) as any as S.Schema<V1BulkCreateSecretsResponse>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -4775,8 +4803,8 @@ export const v1BulkDeleteSecrets: API.OperationMethod<
   V1BulkDeleteSecretsError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<V1BulkDeleteSecretsRequest>,
-  output: __S(2416, __c151, 0) as any as S.Schema<V1BulkDeleteSecretsResponse>,
+  input: __S(208, __c13, 0) as any as S.Schema<V1BulkDeleteSecretsRequest>,
+  output: __S(2432, __c152, 0) as any as S.Schema<V1BulkDeleteSecretsResponse>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -4792,8 +4820,8 @@ export const v1BulkUpdateFunctions: API.OperationMethod<
   V1BulkUpdateFunctionsError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(370, __c23, 2) as any as S.Schema<V1BulkUpdateFunctionsRequest>,
-  output: __S(371, __c23, 3) as any as S.Schema<BulkUpdateFunctionResponseOutput>,
+  input: __S(386, __c24, 2) as any as S.Schema<V1BulkUpdateFunctionsRequest>,
+  output: __S(387, __c24, 3) as any as S.Schema<BulkUpdateFunctionResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -4809,8 +4837,8 @@ export const v1CancelAProjectRestoration: API.OperationMethod<
   V1CancelAProjectRestorationError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<V1CancelAProjectRestorationRequest>,
-  output: __S(2416, __c151, 0) as any as S.Schema<V1CancelAProjectRestorationResponse>,
+  input: __S(608, __c38, 0) as any as S.Schema<V1CancelAProjectRestorationRequest>,
+  output: __S(2432, __c152, 0) as any as S.Schema<V1CancelAProjectRestorationResponse>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -4826,8 +4854,8 @@ export const v1CheckVanitySubdomainAvailability: API.OperationMethod<
   V1CheckVanitySubdomainAvailabilityError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<V1CheckVanitySubdomainAvailabilityRequest>,
-  output: __S(769, __c48, 1) as any as S.Schema<SubdomainAvailabilityResponseOutput>,
+  input: __S(784, __c49, 0) as any as S.Schema<V1CheckVanitySubdomainAvailabilityRequest>,
+  output: __S(785, __c49, 1) as any as S.Schema<SubdomainAvailabilityResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -4847,8 +4875,8 @@ export const v1ClaimProjectForOrganization: API.OperationMethod<
   V1ClaimProjectForOrganizationError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c59, 0) as any as S.Schema<V1ClaimProjectForOrganizationRequest>,
-  output: __S(2416, __c151, 0) as any as S.Schema<V1ClaimProjectForOrganizationResponse>,
+  input: __S(960, __c60, 0) as any as S.Schema<V1ClaimProjectForOrganizationRequest>,
+  output: __S(2432, __c152, 0) as any as S.Schema<V1ClaimProjectForOrganizationResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -4864,8 +4892,8 @@ export const v1CreateABranch: API.OperationMethod<
   V1CreateABranchError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1121, __c70, 1) as any as S.Schema<V1CreateABranchRequest>,
-  output: __S(1136, __c71, 0) as any as S.Schema<BranchResponseOutput>,
+  input: __S(1137, __c71, 1) as any as S.Schema<V1CreateABranchRequest>,
+  output: __S(1152, __c72, 0) as any as S.Schema<BranchResponseOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -4881,8 +4909,8 @@ export const v1CreateAnOrganization: API.OperationMethod<
   V1CreateAnOrganizationError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c82, 0) as any as S.Schema<V1CreateAnOrganizationRequest>,
-  output: __S(1328, __c83, 0) as any as S.Schema<OrganizationResponseV1Output>,
+  input: __S(1328, __c83, 0) as any as S.Schema<V1CreateAnOrganizationRequest>,
+  output: __S(1344, __c84, 0) as any as S.Schema<OrganizationResponseV1Output>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -4898,8 +4926,8 @@ export const v1CreateAProject: API.OperationMethod<
   V1CreateAProjectError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1377, __c86, 1) as any as S.Schema<V1CreateAProjectRequest>,
-  output: __S(1378, __c86, 2) as any as S.Schema<V1ProjectResponseOutput>,
+  input: __S(1393, __c87, 1) as any as S.Schema<V1CreateAProjectRequest>,
+  output: __S(1394, __c87, 2) as any as S.Schema<V1ProjectResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -4915,8 +4943,8 @@ export const v1CreateASsoProvider: API.OperationMethod<
   V1CreateASsoProviderError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1396, __c87, 4) as any as S.Schema<V1CreateASsoProviderRequest>,
-  output: __S(1402, __c87, 10) as any as S.Schema<CreateProviderResponseOutput>,
+  input: __S(1412, __c88, 4) as any as S.Schema<V1CreateASsoProviderRequest>,
+  output: __S(1418, __c88, 10) as any as S.Schema<CreateProviderResponseOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -4932,8 +4960,8 @@ export const v1CreateLegacySigningKey: API.OperationMethod<
   V1CreateLegacySigningKeyError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1424, __c89, 0) as any as S.Schema<V1CreateLegacySigningKeyRequest>,
-  output: __S(1440, __c90, 0) as any as S.Schema<SigningKeyResponseOutput>,
+  input: __S(1440, __c90, 0) as any as S.Schema<V1CreateLegacySigningKeyRequest>,
+  output: __S(1456, __c91, 0) as any as S.Schema<SigningKeyResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -4949,8 +4977,8 @@ export const v1CreateLoginRole: API.OperationMethod<
   V1CreateLoginRoleError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1456, __c91, 0) as any as S.Schema<V1CreateLoginRoleRequest>,
-  output: __S(1457, __c91, 1) as any as S.Schema<CreateRoleResponseOutput>,
+  input: __S(1472, __c92, 0) as any as S.Schema<V1CreateLoginRoleRequest>,
+  output: __S(1473, __c92, 1) as any as S.Schema<CreateRoleResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -4966,8 +4994,8 @@ export const v1CreateProjectApiKey: API.OperationMethod<
   V1CreateProjectApiKeyError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c92, 0) as any as S.Schema<V1CreateProjectApiKeyRequest>,
-  output: __S(1489, __c93, 1) as any as S.Schema<ApiKeyResponseOutput>,
+  input: __S(1488, __c93, 0) as any as S.Schema<V1CreateProjectApiKeyRequest>,
+  output: __S(1505, __c94, 1) as any as S.Schema<ApiKeyResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -4983,8 +5011,8 @@ export const v1CreateProjectClaimToken: API.OperationMethod<
   V1CreateProjectClaimTokenError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c94, 0) as any as S.Schema<V1CreateProjectClaimTokenRequest>,
-  output: __S(1505, __c94, 1) as any as S.Schema<CreateProjectClaimTokenResponseOutput>,
+  input: __S(1520, __c95, 0) as any as S.Schema<V1CreateProjectClaimTokenRequest>,
+  output: __S(1521, __c95, 1) as any as S.Schema<CreateProjectClaimTokenResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5000,8 +5028,8 @@ export const v1CreateProjectSigningKey: API.OperationMethod<
   V1CreateProjectSigningKeyError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1521, __c95, 1) as any as S.Schema<V1CreateProjectSigningKeyRequest>,
-  output: __S(1440, __c90, 0) as any as S.Schema<SigningKeyResponseOutput>,
+  input: __S(1537, __c96, 1) as any as S.Schema<V1CreateProjectSigningKeyRequest>,
+  output: __S(1456, __c91, 0) as any as S.Schema<SigningKeyResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5017,8 +5045,8 @@ export const v1CreateProjectTpaIntegration: API.OperationMethod<
   V1CreateProjectTpaIntegrationError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c96, 0) as any as S.Schema<V1CreateProjectTpaIntegrationRequest>,
-  output: __S(1552, __c97, 0) as any as S.Schema<ThirdPartyAuthOutput>,
+  input: __S(1552, __c97, 0) as any as S.Schema<V1CreateProjectTpaIntegrationRequest>,
+  output: __S(1568, __c98, 0) as any as S.Schema<ThirdPartyAuthOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5034,8 +5062,8 @@ export const v1CreateRestorePoint: API.OperationMethod<
   V1CreateRestorePointError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c98, 0) as any as S.Schema<V1CreateRestorePointRequest>,
-  output: __S(1584, __c99, 0) as any as S.Schema<V1RestorePointResponse>,
+  input: __S(1584, __c99, 0) as any as S.Schema<V1CreateRestorePointRequest>,
+  output: __S(1600, __c100, 0) as any as S.Schema<V1RestorePointResponse>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5051,8 +5079,8 @@ export const v1DeactivateVanitySubdomainConfig: API.OperationMethod<
   V1DeactivateVanitySubdomainConfigError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c100, 0) as any as S.Schema<V1DeactivateVanitySubdomainConfigRequest>,
-  output: __S(2416, __c151, 0) as any as S.Schema<V1DeactivateVanitySubdomainConfigResponse>,
+  input: __S(1616, __c101, 0) as any as S.Schema<V1DeactivateVanitySubdomainConfigRequest>,
+  output: __S(2432, __c152, 0) as any as S.Schema<V1DeactivateVanitySubdomainConfigResponse>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5068,8 +5096,8 @@ export const v1DeleteABranch: API.OperationMethod<
   V1DeleteABranchError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1616, __c101, 0) as any as S.Schema<V1DeleteABranchRequest>,
-  output: __S(1632, __c102, 0) as any as S.Schema<BranchDeleteResponseOutput>,
+  input: __S(1632, __c102, 0) as any as S.Schema<V1DeleteABranchRequest>,
+  output: __S(1648, __c103, 0) as any as S.Schema<BranchDeleteResponseOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5085,8 +5113,8 @@ export const v1DeleteAFunction: API.OperationMethod<
   V1DeleteAFunctionError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1648, __c103, 0) as any as S.Schema<V1DeleteAFunctionRequest>,
-  output: __S(2416, __c151, 0) as any as S.Schema<V1DeleteAFunctionResponse>,
+  input: __S(1664, __c104, 0) as any as S.Schema<V1DeleteAFunctionRequest>,
+  output: __S(2432, __c152, 0) as any as S.Schema<V1DeleteAFunctionResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5102,8 +5130,8 @@ export const v1DeleteAProject: API.OperationMethod<
   V1DeleteAProjectError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c108, 0) as any as S.Schema<V1DeleteAProjectRequest>,
-  output: __S(1744, __c109, 0) as any as S.Schema<V1ProjectRefResponseOutput>,
+  input: __S(1744, __c109, 0) as any as S.Schema<V1DeleteAProjectRequest>,
+  output: __S(1760, __c110, 0) as any as S.Schema<V1ProjectRefResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5119,8 +5147,8 @@ export const v1DeleteASsoProvider: API.OperationMethod<
   V1DeleteASsoProviderError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c110, 0) as any as S.Schema<V1DeleteASsoProviderRequest>,
-  output: __S(1766, __c110, 6) as any as S.Schema<DeleteProviderResponseOutput>,
+  input: __S(1776, __c111, 0) as any as S.Schema<V1DeleteASsoProviderRequest>,
+  output: __S(1782, __c111, 6) as any as S.Schema<DeleteProviderResponseOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5136,8 +5164,8 @@ export const v1DeleteHostnameConfig: API.OperationMethod<
   V1DeleteHostnameConfigError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1776, __c111, 0) as any as S.Schema<V1DeleteHostnameConfigRequest>,
-  output: __S(2416, __c151, 0) as any as S.Schema<V1DeleteHostnameConfigResponse>,
+  input: __S(1792, __c112, 0) as any as S.Schema<V1DeleteHostnameConfigRequest>,
+  output: __S(2432, __c152, 0) as any as S.Schema<V1DeleteHostnameConfigResponse>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5153,8 +5181,8 @@ export const v1DeleteInviteExternalJitAccess: API.OperationMethod<
   V1DeleteInviteExternalJitAccessError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c112, 0) as any as S.Schema<V1DeleteInviteExternalJitAccessRequest>,
-  output: __S(2416, __c151, 0) as any as S.Schema<V1DeleteInviteExternalJitAccessResponse>,
+  input: __S(1808, __c113, 0) as any as S.Schema<V1DeleteInviteExternalJitAccessRequest>,
+  output: __S(2432, __c152, 0) as any as S.Schema<V1DeleteInviteExternalJitAccessResponse>,
   errors: [Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5170,8 +5198,8 @@ export const v1DeleteJitAccess: API.OperationMethod<
   V1DeleteJitAccessError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1808, __c113, 0) as any as S.Schema<V1DeleteJitAccessRequest>,
-  output: __S(2416, __c151, 0) as any as S.Schema<V1DeleteJitAccessResponse>,
+  input: __S(1824, __c114, 0) as any as S.Schema<V1DeleteJitAccessRequest>,
+  output: __S(2432, __c152, 0) as any as S.Schema<V1DeleteJitAccessResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5187,8 +5215,8 @@ export const v1DeleteLoginRoles: API.OperationMethod<
   V1DeleteLoginRolesError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c114, 0) as any as S.Schema<V1DeleteLoginRolesRequest>,
-  output: __S(1632, __c102, 0) as any as S.Schema<DeleteRolesResponseOutput>,
+  input: __S(1840, __c115, 0) as any as S.Schema<V1DeleteLoginRolesRequest>,
+  output: __S(1648, __c103, 0) as any as S.Schema<DeleteRolesResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5204,8 +5232,8 @@ export const v1DeleteNetworkBans: API.OperationMethod<
   V1DeleteNetworkBansError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1840, __c115, 0) as any as S.Schema<V1DeleteNetworkBansRequest>,
-  output: __S(2416, __c151, 0) as any as S.Schema<V1DeleteNetworkBansResponse>,
+  input: __S(1856, __c116, 0) as any as S.Schema<V1DeleteNetworkBansRequest>,
+  output: __S(2432, __c152, 0) as any as S.Schema<V1DeleteNetworkBansResponse>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5226,8 +5254,8 @@ export const v1DeleteProjectApiKey: API.OperationMethod<
   V1DeleteProjectApiKeyError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c116, 0) as any as S.Schema<V1DeleteProjectApiKeyRequest>,
-  output: __S(1489, __c93, 1) as any as S.Schema<ApiKeyResponseOutput>,
+  input: __S(1872, __c117, 0) as any as S.Schema<V1DeleteProjectApiKeyRequest>,
+  output: __S(1505, __c94, 1) as any as S.Schema<ApiKeyResponseOutput>,
   errors: [BadRequest, Forbidden, NotFound, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5243,8 +5271,8 @@ export const v1DeleteProjectClaimToken: API.OperationMethod<
   V1DeleteProjectClaimTokenError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1872, __c117, 0) as any as S.Schema<V1DeleteProjectClaimTokenRequest>,
-  output: __S(2416, __c151, 0) as any as S.Schema<V1DeleteProjectClaimTokenResponse>,
+  input: __S(1888, __c118, 0) as any as S.Schema<V1DeleteProjectClaimTokenRequest>,
+  output: __S(2432, __c152, 0) as any as S.Schema<V1DeleteProjectClaimTokenResponse>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5264,8 +5292,8 @@ export const v1DeleteProjectTpaIntegration: API.OperationMethod<
   V1DeleteProjectTpaIntegrationError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c118, 0) as any as S.Schema<V1DeleteProjectTpaIntegrationRequest>,
-  output: __S(1552, __c97, 0) as any as S.Schema<ThirdPartyAuthOutput>,
+  input: __S(1904, __c119, 0) as any as S.Schema<V1DeleteProjectTpaIntegrationRequest>,
+  output: __S(1568, __c98, 0) as any as S.Schema<ThirdPartyAuthOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5281,8 +5309,8 @@ export const v1DeployAFunction: API.OperationMethod<
   V1DeployAFunctionError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1985, __c124, 1) as any as S.Schema<V1DeployAFunctionRequest>,
-  output: __S(1986, __c124, 2) as any as S.Schema<DeployFunctionResponseOutput>,
+  input: __S(2001, __c125, 1) as any as S.Schema<V1DeployAFunctionRequest>,
+  output: __S(2002, __c125, 2) as any as S.Schema<DeployFunctionResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5298,8 +5326,8 @@ export const v1DiffABranch: API.OperationMethod<
   V1DiffABranchError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2000, __c125, 0) as any as S.Schema<V1DiffABranchRequest>,
-  output: __S(2416, __c151, 0) as any as S.Schema<V1DiffABranchResponse>,
+  input: __S(2016, __c126, 0) as any as S.Schema<V1DiffABranchRequest>,
+  output: __S(2432, __c152, 0) as any as S.Schema<V1DiffABranchResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5315,8 +5343,8 @@ export const v1DisablePreviewBranching: API.OperationMethod<
   V1DisablePreviewBranchingError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c126, 0) as any as S.Schema<V1DisablePreviewBranchingRequest>,
-  output: __S(2416, __c151, 0) as any as S.Schema<V1DisablePreviewBranchingResponse>,
+  input: __S(2032, __c127, 0) as any as S.Schema<V1DisablePreviewBranchingRequest>,
+  output: __S(2432, __c152, 0) as any as S.Schema<V1DisablePreviewBranchingResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5332,8 +5360,8 @@ export const v1DisableReadonlyModeTemporarily: API.OperationMethod<
   V1DisableReadonlyModeTemporarilyError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2032, __c127, 0) as any as S.Schema<V1DisableReadonlyModeTemporarilyRequest>,
-  output: __S(2416, __c151, 0) as any as S.Schema<V1DisableReadonlyModeTemporarilyResponse>,
+  input: __S(2048, __c128, 0) as any as S.Schema<V1DisableReadonlyModeTemporarilyRequest>,
+  output: __S(2432, __c152, 0) as any as S.Schema<V1DisableReadonlyModeTemporarilyResponse>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5349,8 +5377,8 @@ export const v1EnableDatabaseWebhook: API.OperationMethod<
   V1EnableDatabaseWebhookError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c128, 0) as any as S.Schema<V1EnableDatabaseWebhookRequest>,
-  output: __S(2416, __c151, 0) as any as S.Schema<V1EnableDatabaseWebhookResponse>,
+  input: __S(2064, __c129, 0) as any as S.Schema<V1EnableDatabaseWebhookRequest>,
+  output: __S(2432, __c152, 0) as any as S.Schema<V1EnableDatabaseWebhookResponse>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5366,8 +5394,8 @@ export const v1ExchangeOauthToken: API.OperationMethod<
   V1ExchangeOauthTokenError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2064, __c129, 0) as any as S.Schema<V1ExchangeOauthTokenRequest>,
-  output: __S(2065, __c129, 1) as any as S.Schema<OAuthTokenResponseOutput>,
+  input: __S(2080, __c130, 0) as any as S.Schema<V1ExchangeOauthTokenRequest>,
+  output: __S(2081, __c130, 1) as any as S.Schema<OAuthTokenResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5383,8 +5411,8 @@ export const v1GenerateTypescriptTypes: API.OperationMethod<
   V1GenerateTypescriptTypesError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c130, 0) as any as S.Schema<V1GenerateTypescriptTypesRequest>,
-  output: __S(2081, __c130, 1) as any as S.Schema<TypescriptResponseOutput>,
+  input: __S(2096, __c131, 0) as any as S.Schema<V1GenerateTypescriptTypesRequest>,
+  output: __S(2097, __c131, 1) as any as S.Schema<TypescriptResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5400,8 +5428,8 @@ export const v1GetABranch: API.OperationMethod<
   V1GetABranchError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2096, __c131, 0) as any as S.Schema<V1GetABranchRequest>,
-  output: __S(1136, __c71, 0) as any as S.Schema<BranchResponseOutput>,
+  input: __S(2112, __c132, 0) as any as S.Schema<V1GetABranchRequest>,
+  output: __S(1152, __c72, 0) as any as S.Schema<BranchResponseOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5417,8 +5445,8 @@ export const v1GetABranchConfig: API.OperationMethod<
   V1GetABranchConfigError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c132, 0) as any as S.Schema<V1GetABranchConfigRequest>,
-  output: __S(2113, __c132, 1) as any as S.Schema<BranchDetailResponseOutput>,
+  input: __S(2128, __c133, 0) as any as S.Schema<V1GetABranchConfigRequest>,
+  output: __S(2129, __c133, 1) as any as S.Schema<BranchDetailResponseOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5434,8 +5462,8 @@ export const v1GetActionRun: API.OperationMethod<
   V1GetActionRunError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2128, __c133, 0) as any as S.Schema<V1GetActionRunRequest>,
-  output: __S(2146, __c134, 2) as any as S.Schema<ActionRunResponseOutput>,
+  input: __S(2144, __c134, 0) as any as S.Schema<V1GetActionRunRequest>,
+  output: __S(2162, __c135, 2) as any as S.Schema<ActionRunResponseOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5451,8 +5479,8 @@ export const v1GetActionRunLogs: API.OperationMethod<
   V1GetActionRunLogsError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c136, 0) as any as S.Schema<V1GetActionRunLogsRequest>,
-  output: __S(2416, __c151, 0) as any as S.Schema<V1GetActionRunLogsResponse>,
+  input: __S(2192, __c137, 0) as any as S.Schema<V1GetActionRunLogsRequest>,
+  output: __S(2432, __c152, 0) as any as S.Schema<V1GetActionRunLogsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5468,8 +5496,8 @@ export const v1GetAFunction: API.OperationMethod<
   V1GetAFunctionError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2192, __c137, 0) as any as S.Schema<V1GetAFunctionRequest>,
-  output: __S(400, __c25, 0) as any as S.Schema<FunctionSlugResponseOutput>,
+  input: __S(2208, __c138, 0) as any as S.Schema<V1GetAFunctionRequest>,
+  output: __S(416, __c26, 0) as any as S.Schema<FunctionSlugResponseOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5485,8 +5513,8 @@ export const v1GetAFunctionBody: API.OperationMethod<
   V1GetAFunctionBodyError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c138, 0) as any as S.Schema<V1GetAFunctionBodyRequest>,
-  output: __S(2224, __c139, 0) as any as S.Schema<V1GetAFunctionBodyResponse>,
+  input: __S(2224, __c139, 0) as any as S.Schema<V1GetAFunctionBodyRequest>,
+  output: __S(2240, __c140, 0) as any as S.Schema<V1GetAFunctionBodyResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5506,8 +5534,8 @@ export const v1GetAllProjectsForOrganization: API.OperationMethod<
   V1GetAllProjectsForOrganizationError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c140, 0) as any as S.Schema<V1GetAllProjectsForOrganizationRequest>,
-  output: __S(2246, __c140, 6) as any as S.Schema<OrganizationProjectsResponseOutput>,
+  input: __S(2256, __c141, 0) as any as S.Schema<V1GetAllProjectsForOrganizationRequest>,
+  output: __S(2262, __c141, 6) as any as S.Schema<OrganizationProjectsResponseOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5523,8 +5551,8 @@ export const v1GetAMigration: API.OperationMethod<
   V1GetAMigrationError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2256, __c141, 0) as any as S.Schema<V1GetAMigrationRequest>,
-  output: __S(2257, __c141, 1) as any as S.Schema<V1GetMigrationResponseOutput>,
+  input: __S(2272, __c142, 0) as any as S.Schema<V1GetAMigrationRequest>,
+  output: __S(2273, __c142, 1) as any as S.Schema<V1GetMigrationResponseOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5540,8 +5568,8 @@ export const v1GetAnOrganization: API.OperationMethod<
   V1GetAnOrganizationError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c142, 0) as any as S.Schema<V1GetAnOrganizationRequest>,
-  output: __S(2273, __c142, 1) as any as S.Schema<V1OrganizationSlugResponseOutput>,
+  input: __S(2288, __c143, 0) as any as S.Schema<V1GetAnOrganizationRequest>,
+  output: __S(2289, __c143, 1) as any as S.Schema<V1OrganizationSlugResponseOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5557,8 +5585,8 @@ export const v1GetASnippet: API.OperationMethod<
   V1GetASnippetError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c144, 0) as any as S.Schema<V1GetASnippetRequest>,
-  output: __S(2306, __c144, 2) as any as S.Schema<SnippetResponseOutput>,
+  input: __S(2320, __c145, 0) as any as S.Schema<V1GetASnippetRequest>,
+  output: __S(2322, __c145, 2) as any as S.Schema<SnippetResponseOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5574,8 +5602,8 @@ export const v1GetASsoProvider: API.OperationMethod<
   V1GetASsoProviderError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c146, 0) as any as S.Schema<V1GetASsoProviderRequest>,
-  output: __S(2342, __c146, 6) as any as S.Schema<GetProviderResponseOutput>,
+  input: __S(2352, __c147, 0) as any as S.Schema<V1GetASsoProviderRequest>,
+  output: __S(2358, __c147, 6) as any as S.Schema<GetProviderResponseOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5591,8 +5619,8 @@ export const v1GetAuthServiceConfig: API.OperationMethod<
   V1GetAuthServiceConfigError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2352, __c147, 0) as any as S.Schema<V1GetAuthServiceConfigRequest>,
-  output: __S(2368, __c148, 0) as any as S.Schema<AuthConfigResponseOutput>,
+  input: __S(2368, __c148, 0) as any as S.Schema<V1GetAuthServiceConfigRequest>,
+  output: __S(2384, __c149, 0) as any as S.Schema<AuthConfigResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5608,8 +5636,8 @@ export const v1GetAvailableRegions: API.OperationMethod<
   V1GetAvailableRegionsError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2384, __c149, 0) as any as S.Schema<V1GetAvailableRegionsRequest>,
-  output: __S(2391, __c149, 7) as any as S.Schema<RegionsInfoV1Output>,
+  input: __S(2400, __c150, 0) as any as S.Schema<V1GetAvailableRegionsRequest>,
+  output: __S(2407, __c150, 7) as any as S.Schema<RegionsInfoV1Output>,
   errors: [Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5625,8 +5653,8 @@ export const v1GetBackupSchedule: API.OperationMethod<
   V1GetBackupScheduleError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c152, 0) as any as S.Schema<V1GetBackupScheduleRequest>,
-  output: __S(2448, __c153, 0) as any as S.Schema<V1BackupScheduleResponseOutput>,
+  input: __S(2448, __c153, 0) as any as S.Schema<V1GetBackupScheduleRequest>,
+  output: __S(2464, __c154, 0) as any as S.Schema<V1BackupScheduleResponseOutput>,
   errors: [Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5642,8 +5670,8 @@ export const v1GetDatabaseDisk: API.OperationMethod<
   V1GetDatabaseDiskError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c154, 0) as any as S.Schema<V1GetDatabaseDiskRequest>,
-  output: __S(2466, __c154, 2) as any as S.Schema<DiskResponseOutput>,
+  input: __S(2480, __c155, 0) as any as S.Schema<V1GetDatabaseDiskRequest>,
+  output: __S(2482, __c155, 2) as any as S.Schema<DiskResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5659,8 +5687,8 @@ export const v1GetDatabaseMetadata: API.OperationMethod<
   V1GetDatabaseMetadataError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2480, __c155, 0) as any as S.Schema<V1GetDatabaseMetadataRequest>,
-  output: __S(2485, __c155, 5) as any as S.Schema<GetProjectDbMetadataResponseOutput>,
+  input: __S(2496, __c156, 0) as any as S.Schema<V1GetDatabaseMetadataRequest>,
+  output: __S(2501, __c156, 5) as any as S.Schema<GetProjectDbMetadataResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5676,8 +5704,8 @@ export const v1GetDatabaseOpenapi: API.OperationMethod<
   V1GetDatabaseOpenapiError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c156, 0) as any as S.Schema<V1GetDatabaseOpenapiRequest>,
-  output: __S(2224, __c139, 0) as any as S.Schema<V1GetDatabaseOpenapiResponse>,
+  input: __S(2512, __c157, 0) as any as S.Schema<V1GetDatabaseOpenapiRequest>,
+  output: __S(2240, __c140, 0) as any as S.Schema<V1GetDatabaseOpenapiResponse>,
   errors: [Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5693,8 +5721,8 @@ export const v1GetDiskUtilization: API.OperationMethod<
   V1GetDiskUtilizationError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2512, __c157, 0) as any as S.Schema<V1GetDiskUtilizationRequest>,
-  output: __S(2514, __c157, 2) as any as S.Schema<DiskUtilMetricsResponseOutput>,
+  input: __S(2528, __c158, 0) as any as S.Schema<V1GetDiskUtilizationRequest>,
+  output: __S(2530, __c158, 2) as any as S.Schema<DiskUtilMetricsResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5710,8 +5738,8 @@ export const v1GetHostnameConfig: API.OperationMethod<
   V1GetHostnameConfigError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c158, 0) as any as S.Schema<V1GetHostnameConfigRequest>,
-  output: __S(1976, __c123, 8) as any as S.Schema<UpdateCustomHostnameResponseOutput>,
+  input: __S(2544, __c159, 0) as any as S.Schema<V1GetHostnameConfigRequest>,
+  output: __S(1992, __c124, 8) as any as S.Schema<UpdateCustomHostnameResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5727,8 +5755,8 @@ export const v1GetJitAccess: API.OperationMethod<
   V1GetJitAccessError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2544, __c159, 0) as any as S.Schema<V1GetJitAccessRequest>,
-  output: __S(1696, __c106, 0) as any as S.Schema<JitAccessResponseOutput>,
+  input: __S(2560, __c160, 0) as any as S.Schema<V1GetJitAccessRequest>,
+  output: __S(1712, __c107, 0) as any as S.Schema<JitAccessResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5744,8 +5772,8 @@ export const v1GetJitAccessConfig: API.OperationMethod<
   V1GetJitAccessConfigError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c160, 0) as any as S.Schema<V1GetJitAccessConfigRequest>,
-  output: __S(2562, __c160, 2) as any as S.Schema<V1GetJitAccessConfigResponse>,
+  input: __S(2576, __c161, 0) as any as S.Schema<V1GetJitAccessConfigRequest>,
+  output: __S(2578, __c161, 2) as any as S.Schema<V1GetJitAccessConfigResponse>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5761,8 +5789,8 @@ export const v1GetLegacySigningKey: API.OperationMethod<
   V1GetLegacySigningKeyError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2576, __c161, 0) as any as S.Schema<V1GetLegacySigningKeyRequest>,
-  output: __S(1440, __c90, 0) as any as S.Schema<SigningKeyResponseOutput>,
+  input: __S(2592, __c162, 0) as any as S.Schema<V1GetLegacySigningKeyRequest>,
+  output: __S(1456, __c91, 0) as any as S.Schema<SigningKeyResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5778,8 +5806,8 @@ export const v1GetNetworkRestrictions: API.OperationMethod<
   V1GetNetworkRestrictionsError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c162, 0) as any as S.Schema<V1GetNetworkRestrictionsRequest>,
-  output: __S(2624, __c164, 0) as any as S.Schema<NetworkRestrictionsResponseOutput>,
+  input: __S(2608, __c163, 0) as any as S.Schema<V1GetNetworkRestrictionsRequest>,
+  output: __S(2640, __c165, 0) as any as S.Schema<NetworkRestrictionsResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5795,8 +5823,8 @@ export const v1GetOrganizationEntitlements: API.OperationMethod<
   V1GetOrganizationEntitlementsError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c166, 0) as any as S.Schema<V1GetOrganizationEntitlementsRequest>,
-  output: __S(2661, __c166, 5) as any as S.Schema<V1ListEntitlementsResponseOutput>,
+  input: __S(2672, __c167, 0) as any as S.Schema<V1GetOrganizationEntitlementsRequest>,
+  output: __S(2677, __c167, 5) as any as S.Schema<V1ListEntitlementsResponseOutput>,
   errors: [Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5816,8 +5844,8 @@ export const v1GetOrganizationProjectClaim: API.OperationMethod<
   V1GetOrganizationProjectClaimError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2672, __c167, 0) as any as S.Schema<V1GetOrganizationProjectClaimRequest>,
-  output: __S(2679, __c167, 7) as any as S.Schema<OrganizationProjectClaimResponseOutput>,
+  input: __S(2688, __c168, 0) as any as S.Schema<V1GetOrganizationProjectClaimRequest>,
+  output: __S(2695, __c168, 7) as any as S.Schema<OrganizationProjectClaimResponseOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5833,8 +5861,8 @@ export const v1GetPerformanceAdvisors: API.OperationMethod<
   V1GetPerformanceAdvisorsError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c168, 0) as any as S.Schema<V1GetPerformanceAdvisorsRequest>,
-  output: __S(2708, __c169, 4) as any as S.Schema<V1ProjectAdvisorsResponseOutput>,
+  input: __S(2704, __c169, 0) as any as S.Schema<V1GetPerformanceAdvisorsRequest>,
+  output: __S(2724, __c170, 4) as any as S.Schema<V1ProjectAdvisorsResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5850,8 +5878,8 @@ export const v1GetPgsodiumConfig: API.OperationMethod<
   V1GetPgsodiumConfigError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c170, 0) as any as S.Schema<V1GetPgsodiumConfigRequest>,
-  output: __S(2736, __c171, 0) as any as S.Schema<PgsodiumConfigResponseOutput>,
+  input: __S(2736, __c171, 0) as any as S.Schema<V1GetPgsodiumConfigRequest>,
+  output: __S(2752, __c172, 0) as any as S.Schema<PgsodiumConfigResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5867,8 +5895,8 @@ export const v1GetPoolerConfig: API.OperationMethod<
   V1GetPoolerConfigError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c172, 0) as any as S.Schema<V1GetPoolerConfigRequest>,
-  output: __S(2755, __c172, 3) as any as S.Schema<V1GetPoolerConfigResponse>,
+  input: __S(2768, __c173, 0) as any as S.Schema<V1GetPoolerConfigRequest>,
+  output: __S(2771, __c173, 3) as any as S.Schema<V1GetPoolerConfigResponse>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5884,8 +5912,8 @@ export const v1GetPostgresConfig: API.OperationMethod<
   V1GetPostgresConfigError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2768, __c173, 0) as any as S.Schema<V1GetPostgresConfigRequest>,
-  output: __S(2784, __c174, 0) as any as S.Schema<PostgresConfigResponseOutput>,
+  input: __S(2784, __c174, 0) as any as S.Schema<V1GetPostgresConfigRequest>,
+  output: __S(2800, __c175, 0) as any as S.Schema<PostgresConfigResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5901,8 +5929,8 @@ export const v1GetPostgrestServiceConfig: API.OperationMethod<
   V1GetPostgrestServiceConfigError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2800, __c175, 0) as any as S.Schema<V1GetPostgrestServiceConfigRequest>,
-  output: __S(2801, __c175, 1) as any as S.Schema<PostgrestConfigWithJWTSecretResponseOutput>,
+  input: __S(2816, __c176, 0) as any as S.Schema<V1GetPostgrestServiceConfigRequest>,
+  output: __S(2817, __c176, 1) as any as S.Schema<PostgrestConfigWithJWTSecretResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5918,8 +5946,8 @@ export const v1GetPostgresUpgradeEligibility: API.OperationMethod<
   V1GetPostgresUpgradeEligibilityError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c176, 0) as any as S.Schema<V1GetPostgresUpgradeEligibilityRequest>,
-  output: __S(2823, __c176, 7) as any as S.Schema<ProjectUpgradeEligibilityResponseOutput>,
+  input: __S(2832, __c177, 0) as any as S.Schema<V1GetPostgresUpgradeEligibilityRequest>,
+  output: __S(2839, __c177, 7) as any as S.Schema<ProjectUpgradeEligibilityResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5935,8 +5963,8 @@ export const v1GetPostgresUpgradeStatus: API.OperationMethod<
   V1GetPostgresUpgradeStatusError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2832, __c177, 0) as any as S.Schema<V1GetPostgresUpgradeStatusRequest>,
-  output: __S(2834, __c177, 2) as any as S.Schema<DatabaseUpgradeStatusResponseOutput>,
+  input: __S(2848, __c178, 0) as any as S.Schema<V1GetPostgresUpgradeStatusRequest>,
+  output: __S(2850, __c178, 2) as any as S.Schema<DatabaseUpgradeStatusResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5952,8 +5980,8 @@ export const v1GetProfile: API.OperationMethod<
   V1GetProfileError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c178, 0) as any as S.Schema<V1GetProfileRequest>,
-  output: __S(2849, __c178, 1) as any as S.Schema<V1ProfileResponseOutput>,
+  input: __S(2864, __c179, 0) as any as S.Schema<V1GetProfileRequest>,
+  output: __S(2865, __c179, 1) as any as S.Schema<V1ProfileResponseOutput>,
   errors: [],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5969,8 +5997,8 @@ export const v1GetProject: API.OperationMethod<
   V1GetProjectError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c180, 0) as any as S.Schema<V1GetProjectRequest>,
-  output: __S(2897, __c181, 1) as any as S.Schema<V1ProjectWithDatabaseResponseOutput>,
+  input: __S(2896, __c181, 0) as any as S.Schema<V1GetProjectRequest>,
+  output: __S(2913, __c182, 1) as any as S.Schema<V1ProjectWithDatabaseResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -5991,8 +6019,8 @@ export const v1GetProjectApiKey: API.OperationMethod<
   V1GetProjectApiKeyError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c182, 0) as any as S.Schema<V1GetProjectApiKeyRequest>,
-  output: __S(1489, __c93, 1) as any as S.Schema<ApiKeyResponseOutput>,
+  input: __S(2928, __c183, 0) as any as S.Schema<V1GetProjectApiKeyRequest>,
+  output: __S(1505, __c94, 1) as any as S.Schema<ApiKeyResponseOutput>,
   errors: [BadRequest, Forbidden, NotFound, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6008,8 +6036,8 @@ export const v1GetProjectApiKeys: API.OperationMethod<
   V1GetProjectApiKeysError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2928, __c183, 0) as any as S.Schema<V1GetProjectApiKeysRequest>,
-  output: __S(2930, __c183, 2) as any as S.Schema<V1GetProjectApiKeysResponse>,
+  input: __S(2944, __c184, 0) as any as S.Schema<V1GetProjectApiKeysRequest>,
+  output: __S(2946, __c184, 2) as any as S.Schema<V1GetProjectApiKeysResponse>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6025,8 +6053,8 @@ export const v1GetProjectClaimToken: API.OperationMethod<
   V1GetProjectClaimTokenError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c184, 0) as any as S.Schema<V1GetProjectClaimTokenRequest>,
-  output: __S(2945, __c184, 1) as any as S.Schema<ProjectClaimTokenResponseOutput>,
+  input: __S(2960, __c185, 0) as any as S.Schema<V1GetProjectClaimTokenRequest>,
+  output: __S(2961, __c185, 1) as any as S.Schema<ProjectClaimTokenResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6042,8 +6070,8 @@ export const v1GetProjectDiskAutoscaleConfig: API.OperationMethod<
   V1GetProjectDiskAutoscaleConfigError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2960, __c185, 0) as any as S.Schema<V1GetProjectDiskAutoscaleConfigRequest>,
-  output: __S(2961, __c185, 1) as any as S.Schema<DiskAutoscaleConfigOutput>,
+  input: __S(2976, __c186, 0) as any as S.Schema<V1GetProjectDiskAutoscaleConfigRequest>,
+  output: __S(2977, __c186, 1) as any as S.Schema<DiskAutoscaleConfigOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6059,8 +6087,8 @@ export const v1GetProjectFunctionCombinedStats: API.OperationMethod<
   V1GetProjectFunctionCombinedStatsError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c186, 0) as any as S.Schema<V1GetProjectFunctionCombinedStatsRequest>,
-  output: __S(2993, __c187, 1) as any as S.Schema<AnalyticsResponseOutput>,
+  input: __S(2992, __c187, 0) as any as S.Schema<V1GetProjectFunctionCombinedStatsRequest>,
+  output: __S(3009, __c188, 1) as any as S.Schema<AnalyticsResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6076,8 +6104,8 @@ export const v1GetProjectLegacyApiKeys: API.OperationMethod<
   V1GetProjectLegacyApiKeysError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3024, __c189, 0) as any as S.Schema<V1GetProjectLegacyApiKeysRequest>,
-  output: __S(3040, __c190, 0) as any as S.Schema<LegacyApiKeysResponseOutput>,
+  input: __S(3040, __c190, 0) as any as S.Schema<V1GetProjectLegacyApiKeysRequest>,
+  output: __S(3056, __c191, 0) as any as S.Schema<LegacyApiKeysResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6093,8 +6121,8 @@ export const v1GetProjectLogs: API.OperationMethod<
   V1GetProjectLogsError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3056, __c191, 0) as any as S.Schema<V1GetProjectLogsRequest>,
-  output: __S(2993, __c187, 1) as any as S.Schema<AnalyticsResponseOutput>,
+  input: __S(3072, __c192, 0) as any as S.Schema<V1GetProjectLogsRequest>,
+  output: __S(3009, __c188, 1) as any as S.Schema<AnalyticsResponseOutput>,
   errors: [Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6110,8 +6138,8 @@ export const v1GetProjectPgbouncerConfig: API.OperationMethod<
   V1GetProjectPgbouncerConfigError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c192, 0) as any as S.Schema<V1GetProjectPgbouncerConfigRequest>,
-  output: __S(3073, __c192, 1) as any as S.Schema<V1PgbouncerConfigResponseOutput>,
+  input: __S(3088, __c193, 0) as any as S.Schema<V1GetProjectPgbouncerConfigRequest>,
+  output: __S(3089, __c193, 1) as any as S.Schema<V1PgbouncerConfigResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6127,8 +6155,8 @@ export const v1GetProjectSigningKey: API.OperationMethod<
   V1GetProjectSigningKeyError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3088, __c193, 0) as any as S.Schema<V1GetProjectSigningKeyRequest>,
-  output: __S(1440, __c90, 0) as any as S.Schema<SigningKeyResponseOutput>,
+  input: __S(3104, __c194, 0) as any as S.Schema<V1GetProjectSigningKeyRequest>,
+  output: __S(1456, __c91, 0) as any as S.Schema<SigningKeyResponseOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6144,8 +6172,8 @@ export const v1GetProjectSigningKeys: API.OperationMethod<
   V1GetProjectSigningKeysError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3120, __c195, 0) as any as S.Schema<V1GetProjectSigningKeysRequest>,
-  output: __S(3122, __c195, 2) as any as S.Schema<SigningKeysResponseOutput>,
+  input: __S(3136, __c196, 0) as any as S.Schema<V1GetProjectSigningKeysRequest>,
+  output: __S(3138, __c196, 2) as any as S.Schema<SigningKeysResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6161,8 +6189,8 @@ export const v1GetProjectTpaIntegration: API.OperationMethod<
   V1GetProjectTpaIntegrationError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c196, 0) as any as S.Schema<V1GetProjectTpaIntegrationRequest>,
-  output: __S(1552, __c97, 0) as any as S.Schema<ThirdPartyAuthOutput>,
+  input: __S(3152, __c197, 0) as any as S.Schema<V1GetProjectTpaIntegrationRequest>,
+  output: __S(1568, __c98, 0) as any as S.Schema<ThirdPartyAuthOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6178,8 +6206,8 @@ export const v1GetProjectUsageApiCount: API.OperationMethod<
   V1GetProjectUsageApiCountError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3152, __c197, 0) as any as S.Schema<V1GetProjectUsageApiCountRequest>,
-  output: __S(3156, __c197, 4) as any as S.Schema<V1GetUsageApiCountResponseOutput>,
+  input: __S(3168, __c198, 0) as any as S.Schema<V1GetProjectUsageApiCountRequest>,
+  output: __S(3172, __c198, 4) as any as S.Schema<V1GetUsageApiCountResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6195,8 +6223,8 @@ export const v1GetProjectUsageRequestCount: API.OperationMethod<
   V1GetProjectUsageRequestCountError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c198, 0) as any as S.Schema<V1GetProjectUsageRequestCountRequest>,
-  output: __S(3172, __c198, 4) as any as S.Schema<V1GetUsageApiRequestsCountResponseOutput>,
+  input: __S(3184, __c199, 0) as any as S.Schema<V1GetProjectUsageRequestCountRequest>,
+  output: __S(3188, __c199, 4) as any as S.Schema<V1GetUsageApiRequestsCountResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6212,8 +6240,8 @@ export const v1GetReadonlyModeStatus: API.OperationMethod<
   V1GetReadonlyModeStatusError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3184, __c199, 0) as any as S.Schema<V1GetReadonlyModeStatusRequest>,
-  output: __S(3185, __c199, 1) as any as S.Schema<ReadOnlyStatusResponseOutput>,
+  input: __S(3200, __c200, 0) as any as S.Schema<V1GetReadonlyModeStatusRequest>,
+  output: __S(3201, __c200, 1) as any as S.Schema<ReadOnlyStatusResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6229,8 +6257,8 @@ export const v1GetRealtimeConfig: API.OperationMethod<
   V1GetRealtimeConfigError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c200, 0) as any as S.Schema<V1GetRealtimeConfigRequest>,
-  output: __S(3201, __c200, 1) as any as S.Schema<RealtimeConfigResponseOutput>,
+  input: __S(3216, __c201, 0) as any as S.Schema<V1GetRealtimeConfigRequest>,
+  output: __S(3217, __c201, 1) as any as S.Schema<RealtimeConfigResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6246,8 +6274,8 @@ export const v1GetRestorePoint: API.OperationMethod<
   V1GetRestorePointError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3216, __c201, 0) as any as S.Schema<V1GetRestorePointRequest>,
-  output: __S(1584, __c99, 0) as any as S.Schema<V1RestorePointResponse>,
+  input: __S(3232, __c202, 0) as any as S.Schema<V1GetRestorePointRequest>,
+  output: __S(1600, __c100, 0) as any as S.Schema<V1RestorePointResponse>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6263,8 +6291,8 @@ export const v1GetSecurityAdvisors: API.OperationMethod<
   V1GetSecurityAdvisorsError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c202, 0) as any as S.Schema<V1GetSecurityAdvisorsRequest>,
-  output: __S(2708, __c169, 4) as any as S.Schema<V1ProjectAdvisorsResponseOutput>,
+  input: __S(3248, __c203, 0) as any as S.Schema<V1GetSecurityAdvisorsRequest>,
+  output: __S(2724, __c170, 4) as any as S.Schema<V1ProjectAdvisorsResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6280,8 +6308,8 @@ export const v1GetServicesHealth: API.OperationMethod<
   V1GetServicesHealthError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3249, __c203, 1) as any as S.Schema<V1GetServicesHealthRequest>,
-  output: __S(3253, __c203, 5) as any as S.Schema<V1GetServicesHealthResponse>,
+  input: __S(3265, __c204, 1) as any as S.Schema<V1GetServicesHealthRequest>,
+  output: __S(3269, __c204, 5) as any as S.Schema<V1GetServicesHealthResponse>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6297,8 +6325,8 @@ export const v1GetSslEnforcementConfig: API.OperationMethod<
   V1GetSslEnforcementConfigError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c204, 0) as any as S.Schema<V1GetSslEnforcementConfigRequest>,
-  output: __S(3281, __c205, 1) as any as S.Schema<SslEnforcementResponseOutput>,
+  input: __S(3280, __c205, 0) as any as S.Schema<V1GetSslEnforcementConfigRequest>,
+  output: __S(3297, __c206, 1) as any as S.Schema<SslEnforcementResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6314,8 +6342,8 @@ export const v1GetStorageConfig: API.OperationMethod<
   V1GetStorageConfigError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c1, 0) as any as S.Schema<V1GetStorageConfigRequest>,
-  output: __S(19, __c1, 3) as any as S.Schema<StorageConfigResponseOutput>,
+  input: __S(32, __c2, 0) as any as S.Schema<V1GetStorageConfigRequest>,
+  output: __S(35, __c2, 3) as any as S.Schema<StorageConfigResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6331,8 +6359,8 @@ export const v1GetVanitySubdomainConfig: API.OperationMethod<
   V1GetVanitySubdomainConfigError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<V1GetVanitySubdomainConfigRequest>,
-  output: __S(49, __c3, 1) as any as S.Schema<VanitySubdomainConfigResponseOutput>,
+  input: __S(64, __c4, 0) as any as S.Schema<V1GetVanitySubdomainConfigRequest>,
+  output: __S(65, __c4, 1) as any as S.Schema<VanitySubdomainConfigResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6348,8 +6376,8 @@ export const v1InviteExternalJitAccess: API.OperationMethod<
   V1InviteExternalJitAccessError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<V1InviteExternalJitAccessRequest>,
-  output: __S(65, __c4, 1) as any as S.Schema<InviteExternalUserJitResponseOutput>,
+  input: __S(80, __c5, 0) as any as S.Schema<V1InviteExternalJitAccessRequest>,
+  output: __S(81, __c5, 1) as any as S.Schema<InviteExternalUserJitResponseOutput>,
   errors: [Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6365,8 +6393,8 @@ export const v1ListActionRuns: API.OperationMethod<
   V1ListActionRunsError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<V1ListActionRunsRequest>,
-  output: __S(82, __c5, 2) as any as S.Schema<V1ListActionRunsResponse>,
+  input: __S(96, __c6, 0) as any as S.Schema<V1ListActionRunsRequest>,
+  output: __S(98, __c6, 2) as any as S.Schema<V1ListActionRunsResponse>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6382,8 +6410,8 @@ export const v1ListAllBackups: API.OperationMethod<
   V1ListAllBackupsError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<V1ListAllBackupsRequest>,
-  output: __S(100, __c6, 4) as any as S.Schema<V1BackupsResponseOutput>,
+  input: __S(112, __c7, 0) as any as S.Schema<V1ListAllBackupsRequest>,
+  output: __S(116, __c7, 4) as any as S.Schema<V1BackupsResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6399,8 +6427,8 @@ export const v1ListAllBranches: API.OperationMethod<
   V1ListAllBranchesError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<V1ListAllBranchesRequest>,
-  output: __S(114, __c7, 2) as any as S.Schema<V1ListAllBranchesResponse>,
+  input: __S(128, __c8, 0) as any as S.Schema<V1ListAllBranchesRequest>,
+  output: __S(130, __c8, 2) as any as S.Schema<V1ListAllBranchesResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6416,8 +6444,8 @@ export const v1ListAllBuckets: API.OperationMethod<
   V1ListAllBucketsError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<V1ListAllBucketsRequest>,
-  output: __S(131, __c8, 3) as any as S.Schema<V1ListAllBucketsResponse>,
+  input: __S(144, __c9, 0) as any as S.Schema<V1ListAllBucketsRequest>,
+  output: __S(147, __c9, 3) as any as S.Schema<V1ListAllBucketsResponse>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6433,8 +6461,8 @@ export const v1ListAllFunctions: API.OperationMethod<
   V1ListAllFunctionsError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<V1ListAllFunctionsRequest>,
-  output: __S(145, __c9, 1) as any as S.Schema<V1ListAllFunctionsResponse>,
+  input: __S(160, __c10, 0) as any as S.Schema<V1ListAllFunctionsRequest>,
+  output: __S(161, __c10, 1) as any as S.Schema<V1ListAllFunctionsResponse>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6450,8 +6478,8 @@ export const v1ListAllNetworkBans: API.OperationMethod<
   V1ListAllNetworkBansError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<V1ListAllNetworkBansRequest>,
-  output: __S(161, __c10, 1) as any as S.Schema<NetworkBanResponseOutput>,
+  input: __S(176, __c11, 0) as any as S.Schema<V1ListAllNetworkBansRequest>,
+  output: __S(177, __c11, 1) as any as S.Schema<NetworkBanResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6467,8 +6495,8 @@ export const v1ListAllNetworkBansEnriched: API.OperationMethod<
   V1ListAllNetworkBansEnrichedError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<V1ListAllNetworkBansEnrichedRequest>,
-  output: __S(179, __c11, 3) as any as S.Schema<NetworkBanResponseEnrichedOutput>,
+  input: __S(192, __c12, 0) as any as S.Schema<V1ListAllNetworkBansEnrichedRequest>,
+  output: __S(195, __c12, 3) as any as S.Schema<NetworkBanResponseEnrichedOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6484,8 +6512,8 @@ export const v1ListAllOrganizations: API.OperationMethod<
   V1ListAllOrganizationsError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<V1ListAllOrganizationsRequest>,
-  output: __S(210, __c13, 2) as any as S.Schema<V1ListAllOrganizationsResponse>,
+  input: __S(224, __c14, 0) as any as S.Schema<V1ListAllOrganizationsRequest>,
+  output: __S(226, __c14, 2) as any as S.Schema<V1ListAllOrganizationsResponse>,
   errors: [Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6501,8 +6529,8 @@ export const v1ListAllProjects: API.OperationMethod<
   V1ListAllProjectsError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<V1ListAllProjectsRequest>,
-  output: __S(226, __c14, 2) as any as S.Schema<V1ListAllProjectsResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<V1ListAllProjectsRequest>,
+  output: __S(242, __c15, 2) as any as S.Schema<V1ListAllProjectsResponse>,
   errors: [Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6518,8 +6546,8 @@ export const v1ListAllSecrets: API.OperationMethod<
   V1ListAllSecretsError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<V1ListAllSecretsRequest>,
-  output: __S(243, __c15, 3) as any as S.Schema<V1ListAllSecretsResponse>,
+  input: __S(256, __c16, 0) as any as S.Schema<V1ListAllSecretsRequest>,
+  output: __S(259, __c16, 3) as any as S.Schema<V1ListAllSecretsResponse>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6535,8 +6563,8 @@ export const v1ListAllSnippets: API.OperationMethod<
   V1ListAllSnippetsError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<V1ListAllSnippetsRequest>,
-  output: __S(259, __c16, 3) as any as S.Schema<SnippetListOutput>,
+  input: __S(272, __c17, 0) as any as S.Schema<V1ListAllSnippetsRequest>,
+  output: __S(275, __c17, 3) as any as S.Schema<SnippetListOutput>,
   errors: [Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6552,8 +6580,8 @@ export const v1ListAllSsoProvider: API.OperationMethod<
   V1ListAllSsoProviderError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<V1ListAllSsoProviderRequest>,
-  output: __S(280, __c17, 8) as any as S.Schema<ListProvidersResponseOutput>,
+  input: __S(288, __c18, 0) as any as S.Schema<V1ListAllSsoProviderRequest>,
+  output: __S(296, __c18, 8) as any as S.Schema<ListProvidersResponseOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6569,8 +6597,8 @@ export const v1ListAvailableRestoreVersions: API.OperationMethod<
   V1ListAvailableRestoreVersionsError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<V1ListAvailableRestoreVersionsRequest>,
-  output: __S(291, __c18, 3) as any as S.Schema<GetProjectAvailableRestoreVersionsResponseOutput>,
+  input: __S(304, __c19, 0) as any as S.Schema<V1ListAvailableRestoreVersionsRequest>,
+  output: __S(307, __c19, 3) as any as S.Schema<GetProjectAvailableRestoreVersionsResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6586,8 +6614,8 @@ export const v1ListJitAccess: API.OperationMethod<
   V1ListJitAccessError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<V1ListJitAccessRequest>,
-  output: __S(307, __c19, 3) as any as S.Schema<JitListAccessResponseOutput>,
+  input: __S(320, __c20, 0) as any as S.Schema<V1ListJitAccessRequest>,
+  output: __S(323, __c20, 3) as any as S.Schema<JitListAccessResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6603,8 +6631,8 @@ export const v1ListMigrationHistory: API.OperationMethod<
   V1ListMigrationHistoryError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<V1ListMigrationHistoryRequest>,
-  output: __S(323, __c20, 3) as any as S.Schema<V1ListMigrationHistoryResponse>,
+  input: __S(336, __c21, 0) as any as S.Schema<V1ListMigrationHistoryRequest>,
+  output: __S(339, __c21, 3) as any as S.Schema<V1ListMigrationHistoryResponse>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6620,8 +6648,8 @@ export const v1ListOrganizationMembers: API.OperationMethod<
   V1ListOrganizationMembersError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<V1ListOrganizationMembersRequest>,
-  output: __S(339, __c21, 3) as any as S.Schema<V1ListOrganizationMembersResponse>,
+  input: __S(352, __c22, 0) as any as S.Schema<V1ListOrganizationMembersRequest>,
+  output: __S(355, __c22, 3) as any as S.Schema<V1ListOrganizationMembersResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6637,8 +6665,8 @@ export const v1ListProjectAddons: API.OperationMethod<
   V1ListProjectAddonsError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<V1ListProjectAddonsRequest>,
-  output: __S(363, __c22, 11) as any as S.Schema<ListProjectAddonsResponseOutput>,
+  input: __S(368, __c23, 0) as any as S.Schema<V1ListProjectAddonsRequest>,
+  output: __S(379, __c23, 11) as any as S.Schema<ListProjectAddonsResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6654,8 +6682,8 @@ export const v1ListProjectTpaIntegrations: API.OperationMethod<
   V1ListProjectTpaIntegrationsError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<V1ListProjectTpaIntegrationsRequest>,
-  output: __S(418, __c26, 2) as any as S.Schema<V1ListProjectTpaIntegrationsResponse>,
+  input: __S(432, __c27, 0) as any as S.Schema<V1ListProjectTpaIntegrationsRequest>,
+  output: __S(434, __c27, 2) as any as S.Schema<V1ListProjectTpaIntegrationsResponse>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6671,8 +6699,8 @@ export const v1MergeABranch: API.OperationMethod<
   V1MergeABranchError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<V1MergeABranchRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<BranchUpdateResponseOutput>,
+  input: __S(448, __c28, 0) as any as S.Schema<V1MergeABranchRequest>,
+  output: __S(464, __c29, 0) as any as S.Schema<BranchUpdateResponseOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6688,8 +6716,8 @@ export const v1ModifyDatabaseDisk: API.OperationMethod<
   V1ModifyDatabaseDiskError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(465, __c29, 1) as any as S.Schema<V1ModifyDatabaseDiskRequest>,
-  output: __S(2416, __c151, 0) as any as S.Schema<V1ModifyDatabaseDiskResponse>,
+  input: __S(481, __c30, 1) as any as S.Schema<V1ModifyDatabaseDiskRequest>,
+  output: __S(2432, __c152, 0) as any as S.Schema<V1ModifyDatabaseDiskResponse>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6705,8 +6733,8 @@ export const v1OauthAuthorizeProjectClaim: API.OperationMethod<
   V1OauthAuthorizeProjectClaimError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<V1OauthAuthorizeProjectClaimRequest>,
-  output: __S(2416, __c151, 0) as any as S.Schema<V1OauthAuthorizeProjectClaimResponse>,
+  input: __S(496, __c31, 0) as any as S.Schema<V1OauthAuthorizeProjectClaimRequest>,
+  output: __S(2432, __c152, 0) as any as S.Schema<V1OauthAuthorizeProjectClaimResponse>,
   errors: [Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6722,8 +6750,8 @@ export const v1PatchAMigration: API.OperationMethod<
   V1PatchAMigrationError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<V1PatchAMigrationRequest>,
-  output: __S(2416, __c151, 0) as any as S.Schema<V1PatchAMigrationResponse>,
+  input: __S(512, __c32, 0) as any as S.Schema<V1PatchAMigrationRequest>,
+  output: __S(2432, __c152, 0) as any as S.Schema<V1PatchAMigrationResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6739,8 +6767,8 @@ export const v1PatchNetworkRestrictions: API.OperationMethod<
   V1PatchNetworkRestrictionsError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<V1PatchNetworkRestrictionsRequest>,
-  output: __S(516, __c32, 4) as any as S.Schema<NetworkRestrictionsV2ResponseOutput>,
+  input: __S(528, __c33, 0) as any as S.Schema<V1PatchNetworkRestrictionsRequest>,
+  output: __S(532, __c33, 4) as any as S.Schema<NetworkRestrictionsV2ResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6756,8 +6784,8 @@ export const v1PatchPostgresConfig: API.OperationMethod<
   V1PatchPostgresConfigError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<V1PatchPostgresConfigRequest>,
-  output: __S(2784, __c174, 0) as any as S.Schema<PostgresConfigResponseOutput>,
+  input: __S(544, __c34, 0) as any as S.Schema<V1PatchPostgresConfigRequest>,
+  output: __S(2800, __c175, 0) as any as S.Schema<PostgresConfigResponseOutput>,
   errors: [Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6773,8 +6801,8 @@ export const v1PauseAProject: API.OperationMethod<
   V1PauseAProjectError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<V1PauseAProjectRequest>,
-  output: __S(2416, __c151, 0) as any as S.Schema<V1PauseAProjectResponse>,
+  input: __S(560, __c35, 0) as any as S.Schema<V1PauseAProjectRequest>,
+  output: __S(2432, __c152, 0) as any as S.Schema<V1PauseAProjectResponse>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6790,8 +6818,8 @@ export const v1PushABranch: API.OperationMethod<
   V1PushABranchError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<V1PushABranchRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<BranchUpdateResponseOutput>,
+  input: __S(576, __c36, 0) as any as S.Schema<V1PushABranchRequest>,
+  output: __S(464, __c29, 0) as any as S.Schema<BranchUpdateResponseOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6807,8 +6835,8 @@ export const v1ReadOnlyQuery: API.OperationMethod<
   V1ReadOnlyQueryError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<V1ReadOnlyQueryRequest>,
-  output: __S(2416, __c151, 0) as any as S.Schema<V1ReadOnlyQueryResponse>,
+  input: __S(592, __c37, 0) as any as S.Schema<V1ReadOnlyQueryRequest>,
+  output: __S(2432, __c152, 0) as any as S.Schema<V1ReadOnlyQueryResponse>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6824,8 +6852,8 @@ export const v1RemoveAReadReplica: API.OperationMethod<
   V1RemoveAReadReplicaError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<V1RemoveAReadReplicaRequest>,
-  output: __S(2416, __c151, 0) as any as S.Schema<V1RemoveAReadReplicaResponse>,
+  input: __S(624, __c39, 0) as any as S.Schema<V1RemoveAReadReplicaRequest>,
+  output: __S(2432, __c152, 0) as any as S.Schema<V1RemoveAReadReplicaResponse>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6841,8 +6869,8 @@ export const v1RemoveProjectAddon: API.OperationMethod<
   V1RemoveProjectAddonError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<V1RemoveProjectAddonRequest>,
-  output: __S(2416, __c151, 0) as any as S.Schema<V1RemoveProjectAddonResponse>,
+  input: __S(640, __c40, 0) as any as S.Schema<V1RemoveProjectAddonRequest>,
+  output: __S(2432, __c152, 0) as any as S.Schema<V1RemoveProjectAddonResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6858,8 +6886,8 @@ export const v1RemoveProjectSigningKey: API.OperationMethod<
   V1RemoveProjectSigningKeyError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<V1RemoveProjectSigningKeyRequest>,
-  output: __S(1440, __c90, 0) as any as S.Schema<SigningKeyResponseOutput>,
+  input: __S(656, __c41, 0) as any as S.Schema<V1RemoveProjectSigningKeyRequest>,
+  output: __S(1456, __c91, 0) as any as S.Schema<SigningKeyResponseOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6875,8 +6903,8 @@ export const v1ResetABranch: API.OperationMethod<
   V1ResetABranchError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<V1ResetABranchRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<BranchUpdateResponseOutput>,
+  input: __S(672, __c42, 0) as any as S.Schema<V1ResetABranchRequest>,
+  output: __S(464, __c29, 0) as any as S.Schema<BranchUpdateResponseOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6892,8 +6920,8 @@ export const v1RestartAProject: API.OperationMethod<
   V1RestartAProjectError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<V1RestartAProjectRequest>,
-  output: __S(2416, __c151, 0) as any as S.Schema<V1RestartAProjectResponse>,
+  input: __S(688, __c43, 0) as any as S.Schema<V1RestartAProjectRequest>,
+  output: __S(2432, __c152, 0) as any as S.Schema<V1RestartAProjectResponse>,
   errors: [Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6909,8 +6937,8 @@ export const v1RestoreABranch: API.OperationMethod<
   V1RestoreABranchError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<V1RestoreABranchRequest>,
-  output: __S(1632, __c102, 0) as any as S.Schema<BranchRestoreResponseOutput>,
+  input: __S(704, __c44, 0) as any as S.Schema<V1RestoreABranchRequest>,
+  output: __S(1648, __c103, 0) as any as S.Schema<BranchRestoreResponseOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6926,8 +6954,8 @@ export const v1RestoreAProject: API.OperationMethod<
   V1RestoreAProjectError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<V1RestoreAProjectRequest>,
-  output: __S(2416, __c151, 0) as any as S.Schema<V1RestoreAProjectResponse>,
+  input: __S(720, __c45, 0) as any as S.Schema<V1RestoreAProjectRequest>,
+  output: __S(2432, __c152, 0) as any as S.Schema<V1RestoreAProjectResponse>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6943,8 +6971,8 @@ export const v1RestorePhysicalBackup: API.OperationMethod<
   V1RestorePhysicalBackupError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<V1RestorePhysicalBackupRequest>,
-  output: __S(2416, __c151, 0) as any as S.Schema<V1RestorePhysicalBackupResponse>,
+  input: __S(736, __c46, 0) as any as S.Schema<V1RestorePhysicalBackupRequest>,
+  output: __S(2432, __c152, 0) as any as S.Schema<V1RestorePhysicalBackupResponse>,
   errors: [Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6960,8 +6988,8 @@ export const v1RestorePitrBackup: API.OperationMethod<
   V1RestorePitrBackupError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<V1RestorePitrBackupRequest>,
-  output: __S(2416, __c151, 0) as any as S.Schema<V1RestorePitrBackupResponse>,
+  input: __S(752, __c47, 0) as any as S.Schema<V1RestorePitrBackupRequest>,
+  output: __S(2432, __c152, 0) as any as S.Schema<V1RestorePitrBackupResponse>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6977,8 +7005,8 @@ export const v1ReviewNetworkRestrictions: API.OperationMethod<
   V1ReviewNetworkRestrictionsError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<V1ReviewNetworkRestrictionsRequest>,
-  output: __S(2624, __c164, 0) as any as S.Schema<NetworkRestrictionsResponseOutput>,
+  input: __S(768, __c48, 0) as any as S.Schema<V1ReviewNetworkRestrictionsRequest>,
+  output: __S(2640, __c165, 0) as any as S.Schema<NetworkRestrictionsResponseOutput>,
   errors: [Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -6994,8 +7022,8 @@ export const v1RevokeToken: API.OperationMethod<
   V1RevokeTokenError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<V1RevokeTokenRequest>,
-  output: __S(2416, __c151, 0) as any as S.Schema<V1RevokeTokenResponse>,
+  input: __S(800, __c50, 0) as any as S.Schema<V1RevokeTokenRequest>,
+  output: __S(2432, __c152, 0) as any as S.Schema<V1RevokeTokenResponse>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -7011,8 +7039,8 @@ export const v1RollbackMigrations: API.OperationMethod<
   V1RollbackMigrationsError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<V1RollbackMigrationsRequest>,
-  output: __S(2416, __c151, 0) as any as S.Schema<V1RollbackMigrationsResponse>,
+  input: __S(816, __c51, 0) as any as S.Schema<V1RollbackMigrationsRequest>,
+  output: __S(2432, __c152, 0) as any as S.Schema<V1RollbackMigrationsResponse>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -7028,8 +7056,8 @@ export const v1RunAQuery: API.OperationMethod<
   V1RunAQueryError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c51, 0) as any as S.Schema<V1RunAQueryRequest>,
-  output: __S(2416, __c151, 0) as any as S.Schema<V1RunAQueryResponse>,
+  input: __S(832, __c52, 0) as any as S.Schema<V1RunAQueryRequest>,
+  output: __S(2432, __c152, 0) as any as S.Schema<V1RunAQueryResponse>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -7045,8 +7073,8 @@ export const v1ScrapeProjectMetrics: API.OperationMethod<
   V1ScrapeProjectMetricsError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c52, 0) as any as S.Schema<V1ScrapeProjectMetricsRequest>,
-  output: __S(2416, __c151, 0) as any as S.Schema<V1ScrapeProjectMetricsResponse>,
+  input: __S(848, __c53, 0) as any as S.Schema<V1ScrapeProjectMetricsRequest>,
+  output: __S(2432, __c152, 0) as any as S.Schema<V1ScrapeProjectMetricsResponse>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -7062,8 +7090,8 @@ export const v1SetupAReadReplica: API.OperationMethod<
   V1SetupAReadReplicaError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<V1SetupAReadReplicaRequest>,
-  output: __S(2416, __c151, 0) as any as S.Schema<V1SetupAReadReplicaResponse>,
+  input: __S(864, __c54, 0) as any as S.Schema<V1SetupAReadReplicaRequest>,
+  output: __S(2432, __c152, 0) as any as S.Schema<V1SetupAReadReplicaResponse>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -7079,8 +7107,8 @@ export const v1ShutdownRealtime: API.OperationMethod<
   V1ShutdownRealtimeError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c54, 0) as any as S.Schema<V1ShutdownRealtimeRequest>,
-  output: __S(2416, __c151, 0) as any as S.Schema<V1ShutdownRealtimeResponse>,
+  input: __S(880, __c55, 0) as any as S.Schema<V1ShutdownRealtimeRequest>,
+  output: __S(2432, __c152, 0) as any as S.Schema<V1ShutdownRealtimeResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -7096,8 +7124,8 @@ export const v1Undo: API.OperationMethod<
   V1UndoError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<V1UndoRequest>,
-  output: __S(2416, __c151, 0) as any as S.Schema<V1UndoResponse>,
+  input: __S(896, __c56, 0) as any as S.Schema<V1UndoRequest>,
+  output: __S(2432, __c152, 0) as any as S.Schema<V1UndoResponse>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -7113,8 +7141,8 @@ export const v1UpdateABranchConfig: API.OperationMethod<
   V1UpdateABranchConfigError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<V1UpdateABranchConfigRequest>,
-  output: __S(1136, __c71, 0) as any as S.Schema<BranchResponseOutput>,
+  input: __S(912, __c57, 0) as any as S.Schema<V1UpdateABranchConfigRequest>,
+  output: __S(1152, __c72, 0) as any as S.Schema<BranchResponseOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -7130,8 +7158,8 @@ export const v1UpdateActionRunStatus: API.OperationMethod<
   V1UpdateActionRunStatusError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<V1UpdateActionRunStatusRequest>,
-  output: __S(1632, __c102, 0) as any as S.Schema<UpdateRunStatusResponseOutput>,
+  input: __S(928, __c58, 0) as any as S.Schema<V1UpdateActionRunStatusRequest>,
+  output: __S(1648, __c103, 0) as any as S.Schema<UpdateRunStatusResponseOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -7147,8 +7175,8 @@ export const v1UpdateAFunction: API.OperationMethod<
   V1UpdateAFunctionError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<V1UpdateAFunctionRequest>,
-  output: __S(400, __c25, 0) as any as S.Schema<FunctionSlugResponseOutput>,
+  input: __S(944, __c59, 0) as any as S.Schema<V1UpdateAFunctionRequest>,
+  output: __S(416, __c26, 0) as any as S.Schema<FunctionSlugResponseOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -7164,8 +7192,8 @@ export const v1UpdateAProject: API.OperationMethod<
   V1UpdateAProjectError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<V1UpdateAProjectRequest>,
-  output: __S(1744, __c109, 0) as any as S.Schema<V1ProjectRefResponseOutput>,
+  input: __S(976, __c61, 0) as any as S.Schema<V1UpdateAProjectRequest>,
+  output: __S(1760, __c110, 0) as any as S.Schema<V1ProjectRefResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -7181,8 +7209,8 @@ export const v1UpdateASsoProvider: API.OperationMethod<
   V1UpdateASsoProviderError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(980, __c61, 4) as any as S.Schema<V1UpdateASsoProviderRequest>,
-  output: __S(986, __c61, 10) as any as S.Schema<UpdateProviderResponseOutput>,
+  input: __S(996, __c62, 4) as any as S.Schema<V1UpdateASsoProviderRequest>,
+  output: __S(1002, __c62, 10) as any as S.Schema<UpdateProviderResponseOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -7198,8 +7226,8 @@ export const v1UpdateAuthServiceConfig: API.OperationMethod<
   V1UpdateAuthServiceConfigError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<V1UpdateAuthServiceConfigRequest>,
-  output: __S(2368, __c148, 0) as any as S.Schema<AuthConfigResponseOutput>,
+  input: __S(1008, __c63, 0) as any as S.Schema<V1UpdateAuthServiceConfigRequest>,
+  output: __S(2384, __c149, 0) as any as S.Schema<AuthConfigResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -7215,8 +7243,8 @@ export const v1UpdateBackupSchedule: API.OperationMethod<
   V1UpdateBackupScheduleError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<V1UpdateBackupScheduleRequest>,
-  output: __S(2448, __c153, 0) as any as S.Schema<V1BackupScheduleResponseOutput>,
+  input: __S(1024, __c64, 0) as any as S.Schema<V1UpdateBackupScheduleRequest>,
+  output: __S(2464, __c154, 0) as any as S.Schema<V1BackupScheduleResponseOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -7232,8 +7260,8 @@ export const v1UpdateDatabasePassword: API.OperationMethod<
   V1UpdateDatabasePasswordError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<V1UpdateDatabasePasswordRequest>,
-  output: __S(1952, __c122, 0) as any as S.Schema<V1UpdatePasswordResponseOutput>,
+  input: __S(1040, __c65, 0) as any as S.Schema<V1UpdateDatabasePasswordRequest>,
+  output: __S(1968, __c123, 0) as any as S.Schema<V1UpdatePasswordResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -7249,8 +7277,8 @@ export const v1UpdateHostnameConfig: API.OperationMethod<
   V1UpdateHostnameConfigError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c65, 0) as any as S.Schema<V1UpdateHostnameConfigRequest>,
-  output: __S(1976, __c123, 8) as any as S.Schema<UpdateCustomHostnameResponseOutput>,
+  input: __S(1056, __c66, 0) as any as S.Schema<V1UpdateHostnameConfigRequest>,
+  output: __S(1992, __c124, 8) as any as S.Schema<UpdateCustomHostnameResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -7266,8 +7294,8 @@ export const v1UpdateJitAccess: API.OperationMethod<
   V1UpdateJitAccessError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c66, 0) as any as S.Schema<V1UpdateJitAccessRequest>,
-  output: __S(1696, __c106, 0) as any as S.Schema<JitAccessResponseOutput>,
+  input: __S(1072, __c67, 0) as any as S.Schema<V1UpdateJitAccessRequest>,
+  output: __S(1712, __c107, 0) as any as S.Schema<JitAccessResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -7283,8 +7311,8 @@ export const v1UpdateJitAccessConfig: API.OperationMethod<
   V1UpdateJitAccessConfigError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1072, __c67, 0) as any as S.Schema<V1UpdateJitAccessConfigRequest>,
-  output: __S(1074, __c67, 2) as any as S.Schema<V1UpdateJitAccessConfigResponse>,
+  input: __S(1088, __c68, 0) as any as S.Schema<V1UpdateJitAccessConfigRequest>,
+  output: __S(1090, __c68, 2) as any as S.Schema<V1UpdateJitAccessConfigResponse>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -7300,8 +7328,8 @@ export const v1UpdateNetworkRestrictions: API.OperationMethod<
   V1UpdateNetworkRestrictionsError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<V1UpdateNetworkRestrictionsRequest>,
-  output: __S(2624, __c164, 0) as any as S.Schema<NetworkRestrictionsResponseOutput>,
+  input: __S(1104, __c69, 0) as any as S.Schema<V1UpdateNetworkRestrictionsRequest>,
+  output: __S(2640, __c165, 0) as any as S.Schema<NetworkRestrictionsResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -7317,8 +7345,8 @@ export const v1UpdatePgsodiumConfig: API.OperationMethod<
   V1UpdatePgsodiumConfigError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1104, __c69, 0) as any as S.Schema<V1UpdatePgsodiumConfigRequest>,
-  output: __S(2736, __c171, 0) as any as S.Schema<PgsodiumConfigResponseOutput>,
+  input: __S(1120, __c70, 0) as any as S.Schema<V1UpdatePgsodiumConfigRequest>,
+  output: __S(2752, __c172, 0) as any as S.Schema<PgsodiumConfigResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -7334,8 +7362,8 @@ export const v1UpdatePoolerConfig: API.OperationMethod<
   V1UpdatePoolerConfigError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c72, 0) as any as S.Schema<V1UpdatePoolerConfigRequest>,
-  output: __S(1153, __c72, 1) as any as S.Schema<UpdateSupavisorConfigResponseOutput>,
+  input: __S(1168, __c73, 0) as any as S.Schema<V1UpdatePoolerConfigRequest>,
+  output: __S(1169, __c73, 1) as any as S.Schema<UpdateSupavisorConfigResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -7351,8 +7379,8 @@ export const v1UpdatePostgresConfig: API.OperationMethod<
   V1UpdatePostgresConfigError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1168, __c73, 0) as any as S.Schema<V1UpdatePostgresConfigRequest>,
-  output: __S(2784, __c174, 0) as any as S.Schema<PostgresConfigResponseOutput>,
+  input: __S(1184, __c74, 0) as any as S.Schema<V1UpdatePostgresConfigRequest>,
+  output: __S(2800, __c175, 0) as any as S.Schema<PostgresConfigResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -7368,8 +7396,8 @@ export const v1UpdatePostgrestServiceConfig: API.OperationMethod<
   V1UpdatePostgrestServiceConfigError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c74, 0) as any as S.Schema<V1UpdatePostgrestServiceConfigRequest>,
-  output: __S(1185, __c74, 1) as any as S.Schema<V1PostgrestConfigResponseOutput>,
+  input: __S(1200, __c75, 0) as any as S.Schema<V1UpdatePostgrestServiceConfigRequest>,
+  output: __S(1201, __c75, 1) as any as S.Schema<V1PostgrestConfigResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -7390,8 +7418,8 @@ export const v1UpdateProjectApiKey: API.OperationMethod<
   V1UpdateProjectApiKeyError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c75, 0) as any as S.Schema<V1UpdateProjectApiKeyRequest>,
-  output: __S(1489, __c93, 1) as any as S.Schema<ApiKeyResponseOutput>,
+  input: __S(1216, __c76, 0) as any as S.Schema<V1UpdateProjectApiKeyRequest>,
+  output: __S(1505, __c94, 1) as any as S.Schema<ApiKeyResponseOutput>,
   errors: [BadRequest, Forbidden, NotFound, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -7407,8 +7435,8 @@ export const v1UpdateProjectLegacyApiKeys: API.OperationMethod<
   V1UpdateProjectLegacyApiKeysError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c76, 0) as any as S.Schema<V1UpdateProjectLegacyApiKeysRequest>,
-  output: __S(3040, __c190, 0) as any as S.Schema<LegacyApiKeysResponseOutput>,
+  input: __S(1232, __c77, 0) as any as S.Schema<V1UpdateProjectLegacyApiKeysRequest>,
+  output: __S(3056, __c191, 0) as any as S.Schema<LegacyApiKeysResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -7424,8 +7452,8 @@ export const v1UpdateProjectSigningKey: API.OperationMethod<
   V1UpdateProjectSigningKeyError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1232, __c77, 0) as any as S.Schema<V1UpdateProjectSigningKeyRequest>,
-  output: __S(1440, __c90, 0) as any as S.Schema<SigningKeyResponseOutput>,
+  input: __S(1248, __c78, 0) as any as S.Schema<V1UpdateProjectSigningKeyRequest>,
+  output: __S(1456, __c91, 0) as any as S.Schema<SigningKeyResponseOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -7441,8 +7469,8 @@ export const v1UpdateRealtimeConfig: API.OperationMethod<
   V1UpdateRealtimeConfigError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c78, 0) as any as S.Schema<V1UpdateRealtimeConfigRequest>,
-  output: __S(2416, __c151, 0) as any as S.Schema<V1UpdateRealtimeConfigResponse>,
+  input: __S(1264, __c79, 0) as any as S.Schema<V1UpdateRealtimeConfigRequest>,
+  output: __S(2432, __c152, 0) as any as S.Schema<V1UpdateRealtimeConfigResponse>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -7458,8 +7486,8 @@ export const v1UpdateSslEnforcementConfig: API.OperationMethod<
   V1UpdateSslEnforcementConfigError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c79, 0) as any as S.Schema<V1UpdateSslEnforcementConfigRequest>,
-  output: __S(3281, __c205, 1) as any as S.Schema<SslEnforcementResponseOutput>,
+  input: __S(1280, __c80, 0) as any as S.Schema<V1UpdateSslEnforcementConfigRequest>,
+  output: __S(3297, __c206, 1) as any as S.Schema<SslEnforcementResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -7475,8 +7503,8 @@ export const v1UpdateStorageConfig: API.OperationMethod<
   V1UpdateStorageConfigError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1281, __c80, 1) as any as S.Schema<V1UpdateStorageConfigRequest>,
-  output: __S(2416, __c151, 0) as any as S.Schema<V1UpdateStorageConfigResponse>,
+  input: __S(1297, __c81, 1) as any as S.Schema<V1UpdateStorageConfigRequest>,
+  output: __S(2432, __c152, 0) as any as S.Schema<V1UpdateStorageConfigResponse>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -7492,8 +7520,8 @@ export const v1UpgradePostgresVersion: API.OperationMethod<
   V1UpgradePostgresVersionError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1296, __c81, 0) as any as S.Schema<V1UpgradePostgresVersionRequest>,
-  output: __S(1297, __c81, 1) as any as S.Schema<ProjectUpgradeInitiateResponseOutput>,
+  input: __S(1312, __c82, 0) as any as S.Schema<V1UpgradePostgresVersionRequest>,
+  output: __S(1313, __c82, 1) as any as S.Schema<ProjectUpgradeInitiateResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -7509,8 +7537,8 @@ export const v1UpsertAMigration: API.OperationMethod<
   V1UpsertAMigrationError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c84, 0) as any as S.Schema<V1UpsertAMigrationRequest>,
-  output: __S(2416, __c151, 0) as any as S.Schema<V1UpsertAMigrationResponse>,
+  input: __S(1360, __c85, 0) as any as S.Schema<V1UpsertAMigrationRequest>,
+  output: __S(2432, __c152, 0) as any as S.Schema<V1UpsertAMigrationResponse>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -7526,8 +7554,8 @@ export const v1VerifyDnsConfig: API.OperationMethod<
   V1VerifyDnsConfigError,
   SupabaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1360, __c85, 0) as any as S.Schema<V1VerifyDnsConfigRequest>,
-  output: __S(1976, __c123, 8) as any as S.Schema<UpdateCustomHostnameResponseOutput>,
+  input: __S(1376, __c86, 0) as any as S.Schema<V1VerifyDnsConfigRequest>,
+  output: __S(1992, __c124, 8) as any as S.Schema<UpdateCustomHostnameResponseOutput>,
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
@@ -7541,22 +7569,41 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          code: S.String,
+          feature: S.String,
+          upgrade_url: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PlanGateErrorBodyError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.String,
+          error: S.optional(__S(0, __c0, 0)),
+        }),
+      ).annotate({ identifier: "PlanGateErrorBody" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           name: S.String,
           value: S.String,
         }),
       ).annotate({ identifier: "CreateSecretBodyItem" });
     case 1:
-      return S.Array(__S(0, __c0, 0));
+      return S.Array(__S(16, __c1, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           ref: S.String.pipe(T.Label()),
-          body: __S(1, __c0, 1).pipe(T.HttpBody()),
+          body: __S(17, __c1, 1).pipe(T.HttpBody()),
         }).pipe(T.Http({ method: "POST", uri: "/v1/projects/{ref}/secrets", code: 200 })),
       ).annotate({ identifier: "V1BulkCreateSecretsRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7567,11 +7614,11 @@ function __c1(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          imageTransformation: __S(3040, __c190, 0),
-          s3Protocol: __S(3040, __c190, 0),
-          purgeCache: __S(3040, __c190, 0),
-          icebergCatalog: __S(32, __c2, 0),
-          vectorBuckets: __S(33, __c2, 1),
+          imageTransformation: __S(3056, __c191, 0),
+          s3Protocol: __S(3056, __c191, 0),
+          purgeCache: __S(3056, __c191, 0),
+          icebergCatalog: __S(48, __c3, 0),
+          vectorBuckets: __S(49, __c3, 1),
         }),
       ).annotate({ identifier: "StorageConfigResponseOutputFeatures" });
     case 2:
@@ -7586,15 +7633,15 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           fileSizeLimit: S.Number,
-          features: __S(17, __c1, 1),
-          capabilities: __S(18, __c1, 2),
-          external: __S(34, __c2, 2),
+          features: __S(33, __c2, 1),
+          capabilities: __S(34, __c2, 2),
+          external: __S(50, __c3, 2),
           migrationVersion: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "StorageConfigResponseOutput" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7621,7 +7668,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "StorageConfigResponseOutputExternal" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7638,14 +7685,14 @@ function __c3(j: number): any {
       ).annotate({ identifier: "VanitySubdomainConfigResponseOutput" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ref: S.String.pipe(T.Label()),
           email: S.String,
-          roles: __S(1680, __c105, 0),
+          roles: __S(1696, __c106, 0),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/projects/{ref}/database/jit/invite", code: 200 }),
         ),
@@ -7655,12 +7702,12 @@ function __c4(j: number): any {
         S.Struct({
           email: S.String,
           invite_id: S.String,
-          user_roles: __S(1680, __c105, 0),
+          user_roles: __S(1696, __c106, 0),
         }),
       ).annotate({ identifier: "InviteExternalUserJitResponseOutput" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7671,14 +7718,14 @@ function __c5(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/projects/{ref}/actions", code: 200 })),
       ).annotate({ identifier: "V1ListActionRunsRequest" });
     case 1:
-      return S.Array(__S(2146, __c134, 2));
+      return S.Array(__S(2162, __c135, 2));
     case 2:
-      return S.suspend(() => __S(81, __c5, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(97, __c6, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "V1ListActionRunsResponse",
       });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7696,7 +7743,7 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "V1BackupsResponseOutputBackupsItem" });
     case 2:
-      return S.Array(__S(97, __c6, 1));
+      return S.Array(__S(113, __c7, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -7710,13 +7757,13 @@ function __c6(j: number): any {
           region: S.String,
           walg_enabled: S.Boolean,
           pitr_enabled: S.Boolean,
-          backups: __S(98, __c6, 2),
-          physical_backup_data: __S(99, __c6, 3),
+          backups: __S(114, __c7, 2),
+          physical_backup_data: __S(115, __c7, 3),
         }),
       ).annotate({ identifier: "V1BackupsResponseOutput" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7725,14 +7772,14 @@ function __c7(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/projects/{ref}/branches", code: 200 })),
       ).annotate({ identifier: "V1ListAllBranchesRequest" });
     case 1:
-      return S.Array(__S(1136, __c71, 0));
+      return S.Array(__S(1152, __c72, 0));
     case 2:
-      return S.suspend(() => __S(113, __c7, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(129, __c8, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "V1ListAllBranchesResponse",
       });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7752,14 +7799,14 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "V1StorageBucketResponseOutput" });
     case 2:
-      return S.Array(__S(129, __c8, 1));
+      return S.Array(__S(145, __c9, 1));
     case 3:
-      return S.suspend(() => __S(130, __c8, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(146, __c9, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "V1ListAllBucketsResponse",
       });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7768,12 +7815,12 @@ function __c9(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/projects/{ref}/functions", code: 200 })),
       ).annotate({ identifier: "V1ListAllFunctionsRequest" });
     case 1:
-      return S.suspend(() => __S(384, __c24, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(400, __c25, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "V1ListAllFunctionsResponse",
       });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7786,12 +7833,12 @@ function __c10(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          banned_ipv4_addresses: __S(1920, __c120, 0),
+          banned_ipv4_addresses: __S(1936, __c121, 0),
         }),
       ).annotate({ identifier: "NetworkBanResponseOutput" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7814,55 +7861,55 @@ function __c11(j: number): any {
         }),
       ).annotate({ identifier: "NetworkBanResponseEnrichedOutputBannedIpv4AddressesItem" });
     case 2:
-      return S.Array(__S(177, __c11, 1));
+      return S.Array(__S(193, __c12, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          banned_ipv4_addresses: __S(178, __c11, 2),
+          banned_ipv4_addresses: __S(194, __c12, 2),
         }),
       ).annotate({ identifier: "NetworkBanResponseEnrichedOutput" });
-  }
-}
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ref: S.String.pipe(T.Label()),
-          body: __S(1920, __c120, 0).pipe(T.HttpBody()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/v1/projects/{ref}/secrets", code: 200 })),
-      ).annotate({ identifier: "V1BulkDeleteSecretsRequest" });
   }
 }
 function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/organizations", code: 200 })),
-      ).annotate({ identifier: "V1ListAllOrganizationsRequest" });
-    case 1:
-      return S.Array(__S(1328, __c83, 0));
-    case 2:
-      return S.suspend(() => __S(209, __c13, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "V1ListAllOrganizationsResponse",
-      });
+        S.Struct({
+          ref: S.String.pipe(T.Label()),
+          body: __S(1936, __c121, 0).pipe(T.HttpBody()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/v1/projects/{ref}/secrets", code: 200 })),
+      ).annotate({ identifier: "V1BulkDeleteSecretsRequest" });
   }
 }
 function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/projects", code: 200 })),
-      ).annotate({ identifier: "V1ListAllProjectsRequest" });
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/organizations", code: 200 })),
+      ).annotate({ identifier: "V1ListAllOrganizationsRequest" });
     case 1:
-      return S.Array(__S(2897, __c181, 1));
+      return S.Array(__S(1344, __c84, 0));
     case 2:
       return S.suspend(() => __S(225, __c14, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "V1ListAllProjectsResponse",
+        identifier: "V1ListAllOrganizationsResponse",
       });
   }
 }
 function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/projects", code: 200 })),
+      ).annotate({ identifier: "V1ListAllProjectsRequest" });
+    case 1:
+      return S.Array(__S(2913, __c182, 1));
+    case 2:
+      return S.suspend(() => __S(241, __c15, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "V1ListAllProjectsResponse",
+      });
+  }
+}
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7879,14 +7926,14 @@ function __c15(j: number): any {
         }),
       ).annotate({ identifier: "SecretResponseOutput" });
     case 2:
-      return S.Array(__S(241, __c15, 1));
+      return S.Array(__S(257, __c16, 1));
     case 3:
-      return S.suspend(() => __S(242, __c15, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(258, __c16, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "V1ListAllSecretsResponse",
       });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7908,24 +7955,24 @@ function __c16(j: number): any {
           visibility: S.String,
           name: S.String,
           description: S.NullOr(S.String),
-          project: __S(2320, __c145, 0),
-          owner: __S(2321, __c145, 1),
-          updated_by: __S(2321, __c145, 1),
+          project: __S(2336, __c146, 0),
+          owner: __S(2337, __c146, 1),
+          updated_by: __S(2337, __c146, 1),
           favorite: S.Boolean,
         }),
       ).annotate({ identifier: "SnippetListOutputDataItem" });
     case 2:
-      return S.Array(__S(257, __c16, 1));
+      return S.Array(__S(273, __c17, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(258, __c16, 2),
+          data: __S(274, __c17, 2),
           cursor: S.optional(S.String),
         }),
       ).annotate({ identifier: "SnippetListOutput" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7941,19 +7988,19 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          names: S.optional(__S(1920, __c120, 0)),
+          names: S.optional(__S(1936, __c121, 0)),
           array: S.optional(S.Boolean),
-          default: S.optional(__S(273, __c17, 1)),
+          default: S.optional(__S(289, __c18, 1)),
         }),
       ).annotate({
         identifier: "ListProvidersResponseOutputItemsItemSamlAttributeMappingKeysValue",
       });
     case 3:
-      return S.Record(S.String, __S(274, __c17, 2));
+      return S.Record(S.String, __S(290, __c18, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          keys: __S(275, __c17, 3),
+          keys: __S(291, __c18, 3),
         }),
       ).annotate({ identifier: "ListProvidersResponseOutputItemsItemSamlAttributeMapping" });
     case 5:
@@ -7962,7 +8009,7 @@ function __c17(j: number): any {
           entity_id: S.String,
           metadata_url: S.optional(S.String),
           metadata_xml: S.optional(S.String),
-          attribute_mapping: S.optional(__S(276, __c17, 4)),
+          attribute_mapping: S.optional(__S(292, __c18, 4)),
           name_id_format: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListProvidersResponseOutputItemsItemSaml" });
@@ -7970,23 +8017,23 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          saml: S.optional(__S(277, __c17, 5)),
-          domains: S.optional(__S(1409, __c88, 1)),
+          saml: S.optional(__S(293, __c18, 5)),
+          domains: S.optional(__S(1425, __c89, 1)),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListProvidersResponseOutputItemsItem" });
     case 7:
-      return S.Array(__S(278, __c17, 6));
+      return S.Array(__S(294, __c18, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          items: __S(279, __c17, 7),
+          items: __S(295, __c18, 7),
         }),
       ).annotate({ identifier: "ListProvidersResponseOutput" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8005,16 +8052,16 @@ function __c18(j: number): any {
         identifier: "GetProjectAvailableRestoreVersionsResponseOutputAvailableVersionsItem",
       });
     case 2:
-      return S.Array(__S(289, __c18, 1));
+      return S.Array(__S(305, __c19, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          available_versions: __S(290, __c18, 2),
+          available_versions: __S(306, __c19, 2),
         }),
       ).annotate({ identifier: "GetProjectAvailableRestoreVersionsResponseOutput" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8030,16 +8077,16 @@ function __c19(j: number): any {
         ]),
       );
     case 2:
-      return S.Array(__S(305, __c19, 1));
+      return S.Array(__S(321, __c20, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: __S(306, __c19, 2),
+          items: __S(322, __c20, 2),
         }),
       ).annotate({ identifier: "JitListAccessResponseOutput" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8057,14 +8104,14 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "V1ListMigrationsResponseOutputItem" });
     case 2:
-      return S.Array(__S(321, __c20, 1));
+      return S.Array(__S(337, __c21, 1));
     case 3:
-      return S.suspend(() => __S(322, __c20, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(338, __c21, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "V1ListMigrationHistoryResponse",
       });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8084,14 +8131,14 @@ function __c21(j: number): any {
         }),
       ).annotate({ identifier: "V1OrganizationMemberResponseOutput" });
     case 2:
-      return S.Array(__S(337, __c21, 1));
+      return S.Array(__S(353, __c22, 1));
     case 3:
-      return S.suspend(() => __S(338, __c21, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(354, __c22, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "V1ListOrganizationMembersResponse",
       });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8113,54 +8160,54 @@ function __c22(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          id: __S(353, __c22, 1),
+          id: __S(369, __c23, 1),
           name: S.String,
-          price: __S(354, __c22, 2),
-          meta: S.optional(__S(1936, __c121, 0)),
+          price: __S(370, __c23, 2),
+          meta: S.optional(__S(1952, __c122, 0)),
         }),
       ).annotate({ identifier: "ListProjectAddonsResponseOutputSelectedAddonsItemVariant" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          variant: __S(355, __c22, 3),
+          variant: __S(371, __c23, 3),
         }),
       ).annotate({ identifier: "ListProjectAddonsResponseOutputSelectedAddonsItem" });
     case 5:
-      return S.Array(__S(356, __c22, 4));
+      return S.Array(__S(372, __c23, 4));
     case 6:
       return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], [], [], [], [], [], [], []]));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          id: __S(358, __c22, 6),
+          id: __S(374, __c23, 6),
           name: S.String,
-          price: __S(354, __c22, 2),
-          meta: S.optional(__S(1936, __c121, 0)),
+          price: __S(370, __c23, 2),
+          meta: S.optional(__S(1952, __c122, 0)),
         }),
       ).annotate({ identifier: "ListProjectAddonsResponseOutputAvailableAddonsItemVariantsItem" });
     case 8:
-      return S.Array(__S(359, __c22, 7));
+      return S.Array(__S(375, __c23, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
           name: S.String,
-          variants: __S(360, __c22, 8),
+          variants: __S(376, __c23, 8),
         }),
       ).annotate({ identifier: "ListProjectAddonsResponseOutputAvailableAddonsItem" });
     case 10:
-      return S.Array(__S(361, __c22, 9));
+      return S.Array(__S(377, __c23, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          selected_addons: __S(357, __c22, 5),
-          available_addons: __S(362, __c22, 10),
+          selected_addons: __S(373, __c23, 5),
+          available_addons: __S(378, __c23, 10),
         }),
       ).annotate({ identifier: "ListProjectAddonsResponseOutput" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8179,29 +8226,29 @@ function __c23(j: number): any {
         }),
       ).annotate({ identifier: "BulkUpdateFunctionBodyItem" });
     case 1:
-      return S.Array(__S(368, __c23, 0));
+      return S.Array(__S(384, __c24, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           ref: S.String.pipe(T.Label()),
-          body: __S(369, __c23, 1).pipe(T.HttpBody()),
+          body: __S(385, __c24, 1).pipe(T.HttpBody()),
         }).pipe(T.Http({ method: "PUT", uri: "/v1/projects/{ref}/functions", code: 200 })),
       ).annotate({ identifier: "V1BulkUpdateFunctionsRequest" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          functions: __S(384, __c24, 0),
+          functions: __S(400, __c25, 0),
         }),
       ).annotate({ identifier: "BulkUpdateFunctionResponseOutput" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(400, __c25, 0));
+      return S.Array(__S(416, __c26, 0));
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8222,7 +8269,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "BulkUpdateFunctionResponseOutputFunctionsItem" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8237,14 +8284,14 @@ function __c26(j: number): any {
         ),
       ).annotate({ identifier: "V1ListProjectTpaIntegrationsRequest" });
     case 1:
-      return S.Array(__S(1552, __c97, 0));
+      return S.Array(__S(1568, __c98, 0));
     case 2:
-      return S.suspend(() => __S(417, __c26, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(433, __c27, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "V1ListProjectTpaIntegrationsResponse",
       });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8257,7 +8304,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "V1MergeABranchRequest" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8268,7 +8315,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "BranchUpdateResponseOutput" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -8284,12 +8331,12 @@ function __c29(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ref: S.String.pipe(T.Label()),
-          attributes: __S(464, __c29, 0),
+          attributes: __S(480, __c30, 0),
         }).pipe(T.Http({ method: "POST", uri: "/v1/projects/{ref}/config/disk", code: 200 })),
       ).annotate({ identifier: "V1ModifyDatabaseDiskRequest" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8306,7 +8353,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "V1OauthAuthorizeProjectClaimRequest" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8325,14 +8372,14 @@ function __c31(j: number): any {
       ).annotate({ identifier: "V1PatchAMigrationRequest" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ref: S.String.pipe(T.Label()),
-          add: S.optional(__S(2608, __c163, 0)),
-          remove: S.optional(__S(2608, __c163, 0)),
+          add: S.optional(__S(2624, __c164, 0)),
+          remove: S.optional(__S(2624, __c164, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/v1/projects/{ref}/network-restrictions", code: 200 }),
         ),
@@ -8345,19 +8392,19 @@ function __c32(j: number): any {
         }),
       ).annotate({ identifier: "NetworkRestrictionsV2ResponseOutputConfigDbAllowedCidrsItem" });
     case 2:
-      return S.Array(__S(513, __c32, 1));
+      return S.Array(__S(529, __c33, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          dbAllowedCidrs: S.optional(__S(514, __c32, 2)),
+          dbAllowedCidrs: S.optional(__S(530, __c33, 2)),
         }),
       ).annotate({ identifier: "NetworkRestrictionsV2ResponseOutputConfig" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           entitlement: S.String,
-          config: __S(515, __c32, 3),
-          old_config: S.optional(__S(515, __c32, 3)),
+          config: __S(531, __c33, 3),
+          old_config: S.optional(__S(531, __c33, 3)),
           updated_at: S.optional(S.String),
           applied_at: S.optional(S.String),
           status: S.String,
@@ -8365,7 +8412,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "NetworkRestrictionsV2ResponseOutput" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8424,7 +8471,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "V1PatchPostgresConfigRequest" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8434,7 +8481,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "V1PauseAProjectRequest" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8445,21 +8492,21 @@ function __c35(j: number): any {
       ).annotate({ identifier: "V1PushABranchRequest" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ref: S.String.pipe(T.Label()),
           query: S.String,
-          parameters: S.optional(__S(3008, __c188, 0)),
+          parameters: S.optional(__S(3024, __c189, 0)),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/projects/{ref}/database/query/read-only", code: 200 }),
         ),
       ).annotate({ identifier: "V1ReadOnlyQueryRequest" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8469,7 +8516,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "V1CancelAProjectRestorationRequest" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8482,7 +8529,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "V1RemoveAReadReplicaRequest" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8499,7 +8546,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "V1RemoveProjectAddonRequest" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8516,7 +8563,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "V1RemoveProjectSigningKeyRequest" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8529,7 +8576,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "V1ResetABranchRequest" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8539,7 +8586,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "V1RestartAProjectRequest" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8551,7 +8598,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "V1RestoreABranchRequest" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8561,7 +8608,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "V1RestoreAProjectRequest" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8574,7 +8621,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "V1RestorePhysicalBackupRequest" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8591,7 +8638,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "V1RestorePitrBackupRequest" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8609,7 +8656,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "V1ReviewNetworkRestrictionsRequest" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8632,7 +8679,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "SubdomainAvailabilityResponseOutput" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8644,7 +8691,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "V1RevokeTokenRequest" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8657,20 +8704,20 @@ function __c50(j: number): any {
       ).annotate({ identifier: "V1RollbackMigrationsRequest" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ref: S.String.pipe(T.Label()),
           query: S.String,
-          parameters: S.optional(__S(3008, __c188, 0)),
+          parameters: S.optional(__S(3024, __c189, 0)),
           read_only: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/v1/projects/{ref}/database/query", code: 200 })),
       ).annotate({ identifier: "V1RunAQueryRequest" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8686,7 +8733,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "V1ScrapeProjectMetricsRequest" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8699,7 +8746,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "V1SetupAReadReplicaRequest" });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8711,7 +8758,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "V1ShutdownRealtimeRequest" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8724,7 +8771,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "V1UndoRequest" });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8741,7 +8788,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "V1UpdateABranchConfigRequest" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8761,7 +8808,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "V1UpdateActionRunStatusRequest" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8786,7 +8833,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "V1UpdateAFunctionRequest" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8803,7 +8850,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "V1ClaimProjectForOrganizationRequest" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8814,7 +8861,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "V1UpdateAProjectRequest" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], [], [], []]));
@@ -8822,17 +8869,17 @@ function __c61(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          names: S.optional(__S(1920, __c120, 0)),
+          names: S.optional(__S(1936, __c121, 0)),
           array: S.optional(S.Boolean),
-          default: S.optional(__S(976, __c61, 0)),
+          default: S.optional(__S(992, __c62, 0)),
         }),
       ).annotate({ identifier: "V1UpdateASsoProviderRequestAttributeMappingKeysValue" });
     case 2:
-      return S.Record(S.String, __S(977, __c61, 1));
+      return S.Record(S.String, __S(993, __c62, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          keys: __S(978, __c61, 2),
+          keys: __S(994, __c62, 2),
         }),
       ).annotate({ identifier: "V1UpdateASsoProviderRequestAttributeMapping" });
     case 4:
@@ -8842,8 +8889,8 @@ function __c61(j: number): any {
           provider_id: S.String.pipe(T.Label()),
           metadata_xml: S.optional(S.String),
           metadata_url: S.optional(S.String),
-          domains: S.optional(__S(1920, __c120, 0)),
-          attribute_mapping: S.optional(__S(979, __c61, 3)),
+          domains: S.optional(__S(1936, __c121, 0)),
+          attribute_mapping: S.optional(__S(995, __c62, 3)),
           name_id_format: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -8859,17 +8906,17 @@ function __c61(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          names: S.optional(__S(1920, __c120, 0)),
+          names: S.optional(__S(1936, __c121, 0)),
           array: S.optional(S.Boolean),
-          default: S.optional(__S(981, __c61, 5)),
+          default: S.optional(__S(997, __c62, 5)),
         }),
       ).annotate({ identifier: "UpdateProviderResponseOutputSamlAttributeMappingKeysValue" });
     case 7:
-      return S.Record(S.String, __S(982, __c61, 6));
+      return S.Record(S.String, __S(998, __c62, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          keys: __S(983, __c61, 7),
+          keys: __S(999, __c62, 7),
         }),
       ).annotate({ identifier: "UpdateProviderResponseOutputSamlAttributeMapping" });
     case 9:
@@ -8878,7 +8925,7 @@ function __c61(j: number): any {
           entity_id: S.String,
           metadata_url: S.optional(S.String),
           metadata_xml: S.optional(S.String),
-          attribute_mapping: S.optional(__S(984, __c61, 8)),
+          attribute_mapping: S.optional(__S(1000, __c62, 8)),
           name_id_format: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateProviderResponseOutputSaml" });
@@ -8886,15 +8933,15 @@ function __c61(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          saml: S.optional(__S(985, __c61, 9)),
-          domains: S.optional(__S(1409, __c88, 1)),
+          saml: S.optional(__S(1001, __c62, 9)),
+          domains: S.optional(__S(1425, __c89, 1)),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateProviderResponseOutput" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9149,7 +9196,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "V1UpdateAuthServiceConfigRequest" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9166,7 +9213,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "V1UpdateBackupScheduleRequest" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9179,7 +9226,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "V1UpdateDatabasePasswordRequest" });
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9196,19 +9243,19 @@ function __c65(j: number): any {
       ).annotate({ identifier: "V1UpdateHostnameConfigRequest" });
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ref: S.String.pipe(T.Label()),
           user_id: S.String,
-          roles: __S(1680, __c105, 0),
+          roles: __S(1696, __c106, 0),
         }).pipe(T.Http({ method: "PUT", uri: "/v1/projects/{ref}/database/jit", code: 200 })),
       ).annotate({ identifier: "V1UpdateJitAccessRequest" });
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9225,19 +9272,19 @@ function __c67(j: number): any {
         ]),
       );
     case 2:
-      return S.suspend(() => __S(1073, __c67, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1089, __c68, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "V1UpdateJitAccessConfigResponse",
       });
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ref: S.String.pipe(T.Label()),
-          dbAllowedCidrs: S.optional(__S(1920, __c120, 0)),
-          dbAllowedCidrsV6: S.optional(__S(1920, __c120, 0)),
+          dbAllowedCidrs: S.optional(__S(1936, __c121, 0)),
+          dbAllowedCidrsV6: S.optional(__S(1936, __c121, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -9248,7 +9295,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "V1UpdateNetworkRestrictionsRequest" });
   }
 }
-function __c69(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9259,7 +9306,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "V1UpdatePgsodiumConfigRequest" });
   }
 }
-function __c70(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
@@ -9275,14 +9322,14 @@ function __c70(j: number): any {
           desired_instance_size: S.optional(S.String),
           release_channel: S.optional(S.String),
           postgres_engine: S.optional(S.String),
-          secrets: S.optional(__S(1120, __c70, 0)),
+          secrets: S.optional(__S(1136, __c71, 0)),
           with_data: S.optional(S.Boolean),
           notify_url: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/v1/projects/{ref}/branches", code: 200 })),
       ).annotate({ identifier: "V1CreateABranchRequest" });
   }
 }
-function __c71(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9308,7 +9355,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "BranchResponseOutput" });
   }
 }
-function __c72(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9329,7 +9376,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "UpdateSupavisorConfigResponseOutput" });
   }
 }
-function __c73(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9384,7 +9431,7 @@ function __c73(j: number): any {
       ).annotate({ identifier: "V1UpdatePostgresConfigRequest" });
   }
 }
-function __c74(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9413,7 +9460,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "V1PostgrestConfigResponseOutput" });
   }
 }
-function __c75(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9423,12 +9470,12 @@ function __c75(j: number): any {
           reveal: S.optional(S.String.pipe(T.Query())),
           name: S.optional(S.String),
           description: S.optional(S.NullOr(S.String)),
-          secret_jwt_template: S.optional(S.NullOr(__S(1488, __c93, 0))),
+          secret_jwt_template: S.optional(S.NullOr(__S(1504, __c94, 0))),
         }).pipe(T.Http({ method: "PATCH", uri: "/v1/projects/{ref}/api-keys/{id}", code: 200 })),
       ).annotate({ identifier: "V1UpdateProjectApiKeyRequest" });
   }
 }
-function __c76(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9439,7 +9486,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "V1UpdateProjectLegacyApiKeysRequest" });
   }
 }
-function __c77(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9457,7 +9504,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "V1UpdateProjectSigningKeyRequest" });
   }
 }
-function __c78(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9479,27 +9526,27 @@ function __c78(j: number): any {
       ).annotate({ identifier: "V1UpdateRealtimeConfigRequest" });
   }
 }
-function __c79(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ref: S.String.pipe(T.Label()),
-          requestedConfig: __S(3280, __c205, 0),
-        }).pipe(T.Http({ method: "PUT", uri: "/v1/projects/{ref}/ssl-enforcement", code: 200 })),
-      ).annotate({ identifier: "V1UpdateSslEnforcementConfigRequest" });
-  }
-}
 function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          imageTransformation: S.optional(__S(3040, __c190, 0)),
-          s3Protocol: S.optional(__S(3040, __c190, 0)),
-          purgeCache: S.optional(__S(3040, __c190, 0)),
-          icebergCatalog: S.optional(__S(32, __c2, 0)),
-          vectorBuckets: S.optional(__S(33, __c2, 1)),
+          ref: S.String.pipe(T.Label()),
+          requestedConfig: __S(3296, __c206, 0),
+        }).pipe(T.Http({ method: "PUT", uri: "/v1/projects/{ref}/ssl-enforcement", code: 200 })),
+      ).annotate({ identifier: "V1UpdateSslEnforcementConfigRequest" });
+  }
+}
+function __c81(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          imageTransformation: S.optional(__S(3056, __c191, 0)),
+          s3Protocol: S.optional(__S(3056, __c191, 0)),
+          purgeCache: S.optional(__S(3056, __c191, 0)),
+          icebergCatalog: S.optional(__S(48, __c3, 0)),
+          vectorBuckets: S.optional(__S(49, __c3, 1)),
         }),
       ).annotate({ identifier: "V1UpdateStorageConfigRequestFeatures" });
     case 1:
@@ -9507,13 +9554,13 @@ function __c80(j: number): any {
         S.Struct({
           ref: S.String.pipe(T.Label()),
           fileSizeLimit: S.optional(S.Number),
-          features: S.optional(__S(1280, __c80, 0)),
-          external: S.optional(__S(34, __c2, 2)),
+          features: S.optional(__S(1296, __c81, 0)),
+          external: S.optional(__S(50, __c3, 2)),
         }).pipe(T.Http({ method: "PATCH", uri: "/v1/projects/{ref}/config/storage", code: 200 })),
       ).annotate({ identifier: "V1UpdateStorageConfigRequest" });
   }
 }
-function __c81(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9531,7 +9578,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "ProjectUpgradeInitiateResponseOutput" });
   }
 }
-function __c82(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9541,7 +9588,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "V1CreateAnOrganizationRequest" });
   }
 }
-function __c83(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9553,7 +9600,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "OrganizationResponseV1Output" });
   }
 }
-function __c84(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9568,7 +9615,7 @@ function __c84(j: number): any {
       ).annotate({ identifier: "V1UpsertAMigrationRequest" });
   }
 }
-function __c85(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9580,7 +9627,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "V1VerifyDnsConfigRequest" });
   }
 }
-function __c86(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -9601,7 +9648,7 @@ function __c86(j: number): any {
           organization_slug: S.String,
           plan: S.optional(S.String),
           region: S.optional(S.String),
-          region_selection: S.optional(__S(1376, __c86, 0)),
+          region_selection: S.optional(__S(1392, __c87, 0)),
           kps_enabled: S.optional(S.Boolean),
           desired_instance_size: S.optional(S.String),
           template_url: S.optional(S.String),
@@ -9625,7 +9672,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "V1ProjectResponseOutput" });
   }
 }
-function __c87(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], [], [], []]));
@@ -9633,17 +9680,17 @@ function __c87(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          names: S.optional(__S(1920, __c120, 0)),
+          names: S.optional(__S(1936, __c121, 0)),
           array: S.optional(S.Boolean),
-          default: S.optional(__S(1392, __c87, 0)),
+          default: S.optional(__S(1408, __c88, 0)),
         }),
       ).annotate({ identifier: "V1CreateASsoProviderRequestAttributeMappingKeysValue" });
     case 2:
-      return S.Record(S.String, __S(1393, __c87, 1));
+      return S.Record(S.String, __S(1409, __c88, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          keys: __S(1394, __c87, 2),
+          keys: __S(1410, __c88, 2),
         }),
       ).annotate({ identifier: "V1CreateASsoProviderRequestAttributeMapping" });
     case 4:
@@ -9653,8 +9700,8 @@ function __c87(j: number): any {
           type: S.String,
           metadata_xml: S.optional(S.String),
           metadata_url: S.optional(S.String),
-          domains: S.optional(__S(1920, __c120, 0)),
-          attribute_mapping: S.optional(__S(1395, __c87, 3)),
+          domains: S.optional(__S(1936, __c121, 0)),
+          attribute_mapping: S.optional(__S(1411, __c88, 3)),
           name_id_format: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -9670,17 +9717,17 @@ function __c87(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          names: S.optional(__S(1920, __c120, 0)),
+          names: S.optional(__S(1936, __c121, 0)),
           array: S.optional(S.Boolean),
-          default: S.optional(__S(1397, __c87, 5)),
+          default: S.optional(__S(1413, __c88, 5)),
         }),
       ).annotate({ identifier: "CreateProviderResponseOutputSamlAttributeMappingKeysValue" });
     case 7:
-      return S.Record(S.String, __S(1398, __c87, 6));
+      return S.Record(S.String, __S(1414, __c88, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          keys: __S(1399, __c87, 7),
+          keys: __S(1415, __c88, 7),
         }),
       ).annotate({ identifier: "CreateProviderResponseOutputSamlAttributeMapping" });
     case 9:
@@ -9689,7 +9736,7 @@ function __c87(j: number): any {
           entity_id: S.String,
           metadata_url: S.optional(S.String),
           metadata_xml: S.optional(S.String),
-          attribute_mapping: S.optional(__S(1400, __c87, 8)),
+          attribute_mapping: S.optional(__S(1416, __c88, 8)),
           name_id_format: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateProviderResponseOutputSaml" });
@@ -9697,15 +9744,15 @@ function __c87(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          saml: S.optional(__S(1401, __c87, 9)),
-          domains: S.optional(__S(1409, __c88, 1)),
+          saml: S.optional(__S(1417, __c88, 9)),
+          domains: S.optional(__S(1425, __c89, 1)),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateProviderResponseOutput" });
   }
 }
-function __c88(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9716,10 +9763,10 @@ function __c88(j: number): any {
         }),
       ).annotate({ identifier: "CreateProviderResponseOutputDomainsItem" });
     case 1:
-      return S.Array(__S(1408, __c88, 0));
+      return S.Array(__S(1424, __c89, 0));
   }
 }
-function __c89(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9735,7 +9782,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "V1CreateLegacySigningKeyRequest" });
   }
 }
-function __c90(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9750,7 +9797,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "SigningKeyResponseOutput" });
   }
 }
-function __c91(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9769,7 +9816,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "CreateRoleResponseOutput" });
   }
 }
-function __c92(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9779,12 +9826,12 @@ function __c92(j: number): any {
           type: S.String,
           name: S.String,
           description: S.optional(S.NullOr(S.String)),
-          secret_jwt_template: S.optional(S.NullOr(__S(1488, __c93, 0))),
+          secret_jwt_template: S.optional(S.NullOr(__S(1504, __c94, 0))),
         }).pipe(T.Http({ method: "POST", uri: "/v1/projects/{ref}/api-keys", code: 200 })),
       ).annotate({ identifier: "V1CreateProjectApiKeyRequest" });
   }
 }
-function __c93(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
@@ -9798,14 +9845,14 @@ function __c93(j: number): any {
           name: S.String,
           description: S.optional(S.NullOr(S.String)),
           hash: S.optional(S.NullOr(S.String)),
-          secret_jwt_template: S.optional(S.NullOr(__S(1488, __c93, 0))),
+          secret_jwt_template: S.optional(S.NullOr(__S(1504, __c94, 0))),
           inserted_at: S.optional(S.NullOr(S.String)),
           updated_at: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "ApiKeyResponseOutput" });
   }
 }
-function __c94(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9825,7 +9872,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "CreateProjectClaimTokenResponseOutput" });
   }
 }
-function __c95(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -9860,14 +9907,14 @@ function __c95(j: number): any {
           ref: S.String.pipe(T.Label()),
           algorithm: S.String,
           status: S.optional(S.String),
-          private_jwk: S.optional(__S(1520, __c95, 0)),
+          private_jwk: S.optional(__S(1536, __c96, 0)),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/projects/{ref}/config/auth/signing-keys", code: 200 }),
         ),
       ).annotate({ identifier: "V1CreateProjectSigningKeyRequest" });
   }
 }
-function __c96(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9886,7 +9933,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "V1CreateProjectTpaIntegrationRequest" });
   }
 }
-function __c97(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9904,7 +9951,7 @@ function __c97(j: number): any {
       ).annotate({ identifier: "ThirdPartyAuthOutput" });
   }
 }
-function __c98(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9921,7 +9968,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "V1CreateRestorePointRequest" });
   }
 }
-function __c99(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9933,7 +9980,7 @@ function __c99(j: number): any {
       ).annotate({ identifier: "V1RestorePointResponse" });
   }
 }
-function __c100(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9945,7 +9992,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "V1DeactivateVanitySubdomainConfigRequest" });
   }
 }
-function __c101(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9956,7 +10003,7 @@ function __c101(j: number): any {
       ).annotate({ identifier: "V1DeleteABranchRequest" });
   }
 }
-function __c102(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9966,7 +10013,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "BranchDeleteResponseOutput" });
   }
 }
-function __c103(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9983,7 +10030,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "V1DeleteAFunctionRequest" });
   }
 }
-function __c104(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10001,24 +10048,24 @@ function __c104(j: number): any {
       ).annotate({ identifier: "V1AcceptInviteExternalJitAccessRequest" });
   }
 }
-function __c105(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1715, __c107, 3));
+      return S.Array(__S(1731, __c108, 3));
   }
 }
-function __c106(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           user_id: S.optional(S.String),
-          user_roles: __S(1680, __c105, 0),
+          user_roles: __S(1696, __c106, 0),
         }),
       ).annotate({ identifier: "JitAccessResponseOutput" });
   }
 }
-function __c107(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10029,12 +10076,12 @@ function __c107(j: number): any {
         identifier: "JitAccessResponseOutputUserRolesItemAllowedNetworksAllowedCidrsItem",
       });
     case 1:
-      return S.Array(__S(1712, __c107, 0));
+      return S.Array(__S(1728, __c108, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          allowed_cidrs: S.optional(__S(1713, __c107, 1)),
-          allowed_cidrs_v6: S.optional(__S(1713, __c107, 1)),
+          allowed_cidrs: S.optional(__S(1729, __c108, 1)),
+          allowed_cidrs_v6: S.optional(__S(1729, __c108, 1)),
         }),
       ).annotate({ identifier: "JitAccessResponseOutputUserRolesItemAllowedNetworks" });
     case 3:
@@ -10042,13 +10089,13 @@ function __c107(j: number): any {
         S.Struct({
           role: S.String,
           expires_at: S.optional(S.Number),
-          allowed_networks: S.optional(__S(1714, __c107, 2)),
+          allowed_networks: S.optional(__S(1730, __c108, 2)),
           branches_only: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "JitAccessResponseOutputUserRolesItem" });
   }
 }
-function __c108(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10058,7 +10105,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "V1DeleteAProjectRequest" });
   }
 }
-function __c109(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10070,7 +10117,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "V1ProjectRefResponseOutput" });
   }
 }
-function __c110(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10091,17 +10138,17 @@ function __c110(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          names: S.optional(__S(1920, __c120, 0)),
+          names: S.optional(__S(1936, __c121, 0)),
           array: S.optional(S.Boolean),
-          default: S.optional(__S(1761, __c110, 1)),
+          default: S.optional(__S(1777, __c111, 1)),
         }),
       ).annotate({ identifier: "DeleteProviderResponseOutputSamlAttributeMappingKeysValue" });
     case 3:
-      return S.Record(S.String, __S(1762, __c110, 2));
+      return S.Record(S.String, __S(1778, __c111, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          keys: __S(1763, __c110, 3),
+          keys: __S(1779, __c111, 3),
         }),
       ).annotate({ identifier: "DeleteProviderResponseOutputSamlAttributeMapping" });
     case 5:
@@ -10110,7 +10157,7 @@ function __c110(j: number): any {
           entity_id: S.String,
           metadata_url: S.optional(S.String),
           metadata_xml: S.optional(S.String),
-          attribute_mapping: S.optional(__S(1764, __c110, 4)),
+          attribute_mapping: S.optional(__S(1780, __c111, 4)),
           name_id_format: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeleteProviderResponseOutputSaml" });
@@ -10118,15 +10165,15 @@ function __c110(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          saml: S.optional(__S(1765, __c110, 5)),
-          domains: S.optional(__S(1409, __c88, 1)),
+          saml: S.optional(__S(1781, __c111, 5)),
+          domains: S.optional(__S(1425, __c89, 1)),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeleteProviderResponseOutput" });
   }
 }
-function __c111(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10137,7 +10184,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "V1DeleteHostnameConfigRequest" });
   }
 }
-function __c112(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10154,7 +10201,7 @@ function __c112(j: number): any {
       ).annotate({ identifier: "V1DeleteInviteExternalJitAccessRequest" });
   }
 }
-function __c113(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10167,7 +10214,7 @@ function __c113(j: number): any {
       ).annotate({ identifier: "V1DeleteJitAccessRequest" });
   }
 }
-function __c114(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10177,20 +10224,20 @@ function __c114(j: number): any {
       ).annotate({ identifier: "V1DeleteLoginRolesRequest" });
   }
 }
-function __c115(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ref: S.String.pipe(T.Label()),
-          ipv4_addresses: __S(1920, __c120, 0),
+          ipv4_addresses: __S(1936, __c121, 0),
           requester_ip: S.optional(S.Boolean),
           identifier: S.optional(S.String),
         }).pipe(T.Http({ method: "DELETE", uri: "/v1/projects/{ref}/network-bans", code: 200 })),
       ).annotate({ identifier: "V1DeleteNetworkBansRequest" });
   }
 }
-function __c116(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10204,7 +10251,7 @@ function __c116(j: number): any {
       ).annotate({ identifier: "V1DeleteProjectApiKeyRequest" });
   }
 }
-function __c117(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10214,7 +10261,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "V1DeleteProjectClaimTokenRequest" });
   }
 }
-function __c118(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10231,7 +10278,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "V1DeleteProjectTpaIntegrationRequest" });
   }
 }
-function __c119(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10243,19 +10290,19 @@ function __c119(j: number): any {
       ).annotate({ identifier: "V1ActivateCustomHostnameRequest" });
   }
 }
-function __c120(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c121(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], [], []]));
   }
 }
-function __c122(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10267,10 +10314,10 @@ function __c122(j: number): any {
       });
   }
 }
-function __c123(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1936, __c121, 0));
+      return S.Array(__S(1952, __c122, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -10281,15 +10328,15 @@ function __c123(j: number): any {
         identifier: "UpdateCustomHostnameResponseOutputDataResultSslValidationRecordsItem",
       });
     case 2:
-      return S.Array(__S(1969, __c123, 1));
+      return S.Array(__S(1985, __c124, 1));
     case 3:
-      return S.Array(__S(1952, __c122, 0));
+      return S.Array(__S(1968, __c123, 0));
     case 4:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          validation_records: S.optional(__S(1970, __c123, 2)),
-          validation_errors: S.optional(__S(1971, __c123, 3)),
+          validation_records: S.optional(__S(1986, __c124, 2)),
+          validation_errors: S.optional(__S(1987, __c124, 3)),
         }),
       ).annotate({ identifier: "UpdateCustomHostnameResponseOutputDataResultSsl" });
     case 5:
@@ -10307,10 +10354,10 @@ function __c123(j: number): any {
         S.Struct({
           id: S.String,
           hostname: S.String,
-          ssl: S.optional(__S(1972, __c123, 4)),
-          ownership_verification: S.optional(__S(1973, __c123, 5)),
+          ssl: S.optional(__S(1988, __c124, 4)),
+          ownership_verification: S.optional(__S(1989, __c124, 5)),
           custom_origin_server: S.optional(S.String),
-          verification_errors: S.optional(__S(1920, __c120, 0)),
+          verification_errors: S.optional(__S(1936, __c121, 0)),
           status: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateCustomHostnameResponseOutputDataResult" });
@@ -10318,9 +10365,9 @@ function __c123(j: number): any {
       return S.suspend(() =>
         S.Struct({
           success: S.Boolean,
-          errors: __S(1968, __c123, 0),
-          messages: __S(1968, __c123, 0),
-          result: __S(1974, __c123, 6),
+          errors: __S(1984, __c124, 0),
+          messages: __S(1984, __c124, 0),
+          result: __S(1990, __c124, 6),
         }),
       ).annotate({ identifier: "UpdateCustomHostnameResponseOutputData" });
     case 8:
@@ -10328,19 +10375,19 @@ function __c123(j: number): any {
         S.Struct({
           status: S.String,
           custom_hostname: S.optional(S.String),
-          data: __S(1975, __c123, 7),
+          data: __S(1991, __c124, 7),
         }),
       ).annotate({ identifier: "UpdateCustomHostnameResponseOutput" });
   }
 }
-function __c124(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           entrypoint_path: S.String,
           import_map_path: S.optional(S.String),
-          static_patterns: S.optional(__S(1920, __c120, 0)),
+          static_patterns: S.optional(__S(1936, __c121, 0)),
           verify_jwt: S.optional(S.Boolean),
           name: S.optional(S.String),
         }),
@@ -10351,8 +10398,8 @@ function __c124(j: number): any {
           ref: S.String.pipe(T.Label()),
           slug: S.optional(S.String.pipe(T.Query())),
           bundleOnly: S.optional(S.String.pipe(T.Query())),
-          file: __S(1920, __c120, 0),
-          metadata: __S(1984, __c124, 0),
+          file: __S(1936, __c121, 0),
+          metadata: __S(2000, __c125, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10381,7 +10428,7 @@ function __c124(j: number): any {
       ).annotate({ identifier: "DeployFunctionResponseOutput" });
   }
 }
-function __c125(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10393,7 +10440,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "V1DiffABranchRequest" });
   }
 }
-function __c126(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10403,7 +10450,7 @@ function __c126(j: number): any {
       ).annotate({ identifier: "V1DisablePreviewBranchingRequest" });
   }
 }
-function __c127(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10419,7 +10466,7 @@ function __c127(j: number): any {
       ).annotate({ identifier: "V1DisableReadonlyModeTemporarilyRequest" });
   }
 }
-function __c128(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10431,7 +10478,7 @@ function __c128(j: number): any {
       ).annotate({ identifier: "V1EnableDatabaseWebhookRequest" });
   }
 }
-function __c129(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10463,12 +10510,12 @@ function __c129(j: number): any {
           expires_in: S.Number,
           token_type: S.String,
           scope: S.optional(S.String),
-          project_refs: S.NullOr(__S(1920, __c120, 0)),
+          project_refs: S.NullOr(__S(1936, __c121, 0)),
         }),
       ).annotate({ identifier: "OAuthTokenResponseOutput" });
   }
 }
-function __c130(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10485,7 +10532,7 @@ function __c130(j: number): any {
       ).annotate({ identifier: "TypescriptResponseOutput" });
   }
 }
-function __c131(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10496,7 +10543,7 @@ function __c131(j: number): any {
       ).annotate({ identifier: "V1GetABranchRequest" });
   }
 }
-function __c132(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10521,7 +10568,7 @@ function __c132(j: number): any {
       ).annotate({ identifier: "BranchDetailResponseOutput" });
   }
 }
-function __c133(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10532,7 +10579,7 @@ function __c133(j: number): any {
       ).annotate({ identifier: "V1GetActionRunRequest" });
   }
 }
-function __c134(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10544,13 +10591,13 @@ function __c134(j: number): any {
         }),
       ).annotate({ identifier: "ActionRunResponseOutputRunStepsItem" });
     case 1:
-      return S.Array(__S(2144, __c134, 0));
+      return S.Array(__S(2160, __c135, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           branch_id: S.String,
-          run_steps: __S(2145, __c134, 1),
+          run_steps: __S(2161, __c135, 1),
           git_config: S.optional(S.NullOr(S.Unknown)),
           workdir: S.NullOr(S.String),
           check_run_id: S.NullOr(S.Number),
@@ -10560,7 +10607,7 @@ function __c134(j: number): any {
       ).annotate({ identifier: "ActionRunResponseOutput" });
   }
 }
-function __c135(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10583,7 +10630,7 @@ function __c135(j: number): any {
       ).annotate({ identifier: "ActivateVanitySubdomainResponseOutput" });
   }
 }
-function __c136(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10596,7 +10643,7 @@ function __c136(j: number): any {
       ).annotate({ identifier: "V1GetActionRunLogsRequest" });
   }
 }
-function __c137(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10609,7 +10656,7 @@ function __c137(j: number): any {
       ).annotate({ identifier: "V1GetAFunctionRequest" });
   }
 }
-function __c138(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10626,7 +10673,7 @@ function __c138(j: number): any {
       ).annotate({ identifier: "V1GetAFunctionBodyRequest" });
   }
 }
-function __c139(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -10634,7 +10681,7 @@ function __c139(j: number): any {
       });
   }
 }
-function __c140(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10663,7 +10710,7 @@ function __c140(j: number): any {
         }),
       ).annotate({ identifier: "OrganizationProjectsResponseOutputProjectsItemDatabasesItem" });
     case 2:
-      return S.Array(__S(2241, __c140, 1));
+      return S.Array(__S(2257, __c141, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -10674,11 +10721,11 @@ function __c140(j: number): any {
           is_branch: S.Boolean,
           status: S.String,
           inserted_at: S.String,
-          databases: __S(2242, __c140, 2),
+          databases: __S(2258, __c141, 2),
         }),
       ).annotate({ identifier: "OrganizationProjectsResponseOutputProjectsItem" });
     case 4:
-      return S.Array(__S(2243, __c140, 3));
+      return S.Array(__S(2259, __c141, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -10690,13 +10737,13 @@ function __c140(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          projects: __S(2244, __c140, 4),
-          pagination: __S(2245, __c140, 5),
+          projects: __S(2260, __c141, 4),
+          pagination: __S(2261, __c141, 5),
         }),
       ).annotate({ identifier: "OrganizationProjectsResponseOutput" });
   }
 }
-function __c141(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10716,15 +10763,15 @@ function __c141(j: number): any {
         S.Struct({
           version: S.String,
           name: S.optional(S.String),
-          statements: S.optional(__S(1920, __c120, 0)),
-          rollback: S.optional(__S(1920, __c120, 0)),
+          statements: S.optional(__S(1936, __c121, 0)),
+          rollback: S.optional(__S(1936, __c121, 0)),
           created_by: S.optional(S.String),
           idempotency_key: S.optional(S.String),
         }),
       ).annotate({ identifier: "V1GetMigrationResponseOutput" });
   }
 }
-function __c142(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10738,19 +10785,19 @@ function __c142(j: number): any {
           id: S.String,
           name: S.String,
           plan: S.optional(S.String),
-          opt_in_tags: __S(2288, __c143, 0),
-          allowed_release_channels: __S(2288, __c143, 0),
+          opt_in_tags: __S(2304, __c144, 0),
+          allowed_release_channels: __S(2304, __c144, 0),
         }),
       ).annotate({ identifier: "V1OrganizationSlugResponseOutput" });
   }
 }
-function __c143(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c144(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10776,16 +10823,16 @@ function __c144(j: number): any {
           visibility: S.String,
           name: S.String,
           description: S.NullOr(S.String),
-          project: __S(2320, __c145, 0),
-          owner: __S(2321, __c145, 1),
-          updated_by: __S(2321, __c145, 1),
+          project: __S(2336, __c146, 0),
+          owner: __S(2337, __c146, 1),
+          updated_by: __S(2337, __c146, 1),
           favorite: S.Boolean,
-          content: __S(2305, __c144, 1),
+          content: __S(2321, __c145, 1),
         }),
       ).annotate({ identifier: "SnippetResponseOutput" });
   }
 }
-function __c145(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10803,7 +10850,7 @@ function __c145(j: number): any {
       ).annotate({ identifier: "SnippetResponseOutputOwner" });
   }
 }
-function __c146(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10824,17 +10871,17 @@ function __c146(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          names: S.optional(__S(1920, __c120, 0)),
+          names: S.optional(__S(1936, __c121, 0)),
           array: S.optional(S.Boolean),
-          default: S.optional(__S(2337, __c146, 1)),
+          default: S.optional(__S(2353, __c147, 1)),
         }),
       ).annotate({ identifier: "GetProviderResponseOutputSamlAttributeMappingKeysValue" });
     case 3:
-      return S.Record(S.String, __S(2338, __c146, 2));
+      return S.Record(S.String, __S(2354, __c147, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          keys: __S(2339, __c146, 3),
+          keys: __S(2355, __c147, 3),
         }),
       ).annotate({ identifier: "GetProviderResponseOutputSamlAttributeMapping" });
     case 5:
@@ -10843,7 +10890,7 @@ function __c146(j: number): any {
           entity_id: S.String,
           metadata_url: S.optional(S.String),
           metadata_xml: S.optional(S.String),
-          attribute_mapping: S.optional(__S(2340, __c146, 4)),
+          attribute_mapping: S.optional(__S(2356, __c147, 4)),
           name_id_format: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetProviderResponseOutputSaml" });
@@ -10851,15 +10898,15 @@ function __c146(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          saml: S.optional(__S(2341, __c146, 5)),
-          domains: S.optional(__S(1409, __c88, 1)),
+          saml: S.optional(__S(2357, __c147, 5)),
+          domains: S.optional(__S(1425, __c89, 1)),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetProviderResponseOutput" });
   }
 }
-function __c147(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10869,7 +10916,7 @@ function __c147(j: number): any {
       ).annotate({ identifier: "V1GetAuthServiceConfigRequest" });
   }
 }
-function __c148(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11120,7 +11167,7 @@ function __c148(j: number): any {
       ).annotate({ identifier: "AuthConfigResponseOutput" });
   }
 }
-function __c149(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11149,33 +11196,33 @@ function __c149(j: number): any {
         }),
       ).annotate({ identifier: "RegionsInfoV1OutputRecommendationsSpecificItem" });
     case 3:
-      return S.Array(__S(2386, __c149, 2));
+      return S.Array(__S(2402, __c150, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          smartGroup: __S(2385, __c149, 1),
-          specific: __S(2387, __c149, 3),
+          smartGroup: __S(2401, __c150, 1),
+          specific: __S(2403, __c150, 3),
         }),
       ).annotate({ identifier: "RegionsInfoV1OutputRecommendations" });
     case 5:
-      return S.Array(__S(2385, __c149, 1));
+      return S.Array(__S(2401, __c150, 1));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          smartGroup: __S(2389, __c149, 5),
-          specific: __S(2387, __c149, 3),
+          smartGroup: __S(2405, __c150, 5),
+          specific: __S(2403, __c150, 3),
         }),
       ).annotate({ identifier: "RegionsInfoV1OutputAll" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          recommendations: __S(2388, __c149, 4),
-          all: __S(2390, __c149, 6),
+          recommendations: __S(2404, __c150, 4),
+          all: __S(2406, __c150, 6),
         }),
       ).annotate({ identifier: "RegionsInfoV1Output" });
   }
 }
-function __c150(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11190,13 +11237,13 @@ function __c150(j: number): any {
       ).annotate({ identifier: "V1ApplyAMigrationRequest" });
   }
 }
-function __c151(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "V1ApplyAMigrationResponse" });
   }
 }
-function __c152(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11208,7 +11255,7 @@ function __c152(j: number): any {
       ).annotate({ identifier: "V1GetBackupScheduleRequest" });
   }
 }
-function __c153(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11219,7 +11266,7 @@ function __c153(j: number): any {
       ).annotate({ identifier: "V1BackupScheduleResponseOutput" });
   }
 }
-function __c154(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11240,13 +11287,13 @@ function __c154(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          attributes: __S(2465, __c154, 1),
+          attributes: __S(2481, __c155, 1),
           last_modified_at: S.optional(S.String),
         }),
       ).annotate({ identifier: "DiskResponseOutput" });
   }
 }
-function __c155(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11261,25 +11308,25 @@ function __c155(j: number): any {
         }),
       ).annotate({ identifier: "GetProjectDbMetadataResponseOutputDatabasesItemSchemasItem" });
     case 2:
-      return S.Array(__S(2481, __c155, 1));
+      return S.Array(__S(2497, __c156, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          schemas: __S(2482, __c155, 2),
+          schemas: __S(2498, __c156, 2),
         }),
       ).annotate({ identifier: "GetProjectDbMetadataResponseOutputDatabasesItem" });
     case 4:
-      return S.Array(__S(2483, __c155, 3));
+      return S.Array(__S(2499, __c156, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          databases: __S(2484, __c155, 4),
+          databases: __S(2500, __c156, 4),
         }),
       ).annotate({ identifier: "GetProjectDbMetadataResponseOutput" });
   }
 }
-function __c156(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11290,7 +11337,7 @@ function __c156(j: number): any {
       ).annotate({ identifier: "V1GetDatabaseOpenapiRequest" });
   }
 }
-function __c157(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11310,12 +11357,12 @@ function __c157(j: number): any {
       return S.suspend(() =>
         S.Struct({
           timestamp: S.String,
-          metrics: __S(2513, __c157, 1),
+          metrics: __S(2529, __c158, 1),
         }),
       ).annotate({ identifier: "DiskUtilMetricsResponseOutput" });
   }
 }
-function __c158(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11325,7 +11372,7 @@ function __c158(j: number): any {
       ).annotate({ identifier: "V1GetHostnameConfigRequest" });
   }
 }
-function __c159(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11335,7 +11382,7 @@ function __c159(j: number): any {
       ).annotate({ identifier: "V1GetJitAccessRequest" });
   }
 }
-function __c160(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11351,12 +11398,12 @@ function __c160(j: number): any {
         ]),
       );
     case 2:
-      return S.suspend(() => __S(2561, __c160, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2577, __c161, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "V1GetJitAccessConfigResponse",
       });
   }
 }
-function __c161(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11372,7 +11419,7 @@ function __c161(j: number): any {
       ).annotate({ identifier: "V1GetLegacySigningKeyRequest" });
   }
 }
-function __c162(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11384,26 +11431,26 @@ function __c162(j: number): any {
       ).annotate({ identifier: "V1GetNetworkRestrictionsRequest" });
   }
 }
-function __c163(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          dbAllowedCidrs: S.optional(__S(1920, __c120, 0)),
-          dbAllowedCidrsV6: S.optional(__S(1920, __c120, 0)),
-        }),
-      ).annotate({ identifier: "NetworkRestrictionsResponseOutputConfig" });
-  }
-}
 function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          dbAllowedCidrs: S.optional(__S(1936, __c121, 0)),
+          dbAllowedCidrsV6: S.optional(__S(1936, __c121, 0)),
+        }),
+      ).annotate({ identifier: "NetworkRestrictionsResponseOutputConfig" });
+  }
+}
+function __c165(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           entitlement: S.String,
-          config: __S(2608, __c163, 0),
-          old_config: S.optional(__S(2608, __c163, 0)),
-          pending_config: S.optional(__S(2608, __c163, 0)),
+          config: __S(2624, __c164, 0),
+          old_config: S.optional(__S(2624, __c164, 0)),
+          pending_config: S.optional(__S(2624, __c164, 0)),
           pending_requested_at: S.optional(S.String),
           status: S.String,
           updated_at: S.optional(S.String),
@@ -11412,7 +11459,7 @@ function __c164(j: number): any {
       ).annotate({ identifier: "NetworkRestrictionsResponseOutput" });
   }
 }
-function __c165(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], [], [], []]));
@@ -11420,13 +11467,13 @@ function __c165(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ref: S.String.pipe(T.Label()),
-          addon_variant: __S(2640, __c165, 0),
+          addon_variant: __S(2656, __c166, 0),
           addon_type: S.String,
         }).pipe(T.Http({ method: "PATCH", uri: "/v1/projects/{ref}/billing/addons", code: 200 })),
       ).annotate({ identifier: "V1ApplyProjectAddonRequest" });
   }
 }
-function __c166(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11452,23 +11499,23 @@ function __c166(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          feature: __S(2657, __c166, 1),
+          feature: __S(2673, __c167, 1),
           hasAccess: S.Boolean,
           type: S.String,
-          config: __S(2658, __c166, 2),
+          config: __S(2674, __c167, 2),
         }),
       ).annotate({ identifier: "V1ListEntitlementsResponseOutputEntitlementsItem" });
     case 4:
-      return S.Array(__S(2659, __c166, 3));
+      return S.Array(__S(2675, __c167, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          entitlements: __S(2660, __c166, 4),
+          entitlements: __S(2676, __c167, 4),
         }),
       ).annotate({ identifier: "V1ListEntitlementsResponseOutput" });
   }
 }
-function __c167(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11498,7 +11545,7 @@ function __c167(j: number): any {
         }),
       ).annotate({ identifier: "OrganizationProjectClaimResponseOutputPreviewWarningsItem" });
     case 3:
-      return S.Array(__S(2674, __c167, 2));
+      return S.Array(__S(2690, __c168, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -11510,15 +11557,15 @@ function __c167(j: number): any {
           "OrganizationProjectClaimResponseOutputPreviewMembersExceedingFreeProjectLimitItem",
       });
     case 5:
-      return S.Array(__S(2676, __c167, 4));
+      return S.Array(__S(2692, __c168, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           valid: S.Boolean,
-          warnings: __S(2675, __c167, 3),
-          errors: __S(2675, __c167, 3),
-          info: __S(2675, __c167, 3),
-          members_exceeding_free_project_limit: __S(2677, __c167, 5),
+          warnings: __S(2691, __c168, 3),
+          errors: __S(2691, __c168, 3),
+          info: __S(2691, __c168, 3),
+          members_exceeding_free_project_limit: __S(2693, __c168, 5),
           source_subscription_plan: S.String,
           target_subscription_plan: S.NullOr(S.String),
         }),
@@ -11526,8 +11573,8 @@ function __c167(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          project: __S(2673, __c167, 1),
-          preview: __S(2678, __c167, 6),
+          project: __S(2689, __c168, 1),
+          preview: __S(2694, __c168, 6),
           expires_at: S.String,
           created_at: S.String,
           created_by: S.String,
@@ -11535,7 +11582,7 @@ function __c167(j: number): any {
       ).annotate({ identifier: "OrganizationProjectClaimResponseOutput" });
   }
 }
-function __c168(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11547,7 +11594,7 @@ function __c168(j: number): any {
       ).annotate({ identifier: "V1GetPerformanceAdvisorsRequest" });
   }
 }
-function __c169(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
@@ -11559,7 +11606,7 @@ function __c169(j: number): any {
           entity: S.optional(S.String),
           type: S.optional(S.String),
           fkey_name: S.optional(S.String),
-          fkey_columns: S.optional(__S(2704, __c169, 0)),
+          fkey_columns: S.optional(__S(2720, __c170, 0)),
         }),
       ).annotate({ identifier: "V1ProjectAdvisorsResponseOutputLintsItemMetadata" });
     case 2:
@@ -11569,26 +11616,26 @@ function __c169(j: number): any {
           title: S.String,
           level: S.String,
           facing: S.String,
-          categories: __S(2288, __c143, 0),
+          categories: __S(2304, __c144, 0),
           description: S.String,
           detail: S.String,
           remediation: S.String,
-          metadata: S.optional(__S(2705, __c169, 1)),
+          metadata: S.optional(__S(2721, __c170, 1)),
           cache_key: S.String,
           observed_at: S.optional(S.String),
         }),
       ).annotate({ identifier: "V1ProjectAdvisorsResponseOutputLintsItem" });
     case 3:
-      return S.Array(__S(2706, __c169, 2));
+      return S.Array(__S(2722, __c170, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          lints: __S(2707, __c169, 3),
+          lints: __S(2723, __c170, 3),
         }),
       ).annotate({ identifier: "V1ProjectAdvisorsResponseOutput" });
   }
 }
-function __c170(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11598,7 +11645,7 @@ function __c170(j: number): any {
       ).annotate({ identifier: "V1GetPgsodiumConfigRequest" });
   }
 }
-function __c171(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11608,7 +11655,7 @@ function __c171(j: number): any {
       ).annotate({ identifier: "PgsodiumConfigResponseOutput" });
   }
 }
-function __c172(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11636,14 +11683,14 @@ function __c172(j: number): any {
         }),
       ).annotate({ identifier: "SupavisorConfigResponseOutput" });
     case 2:
-      return S.Array(__S(2753, __c172, 1));
+      return S.Array(__S(2769, __c173, 1));
     case 3:
-      return S.suspend(() => __S(2754, __c172, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2770, __c173, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "V1GetPoolerConfigResponse",
       });
   }
 }
-function __c173(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11655,7 +11702,7 @@ function __c173(j: number): any {
       ).annotate({ identifier: "V1GetPostgresConfigRequest" });
   }
 }
-function __c174(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11706,7 +11753,7 @@ function __c174(j: number): any {
       ).annotate({ identifier: "PostgresConfigResponseOutput" });
   }
 }
-function __c175(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11729,7 +11776,7 @@ function __c175(j: number): any {
       ).annotate({ identifier: "PostgrestConfigWithJWTSecretResponseOutput" });
   }
 }
-function __c176(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11750,7 +11797,7 @@ function __c176(j: number): any {
         identifier: "ProjectUpgradeEligibilityResponseOutputTargetUpgradeVersionsItem",
       });
     case 2:
-      return S.Array(__S(2817, __c176, 1));
+      return S.Array(__S(2833, __c177, 1));
     case 3:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases(
@@ -11786,7 +11833,7 @@ function __c176(j: number): any {
         ),
       );
     case 4:
-      return S.Array(__S(2819, __c176, 3));
+      return S.Array(__S(2835, __c177, 3));
     case 5:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([["type"], ["type"], ["type"], ["type"], ["type"]], {
@@ -11801,7 +11848,7 @@ function __c176(j: number): any {
         }),
       );
     case 6:
-      return S.Array(__S(2821, __c176, 5));
+      return S.Array(__S(2837, __c177, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -11809,19 +11856,19 @@ function __c176(j: number): any {
           current_app_version: S.String,
           current_app_version_release_channel: S.String,
           latest_app_version: S.String,
-          target_upgrade_versions: __S(2818, __c176, 2),
+          target_upgrade_versions: __S(2834, __c177, 2),
           duration_estimate_hours: S.Number,
-          legacy_auth_custom_roles: __S(1920, __c120, 0),
-          objects_to_be_dropped: __S(1920, __c120, 0),
-          unsupported_extensions: __S(1920, __c120, 0),
-          user_defined_objects_in_internal_schemas: __S(1920, __c120, 0),
-          validation_errors: __S(2820, __c176, 4),
-          warnings: __S(2822, __c176, 6),
+          legacy_auth_custom_roles: __S(1936, __c121, 0),
+          objects_to_be_dropped: __S(1936, __c121, 0),
+          unsupported_extensions: __S(1936, __c121, 0),
+          user_defined_objects_in_internal_schemas: __S(1936, __c121, 0),
+          validation_errors: __S(2836, __c177, 4),
+          warnings: __S(2838, __c177, 6),
         }),
       ).annotate({ identifier: "ProjectUpgradeEligibilityResponseOutput" });
   }
 }
-function __c177(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11844,12 +11891,12 @@ function __c177(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          databaseUpgradeStatus: S.NullOr(__S(2833, __c177, 1)),
+          databaseUpgradeStatus: S.NullOr(__S(2849, __c178, 1)),
         }),
       ).annotate({ identifier: "DatabaseUpgradeStatusResponseOutput" });
   }
 }
-function __c178(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11865,7 +11912,7 @@ function __c178(j: number): any {
       ).annotate({ identifier: "V1ProfileResponseOutput" });
   }
 }
-function __c179(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11880,12 +11927,12 @@ function __c179(j: number): any {
         S.Struct({
           user_id: S.optional(S.String),
           act: S.optional(S.String),
-          user_role: __S(1715, __c107, 3),
+          user_role: __S(1731, __c108, 3),
         }),
       ).annotate({ identifier: "JitAuthorizeAccessResponseOutput" });
   }
 }
-function __c180(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11895,7 +11942,7 @@ function __c180(j: number): any {
       ).annotate({ identifier: "V1GetProjectRequest" });
   }
 }
-function __c181(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11917,12 +11964,12 @@ function __c181(j: number): any {
           region: S.String,
           created_at: S.String,
           status: S.String,
-          database: __S(2896, __c181, 0),
+          database: __S(2912, __c182, 0),
         }),
       ).annotate({ identifier: "V1ProjectWithDatabaseResponseOutput" });
   }
 }
-function __c182(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11934,7 +11981,7 @@ function __c182(j: number): any {
       ).annotate({ identifier: "V1GetProjectApiKeyRequest" });
   }
 }
-function __c183(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11944,14 +11991,14 @@ function __c183(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/projects/{ref}/api-keys", code: 200 })),
       ).annotate({ identifier: "V1GetProjectApiKeysRequest" });
     case 1:
-      return S.Array(__S(1489, __c93, 1));
+      return S.Array(__S(1505, __c94, 1));
     case 2:
-      return S.suspend(() => __S(2929, __c183, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2945, __c184, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "V1GetProjectApiKeysResponse",
       });
   }
 }
-function __c184(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11970,7 +12017,7 @@ function __c184(j: number): any {
       ).annotate({ identifier: "ProjectClaimTokenResponseOutput" });
   }
 }
-function __c185(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11990,7 +12037,7 @@ function __c185(j: number): any {
       ).annotate({ identifier: "DiskAutoscaleConfigOutput" });
   }
 }
-function __c186(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12008,7 +12055,7 @@ function __c186(j: number): any {
       ).annotate({ identifier: "V1GetProjectFunctionCombinedStatsRequest" });
   }
 }
-function __c187(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -12017,19 +12064,19 @@ function __c187(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(3008, __c188, 0)),
-          error: S.optional(__S(2992, __c187, 0)),
+          result: S.optional(__S(3024, __c189, 0)),
+          error: S.optional(__S(3008, __c188, 0)),
         }),
       ).annotate({ identifier: "AnalyticsResponseOutput" });
   }
 }
-function __c188(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
   }
 }
-function __c189(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12039,7 +12086,7 @@ function __c189(j: number): any {
       ).annotate({ identifier: "V1GetProjectLegacyApiKeysRequest" });
   }
 }
-function __c190(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12049,7 +12096,7 @@ function __c190(j: number): any {
       ).annotate({ identifier: "V1ListEntitlementsResponseOutputEntitlementsItemConfigCase0" });
   }
 }
-function __c191(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12064,7 +12111,7 @@ function __c191(j: number): any {
       ).annotate({ identifier: "V1GetProjectLogsRequest" });
   }
 }
-function __c192(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12090,7 +12137,7 @@ function __c192(j: number): any {
       ).annotate({ identifier: "V1PgbouncerConfigResponseOutput" });
   }
 }
-function __c193(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12107,7 +12154,7 @@ function __c193(j: number): any {
       ).annotate({ identifier: "V1GetProjectSigningKeyRequest" });
   }
 }
-function __c194(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12127,7 +12174,7 @@ function __c194(j: number): any {
       ).annotate({ identifier: "V1AuthorizeUserRequest" });
   }
 }
-function __c195(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12138,16 +12185,16 @@ function __c195(j: number): any {
         ),
       ).annotate({ identifier: "V1GetProjectSigningKeysRequest" });
     case 1:
-      return S.Array(__S(1440, __c90, 0));
+      return S.Array(__S(1456, __c91, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          keys: __S(3121, __c195, 1),
+          keys: __S(3137, __c196, 1),
         }),
       ).annotate({ identifier: "SigningKeysResponseOutput" });
   }
 }
-function __c196(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12164,7 +12211,7 @@ function __c196(j: number): any {
       ).annotate({ identifier: "V1GetProjectTpaIntegrationRequest" });
   }
 }
-function __c197(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12190,7 +12237,7 @@ function __c197(j: number): any {
         }),
       ).annotate({ identifier: "V1GetUsageApiCountResponseOutputResultItem" });
     case 2:
-      return S.Array(__S(3153, __c197, 1));
+      return S.Array(__S(3169, __c198, 1));
     case 3:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([[], ["code", "errors", "message", "status"]]),
@@ -12198,13 +12245,13 @@ function __c197(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(3154, __c197, 2)),
-          error: S.optional(__S(3155, __c197, 3)),
+          result: S.optional(__S(3170, __c198, 2)),
+          error: S.optional(__S(3171, __c198, 3)),
         }),
       ).annotate({ identifier: "V1GetUsageApiCountResponseOutput" });
   }
 }
-function __c198(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12225,7 +12272,7 @@ function __c198(j: number): any {
         }),
       ).annotate({ identifier: "V1GetUsageApiRequestsCountResponseOutputResultItem" });
     case 2:
-      return S.Array(__S(3169, __c198, 1));
+      return S.Array(__S(3185, __c199, 1));
     case 3:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([[], ["code", "errors", "message", "status"]]),
@@ -12233,13 +12280,13 @@ function __c198(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(3170, __c198, 2)),
-          error: S.optional(__S(3171, __c198, 3)),
+          result: S.optional(__S(3186, __c199, 2)),
+          error: S.optional(__S(3187, __c199, 3)),
         }),
       ).annotate({ identifier: "V1GetUsageApiRequestsCountResponseOutput" });
   }
 }
-function __c199(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12257,7 +12304,7 @@ function __c199(j: number): any {
       ).annotate({ identifier: "ReadOnlyStatusResponseOutput" });
   }
 }
-function __c200(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12285,7 +12332,7 @@ function __c200(j: number): any {
       ).annotate({ identifier: "RealtimeConfigResponseOutput" });
   }
 }
-function __c201(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12302,7 +12349,7 @@ function __c201(j: number): any {
       ).annotate({ identifier: "V1GetRestorePointRequest" });
   }
 }
-function __c202(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12313,7 +12360,7 @@ function __c202(j: number): any {
       ).annotate({ identifier: "V1GetSecurityAdvisorsRequest" });
   }
 }
-function __c203(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
@@ -12321,7 +12368,7 @@ function __c203(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ref: S.String.pipe(T.Label()),
-          services: __S(3248, __c203, 0).pipe(T.Query()),
+          services: __S(3264, __c204, 0).pipe(T.Query()),
           timeout_ms: S.optional(S.Number.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v1/projects/{ref}/health", code: 200 })),
       ).annotate({ identifier: "V1GetServicesHealthRequest" });
@@ -12339,19 +12386,19 @@ function __c203(j: number): any {
           name: S.String,
           healthy: S.Boolean,
           status: S.String,
-          info: S.optional(__S(3250, __c203, 2)),
+          info: S.optional(__S(3266, __c204, 2)),
           error: S.optional(S.String),
         }),
       ).annotate({ identifier: "V1ServiceHealthResponseOutput" });
     case 4:
-      return S.Array(__S(3251, __c203, 3));
+      return S.Array(__S(3267, __c204, 3));
     case 5:
-      return S.suspend(() => __S(3252, __c203, 4).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(3268, __c204, 4).pipe(T.RawResponseRoot())).annotate({
         identifier: "V1GetServicesHealthResponse",
       });
   }
 }
-function __c204(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12361,7 +12408,7 @@ function __c204(j: number): any {
       ).annotate({ identifier: "V1GetSslEnforcementConfigRequest" });
   }
 }
-function __c205(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12372,7 +12419,7 @@ function __c205(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          currentConfig: __S(3280, __c205, 0),
+          currentConfig: __S(3296, __c206, 0),
           appliedSuccessfully: S.Boolean,
         }),
       ).annotate({ identifier: "SslEnforcementResponseOutput" });

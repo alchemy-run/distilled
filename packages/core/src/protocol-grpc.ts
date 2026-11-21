@@ -50,7 +50,7 @@ import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
 import * as Stream from "effect/Stream";
 import * as API from "./api.ts";
-import { GrpcTransport, hasTrailers, trailersOf } from "./grpc-transport.ts";
+import { GrpcTransport, hasTrailers, trailersOf, type Trailers } from "./grpc-transport.ts";
 import {
   decodeMessage,
   encodeMessage,
@@ -61,7 +61,7 @@ import {
 import { InvalidInput, matchTypedError } from "./protocol-http.ts";
 import { makeRestProtocol, type RestProtocolOptions } from "./protocol-rest.ts";
 import { SdkError } from "./sdk-error.ts";
-import * as Telemetry from "./telemetry.ts";
+import * as Send from "./send.ts";
 
 /** gRPC status code -> name. */
 export const GRPC_STATUS_NAMES: Readonly<Record<number, string>> = {
@@ -197,6 +197,14 @@ const textDecoder = /*@__PURE__*/ new TextDecoder();
  * encode/decode result gRPC can't use). Protocol effects are typed
  * `never`; SdkError is part of every operation's declared error channel.
  */
+/**
+ * A transport's trailers. A transport that can't read them fails with its
+ * `HttpClientError`, which reaches the caller like a failed body read:
+ * protocol effects carry no error type.
+ */
+const readTrailers = (response: HttpClientResponse.HttpClientResponse) =>
+  trailersOf(response) as Effect.Effect<Trailers>;
+
 const sdkFailure = (message: string): Effect.Effect<never> =>
   Effect.fail(new SdkError({ message })) as Effect.Effect<never>;
 
@@ -496,7 +504,7 @@ export const makeGrpcProtocol = <C>(options: GrpcProtocolOptions<C>): Layer.Laye
                 : HttpClientRequest.setHeader(encoded, "grpc-timeout", grpcTimeout(ms));
             const client =
               Context.get(context, GrpcTransport) ?? Context.get(context, HttpClient.HttpClient);
-            return Telemetry.execute(context, client, request);
+            return Send.send(context, client, request);
           },
         );
 
@@ -511,7 +519,7 @@ export const makeGrpcProtocol = <C>(options: GrpcProtocolOptions<C>): Layer.Laye
         if (!method) return sdkFailure(`no gRPC descriptor for ${request.url}`);
         // Protocol effects carry no error type: callers see the operation's.
         return Effect.flatMap(response.arrayBuffer as Effect.Effect<ArrayBuffer>, (buffer) =>
-          Effect.flatMap(trailersOf(response), (trailers) => {
+          Effect.flatMap(readTrailers(response), (trailers) => {
             const reader = new FrameReader();
             let frames: Uint8Array[];
             try {
@@ -651,7 +659,7 @@ export const makeGrpcProtocol = <C>(options: GrpcProtocolOptions<C>): Layer.Laye
           ),
         );
         let sawBody = false;
-        const end = Effect.flatMap(trailersOf(response), (trailers) =>
+        const end = Effect.flatMap(readTrailers(response), (trailers) =>
           Effect.flatMap(endOf(args, response, { ...trailers, ...reader.trailers }, sawBody), () =>
             reader.rest !== 0 ? badFrame(args, response, "truncated gRPC frame") : Effect.void,
           ),

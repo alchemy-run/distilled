@@ -10,16 +10,17 @@
  * import { Effect, Layer } from "effect";
  * import * as FetchHttpClient from "effect/http/FetchHttpClient";
  * import * as NamespaceLabs from "@distilled.cloud/namespacelabs";
+ * import * as Compute from "@distilled.cloud/namespacelabs/compute";
  *
  * const program = Effect.gen(function* () {
- *   const created = yield* NamespaceLabs.compute.createInstance({
+ *   const created = yield* Compute.createInstance({
  *     shape: { virtualCpu: 2, memoryMegabytes: 4096, os: "linux", machineArch: "amd64" },
  *     deadline: new Date(Date.now() + 10 * 60 * 1000).toISOString(),
  *   });
  *   const instanceId = created.metadata?.instanceId;
  *   if (instanceId === undefined) return undefined;
- *   const instance = yield* NamespaceLabs.compute.describeInstance({ instanceId });
- *   yield* NamespaceLabs.compute.destroyInstance({ instanceId });
+ *   const instance = yield* Compute.describeInstance({ instanceId });
+ *   yield* Compute.destroyInstance({ instanceId });
  *   return instance.metadata?.status;
  * });
  *
@@ -45,4 +46,3 @@ export {
 } from "./protocol.ts";
 export { paginateCursor } from "./pagination.ts";
 export * as Retry from "./retry.ts";
-export * from "./services/index.ts";

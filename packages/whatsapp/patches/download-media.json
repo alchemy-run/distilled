@@ -1,0 +1,24 @@
+{
+  "description": "The spec models media download as `GET /{Version}/{Media-URL}` on graph.facebook.com, with the URL as one path segment and a `text/plain` response. On the wire the download is a GET of the `url` that `GET /{Media-ID}` (getMedia) returns, sent as-is with the bearer token: Meta's media guide (https://developers.facebook.com/documentation/business-messaging/whatsapp/business-phone-numbers/media) shows `curl '<MEDIA_URL>' -H 'Authorization: Bearer …'`, and the URL expires after 5 minutes. Live on 2026-11-18 (v23.0): getMedia for an uploaded PNG returned a `url` on lookaside.fbsbx.com; a GET of that URL with the bearer token returned 200 `image/png` with the uploaded bytes, and 401 without it. A full URL percent-encoded under graph.facebook.com/<version>/ never reaches that resource, so the operation is removed rather than generated broken; callers fetch `getMedia`'s `url` with their own HttpClient.",
+  "patches": [
+    {
+      "op": "test",
+      "path": "/shapes/com.meta.whatsapp#WhatsApp/operations/56",
+      "value": {
+        "target": "com.meta.whatsapp#DownloadMedia"
+      }
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.meta.whatsapp#WhatsApp/operations/56"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.meta.whatsapp#DownloadMedia"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.meta.whatsapp#DownloadMediaRequest"
+    }
+  ]
+}

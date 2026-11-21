@@ -15,18 +15,23 @@
  *
  * Each request opens its own socket with `connection: close`: workerd ties
  * a socket to the request that opened it, so sockets are never pooled
- * across events. The body streams as it arrives (`content-length`, chunked,
- * or until the server closes); chunked trailers, where gRPC puts
- * `grpc-status`, settle when it ends. The server must accept gRPC over
- * HTTP/1.1, as a bridging proxy (envoy) does.
+ * across events. The exchange is Effect code: the body is an Effect `Stream`
+ * that reads the socket in the caller's fiber as it arrives (`content-length`,
+ * chunked, or until the server closes), and closes it when it ends or the
+ * reader stops; chunked trailers, where gRPC puts `grpc-status`, settle when
+ * it ends. The server must accept gRPC over HTTP/1.1, as a bridging proxy
+ * (envoy) does.
  */
+import * as Deferred from "effect/Deferred";
 import * as Effect from "effect/Effect";
 import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientError from "effect/http/HttpClientError";
 import type * as HttpClientRequest from "effect/http/HttpClientRequest";
 import type * as Layer from "effect/Layer";
+import * as Stream from "effect/Stream";
 import {
   isResponseStatus,
+  hasNoBody,
   layer as transportLayer,
   respond,
   type Trailers,
@@ -36,20 +41,33 @@ import {
 type Connect = (
   address: { hostname: string; port: number },
   options: { secureTransport: "on" | "off"; allowHalfOpen: boolean },
-) => {
+) => Socket;
+
+interface Socket {
   readonly readable: ReadableStream<Uint8Array>;
   readonly writable: WritableStream<Uint8Array>;
   close(): Promise<void>;
-};
+}
 
 // A non-literal specifier keeps bundlers from resolving it for runtimes
 // other than workerd, which resolves its built-in modules at runtime.
+/** Run `f`, failing with what it throws as is. */
+const attempt = <A>(f: () => A): Effect.Effect<A, unknown> =>
+  Effect.try({ try: f, catch: (cause) => cause });
+
+/** Await `f`, failing with what it rejects with as is. */
+const attemptPromise = <A>(f: () => PromiseLike<A>): Effect.Effect<A, unknown> =>
+  Effect.tryPromise({ try: () => f(), catch: (cause) => cause });
+
 const SOCKETS_MODULE = "cloudflare:sockets";
-let sockets: Promise<Connect> | undefined;
-const connectFn = () =>
-  (sockets ??= (import(SOCKETS_MODULE) as Promise<{ connect: Connect }>).then(
-    (module) => module.connect,
-  ));
+let connectFn: Connect | undefined;
+const loadConnect: Effect.Effect<Connect, unknown> = /*@__PURE__*/ Effect.suspend(() =>
+  connectFn !== undefined
+    ? Effect.succeed(connectFn)
+    : attemptPromise(() => import(SOCKETS_MODULE) as Promise<{ connect: Connect }>).pipe(
+        Effect.map((module) => (connectFn = module.connect)),
+      ),
+);
 
 /** Headers this transport sets itself. */
 const FRAMING_HEADERS = new Set([
@@ -202,97 +220,148 @@ const transportError = (request: HttpClientRequest.HttpClientRequest, cause: unk
     }),
   });
 
+/**
+ * Close `socket` once, from whichever comes first: the body ends, its reader
+ * stops, the exchange fails, or `signal` aborts.
+ */
+const closer = (socket: Socket, signal: AbortSignal): Effect.Effect<void> => {
+  let closed = false;
+  const markClosed = () => {
+    if (closed) return false;
+    closed = true;
+    signal.removeEventListener("abort", onAbort);
+    return true;
+  };
+  const onAbort = () => {
+    // Only for a response nobody reads any more (dropped unread, or its
+    // scope closed): no fiber is left to run the close in, and no reader to
+    // see that a close failed, which only happens to a socket that already
+    // failed.
+    if (markClosed()) void socket.close().catch(() => undefined);
+  };
+  signal.addEventListener("abort", onAbort, { once: true });
+  return Effect.suspend(() =>
+    markClosed()
+      ? attemptPromise(() => socket.close()).pipe(
+          Effect.ignore({ log: "Debug", message: "closing a cloudflare:sockets socket failed" }),
+        )
+      : Effect.void,
+  );
+};
+
 /** Send `request` and read the response head; the body streams afterwards. */
-const send = async (
+const send = (request: HttpClientRequest.HttpClientRequest, url: URL, signal: AbortSignal) =>
+  Effect.gen(function* () {
+    const connect = yield* loadConnect;
+    const tls = url.protocol === "https:";
+    const socket = yield* attempt(() =>
+      connect(
+        { hostname: url.hostname, port: Number(url.port || (tls ? 443 : 80)) },
+        { secureTransport: tls ? "on" : "off", allowHalfOpen: false },
+      ),
+    );
+    const close = closer(socket, signal);
+    // A call that fails before it returns a body leaves no one else to close the socket.
+    return yield* exchange(request, url, socket, close).pipe(Effect.onError(() => close));
+  });
+
+const exchange = (
   request: HttpClientRequest.HttpClientRequest,
   url: URL,
-  signal: AbortSignal,
-) => {
-  const connect = await connectFn();
-  const tls = url.protocol === "https:";
-  const socket = connect(
-    { hostname: url.hostname, port: Number(url.port || (tls ? 443 : 80)) },
-    { secureTransport: tls ? "on" : "off", allowHalfOpen: false },
-  );
-  const close = () => void socket.close().catch(() => undefined);
-  signal.addEventListener("abort", close, { once: true });
+  socket: Socket,
+  close: Effect.Effect<void>,
+) =>
+  Effect.gen(function* () {
+    const body = request.body._tag === "Uint8Array" ? request.body.body : new Uint8Array(0);
+    const head = [`${request.method} ${url.pathname}${url.search} HTTP/1.1`, `host: ${url.host}`];
+    for (const [key, value] of Object.entries(request.headers)) {
+      if (!FRAMING_HEADERS.has(key)) head.push(`${key}: ${value}`);
+    }
+    head.push(`content-length: ${body.length}`, "connection: close", "", "");
+    const writer = socket.writable.getWriter();
+    yield* attemptPromise(() => writer.write(concat(encoder.encode(head.join("\r\n")), body)));
+    writer.releaseLock();
 
-  const body = request.body._tag === "Uint8Array" ? request.body.body : new Uint8Array(0);
-  const head = [`${request.method} ${url.pathname}${url.search} HTTP/1.1`, `host: ${url.host}`];
-  for (const [key, value] of Object.entries(request.headers)) {
-    if (!FRAMING_HEADERS.has(key)) head.push(`${key}: ${value}`);
-  }
-  head.push(`content-length: ${body.length}`, "connection: close", "", "");
-  const writer = socket.writable.getWriter();
-  await writer.write(concat(encoder.encode(head.join("\r\n")), body));
-  writer.releaseLock();
+    const reader = socket.readable.getReader();
+    const read = attemptPromise(() => reader.read());
+    let buf: Uint8Array<ArrayBufferLike> = new Uint8Array(0);
+    let end = -1;
+    while ((end = indexOf(buf, CRLFCRLF)) < 0) {
+      const { value, done } = yield* read;
+      if (done) {
+        return yield* Effect.fail(
+          new ProtocolViolation("connection closed before the response headers"),
+        );
+      }
+      buf = concat(buf, value);
+    }
+    const [statusLine = "", ...lines] = decoder.decode(buf.subarray(0, end)).split("\r\n");
+    const status = Number(statusLine.split(" ")[1] ?? 0);
+    if (!isResponseStatus(status)) {
+      return yield* Effect.fail(new ProtocolViolation(`invalid HTTP status ${status}`));
+    }
+    const headers = parseHeaderLines(lines);
+    const framing = decoderFor(headers);
+    const trailers = yield* Deferred.make<Trailers, unknown>();
 
-  const reader = socket.readable.getReader();
-  let buf: Uint8Array<ArrayBufferLike> = new Uint8Array(0);
-  let end = -1;
-  while ((end = indexOf(buf, CRLFCRLF)) < 0) {
-    const { value, done } = await reader.read();
-    if (done) throw new ProtocolViolation("connection closed before the response headers");
-    buf = concat(buf, value);
-  }
-  const [statusLine = "", ...lines] = decoder.decode(buf.subarray(0, end)).split("\r\n");
-  const status = Number(statusLine.split(" ")[1] ?? 0);
-  if (!isResponseStatus(status)) throw new ProtocolViolation(`invalid HTTP status ${status}`);
-  const headers = parseHeaderLines(lines);
-  const framing = decoderFor(headers);
-
-  let resolveTrailers!: (t: Trailers) => void;
-  const trailers = new Promise<Trailers>((resolve) => (resolveTrailers = resolve));
-  const finish = () => {
-    signal.removeEventListener("abort", close);
-    resolveTrailers(framing.trailers);
-    close();
-  };
-  let pending: Uint8Array | undefined = buf.subarray(end + 4);
-  const stream = new ReadableStream<Uint8Array>({
-    async pull(controller) {
-      for (;;) {
+    let pending: Uint8Array | undefined = buf.subarray(end + 4);
+    let finished = false;
+    /** The next payload chunks, or `undefined` once the body has ended. */
+    const next: Effect.Effect<Uint8Array[] | undefined, unknown> = Effect.gen(function* () {
+      while (!finished) {
         let input: Uint8Array;
         if (pending !== undefined) {
           input = pending;
           pending = undefined;
         } else {
-          const { value, done } = await reader.read();
+          const { value, done } = yield* read;
           if (done) {
-            finish();
-            if (framing.end()) controller.close();
-            else controller.error(new ProtocolViolation("connection closed mid-body"));
-            return;
+            if (!framing.end()) {
+              return yield* Effect.fail(new ProtocolViolation("connection closed mid-body"));
+            }
+            finished = true;
+            yield* Deferred.succeed(trailers, framing.trailers);
+            return undefined;
           }
           input = value;
         }
-        const { data, done } = framing.feed(input);
-        for (const chunk of data) controller.enqueue(chunk);
+        const { data, done } = yield* attempt(() => framing.feed(input));
         if (done) {
-          finish();
-          controller.close();
-          return;
+          finished = true;
+          yield* Deferred.succeed(trailers, framing.trailers);
+          return data;
         }
-        if (data.length > 0) return;
+        if (data.length > 0) return data;
       }
-    },
-    cancel() {
-      finish();
-    },
+      return undefined;
+    });
+    const stream = Stream.unfold(undefined, () =>
+      Effect.map(next, (data) => (data === undefined ? undefined : ([data, undefined] as const))),
+    ).pipe(
+      Stream.flattenIterable,
+      Stream.ensuring(
+        Effect.andThen(
+          // Settles nothing once the body ended; else no trailers come.
+          Deferred.fail(trailers, new ProtocolViolation("the body was not read to its end")),
+          close,
+        ),
+      ),
+    );
+    // A reply with no body needs the socket no more.
+    if (hasNoBody(status)) yield* close;
+    // HTTP/1.1: a bridging proxy may drop the trailers.
+    return yield* respond(request, {
+      status,
+      headers,
+      body: stream,
+      trailers: Deferred.await(trailers),
+      reliableTrailers: false,
+    });
   });
-  // HTTP/1.1: a bridging proxy may drop the trailers.
-  return { status, headers, body: stream, trailers, reliableTrailers: false };
-};
 
 /** An `HttpClient` that sends each request over its own `cloudflare:sockets` socket. */
 export const client: HttpClient.HttpClient = /*@__PURE__*/ HttpClient.make((request, url, signal) =>
-  Effect.map(
-    Effect.tryPromise({
-      try: () => send(request, url, signal),
-      catch: (cause) => transportError(request, cause),
-    }),
-    (reply) => respond(request, reply),
-  ),
+  Effect.mapError(send(request, url, signal), (cause) => transportError(request, cause)),
 );
 
 /** Send gRPC calls over `cloudflare:sockets` in this scope. */

@@ -37,9 +37,9 @@ export class BadRequest
       code: /*@__PURE__*/ S.optional(S.Number),
       message: S.String,
       status: /*@__PURE__*/ S.optional(S.String),
-      reason: /*@__PURE__*/ S.optional(S.String),
-      domain: /*@__PURE__*/ S.optional(S.String),
       details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
   ) {}
@@ -50,9 +50,9 @@ export class Conflict
       code: /*@__PURE__*/ S.optional(S.Number),
       message: S.String,
       status: /*@__PURE__*/ S.optional(S.String),
-      reason: /*@__PURE__*/ S.optional(S.String),
-      domain: /*@__PURE__*/ S.optional(S.String),
       details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
   ) {}
@@ -64,9 +64,9 @@ export class FolderNotFound
       code: /*@__PURE__*/ S.optional(S.Number),
       message: S.String,
       status: /*@__PURE__*/ S.optional(S.String),
-      reason: /*@__PURE__*/ S.optional(S.String),
-      domain: /*@__PURE__*/ S.optional(S.String),
       details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403, message: { includes: "(or it may not exist)" } }],
   ) {}
@@ -77,9 +77,9 @@ export class Forbidden
       code: /*@__PURE__*/ S.optional(S.Number),
       message: S.String,
       status: /*@__PURE__*/ S.optional(S.String),
-      reason: /*@__PURE__*/ S.optional(S.String),
-      domain: /*@__PURE__*/ S.optional(S.String),
       details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
   ) {}
@@ -90,9 +90,9 @@ export class NotFound
       code: /*@__PURE__*/ S.optional(S.Number),
       message: S.String,
       status: /*@__PURE__*/ S.optional(S.String),
-      reason: /*@__PURE__*/ S.optional(S.String),
-      domain: /*@__PURE__*/ S.optional(S.String),
       details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
@@ -104,9 +104,9 @@ export class ProjectNotFound
       code: /*@__PURE__*/ S.optional(S.Number),
       message: S.String,
       status: /*@__PURE__*/ S.optional(S.String),
-      reason: /*@__PURE__*/ S.optional(S.String),
-      domain: /*@__PURE__*/ S.optional(S.String),
       details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403, message: { includes: "(or it may not exist)" } }],
   ) {}
@@ -118,9 +118,9 @@ export class TagKeyNotFound
       code: /*@__PURE__*/ S.optional(S.Number),
       message: S.String,
       status: /*@__PURE__*/ S.optional(S.String),
-      reason: /*@__PURE__*/ S.optional(S.String),
-      domain: /*@__PURE__*/ S.optional(S.String),
       details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403, message: { includes: "(or it may not exist)" } }],
   ) {}
@@ -132,70 +132,66 @@ export class TagValueNotFound
       code: /*@__PURE__*/ S.optional(S.Number),
       message: S.String,
       status: /*@__PURE__*/ S.optional(S.String),
-      reason: /*@__PURE__*/ S.optional(S.String),
-      domain: /*@__PURE__*/ S.optional(S.String),
       details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403, message: { includes: "(or it may not exist)" } }],
   ) {}
 
 export type StringList = Array<string>;
-export type StringMap = { [key: string]: string | undefined };
 export type FolderStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "DELETE_REQUESTED";
+export type StringMap = { [key: string]: string | undefined };
 /** A folder in an organization's resource hierarchy, used to organize that organization's resources. */
 export interface Folder {
   /** Output only. Timestamp when the folder was requested to be deleted. */
   deleteTime?: string | undefined;
   /** Output only. Optional capabilities configured for this folder (via UpdateCapability API). Example: `folders/123/capabilities/app-management`. */
   configuredCapabilities?: StringList | undefined;
-  /** Optional. Input only. Immutable. Tag keys/values directly bound to this folder. Each item in the map must be expressed as " : ". For example: "123/environment" : "production", "123/costCenter" : "marketing" Note: Currently this field is in Preview. */
-  tags?: StringMap | undefined;
-  /** Identifier. The resource name of the folder. Its format is `folders/{folder_id}`, for example: "folders/1234". */
-  name?: string | undefined;
-  /** Required. The folder's parent's resource name. Updates to the folder's parent must be performed using MoveFolder. */
-  parent?: string | undefined;
   /** Output only. The lifecycle state of the folder. Updates to the state must be performed using DeleteFolder and UndeleteFolder. */
   state?: FolderStateEnum | (string & {}) | undefined;
-  /** Output only. Management Project associated with this folder (if app-management capability is enabled). Example: `projects/google-mp-123` OUTPUT ONLY. */
-  managementProject?: string | undefined;
+  /** Required. The folder's parent's resource name. Updates to the folder's parent must be performed using MoveFolder. */
+  parent?: string | undefined;
   /** Output only. Timestamp when the folder was created. */
   createTime?: string | undefined;
-  /** Output only. Timestamp when the folder was last modified. */
-  updateTime?: string | undefined;
   /** The folder's display name. A folder's display name must be unique amongst its siblings. For example, no two folders with the same parent can share the same display name. The display name must start and end with a letter or digit, may contain letters, digits, spaces, hyphens and underscores and can be no longer than 30 characters. This is captured by the regular expression: `[\p{L}\p{N}]([\p{L}\p{N}_- ]{0,28}[\p{L}\p{N}])?`. */
   displayName?: string | undefined;
+  /** Output only. Management Project associated with this folder (if app-management capability is enabled). Example: `projects/google-mp-123` OUTPUT ONLY. */
+  managementProject?: string | undefined;
+  /** Identifier. The resource name of the folder. Its format is `folders/{folder_id}`, for example: "folders/1234". */
+  name?: string | undefined;
+  /** Optional. Input only. Immutable. Tag keys/values directly bound to this folder. Each item in the map must be expressed as " : ". For example: "123/environment" : "production", "123/costCenter" : "marketing" Note: Currently this field is in Preview. */
+  tags?: StringMap | undefined;
+  /** Output only. Timestamp when the folder was last modified. */
+  updateTime?: string | undefined;
   /** Output only. A checksum computed by the server based on the current value of the folder resource. This may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
   etag?: string | undefined;
 }
-export interface CreateFoldersRequest {
-  /** Request body */
-  body?: Folder | undefined;
-}
+export interface CreateFoldersRequest extends Folder {}
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string | undefined;
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList | undefined;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string | undefined;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean | undefined;
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap | undefined;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status | undefined;
 }
-export type BoundaryStateEnum = "STATE_UNSPECIFIED" | "CREATING" | "ACTIVE";
 /** Matches projects based on a specific tag key and a specific tag value. */
 export interface TagFilter {
   /** Required. Immutable. The namespaced name of the tag key. Format: `{parent_id}/{tag_key_short_name}` Example: `123456789012/env` (where 123456789012 is the organization ID). */
@@ -208,34 +204,32 @@ export interface ResourceFilter {
   /** A tag based filter. A project must match it to be included. */
   tagFilter?: TagFilter | undefined;
 }
+export type BoundaryStateEnum = "STATE_UNSPECIFIED" | "CREATING" | "ACTIVE";
 /** A Boundary is a collection of projects defined by a filtering criteria on an organization or a folder. */
 export interface Boundary {
-  /** Optional. Human-readable display name of the Boundary. When present it must be between 4 to 30 characters. Allowed characters are: lowercase and uppercase letters, numbers, hyphen, single-quote, double-quote, space, and exclamation point. Example: `My Production Boundary` */
-  displayName?: string | undefined;
+  /** Optional. The filter defining the criteria for descendant projects to be included in the Boundary. Descendant projects are dynamically included in the Boundary based on this filter. */
+  resourceFilter?: ResourceFilter | undefined;
   /** Output only. The Management Project of the CapabilityConfig this Boundary is associated with. Will be empty if the Boundary is not associated with any CapabilityConfig. Format: `projects/{project_number}` Example: `projects/123456789012` */
   managementProject?: string | undefined;
+  /** Output only. The creation time of the Boundary. */
+  createTime?: string | undefined;
   /** Identifier. The unique resource name of the Boundary. Format: - `organizations/{organization_id}/boundaries/{boundary_id}` - `folders/{folder_id}/boundaries/{boundary_id}` Example: `folders/123456789/boundaries/my-boundary` */
   name?: string | undefined;
+  /** Optional. Human-readable display name of the Boundary. When present it must be between 4 to 30 characters. Allowed characters are: lowercase and uppercase letters, numbers, hyphen, single-quote, double-quote, space, and exclamation point. Example: `My Production Boundary` */
+  displayName?: string | undefined;
   /** Output only. The lifecycle state of the Boundary. */
   state?: BoundaryStateEnum | (string & {}) | undefined;
   /** This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
   etag?: string | undefined;
   /** Output only. The most recent time this Boundary was modified. */
   updateTime?: string | undefined;
-  /** Optional. The filter defining the criteria for descendant projects to be included in the Boundary. Descendant projects are dynamically included in the Boundary based on this filter. */
-  resourceFilter?: ResourceFilter | undefined;
-  /** Output only. The creation time of the Boundary. */
-  createTime?: string | undefined;
 }
-export interface CreateFoldersBoundariesRequest {
-  /** Required. The parent resource under which the Boundary will be created. Format: `organizations/{organization_id}` or `folders/{folder_id}` */
-  parent: string;
+export interface CreateFoldersBoundariesRequest extends Boundary {
   /** Required. The user-assigned ID for the Boundary, which will become the final component of the Boundary's resource name. Must be unique within the parent resource. It must be 6 to 30 lowercase ASCII letters, digits, or hyphens. It must start with a letter. Trailing hyphens are prohibited. Example: `my-boundary-123` */
   boundaryId?: string | undefined;
-  /** Request body */
-  body?: Boundary | undefined;
+  /** Required. The parent resource under which the Boundary will be created. Format: `organizations/{organization_id}` or `folders/{folder_id}` */
+  parent: string;
 }
-export type CapabilityConfigStateEnum = "STATE_UNSPECIFIED" | "ACTIVE";
 export type CapabilityConfigTypesItemEnum =
   | "TYPE_UNSPECIFIED"
   | "APP_MANAGEMENT"
@@ -243,209 +237,188 @@ export type CapabilityConfigTypesItemEnum =
 export type CapabilityConfigTypesItemEnumList = Array<
   CapabilityConfigTypesItemEnum | (string & {})
 >;
+export type CapabilityConfigStateEnum = "STATE_UNSPECIFIED" | "ACTIVE";
 /** A CapabilityConfig allows managing experiences like applications and agents on a logical administrative perimeter of Projects (Boundary). */
 export interface CapabilityConfig {
-  /** Optional. The list of Boundaries associated with this CapabilityConfig. Format: `organizations/{organization}/boundaries/{boundary}` or, `folders/{folder}/boundaries/{boundary}` or, `projects/{project}/boundaries/{boundary}` */
-  boundaries?: StringList | undefined;
-  /** This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string | undefined;
-  /** Output only. The most recent time this CapabilityConfig was modified. */
-  updateTime?: string | undefined;
-  /** Output only. The creation time of the CapabilityConfig. */
-  createTime?: string | undefined;
-  /** Optional. Immutable. The Management Project associated with this CapabilityConfig. If not provided during creation, a management project will be automatically created. Cannot be modified after creation. Format: `projects/{project_number}` Example: `projects/123456789012` */
-  managementProject?: string | undefined;
-  /** Output only. The lifecycle state of the CapabilityConfig. */
-  state?: CapabilityConfigStateEnum | (string & {}) | undefined;
-  /** Identifier. The unique resource name of the CapabilityConfig. Format: `organizations/{organization}/capabilityConfigs/{capabilityConfig}` or, `folders/{folder}/capabilityConfigs/{capabilityConfig}` or, `projects/{project}/capabilityConfigs/{capabilityConfig}` */
-  name?: string | undefined;
   /** Optional. Human-readable non-unique display name of the CapabilityConfig. When present it must be between 4 to 30 characters. Allowed characters are: lowercase and uppercase letters, numbers, hyphen, single-quote, double-quote, space, and exclamation point. Example: `My CapabilityConfig` */
   displayName?: string | undefined;
   /** Required. The CapabilityConfig types. */
   types?: CapabilityConfigTypesItemEnumList | undefined;
+  /** Output only. The most recent time this CapabilityConfig was modified. */
+  updateTime?: string | undefined;
+  /** Identifier. The unique resource name of the CapabilityConfig. Format: `organizations/{organization}/capabilityConfigs/{capabilityConfig}` or, `folders/{folder}/capabilityConfigs/{capabilityConfig}` or, `projects/{project}/capabilityConfigs/{capabilityConfig}` */
+  name?: string | undefined;
+  /** Output only. The lifecycle state of the CapabilityConfig. */
+  state?: CapabilityConfigStateEnum | (string & {}) | undefined;
+  /** Optional. The list of Boundaries associated with this CapabilityConfig. Format: `organizations/{organization}/boundaries/{boundary}` or, `folders/{folder}/boundaries/{boundary}` or, `projects/{project}/boundaries/{boundary}` */
+  boundaries?: StringList | undefined;
+  /** This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
+  /** Optional. Immutable. The Management Project associated with this CapabilityConfig. If not provided during creation, a management project will be automatically created. Cannot be modified after creation. Format: `projects/{project_number}` Example: `projects/123456789012` */
+  managementProject?: string | undefined;
+  /** Output only. The creation time of the CapabilityConfig. */
+  createTime?: string | undefined;
 }
-export interface CreateFoldersCapabilityConfigsRequest {
+export interface CreateFoldersCapabilityConfigsRequest extends CapabilityConfig {
   /** Required. The parent resource under which the CapabilityConfig will be created. Format: `organizations/{organization_id}` or `folders/{folder_id}` or `projects/{project_number}` */
   parent: string;
   /** Required. The user-assigned ID for the CapabilityConfig, which will become the final component of the CapabilityConfig's resource name. Must be unique within the parent resource. It must be 6 to 30 lowercase ASCII letters, digits, or hyphens. It must start with a letter. Trailing hyphens are prohibited. Example: `my-capability-config-123` */
   capabilityConfigId?: string | undefined;
-  /** Request body */
-  body?: CapabilityConfig | undefined;
 }
 /** A Lien represents an encumbrance on the actions that can be performed on a resource. */
 export interface Lien {
-  /** A system-generated unique identifier for this Lien. Example: `liens/1234abcd` */
-  name?: string | undefined;
-  /** The creation time of this Lien. */
-  createTime?: string | undefined;
   /** The types of operations which should be blocked as a result of this Lien. Each value should correspond to an IAM permission. The server will validate the permissions against those for which Liens are supported. An empty list is meaningless and will be rejected. Example: ['resourcemanager.projects.delete'] */
   restrictions?: StringList | undefined;
   /** A reference to the resource this Lien is attached to. The server will validate the parent against those for which Liens are supported. Example: `projects/1234` */
   parent?: string | undefined;
-  /** A stable, user-visible/meaningful string identifying the origin of the Lien, intended to be inspected programmatically. Maximum length of 200 characters. Example: 'compute.googleapis.com' */
-  origin?: string | undefined;
+  /** The creation time of this Lien. */
+  createTime?: string | undefined;
+  /** A system-generated unique identifier for this Lien. Example: `liens/1234abcd` */
+  name?: string | undefined;
   /** Concise user-visible strings indicating why an action cannot be performed on a resource. Maximum length of 200 characters. Example: 'Holds production API key' */
   reason?: string | undefined;
+  /** A stable, user-visible/meaningful string identifying the origin of the Lien, intended to be inspected programmatically. Maximum length of 200 characters. Example: 'compute.googleapis.com' */
+  origin?: string | undefined;
 }
-export interface CreateLiensRequest {
-  /** Request body */
-  body?: Lien | undefined;
-}
-export interface CreateOrganizationsBoundariesRequest {
-  /** Required. The parent resource under which the Boundary will be created. Format: `organizations/{organization_id}` or `folders/{folder_id}` */
-  parent: string;
+export interface CreateLiensRequest extends Lien {}
+export interface CreateOrganizationsBoundariesRequest extends Boundary {
   /** Required. The user-assigned ID for the Boundary, which will become the final component of the Boundary's resource name. Must be unique within the parent resource. It must be 6 to 30 lowercase ASCII letters, digits, or hyphens. It must start with a letter. Trailing hyphens are prohibited. Example: `my-boundary-123` */
   boundaryId?: string | undefined;
-  /** Request body */
-  body?: Boundary | undefined;
+  /** Required. The parent resource under which the Boundary will be created. Format: `organizations/{organization_id}` or `folders/{folder_id}` */
+  parent: string;
 }
-export interface CreateOrganizationsCapabilityConfigsRequest {
-  /** Required. The user-assigned ID for the CapabilityConfig, which will become the final component of the CapabilityConfig's resource name. Must be unique within the parent resource. It must be 6 to 30 lowercase ASCII letters, digits, or hyphens. It must start with a letter. Trailing hyphens are prohibited. Example: `my-capability-config-123` */
-  capabilityConfigId?: string | undefined;
+export interface CreateOrganizationsCapabilityConfigsRequest extends CapabilityConfig {
   /** Required. The parent resource under which the CapabilityConfig will be created. Format: `organizations/{organization_id}` or `folders/{folder_id}` or `projects/{project_number}` */
   parent: string;
-  /** Request body */
-  body?: CapabilityConfig | undefined;
+  /** Required. The user-assigned ID for the CapabilityConfig, which will become the final component of the CapabilityConfig's resource name. Must be unique within the parent resource. It must be 6 to 30 lowercase ASCII letters, digits, or hyphens. It must start with a letter. Trailing hyphens are prohibited. Example: `my-capability-config-123` */
+  capabilityConfigId?: string | undefined;
 }
 export type ProjectManagementTypeEnum = "MANAGEMENT_TYPE_UNSPECIFIED" | "SELF_MANAGED" | "HUB";
 export type ProjectStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "DELETE_REQUESTED";
 /** A project is a high-level Google Cloud entity. It is a container for ACLs, APIs, App Engine Apps, VMs, and other Google Cloud Platform resources. */
 export interface Project {
-  /** Output only. The unique resource name of the project. It is an int64 generated number prefixed by "projects/". Example: `projects/415104041262` */
-  name?: string | undefined;
-  /** Output only. If this project is a Management Project, list of capabilities configured on the parent folder. Note, presence of any capability implies that this is a Management Project. Example: `folders/123/capabilities/app-management`. OUTPUT ONLY. */
-  configuredCapabilities?: StringList | undefined;
-  /** Output only. The most recent time this resource was modified. */
-  updateTime?: string | undefined;
-  /** Optional. A reference to a parent Resource. eg., `organizations/123` or `folders/876`. */
-  parent?: string | undefined;
-  /** Optional. A user-assigned display name of the project. When present it must be between 4 to 30 characters. Allowed characters are: lowercase and uppercase letters, numbers, hyphen, single-quote, double-quote, space, and exclamation point. Example: `My Project` */
-  displayName?: string | undefined;
-  /** Optional. The labels associated with this project. Label keys must be between 1 and 63 characters long and must conform to the following regular expression: \[a-z\](\[-a-z0-9\]*\[a-z0-9\])?. Label values must be between 0 and 63 characters long and must conform to the regular expression (\[a-z\](\[-a-z0-9\]*\[a-z0-9\])?)?. No more than 64 labels can be associated with a given resource. Clients should store labels in a representation such as JSON that does not depend on specific characters being disallowed. Example: `"myBusinessDimension" : "businessValue"` */
-  labels?: StringMap | undefined;
-  /** Output only. If `true`, this project is a Management Project. A Management Project manages dedicated project groups for specific purposes (e.g., agent management or app management). */
-  isManagementProject?: boolean | undefined;
-  /** Output only. The type of Management Project. This field is only populated if `is_management_project` is `true`. */
-  managementType?: ProjectManagementTypeEnum | (string & {}) | undefined;
-  /** Output only. Creation time. */
-  createTime?: string | undefined;
-  /** Immutable. The unique, user-assigned id of the project. It must be 6 to 30 lowercase ASCII letters, digits, or hyphens. It must start with a letter. Trailing hyphens are prohibited. Example: `tokyo-rain-123` */
-  projectId?: string | undefined;
-  /** Optional. Input only. Immutable. Tag keys/values directly bound to this project. Each item in the map must be expressed as " : ". For example: "123/environment" : "production", "123/costCenter" : "marketing" Note: Currently this field is in Preview. */
-  tags?: StringMap | undefined;
   /** Output only. The time at which this resource was requested for deletion. */
   deleteTime?: string | undefined;
+  /** Optional. A reference to a parent Resource. eg., `organizations/123` or `folders/876`. */
+  parent?: string | undefined;
   /** Output only. A checksum computed by the server based on the current value of the Project resource. This may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
   etag?: string | undefined;
+  /** Output only. If this project is a Management Project, list of capabilities configured on the parent folder. Note, presence of any capability implies that this is a Management Project. Example: `folders/123/capabilities/app-management`. OUTPUT ONLY. */
+  configuredCapabilities?: StringList | undefined;
+  /** Optional. The labels associated with this project. Label keys must be between 1 and 63 characters long and must conform to the following regular expression: \[a-z\](\[-a-z0-9\]*\[a-z0-9\])?. Label values must be between 0 and 63 characters long and must conform to the regular expression (\[a-z\](\[-a-z0-9\]*\[a-z0-9\])?)?. No more than 64 labels can be associated with a given resource. Clients should store labels in a representation such as JSON that does not depend on specific characters being disallowed. Example: `"myBusinessDimension" : "businessValue"` */
+  labels?: StringMap | undefined;
+  /** Output only. The most recent time this resource was modified. */
+  updateTime?: string | undefined;
+  /** Output only. If `true`, this project is a Management Project. A Management Project manages dedicated project groups for specific purposes (e.g., agent management or app management). */
+  isManagementProject?: boolean | undefined;
+  /** Optional. A user-assigned display name of the project. When present it must be between 4 to 30 characters. Allowed characters are: lowercase and uppercase letters, numbers, hyphen, single-quote, double-quote, space, and exclamation point. Example: `My Project` */
+  displayName?: string | undefined;
+  /** Output only. The type of Management Project. This field is only populated if `is_management_project` is `true`. */
+  managementType?: ProjectManagementTypeEnum | (string & {}) | undefined;
+  /** Immutable. The unique, user-assigned id of the project. It must be 6 to 30 lowercase ASCII letters, digits, or hyphens. It must start with a letter. Trailing hyphens are prohibited. Example: `tokyo-rain-123` */
+  projectId?: string | undefined;
+  /** Output only. The unique resource name of the project. It is an int64 generated number prefixed by "projects/". Example: `projects/415104041262` */
+  name?: string | undefined;
+  /** Optional. Input only. Immutable. Tag keys/values directly bound to this project. Each item in the map must be expressed as " : ". For example: "123/environment" : "production", "123/costCenter" : "marketing" Note: Currently this field is in Preview. */
+  tags?: StringMap | undefined;
+  /** Output only. Creation time. */
+  createTime?: string | undefined;
   /** Output only. The project lifecycle state. */
   state?: ProjectStateEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsRequest {
-  /** Request body */
-  body?: Project | undefined;
-}
-export interface CreateProjectsCapabilityConfigsRequest {
+export interface CreateProjectsRequest extends Project {}
+export interface CreateProjectsCapabilityConfigsRequest extends CapabilityConfig {
   /** Required. The parent resource under which the CapabilityConfig will be created. Format: `organizations/{organization_id}` or `folders/{folder_id}` or `projects/{project_number}` */
   parent: string;
   /** Required. The user-assigned ID for the CapabilityConfig, which will become the final component of the CapabilityConfig's resource name. Must be unique within the parent resource. It must be 6 to 30 lowercase ASCII letters, digits, or hyphens. It must start with a letter. Trailing hyphens are prohibited. Example: `my-capability-config-123` */
   capabilityConfigId?: string | undefined;
-  /** Request body */
-  body?: CapabilityConfig | undefined;
 }
 /** A TagBinding represents a connection between a TagValue and a cloud resource. When a TagBinding is created, the TagValue is applied to all the descendants of the Google Cloud resource. */
 export interface TagBinding {
-  /** Output only. The name of the TagBinding. This is a String of the form: `tagBindings/{full-resource-name}/{tag-value-name}` (e.g. `tagBindings/%2F%2Fcloudresourcemanager.googleapis.com%2Fprojects%2F123/tagValues/456`) or `tagBindings/{full-resource-name}/{tag-key-name}` (e.g. `tagBindings/%2F%2Fcloudresourcemanager.googleapis.com%2Fprojects%2F123/tagKeys/123`). */
-  name?: string | undefined;
-  /** The full resource name of the resource the TagValue is bound to. E.g. `//cloudresourcemanager.googleapis.com/projects/123` */
-  parent?: string | undefined;
   /** The namespaced name for the TagValue of the TagBinding. Must be in the format `{parent_id}/{tag_key_short_name}/{short_name}`. For methods that support TagValue namespaced name, only one of tag_value_namespaced_name or tag_value may be filled. Requests with both fields will be rejected. */
   tagValueNamespacedName?: string | undefined;
+  /** Output only. The name of the TagBinding. This is a String of the form: `tagBindings/{full-resource-name}/{tag-value-name}` (e.g. `tagBindings/%2F%2Fcloudresourcemanager.googleapis.com%2Fprojects%2F123/tagValues/456`) or `tagBindings/{full-resource-name}/{tag-key-name}` (e.g. `tagBindings/%2F%2Fcloudresourcemanager.googleapis.com%2Fprojects%2F123/tagKeys/123`). */
+  name?: string | undefined;
   /** The TagValue of the TagBinding. Must be of the form `tagValues/456`. */
   tagValue?: string | undefined;
+  /** The full resource name of the resource the TagValue is bound to. E.g. `//cloudresourcemanager.googleapis.com/projects/123` */
+  parent?: string | undefined;
 }
-export interface CreateTagBindingsRequest {
+export interface CreateTagBindingsRequest extends TagBinding {
   /** Optional. Set to true to perform the validations necessary for creating the resource, but not actually perform the action. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: TagBinding | undefined;
 }
 export type TagKeyPurposeEnum = "PURPOSE_UNSPECIFIED" | "GCE_FIREWALL" | "DATA_GOVERNANCE";
 /** A TagKey, used to group a set of TagValues. */
 export interface TagKey {
-  /** Optional. Entity tag which users can pass to prevent race conditions. This field is always set in server responses. See UpdateTagKeyRequest for details. */
-  etag?: string | undefined;
-  /** Optional. Regular expression constraint for freeform tag values. If present, it implicitly allows freeform values (constrained by the regex). */
-  allowedValuesRegex?: string | undefined;
   /** Immutable. The resource name of the TagKey's parent. A TagKey can be parented by an Organization or a Project. For a TagKey parented by an Organization, its parent must be in the form `organizations/{org_id}`. For a TagKey parented by a Project, its parent can be in the form `projects/{project_id}` or `projects/{project_number}`. */
   parent?: string | undefined;
-  /** Optional. A purpose denotes that this Tag is intended for use in policies of a specific policy engine, and will involve that policy engine in management operations involving this Tag. A purpose does not grant a policy engine exclusive rights to the Tag, and it may be referenced by other policy engines. A purpose cannot be changed once set. */
-  purpose?: TagKeyPurposeEnum | (string & {}) | undefined;
-  /** Optional. User-assigned description of the TagKey. Must not exceed 256 characters. Read-write. */
-  description?: string | undefined;
   /** Output only. Creation time. */
   createTime?: string | undefined;
+  /** Optional. User-assigned description of the TagKey. Must not exceed 256 characters. Read-write. */
+  description?: string | undefined;
   /** Immutable. The resource name for a TagKey. Must be in the format `tagKeys/{tag_key_id}`, where `tag_key_id` is the generated numeric id for the TagKey. */
   name?: string | undefined;
-  /** Output only. Update time. */
-  updateTime?: string | undefined;
-  /** Required. Immutable. The user friendly name for a TagKey. The short name should be unique for TagKeys within the same tag namespace. The short name must be 1-256 characters, beginning and ending with an alphanumeric character ([a-z0-9A-Z]) with dashes (-), underscores (_), dots (.), and alphanumerics between. */
-  shortName?: string | undefined;
   /** Optional. Purpose data corresponds to the policy system that the tag is intended for. See documentation for `Purpose` for formatting of this field. Purpose data cannot be changed once set. */
   purposeData?: StringMap | undefined;
+  /** Optional. Entity tag which users can pass to prevent race conditions. This field is always set in server responses. See UpdateTagKeyRequest for details. */
+  etag?: string | undefined;
+  /** Required. Immutable. The user friendly name for a TagKey. The short name should be unique for TagKeys within the same tag namespace. The short name must be 1-256 characters, beginning and ending with an alphanumeric character ([a-z0-9A-Z]) with dashes (-), underscores (_), dots (.), and alphanumerics between. */
+  shortName?: string | undefined;
+  /** Optional. A purpose denotes that this Tag is intended for use in policies of a specific policy engine, and will involve that policy engine in management operations involving this Tag. A purpose does not grant a policy engine exclusive rights to the Tag, and it may be referenced by other policy engines. A purpose cannot be changed once set. */
+  purpose?: TagKeyPurposeEnum | (string & {}) | undefined;
+  /** Optional. Regular expression constraint for freeform tag values. If present, it implicitly allows freeform values (constrained by the regex). */
+  allowedValuesRegex?: string | undefined;
+  /** Output only. Update time. */
+  updateTime?: string | undefined;
   /** Output only. Immutable. Namespaced name of the TagKey. */
   namespacedName?: string | undefined;
 }
-export interface CreateTagKeysRequest {
+export interface CreateTagKeysRequest extends TagKey {
   /** Optional. Set to true to perform validations necessary for creating the resource, but not actually perform the action. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: TagKey | undefined;
 }
 /** A TagValue is a child of a particular TagKey. This is used to group cloud resources for the purpose of controlling them using policies. */
 export interface TagValue {
-  /** Immutable. Resource name for TagValue in the format `tagValues/456`. */
-  name?: string | undefined;
-  /** Output only. Creation time. */
-  createTime?: string | undefined;
   /** Optional. User-assigned description of the TagValue. Must not exceed 256 characters. Read-write. */
   description?: string | undefined;
-  /** Output only. Update time. */
-  updateTime?: string | undefined;
-  /** Optional. Entity tag which users can pass to prevent race conditions. This field is always set in server responses. See UpdateTagValueRequest for details. */
-  etag?: string | undefined;
-  /** Output only. The namespaced name of the TagValue. Can be in the form `{organization_id}/{tag_key_short_name}/{tag_value_short_name}` or `{project_id}/{tag_key_short_name}/{tag_value_short_name}` or `{project_number}/{tag_key_short_name}/{tag_value_short_name}`. */
-  namespacedName?: string | undefined;
   /** Required. Immutable. User-assigned short name for TagValue. The short name should be unique for TagValues within the same parent TagKey. The short name must be 256 characters or less, beginning and ending with an alphanumeric character ([a-z0-9A-Z]) with dashes (-), underscores (_), dots (.), and alphanumerics between. */
   shortName?: string | undefined;
+  /** Output only. The namespaced name of the TagValue. Can be in the form `{organization_id}/{tag_key_short_name}/{tag_value_short_name}` or `{project_id}/{tag_key_short_name}/{tag_value_short_name}` or `{project_number}/{tag_key_short_name}/{tag_value_short_name}`. */
+  namespacedName?: string | undefined;
+  /** Output only. Creation time. */
+  createTime?: string | undefined;
+  /** Optional. Entity tag which users can pass to prevent race conditions. This field is always set in server responses. See UpdateTagValueRequest for details. */
+  etag?: string | undefined;
   /** Immutable. The resource name of the new TagValue's parent TagKey. Must be of the form `tagKeys/{tag_key_id}`. */
   parent?: string | undefined;
+  /** Immutable. Resource name for TagValue in the format `tagValues/456`. */
+  name?: string | undefined;
+  /** Output only. Update time. */
+  updateTime?: string | undefined;
 }
-export interface CreateTagValuesRequest {
+export interface CreateTagValuesRequest extends TagValue {
   /** Optional. Set as true to perform the validations necessary for creating the resource, but not actually perform the action. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: TagValue | undefined;
 }
 /** A TagHold represents the use of a TagValue that is not captured by TagBindings. If a TagValue has any TagHolds, deletion will be blocked. This resource is intended to be created in the same cloud location as the `holder`. */
 export interface TagHold {
-  /** Optional. An optional string representing the origin of this request. This field should include human-understandable information to distinguish origins from each other. Must be less than 200 characters. E.g. `migs-35678234` */
-  origin?: string | undefined;
   /** Required. The name of the resource where the TagValue is being used. Must be less than 200 characters. E.g. `//compute.googleapis.com/compute/projects/myproject/regions/us-east-1/instanceGroupManagers/instance-group` */
   holder?: string | undefined;
-  /** Output only. The resource name of a TagHold. This is a String of the form: `tagValues/{tag-value-id}/tagHolds/{tag-hold-id}` (e.g. `tagValues/123/tagHolds/456`). This resource name is generated by the server. */
-  name?: string | undefined;
   /** Optional. A URL where an end user can learn more about removing this hold. E.g. `https://cloud.google.com/resource-manager/docs/tags/tags-creating-and-managing` */
   helpLink?: string | undefined;
+  /** Optional. An optional string representing the origin of this request. This field should include human-understandable information to distinguish origins from each other. Must be less than 200 characters. E.g. `migs-35678234` */
+  origin?: string | undefined;
   /** Output only. The time this TagHold was created. */
   createTime?: string | undefined;
+  /** Output only. The resource name of a TagHold. This is a String of the form: `tagValues/{tag-value-id}/tagHolds/{tag-hold-id}` (e.g. `tagValues/123/tagHolds/456`). This resource name is generated by the server. */
+  name?: string | undefined;
 }
-export interface CreateTagValuesTagHoldsRequest {
-  /** Optional. Set to true to perform the validations necessary for creating the resource, but not actually perform the action. */
-  validateOnly?: boolean | undefined;
+export interface CreateTagValuesTagHoldsRequest extends TagHold {
   /** Required. The resource name of the TagHold's parent TagValue. Must be of the form: `tagValues/{tag-value-id}`. */
   parent: string;
-  /** Request body */
-  body?: TagHold | undefined;
+  /** Optional. Set to true to perform the validations necessary for creating the resource, but not actually perform the action. */
+  validateOnly?: boolean | undefined;
 }
 export interface DeleteFoldersRequest {
   /** Required. The resource name of the folder to be deleted. Must be of the form `folders/{folder_id}`. */
@@ -488,24 +461,24 @@ export interface DeleteTagBindingsRequest {
 export interface DeleteTagKeysRequest {
   /** Required. The resource name of a TagKey to be deleted in the format `tagKeys/123`. The TagKey cannot be a parent of any existing TagValues or it will not be deleted successfully. */
   name: string;
-  /** Optional. Set as true to perform validations necessary for deletion, but not actually perform the action. */
-  validateOnly?: boolean | undefined;
   /** Optional. The etag known to the client for the expected state of the TagKey. This is to be used for optimistic concurrency. */
   etag?: string | undefined;
+  /** Optional. Set as true to perform validations necessary for deletion, but not actually perform the action. */
+  validateOnly?: boolean | undefined;
 }
 export interface DeleteTagValuesRequest {
-  /** Optional. Set as true to perform the validations necessary for deletion, but not actually perform the action. */
-  validateOnly?: boolean | undefined;
   /** Required. Resource name for TagValue to be deleted in the format tagValues/456. */
   name: string;
+  /** Optional. Set as true to perform the validations necessary for deletion, but not actually perform the action. */
+  validateOnly?: boolean | undefined;
   /** Optional. The etag known to the client for the expected state of the TagValue. This is to be used for optimistic concurrency. */
   etag?: string | undefined;
 }
 export interface DeleteTagValuesTagHoldsRequest {
-  /** Optional. Set to true to perform the validations necessary for deleting the resource, but not actually perform the action. */
-  validateOnly?: boolean | undefined;
   /** Required. The resource name of the TagHold to delete. Must be of the form: `tagValues/{tag-value-id}/tagHolds/{tag-hold-id}`. */
   name: string;
+  /** Optional. Set to true to perform the validations necessary for deleting the resource, but not actually perform the action. */
+  validateOnly?: boolean | undefined;
 }
 export interface FetchResourceSemanticsV3Request {
   /** Required. The full resource name of the GCP resource to retrieve semantics for. Examples: "//compute.googleapis.com/projects/123/zones/us-central1-a/instances/my-instance" "//storage.googleapis.com/projects/_/buckets/my_bucket" */
@@ -524,14 +497,14 @@ export interface GetBoundaryConfigFoldersRequest {
 }
 /** A BoundaryConfig defines the common configurations regarding Boundaries defined under a parent CRM node (Folder or Organization), such as the partitioning tag key. */
 export interface BoundaryConfig {
-  /** Identifier. The unique resource name of the BoundaryConfig. Format: - `organizations/{organization}/boundaryConfig` - `folders/{folder}/boundaryConfig` Example: `folders/123456789/boundaryConfig` */
-  name?: string | undefined;
-  /** Optional. The namespaced name of the tag key. Format: `{parent_id}/{tag_key_short_name}` Example: `123456789012/env` (where 123456789012 is the organization ID). */
-  tagKey?: string | undefined;
-  /** This checksum is computed by the server based on the value of other fields, and may be sent on update requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string | undefined;
   /** Output only. The most recent time this BoundaryConfig was modified. */
   updateTime?: string | undefined;
+  /** This checksum is computed by the server based on the value of other fields, and may be sent on update requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
+  /** Optional. The namespaced name of the tag key. Format: `{parent_id}/{tag_key_short_name}` Example: `123456789012/env` (where 123456789012 is the organization ID). */
+  tagKey?: string | undefined;
+  /** Identifier. The unique resource name of the BoundaryConfig. Format: - `organizations/{organization}/boundaryConfig` - `folders/{folder}/boundaryConfig` Example: `folders/123456789/boundaryConfig` */
+  name?: string | undefined;
 }
 export interface GetBoundaryConfigOrganizationsRequest {
   /** Required. The name of the BoundaryConfig to retrieve. Format: `organizations/{organization}/boundaryConfig` or `folders/{folder}/boundaryConfig` Example: `folders/123456789/boundaryConfig` */
@@ -570,11 +543,9 @@ export interface GetIamPolicyRequest {
   /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
   options?: GetPolicyOptions | undefined;
 }
-export interface GetIamPolicyFoldersRequest {
+export interface GetIamPolicyFoldersRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
 export type AuditLogConfigLogTypeEnum =
   | "LOG_TYPE_UNSPECIFIED"
@@ -591,22 +562,22 @@ export interface AuditLogConfig {
 export type AuditLogConfigList = Array<AuditLogConfig>;
 /** Specifies the audit configuration for a service. The configuration determines which permission types are logged, and what identities, if any, are exempted from logging. An AuditConfig must have one or more AuditLogConfigs. If there are AuditConfigs for both `allServices` and a specific service, the union of the two AuditConfigs is used for that service: the log_types specified in each AuditConfig are enabled, and the exempted_members in each AuditLogConfig are exempted. Example Policy with multiple AuditConfigs: { "audit_configs": [ { "service": "allServices", "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" }, { "log_type": "ADMIN_READ" } ] }, { "service": "sampleservice.googleapis.com", "audit_log_configs": [ { "log_type": "DATA_READ" }, { "log_type": "DATA_WRITE", "exempted_members": [ "user:aliya@example.com" ] } ] } ] } For sampleservice, this policy enables DATA_READ, DATA_WRITE and ADMIN_READ logging. It also exempts `jose@example.com` from DATA_READ logging, and `aliya@example.com` from DATA_WRITE logging. */
 export interface AuditConfig {
-  /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
-  service?: string | undefined;
   /** The configuration for logging of each type of permission. */
   auditLogConfigs?: AuditLogConfigList | undefined;
+  /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
+  service?: string | undefined;
 }
 export type AuditConfigList = Array<AuditConfig>;
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
-  /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string | undefined;
-  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string | undefined;
   /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
   description?: string | undefined;
+  /** Textual representation of an expression in Common Expression Language syntax. */
+  expression?: string | undefined;
   /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
   title?: string | undefined;
+  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
+  location?: string | undefined;
 }
 /** Associates `members`, or principals, with a `role`. */
 export interface Binding {
@@ -624,34 +595,26 @@ export interface Policy {
   auditConfigs?: AuditConfigList | undefined;
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
   etag?: string | undefined;
-  /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
-  bindings?: BindingList | undefined;
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   version?: number | undefined;
+  /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
+  bindings?: BindingList | undefined;
 }
-export interface GetIamPolicyOrganizationsRequest {
+export interface GetIamPolicyOrganizationsRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
-export interface GetIamPolicyProjectsRequest {
+export interface GetIamPolicyProjectsRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
-export interface GetIamPolicyTagKeysRequest {
+export interface GetIamPolicyTagKeysRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
-export interface GetIamPolicyTagValuesRequest {
+export interface GetIamPolicyTagValuesRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
 export interface GetLiensRequest {
   /** Required. The name/identifier of the Lien. */
@@ -663,12 +626,12 @@ export interface GetLocationsEffectiveTagBindingCollectionsRequest {
 }
 /** Represents a collection of effective tag bindings for a GCP resource. */
 export interface EffectiveTagBindingCollection {
+  /** Tag keys/values effectively bound to this resource, specified in namespaced format. For example: "123/environment": "production" */
+  effectiveTags?: StringMap | undefined;
   /** The full resource name of the resource the TagBindings are bound to. E.g. `//cloudresourcemanager.googleapis.com/projects/123` */
   fullResourceName?: string | undefined;
   /** Identifier. The name of the EffectiveTagBindingCollection, following the convention: `locations/{location}/effectiveTagBindingCollections/{encoded-full-resource-name}` where the encoded-full-resource-name is the UTF-8 encoded name of the GCP resource the TagBindings are bound to. E.g. "locations/global/effectiveTagBindingCollections/%2f%2fcloudresourcemanager.googleapis.com%2fprojects%2f123" */
   name?: string | undefined;
-  /** Tag keys/values effectively bound to this resource, specified in namespaced format. For example: "123/environment": "production" */
-  effectiveTags?: StringMap | undefined;
 }
 export interface GetLocationsTagBindingCollectionsRequest {
   /** Required. The full name of the TagBindingCollection in format: `locations/{location}/tagBindingCollections/{encoded-full-resource-name}` where the enoded-full-resource-name is the UTF-8 encoded name of the resource the TagBindings are bound to. E.g. "locations/global/tagBindingCollections/%2f%2fcloudresourcemanager.googleapis.com%2fprojects%2f123" */
@@ -676,14 +639,14 @@ export interface GetLocationsTagBindingCollectionsRequest {
 }
 /** Represents a collection of tags directly bound to a GCP resource. */
 export interface TagBindingCollection {
-  /** Identifier. The name of the TagBindingCollection, following the convention: `locations/{location}/tagBindingCollections/{encoded-full-resource-name}` where the encoded-full-resource-name is the UTF-8 encoded name of the GCP resource the TagBindings are bound to. "locations/global/tagBindingCollections/%2f%2fcloudresourcemanager.googleapis.com%2fprojects%2f123" */
-  name?: string | undefined;
   /** The full resource name of the resource the TagBindings are bound to. E.g. `//cloudresourcemanager.googleapis.com/projects/123` */
   fullResourceName?: string | undefined;
-  /** Optional. A checksum based on the current bindings which can be passed to prevent race conditions. This field is always set in server responses. */
-  etag?: string | undefined;
+  /** Identifier. The name of the TagBindingCollection, following the convention: `locations/{location}/tagBindingCollections/{encoded-full-resource-name}` where the encoded-full-resource-name is the UTF-8 encoded name of the GCP resource the TagBindings are bound to. "locations/global/tagBindingCollections/%2f%2fcloudresourcemanager.googleapis.com%2fprojects%2f123" */
+  name?: string | undefined;
   /** Tag keys/values directly bound to this resource, specified in namespaced format. For example: "123/environment": "production" */
   tags?: StringMap | undefined;
+  /** Optional. A checksum based on the current bindings which can be passed to prevent race conditions. This field is always set in server responses. */
+  etag?: string | undefined;
 }
 export interface GetNamespacedTagKeysRequest {
   /** Required. A namespaced tag key name in the format `{parentId}/{tagKeyShort}`, such as `42/foo` for a key with short name "foo" under the organization with ID 42 or `r2-d2/bar` for a key with short name "bar" under the project `r2-d2`. */
@@ -704,22 +667,22 @@ export interface GetOrganizationsRequest {
 export type OrganizationStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "DELETE_REQUESTED";
 /** The root node in the resource hierarchy to which a particular entity's (a company, for example) resources belong. */
 export interface Organization {
-  /** Immutable. The G Suite / Workspace customer id used in the Directory API. */
-  directoryCustomerId?: string | undefined;
-  /** Output only. A human-readable string that refers to the organization in the Google Cloud Console. This string is set by the server and cannot be changed. The string will be set to the primary domain (for example, "google.com") of the Google Workspace customer that owns the organization. */
-  displayName?: string | undefined;
-  /** Output only. Timestamp when the Organization was created. */
-  createTime?: string | undefined;
-  /** Output only. The organization's current lifecycle state. */
-  state?: OrganizationStateEnum | undefined;
   /** Output only. Timestamp when the Organization was last modified. */
   updateTime?: string | undefined;
-  /** Output only. The resource name of the organization. This is the organization's relative path in the API. Its format is "organizations/[organization_id]". For example, "organizations/1234". */
-  name?: string | undefined;
-  /** Output only. Timestamp when the Organization was requested for deletion. */
-  deleteTime?: string | undefined;
   /** Output only. A checksum computed by the server based on the current value of the Organization resource. This may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
   etag?: string | undefined;
+  /** Output only. Timestamp when the Organization was created. */
+  createTime?: string | undefined;
+  /** Output only. The resource name of the organization. This is the organization's relative path in the API. Its format is "organizations/[organization_id]". For example, "organizations/1234". */
+  name?: string | undefined;
+  /** Immutable. The G Suite / Workspace customer id used in the Directory API. */
+  directoryCustomerId?: string | undefined;
+  /** Output only. Timestamp when the Organization was requested for deletion. */
+  deleteTime?: string | undefined;
+  /** Output only. A human-readable string that refers to the organization in the Google Cloud Console. This string is set by the server and cannot be changed. The string will be set to the primary domain (for example, "google.com") of the Google Workspace customer that owns the organization. */
+  displayName?: string | undefined;
+  /** Output only. The organization's current lifecycle state. */
+  state?: OrganizationStateEnum | undefined;
 }
 export interface GetOrganizationsBoundariesRequest {
   /** Required. The name of the Boundary to retrieve. Format: `organizations/{organization_id}/boundaries/{boundary_id}` or `folders/{folder_id}/boundaries/{boundary_id}` Example: `folders/123456789/boundaries/my-boundary` */
@@ -746,27 +709,27 @@ export interface GetTagValuesRequest {
   name: string;
 }
 export interface ListEffectiveTagsRequest {
+  /** Required. The full resource name of a resource for which you want to list the effective tags. E.g. "//cloudresourcemanager.googleapis.com/projects/123" */
+  parent?: string | undefined;
   /** Optional. The maximum number of effective tags to return in the response. The server allows a maximum of 300 effective tags to return in a single page. If unspecified, the server will use 100 as the default. */
   pageSize?: number | undefined;
   /** Optional. A pagination token returned from a previous call to `ListEffectiveTags` that indicates from where this listing should continue. */
   pageToken?: string | undefined;
-  /** Required. The full resource name of a resource for which you want to list the effective tags. E.g. "//cloudresourcemanager.googleapis.com/projects/123" */
-  parent?: string | undefined;
 }
 /** An EffectiveTag represents a tag that applies to a resource during policy evaluation. Tags can be either directly bound to a resource or inherited from its ancestor. EffectiveTag contains the name and namespaced_name of the tag value and tag key, with additional fields of `inherited` to indicate the inheritance status of the effective tag. */
 export interface EffectiveTag {
+  /** Indicates the inheritance status of a tag value attached to the given resource. If the tag value is inherited from one of the resource's ancestors, inherited will be true. If false, then the tag value is directly attached to the resource, inherited will be false. */
+  inherited?: boolean | undefined;
+  /** Resource name for TagValue in the format `tagValues/456`. */
+  tagValue?: string | undefined;
+  /** The parent name of the tag key. Must be in the format `organizations/{organization_id}` or `projects/{project_number}` */
+  tagKeyParentName?: string | undefined;
+  /** The name of the TagKey, in the format `tagKeys/{id}`, such as `tagKeys/123`. */
+  tagKey?: string | undefined;
   /** The namespaced name of the TagKey. Can be in the form `{organization_id}/{tag_key_short_name}` or `{project_id}/{tag_key_short_name}` or `{project_number}/{tag_key_short_name}`. */
   namespacedTagKey?: string | undefined;
   /** The namespaced name of the TagValue. Can be in the form `{organization_id}/{tag_key_short_name}/{tag_value_short_name}` or `{project_id}/{tag_key_short_name}/{tag_value_short_name}` or `{project_number}/{tag_key_short_name}/{tag_value_short_name}`. */
   namespacedTagValue?: string | undefined;
-  /** The name of the TagKey, in the format `tagKeys/{id}`, such as `tagKeys/123`. */
-  tagKey?: string | undefined;
-  /** Resource name for TagValue in the format `tagValues/456`. */
-  tagValue?: string | undefined;
-  /** Indicates the inheritance status of a tag value attached to the given resource. If the tag value is inherited from one of the resource's ancestors, inherited will be true. If false, then the tag value is directly attached to the resource, inherited will be false. */
-  inherited?: boolean | undefined;
-  /** The parent name of the tag key. Must be in the format `organizations/{organization_id}` or `projects/{project_number}` */
-  tagKeyParentName?: string | undefined;
 }
 export type EffectiveTagList = Array<EffectiveTag>;
 /** The response of ListEffectiveTags. */
@@ -777,30 +740,30 @@ export interface ListEffectiveTagsResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListFoldersRequest {
+  /** Optional. Controls whether folders in the DELETE_REQUESTED state should be returned. Defaults to false. */
+  showDeleted?: boolean | undefined;
   /** Optional. The maximum number of folders to return in the response. The server can return fewer folders than requested. If unspecified, server picks an appropriate default. */
   pageSize?: number | undefined;
   /** Required. The name of the parent resource whose folders are being listed. Only children of this parent resource are listed; descendants are not listed. If the parent is a folder, use the value `folders/{folder_id}`. If the parent is an organization, use the value `organizations/{org_id}`. Access to this method is controlled by checking the `resourcemanager.folders.list` permission on the `parent`. */
   parent?: string | undefined;
   /** Optional. A pagination token returned from a previous call to `ListFolders` that indicates where this listing should continue from. */
   pageToken?: string | undefined;
-  /** Optional. Controls whether folders in the DELETE_REQUESTED state should be returned. Defaults to false. */
-  showDeleted?: boolean | undefined;
 }
 export type FolderList = Array<Folder>;
 /** The ListFolders response message. */
 export interface ListFoldersResponse {
-  /** A possibly paginated list of folders that are direct descendants of the specified parent resource. */
-  folders?: FolderList | undefined;
   /** A pagination token returned from a previous call to `ListFolders` that indicates from where listing should continue. */
   nextPageToken?: string | undefined;
+  /** A possibly paginated list of folders that are direct descendants of the specified parent resource. */
+  folders?: FolderList | undefined;
 }
 export interface ListFoldersBoundariesRequest {
+  /** Optional. The maximum number of Boundaries to return in the response. The service may return fewer Boundaries than requested. If unspecified, at most 100 Boundaries will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
+  pageSize?: number | undefined;
   /** Required. The name of the parent resource whose Boundaries are being listed. Format: `organizations/{organization_id}` or `folders/{folder_id}` */
   parent: string;
   /** Optional. A pagination token received from a previous call to `ListBoundaries` that indicates from where listing should continue. Provide this to retrieve the subsequent page. */
   pageToken?: string | undefined;
-  /** Optional. The maximum number of Boundaries to return in the response. The service may return fewer Boundaries than requested. If unspecified, at most 100 Boundaries will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
-  pageSize?: number | undefined;
 }
 export type BoundaryList = Array<Boundary>;
 /** A page of the response received from the ListBoundaries method. A paginated response where more pages are available has `next_page_token` set. This token can be used in a subsequent request to retrieve the next page. NOTE: A response may contain fewer elements than the request `page_size` and still have a `next_page_token`. */
@@ -811,26 +774,26 @@ export interface ListBoundariesResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListFoldersCapabilityConfigsRequest {
-  /** Required. The name of the parent resource whose CapabilityConfigs are being listed. Format: `organizations/{organization_id}` or `folders/{folder_id}` */
-  parent: string;
-  /** Optional. A pagination token received from a previous call to `ListCapabilityConfigs` that indicates from where listing should continue. Provide this to retrieve the subsequent page. */
-  pageToken?: string | undefined;
   /** Optional. The maximum number of CapabilityConfigs to return in the response. The service may return fewer CapabilityConfigs than requested. If unspecified, at most 100 CapabilityConfigs will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
   pageSize?: number | undefined;
+  /** Optional. A pagination token received from a previous call to `ListCapabilityConfigs` that indicates from where listing should continue. Provide this to retrieve the subsequent page. */
+  pageToken?: string | undefined;
+  /** Required. The name of the parent resource whose CapabilityConfigs are being listed. Format: `organizations/{organization_id}` or `folders/{folder_id}` */
+  parent: string;
 }
 export type CapabilityConfigList = Array<CapabilityConfig>;
 /** A page of the response received from the ListCapabilityConfigs method. A paginated response where more pages are available has `next_page_token` set. This token can be used in a subsequent request to retrieve the next page. NOTE: A response may contain fewer elements than the request `page_size` and still have a `next_page_token`. */
 export interface ListCapabilityConfigsResponse {
-  /** Pagination token. If the result set is too large to fit in a single response, this token is returned. It encodes the position of the current result cursor. Feeding this value into a new list request with the `page_token` parameter gives the next page of the results. When `next_page_token` is not filled in, there is no next page and the list returned is the last page in the result set. */
-  nextPageToken?: string | undefined;
   /** The list of CapabilityConfigs under the parent. This list can be paginated. */
   capabilityConfigs?: CapabilityConfigList | undefined;
+  /** Pagination token. If the result set is too large to fit in a single response, this token is returned. It encodes the position of the current result cursor. Feeding this value into a new list request with the `page_token` parameter gives the next page of the results. When `next_page_token` is not filled in, there is no next page and the list returned is the last page in the result set. */
+  nextPageToken?: string | undefined;
 }
 export interface ListLiensRequest {
-  /** Required. The name of the resource to list all attached Liens. For example, `projects/1234`. (google.api.field_policy).resource_type annotation is not set since the parent depends on the meta api implementation. This field could be a project or other sub project resources. */
-  parent?: string | undefined;
   /** The maximum number of items to return. This is a suggestion for the server. The server can return fewer liens than requested. If unspecified, server picks an appropriate default. */
   pageSize?: number | undefined;
+  /** Required. The name of the resource to list all attached Liens. For example, `projects/1234`. (google.api.field_policy).resource_type annotation is not set since the parent depends on the meta api implementation. This field could be a project or other sub project resources. */
+  parent?: string | undefined;
   /** The `next_page_token` value returned from a previous List request, if any. */
   pageToken?: string | undefined;
 }
@@ -843,12 +806,12 @@ export interface ListLiensResponse {
   liens?: LienList | undefined;
 }
 export interface ListOrganizationsBoundariesRequest {
-  /** Optional. The maximum number of Boundaries to return in the response. The service may return fewer Boundaries than requested. If unspecified, at most 100 Boundaries will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
-  pageSize?: number | undefined;
   /** Required. The name of the parent resource whose Boundaries are being listed. Format: `organizations/{organization_id}` or `folders/{folder_id}` */
   parent: string;
   /** Optional. A pagination token received from a previous call to `ListBoundaries` that indicates from where listing should continue. Provide this to retrieve the subsequent page. */
   pageToken?: string | undefined;
+  /** Optional. The maximum number of Boundaries to return in the response. The service may return fewer Boundaries than requested. If unspecified, at most 100 Boundaries will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
+  pageSize?: number | undefined;
 }
 export interface ListOrganizationsCapabilityConfigsRequest {
   /** Optional. The maximum number of CapabilityConfigs to return in the response. The service may return fewer CapabilityConfigs than requested. If unspecified, at most 100 CapabilityConfigs will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
@@ -863,50 +826,50 @@ export interface ListProjectsRequest {
   showDeleted?: boolean | undefined;
   /** Optional. The maximum number of projects to return in the response. The server can return fewer projects than requested. If unspecified, server picks an appropriate default. */
   pageSize?: number | undefined;
-  /** Optional. A pagination token returned from a previous call to ListProjects that indicates from where listing should continue. */
-  pageToken?: string | undefined;
   /** Required. The name of the parent resource whose projects are being listed. Only children of this parent resource are listed; descendants are not listed. If the parent is a folder, use the value `folders/{folder_id}`. If the parent is an organization, use the value `organizations/{org_id}`. */
   parent?: string | undefined;
+  /** Optional. A pagination token returned from a previous call to ListProjects that indicates from where listing should continue. */
+  pageToken?: string | undefined;
 }
 export type ProjectList = Array<Project>;
 /** A page of the response received from the ListProjects method. A paginated response where more pages are available has `next_page_token` set. This token can be used in a subsequent request to retrieve the next request page. NOTE: A response may contain fewer elements than the request `page_size` and still have a `next_page_token`. */
 export interface ListProjectsResponse {
-  /** The list of Projects under the parent. This list can be paginated. */
-  projects?: ProjectList | undefined;
   /** Pagination token. If the result set is too large to fit in a single response, this token is returned. It encodes the position of the current result cursor. Feeding this value into a new list request with the `page_token` parameter gives the next page of the results. When `next_page_token` is not filled in, there is no next page and the list returned is the last page in the result set. Pagination tokens have a limited lifetime. */
   nextPageToken?: string | undefined;
+  /** The list of Projects under the parent. This list can be paginated. */
+  projects?: ProjectList | undefined;
 }
 export interface ListProjectsCapabilityConfigsRequest {
+  /** Optional. The maximum number of CapabilityConfigs to return in the response. The service may return fewer CapabilityConfigs than requested. If unspecified, at most 100 CapabilityConfigs will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
+  pageSize?: number | undefined;
   /** Optional. A pagination token received from a previous call to `ListCapabilityConfigs` that indicates from where listing should continue. Provide this to retrieve the subsequent page. */
   pageToken?: string | undefined;
   /** Required. The name of the parent resource whose CapabilityConfigs are being listed. Format: `organizations/{organization_id}` or `folders/{folder_id}` */
   parent: string;
-  /** Optional. The maximum number of CapabilityConfigs to return in the response. The service may return fewer CapabilityConfigs than requested. If unspecified, at most 100 CapabilityConfigs will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
-  pageSize?: number | undefined;
 }
 export interface ListTagBindingsRequest {
+  /** Required. The full resource name of a resource for which you want to list existing TagBindings. E.g. "//cloudresourcemanager.googleapis.com/projects/123" */
+  parent?: string | undefined;
   /** Optional. A pagination token returned from a previous call to `ListTagBindings` that indicates where this listing should continue from. */
   pageToken?: string | undefined;
   /** Optional. The maximum number of TagBindings to return in the response. The server allows a maximum of 300 TagBindings to return. If unspecified, the server will use 100 as the default. */
   pageSize?: number | undefined;
-  /** Required. The full resource name of a resource for which you want to list existing TagBindings. E.g. "//cloudresourcemanager.googleapis.com/projects/123" */
-  parent?: string | undefined;
 }
 export type TagBindingList = Array<TagBinding>;
 /** The ListTagBindings response. */
 export interface ListTagBindingsResponse {
-  /** A possibly paginated list of TagBindings for the specified resource. */
-  tagBindings?: TagBindingList | undefined;
   /** Pagination token. If the result set is too large to fit in a single response, this token is returned. It encodes the position of the current result cursor. Feeding this value into a new list request with the `page_token` parameter gives the next page of the results. When `next_page_token` is not filled in, there is no next page and the list returned is the last page in the result set. Pagination tokens have a limited lifetime. */
   nextPageToken?: string | undefined;
+  /** A possibly paginated list of TagBindings for the specified resource. */
+  tagBindings?: TagBindingList | undefined;
 }
 export interface ListTagKeysRequest {
   /** Required. The resource name of the TagKey's parent. Must be of the form `organizations/{org_id}` or `projects/{project_id}` or `projects/{project_number}` */
   parent?: string | undefined;
-  /** Optional. The maximum number of TagKeys to return in the response. The server allows a maximum of 300 TagKeys to return. If unspecified, the server will use 100 as the default. */
-  pageSize?: number | undefined;
   /** Optional. A pagination token returned from a previous call to `ListTagKey` that indicates where this listing should continue from. */
   pageToken?: string | undefined;
+  /** Optional. The maximum number of TagKeys to return in the response. The server allows a maximum of 300 TagKeys to return. If unspecified, the server will use 100 as the default. */
+  pageSize?: number | undefined;
 }
 export type TagKeyList = Array<TagKey>;
 /** The ListTagKeys response message. */
@@ -917,30 +880,30 @@ export interface ListTagKeysResponse {
   tagKeys?: TagKeyList | undefined;
 }
 export interface ListTagValuesRequest {
+  /** Optional. The maximum number of TagValues to return in the response. The server allows a maximum of 300 TagValues to return. If unspecified, the server will use 100 as the default. */
+  pageSize?: number | undefined;
   /** Required. Resource name for the parent of the TagValues to be listed, in the format `tagKeys/123` or `tagValues/123`. */
   parent?: string | undefined;
   /** Optional. A pagination token returned from a previous call to `ListTagValues` that indicates where this listing should continue from. */
   pageToken?: string | undefined;
-  /** Optional. The maximum number of TagValues to return in the response. The server allows a maximum of 300 TagValues to return. If unspecified, the server will use 100 as the default. */
-  pageSize?: number | undefined;
 }
 export type TagValueList = Array<TagValue>;
 /** The ListTagValues response. */
 export interface ListTagValuesResponse {
-  /** A possibly paginated list of TagValues that are direct descendants of the specified parent TagKey. */
-  tagValues?: TagValueList | undefined;
   /** A pagination token returned from a previous call to `ListTagValues` that indicates from where listing should continue. */
   nextPageToken?: string | undefined;
+  /** A possibly paginated list of TagValues that are direct descendants of the specified parent TagKey. */
+  tagValues?: TagValueList | undefined;
 }
 export interface ListTagValuesTagHoldsRequest {
-  /** Optional. A pagination token returned from a previous call to `ListTagHolds` that indicates where this listing should continue from. */
-  pageToken?: string | undefined;
-  /** Optional. Criteria used to select a subset of TagHolds parented by the TagValue to return. This field follows the syntax defined by aip.dev/160; the `holder` and `origin` fields are supported for filtering. Currently only `AND` syntax is supported. Some example queries are: * `holder = //compute.googleapis.com/compute/projects/myproject/regions/us-east-1/instanceGroupManagers/instance-group` * `origin = 35678234` * `holder = //compute.googleapis.com/compute/projects/myproject/regions/us-east-1/instanceGroupManagers/instance-group AND origin = 35678234` */
-  filter?: string | undefined;
-  /** Required. The resource name of the parent TagValue. Must be of the form: `tagValues/{tag-value-id}`. */
-  parent: string;
   /** Optional. The maximum number of TagHolds to return in the response. The server allows a maximum of 300 TagHolds to return. If unspecified, the server will use 100 as the default. */
   pageSize?: number | undefined;
+  /** Optional. A pagination token returned from a previous call to `ListTagHolds` that indicates where this listing should continue from. */
+  pageToken?: string | undefined;
+  /** Required. The resource name of the parent TagValue. Must be of the form: `tagValues/{tag-value-id}`. */
+  parent: string;
+  /** Optional. Criteria used to select a subset of TagHolds parented by the TagValue to return. This field follows the syntax defined by aip.dev/160; the `holder` and `origin` fields are supported for filtering. Currently only `AND` syntax is supported. Some example queries are: * `holder = //compute.googleapis.com/compute/projects/myproject/regions/us-east-1/instanceGroupManagers/instance-group` * `origin = 35678234` * `holder = //compute.googleapis.com/compute/projects/myproject/regions/us-east-1/instanceGroupManagers/instance-group AND origin = 35678234` */
+  filter?: string | undefined;
 }
 export type TagHoldList = Array<TagHold>;
 /** The ListTagHolds response. */
@@ -955,122 +918,99 @@ export interface MoveFolderRequest {
   /** Required. The resource name of the folder or organization which should be the folder's new parent. Must be of the form `folders/{folder_id}` or `organizations/{org_id}`. */
   destinationParent?: string | undefined;
 }
-export interface MoveFoldersRequest {
+export interface MoveFoldersRequest extends MoveFolderRequest {
   /** Required. The resource name of the Folder to move. Must be of the form folders/{folder_id} */
   name: string;
-  /** Request body */
-  body?: MoveFolderRequest | undefined;
 }
 /** The request sent to MoveProject method. */
 export interface MoveProjectRequest {
   /** Required. The new parent to move the Project under. */
   destinationParent?: string | undefined;
 }
-export interface MoveProjectsRequest {
+export interface MoveProjectsRequest extends MoveProjectRequest {
   /** Required. The name of the project to move. */
   name: string;
-  /** Request body */
-  body?: MoveProjectRequest | undefined;
 }
-export interface PatchFoldersRequest {
+export interface PatchFoldersRequest extends Omit<Folder, "name"> {
   /** Identifier. The resource name of the folder. Its format is `folders/{folder_id}`, for example: "folders/1234". */
   name: string;
   /** Required. Fields to be updated. Only the `display_name` can be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Folder | undefined;
 }
-export interface PatchFoldersBoundariesRequest {
-  /** Optional. The list of fields to update. */
-  updateMask?: string | undefined;
+export interface PatchFoldersBoundariesRequest extends Omit<Boundary, "name"> {
   /** Identifier. The unique resource name of the Boundary. Format: - `organizations/{organization_id}/boundaries/{boundary_id}` - `folders/{folder_id}/boundaries/{boundary_id}` Example: `folders/123456789/boundaries/my-boundary` */
   name: string;
-  /** Request body */
-  body?: Boundary | undefined;
-}
-export interface PatchFoldersCapabilitiesRequest {
-  /** Optional. The list of fields to update. Only [Capability.value] can be updated. */
+  /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
+}
+export interface PatchFoldersCapabilitiesRequest extends Omit<Capability, "name"> {
   /** Immutable. Identifier. The resource name of the capability. Must be in the following form: * `folders/{folder_id}/capabilities/{capability_name}` For example, `folders/123/capabilities/app-management` Following are the allowed {capability_name} values: * `app-management` */
   name: string;
-  /** Request body */
-  body?: Capability | undefined;
+  /** Optional. The list of fields to update. Only [Capability.value] can be updated. */
+  updateMask?: string | undefined;
 }
-export interface PatchFoldersCapabilityConfigsRequest {
+export interface PatchFoldersCapabilityConfigsRequest extends Omit<CapabilityConfig, "name"> {
   /** Identifier. The unique resource name of the CapabilityConfig. Format: `organizations/{organization}/capabilityConfigs/{capabilityConfig}` or, `folders/{folder}/capabilityConfigs/{capabilityConfig}` or, `projects/{project}/capabilityConfigs/{capabilityConfig}` */
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: CapabilityConfig | undefined;
 }
-export interface PatchLocationsTagBindingCollectionsRequest {
+export interface PatchLocationsTagBindingCollectionsRequest extends Omit<
+  TagBindingCollection,
+  "name"
+> {
   /** Identifier. The name of the TagBindingCollection, following the convention: `locations/{location}/tagBindingCollections/{encoded-full-resource-name}` where the encoded-full-resource-name is the UTF-8 encoded name of the GCP resource the TagBindings are bound to. "locations/global/tagBindingCollections/%2f%2fcloudresourcemanager.googleapis.com%2fprojects%2f123" */
   name: string;
   /** Optional. An update mask to selectively update fields. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: TagBindingCollection | undefined;
 }
-export interface PatchOrganizationsBoundariesRequest {
+export interface PatchOrganizationsBoundariesRequest extends Omit<Boundary, "name"> {
   /** Identifier. The unique resource name of the Boundary. Format: - `organizations/{organization_id}/boundaries/{boundary_id}` - `folders/{folder_id}/boundaries/{boundary_id}` Example: `folders/123456789/boundaries/my-boundary` */
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Boundary | undefined;
 }
-export interface PatchOrganizationsCapabilityConfigsRequest {
+export interface PatchOrganizationsCapabilityConfigsRequest extends Omit<CapabilityConfig, "name"> {
   /** Identifier. The unique resource name of the CapabilityConfig. Format: `organizations/{organization}/capabilityConfigs/{capabilityConfig}` or, `folders/{folder}/capabilityConfigs/{capabilityConfig}` or, `projects/{project}/capabilityConfigs/{capabilityConfig}` */
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: CapabilityConfig | undefined;
 }
-export interface PatchProjectsRequest {
-  /** Output only. The unique resource name of the project. It is an int64 generated number prefixed by "projects/". Example: `projects/415104041262` */
-  name: string;
+export interface PatchProjectsRequest extends Omit<Project, "name"> {
   /** Optional. An update mask to selectively update fields. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Project | undefined;
-}
-export interface PatchProjectsCapabilityConfigsRequest {
-  /** Identifier. The unique resource name of the CapabilityConfig. Format: `organizations/{organization}/capabilityConfigs/{capabilityConfig}` or, `folders/{folder}/capabilityConfigs/{capabilityConfig}` or, `projects/{project}/capabilityConfigs/{capabilityConfig}` */
+  /** Output only. The unique resource name of the project. It is an int64 generated number prefixed by "projects/". Example: `projects/415104041262` */
   name: string;
+}
+export interface PatchProjectsCapabilityConfigsRequest extends Omit<CapabilityConfig, "name"> {
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: CapabilityConfig | undefined;
+  /** Identifier. The unique resource name of the CapabilityConfig. Format: `organizations/{organization}/capabilityConfigs/{capabilityConfig}` or, `folders/{folder}/capabilityConfigs/{capabilityConfig}` or, `projects/{project}/capabilityConfigs/{capabilityConfig}` */
+  name: string;
 }
-export interface PatchTagKeysRequest {
+export interface PatchTagKeysRequest extends Omit<TagKey, "name"> {
+  /** Immutable. The resource name for a TagKey. Must be in the format `tagKeys/{tag_key_id}`, where `tag_key_id` is the generated numeric id for the TagKey. */
+  name: string;
   /** Set as true to perform validations necessary for updating the resource, but not actually perform the action. */
   validateOnly?: boolean | undefined;
   /** Fields to be updated. The mask may only contain `description` or `etag`. If omitted entirely, both `description` and `etag` are assumed to be significant. */
   updateMask?: string | undefined;
-  /** Immutable. The resource name for a TagKey. Must be in the format `tagKeys/{tag_key_id}`, where `tag_key_id` is the generated numeric id for the TagKey. */
-  name: string;
-  /** Request body */
-  body?: TagKey | undefined;
 }
-export interface PatchTagValuesRequest {
-  /** Optional. True to perform validations necessary for updating the resource, but not actually perform the action. */
-  validateOnly?: boolean | undefined;
+export interface PatchTagValuesRequest extends Omit<TagValue, "name"> {
   /** Optional. Fields to be updated. */
   updateMask?: string | undefined;
+  /** Optional. True to perform validations necessary for updating the resource, but not actually perform the action. */
+  validateOnly?: boolean | undefined;
   /** Immutable. Resource name for TagValue in the format `tagValues/456`. */
   name: string;
-  /** Request body */
-  body?: TagValue | undefined;
 }
 export interface SearchFoldersRequest {
-  /** Optional. Search criteria used to select the folders to return. If no search criteria is specified then all accessible folders will be returned. Query expressions can be used to restrict results based upon displayName, state and parent, where the operators `=` (`:`) `NOT`, `AND` and `OR` can be used along with the suffix wildcard symbol `*`. The `displayName` field in a query expression should use escaped quotes for values that include whitespace to prevent unexpected behavior. ``` | Field | Description | |-------------------------|----------------------------------------| | displayName | Filters by displayName. | | parent | Filters by parent (for example: folders/123). | | state, lifecycleState | Filters by state. | ``` Some example queries are: * Query `displayName=Test*` returns Folder resources whose display name starts with "Test". * Query `state=ACTIVE` returns Folder resources with `state` set to `ACTIVE`. * Query `parent=folders/123` returns Folder resources that have `folders/123` as a parent resource. * Query `parent=folders/123 AND state=ACTIVE` returns active Folder resources that have `folders/123` as a parent resource. * Query `displayName=\\"Test String\\"` returns Folder resources with display names that include both "Test" and "String". */
-  query?: string | undefined;
   /** Optional. A pagination token returned from a previous call to `SearchFolders` that indicates from where search should continue. */
   pageToken?: string | undefined;
   /** Optional. The maximum number of folders to return in the response. The server can return fewer folders than requested. If unspecified, server picks an appropriate default. */
   pageSize?: number | undefined;
+  /** Optional. Search criteria used to select the folders to return. If no search criteria is specified then all accessible folders will be returned. Query expressions can be used to restrict results based upon displayName, state and parent, where the operators `=` (`:`) `NOT`, `AND` and `OR` can be used along with the suffix wildcard symbol `*`. The `displayName` field in a query expression should use escaped quotes for values that include whitespace to prevent unexpected behavior. ``` | Field | Description | |-------------------------|----------------------------------------| | displayName | Filters by displayName. | | parent | Filters by parent (for example: folders/123). | | state, lifecycleState | Filters by state. | ``` Some example queries are: * Query `displayName=Test*` returns Folder resources whose display name starts with "Test". * Query `state=ACTIVE` returns Folder resources with `state` set to `ACTIVE`. * Query `parent=folders/123` returns Folder resources that have `folders/123` as a parent resource. * Query `parent=folders/123 AND state=ACTIVE` returns active Folder resources that have `folders/123` as a parent resource. * Query `displayName=\\"Test String\\"` returns Folder resources with display names that include both "Test" and "String". */
+  query?: string | undefined;
 }
 /** The response message for searching folders. */
 export interface SearchFoldersResponse {
@@ -1082,10 +1022,10 @@ export interface SearchFoldersResponse {
 export interface SearchOrganizationsRequest {
   /** Optional. The maximum number of organizations to return in the response. The server can return fewer organizations than requested. If unspecified, server picks an appropriate default. */
   pageSize?: number | undefined;
-  /** Optional. A pagination token returned from a previous call to `SearchOrganizations` that indicates from where listing should continue. */
-  pageToken?: string | undefined;
   /** Optional. An optional query string used to filter the Organizations to return in the response. Query rules are case-insensitive. ``` | Field | Description | |------------------|--------------------------------------------| | directoryCustomerId, owner.directoryCustomerId | Filters by directory customer id. | | domain | Filters by domain. | ``` Organizations may be queried by `directoryCustomerId` or by `domain`, where the domain is a G Suite domain, for example: * Query `directorycustomerid:123456789` returns Organization resources with `owner.directory_customer_id` equal to `123456789`. * Query `domain:google.com` returns Organization resources corresponding to the domain `google.com`. */
   query?: string | undefined;
+  /** Optional. A pagination token returned from a previous call to `SearchOrganizations` that indicates from where listing should continue. */
+  pageToken?: string | undefined;
 }
 export type OrganizationList = Array<Organization>;
 /** The response returned from the `SearchOrganizations` method. */
@@ -1096,12 +1036,12 @@ export interface SearchOrganizationsResponse {
   organizations?: OrganizationList | undefined;
 }
 export interface SearchProjectsRequest {
+  /** Optional. A pagination token returned from a previous call to ListProjects that indicates from where listing should continue. */
+  pageToken?: string | undefined;
   /** Optional. A query string for searching for projects that the caller has `resourcemanager.projects.get` permission to. If multiple fields are included in the query, then it will return results that match any of the fields. Some eligible fields are: ``` | Field | Description | |-------------------------|----------------------------------------------| | displayName, name | Filters by displayName. | | parent | Project's parent (for example: folders/123, organizations/*). Prefer parent field over parent.type and parent.id.| | parent.type | Parent's type: `folder` or `organization`. | | parent.id | Parent's id number (for example: 123) | | id, projectId | Filters by projectId. | | state, lifecycleState | Filters by state. | | labels | Filters by label name or value. | | labels.\ (where *key* is the name of a label) | Filters by label name.| ``` Search expressions are case insensitive. Some examples queries: ``` | Query | Description | |------------------|-----------------------------------------------------| | name:how* | The project's name starts with "how". | | name:Howl | The project's name is `Howl` or `howl`. | | name:HOWL | Equivalent to above. | | NAME:howl | Equivalent to above. | | labels.color:* | The project has the label `color`. | | labels.color:red | The project's label `color` has the value `red`. | | labels.color:red labels.size:big | The project's label `color` has the value `red` or its label `size` has the value `big`. | ``` If no query is specified, the call will return projects for which the user has the `resourcemanager.projects.get` permission. */
   query?: string | undefined;
   /** Optional. The maximum number of projects to return in the response. The server can return fewer projects than requested. If unspecified, server picks an appropriate default. */
   pageSize?: number | undefined;
-  /** Optional. A pagination token returned from a previous call to ListProjects that indicates from where listing should continue. */
-  pageToken?: string | undefined;
 }
 /** A page of the response received from the SearchProjects method. A paginated response where more pages are available has `next_page_token` set. This token can be used in a subsequent request to retrieve the next request page. */
 export interface SearchProjectsResponse {
@@ -1112,80 +1052,60 @@ export interface SearchProjectsResponse {
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
-  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string | undefined;
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
+  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
+  updateMask?: string | undefined;
 }
-export interface SetIamPolicyFoldersRequest {
+export interface SetIamPolicyFoldersRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyOrganizationsRequest {
+export interface SetIamPolicyOrganizationsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsRequest {
+export interface SetIamPolicyProjectsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyTagKeysRequest {
+export interface SetIamPolicyTagKeysRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyTagValuesRequest {
+export interface SetIamPolicyTagValuesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsFoldersRequest {
+export interface TestIamPermissionsFoldersRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsOrganizationsRequest {
+export interface TestIamPermissionsOrganizationsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsRequest {
+export interface TestIamPermissionsProjectsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsTagKeysRequest {
+export interface TestIamPermissionsTagKeysRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsTagValuesRequest {
+export interface TestIamPermissionsTagValuesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** The UndeleteFolder request message. */
 export interface UndeleteFolderRequest {}
@@ -1203,21 +1123,17 @@ export interface UndeleteProjectsRequest {
   /** Request body */
   body?: UndeleteFolderRequest | undefined;
 }
-export interface UpdateBoundaryConfigFoldersRequest {
+export interface UpdateBoundaryConfigFoldersRequest extends Omit<BoundaryConfig, "name"> {
   /** Identifier. The unique resource name of the BoundaryConfig. Format: - `organizations/{organization}/boundaryConfig` - `folders/{folder}/boundaryConfig` Example: `folders/123456789/boundaryConfig` */
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: BoundaryConfig | undefined;
 }
-export interface UpdateBoundaryConfigOrganizationsRequest {
-  /** Optional. The list of fields to update. */
-  updateMask?: string | undefined;
+export interface UpdateBoundaryConfigOrganizationsRequest extends Omit<BoundaryConfig, "name"> {
   /** Identifier. The unique resource name of the BoundaryConfig. Format: - `organizations/{organization}/boundaryConfig` - `folders/{folder}/boundaryConfig` Example: `folders/123456789/boundaryConfig` */
   name: string;
-  /** Request body */
-  body?: BoundaryConfig | undefined;
+  /** Optional. The list of fields to update. */
+  updateMask?: string | undefined;
 }
 export type CreateFoldersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Creates a folder in the resource hierarchy. Returns an `Operation` which can be used to track the progress of the folder creation workflow. Upon success, the `Operation.response` field will be populated with the created Folder. In order to succeed, the addition of this new folder must not violate the folder naming, height, or fanout constraints. + The folder's `display_name` must be distinct from all other folders that share its parent. + The addition of the folder must not cause the active folder hierarchy to exceed a height of 10. Note, the full active + deleted folder hierarchy is allowed to reach a height of 20; this provides additional headroom when moving folders that contain deleted folders. + The addition of the folder must not cause the total number of folders under its parent to exceed 300. If the operation fails due to a folder constraint violation, some errors may be returned by the `CreateFolder` request, with status code `FAILED_PRECONDITION` and an error description. Other folder constraint violations will be communicated in the `Operation`, with the specific `PreconditionFailure` returned in the details list in the `Operation.error` field. The caller must have `resourcemanager.folders.create` permission on the identified parent. */
@@ -1234,6 +1150,7 @@ export const createFolders: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateFolders",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateFoldersBoundariesError =
@@ -1281,7 +1198,7 @@ export const createFoldersCapabilityConfigs: API.OperationMethod<
 }));
 
 export type CreateLiensError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
-/** Create a Lien which applies to the resource denoted by the `parent` field. Callers of this method will require permission on the `parent` resource. For example, applying to `projects/1234` requires permission `resourcemanager.projects.updateLiens`. NOTE: Some resources may limit the number of Liens which may be applied. */
+/** Creates a Lien which applies to the resource denoted by the `parent` field. Callers of this method will require permission on the `parent` resource. For example, applying to `projects/1234` requires permission `resourcemanager.projects.updateLiens`. NOTE: Some resources may limit the number of Liens which may be applied. */
 export const createLiens: API.OperationMethod<
   CreateLiensRequest,
   Lien,
@@ -1342,7 +1259,7 @@ export const createOrganizationsCapabilityConfigs: API.OperationMethod<
 }));
 
 export type CreateProjectsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
-/** Request that a new project be created. The result is an `Operation` which can be used to track the creation process. This process usually takes a few seconds, but can sometimes take much longer. The tracking `Operation` is automatically deleted after a few hours, so there is no need to call `DeleteOperation`. */
+/** Requests that a new project be created. The result is an `Operation` which can be used to track the creation process. This process usually takes a few seconds, but can sometimes take much longer. The tracking `Operation` is automatically deleted after a few hours, so there is no need to call `DeleteOperation`. */
 export const createProjects: API.OperationMethod<
   CreateProjectsRequest,
   Operation,
@@ -1356,6 +1273,7 @@ export const createProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjects",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsCapabilityConfigsError =
@@ -1395,6 +1313,7 @@ export const createTagBindings: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateTagBindings",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateTagKeysError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1412,6 +1331,7 @@ export const createTagKeys: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateTagKeys",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateTagValuesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1429,6 +1349,7 @@ export const createTagValues: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateTagValues",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateTagValuesTagHoldsError =
@@ -1474,6 +1395,7 @@ export const deleteFolders: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteFolders",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteFoldersBoundariesError =
@@ -1521,7 +1443,7 @@ export const deleteFoldersCapabilityConfigs: API.OperationMethod<
 }));
 
 export type DeleteLiensError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
-/** Delete a Lien by `name`. Callers of this method will require permission on the `parent` resource. For example, a Lien with a `parent` of `projects/1234` requires permission `resourcemanager.projects.updateLiens`. */
+/** Deletes a Lien by `name`. Callers of this method will require permission on the `parent` resource. For example, a Lien with a `parent` of `projects/1234` requires permission `resourcemanager.projects.updateLiens`. */
 export const deleteLiens: API.OperationMethod<
   DeleteLiensRequest,
   Empty,
@@ -1602,6 +1524,7 @@ export const deleteProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjects",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsCapabilityConfigsError =
@@ -1641,6 +1564,7 @@ export const deleteTagBindings: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteTagBindings",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteTagKeysError =
@@ -1664,6 +1588,7 @@ export const deleteTagKeys: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteTagKeys",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteTagValuesError =
@@ -1687,6 +1612,7 @@ export const deleteTagValues: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteTagValues",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteTagValuesTagHoldsError =
@@ -1882,7 +1808,7 @@ export type GetIamPolicyProjectsError =
   | Conflict
   | ProjectNotFound
   | GcpOpError;
-/** Returns the IAM access control policy for the specified project, in the format `projects/{ProjectIdOrNumber}` e.g. projects/123. Permission is denied if the policy or the resource do not exist. */
+/** Returns the IAM access control policy for the specified project, in the format `projects/{ProjectIdOrNumber}`, for example, `projects/123`. Permission is denied if the policy or the resource do not exist. */
 export const getIamPolicyProjects: API.OperationMethod<
   GetIamPolicyProjectsRequest,
   Policy,
@@ -1939,7 +1865,7 @@ export const getIamPolicyTagValues: API.OperationMethod<
 }));
 
 export type GetLiensError = NotFound | Forbidden | GcpOpError;
-/** Retrieve a Lien by `name`. Callers of this method will require permission on the `parent` resource. For example, a Lien with a `parent` of `projects/1234` requires permission `resourcemanager.projects.get` */
+/** Retrieves a Lien by `name`. Callers of this method will require permission on the `parent` resource. For example, a Lien with a `parent` of `projects/1234` requires permission `resourcemanager.projects.get` */
 export const getLiens: API.OperationMethod<GetLiensRequest, Lien, GetLiensError, GcpOpContext> =
   /*@__PURE__*/ API.make(() => ({
     input: __S(368, __c46, 0) as any as S.Schema<GetLiensRequest>,
@@ -2184,7 +2110,7 @@ export const listFolders: API.PaginatedOperationMethod<
   ListFoldersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(496, __c62, 0) as any as S.Schema<ListFoldersRequest>,
-  output: __S(505, __c63, 1) as any as S.Schema<ListFoldersResponse>,
+  output: __S(497, __c62, 1) as any as S.Schema<ListFoldersResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2232,7 +2158,7 @@ export const listFoldersCapabilityConfigs: API.PaginatedOperationMethod<
 })) as any;
 
 export type ListLiensError = NotFound | Forbidden | GcpOpError;
-/** List all Liens applied to the `parent` resource. Callers of this method will require permission on the `parent` resource. For example, a Lien with a `parent` of `projects/1234` requires permission `resourcemanager.projects.get`. */
+/** Lists all Liens applied to the `parent` resource. Callers of this method will require permission on the `parent` resource. For example, a Lien with a `parent` of `projects/1234` requires permission `resourcemanager.projects.get`. */
 export const listLiens: API.PaginatedOperationMethod<
   ListLiensRequest,
   ListLiensResponse,
@@ -2298,7 +2224,7 @@ export const listProjects: API.PaginatedOperationMethod<
   ListProjectsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(568, __c71, 0) as any as S.Schema<ListProjectsRequest>,
-  output: __S(569, __c71, 1) as any as S.Schema<ListProjectsResponse>,
+  output: __S(577, __c72, 1) as any as S.Schema<ListProjectsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2423,6 +2349,7 @@ export const moveFolders: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MoveFolders",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type MoveProjectsError =
@@ -2432,7 +2359,7 @@ export type MoveProjectsError =
   | Conflict
   | ProjectNotFound
   | GcpOpError;
-/** Move a project to another place in your resource hierarchy, under a new resource parent. Returns an operation which can be used to track the process of the project move workflow. Upon success, the `Operation.response` field will be populated with the moved project. The caller must have `resourcemanager.projects.move` permission on the project, on the project's current and proposed new parent. If project has no current parent, or it currently does not have an associated organization resource, you will also need the `resourcemanager.projects.setIamPolicy` permission in the project. */
+/** Moves a project to another place in your resource hierarchy, under a new resource parent. Returns an operation which can be used to track the process of the project move workflow. Upon success, the `Operation.response` field will be populated with the moved project. The caller must have `resourcemanager.projects.move` permission on the project, on the project's current and proposed new parent. If project has no current parent, or it currently does not have an associated organization resource, you will also need the `resourcemanager.projects.setIamPolicy` permission in the project. */
 export const moveProjects: API.OperationMethod<
   MoveProjectsRequest,
   Operation,
@@ -2446,6 +2373,7 @@ export const moveProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MoveProjects",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchFoldersError =
@@ -2469,6 +2397,7 @@ export const patchFolders: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchFolders",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchFoldersBoundariesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2619,6 +2548,7 @@ export const patchProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjects",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsCapabilityConfigsError =
@@ -2664,6 +2594,7 @@ export const patchTagKeys: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchTagKeys",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchTagValuesError =
@@ -2687,10 +2618,11 @@ export const patchTagValues: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchTagValues",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SearchFoldersError = NotFound | Forbidden | GcpOpError;
-/** Search for folders that match specific filter criteria. `search()` provides an eventually consistent view of the folders a user has access to which meet the specified filter criteria. This will only return folders on which the caller has the permission `resourcemanager.folders.get`. */
+/** Searches for folders that match specific filter criteria. `search()` provides an eventually consistent view of the folders a user has access to which meet the specified filter criteria. This will only return folders on which the caller has the permission `resourcemanager.folders.get`. */
 export const searchFolders: API.PaginatedOperationMethod<
   SearchFoldersRequest,
   SearchFoldersResponse,
@@ -2699,7 +2631,7 @@ export const searchFolders: API.PaginatedOperationMethod<
   SearchFoldersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(776, __c97, 0) as any as S.Schema<SearchFoldersRequest>,
-  output: __S(505, __c63, 1) as any as S.Schema<SearchFoldersResponse>,
+  output: __S(777, __c97, 1) as any as S.Schema<SearchFoldersResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2728,7 +2660,7 @@ export const searchOrganizations: API.PaginatedOperationMethod<
 })) as any;
 
 export type SearchProjectsError = NotFound | Forbidden | GcpOpError;
-/** Search for projects that the caller has the `resourcemanager.projects.get` permission on, and also satisfy the specified query. This method returns projects in an unspecified order. This method is eventually consistent with project mutations; this means that a newly created project may not appear in the results or recent updates to an existing project may not be reflected in the results. To retrieve the latest state of a project, use the GetProject method. */
+/** Searches for projects on which the caller has the `resourcemanager.projects.get` permission and that match the specified query. This method returns projects in an unspecified order. This method is eventually consistent with project mutations; this means that a newly created project may not appear in the results or recent updates to an existing project may not be reflected in the results. To retrieve the latest state of a project, use the GetProject method. */
 export const searchProjects: API.PaginatedOperationMethod<
   SearchProjectsRequest,
   SearchProjectsResponse,
@@ -2737,7 +2669,7 @@ export const searchProjects: API.PaginatedOperationMethod<
   SearchProjectsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(792, __c99, 0) as any as S.Schema<SearchProjectsRequest>,
-  output: __S(793, __c99, 1) as any as S.Schema<SearchProjectsResponse>,
+  output: __S(577, __c72, 1) as any as S.Schema<SearchProjectsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2761,6 +2693,7 @@ export const setIamPolicyFolders: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetIamPolicyFolders",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetIamPolicyOrganizationsError =
@@ -2783,10 +2716,11 @@ export const setIamPolicyOrganizations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetIamPolicyOrganizations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetIamPolicyProjectsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
-/** Sets the IAM access control policy for the specified project, in the format `projects/{ProjectIdOrNumber}` e.g. projects/123. CAUTION: This method will replace the existing policy, and cannot be used to append additional IAM settings. Note: Removing service accounts from policies or changing their roles can render services completely inoperable. It is important to understand how the service account is being used before removing or updating its roles. The following constraints apply when using `setIamPolicy()`: + Project does not support `allUsers` and `allAuthenticatedUsers` as `members` in a `Binding` of a `Policy`. + The owner role can be granted to a `user`, `serviceAccount`, or a group that is part of an organization. For example, group@myownpersonaldomain.com could be added as an owner to a project in the myownpersonaldomain.com organization, but not the examplepetstore.com organization. + Service accounts can be made owners of a project directly without any restrictions. However, to be added as an owner, a user must be invited using the Cloud Platform console and must accept the invitation. + A user cannot be granted the owner role using `setIamPolicy()`. The user must be granted the owner role using the Cloud Platform Console and must explicitly accept the invitation. + Invitations to grant the owner role cannot be sent using `setIamPolicy()`; they must be sent only using the Cloud Platform Console. + If the project is not part of an organization, there must be at least one owner who has accepted the Terms of Service (ToS) agreement in the policy. Calling `setIamPolicy()` to remove the last ToS-accepted owner from the policy will fail. This restriction also applies to legacy projects that no longer have owners who have accepted the ToS. Edits to IAM policies will be rejected until the lack of a ToS-accepting owner is rectified. If the project is part of an organization, you can remove all owners, potentially making the organization inaccessible. */
+/** Sets the IAM access control policy for the specified project, in the format `projects/{ProjectIdOrNumber}`, for example, `projects/123`. CAUTION: This method will replace the existing policy, and cannot be used to append additional IAM settings. Note: Removing service accounts from policies or changing their roles can render services completely inoperable. It is important to understand how the service account is being used before removing or updating its roles. The following constraints apply when using `setIamPolicy()`: + Project does not support `allUsers` and `allAuthenticatedUsers` as `members` in a `Binding` of a `Policy`. + The owner role can be granted to a `user`, `serviceAccount`, or a group that is part of an organization. For example, group@myownpersonaldomain.com could be added as an owner to a project in the myownpersonaldomain.com organization, but not the examplepetstore.com organization. + Service accounts can be made owners of a project directly without any restrictions. However, to be added as an owner, a user must be invited using the Cloud Platform console and must accept the invitation. + A user cannot be granted the owner role using `setIamPolicy()`. The user must be granted the owner role using the Cloud Platform Console and must explicitly accept the invitation. + Invitations to grant the owner role cannot be sent using `setIamPolicy()`; they must be sent only using the Cloud Platform Console. + If the project is not part of an organization, there must be at least one owner who has accepted the Terms of Service (ToS) agreement in the policy. Calling `setIamPolicy()` to remove the last ToS-accepted owner from the policy will fail. This restriction also applies to legacy projects that no longer have owners who have accepted the ToS. Edits to IAM policies will be rejected until the lack of a ToS-accepting owner is rectified. If the project is part of an organization, you can remove all owners, potentially making the organization inaccessible. */
 export const setIamPolicyProjects: API.OperationMethod<
   SetIamPolicyProjectsRequest,
   Policy,
@@ -2800,6 +2734,7 @@ export const setIamPolicyProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetIamPolicyProjects",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetIamPolicyTagKeysError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2817,6 +2752,7 @@ export const setIamPolicyTagKeys: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetIamPolicyTagKeys",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetIamPolicyTagValuesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2834,6 +2770,7 @@ export const setIamPolicyTagValues: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetIamPolicyTagValues",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type TestIamPermissionsFoldersError =
@@ -2886,7 +2823,7 @@ export type TestIamPermissionsProjectsError =
   | BadRequest
   | Conflict
   | GcpOpError;
-/** Returns permissions that a caller has on the specified project, in the format `projects/{ProjectIdOrNumber}` e.g. projects/123.. */
+/** Returns permissions that a caller has on the specified project, in the format `projects/{ProjectIdOrNumber}`, for example, `projects/123`. */
 export const testIamPermissionsProjects: API.OperationMethod<
   TestIamPermissionsProjectsRequest,
   TestIamPermissionsResponse,
@@ -2967,6 +2904,7 @@ export const undeleteFolders: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UndeleteFolders",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type UndeleteProjectsError =
@@ -2990,6 +2928,7 @@ export const undeleteProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UndeleteProjects",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type UpdateBoundaryConfigFoldersError =
@@ -3041,11 +2980,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          capabilityConfigId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(9, __c1, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9, __c1, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            capabilityConfigId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+parent}/capabilityConfigs",
@@ -3062,15 +3003,15 @@ function __c1(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          boundaries: S.optional(__S(720, __c90, 0)),
-          etag: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          managementProject: S.optional(S.String),
-          state: S.optional(S.String),
-          name: S.optional(S.String),
           displayName: S.optional(S.String),
           types: S.optional(__S(8, __c1, 0)),
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+          state: S.optional(S.String),
+          boundaries: S.optional(__S(720, __c90, 0)),
+          etag: S.optional(S.String),
+          managementProject: S.optional(S.String),
+          createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "CapabilityConfig" });
   }
@@ -3079,9 +3020,7 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(24, __c3, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(24, __c3, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v3/liens",
@@ -3096,12 +3035,12 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
           restrictions: S.optional(__S(720, __c90, 0)),
           parent: S.optional(S.String),
-          origin: S.optional(S.String),
+          createTime: S.optional(S.String),
+          name: S.optional(S.String),
           reason: S.optional(S.String),
+          origin: S.optional(S.String),
         }),
       ).annotate({ identifier: "Lien" });
   }
@@ -3110,11 +3049,13 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          boundaryId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(850, __c106, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(850, __c106, 2),
+          S.Struct({
+            boundaryId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+parent}/boundaries",
@@ -3128,11 +3069,13 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          capabilityConfigId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(9, __c1, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9, __c1, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            capabilityConfigId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+parent}/capabilityConfigs",
@@ -3146,9 +3089,7 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(56, __c7, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(56, __c7, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v3/projects",
@@ -3163,19 +3104,19 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          configuredCapabilities: S.optional(__S(720, __c90, 0)),
-          updateTime: S.optional(S.String),
-          parent: S.optional(S.String),
-          displayName: S.optional(S.String),
-          labels: S.optional(__S(728, __c91, 0)),
-          isManagementProject: S.optional(S.Boolean),
-          managementType: S.optional(S.String),
-          createTime: S.optional(S.String),
-          projectId: S.optional(S.String),
-          tags: S.optional(__S(728, __c91, 0)),
           deleteTime: S.optional(S.String),
+          parent: S.optional(S.String),
           etag: S.optional(S.String),
+          configuredCapabilities: S.optional(__S(720, __c90, 0)),
+          labels: S.optional(__S(728, __c91, 0)),
+          updateTime: S.optional(S.String),
+          isManagementProject: S.optional(S.Boolean),
+          displayName: S.optional(S.String),
+          managementType: S.optional(S.String),
+          projectId: S.optional(S.String),
+          name: S.optional(S.String),
+          tags: S.optional(__S(728, __c91, 0)),
+          createTime: S.optional(S.String),
           state: S.optional(S.String),
         }),
       ).annotate({ identifier: "Project" });
@@ -3185,11 +3126,13 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          capabilityConfigId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(9, __c1, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9, __c1, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            capabilityConfigId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+parent}/capabilityConfigs",
@@ -3203,10 +3146,12 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(80, __c10, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(80, __c10, 0),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/tagBindings",
@@ -3221,10 +3166,10 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          parent: S.optional(S.String),
           tagValueNamespacedName: S.optional(S.String),
+          name: S.optional(S.String),
           tagValue: S.optional(S.String),
+          parent: S.optional(S.String),
         }),
       ).annotate({ identifier: "TagBinding" });
   }
@@ -3233,10 +3178,12 @@ function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(96, __c12, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(96, __c12, 0),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/tagKeys",
@@ -3251,16 +3198,16 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          etag: S.optional(S.String),
-          allowedValuesRegex: S.optional(S.String),
           parent: S.optional(S.String),
-          purpose: S.optional(S.String),
-          description: S.optional(S.String),
           createTime: S.optional(S.String),
+          description: S.optional(S.String),
           name: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          shortName: S.optional(S.String),
           purposeData: S.optional(__S(728, __c91, 0)),
+          etag: S.optional(S.String),
+          shortName: S.optional(S.String),
+          purpose: S.optional(S.String),
+          allowedValuesRegex: S.optional(S.String),
+          updateTime: S.optional(S.String),
           namespacedName: S.optional(S.String),
         }),
       ).annotate({ identifier: "TagKey" });
@@ -3270,10 +3217,12 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(112, __c14, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(112, __c14, 0),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/tagValues",
@@ -3288,14 +3237,14 @@ function __c14(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
           description: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          etag: S.optional(S.String),
-          namespacedName: S.optional(S.String),
           shortName: S.optional(S.String),
+          namespacedName: S.optional(S.String),
+          createTime: S.optional(S.String),
+          etag: S.optional(S.String),
           parent: S.optional(S.String),
+          name: S.optional(S.String),
+          updateTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "TagValue" });
   }
@@ -3304,11 +3253,13 @@ function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(128, __c16, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(128, __c16, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+parent}/tagHolds",
@@ -3323,11 +3274,11 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          origin: S.optional(S.String),
           holder: S.optional(S.String),
-          name: S.optional(S.String),
           helpLink: S.optional(S.String),
+          origin: S.optional(S.String),
           createTime: S.optional(S.String),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "TagHold" });
   }
@@ -3488,8 +3439,8 @@ function __c27(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
           etag: S.optional(S.String.pipe(T.Query())),
+          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -3505,8 +3456,8 @@ function __c28(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
           etag: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -3523,8 +3474,8 @@ function __c29(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -3579,10 +3530,10 @@ function __c32(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          tagKey: S.optional(S.String),
-          etag: S.optional(S.String),
           updateTime: S.optional(S.String),
+          etag: S.optional(S.String),
+          tagKey: S.optional(S.String),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "BoundaryConfig" });
   }
@@ -3682,10 +3633,12 @@ function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(321, __c40, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(321, __c40, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+resource}:getIamPolicy",
@@ -3725,8 +3678,8 @@ function __c41(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          service: S.optional(S.String),
           auditLogConfigs: S.optional(__S(329, __c41, 1)),
+          service: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuditConfig" });
     case 3:
@@ -3734,10 +3687,10 @@ function __c41(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          expression: S.optional(S.String),
-          location: S.optional(S.String),
           description: S.optional(S.String),
+          expression: S.optional(S.String),
           title: S.optional(S.String),
+          location: S.optional(S.String),
         }),
       ).annotate({ identifier: "Expr" });
     case 5:
@@ -3755,8 +3708,8 @@ function __c41(j: number): any {
         S.Struct({
           auditConfigs: S.optional(__S(331, __c41, 3)),
           etag: S.optional(S.String),
-          bindings: S.optional(__S(334, __c41, 6)),
           version: S.optional(S.Number),
+          bindings: S.optional(__S(334, __c41, 6)),
         }),
       ).annotate({ identifier: "Policy" });
   }
@@ -3765,10 +3718,12 @@ function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(321, __c40, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(321, __c40, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+resource}:getIamPolicy",
@@ -3782,10 +3737,12 @@ function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(321, __c40, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(321, __c40, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+resource}:getIamPolicy",
@@ -3799,10 +3756,12 @@ function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(321, __c40, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(321, __c40, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+resource}:getIamPolicy",
@@ -3816,10 +3775,12 @@ function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(321, __c40, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(321, __c40, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+resource}:getIamPolicy",
@@ -3862,9 +3823,9 @@ function __c47(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          effectiveTags: S.optional(__S(728, __c91, 0)),
           fullResourceName: S.optional(S.String),
           name: S.optional(S.String),
-          effectiveTags: S.optional(__S(728, __c91, 0)),
         }),
       ).annotate({ identifier: "EffectiveTagBindingCollection" });
   }
@@ -3890,10 +3851,10 @@ function __c49(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
           fullResourceName: S.optional(S.String),
-          etag: S.optional(S.String),
+          name: S.optional(S.String),
           tags: S.optional(__S(728, __c91, 0)),
+          etag: S.optional(S.String),
         }),
       ).annotate({ identifier: "TagBindingCollection" });
   }
@@ -3967,14 +3928,14 @@ function __c54(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          directoryCustomerId: S.optional(S.String),
-          displayName: S.optional(S.String),
-          createTime: S.optional(S.String),
-          state: S.optional(S.String),
           updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          deleteTime: S.optional(S.String),
           etag: S.optional(S.String),
+          createTime: S.optional(S.String),
+          name: S.optional(S.String),
+          directoryCustomerId: S.optional(S.String),
+          deleteTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          state: S.optional(S.String),
         }),
       ).annotate({ identifier: "Organization" });
   }
@@ -4080,9 +4041,9 @@ function __c61(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parent: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4094,12 +4055,12 @@ function __c61(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          inherited: S.optional(S.Boolean),
+          tagValue: S.optional(S.String),
+          tagKeyParentName: S.optional(S.String),
+          tagKey: S.optional(S.String),
           namespacedTagKey: S.optional(S.String),
           namespacedTagValue: S.optional(S.String),
-          tagKey: S.optional(S.String),
-          tagValue: S.optional(S.String),
-          inherited: S.optional(S.Boolean),
-          tagKeyParentName: S.optional(S.String),
         }),
       ).annotate({ identifier: "EffectiveTag" });
     case 2:
@@ -4118,10 +4079,10 @@ function __c62(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          showDeleted: S.optional(S.Boolean.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          showDeleted: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4130,19 +4091,19 @@ function __c62(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ListFoldersRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          nextPageToken: S.optional(S.String),
+          folders: S.optional(__S(504, __c63, 0)),
+        }),
+      ).annotate({ identifier: "ListFoldersResponse" });
   }
 }
 function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(736, __c92, 0));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          folders: S.optional(__S(504, __c63, 0)),
-          nextPageToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListFoldersResponse" });
   }
 }
 function __c64(j: number): any {
@@ -4150,9 +4111,9 @@ function __c64(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4181,9 +4142,9 @@ function __c66(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4201,8 +4162,8 @@ function __c67(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           capabilityConfigs: S.optional(__S(536, __c67, 0)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListCapabilityConfigsResponse" });
   }
@@ -4212,8 +4173,8 @@ function __c68(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -4239,9 +4200,9 @@ function __c69(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4277,8 +4238,8 @@ function __c71(j: number): any {
         S.Struct({
           showDeleted: S.optional(S.Boolean.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4287,19 +4248,19 @@ function __c71(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ListProjectsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          projects: S.optional(__S(576, __c72, 0)),
-          nextPageToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListProjectsResponse" });
   }
 }
 function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(56, __c7, 0));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          nextPageToken: S.optional(S.String),
+          projects: S.optional(__S(576, __c72, 0)),
+        }),
+      ).annotate({ identifier: "ListProjectsResponse" });
   }
 }
 function __c73(j: number): any {
@@ -4307,9 +4268,9 @@ function __c73(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4325,9 +4286,9 @@ function __c74(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parent: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4341,8 +4302,8 @@ function __c74(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          tagBindings: S.optional(__S(593, __c74, 1)),
           nextPageToken: S.optional(S.String),
+          tagBindings: S.optional(__S(593, __c74, 1)),
         }),
       ).annotate({ identifier: "ListTagBindingsResponse" });
   }
@@ -4353,8 +4314,8 @@ function __c75(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4379,9 +4340,9 @@ function __c76(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4395,8 +4356,8 @@ function __c76(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          tagValues: S.optional(__S(609, __c76, 1)),
           nextPageToken: S.optional(S.String),
+          tagValues: S.optional(__S(609, __c76, 1)),
         }),
       ).annotate({ identifier: "ListTagValuesResponse" });
   }
@@ -4406,10 +4367,10 @@ function __c77(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4433,10 +4394,12 @@ function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(632, __c79, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(632, __c79, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+name}:move",
@@ -4460,10 +4423,12 @@ function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(632, __c79, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(632, __c79, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+name}:move",
@@ -4477,11 +4442,13 @@ function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(736, __c92, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(736, __c92, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v3/{+name}",
@@ -4495,11 +4462,13 @@ function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(850, __c106, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(850, __c106, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v3/{+name}",
@@ -4513,11 +4482,13 @@ function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(296, __c37, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(296, __c37, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v3/{+name}",
@@ -4531,11 +4502,13 @@ function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(9, __c1, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9, __c1, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v3/{+name}",
@@ -4549,11 +4522,13 @@ function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(392, __c49, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(392, __c49, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v3/{+name}",
@@ -4567,11 +4542,13 @@ function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(850, __c106, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(850, __c106, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v3/{+name}",
@@ -4585,11 +4562,13 @@ function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(9, __c1, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9, __c1, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v3/{+name}",
@@ -4603,11 +4582,13 @@ function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(56, __c7, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(56, __c7, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v3/{+name}",
@@ -4621,9 +4602,7 @@ function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(736, __c92, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(736, __c92, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v3/folders",
@@ -4652,14 +4631,14 @@ function __c92(j: number): any {
         S.Struct({
           deleteTime: S.optional(S.String),
           configuredCapabilities: S.optional(__S(720, __c90, 0)),
-          tags: S.optional(__S(728, __c91, 0)),
-          name: S.optional(S.String),
-          parent: S.optional(S.String),
           state: S.optional(S.String),
-          managementProject: S.optional(S.String),
+          parent: S.optional(S.String),
           createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
           displayName: S.optional(S.String),
+          managementProject: S.optional(S.String),
+          name: S.optional(S.String),
+          tags: S.optional(__S(728, __c91, 0)),
+          updateTime: S.optional(S.String),
           etag: S.optional(S.String),
         }),
       ).annotate({ identifier: "Folder" });
@@ -4675,18 +4654,18 @@ function __c93(j: number): any {
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
-          code: S.optional(S.Number),
           details: S.optional(__S(745, __c93, 1)),
+          code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Status" });
     case 3:
       return S.suspend(() =>
         S.Struct({
+          error: S.optional(__S(746, __c93, 2)),
           name: S.optional(S.String),
+          metadata: S.optional(__S(744, __c93, 0)),
           response: S.optional(__S(744, __c93, 0)),
           done: S.optional(S.Boolean),
-          metadata: S.optional(__S(744, __c93, 0)),
-          error: S.optional(__S(746, __c93, 2)),
         }),
       ).annotate({ identifier: "Operation" });
   }
@@ -4695,11 +4674,13 @@ function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(9, __c1, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9, __c1, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v3/{+name}",
@@ -4713,12 +4694,14 @@ function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(96, __c12, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(96, __c12, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v3/{+name}",
@@ -4732,12 +4715,14 @@ function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(112, __c14, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(112, __c14, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v3/{+name}",
@@ -4752,9 +4737,9 @@ function __c97(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          query: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          query: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4763,6 +4748,13 @@ function __c97(j: number): any {
           }),
         ),
       ).annotate({ identifier: "SearchFoldersRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          folders: S.optional(__S(504, __c63, 0)),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SearchFoldersResponse" });
   }
 }
 function __c98(j: number): any {
@@ -4771,8 +4763,8 @@ function __c98(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           query: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4797,9 +4789,9 @@ function __c99(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageToken: S.optional(S.String.pipe(T.Query())),
           query: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4808,23 +4800,18 @@ function __c99(j: number): any {
           }),
         ),
       ).annotate({ identifier: "SearchProjectsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          nextPageToken: S.optional(S.String),
-          projects: S.optional(__S(576, __c72, 0)),
-        }),
-      ).annotate({ identifier: "SearchProjectsResponse" });
   }
 }
 function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(808, __c101, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(808, __c101, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+resource}:setIamPolicy",
@@ -4839,8 +4826,8 @@ function __c101(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          updateMask: S.optional(S.String),
           policy: S.optional(__S(335, __c41, 7)),
+          updateMask: S.optional(S.String),
         }),
       ).annotate({ identifier: "SetIamPolicyRequest" });
   }
@@ -4849,10 +4836,12 @@ function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(808, __c101, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(808, __c101, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+resource}:setIamPolicy",
@@ -4866,10 +4855,12 @@ function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(808, __c101, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(808, __c101, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+resource}:setIamPolicy",
@@ -4883,10 +4874,12 @@ function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(808, __c101, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(808, __c101, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+resource}:setIamPolicy",
@@ -4900,11 +4893,13 @@ function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          boundaryId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(850, __c106, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(850, __c106, 2),
+          S.Struct({
+            boundaryId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+parent}/boundaries",
@@ -4932,14 +4927,14 @@ function __c106(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          displayName: S.optional(S.String),
+          resourceFilter: S.optional(__S(849, __c106, 1)),
           managementProject: S.optional(S.String),
+          createTime: S.optional(S.String),
           name: S.optional(S.String),
+          displayName: S.optional(S.String),
           state: S.optional(S.String),
           etag: S.optional(S.String),
           updateTime: S.optional(S.String),
-          resourceFilter: S.optional(__S(849, __c106, 1)),
-          createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "Boundary" });
   }
@@ -4948,10 +4943,12 @@ function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(808, __c101, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(808, __c101, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+resource}:setIamPolicy",
@@ -4965,10 +4962,12 @@ function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(872, __c109, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(872, __c109, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+resource}:testIamPermissions",
@@ -4992,10 +4991,12 @@ function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(872, __c109, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(872, __c109, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+resource}:testIamPermissions",
@@ -5009,10 +5010,12 @@ function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(872, __c109, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(872, __c109, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+resource}:testIamPermissions",
@@ -5026,10 +5029,12 @@ function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(872, __c109, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(872, __c109, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+resource}:testIamPermissions",
@@ -5043,10 +5048,12 @@ function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(872, __c109, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(872, __c109, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+resource}:testIamPermissions",
@@ -5094,11 +5101,13 @@ function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(256, __c32, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(256, __c32, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v3/{+name}",
@@ -5112,11 +5121,13 @@ function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(256, __c32, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(256, __c32, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v3/{+name}",

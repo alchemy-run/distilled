@@ -280,17 +280,99 @@ export interface CheckUpdateSummariesOperationGroupUpdatesResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number | undefined;
 }
-/** ClusterJob Type supported. */
-export type HciJobType = "AddServer" | "RepairServer" | "ConfigureSdnIntegration";
+/** Job Type to support polymorphic resource. */
+export type HciAddServerJobPropertiesInputJobType = "AddServer";
 /** Deployment mode to trigger job. */
-export type ClusterJobPropertiesInputDeploymentMode = "Validate" | "Deploy";
-/** Cluster Job properties */
-export interface ClusterJobPropertiesInput {
-  /** Job Type to support polymorphic resource. */
-  jobType: HciJobType | (string & {});
-  /** Deployment mode to trigger job. */
-  deploymentMode?: ClusterJobPropertiesInputDeploymentMode | (string & {}) | undefined;
+export type ClusterJobPropertiesDeploymentMode = "Validate" | "Deploy";
+/** Details of servers to be added to the cluster. */
+export interface AddServerJobServerDetails {
+  /** Name of server to be added to cluster. */
+  serverName: string;
+  /** Ip address of server to be added to cluster. */
+  hostIpv4Address: string;
+  /** Local availability zone name of server to be added to rack aware cluster. */
+  localAvailabilityZoneName?: string | undefined;
+  /** Azure resource id of machine part of cluster for which job will be triggered. */
+  serverResourceId: string;
 }
+/** Details of servers to be added to the cluster. */
+export type HciAddServerJobPropertiesInputAddServerJobServerDetailsList =
+  Array<AddServerJobServerDetails>;
+/** Secret names allowed for Enterprise Cloud Engine (ECE) deployment. */
+export type EceSecrets =
+  | "AzureStackLCMUserCredential"
+  | "DefaultARBApplication"
+  | "LocalAdminCredential"
+  | "WitnessStorageKey"
+  | "chapCredential"
+  | "mutualChapCredential";
+/** Protected parameters list stored in keyvault. */
+export interface EceDeploymentSecrets {
+  /** Secret name stored in keyvault. */
+  secretName?: string | undefined;
+  /** Secret name expected for Enterprise Cloud Engine (ECE) deployment. */
+  eceSecretName?: EceSecrets | (string & {}) | undefined;
+  /** Secret URI stored in keyvault. */
+  secretLocation?: string | undefined;
+}
+/** List of protected parameters to pass to trigger the job for the cluster. */
+export type HciAddServerJobPropertiesInputSecretsList = Array<EceDeploymentSecrets>;
+/** Properties for adding a server in the cluster. */
+export interface HciAddServerJobPropertiesInput {
+  /** Job Type to support polymorphic resource. */
+  jobType: HciAddServerJobPropertiesInputJobType;
+  /** Deployment mode to trigger job. */
+  deploymentMode?: ClusterJobPropertiesDeploymentMode | (string & {}) | undefined;
+  /** Details of servers to be added to the cluster. */
+  addServerJobServerDetails: HciAddServerJobPropertiesInputAddServerJobServerDetailsList;
+  /** List of protected parameters to pass to trigger the job for the cluster. */
+  secrets?: HciAddServerJobPropertiesInputSecretsList | undefined;
+}
+/** Job Type to support polymorphic resource. */
+export type HciConfigureSdnIntegrationJobPropertiesInputJobType = "ConfigureSdnIntegration";
+/** Indicates whether Software Defined Networking (SDN) integration should be enabled or disabled for this deployment. */
+export type SdnIntegrationIntent = "Enable" | "Disable";
+/** Properties for configuring SDN integration intent for the cluster. */
+export interface HciConfigureSdnIntegrationJobPropertiesInput {
+  /** Job Type to support polymorphic resource. */
+  jobType: HciConfigureSdnIntegrationJobPropertiesInputJobType;
+  /** Deployment mode to trigger job. */
+  deploymentMode?: ClusterJobPropertiesDeploymentMode | (string & {}) | undefined;
+  /** Defines the customer's intent for configuring SDN integration */
+  sdnIntegrationIntent: SdnIntegrationIntent | (string & {});
+  /** A string identifier used to construct the Network Controller (NC) REST resource name. This prefix helps group and distinguish SDN-managed network components and must follow specific formatting rules. */
+  sdnPrefix?: string | undefined;
+}
+/** Job Type to support polymorphic resource. */
+export type HciRepairServerJobPropertiesInputJobType = "RepairServer";
+/** Details of servers to be repaired in the cluster. */
+export interface RepairServerJobServerDetails {
+  /** Name of server to be repaired in cluster. */
+  serverName: string;
+  /** Azure resource id of Arc machine part of cluster for which job will be triggered. */
+  serverResourceId: string;
+}
+/** Details of servers to be repaired in the cluster. */
+export type HciRepairServerJobPropertiesInputRepairServerJobServerDetailsList =
+  Array<RepairServerJobServerDetails>;
+/** List of protected parameters to pass to trigger job for cluster. */
+export type HciRepairServerJobPropertiesInputSecretsList = Array<EceDeploymentSecrets>;
+/** Properties for repairing a server in the cluster. */
+export interface HciRepairServerJobPropertiesInput {
+  /** Job Type to support polymorphic resource. */
+  jobType: HciRepairServerJobPropertiesInputJobType;
+  /** Deployment mode to trigger job. */
+  deploymentMode?: ClusterJobPropertiesDeploymentMode | (string & {}) | undefined;
+  /** Details of servers to be repaired in the cluster. */
+  repairServerJobServerDetails: HciRepairServerJobPropertiesInputRepairServerJobServerDetailsList;
+  /** List of protected parameters to pass to trigger job for cluster. */
+  secrets?: HciRepairServerJobPropertiesInputSecretsList | undefined;
+}
+/** Cluster Job properties */
+export type ClusterJobPropertiesInput =
+  | HciAddServerJobPropertiesInput
+  | HciConfigureSdnIntegrationJobPropertiesInput
+  | HciRepairServerJobPropertiesInput;
 export interface ClusterJobsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -303,8 +385,8 @@ export interface ClusterJobsCreateOrUpdateRequest {
   /** The resource-specific properties for this resource. */
   properties?: ClusterJobPropertiesInput | undefined;
 }
-/** Deployment mode to trigger job. */
-export type ClusterJobPropertiesDeploymentMode = "Validate" | "Deploy";
+/** Job Type to support polymorphic resource. */
+export type HciAddServerJobPropertiesJobType = "AddServer";
 /** Represents the various statuses a job can have throughout its lifecycle. */
 export type JobStatus =
   | "NotSpecified"
@@ -420,10 +502,15 @@ export interface JobReportedProperties {
   /** Deployment status of job. */
   deploymentStatus?: EceActionStatus | undefined;
 }
-/** Cluster Job properties */
-export interface ClusterJobProperties {
+/** Details of servers to be added to the cluster. */
+export type HciAddServerJobPropertiesAddServerJobServerDetailsList =
+  Array<AddServerJobServerDetails>;
+/** List of protected parameters to pass to trigger the job for the cluster. */
+export type HciAddServerJobPropertiesSecretsList = Array<EceDeploymentSecrets>;
+/** Properties for adding a server in the cluster. */
+export interface HciAddServerJobProperties {
   /** Job Type to support polymorphic resource. */
-  jobType: HciJobType;
+  jobType: HciAddServerJobPropertiesJobType;
   /** Deployment mode to trigger job. */
   deploymentMode?: ClusterJobPropertiesDeploymentMode | undefined;
   /** Job provisioning state */
@@ -438,7 +525,71 @@ export interface ClusterJobProperties {
   status?: JobStatus | undefined;
   /** Reported properties for job */
   reportedProperties?: JobReportedProperties | undefined;
+  /** Details of servers to be added to the cluster. */
+  addServerJobServerDetails: HciAddServerJobPropertiesAddServerJobServerDetailsList;
+  /** List of protected parameters to pass to trigger the job for the cluster. */
+  secrets?: HciAddServerJobPropertiesSecretsList | undefined;
 }
+/** Job Type to support polymorphic resource. */
+export type HciConfigureSdnIntegrationJobPropertiesJobType = "ConfigureSdnIntegration";
+/** Properties for configuring SDN integration intent for the cluster. */
+export interface HciConfigureSdnIntegrationJobProperties {
+  /** Job Type to support polymorphic resource. */
+  jobType: HciConfigureSdnIntegrationJobPropertiesJobType;
+  /** Deployment mode to trigger job. */
+  deploymentMode?: ClusterJobPropertiesDeploymentMode | undefined;
+  /** Job provisioning state */
+  provisioningState?: ProvisioningState | undefined;
+  /** Unique, immutable job id. */
+  jobId?: string | undefined;
+  /** The UTC date and time at which the job started. */
+  startTimeUtc?: string | undefined;
+  /** The UTC date and time at which the job completed. */
+  endTimeUtc?: string | undefined;
+  /** Status of Cluster job. */
+  status?: JobStatus | undefined;
+  /** Reported properties for job */
+  reportedProperties?: JobReportedProperties | undefined;
+  /** Defines the customer's intent for configuring SDN integration */
+  sdnIntegrationIntent: SdnIntegrationIntent;
+  /** A string identifier used to construct the Network Controller (NC) REST resource name. This prefix helps group and distinguish SDN-managed network components and must follow specific formatting rules. */
+  sdnPrefix?: string | undefined;
+}
+/** Job Type to support polymorphic resource. */
+export type HciRepairServerJobPropertiesJobType = "RepairServer";
+/** Details of servers to be repaired in the cluster. */
+export type HciRepairServerJobPropertiesRepairServerJobServerDetailsList =
+  Array<RepairServerJobServerDetails>;
+/** List of protected parameters to pass to trigger job for cluster. */
+export type HciRepairServerJobPropertiesSecretsList = Array<EceDeploymentSecrets>;
+/** Properties for repairing a server in the cluster. */
+export interface HciRepairServerJobProperties {
+  /** Job Type to support polymorphic resource. */
+  jobType: HciRepairServerJobPropertiesJobType;
+  /** Deployment mode to trigger job. */
+  deploymentMode?: ClusterJobPropertiesDeploymentMode | undefined;
+  /** Job provisioning state */
+  provisioningState?: ProvisioningState | undefined;
+  /** Unique, immutable job id. */
+  jobId?: string | undefined;
+  /** The UTC date and time at which the job started. */
+  startTimeUtc?: string | undefined;
+  /** The UTC date and time at which the job completed. */
+  endTimeUtc?: string | undefined;
+  /** Status of Cluster job. */
+  status?: JobStatus | undefined;
+  /** Reported properties for job */
+  reportedProperties?: JobReportedProperties | undefined;
+  /** Details of servers to be repaired in the cluster. */
+  repairServerJobServerDetails: HciRepairServerJobPropertiesRepairServerJobServerDetailsList;
+  /** List of protected parameters to pass to trigger job for cluster. */
+  secrets?: HciRepairServerJobPropertiesSecretsList | undefined;
+}
+/** Cluster Job properties */
+export type ClusterJobProperties =
+  | HciAddServerJobProperties
+  | HciConfigureSdnIntegrationJobProperties
+  | HciRepairServerJobProperties;
 export interface ClusterJobsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string | undefined;
@@ -736,8 +887,6 @@ export type ClusterPropertiesSecretsLocationsList = Array<SecretsLocationDetails
 export type ClusterPattern = "Standard" | "RackAware";
 /** Indicates the current Software Defined Networking (SDN) status of the resource, which may be an individual device or a cluster. */
 export type SdnStatus = "Unknown" | "Disabled" | "Enabled";
-/** Indicates whether Software Defined Networking (SDN) integration should be enabled or disabled for this deployment. */
-export type SdnIntegrationIntent = "Enable" | "Disable";
 /** Represents the Software Defined Networking (SDN) configuration state of the Azure Stack HCI cluster. */
 export interface ClusterSdnProperties {
   /** Indicates the current Software Defined Networking (SDN) status of the resource, which may be an individual device or a cluster. */
@@ -1952,23 +2101,6 @@ export interface SdnIntegration {
   /** network controller config for SDN Integration to deploy AzureStackHCI Cluster. */
   networkController?: NetworkController | undefined;
 }
-/** Secret names allowed for Enterprise Cloud Engine (ECE) deployment. */
-export type EceSecrets =
-  | "AzureStackLCMUserCredential"
-  | "DefaultARBApplication"
-  | "LocalAdminCredential"
-  | "WitnessStorageKey"
-  | "chapCredential"
-  | "mutualChapCredential";
-/** Protected parameters list stored in keyvault. */
-export interface EceDeploymentSecrets {
-  /** Secret name stored in keyvault. */
-  secretName?: string | undefined;
-  /** Secret name expected for Enterprise Cloud Engine (ECE) deployment. */
-  eceSecretName?: EceSecrets | (string & {}) | undefined;
-  /** Secret URI stored in keyvault. */
-  secretLocation?: string | undefined;
-}
 /** secrets used for cloud deployment. */
 export type DeploymentDataInputSecretsList = Array<EceDeploymentSecrets>;
 /** The OptionalServices of AzureStackHCI Cluster. */
@@ -2244,8 +2376,49 @@ export interface DeploymentSettingsCreateOrUpdateResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number | undefined;
 }
-/** Edge device kind. */
-export type EdgeDeviceKind = "HCI";
+/** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
+export type HciEdgeDeviceJobInputKind = "HCI";
+/** Job Type to support polymorphic resource. */
+export type HciCollectLogJobPropertiesInputJobType = "CollectLog";
+/** Represents the properties of an HCI Collect Log job. */
+export interface HciCollectLogJobPropertiesInput {
+  /** Deployment mode to trigger job. */
+  deploymentMode?: DeploymentMode | (string & {}) | undefined;
+  /** Job Type to support polymorphic resource. */
+  jobType: HciCollectLogJobPropertiesInputJobType;
+  /** From date for log collection. */
+  fromDate: string;
+  /** To date for log collection. */
+  toDate: string;
+}
+/** Job Type to support polymorphic resource. */
+export type HciRemoteSupportJobPropertiesInputJobType = "RemoteSupport";
+/** Defines the level of remote support access granted. */
+export type RemoteSupportAccessLevel = "None" | "Diagnostics" | "DiagnosticsAndRepair";
+/** Represents the properties of a remote support job for HCI. */
+export interface HciRemoteSupportJobPropertiesInput {
+  /** Deployment mode to trigger job. */
+  deploymentMode?: DeploymentMode | (string & {}) | undefined;
+  /** Job Type to support polymorphic resource. */
+  jobType: HciRemoteSupportJobPropertiesInputJobType;
+  /** Remote support access level. */
+  accessLevel: RemoteSupportAccessLevel | (string & {});
+  /** Remote support expiration timestamp. */
+  expirationTimestamp: string;
+  /** Remote support type. */
+  type: RemoteSupportType | (string & {});
+}
+/** HCI Edge device job properties */
+export type HciEdgeDeviceJobPropertiesInput =
+  | HciCollectLogJobPropertiesInput
+  | HciRemoteSupportJobPropertiesInput;
+/** Edge device job for Azure Stack HCI solution. */
+export interface HciEdgeDeviceJobInput {
+  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
+  kind: HciEdgeDeviceJobInputKind | (string & {});
+  /** HCI Edge device job properties */
+  properties: HciEdgeDeviceJobPropertiesInput;
+}
 export interface EdgeDeviceJobsCreateOrUpdateRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   resourceUri: string;
@@ -2253,10 +2426,147 @@ export interface EdgeDeviceJobsCreateOrUpdateRequest {
   edgeDeviceName: string;
   /** Name of EdgeDevice Job */
   jobsName: string;
-  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind: EdgeDeviceKind | (string & {});
+  body: HciEdgeDeviceJobInput;
 }
-export interface EdgeDeviceJobsCreateOrUpdateResponse {
+/** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
+export type HciEdgeDeviceJobKind = "HCI";
+/** Job Type to support polymorphic resource. */
+export type HciCollectLogJobPropertiesJobType = "CollectLog";
+/** Represents the status of a log collection operation. */
+export type DeviceLogCollectionStatus =
+  | "NotStarted"
+  | "Running"
+  | "Failed"
+  | "Succeeded"
+  | "Canceled";
+/** Represents a session for collecting logs from an edge device. */
+export interface LogCollectionJobSession {
+  /** The timestamp when log collection started, in ISO 8601 format. */
+  startTime?: string | undefined;
+  /** The timestamp when log collection ended, in ISO 8601 format. */
+  endTime?: string | undefined;
+  /** The total time logs were collected for, in ISO 8601 duration format. */
+  timeCollected?: string | undefined;
+  /** The size of the collected logs in bytes. */
+  logSize?: number | undefined;
+  /** The status of the log collection session. */
+  status?: DeviceLogCollectionStatus | undefined;
+  /** A unique identifier for correlating this log collection session with other operations or sessions. */
+  correlationId?: string | undefined;
+}
+/** Details of the log collection session. */
+export type LogCollectionReportedPropertiesLogCollectionSessionDetailsList =
+  Array<LogCollectionJobSession>;
+/** Represents the reported properties of a log collection job. */
+export interface LogCollectionReportedProperties {
+  /** The percentage of the job that is complete. */
+  percentComplete?: number | undefined;
+  /** Validation status of job. */
+  validationStatus?: EceActionStatus | undefined;
+  /** Deployment status of job. */
+  deploymentStatus?: EceActionStatus | undefined;
+  /** Details of the log collection session. */
+  logCollectionSessionDetails?:
+    | LogCollectionReportedPropertiesLogCollectionSessionDetailsList
+    | undefined;
+}
+/** Represents the properties of an HCI Collect Log job. */
+export interface HciCollectLogJobProperties {
+  /** Deployment mode to trigger job. */
+  deploymentMode?: DeploymentMode | undefined;
+  /** Job provisioning state */
+  provisioningState?: ProvisioningState | undefined;
+  /** Unique, immutable job id. */
+  jobId?: string | undefined;
+  /** The UTC date and time at which the job started. */
+  startTimeUtc?: string | undefined;
+  /** The UTC date and time at which the job completed. */
+  endTimeUtc?: string | undefined;
+  /** Status of Edge device job. */
+  status?: JobStatus | undefined;
+  /** Job Type to support polymorphic resource. */
+  jobType: HciCollectLogJobPropertiesJobType;
+  /** From date for log collection. */
+  fromDate: string;
+  /** To date for log collection. */
+  toDate: string;
+  /** To date for log collection. */
+  lastLogGenerated?: string | undefined;
+  /** log collection job reported properties. */
+  reportedProperties?: LogCollectionReportedProperties | undefined;
+}
+/** Job Type to support polymorphic resource. */
+export type HciRemoteSupportJobPropertiesJobType = "RemoteSupport";
+/** Represents the settings of a remote support node. */
+export interface RemoteSupportJobNodeSettings {
+  /** The state of the remote support node. */
+  state?: string | undefined;
+  /** The timestamp when the node settings were created, in UTC. */
+  createdAt?: string | undefined;
+  /** The timestamp when the node settings were last updated, in UTC. */
+  updatedAt?: string | undefined;
+  /** The current connection status of the remote support session. */
+  connectionStatus?: string | undefined;
+  /** The error message, if any, from the last connection attempt. */
+  connectionErrorMessage?: string | undefined;
+}
+/** Represents a remote support session. */
+export interface RemoteSupportSession {
+  /** Unique session Id. */
+  sessionId?: string | undefined;
+  /** The start time of the remote support session, in UTC. */
+  sessionStartTime?: string | undefined;
+  /** The end time of the remote support session, in UTC. */
+  sessionEndTime?: string | undefined;
+  /** The level of access granted during the remote support session. */
+  accessLevel?: RemoteSupportAccessLevel | undefined;
+  /** The location where the session transcript is stored. */
+  transcriptLocation?: string | undefined;
+}
+/** Details of the remote support session. */
+export type RemoteSupportJobReportedPropertiesSessionDetailsList = Array<RemoteSupportSession>;
+/** Represents the reported properties of a remote support job. */
+export interface RemoteSupportJobReportedProperties {
+  /** The percentage of the job that is complete. */
+  percentComplete?: number | undefined;
+  /** Validation status of job. */
+  validationStatus?: EceActionStatus | undefined;
+  /** Deployment status of job. */
+  deploymentStatus?: EceActionStatus | undefined;
+  /** Optional settings for configuring the node for remote support. */
+  nodeSettings?: RemoteSupportJobNodeSettings | undefined;
+  /** Details of the remote support session. */
+  sessionDetails?: RemoteSupportJobReportedPropertiesSessionDetailsList | undefined;
+}
+/** Represents the properties of a remote support job for HCI. */
+export interface HciRemoteSupportJobProperties {
+  /** Deployment mode to trigger job. */
+  deploymentMode?: DeploymentMode | undefined;
+  /** Job provisioning state */
+  provisioningState?: ProvisioningState | undefined;
+  /** Unique, immutable job id. */
+  jobId?: string | undefined;
+  /** The UTC date and time at which the job started. */
+  startTimeUtc?: string | undefined;
+  /** The UTC date and time at which the job completed. */
+  endTimeUtc?: string | undefined;
+  /** Status of Edge device job. */
+  status?: JobStatus | undefined;
+  /** Job Type to support polymorphic resource. */
+  jobType: HciRemoteSupportJobPropertiesJobType;
+  /** Remote support access level. */
+  accessLevel: RemoteSupportAccessLevel;
+  /** Remote support expiration timestamp. */
+  expirationTimestamp: string;
+  /** Remote support type. */
+  type: RemoteSupportType;
+  /** log collection job reported properties. */
+  reportedProperties?: RemoteSupportJobReportedProperties | undefined;
+}
+/** HCI Edge device job properties */
+export type HciEdgeDeviceJobProperties = HciCollectLogJobProperties | HciRemoteSupportJobProperties;
+/** Edge device job for Azure Stack HCI solution. */
+export interface HciEdgeDeviceJob {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string | undefined;
   /** The name of the resource */
@@ -2266,62 +2576,352 @@ export interface EdgeDeviceJobsCreateOrUpdateResponse {
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
   systemData?: SystemData | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind: EdgeDeviceKind;
-  /** A link to the status monitor */
-  azureAsyncOperation?: string | undefined;
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number | undefined;
+  kind: HciEdgeDeviceJobKind;
+  /** HCI Edge device job properties */
+  properties: HciEdgeDeviceJobProperties;
 }
-/** Edge device kind. */
-export type DeviceKind = "HCI";
-export type HciEdgeDeviceStringList = Array<string>;
-/** NIC Details of device */
-export interface HciEdgeDeviceNicDetail {
+export type EdgeDeviceJobsCreateOrUpdateResponse = HciEdgeDeviceJob;
+/** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
+export type HciEdgeDeviceInputKind = "HCI";
+/** DNS Servers for NIC */
+export type NicDetailDnsServersList = Array<string>;
+/** The NIC Detail of a device. */
+export interface NicDetail {
   /** Adapter Name of NIC */
-  adapterName: string;
+  adapterName?: string | undefined;
   /** Interface Description of NIC */
   interfaceDescription?: string | undefined;
   /** Component Id of NIC */
   componentId?: string | undefined;
   /** Driver Version of NIC */
   driverVersion?: string | undefined;
-  /** IPv4 address of NIC */
+  /** Subnet Mask of NIC */
   ip4Address?: string | undefined;
   /** Subnet Mask of NIC */
   subnetMask?: string | undefined;
   /** Default Gateway of NIC */
   defaultGateway?: string | undefined;
   /** DNS Servers for NIC */
-  dnsServers?: HciEdgeDeviceStringList | undefined;
+  dnsServers?: NicDetailDnsServersList | undefined;
   /** Default Isolation of Management NIC */
   defaultIsolationId?: string | undefined;
 }
-export type HciEdgeDeviceNicDetailList = Array<HciEdgeDeviceNicDetail>;
-/** The device Configuration of an edge device. */
-export interface HciEdgeDeviceConfiguration {
+/** NIC Details of device */
+export type DeviceConfigurationNicDetailsList = Array<NicDetail>;
+/** The device Configuration for edge device. */
+export interface DeviceConfiguration {
   /** NIC Details of device */
-  nicDetails?: HciEdgeDeviceNicDetailList | undefined;
+  nicDetails?: DeviceConfigurationNicDetailsList | undefined;
   /** Device metadata details. */
   deviceMetadata?: string | undefined;
 }
-/** Properties of an HCI edge device. */
-export interface HciEdgeDeviceProperties {
+/** properties for Arc-enabled edge device with HCI OS. */
+export interface HciEdgeDevicePropertiesInput {
   /** Device Configuration */
-  deviceConfiguration?: HciEdgeDeviceConfiguration | undefined;
-  /** Provisioning state of edgeDevice resource */
-  provisioningState?: string | undefined;
+  deviceConfiguration?: DeviceConfiguration | undefined;
+}
+/** Arc-enabled edge device with HCI OS. */
+export interface HciEdgeDeviceInput {
+  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
+  kind: HciEdgeDeviceInputKind | (string & {});
+  /** properties for Arc-enabled edge device with HCI OS. */
+  properties?: HciEdgeDevicePropertiesInput | undefined;
 }
 export interface EdgeDevicesCreateOrUpdateRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   resourceUri: string;
   /** Name of Device */
   edgeDeviceName: string;
-  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind: DeviceKind | (string & {});
-  /** properties for Arc-enabled edge device with HCI OS. */
-  properties?: HciEdgeDeviceProperties | undefined;
+  body: HciEdgeDeviceInput;
 }
-export interface EdgeDevicesCreateOrUpdateResponse {
+/** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
+export type HciEdgeDeviceKind = "HCI";
+/** The edge device state. */
+export type DeviceState =
+  | "NotSpecified"
+  | "Connected"
+  | "Disconnected"
+  | "Repairing"
+  | "Draining"
+  | "InMaintenance"
+  | "Resuming"
+  | "Processing";
+/** Arc extension installation state. */
+export type ArcExtensionState =
+  | "NotSpecified"
+  | "Succeeded"
+  | "Failed"
+  | "Canceled"
+  | "Accepted"
+  | "Creating"
+  | "Updating"
+  | "Moving"
+  | "Deleting"
+  | "Deleted";
+/** details of validation failure */
+export interface HciValidationFailureDetail {
+  /** Exception details while installing extension. */
+  exception?: string | undefined;
+}
+/** Error details while installing Arc extension. */
+export type HciEdgeDeviceArcExtensionErrorDetailsList = Array<HciValidationFailureDetail>;
+/** Arc extension installed on edge device. */
+export interface HciEdgeDeviceArcExtension {
+  /** Arc extension name installed on edge device. */
+  extensionName?: string | undefined;
+  /** Arc extension state from arc machine extension. */
+  state?: ArcExtensionState | undefined;
+  /** Error details while installing Arc extension. */
+  errorDetails?: HciEdgeDeviceArcExtensionErrorDetailsList | undefined;
+  /** Arc Extension Azure resource id. */
+  extensionResourceId?: string | undefined;
+  /** Extension version installed. */
+  typeHandlerVersion?: string | undefined;
+  /** Indicates whether the extension is managed by the user or by Azure. */
+  managedBy?: ExtensionManagedBy | undefined;
+}
+/** List of Arc extensions installed on edge device. */
+export type ExtensionProfileExtensionsList = Array<HciEdgeDeviceArcExtension>;
+/** Extensions details for edge device. */
+export interface ExtensionProfile {
+  /** List of Arc extensions installed on edge device. */
+  extensions?: ExtensionProfileExtensionsList | undefined;
+}
+/** DNS Servers for NIC */
+export type HciNicDetailDnsServersList = Array<string>;
+/** Describes the RDMA capability of the network adapter. */
+export type HciNicDetailRdmaCapability = "Enabled" | "Disabled";
+/** The NIC Detail of a device. */
+export interface HciNicDetail {
+  /** Adapter Name of NIC */
+  adapterName?: string | undefined;
+  /** Interface Description of NIC */
+  interfaceDescription?: string | undefined;
+  /** Component Id of NIC */
+  componentId?: string | undefined;
+  /** Driver Version of NIC */
+  driverVersion?: string | undefined;
+  /** Subnet Mask of NIC */
+  ip4Address?: string | undefined;
+  /** Subnet Mask of NIC */
+  subnetMask?: string | undefined;
+  /** Default Gateway of NIC */
+  defaultGateway?: string | undefined;
+  /** DNS Servers for NIC */
+  dnsServers?: HciNicDetailDnsServersList | undefined;
+  /** Default Isolation of Management NIC */
+  defaultIsolationId?: string | undefined;
+  /** MAC address information of NIC. */
+  macAddress?: string | undefined;
+  /** The slot attached to the NIC. */
+  slot?: string | undefined;
+  /** The switch attached to the NIC, if any. */
+  switchName?: string | undefined;
+  /** The type of NIC, physical, virtual, management. */
+  nicType?: string | undefined;
+  /** The VLAN ID of the physical NIC. */
+  vlanId?: string | undefined;
+  /** The status of NIC, up, disconnected. */
+  nicStatus?: string | undefined;
+  /** Describes the RDMA capability of the network adapter. */
+  rdmaCapability?: HciNicDetailRdmaCapability | undefined;
+}
+/** List of NIC Details of device. */
+export type HciNetworkProfileNicDetailsList = Array<HciNicDetail>;
+/** This represents extensions installed on virtualSwitch. */
+export interface SwitchExtension {
+  /** Unique identifier for virtualSwitch. */
+  switchId?: string | undefined;
+  /** This will show extension name for virtualSwitch. */
+  extensionName?: string | undefined;
+  /** This represents whether extension is enabled on virtualSwitch. */
+  extensionEnabled?: boolean | undefined;
+}
+/** This represents extensions installed on virtualSwitch. */
+export type SwitchDetailExtensionsList = Array<SwitchExtension>;
+/** List of switch details for edge device. */
+export interface SwitchDetail {
+  /** The name of the switch. */
+  switchName?: string | undefined;
+  /** The type of the switch. e.g. external, internal. */
+  switchType?: string | undefined;
+  /** This represents extensions installed on virtualSwitch. */
+  extensions?: SwitchDetailExtensionsList | undefined;
+}
+/** List of switch details for edge device. */
+export type HciNetworkProfileSwitchDetailsList = Array<SwitchDetail>;
+/** Array of adapters used for the network intent. */
+export type HciEdgeDeviceIntentsIntentAdaptersList = Array<string>;
+/** The VirtualSwitchConfigurationOverrides of a cluster. */
+export type HciEdgeDeviceVirtualSwitchConfigurationOverrides =
+  DeploymentSettingVirtualSwitchConfigurationOverrides;
+/** The AdapterPropertyOverrides of a cluster. */
+export type HciEdgeDeviceAdapterPropertyOverrides = DeploymentSettingAdapterPropertyOverrides;
+/** The Intents of a cluster. */
+export interface HciEdgeDeviceIntents {
+  /** Scope for host network intent. */
+  scope?: number | undefined;
+  /** IntentType for host network intent. */
+  intentType?: number | undefined;
+  /** IsComputeIntentSet for host network intent. */
+  isComputeIntentSet?: boolean | undefined;
+  /** IsStorageIntentSet for host network intent. */
+  isStorageIntentSet?: boolean | undefined;
+  /** IntentType for host network intent. */
+  isOnlyStorage?: boolean | undefined;
+  /** IsManagementIntentSet for host network intent. */
+  isManagementIntentSet?: boolean | undefined;
+  /** IsStretchIntentSet for host network intent. */
+  isStretchIntentSet?: boolean | undefined;
+  /** IsOnlyStretch for host network intent. */
+  isOnlyStretch?: boolean | undefined;
+  /** IsNetworkIntentType for host network intent. */
+  isNetworkIntentType?: boolean | undefined;
+  /** Name of the network intent you wish to create. */
+  intentName?: string | undefined;
+  /** Array of adapters used for the network intent. */
+  intentAdapters?: HciEdgeDeviceIntentsIntentAdaptersList | undefined;
+  /** This parameter should only be modified based on your OEM guidance. Do not modify this parameter without OEM validation. */
+  overrideVirtualSwitchConfiguration?: boolean | undefined;
+  /** Set virtualSwitch ConfigurationOverrides for cluster. */
+  virtualSwitchConfigurationOverrides?:
+    | DeploymentSettingVirtualSwitchConfigurationOverrides
+    | undefined;
+  /** This parameter should only be modified based on your OEM guidance. Do not modify this parameter without OEM validation. */
+  overrideQosPolicy?: boolean | undefined;
+  /** Set QoS PolicyOverrides for cluster. */
+  qosPolicyOverrides?: QosPolicyOverrides | undefined;
+  /** This parameter should only be modified based on your OEM guidance. Do not modify this parameter without OEM validation. */
+  overrideAdapterProperty?: boolean | undefined;
+  /** Set Adapter PropertyOverrides for cluster. */
+  adapterPropertyOverrides?: DeploymentSettingAdapterPropertyOverrides | undefined;
+}
+/** The network intents assigned to the network reference pattern used for the deployment. Each intent will define its own name, traffic type, adapter names, and overrides as recommended by your OEM. */
+export type HciEdgeDeviceHostNetworkIntentsList = Array<HciEdgeDeviceIntents>;
+/** The StorageAdapter physical nodes of a cluster. */
+export type HciEdgeDeviceStorageAdapterIPInfo = DeploymentSettingStorageAdapterIPInfo;
+/** List of Storage adapter physical nodes config to deploy AzureStackHCI Cluster. */
+export type HciEdgeDeviceStorageNetworksStorageAdapterIPInfoList =
+  Array<DeploymentSettingStorageAdapterIPInfo>;
+/** The StorageNetworks of a cluster. */
+export interface HciEdgeDeviceStorageNetworks {
+  /** Name of the storage network. */
+  name?: string | undefined;
+  /** Name of the storage network adapter. */
+  networkAdapterName?: string | undefined;
+  /** ID specified for the VLAN storage network. This setting is applied to the network interfaces that route the storage and VM migration traffic. */
+  storageVlanId?: string | undefined;
+  /** List of Storage adapter physical nodes config to deploy AzureStackHCI Cluster. */
+  storageAdapterIPInfo?: HciEdgeDeviceStorageNetworksStorageAdapterIPInfoList | undefined;
+}
+/** List of StorageNetworks config to deploy AzureStackHCI Cluster. */
+export type HciEdgeDeviceHostNetworkStorageNetworksList = Array<HciEdgeDeviceStorageNetworks>;
+/** The HostNetwork of a cluster. */
+export interface HciEdgeDeviceHostNetwork {
+  /** The network intents assigned to the network reference pattern used for the deployment. Each intent will define its own name, traffic type, adapter names, and overrides as recommended by your OEM. */
+  intents?: HciEdgeDeviceHostNetworkIntentsList | undefined;
+  /** List of StorageNetworks config to deploy AzureStackHCI Cluster. */
+  storageNetworks?: HciEdgeDeviceHostNetworkStorageNetworksList | undefined;
+  /** Defines how the storage adapters between nodes are connected either switch or switch less. */
+  storageConnectivitySwitchless?: boolean | undefined;
+  /** Optional parameter required only for 3 Nodes Switchless deployments. This allows users to specify IPs and Mask for Storage NICs when Network ATC is not assigning the IPs for storage automatically. */
+  enableStorageAutoIp?: boolean | undefined;
+}
+/** Represents the Software Defined Networking (SDN) configuration state. */
+export interface SdnProperties {
+  /** Indicates the current Software Defined Networking (SDN) status of the resource, which may be an individual device or a cluster. */
+  sdnStatus?: SdnStatus | undefined;
+  /** The fully qualified domain name (FQDN) associated with the SDN deployment. This value is propagated from the Device Management Extension to the cluster resource. It is typically in the format `<sdnPrefix>-nc.<domain>` when SDN is enabled. May be null or absent in unsupported or disabled states. */
+  sdnDomainName?: string | undefined;
+  /** Represents the API address for the SDN deployment. */
+  sdnApiAddress?: string | undefined;
+}
+/** The network profile of a device. */
+export interface HciNetworkProfile {
+  /** List of NIC Details of device. */
+  nicDetails?: HciNetworkProfileNicDetailsList | undefined;
+  /** List of switch details for edge device. */
+  switchDetails?: HciNetworkProfileSwitchDetailsList | undefined;
+  /** HostNetwork config to deploy AzureStackHCI Cluster. */
+  hostNetwork?: HciEdgeDeviceHostNetwork | undefined;
+  /** Software Defined Networking Properties of the device. */
+  sdnProperties?: SdnProperties | undefined;
+}
+/** OS configurations for HCI device. */
+export interface HciOsProfile {
+  /** The boot type of the device. e.g. UEFI, Legacy etc */
+  bootType?: string | undefined;
+  /** Version of assembly present on device */
+  assemblyVersion?: string | undefined;
+}
+/** Solution builder extension (SBE) deployment package information. */
+export interface SbeDeploymentPackageInfo {
+  /** SBE deployment validation code. */
+  code?: string | undefined;
+  /** A detailed message that explains the SBE package validation result. */
+  message?: string | undefined;
+  /** This represents discovered update results for matching updates and store it as SBE manifest. */
+  sbeManifest?: string | undefined;
+}
+/** Represents a storage disk on the device. */
+export interface EdgeDeviceDisks {
+  /** The unique identifier of the disk. */
+  id: string;
+  /** The size of the disk in bytes. */
+  sizeInBytes?: string | undefined;
+  /** The type of the disk. For example, S2D or SAN. */
+  type?: string | undefined;
+  /** Model number of the hardware. */
+  model?: string | undefined;
+  /** The manufacturer of the disk. */
+  manufacturer?: string | undefined;
+  /** Indicates whether the manufacturer is supported. */
+  isSupported?: boolean | undefined;
+}
+/** List of storage disks on the device. */
+export type HciStorageProfileDisksList = Array<EdgeDeviceDisks>;
+/** Storage configurations for HCI device. */
+export interface HciStorageProfile {
+  /** Number of storage disks in the device with $CanPool as true. */
+  poolableDisksCount?: number | undefined;
+  /** List of storage disks on the device. */
+  disks?: HciStorageProfileDisksList | undefined;
+}
+/** Hardware configurations for HCI device. */
+export interface HciHardwareProfile {
+  /** Process type of the device */
+  processorType?: string | undefined;
+}
+/** The device Configuration for HCI device. */
+export interface HciReportedProperties {
+  /** edge device state. */
+  deviceState?: DeviceState | undefined;
+  /** Extensions details for edge device. */
+  extensionProfile?: ExtensionProfile | undefined;
+  /** Most recent edge device sync timestamp in UTC. */
+  lastSyncTimestamp?: string | undefined;
+  /** HCI device network information. */
+  networkProfile?: HciNetworkProfile | undefined;
+  /** HCI device OS specific information. */
+  osProfile?: HciOsProfile | undefined;
+  /** Solution builder extension (SBE) deployment package information. */
+  sbeDeploymentPackageInfo?: SbeDeploymentPackageInfo | undefined;
+  /** Hci device storage specific information. */
+  storageProfile?: HciStorageProfile | undefined;
+  /** Hci device hardware specific information. */
+  hardwareProfile?: HciHardwareProfile | undefined;
+}
+/** properties for Arc-enabled edge device with HCI OS. */
+export interface HciEdgeDeviceProperties {
+  /** Device Configuration */
+  deviceConfiguration?: DeviceConfiguration | undefined;
+  /** Provisioning state of edgeDevice resource */
+  provisioningState?: ProvisioningState | undefined;
+  /** The instance view of all current configurations on HCI device. */
+  reportedProperties?: HciReportedProperties | undefined;
+}
+/** Arc-enabled edge device with HCI OS. */
+export interface HciEdgeDevice {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string | undefined;
   /** The name of the resource */
@@ -2331,14 +2931,11 @@ export interface EdgeDevicesCreateOrUpdateResponse {
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
   systemData?: SystemData | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind: DeviceKind;
-  /** A link to the status monitor */
-  azureAsyncOperation?: string | undefined;
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number | undefined;
+  kind: HciEdgeDeviceKind;
   /** properties for Arc-enabled edge device with HCI OS. */
   properties?: HciEdgeDeviceProperties | undefined;
 }
+export type EdgeDevicesCreateOrUpdateResponse = HciEdgeDevice;
 /** Node storage type for an edge machine. */
 export type NodeStorageType = "S2D" | "SANISCSI" | "SANFC";
 /** Common properties applied to iSCSI network adapters. */
@@ -2462,19 +3059,48 @@ export interface EdgeMachineDeploymentSettingsCreateOrUpdateResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number | undefined;
 }
-/** Job Type supported for disk operations. */
-export type DiskJobType = "CreateVolume" | "SyncConfiguration";
+/** Job Type to support polymorphic resource. */
+export type CreateVolumeJobPropertiesInputJobType = "CreateVolume";
 /** The error detail. */
-export type EdgeMachineDiskJobPropertiesInputError = LogCollectionPropertiesInput;
-/** Disk Job properties. */
-export interface EdgeMachineDiskJobPropertiesInput {
+export type CreateVolumeJobPropertiesInputError = LogCollectionPropertiesInput;
+/** File system types supported for volumes. */
+export type DiskFileSystemType = "ext4" | "xfs" | "NTFS" | "ReFS" | "vfat" | "fat32" | "fat";
+/** Properties for creating a volume on a disk. */
+export interface CreateVolumeJobPropertiesInput {
   /** Job Type to support polymorphic resource. */
-  jobType: DiskJobType | (string & {});
+  jobType: CreateVolumeJobPropertiesInputJobType;
   /** Deployment mode to trigger job. */
   deploymentMode?: DeploymentMode | (string & {}) | undefined;
   /** The error detail. */
   error?: LogCollectionPropertiesInput | undefined;
+  /** Size of the volume to create in bytes. */
+  sizeInBytes: string;
+  /** Absolute path where the volume should be mounted. */
+  path: string;
+  /** File system type to format the volume with. */
+  fileSystem?: DiskFileSystemType | (string & {}) | undefined;
 }
+/** Job Type to support polymorphic resource. */
+export type SyncConfigurationJobPropertiesInputJobType = "SyncConfiguration";
+/** The error detail. */
+export type SyncConfigurationJobPropertiesInputError = LogCollectionPropertiesInput;
+/** Strategy for resolving configuration drift. */
+export type ResolutionStrategy = "ApplyDesired" | "AcceptReported";
+/** Properties for resolving configuration drift. */
+export interface SyncConfigurationJobPropertiesInput {
+  /** Job Type to support polymorphic resource. */
+  jobType: SyncConfigurationJobPropertiesInputJobType;
+  /** Deployment mode to trigger job. */
+  deploymentMode?: DeploymentMode | (string & {}) | undefined;
+  /** The error detail. */
+  error?: LogCollectionPropertiesInput | undefined;
+  /** The strategy to use for resolving the configuration drift. */
+  resolutionStrategy: ResolutionStrategy | (string & {});
+}
+/** Disk Job properties. */
+export type EdgeMachineDiskJobPropertiesInput =
+  | CreateVolumeJobPropertiesInput
+  | SyncConfigurationJobPropertiesInput;
 export interface EdgeMachineDiskJobsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -2489,12 +3115,14 @@ export interface EdgeMachineDiskJobsCreateOrUpdateRequest {
   /** The resource-specific properties for this resource. */
   properties?: EdgeMachineDiskJobPropertiesInput | undefined;
 }
+/** Job Type to support polymorphic resource. */
+export type CreateVolumeJobPropertiesJobType = "CreateVolume";
 /** The error details. */
-export type EdgeMachineDiskJobPropertiesErrorDetailsList = Array<ErrorDetail>;
+export type CreateVolumeJobPropertiesErrorDetailsList = Array<ErrorDetail>;
 /** The error additional info. */
-export type EdgeMachineDiskJobPropertiesErrorAdditionalInfoList = Array<ErrorAdditionalInfo>;
+export type CreateVolumeJobPropertiesErrorAdditionalInfoList = Array<ErrorAdditionalInfo>;
 /** The error detail. */
-export interface EdgeMachineDiskJobPropertiesError {
+export interface CreateVolumeJobPropertiesError {
   /** The error code. */
   code?: string | undefined;
   /** The error message. */
@@ -2502,9 +3130,9 @@ export interface EdgeMachineDiskJobPropertiesError {
   /** The error target. */
   target?: string | undefined;
   /** The error details. */
-  details?: EdgeMachineDiskJobPropertiesErrorDetailsList | undefined;
+  details?: CreateVolumeJobPropertiesErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: EdgeMachineDiskJobPropertiesErrorAdditionalInfoList | undefined;
+  additionalInfo?: CreateVolumeJobPropertiesErrorAdditionalInfoList | undefined;
 }
 /** List of nested steps. */
 export type DiskDeploymentStepStepsList = Array<DiskDeploymentStep>;
@@ -2547,10 +3175,10 @@ export interface DiskJobReportedProperties {
   /** Deployment status of Disk Job. */
   deploymentStatus?: DiskActionStatus | undefined;
 }
-/** Disk Job properties. */
-export interface EdgeMachineDiskJobProperties {
+/** Properties for creating a volume on a disk. */
+export interface CreateVolumeJobProperties {
   /** Job Type to support polymorphic resource. */
-  jobType: DiskJobType;
+  jobType: CreateVolumeJobPropertiesJobType;
   /** Deployment mode to trigger job. */
   deploymentMode?: DeploymentMode | undefined;
   /** Job provisioning state. */
@@ -2564,10 +3192,64 @@ export interface EdgeMachineDiskJobProperties {
   /** Status of disk job. */
   status?: JobStatus | undefined;
   /** The error detail. */
-  error?: EdgeMachineDiskJobPropertiesError | undefined;
+  error?: CreateVolumeJobPropertiesError | undefined;
   /** Properties reported by the job execution. */
   reportedProperties?: DiskJobReportedProperties | undefined;
+  /** Size of the volume to create in bytes. */
+  sizeInBytes: string;
+  /** Absolute path where the volume should be mounted. */
+  path: string;
+  /** File system type to format the volume with. */
+  fileSystem?: DiskFileSystemType | undefined;
+  /** ARM resource ID of the created volume. */
+  createdVolumeId?: string | undefined;
 }
+/** Job Type to support polymorphic resource. */
+export type SyncConfigurationJobPropertiesJobType = "SyncConfiguration";
+/** The error details. */
+export type SyncConfigurationJobPropertiesErrorDetailsList = Array<ErrorDetail>;
+/** The error additional info. */
+export type SyncConfigurationJobPropertiesErrorAdditionalInfoList = Array<ErrorAdditionalInfo>;
+/** The error detail. */
+export interface SyncConfigurationJobPropertiesError {
+  /** The error code. */
+  code?: string | undefined;
+  /** The error message. */
+  message?: string | undefined;
+  /** The error target. */
+  target?: string | undefined;
+  /** The error details. */
+  details?: SyncConfigurationJobPropertiesErrorDetailsList | undefined;
+  /** The error additional info. */
+  additionalInfo?: SyncConfigurationJobPropertiesErrorAdditionalInfoList | undefined;
+}
+/** Properties for resolving configuration drift. */
+export interface SyncConfigurationJobProperties {
+  /** Job Type to support polymorphic resource. */
+  jobType: SyncConfigurationJobPropertiesJobType;
+  /** Deployment mode to trigger job. */
+  deploymentMode?: DeploymentMode | undefined;
+  /** Job provisioning state. */
+  provisioningState?: ProvisioningState | undefined;
+  /** Unique, immutable job id. */
+  jobId?: string | undefined;
+  /** The UTC date and time at which the job started. */
+  startTimeUtc?: string | undefined;
+  /** The UTC date and time at which the job completed. */
+  endTimeUtc?: string | undefined;
+  /** Status of disk job. */
+  status?: JobStatus | undefined;
+  /** The error detail. */
+  error?: SyncConfigurationJobPropertiesError | undefined;
+  /** Properties reported by the job execution. */
+  reportedProperties?: DiskJobReportedProperties | undefined;
+  /** The strategy to use for resolving the configuration drift. */
+  resolutionStrategy: ResolutionStrategy;
+}
+/** Disk Job properties. */
+export type EdgeMachineDiskJobProperties =
+  | CreateVolumeJobProperties
+  | SyncConfigurationJobProperties;
 export interface EdgeMachineDiskJobsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string | undefined;
@@ -2584,18 +3266,22 @@ export interface EdgeMachineDiskJobsCreateOrUpdateResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number | undefined;
 }
-/** Job Type supported for disk privileged operations. */
-export type PrivilegedJobType = "DeleteVolume";
+/** Privileged Job Type to support polymorphic resource. */
+export type DeleteVolumeJobPropertiesInputJobType = "DeleteVolume";
 /** The error detail. */
-export type EdgeMachineDiskPrivilegedJobPropertiesInputError = LogCollectionPropertiesInput;
-/** Disk Privileged Job properties. */
-export interface EdgeMachineDiskPrivilegedJobPropertiesInput {
+export type DeleteVolumeJobPropertiesInputError = LogCollectionPropertiesInput;
+/** Properties for deleting a volume from a disk. */
+export interface DeleteVolumeJobPropertiesInput {
   /** Privileged Job Type to support polymorphic resource. */
-  jobType: PrivilegedJobType | (string & {});
+  jobType: DeleteVolumeJobPropertiesInputJobType | (string & {});
   /** Deployment mode to trigger job. */
   deploymentMode?: DeploymentMode | (string & {}) | undefined;
   /** The error detail. */
   error?: LogCollectionPropertiesInput | undefined;
+  /** The mount path of the volume to delete. */
+  volumePath: string;
+  /** Confirmation flag that must be set to true to proceed with deletion. */
+  confirmDeletion?: boolean | undefined;
 }
 export interface EdgeMachineDiskPrivilegedJobsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2609,15 +3295,16 @@ export interface EdgeMachineDiskPrivilegedJobsCreateOrUpdateRequest {
   /** The name of the EdgeMachineDiskPrivilegedJob */
   privilegedJobName: string;
   /** The resource-specific properties for this resource. */
-  properties?: EdgeMachineDiskPrivilegedJobPropertiesInput | undefined;
+  properties?: DeleteVolumeJobPropertiesInput | undefined;
 }
+/** Privileged Job Type to support polymorphic resource. */
+export type DeleteVolumeJobPropertiesJobType = "DeleteVolume";
 /** The error details. */
-export type EdgeMachineDiskPrivilegedJobPropertiesErrorDetailsList = Array<ErrorDetail>;
+export type DeleteVolumeJobPropertiesErrorDetailsList = Array<ErrorDetail>;
 /** The error additional info. */
-export type EdgeMachineDiskPrivilegedJobPropertiesErrorAdditionalInfoList =
-  Array<ErrorAdditionalInfo>;
+export type DeleteVolumeJobPropertiesErrorAdditionalInfoList = Array<ErrorAdditionalInfo>;
 /** The error detail. */
-export interface EdgeMachineDiskPrivilegedJobPropertiesError {
+export interface DeleteVolumeJobPropertiesError {
   /** The error code. */
   code?: string | undefined;
   /** The error message. */
@@ -2625,14 +3312,14 @@ export interface EdgeMachineDiskPrivilegedJobPropertiesError {
   /** The error target. */
   target?: string | undefined;
   /** The error details. */
-  details?: EdgeMachineDiskPrivilegedJobPropertiesErrorDetailsList | undefined;
+  details?: DeleteVolumeJobPropertiesErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: EdgeMachineDiskPrivilegedJobPropertiesErrorAdditionalInfoList | undefined;
+  additionalInfo?: DeleteVolumeJobPropertiesErrorAdditionalInfoList | undefined;
 }
-/** Disk Privileged Job properties. */
-export interface EdgeMachineDiskPrivilegedJobProperties {
+/** Properties for deleting a volume from a disk. */
+export interface DeleteVolumeJobProperties {
   /** Privileged Job Type to support polymorphic resource. */
-  jobType: PrivilegedJobType;
+  jobType: DeleteVolumeJobPropertiesJobType;
   /** Deployment mode to trigger job. */
   deploymentMode?: DeploymentMode | undefined;
   /** Job provisioning state. */
@@ -2646,9 +3333,13 @@ export interface EdgeMachineDiskPrivilegedJobProperties {
   /** Status of disk job. */
   status?: JobStatus | undefined;
   /** The error detail. */
-  error?: EdgeMachineDiskPrivilegedJobPropertiesError | undefined;
+  error?: DeleteVolumeJobPropertiesError | undefined;
   /** Properties reported by the job execution. */
   reportedProperties?: DiskJobReportedProperties | undefined;
+  /** The mount path of the volume to delete. */
+  volumePath: string;
+  /** Confirmation flag that must be set to true to proceed with deletion. */
+  confirmDeletion?: boolean | undefined;
 }
 export interface EdgeMachineDiskPrivilegedJobsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2660,14 +3351,12 @@ export interface EdgeMachineDiskPrivilegedJobsCreateOrUpdateResponse {
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
   systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: EdgeMachineDiskPrivilegedJobProperties | undefined;
+  properties?: DeleteVolumeJobProperties | undefined;
   /** A link to the status monitor */
   azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number | undefined;
 }
-/** File system types supported for volumes. */
-export type DiskFileSystemType = "ext4" | "xfs" | "NTFS" | "ReFS" | "vfat" | "fat32" | "fat";
 /** Configuration for a volume on a disk. */
 export interface DiskVolumeConfiguration {
   /** Size of the volume in bytes. */
@@ -2786,210 +3475,144 @@ export interface EdgeMachineDisksCreateOrUpdateResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number | undefined;
 }
-/** Job Type supported. */
-export type EdgeMachineJobType = "CollectLog" | "RemoteSupport" | "ProvisionOs" | "DownloadOs";
+/** Job Type to support polymorphic resource. */
+export type DownloadOsJobPropertiesInputJobType = "DownloadOs";
 /** The error detail. */
-export type EdgeMachineJobPropertiesInputError = LogCollectionPropertiesInput;
-/** EdgeMachine Job properties */
-export interface EdgeMachineJobPropertiesInput {
+export type DownloadOsJobPropertiesInputError = LogCollectionPropertiesInput;
+/** Represents the provisioning operating system type. */
+export type ProvisioningOsType = "AzureLinux" | "HCI";
+/** Operating system profile. */
+export interface DownloadOsProfile {
+  /** Name of the operating system. */
+  osName?: string | undefined;
+  /** Type of the operating system. */
+  osType?: string | undefined;
+  /** Version of the operating system. */
+  osVersion?: string | undefined;
+  /** Location of the operating system image. */
+  osImageLocation?: string | undefined;
+  /** Validated Solution Recipe version to be used for the job */
+  vsrVersion?: string | undefined;
+  /** Hash of the OS package downloaded */
+  imageHash?: string | undefined;
+  /** GPG Public Key used for package verification */
+  gpgPubKey?: string | undefined;
+}
+/** Download Request properties */
+export interface DownloadRequest {
+  /** Target operating system to support polymorphic resource. */
+  target: ProvisioningOsType | (string & {});
+  /** Operating system profile. */
+  osProfile: DownloadOsProfile;
+}
+/** Reported Properties for Provision Os job */
+export type ProvisionOsReportedPropertiesInput = LogCollectionPropertiesInput;
+/** Represents the properties of Download Os job. */
+export interface DownloadOsJobPropertiesInput {
   /** Job Type to support polymorphic resource. */
-  jobType: EdgeMachineJobType | (string & {});
+  jobType: DownloadOsJobPropertiesInputJobType;
   /** Deployment mode to trigger job. */
   deploymentMode?: DeploymentMode | (string & {}) | undefined;
   /** The error detail. */
   error?: LogCollectionPropertiesInput | undefined;
+  /** Download OS request. */
+  downloadRequest: DownloadRequest;
+  /** Reported Properties for Download Os job */
+  reportedProperties?: LogCollectionPropertiesInput | undefined;
 }
-export interface EdgeMachineJobsCreateOrUpdateRequest {
-  /** The ID of the target subscription. The value must be an UUID. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** Name of Device */
-  edgeMachineName: string;
-  /** Name of EdgeMachineJob */
-  jobsName: string;
-  /** The resource-specific properties for this resource. */
-  properties?: EdgeMachineJobPropertiesInput | undefined;
-}
-/** The error details. */
-export type EdgeMachineJobPropertiesErrorDetailsList = Array<ErrorDetail>;
-/** The error additional info. */
-export type EdgeMachineJobPropertiesErrorAdditionalInfoList = Array<ErrorAdditionalInfo>;
+/** Job Type to support polymorphic resource. */
+export type EdgeMachineCollectLogJobPropertiesInputJobType = "CollectLog";
 /** The error detail. */
-export interface EdgeMachineJobPropertiesError {
-  /** The error code. */
-  code?: string | undefined;
-  /** The error message. */
-  message?: string | undefined;
-  /** The error target. */
-  target?: string | undefined;
-  /** The error details. */
-  details?: EdgeMachineJobPropertiesErrorDetailsList | undefined;
-  /** The error additional info. */
-  additionalInfo?: EdgeMachineJobPropertiesErrorAdditionalInfoList | undefined;
-}
-/** EdgeMachine Job properties */
-export interface EdgeMachineJobProperties {
+export type EdgeMachineCollectLogJobPropertiesInputError = LogCollectionPropertiesInput;
+/** Properties for pausing a server in the cluster. */
+export interface EdgeMachineCollectLogJobPropertiesInput {
   /** Job Type to support polymorphic resource. */
-  jobType: EdgeMachineJobType;
-  /** Deployment mode to trigger job. */
-  deploymentMode?: DeploymentMode | undefined;
-  /** Job provisioning state */
-  provisioningState?: ProvisioningState | undefined;
-  /** Unique, immutable job id. */
-  jobId?: string | undefined;
-  /** The UTC date and time at which the job started. */
-  startTimeUtc?: string | undefined;
-  /** The UTC date and time at which the job completed. */
-  endTimeUtc?: string | undefined;
-  /** Status of Edge device job. */
-  status?: JobStatus | undefined;
-  /** The error detail. */
-  error?: EdgeMachineJobPropertiesError | undefined;
-}
-export interface EdgeMachineJobsCreateOrUpdateResponse {
-  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string | undefined;
-  /** The name of the resource */
-  name?: string | undefined;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string | undefined;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData | undefined;
-  /** The resource-specific properties for this resource. */
-  properties?: EdgeMachineJobProperties | undefined;
-  /** A link to the status monitor */
-  azureAsyncOperation?: string | undefined;
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number | undefined;
-}
-/** Type of network adapter job operation. */
-export type NetworkAdapterJobType = "ApplyConfiguration" | "ForcePush" | "SyncConfiguration";
-/** The error detail. */
-export type EdgeMachineNetworkAdapterJobPropertiesInputError = LogCollectionPropertiesInput;
-/** Properties of the Network Adapter Job. */
-export interface EdgeMachineNetworkAdapterJobPropertiesInput {
-  /** Type of operation. */
-  jobType: NetworkAdapterJobType | (string & {});
+  jobType: EdgeMachineCollectLogJobPropertiesInputJobType;
   /** Deployment mode to trigger job. */
   deploymentMode?: DeploymentMode | (string & {}) | undefined;
   /** The error detail. */
   error?: LogCollectionPropertiesInput | undefined;
+  /** From date for log collection. */
+  fromDate: string;
+  /** To date for log collection. */
+  toDate: string;
 }
-export interface EdgeMachineNetworkAdapterJobsCreateOrUpdateRequest {
-  /** The ID of the target subscription. The value must be an UUID. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** Name of Device */
-  edgeMachineName: string;
-  /** The name of the EdgeMachineNetworkAdapter */
-  networkAdapterName: string;
-  /** The name of the EdgeMachineNetworkAdapterJob */
-  jobName: string;
-  /** The resource-specific properties for this resource. */
-  properties?: EdgeMachineNetworkAdapterJobPropertiesInput | undefined;
-}
-/** The error details. */
-export type EdgeMachineNetworkAdapterJobPropertiesErrorDetailsList = Array<ErrorDetail>;
-/** The error additional info. */
-export type EdgeMachineNetworkAdapterJobPropertiesErrorAdditionalInfoList =
-  Array<ErrorAdditionalInfo>;
+/** Job Type to support polymorphic resource. */
+export type EdgeMachineRemoteSupportJobPropertiesInputJobType = "RemoteSupport";
 /** The error detail. */
-export interface EdgeMachineNetworkAdapterJobPropertiesError {
-  /** The error code. */
-  code?: string | undefined;
-  /** The error message. */
-  message?: string | undefined;
-  /** The error target. */
-  target?: string | undefined;
-  /** The error details. */
-  details?: EdgeMachineNetworkAdapterJobPropertiesErrorDetailsList | undefined;
-  /** The error additional info. */
-  additionalInfo?: EdgeMachineNetworkAdapterJobPropertiesErrorAdditionalInfoList | undefined;
-}
-/** List of nested steps. */
-export type NetworkAdapterDeploymentStepStepsList = Array<NetworkAdapterDeploymentStep>;
-/** List of exceptions. */
-export type NetworkAdapterDeploymentStepExceptionList = Array<string>;
-/** The Step of Network Adapter Job. */
-export interface NetworkAdapterDeploymentStep {
-  /** Name of step. */
-  name?: string | undefined;
-  /** Description of step. */
-  description?: string | undefined;
-  /** FullStepIndex of step. */
-  fullStepIndex?: string | undefined;
-  /** Start time of step. */
-  startTimeUtc?: string | undefined;
-  /** End time of step. */
-  endTimeUtc?: string | undefined;
-  /** Status of step (Error, Success, InProgress). */
-  status?: string | undefined;
-  /** List of nested steps. */
-  steps?: NetworkAdapterDeploymentStepStepsList | undefined;
-  /** List of exceptions. */
-  exception?: NetworkAdapterDeploymentStepExceptionList | undefined;
-}
-/** List of steps of Network Adapter Job. */
-export type NetworkAdapterActionStatusStepsList = Array<NetworkAdapterDeploymentStep>;
-/** The action plan deployment status for Network Adapter Job. */
-export interface NetworkAdapterActionStatus {
-  /** Status of ECE action Network Adapter Job. */
-  status?: string | undefined;
-  /** List of steps of Network Adapter Job. */
-  steps?: NetworkAdapterActionStatusStepsList | undefined;
-}
-/** Reported properties for Network Adapter Job. */
-export interface NetworkAdapterJobReportedProperties {
-  /** The percentage of the job that is complete. */
-  percentComplete?: number | undefined;
-  /** Validation status of Network Adapter Job. */
-  validationStatus?: NetworkAdapterActionStatus | undefined;
-  /** Deployment status of Network Adapter Job. */
-  deploymentStatus?: NetworkAdapterActionStatus | undefined;
-}
-/** Properties of the Network Adapter Job. */
-export interface EdgeMachineNetworkAdapterJobProperties {
-  /** Type of operation. */
-  jobType: NetworkAdapterJobType;
+export type EdgeMachineRemoteSupportJobPropertiesInputError = LogCollectionPropertiesInput;
+/** Properties for adding a server in the cluster. */
+export interface EdgeMachineRemoteSupportJobPropertiesInput {
+  /** Job Type to support polymorphic resource. */
+  jobType: EdgeMachineRemoteSupportJobPropertiesInputJobType;
   /** Deployment mode to trigger job. */
-  deploymentMode?: DeploymentMode | undefined;
-  /** Provisioning state of the job. */
-  provisioningState?: ProvisioningState | undefined;
-  /** Unique, immutable job id. */
-  jobId?: string | undefined;
-  /** The UTC date and time at which the job started. */
-  startTimeUtc?: string | undefined;
-  /** The UTC date and time at which the job completed. */
-  endTimeUtc?: string | undefined;
-  /** Status of Edge device job. */
-  status?: JobStatus | undefined;
+  deploymentMode?: DeploymentMode | (string & {}) | undefined;
   /** The error detail. */
-  error?: EdgeMachineNetworkAdapterJobPropertiesError | undefined;
-  /** Reported properties for Network Adapter Job. */
-  reportedProperties?: NetworkAdapterJobReportedProperties | undefined;
+  error?: LogCollectionPropertiesInput | undefined;
+  /** Remote support access level. */
+  accessLevel: RemoteSupportAccessLevel | (string & {});
+  /** Remote support expiration timestamp. */
+  expirationTimestamp: string;
+  /** Remote support type. */
+  type: RemoteSupportType | (string & {});
 }
-export interface EdgeMachineNetworkAdapterJobsCreateOrUpdateResponse {
-  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string | undefined;
-  /** The name of the resource */
-  name?: string | undefined;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string | undefined;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData | undefined;
-  /** The resource-specific properties for this resource. */
-  properties?: EdgeMachineNetworkAdapterJobProperties | undefined;
-  /** A link to the status monitor */
-  azureAsyncOperation?: string | undefined;
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number | undefined;
+/** Job Type to support polymorphic resource. */
+export type ProvisionOsJobPropertiesInputJobType = "ProvisionOs";
+/** The error detail. */
+export type ProvisionOsJobPropertiesInputError = LogCollectionPropertiesInput;
+/** Operation sub type of OS Provisioning */
+export type OsProvisionProfileOperationType = "Provision" | "Update" | "ReImage" | "Reset";
+/** Operating system profile. */
+export interface OsProvisionProfile {
+  /** Name of the operating system. */
+  osName?: string | undefined;
+  /** Type of the operating system. */
+  osType?: string | undefined;
+  /** Version of the operating system. */
+  osVersion?: string | undefined;
+  /** Location of the operating system image. */
+  osImageLocation?: string | undefined;
+  /** Validated Solution Recipe version to be used for the job */
+  vsrVersion?: string | undefined;
+  /** Hash of the OS package downloaded */
+  imageHash?: string | undefined;
+  /** GPG Public Key used for package verification */
+  gpgPubKey?: string | undefined;
+  /** Operation sub type of OS Provisioning */
+  operationType?: OsProvisionProfileOperationType | (string & {}) | undefined;
 }
-/** Resource tags. */
-export type EdgeMachinesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
-/** Edge Machine Kind. */
-export type EdgeMachineKind = "Standard" | "Dedicated";
+/** Type of secret used for authentication. */
+export type SecretType = "KeyVault" | "SshPubKey";
+/** SSH Public Key for the user. */
+export type UserDetailsSshPubKeyList = Array<string>;
+/** User configuration. */
+export interface UserDetails {
+  /** Name of the user. */
+  userName: string;
+  /** Type of the secret used for authentication. */
+  secretType: SecretType | (string & {});
+  /** Location of the secret used for authentication. */
+  secretLocation?: string | undefined;
+  /** SSH Public Key for the user. */
+  sshPubKey?: UserDetailsSshPubKeyList | undefined;
+}
+/** User configuration. */
+export type ProvisioningRequestUserDetailsList = Array<UserDetails>;
+/** Onboarding resource type. */
+export type OnboardingResourceType = "HybridComputeMachine";
+/** Onboarding configuration. */
+export interface OnboardingConfiguration {
+  /** Type of the onboarding resource to support polymorphic resource. */
+  type?: OnboardingResourceType | (string & {}) | undefined;
+  /** Resource ID. */
+  resourceId?: string | undefined;
+  /** Location of the resource. */
+  location?: string | undefined;
+  /** Tenant ID of the resource. */
+  tenantId?: string | undefined;
+  /** Azure Arc virtual machine ID. */
+  arcVirtualMachineId?: string | undefined;
+}
 /** IP assignment types */
 export type IpAssignmentType = "Automatic" | "Manual";
 /** IP address range configuration. */
@@ -3067,6 +3690,602 @@ export interface TargetDeviceConfiguration {
   /** Storage configuration. */
   storage?: StorageConfiguration | undefined;
 }
+/** Represents a provisioning request. */
+export interface ProvisioningRequest {
+  /** Target operating system to support polymorphic resource. */
+  target: ProvisioningOsType | (string & {});
+  /** Operating system profile. */
+  osProfile: OsProvisionProfile;
+  /** User configuration. */
+  userDetails?: ProvisioningRequestUserDetailsList | undefined;
+  /** Onboarding configuration. */
+  onboardingConfiguration?: OnboardingConfiguration | undefined;
+  /** Device configuration. */
+  deviceConfiguration?: TargetDeviceConfiguration | undefined;
+  /** Base64 encoded custom configuration for CAPI to use */
+  customConfiguration?: string | undefined;
+}
+/** Represents the properties of an Azure Linux restricted operating environment Provision Os job. */
+export interface ProvisionOsJobPropertiesInput {
+  /** Job Type to support polymorphic resource. */
+  jobType: ProvisionOsJobPropertiesInputJobType;
+  /** Deployment mode to trigger job. */
+  deploymentMode?: DeploymentMode | (string & {}) | undefined;
+  /** The error detail. */
+  error?: LogCollectionPropertiesInput | undefined;
+  /** Os Provisioning request. */
+  provisioningRequest: ProvisioningRequest;
+  /** Reported Properties for Provision Os job */
+  reportedProperties?: LogCollectionPropertiesInput | undefined;
+}
+/** EdgeMachine Job properties */
+export type EdgeMachineJobPropertiesInput =
+  | DownloadOsJobPropertiesInput
+  | EdgeMachineCollectLogJobPropertiesInput
+  | EdgeMachineRemoteSupportJobPropertiesInput
+  | ProvisionOsJobPropertiesInput;
+export interface EdgeMachineJobsCreateOrUpdateRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** Name of Device */
+  edgeMachineName: string;
+  /** Name of EdgeMachineJob */
+  jobsName: string;
+  /** The resource-specific properties for this resource. */
+  properties?: EdgeMachineJobPropertiesInput | undefined;
+}
+/** Job Type to support polymorphic resource. */
+export type DownloadOsJobPropertiesJobType = "DownloadOs";
+/** The error details. */
+export type DownloadOsJobPropertiesErrorDetailsList = Array<ErrorDetail>;
+/** The error additional info. */
+export type DownloadOsJobPropertiesErrorAdditionalInfoList = Array<ErrorAdditionalInfo>;
+/** The error detail. */
+export interface DownloadOsJobPropertiesError {
+  /** The error code. */
+  code?: string | undefined;
+  /** The error message. */
+  message?: string | undefined;
+  /** The error target. */
+  target?: string | undefined;
+  /** The error details. */
+  details?: DownloadOsJobPropertiesErrorDetailsList | undefined;
+  /** The error additional info. */
+  additionalInfo?: DownloadOsJobPropertiesErrorAdditionalInfoList | undefined;
+}
+/** Reported Properties for Provision Os job */
+export type ProvisionOsReportedProperties = JobReportedProperties;
+/** Represents the properties of Download Os job. */
+export interface DownloadOsJobProperties {
+  /** Job Type to support polymorphic resource. */
+  jobType: DownloadOsJobPropertiesJobType;
+  /** Deployment mode to trigger job. */
+  deploymentMode?: DeploymentMode | undefined;
+  /** Job provisioning state */
+  provisioningState?: ProvisioningState | undefined;
+  /** Unique, immutable job id. */
+  jobId?: string | undefined;
+  /** The UTC date and time at which the job started. */
+  startTimeUtc?: string | undefined;
+  /** The UTC date and time at which the job completed. */
+  endTimeUtc?: string | undefined;
+  /** Status of Edge device job. */
+  status?: JobStatus | undefined;
+  /** The error detail. */
+  error?: DownloadOsJobPropertiesError | undefined;
+  /** Download OS request. */
+  downloadRequest: DownloadRequest;
+  /** Reported Properties for Download Os job */
+  reportedProperties?: JobReportedProperties | undefined;
+}
+/** Job Type to support polymorphic resource. */
+export type EdgeMachineCollectLogJobPropertiesJobType = "CollectLog";
+/** The error details. */
+export type EdgeMachineCollectLogJobPropertiesErrorDetailsList = Array<ErrorDetail>;
+/** The error additional info. */
+export type EdgeMachineCollectLogJobPropertiesErrorAdditionalInfoList = Array<ErrorAdditionalInfo>;
+/** The error detail. */
+export interface EdgeMachineCollectLogJobPropertiesError {
+  /** The error code. */
+  code?: string | undefined;
+  /** The error message. */
+  message?: string | undefined;
+  /** The error target. */
+  target?: string | undefined;
+  /** The error details. */
+  details?: EdgeMachineCollectLogJobPropertiesErrorDetailsList | undefined;
+  /** The error additional info. */
+  additionalInfo?: EdgeMachineCollectLogJobPropertiesErrorAdditionalInfoList | undefined;
+}
+/** Details of the log collection session. */
+export type EdgeMachineCollectLogJobReportedPropertiesLogCollectionSessionDetailsList =
+  Array<LogCollectionJobSession>;
+/** Represents the reported properties of a log collection job. */
+export interface EdgeMachineCollectLogJobReportedProperties {
+  /** The percentage of the job that is complete. */
+  percentComplete?: number | undefined;
+  /** Validation status of job. */
+  validationStatus?: EceActionStatus | undefined;
+  /** Deployment status of job. */
+  deploymentStatus?: EceActionStatus | undefined;
+  /** Details of the log collection session. */
+  logCollectionSessionDetails?:
+    | EdgeMachineCollectLogJobReportedPropertiesLogCollectionSessionDetailsList
+    | undefined;
+}
+/** Properties for pausing a server in the cluster. */
+export interface EdgeMachineCollectLogJobProperties {
+  /** Job Type to support polymorphic resource. */
+  jobType: EdgeMachineCollectLogJobPropertiesJobType;
+  /** Deployment mode to trigger job. */
+  deploymentMode?: DeploymentMode | undefined;
+  /** Job provisioning state */
+  provisioningState?: ProvisioningState | undefined;
+  /** Unique, immutable job id. */
+  jobId?: string | undefined;
+  /** The UTC date and time at which the job started. */
+  startTimeUtc?: string | undefined;
+  /** The UTC date and time at which the job completed. */
+  endTimeUtc?: string | undefined;
+  /** Status of Edge device job. */
+  status?: JobStatus | undefined;
+  /** The error detail. */
+  error?: EdgeMachineCollectLogJobPropertiesError | undefined;
+  /** From date for log collection. */
+  fromDate: string;
+  /** To date for log collection. */
+  toDate: string;
+  /** To date for log collection. */
+  lastLogGenerated?: string | undefined;
+  /** log collection job reported properties. */
+  reportedProperties?: EdgeMachineCollectLogJobReportedProperties | undefined;
+}
+/** Job Type to support polymorphic resource. */
+export type EdgeMachineRemoteSupportJobPropertiesJobType = "RemoteSupport";
+/** The error details. */
+export type EdgeMachineRemoteSupportJobPropertiesErrorDetailsList = Array<ErrorDetail>;
+/** The error additional info. */
+export type EdgeMachineRemoteSupportJobPropertiesErrorAdditionalInfoList =
+  Array<ErrorAdditionalInfo>;
+/** The error detail. */
+export interface EdgeMachineRemoteSupportJobPropertiesError {
+  /** The error code. */
+  code?: string | undefined;
+  /** The error message. */
+  message?: string | undefined;
+  /** The error target. */
+  target?: string | undefined;
+  /** The error details. */
+  details?: EdgeMachineRemoteSupportJobPropertiesErrorDetailsList | undefined;
+  /** The error additional info. */
+  additionalInfo?: EdgeMachineRemoteSupportJobPropertiesErrorAdditionalInfoList | undefined;
+}
+/** Represents the settings of a remote support node. */
+export type EdgeMachineRemoteSupportNodeSettings = RemoteSupportJobNodeSettings;
+/** Details of the remote support session. */
+export type EdgeMachineRemoteSupportJobReportedPropertiesSessionDetailsList =
+  Array<RemoteSupportSession>;
+/** Represents the reported properties of a remote support job. */
+export interface EdgeMachineRemoteSupportJobReportedProperties {
+  /** The percentage of the job that is complete. */
+  percentComplete?: number | undefined;
+  /** Validation status of job. */
+  validationStatus?: EceActionStatus | undefined;
+  /** Deployment status of job. */
+  deploymentStatus?: EceActionStatus | undefined;
+  /** Optional settings for configuring the node for remote support. */
+  nodeSettings?: RemoteSupportJobNodeSettings | undefined;
+  /** Details of the remote support session. */
+  sessionDetails?: EdgeMachineRemoteSupportJobReportedPropertiesSessionDetailsList | undefined;
+}
+/** Properties for adding a server in the cluster. */
+export interface EdgeMachineRemoteSupportJobProperties {
+  /** Job Type to support polymorphic resource. */
+  jobType: EdgeMachineRemoteSupportJobPropertiesJobType;
+  /** Deployment mode to trigger job. */
+  deploymentMode?: DeploymentMode | undefined;
+  /** Job provisioning state */
+  provisioningState?: ProvisioningState | undefined;
+  /** Unique, immutable job id. */
+  jobId?: string | undefined;
+  /** The UTC date and time at which the job started. */
+  startTimeUtc?: string | undefined;
+  /** The UTC date and time at which the job completed. */
+  endTimeUtc?: string | undefined;
+  /** Status of Edge device job. */
+  status?: JobStatus | undefined;
+  /** The error detail. */
+  error?: EdgeMachineRemoteSupportJobPropertiesError | undefined;
+  /** Remote support access level. */
+  accessLevel: RemoteSupportAccessLevel;
+  /** Remote support expiration timestamp. */
+  expirationTimestamp: string;
+  /** Remote support type. */
+  type: RemoteSupportType;
+  /** log collection job reported properties. */
+  reportedProperties?: EdgeMachineRemoteSupportJobReportedProperties | undefined;
+}
+/** Job Type to support polymorphic resource. */
+export type ProvisionOsJobPropertiesJobType = "ProvisionOs";
+/** The error details. */
+export type ProvisionOsJobPropertiesErrorDetailsList = Array<ErrorDetail>;
+/** The error additional info. */
+export type ProvisionOsJobPropertiesErrorAdditionalInfoList = Array<ErrorAdditionalInfo>;
+/** The error detail. */
+export interface ProvisionOsJobPropertiesError {
+  /** The error code. */
+  code?: string | undefined;
+  /** The error message. */
+  message?: string | undefined;
+  /** The error target. */
+  target?: string | undefined;
+  /** The error details. */
+  details?: ProvisionOsJobPropertiesErrorDetailsList | undefined;
+  /** The error additional info. */
+  additionalInfo?: ProvisionOsJobPropertiesErrorAdditionalInfoList | undefined;
+}
+/** Represents the properties of an Azure Linux restricted operating environment Provision Os job. */
+export interface ProvisionOsJobProperties {
+  /** Job Type to support polymorphic resource. */
+  jobType: ProvisionOsJobPropertiesJobType;
+  /** Deployment mode to trigger job. */
+  deploymentMode?: DeploymentMode | undefined;
+  /** Job provisioning state */
+  provisioningState?: ProvisioningState | undefined;
+  /** Unique, immutable job id. */
+  jobId?: string | undefined;
+  /** The UTC date and time at which the job started. */
+  startTimeUtc?: string | undefined;
+  /** The UTC date and time at which the job completed. */
+  endTimeUtc?: string | undefined;
+  /** Status of Edge device job. */
+  status?: JobStatus | undefined;
+  /** The error detail. */
+  error?: ProvisionOsJobPropertiesError | undefined;
+  /** Os Provisioning request. */
+  provisioningRequest: ProvisioningRequest;
+  /** Reported Properties for Provision Os job */
+  reportedProperties?: JobReportedProperties | undefined;
+}
+/** EdgeMachine Job properties */
+export type EdgeMachineJobProperties =
+  | DownloadOsJobProperties
+  | EdgeMachineCollectLogJobProperties
+  | EdgeMachineRemoteSupportJobProperties
+  | ProvisionOsJobProperties;
+export interface EdgeMachineJobsCreateOrUpdateResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** The resource-specific properties for this resource. */
+  properties?: EdgeMachineJobProperties | undefined;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string | undefined;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number | undefined;
+}
+/** Type of operation. */
+export type ApplyConfigurationNetworkAdapterJobPropertiesInputJobType = "ApplyConfiguration";
+/** The error detail. */
+export type ApplyConfigurationNetworkAdapterJobPropertiesInputError = LogCollectionPropertiesInput;
+/** List of DNS servers. */
+export type NetworkAdapterConfigurationDnsServersList = Array<string>;
+/** IP configuration type. */
+export type IpInterfaceType = "Dhcp" | "Static";
+/** Current state of the interface. */
+export type InterfaceState = "up" | "down";
+/** WiFi authentication type. */
+export type AuthenticationType =
+  | "WPA2-Personal"
+  | "WPA2-Enterprise"
+  | "WPA3-Personal"
+  | "WPA3-Enterprise"
+  | "Open";
+/** EAP authentication method. */
+export type EAPMethod = "PEAP" | "EAP-TLS" | "EAP-TTLS" | "EAP-FAST";
+/** Type of WiFi secret. */
+export type WifiSecretType = "WiFiPassword" | "WiFiCertificate" | "WiFiCACertificate";
+/** WiFi secret reference for storing credentials. */
+export interface WifiSecret {
+  /** Name of the secret. */
+  secretName?: string | undefined;
+  /** Location of the secret. */
+  secretLocation?: string | undefined;
+  /** Type of the WiFi secret. */
+  secretType?: WifiSecretType | (string & {}) | undefined;
+}
+/** WiFi configuration desired properties. */
+export interface WifiConfigurationDesiredProperties {
+  /** WiFi SSID. */
+  ssid?: string | undefined;
+  /** WiFi authentication type. */
+  authenticationType?: AuthenticationType | (string & {}) | undefined;
+  /** EAP method used for authentication. */
+  eapMethod?: EAPMethod | (string & {}) | undefined;
+  /** Username for enterprise WiFi authentication. */
+  username?: string | undefined;
+  /** WiFi secret reference. */
+  wifiSecret?: WifiSecret | undefined;
+}
+/** Network adapter configuration. */
+export interface NetworkAdapterConfiguration {
+  /** Adapter name. */
+  adapterName?: string | undefined;
+  /** IP address. */
+  ip4Address?: string | undefined;
+  /** Subnet mask. */
+  subnetMask?: string | undefined;
+  /** Default gateway. */
+  defaultGateway?: string | undefined;
+  /** List of DNS servers. */
+  dnsServers?: NetworkAdapterConfigurationDnsServersList | undefined;
+  /** IP configuration type (Dhcp or Static). */
+  ipInterfaceType?: IpInterfaceType | (string & {}) | undefined;
+  /** VLAN identifier for network segmentation. */
+  vlanId?: number | undefined;
+  /** Administrative state of the interface (up or down). */
+  interfaceState?: InterfaceState | (string & {}) | undefined;
+  /** WiFi configuration desired properties. */
+  wifiConfiguration?: WifiConfigurationDesiredProperties | undefined;
+}
+/** Properties for applying network adapter configuration. */
+export interface ApplyConfigurationNetworkAdapterJobPropertiesInput {
+  /** Type of operation. */
+  jobType: ApplyConfigurationNetworkAdapterJobPropertiesInputJobType;
+  /** Deployment mode to trigger job. */
+  deploymentMode?: DeploymentMode | (string & {}) | undefined;
+  /** The error detail. */
+  error?: LogCollectionPropertiesInput | undefined;
+  /** The desired network configuration to apply. */
+  targetConfiguration: NetworkAdapterConfiguration;
+}
+/** Type of operation. */
+export type ForcePushNetworkAdapterJobPropertiesInputJobType = "ForcePush";
+/** The error detail. */
+export type ForcePushNetworkAdapterJobPropertiesInputError = LogCollectionPropertiesInput;
+/** Properties of the Network Adapter Job. */
+export interface ForcePushNetworkAdapterJobPropertiesInput {
+  /** Type of operation. */
+  jobType: ForcePushNetworkAdapterJobPropertiesInputJobType;
+  /** Deployment mode to trigger job. */
+  deploymentMode?: DeploymentMode | (string & {}) | undefined;
+  /** The error detail. */
+  error?: LogCollectionPropertiesInput | undefined;
+}
+/** Type of operation. */
+export type SyncConfigurationNetworkAdapterJobPropertiesInputJobType = "SyncConfiguration";
+/** The error detail. */
+export type SyncConfigurationNetworkAdapterJobPropertiesInputError = LogCollectionPropertiesInput;
+/** Properties for resolving network adapter configuration drift. */
+export interface SyncConfigurationNetworkAdapterJobPropertiesInput {
+  /** Type of operation. */
+  jobType: SyncConfigurationNetworkAdapterJobPropertiesInputJobType;
+  /** Deployment mode to trigger job. */
+  deploymentMode?: DeploymentMode | (string & {}) | undefined;
+  /** The error detail. */
+  error?: LogCollectionPropertiesInput | undefined;
+  /** The strategy to use for resolving the configuration drift. */
+  resolutionStrategy: ResolutionStrategy | (string & {});
+}
+/** Properties of the Network Adapter Job. */
+export type EdgeMachineNetworkAdapterJobPropertiesInput =
+  | ApplyConfigurationNetworkAdapterJobPropertiesInput
+  | ForcePushNetworkAdapterJobPropertiesInput
+  | SyncConfigurationNetworkAdapterJobPropertiesInput;
+export interface EdgeMachineNetworkAdapterJobsCreateOrUpdateRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** Name of Device */
+  edgeMachineName: string;
+  /** The name of the EdgeMachineNetworkAdapter */
+  networkAdapterName: string;
+  /** The name of the EdgeMachineNetworkAdapterJob */
+  jobName: string;
+  /** The resource-specific properties for this resource. */
+  properties?: EdgeMachineNetworkAdapterJobPropertiesInput | undefined;
+}
+/** Type of operation. */
+export type ApplyConfigurationNetworkAdapterJobPropertiesJobType = "ApplyConfiguration";
+/** The error details. */
+export type ApplyConfigurationNetworkAdapterJobPropertiesErrorDetailsList = Array<ErrorDetail>;
+/** The error additional info. */
+export type ApplyConfigurationNetworkAdapterJobPropertiesErrorAdditionalInfoList =
+  Array<ErrorAdditionalInfo>;
+/** The error detail. */
+export interface ApplyConfigurationNetworkAdapterJobPropertiesError {
+  /** The error code. */
+  code?: string | undefined;
+  /** The error message. */
+  message?: string | undefined;
+  /** The error target. */
+  target?: string | undefined;
+  /** The error details. */
+  details?: ApplyConfigurationNetworkAdapterJobPropertiesErrorDetailsList | undefined;
+  /** The error additional info. */
+  additionalInfo?: ApplyConfigurationNetworkAdapterJobPropertiesErrorAdditionalInfoList | undefined;
+}
+/** List of nested steps. */
+export type NetworkAdapterDeploymentStepStepsList = Array<NetworkAdapterDeploymentStep>;
+/** List of exceptions. */
+export type NetworkAdapterDeploymentStepExceptionList = Array<string>;
+/** The Step of Network Adapter Job. */
+export interface NetworkAdapterDeploymentStep {
+  /** Name of step. */
+  name?: string | undefined;
+  /** Description of step. */
+  description?: string | undefined;
+  /** FullStepIndex of step. */
+  fullStepIndex?: string | undefined;
+  /** Start time of step. */
+  startTimeUtc?: string | undefined;
+  /** End time of step. */
+  endTimeUtc?: string | undefined;
+  /** Status of step (Error, Success, InProgress). */
+  status?: string | undefined;
+  /** List of nested steps. */
+  steps?: NetworkAdapterDeploymentStepStepsList | undefined;
+  /** List of exceptions. */
+  exception?: NetworkAdapterDeploymentStepExceptionList | undefined;
+}
+/** List of steps of Network Adapter Job. */
+export type NetworkAdapterActionStatusStepsList = Array<NetworkAdapterDeploymentStep>;
+/** The action plan deployment status for Network Adapter Job. */
+export interface NetworkAdapterActionStatus {
+  /** Status of ECE action Network Adapter Job. */
+  status?: string | undefined;
+  /** List of steps of Network Adapter Job. */
+  steps?: NetworkAdapterActionStatusStepsList | undefined;
+}
+/** Reported properties for Network Adapter Job. */
+export interface NetworkAdapterJobReportedProperties {
+  /** The percentage of the job that is complete. */
+  percentComplete?: number | undefined;
+  /** Validation status of Network Adapter Job. */
+  validationStatus?: NetworkAdapterActionStatus | undefined;
+  /** Deployment status of Network Adapter Job. */
+  deploymentStatus?: NetworkAdapterActionStatus | undefined;
+}
+/** Properties for applying network adapter configuration. */
+export interface ApplyConfigurationNetworkAdapterJobProperties {
+  /** Type of operation. */
+  jobType: ApplyConfigurationNetworkAdapterJobPropertiesJobType;
+  /** Deployment mode to trigger job. */
+  deploymentMode?: DeploymentMode | undefined;
+  /** Provisioning state of the job. */
+  provisioningState?: ProvisioningState | undefined;
+  /** Unique, immutable job id. */
+  jobId?: string | undefined;
+  /** The UTC date and time at which the job started. */
+  startTimeUtc?: string | undefined;
+  /** The UTC date and time at which the job completed. */
+  endTimeUtc?: string | undefined;
+  /** Status of Edge device job. */
+  status?: JobStatus | undefined;
+  /** The error detail. */
+  error?: ApplyConfigurationNetworkAdapterJobPropertiesError | undefined;
+  /** Reported properties for Network Adapter Job. */
+  reportedProperties?: NetworkAdapterJobReportedProperties | undefined;
+  /** The desired network configuration to apply. */
+  targetConfiguration: NetworkAdapterConfiguration;
+}
+/** Type of operation. */
+export type ForcePushNetworkAdapterJobPropertiesJobType = "ForcePush";
+/** The error details. */
+export type ForcePushNetworkAdapterJobPropertiesErrorDetailsList = Array<ErrorDetail>;
+/** The error additional info. */
+export type ForcePushNetworkAdapterJobPropertiesErrorAdditionalInfoList =
+  Array<ErrorAdditionalInfo>;
+/** The error detail. */
+export interface ForcePushNetworkAdapterJobPropertiesError {
+  /** The error code. */
+  code?: string | undefined;
+  /** The error message. */
+  message?: string | undefined;
+  /** The error target. */
+  target?: string | undefined;
+  /** The error details. */
+  details?: ForcePushNetworkAdapterJobPropertiesErrorDetailsList | undefined;
+  /** The error additional info. */
+  additionalInfo?: ForcePushNetworkAdapterJobPropertiesErrorAdditionalInfoList | undefined;
+}
+/** Properties of the Network Adapter Job. */
+export interface ForcePushNetworkAdapterJobProperties {
+  /** Type of operation. */
+  jobType: ForcePushNetworkAdapterJobPropertiesJobType;
+  /** Deployment mode to trigger job. */
+  deploymentMode?: DeploymentMode | undefined;
+  /** Provisioning state of the job. */
+  provisioningState?: ProvisioningState | undefined;
+  /** Unique, immutable job id. */
+  jobId?: string | undefined;
+  /** The UTC date and time at which the job started. */
+  startTimeUtc?: string | undefined;
+  /** The UTC date and time at which the job completed. */
+  endTimeUtc?: string | undefined;
+  /** Status of Edge device job. */
+  status?: JobStatus | undefined;
+  /** The error detail. */
+  error?: ForcePushNetworkAdapterJobPropertiesError | undefined;
+  /** Reported properties for Network Adapter Job. */
+  reportedProperties?: NetworkAdapterJobReportedProperties | undefined;
+}
+/** Type of operation. */
+export type SyncConfigurationNetworkAdapterJobPropertiesJobType = "SyncConfiguration";
+/** The error details. */
+export type SyncConfigurationNetworkAdapterJobPropertiesErrorDetailsList = Array<ErrorDetail>;
+/** The error additional info. */
+export type SyncConfigurationNetworkAdapterJobPropertiesErrorAdditionalInfoList =
+  Array<ErrorAdditionalInfo>;
+/** The error detail. */
+export interface SyncConfigurationNetworkAdapterJobPropertiesError {
+  /** The error code. */
+  code?: string | undefined;
+  /** The error message. */
+  message?: string | undefined;
+  /** The error target. */
+  target?: string | undefined;
+  /** The error details. */
+  details?: SyncConfigurationNetworkAdapterJobPropertiesErrorDetailsList | undefined;
+  /** The error additional info. */
+  additionalInfo?: SyncConfigurationNetworkAdapterJobPropertiesErrorAdditionalInfoList | undefined;
+}
+/** Properties for resolving network adapter configuration drift. */
+export interface SyncConfigurationNetworkAdapterJobProperties {
+  /** Type of operation. */
+  jobType: SyncConfigurationNetworkAdapterJobPropertiesJobType;
+  /** Deployment mode to trigger job. */
+  deploymentMode?: DeploymentMode | undefined;
+  /** Provisioning state of the job. */
+  provisioningState?: ProvisioningState | undefined;
+  /** Unique, immutable job id. */
+  jobId?: string | undefined;
+  /** The UTC date and time at which the job started. */
+  startTimeUtc?: string | undefined;
+  /** The UTC date and time at which the job completed. */
+  endTimeUtc?: string | undefined;
+  /** Status of Edge device job. */
+  status?: JobStatus | undefined;
+  /** The error detail. */
+  error?: SyncConfigurationNetworkAdapterJobPropertiesError | undefined;
+  /** Reported properties for Network Adapter Job. */
+  reportedProperties?: NetworkAdapterJobReportedProperties | undefined;
+  /** The strategy to use for resolving the configuration drift. */
+  resolutionStrategy: ResolutionStrategy;
+}
+/** Properties of the Network Adapter Job. */
+export type EdgeMachineNetworkAdapterJobProperties =
+  | ApplyConfigurationNetworkAdapterJobProperties
+  | ForcePushNetworkAdapterJobProperties
+  | SyncConfigurationNetworkAdapterJobProperties;
+export interface EdgeMachineNetworkAdapterJobsCreateOrUpdateResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** The resource-specific properties for this resource. */
+  properties?: EdgeMachineNetworkAdapterJobProperties | undefined;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string | undefined;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number | undefined;
+}
+/** Resource tags. */
+export type EdgeMachinesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
+/** Edge Machine Kind. */
+export type EdgeMachineKind = "Standard" | "Dedicated";
 /** Site Details consists of common configurations. */
 export interface SiteDetails {
   /** Site resource Id to be set during Edge Machine resource creation. */
@@ -3082,42 +4301,6 @@ export interface OwnershipVoucherDetailsInput {
   ownershipVoucher: string;
   /** Owner key type */
   ownerKeyType: OwnerKeyType | (string & {});
-}
-/** Operation sub type of OS Provisioning */
-export type OsProvisionProfileOperationType = "Provision" | "Update" | "ReImage" | "Reset";
-/** Operating system profile. */
-export interface OsProvisionProfile {
-  /** Name of the operating system. */
-  osName?: string | undefined;
-  /** Type of the operating system. */
-  osType?: string | undefined;
-  /** Version of the operating system. */
-  osVersion?: string | undefined;
-  /** Location of the operating system image. */
-  osImageLocation?: string | undefined;
-  /** Validated Solution Recipe version to be used for the job */
-  vsrVersion?: string | undefined;
-  /** Hash of the OS package downloaded */
-  imageHash?: string | undefined;
-  /** GPG Public Key used for package verification */
-  gpgPubKey?: string | undefined;
-  /** Operation sub type of OS Provisioning */
-  operationType?: OsProvisionProfileOperationType | (string & {}) | undefined;
-}
-/** Type of secret used for authentication. */
-export type SecretType = "KeyVault" | "SshPubKey";
-/** SSH Public Key for the user. */
-export type UserDetailsSshPubKeyList = Array<string>;
-/** User configuration. */
-export interface UserDetails {
-  /** Name of the user. */
-  userName: string;
-  /** Type of the secret used for authentication. */
-  secretType: SecretType | (string & {});
-  /** Location of the secret used for authentication. */
-  secretLocation?: string | undefined;
-  /** SSH Public Key for the user. */
-  sshPubKey?: UserDetailsSshPubKeyList | undefined;
 }
 /** User configuration. */
 export type ProvisioningDetailsUserDetailsList = Array<UserDetails>;
@@ -3356,26 +4539,6 @@ export interface EdgeMachineNicDetail {
 }
 /** List of Network Interface Card (NIC) Details of edge machine. */
 export type EdgeMachineNetworkProfileNicDetailsList = Array<EdgeMachineNicDetail>;
-/** This represents extensions installed on virtualSwitch. */
-export interface SwitchExtension {
-  /** Unique identifier for virtualSwitch. */
-  switchId?: string | undefined;
-  /** This will show extension name for virtualSwitch. */
-  extensionName?: string | undefined;
-  /** This represents whether extension is enabled on virtualSwitch. */
-  extensionEnabled?: boolean | undefined;
-}
-/** This represents extensions installed on virtualSwitch. */
-export type SwitchDetailExtensionsList = Array<SwitchExtension>;
-/** List of switch details for edge device. */
-export interface SwitchDetail {
-  /** The name of the switch. */
-  switchName?: string | undefined;
-  /** The type of the switch. e.g. external, internal. */
-  switchType?: string | undefined;
-  /** This represents extensions installed on virtualSwitch. */
-  extensions?: SwitchDetailExtensionsList | undefined;
-}
 /** List of switch Details of edge machine. */
 export type EdgeMachineNetworkProfileSwitchDetailsList = Array<SwitchDetail>;
 /** Array of adapters used for the network intent. */
@@ -3455,15 +4618,6 @@ export interface EdgeMachineHostNetwork {
   /** Optional parameter required only for 3 Nodes Switchless deployments. This allows users to specify IPs and Mask for Storage NICs when Network ATC is not assigning the IPs for storage automatically. */
   enableStorageAutoIp?: boolean | undefined;
 }
-/** Represents the Software Defined Networking (SDN) configuration state. */
-export interface SdnProperties {
-  /** Indicates the current Software Defined Networking (SDN) status of the resource, which may be an individual device or a cluster. */
-  sdnStatus?: SdnStatus | undefined;
-  /** The fully qualified domain name (FQDN) associated with the SDN deployment. This value is propagated from the Device Management Extension to the cluster resource. It is typically in the format `<sdnPrefix>-nc.<domain>` when SDN is enabled. May be null or absent in unsupported or disabled states. */
-  sdnDomainName?: string | undefined;
-  /** Represents the API address for the SDN deployment. */
-  sdnApiAddress?: string | undefined;
-}
 /** NetworkProfile of edge machine. */
 export interface EdgeMachineNetworkProfile {
   /** List of Network Interface Card (NIC) Details of edge machine. */
@@ -3517,56 +4671,6 @@ export interface HardwareProfile {
 export interface StorageProfile {
   /** Number of storage disks in the device with $CanPool as true. */
   poolableDisksCount?: number | undefined;
-}
-/** Solution builder extension (SBE) deployment package information. */
-export interface SbeDeploymentPackageInfo {
-  /** SBE deployment validation code. */
-  code?: string | undefined;
-  /** A detailed message that explains the SBE package validation result. */
-  message?: string | undefined;
-  /** This represents discovered update results for matching updates and store it as SBE manifest. */
-  sbeManifest?: string | undefined;
-}
-/** Arc extension installation state. */
-export type ArcExtensionState =
-  | "NotSpecified"
-  | "Succeeded"
-  | "Failed"
-  | "Canceled"
-  | "Accepted"
-  | "Creating"
-  | "Updating"
-  | "Moving"
-  | "Deleting"
-  | "Deleted";
-/** details of validation failure */
-export interface HciValidationFailureDetail {
-  /** Exception details while installing extension. */
-  exception?: string | undefined;
-}
-/** Error details while installing Arc extension. */
-export type HciEdgeDeviceArcExtensionErrorDetailsList = Array<HciValidationFailureDetail>;
-/** Arc extension installed on edge device. */
-export interface HciEdgeDeviceArcExtension {
-  /** Arc extension name installed on edge device. */
-  extensionName?: string | undefined;
-  /** Arc extension state from arc machine extension. */
-  state?: ArcExtensionState | undefined;
-  /** Error details while installing Arc extension. */
-  errorDetails?: HciEdgeDeviceArcExtensionErrorDetailsList | undefined;
-  /** Arc Extension Azure resource id. */
-  extensionResourceId?: string | undefined;
-  /** Extension version installed. */
-  typeHandlerVersion?: string | undefined;
-  /** Indicates whether the extension is managed by the user or by Azure. */
-  managedBy?: ExtensionManagedBy | undefined;
-}
-/** List of Arc extensions installed on edge device. */
-export type ExtensionProfileExtensionsList = Array<HciEdgeDeviceArcExtension>;
-/** Extensions details for edge device. */
-export interface ExtensionProfile {
-  /** List of Arc extensions installed on edge device. */
-  extensions?: ExtensionProfileExtensionsList | undefined;
 }
 /** Represents a single workload (Hyper-V VM) inventory entry reported by the device management extension running on the edge machine. */
 export interface EdgeMachineWorkloadInventoryItem {
@@ -4248,20 +5352,7 @@ export interface GetEdgeDeviceRequest {
   /** Name of Device */
   edgeDeviceName: string;
 }
-export interface GetEdgeDeviceResponse {
-  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string | undefined;
-  /** The name of the resource */
-  name?: string | undefined;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string | undefined;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData | undefined;
-  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind: DeviceKind;
-  /** properties for Arc-enabled edge device with HCI OS. */
-  properties?: HciEdgeDeviceProperties | undefined;
-}
+export type GetEdgeDeviceResponse = HciEdgeDevice;
 export interface GetEdgeDeviceJobRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   resourceUri: string;
@@ -4270,18 +5361,7 @@ export interface GetEdgeDeviceJobRequest {
   /** Name of EdgeDevice Job */
   jobsName: string;
 }
-export interface GetEdgeDeviceJobResponse {
-  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string | undefined;
-  /** The name of the resource */
-  name?: string | undefined;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string | undefined;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData | undefined;
-  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind: EdgeDeviceKind;
-}
+export type GetEdgeDeviceJobResponse = HciEdgeDeviceJob;
 export interface GetEdgeMachineRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -4414,7 +5494,7 @@ export interface GetEdgeMachineDiskPrivilegedJobResponse {
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
   systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: EdgeMachineDiskPrivilegedJobProperties | undefined;
+  properties?: DeleteVolumeJobProperties | undefined;
 }
 export interface GetEdgeMachineJobRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4447,66 +5527,6 @@ export interface GetEdgeMachineNetworkAdapterRequest {
   edgeMachineName: string;
   /** The name of the EdgeMachineNetworkAdapter */
   networkAdapterName: string;
-}
-/** List of DNS servers. */
-export type NetworkAdapterConfigurationDnsServersList = Array<string>;
-/** IP configuration type. */
-export type IpInterfaceType = "Dhcp" | "Static";
-/** Current state of the interface. */
-export type InterfaceState = "up" | "down";
-/** WiFi authentication type. */
-export type AuthenticationType =
-  | "WPA2-Personal"
-  | "WPA2-Enterprise"
-  | "WPA3-Personal"
-  | "WPA3-Enterprise"
-  | "Open";
-/** EAP authentication method. */
-export type EAPMethod = "PEAP" | "EAP-TLS" | "EAP-TTLS" | "EAP-FAST";
-/** Type of WiFi secret. */
-export type WifiSecretType = "WiFiPassword" | "WiFiCertificate" | "WiFiCACertificate";
-/** WiFi secret reference for storing credentials. */
-export interface WifiSecret {
-  /** Name of the secret. */
-  secretName?: string | undefined;
-  /** Location of the secret. */
-  secretLocation?: string | undefined;
-  /** Type of the WiFi secret. */
-  secretType?: WifiSecretType | undefined;
-}
-/** WiFi configuration desired properties. */
-export interface WifiConfigurationDesiredProperties {
-  /** WiFi SSID. */
-  ssid?: string | undefined;
-  /** WiFi authentication type. */
-  authenticationType?: AuthenticationType | undefined;
-  /** EAP method used for authentication. */
-  eapMethod?: EAPMethod | undefined;
-  /** Username for enterprise WiFi authentication. */
-  username?: string | undefined;
-  /** WiFi secret reference. */
-  wifiSecret?: WifiSecret | undefined;
-}
-/** Network adapter configuration. */
-export interface NetworkAdapterConfiguration {
-  /** Adapter name. */
-  adapterName?: string | undefined;
-  /** IP address. */
-  ip4Address?: string | undefined;
-  /** Subnet mask. */
-  subnetMask?: string | undefined;
-  /** Default gateway. */
-  defaultGateway?: string | undefined;
-  /** List of DNS servers. */
-  dnsServers?: NetworkAdapterConfigurationDnsServersList | undefined;
-  /** IP configuration type (Dhcp or Static). */
-  ipInterfaceType?: IpInterfaceType | undefined;
-  /** VLAN identifier for network segmentation. */
-  vlanId?: number | undefined;
-  /** Administrative state of the interface (up or down). */
-  interfaceState?: InterfaceState | undefined;
-  /** WiFi configuration desired properties. */
-  wifiConfiguration?: WifiConfigurationDesiredProperties | undefined;
 }
 /** List of DNS servers. */
 export type NetworkAdapterReportedPropertiesDnsServersList = Array<string>;
@@ -6383,21 +7403,8 @@ export interface ListEdgeDeviceJobByEdgeDeviceRequest {
   /** Name of Device */
   edgeDeviceName: string;
 }
-/** EdgeDevice Jobs resource */
-export interface EdgeDeviceJob {
-  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string | undefined;
-  /** The name of the resource */
-  name?: string | undefined;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string | undefined;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData | undefined;
-  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind: EdgeDeviceKind;
-}
 /** The EdgeDeviceJob items on this page */
-export type EdgeDeviceJobListResultValueList = Array<EdgeDeviceJob>;
+export type EdgeDeviceJobListResultValueList = Array<HciEdgeDeviceJob>;
 /** The response of a EdgeDeviceJob list operation. */
 export interface EdgeDeviceJobListResult {
   /** The EdgeDeviceJob items on this page */
@@ -6409,23 +7416,8 @@ export interface ListEdgeDevicesRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   resourceUri: string;
 }
-/** Edge device resource. */
-export interface EdgeDevice {
-  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string | undefined;
-  /** The name of the resource */
-  name?: string | undefined;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string | undefined;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData | undefined;
-  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind: DeviceKind;
-  /** properties for Arc-enabled edge device with HCI OS. */
-  properties?: HciEdgeDeviceProperties | undefined;
-}
 /** The EdgeDevice items on this page */
-export type EdgeDeviceListResultValueList = Array<EdgeDevice>;
+export type EdgeDeviceListResultValueList = Array<HciEdgeDevice>;
 /** The response of a EdgeDevice list operation. */
 export interface EdgeDeviceListResult {
   /** The EdgeDevice items on this page */
@@ -6570,7 +7562,7 @@ export interface EdgeMachineDiskPrivilegedJob {
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
   systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: EdgeMachineDiskPrivilegedJobProperties | undefined;
+  properties?: DeleteVolumeJobProperties | undefined;
 }
 /** The EdgeMachineDiskPrivilegedJob items on this page */
 export type EdgeMachineDiskPrivilegedJobListResultValueList = Array<EdgeMachineDiskPrivilegedJob>;
@@ -9130,8 +10122,8 @@ export const ArcSettingsReconcile: API.OperationMethod<
   ArcSettingsReconcileError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3233, __c101, 1) as any as S.Schema<ArcSettingsReconcileRequest>,
-  output: __S(3234, __c101, 2) as any as S.Schema<ArcSettingsReconcileResponse>,
+  input: __S(3201, __c100, 1) as any as S.Schema<ArcSettingsReconcileRequest>,
+  output: __S(3202, __c100, 2) as any as S.Schema<ArcSettingsReconcileResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9147,8 +10139,8 @@ export const CheckUpdateSummariesOperationGroupHealth: API.OperationMethod<
   CheckUpdateSummariesOperationGroupHealthError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3648, __c114, 0) as any as S.Schema<CheckUpdateSummariesOperationGroupHealthRequest>,
-  output: __S(3680, __c115, 0) as any as S.Schema<CheckUpdateSummariesOperationGroupHealthResponse>,
+  input: __S(3616, __c113, 0) as any as S.Schema<CheckUpdateSummariesOperationGroupHealthRequest>,
+  output: __S(3648, __c114, 0) as any as S.Schema<CheckUpdateSummariesOperationGroupHealthResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9164,10 +10156,10 @@ export const CheckUpdateSummariesOperationGroupUpdates: API.OperationMethod<
   CheckUpdateSummariesOperationGroupUpdatesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4032, __c126, 0) as any as S.Schema<CheckUpdateSummariesOperationGroupUpdatesRequest>,
+  input: __S(4000, __c125, 0) as any as S.Schema<CheckUpdateSummariesOperationGroupUpdatesRequest>,
   output: __S(
-    3680,
-    __c115,
+    3648,
+    __c114,
     0,
   ) as any as S.Schema<CheckUpdateSummariesOperationGroupUpdatesResponse>,
   errors: [UnknownAzureError],
@@ -9185,8 +10177,8 @@ export const ClusterJobsCreateOrUpdate: API.OperationMethod<
   ClusterJobsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4769, __c149, 1) as any as S.Schema<ClusterJobsCreateOrUpdateRequest>,
-  output: __S(4770, __c149, 2) as any as S.Schema<ClusterJobsCreateOrUpdateResponse>,
+  input: __S(4996, __c156, 4) as any as S.Schema<ClusterJobsCreateOrUpdateRequest>,
+  output: __S(4997, __c156, 5) as any as S.Schema<ClusterJobsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9202,8 +10194,8 @@ export const ClustersConfigureRemoteSupport: API.OperationMethod<
   ClustersConfigureRemoteSupportError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5633, __c176, 1) as any as S.Schema<ClustersConfigureRemoteSupportRequest>,
-  output: __S(5664, __c177, 0) as any as S.Schema<ClustersConfigureRemoteSupportResponse>,
+  input: __S(5889, __c184, 1) as any as S.Schema<ClustersConfigureRemoteSupportRequest>,
+  output: __S(5920, __c185, 0) as any as S.Schema<ClustersConfigureRemoteSupportResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9219,7 +10211,7 @@ export const CreateArcSettings: API.OperationMethod<
   CreateArcSettingsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6465, __c202, 1) as any as S.Schema<CreateArcSettingsRequest>,
+  input: __S(6689, __c209, 1) as any as S.Schema<CreateArcSettingsRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<CreateArcSettingsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9236,8 +10228,8 @@ export const CreateArcSettingsIdentity: API.OperationMethod<
   CreateArcSettingsIdentityError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7264, __c227, 0) as any as S.Schema<CreateArcSettingsIdentityRequest>,
-  output: __S(7266, __c227, 2) as any as S.Schema<ArcIdentityResponse>,
+  input: __S(7488, __c234, 0) as any as S.Schema<CreateArcSettingsIdentityRequest>,
+  output: __S(7490, __c234, 2) as any as S.Schema<ArcIdentityResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9253,8 +10245,8 @@ export const CreateCluster: API.OperationMethod<
   CreateClusterError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8097, __c253, 1) as any as S.Schema<CreateClusterRequest>,
-  output: __S(8224, __c257, 0) as any as S.Schema<CreateClusterResponse>,
+  input: __S(8321, __c260, 1) as any as S.Schema<CreateClusterRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<CreateClusterResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9287,8 +10279,8 @@ export const CreateExtension: API.OperationMethod<
   CreateExtensionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(577, __c18, 1) as any as S.Schema<CreateExtensionRequest>,
-  output: __S(608, __c19, 0) as any as S.Schema<CreateExtensionResponse>,
+  input: __S(545, __c17, 1) as any as S.Schema<CreateExtensionRequest>,
+  output: __S(576, __c18, 0) as any as S.Schema<CreateExtensionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9304,8 +10296,8 @@ export const CreateGuestAgent: API.OperationMethod<
   CreateGuestAgentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1153, __c36, 1) as any as S.Schema<CreateGuestAgentRequest>,
-  output: __S(1186, __c37, 2) as any as S.Schema<CreateGuestAgentResponse>,
+  input: __S(1121, __c35, 1) as any as S.Schema<CreateGuestAgentRequest>,
+  output: __S(1154, __c36, 2) as any as S.Schema<CreateGuestAgentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9327,8 +10319,8 @@ export const DeleteArcSettings: API.OperationMethod<
   DeleteArcSettingsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<DeleteArcSettingsRequest>,
-  output: __S(1632, __c51, 0) as any as S.Schema<DeleteArcSettingsResponse>,
+  input: __S(1568, __c49, 0) as any as S.Schema<DeleteArcSettingsRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<DeleteArcSettingsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9344,8 +10336,8 @@ export const DeleteCluster: API.OperationMethod<
   DeleteClusterError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<DeleteClusterRequest>,
-  output: __S(3680, __c115, 0) as any as S.Schema<DeleteClusterResponse>,
+  input: __S(1984, __c62, 0) as any as S.Schema<DeleteClusterRequest>,
+  output: __S(3648, __c114, 0) as any as S.Schema<DeleteClusterResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9361,8 +10353,8 @@ export const DeleteClusterJob: API.OperationMethod<
   DeleteClusterJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c75, 0) as any as S.Schema<DeleteClusterJobRequest>,
-  output: __S(3680, __c115, 0) as any as S.Schema<DeleteClusterJobResponse>,
+  input: __S(2368, __c74, 0) as any as S.Schema<DeleteClusterJobRequest>,
+  output: __S(3648, __c114, 0) as any as S.Schema<DeleteClusterJobResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9378,8 +10370,8 @@ export const DeleteDeploymentSettings: API.OperationMethod<
   DeleteDeploymentSettingsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<DeleteDeploymentSettingsRequest>,
-  output: __S(3680, __c115, 0) as any as S.Schema<DeleteDeploymentSettingsResponse>,
+  input: __S(2720, __c85, 0) as any as S.Schema<DeleteDeploymentSettingsRequest>,
+  output: __S(3648, __c114, 0) as any as S.Schema<DeleteDeploymentSettingsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9395,8 +10387,8 @@ export const DeleteEdgeDevice: API.OperationMethod<
   DeleteEdgeDeviceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c98, 0) as any as S.Schema<DeleteEdgeDeviceRequest>,
-  output: __S(3680, __c115, 0) as any as S.Schema<DeleteEdgeDeviceResponse>,
+  input: __S(3104, __c97, 0) as any as S.Schema<DeleteEdgeDeviceRequest>,
+  output: __S(3648, __c114, 0) as any as S.Schema<DeleteEdgeDeviceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9418,8 +10410,8 @@ export const DeleteEdgeDeviceJob: API.OperationMethod<
   DeleteEdgeDeviceJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<DeleteEdgeDeviceJobRequest>,
-  output: __S(3680, __c115, 0) as any as S.Schema<DeleteEdgeDeviceJobResponse>,
+  input: __S(3136, __c98, 0) as any as S.Schema<DeleteEdgeDeviceJobRequest>,
+  output: __S(3648, __c114, 0) as any as S.Schema<DeleteEdgeDeviceJobResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9441,8 +10433,8 @@ export const DeleteEdgeMachine: API.OperationMethod<
   DeleteEdgeMachineError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<DeleteEdgeMachineRequest>,
-  output: __S(3680, __c115, 0) as any as S.Schema<DeleteEdgeMachineResponse>,
+  input: __S(3168, __c99, 0) as any as S.Schema<DeleteEdgeMachineRequest>,
+  output: __S(3648, __c114, 0) as any as S.Schema<DeleteEdgeMachineResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9458,8 +10450,8 @@ export const DeleteEdgeMachineDeploymentSettings: API.OperationMethod<
   DeleteEdgeMachineDeploymentSettingsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c103, 0) as any as S.Schema<DeleteEdgeMachineDeploymentSettingsRequest>,
-  output: __S(3680, __c115, 0) as any as S.Schema<DeleteEdgeMachineDeploymentSettingsResponse>,
+  input: __S(3264, __c102, 0) as any as S.Schema<DeleteEdgeMachineDeploymentSettingsRequest>,
+  output: __S(3648, __c114, 0) as any as S.Schema<DeleteEdgeMachineDeploymentSettingsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9475,8 +10467,8 @@ export const DeleteEdgeMachineDisk: API.OperationMethod<
   DeleteEdgeMachineDiskError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c104, 0) as any as S.Schema<DeleteEdgeMachineDiskRequest>,
-  output: __S(3680, __c115, 0) as any as S.Schema<DeleteEdgeMachineDiskResponse>,
+  input: __S(3296, __c103, 0) as any as S.Schema<DeleteEdgeMachineDiskRequest>,
+  output: __S(3648, __c114, 0) as any as S.Schema<DeleteEdgeMachineDiskResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9492,8 +10484,8 @@ export const DeleteEdgeMachineDiskJob: API.OperationMethod<
   DeleteEdgeMachineDiskJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3360, __c105, 0) as any as S.Schema<DeleteEdgeMachineDiskJobRequest>,
-  output: __S(3680, __c115, 0) as any as S.Schema<DeleteEdgeMachineDiskJobResponse>,
+  input: __S(3328, __c104, 0) as any as S.Schema<DeleteEdgeMachineDiskJobRequest>,
+  output: __S(3648, __c114, 0) as any as S.Schema<DeleteEdgeMachineDiskJobResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9509,8 +10501,8 @@ export const DeleteEdgeMachineDiskPrivilegedJob: API.OperationMethod<
   DeleteEdgeMachineDiskPrivilegedJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3392, __c106, 0) as any as S.Schema<DeleteEdgeMachineDiskPrivilegedJobRequest>,
-  output: __S(3680, __c115, 0) as any as S.Schema<DeleteEdgeMachineDiskPrivilegedJobResponse>,
+  input: __S(3360, __c105, 0) as any as S.Schema<DeleteEdgeMachineDiskPrivilegedJobRequest>,
+  output: __S(3648, __c114, 0) as any as S.Schema<DeleteEdgeMachineDiskPrivilegedJobResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9526,8 +10518,8 @@ export const DeleteEdgeMachineJob: API.OperationMethod<
   DeleteEdgeMachineJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<DeleteEdgeMachineJobRequest>,
-  output: __S(3680, __c115, 0) as any as S.Schema<DeleteEdgeMachineJobResponse>,
+  input: __S(3392, __c106, 0) as any as S.Schema<DeleteEdgeMachineJobRequest>,
+  output: __S(3648, __c114, 0) as any as S.Schema<DeleteEdgeMachineJobResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9543,8 +10535,8 @@ export const DeleteEdgeMachineNetworkAdapterJob: API.OperationMethod<
   DeleteEdgeMachineNetworkAdapterJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3456, __c108, 0) as any as S.Schema<DeleteEdgeMachineNetworkAdapterJobRequest>,
-  output: __S(3680, __c115, 0) as any as S.Schema<DeleteEdgeMachineNetworkAdapterJobResponse>,
+  input: __S(3424, __c107, 0) as any as S.Schema<DeleteEdgeMachineNetworkAdapterJobRequest>,
+  output: __S(3648, __c114, 0) as any as S.Schema<DeleteEdgeMachineNetworkAdapterJobResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9560,10 +10552,10 @@ export const DeleteEdgeMachineSecuritySettingsOperation: API.OperationMethod<
   DeleteEdgeMachineSecuritySettingsOperationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c109, 0) as any as S.Schema<DeleteEdgeMachineSecuritySettingsOperationRequest>,
+  input: __S(3456, __c108, 0) as any as S.Schema<DeleteEdgeMachineSecuritySettingsOperationRequest>,
   output: __S(
-    3680,
-    __c115,
+    3648,
+    __c114,
     0,
   ) as any as S.Schema<DeleteEdgeMachineSecuritySettingsOperationResponse>,
   errors: [UnknownAzureError],
@@ -9581,8 +10573,8 @@ export const DeleteEdgeMachineVolume: API.OperationMethod<
   DeleteEdgeMachineVolumeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3520, __c110, 0) as any as S.Schema<DeleteEdgeMachineVolumeRequest>,
-  output: __S(3680, __c115, 0) as any as S.Schema<DeleteEdgeMachineVolumeResponse>,
+  input: __S(3488, __c109, 0) as any as S.Schema<DeleteEdgeMachineVolumeRequest>,
+  output: __S(3648, __c114, 0) as any as S.Schema<DeleteEdgeMachineVolumeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9598,7 +10590,7 @@ export const DeleteExtension: API.OperationMethod<
   DeleteExtensionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c111, 0) as any as S.Schema<DeleteExtensionRequest>,
+  input: __S(3520, __c110, 0) as any as S.Schema<DeleteExtensionRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteExtensionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9615,8 +10607,8 @@ export const DeleteGalleryImage: API.OperationMethod<
   DeleteGalleryImageError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3584, __c112, 0) as any as S.Schema<DeleteGalleryImageRequest>,
-  output: __S(3616, __c113, 0) as any as S.Schema<DeleteGalleryImageResponse>,
+  input: __S(3552, __c111, 0) as any as S.Schema<DeleteGalleryImageRequest>,
+  output: __S(3584, __c112, 0) as any as S.Schema<DeleteGalleryImageResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9632,8 +10624,8 @@ export const DeleteGuestAgent: API.OperationMethod<
   DeleteGuestAgentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3712, __c116, 0) as any as S.Schema<DeleteGuestAgentRequest>,
-  output: __S(3616, __c113, 0) as any as S.Schema<DeleteGuestAgentResponse>,
+  input: __S(3680, __c115, 0) as any as S.Schema<DeleteGuestAgentRequest>,
+  output: __S(3584, __c112, 0) as any as S.Schema<DeleteGuestAgentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9655,8 +10647,8 @@ export const DeleteLogicalNetwork: API.OperationMethod<
   DeleteLogicalNetworkError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3744, __c117, 0) as any as S.Schema<DeleteLogicalNetworkRequest>,
-  output: __S(3616, __c113, 0) as any as S.Schema<DeleteLogicalNetworkResponse>,
+  input: __S(3712, __c116, 0) as any as S.Schema<DeleteLogicalNetworkRequest>,
+  output: __S(3584, __c112, 0) as any as S.Schema<DeleteLogicalNetworkResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9672,8 +10664,8 @@ export const DeleteMarketplaceGalleryImage: API.OperationMethod<
   DeleteMarketplaceGalleryImageError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3776, __c118, 0) as any as S.Schema<DeleteMarketplaceGalleryImageRequest>,
-  output: __S(3616, __c113, 0) as any as S.Schema<DeleteMarketplaceGalleryImageResponse>,
+  input: __S(3744, __c117, 0) as any as S.Schema<DeleteMarketplaceGalleryImageRequest>,
+  output: __S(3584, __c112, 0) as any as S.Schema<DeleteMarketplaceGalleryImageResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9689,8 +10681,8 @@ export const DeleteNetworkInterface: API.OperationMethod<
   DeleteNetworkInterfaceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3808, __c119, 0) as any as S.Schema<DeleteNetworkInterfaceRequest>,
-  output: __S(3616, __c113, 0) as any as S.Schema<DeleteNetworkInterfaceResponse>,
+  input: __S(3776, __c118, 0) as any as S.Schema<DeleteNetworkInterfaceRequest>,
+  output: __S(3584, __c112, 0) as any as S.Schema<DeleteNetworkInterfaceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9706,8 +10698,8 @@ export const DeleteSecuritySettings: API.OperationMethod<
   DeleteSecuritySettingsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3840, __c120, 0) as any as S.Schema<DeleteSecuritySettingsRequest>,
-  output: __S(3680, __c115, 0) as any as S.Schema<DeleteSecuritySettingsResponse>,
+  input: __S(3808, __c119, 0) as any as S.Schema<DeleteSecuritySettingsRequest>,
+  output: __S(3648, __c114, 0) as any as S.Schema<DeleteSecuritySettingsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9723,8 +10715,8 @@ export const DeleteStorageContainer: API.OperationMethod<
   DeleteStorageContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3872, __c121, 0) as any as S.Schema<DeleteStorageContainerRequest>,
-  output: __S(3616, __c113, 0) as any as S.Schema<DeleteStorageContainerResponse>,
+  input: __S(3840, __c120, 0) as any as S.Schema<DeleteStorageContainerRequest>,
+  output: __S(3584, __c112, 0) as any as S.Schema<DeleteStorageContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9740,8 +10732,8 @@ export const DeleteUpdate: API.OperationMethod<
   DeleteUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3904, __c122, 0) as any as S.Schema<DeleteUpdateRequest>,
-  output: __S(1632, __c51, 0) as any as S.Schema<DeleteUpdateResponse>,
+  input: __S(3872, __c121, 0) as any as S.Schema<DeleteUpdateRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<DeleteUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9757,8 +10749,8 @@ export const DeleteUpdateRun: API.OperationMethod<
   DeleteUpdateRunError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3936, __c123, 0) as any as S.Schema<DeleteUpdateRunRequest>,
-  output: __S(1632, __c51, 0) as any as S.Schema<DeleteUpdateRunResponse>,
+  input: __S(3904, __c122, 0) as any as S.Schema<DeleteUpdateRunRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<DeleteUpdateRunResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9774,8 +10766,8 @@ export const DeleteUpdateSummary: API.OperationMethod<
   DeleteUpdateSummaryError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3968, __c124, 0) as any as S.Schema<DeleteUpdateSummaryRequest>,
-  output: __S(1632, __c51, 0) as any as S.Schema<DeleteUpdateSummaryResponse>,
+  input: __S(3936, __c123, 0) as any as S.Schema<DeleteUpdateSummaryRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<DeleteUpdateSummaryResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9791,8 +10783,8 @@ export const DeleteVirtualHardDisk: API.OperationMethod<
   DeleteVirtualHardDiskError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4000, __c125, 0) as any as S.Schema<DeleteVirtualHardDiskRequest>,
-  output: __S(3616, __c113, 0) as any as S.Schema<DeleteVirtualHardDiskResponse>,
+  input: __S(3968, __c124, 0) as any as S.Schema<DeleteVirtualHardDiskRequest>,
+  output: __S(3584, __c112, 0) as any as S.Schema<DeleteVirtualHardDiskResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9808,8 +10800,8 @@ export const DeleteVirtualMachineInstance: API.OperationMethod<
   DeleteVirtualMachineInstanceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4064, __c127, 0) as any as S.Schema<DeleteVirtualMachineInstanceRequest>,
-  output: __S(3616, __c113, 0) as any as S.Schema<DeleteVirtualMachineInstanceResponse>,
+  input: __S(4032, __c126, 0) as any as S.Schema<DeleteVirtualMachineInstanceRequest>,
+  output: __S(3584, __c112, 0) as any as S.Schema<DeleteVirtualMachineInstanceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9831,8 +10823,8 @@ export const DeploymentSettingsCreateOrUpdate: API.OperationMethod<
   DeploymentSettingsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4102, __c128, 6) as any as S.Schema<DeploymentSettingsCreateOrUpdateRequest>,
-  output: __S(4103, __c128, 7) as any as S.Schema<DeploymentSettingsCreateOrUpdateResponse>,
+  input: __S(4070, __c127, 6) as any as S.Schema<DeploymentSettingsCreateOrUpdateRequest>,
+  output: __S(4071, __c127, 7) as any as S.Schema<DeploymentSettingsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9848,8 +10840,8 @@ export const EdgeDeviceJobsCreateOrUpdate: API.OperationMethod<
   EdgeDeviceJobsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4256, __c133, 0) as any as S.Schema<EdgeDeviceJobsCreateOrUpdateRequest>,
-  output: __S(4257, __c133, 1) as any as S.Schema<EdgeDeviceJobsCreateOrUpdateResponse>,
+  input: __S(4228, __c132, 4) as any as S.Schema<EdgeDeviceJobsCreateOrUpdateRequest>,
+  output: __S(4288, __c134, 0) as any as S.Schema<EdgeDeviceJobsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9871,8 +10863,8 @@ export const EdgeDevicesCreateOrUpdate: API.OperationMethod<
   EdgeDevicesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4288, __c134, 0) as any as S.Schema<EdgeDevicesCreateOrUpdateRequest>,
-  output: __S(4289, __c134, 1) as any as S.Schema<EdgeDevicesCreateOrUpdateResponse>,
+  input: __S(4354, __c136, 2) as any as S.Schema<EdgeDevicesCreateOrUpdateRequest>,
+  output: __S(4416, __c138, 0) as any as S.Schema<EdgeDevicesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9895,13 +10887,13 @@ export const EdgeMachineDeploymentSettingsCreateOrUpdate: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4353,
-    __c136,
+    4481,
+    __c140,
     1,
   ) as any as S.Schema<EdgeMachineDeploymentSettingsCreateOrUpdateRequest>,
   output: __S(
-    4354,
-    __c136,
+    4482,
+    __c140,
     2,
   ) as any as S.Schema<EdgeMachineDeploymentSettingsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
@@ -9919,8 +10911,8 @@ export const EdgeMachineDiskJobsCreateOrUpdate: API.OperationMethod<
   EdgeMachineDiskJobsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4416, __c138, 0) as any as S.Schema<EdgeMachineDiskJobsCreateOrUpdateRequest>,
-  output: __S(4448, __c139, 0) as any as S.Schema<EdgeMachineDiskJobsCreateOrUpdateResponse>,
+  input: __S(4546, __c142, 2) as any as S.Schema<EdgeMachineDiskJobsCreateOrUpdateRequest>,
+  output: __S(4547, __c142, 3) as any as S.Schema<EdgeMachineDiskJobsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9937,14 +10929,14 @@ export const EdgeMachineDiskPrivilegedJobsCreateOrUpdate: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4544,
-    __c142,
-    0,
+    4673,
+    __c146,
+    1,
   ) as any as S.Schema<EdgeMachineDiskPrivilegedJobsCreateOrUpdateRequest>,
   output: __S(
-    4448,
-    __c139,
-    0,
+    4674,
+    __c146,
+    2,
   ) as any as S.Schema<EdgeMachineDiskPrivilegedJobsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9961,8 +10953,8 @@ export const EdgeMachineDisksCreateOrUpdate: API.OperationMethod<
   EdgeMachineDisksCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4577, __c143, 1) as any as S.Schema<EdgeMachineDisksCreateOrUpdateRequest>,
-  output: __S(4578, __c143, 2) as any as S.Schema<EdgeMachineDisksCreateOrUpdateResponse>,
+  input: __S(4737, __c148, 1) as any as S.Schema<EdgeMachineDisksCreateOrUpdateRequest>,
+  output: __S(4738, __c148, 2) as any as S.Schema<EdgeMachineDisksCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9978,8 +10970,8 @@ export const EdgeMachineJobsCreateOrUpdate: API.OperationMethod<
   EdgeMachineJobsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4640, __c145, 0) as any as S.Schema<EdgeMachineJobsCreateOrUpdateRequest>,
-  output: __S(4641, __c145, 1) as any as S.Schema<EdgeMachineJobsCreateOrUpdateResponse>,
+  input: __S(4805, __c150, 5) as any as S.Schema<EdgeMachineJobsCreateOrUpdateRequest>,
+  output: __S(4806, __c150, 6) as any as S.Schema<EdgeMachineJobsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9996,14 +10988,14 @@ export const EdgeMachineNetworkAdapterJobsCreateOrUpdate: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4704,
-    __c147,
-    0,
+    4899,
+    __c153,
+    3,
   ) as any as S.Schema<EdgeMachineNetworkAdapterJobsCreateOrUpdateRequest>,
   output: __S(
-    4705,
-    __c147,
-    1,
+    4900,
+    __c153,
+    4,
   ) as any as S.Schema<EdgeMachineNetworkAdapterJobsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -10020,8 +11012,8 @@ export const EdgeMachinesCreateOrUpdate: API.OperationMethod<
   EdgeMachinesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4897, __c153, 1) as any as S.Schema<EdgeMachinesCreateOrUpdateRequest>,
-  output: __S(4898, __c153, 2) as any as S.Schema<EdgeMachinesCreateOrUpdateResponse>,
+  input: __S(5185, __c162, 1) as any as S.Schema<EdgeMachinesCreateOrUpdateRequest>,
+  output: __S(5186, __c162, 2) as any as S.Schema<EdgeMachinesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10038,13 +11030,13 @@ export const EdgeMachineSecuritySettingsOperationsCreateOrUpdate: API.OperationM
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5056,
-    __c158,
+    5312,
+    __c166,
     0,
   ) as any as S.Schema<EdgeMachineSecuritySettingsOperationsCreateOrUpdateRequest>,
   output: __S(
-    5057,
-    __c158,
+    5313,
+    __c166,
     1,
   ) as any as S.Schema<EdgeMachineSecuritySettingsOperationsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
@@ -10062,8 +11054,8 @@ export const EdgeMachineVolumesCreateOrUpdate: API.OperationMethod<
   EdgeMachineVolumesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5121, __c160, 1) as any as S.Schema<EdgeMachineVolumesCreateOrUpdateRequest>,
-  output: __S(5122, __c160, 2) as any as S.Schema<EdgeMachineVolumesCreateOrUpdateResponse>,
+  input: __S(5377, __c168, 1) as any as S.Schema<EdgeMachineVolumesCreateOrUpdateRequest>,
+  output: __S(5378, __c168, 2) as any as S.Schema<EdgeMachineVolumesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10079,8 +11071,8 @@ export const ExtendClusterSoftwareAssuranceBenefit: API.OperationMethod<
   ExtendClusterSoftwareAssuranceBenefitError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5184, __c162, 0) as any as S.Schema<ExtendClusterSoftwareAssuranceBenefitRequest>,
-  output: __S(5664, __c177, 0) as any as S.Schema<ExtendClusterSoftwareAssuranceBenefitResponse>,
+  input: __S(5440, __c170, 0) as any as S.Schema<ExtendClusterSoftwareAssuranceBenefitRequest>,
+  output: __S(5920, __c185, 0) as any as S.Schema<ExtendClusterSoftwareAssuranceBenefitResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10096,8 +11088,8 @@ export const ExtensionsUpgrade: API.OperationMethod<
   ExtensionsUpgradeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5216, __c163, 0) as any as S.Schema<ExtensionsUpgradeRequest>,
-  output: __S(1632, __c51, 0) as any as S.Schema<ExtensionsUpgradeResponse>,
+  input: __S(5472, __c171, 0) as any as S.Schema<ExtensionsUpgradeRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<ExtensionsUpgradeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10113,8 +11105,8 @@ export const GalleryImagesCreateOrUpdate: API.OperationMethod<
   GalleryImagesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5249, __c164, 1) as any as S.Schema<GalleryImagesCreateOrUpdateRequest>,
-  output: __S(5344, __c167, 0) as any as S.Schema<GalleryImagesCreateOrUpdateResponse>,
+  input: __S(5505, __c172, 1) as any as S.Schema<GalleryImagesCreateOrUpdateRequest>,
+  output: __S(5600, __c175, 0) as any as S.Schema<GalleryImagesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10130,8 +11122,8 @@ export const GenerateArcSettingsPassword: API.OperationMethod<
   GenerateArcSettingsPasswordError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5472, __c171, 0) as any as S.Schema<GenerateArcSettingsPasswordRequest>,
-  output: __S(5473, __c171, 1) as any as S.Schema<PasswordCredential>,
+  input: __S(5728, __c179, 0) as any as S.Schema<GenerateArcSettingsPasswordRequest>,
+  output: __S(5729, __c179, 1) as any as S.Schema<PasswordCredential>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10147,7 +11139,7 @@ export const GetArcSettings: API.OperationMethod<
   GetArcSettingsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5504, __c172, 0) as any as S.Schema<GetArcSettingsRequest>,
+  input: __S(5760, __c180, 0) as any as S.Schema<GetArcSettingsRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<GetArcSettingsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -10164,8 +11156,8 @@ export const GetCluster: API.OperationMethod<
   GetClusterError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5536, __c173, 0) as any as S.Schema<GetClusterRequest>,
-  output: __S(8224, __c257, 0) as any as S.Schema<GetClusterResponse>,
+  input: __S(5792, __c181, 0) as any as S.Schema<GetClusterRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<GetClusterResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10181,8 +11173,8 @@ export const GetClusterJob: API.OperationMethod<
   GetClusterJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5568, __c174, 0) as any as S.Schema<GetClusterJobRequest>,
-  output: __S(5600, __c175, 0) as any as S.Schema<GetClusterJobResponse>,
+  input: __S(5824, __c182, 0) as any as S.Schema<GetClusterJobRequest>,
+  output: __S(5856, __c183, 0) as any as S.Schema<GetClusterJobResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10198,8 +11190,8 @@ export const GetDeploymentSettings: API.OperationMethod<
   GetDeploymentSettingsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5824, __c182, 0) as any as S.Schema<GetDeploymentSettingsRequest>,
-  output: __S(5856, __c183, 0) as any as S.Schema<GetDeploymentSettingsResponse>,
+  input: __S(6080, __c190, 0) as any as S.Schema<GetDeploymentSettingsRequest>,
+  output: __S(6112, __c191, 0) as any as S.Schema<GetDeploymentSettingsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10215,8 +11207,8 @@ export const GetEdgeDevice: API.OperationMethod<
   GetEdgeDeviceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5888, __c184, 0) as any as S.Schema<GetEdgeDeviceRequest>,
-  output: __S(5920, __c185, 0) as any as S.Schema<GetEdgeDeviceResponse>,
+  input: __S(6144, __c192, 0) as any as S.Schema<GetEdgeDeviceRequest>,
+  output: __S(4416, __c138, 0) as any as S.Schema<GetEdgeDeviceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10238,8 +11230,8 @@ export const GetEdgeDeviceJob: API.OperationMethod<
   GetEdgeDeviceJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5952, __c186, 0) as any as S.Schema<GetEdgeDeviceJobRequest>,
-  output: __S(5984, __c187, 0) as any as S.Schema<GetEdgeDeviceJobResponse>,
+  input: __S(6176, __c193, 0) as any as S.Schema<GetEdgeDeviceJobRequest>,
+  output: __S(4288, __c134, 0) as any as S.Schema<GetEdgeDeviceJobResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10261,8 +11253,8 @@ export const GetEdgeMachine: API.OperationMethod<
   GetEdgeMachineError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6016, __c188, 0) as any as S.Schema<GetEdgeMachineRequest>,
-  output: __S(6048, __c189, 0) as any as S.Schema<GetEdgeMachineResponse>,
+  input: __S(6208, __c194, 0) as any as S.Schema<GetEdgeMachineRequest>,
+  output: __S(6240, __c195, 0) as any as S.Schema<GetEdgeMachineResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10278,8 +11270,8 @@ export const GetEdgeMachineDeploymentSettings: API.OperationMethod<
   GetEdgeMachineDeploymentSettingsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6080, __c190, 0) as any as S.Schema<GetEdgeMachineDeploymentSettingsRequest>,
-  output: __S(6112, __c191, 0) as any as S.Schema<GetEdgeMachineDeploymentSettingsResponse>,
+  input: __S(6272, __c196, 0) as any as S.Schema<GetEdgeMachineDeploymentSettingsRequest>,
+  output: __S(6304, __c197, 0) as any as S.Schema<GetEdgeMachineDeploymentSettingsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10295,8 +11287,8 @@ export const GetEdgeMachineDisk: API.OperationMethod<
   GetEdgeMachineDiskError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6144, __c192, 0) as any as S.Schema<GetEdgeMachineDiskRequest>,
-  output: __S(6176, __c193, 0) as any as S.Schema<GetEdgeMachineDiskResponse>,
+  input: __S(6336, __c198, 0) as any as S.Schema<GetEdgeMachineDiskRequest>,
+  output: __S(6368, __c199, 0) as any as S.Schema<GetEdgeMachineDiskResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10312,8 +11304,8 @@ export const GetEdgeMachineDiskJob: API.OperationMethod<
   GetEdgeMachineDiskJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6208, __c194, 0) as any as S.Schema<GetEdgeMachineDiskJobRequest>,
-  output: __S(6240, __c195, 0) as any as S.Schema<GetEdgeMachineDiskJobResponse>,
+  input: __S(6400, __c200, 0) as any as S.Schema<GetEdgeMachineDiskJobRequest>,
+  output: __S(6432, __c201, 0) as any as S.Schema<GetEdgeMachineDiskJobResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10329,8 +11321,8 @@ export const GetEdgeMachineDiskPrivilegedJob: API.OperationMethod<
   GetEdgeMachineDiskPrivilegedJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6272, __c196, 0) as any as S.Schema<GetEdgeMachineDiskPrivilegedJobRequest>,
-  output: __S(6240, __c195, 0) as any as S.Schema<GetEdgeMachineDiskPrivilegedJobResponse>,
+  input: __S(6464, __c202, 0) as any as S.Schema<GetEdgeMachineDiskPrivilegedJobRequest>,
+  output: __S(6496, __c203, 0) as any as S.Schema<GetEdgeMachineDiskPrivilegedJobResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10346,8 +11338,8 @@ export const GetEdgeMachineJob: API.OperationMethod<
   GetEdgeMachineJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6304, __c197, 0) as any as S.Schema<GetEdgeMachineJobRequest>,
-  output: __S(6336, __c198, 0) as any as S.Schema<GetEdgeMachineJobResponse>,
+  input: __S(6528, __c204, 0) as any as S.Schema<GetEdgeMachineJobRequest>,
+  output: __S(6560, __c205, 0) as any as S.Schema<GetEdgeMachineJobResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10363,8 +11355,8 @@ export const GetEdgeMachineNetworkAdapter: API.OperationMethod<
   GetEdgeMachineNetworkAdapterError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6368, __c199, 0) as any as S.Schema<GetEdgeMachineNetworkAdapterRequest>,
-  output: __S(6406, __c200, 6) as any as S.Schema<GetEdgeMachineNetworkAdapterResponse>,
+  input: __S(6592, __c206, 0) as any as S.Schema<GetEdgeMachineNetworkAdapterRequest>,
+  output: __S(6627, __c207, 3) as any as S.Schema<GetEdgeMachineNetworkAdapterResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10380,8 +11372,8 @@ export const GetEdgeMachineNetworkAdapterJob: API.OperationMethod<
   GetEdgeMachineNetworkAdapterJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6496, __c203, 0) as any as S.Schema<GetEdgeMachineNetworkAdapterJobRequest>,
-  output: __S(6528, __c204, 0) as any as S.Schema<GetEdgeMachineNetworkAdapterJobResponse>,
+  input: __S(6720, __c210, 0) as any as S.Schema<GetEdgeMachineNetworkAdapterJobRequest>,
+  output: __S(6752, __c211, 0) as any as S.Schema<GetEdgeMachineNetworkAdapterJobResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10397,8 +11389,8 @@ export const GetEdgeMachineSecuritySettingsOperation: API.OperationMethod<
   GetEdgeMachineSecuritySettingsOperationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6560, __c205, 0) as any as S.Schema<GetEdgeMachineSecuritySettingsOperationRequest>,
-  output: __S(6592, __c206, 0) as any as S.Schema<GetEdgeMachineSecuritySettingsOperationResponse>,
+  input: __S(6784, __c212, 0) as any as S.Schema<GetEdgeMachineSecuritySettingsOperationRequest>,
+  output: __S(6816, __c213, 0) as any as S.Schema<GetEdgeMachineSecuritySettingsOperationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10414,8 +11406,8 @@ export const GetEdgeMachineVolume: API.OperationMethod<
   GetEdgeMachineVolumeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6624, __c207, 0) as any as S.Schema<GetEdgeMachineVolumeRequest>,
-  output: __S(6656, __c208, 0) as any as S.Schema<GetEdgeMachineVolumeResponse>,
+  input: __S(6848, __c214, 0) as any as S.Schema<GetEdgeMachineVolumeRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<GetEdgeMachineVolumeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10431,8 +11423,8 @@ export const GetExtension: API.OperationMethod<
   GetExtensionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6688, __c209, 0) as any as S.Schema<GetExtensionRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<GetExtensionResponse>,
+  input: __S(6912, __c216, 0) as any as S.Schema<GetExtensionRequest>,
+  output: __S(6944, __c217, 0) as any as S.Schema<GetExtensionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10448,8 +11440,8 @@ export const GetGalleryImage: API.OperationMethod<
   GetGalleryImageError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6752, __c211, 0) as any as S.Schema<GetGalleryImageRequest>,
-  output: __S(5344, __c167, 0) as any as S.Schema<GetGalleryImageResponse>,
+  input: __S(6976, __c218, 0) as any as S.Schema<GetGalleryImageRequest>,
+  output: __S(5600, __c175, 0) as any as S.Schema<GetGalleryImageResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10465,8 +11457,8 @@ export const GetGuestAgent: API.OperationMethod<
   GetGuestAgentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6784, __c212, 0) as any as S.Schema<GetGuestAgentRequest>,
-  output: __S(1186, __c37, 2) as any as S.Schema<GetGuestAgentResponse>,
+  input: __S(7008, __c219, 0) as any as S.Schema<GetGuestAgentRequest>,
+  output: __S(1154, __c36, 2) as any as S.Schema<GetGuestAgentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10488,8 +11480,8 @@ export const GetHybridIdentityMetadata: API.OperationMethod<
   GetHybridIdentityMetadataError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6816, __c213, 0) as any as S.Schema<GetHybridIdentityMetadataRequest>,
-  output: __S(6849, __c214, 1) as any as S.Schema<GetHybridIdentityMetadataResponse>,
+  input: __S(7040, __c220, 0) as any as S.Schema<GetHybridIdentityMetadataRequest>,
+  output: __S(7073, __c221, 1) as any as S.Schema<GetHybridIdentityMetadataResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10510,8 +11502,8 @@ export const GetLogicalNetwork: API.OperationMethod<
   GetLogicalNetworkError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6912, __c216, 0) as any as S.Schema<GetLogicalNetworkRequest>,
-  output: __S(6944, __c217, 0) as any as S.Schema<GetLogicalNetworkResponse>,
+  input: __S(7136, __c223, 0) as any as S.Schema<GetLogicalNetworkRequest>,
+  output: __S(7168, __c224, 0) as any as S.Schema<GetLogicalNetworkResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10527,8 +11519,8 @@ export const GetMarketplaceGalleryImage: API.OperationMethod<
   GetMarketplaceGalleryImageError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7040, __c220, 0) as any as S.Schema<GetMarketplaceGalleryImageRequest>,
-  output: __S(7072, __c221, 0) as any as S.Schema<GetMarketplaceGalleryImageResponse>,
+  input: __S(7264, __c227, 0) as any as S.Schema<GetMarketplaceGalleryImageRequest>,
+  output: __S(7296, __c228, 0) as any as S.Schema<GetMarketplaceGalleryImageResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10544,8 +11536,8 @@ export const GetNetworkInterface: API.OperationMethod<
   GetNetworkInterfaceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7136, __c223, 0) as any as S.Schema<GetNetworkInterfaceRequest>,
-  output: __S(7168, __c224, 0) as any as S.Schema<GetNetworkInterfaceResponse>,
+  input: __S(7360, __c230, 0) as any as S.Schema<GetNetworkInterfaceRequest>,
+  output: __S(7392, __c231, 0) as any as S.Schema<GetNetworkInterfaceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10561,8 +11553,8 @@ export const GetOffer: API.OperationMethod<
   GetOfferError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7296, __c228, 0) as any as S.Schema<GetOfferRequest>,
-  output: __S(7329, __c229, 1) as any as S.Schema<GetOfferResponse>,
+  input: __S(7520, __c235, 0) as any as S.Schema<GetOfferRequest>,
+  output: __S(7553, __c236, 1) as any as S.Schema<GetOfferResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10578,8 +11570,8 @@ export const GetOsImage: API.OperationMethod<
   GetOsImageError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7392, __c231, 0) as any as S.Schema<GetOsImageRequest>,
-  output: __S(7425, __c232, 1) as any as S.Schema<GetOsImageResponse>,
+  input: __S(7616, __c238, 0) as any as S.Schema<GetOsImageRequest>,
+  output: __S(7649, __c239, 1) as any as S.Schema<GetOsImageResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10595,8 +11587,8 @@ export const GetSecuritySettings: API.OperationMethod<
   GetSecuritySettingsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7456, __c233, 0) as any as S.Schema<GetSecuritySettingsRequest>,
-  output: __S(7488, __c234, 0) as any as S.Schema<GetSecuritySettingsResponse>,
+  input: __S(7680, __c240, 0) as any as S.Schema<GetSecuritySettingsRequest>,
+  output: __S(7712, __c241, 0) as any as S.Schema<GetSecuritySettingsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10612,8 +11604,8 @@ export const GetSkus: API.OperationMethod<
   GetSkusError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7552, __c236, 0) as any as S.Schema<GetSkusRequest>,
-  output: __S(7585, __c237, 1) as any as S.Schema<GetSkusResponse>,
+  input: __S(7776, __c243, 0) as any as S.Schema<GetSkusRequest>,
+  output: __S(7809, __c244, 1) as any as S.Schema<GetSkusResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10629,8 +11621,8 @@ export const GetStorageContainer: API.OperationMethod<
   GetStorageContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7616, __c238, 0) as any as S.Schema<GetStorageContainerRequest>,
-  output: __S(7648, __c239, 0) as any as S.Schema<GetStorageContainerResponse>,
+  input: __S(7840, __c245, 0) as any as S.Schema<GetStorageContainerRequest>,
+  output: __S(7872, __c246, 0) as any as S.Schema<GetStorageContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10646,8 +11638,8 @@ export const GetUpdate: API.OperationMethod<
   GetUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7712, __c241, 0) as any as S.Schema<GetUpdateRequest>,
-  output: __S(7748, __c242, 4) as any as S.Schema<GetUpdateResponse>,
+  input: __S(7936, __c248, 0) as any as S.Schema<GetUpdateRequest>,
+  output: __S(7972, __c249, 4) as any as S.Schema<GetUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10663,8 +11655,8 @@ export const GetUpdateRun: API.OperationMethod<
   GetUpdateRunError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7808, __c244, 0) as any as S.Schema<GetUpdateRunRequest>,
-  output: __S(7843, __c245, 3) as any as S.Schema<GetUpdateRunResponse>,
+  input: __S(8032, __c251, 0) as any as S.Schema<GetUpdateRunRequest>,
+  output: __S(8067, __c252, 3) as any as S.Schema<GetUpdateRunResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10680,8 +11672,8 @@ export const GetUpdateSummary: API.OperationMethod<
   GetUpdateSummaryError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7872, __c246, 0) as any as S.Schema<GetUpdateSummaryRequest>,
-  output: __S(7905, __c247, 1) as any as S.Schema<GetUpdateSummaryResponse>,
+  input: __S(8096, __c253, 0) as any as S.Schema<GetUpdateSummaryRequest>,
+  output: __S(8129, __c254, 1) as any as S.Schema<GetUpdateSummaryResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10697,8 +11689,8 @@ export const GetValidatedSolutionRecipe: API.OperationMethod<
   GetValidatedSolutionRecipeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7936, __c248, 0) as any as S.Schema<GetValidatedSolutionRecipeRequest>,
-  output: __S(7979, __c249, 11) as any as S.Schema<GetValidatedSolutionRecipeResponse>,
+  input: __S(8160, __c255, 0) as any as S.Schema<GetValidatedSolutionRecipeRequest>,
+  output: __S(8203, __c256, 11) as any as S.Schema<GetValidatedSolutionRecipeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10714,8 +11706,8 @@ export const GetVirtualHardDisk: API.OperationMethod<
   GetVirtualHardDiskError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8000, __c250, 0) as any as S.Schema<GetVirtualHardDiskRequest>,
-  output: __S(8064, __c252, 0) as any as S.Schema<GetVirtualHardDiskResponse>,
+  input: __S(8224, __c257, 0) as any as S.Schema<GetVirtualHardDiskRequest>,
+  output: __S(8288, __c259, 0) as any as S.Schema<GetVirtualHardDiskResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10731,8 +11723,8 @@ export const GetVirtualMachineInstance: API.OperationMethod<
   GetVirtualMachineInstanceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8256, __c258, 0) as any as S.Schema<GetVirtualMachineInstanceRequest>,
-  output: __S(8320, __c260, 0) as any as S.Schema<GetVirtualMachineInstanceResponse>,
+  input: __S(8480, __c265, 0) as any as S.Schema<GetVirtualMachineInstanceRequest>,
+  output: __S(8544, __c267, 0) as any as S.Schema<GetVirtualMachineInstanceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10754,8 +11746,8 @@ export const ListArcSettingsByCluster: API.OperationMethod<
   ListArcSettingsByClusterError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8352, __c261, 0) as any as S.Schema<ListArcSettingsByClusterRequest>,
-  output: __S(8354, __c261, 2) as any as S.Schema<ArcSettingList>,
+  input: __S(8576, __c268, 0) as any as S.Schema<ListArcSettingsByClusterRequest>,
+  output: __S(8578, __c268, 2) as any as S.Schema<ArcSettingList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10771,8 +11763,8 @@ export const ListClusterByResourceGroup: API.OperationMethod<
   ListClusterByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8384, __c262, 0) as any as S.Schema<ListClusterByResourceGroupRequest>,
-  output: __S(8417, __c263, 1) as any as S.Schema<ClusterList>,
+  input: __S(8608, __c269, 0) as any as S.Schema<ListClusterByResourceGroupRequest>,
+  output: __S(8641, __c270, 1) as any as S.Schema<ClusterList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10788,8 +11780,8 @@ export const ListClusterBySubscription: API.OperationMethod<
   ListClusterBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8448, __c264, 0) as any as S.Schema<ListClusterBySubscriptionRequest>,
-  output: __S(8417, __c263, 1) as any as S.Schema<ClusterList>,
+  input: __S(8672, __c271, 0) as any as S.Schema<ListClusterBySubscriptionRequest>,
+  output: __S(8641, __c270, 1) as any as S.Schema<ClusterList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10805,8 +11797,8 @@ export const ListClusterJobs: API.OperationMethod<
   ListClusterJobsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8480, __c265, 0) as any as S.Schema<ListClusterJobsRequest>,
-  output: __S(8482, __c265, 2) as any as S.Schema<ClusterJobListResult>,
+  input: __S(8704, __c272, 0) as any as S.Schema<ListClusterJobsRequest>,
+  output: __S(8706, __c272, 2) as any as S.Schema<ClusterJobListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10822,8 +11814,8 @@ export const ListDeploymentSettingsByClusters: API.OperationMethod<
   ListDeploymentSettingsByClustersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8512, __c266, 0) as any as S.Schema<ListDeploymentSettingsByClustersRequest>,
-  output: __S(8514, __c266, 2) as any as S.Schema<DeploymentSettingListResult>,
+  input: __S(8736, __c273, 0) as any as S.Schema<ListDeploymentSettingsByClustersRequest>,
+  output: __S(8738, __c273, 2) as any as S.Schema<DeploymentSettingListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10839,8 +11831,8 @@ export const ListEdgeDeviceJobByEdgeDevice: API.OperationMethod<
   ListEdgeDeviceJobByEdgeDeviceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8544, __c267, 0) as any as S.Schema<ListEdgeDeviceJobByEdgeDeviceRequest>,
-  output: __S(8546, __c267, 2) as any as S.Schema<EdgeDeviceJobListResult>,
+  input: __S(8768, __c274, 0) as any as S.Schema<ListEdgeDeviceJobByEdgeDeviceRequest>,
+  output: __S(8770, __c274, 2) as any as S.Schema<EdgeDeviceJobListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10862,8 +11854,8 @@ export const ListEdgeDevices: API.OperationMethod<
   ListEdgeDevicesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8576, __c268, 0) as any as S.Schema<ListEdgeDevicesRequest>,
-  output: __S(8578, __c268, 2) as any as S.Schema<EdgeDeviceListResult>,
+  input: __S(8800, __c275, 0) as any as S.Schema<ListEdgeDevicesRequest>,
+  output: __S(8802, __c275, 2) as any as S.Schema<EdgeDeviceListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10882,8 +11874,8 @@ export const ListEdgeMachineByResourceGroup: API.OperationMethod<
   ListEdgeMachineByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8608, __c269, 0) as any as S.Schema<ListEdgeMachineByResourceGroupRequest>,
-  output: __S(8641, __c270, 1) as any as S.Schema<EdgeMachineListResult>,
+  input: __S(8832, __c276, 0) as any as S.Schema<ListEdgeMachineByResourceGroupRequest>,
+  output: __S(8865, __c277, 1) as any as S.Schema<EdgeMachineListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10899,8 +11891,8 @@ export const ListEdgeMachineBySubscription: API.OperationMethod<
   ListEdgeMachineBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8672, __c271, 0) as any as S.Schema<ListEdgeMachineBySubscriptionRequest>,
-  output: __S(8641, __c270, 1) as any as S.Schema<EdgeMachineListResult>,
+  input: __S(8896, __c278, 0) as any as S.Schema<ListEdgeMachineBySubscriptionRequest>,
+  output: __S(8865, __c277, 1) as any as S.Schema<EdgeMachineListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10938,7 +11930,7 @@ export const ListEdgeMachineDiskJobs: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<ListEdgeMachineDiskJobsRequest>,
-  output: __S(289, __c9, 1) as any as S.Schema<EdgeMachineDiskJobListResult>,
+  output: __S(258, __c8, 2) as any as S.Schema<EdgeMachineDiskJobListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10954,8 +11946,8 @@ export const ListEdgeMachineDiskPrivilegedJobs: API.OperationMethod<
   ListEdgeMachineDiskPrivilegedJobsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<ListEdgeMachineDiskPrivilegedJobsRequest>,
-  output: __S(289, __c9, 1) as any as S.Schema<EdgeMachineDiskPrivilegedJobListResult>,
+  input: __S(288, __c9, 0) as any as S.Schema<ListEdgeMachineDiskPrivilegedJobsRequest>,
+  output: __S(290, __c9, 2) as any as S.Schema<EdgeMachineDiskPrivilegedJobListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10971,8 +11963,8 @@ export const ListEdgeMachineDisks: API.OperationMethod<
   ListEdgeMachineDisksError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<ListEdgeMachineDisksRequest>,
-  output: __S(354, __c11, 2) as any as S.Schema<EdgeMachineDiskListResult>,
+  input: __S(320, __c10, 0) as any as S.Schema<ListEdgeMachineDisksRequest>,
+  output: __S(322, __c10, 2) as any as S.Schema<EdgeMachineDiskListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10988,8 +11980,8 @@ export const ListEdgeMachineJobs: API.OperationMethod<
   ListEdgeMachineJobsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<ListEdgeMachineJobsRequest>,
-  output: __S(386, __c12, 2) as any as S.Schema<EdgeMachineJobListResult>,
+  input: __S(352, __c11, 0) as any as S.Schema<ListEdgeMachineJobsRequest>,
+  output: __S(354, __c11, 2) as any as S.Schema<EdgeMachineJobListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11005,8 +11997,8 @@ export const ListEdgeMachineNetworkAdapterJobs: API.OperationMethod<
   ListEdgeMachineNetworkAdapterJobsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<ListEdgeMachineNetworkAdapterJobsRequest>,
-  output: __S(418, __c13, 2) as any as S.Schema<EdgeMachineNetworkAdapterJobListResult>,
+  input: __S(384, __c12, 0) as any as S.Schema<ListEdgeMachineNetworkAdapterJobsRequest>,
+  output: __S(386, __c12, 2) as any as S.Schema<EdgeMachineNetworkAdapterJobListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11022,8 +12014,8 @@ export const ListEdgeMachineNetworkAdapters: API.OperationMethod<
   ListEdgeMachineNetworkAdaptersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<ListEdgeMachineNetworkAdaptersRequest>,
-  output: __S(450, __c14, 2) as any as S.Schema<EdgeMachineNetworkAdapterListResult>,
+  input: __S(416, __c13, 0) as any as S.Schema<ListEdgeMachineNetworkAdaptersRequest>,
+  output: __S(418, __c13, 2) as any as S.Schema<EdgeMachineNetworkAdapterListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11040,11 +12032,11 @@ export const ListEdgeMachineSecuritySettingsOperationByEdgeMachine: API.Operatio
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    480,
-    __c15,
+    448,
+    __c14,
     0,
   ) as any as S.Schema<ListEdgeMachineSecuritySettingsOperationByEdgeMachineRequest>,
-  output: __S(482, __c15, 2) as any as S.Schema<EdgeMachineSecuritySettingsListResult>,
+  output: __S(450, __c14, 2) as any as S.Schema<EdgeMachineSecuritySettingsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11060,8 +12052,8 @@ export const ListEdgeMachineVolumes: API.OperationMethod<
   ListEdgeMachineVolumesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<ListEdgeMachineVolumesRequest>,
-  output: __S(514, __c16, 2) as any as S.Schema<EdgeMachineVolumeListResult>,
+  input: __S(480, __c15, 0) as any as S.Schema<ListEdgeMachineVolumesRequest>,
+  output: __S(482, __c15, 2) as any as S.Schema<EdgeMachineVolumeListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11077,8 +12069,8 @@ export const ListExtensionByArcSetting: API.OperationMethod<
   ListExtensionByArcSettingError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<ListExtensionByArcSettingRequest>,
-  output: __S(546, __c17, 2) as any as S.Schema<ExtensionList>,
+  input: __S(512, __c16, 0) as any as S.Schema<ListExtensionByArcSettingRequest>,
+  output: __S(514, __c16, 2) as any as S.Schema<ExtensionList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11094,8 +12086,8 @@ export const ListGalleryImageAll: API.OperationMethod<
   ListGalleryImageAllError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<ListGalleryImageAllRequest>,
-  output: __S(737, __c23, 1) as any as S.Schema<GalleryImagesListResult>,
+  input: __S(672, __c21, 0) as any as S.Schema<ListGalleryImageAllRequest>,
+  output: __S(705, __c22, 1) as any as S.Schema<GalleryImagesListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11111,8 +12103,8 @@ export const ListGalleryImages: API.OperationMethod<
   ListGalleryImagesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<ListGalleryImagesRequest>,
-  output: __S(737, __c23, 1) as any as S.Schema<GalleryImagesListResult>,
+  input: __S(736, __c23, 0) as any as S.Schema<ListGalleryImagesRequest>,
+  output: __S(705, __c22, 1) as any as S.Schema<GalleryImagesListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11128,8 +12120,8 @@ export const ListGuestAgents: API.OperationMethod<
   ListGuestAgentsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<ListGuestAgentsRequest>,
-  output: __S(802, __c25, 2) as any as S.Schema<GuestAgentList>,
+  input: __S(768, __c24, 0) as any as S.Schema<ListGuestAgentsRequest>,
+  output: __S(770, __c24, 2) as any as S.Schema<GuestAgentList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11151,8 +12143,8 @@ export const ListHybridIdentityMetadata: API.OperationMethod<
   ListHybridIdentityMetadataError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<ListHybridIdentityMetadataRequest>,
-  output: __S(834, __c26, 2) as any as S.Schema<HybridIdentityMetadataList>,
+  input: __S(800, __c25, 0) as any as S.Schema<ListHybridIdentityMetadataRequest>,
+  output: __S(802, __c25, 2) as any as S.Schema<HybridIdentityMetadataList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11174,8 +12166,8 @@ export const ListLogicalNetworkAll: API.OperationMethod<
   ListLogicalNetworkAllError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<ListLogicalNetworkAllRequest>,
-  output: __S(897, __c28, 1) as any as S.Schema<LogicalNetworksListResult>,
+  input: __S(832, __c26, 0) as any as S.Schema<ListLogicalNetworkAllRequest>,
+  output: __S(865, __c27, 1) as any as S.Schema<LogicalNetworksListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11191,8 +12183,8 @@ export const ListLogicalNetworks: API.OperationMethod<
   ListLogicalNetworksError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<ListLogicalNetworksRequest>,
-  output: __S(897, __c28, 1) as any as S.Schema<LogicalNetworksListResult>,
+  input: __S(896, __c28, 0) as any as S.Schema<ListLogicalNetworksRequest>,
+  output: __S(865, __c27, 1) as any as S.Schema<LogicalNetworksListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11208,8 +12200,8 @@ export const ListMarketplaceGalleryImageAll: API.OperationMethod<
   ListMarketplaceGalleryImageAllError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<ListMarketplaceGalleryImageAllRequest>,
-  output: __S(993, __c31, 1) as any as S.Schema<MarketplaceGalleryImagesListResult>,
+  input: __S(928, __c29, 0) as any as S.Schema<ListMarketplaceGalleryImageAllRequest>,
+  output: __S(961, __c30, 1) as any as S.Schema<MarketplaceGalleryImagesListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11225,8 +12217,8 @@ export const ListMarketplaceGalleryImages: API.OperationMethod<
   ListMarketplaceGalleryImagesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<ListMarketplaceGalleryImagesRequest>,
-  output: __S(993, __c31, 1) as any as S.Schema<MarketplaceGalleryImagesListResult>,
+  input: __S(992, __c31, 0) as any as S.Schema<ListMarketplaceGalleryImagesRequest>,
+  output: __S(961, __c30, 1) as any as S.Schema<MarketplaceGalleryImagesListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11242,8 +12234,8 @@ export const ListNetworkInterfaceAll: API.OperationMethod<
   ListNetworkInterfaceAllError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<ListNetworkInterfaceAllRequest>,
-  output: __S(1089, __c34, 1) as any as S.Schema<NetworkInterfacesListResult>,
+  input: __S(1024, __c32, 0) as any as S.Schema<ListNetworkInterfaceAllRequest>,
+  output: __S(1057, __c33, 1) as any as S.Schema<NetworkInterfacesListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11259,8 +12251,8 @@ export const ListNetworkInterfaces: API.OperationMethod<
   ListNetworkInterfacesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<ListNetworkInterfacesRequest>,
-  output: __S(1089, __c34, 1) as any as S.Schema<NetworkInterfacesListResult>,
+  input: __S(1088, __c34, 0) as any as S.Schema<ListNetworkInterfacesRequest>,
+  output: __S(1057, __c33, 1) as any as S.Schema<NetworkInterfacesListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11276,8 +12268,8 @@ export const ListOfferByCluster: API.OperationMethod<
   ListOfferByClusterError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<ListOfferByClusterRequest>,
-  output: __S(1249, __c39, 1) as any as S.Schema<OfferList>,
+  input: __S(1184, __c37, 0) as any as S.Schema<ListOfferByClusterRequest>,
+  output: __S(1217, __c38, 1) as any as S.Schema<OfferList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11293,8 +12285,8 @@ export const ListOfferByPublisher: API.OperationMethod<
   ListOfferByPublisherError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<ListOfferByPublisherRequest>,
-  output: __S(1249, __c39, 1) as any as S.Schema<OfferList>,
+  input: __S(1248, __c39, 0) as any as S.Schema<ListOfferByPublisherRequest>,
+  output: __S(1217, __c38, 1) as any as S.Schema<OfferList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11310,8 +12302,8 @@ export const ListOperations: API.OperationMethod<
   ListOperationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<ListOperationsRequest>,
-  output: __S(1316, __c41, 4) as any as S.Schema<ListOperationsResponse>,
+  input: __S(1280, __c40, 0) as any as S.Schema<ListOperationsRequest>,
+  output: __S(1284, __c40, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11327,8 +12319,8 @@ export const ListOsImageBySubscriptionLocationResource: API.OperationMethod<
   ListOsImageBySubscriptionLocationResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<ListOsImageBySubscriptionLocationResourceRequest>,
-  output: __S(1346, __c42, 2) as any as S.Schema<OsImageListResult>,
+  input: __S(1312, __c41, 0) as any as S.Schema<ListOsImageBySubscriptionLocationResourceRequest>,
+  output: __S(1314, __c41, 2) as any as S.Schema<OsImageListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11344,8 +12336,8 @@ export const ListSecuritySettingsByClusters: API.OperationMethod<
   ListSecuritySettingsByClustersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<ListSecuritySettingsByClustersRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<SecuritySettingListResult>,
+  input: __S(1344, __c42, 0) as any as S.Schema<ListSecuritySettingsByClustersRequest>,
+  output: __S(1346, __c42, 2) as any as S.Schema<SecuritySettingListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11361,8 +12353,8 @@ export const ListSkusByOffer: API.OperationMethod<
   ListSkusByOfferError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<ListSkusByOfferRequest>,
-  output: __S(1410, __c44, 2) as any as S.Schema<SkuList>,
+  input: __S(1376, __c43, 0) as any as S.Schema<ListSkusByOfferRequest>,
+  output: __S(1378, __c43, 2) as any as S.Schema<SkuList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11378,8 +12370,8 @@ export const ListStorageContainerAll: API.OperationMethod<
   ListStorageContainerAllError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<ListStorageContainerAllRequest>,
-  output: __S(1473, __c46, 1) as any as S.Schema<StorageContainersListResult>,
+  input: __S(1408, __c44, 0) as any as S.Schema<ListStorageContainerAllRequest>,
+  output: __S(1441, __c45, 1) as any as S.Schema<StorageContainersListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11395,8 +12387,8 @@ export const ListStorageContainers: API.OperationMethod<
   ListStorageContainersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<ListStorageContainersRequest>,
-  output: __S(1473, __c46, 1) as any as S.Schema<StorageContainersListResult>,
+  input: __S(1472, __c46, 0) as any as S.Schema<ListStorageContainersRequest>,
+  output: __S(1441, __c45, 1) as any as S.Schema<StorageContainersListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11412,8 +12404,8 @@ export const ListUpdateRuns: API.OperationMethod<
   ListUpdateRunsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<ListUpdateRunsRequest>,
-  output: __S(1538, __c48, 2) as any as S.Schema<UpdateRunList>,
+  input: __S(1504, __c47, 0) as any as S.Schema<ListUpdateRunsRequest>,
+  output: __S(1506, __c47, 2) as any as S.Schema<UpdateRunList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11429,8 +12421,8 @@ export const ListUpdates: API.OperationMethod<
   ListUpdatesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<ListUpdatesRequest>,
-  output: __S(1570, __c49, 2) as any as S.Schema<UpdateList>,
+  input: __S(1536, __c48, 0) as any as S.Schema<ListUpdatesRequest>,
+  output: __S(1538, __c48, 2) as any as S.Schema<UpdateList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11446,8 +12438,8 @@ export const ListUpdateSummaries: API.OperationMethod<
   ListUpdateSummariesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<ListUpdateSummariesRequest>,
-  output: __S(1666, __c52, 2) as any as S.Schema<UpdateSummariesList>,
+  input: __S(1632, __c51, 0) as any as S.Schema<ListUpdateSummariesRequest>,
+  output: __S(1634, __c51, 2) as any as S.Schema<UpdateSummariesList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11464,11 +12456,11 @@ export const ListValidatedSolutionRecipeBySubscriptionLocationResource: API.Oper
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1696,
-    __c53,
+    1664,
+    __c52,
     0,
   ) as any as S.Schema<ListValidatedSolutionRecipeBySubscriptionLocationResourceRequest>,
-  output: __S(1698, __c53, 2) as any as S.Schema<ValidatedSolutionRecipeListResult>,
+  output: __S(1666, __c52, 2) as any as S.Schema<ValidatedSolutionRecipeListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11484,8 +12476,8 @@ export const ListVirtualHardDiskAll: API.OperationMethod<
   ListVirtualHardDiskAllError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<ListVirtualHardDiskAllRequest>,
-  output: __S(1761, __c55, 1) as any as S.Schema<VirtualHardDisksListResult>,
+  input: __S(1696, __c53, 0) as any as S.Schema<ListVirtualHardDiskAllRequest>,
+  output: __S(1729, __c54, 1) as any as S.Schema<VirtualHardDisksListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11501,8 +12493,8 @@ export const ListVirtualHardDisks: API.OperationMethod<
   ListVirtualHardDisksError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<ListVirtualHardDisksRequest>,
-  output: __S(1761, __c55, 1) as any as S.Schema<VirtualHardDisksListResult>,
+  input: __S(1760, __c55, 0) as any as S.Schema<ListVirtualHardDisksRequest>,
+  output: __S(1729, __c54, 1) as any as S.Schema<VirtualHardDisksListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11518,8 +12510,8 @@ export const ListVirtualMachineInstances: API.OperationMethod<
   ListVirtualMachineInstancesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<ListVirtualMachineInstancesRequest>,
-  output: __S(1826, __c57, 2) as any as S.Schema<VirtualMachineInstanceListResult>,
+  input: __S(1792, __c56, 0) as any as S.Schema<ListVirtualMachineInstancesRequest>,
+  output: __S(1794, __c56, 2) as any as S.Schema<VirtualMachineInstanceListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11540,8 +12532,8 @@ export const LogicalNetworksCreateOrUpdate: API.OperationMethod<
   LogicalNetworksCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1863, __c58, 7) as any as S.Schema<LogicalNetworksCreateOrUpdateRequest>,
-  output: __S(6944, __c217, 0) as any as S.Schema<LogicalNetworksCreateOrUpdateResponse>,
+  input: __S(1831, __c57, 7) as any as S.Schema<LogicalNetworksCreateOrUpdateRequest>,
+  output: __S(7168, __c224, 0) as any as S.Schema<LogicalNetworksCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11557,8 +12549,8 @@ export const MarketplaceGalleryImagesCreateOrUpdate: API.OperationMethod<
   MarketplaceGalleryImagesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1889, __c59, 1) as any as S.Schema<MarketplaceGalleryImagesCreateOrUpdateRequest>,
-  output: __S(7072, __c221, 0) as any as S.Schema<MarketplaceGalleryImagesCreateOrUpdateResponse>,
+  input: __S(1857, __c58, 1) as any as S.Schema<MarketplaceGalleryImagesCreateOrUpdateRequest>,
+  output: __S(7296, __c228, 0) as any as S.Schema<MarketplaceGalleryImagesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11574,8 +12566,8 @@ export const NetworkInterfacesCreateOrUpdate: API.OperationMethod<
   NetworkInterfacesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1924, __c60, 4) as any as S.Schema<NetworkInterfacesCreateOrUpdateRequest>,
-  output: __S(7168, __c224, 0) as any as S.Schema<NetworkInterfacesCreateOrUpdateResponse>,
+  input: __S(1892, __c59, 4) as any as S.Schema<NetworkInterfacesCreateOrUpdateRequest>,
+  output: __S(7392, __c231, 0) as any as S.Schema<NetworkInterfacesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11591,7 +12583,7 @@ export const PostUpdate: API.OperationMethod<
   PostUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<PostUpdateRequest>,
+  input: __S(1920, __c60, 0) as any as S.Schema<PostUpdateRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<PostUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -11608,8 +12600,8 @@ export const PutUpdate: API.OperationMethod<
   PutUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1985, __c62, 1) as any as S.Schema<PutUpdateRequest>,
-  output: __S(7748, __c242, 4) as any as S.Schema<PutUpdateResponse>,
+  input: __S(1953, __c61, 1) as any as S.Schema<PutUpdateRequest>,
+  output: __S(7972, __c249, 4) as any as S.Schema<PutUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11625,8 +12617,8 @@ export const PutUpdateRun: API.OperationMethod<
   PutUpdateRunError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2049, __c64, 1) as any as S.Schema<PutUpdateRunRequest>,
-  output: __S(7843, __c245, 3) as any as S.Schema<PutUpdateRunResponse>,
+  input: __S(2017, __c63, 1) as any as S.Schema<PutUpdateRunRequest>,
+  output: __S(8067, __c252, 3) as any as S.Schema<PutUpdateRunResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11642,8 +12634,8 @@ export const PutUpdateSummary: API.OperationMethod<
   PutUpdateSummaryError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2081, __c65, 1) as any as S.Schema<PutUpdateSummaryRequest>,
-  output: __S(7905, __c247, 1) as any as S.Schema<PutUpdateSummaryResponse>,
+  input: __S(2049, __c64, 1) as any as S.Schema<PutUpdateSummaryRequest>,
+  output: __S(8129, __c254, 1) as any as S.Schema<PutUpdateSummaryResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11659,8 +12651,8 @@ export const RefreshEdgeMachineApplicableUpdates: API.OperationMethod<
   RefreshEdgeMachineApplicableUpdatesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<RefreshEdgeMachineApplicableUpdatesRequest>,
-  output: __S(3680, __c115, 0) as any as S.Schema<RefreshEdgeMachineApplicableUpdatesResponse>,
+  input: __S(2080, __c65, 0) as any as S.Schema<RefreshEdgeMachineApplicableUpdatesRequest>,
+  output: __S(3648, __c114, 0) as any as S.Schema<RefreshEdgeMachineApplicableUpdatesResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11676,8 +12668,8 @@ export const RefreshEdgeMachineSecuritySettings: API.OperationMethod<
   RefreshEdgeMachineSecuritySettingsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<RefreshEdgeMachineSecuritySettingsRequest>,
-  output: __S(3680, __c115, 0) as any as S.Schema<RefreshEdgeMachineSecuritySettingsResponse>,
+  input: __S(2112, __c66, 0) as any as S.Schema<RefreshEdgeMachineSecuritySettingsRequest>,
+  output: __S(3648, __c114, 0) as any as S.Schema<RefreshEdgeMachineSecuritySettingsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11693,8 +12685,8 @@ export const RestartVirtualMachineInstance: API.OperationMethod<
   RestartVirtualMachineInstanceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<RestartVirtualMachineInstanceRequest>,
-  output: __S(2208, __c69, 0) as any as S.Schema<RestartVirtualMachineInstanceResponse>,
+  input: __S(2144, __c67, 0) as any as S.Schema<RestartVirtualMachineInstanceRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<RestartVirtualMachineInstanceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11716,8 +12708,8 @@ export const SecuritySettingsCreateOrUpdate: API.OperationMethod<
   SecuritySettingsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2241, __c70, 1) as any as S.Schema<SecuritySettingsCreateOrUpdateRequest>,
-  output: __S(2242, __c70, 2) as any as S.Schema<SecuritySettingsCreateOrUpdateResponse>,
+  input: __S(2209, __c69, 1) as any as S.Schema<SecuritySettingsCreateOrUpdateRequest>,
+  output: __S(2210, __c69, 2) as any as S.Schema<SecuritySettingsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11733,8 +12725,8 @@ export const StartVirtualMachineInstance: API.OperationMethod<
   StartVirtualMachineInstanceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<StartVirtualMachineInstanceRequest>,
-  output: __S(2208, __c69, 0) as any as S.Schema<StartVirtualMachineInstanceResponse>,
+  input: __S(2240, __c70, 0) as any as S.Schema<StartVirtualMachineInstanceRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<StartVirtualMachineInstanceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11756,8 +12748,8 @@ export const StopVirtualMachineInstance: API.OperationMethod<
   StopVirtualMachineInstanceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<StopVirtualMachineInstanceRequest>,
-  output: __S(2208, __c69, 0) as any as S.Schema<StopVirtualMachineInstanceResponse>,
+  input: __S(2272, __c71, 0) as any as S.Schema<StopVirtualMachineInstanceRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<StopVirtualMachineInstanceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11779,8 +12771,8 @@ export const StorageContainersCreateOrUpdate: API.OperationMethod<
   StorageContainersCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2337, __c73, 1) as any as S.Schema<StorageContainersCreateOrUpdateRequest>,
-  output: __S(7648, __c239, 0) as any as S.Schema<StorageContainersCreateOrUpdateResponse>,
+  input: __S(2305, __c72, 1) as any as S.Schema<StorageContainersCreateOrUpdateRequest>,
+  output: __S(7872, __c246, 0) as any as S.Schema<StorageContainersCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11796,8 +12788,8 @@ export const TriggerClusterLogCollection: API.OperationMethod<
   TriggerClusterLogCollectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2369, __c74, 1) as any as S.Schema<TriggerClusterLogCollectionRequest>,
-  output: __S(5664, __c177, 0) as any as S.Schema<TriggerClusterLogCollectionResponse>,
+  input: __S(2337, __c73, 1) as any as S.Schema<TriggerClusterLogCollectionRequest>,
+  output: __S(5920, __c185, 0) as any as S.Schema<TriggerClusterLogCollectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11813,7 +12805,7 @@ export const UpdateArcSettings: API.OperationMethod<
   UpdateArcSettingsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2433, __c76, 1) as any as S.Schema<UpdateArcSettingsRequest>,
+  input: __S(2401, __c75, 1) as any as S.Schema<UpdateArcSettingsRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<UpdateArcSettingsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -11830,8 +12822,8 @@ export const UpdateCluster: API.OperationMethod<
   UpdateClusterError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2465, __c77, 1) as any as S.Schema<UpdateClusterRequest>,
-  output: __S(8224, __c257, 0) as any as S.Schema<UpdateClusterResponse>,
+  input: __S(2433, __c76, 1) as any as S.Schema<UpdateClusterRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<UpdateClusterResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11847,8 +12839,8 @@ export const UpdateClusterSecretsLocations: API.OperationMethod<
   UpdateClusterSecretsLocationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<UpdateClusterSecretsLocationsRequest>,
-  output: __S(5664, __c177, 0) as any as S.Schema<UpdateClusterSecretsLocationsResponse>,
+  input: __S(2464, __c77, 0) as any as S.Schema<UpdateClusterSecretsLocationsRequest>,
+  output: __S(5920, __c185, 0) as any as S.Schema<UpdateClusterSecretsLocationsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11864,8 +12856,8 @@ export const UpdateEdgeMachine: API.OperationMethod<
   UpdateEdgeMachineError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<UpdateEdgeMachineRequest>,
-  output: __S(2529, __c79, 1) as any as S.Schema<UpdateEdgeMachineResponse>,
+  input: __S(2496, __c78, 0) as any as S.Schema<UpdateEdgeMachineRequest>,
+  output: __S(2497, __c78, 1) as any as S.Schema<UpdateEdgeMachineResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11881,8 +12873,8 @@ export const UpdateExtension: API.OperationMethod<
   UpdateExtensionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2562, __c80, 2) as any as S.Schema<UpdateExtensionRequest>,
-  output: __S(608, __c19, 0) as any as S.Schema<UpdateExtensionResponse>,
+  input: __S(2530, __c79, 2) as any as S.Schema<UpdateExtensionRequest>,
+  output: __S(576, __c18, 0) as any as S.Schema<UpdateExtensionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11898,8 +12890,8 @@ export const UpdateGalleryImage: API.OperationMethod<
   UpdateGalleryImageError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<UpdateGalleryImageRequest>,
-  output: __S(2593, __c81, 1) as any as S.Schema<UpdateGalleryImageResponse>,
+  input: __S(2560, __c80, 0) as any as S.Schema<UpdateGalleryImageRequest>,
+  output: __S(2561, __c80, 1) as any as S.Schema<UpdateGalleryImageResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11915,8 +12907,8 @@ export const UpdateLogicalNetwork: API.OperationMethod<
   UpdateLogicalNetworkError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<UpdateLogicalNetworkRequest>,
-  output: __S(2625, __c82, 1) as any as S.Schema<UpdateLogicalNetworkResponse>,
+  input: __S(2592, __c81, 0) as any as S.Schema<UpdateLogicalNetworkRequest>,
+  output: __S(2593, __c81, 1) as any as S.Schema<UpdateLogicalNetworkResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11932,8 +12924,8 @@ export const UpdateMarketplaceGalleryImage: API.OperationMethod<
   UpdateMarketplaceGalleryImageError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<UpdateMarketplaceGalleryImageRequest>,
-  output: __S(2657, __c83, 1) as any as S.Schema<UpdateMarketplaceGalleryImageResponse>,
+  input: __S(2624, __c82, 0) as any as S.Schema<UpdateMarketplaceGalleryImageRequest>,
+  output: __S(2625, __c82, 1) as any as S.Schema<UpdateMarketplaceGalleryImageResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11949,8 +12941,8 @@ export const UpdateNetworkInterface: API.OperationMethod<
   UpdateNetworkInterfaceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c84, 0) as any as S.Schema<UpdateNetworkInterfaceRequest>,
-  output: __S(2689, __c84, 1) as any as S.Schema<UpdateNetworkInterfaceResponse>,
+  input: __S(2656, __c83, 0) as any as S.Schema<UpdateNetworkInterfaceRequest>,
+  output: __S(2657, __c83, 1) as any as S.Schema<UpdateNetworkInterfaceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11966,8 +12958,8 @@ export const UpdatesPrepare: API.OperationMethod<
   UpdatesPrepareError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<UpdatesPrepareRequest>,
-  output: __S(3680, __c115, 0) as any as S.Schema<UpdatesPrepareResponse>,
+  input: __S(2688, __c84, 0) as any as S.Schema<UpdatesPrepareRequest>,
+  output: __S(3648, __c114, 0) as any as S.Schema<UpdatesPrepareResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11983,8 +12975,8 @@ export const UpdateStorageContainer: API.OperationMethod<
   UpdateStorageContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c87, 0) as any as S.Schema<UpdateStorageContainerRequest>,
-  output: __S(2785, __c87, 1) as any as S.Schema<UpdateStorageContainerResponse>,
+  input: __S(2752, __c86, 0) as any as S.Schema<UpdateStorageContainerRequest>,
+  output: __S(2753, __c86, 1) as any as S.Schema<UpdateStorageContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12000,8 +12992,8 @@ export const UpdateVirtualHardDisk: API.OperationMethod<
   UpdateVirtualHardDiskError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<UpdateVirtualHardDiskRequest>,
-  output: __S(2817, __c88, 1) as any as S.Schema<UpdateVirtualHardDiskResponse>,
+  input: __S(2784, __c87, 0) as any as S.Schema<UpdateVirtualHardDiskRequest>,
+  output: __S(2785, __c87, 1) as any as S.Schema<UpdateVirtualHardDiskResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12017,8 +13009,8 @@ export const UpdateVirtualMachineInstance: API.OperationMethod<
   UpdateVirtualMachineInstanceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2853, __c89, 5) as any as S.Schema<UpdateVirtualMachineInstanceRequest>,
-  output: __S(2208, __c69, 0) as any as S.Schema<UpdateVirtualMachineInstanceResponse>,
+  input: __S(2821, __c88, 5) as any as S.Schema<UpdateVirtualMachineInstanceRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<UpdateVirtualMachineInstanceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12040,7 +13032,7 @@ export const UploadClusterCertificate: API.OperationMethod<
   UploadClusterCertificateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2913, __c91, 1) as any as S.Schema<UploadClusterCertificateRequest>,
+  input: __S(2881, __c90, 1) as any as S.Schema<UploadClusterCertificateRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<UploadClusterCertificateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -12057,8 +13049,8 @@ export const ValidateEdgeDevice: API.OperationMethod<
   ValidateEdgeDeviceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c92, 0) as any as S.Schema<ValidateEdgeDeviceRequest>,
-  output: __S(2976, __c93, 0) as any as S.Schema<ValidateResponse>,
+  input: __S(2912, __c91, 0) as any as S.Schema<ValidateEdgeDeviceRequest>,
+  output: __S(2944, __c92, 0) as any as S.Schema<ValidateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12080,8 +13072,8 @@ export const ValidateEdgeMachine: API.OperationMethod<
   ValidateEdgeMachineError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<ValidateEdgeMachineRequest>,
-  output: __S(2976, __c93, 0) as any as S.Schema<EdgeMachineValidateResponse>,
+  input: __S(2976, __c93, 0) as any as S.Schema<ValidateEdgeMachineRequest>,
+  output: __S(2944, __c92, 0) as any as S.Schema<EdgeMachineValidateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12097,8 +13089,8 @@ export const ValidateOwnershipVoucher: API.OperationMethod<
   ValidateOwnershipVoucherError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3041, __c95, 1) as any as S.Schema<ValidateOwnershipVoucherRequest>,
-  output: __S(3043, __c95, 3) as any as S.Schema<ValidateOwnershipVouchersResponse>,
+  input: __S(3009, __c94, 1) as any as S.Schema<ValidateOwnershipVoucherRequest>,
+  output: __S(3011, __c94, 3) as any as S.Schema<ValidateOwnershipVouchersResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12114,8 +13106,8 @@ export const VirtualHardDisksCreateOrUpdate: API.OperationMethod<
   VirtualHardDisksCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3073, __c96, 1) as any as S.Schema<VirtualHardDisksCreateOrUpdateRequest>,
-  output: __S(8064, __c252, 0) as any as S.Schema<VirtualHardDisksCreateOrUpdateResponse>,
+  input: __S(3041, __c95, 1) as any as S.Schema<VirtualHardDisksCreateOrUpdateRequest>,
+  output: __S(8288, __c259, 0) as any as S.Schema<VirtualHardDisksCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12131,8 +13123,8 @@ export const VirtualMachineInstancesCreateOrUpdate: API.OperationMethod<
   VirtualMachineInstancesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3105, __c97, 1) as any as S.Schema<VirtualMachineInstancesCreateOrUpdateRequest>,
-  output: __S(8320, __c260, 0) as any as S.Schema<VirtualMachineInstancesCreateOrUpdateResponse>,
+  input: __S(3073, __c96, 1) as any as S.Schema<VirtualMachineInstancesCreateOrUpdateRequest>,
+  output: __S(8544, __c267, 0) as any as S.Schema<VirtualMachineInstancesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12338,7 +13330,7 @@ function __c7(j: number): any {
         ),
       ).annotate({ identifier: "ListEdgeMachineDeploymentSettingsByEdgeMachineRequest" });
     case 1:
-      return S.Array(__S(6112, __c191, 0));
+      return S.Array(__S(6304, __c197, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -12366,22 +13358,18 @@ function __c8(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ListEdgeMachineDiskJobsRequest" });
-  }
-}
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(6240, __c195, 0));
     case 1:
+      return S.Array(__S(6432, __c201, 0));
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(288, __c9, 0),
+          value: __S(257, __c8, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "EdgeMachineDiskJobListResult" });
   }
 }
-function __c10(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12399,9 +13387,18 @@ function __c10(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ListEdgeMachineDiskPrivilegedJobsRequest" });
+    case 1:
+      return S.Array(__S(6496, __c203, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(289, __c9, 1),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EdgeMachineDiskPrivilegedJobListResult" });
   }
 }
-function __c11(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12419,17 +13416,17 @@ function __c11(j: number): any {
         ),
       ).annotate({ identifier: "ListEdgeMachineDisksRequest" });
     case 1:
-      return S.Array(__S(6176, __c193, 0));
+      return S.Array(__S(6368, __c199, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(353, __c11, 1),
+          value: __S(321, __c10, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "EdgeMachineDiskListResult" });
   }
 }
-function __c12(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12447,17 +13444,17 @@ function __c12(j: number): any {
         ),
       ).annotate({ identifier: "ListEdgeMachineJobsRequest" });
     case 1:
-      return S.Array(__S(6336, __c198, 0));
+      return S.Array(__S(6560, __c205, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(385, __c12, 1),
+          value: __S(353, __c11, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "EdgeMachineJobListResult" });
   }
 }
-function __c13(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12476,17 +13473,17 @@ function __c13(j: number): any {
         ),
       ).annotate({ identifier: "ListEdgeMachineNetworkAdapterJobsRequest" });
     case 1:
-      return S.Array(__S(6528, __c204, 0));
+      return S.Array(__S(6752, __c211, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(417, __c13, 1),
+          value: __S(385, __c12, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "EdgeMachineNetworkAdapterJobListResult" });
   }
 }
-function __c14(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12504,17 +13501,17 @@ function __c14(j: number): any {
         ),
       ).annotate({ identifier: "ListEdgeMachineNetworkAdaptersRequest" });
     case 1:
-      return S.Array(__S(6406, __c200, 6));
+      return S.Array(__S(6627, __c207, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(449, __c14, 1),
+          value: __S(417, __c13, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "EdgeMachineNetworkAdapterListResult" });
   }
 }
-function __c15(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12532,17 +13529,17 @@ function __c15(j: number): any {
         ),
       ).annotate({ identifier: "ListEdgeMachineSecuritySettingsOperationByEdgeMachineRequest" });
     case 1:
-      return S.Array(__S(6592, __c206, 0));
+      return S.Array(__S(6816, __c213, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(481, __c15, 1),
+          value: __S(449, __c14, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "EdgeMachineSecuritySettingsListResult" });
   }
 }
-function __c16(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12560,17 +13557,17 @@ function __c16(j: number): any {
         ),
       ).annotate({ identifier: "ListEdgeMachineVolumesRequest" });
     case 1:
-      return S.Array(__S(6656, __c208, 0));
+      return S.Array(__S(6880, __c215, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(513, __c16, 1),
+          value: __S(481, __c15, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "EdgeMachineVolumeListResult" });
   }
 }
-function __c17(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12589,22 +13586,22 @@ function __c17(j: number): any {
         ),
       ).annotate({ identifier: "ListExtensionByArcSettingRequest" });
     case 1:
-      return S.Array(__S(6720, __c210, 0));
+      return S.Array(__S(6944, __c217, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(545, __c17, 1),
+          value: __S(513, __c16, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExtensionList" });
   }
 }
-function __c18(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          extensionParameters: S.optional(__S(640, __c20, 0)),
+          extensionParameters: S.optional(__S(608, __c19, 0)),
         }),
       ).annotate({ identifier: "ExtensionPropertiesInput" });
     case 1:
@@ -12615,7 +13612,7 @@ function __c18(j: number): any {
           clusterName: S.String.pipe(T.Label()),
           arcSettingName: S.String.pipe(T.Label()),
           extensionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(576, __c18, 0)),
+          properties: S.optional(__S(544, __c17, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -12627,7 +13624,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "CreateExtensionRequest" });
   }
 }
-function __c19(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12636,14 +13633,14 @@ function __c19(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(644, __c20, 4)),
+          properties: S.optional(__S(612, __c19, 4)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "CreateExtensionResponse" });
   }
 }
-function __c20(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12664,7 +13661,7 @@ function __c20(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           typeHandlerVersion: S.optional(S.String),
-          status: S.optional(__S(672, __c21, 0)),
+          status: S.optional(__S(640, __c20, 0)),
         }),
       ).annotate({ identifier: "ExtensionInstanceView" });
     case 2:
@@ -12674,24 +13671,24 @@ function __c20(j: number): any {
           extension: S.optional(S.String),
           typeHandlerVersion: S.optional(S.String),
           state: S.optional(S.String),
-          instanceView: S.optional(__S(641, __c20, 1)),
+          instanceView: S.optional(__S(609, __c19, 1)),
         }),
       ).annotate({ identifier: "PerNodeExtensionState" });
     case 3:
-      return S.Array(__S(642, __c20, 2));
+      return S.Array(__S(610, __c19, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           provisioningState: S.optional(S.String),
-          extensionParameters: S.optional(__S(640, __c20, 0)),
+          extensionParameters: S.optional(__S(608, __c19, 0)),
           aggregateState: S.optional(S.String),
-          perNodeExtensionDetails: S.optional(__S(643, __c20, 3)),
+          perNodeExtensionDetails: S.optional(__S(611, __c19, 3)),
           managedBy: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExtensionProperties" });
   }
 }
-function __c21(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12705,7 +13702,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "ExtensionInstanceViewStatus" });
   }
 }
-function __c22(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12722,20 +13719,20 @@ function __c22(j: number): any {
       ).annotate({ identifier: "ListGalleryImageAllRequest" });
   }
 }
-function __c23(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(5344, __c167, 0));
+      return S.Array(__S(5600, __c175, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(736, __c23, 0)),
+          value: S.optional(__S(704, __c22, 0)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "GalleryImagesListResult" });
   }
 }
-function __c24(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12753,7 +13750,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "ListGalleryImagesRequest" });
   }
 }
-function __c25(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12769,17 +13766,17 @@ function __c25(j: number): any {
         ),
       ).annotate({ identifier: "ListGuestAgentsRequest" });
     case 1:
-      return S.Array(__S(1186, __c37, 2));
+      return S.Array(__S(1154, __c36, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: __S(801, __c25, 1),
+          value: __S(769, __c24, 1),
         }),
       ).annotate({ identifier: "GuestAgentList" });
   }
 }
-function __c26(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12795,17 +13792,17 @@ function __c26(j: number): any {
         ),
       ).annotate({ identifier: "ListHybridIdentityMetadataRequest" });
     case 1:
-      return S.Array(__S(6849, __c214, 1));
+      return S.Array(__S(7073, __c221, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: __S(833, __c26, 1),
+          value: __S(801, __c25, 1),
         }),
       ).annotate({ identifier: "HybridIdentityMetadataList" });
   }
 }
-function __c27(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12822,20 +13819,20 @@ function __c27(j: number): any {
       ).annotate({ identifier: "ListLogicalNetworkAllRequest" });
   }
 }
-function __c28(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(6944, __c217, 0));
+      return S.Array(__S(7168, __c224, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(896, __c28, 0)),
+          value: S.optional(__S(864, __c27, 0)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "LogicalNetworksListResult" });
   }
 }
-function __c29(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12853,7 +13850,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "ListLogicalNetworksRequest" });
   }
 }
-function __c30(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12870,20 +13867,20 @@ function __c30(j: number): any {
       ).annotate({ identifier: "ListMarketplaceGalleryImageAllRequest" });
   }
 }
-function __c31(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(7072, __c221, 0));
+      return S.Array(__S(7296, __c228, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(992, __c31, 0)),
+          value: S.optional(__S(960, __c30, 0)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "MarketplaceGalleryImagesListResult" });
   }
 }
-function __c32(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12901,7 +13898,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "ListMarketplaceGalleryImagesRequest" });
   }
 }
-function __c33(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12918,20 +13915,20 @@ function __c33(j: number): any {
       ).annotate({ identifier: "ListNetworkInterfaceAllRequest" });
   }
 }
-function __c34(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(7168, __c224, 0));
+      return S.Array(__S(7392, __c231, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1088, __c34, 0)),
+          value: S.optional(__S(1056, __c33, 0)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "NetworkInterfacesListResult" });
   }
 }
-function __c35(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12949,12 +13946,12 @@ function __c35(j: number): any {
       ).annotate({ identifier: "ListNetworkInterfacesRequest" });
   }
 }
-function __c36(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          credentials: S.optional(__S(1184, __c37, 0)),
+          credentials: S.optional(__S(1152, __c36, 0)),
           provisioningAction: S.optional(S.String),
         }),
       ).annotate({ identifier: "GuestAgentPropertiesInput" });
@@ -12962,7 +13959,7 @@ function __c36(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resourceUri: S.String.pipe(T.Label()),
-          properties: __S(1152, __c36, 0),
+          properties: __S(1120, __c35, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -12974,7 +13971,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "CreateGuestAgentRequest" });
   }
 }
-function __c37(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12986,7 +13983,7 @@ function __c37(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          credentials: S.optional(__S(1184, __c37, 0)),
+          credentials: S.optional(__S(1152, __c36, 0)),
           provisioningAction: S.optional(S.String),
           status: S.optional(S.String),
           provisioningState: S.optional(S.String),
@@ -12999,12 +13996,12 @@ function __c37(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: __S(1185, __c37, 1),
+          properties: __S(1153, __c36, 1),
         }),
       ).annotate({ identifier: "CreateGuestAgentResponse" });
   }
 }
-function __c38(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13024,20 +14021,20 @@ function __c38(j: number): any {
       ).annotate({ identifier: "ListOfferByClusterRequest" });
   }
 }
-function __c39(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(7329, __c229, 1));
+      return S.Array(__S(7553, __c236, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1248, __c39, 0),
+          value: __S(1216, __c38, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OfferList" });
   }
 }
-function __c40(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13058,7 +14055,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "ListOfferByPublisherRequest" });
   }
 }
-function __c41(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13085,23 +14082,23 @@ function __c41(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           isDataAction: S.optional(S.Boolean),
-          display: S.optional(__S(1313, __c41, 1)),
+          display: S.optional(__S(1281, __c40, 1)),
           origin: S.optional(S.String),
           actionType: S.optional(S.String),
         }),
       ).annotate({ identifier: "Operation" });
     case 3:
-      return S.Array(__S(1314, __c41, 2));
+      return S.Array(__S(1282, __c40, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1315, __c41, 3)),
+          value: S.optional(__S(1283, __c40, 3)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c42(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13118,17 +14115,17 @@ function __c42(j: number): any {
         ),
       ).annotate({ identifier: "ListOsImageBySubscriptionLocationResourceRequest" });
     case 1:
-      return S.Array(__S(7425, __c232, 1));
+      return S.Array(__S(7649, __c239, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1345, __c42, 1),
+          value: __S(1313, __c41, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OsImageListResult" });
   }
 }
-function __c43(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13146,17 +14143,17 @@ function __c43(j: number): any {
         ),
       ).annotate({ identifier: "ListSecuritySettingsByClustersRequest" });
     case 1:
-      return S.Array(__S(7488, __c234, 0));
+      return S.Array(__S(7712, __c241, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1377, __c43, 1),
+          value: __S(1345, __c42, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SecuritySettingListResult" });
   }
 }
-function __c44(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13177,17 +14174,17 @@ function __c44(j: number): any {
         ),
       ).annotate({ identifier: "ListSkusByOfferRequest" });
     case 1:
-      return S.Array(__S(7585, __c237, 1));
+      return S.Array(__S(7809, __c244, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1409, __c44, 1),
+          value: __S(1377, __c43, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SkuList" });
   }
 }
-function __c45(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13204,20 +14201,20 @@ function __c45(j: number): any {
       ).annotate({ identifier: "ListStorageContainerAllRequest" });
   }
 }
-function __c46(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(7648, __c239, 0));
+      return S.Array(__S(7872, __c246, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1472, __c46, 0)),
+          value: S.optional(__S(1440, __c45, 0)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "StorageContainersListResult" });
   }
 }
-function __c47(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13235,7 +14232,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "ListStorageContainersRequest" });
   }
 }
-function __c48(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13254,17 +14251,17 @@ function __c48(j: number): any {
         ),
       ).annotate({ identifier: "ListUpdateRunsRequest" });
     case 1:
-      return S.Array(__S(7843, __c245, 3));
+      return S.Array(__S(8067, __c252, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1537, __c48, 1),
+          value: __S(1505, __c47, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateRunList" });
   }
 }
-function __c49(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13282,17 +14279,17 @@ function __c49(j: number): any {
         ),
       ).annotate({ identifier: "ListUpdatesRequest" });
     case 1:
-      return S.Array(__S(7748, __c242, 4));
+      return S.Array(__S(7972, __c249, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1569, __c49, 1),
+          value: __S(1537, __c48, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateList" });
   }
 }
-function __c50(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13312,7 +14309,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "DeleteArcSettingsRequest" });
   }
 }
-function __c51(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13323,7 +14320,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "DeleteArcSettingsResponse" });
   }
 }
-function __c52(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13341,17 +14338,17 @@ function __c52(j: number): any {
         ),
       ).annotate({ identifier: "ListUpdateSummariesRequest" });
     case 1:
-      return S.Array(__S(7905, __c247, 1));
+      return S.Array(__S(8129, __c254, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1665, __c52, 1),
+          value: __S(1633, __c51, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateSummariesList" });
   }
 }
-function __c53(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13370,17 +14367,17 @@ function __c53(j: number): any {
         identifier: "ListValidatedSolutionRecipeBySubscriptionLocationResourceRequest",
       });
     case 1:
-      return S.Array(__S(7979, __c249, 11));
+      return S.Array(__S(8203, __c256, 11));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1697, __c53, 1),
+          value: __S(1665, __c52, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ValidatedSolutionRecipeListResult" });
   }
 }
-function __c54(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13397,20 +14394,20 @@ function __c54(j: number): any {
       ).annotate({ identifier: "ListVirtualHardDiskAllRequest" });
   }
 }
-function __c55(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(8064, __c252, 0));
+      return S.Array(__S(8288, __c259, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1760, __c55, 0)),
+          value: S.optional(__S(1728, __c54, 0)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "VirtualHardDisksListResult" });
   }
 }
-function __c56(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13428,7 +14425,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "ListVirtualHardDisksRequest" });
   }
 }
-function __c57(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13444,22 +14441,22 @@ function __c57(j: number): any {
         ),
       ).annotate({ identifier: "ListVirtualMachineInstancesRequest" });
     case 1:
-      return S.Array(__S(8320, __c260, 0));
+      return S.Array(__S(8544, __c267, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1825, __c57, 1)),
+          value: S.optional(__S(1793, __c56, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "VirtualMachineInstanceListResult" });
   }
 }
-function __c58(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(6981, __c218, 5)),
+          properties: S.optional(__S(7205, __c225, 5)),
         }),
       ).annotate({ identifier: "RouteTableInput" });
     case 1:
@@ -13469,37 +14466,37 @@ function __c58(j: number): any {
           ipPoolType: S.optional(S.String),
           start: S.optional(S.String),
           end: S.optional(S.String),
-          info: S.optional(__S(8128, __c254, 0)),
+          info: S.optional(__S(8352, __c261, 0)),
         }),
       ).annotate({ identifier: "IPPoolInput" });
     case 2:
-      return S.Array(__S(1857, __c58, 1));
+      return S.Array(__S(1825, __c57, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           addressPrefix: S.optional(S.String),
-          addressPrefixes: S.optional(__S(3264, __c102, 0)),
+          addressPrefixes: S.optional(__S(3232, __c101, 0)),
           ipAllocationMethod: S.optional(S.String),
-          ipConfigurationReferences: S.optional(__S(6977, __c218, 1)),
-          routeTable: S.optional(__S(1856, __c58, 0)),
-          ipPools: S.optional(__S(1858, __c58, 2)),
+          ipConfigurationReferences: S.optional(__S(7201, __c225, 1)),
+          routeTable: S.optional(__S(1824, __c57, 0)),
+          ipPools: S.optional(__S(1826, __c57, 2)),
           vlan: S.optional(S.Number),
         }),
       ).annotate({ identifier: "SubnetPropertiesFormatInput" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(1859, __c58, 3)),
+          properties: S.optional(__S(1827, __c57, 3)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "SubnetInput" });
     case 5:
-      return S.Array(__S(1860, __c58, 4));
+      return S.Array(__S(1828, __c57, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          dhcpOptions: S.optional(__S(7008, __c219, 0)),
-          subnets: S.optional(__S(1861, __c58, 5)),
+          dhcpOptions: S.optional(__S(7232, __c226, 0)),
+          subnets: S.optional(__S(1829, __c57, 5)),
           vmSwitchName: S.optional(S.String),
         }),
       ).annotate({ identifier: "LogicalNetworkPropertiesInput" });
@@ -13509,10 +14506,10 @@ function __c58(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           logicalNetworkName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(5728, __c179, 0)),
+          tags: S.optional(__S(5984, __c187, 0)),
           location: S.String,
-          properties: S.optional(__S(1862, __c58, 6)),
-          extendedLocation: S.optional(__S(5408, __c169, 0)),
+          properties: S.optional(__S(1830, __c57, 6)),
+          extendedLocation: S.optional(__S(5664, __c177, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -13524,7 +14521,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "LogicalNetworksCreateOrUpdateRequest" });
   }
 }
-function __c59(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13533,8 +14530,8 @@ function __c59(j: number): any {
           osType: S.String,
           cloudInitDataSource: S.optional(S.String),
           hyperVGeneration: S.optional(S.String),
-          identifier: S.optional(__S(5440, __c170, 0)),
-          version: S.optional(__S(5282, __c165, 2)),
+          identifier: S.optional(__S(5696, __c178, 0)),
+          version: S.optional(__S(5538, __c173, 2)),
         }),
       ).annotate({ identifier: "MarketplaceGalleryImagePropertiesInput" });
     case 1:
@@ -13543,10 +14540,10 @@ function __c59(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           marketplaceGalleryImageName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(5728, __c179, 0)),
+          tags: S.optional(__S(5984, __c187, 0)),
           location: S.String,
-          properties: S.optional(__S(1888, __c59, 0)),
-          extendedLocation: S.optional(__S(5408, __c169, 0)),
+          properties: S.optional(__S(1856, __c58, 0)),
+          extendedLocation: S.optional(__S(5664, __c177, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -13558,30 +14555,30 @@ function __c59(j: number): any {
       ).annotate({ identifier: "MarketplaceGalleryImagesCreateOrUpdateRequest" });
   }
 }
-function __c60(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           privateIPAddress: S.optional(S.String),
-          subnet: S.optional(__S(7232, __c226, 0)),
+          subnet: S.optional(__S(7456, __c233, 0)),
         }),
       ).annotate({ identifier: "IPConfigurationInputProperties" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          properties: S.optional(__S(1920, __c60, 0)),
+          properties: S.optional(__S(1888, __c59, 0)),
         }),
       ).annotate({ identifier: "IPConfigurationInput" });
     case 2:
-      return S.Array(__S(1921, __c60, 1));
+      return S.Array(__S(1889, __c59, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ipConfigurations: S.optional(__S(1922, __c60, 2)),
+          ipConfigurations: S.optional(__S(1890, __c59, 2)),
           macAddress: S.optional(S.String),
-          dnsSettings: S.optional(__S(7008, __c219, 0)),
+          dnsSettings: S.optional(__S(7232, __c226, 0)),
         }),
       ).annotate({ identifier: "NetworkInterfacePropertiesInput" });
     case 4:
@@ -13590,10 +14587,10 @@ function __c60(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           networkInterfaceName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(5728, __c179, 0)),
+          tags: S.optional(__S(5984, __c187, 0)),
           location: S.String,
-          properties: S.optional(__S(1923, __c60, 3)),
-          extendedLocation: S.optional(__S(5408, __c169, 0)),
+          properties: S.optional(__S(1891, __c59, 3)),
+          extendedLocation: S.optional(__S(5664, __c177, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -13605,7 +14602,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "NetworkInterfacesCreateOrUpdateRequest" });
   }
 }
-function __c61(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13625,7 +14622,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "PostUpdateRequest" });
   }
 }
-function __c62(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13634,11 +14631,11 @@ function __c62(j: number): any {
           description: S.optional(S.String),
           minSbeVersionRequired: S.optional(S.String),
           state: S.optional(S.String),
-          prerequisites: S.optional(__S(7745, __c242, 1)),
-          componentVersions: S.optional(__S(7777, __c243, 1)),
+          prerequisites: S.optional(__S(7969, __c249, 1)),
+          componentVersions: S.optional(__S(8001, __c250, 1)),
           rebootRequired: S.optional(S.String),
           healthState: S.optional(S.String),
-          healthCheckResult: S.optional(__S(7780, __c243, 4)),
+          healthCheckResult: S.optional(__S(8004, __c250, 4)),
           healthCheckDate: S.optional(S.String),
           packagePath: S.optional(S.String),
           packageSizeInMb: S.optional(S.Number),
@@ -13649,7 +14646,7 @@ function __c62(j: number): any {
           availabilityType: S.optional(S.String),
           packageType: S.optional(S.String),
           additionalProperties: S.optional(S.String),
-          updateStateProperties: S.optional(__S(7746, __c242, 2)),
+          updateStateProperties: S.optional(__S(7970, __c249, 2)),
         }),
       ).annotate({ identifier: "UpdatePropertiesInput" });
     case 1:
@@ -13659,7 +14656,7 @@ function __c62(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
           updateName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1984, __c62, 0)),
+          properties: S.optional(__S(1952, __c61, 0)),
           location: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -13672,7 +14669,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "PutUpdateRequest" });
   }
 }
-function __c63(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13691,7 +14688,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "DeleteClusterRequest" });
   }
 }
-function __c64(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13699,7 +14696,7 @@ function __c64(j: number): any {
           timeStarted: S.optional(S.String),
           lastUpdatedTime: S.optional(S.String),
           duration: S.optional(S.String),
-          progress: S.optional(__S(7841, __c245, 1)),
+          progress: S.optional(__S(8065, __c252, 1)),
         }),
       ).annotate({ identifier: "UpdateRunPropertiesInput" });
     case 1:
@@ -13710,7 +14707,7 @@ function __c64(j: number): any {
           clusterName: S.String.pipe(T.Label()),
           updateName: S.String.pipe(T.Label()),
           updateRunName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(2048, __c64, 0)),
+          properties: S.optional(__S(2016, __c63, 0)),
           location: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -13723,7 +14720,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "PutUpdateRunRequest" });
   }
 }
-function __c65(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13731,13 +14728,13 @@ function __c65(j: number): any {
           oemFamily: S.optional(S.String),
           currentOemVersion: S.optional(S.String),
           hardwareModel: S.optional(S.String),
-          packageVersions: S.optional(__S(7777, __c243, 1)),
+          packageVersions: S.optional(__S(8001, __c250, 1)),
           currentVersion: S.optional(S.String),
           currentSbeVersion: S.optional(S.String),
           lastUpdated: S.optional(S.String),
           lastChecked: S.optional(S.String),
           healthState: S.optional(S.String),
-          healthCheckResult: S.optional(__S(7780, __c243, 4)),
+          healthCheckResult: S.optional(__S(8004, __c250, 4)),
           healthCheckDate: S.optional(S.String),
           state: S.optional(S.String),
         }),
@@ -13748,7 +14745,7 @@ function __c65(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(2080, __c65, 0)),
+          properties: S.optional(__S(2048, __c64, 0)),
           location: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -13761,7 +14758,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "PutUpdateSummaryRequest" });
   }
 }
-function __c66(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13780,7 +14777,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "RefreshEdgeMachineApplicableUpdatesRequest" });
   }
 }
-function __c67(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13799,7 +14796,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "RefreshEdgeMachineSecuritySettingsRequest" });
   }
 }
-function __c68(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13816,7 +14813,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "RestartVirtualMachineInstanceRequest" });
   }
 }
-function __c69(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13825,15 +14822,15 @@ function __c69(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(8309, __c259, 21)),
-          extendedLocation: S.optional(__S(5408, __c169, 0)),
-          identity: S.optional(__S(6880, __c215, 0)),
+          properties: S.optional(__S(8533, __c266, 21)),
+          extendedLocation: S.optional(__S(5664, __c177, 0)),
+          identity: S.optional(__S(7104, __c222, 0)),
           location: S.optional(S.String.pipe(T.Header("Location"))),
         }),
       ).annotate({ identifier: "RestartVirtualMachineInstanceResponse" });
   }
 }
-function __c70(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13850,7 +14847,7 @@ function __c70(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
           securitySettingsName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(2240, __c70, 0)),
+          properties: S.optional(__S(2208, __c69, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -13867,14 +14864,14 @@ function __c70(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(7521, __c235, 1)),
+          properties: S.optional(__S(7745, __c242, 1)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "SecuritySettingsCreateOrUpdateResponse" });
   }
 }
-function __c71(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13891,7 +14888,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "StartVirtualMachineInstanceRequest" });
   }
 }
-function __c72(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13908,7 +14905,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "StopVirtualMachineInstanceRequest" });
   }
 }
-function __c73(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13922,10 +14919,10 @@ function __c73(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           storageContainerName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(5728, __c179, 0)),
+          tags: S.optional(__S(5984, __c187, 0)),
           location: S.String,
-          properties: S.optional(__S(2336, __c73, 0)),
-          extendedLocation: S.optional(__S(5408, __c169, 0)),
+          properties: S.optional(__S(2304, __c72, 0)),
+          extendedLocation: S.optional(__S(5664, __c177, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -13937,7 +14934,7 @@ function __c73(j: number): any {
       ).annotate({ identifier: "StorageContainersCreateOrUpdateRequest" });
   }
 }
-function __c74(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13952,7 +14949,7 @@ function __c74(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(2368, __c74, 0)),
+          properties: S.optional(__S(2336, __c73, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -13964,7 +14961,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "TriggerClusterLogCollectionRequest" });
   }
 }
-function __c75(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13984,7 +14981,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "DeleteClusterJobRequest" });
   }
 }
-function __c76(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13999,8 +14996,8 @@ function __c76(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
           arcSettingName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(5728, __c179, 0)),
-          properties: S.optional(__S(2432, __c76, 0)),
+          tags: S.optional(__S(5984, __c187, 0)),
+          properties: S.optional(__S(2400, __c75, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -14012,7 +15009,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "UpdateArcSettingsRequest" });
   }
 }
-function __c77(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14020,7 +15017,7 @@ function __c77(j: number): any {
           cloudManagementEndpoint: S.optional(S.String),
           aadClientId: S.optional(S.String),
           aadTenantId: S.optional(S.String),
-          desiredProperties: S.optional(__S(5802, __c181, 10)),
+          desiredProperties: S.optional(__S(6058, __c189, 10)),
         }),
       ).annotate({ identifier: "ClusterPatchProperties" });
     case 1:
@@ -14029,9 +15026,9 @@ function __c77(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(5728, __c179, 0)),
-          identity: S.optional(__S(8161, __c255, 1)),
-          properties: S.optional(__S(2464, __c77, 0)),
+          tags: S.optional(__S(5984, __c187, 0)),
+          identity: S.optional(__S(8385, __c262, 1)),
+          properties: S.optional(__S(2432, __c76, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -14043,7 +15040,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "UpdateClusterRequest" });
   }
 }
-function __c78(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14051,7 +15048,7 @@ function __c78(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(5810, __c181, 18)),
+          properties: S.optional(__S(6066, __c189, 18)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -14063,7 +15060,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "UpdateClusterSecretsLocationsRequest" });
   }
 }
-function __c79(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14071,8 +15068,8 @@ function __c79(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           edgeMachineName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(5728, __c179, 0)),
-          identity: S.optional(__S(8161, __c255, 1)),
+          tags: S.optional(__S(5984, __c187, 0)),
+          identity: S.optional(__S(8385, __c262, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -14089,17 +15086,17 @@ function __c79(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          tags: S.optional(__S(5728, __c179, 0)),
+          tags: S.optional(__S(5984, __c187, 0)),
           location: S.String,
-          properties: S.optional(__S(5008, __c156, 16)),
-          identity: S.optional(__S(5762, __c180, 2)),
+          properties: S.optional(__S(5266, __c164, 18)),
+          identity: S.optional(__S(6018, __c188, 2)),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "UpdateEdgeMachineResponse" });
   }
 }
-function __c80(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14113,7 +15110,7 @@ function __c80(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          extensionParameters: S.optional(__S(2560, __c80, 0)),
+          extensionParameters: S.optional(__S(2528, __c79, 0)),
         }),
       ).annotate({ identifier: "ExtensionPatchProperties" });
     case 2:
@@ -14124,7 +15121,7 @@ function __c80(j: number): any {
           clusterName: S.String.pipe(T.Label()),
           arcSettingName: S.String.pipe(T.Label()),
           extensionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(2561, __c80, 1)),
+          properties: S.optional(__S(2529, __c79, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -14136,7 +15133,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "UpdateExtensionRequest" });
   }
 }
-function __c81(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14144,7 +15141,7 @@ function __c81(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           galleryImageName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(5728, __c179, 0)),
+          tags: S.optional(__S(5984, __c187, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -14161,16 +15158,16 @@ function __c81(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          tags: S.optional(__S(5728, __c179, 0)),
+          tags: S.optional(__S(5984, __c187, 0)),
           location: S.String,
-          properties: S.optional(__S(5376, __c168, 0)),
-          extendedLocation: S.optional(__S(5408, __c169, 0)),
+          properties: S.optional(__S(5632, __c176, 0)),
+          extendedLocation: S.optional(__S(5664, __c177, 0)),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
         }),
       ).annotate({ identifier: "UpdateGalleryImageResponse" });
   }
 }
-function __c82(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14178,7 +15175,7 @@ function __c82(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           logicalNetworkName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(5728, __c179, 0)),
+          tags: S.optional(__S(5984, __c187, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -14195,16 +15192,16 @@ function __c82(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          tags: S.optional(__S(5728, __c179, 0)),
+          tags: S.optional(__S(5984, __c187, 0)),
           location: S.String,
-          properties: S.optional(__S(6989, __c218, 13)),
-          extendedLocation: S.optional(__S(5408, __c169, 0)),
+          properties: S.optional(__S(7213, __c225, 13)),
+          extendedLocation: S.optional(__S(5664, __c177, 0)),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
         }),
       ).annotate({ identifier: "UpdateLogicalNetworkResponse" });
   }
 }
-function __c83(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14212,7 +15209,7 @@ function __c83(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           marketplaceGalleryImageName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(5728, __c179, 0)),
+          tags: S.optional(__S(5984, __c187, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -14229,16 +15226,16 @@ function __c83(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          tags: S.optional(__S(5728, __c179, 0)),
+          tags: S.optional(__S(5984, __c187, 0)),
           location: S.String,
-          properties: S.optional(__S(7104, __c222, 0)),
-          extendedLocation: S.optional(__S(5408, __c169, 0)),
+          properties: S.optional(__S(7328, __c229, 0)),
+          extendedLocation: S.optional(__S(5664, __c177, 0)),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
         }),
       ).annotate({ identifier: "UpdateMarketplaceGalleryImageResponse" });
   }
 }
-function __c84(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14246,7 +15243,7 @@ function __c84(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           networkInterfaceName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(5728, __c179, 0)),
+          tags: S.optional(__S(5984, __c187, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -14263,16 +15260,16 @@ function __c84(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          tags: S.optional(__S(5728, __c179, 0)),
+          tags: S.optional(__S(5984, __c187, 0)),
           location: S.String,
-          properties: S.optional(__S(7203, __c225, 3)),
-          extendedLocation: S.optional(__S(5408, __c169, 0)),
+          properties: S.optional(__S(7427, __c232, 3)),
+          extendedLocation: S.optional(__S(5664, __c177, 0)),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
         }),
       ).annotate({ identifier: "UpdateNetworkInterfaceResponse" });
   }
 }
-function __c85(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14292,7 +15289,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "UpdatesPrepareRequest" });
   }
 }
-function __c86(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14312,7 +15309,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "DeleteDeploymentSettingsRequest" });
   }
 }
-function __c87(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14320,7 +15317,7 @@ function __c87(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           storageContainerName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(5728, __c179, 0)),
+          tags: S.optional(__S(5984, __c187, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -14337,16 +15334,16 @@ function __c87(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          tags: S.optional(__S(5728, __c179, 0)),
+          tags: S.optional(__S(5984, __c187, 0)),
           location: S.String,
-          properties: S.optional(__S(7681, __c240, 1)),
-          extendedLocation: S.optional(__S(5408, __c169, 0)),
+          properties: S.optional(__S(7905, __c247, 1)),
+          extendedLocation: S.optional(__S(5664, __c177, 0)),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
         }),
       ).annotate({ identifier: "UpdateStorageContainerResponse" });
   }
 }
-function __c88(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14354,7 +15351,7 @@ function __c88(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           virtualHardDiskName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(5728, __c179, 0)),
+          tags: S.optional(__S(5984, __c187, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -14371,16 +15368,16 @@ function __c88(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          tags: S.optional(__S(5728, __c179, 0)),
+          tags: S.optional(__S(5984, __c187, 0)),
           location: S.String,
-          properties: S.optional(__S(8032, __c251, 0)),
-          extendedLocation: S.optional(__S(5408, __c169, 0)),
+          properties: S.optional(__S(8256, __c258, 0)),
+          extendedLocation: S.optional(__S(5664, __c177, 0)),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
         }),
       ).annotate({ identifier: "UpdateVirtualHardDiskResponse" });
   }
 }
-function __c89(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14393,7 +15390,7 @@ function __c89(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          dataDisks: S.optional(__S(8290, __c259, 2)),
+          dataDisks: S.optional(__S(8514, __c266, 2)),
         }),
       ).annotate({ identifier: "StorageProfileUpdate" });
     case 2:
@@ -14407,25 +15404,25 @@ function __c89(j: number): any {
       return S.suspend(() =>
         S.Struct({
           computerName: S.optional(S.String),
-          linuxConfiguration: S.optional(__S(2850, __c89, 2)),
-          windowsConfiguration: S.optional(__S(2850, __c89, 2)),
+          linuxConfiguration: S.optional(__S(2818, __c88, 2)),
+          windowsConfiguration: S.optional(__S(2818, __c88, 2)),
         }),
       ).annotate({ identifier: "OsProfileUpdate" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          hardwareProfile: S.optional(__S(2848, __c89, 0)),
-          storageProfile: S.optional(__S(2849, __c89, 1)),
-          networkProfile: S.optional(__S(8291, __c259, 3)),
-          osProfile: S.optional(__S(2851, __c89, 3)),
+          hardwareProfile: S.optional(__S(2816, __c88, 0)),
+          storageProfile: S.optional(__S(2817, __c88, 1)),
+          networkProfile: S.optional(__S(8515, __c266, 3)),
+          osProfile: S.optional(__S(2819, __c88, 3)),
         }),
       ).annotate({ identifier: "VirtualMachineInstanceUpdateProperties" });
     case 5:
       return S.suspend(() =>
         S.Struct({
           resourceUri: S.String.pipe(T.Label()),
-          properties: S.optional(__S(2852, __c89, 4)),
-          identity: S.optional(__S(2880, __c90, 0)),
+          properties: S.optional(__S(2820, __c88, 4)),
+          identity: S.optional(__S(2848, __c89, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -14437,7 +15434,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "UpdateVirtualMachineInstanceRequest" });
   }
 }
-function __c90(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14447,12 +15444,12 @@ function __c90(j: number): any {
       ).annotate({ identifier: "UpdateVirtualMachineInstanceRequestIdentity" });
   }
 }
-function __c91(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          certificates: S.optional(__S(3264, __c102, 0)),
+          certificates: S.optional(__S(3232, __c101, 0)),
         }),
       ).annotate({ identifier: "RawCertificateData" });
     case 1:
@@ -14461,7 +15458,7 @@ function __c91(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(2912, __c91, 0)),
+          properties: S.optional(__S(2880, __c90, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -14473,14 +15470,14 @@ function __c91(j: number): any {
       ).annotate({ identifier: "UploadClusterCertificateRequest" });
   }
 }
-function __c92(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resourceUri: S.String.pipe(T.Label()),
           edgeDeviceName: S.String.pipe(T.Label()),
-          edgeDeviceIds: __S(3264, __c102, 0),
+          edgeDeviceIds: __S(3232, __c101, 0),
           additionalInfo: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -14493,7 +15490,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "ValidateEdgeDeviceRequest" });
   }
 }
-function __c93(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14505,7 +15502,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "ValidateResponse" });
   }
 }
-function __c94(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14513,7 +15510,7 @@ function __c94(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           edgeMachineName: S.String.pipe(T.Label()),
-          edgeMachineIds: __S(3264, __c102, 0),
+          edgeMachineIds: __S(3232, __c101, 0),
           additionalInfo: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -14526,17 +15523,17 @@ function __c94(j: number): any {
       ).annotate({ identifier: "ValidateEdgeMachineRequest" });
   }
 }
-function __c95(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(4928, __c154, 0));
+      return S.Array(__S(5216, __c163, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
-          ownershipVoucherDetails: __S(3040, __c95, 0),
+          ownershipVoucherDetails: __S(3008, __c94, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -14547,16 +15544,16 @@ function __c95(j: number): any {
         ),
       ).annotate({ identifier: "ValidateOwnershipVoucherRequest" });
     case 2:
-      return S.Array(__S(5024, __c157, 0));
+      return S.Array(__S(5280, __c165, 0));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ownershipVoucherValidationDetails: __S(3042, __c95, 2),
+          ownershipVoucherValidationDetails: __S(3010, __c94, 2),
         }),
       ).annotate({ identifier: "ValidateOwnershipVouchersResponse" });
   }
 }
-function __c96(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14577,10 +15574,10 @@ function __c96(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           virtualHardDiskName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(5728, __c179, 0)),
+          tags: S.optional(__S(5984, __c187, 0)),
           location: S.String,
-          properties: S.optional(__S(3072, __c96, 0)),
-          extendedLocation: S.optional(__S(5408, __c169, 0)),
+          properties: S.optional(__S(3040, __c95, 0)),
+          extendedLocation: S.optional(__S(5664, __c177, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -14592,18 +15589,18 @@ function __c96(j: number): any {
       ).annotate({ identifier: "VirtualHardDisksCreateOrUpdateRequest" });
   }
 }
-function __c97(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          hardwareProfile: S.optional(__S(8289, __c259, 1)),
-          networkProfile: S.optional(__S(8291, __c259, 3)),
-          osProfile: S.optional(__S(8297, __c259, 9)),
-          securityProfile: S.optional(__S(8299, __c259, 11)),
-          storageProfile: S.optional(__S(8301, __c259, 13)),
-          httpProxyConfig: S.optional(__S(8302, __c259, 14)),
-          guestAgentInstallStatus: S.optional(__S(8128, __c254, 0)),
+          hardwareProfile: S.optional(__S(8513, __c266, 1)),
+          networkProfile: S.optional(__S(8515, __c266, 3)),
+          osProfile: S.optional(__S(8521, __c266, 9)),
+          securityProfile: S.optional(__S(8523, __c266, 11)),
+          storageProfile: S.optional(__S(8525, __c266, 13)),
+          httpProxyConfig: S.optional(__S(8526, __c266, 14)),
+          guestAgentInstallStatus: S.optional(__S(8352, __c261, 0)),
           resourceUid: S.optional(S.String),
         }),
       ).annotate({ identifier: "VirtualMachineInstancePropertiesInput" });
@@ -14611,9 +15608,9 @@ function __c97(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resourceUri: S.String.pipe(T.Label()),
-          properties: S.optional(__S(3104, __c97, 0)),
-          extendedLocation: S.optional(__S(5408, __c169, 0)),
-          identity: S.optional(__S(2880, __c90, 0)),
+          properties: S.optional(__S(3072, __c96, 0)),
+          extendedLocation: S.optional(__S(5664, __c177, 0)),
+          identity: S.optional(__S(2848, __c89, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -14625,7 +15622,7 @@ function __c97(j: number): any {
       ).annotate({ identifier: "VirtualMachineInstancesCreateOrUpdateRequest" });
   }
 }
-function __c98(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14643,7 +15640,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "DeleteEdgeDeviceRequest" });
   }
 }
-function __c99(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14662,7 +15659,7 @@ function __c99(j: number): any {
       ).annotate({ identifier: "DeleteEdgeDeviceJobRequest" });
   }
 }
-function __c100(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14681,12 +15678,12 @@ function __c100(j: number): any {
       ).annotate({ identifier: "DeleteEdgeMachineRequest" });
   }
 }
-function __c101(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          clusterNodes: S.optional(__S(3264, __c102, 0)),
+          clusterNodes: S.optional(__S(3232, __c101, 0)),
         }),
       ).annotate({ identifier: "ReconcileArcSettingsRequestProperties" });
     case 1:
@@ -14696,7 +15693,7 @@ function __c101(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
           arcSettingName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(3232, __c101, 0)),
+          properties: S.optional(__S(3200, __c100, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -14721,13 +15718,13 @@ function __c101(j: number): any {
       ).annotate({ identifier: "ArcSettingsReconcileResponse" });
   }
 }
-function __c102(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c103(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14747,7 +15744,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "DeleteEdgeMachineDeploymentSettingsRequest" });
   }
 }
-function __c104(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14767,7 +15764,7 @@ function __c104(j: number): any {
       ).annotate({ identifier: "DeleteEdgeMachineDiskRequest" });
   }
 }
-function __c105(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14788,7 +15785,7 @@ function __c105(j: number): any {
       ).annotate({ identifier: "DeleteEdgeMachineDiskJobRequest" });
   }
 }
-function __c106(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14809,7 +15806,7 @@ function __c106(j: number): any {
       ).annotate({ identifier: "DeleteEdgeMachineDiskPrivilegedJobRequest" });
   }
 }
-function __c107(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14829,7 +15826,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "DeleteEdgeMachineJobRequest" });
   }
 }
-function __c108(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14850,7 +15847,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "DeleteEdgeMachineNetworkAdapterJobRequest" });
   }
 }
-function __c109(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14870,7 +15867,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "DeleteEdgeMachineSecuritySettingsOperationRequest" });
   }
 }
-function __c110(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14890,7 +15887,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "DeleteEdgeMachineVolumeRequest" });
   }
 }
-function __c111(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14911,7 +15908,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "DeleteExtensionRequest" });
   }
 }
-function __c112(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14930,7 +15927,7 @@ function __c112(j: number): any {
       ).annotate({ identifier: "DeleteGalleryImageRequest" });
   }
 }
-function __c113(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14940,7 +15937,7 @@ function __c113(j: number): any {
       ).annotate({ identifier: "DeleteGalleryImageResponse" });
   }
 }
-function __c114(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14959,7 +15956,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "CheckUpdateSummariesOperationGroupHealthRequest" });
   }
 }
-function __c115(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14970,7 +15967,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "CheckUpdateSummariesOperationGroupHealthResponse" });
   }
 }
-function __c116(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14987,7 +15984,7 @@ function __c116(j: number): any {
       ).annotate({ identifier: "DeleteGuestAgentRequest" });
   }
 }
-function __c117(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15006,7 +16003,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "DeleteLogicalNetworkRequest" });
   }
 }
-function __c118(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15025,7 +16022,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "DeleteMarketplaceGalleryImageRequest" });
   }
 }
-function __c119(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15044,7 +16041,7 @@ function __c119(j: number): any {
       ).annotate({ identifier: "DeleteNetworkInterfaceRequest" });
   }
 }
-function __c120(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15064,7 +16061,7 @@ function __c120(j: number): any {
       ).annotate({ identifier: "DeleteSecuritySettingsRequest" });
   }
 }
-function __c121(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15083,7 +16080,7 @@ function __c121(j: number): any {
       ).annotate({ identifier: "DeleteStorageContainerRequest" });
   }
 }
-function __c122(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15103,7 +16100,7 @@ function __c122(j: number): any {
       ).annotate({ identifier: "DeleteUpdateRequest" });
   }
 }
-function __c123(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15124,7 +16121,7 @@ function __c123(j: number): any {
       ).annotate({ identifier: "DeleteUpdateRunRequest" });
   }
 }
-function __c124(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15143,7 +16140,7 @@ function __c124(j: number): any {
       ).annotate({ identifier: "DeleteUpdateSummaryRequest" });
   }
 }
-function __c125(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15162,7 +16159,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "DeleteVirtualHardDiskRequest" });
   }
 }
-function __c126(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15182,7 +16179,7 @@ function __c126(j: number): any {
       ).annotate({ identifier: "CheckUpdateSummariesOperationGroupUpdatesRequest" });
   }
 }
-function __c127(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15199,7 +16196,7 @@ function __c127(j: number): any {
       ).annotate({ identifier: "DeleteVirtualMachineInstanceRequest" });
   }
 }
-function __c128(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15215,49 +16212,49 @@ function __c128(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          securitySettings: S.optional(__S(4192, __c131, 0)),
-          observability: S.optional(__S(4193, __c131, 1)),
-          cluster: S.optional(__S(4096, __c128, 0)),
+          securitySettings: S.optional(__S(4160, __c130, 0)),
+          observability: S.optional(__S(4161, __c130, 1)),
+          cluster: S.optional(__S(4064, __c127, 0)),
           identityProvider: S.optional(S.String),
-          storage: S.optional(__S(4196, __c131, 4)),
+          storage: S.optional(__S(4164, __c130, 4)),
           namingPrefix: S.optional(S.String),
           domainFqdn: S.optional(S.String),
-          infrastructureNetwork: S.optional(__S(4202, __c131, 10)),
-          physicalNodes: S.optional(__S(4204, __c131, 12)),
-          hostNetwork: S.optional(__S(4214, __c131, 22)),
-          sdnIntegration: S.optional(__S(4216, __c131, 24)),
+          infrastructureNetwork: S.optional(__S(4170, __c130, 10)),
+          physicalNodes: S.optional(__S(4172, __c130, 12)),
+          hostNetwork: S.optional(__S(4182, __c130, 22)),
+          sdnIntegration: S.optional(__S(4184, __c130, 24)),
           isManagementCluster: S.optional(S.Boolean),
           adouPath: S.optional(S.String),
           secretsLocation: S.optional(S.String),
-          secrets: S.optional(__S(4129, __c129, 1)),
-          optionalServices: S.optional(__S(4217, __c131, 25)),
-          localAvailabilityZones: S.optional(__S(5697, __c178, 1)),
-          assemblyInfo: S.optional(__S(8128, __c254, 0)),
+          secrets: S.optional(__S(5089, __c159, 1)),
+          optionalServices: S.optional(__S(4185, __c130, 25)),
+          localAvailabilityZones: S.optional(__S(5953, __c186, 1)),
+          assemblyInfo: S.optional(__S(8352, __c261, 0)),
         }),
       ).annotate({ identifier: "DeploymentDataInput" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          deploymentData: __S(4097, __c128, 1),
-          sbePartnerInfo: S.optional(__S(4223, __c131, 31)),
+          deploymentData: __S(4065, __c127, 1),
+          sbePartnerInfo: S.optional(__S(4191, __c130, 31)),
         }),
       ).annotate({ identifier: "ScaleUnitsInput" });
     case 3:
-      return S.Array(__S(4098, __c128, 2));
+      return S.Array(__S(4066, __c127, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           version: S.optional(S.String),
-          scaleUnits: __S(4099, __c128, 3),
+          scaleUnits: __S(4067, __c127, 3),
         }),
       ).annotate({ identifier: "DeploymentConfigurationInput" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          arcNodeResourceIds: __S(3264, __c102, 0),
+          arcNodeResourceIds: __S(3232, __c101, 0),
           deploymentMode: S.String,
           operationType: S.optional(S.String),
-          deploymentConfiguration: __S(4100, __c128, 4),
+          deploymentConfiguration: __S(4068, __c127, 4),
         }),
       ).annotate({ identifier: "DeploymentSettingsPropertiesInput" });
     case 6:
@@ -15267,7 +16264,7 @@ function __c128(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
           deploymentSettingsName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(4101, __c128, 5)),
+          properties: S.optional(__S(4069, __c127, 5)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -15284,35 +16281,14 @@ function __c128(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(4232, __c132, 8)),
+          properties: S.optional(__S(4200, __c131, 8)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "DeploymentSettingsCreateOrUpdateResponse" });
   }
 }
-function __c129(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          secretName: S.optional(S.String),
-          eceSecretName: S.optional(S.String),
-          secretLocation: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EceDeploymentSecrets" });
-    case 1:
-      return S.Array(__S(4128, __c129, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          validationStatus: S.optional(__S(4837, __c151, 5)),
-          deploymentStatus: S.optional(__S(4837, __c151, 5)),
-        }),
-      ).annotate({ identifier: "EceReportedProperties" });
-  }
-}
-function __c130(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15346,10 +16322,21 @@ function __c130(j: number): any {
         }),
       ).annotate({ identifier: "DeploymentSettingStorageAdapterIPInfo" });
     case 4:
-      return S.Array(__S(4163, __c130, 3));
+      return S.Array(__S(4099, __c128, 3));
   }
 }
-function __c131(j: number): any {
+function __c129(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          validationStatus: S.optional(__S(5061, __c158, 5)),
+          deploymentStatus: S.optional(__S(5061, __c158, 5)),
+        }),
+      ).annotate({ identifier: "EceReportedProperties" });
+  }
+}
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15393,8 +16380,8 @@ function __c131(j: number): any {
         S.Struct({
           configurationMode: S.optional(S.String),
           storageType: S.optional(S.String),
-          s2d: S.optional(__S(4194, __c131, 2)),
-          san: S.optional(__S(4195, __c131, 3)),
+          s2d: S.optional(__S(4162, __c130, 2)),
+          san: S.optional(__S(4163, __c130, 3)),
         }),
       ).annotate({ identifier: "Storage" });
     case 5:
@@ -15405,30 +16392,30 @@ function __c131(j: number): any {
         }),
       ).annotate({ identifier: "IpPools" });
     case 6:
-      return S.Array(__S(4197, __c131, 5));
+      return S.Array(__S(4165, __c130, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           dnsZoneName: S.optional(S.String),
-          dnsForwarder: S.optional(__S(3264, __c102, 0)),
+          dnsForwarder: S.optional(__S(3232, __c101, 0)),
         }),
       ).annotate({ identifier: "DnsZones" });
     case 8:
-      return S.Array(__S(4199, __c131, 7));
+      return S.Array(__S(4167, __c130, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           subnetMask: S.optional(S.String),
           gateway: S.optional(S.String),
-          ipPools: S.optional(__S(4198, __c131, 6)),
+          ipPools: S.optional(__S(4166, __c130, 6)),
           dnsServerConfig: S.optional(S.String),
-          dnsZones: S.optional(__S(4200, __c131, 8)),
-          dnsServers: S.optional(__S(3264, __c102, 0)),
+          dnsZones: S.optional(__S(4168, __c130, 8)),
+          dnsServers: S.optional(__S(3232, __c101, 0)),
           useDhcp: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "InfrastructureNetwork" });
     case 10:
-      return S.Array(__S(4201, __c131, 9));
+      return S.Array(__S(4169, __c130, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
@@ -15437,34 +16424,34 @@ function __c131(j: number): any {
         }),
       ).annotate({ identifier: "PhysicalNodes" });
     case 12:
-      return S.Array(__S(4203, __c131, 11));
+      return S.Array(__S(4171, __c130, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          trafficType: S.optional(__S(3264, __c102, 0)),
-          adapter: S.optional(__S(3264, __c102, 0)),
+          trafficType: S.optional(__S(3232, __c101, 0)),
+          adapter: S.optional(__S(3232, __c101, 0)),
           overrideVirtualSwitchConfiguration: S.optional(S.Boolean),
-          virtualSwitchConfigurationOverrides: S.optional(__S(4160, __c130, 0)),
+          virtualSwitchConfigurationOverrides: S.optional(__S(4096, __c128, 0)),
           overrideQosPolicy: S.optional(S.Boolean),
-          qosPolicyOverrides: S.optional(__S(4161, __c130, 1)),
+          qosPolicyOverrides: S.optional(__S(4097, __c128, 1)),
           overrideAdapterProperty: S.optional(S.Boolean),
-          adapterPropertyOverrides: S.optional(__S(4162, __c130, 2)),
+          adapterPropertyOverrides: S.optional(__S(4098, __c128, 2)),
         }),
       ).annotate({ identifier: "DeploymentSettingIntents" });
     case 14:
-      return S.Array(__S(4205, __c131, 13));
+      return S.Array(__S(4173, __c130, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           networkAdapterName: S.optional(S.String),
           vlanId: S.optional(S.String),
-          storageAdapterIPInfo: S.optional(__S(4164, __c130, 4)),
+          storageAdapterIPInfo: S.optional(__S(4100, __c128, 4)),
         }),
       ).annotate({ identifier: "DeploymentSettingStorageNetworks" });
     case 16:
-      return S.Array(__S(4207, __c131, 15));
+      return S.Array(__S(4175, __c130, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
@@ -15484,26 +16471,26 @@ function __c131(j: number): any {
         }),
       ).annotate({ identifier: "SanAdapterIPConfig" });
     case 19:
-      return S.Array(__S(4210, __c131, 18));
+      return S.Array(__S(4178, __c130, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
-          adapterProperties: S.optional(__S(4209, __c131, 17)),
-          adapterIPConfig: S.optional(__S(4211, __c131, 19)),
+          adapterProperties: S.optional(__S(4177, __c130, 17)),
+          adapterIPConfig: S.optional(__S(4179, __c130, 19)),
         }),
       ).annotate({ identifier: "SanClusterNetworkConfig" });
     case 21:
       return S.suspend(() =>
         S.Struct({
-          clusterNetworkConfig: S.optional(__S(4212, __c131, 20)),
+          clusterNetworkConfig: S.optional(__S(4180, __c130, 20)),
         }),
       ).annotate({ identifier: "SanNetworks" });
     case 22:
       return S.suspend(() =>
         S.Struct({
-          intents: S.optional(__S(4206, __c131, 14)),
-          storageNetworks: S.optional(__S(4208, __c131, 16)),
-          sanNetworks: S.optional(__S(4213, __c131, 21)),
+          intents: S.optional(__S(4174, __c130, 14)),
+          storageNetworks: S.optional(__S(4176, __c130, 16)),
+          sanNetworks: S.optional(__S(4181, __c130, 21)),
           storageConnectivitySwitchless: S.optional(S.Boolean),
           enableStorageAutoIp: S.optional(S.Boolean),
         }),
@@ -15519,7 +16506,7 @@ function __c131(j: number): any {
     case 24:
       return S.suspend(() =>
         S.Struct({
-          networkController: S.optional(__S(4215, __c131, 23)),
+          networkController: S.optional(__S(4183, __c130, 23)),
         }),
       ).annotate({ identifier: "SdnIntegration" });
     case 25:
@@ -15546,7 +16533,7 @@ function __c131(j: number): any {
         }),
       ).annotate({ identifier: "SbePartnerProperties" });
     case 28:
-      return S.Array(__S(4219, __c131, 27));
+      return S.Array(__S(4187, __c130, 27));
     case 29:
       return S.suspend(() =>
         S.Struct({
@@ -15556,18 +16543,18 @@ function __c131(j: number): any {
         }),
       ).annotate({ identifier: "SbeCredentials" });
     case 30:
-      return S.Array(__S(4221, __c131, 29));
+      return S.Array(__S(4189, __c130, 29));
     case 31:
       return S.suspend(() =>
         S.Struct({
-          sbeDeploymentInfo: S.optional(__S(4218, __c131, 26)),
-          partnerProperties: S.optional(__S(4220, __c131, 28)),
-          credentialList: S.optional(__S(4222, __c131, 30)),
+          sbeDeploymentInfo: S.optional(__S(4186, __c130, 26)),
+          partnerProperties: S.optional(__S(4188, __c130, 28)),
+          credentialList: S.optional(__S(4190, __c130, 30)),
         }),
       ).annotate({ identifier: "SbePartnerInfo" });
   }
 }
-function __c132(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15591,75 +16578,103 @@ function __c132(j: number): any {
         }),
       ).annotate({ identifier: "AssemblyInfoPayload" });
     case 2:
-      return S.Array(__S(4225, __c132, 1));
+      return S.Array(__S(4193, __c131, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           packageVersion: S.optional(S.String),
-          payload: S.optional(__S(4226, __c132, 2)),
+          payload: S.optional(__S(4194, __c131, 2)),
         }),
       ).annotate({ identifier: "AssemblyInfo" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          securitySettings: S.optional(__S(4192, __c131, 0)),
-          observability: S.optional(__S(4193, __c131, 1)),
-          cluster: S.optional(__S(4224, __c132, 0)),
+          securitySettings: S.optional(__S(4160, __c130, 0)),
+          observability: S.optional(__S(4161, __c130, 1)),
+          cluster: S.optional(__S(4192, __c131, 0)),
           identityProvider: S.optional(S.String),
-          storage: S.optional(__S(4196, __c131, 4)),
+          storage: S.optional(__S(4164, __c130, 4)),
           namingPrefix: S.optional(S.String),
           domainFqdn: S.optional(S.String),
-          infrastructureNetwork: S.optional(__S(4202, __c131, 10)),
-          physicalNodes: S.optional(__S(4204, __c131, 12)),
-          hostNetwork: S.optional(__S(4214, __c131, 22)),
-          sdnIntegration: S.optional(__S(4216, __c131, 24)),
+          infrastructureNetwork: S.optional(__S(4170, __c130, 10)),
+          physicalNodes: S.optional(__S(4172, __c130, 12)),
+          hostNetwork: S.optional(__S(4182, __c130, 22)),
+          sdnIntegration: S.optional(__S(4184, __c130, 24)),
           isManagementCluster: S.optional(S.Boolean),
           adouPath: S.optional(S.String),
           secretsLocation: S.optional(S.String),
-          secrets: S.optional(__S(4129, __c129, 1)),
-          optionalServices: S.optional(__S(4217, __c131, 25)),
-          localAvailabilityZones: S.optional(__S(5697, __c178, 1)),
-          assemblyInfo: S.optional(__S(4227, __c132, 3)),
+          secrets: S.optional(__S(5089, __c159, 1)),
+          optionalServices: S.optional(__S(4185, __c130, 25)),
+          localAvailabilityZones: S.optional(__S(5953, __c186, 1)),
+          assemblyInfo: S.optional(__S(4195, __c131, 3)),
         }),
       ).annotate({ identifier: "DeploymentData" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          deploymentData: __S(4228, __c132, 4),
-          sbePartnerInfo: S.optional(__S(4223, __c131, 31)),
+          deploymentData: __S(4196, __c131, 4),
+          sbePartnerInfo: S.optional(__S(4191, __c130, 31)),
         }),
       ).annotate({ identifier: "ScaleUnits" });
     case 6:
-      return S.Array(__S(4229, __c132, 5));
+      return S.Array(__S(4197, __c131, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           version: S.optional(S.String),
-          scaleUnits: __S(4230, __c132, 6),
+          scaleUnits: __S(4198, __c131, 6),
         }),
       ).annotate({ identifier: "DeploymentConfiguration" });
     case 8:
       return S.suspend(() =>
         S.Struct({
           provisioningState: S.optional(S.String),
-          arcNodeResourceIds: __S(3264, __c102, 0),
+          arcNodeResourceIds: __S(3232, __c101, 0),
           deploymentMode: S.String,
           operationType: S.optional(S.String),
-          deploymentConfiguration: __S(4231, __c132, 7),
-          reportedProperties: S.optional(__S(4130, __c129, 2)),
+          deploymentConfiguration: __S(4199, __c131, 7),
+          reportedProperties: S.optional(__S(4128, __c129, 0)),
         }),
       ).annotate({ identifier: "DeploymentSettingsProperties" });
   }
 }
-function __c133(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          deploymentMode: S.optional(S.String),
+          jobType: S.String,
+          fromDate: S.String,
+          toDate: S.String,
+        }),
+      ).annotate({ identifier: "HciCollectLogJobPropertiesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          deploymentMode: S.optional(S.String),
+          jobType: S.String,
+          accessLevel: S.String,
+          expirationTimestamp: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "HciRemoteSupportJobPropertiesInput" });
+    case 2:
+      return S.Union([__S(4224, __c132, 0), __S(4225, __c132, 1)]);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          properties: __S(4226, __c132, 2),
+        }),
+      ).annotate({ identifier: "HciEdgeDeviceJobInput" });
+    case 4:
       return S.suspend(() =>
         S.Struct({
           resourceUri: S.String.pipe(T.Label()),
           edgeDeviceName: S.String.pipe(T.Label()),
           jobsName: S.String.pipe(T.Label()),
-          kind: S.String,
+          body: __S(4227, __c132, 3).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -15669,7 +16684,111 @@ function __c133(j: number): any {
           }),
         ),
       ).annotate({ identifier: "EdgeDeviceJobsCreateOrUpdateRequest" });
+  }
+}
+function __c133(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          startTime: S.optional(S.String),
+          endTime: S.optional(S.String),
+          timeCollected: S.optional(S.String),
+          logSize: S.optional(S.Number),
+          status: S.optional(S.String),
+          correlationId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LogCollectionJobSession" });
     case 1:
+      return S.Array(__S(4256, __c133, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          percentComplete: S.optional(S.Number),
+          validationStatus: S.optional(__S(5061, __c158, 5)),
+          deploymentStatus: S.optional(__S(5061, __c158, 5)),
+          logCollectionSessionDetails: S.optional(__S(4257, __c133, 1)),
+        }),
+      ).annotate({ identifier: "LogCollectionReportedProperties" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          state: S.optional(S.String),
+          createdAt: S.optional(S.String),
+          updatedAt: S.optional(S.String),
+          connectionStatus: S.optional(S.String),
+          connectionErrorMessage: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RemoteSupportJobNodeSettings" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          sessionId: S.optional(S.String),
+          sessionStartTime: S.optional(S.String),
+          sessionEndTime: S.optional(S.String),
+          accessLevel: S.optional(S.String),
+          transcriptLocation: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RemoteSupportSession" });
+    case 5:
+      return S.Array(__S(4260, __c133, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          percentComplete: S.optional(S.Number),
+          validationStatus: S.optional(__S(5061, __c158, 5)),
+          deploymentStatus: S.optional(__S(5061, __c158, 5)),
+          nodeSettings: S.optional(__S(4259, __c133, 3)),
+          sessionDetails: S.optional(__S(4261, __c133, 5)),
+        }),
+      ).annotate({ identifier: "RemoteSupportJobReportedProperties" });
+  }
+}
+function __c134(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => __S(4323, __c135, 3).pipe(T.RawResponseRoot())).annotate({
+        identifier: "EdgeDeviceJobsCreateOrUpdateResponse",
+      });
+  }
+}
+function __c135(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          deploymentMode: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+          jobId: S.optional(S.String),
+          startTimeUtc: S.optional(S.String),
+          endTimeUtc: S.optional(S.String),
+          status: S.optional(S.String),
+          jobType: S.String,
+          fromDate: S.String,
+          toDate: S.String,
+          lastLogGenerated: S.optional(S.String),
+          reportedProperties: S.optional(__S(4258, __c133, 2)),
+        }),
+      ).annotate({ identifier: "HciCollectLogJobProperties" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          deploymentMode: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+          jobId: S.optional(S.String),
+          startTimeUtc: S.optional(S.String),
+          endTimeUtc: S.optional(S.String),
+          status: S.optional(S.String),
+          jobType: S.String,
+          accessLevel: S.String,
+          expirationTimestamp: S.String,
+          type: S.String,
+          reportedProperties: S.optional(__S(4262, __c133, 6)),
+        }),
+      ).annotate({ identifier: "HciRemoteSupportJobProperties" });
+    case 2:
+      return S.Union([__S(4320, __c135, 0), __S(4321, __c135, 1)]);
+    case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -15677,21 +16796,32 @@ function __c133(j: number): any {
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
           kind: S.String,
-          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
-          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+          properties: __S(4322, __c135, 2),
         }),
-      ).annotate({ identifier: "EdgeDeviceJobsCreateOrUpdateResponse" });
+      ).annotate({ identifier: "HciEdgeDeviceJob" });
   }
 }
-function __c134(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          deviceConfiguration: S.optional(__S(4450, __c139, 2)),
+        }),
+      ).annotate({ identifier: "HciEdgeDevicePropertiesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          properties: S.optional(__S(4352, __c136, 0)),
+        }),
+      ).annotate({ identifier: "HciEdgeDeviceInput" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
           resourceUri: S.String.pipe(T.Label()),
           edgeDeviceName: S.String.pipe(T.Label()),
-          kind: S.String,
-          properties: S.optional(__S(4323, __c135, 3)),
+          body: __S(4353, __c136, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -15701,7 +16831,239 @@ function __c134(j: number): any {
           }),
         ),
       ).annotate({ identifier: "EdgeDevicesCreateOrUpdateRequest" });
+  }
+}
+function __c137(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          exception: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HciValidationFailureDetail" });
     case 1:
+      return S.Array(__S(4384, __c137, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          extensionName: S.optional(S.String),
+          state: S.optional(S.String),
+          errorDetails: S.optional(__S(4385, __c137, 1)),
+          extensionResourceId: S.optional(S.String),
+          typeHandlerVersion: S.optional(S.String),
+          managedBy: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HciEdgeDeviceArcExtension" });
+    case 3:
+      return S.Array(__S(4386, __c137, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          extensions: S.optional(__S(4387, __c137, 3)),
+        }),
+      ).annotate({ identifier: "ExtensionProfile" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          adapterName: S.optional(S.String),
+          interfaceDescription: S.optional(S.String),
+          componentId: S.optional(S.String),
+          driverVersion: S.optional(S.String),
+          ip4Address: S.optional(S.String),
+          subnetMask: S.optional(S.String),
+          defaultGateway: S.optional(S.String),
+          dnsServers: S.optional(__S(3232, __c101, 0)),
+          defaultIsolationId: S.optional(S.String),
+          macAddress: S.optional(S.String),
+          slot: S.optional(S.String),
+          switchName: S.optional(S.String),
+          nicType: S.optional(S.String),
+          vlanId: S.optional(S.String),
+          nicStatus: S.optional(S.String),
+          rdmaCapability: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HciNicDetail" });
+    case 6:
+      return S.Array(__S(4389, __c137, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          switchId: S.optional(S.String),
+          extensionName: S.optional(S.String),
+          extensionEnabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "SwitchExtension" });
+    case 8:
+      return S.Array(__S(4391, __c137, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          switchName: S.optional(S.String),
+          switchType: S.optional(S.String),
+          extensions: S.optional(__S(4392, __c137, 8)),
+        }),
+      ).annotate({ identifier: "SwitchDetail" });
+    case 10:
+      return S.Array(__S(4393, __c137, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          scope: S.optional(S.Number),
+          intentType: S.optional(S.Number),
+          isComputeIntentSet: S.optional(S.Boolean),
+          isStorageIntentSet: S.optional(S.Boolean),
+          isOnlyStorage: S.optional(S.Boolean),
+          isManagementIntentSet: S.optional(S.Boolean),
+          isStretchIntentSet: S.optional(S.Boolean),
+          isOnlyStretch: S.optional(S.Boolean),
+          isNetworkIntentType: S.optional(S.Boolean),
+          intentName: S.optional(S.String),
+          intentAdapters: S.optional(__S(3232, __c101, 0)),
+          overrideVirtualSwitchConfiguration: S.optional(S.Boolean),
+          virtualSwitchConfigurationOverrides: S.optional(__S(4096, __c128, 0)),
+          overrideQosPolicy: S.optional(S.Boolean),
+          qosPolicyOverrides: S.optional(__S(4097, __c128, 1)),
+          overrideAdapterProperty: S.optional(S.Boolean),
+          adapterPropertyOverrides: S.optional(__S(4098, __c128, 2)),
+        }),
+      ).annotate({ identifier: "HciEdgeDeviceIntents" });
+    case 12:
+      return S.Array(__S(4395, __c137, 11));
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          networkAdapterName: S.optional(S.String),
+          storageVlanId: S.optional(S.String),
+          storageAdapterIPInfo: S.optional(__S(4100, __c128, 4)),
+        }),
+      ).annotate({ identifier: "HciEdgeDeviceStorageNetworks" });
+    case 14:
+      return S.Array(__S(4397, __c137, 13));
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          intents: S.optional(__S(4396, __c137, 12)),
+          storageNetworks: S.optional(__S(4398, __c137, 14)),
+          storageConnectivitySwitchless: S.optional(S.Boolean),
+          enableStorageAutoIp: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "HciEdgeDeviceHostNetwork" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          sdnStatus: S.optional(S.String),
+          sdnDomainName: S.optional(S.String),
+          sdnApiAddress: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SdnProperties" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          nicDetails: S.optional(__S(4390, __c137, 6)),
+          switchDetails: S.optional(__S(4394, __c137, 10)),
+          hostNetwork: S.optional(__S(4399, __c137, 15)),
+          sdnProperties: S.optional(__S(4400, __c137, 16)),
+        }),
+      ).annotate({ identifier: "HciNetworkProfile" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          message: S.optional(S.String),
+          sbeManifest: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SbeDeploymentPackageInfo" });
+  }
+}
+function __c138(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => __S(4458, __c139, 10).pipe(T.RawResponseRoot())).annotate({
+        identifier: "EdgeDevicesCreateOrUpdateResponse",
+      });
+  }
+}
+function __c139(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          adapterName: S.optional(S.String),
+          interfaceDescription: S.optional(S.String),
+          componentId: S.optional(S.String),
+          driverVersion: S.optional(S.String),
+          ip4Address: S.optional(S.String),
+          subnetMask: S.optional(S.String),
+          defaultGateway: S.optional(S.String),
+          dnsServers: S.optional(__S(3232, __c101, 0)),
+          defaultIsolationId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NicDetail" });
+    case 1:
+      return S.Array(__S(4448, __c139, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          nicDetails: S.optional(__S(4449, __c139, 1)),
+          deviceMetadata: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DeviceConfiguration" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          bootType: S.optional(S.String),
+          assemblyVersion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HciOsProfile" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          sizeInBytes: S.optional(S.String),
+          type: S.optional(S.String),
+          model: S.optional(S.String),
+          manufacturer: S.optional(S.String),
+          isSupported: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "EdgeDeviceDisks" });
+    case 5:
+      return S.Array(__S(4452, __c139, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          poolableDisksCount: S.optional(S.Number),
+          disks: S.optional(__S(4453, __c139, 5)),
+        }),
+      ).annotate({ identifier: "HciStorageProfile" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          processorType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HciHardwareProfile" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          deviceState: S.optional(S.String),
+          extensionProfile: S.optional(__S(4388, __c137, 4)),
+          lastSyncTimestamp: S.optional(S.String),
+          networkProfile: S.optional(__S(4401, __c137, 17)),
+          osProfile: S.optional(__S(4451, __c139, 3)),
+          sbeDeploymentPackageInfo: S.optional(__S(4402, __c137, 18)),
+          storageProfile: S.optional(__S(4454, __c139, 6)),
+          hardwareProfile: S.optional(__S(4455, __c139, 7)),
+        }),
+      ).annotate({ identifier: "HciReportedProperties" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          deviceConfiguration: S.optional(__S(4450, __c139, 2)),
+          provisioningState: S.optional(S.String),
+          reportedProperties: S.optional(__S(4456, __c139, 8)),
+        }),
+      ).annotate({ identifier: "HciEdgeDeviceProperties" });
+    case 10:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -15709,53 +17071,17 @@ function __c134(j: number): any {
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
           kind: S.String,
-          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
-          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
-          properties: S.optional(__S(4323, __c135, 3)),
+          properties: S.optional(__S(4457, __c139, 9)),
         }),
-      ).annotate({ identifier: "EdgeDevicesCreateOrUpdateResponse" });
+      ).annotate({ identifier: "HciEdgeDevice" });
   }
 }
-function __c135(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          adapterName: S.String,
-          interfaceDescription: S.optional(S.String),
-          componentId: S.optional(S.String),
-          driverVersion: S.optional(S.String),
-          ip4Address: S.optional(S.String),
-          subnetMask: S.optional(S.String),
-          defaultGateway: S.optional(S.String),
-          dnsServers: S.optional(__S(3264, __c102, 0)),
-          defaultIsolationId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "HciEdgeDeviceNicDetail" });
-    case 1:
-      return S.Array(__S(4320, __c135, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          nicDetails: S.optional(__S(4321, __c135, 1)),
-          deviceMetadata: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "HciEdgeDeviceConfiguration" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          deviceConfiguration: S.optional(__S(4322, __c135, 2)),
-          provisioningState: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "HciEdgeDeviceProperties" });
-  }
-}
-function __c136(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          deploymentConfiguration: __S(4395, __c137, 11),
+          deploymentConfiguration: __S(4523, __c141, 11),
         }),
       ).annotate({ identifier: "EdgeMachineDeploymentSettingPropertiesInput" });
     case 1:
@@ -15765,7 +17091,7 @@ function __c136(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           edgeMachineName: S.String.pipe(T.Label()),
           deploymentSettingName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(4352, __c136, 0)),
+          properties: S.optional(__S(4480, __c140, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -15782,14 +17108,14 @@ function __c136(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(4396, __c137, 12)),
+          properties: S.optional(__S(4524, __c141, 12)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "EdgeMachineDeploymentSettingsCreateOrUpdateResponse" });
   }
 }
-function __c137(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15807,23 +17133,23 @@ function __c137(j: number): any {
         }),
       ).annotate({ identifier: "IscsiTargetPortalAddress" });
     case 2:
-      return S.Array(__S(4385, __c137, 1));
+      return S.Array(__S(4513, __c141, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           networkAdapterName: S.optional(S.String),
           vlanId: S.optional(S.Number),
           addressPrefix: S.optional(S.String),
-          targetPortalAddresses: S.optional(__S(4386, __c137, 2)),
+          targetPortalAddresses: S.optional(__S(4514, __c141, 2)),
         }),
       ).annotate({ identifier: "IscsiAdapterIPConfig" });
     case 4:
-      return S.Array(__S(4387, __c137, 3));
+      return S.Array(__S(4515, __c141, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          adapterProperties: S.optional(__S(4384, __c137, 0)),
-          adapterIPConfig: S.optional(__S(4388, __c137, 4)),
+          adapterProperties: S.optional(__S(4512, __c141, 0)),
+          adapterIPConfig: S.optional(__S(4516, __c141, 4)),
         }),
       ).annotate({ identifier: "IscsiNetworkConfig" });
     case 6:
@@ -15835,8 +17161,8 @@ function __c137(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          iScsiNetworkConfig: S.optional(__S(4389, __c137, 5)),
-          chapSettings: S.optional(__S(4390, __c137, 6)),
+          iScsiNetworkConfig: S.optional(__S(4517, __c141, 5)),
+          chapSettings: S.optional(__S(4518, __c141, 6)),
           initiatorIqn: S.optional(S.String),
         }),
       ).annotate({ identifier: "IscsiConfig" });
@@ -15844,38 +17170,51 @@ function __c137(j: number): any {
       return S.suspend(() =>
         S.Struct({
           storageType: S.String,
-          iScsiConfig: S.optional(__S(4391, __c137, 7)),
-          secrets: S.optional(__S(4129, __c129, 1)),
+          iScsiConfig: S.optional(__S(4519, __c141, 7)),
+          secrets: S.optional(__S(5089, __c159, 1)),
         }),
       ).annotate({ identifier: "EdgeMachineDeploymentData" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          deploymentData: __S(4392, __c137, 8),
+          deploymentData: __S(4520, __c141, 8),
         }),
       ).annotate({ identifier: "EdgeMachineScaleUnits" });
     case 10:
-      return S.Array(__S(4393, __c137, 9));
+      return S.Array(__S(4521, __c141, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
           version: S.optional(S.String),
-          scaleUnits: __S(4394, __c137, 10),
+          scaleUnits: __S(4522, __c141, 10),
         }),
       ).annotate({ identifier: "EdgeMachineDeploymentConfiguration" });
     case 12:
       return S.suspend(() =>
         S.Struct({
           provisioningState: S.optional(S.String),
-          deploymentConfiguration: __S(4395, __c137, 11),
-          reportedProperties: S.optional(__S(4130, __c129, 2)),
+          deploymentConfiguration: __S(4523, __c141, 11),
+          reportedProperties: S.optional(__S(4128, __c129, 0)),
         }),
       ).annotate({ identifier: "EdgeMachineDeploymentSettingProperties" });
   }
 }
-function __c138(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          jobType: S.String,
+          deploymentMode: S.optional(S.String),
+          error: S.optional(__S(8352, __c261, 0)),
+          sizeInBytes: S.String,
+          path: S.String,
+          fileSystem: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateVolumeJobPropertiesInput" });
+    case 1:
+      return S.Union([__S(4544, __c142, 0), __S(4608, __c144, 0)]);
+    case 2:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -15883,7 +17222,7 @@ function __c138(j: number): any {
           edgeMachineName: S.String.pipe(T.Label()),
           diskName: S.String.pipe(T.Label()),
           jobName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(4480, __c140, 0)),
+          properties: S.optional(__S(4545, __c142, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -15893,40 +17232,24 @@ function __c138(j: number): any {
           }),
         ),
       ).annotate({ identifier: "EdgeMachineDiskJobsCreateOrUpdateRequest" });
-  }
-}
-function __c139(j: number): any {
-  switch (j) {
-    case 0:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(4517, __c141, 5)),
+          properties: S.optional(__S(4642, __c145, 2)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "EdgeMachineDiskJobsCreateOrUpdateResponse" });
   }
 }
-function __c140(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          jobType: S.String,
-          deploymentMode: S.optional(S.String),
-          error: S.optional(__S(8128, __c254, 0)),
-        }),
-      ).annotate({ identifier: "EdgeMachineDiskJobPropertiesInput" });
-  }
-}
-function __c141(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(4513, __c141, 1)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(4577, __c143, 1)));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -15936,28 +17259,45 @@ function __c141(j: number): any {
           startTimeUtc: S.optional(S.String),
           endTimeUtc: S.optional(S.String),
           status: S.optional(S.String),
-          steps: S.optional(__S(4512, __c141, 0)),
-          exception: S.optional(__S(3264, __c102, 0)),
+          steps: S.optional(__S(4576, __c143, 0)),
+          exception: S.optional(__S(3232, __c101, 0)),
         }),
       ).annotate({ identifier: "DiskDeploymentStep" });
     case 2:
-      return S.Array(__S(4513, __c141, 1));
+      return S.Array(__S(4577, __c143, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          steps: S.optional(__S(4514, __c141, 2)),
+          steps: S.optional(__S(4578, __c143, 2)),
         }),
       ).annotate({ identifier: "DiskActionStatus" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           percentComplete: S.optional(S.Number),
-          validationStatus: S.optional(__S(4515, __c141, 3)),
-          deploymentStatus: S.optional(__S(4515, __c141, 3)),
+          validationStatus: S.optional(__S(4579, __c143, 3)),
+          deploymentStatus: S.optional(__S(4579, __c143, 3)),
         }),
       ).annotate({ identifier: "DiskJobReportedProperties" });
-    case 5:
+  }
+}
+function __c144(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          jobType: S.String,
+          deploymentMode: S.optional(S.String),
+          error: S.optional(__S(8352, __c261, 0)),
+          resolutionStrategy: S.String,
+        }),
+      ).annotate({ identifier: "SyncConfigurationJobPropertiesInput" });
+  }
+}
+function __c145(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           jobType: S.String,
@@ -15967,15 +17307,46 @@ function __c141(j: number): any {
           startTimeUtc: S.optional(S.String),
           endTimeUtc: S.optional(S.String),
           status: S.optional(S.String),
-          error: S.optional(__S(4805, __c150, 5)),
-          reportedProperties: S.optional(__S(4516, __c141, 4)),
+          error: S.optional(__S(5029, __c157, 5)),
+          reportedProperties: S.optional(__S(4580, __c143, 4)),
+          sizeInBytes: S.String,
+          path: S.String,
+          fileSystem: S.optional(S.String),
+          createdVolumeId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "EdgeMachineDiskJobProperties" });
+      ).annotate({ identifier: "CreateVolumeJobProperties" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          jobType: S.String,
+          deploymentMode: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+          jobId: S.optional(S.String),
+          startTimeUtc: S.optional(S.String),
+          endTimeUtc: S.optional(S.String),
+          status: S.optional(S.String),
+          error: S.optional(__S(5029, __c157, 5)),
+          reportedProperties: S.optional(__S(4580, __c143, 4)),
+          resolutionStrategy: S.String,
+        }),
+      ).annotate({ identifier: "SyncConfigurationJobProperties" });
+    case 2:
+      return S.Union([__S(4640, __c145, 0), __S(4641, __c145, 1)]);
   }
 }
-function __c142(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          jobType: S.String,
+          deploymentMode: S.optional(S.String),
+          error: S.optional(__S(8352, __c261, 0)),
+          volumePath: S.String,
+          confirmDeletion: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "DeleteVolumeJobPropertiesInput" });
+    case 1:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -15983,7 +17354,7 @@ function __c142(j: number): any {
           edgeMachineName: S.String.pipe(T.Label()),
           diskName: S.String.pipe(T.Label()),
           privilegedJobName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(4480, __c140, 0)),
+          properties: S.optional(__S(4672, __c146, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -15993,14 +17364,46 @@ function __c142(j: number): any {
           }),
         ),
       ).annotate({ identifier: "EdgeMachineDiskPrivilegedJobsCreateOrUpdateRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(4704, __c147, 0)),
+          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+        }),
+      ).annotate({ identifier: "EdgeMachineDiskPrivilegedJobsCreateOrUpdateResponse" });
   }
 }
-function __c143(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          diskConfiguration: S.optional(__S(4610, __c144, 2)),
+          jobType: S.String,
+          deploymentMode: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+          jobId: S.optional(S.String),
+          startTimeUtc: S.optional(S.String),
+          endTimeUtc: S.optional(S.String),
+          status: S.optional(S.String),
+          error: S.optional(__S(5029, __c157, 5)),
+          reportedProperties: S.optional(__S(4580, __c143, 4)),
+          volumePath: S.String,
+          confirmDeletion: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "DeleteVolumeJobProperties" });
+  }
+}
+function __c148(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          diskConfiguration: S.optional(__S(4770, __c149, 2)),
         }),
       ).annotate({ identifier: "EdgeMachineDiskPropertiesInput" });
     case 1:
@@ -16010,7 +17413,7 @@ function __c143(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           edgeMachineName: S.String.pipe(T.Label()),
           diskName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(4576, __c143, 0)),
+          properties: S.optional(__S(4736, __c148, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -16027,14 +17430,14 @@ function __c143(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(4614, __c144, 6)),
+          properties: S.optional(__S(4774, __c149, 6)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "EdgeMachineDisksCreateOrUpdateResponse" });
   }
 }
-function __c144(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16045,11 +17448,11 @@ function __c144(j: number): any {
         }),
       ).annotate({ identifier: "DiskVolumeConfiguration" });
     case 1:
-      return S.Array(__S(4608, __c144, 0));
+      return S.Array(__S(4768, __c149, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          volumes: S.optional(__S(4609, __c144, 1)),
+          volumes: S.optional(__S(4769, __c149, 1)),
         }),
       ).annotate({ identifier: "DiskConfiguration" });
     case 3:
@@ -16068,7 +17471,7 @@ function __c144(j: number): any {
         }),
       ).annotate({ identifier: "DiskVolumeReportedProperties" });
     case 4:
-      return S.Array(__S(4611, __c144, 3));
+      return S.Array(__S(4771, __c149, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -16084,29 +17487,77 @@ function __c144(j: number): any {
           busLocation: S.optional(S.String),
           unallocatedSizeInBytes: S.optional(S.String),
           state: S.optional(S.String),
-          volumes: S.optional(__S(4612, __c144, 4)),
+          volumes: S.optional(__S(4772, __c149, 4)),
         }),
       ).annotate({ identifier: "DiskReportedProperties" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          diskConfiguration: S.optional(__S(4610, __c144, 2)),
-          reportedProperties: S.optional(__S(4613, __c144, 5)),
+          diskConfiguration: S.optional(__S(4770, __c149, 2)),
+          reportedProperties: S.optional(__S(4773, __c149, 5)),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "EdgeMachineDiskProperties" });
   }
 }
-function __c145(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          jobType: S.String,
+          deploymentMode: S.optional(S.String),
+          error: S.optional(__S(8352, __c261, 0)),
+          downloadRequest: __S(4865, __c152, 1),
+          reportedProperties: S.optional(__S(8352, __c261, 0)),
+        }),
+      ).annotate({ identifier: "DownloadOsJobPropertiesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          jobType: S.String,
+          deploymentMode: S.optional(S.String),
+          error: S.optional(__S(8352, __c261, 0)),
+          fromDate: S.String,
+          toDate: S.String,
+        }),
+      ).annotate({ identifier: "EdgeMachineCollectLogJobPropertiesInput" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          jobType: S.String,
+          deploymentMode: S.optional(S.String),
+          error: S.optional(__S(8352, __c261, 0)),
+          accessLevel: S.String,
+          expirationTimestamp: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "EdgeMachineRemoteSupportJobPropertiesInput" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          jobType: S.String,
+          deploymentMode: S.optional(S.String),
+          error: S.optional(__S(8352, __c261, 0)),
+          provisioningRequest: __S(4867, __c152, 3),
+          reportedProperties: S.optional(__S(8352, __c261, 0)),
+        }),
+      ).annotate({ identifier: "ProvisionOsJobPropertiesInput" });
+    case 4:
+      return S.Union([
+        __S(4800, __c150, 0),
+        __S(4801, __c150, 1),
+        __S(4802, __c150, 2),
+        __S(4803, __c150, 3),
+      ]);
+    case 5:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           edgeMachineName: S.String.pipe(T.Label()),
           jobsName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(4480, __c140, 0)),
+          properties: S.optional(__S(4804, __c150, 4)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -16116,23 +17567,152 @@ function __c145(j: number): any {
           }),
         ),
       ).annotate({ identifier: "EdgeMachineJobsCreateOrUpdateRequest" });
-    case 1:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(4672, __c146, 0)),
+          properties: S.optional(__S(4872, __c152, 8)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "EdgeMachineJobsCreateOrUpdateResponse" });
   }
 }
-function __c146(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          osName: S.optional(S.String),
+          osType: S.optional(S.String),
+          osVersion: S.optional(S.String),
+          osImageLocation: S.optional(S.String),
+          vsrVersion: S.optional(S.String),
+          imageHash: S.optional(S.String),
+          gpgPubKey: S.optional(S.String),
+          operationType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OsProvisionProfile" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          userName: S.String,
+          secretType: S.String,
+          secretLocation: S.optional(S.String),
+          sshPubKey: S.optional(__S(3232, __c101, 0)),
+        }),
+      ).annotate({ identifier: "UserDetails" });
+    case 2:
+      return S.Array(__S(4833, __c151, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          startIp: S.String,
+          endIp: S.String,
+        }),
+      ).annotate({ identifier: "IpAddressRange" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          ipAssignmentType: S.String,
+          ipAddress: S.optional(S.String),
+          adapterName: S.optional(S.String),
+          macAddress: S.optional(S.String),
+          ipAddressRange: S.optional(__S(4835, __c151, 3)),
+          gateway: S.optional(S.String),
+          subnetMask: S.optional(S.String),
+          dnsAddressArray: S.optional(__S(3232, __c101, 0)),
+          vlanId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NetworkAdapter" });
+    case 5:
+      return S.Array(__S(4836, __c151, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          networkAdapters: S.optional(__S(4837, __c151, 5)),
+        }),
+      ).annotate({ identifier: "NetworkConfiguration" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          connectionUri: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          port: S.optional(S.String),
+          bypassList: S.optional(__S(3232, __c101, 0)),
+        }),
+      ).annotate({ identifier: "WebProxyConfiguration" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          primaryTimeServer: S.optional(S.String),
+          secondaryTimeServer: S.optional(S.String),
+          timeZone: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TimeConfiguration" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          partitionSize: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StorageConfiguration" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          network: S.optional(__S(4838, __c151, 6)),
+          hostName: S.optional(S.String),
+          webProxy: S.optional(__S(4839, __c151, 7)),
+          time: S.optional(__S(4840, __c151, 8)),
+          storage: S.optional(__S(4841, __c151, 9)),
+        }),
+      ).annotate({ identifier: "TargetDeviceConfiguration" });
+  }
+}
+function __c152(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          osName: S.optional(S.String),
+          osType: S.optional(S.String),
+          osVersion: S.optional(S.String),
+          osImageLocation: S.optional(S.String),
+          vsrVersion: S.optional(S.String),
+          imageHash: S.optional(S.String),
+          gpgPubKey: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DownloadOsProfile" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          target: S.String,
+          osProfile: __S(4864, __c152, 0),
+        }),
+      ).annotate({ identifier: "DownloadRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          resourceId: S.optional(S.String),
+          location: S.optional(S.String),
+          tenantId: S.optional(S.String),
+          arcVirtualMachineId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OnboardingConfiguration" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          target: S.String,
+          osProfile: __S(4832, __c151, 0),
+          userDetails: S.optional(__S(4834, __c151, 2)),
+          onboardingConfiguration: S.optional(__S(4866, __c152, 2)),
+          deviceConfiguration: S.optional(__S(4842, __c151, 10)),
+          customConfiguration: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ProvisioningRequest" });
+    case 4:
       return S.suspend(() =>
         S.Struct({
           jobType: S.String,
@@ -16142,14 +17722,91 @@ function __c146(j: number): any {
           startTimeUtc: S.optional(S.String),
           endTimeUtc: S.optional(S.String),
           status: S.optional(S.String),
-          error: S.optional(__S(4805, __c150, 5)),
+          error: S.optional(__S(5029, __c157, 5)),
+          downloadRequest: __S(4865, __c152, 1),
+          reportedProperties: S.optional(__S(5120, __c160, 0)),
         }),
-      ).annotate({ identifier: "EdgeMachineJobProperties" });
+      ).annotate({ identifier: "DownloadOsJobProperties" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          jobType: S.String,
+          deploymentMode: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+          jobId: S.optional(S.String),
+          startTimeUtc: S.optional(S.String),
+          endTimeUtc: S.optional(S.String),
+          status: S.optional(S.String),
+          error: S.optional(__S(5029, __c157, 5)),
+          fromDate: S.String,
+          toDate: S.String,
+          lastLogGenerated: S.optional(S.String),
+          reportedProperties: S.optional(__S(4258, __c133, 2)),
+        }),
+      ).annotate({ identifier: "EdgeMachineCollectLogJobProperties" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          jobType: S.String,
+          deploymentMode: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+          jobId: S.optional(S.String),
+          startTimeUtc: S.optional(S.String),
+          endTimeUtc: S.optional(S.String),
+          status: S.optional(S.String),
+          error: S.optional(__S(5029, __c157, 5)),
+          accessLevel: S.String,
+          expirationTimestamp: S.String,
+          type: S.String,
+          reportedProperties: S.optional(__S(4262, __c133, 6)),
+        }),
+      ).annotate({ identifier: "EdgeMachineRemoteSupportJobProperties" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          jobType: S.String,
+          deploymentMode: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+          jobId: S.optional(S.String),
+          startTimeUtc: S.optional(S.String),
+          endTimeUtc: S.optional(S.String),
+          status: S.optional(S.String),
+          error: S.optional(__S(5029, __c157, 5)),
+          provisioningRequest: __S(4867, __c152, 3),
+          reportedProperties: S.optional(__S(5120, __c160, 0)),
+        }),
+      ).annotate({ identifier: "ProvisionOsJobProperties" });
+    case 8:
+      return S.Union([
+        __S(4868, __c152, 4),
+        __S(4869, __c152, 5),
+        __S(4870, __c152, 6),
+        __S(4871, __c152, 7),
+      ]);
   }
 }
-function __c147(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          jobType: S.String,
+          deploymentMode: S.optional(S.String),
+          error: S.optional(__S(8352, __c261, 0)),
+          targetConfiguration: __S(4930, __c154, 2),
+        }),
+      ).annotate({ identifier: "ApplyConfigurationNetworkAdapterJobPropertiesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          jobType: S.String,
+          deploymentMode: S.optional(S.String),
+          error: S.optional(__S(8352, __c261, 0)),
+        }),
+      ).annotate({ identifier: "ForcePushNetworkAdapterJobPropertiesInput" });
+    case 2:
+      return S.Union([__S(4896, __c153, 0), __S(4897, __c153, 1), __S(4608, __c144, 0)]);
+    case 3:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -16157,7 +17814,7 @@ function __c147(j: number): any {
           edgeMachineName: S.String.pipe(T.Label()),
           networkAdapterName: S.String.pipe(T.Label()),
           jobName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(4480, __c140, 0)),
+          properties: S.optional(__S(4898, __c153, 2)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -16167,24 +17824,60 @@ function __c147(j: number): any {
           }),
         ),
       ).annotate({ identifier: "EdgeMachineNetworkAdapterJobsCreateOrUpdateRequest" });
-    case 1:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(4741, __c148, 5)),
+          properties: S.optional(__S(4968, __c155, 8)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "EdgeMachineNetworkAdapterJobsCreateOrUpdateResponse" });
   }
 }
-function __c148(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(4737, __c148, 1)));
+      return S.suspend(() =>
+        S.Struct({
+          secretName: S.optional(S.String),
+          secretLocation: S.optional(S.String),
+          secretType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WifiSecret" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ssid: S.optional(S.String),
+          authenticationType: S.optional(S.String),
+          eapMethod: S.optional(S.String),
+          username: S.optional(S.String),
+          wifiSecret: S.optional(__S(4928, __c154, 0)),
+        }),
+      ).annotate({ identifier: "WifiConfigurationDesiredProperties" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          adapterName: S.optional(S.String),
+          ip4Address: S.optional(S.String),
+          subnetMask: S.optional(S.String),
+          defaultGateway: S.optional(S.String),
+          dnsServers: S.optional(__S(3232, __c101, 0)),
+          ipInterfaceType: S.optional(S.String),
+          vlanId: S.optional(S.Number),
+          interfaceState: S.optional(S.String),
+          wifiConfiguration: S.optional(__S(4929, __c154, 1)),
+        }),
+      ).annotate({ identifier: "NetworkAdapterConfiguration" });
+  }
+}
+function __c155(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(4961, __c155, 1)));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -16194,25 +17887,25 @@ function __c148(j: number): any {
           startTimeUtc: S.optional(S.String),
           endTimeUtc: S.optional(S.String),
           status: S.optional(S.String),
-          steps: S.optional(__S(4736, __c148, 0)),
-          exception: S.optional(__S(3264, __c102, 0)),
+          steps: S.optional(__S(4960, __c155, 0)),
+          exception: S.optional(__S(3232, __c101, 0)),
         }),
       ).annotate({ identifier: "NetworkAdapterDeploymentStep" });
     case 2:
-      return S.Array(__S(4737, __c148, 1));
+      return S.Array(__S(4961, __c155, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          steps: S.optional(__S(4738, __c148, 2)),
+          steps: S.optional(__S(4962, __c155, 2)),
         }),
       ).annotate({ identifier: "NetworkAdapterActionStatus" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           percentComplete: S.optional(S.Number),
-          validationStatus: S.optional(__S(4739, __c148, 3)),
-          deploymentStatus: S.optional(__S(4739, __c148, 3)),
+          validationStatus: S.optional(__S(4963, __c155, 3)),
+          deploymentStatus: S.optional(__S(4963, __c155, 3)),
         }),
       ).annotate({ identifier: "NetworkAdapterJobReportedProperties" });
     case 5:
@@ -16225,141 +17918,12 @@ function __c148(j: number): any {
           startTimeUtc: S.optional(S.String),
           endTimeUtc: S.optional(S.String),
           status: S.optional(S.String),
-          error: S.optional(__S(4805, __c150, 5)),
-          reportedProperties: S.optional(__S(4740, __c148, 4)),
+          error: S.optional(__S(5029, __c157, 5)),
+          reportedProperties: S.optional(__S(4964, __c155, 4)),
+          targetConfiguration: __S(4930, __c154, 2),
         }),
-      ).annotate({ identifier: "EdgeMachineNetworkAdapterJobProperties" });
-  }
-}
-function __c149(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          jobType: S.String,
-          deploymentMode: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ClusterJobPropertiesInput" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          clusterName: S.String.pipe(T.Label()),
-          jobsName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(4768, __c149, 0)),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/jobs/{jobsName}",
-            code: 200,
-            apiVersion: "2026-10-01",
-          }),
-        ),
-      ).annotate({ identifier: "ClusterJobsCreateOrUpdateRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(4865, __c152, 1)),
-          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
-          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
-        }),
-      ).annotate({ identifier: "ClusterJobsCreateOrUpdateResponse" });
-  }
-}
-function __c150(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(4803, __c150, 3)));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          info: S.optional(S.Unknown),
-        }),
-      ).annotate({ identifier: "ErrorAdditionalInfo" });
-    case 2:
-      return S.Array(__S(4801, __c150, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          code: S.optional(S.String),
-          message: S.optional(S.String),
-          target: S.optional(S.String),
-          details: S.optional(__S(4800, __c150, 0)),
-          additionalInfo: S.optional(__S(4802, __c150, 2)),
-        }),
-      ).annotate({ identifier: "ErrorDetail" });
-    case 4:
-      return S.Array(__S(4803, __c150, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          code: S.optional(S.String),
-          message: S.optional(S.String),
-          target: S.optional(S.String),
-          details: S.optional(__S(4804, __c150, 4)),
-          additionalInfo: S.optional(__S(4802, __c150, 2)),
-        }),
-      ).annotate({ identifier: "DeploymentStepError" });
-  }
-}
-function __c151(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(4835, __c151, 3)));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          key: S.String,
-          value: S.String,
-        }),
-      ).annotate({ identifier: "Metadata" });
-    case 2:
-      return S.Array(__S(4833, __c151, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          fullStepIndex: S.optional(S.String),
-          startTimeUtc: S.optional(S.String),
-          endTimeUtc: S.optional(S.String),
-          status: S.optional(S.String),
-          steps: S.optional(__S(4832, __c151, 0)),
-          exception: S.optional(__S(3264, __c102, 0)),
-          error: S.optional(__S(4805, __c150, 5)),
-          percentComplete: S.optional(S.Number),
-          additionalData: S.optional(__S(4834, __c151, 2)),
-          recommendedSteps: S.optional(__S(3264, __c102, 0)),
-        }),
-      ).annotate({ identifier: "DeploymentStep" });
-    case 4:
-      return S.Array(__S(4835, __c151, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.String),
-          steps: S.optional(__S(4836, __c151, 4)),
-        }),
-      ).annotate({ identifier: "EceActionStatus" });
-  }
-}
-function __c152(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          percentComplete: S.optional(S.Number),
-          validationStatus: S.optional(__S(4837, __c151, 5)),
-          deploymentStatus: S.optional(__S(4837, __c151, 5)),
-        }),
-      ).annotate({ identifier: "JobReportedProperties" });
-    case 1:
+      ).annotate({ identifier: "ApplyConfigurationNetworkAdapterJobProperties" });
+    case 6:
       return S.suspend(() =>
         S.Struct({
           jobType: S.String,
@@ -16369,12 +17933,267 @@ function __c152(j: number): any {
           startTimeUtc: S.optional(S.String),
           endTimeUtc: S.optional(S.String),
           status: S.optional(S.String),
-          reportedProperties: S.optional(__S(4864, __c152, 0)),
+          error: S.optional(__S(5029, __c157, 5)),
+          reportedProperties: S.optional(__S(4964, __c155, 4)),
         }),
-      ).annotate({ identifier: "ClusterJobProperties" });
+      ).annotate({ identifier: "ForcePushNetworkAdapterJobProperties" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          jobType: S.String,
+          deploymentMode: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+          jobId: S.optional(S.String),
+          startTimeUtc: S.optional(S.String),
+          endTimeUtc: S.optional(S.String),
+          status: S.optional(S.String),
+          error: S.optional(__S(5029, __c157, 5)),
+          reportedProperties: S.optional(__S(4964, __c155, 4)),
+          resolutionStrategy: S.String,
+        }),
+      ).annotate({ identifier: "SyncConfigurationNetworkAdapterJobProperties" });
+    case 8:
+      return S.Union([__S(4965, __c155, 5), __S(4966, __c155, 6), __S(4967, __c155, 7)]);
   }
 }
-function __c153(j: number): any {
+function __c156(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          jobType: S.String,
+          deploymentMode: S.optional(S.String),
+          addServerJobServerDetails: __S(5153, __c161, 1),
+          secrets: S.optional(__S(5089, __c159, 1)),
+        }),
+      ).annotate({ identifier: "HciAddServerJobPropertiesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          jobType: S.String,
+          deploymentMode: S.optional(S.String),
+          sdnIntegrationIntent: S.String,
+          sdnPrefix: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HciConfigureSdnIntegrationJobPropertiesInput" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          jobType: S.String,
+          deploymentMode: S.optional(S.String),
+          repairServerJobServerDetails: __S(5155, __c161, 3),
+          secrets: S.optional(__S(5089, __c159, 1)),
+        }),
+      ).annotate({ identifier: "HciRepairServerJobPropertiesInput" });
+    case 3:
+      return S.Union([__S(4992, __c156, 0), __S(4993, __c156, 1), __S(4994, __c156, 2)]);
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          clusterName: S.String.pipe(T.Label()),
+          jobsName: S.String.pipe(T.Label()),
+          properties: S.optional(__S(4995, __c156, 3)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/jobs/{jobsName}",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "ClusterJobsCreateOrUpdateRequest" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(5159, __c161, 7)),
+          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+        }),
+      ).annotate({ identifier: "ClusterJobsCreateOrUpdateResponse" });
+  }
+}
+function __c157(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(5027, __c157, 3)));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          info: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "ErrorAdditionalInfo" });
+    case 2:
+      return S.Array(__S(5025, __c157, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          message: S.optional(S.String),
+          target: S.optional(S.String),
+          details: S.optional(__S(5024, __c157, 0)),
+          additionalInfo: S.optional(__S(5026, __c157, 2)),
+        }),
+      ).annotate({ identifier: "ErrorDetail" });
+    case 4:
+      return S.Array(__S(5027, __c157, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          message: S.optional(S.String),
+          target: S.optional(S.String),
+          details: S.optional(__S(5028, __c157, 4)),
+          additionalInfo: S.optional(__S(5026, __c157, 2)),
+        }),
+      ).annotate({ identifier: "DeploymentStepError" });
+  }
+}
+function __c158(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(5059, __c158, 3)));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.String,
+          value: S.String,
+        }),
+      ).annotate({ identifier: "Metadata" });
+    case 2:
+      return S.Array(__S(5057, __c158, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          fullStepIndex: S.optional(S.String),
+          startTimeUtc: S.optional(S.String),
+          endTimeUtc: S.optional(S.String),
+          status: S.optional(S.String),
+          steps: S.optional(__S(5056, __c158, 0)),
+          exception: S.optional(__S(3232, __c101, 0)),
+          error: S.optional(__S(5029, __c157, 5)),
+          percentComplete: S.optional(S.Number),
+          additionalData: S.optional(__S(5058, __c158, 2)),
+          recommendedSteps: S.optional(__S(3232, __c101, 0)),
+        }),
+      ).annotate({ identifier: "DeploymentStep" });
+    case 4:
+      return S.Array(__S(5059, __c158, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          steps: S.optional(__S(5060, __c158, 4)),
+        }),
+      ).annotate({ identifier: "EceActionStatus" });
+  }
+}
+function __c159(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          secretName: S.optional(S.String),
+          eceSecretName: S.optional(S.String),
+          secretLocation: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EceDeploymentSecrets" });
+    case 1:
+      return S.Array(__S(5088, __c159, 0));
+  }
+}
+function __c160(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          percentComplete: S.optional(S.Number),
+          validationStatus: S.optional(__S(5061, __c158, 5)),
+          deploymentStatus: S.optional(__S(5061, __c158, 5)),
+        }),
+      ).annotate({ identifier: "JobReportedProperties" });
+  }
+}
+function __c161(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          serverName: S.String,
+          hostIpv4Address: S.String,
+          localAvailabilityZoneName: S.optional(S.String),
+          serverResourceId: S.String,
+        }),
+      ).annotate({ identifier: "AddServerJobServerDetails" });
+    case 1:
+      return S.Array(__S(5152, __c161, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          serverName: S.String,
+          serverResourceId: S.String,
+        }),
+      ).annotate({ identifier: "RepairServerJobServerDetails" });
+    case 3:
+      return S.Array(__S(5154, __c161, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          jobType: S.String,
+          deploymentMode: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+          jobId: S.optional(S.String),
+          startTimeUtc: S.optional(S.String),
+          endTimeUtc: S.optional(S.String),
+          status: S.optional(S.String),
+          reportedProperties: S.optional(__S(5120, __c160, 0)),
+          addServerJobServerDetails: __S(5153, __c161, 1),
+          secrets: S.optional(__S(5089, __c159, 1)),
+        }),
+      ).annotate({ identifier: "HciAddServerJobProperties" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          jobType: S.String,
+          deploymentMode: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+          jobId: S.optional(S.String),
+          startTimeUtc: S.optional(S.String),
+          endTimeUtc: S.optional(S.String),
+          status: S.optional(S.String),
+          reportedProperties: S.optional(__S(5120, __c160, 0)),
+          sdnIntegrationIntent: S.String,
+          sdnPrefix: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HciConfigureSdnIntegrationJobProperties" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          jobType: S.String,
+          deploymentMode: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+          jobId: S.optional(S.String),
+          startTimeUtc: S.optional(S.String),
+          endTimeUtc: S.optional(S.String),
+          status: S.optional(S.String),
+          reportedProperties: S.optional(__S(5120, __c160, 0)),
+          repairServerJobServerDetails: __S(5155, __c161, 3),
+          secrets: S.optional(__S(5089, __c159, 1)),
+        }),
+      ).annotate({ identifier: "HciRepairServerJobProperties" });
+    case 7:
+      return S.Union([__S(5156, __c161, 4), __S(5157, __c161, 5), __S(5158, __c161, 6)]);
+  }
+}
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16383,9 +18202,9 @@ function __c153(j: number): any {
           arcMachineResourceGroupId: S.optional(S.String),
           arcMachineResourceId: S.optional(S.String),
           arcGatewayResourceId: S.optional(S.String),
-          siteDetails: S.optional(__S(4968, __c155, 8)),
-          ownershipVoucherDetails: S.optional(__S(4928, __c154, 0)),
-          provisioningDetails: S.optional(__S(4972, __c155, 12)),
+          siteDetails: S.optional(__S(5248, __c164, 0)),
+          ownershipVoucherDetails: S.optional(__S(5216, __c163, 0)),
+          provisioningDetails: S.optional(__S(5249, __c164, 1)),
         }),
       ).annotate({ identifier: "EdgeMachinePropertiesInput" });
     case 1:
@@ -16394,10 +18213,10 @@ function __c153(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           edgeMachineName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(5728, __c179, 0)),
+          tags: S.optional(__S(5984, __c187, 0)),
           location: S.String,
-          properties: S.optional(__S(4896, __c153, 0)),
-          identity: S.optional(__S(8161, __c255, 1)),
+          properties: S.optional(__S(5184, __c162, 0)),
+          identity: S.optional(__S(8385, __c262, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -16414,17 +18233,17 @@ function __c153(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          tags: S.optional(__S(5728, __c179, 0)),
+          tags: S.optional(__S(5984, __c187, 0)),
           location: S.String,
-          properties: S.optional(__S(5008, __c156, 16)),
-          identity: S.optional(__S(5762, __c180, 2)),
+          properties: S.optional(__S(5266, __c164, 18)),
+          identity: S.optional(__S(6018, __c188, 2)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "EdgeMachinesCreateOrUpdateResponse" });
   }
 }
-function __c154(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16435,120 +18254,35 @@ function __c154(j: number): any {
       ).annotate({ identifier: "OwnershipVoucherDetailsInput" });
   }
 }
-function __c155(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          startIp: S.String,
-          endIp: S.String,
+          siteResourceId: S.String,
+          deviceConfiguration: S.optional(__S(4842, __c151, 10)),
         }),
-      ).annotate({ identifier: "IpAddressRange" });
+      ).annotate({ identifier: "SiteDetails" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ipAssignmentType: S.String,
-          ipAddress: S.optional(S.String),
-          adapterName: S.optional(S.String),
-          macAddress: S.optional(S.String),
-          ipAddressRange: S.optional(__S(4960, __c155, 0)),
-          gateway: S.optional(S.String),
-          subnetMask: S.optional(S.String),
-          dnsAddressArray: S.optional(__S(3264, __c102, 0)),
-          vlanId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "NetworkAdapter" });
-    case 2:
-      return S.Array(__S(4961, __c155, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          networkAdapters: S.optional(__S(4962, __c155, 2)),
-        }),
-      ).annotate({ identifier: "NetworkConfiguration" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          connectionUri: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          port: S.optional(S.String),
-          bypassList: S.optional(__S(3264, __c102, 0)),
-        }),
-      ).annotate({ identifier: "WebProxyConfiguration" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          primaryTimeServer: S.optional(S.String),
-          secondaryTimeServer: S.optional(S.String),
-          timeZone: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TimeConfiguration" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          partitionSize: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "StorageConfiguration" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          network: S.optional(__S(4963, __c155, 3)),
-          hostName: S.optional(S.String),
-          webProxy: S.optional(__S(4964, __c155, 4)),
-          time: S.optional(__S(4965, __c155, 5)),
-          storage: S.optional(__S(4966, __c155, 6)),
-        }),
-      ).annotate({ identifier: "TargetDeviceConfiguration" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          siteResourceId: S.String,
-          deviceConfiguration: S.optional(__S(4967, __c155, 7)),
-        }),
-      ).annotate({ identifier: "SiteDetails" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          osName: S.optional(S.String),
-          osType: S.optional(S.String),
-          osVersion: S.optional(S.String),
-          osImageLocation: S.optional(S.String),
-          vsrVersion: S.optional(S.String),
-          imageHash: S.optional(S.String),
-          gpgPubKey: S.optional(S.String),
-          operationType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "OsProvisionProfile" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          userName: S.String,
-          secretType: S.String,
-          secretLocation: S.optional(S.String),
-          sshPubKey: S.optional(__S(3264, __c102, 0)),
-        }),
-      ).annotate({ identifier: "UserDetails" });
-    case 11:
-      return S.Array(__S(4970, __c155, 10));
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          osProfile: __S(4969, __c155, 9),
-          userDetails: S.optional(__S(4971, __c155, 11)),
+          osProfile: __S(4832, __c151, 0),
+          userDetails: S.optional(__S(4834, __c151, 2)),
         }),
       ).annotate({ identifier: "ProvisioningDetails" });
-    case 13:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           status: S.String,
           stage: S.optional(S.String),
           lastUpdatedUtc: S.String,
           message: S.optional(S.String),
-          recommendedSteps: S.optional(__S(3264, __c102, 0)),
+          recommendedSteps: S.optional(__S(3232, __c101, 0)),
         }),
       ).annotate({ identifier: "LifecycleStatus" });
-    case 14:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(4975, __c155, 15)));
-    case 15:
+    case 3:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(5252, __c164, 4)));
+    case 4:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
@@ -16557,136 +18291,28 @@ function __c155(j: number): any {
           startTimeUtc: S.optional(S.String),
           endTimeUtc: S.optional(S.String),
           lastUpdatedUtc: S.optional(S.String),
-          error: S.optional(__S(4805, __c150, 5)),
-          subStages: S.optional(__S(4974, __c155, 14)),
+          error: S.optional(__S(5029, __c157, 5)),
+          subStages: S.optional(__S(5251, __c164, 3)),
         }),
       ).annotate({ identifier: "LifecycleStage" });
-    case 16:
-      return S.Array(__S(4975, __c155, 15));
-    case 17:
+    case 5:
+      return S.Array(__S(5252, __c164, 4));
+    case 6:
       return S.suspend(() =>
         S.Struct({
-          lifecycleStatus: S.optional(__S(4973, __c155, 13)),
-          lifecycleStages: __S(4976, __c155, 16),
+          lifecycleStatus: S.optional(__S(5250, __c164, 2)),
+          lifecycleStages: __S(5253, __c164, 5),
         }),
       ).annotate({ identifier: "LifecycleDetails" });
-    case 18:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           ownershipVoucher: S.String,
           ownerKeyType: S.String,
-          validationDetails: S.optional(__S(5024, __c157, 0)),
+          validationDetails: S.optional(__S(5280, __c165, 0)),
         }),
       ).annotate({ identifier: "OwnershipVoucherDetails" });
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          adapterName: S.optional(S.String),
-          interfaceDescription: S.optional(S.String),
-          componentId: S.optional(S.String),
-          driverVersion: S.optional(S.String),
-          ip4Address: S.optional(S.String),
-          subnetMask: S.optional(S.String),
-          defaultGateway: S.optional(S.String),
-          dnsServers: S.optional(__S(3264, __c102, 0)),
-          defaultIsolationId: S.optional(S.String),
-          macAddress: S.optional(S.String),
-          slot: S.optional(S.String),
-          switchName: S.optional(S.String),
-          nicType: S.optional(S.String),
-          vlanId: S.optional(S.String),
-          nicStatus: S.optional(S.String),
-          rdmaCapability: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EdgeMachineNicDetail" });
-    case 20:
-      return S.Array(__S(4979, __c155, 19));
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          switchId: S.optional(S.String),
-          extensionName: S.optional(S.String),
-          extensionEnabled: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "SwitchExtension" });
-    case 22:
-      return S.Array(__S(4981, __c155, 21));
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
-          switchName: S.optional(S.String),
-          switchType: S.optional(S.String),
-          extensions: S.optional(__S(4982, __c155, 22)),
-        }),
-      ).annotate({ identifier: "SwitchDetail" });
-    case 24:
-      return S.Array(__S(4983, __c155, 23));
-    case 25:
-      return S.suspend(() =>
-        S.Struct({
-          scope: S.optional(S.Number),
-          intentType: S.optional(S.Number),
-          isComputeIntentSet: S.optional(S.Boolean),
-          isStorageIntentSet: S.optional(S.Boolean),
-          isOnlyStorage: S.optional(S.Boolean),
-          isManagementIntentSet: S.optional(S.Boolean),
-          isStretchIntentSet: S.optional(S.Boolean),
-          isOnlyStretch: S.optional(S.Boolean),
-          isNetworkIntentType: S.optional(S.Boolean),
-          intentName: S.optional(S.String),
-          intentAdapters: S.optional(__S(3264, __c102, 0)),
-          overrideVirtualSwitchConfiguration: S.optional(S.Boolean),
-          virtualSwitchConfigurationOverrides: S.optional(__S(4160, __c130, 0)),
-          overrideQosPolicy: S.optional(S.Boolean),
-          qosPolicyOverrides: S.optional(__S(4161, __c130, 1)),
-          overrideAdapterProperty: S.optional(S.Boolean),
-          adapterPropertyOverrides: S.optional(__S(4162, __c130, 2)),
-        }),
-      ).annotate({ identifier: "EdgeMachineHostNetworkIntent" });
-    case 26:
-      return S.Array(__S(4985, __c155, 25));
-    case 27:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          networkAdapterName: S.optional(S.String),
-          storageVlanId: S.optional(S.String),
-          storageAdapterIPInfo: S.optional(__S(4164, __c130, 4)),
-        }),
-      ).annotate({ identifier: "EdgeMachineStorageNetwork" });
-    case 28:
-      return S.Array(__S(4987, __c155, 27));
-    case 29:
-      return S.suspend(() =>
-        S.Struct({
-          intents: S.optional(__S(4986, __c155, 26)),
-          storageNetworks: S.optional(__S(4988, __c155, 28)),
-          storageConnectivitySwitchless: S.optional(S.Boolean),
-          enableStorageAutoIp: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "EdgeMachineHostNetwork" });
-    case 30:
-      return S.suspend(() =>
-        S.Struct({
-          sdnStatus: S.optional(S.String),
-          sdnDomainName: S.optional(S.String),
-          sdnApiAddress: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SdnProperties" });
-    case 31:
-      return S.suspend(() =>
-        S.Struct({
-          nicDetails: S.optional(__S(4980, __c155, 20)),
-          switchDetails: S.optional(__S(4984, __c155, 24)),
-          hostNetwork: S.optional(__S(4989, __c155, 29)),
-          sdnProperties: S.optional(__S(4990, __c155, 30)),
-        }),
-      ).annotate({ identifier: "EdgeMachineNetworkProfile" });
-  }
-}
-function __c156(j: number): any {
-  switch (j) {
-    case 0:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           bootType: S.optional(S.String),
@@ -16699,7 +18325,7 @@ function __c156(j: number): any {
           imageVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "OsProfile" });
-    case 1:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           cpuCores: S.optional(S.Number),
@@ -16712,48 +18338,13 @@ function __c156(j: number): any {
           architecture: S.optional(S.String),
         }),
       ).annotate({ identifier: "HardwareProfile" });
-    case 2:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           poolableDisksCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "StorageProfile" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          code: S.optional(S.String),
-          message: S.optional(S.String),
-          sbeManifest: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SbeDeploymentPackageInfo" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          exception: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "HciValidationFailureDetail" });
-    case 5:
-      return S.Array(__S(4996, __c156, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          extensionName: S.optional(S.String),
-          state: S.optional(S.String),
-          errorDetails: S.optional(__S(4997, __c156, 5)),
-          extensionResourceId: S.optional(S.String),
-          typeHandlerVersion: S.optional(S.String),
-          managedBy: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "HciEdgeDeviceArcExtension" });
-    case 7:
-      return S.Array(__S(4998, __c156, 6));
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          extensions: S.optional(__S(4999, __c156, 7)),
-        }),
-      ).annotate({ identifier: "ExtensionProfile" });
-    case 9:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           workloadId: S.optional(S.String),
@@ -16765,9 +18356,9 @@ function __c156(j: number): any {
           memoryInBytes: S.optional(S.String),
         }),
       ).annotate({ identifier: "EdgeMachineWorkloadInventoryItem" });
-    case 10:
-      return S.Array(__S(5001, __c156, 9));
-    case 11:
+    case 12:
+      return S.Array(__S(5259, __c164, 11));
+    case 13:
       return S.suspend(() =>
         S.Struct({
           initiatorType: S.String,
@@ -16778,24 +18369,24 @@ function __c156(j: number): any {
           operationalStatus: S.optional(S.String),
         }),
       ).annotate({ identifier: "StorageInitiator" });
-    case 12:
-      return S.Array(__S(5003, __c156, 11));
-    case 13:
+    case 14:
+      return S.Array(__S(5261, __c164, 13));
+    case 15:
       return S.suspend(() =>
         S.Struct({
           lastUpdated: S.optional(S.String),
-          networkProfile: S.optional(__S(4991, __c155, 31)),
-          osProfile: S.optional(__S(4992, __c156, 0)),
-          hardwareProfile: S.optional(__S(4993, __c156, 1)),
-          storageProfile: S.optional(__S(4994, __c156, 2)),
-          sbeDeploymentPackageInfo: S.optional(__S(4995, __c156, 3)),
-          extensionProfile: S.optional(__S(5000, __c156, 8)),
-          workloadInventory: S.optional(__S(5002, __c156, 10)),
+          networkProfile: S.optional(__S(4401, __c137, 17)),
+          osProfile: S.optional(__S(5256, __c164, 8)),
+          hardwareProfile: S.optional(__S(5257, __c164, 9)),
+          storageProfile: S.optional(__S(5258, __c164, 10)),
+          sbeDeploymentPackageInfo: S.optional(__S(4402, __c137, 18)),
+          extensionProfile: S.optional(__S(4388, __c137, 4)),
+          workloadInventory: S.optional(__S(5260, __c164, 12)),
           workloadInventoryLastUpdated: S.optional(S.String),
-          storageInitiators: S.optional(__S(5004, __c156, 12)),
+          storageInitiators: S.optional(__S(5262, __c164, 14)),
         }),
       ).annotate({ identifier: "EdgeMachineReportedProperties" });
-    case 14:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
@@ -16804,12 +18395,12 @@ function __c156(j: number): any {
           resourceId: S.optional(S.String),
           description: S.optional(S.String),
           status: S.optional(S.String),
-          error: S.optional(__S(4805, __c150, 5)),
+          error: S.optional(__S(5029, __c157, 5)),
         }),
       ).annotate({ identifier: "OperationDetail" });
-    case 15:
-      return S.Array(__S(5006, __c156, 14));
-    case 16:
+    case 17:
+      return S.Array(__S(5264, __c164, 16));
+    case 18:
       return S.suspend(() =>
         S.Struct({
           edgeMachineKind: S.optional(S.String),
@@ -16817,23 +18408,23 @@ function __c156(j: number): any {
           cloudId: S.optional(S.String),
           arcMachineResourceGroupId: S.optional(S.String),
           arcMachineResourceId: S.optional(S.String),
-          lifecycleDetails: S.optional(__S(4977, __c155, 17)),
+          lifecycleDetails: S.optional(__S(5254, __c164, 6)),
           arcGatewayResourceId: S.optional(S.String),
-          siteDetails: S.optional(__S(4968, __c155, 8)),
-          ownershipVoucherDetails: S.optional(__S(4978, __c155, 18)),
-          provisioningDetails: S.optional(__S(4972, __c155, 12)),
+          siteDetails: S.optional(__S(5248, __c164, 0)),
+          ownershipVoucherDetails: S.optional(__S(5255, __c164, 7)),
+          provisioningDetails: S.optional(__S(5249, __c164, 1)),
           devicePoolResourceId: S.optional(S.String),
           machineState: S.optional(S.String),
           connectivityStatus: S.optional(S.String),
           claimedBy: S.optional(S.String),
-          reportedProperties: S.optional(__S(5005, __c156, 13)),
-          operationDetails: S.optional(__S(5007, __c156, 15)),
+          reportedProperties: S.optional(__S(5263, __c164, 15)),
+          operationDetails: S.optional(__S(5265, __c164, 17)),
           lastSyncTimestamp: S.optional(S.String),
         }),
       ).annotate({ identifier: "EdgeMachineProperties" });
   }
 }
-function __c157(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16846,12 +18437,12 @@ function __c157(j: number): any {
           version: S.optional(S.String),
           azureMachineId: S.optional(S.String),
           architecture: S.optional(S.String),
-          error: S.optional(__S(4805, __c150, 5)),
+          error: S.optional(__S(5029, __c157, 5)),
         }),
       ).annotate({ identifier: "OwnershipVoucherValidationDetails" });
   }
 }
-function __c158(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16860,7 +18451,7 @@ function __c158(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           edgeMachineName: S.String.pipe(T.Label()),
           securitySettingsName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(8128, __c254, 0)),
+          properties: S.optional(__S(8352, __c261, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -16877,14 +18468,14 @@ function __c158(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(5089, __c159, 1)),
+          properties: S.optional(__S(5345, __c167, 1)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "EdgeMachineSecuritySettingsOperationsCreateOrUpdateResponse" });
   }
 }
-function __c159(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16900,19 +18491,19 @@ function __c159(j: number): any {
       return S.suspend(() =>
         S.Struct({
           provisioningState: S.optional(S.String),
-          securityComplianceStatus: S.optional(__S(5088, __c159, 0)),
+          securityComplianceStatus: S.optional(__S(5344, __c167, 0)),
           registrationTimestamp: S.optional(S.String),
           lastSyncTimestamp: S.optional(S.String),
         }),
       ).annotate({ identifier: "EdgeMachineSecurityProperties" });
   }
 }
-function __c160(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          volumeConfiguration: S.optional(__S(5152, __c161, 0)),
+          volumeConfiguration: S.optional(__S(5408, __c169, 0)),
         }),
       ).annotate({ identifier: "EdgeMachineVolumePropertiesInput" });
     case 1:
@@ -16922,7 +18513,7 @@ function __c160(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           edgeMachineName: S.String.pipe(T.Label()),
           volumeName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(5120, __c160, 0)),
+          properties: S.optional(__S(5376, __c168, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -16939,14 +18530,14 @@ function __c160(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(5154, __c161, 2)),
+          properties: S.optional(__S(5410, __c169, 2)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "EdgeMachineVolumesCreateOrUpdateResponse" });
   }
 }
-function __c161(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16971,14 +18562,14 @@ function __c161(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          volumeConfiguration: S.optional(__S(5152, __c161, 0)),
-          reportedProperties: S.optional(__S(5153, __c161, 1)),
+          volumeConfiguration: S.optional(__S(5408, __c169, 0)),
+          reportedProperties: S.optional(__S(5409, __c169, 1)),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "EdgeMachineVolumeProperties" });
   }
 }
-function __c162(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16986,7 +18577,7 @@ function __c162(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(8192, __c256, 0)),
+          properties: S.optional(__S(8416, __c263, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -16998,7 +18589,7 @@ function __c162(j: number): any {
       ).annotate({ identifier: "ExtendClusterSoftwareAssuranceBenefitRequest" });
   }
 }
-function __c163(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17020,7 +18611,7 @@ function __c163(j: number): any {
       ).annotate({ identifier: "ExtensionsUpgradeRequest" });
   }
 }
-function __c164(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17030,8 +18621,8 @@ function __c164(j: number): any {
           osType: S.String,
           cloudInitDataSource: S.optional(S.String),
           hyperVGeneration: S.optional(S.String),
-          identifier: S.optional(__S(5440, __c170, 0)),
-          version: S.optional(__S(5282, __c165, 2)),
+          identifier: S.optional(__S(5696, __c178, 0)),
+          version: S.optional(__S(5538, __c173, 2)),
         }),
       ).annotate({ identifier: "GalleryImagePropertiesInput" });
     case 1:
@@ -17040,10 +18631,10 @@ function __c164(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           galleryImageName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(5728, __c179, 0)),
+          tags: S.optional(__S(5984, __c187, 0)),
           location: S.String,
-          properties: S.optional(__S(5248, __c164, 0)),
-          extendedLocation: S.optional(__S(5408, __c169, 0)),
+          properties: S.optional(__S(5504, __c172, 0)),
+          extendedLocation: S.optional(__S(5664, __c177, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -17055,30 +18646,30 @@ function __c164(j: number): any {
       ).annotate({ identifier: "GalleryImagesCreateOrUpdateRequest" });
   }
 }
-function __c165(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          osDiskImage: S.optional(__S(8128, __c254, 0)),
+          osDiskImage: S.optional(__S(8352, __c261, 0)),
         }),
       ).annotate({ identifier: "GalleryImageVersionStorageProfileInput" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          storageProfile: __S(5280, __c165, 0),
+          storageProfile: __S(5536, __c173, 0),
         }),
       ).annotate({ identifier: "GalleryImageVersionPropertiesInput" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          properties: S.optional(__S(5281, __c165, 1)),
+          properties: S.optional(__S(5537, __c173, 1)),
         }),
       ).annotate({ identifier: "GalleryImageVersionInput" });
   }
 }
-function __c166(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17089,7 +18680,7 @@ function __c166(j: number): any {
       ).annotate({ identifier: "GalleryImageStatusProvisioningStatus" });
   }
 }
-function __c167(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17098,15 +18689,15 @@ function __c167(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          tags: S.optional(__S(5728, __c179, 0)),
+          tags: S.optional(__S(5984, __c187, 0)),
           location: S.String,
-          properties: S.optional(__S(5376, __c168, 0)),
-          extendedLocation: S.optional(__S(5408, __c169, 0)),
+          properties: S.optional(__S(5632, __c176, 0)),
+          extendedLocation: S.optional(__S(5664, __c177, 0)),
         }),
       ).annotate({ identifier: "GalleryImagesCreateOrUpdateResponse" });
   }
 }
-function __c168(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17116,15 +18707,15 @@ function __c168(j: number): any {
           osType: S.String,
           cloudInitDataSource: S.optional(S.String),
           hyperVGeneration: S.optional(S.String),
-          identifier: S.optional(__S(5440, __c170, 0)),
-          version: S.optional(__S(5444, __c170, 4)),
+          identifier: S.optional(__S(5696, __c178, 0)),
+          version: S.optional(__S(5700, __c178, 4)),
           provisioningState: S.optional(S.String),
-          status: S.optional(__S(5446, __c170, 6)),
+          status: S.optional(__S(5702, __c178, 6)),
         }),
       ).annotate({ identifier: "GalleryImageProperties" });
   }
 }
-function __c169(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17135,7 +18726,7 @@ function __c169(j: number): any {
       ).annotate({ identifier: "GalleryImagesCreateOrUpdateRequestExtendedLocation" });
   }
 }
-function __c170(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17154,20 +18745,20 @@ function __c170(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          osDiskImage: S.optional(__S(5441, __c170, 1)),
+          osDiskImage: S.optional(__S(5697, __c178, 1)),
         }),
       ).annotate({ identifier: "GalleryImageVersionStorageProfile" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          storageProfile: __S(5442, __c170, 2),
+          storageProfile: __S(5698, __c178, 2),
         }),
       ).annotate({ identifier: "GalleryImageVersionProperties" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          properties: S.optional(__S(5443, __c170, 3)),
+          properties: S.optional(__S(5699, __c178, 3)),
         }),
       ).annotate({ identifier: "GalleryImageVersion" });
     case 5:
@@ -17181,14 +18772,14 @@ function __c170(j: number): any {
         S.Struct({
           errorCode: S.optional(S.String),
           errorMessage: S.optional(S.String),
-          provisioningStatus: S.optional(__S(5312, __c166, 0)),
-          downloadStatus: S.optional(__S(5445, __c170, 5)),
+          provisioningStatus: S.optional(__S(5568, __c174, 0)),
+          downloadStatus: S.optional(__S(5701, __c178, 5)),
           progressPercentage: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GalleryImageStatus" });
   }
 }
-function __c171(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17217,7 +18808,7 @@ function __c171(j: number): any {
       ).annotate({ identifier: "PasswordCredential" });
   }
 }
-function __c172(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17237,7 +18828,7 @@ function __c172(j: number): any {
       ).annotate({ identifier: "GetArcSettingsRequest" });
   }
 }
-function __c173(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17256,7 +18847,7 @@ function __c173(j: number): any {
       ).annotate({ identifier: "GetClusterRequest" });
   }
 }
-function __c174(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17276,7 +18867,7 @@ function __c174(j: number): any {
       ).annotate({ identifier: "GetClusterJobRequest" });
   }
 }
-function __c175(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17285,12 +18876,12 @@ function __c175(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(4865, __c152, 1)),
+          properties: S.optional(__S(5159, __c161, 7)),
         }),
       ).annotate({ identifier: "GetClusterJobResponse" });
   }
 }
-function __c176(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17305,7 +18896,7 @@ function __c176(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(5632, __c176, 0)),
+          properties: S.optional(__S(5888, __c184, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -17317,7 +18908,7 @@ function __c176(j: number): any {
       ).annotate({ identifier: "ClustersConfigureRemoteSupportRequest" });
   }
 }
-function __c177(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17326,10 +18917,10 @@ function __c177(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          tags: S.optional(__S(5728, __c179, 0)),
+          tags: S.optional(__S(5984, __c187, 0)),
           location: S.String,
-          properties: S.optional(__S(5812, __c181, 20)),
-          identity: S.optional(__S(5762, __c180, 2)),
+          properties: S.optional(__S(6068, __c189, 20)),
+          identity: S.optional(__S(6018, __c188, 2)),
           kind: S.optional(S.String),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -17337,26 +18928,26 @@ function __c177(j: number): any {
       ).annotate({ identifier: "ClustersConfigureRemoteSupportResponse" });
   }
 }
-function __c178(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           localAvailabilityZoneName: S.optional(S.String),
-          nodes: S.optional(__S(3264, __c102, 0)),
+          nodes: S.optional(__S(3232, __c101, 0)),
         }),
       ).annotate({ identifier: "LocalAvailabilityZones" });
     case 1:
-      return S.Array(__S(5696, __c178, 0));
+      return S.Array(__S(5952, __c186, 0));
   }
 }
-function __c179(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c180(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17366,19 +18957,19 @@ function __c180(j: number): any {
         }),
       ).annotate({ identifier: "UserAssignedIdentity" });
     case 1:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(5760, __c180, 0)));
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(6016, __c188, 0)));
     case 2:
       return S.suspend(() =>
         S.Struct({
           principalId: S.optional(S.String),
           tenantId: S.optional(S.String),
           type: S.String,
-          userAssignedIdentities: S.optional(__S(5761, __c180, 1)),
+          userAssignedIdentities: S.optional(__S(6017, __c188, 1)),
         }),
       ).annotate({ identifier: "ClustersConfigureRemoteSupportResponseIdentity" });
   }
 }
-function __c181(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17406,18 +18997,18 @@ function __c181(j: number): any {
           correlationId: S.optional(S.String),
           logCollectionJobType: S.optional(S.String),
           endTimeCollected: S.optional(S.String),
-          logCollectionError: S.optional(__S(5793, __c181, 1)),
+          logCollectionError: S.optional(__S(6049, __c189, 1)),
         }),
       ).annotate({ identifier: "LogCollectionSession" });
     case 3:
-      return S.Array(__S(5794, __c181, 2));
+      return S.Array(__S(6050, __c189, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           fromDate: S.optional(S.String),
           toDate: S.optional(S.String),
           lastLogGenerated: S.optional(S.String),
-          logCollectionSessionDetails: S.optional(__S(5795, __c181, 3)),
+          logCollectionSessionDetails: S.optional(__S(6051, __c189, 3)),
         }),
       ).annotate({ identifier: "LogCollectionProperties" });
     case 5:
@@ -17433,7 +19024,7 @@ function __c181(j: number): any {
         }),
       ).annotate({ identifier: "RemoteSupportNodeSettings" });
     case 6:
-      return S.Array(__S(5797, __c181, 5));
+      return S.Array(__S(6053, __c189, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -17446,15 +19037,15 @@ function __c181(j: number): any {
         }),
       ).annotate({ identifier: "PerNodeRemoteSupportSession" });
     case 8:
-      return S.Array(__S(5799, __c181, 7));
+      return S.Array(__S(6055, __c189, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           accessLevel: S.optional(S.String),
           expirationTimeStamp: S.optional(S.String),
           remoteSupportType: S.optional(S.String),
-          remoteSupportNodeSettings: S.optional(__S(5798, __c181, 6)),
-          remoteSupportSessionDetails: S.optional(__S(5800, __c181, 8)),
+          remoteSupportNodeSettings: S.optional(__S(6054, __c189, 6)),
+          remoteSupportSessionDetails: S.optional(__S(6056, __c189, 8)),
           remoteSupportProvisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "RemoteSupportProperties" });
@@ -17486,19 +19077,19 @@ function __c181(j: number): any {
         }),
       ).annotate({ identifier: "ClusterNode" });
     case 12:
-      return S.Array(__S(5803, __c181, 11));
+      return S.Array(__S(6059, __c189, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
           clusterName: S.optional(S.String),
           clusterId: S.optional(S.String),
           clusterVersion: S.optional(S.String),
-          nodes: S.optional(__S(5804, __c181, 12)),
+          nodes: S.optional(__S(6060, __c189, 12)),
           lastUpdated: S.optional(S.String),
           msiExpirationTimeStamp: S.optional(S.String),
           imdsAttestation: S.optional(S.String),
           diagnosticLevel: S.optional(S.String),
-          supportedCapabilities: S.optional(__S(3264, __c102, 0)),
+          supportedCapabilities: S.optional(__S(3232, __c101, 0)),
           clusterType: S.optional(S.String),
           manufacturer: S.optional(S.String),
           oemActivation: S.optional(S.String),
@@ -17517,14 +19108,14 @@ function __c181(j: number): any {
       return S.suspend(() =>
         S.Struct({
           billingModel: S.optional(S.String),
-          capabilitiesEnabled: S.optional(__S(3264, __c102, 0)),
+          capabilitiesEnabled: S.optional(__S(3232, __c101, 0)),
           trialDaysRemaining: S.optional(S.Number),
         }),
       ).annotate({ identifier: "NextBillingModel" });
     case 16:
       return S.suspend(() =>
         S.Struct({
-          nextBillingModel: S.optional(__S(5807, __c181, 15)),
+          nextBillingModel: S.optional(__S(6063, __c189, 15)),
         }),
       ).annotate({ identifier: "ClusterBillingProperties" });
     case 17:
@@ -17535,7 +19126,7 @@ function __c181(j: number): any {
         }),
       ).annotate({ identifier: "SecretsLocationDetails" });
     case 18:
-      return S.Array(__S(5809, __c181, 17));
+      return S.Array(__S(6065, __c189, 17));
     case 19:
       return S.suspend(() =>
         S.Struct({
@@ -17557,32 +19148,32 @@ function __c181(j: number): any {
           aadTenantId: S.optional(S.String),
           aadApplicationObjectId: S.optional(S.String),
           aadServicePrincipalObjectId: S.optional(S.String),
-          softwareAssuranceProperties: S.optional(__S(5792, __c181, 0)),
+          softwareAssuranceProperties: S.optional(__S(6048, __c189, 0)),
           isManagementCluster: S.optional(S.Boolean),
-          logCollectionProperties: S.optional(__S(5796, __c181, 4)),
-          remoteSupportProperties: S.optional(__S(5801, __c181, 9)),
-          desiredProperties: S.optional(__S(5802, __c181, 10)),
-          reportedProperties: S.optional(__S(5805, __c181, 13)),
-          isolatedVmAttestationConfiguration: S.optional(__S(5806, __c181, 14)),
+          logCollectionProperties: S.optional(__S(6052, __c189, 4)),
+          remoteSupportProperties: S.optional(__S(6057, __c189, 9)),
+          desiredProperties: S.optional(__S(6058, __c189, 10)),
+          reportedProperties: S.optional(__S(6061, __c189, 13)),
+          isolatedVmAttestationConfiguration: S.optional(__S(6062, __c189, 14)),
           trialDaysRemaining: S.optional(S.Number),
           billingModel: S.optional(S.String),
-          billingProperties: S.optional(__S(5808, __c181, 16)),
+          billingProperties: S.optional(__S(6064, __c189, 16)),
           registrationTimestamp: S.optional(S.String),
           lastSyncTimestamp: S.optional(S.String),
           lastBillingTimestamp: S.optional(S.String),
           serviceEndpoint: S.optional(S.String),
           resourceProviderObjectId: S.optional(S.String),
-          secretsLocations: S.optional(__S(5810, __c181, 18)),
+          secretsLocations: S.optional(__S(6066, __c189, 18)),
           clusterPattern: S.optional(S.String),
-          sdnProperties: S.optional(__S(5811, __c181, 19)),
-          localAvailabilityZones: S.optional(__S(5697, __c178, 1)),
+          sdnProperties: S.optional(__S(6067, __c189, 19)),
+          localAvailabilityZones: S.optional(__S(5953, __c186, 1)),
           identityProvider: S.optional(S.String),
           storageType: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClusterProperties" });
   }
 }
-function __c182(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17602,7 +19193,7 @@ function __c182(j: number): any {
       ).annotate({ identifier: "GetDeploymentSettingsRequest" });
   }
 }
-function __c183(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17611,12 +19202,12 @@ function __c183(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(4232, __c132, 8)),
+          properties: S.optional(__S(4200, __c131, 8)),
         }),
       ).annotate({ identifier: "GetDeploymentSettingsResponse" });
   }
 }
-function __c184(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17634,22 +19225,7 @@ function __c184(j: number): any {
       ).annotate({ identifier: "GetEdgeDeviceRequest" });
   }
 }
-function __c185(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          systemData: S.optional(__S(32, __c1, 0)),
-          kind: S.String,
-          properties: S.optional(__S(4323, __c135, 3)),
-        }),
-      ).annotate({ identifier: "GetEdgeDeviceResponse" });
-  }
-}
-function __c186(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17668,21 +19244,7 @@ function __c186(j: number): any {
       ).annotate({ identifier: "GetEdgeDeviceJobRequest" });
   }
 }
-function __c187(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          systemData: S.optional(__S(32, __c1, 0)),
-          kind: S.String,
-        }),
-      ).annotate({ identifier: "GetEdgeDeviceJobResponse" });
-  }
-}
-function __c188(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17701,7 +19263,7 @@ function __c188(j: number): any {
       ).annotate({ identifier: "GetEdgeMachineRequest" });
   }
 }
-function __c189(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17710,15 +19272,15 @@ function __c189(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          tags: S.optional(__S(5728, __c179, 0)),
+          tags: S.optional(__S(5984, __c187, 0)),
           location: S.String,
-          properties: S.optional(__S(5008, __c156, 16)),
-          identity: S.optional(__S(5762, __c180, 2)),
+          properties: S.optional(__S(5266, __c164, 18)),
+          identity: S.optional(__S(6018, __c188, 2)),
         }),
       ).annotate({ identifier: "GetEdgeMachineResponse" });
   }
 }
-function __c190(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17738,7 +19300,7 @@ function __c190(j: number): any {
       ).annotate({ identifier: "GetEdgeMachineDeploymentSettingsRequest" });
   }
 }
-function __c191(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17747,12 +19309,12 @@ function __c191(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(4396, __c137, 12)),
+          properties: S.optional(__S(4524, __c141, 12)),
         }),
       ).annotate({ identifier: "GetEdgeMachineDeploymentSettingsResponse" });
   }
 }
-function __c192(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17772,7 +19334,7 @@ function __c192(j: number): any {
       ).annotate({ identifier: "GetEdgeMachineDiskRequest" });
   }
 }
-function __c193(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17781,12 +19343,12 @@ function __c193(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(4614, __c144, 6)),
+          properties: S.optional(__S(4774, __c149, 6)),
         }),
       ).annotate({ identifier: "GetEdgeMachineDiskResponse" });
   }
 }
-function __c194(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17807,7 +19369,7 @@ function __c194(j: number): any {
       ).annotate({ identifier: "GetEdgeMachineDiskJobRequest" });
   }
 }
-function __c195(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17816,12 +19378,12 @@ function __c195(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(4517, __c141, 5)),
+          properties: S.optional(__S(4642, __c145, 2)),
         }),
       ).annotate({ identifier: "GetEdgeMachineDiskJobResponse" });
   }
 }
-function __c196(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17842,7 +19404,21 @@ function __c196(j: number): any {
       ).annotate({ identifier: "GetEdgeMachineDiskPrivilegedJobRequest" });
   }
 }
-function __c197(j: number): any {
+function __c203(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(4704, __c147, 0)),
+        }),
+      ).annotate({ identifier: "GetEdgeMachineDiskPrivilegedJobResponse" });
+  }
+}
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17862,7 +19438,7 @@ function __c197(j: number): any {
       ).annotate({ identifier: "GetEdgeMachineJobRequest" });
   }
 }
-function __c198(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17871,12 +19447,12 @@ function __c198(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(4672, __c146, 0)),
+          properties: S.optional(__S(4872, __c152, 8)),
         }),
       ).annotate({ identifier: "GetEdgeMachineJobResponse" });
   }
 }
-function __c199(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17896,41 +19472,9 @@ function __c199(j: number): any {
       ).annotate({ identifier: "GetEdgeMachineNetworkAdapterRequest" });
   }
 }
-function __c200(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          secretName: S.optional(S.String),
-          secretLocation: S.optional(S.String),
-          secretType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "WifiSecret" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          ssid: S.optional(S.String),
-          authenticationType: S.optional(S.String),
-          eapMethod: S.optional(S.String),
-          username: S.optional(S.String),
-          wifiSecret: S.optional(__S(6400, __c200, 0)),
-        }),
-      ).annotate({ identifier: "WifiConfigurationDesiredProperties" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          adapterName: S.optional(S.String),
-          ip4Address: S.optional(S.String),
-          subnetMask: S.optional(S.String),
-          defaultGateway: S.optional(S.String),
-          dnsServers: S.optional(__S(3264, __c102, 0)),
-          ipInterfaceType: S.optional(S.String),
-          vlanId: S.optional(S.Number),
-          interfaceState: S.optional(S.String),
-          wifiConfiguration: S.optional(__S(6401, __c200, 1)),
-        }),
-      ).annotate({ identifier: "NetworkAdapterConfiguration" });
-    case 3:
       return S.suspend(() =>
         S.Struct({
           ssid: S.optional(S.String),
@@ -17942,14 +19486,14 @@ function __c200(j: number): any {
           username: S.optional(S.String),
         }),
       ).annotate({ identifier: "WifiConfigurationReportedProperties" });
-    case 4:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           adapterName: S.optional(S.String),
           ip4Address: S.optional(S.String),
           subnetMask: S.optional(S.String),
           defaultGateway: S.optional(S.String),
-          dnsServers: S.optional(__S(3264, __c102, 0)),
+          dnsServers: S.optional(__S(3232, __c101, 0)),
           interfaceDescription: S.optional(S.String),
           componentId: S.optional(S.String),
           driverVersion: S.optional(S.String),
@@ -17966,43 +19510,43 @@ function __c200(j: number): any {
           vlanId: S.optional(S.Number),
           managementInterface: S.optional(S.Boolean),
           rdmaCapability: S.optional(S.String),
-          networkAdapterStatus: S.optional(__S(6432, __c201, 0)),
-          wifiConfiguration: S.optional(__S(6403, __c200, 3)),
+          networkAdapterStatus: S.optional(__S(6656, __c208, 0)),
+          wifiConfiguration: S.optional(__S(6624, __c207, 0)),
         }),
       ).annotate({ identifier: "NetworkAdapterReportedProperties" });
-    case 5:
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          networkConfiguration: S.optional(__S(6402, __c200, 2)),
-          reportedProperties: S.optional(__S(6404, __c200, 4)),
+          networkConfiguration: S.optional(__S(4930, __c154, 2)),
+          reportedProperties: S.optional(__S(6625, __c207, 1)),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "EdgeMachineNetworkAdapterProperties" });
-    case 6:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(6405, __c200, 5)),
+          properties: S.optional(__S(6626, __c207, 2)),
         }),
       ).annotate({ identifier: "GetEdgeMachineNetworkAdapterResponse" });
   }
 }
-function __c201(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           errorCode: S.optional(S.String),
           errorMessage: S.optional(S.String),
-          provisioningStatus: S.optional(__S(5312, __c166, 0)),
+          provisioningStatus: S.optional(__S(5568, __c174, 0)),
         }),
       ).annotate({ identifier: "NetworkAdapterStatus" });
   }
 }
-function __c202(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18022,7 +19566,7 @@ function __c202(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
           arcSettingName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(6464, __c202, 0)),
+          properties: S.optional(__S(6688, __c209, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -18034,7 +19578,7 @@ function __c202(j: number): any {
       ).annotate({ identifier: "CreateArcSettingsRequest" });
   }
 }
-function __c203(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18055,7 +19599,7 @@ function __c203(j: number): any {
       ).annotate({ identifier: "GetEdgeMachineNetworkAdapterJobRequest" });
   }
 }
-function __c204(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18064,12 +19608,12 @@ function __c204(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(4741, __c148, 5)),
+          properties: S.optional(__S(4968, __c155, 8)),
         }),
       ).annotate({ identifier: "GetEdgeMachineNetworkAdapterJobResponse" });
   }
 }
-function __c205(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18089,7 +19633,7 @@ function __c205(j: number): any {
       ).annotate({ identifier: "GetEdgeMachineSecuritySettingsOperationRequest" });
   }
 }
-function __c206(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18098,12 +19642,12 @@ function __c206(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(5089, __c159, 1)),
+          properties: S.optional(__S(5345, __c167, 1)),
         }),
       ).annotate({ identifier: "GetEdgeMachineSecuritySettingsOperationResponse" });
   }
 }
-function __c207(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18123,7 +19667,7 @@ function __c207(j: number): any {
       ).annotate({ identifier: "GetEdgeMachineVolumeRequest" });
   }
 }
-function __c208(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18132,12 +19676,12 @@ function __c208(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(5154, __c161, 2)),
+          properties: S.optional(__S(5410, __c169, 2)),
         }),
       ).annotate({ identifier: "GetEdgeMachineVolumeResponse" });
   }
 }
-function __c209(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18158,7 +19702,7 @@ function __c209(j: number): any {
       ).annotate({ identifier: "GetExtensionRequest" });
   }
 }
-function __c210(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18167,12 +19711,12 @@ function __c210(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(644, __c20, 4)),
+          properties: S.optional(__S(612, __c19, 4)),
         }),
       ).annotate({ identifier: "GetExtensionResponse" });
   }
 }
-function __c211(j: number): any {
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18191,7 +19735,7 @@ function __c211(j: number): any {
       ).annotate({ identifier: "GetGalleryImageRequest" });
   }
 }
-function __c212(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18208,7 +19752,7 @@ function __c212(j: number): any {
       ).annotate({ identifier: "GetGuestAgentRequest" });
   }
 }
-function __c213(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18225,14 +19769,14 @@ function __c213(j: number): any {
       ).annotate({ identifier: "GetHybridIdentityMetadataRequest" });
   }
 }
-function __c214(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resourceUid: S.optional(S.String),
           publicKey: S.optional(S.String),
-          identity: S.optional(__S(6880, __c215, 0)),
+          identity: S.optional(__S(7104, __c222, 0)),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "HybridIdentityMetadataProperties" });
@@ -18243,12 +19787,12 @@ function __c214(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: __S(6848, __c214, 0),
+          properties: __S(7072, __c221, 0),
         }),
       ).annotate({ identifier: "GetHybridIdentityMetadataResponse" });
   }
 }
-function __c215(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18260,7 +19804,7 @@ function __c215(j: number): any {
       ).annotate({ identifier: "HybridIdentityMetadataPropertiesIdentity" });
   }
 }
-function __c216(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18279,7 +19823,7 @@ function __c216(j: number): any {
       ).annotate({ identifier: "GetLogicalNetworkRequest" });
   }
 }
-function __c217(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18288,15 +19832,15 @@ function __c217(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          tags: S.optional(__S(5728, __c179, 0)),
+          tags: S.optional(__S(5984, __c187, 0)),
           location: S.String,
-          properties: S.optional(__S(6989, __c218, 13)),
-          extendedLocation: S.optional(__S(5408, __c169, 0)),
+          properties: S.optional(__S(7213, __c225, 13)),
+          extendedLocation: S.optional(__S(5664, __c177, 0)),
         }),
       ).annotate({ identifier: "GetLogicalNetworkResponse" });
   }
 }
-function __c218(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18305,7 +19849,7 @@ function __c218(j: number): any {
         }),
       ).annotate({ identifier: "SubnetPropertiesFormatIpConfigurationReferencesItem" });
     case 1:
-      return S.Array(__S(6976, __c218, 0));
+      return S.Array(__S(7200, __c225, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -18316,16 +19860,16 @@ function __c218(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(6978, __c218, 2)),
+          properties: S.optional(__S(7202, __c225, 2)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Route" });
     case 4:
-      return S.Array(__S(6979, __c218, 3));
+      return S.Array(__S(7203, __c225, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          routes: S.optional(__S(6980, __c218, 4)),
+          routes: S.optional(__S(7204, __c225, 4)),
         }),
       ).annotate({ identifier: "RouteTablePropertiesFormat" });
     case 6:
@@ -18334,7 +19878,7 @@ function __c218(j: number): any {
           etag: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(6981, __c218, 5)),
+          properties: S.optional(__S(7205, __c225, 5)),
         }),
       ).annotate({ identifier: "RouteTable" });
     case 7:
@@ -18351,55 +19895,55 @@ function __c218(j: number): any {
           ipPoolType: S.optional(S.String),
           start: S.optional(S.String),
           end: S.optional(S.String),
-          info: S.optional(__S(6983, __c218, 7)),
+          info: S.optional(__S(7207, __c225, 7)),
         }),
       ).annotate({ identifier: "IPPool" });
     case 9:
-      return S.Array(__S(6984, __c218, 8));
+      return S.Array(__S(7208, __c225, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
           addressPrefix: S.optional(S.String),
-          addressPrefixes: S.optional(__S(3264, __c102, 0)),
+          addressPrefixes: S.optional(__S(3232, __c101, 0)),
           ipAllocationMethod: S.optional(S.String),
-          ipConfigurationReferences: S.optional(__S(6977, __c218, 1)),
-          routeTable: S.optional(__S(6982, __c218, 6)),
-          ipPools: S.optional(__S(6985, __c218, 9)),
+          ipConfigurationReferences: S.optional(__S(7201, __c225, 1)),
+          routeTable: S.optional(__S(7206, __c225, 6)),
+          ipPools: S.optional(__S(7209, __c225, 9)),
           vlan: S.optional(S.Number),
         }),
       ).annotate({ identifier: "SubnetPropertiesFormat" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(6986, __c218, 10)),
+          properties: S.optional(__S(7210, __c225, 10)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Subnet" });
     case 12:
-      return S.Array(__S(6987, __c218, 11));
+      return S.Array(__S(7211, __c225, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
-          dhcpOptions: S.optional(__S(7008, __c219, 0)),
-          subnets: S.optional(__S(6988, __c218, 12)),
+          dhcpOptions: S.optional(__S(7232, __c226, 0)),
+          subnets: S.optional(__S(7212, __c225, 12)),
           provisioningState: S.optional(S.String),
           vmSwitchName: S.optional(S.String),
-          status: S.optional(__S(6432, __c201, 0)),
+          status: S.optional(__S(6656, __c208, 0)),
         }),
       ).annotate({ identifier: "LogicalNetworkProperties" });
   }
 }
-function __c219(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dnsServers: S.optional(__S(3264, __c102, 0)),
+          dnsServers: S.optional(__S(3232, __c101, 0)),
         }),
       ).annotate({ identifier: "LogicalNetworkPropertiesDhcpOptions" });
   }
 }
-function __c220(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18418,7 +19962,7 @@ function __c220(j: number): any {
       ).annotate({ identifier: "GetMarketplaceGalleryImageRequest" });
   }
 }
-function __c221(j: number): any {
+function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18427,15 +19971,15 @@ function __c221(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          tags: S.optional(__S(5728, __c179, 0)),
+          tags: S.optional(__S(5984, __c187, 0)),
           location: S.String,
-          properties: S.optional(__S(7104, __c222, 0)),
-          extendedLocation: S.optional(__S(5408, __c169, 0)),
+          properties: S.optional(__S(7328, __c229, 0)),
+          extendedLocation: S.optional(__S(5664, __c177, 0)),
         }),
       ).annotate({ identifier: "GetMarketplaceGalleryImageResponse" });
   }
 }
-function __c222(j: number): any {
+function __c229(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18444,15 +19988,15 @@ function __c222(j: number): any {
           osType: S.String,
           cloudInitDataSource: S.optional(S.String),
           hyperVGeneration: S.optional(S.String),
-          identifier: S.optional(__S(5440, __c170, 0)),
-          version: S.optional(__S(5444, __c170, 4)),
+          identifier: S.optional(__S(5696, __c178, 0)),
+          version: S.optional(__S(5700, __c178, 4)),
           provisioningState: S.optional(S.String),
-          status: S.optional(__S(5446, __c170, 6)),
+          status: S.optional(__S(5702, __c178, 6)),
         }),
       ).annotate({ identifier: "MarketplaceGalleryImageProperties" });
   }
 }
-function __c223(j: number): any {
+function __c230(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18471,7 +20015,7 @@ function __c223(j: number): any {
       ).annotate({ identifier: "GetNetworkInterfaceRequest" });
   }
 }
-function __c224(j: number): any {
+function __c231(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18480,15 +20024,15 @@ function __c224(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          tags: S.optional(__S(5728, __c179, 0)),
+          tags: S.optional(__S(5984, __c187, 0)),
           location: S.String,
-          properties: S.optional(__S(7203, __c225, 3)),
-          extendedLocation: S.optional(__S(5408, __c169, 0)),
+          properties: S.optional(__S(7427, __c232, 3)),
+          extendedLocation: S.optional(__S(5664, __c177, 0)),
         }),
       ).annotate({ identifier: "GetNetworkInterfaceResponse" });
   }
 }
-function __c225(j: number): any {
+function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18496,31 +20040,31 @@ function __c225(j: number): any {
           gateway: S.optional(S.String),
           prefixLength: S.optional(S.String),
           privateIPAddress: S.optional(S.String),
-          subnet: S.optional(__S(7232, __c226, 0)),
+          subnet: S.optional(__S(7456, __c233, 0)),
         }),
       ).annotate({ identifier: "IPConfigurationProperties" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          properties: S.optional(__S(7200, __c225, 0)),
+          properties: S.optional(__S(7424, __c232, 0)),
         }),
       ).annotate({ identifier: "IPConfiguration" });
     case 2:
-      return S.Array(__S(7201, __c225, 1));
+      return S.Array(__S(7425, __c232, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ipConfigurations: S.optional(__S(7202, __c225, 2)),
+          ipConfigurations: S.optional(__S(7426, __c232, 2)),
           macAddress: S.optional(S.String),
-          dnsSettings: S.optional(__S(7008, __c219, 0)),
+          dnsSettings: S.optional(__S(7232, __c226, 0)),
           provisioningState: S.optional(S.String),
-          status: S.optional(__S(6432, __c201, 0)),
+          status: S.optional(__S(6656, __c208, 0)),
         }),
       ).annotate({ identifier: "NetworkInterfaceProperties" });
   }
 }
-function __c226(j: number): any {
+function __c233(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18530,7 +20074,7 @@ function __c226(j: number): any {
       ).annotate({ identifier: "IPConfigurationPropertiesSubnet" });
   }
 }
-function __c227(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18560,7 +20104,7 @@ function __c227(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(7265, __c227, 1)),
+          properties: S.optional(__S(7489, __c234, 1)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -18568,7 +20112,7 @@ function __c227(j: number): any {
       ).annotate({ identifier: "ArcIdentityResponse" });
   }
 }
-function __c228(j: number): any {
+function __c235(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18590,7 +20134,7 @@ function __c228(j: number): any {
       ).annotate({ identifier: "GetOfferRequest" });
   }
 }
-function __c229(j: number): any {
+function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18599,7 +20143,7 @@ function __c229(j: number): any {
           publisherId: S.optional(S.String),
           content: S.optional(S.String),
           contentVersion: S.optional(S.String),
-          skuMappings: S.optional(__S(7361, __c230, 1)),
+          skuMappings: S.optional(__S(7585, __c237, 1)),
         }),
       ).annotate({ identifier: "OfferProperties" });
     case 1:
@@ -18609,26 +20153,26 @@ function __c229(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(7328, __c229, 0)),
+          properties: S.optional(__S(7552, __c236, 0)),
         }),
       ).annotate({ identifier: "GetOfferResponse" });
   }
 }
-function __c230(j: number): any {
+function __c237(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           catalogPlanId: S.optional(S.String),
           marketplaceSkuId: S.optional(S.String),
-          marketplaceSkuVersions: S.optional(__S(3264, __c102, 0)),
+          marketplaceSkuVersions: S.optional(__S(3232, __c101, 0)),
         }),
       ).annotate({ identifier: "SkuMappings" });
     case 1:
-      return S.Array(__S(7360, __c230, 0));
+      return S.Array(__S(7584, __c237, 0));
   }
 }
-function __c231(j: number): any {
+function __c238(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18647,7 +20191,7 @@ function __c231(j: number): any {
       ).annotate({ identifier: "GetOsImageRequest" });
   }
 }
-function __c232(j: number): any {
+function __c239(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18667,12 +20211,12 @@ function __c232(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(7424, __c232, 0)),
+          properties: S.optional(__S(7648, __c239, 0)),
         }),
       ).annotate({ identifier: "GetOsImageResponse" });
   }
 }
-function __c233(j: number): any {
+function __c240(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18692,7 +20236,7 @@ function __c233(j: number): any {
       ).annotate({ identifier: "GetSecuritySettingsRequest" });
   }
 }
-function __c234(j: number): any {
+function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18701,12 +20245,12 @@ function __c234(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(7521, __c235, 1)),
+          properties: S.optional(__S(7745, __c242, 1)),
         }),
       ).annotate({ identifier: "GetSecuritySettingsResponse" });
   }
 }
-function __c235(j: number): any {
+function __c242(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18724,13 +20268,13 @@ function __c235(j: number): any {
           securedCoreComplianceAssignment: S.optional(S.String),
           wdacComplianceAssignment: S.optional(S.String),
           smbEncryptionForIntraClusterTrafficComplianceAssignment: S.optional(S.String),
-          securityComplianceStatus: S.optional(__S(7520, __c235, 0)),
+          securityComplianceStatus: S.optional(__S(7744, __c242, 0)),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "SecurityProperties" });
   }
 }
-function __c236(j: number): any {
+function __c243(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18753,7 +20297,7 @@ function __c236(j: number): any {
       ).annotate({ identifier: "GetSkusRequest" });
   }
 }
-function __c237(j: number): any {
+function __c244(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18763,7 +20307,7 @@ function __c237(j: number): any {
           offerId: S.optional(S.String),
           content: S.optional(S.String),
           contentVersion: S.optional(S.String),
-          skuMappings: S.optional(__S(7361, __c230, 1)),
+          skuMappings: S.optional(__S(7585, __c237, 1)),
         }),
       ).annotate({ identifier: "SkuProperties" });
     case 1:
@@ -18773,12 +20317,12 @@ function __c237(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(7584, __c237, 0)),
+          properties: S.optional(__S(7808, __c244, 0)),
         }),
       ).annotate({ identifier: "GetSkusResponse" });
   }
 }
-function __c238(j: number): any {
+function __c245(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18797,7 +20341,7 @@ function __c238(j: number): any {
       ).annotate({ identifier: "GetStorageContainerRequest" });
   }
 }
-function __c239(j: number): any {
+function __c246(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18806,15 +20350,15 @@ function __c239(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          tags: S.optional(__S(5728, __c179, 0)),
+          tags: S.optional(__S(5984, __c187, 0)),
           location: S.String,
-          properties: S.optional(__S(7681, __c240, 1)),
-          extendedLocation: S.optional(__S(5408, __c169, 0)),
+          properties: S.optional(__S(7905, __c247, 1)),
+          extendedLocation: S.optional(__S(5664, __c177, 0)),
         }),
       ).annotate({ identifier: "GetStorageContainerResponse" });
   }
 }
-function __c240(j: number): any {
+function __c247(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18823,7 +20367,7 @@ function __c240(j: number): any {
           errorMessage: S.optional(S.String),
           availableSizeMB: S.optional(S.Number),
           containerSizeMB: S.optional(S.Number),
-          provisioningStatus: S.optional(__S(5312, __c166, 0)),
+          provisioningStatus: S.optional(__S(5568, __c174, 0)),
         }),
       ).annotate({ identifier: "StorageContainerStatus" });
     case 1:
@@ -18831,12 +20375,12 @@ function __c240(j: number): any {
         S.Struct({
           path: S.String,
           provisioningState: S.optional(S.String),
-          status: S.optional(__S(7680, __c240, 0)),
+          status: S.optional(__S(7904, __c247, 0)),
         }),
       ).annotate({ identifier: "StorageContainerProperties" });
   }
 }
-function __c241(j: number): any {
+function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18856,7 +20400,7 @@ function __c241(j: number): any {
       ).annotate({ identifier: "GetUpdateRequest" });
   }
 }
-function __c242(j: number): any {
+function __c249(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18867,7 +20411,7 @@ function __c242(j: number): any {
         }),
       ).annotate({ identifier: "UpdatePrerequisite" });
     case 1:
-      return S.Array(__S(7744, __c242, 0));
+      return S.Array(__S(7968, __c249, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -18883,11 +20427,11 @@ function __c242(j: number): any {
           description: S.optional(S.String),
           minSbeVersionRequired: S.optional(S.String),
           state: S.optional(S.String),
-          prerequisites: S.optional(__S(7745, __c242, 1)),
-          componentVersions: S.optional(__S(7777, __c243, 1)),
+          prerequisites: S.optional(__S(7969, __c249, 1)),
+          componentVersions: S.optional(__S(8001, __c250, 1)),
           rebootRequired: S.optional(S.String),
           healthState: S.optional(S.String),
-          healthCheckResult: S.optional(__S(7780, __c243, 4)),
+          healthCheckResult: S.optional(__S(8004, __c250, 4)),
           healthCheckDate: S.optional(S.String),
           packagePath: S.optional(S.String),
           packageSizeInMb: S.optional(S.Number),
@@ -18898,7 +20442,7 @@ function __c242(j: number): any {
           availabilityType: S.optional(S.String),
           packageType: S.optional(S.String),
           additionalProperties: S.optional(S.String),
-          updateStateProperties: S.optional(__S(7746, __c242, 2)),
+          updateStateProperties: S.optional(__S(7970, __c249, 2)),
         }),
       ).annotate({ identifier: "UpdateProperties" });
     case 4:
@@ -18908,13 +20452,13 @@ function __c242(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(7747, __c242, 3)),
+          properties: S.optional(__S(7971, __c249, 3)),
           location: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetUpdateResponse" });
   }
 }
-function __c243(j: number): any {
+function __c250(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18925,7 +20469,7 @@ function __c243(j: number): any {
         }),
       ).annotate({ identifier: "PackageVersionInfo" });
     case 1:
-      return S.Array(__S(7776, __c243, 0));
+      return S.Array(__S(8000, __c250, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -18938,7 +20482,7 @@ function __c243(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           displayName: S.optional(S.String),
-          tags: S.optional(__S(7778, __c243, 2)),
+          tags: S.optional(__S(8002, __c250, 2)),
           healthCheckTags: S.optional(S.Unknown),
           title: S.optional(S.String),
           status: S.optional(S.String),
@@ -18954,10 +20498,10 @@ function __c243(j: number): any {
         }),
       ).annotate({ identifier: "PrecheckResult" });
     case 4:
-      return S.Array(__S(7779, __c243, 3));
+      return S.Array(__S(8003, __c250, 3));
   }
 }
-function __c244(j: number): any {
+function __c251(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18978,10 +20522,10 @@ function __c244(j: number): any {
       ).annotate({ identifier: "GetUpdateRunRequest" });
   }
 }
-function __c245(j: number): any {
+function __c252(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(7841, __c245, 1)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(8065, __c252, 1)));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -18993,7 +20537,7 @@ function __c245(j: number): any {
           endTimeUtc: S.optional(S.String),
           lastUpdatedTimeUtc: S.optional(S.String),
           expectedExecutionTime: S.optional(S.String),
-          steps: S.optional(__S(7840, __c245, 0)),
+          steps: S.optional(__S(8064, __c252, 0)),
         }),
       ).annotate({ identifier: "Step" });
     case 2:
@@ -19004,7 +20548,7 @@ function __c245(j: number): any {
           lastUpdatedTime: S.optional(S.String),
           duration: S.optional(S.String),
           state: S.optional(S.String),
-          progress: S.optional(__S(7841, __c245, 1)),
+          progress: S.optional(__S(8065, __c252, 1)),
         }),
       ).annotate({ identifier: "UpdateRunProperties" });
     case 3:
@@ -19014,13 +20558,13 @@ function __c245(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(7842, __c245, 2)),
+          properties: S.optional(__S(8066, __c252, 2)),
           location: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetUpdateRunResponse" });
   }
 }
-function __c246(j: number): any {
+function __c253(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19039,7 +20583,7 @@ function __c246(j: number): any {
       ).annotate({ identifier: "GetUpdateSummaryRequest" });
   }
 }
-function __c247(j: number): any {
+function __c254(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19048,13 +20592,13 @@ function __c247(j: number): any {
           oemFamily: S.optional(S.String),
           currentOemVersion: S.optional(S.String),
           hardwareModel: S.optional(S.String),
-          packageVersions: S.optional(__S(7777, __c243, 1)),
+          packageVersions: S.optional(__S(8001, __c250, 1)),
           currentVersion: S.optional(S.String),
           currentSbeVersion: S.optional(S.String),
           lastUpdated: S.optional(S.String),
           lastChecked: S.optional(S.String),
           healthState: S.optional(S.String),
-          healthCheckResult: S.optional(__S(7780, __c243, 4)),
+          healthCheckResult: S.optional(__S(8004, __c250, 4)),
           healthCheckDate: S.optional(S.String),
           state: S.optional(S.String),
         }),
@@ -19066,13 +20610,13 @@ function __c247(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(7904, __c247, 0)),
+          properties: S.optional(__S(8128, __c254, 0)),
           location: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetUpdateSummaryResponse" });
   }
 }
-function __c248(j: number): any {
+function __c255(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19091,7 +20635,7 @@ function __c248(j: number): any {
       ).annotate({ identifier: "GetValidatedSolutionRecipeRequest" });
   }
 }
-function __c249(j: number): any {
+function __c256(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19107,12 +20651,12 @@ function __c249(j: number): any {
         }),
       ).annotate({ identifier: "ValidatedSolutionRecipeCapability" });
     case 2:
-      return S.Array(__S(7969, __c249, 1));
+      return S.Array(__S(8193, __c256, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          clusterCapabilities: __S(7970, __c249, 2),
-          nodeCapabilities: __S(7970, __c249, 2),
+          clusterCapabilities: __S(8194, __c256, 2),
+          nodeCapabilities: __S(8194, __c256, 2),
         }),
       ).annotate({ identifier: "ValidatedSolutionRecipeCapabilities" });
     case 4:
@@ -19125,7 +20669,7 @@ function __c249(j: number): any {
         }),
       ).annotate({ identifier: "ValidatedSolutionRecipeComponentPayload" });
     case 5:
-      return S.Array(__S(7972, __c249, 4));
+      return S.Array(__S(8196, __c256, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -19149,25 +20693,25 @@ function __c249(j: number): any {
           type: S.String,
           requiredVersion: S.optional(S.String),
           installOrder: S.optional(S.Number),
-          tags: __S(3264, __c102, 0),
-          payloads: S.optional(__S(7973, __c249, 5)),
-          metadata: S.optional(__S(7974, __c249, 6)),
+          tags: __S(3232, __c101, 0),
+          payloads: S.optional(__S(8197, __c256, 5)),
+          metadata: S.optional(__S(8198, __c256, 6)),
         }),
       ).annotate({ identifier: "ValidatedSolutionRecipeComponent" });
     case 8:
-      return S.Array(__S(7975, __c249, 7));
+      return S.Array(__S(8199, __c256, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          info: __S(7968, __c249, 0),
-          capabilities: S.optional(__S(7971, __c249, 3)),
-          components: __S(7976, __c249, 8),
+          info: __S(8192, __c256, 0),
+          capabilities: S.optional(__S(8195, __c256, 3)),
+          components: __S(8200, __c256, 8),
         }),
       ).annotate({ identifier: "ValidatedSolutionRecipeContent" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          recipeContent: __S(7977, __c249, 9),
+          recipeContent: __S(8201, __c256, 9),
           signature: S.optional(S.String),
         }),
       ).annotate({ identifier: "ValidatedSolutionRecipeProperties" });
@@ -19178,12 +20722,12 @@ function __c249(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(7978, __c249, 10)),
+          properties: S.optional(__S(8202, __c256, 10)),
         }),
       ).annotate({ identifier: "GetValidatedSolutionRecipeResponse" });
   }
 }
-function __c250(j: number): any {
+function __c257(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19202,7 +20746,7 @@ function __c250(j: number): any {
       ).annotate({ identifier: "GetVirtualHardDiskRequest" });
   }
 }
-function __c251(j: number): any {
+function __c258(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19216,12 +20760,12 @@ function __c251(j: number): any {
           diskFileFormat: S.optional(S.String),
           provisioningState: S.optional(S.String),
           containerId: S.optional(S.String),
-          status: S.optional(__S(6432, __c201, 0)),
+          status: S.optional(__S(6656, __c208, 0)),
         }),
       ).annotate({ identifier: "VirtualHardDiskProperties" });
   }
 }
-function __c252(j: number): any {
+function __c259(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19230,15 +20774,15 @@ function __c252(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          tags: S.optional(__S(5728, __c179, 0)),
+          tags: S.optional(__S(5984, __c187, 0)),
           location: S.String,
-          properties: S.optional(__S(8032, __c251, 0)),
-          extendedLocation: S.optional(__S(5408, __c169, 0)),
+          properties: S.optional(__S(8256, __c258, 0)),
+          extendedLocation: S.optional(__S(5664, __c177, 0)),
         }),
       ).annotate({ identifier: "GetVirtualHardDiskResponse" });
   }
 }
-function __c253(j: number): any {
+function __c260(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19248,12 +20792,12 @@ function __c253(j: number): any {
           aadTenantId: S.optional(S.String),
           aadApplicationObjectId: S.optional(S.String),
           aadServicePrincipalObjectId: S.optional(S.String),
-          softwareAssuranceProperties: S.optional(__S(8192, __c256, 0)),
-          logCollectionProperties: S.optional(__S(8128, __c254, 0)),
-          remoteSupportProperties: S.optional(__S(8128, __c254, 0)),
-          desiredProperties: S.optional(__S(5802, __c181, 10)),
-          secretsLocations: S.optional(__S(5810, __c181, 18)),
-          localAvailabilityZones: S.optional(__S(5697, __c178, 1)),
+          softwareAssuranceProperties: S.optional(__S(8416, __c263, 0)),
+          logCollectionProperties: S.optional(__S(8352, __c261, 0)),
+          remoteSupportProperties: S.optional(__S(8352, __c261, 0)),
+          desiredProperties: S.optional(__S(6058, __c189, 10)),
+          secretsLocations: S.optional(__S(6066, __c189, 18)),
+          localAvailabilityZones: S.optional(__S(5953, __c186, 1)),
         }),
       ).annotate({ identifier: "ClusterPropertiesInput" });
     case 1:
@@ -19262,10 +20806,10 @@ function __c253(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(5728, __c179, 0)),
+          tags: S.optional(__S(5984, __c187, 0)),
           location: S.String,
-          properties: S.optional(__S(8096, __c253, 0)),
-          identity: S.optional(__S(8161, __c255, 1)),
+          properties: S.optional(__S(8320, __c260, 0)),
+          identity: S.optional(__S(8385, __c262, 1)),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -19278,26 +20822,26 @@ function __c253(j: number): any {
       ).annotate({ identifier: "CreateClusterRequest" });
   }
 }
-function __c254(j: number): any {
+function __c261(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "LogCollectionPropertiesInput" });
   }
 }
-function __c255(j: number): any {
+function __c262(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(8128, __c254, 0)));
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(8352, __c261, 0)));
     case 1:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          userAssignedIdentities: S.optional(__S(8160, __c255, 0)),
+          userAssignedIdentities: S.optional(__S(8384, __c262, 0)),
         }),
       ).annotate({ identifier: "CreateClusterRequestIdentity" });
   }
 }
-function __c256(j: number): any {
+function __c263(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19307,7 +20851,7 @@ function __c256(j: number): any {
       ).annotate({ identifier: "SoftwareAssurancePropertiesInput" });
   }
 }
-function __c257(j: number): any {
+function __c264(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19316,16 +20860,16 @@ function __c257(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          tags: S.optional(__S(5728, __c179, 0)),
+          tags: S.optional(__S(5984, __c187, 0)),
           location: S.String,
-          properties: S.optional(__S(5812, __c181, 20)),
-          identity: S.optional(__S(5762, __c180, 2)),
+          properties: S.optional(__S(6068, __c189, 20)),
+          identity: S.optional(__S(6018, __c188, 2)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateClusterResponse" });
   }
 }
-function __c258(j: number): any {
+function __c265(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19342,7 +20886,7 @@ function __c258(j: number): any {
       ).annotate({ identifier: "GetVirtualMachineInstanceRequest" });
   }
 }
-function __c259(j: number): any {
+function __c266(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19360,15 +20904,15 @@ function __c259(j: number): any {
           vmSize: S.optional(S.String),
           processors: S.optional(S.Number),
           memoryMB: S.optional(S.Number),
-          dynamicMemoryConfig: S.optional(__S(8288, __c259, 0)),
+          dynamicMemoryConfig: S.optional(__S(8512, __c266, 0)),
         }),
       ).annotate({ identifier: "VirtualMachineInstancePropertiesHardwareProfile" });
     case 2:
-      return S.Array(__S(7232, __c226, 0));
+      return S.Array(__S(7456, __c233, 0));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          networkInterfaces: S.optional(__S(8290, __c259, 2)),
+          networkInterfaces: S.optional(__S(8514, __c266, 2)),
         }),
       ).annotate({ identifier: "VirtualMachineInstancePropertiesNetworkProfile" });
     case 4:
@@ -19379,18 +20923,18 @@ function __c259(j: number): any {
         }),
       ).annotate({ identifier: "SshPublicKey" });
     case 5:
-      return S.Array(__S(8292, __c259, 4));
+      return S.Array(__S(8516, __c266, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          publicKeys: S.optional(__S(8293, __c259, 5)),
+          publicKeys: S.optional(__S(8517, __c266, 5)),
         }),
       ).annotate({ identifier: "SshConfiguration" });
     case 7:
       return S.suspend(() =>
         S.Struct({
           disablePasswordAuthentication: S.optional(S.Boolean),
-          ssh: S.optional(__S(8294, __c259, 6)),
+          ssh: S.optional(__S(8518, __c266, 6)),
           provisionVMAgent: S.optional(S.Boolean),
           provisionVMConfigAgent: S.optional(S.Boolean),
         }),
@@ -19399,7 +20943,7 @@ function __c259(j: number): any {
       return S.suspend(() =>
         S.Struct({
           enableAutomaticUpdates: S.optional(S.Boolean),
-          ssh: S.optional(__S(8294, __c259, 6)),
+          ssh: S.optional(__S(8518, __c266, 6)),
           timeZone: S.optional(S.String),
           provisionVMAgent: S.optional(S.Boolean),
           provisionVMConfigAgent: S.optional(S.Boolean),
@@ -19411,8 +20955,8 @@ function __c259(j: number): any {
           adminPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
           adminUsername: S.optional(S.String),
           computerName: S.optional(S.String),
-          linuxConfiguration: S.optional(__S(8295, __c259, 7)),
-          windowsConfiguration: S.optional(__S(8296, __c259, 8)),
+          linuxConfiguration: S.optional(__S(8519, __c266, 7)),
+          windowsConfiguration: S.optional(__S(8520, __c266, 8)),
         }),
       ).annotate({ identifier: "VirtualMachineInstancePropertiesOsProfile" });
     case 10:
@@ -19425,7 +20969,7 @@ function __c259(j: number): any {
       return S.suspend(() =>
         S.Struct({
           enableTPM: S.optional(S.Boolean),
-          uefiSettings: S.optional(__S(8298, __c259, 10)),
+          uefiSettings: S.optional(__S(8522, __c266, 10)),
           securityType: S.optional(S.String),
         }),
       ).annotate({ identifier: "VirtualMachineInstancePropertiesSecurityProfile" });
@@ -19439,9 +20983,9 @@ function __c259(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
-          dataDisks: S.optional(__S(8290, __c259, 2)),
-          imageReference: S.optional(__S(7232, __c226, 0)),
-          osDisk: S.optional(__S(8300, __c259, 12)),
+          dataDisks: S.optional(__S(8514, __c266, 2)),
+          imageReference: S.optional(__S(7456, __c233, 0)),
+          osDisk: S.optional(__S(8524, __c266, 12)),
           vmConfigStoragePathId: S.optional(S.String),
         }),
       ).annotate({ identifier: "VirtualMachineInstancePropertiesStorageProfile" });
@@ -19450,23 +20994,23 @@ function __c259(j: number): any {
         S.Struct({
           httpProxy: S.optional(S.String),
           httpsProxy: S.optional(S.String),
-          noProxy: S.optional(__S(3264, __c102, 0)),
+          noProxy: S.optional(__S(3232, __c101, 0)),
           trustedCa: S.optional(S.String),
         }),
       ).annotate({ identifier: "HttpProxyConfiguration" });
     case 15:
-      return S.Array(__S(672, __c21, 0));
+      return S.Array(__S(640, __c20, 0));
     case 16:
       return S.suspend(() =>
         S.Struct({
           vmConfigAgentVersion: S.optional(S.String),
-          statuses: S.optional(__S(8303, __c259, 15)),
+          statuses: S.optional(__S(8527, __c266, 15)),
         }),
       ).annotate({ identifier: "VirtualMachineConfigAgentInstanceView" });
     case 17:
       return S.suspend(() =>
         S.Struct({
-          vmAgent: S.optional(__S(8304, __c259, 16)),
+          vmAgent: S.optional(__S(8528, __c266, 16)),
         }),
       ).annotate({ identifier: "VirtualMachineInstanceView" });
     case 18:
@@ -19475,11 +21019,11 @@ function __c259(j: number): any {
           errorCode: S.optional(S.String),
           errorMessage: S.optional(S.String),
           powerState: S.optional(S.String),
-          provisioningStatus: S.optional(__S(5312, __c166, 0)),
+          provisioningStatus: S.optional(__S(5568, __c174, 0)),
         }),
       ).annotate({ identifier: "VirtualMachineInstanceStatus" });
     case 19:
-      return S.Array(__S(4805, __c150, 5));
+      return S.Array(__S(5029, __c157, 5));
     case 20:
       return S.suspend(() =>
         S.Struct({
@@ -19487,29 +21031,29 @@ function __c259(j: number): any {
           status: S.optional(S.String),
           lastStatusChange: S.optional(S.String),
           agentVersion: S.optional(S.String),
-          errorDetails: S.optional(__S(8307, __c259, 19)),
+          errorDetails: S.optional(__S(8531, __c266, 19)),
         }),
       ).annotate({ identifier: "GuestAgentInstallStatus" });
     case 21:
       return S.suspend(() =>
         S.Struct({
-          hardwareProfile: S.optional(__S(8289, __c259, 1)),
-          networkProfile: S.optional(__S(8291, __c259, 3)),
-          osProfile: S.optional(__S(8297, __c259, 9)),
-          securityProfile: S.optional(__S(8299, __c259, 11)),
-          storageProfile: S.optional(__S(8301, __c259, 13)),
-          httpProxyConfig: S.optional(__S(8302, __c259, 14)),
+          hardwareProfile: S.optional(__S(8513, __c266, 1)),
+          networkProfile: S.optional(__S(8515, __c266, 3)),
+          osProfile: S.optional(__S(8521, __c266, 9)),
+          securityProfile: S.optional(__S(8523, __c266, 11)),
+          storageProfile: S.optional(__S(8525, __c266, 13)),
+          httpProxyConfig: S.optional(__S(8526, __c266, 14)),
           provisioningState: S.optional(S.String),
-          instanceView: S.optional(__S(8305, __c259, 17)),
-          status: S.optional(__S(8306, __c259, 18)),
-          guestAgentInstallStatus: S.optional(__S(8308, __c259, 20)),
+          instanceView: S.optional(__S(8529, __c266, 17)),
+          status: S.optional(__S(8530, __c266, 18)),
+          guestAgentInstallStatus: S.optional(__S(8532, __c266, 20)),
           vmId: S.optional(S.String),
           resourceUid: S.optional(S.String),
         }),
       ).annotate({ identifier: "VirtualMachineInstanceProperties" });
   }
 }
-function __c260(j: number): any {
+function __c267(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19518,14 +21062,14 @@ function __c260(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(8309, __c259, 21)),
-          extendedLocation: S.optional(__S(5408, __c169, 0)),
-          identity: S.optional(__S(6880, __c215, 0)),
+          properties: S.optional(__S(8533, __c266, 21)),
+          extendedLocation: S.optional(__S(5664, __c177, 0)),
+          identity: S.optional(__S(7104, __c222, 0)),
         }),
       ).annotate({ identifier: "GetVirtualMachineInstanceResponse" });
   }
 }
-function __c261(j: number): any {
+function __c268(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19547,13 +21091,13 @@ function __c261(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(8353, __c261, 1),
+          value: __S(8577, __c268, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ArcSettingList" });
   }
 }
-function __c262(j: number): any {
+function __c269(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19571,20 +21115,20 @@ function __c262(j: number): any {
       ).annotate({ identifier: "ListClusterByResourceGroupRequest" });
   }
 }
-function __c263(j: number): any {
+function __c270(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(8224, __c257, 0));
+      return S.Array(__S(8448, __c264, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(8416, __c263, 0),
+          value: __S(8640, __c270, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClusterList" });
   }
 }
-function __c264(j: number): any {
+function __c271(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19601,7 +21145,7 @@ function __c264(j: number): any {
       ).annotate({ identifier: "ListClusterBySubscriptionRequest" });
   }
 }
-function __c265(j: number): any {
+function __c272(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19619,17 +21163,17 @@ function __c265(j: number): any {
         ),
       ).annotate({ identifier: "ListClusterJobsRequest" });
     case 1:
-      return S.Array(__S(5600, __c175, 0));
+      return S.Array(__S(5856, __c183, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(8481, __c265, 1),
+          value: __S(8705, __c272, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClusterJobListResult" });
   }
 }
-function __c266(j: number): any {
+function __c273(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19647,17 +21191,17 @@ function __c266(j: number): any {
         ),
       ).annotate({ identifier: "ListDeploymentSettingsByClustersRequest" });
     case 1:
-      return S.Array(__S(5856, __c183, 0));
+      return S.Array(__S(6112, __c191, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(8513, __c266, 1),
+          value: __S(8737, __c273, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeploymentSettingListResult" });
   }
 }
-function __c267(j: number): any {
+function __c274(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19674,17 +21218,17 @@ function __c267(j: number): any {
         ),
       ).annotate({ identifier: "ListEdgeDeviceJobByEdgeDeviceRequest" });
     case 1:
-      return S.Array(__S(5984, __c187, 0));
+      return S.Array(__S(4323, __c135, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(8545, __c267, 1),
+          value: __S(8769, __c274, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "EdgeDeviceJobListResult" });
   }
 }
-function __c268(j: number): any {
+function __c275(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19700,17 +21244,17 @@ function __c268(j: number): any {
         ),
       ).annotate({ identifier: "ListEdgeDevicesRequest" });
     case 1:
-      return S.Array(__S(5920, __c185, 0));
+      return S.Array(__S(4458, __c139, 10));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(8577, __c268, 1),
+          value: __S(8801, __c275, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "EdgeDeviceListResult" });
   }
 }
-function __c269(j: number): any {
+function __c276(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19728,20 +21272,20 @@ function __c269(j: number): any {
       ).annotate({ identifier: "ListEdgeMachineByResourceGroupRequest" });
   }
 }
-function __c270(j: number): any {
+function __c277(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(6048, __c189, 0));
+      return S.Array(__S(6240, __c195, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(8640, __c270, 0),
+          value: __S(8864, __c277, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "EdgeMachineListResult" });
   }
 }
-function __c271(j: number): any {
+function __c278(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

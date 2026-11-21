@@ -30,27 +30,48 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorBADREQUEST | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorFORBIDDEN | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorNOTFOUND | string;
+}
 
 export type ChangeMysqlPasswordRequestType = "user" | "root";
 export interface ChangeMysqlPasswordRequest {
@@ -263,6 +284,44 @@ export interface UpdateMysqlRequest {
   detachDokployNetwork?: boolean | undefined;
 }
 export type UpdateMysqlResponse = unknown;
+export interface ErrorBADREQUESTIssuesItem {
+  message: string;
+}
+/** An array of issues that were responsible for the error */
+export type ErrorBADREQUESTIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorBADREQUEST {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorBADREQUESTIssuesList | undefined;
+}
+export type ErrorFORBIDDENIssuesItem = ErrorBADREQUESTIssuesItem;
+/** An array of issues that were responsible for the error */
+export type ErrorFORBIDDENIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorFORBIDDEN {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorFORBIDDENIssuesList | undefined;
+}
+export type ErrorNOTFOUNDIssuesItem = ErrorBADREQUESTIssuesItem;
+/** An array of issues that were responsible for the error */
+export type ErrorNOTFOUNDIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorNOTFOUND {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorNOTFOUNDIssuesList | undefined;
+}
 export type ChangeMysqlPasswordError = BadRequest | Forbidden | DokployOpError;
 export const changeMysqlPassword: API.OperationMethod<
   ChangeMysqlPasswordRequest,
@@ -270,8 +329,8 @@ export const changeMysqlPassword: API.OperationMethod<
   ChangeMysqlPasswordError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<ChangeMysqlPasswordRequest>,
-  output: __S(320, __c10, 0) as any as S.Schema<ChangeMysqlPasswordResponse>,
+  input: __S(320, __c10, 0) as any as S.Schema<ChangeMysqlPasswordRequest>,
+  output: __S(352, __c11, 0) as any as S.Schema<ChangeMysqlPasswordResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -286,8 +345,8 @@ export const changeMysqlStatus: API.OperationMethod<
   ChangeMysqlStatusError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<ChangeMysqlStatusRequest>,
-  output: __S(320, __c10, 0) as any as S.Schema<ChangeMysqlStatusResponse>,
+  input: __S(384, __c12, 0) as any as S.Schema<ChangeMysqlStatusRequest>,
+  output: __S(352, __c11, 0) as any as S.Schema<ChangeMysqlStatusResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -302,8 +361,8 @@ export const createMysql: API.OperationMethod<
   CreateMysqlError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<CreateMysqlRequest>,
-  output: __S(320, __c10, 0) as any as S.Schema<CreateMysqlResponse>,
+  input: __S(416, __c13, 0) as any as S.Schema<CreateMysqlRequest>,
+  output: __S(352, __c11, 0) as any as S.Schema<CreateMysqlResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -318,8 +377,8 @@ export const deleteMysql: API.OperationMethod<
   DeleteMysqlError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<DeleteMysqlRequest>,
-  output: __S(320, __c10, 0) as any as S.Schema<DeleteMysqlResponse>,
+  input: __S(448, __c14, 0) as any as S.Schema<DeleteMysqlRequest>,
+  output: __S(352, __c11, 0) as any as S.Schema<DeleteMysqlResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -334,8 +393,8 @@ export const deployMysql: API.OperationMethod<
   DeployMysqlError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<DeployMysqlRequest>,
-  output: __S(320, __c10, 0) as any as S.Schema<DeployMysqlResponse>,
+  input: __S(480, __c15, 0) as any as S.Schema<DeployMysqlRequest>,
+  output: __S(352, __c11, 0) as any as S.Schema<DeployMysqlResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -350,8 +409,8 @@ export const getMysql: API.OperationMethod<
   GetMysqlError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<GetMysqlRequest>,
-  output: __S(320, __c10, 0) as any as S.Schema<GetMysqlResponse>,
+  input: __S(512, __c16, 0) as any as S.Schema<GetMysqlRequest>,
+  output: __S(352, __c11, 0) as any as S.Schema<GetMysqlResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -366,8 +425,8 @@ export const moveMysql: API.OperationMethod<
   MoveMysqlError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<MoveMysqlRequest>,
-  output: __S(320, __c10, 0) as any as S.Schema<MoveMysqlResponse>,
+  input: __S(544, __c17, 0) as any as S.Schema<MoveMysqlRequest>,
+  output: __S(352, __c11, 0) as any as S.Schema<MoveMysqlResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -382,8 +441,8 @@ export const readMysqlLogs: API.OperationMethod<
   ReadMysqlLogsError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<ReadMysqlLogsRequest>,
-  output: __S(320, __c10, 0) as any as S.Schema<ReadMysqlLogsResponse>,
+  input: __S(32, __c1, 0) as any as S.Schema<ReadMysqlLogsRequest>,
+  output: __S(352, __c11, 0) as any as S.Schema<ReadMysqlLogsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -398,8 +457,8 @@ export const rebuildMysql: API.OperationMethod<
   RebuildMysqlError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c1, 0) as any as S.Schema<RebuildMysqlRequest>,
-  output: __S(320, __c10, 0) as any as S.Schema<RebuildMysqlResponse>,
+  input: __S(64, __c2, 0) as any as S.Schema<RebuildMysqlRequest>,
+  output: __S(352, __c11, 0) as any as S.Schema<RebuildMysqlResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -414,8 +473,8 @@ export const reloadMysql: API.OperationMethod<
   ReloadMysqlError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<ReloadMysqlRequest>,
-  output: __S(320, __c10, 0) as any as S.Schema<ReloadMysqlResponse>,
+  input: __S(96, __c3, 0) as any as S.Schema<ReloadMysqlRequest>,
+  output: __S(352, __c11, 0) as any as S.Schema<ReloadMysqlResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -430,8 +489,8 @@ export const saveMysqlEnvironment: API.OperationMethod<
   SaveMysqlEnvironmentError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c3, 0) as any as S.Schema<SaveMysqlEnvironmentRequest>,
-  output: __S(320, __c10, 0) as any as S.Schema<SaveMysqlEnvironmentResponse>,
+  input: __S(128, __c4, 0) as any as S.Schema<SaveMysqlEnvironmentRequest>,
+  output: __S(352, __c11, 0) as any as S.Schema<SaveMysqlEnvironmentResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -446,8 +505,8 @@ export const saveMysqlExternalPort: API.OperationMethod<
   SaveMysqlExternalPortError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<SaveMysqlExternalPortRequest>,
-  output: __S(320, __c10, 0) as any as S.Schema<SaveMysqlExternalPortResponse>,
+  input: __S(160, __c5, 0) as any as S.Schema<SaveMysqlExternalPortRequest>,
+  output: __S(352, __c11, 0) as any as S.Schema<SaveMysqlExternalPortResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -462,8 +521,8 @@ export const searchMysql: API.OperationMethod<
   SearchMysqlError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<SearchMysqlRequest>,
-  output: __S(320, __c10, 0) as any as S.Schema<SearchMysqlResponse>,
+  input: __S(192, __c6, 0) as any as S.Schema<SearchMysqlRequest>,
+  output: __S(352, __c11, 0) as any as S.Schema<SearchMysqlResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -478,8 +537,8 @@ export const startMysql: API.OperationMethod<
   StartMysqlError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<StartMysqlRequest>,
-  output: __S(320, __c10, 0) as any as S.Schema<StartMysqlResponse>,
+  input: __S(224, __c7, 0) as any as S.Schema<StartMysqlRequest>,
+  output: __S(352, __c11, 0) as any as S.Schema<StartMysqlResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -494,8 +553,8 @@ export const stopMysql: API.OperationMethod<
   StopMysqlError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<StopMysqlRequest>,
-  output: __S(320, __c10, 0) as any as S.Schema<StopMysqlResponse>,
+  input: __S(256, __c8, 0) as any as S.Schema<StopMysqlRequest>,
+  output: __S(352, __c11, 0) as any as S.Schema<StopMysqlResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -510,8 +569,8 @@ export const updateMysql: API.OperationMethod<
   UpdateMysqlError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(277, __c8, 21) as any as S.Schema<UpdateMysqlRequest>,
-  output: __S(320, __c10, 0) as any as S.Schema<UpdateMysqlResponse>,
+  input: __S(309, __c9, 21) as any as S.Schema<UpdateMysqlRequest>,
+  output: __S(352, __c11, 0) as any as S.Schema<UpdateMysqlResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -525,6 +584,26 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          message: S.String,
+        }),
+      ).annotate({ identifier: "ErrorBADREQUESTIssuesItem" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.String,
+          code: S.String,
+          issues: S.optional(__S(1, __c0, 1)),
+        }),
+      ).annotate({ identifier: "ErrorBADREQUEST" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           mysqlId: S.String.pipe(T.Query()),
           tail: S.optional(S.Number.pipe(T.Query())),
           since: S.optional(S.String.pipe(T.Query())),
@@ -533,7 +612,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "ReadMysqlLogsRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -543,7 +622,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "RebuildMysqlRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -554,7 +633,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "ReloadMysqlRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -565,7 +644,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "SaveMysqlEnvironmentRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -576,7 +655,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "SaveMysqlExternalPortRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -593,7 +672,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "SearchMysqlRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -603,7 +682,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "StartMysqlRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -613,14 +692,14 @@ function __c7(j: number): any {
       ).annotate({ identifier: "StopMysqlRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Test: S.optional(__S(256, __c8, 0)),
+          Test: S.optional(__S(288, __c9, 0)),
           Interval: S.optional(S.Number),
           Timeout: S.optional(S.Number),
           StartPeriod: S.optional(S.Number),
@@ -645,11 +724,11 @@ function __c8(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          Spread: __S(259, __c8, 3),
+          Spread: __S(291, __c9, 3),
         }),
       ).annotate({ identifier: "UpdateMysqlRequestPlacementSwarmPreferencesItem" });
     case 5:
-      return S.Array(__S(260, __c8, 4));
+      return S.Array(__S(292, __c9, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -658,14 +737,14 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "UpdateMysqlRequestPlacementSwarmPlatformsItem" });
     case 7:
-      return S.Array(__S(262, __c8, 6));
+      return S.Array(__S(294, __c9, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          Constraints: S.optional(__S(256, __c8, 0)),
-          Preferences: S.optional(__S(261, __c8, 5)),
+          Constraints: S.optional(__S(288, __c9, 0)),
+          Preferences: S.optional(__S(293, __c9, 5)),
           MaxReplicas: S.optional(S.Number),
-          Platforms: S.optional(__S(263, __c8, 7)),
+          Platforms: S.optional(__S(295, __c9, 7)),
         }),
       ).annotate({ identifier: "UpdateMysqlRequestPlacementSwarm" });
     case 9:
@@ -695,9 +774,9 @@ function __c8(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          Replicated: S.optional(__S(266, __c8, 10)),
+          Replicated: S.optional(__S(298, __c9, 10)),
           Global: S.optional(S.Unknown),
-          ReplicatedJob: S.optional(__S(267, __c8, 11)),
+          ReplicatedJob: S.optional(__S(299, __c9, 11)),
           GlobalJob: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "UpdateMysqlRequestModeSwarm" });
@@ -707,12 +786,12 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Target: S.optional(S.String),
-          Aliases: S.optional(__S(256, __c8, 0)),
-          DriverOpts: S.optional(__S(269, __c8, 13)),
+          Aliases: S.optional(__S(288, __c9, 0)),
+          DriverOpts: S.optional(__S(301, __c9, 13)),
         }),
       ).annotate({ identifier: "UpdateMysqlRequestNetworkSwarmItem" });
     case 15:
-      return S.Array(__S(270, __c8, 14));
+      return S.Array(__S(302, __c9, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
@@ -723,12 +802,12 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "UpdateMysqlRequestEndpointSpecSwarmPortsItem" });
     case 17:
-      return S.Array(__S(272, __c8, 16));
+      return S.Array(__S(304, __c9, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
           Mode: S.optional(S.String),
-          Ports: S.optional(__S(273, __c8, 17)),
+          Ports: S.optional(__S(305, __c9, 17)),
         }),
       ).annotate({ identifier: "UpdateMysqlRequestEndpointSpecSwarm" });
     case 19:
@@ -740,7 +819,7 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "UpdateMysqlRequestUlimitsSwarmItem" });
     case 20:
-      return S.Array(__S(275, __c8, 19));
+      return S.Array(__S(307, __c9, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
@@ -754,7 +833,7 @@ function __c8(j: number): any {
           databaseRootPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
           dockerImage: S.optional(S.String),
           command: S.optional(S.NullOr(S.String)),
-          args: S.optional(S.NullOr(__S(256, __c8, 0))),
+          args: S.optional(S.NullOr(__S(288, __c9, 0))),
           env: S.optional(S.NullOr(S.String)),
           memoryReservation: S.optional(S.NullOr(S.String)),
           memoryLimit: S.optional(S.NullOr(S.String)),
@@ -762,26 +841,26 @@ function __c8(j: number): any {
           cpuLimit: S.optional(S.NullOr(S.String)),
           externalPort: S.optional(S.NullOr(S.Number)),
           applicationStatus: S.optional(S.String),
-          healthCheckSwarm: S.optional(S.NullOr(__S(257, __c8, 1))),
-          restartPolicySwarm: S.optional(S.NullOr(__S(258, __c8, 2))),
-          placementSwarm: S.optional(S.NullOr(__S(264, __c8, 8))),
-          updateConfigSwarm: S.optional(S.NullOr(__S(265, __c8, 9))),
-          rollbackConfigSwarm: S.optional(S.NullOr(__S(265, __c8, 9))),
-          modeSwarm: S.optional(S.NullOr(__S(268, __c8, 12))),
-          labelsSwarm: S.optional(S.NullOr(__S(269, __c8, 13))),
-          networkSwarm: S.optional(S.NullOr(__S(271, __c8, 15))),
+          healthCheckSwarm: S.optional(S.NullOr(__S(289, __c9, 1))),
+          restartPolicySwarm: S.optional(S.NullOr(__S(290, __c9, 2))),
+          placementSwarm: S.optional(S.NullOr(__S(296, __c9, 8))),
+          updateConfigSwarm: S.optional(S.NullOr(__S(297, __c9, 9))),
+          rollbackConfigSwarm: S.optional(S.NullOr(__S(297, __c9, 9))),
+          modeSwarm: S.optional(S.NullOr(__S(300, __c9, 12))),
+          labelsSwarm: S.optional(S.NullOr(__S(301, __c9, 13))),
+          networkSwarm: S.optional(S.NullOr(__S(303, __c9, 15))),
           stopGracePeriodSwarm: S.optional(S.NullOr(S.Number)),
-          endpointSpecSwarm: S.optional(S.NullOr(__S(274, __c8, 18))),
-          ulimitsSwarm: S.optional(S.NullOr(__S(276, __c8, 20))),
+          endpointSpecSwarm: S.optional(S.NullOr(__S(306, __c9, 18))),
+          ulimitsSwarm: S.optional(S.NullOr(__S(308, __c9, 20))),
           replicas: S.optional(S.Number),
           createdAt: S.optional(S.String),
-          networkIds: S.optional(S.NullOr(__S(256, __c8, 0))),
+          networkIds: S.optional(S.NullOr(__S(288, __c9, 0))),
           detachDokployNetwork: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/mysql.update", code: 200 })),
       ).annotate({ identifier: "UpdateMysqlRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -793,7 +872,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "ChangeMysqlPasswordRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -801,7 +880,7 @@ function __c10(j: number): any {
       });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -812,7 +891,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "ChangeMysqlStatusRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -831,7 +910,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "CreateMysqlRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -841,7 +920,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "DeleteMysqlRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -851,7 +930,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "DeployMysqlRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -861,7 +940,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GetMysqlRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

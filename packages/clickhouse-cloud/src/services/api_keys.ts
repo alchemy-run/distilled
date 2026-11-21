@@ -92,7 +92,7 @@ export type ApiKeyAssignedRolesList = Array<AssignedRole>;
 export type ApiKeyIpAccessListList = Array<IpAccessListEntry>;
 export interface ApiKey {
   /** Unique API key ID. */
-  id?: string | undefined;
+  id: string;
   /** Name of the key */
   name?: string | undefined;
   /** State of the key: 'enabled', 'disabled'. */
@@ -113,7 +113,7 @@ export interface ApiKey {
   ipAccessList?: ApiKeyIpAccessListList | undefined;
 }
 export interface ApiKeyPostResponse {
-  key?: ApiKey | undefined;
+  key: ApiKey;
   /** Generated key ID. Provided only if there was no 'hashData' in the request. */
   keyId?: string | undefined;
   /** Generated key secret. Provided only if there was no 'hashData' in the request. */
@@ -311,7 +311,7 @@ function __c0(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          key: S.optional(__S(13, __c1, 5)),
+          key: __S(13, __c1, 5),
           keyId: S.optional(S.String),
           keySecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
@@ -344,7 +344,7 @@ function __c1(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
+          id: S.String,
           name: S.optional(S.String),
           state: S.optional(S.String),
           roles: S.optional(__S(8, __c1, 0)),

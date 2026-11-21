@@ -30,36 +30,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 /** IDs of saved audiences to exclude from delivery, prefixed `adaud_`. */
 export type AdGroupAudiencesBodyExcludeList = Array<string>;
@@ -1142,6 +1170,17 @@ export interface UpdateAdGroupRequest {
   /** The display name of the ad group. */
   title?: string | undefined;
 }
+export interface V1ErrorResponseError {
+  /** Machine-readable reason for this specific refusal, such as `bank_warning_not_acknowledged`. Only present when the error carries one. */
+  code?: string | undefined;
+  /** Human-readable error message. */
+  message: string;
+  /** Machine-readable error code. */
+  type: string;
+}
+export interface V1ErrorResponse {
+  error: V1ErrorResponseError;
+}
 export type CreateAdGroupError = NotFound | Conflict | WhopOpError;
 /** Create an Ad Group Creates an ad group (ad set) in a campaign. */
 export const createAdGroup: API.OperationMethod<
@@ -1150,8 +1189,8 @@ export const createAdGroup: API.OperationMethod<
   CreateAdGroupError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<CreateAdGroupRequest>,
-  output: __S(142, __c8, 14) as any as S.Schema<AdGroup>,
+  input: __S(80, __c5, 0) as any as S.Schema<CreateAdGroupRequest>,
+  output: __S(158, __c9, 14) as any as S.Schema<AdGroup>,
   errors: [NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1167,8 +1206,8 @@ export const deleteAdGroup: API.OperationMethod<
   DeleteAdGroupError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<DeleteAdGroupRequest>,
-  output: __S(161, __c10, 1) as any as S.Schema<DeleteAdGroupResponse>,
+  input: __S(176, __c11, 0) as any as S.Schema<DeleteAdGroupRequest>,
+  output: __S(177, __c11, 1) as any as S.Schema<DeleteAdGroupResponse>,
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1184,8 +1223,8 @@ export const duplicateAdGroup: API.OperationMethod<
   DuplicateAdGroupError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<DuplicateAdGroupRequest>,
-  output: __S(177, __c11, 1) as any as S.Schema<DuplicateAdGroupResponse>,
+  input: __S(192, __c12, 0) as any as S.Schema<DuplicateAdGroupRequest>,
+  output: __S(193, __c12, 1) as any as S.Schema<DuplicateAdGroupResponse>,
   errors: [BadRequest, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1201,8 +1240,8 @@ export const estimateAdGroupReach: API.OperationMethod<
   EstimateAdGroupReachError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<EstimateAdGroupReachRequest>,
-  output: __S(209, __c13, 1) as any as S.Schema<ReachEstimate>,
+  input: __S(224, __c14, 0) as any as S.Schema<EstimateAdGroupReachRequest>,
+  output: __S(225, __c14, 1) as any as S.Schema<ReachEstimate>,
   errors: [BadRequest, Forbidden, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1218,8 +1257,8 @@ export const getAdGroup: API.OperationMethod<
   GetAdGroupError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<GetAdGroupRequest>,
-  output: __S(142, __c8, 14) as any as S.Schema<AdGroup>,
+  input: __S(240, __c15, 0) as any as S.Schema<GetAdGroupRequest>,
+  output: __S(158, __c9, 14) as any as S.Schema<AdGroup>,
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1237,8 +1276,8 @@ export const listAdGroups: API.PaginatedOperationMethod<
   AdGroup
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(240, __c15, 0) as any as S.Schema<ListAdGroupsRequest>,
-    output: __S(242, __c15, 2) as any as S.Schema<ListAdGroupsResponse>,
+    input: __S(256, __c16, 0) as any as S.Schema<ListAdGroupsRequest>,
+    output: __S(258, __c16, 2) as any as S.Schema<ListAdGroupsResponse>,
     errors: [],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -1264,8 +1303,8 @@ export const pauseAdGroup: API.OperationMethod<
   PauseAdGroupError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<PauseAdGroupRequest>,
-  output: __S(142, __c8, 14) as any as S.Schema<AdGroup>,
+  input: __S(16, __c1, 0) as any as S.Schema<PauseAdGroupRequest>,
+  output: __S(158, __c9, 14) as any as S.Schema<AdGroup>,
   errors: [Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1281,8 +1320,8 @@ export const searchAdGroupTargetingOptions: API.OperationMethod<
   SearchAdGroupTargetingOptionsError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c1, 0) as any as S.Schema<SearchAdGroupTargetingOptionsRequest>,
-  output: __S(18, __c1, 2) as any as S.Schema<SearchAdGroupTargetingOptionsResponse>,
+  input: __S(32, __c2, 0) as any as S.Schema<SearchAdGroupTargetingOptionsRequest>,
+  output: __S(34, __c2, 2) as any as S.Schema<SearchAdGroupTargetingOptionsResponse>,
   errors: [BadRequest, Forbidden],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1298,8 +1337,8 @@ export const unpauseAdGroup: API.OperationMethod<
   UnpauseAdGroupError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<UnpauseAdGroupRequest>,
-  output: __S(142, __c8, 14) as any as S.Schema<AdGroup>,
+  input: __S(48, __c3, 0) as any as S.Schema<UnpauseAdGroupRequest>,
+  output: __S(158, __c9, 14) as any as S.Schema<AdGroup>,
   errors: [Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1315,8 +1354,8 @@ export const updateAdGroup: API.OperationMethod<
   UpdateAdGroupError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<UpdateAdGroupRequest>,
-  output: __S(142, __c8, 14) as any as S.Schema<AdGroup>,
+  input: __S(64, __c4, 0) as any as S.Schema<UpdateAdGroupRequest>,
+  output: __S(158, __c9, 14) as any as S.Schema<AdGroup>,
   errors: [],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1330,10 +1369,17 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.String.pipe(T.Label()),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-        }).pipe(T.Http({ method: "POST", uri: "/ad_groups/{id}/pause", code: 200 })),
-      ).annotate({ identifier: "PauseAdGroupRequest" });
+          code: S.optional(S.String),
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "V1ErrorResponseError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "V1ErrorResponse" });
   }
 }
 function __c1(j: number): any {
@@ -1341,14 +1387,25 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          id: S.String.pipe(T.Label()),
+          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+        }).pipe(T.Http({ method: "POST", uri: "/ad_groups/{id}/pause", code: 200 })),
+      ).annotate({ identifier: "PauseAdGroupRequest" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           account_id: S.optional(S.String.pipe(T.Query())),
           platform: S.String.pipe(T.Query()),
           query: S.optional(S.String.pipe(T.Query())),
-          types: S.optional(__S(96, __c6, 0).pipe(T.Query())),
-          location_types: S.optional(__S(96, __c6, 0).pipe(T.Query())),
+          types: S.optional(__S(112, __c7, 0).pipe(T.Query())),
+          location_types: S.optional(__S(112, __c7, 0).pipe(T.Query())),
           country: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          special_ad_categories: S.optional(__S(96, __c6, 0).pipe(T.Query())),
+          special_ad_categories: S.optional(__S(112, __c7, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/ad_groups/targeting_options", code: 200 })),
       ).annotate({ identifier: "SearchAdGroupTargetingOptionsRequest" });
     case 1:
@@ -1356,12 +1413,12 @@ function __c1(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(17, __c1, 1),
+          data: __S(33, __c2, 1),
         }),
       ).annotate({ identifier: "SearchAdGroupTargetingOptionsResponse" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1372,31 +1429,31 @@ function __c2(j: number): any {
       ).annotate({ identifier: "UnpauseAdGroupRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          audiences: S.optional(__S(144, __c9, 0)),
+          audiences: S.optional(__S(160, __c10, 0)),
           bid_type: S.optional(S.String),
           budget_amount: S.optional(S.Number),
           budget_amount_local: S.optional(S.Number),
           budget_type: S.optional(S.String),
           conversion_event: S.optional(S.NullOr(S.Unknown)),
           conversion_location: S.optional(S.String),
-          demographics: S.optional(__S(145, __c9, 1)),
+          demographics: S.optional(__S(161, __c10, 1)),
           desired_cost_per_result: S.optional(S.Number),
-          detailed_targeting: S.optional(__S(146, __c9, 2)),
-          devices: S.optional(__S(147, __c9, 3)),
+          detailed_targeting: S.optional(__S(162, __c10, 2)),
+          devices: S.optional(__S(163, __c10, 3)),
           ends_at: S.optional(S.String),
-          frequency_cap: S.optional(__S(80, __c5, 0)),
-          languages: S.optional(__S(112, __c7, 0)),
-          message_apps: S.optional(__S(96, __c6, 0)),
+          frequency_cap: S.optional(__S(96, __c6, 0)),
+          languages: S.optional(__S(128, __c8, 0)),
+          message_apps: S.optional(__S(112, __c7, 0)),
           minimum_daily_spend: S.optional(S.Number),
           optimization_goal: S.optional(S.String),
           placements: S.optional(S.Unknown),
-          regions: S.optional(__S(152, __c9, 8)),
+          regions: S.optional(__S(168, __c10, 8)),
           starts_at: S.optional(S.String),
           status: S.optional(S.String),
           title: S.optional(S.String),
@@ -1404,32 +1461,32 @@ function __c3(j: number): any {
       ).annotate({ identifier: "UpdateAdGroupRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ad_campaign_id: S.String,
-          audiences: S.optional(__S(144, __c9, 0)),
+          audiences: S.optional(__S(160, __c10, 0)),
           bid_type: S.optional(S.String),
           budget_amount: S.optional(S.Number),
           budget_amount_local: S.optional(S.Number),
           budget_type: S.optional(S.String),
           conversion_event: S.optional(S.NullOr(S.Unknown)),
           conversion_location: S.optional(S.String),
-          demographics: S.optional(__S(145, __c9, 1)),
+          demographics: S.optional(__S(161, __c10, 1)),
           desired_cost_per_result: S.optional(S.Number),
-          detailed_targeting: S.optional(__S(146, __c9, 2)),
-          devices: S.optional(__S(147, __c9, 3)),
+          detailed_targeting: S.optional(__S(162, __c10, 2)),
+          devices: S.optional(__S(163, __c10, 3)),
           dynamic_creative: S.optional(S.Boolean),
           ends_at: S.optional(S.String),
-          frequency_cap: S.optional(__S(80, __c5, 0)),
-          languages: S.optional(__S(112, __c7, 0)),
-          message_apps: S.optional(__S(96, __c6, 0)),
+          frequency_cap: S.optional(__S(96, __c6, 0)),
+          languages: S.optional(__S(128, __c8, 0)),
+          message_apps: S.optional(__S(112, __c7, 0)),
           minimum_daily_spend: S.optional(S.Number),
           optimization_goal: S.optional(S.String),
           placements: S.optional(S.Unknown),
-          regions: S.optional(__S(152, __c9, 8)),
+          regions: S.optional(__S(168, __c10, 8)),
           starts_at: S.optional(S.String),
           status: S.optional(S.String),
           title: S.optional(S.String),
@@ -1438,7 +1495,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "CreateAdGroupRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1449,13 +1506,13 @@ function __c5(j: number): any {
       ).annotate({ identifier: "CreateAdGroupRequestFrequencyCap" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -1469,7 +1526,7 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "AdGroupDetailedTargetingBodyBehaviorsItem" });
     case 2:
-      return S.Array(__S(113, __c7, 1));
+      return S.Array(__S(129, __c8, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -1479,7 +1536,7 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "AdGroupDetailedTargetingBodyDemographicsItem" });
     case 4:
-      return S.Array(__S(115, __c7, 3));
+      return S.Array(__S(131, __c8, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -1488,7 +1545,7 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "AdGroupDetailedTargetingBodyInterestsItem" });
     case 6:
-      return S.Array(__S(117, __c7, 5));
+      return S.Array(__S(133, __c8, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -1497,7 +1554,7 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "AdGroupDevicesBodyOperatingSystemsItem" });
     case 8:
-      return S.Array(__S(119, __c7, 7));
+      return S.Array(__S(135, __c8, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -1506,10 +1563,10 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "AdGroupGeoLocationsBodyCitiesItem" });
     case 10:
-      return S.Array(__S(121, __c7, 9));
+      return S.Array(__S(137, __c8, 9));
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1520,8 +1577,8 @@ function __c8(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          exclude: __S(112, __c7, 0),
-          include: __S(112, __c7, 0),
+          exclude: __S(128, __c8, 0),
+          include: __S(128, __c8, 0),
         }),
       ).annotate({ identifier: "AdGroupAudiences" });
     case 2:
@@ -1536,16 +1593,16 @@ function __c8(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          behaviors: __S(114, __c7, 2),
-          demographics: __S(116, __c7, 4),
-          interests: __S(118, __c7, 6),
+          behaviors: __S(130, __c8, 2),
+          demographics: __S(132, __c8, 4),
+          interests: __S(134, __c8, 6),
         }),
       ).annotate({ identifier: "AdGroupDetailedTargeting" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          operating_systems: __S(120, __c7, 8),
-          platforms: __S(96, __c6, 0),
+          operating_systems: __S(136, __c8, 8),
+          platforms: __S(112, __c7, 0),
         }),
       ).annotate({ identifier: "AdGroupDevices" });
     case 5:
@@ -1565,16 +1622,16 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "AdPlatformIssue" });
     case 7:
-      return S.Array(__S(134, __c8, 6));
+      return S.Array(__S(150, __c9, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           platform: S.String,
-          positions: __S(112, __c7, 0),
+          positions: __S(128, __c8, 0),
         }),
       ).annotate({ identifier: "AdGroupPlacement" });
     case 9:
-      return S.Array(__S(136, __c8, 8));
+      return S.Array(__S(152, __c9, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
@@ -1587,32 +1644,32 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "AdGroupCustomLocation" });
     case 11:
-      return S.Array(__S(138, __c8, 10));
+      return S.Array(__S(154, __c9, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
-          cities: __S(122, __c7, 10),
-          countries: __S(112, __c7, 0),
-          country_groups: __S(112, __c7, 0),
-          custom_locations: __S(139, __c8, 11),
-          regions: __S(112, __c7, 0),
-          zips: __S(112, __c7, 0),
+          cities: __S(138, __c8, 10),
+          countries: __S(128, __c8, 0),
+          country_groups: __S(128, __c8, 0),
+          custom_locations: __S(155, __c9, 11),
+          regions: __S(128, __c8, 0),
+          zips: __S(128, __c8, 0),
         }),
       ).annotate({ identifier: "AdGroupGeoLocations" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          exclude: __S(140, __c8, 12),
-          include: __S(140, __c8, 12),
+          exclude: __S(156, __c9, 12),
+          include: __S(156, __c9, 12),
         }),
       ).annotate({ identifier: "AdGroupRegions" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          ad_campaign: __S(128, __c8, 0),
+          ad_campaign: __S(144, __c9, 0),
           added_to_cart_value: S.Number,
           added_to_carts: S.Number,
-          audiences: __S(129, __c8, 1),
+          audiences: __S(145, __c9, 1),
           bid_type: S.NullOr(S.String),
           budget_amount: S.NullOr(S.Number),
           budget_amount_local: S.NullOr(S.Number),
@@ -1643,30 +1700,30 @@ function __c8(j: number): any {
           custom_event_counts: S.Unknown,
           custom_event_values: S.Unknown,
           delivery_status: S.String,
-          demographics: __S(130, __c8, 2),
+          demographics: __S(146, __c9, 2),
           desired_cost_per_result: S.NullOr(S.Number),
-          detailed_targeting: __S(131, __c8, 3),
-          devices: __S(132, __c8, 4),
+          detailed_targeting: __S(147, __c9, 3),
+          devices: __S(148, __c9, 4),
           dynamic_creative: S.optional(S.Boolean),
           ends_at: S.NullOr(S.String),
           frequency: S.NullOr(S.Number),
-          frequency_cap: S.NullOr(__S(133, __c8, 5)),
+          frequency_cap: S.NullOr(__S(149, __c9, 5)),
           id: S.String,
           impressions: S.Number,
-          issues: __S(135, __c8, 7),
-          languages: __S(112, __c7, 0),
+          issues: __S(151, __c9, 7),
+          languages: __S(128, __c8, 0),
           lead_value: S.Number,
           leads: S.Number,
           link_clicks: S.Number,
-          message_apps: S.optional(__S(96, __c6, 0)),
+          message_apps: S.optional(__S(112, __c7, 0)),
           minimum_daily_spend: S.optional(S.NullOr(S.Number)),
           optimization_goal: S.NullOr(S.String),
-          placements: __S(137, __c8, 9),
+          placements: __S(153, __c9, 9),
           platform: S.String,
           purchase_value: S.Number,
           purchases: S.Number,
           reach: S.Number,
-          regions: __S(141, __c8, 13),
+          regions: __S(157, __c9, 13),
           result_event: S.NullOr(S.String),
           result_event_name: S.NullOr(S.String),
           results: S.NullOr(S.Number),
@@ -1689,13 +1746,13 @@ function __c8(j: number): any {
       ).annotate({ identifier: "AdGroup" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          exclude: S.optional(__S(112, __c7, 0)),
-          include: S.optional(__S(112, __c7, 0)),
+          exclude: S.optional(__S(128, __c8, 0)),
+          include: S.optional(__S(128, __c8, 0)),
         }),
       ).annotate({ identifier: "AdGroupAudiencesBody" });
     case 1:
@@ -1710,16 +1767,16 @@ function __c9(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          behaviors: S.optional(__S(114, __c7, 2)),
-          demographics: S.optional(__S(116, __c7, 4)),
-          interests: S.optional(__S(118, __c7, 6)),
+          behaviors: S.optional(__S(130, __c8, 2)),
+          demographics: S.optional(__S(132, __c8, 4)),
+          interests: S.optional(__S(134, __c8, 6)),
         }),
       ).annotate({ identifier: "AdGroupDetailedTargetingBody" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          operating_systems: S.optional(__S(120, __c7, 8)),
-          platforms: S.optional(__S(96, __c6, 0)),
+          operating_systems: S.optional(__S(136, __c8, 8)),
+          platforms: S.optional(__S(112, __c7, 0)),
         }),
       ).annotate({ identifier: "AdGroupDevicesBody" });
     case 4:
@@ -1734,30 +1791,30 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "AdGroupGeoLocationsBodyCustomLocationsItem" });
     case 5:
-      return S.Array(__S(148, __c9, 4));
+      return S.Array(__S(164, __c10, 4));
     case 6:
       return S.Array(S.Unknown);
     case 7:
       return S.suspend(() =>
         S.Struct({
-          cities: S.optional(__S(122, __c7, 10)),
-          countries: S.optional(__S(112, __c7, 0)),
-          country_groups: S.optional(__S(112, __c7, 0)),
-          custom_locations: S.optional(__S(149, __c9, 5)),
-          regions: S.optional(__S(112, __c7, 0)),
-          zips: S.optional(__S(150, __c9, 6)),
+          cities: S.optional(__S(138, __c8, 10)),
+          countries: S.optional(__S(128, __c8, 0)),
+          country_groups: S.optional(__S(128, __c8, 0)),
+          custom_locations: S.optional(__S(165, __c10, 5)),
+          regions: S.optional(__S(128, __c8, 0)),
+          zips: S.optional(__S(166, __c10, 6)),
         }),
       ).annotate({ identifier: "AdGroupGeoLocationsBody" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          exclude: S.optional(__S(151, __c9, 7)),
-          include: S.optional(__S(151, __c9, 7)),
+          exclude: S.optional(__S(167, __c10, 7)),
+          include: S.optional(__S(167, __c10, 7)),
         }),
       ).annotate({ identifier: "AdGroupRegionsBody" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1774,7 +1831,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "DeleteAdGroupResponse" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1789,30 +1846,30 @@ function __c11(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(192, __c12, 0),
+          data: __S(208, __c13, 0),
         }),
       ).annotate({ identifier: "DuplicateAdGroupResponse" });
-  }
-}
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(142, __c8, 14));
   }
 }
 function __c13(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(__S(158, __c9, 14));
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           account_id: S.optional(S.String),
-          audiences: S.optional(__S(144, __c9, 0)),
-          demographics: S.optional(__S(145, __c9, 1)),
-          detailed_targeting: S.optional(__S(146, __c9, 2)),
-          devices: S.optional(__S(147, __c9, 3)),
-          languages: S.optional(__S(112, __c7, 0)),
+          audiences: S.optional(__S(160, __c10, 0)),
+          demographics: S.optional(__S(161, __c10, 1)),
+          detailed_targeting: S.optional(__S(162, __c10, 2)),
+          devices: S.optional(__S(163, __c10, 3)),
+          languages: S.optional(__S(128, __c8, 0)),
           platform: S.String,
-          regions: S.optional(__S(152, __c9, 8)),
+          regions: S.optional(__S(168, __c10, 8)),
           idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(T.Http({ method: "POST", uri: "/ad_groups/estimate_reach", code: 200 })),
       ).annotate({ identifier: "EstimateAdGroupReachRequest" });
@@ -1825,7 +1882,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "ReachEstimate" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1839,14 +1896,14 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetAdGroupRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           account_id: S.optional(S.String.pipe(T.Query())),
           ad_campaign_id: S.optional(S.String.pipe(T.Query())),
-          ad_campaign_ids: S.optional(__S(112, __c7, 0).pipe(T.Query())),
+          ad_campaign_ids: S.optional(__S(128, __c8, 0).pipe(T.Query())),
           status: S.optional(S.String.pipe(T.Query())),
           query: S.optional(S.String.pipe(T.Query())),
           order: S.optional(S.String.pipe(T.Query())),
@@ -1875,8 +1932,8 @@ function __c15(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(192, __c12, 0),
-          page_info: __S(241, __c15, 1),
+          data: __S(208, __c13, 0),
+          page_info: __S(257, __c16, 1),
         }),
       ).annotate({ identifier: "ListAdGroupsResponse" });
   }

@@ -580,19 +580,21 @@ export interface GetUserRequest {
   /** The name of the DocumentDB cluster user. */
   userName: string;
 }
-/** Identity provider types that a a user identity can belong to. */
-export type IdentityProviderType = "MicrosoftEntraID";
+/** The type of identity provider that the user belongs to. */
+export type EntraIdentityProviderType = "MicrosoftEntraID";
+/** Microsoft Entra ID principal types available for a Mongo user. */
+export type EntraPrincipalType = "user" | "servicePrincipal";
 /** Microsoft Entra ID provider properties. */
 export interface EntraIdentityProviderProperties {
-  /** The principal type of the user: `user` or `servicePrincipal`. */
-  principalType: string;
+  /** The principal type of the user. */
+  principalType: EntraPrincipalType | (string & {});
 }
-/** Defines a user's identity provider definition. */
-export interface IdentityProvider {
+/** Defines a Microsoft Entra ID Mongo user. */
+export interface EntraIdentityProvider {
   /** The type of identity provider that the user belongs to. */
-  type: IdentityProviderType | (string & {});
-  /** MicrosoftEntraID: the Entra identity properties for the user. */
-  properties?: EntraIdentityProviderProperties | undefined;
+  type: EntraIdentityProviderType | (string & {});
+  /** The Entra identity properties for the user. */
+  properties: EntraIdentityProviderProperties;
 }
 /** Built-in database role that can be assigned to a user. */
 export type UserRole = "root";
@@ -610,7 +612,7 @@ export interface UserProperties {
   /** The provisioning state of the user. */
   provisioningState?: ProvisioningState | undefined;
   /** The user's identity provider definition. */
-  identityProvider?: IdentityProvider | undefined;
+  identityProvider?: EntraIdentityProvider | undefined;
   /** Database roles that are assigned to the user. */
   roles?: UserPropertiesRolesList | undefined;
 }
@@ -1102,7 +1104,7 @@ export type UserPropertiesInputRolesList = Array<DatabaseRole>;
 /** Definition of Mongo user resource on a cluster. */
 export interface UserPropertiesInput {
   /** The user's identity provider definition. */
-  identityProvider?: IdentityProvider | undefined;
+  identityProvider?: EntraIdentityProvider | undefined;
   /** Database roles that are assigned to the user. */
   roles?: UserPropertiesInputRolesList | undefined;
 }
@@ -1709,9 +1711,9 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          properties: S.optional(__S(128, __c8, 0)),
+          properties: __S(128, __c8, 0),
         }),
-      ).annotate({ identifier: "IdentityProvider" });
+      ).annotate({ identifier: "EntraIdentityProvider" });
     case 2:
       return S.suspend(() =>
         S.Struct({

@@ -59,6 +59,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -68,6 +70,8 @@ export class SpectrumAppNotFound
     /*@__PURE__*/ S.TaggedError<SpectrumAppNotFound>()("SpectrumAppNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10006 }],
   ) {}
@@ -77,6 +81,8 @@ export class SpectrumProtocolNotAvailable
     /*@__PURE__*/ S.TaggedError<SpectrumProtocolNotAvailable>()("SpectrumProtocolNotAvailable", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 13002 }],
   ) {}

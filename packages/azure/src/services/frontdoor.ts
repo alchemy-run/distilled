@@ -302,10 +302,61 @@ export type RoutingRulePropertiesAcceptedProtocolsList = Array<FrontDoorProtocol
 export type RoutingRulePropertiesPatternsToMatchList = Array<string>;
 /** Whether to enable use of this rule. Permitted values are 'Enabled' or 'Disabled' */
 export type RoutingRuleEnabledState = "Enabled" | "Disabled";
-/** Base class for all types of Route. */
-export interface RouteConfiguration {
-  _odata_type: string;
+export type ForwardingConfigurationOdataType =
+  "#Microsoft.Azure.FrontDoor.Models.FrontdoorForwardingConfiguration";
+/** Protocol this rule will use when forwarding traffic to backends. */
+export type FrontDoorForwardingProtocol = "HttpOnly" | "HttpsOnly" | "MatchRequest";
+/** Treatment of URL query terms when forming the cache key. */
+export type FrontDoorQuery = "StripNone" | "StripAll" | "StripOnly" | "StripAllExcept";
+/** Whether to use dynamic compression for cached content */
+export type DynamicCompressionEnabled = "Enabled" | "Disabled";
+/** Caching settings for a caching-type route. To disable caching, do not provide a cacheConfiguration object. */
+export interface CacheConfiguration {
+  /** Treatment of URL query terms when forming the cache key. */
+  queryParameterStripDirective?: FrontDoorQuery | (string & {}) | undefined;
+  /** query parameters to include or exclude (comma separated). */
+  queryParameters?: string | undefined;
+  /** Whether to use dynamic compression for cached content */
+  dynamicCompression?: DynamicCompressionEnabled | (string & {}) | undefined;
+  /** The duration for which the content needs to be cached. Allowed format is in ISO 8601 format (http://en.wikipedia.org/wiki/ISO_8601#Durations). HTTP requires the value to be no more than a year */
+  cacheDuration?: string | undefined;
 }
+/** Describes Forwarding Route. */
+export interface ForwardingConfiguration {
+  _odata_type: ForwardingConfigurationOdataType;
+  /** A custom path used to rewrite resource paths matched by this rule. Leave empty to use incoming path. */
+  customForwardingPath?: string | undefined;
+  /** Protocol this rule will use when forwarding traffic to backends. */
+  forwardingProtocol?: FrontDoorForwardingProtocol | (string & {}) | undefined;
+  /** The caching configuration associated with this rule. */
+  cacheConfiguration?: CacheConfiguration | undefined;
+  /** A reference to the BackendPool which this rule routes to. */
+  backendPool?: KeyVaultCertificateSourceParametersVault | undefined;
+}
+export type RedirectConfigurationOdataType =
+  "#Microsoft.Azure.FrontDoor.Models.FrontdoorRedirectConfiguration";
+/** The redirect type the rule will use when redirecting traffic. */
+export type FrontDoorRedirectType = "Moved" | "Found" | "TemporaryRedirect" | "PermanentRedirect";
+/** The protocol of the destination to where the traffic is redirected */
+export type FrontDoorRedirectProtocol = "HttpOnly" | "HttpsOnly" | "MatchRequest";
+/** Describes Redirect Route. */
+export interface RedirectConfiguration {
+  _odata_type: RedirectConfigurationOdataType;
+  /** The redirect type the rule will use when redirecting traffic. */
+  redirectType?: FrontDoorRedirectType | (string & {}) | undefined;
+  /** The protocol of the destination to where the traffic is redirected */
+  redirectProtocol?: FrontDoorRedirectProtocol | (string & {}) | undefined;
+  /** Host to redirect. Leave empty to use the incoming host as the destination host. */
+  customHost?: string | undefined;
+  /** The full path to redirect. Path cannot be empty and must start with /. Leave empty to use the incoming path as destination path. */
+  customPath?: string | undefined;
+  /** Fragment to add to the redirect URL. Fragment is the part of the URL that comes after #. Do not include the #. */
+  customFragment?: string | undefined;
+  /** The set of query strings to be placed in the redirect URL. Setting this value would replace any existing query string; leave empty to preserve the incoming query string. Query string must be in <key>=<value> format. The first ? and & will be added automatically so do not include them in the front, but do separate multiple query strings with &. */
+  customQueryString?: string | undefined;
+}
+/** Base class for all types of Route. */
+export type RouteConfiguration = ForwardingConfiguration | RedirectConfiguration;
 /** Defines the Web Application Firewall policy for each routing rule (if applicable) */
 export type RoutingRuleUpdateParametersWebApplicationFirewallPolicyLink =
   KeyVaultCertificateSourceParametersVault;
@@ -2930,7 +2981,7 @@ function __c8(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(296, __c9, 8)),
+          properties: S.optional(__S(299, __c9, 11)),
         }),
       ).annotate({ identifier: "RulesEngine" });
   }
@@ -2940,10 +2991,37 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          _odata_type: S.String.pipe(T.Body("@odata.type")),
+          queryParameterStripDirective: S.optional(S.String),
+          queryParameters: S.optional(S.String),
+          dynamicCompression: S.optional(S.String),
+          cacheDuration: S.optional(S.String),
         }),
-      ).annotate({ identifier: "RouteConfiguration" });
+      ).annotate({ identifier: "CacheConfiguration" });
     case 1:
+      return S.suspend(() =>
+        S.Struct({
+          _odata_type: S.String.pipe(T.Body("@odata.type")),
+          customForwardingPath: S.optional(S.String),
+          forwardingProtocol: S.optional(S.String),
+          cacheConfiguration: S.optional(__S(288, __c9, 0)),
+          backendPool: S.optional(__S(1920, __c60, 0)),
+        }),
+      ).annotate({ identifier: "ForwardingConfiguration" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          _odata_type: S.String.pipe(T.Body("@odata.type")),
+          redirectType: S.optional(S.String),
+          redirectProtocol: S.optional(S.String),
+          customHost: S.optional(S.String),
+          customPath: S.optional(S.String),
+          customFragment: S.optional(S.String),
+          customQueryString: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RedirectConfiguration" });
+    case 3:
+      return S.Union([__S(289, __c9, 1), __S(290, __c9, 2)]);
+    case 4:
       return S.suspend(() =>
         S.Struct({
           headerActionType: S.String,
@@ -2951,17 +3029,17 @@ function __c9(j: number): any {
           value: S.optional(S.String),
         }),
       ).annotate({ identifier: "HeaderAction" });
-    case 2:
-      return S.Array(__S(289, __c9, 1));
-    case 3:
+    case 5:
+      return S.Array(__S(292, __c9, 4));
+    case 6:
       return S.suspend(() =>
         S.Struct({
-          requestHeaderActions: S.optional(__S(290, __c9, 2)),
-          responseHeaderActions: S.optional(__S(290, __c9, 2)),
-          routeConfigurationOverride: S.optional(__S(288, __c9, 0)),
+          requestHeaderActions: S.optional(__S(293, __c9, 5)),
+          responseHeaderActions: S.optional(__S(293, __c9, 5)),
+          routeConfigurationOverride: S.optional(__S(291, __c9, 3)),
         }),
       ).annotate({ identifier: "RulesEngineAction" });
-    case 4:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           rulesEngineMatchVariable: S.String,
@@ -2972,24 +3050,24 @@ function __c9(j: number): any {
           transforms: S.optional(__S(192, __c6, 0)),
         }),
       ).annotate({ identifier: "RulesEngineMatchCondition" });
-    case 5:
-      return S.Array(__S(292, __c9, 4));
-    case 6:
+    case 8:
+      return S.Array(__S(295, __c9, 7));
+    case 9:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           priority: S.Number,
-          action: __S(291, __c9, 3),
-          matchConditions: S.optional(__S(293, __c9, 5)),
+          action: __S(294, __c9, 6),
+          matchConditions: S.optional(__S(296, __c9, 8)),
           matchProcessingBehavior: S.optional(S.String),
         }),
       ).annotate({ identifier: "RulesEngineRule" });
-    case 7:
-      return S.Array(__S(294, __c9, 6));
-    case 8:
+    case 10:
+      return S.Array(__S(297, __c9, 9));
+    case 11:
       return S.suspend(() =>
         S.Struct({
-          rules: S.optional(__S(295, __c9, 7)),
+          rules: S.optional(__S(298, __c9, 10)),
           resourceState: S.optional(S.String),
         }),
       ).annotate({ identifier: "RulesEngineProperties" });
@@ -3004,7 +3082,7 @@ function __c10(j: number): any {
           acceptedProtocols: S.optional(__S(192, __c6, 0)),
           patternsToMatch: S.optional(__S(160, __c5, 0)),
           enabledState: S.optional(S.String),
-          routeConfiguration: S.optional(__S(288, __c9, 0)),
+          routeConfiguration: S.optional(__S(291, __c9, 3)),
           rulesEngine: S.optional(__S(1920, __c60, 0)),
           webApplicationFirewallPolicyLink: S.optional(__S(1920, __c60, 0)),
           resourceState: S.optional(S.String),
@@ -4177,7 +4255,7 @@ function __c50(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           frontDoorName: S.String.pipe(T.Label()),
           rulesEngineName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(296, __c9, 8)),
+          properties: S.optional(__S(299, __c9, 11)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -4193,7 +4271,7 @@ function __c50(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(296, __c9, 8)),
+          properties: S.optional(__S(299, __c9, 11)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),

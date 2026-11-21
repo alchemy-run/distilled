@@ -158,7 +158,7 @@ export class LimitExceededException
       identifier: "LimitExceededErrorCode",
     }),
     canRetry: S.Boolean,
-  }) {}
+  }).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class NoSuchEntityException
   extends /*@__PURE__*/ S.TaggedError<NoSuchEntityException>()("NoSuchEntityException", {
     message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
@@ -177,7 +177,7 @@ export class ServiceTemporarilyUnavailableException
     "ServiceTemporarilyUnavailableException",
     { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()), canRetry: S.Boolean },
     /*@__PURE__*/ T.HttpError(503),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class UnsupportedFeatureException
   extends /*@__PURE__*/ S.TaggedError<UnsupportedFeatureException>()(
     "UnsupportedFeatureException",

@@ -108,6 +108,7 @@ export interface PostStorageRequest {
   nocow?: boolean | 0 | 1 | undefined;
   nodes?: string | undefined;
   nowritecache?: boolean | 0 | 1 | undefined;
+  "on-volume-remove"?: string | undefined;
   options?: string | undefined;
   password?: string | undefined;
   path?: string | undefined;
@@ -195,6 +196,7 @@ export interface PutStorageByStorageRequest {
   nocow?: boolean | 0 | 1 | undefined;
   nodes?: string | undefined;
   nowritecache?: boolean | 0 | 1 | undefined;
+  "on-volume-remove"?: string | undefined;
   options?: string | undefined;
   password?: string | undefined;
   pool?: string | undefined;
@@ -410,6 +412,7 @@ function __c3(j: number): any {
           nocow: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           nodes: S.optional(S.String),
           nowritecache: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
+          "on-volume-remove": S.optional(S.String),
           options: S.optional(S.String),
           password: S.optional(S.String),
           path: S.optional(S.String),
@@ -499,6 +502,7 @@ function __c5(j: number): any {
           nocow: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           nodes: S.optional(S.String),
           nowritecache: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
+          "on-volume-remove": S.optional(S.String),
           options: S.optional(S.String),
           password: S.optional(S.String),
           pool: S.optional(S.String),

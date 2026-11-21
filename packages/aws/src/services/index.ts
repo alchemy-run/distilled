@@ -373,6 +373,7 @@ export * as ServiceCatalogAppregistry from "./service-catalog-appregistry.ts";
 export * as ServiceCatalog from "./service-catalog.ts";
 export * as ServiceQuotas from "./service-quotas.ts";
 export * as Servicediscovery from "./servicediscovery.ts";
+export * as SesEvents from "./ses-events.ts";
 export * as Ses from "./ses.ts";
 export * as Sesv2 from "./sesv2.ts";
 export * as Sfn from "./sfn.ts";

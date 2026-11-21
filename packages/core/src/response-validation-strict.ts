@@ -77,6 +77,12 @@ const MISSING: unique symbol = Symbol("missing");
 const makeCompile = (exact: boolean): ((n: Node) => Check) => {
   const fail = (expected: string, actual: unknown): Fail => ({ path: [], expected, actual });
   const ok: Check = () => undefined;
+  // Effect's rule (SchemaAST.requiresOwnProperty, since 4.1.3): a field named
+  // after an `Object.prototype` member is present only as an own property,
+  // so `{}` has no `constructor`.
+  const prototypeKeys = new Set<PropertyKey>(Reflect.ownKeys(Object.prototype)).add("__proto__");
+  const ownOnly = (name: PropertyKey) =>
+    prototypeKeys.has(typeof name === "number" ? String(name) : name);
   const typeOf =
     (t: string): Check =>
     (u) =>
@@ -253,7 +259,7 @@ const makeCompile = (exact: boolean): ((n: Node) => Check) => {
 
   const objects = (n: Node): Check => {
     const props = (n.propertySignatures ?? []).map(
-      (p) => [p.name, compile(p.type), isOptional(p.type)] as const,
+      (p) => [p.name, compile(p.type), isOptional(p.type), ownOnly(p.name)] as const,
     );
     const index = (n.indexSignatures ?? []).map(
       (s) => [compile(s.parameter), compile(s.type)] as const,
@@ -269,8 +275,8 @@ const makeCompile = (exact: boolean): ((n: Node) => Check) => {
       if (typeof u !== "object" || u === null || Array.isArray(u)) return fail("object", u);
       const o = u as Record<PropertyKey, unknown>;
       for (let i = 0; i < props.length; i++) {
-        const [name, check, optional] = props[i]!;
-        if (!(name === "__proto__" ? Object.hasOwn(o, name) : name in o)) {
+        const [name, check, optional, own] = props[i]!;
+        if (!(Object.hasOwn(o, name) || (!own && name in o))) {
           if (optional) continue;
           return at(fail("a value", MISSING), name);
         }

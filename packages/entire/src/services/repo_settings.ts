@@ -31,9 +31,16 @@ export class RepoNotInRegion
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<RepoNotInRegion>()("RepoNotInRegion", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404, message: { includes: "not in this region" } }],
-  ) {}
+  )
+{
+  declare readonly body?: ApiError | string;
+}
 
 export interface DeleteRepoSecretRequest {
   repo_id: string;
@@ -102,6 +109,13 @@ export interface TrailSettingsOutputBody {
   _schema?: string | undefined;
   settings: TrailSettingsBody;
 }
+export interface ApiError {
+  /** A URL to the JSON Schema for this object. */
+  _schema?: string | undefined;
+  code?: string | undefined;
+  detail?: string | undefined;
+  error: string;
+}
 export type DeleteRepoSecretError = RepoNotInRegion | EntireOpError;
 /** Delete a repository secret Deletes a repository secret, removing the stored ciphertext and its key from the live store; a backup taken before the deletion still holds them until it ages out. Idempotent -- deleting a key that is not configured succeeds. Requires repo-admin (manage_settings). */
 export const deleteRepoSecret: API.OperationMethod<
@@ -110,8 +124,8 @@ export const deleteRepoSecret: API.OperationMethod<
   DeleteRepoSecretError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<DeleteRepoSecretRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<DeleteRepoSecretResponse>,
+  input: __S(4, __c1, 0) as any as S.Schema<DeleteRepoSecretRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<DeleteRepoSecretResponse>,
   errors: [RepoNotInRegion, UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -129,8 +143,8 @@ export const listRepoSecrets: API.PaginatedOperationMethod<
   RepoSecretMetaItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(8, __c2, 0) as any as S.Schema<ListRepoSecretsRequest>,
-    output: __S(11, __c2, 3) as any as S.Schema<RepoSecretsListOutputBody>,
+    input: __S(12, __c3, 0) as any as S.Schema<ListRepoSecretsRequest>,
+    output: __S(15, __c3, 3) as any as S.Schema<RepoSecretsListOutputBody>,
     errors: [RepoNotInRegion, UnknownEntireError],
     protocol: EntireCellProtocol,
     retry: Retry.Retry,
@@ -154,8 +168,8 @@ export const setRepoSecret: API.OperationMethod<
   SetRepoSecretError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<SetRepoSecretRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<SetRepoSecretResponse>,
+  input: __S(16, __c4, 0) as any as S.Schema<SetRepoSecretRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<SetRepoSecretResponse>,
   errors: [RepoNotInRegion, UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -171,8 +185,8 @@ export const updateRepoPublicSharing: API.OperationMethod<
   UpdateRepoPublicSharingError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<UpdateRepoPublicSharingRequest>,
-  output: __S(17, __c4, 1) as any as S.Schema<PublicSharingOutputBody>,
+  input: __S(20, __c5, 0) as any as S.Schema<UpdateRepoPublicSharingRequest>,
+  output: __S(21, __c5, 1) as any as S.Schema<PublicSharingOutputBody>,
   errors: [RepoNotInRegion, UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -188,8 +202,8 @@ export const updateRepoRunnerSettings: API.OperationMethod<
   UpdateRepoRunnerSettingsError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<UpdateRepoRunnerSettingsRequest>,
-  output: __S(22, __c5, 2) as any as S.Schema<RunnerSettingsOutputBody>,
+  input: __S(24, __c6, 0) as any as S.Schema<UpdateRepoRunnerSettingsRequest>,
+  output: __S(26, __c6, 2) as any as S.Schema<RunnerSettingsOutputBody>,
   errors: [RepoNotInRegion, UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -205,8 +219,8 @@ export const updateRepoTrailSettings: API.OperationMethod<
   UpdateRepoTrailSettingsError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<UpdateRepoTrailSettingsRequest>,
-  output: __S(26, __c6, 2) as any as S.Schema<TrailSettingsOutputBody>,
+  input: __S(28, __c7, 0) as any as S.Schema<UpdateRepoTrailSettingsRequest>,
+  output: __S(30, __c7, 2) as any as S.Schema<TrailSettingsOutputBody>,
   errors: [RepoNotInRegion, UnknownEntireError],
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
@@ -216,6 +230,19 @@ export const updateRepoTrailSettings: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          code: S.optional(S.String),
+          detail: S.optional(S.String),
+          error: S.String,
+        }),
+      ).annotate({ identifier: "ApiError" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -232,13 +259,13 @@ function __c0(j: number): any {
       ).annotate({ identifier: "DeleteRepoSecretRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteRepoSecretResponse" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -256,18 +283,18 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "RepoSecretMetaItem" });
     case 2:
-      return S.Array(__S(9, __c2, 1));
+      return S.Array(__S(13, __c3, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          items: S.NullOr(__S(10, __c2, 2)),
+          items: S.NullOr(__S(14, __c3, 2)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "RepoSecretsListOutputBody" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -281,7 +308,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "SetRepoSecretRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -305,7 +332,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "PublicSharingOutputBody" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -328,12 +355,12 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          settings: __S(21, __c5, 1),
+          settings: __S(25, __c6, 1),
         }),
       ).annotate({ identifier: "RunnerSettingsOutputBody" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -354,7 +381,7 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          settings: __S(25, __c6, 1),
+          settings: __S(29, __c7, 1),
         }),
       ).annotate({ identifier: "TrailSettingsOutputBody" });
   }

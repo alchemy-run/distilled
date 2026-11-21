@@ -2935,7 +2935,7 @@ export class RequestError
 export class RequestLimitExceeded
   extends /*@__PURE__*/ S.TaggedError<RequestLimitExceeded>()("RequestLimitExceeded", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
-  }).pipe(C.withThrottlingError) {}
+  }).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class SignatureDoesNotMatch
   extends /*@__PURE__*/ S.TaggedError<SignatureDoesNotMatch>()("SignatureDoesNotMatch", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
@@ -14711,9 +14711,9 @@ function __c4(j: number): any {
           PartsCount: S.optional(S.Number).pipe(T.HttpHeader("x-amz-mp-parts-count")),
           TagCount: S.optional(S.Number).pipe(T.HttpHeader("x-amz-tagging-count")),
           ObjectLockMode: S.optional(S.String).pipe(T.HttpHeader("x-amz-object-lock-mode")),
-          ObjectLockRetainUntilDate: S.optional(S.Date.pipe(T.TimestampFormat("http-date"))).pipe(
-            T.HttpHeader("x-amz-object-lock-retain-until-date"),
-          ),
+          ObjectLockRetainUntilDate: S.optional(
+            T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          ).pipe(T.HttpHeader("x-amz-object-lock-retain-until-date")),
           ObjectLockLegalHoldStatus: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-object-lock-legal-hold"),
           ),
@@ -15336,9 +15336,9 @@ function __c20(j: number): any {
           PartsCount: S.optional(S.Number).pipe(T.HttpHeader("x-amz-mp-parts-count")),
           TagCount: S.optional(S.Number).pipe(T.HttpHeader("x-amz-tagging-count")),
           ObjectLockMode: S.optional(S.String).pipe(T.HttpHeader("x-amz-object-lock-mode")),
-          ObjectLockRetainUntilDate: S.optional(S.Date.pipe(T.TimestampFormat("http-date"))).pipe(
-            T.HttpHeader("x-amz-object-lock-retain-until-date"),
-          ),
+          ObjectLockRetainUntilDate: S.optional(
+            T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          ).pipe(T.HttpHeader("x-amz-object-lock-retain-until-date")),
           ObjectLockLegalHoldStatus: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-object-lock-legal-hold"),
           ),
@@ -16872,9 +16872,9 @@ function __c60(j: number): any {
           RequestPayer: S.optional(S.String).pipe(T.HttpHeader("x-amz-request-payer")),
           Tagging: S.optional(S.String).pipe(T.HttpHeader("x-amz-tagging")),
           ObjectLockMode: S.optional(S.String).pipe(T.HttpHeader("x-amz-object-lock-mode")),
-          ObjectLockRetainUntilDate: S.optional(S.Date.pipe(T.TimestampFormat("http-date"))).pipe(
-            T.HttpHeader("x-amz-object-lock-retain-until-date"),
-          ),
+          ObjectLockRetainUntilDate: S.optional(
+            T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          ).pipe(T.HttpHeader("x-amz-object-lock-retain-until-date")),
           ObjectLockLegalHoldStatus: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-object-lock-legal-hold"),
           ),
@@ -17721,7 +17721,7 @@ function __c75(j: number): any {
             .pipe(/*@__PURE__*/ T.XmlName("SSE-KMS"))
             .annotate({ identifier: "SSEKMSEncryption" }),
         }),
-      ]);
+      ]).annotate({ identifier: "ObjectEncryption" });
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -18025,9 +18025,9 @@ function __c78(j: number): any {
           ObjectLockLegalHoldStatus: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-fwd-header-x-amz-object-lock-legal-hold"),
           ),
-          ObjectLockRetainUntilDate: S.optional(S.Date.pipe(T.TimestampFormat("http-date"))).pipe(
-            T.HttpHeader("x-amz-fwd-header-x-amz-object-lock-retain-until-date"),
-          ),
+          ObjectLockRetainUntilDate: S.optional(
+            T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          ).pipe(T.HttpHeader("x-amz-fwd-header-x-amz-object-lock-retain-until-date")),
           PartsCount: S.optional(S.Number).pipe(
             T.HttpHeader("x-amz-fwd-header-x-amz-mp-parts-count"),
           ),
@@ -18312,9 +18312,9 @@ function __c82(j: number): any {
           RequestPayer: S.optional(S.String).pipe(T.HttpHeader("x-amz-request-payer")),
           Tagging: S.optional(S.String).pipe(T.HttpHeader("x-amz-tagging")),
           ObjectLockMode: S.optional(S.String).pipe(T.HttpHeader("x-amz-object-lock-mode")),
-          ObjectLockRetainUntilDate: S.optional(S.Date.pipe(T.TimestampFormat("http-date"))).pipe(
-            T.HttpHeader("x-amz-object-lock-retain-until-date"),
-          ),
+          ObjectLockRetainUntilDate: S.optional(
+            T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          ).pipe(T.HttpHeader("x-amz-object-lock-retain-until-date")),
           ObjectLockLegalHoldStatus: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-object-lock-legal-hold"),
           ),
@@ -18659,9 +18659,9 @@ function __c90(j: number): any {
           RequestPayer: S.optional(S.String).pipe(T.HttpHeader("x-amz-request-payer")),
           Tagging: S.optional(S.String).pipe(T.HttpHeader("x-amz-tagging")),
           ObjectLockMode: S.optional(S.String).pipe(T.HttpHeader("x-amz-object-lock-mode")),
-          ObjectLockRetainUntilDate: S.optional(S.Date.pipe(T.TimestampFormat("http-date"))).pipe(
-            T.HttpHeader("x-amz-object-lock-retain-until-date"),
-          ),
+          ObjectLockRetainUntilDate: S.optional(
+            T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          ).pipe(T.HttpHeader("x-amz-object-lock-retain-until-date")),
           ObjectLockLegalHoldStatus: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-object-lock-legal-hold"),
           ),
@@ -19543,7 +19543,12 @@ function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Grantee: S.optional(__S(1888, __c118, 0)), Permission: S.optional(S.String) }),
+        S.Struct({
+          Grantee: S.optional(__S(1888, __c118, 0))
+            .pipe(T.XmlNamespace("http://www.w3.org/2001/XMLSchema-instance", "xsi"))
+            .annotate({ identifier: "Grantee" }),
+          Permission: S.optional(S.String),
+        }),
       ).annotate({ identifier: "Grant" });
     case 1:
       return S.Array(
@@ -20116,7 +20121,12 @@ function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Grantee: S.optional(__S(1888, __c118, 0)), Permission: S.optional(S.String) }),
+        S.Struct({
+          Grantee: S.optional(__S(1888, __c118, 0))
+            .pipe(T.XmlNamespace("http://www.w3.org/2001/XMLSchema-instance", "xsi"))
+            .annotate({ identifier: "Grantee" }),
+          Permission: S.optional(S.String),
+        }),
       ).annotate({ identifier: "TargetGrant" });
     case 1:
       return S.Array(

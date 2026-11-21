@@ -1,0 +1,21 @@
+{
+  "description": "EntityResolution: Members the API leaves out (not required).",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.entityresolution#CreateSchemaMappingOutput/members/description/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.entityresolution#BatchDeleteUniqueIdOutput/members/errors/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.entityresolution#BatchDeleteUniqueIdOutput/members/deleted/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.entityresolution#BatchDeleteUniqueIdOutput/members/disconnectedUniqueIds/traits/smithy.api#required"
+    }
+  ]
+}

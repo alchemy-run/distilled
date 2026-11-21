@@ -3088,10 +3088,10 @@ function __c32(j: number): any {
           executionIds: S.optional(__S(96, __c6, 0)).pipe(T.HttpQuery("executionIds")),
           jobName: S.optional(S.String).pipe(T.HttpQuery("jobName")),
           status: S.optional(S.String).pipe(T.HttpQuery("status")),
-          startedAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          startedAfter: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("startedAfter"),
           ),
-          startedBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          startedBefore: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("startedBefore"),
           ),
         }).pipe(

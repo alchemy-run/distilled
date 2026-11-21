@@ -93,10 +93,15 @@ export const layerS3 = (
               }),
           ),
         ),
+        // A finalizer can't fail, so a key that could not be deleted is
+        // logged with its id: it stays valid until someone deletes it.
         (key) =>
           Management.deleteBucketKey({ bucketId: options.bucketId, keyId: key.id }).pipe(
             Effect.provideContext(context),
-            Effect.ignore,
+            Effect.ignore({
+              log: "Warn",
+              message: `Could not delete the temporary S3 key ${key.id} of Prisma bucket ${options.bucketId}; it stays valid until you delete it.`,
+            }),
           ),
       );
       const keys: S3Credentials.ResolvedCredentials = {

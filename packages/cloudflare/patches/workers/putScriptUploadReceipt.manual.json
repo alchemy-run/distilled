@@ -1,0 +1,15 @@
+{
+  "description": "Preserve deployment_id in the PUT /accounts/{account_id}/workers/scripts/{script_name} response. The mirrored response omits the upload's immutable Worker version identifier, so decoding currently drops it. Cloudflare's official deployment client declares deployment_id as string | null and normalizes it into versionId after uploading: https://github.com/cloudflare/workers-sdk/blob/56974d49141e72b19b33b74a19c160f734128108/packages/deploy-helpers/src/deploy/deploy.ts#L535-L542 and #L680. This is an uploaded version ID, not a /deployments record ID. Keep it optional for responses without a receipt; the Cloudflare generator makes optional response members nullable.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#PutScriptResponse/members/deployment_id",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Immutable Worker version created by this upload, not a deployment record ID."
+        }
+      }
+    }
+  ]
+}

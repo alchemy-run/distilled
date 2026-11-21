@@ -10,6 +10,7 @@
  */
 
 import type { Request } from "@distilled.cloud/s3/client/request";
+import { isStreamBody } from "@distilled.cloud/s3/util/stream";
 
 /**
  * Apply Glacier-specific customizations to a request.
@@ -151,7 +152,7 @@ export async function computeTreeHash(data: Uint8Array | string): Promise<string
  */
 export async function applyGlacierChecksums(request: Request): Promise<Request> {
   // Skip if body is not present or is a stream
-  if (!request.body || request.body instanceof ReadableStream) {
+  if (!request.body || isStreamBody(request.body)) {
     return request;
   }
 

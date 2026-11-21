@@ -16,9 +16,9 @@
  *
  * @example
  * ```ts
- * import * as Hetzner from "@distilled.cloud/hetzner";
+ * import * as Servers from "@distilled.cloud/hetzner/servers";
  *
- * const { servers } = yield* Hetzner.servers.listServers({
+ * const { servers } = yield* Servers.listServers({
  *   status: ["running"],
  * });
  * ```
@@ -29,4 +29,3 @@ export * as T from "./traits.ts";
 export { HetznerProtocol, type HetznerOpError, type HetznerOpContext } from "./protocol.ts";
 export { paginatePageNumber } from "./pagination.ts";
 export * as Retry from "./retry.ts";
-export * from "./services/index.ts";

@@ -1,0 +1,7 @@
+{
+  "description": "RootQuery._doNotUse and RootMutation._doNotUse are placeholders the EAS schema exposes; they are not operations, and the previous Smithy SDK skipped them too.",
+  "patches": [
+    { "op": "remove", "path": "/types/RootQuery/fields/_doNotUse" },
+    { "op": "remove", "path": "/types/RootMutation/fields/_doNotUse" }
+  ]
+}

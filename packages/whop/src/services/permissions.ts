@@ -28,9 +28,16 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export interface ListPermissionsRequest {
   /** Tag of the resource to check against: an account (`biz_`), product (`prod_`), experience (`exp_`), or app (`app_`). A resource the credential cannot see is reported as granted nothing rather than as an error. */
@@ -321,6 +328,17 @@ export type ListPermissionsResponseDataList = Array<ListPermissionsResponseDataI
 export interface ListPermissionsResponse {
   data: ListPermissionsResponseDataList;
 }
+export interface V1ErrorResponseError {
+  /** Machine-readable reason for this specific refusal, such as `bank_warning_not_acknowledged`. Only present when the error carries one. */
+  code?: string | undefined;
+  /** Human-readable error message. */
+  message: string;
+  /** Machine-readable error code. */
+  type: string;
+}
+export interface V1ErrorResponse {
+  error: V1ErrorResponseError;
+}
 export type ListPermissionsError = BadRequest | WhopOpError;
 /** Check Permissions Lists permission actions and whether the calling credential is granted each one for a resource. Answers for whichever identity authenticated the request -- a user session, an OAuth token, or an account or app API key -- so it never describes who else can reach the resource. */
 export const listPermissions: API.OperationMethod<
@@ -329,8 +347,8 @@ export const listPermissions: API.OperationMethod<
   ListPermissionsError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<ListPermissionsRequest>,
-  output: __S(3, __c0, 3) as any as S.Schema<ListPermissionsResponse>,
+  input: __S(4, __c1, 0) as any as S.Schema<ListPermissionsRequest>,
+  output: __S(7, __c1, 3) as any as S.Schema<ListPermissionsResponse>,
   errors: [BadRequest],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -340,6 +358,24 @@ export const listPermissions: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "V1ErrorResponseError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "V1ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -356,11 +392,11 @@ function __c0(j: number): any {
         }),
       ).annotate({ identifier: "ListPermissionsResponseDataItem" });
     case 2:
-      return S.Array(__S(1, __c0, 1));
+      return S.Array(__S(5, __c1, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2, __c0, 2),
+          data: __S(6, __c1, 2),
         }),
       ).annotate({ identifier: "ListPermissionsResponse" });
   }

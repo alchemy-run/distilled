@@ -1,0 +1,75 @@
+{
+  "description": "Athena: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.athena#GetWorkGroup/errors/-",
+      "value": {
+        "target": "com.amazonaws.athena#WorkGroupNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.athena#UpdateWorkGroup/errors/-",
+      "value": {
+        "target": "com.amazonaws.athena#WorkGroupNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.athena#GetNamedQuery/errors/-",
+      "value": {
+        "target": "com.amazonaws.athena#NamedQueryNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.athena#UpdateNamedQuery/errors/-",
+      "value": {
+        "target": "com.amazonaws.athena#NamedQueryNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.athena#DeleteNamedQuery/errors/-",
+      "value": {
+        "target": "com.amazonaws.athena#NamedQueryNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.athena#GetPreparedStatement/errors/-",
+      "value": {
+        "target": "com.amazonaws.athena#WorkGroupNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.athena#DeletePreparedStatement/errors/-",
+      "value": {
+        "target": "com.amazonaws.athena#WorkGroupNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.athena#GetDataCatalog/errors/-",
+      "value": {
+        "target": "com.amazonaws.athena#DataCatalogNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.athena#UpdateDataCatalog/errors/-",
+      "value": {
+        "target": "com.amazonaws.athena#DataCatalogNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.athena#DeleteDataCatalog/errors/-",
+      "value": {
+        "target": "com.amazonaws.athena#DataCatalogNotFound"
+      }
+    }
+  ]
+}

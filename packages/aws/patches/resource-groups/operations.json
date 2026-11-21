@@ -1,0 +1,19 @@
+{
+  "description": "Resource Groups: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.resourcegroups#ListGroupingStatuses/errors/-",
+      "value": {
+        "target": "com.amazonaws.resourcegroups#NotFoundException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.resourcegroups#CreateGroup/errors/-",
+      "value": {
+        "target": "com.amazonaws.resourcegroups#GroupAlreadyExists"
+      }
+    }
+  ]
+}

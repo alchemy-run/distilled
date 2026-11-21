@@ -264,11 +264,9 @@ export interface DataSource {
   /** The [primary data source](https://support.google.com/merchants/answer/7439058) for local and online products. */
   primaryProductDataSource?: PrimaryProductDataSource | undefined;
 }
-export interface CreateAccountsDataSourcesRequest {
+export interface CreateAccountsDataSourcesRequest extends DataSource {
   /** Required. The account where this data source will be created. Format: `accounts/{account}` */
   parent: string;
-  /** Request body */
-  body?: DataSource | undefined;
 }
 export interface DeleteAccountsDataSourcesRequest {
   /** Required. The name of the data source to delete. Format: `accounts/{account}/dataSources/{datasource}` */
@@ -349,13 +347,11 @@ export interface ListDataSourcesResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
 }
-export interface PatchAccountsDataSourcesRequest {
+export interface PatchAccountsDataSourcesRequest extends Omit<DataSource, "name"> {
   /** Required. Identifier. The name of the data source. Format: `accounts/{account}/dataSources/{datasource}` */
   name: string;
   /** Required. The list of data source fields to be updated. Fields specified in the update mask without a value specified in the body will be deleted from the data source. Providing special "*" value for full data source replacement is not supported. For example, If you insert `updateMask=displayName` in the request, it will only update the `displayName` leaving all other fields untouched. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: DataSource | undefined;
 }
 export type CreateAccountsDataSourcesError =
   | NotFound
@@ -503,11 +499,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(61, __c3, 13).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(61, __c3, 13),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "datasources/v1beta/{+name}",
@@ -521,10 +519,12 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(61, __c3, 13).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(61, __c3, 13),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "datasources/v1beta/{+parent}/dataSources",

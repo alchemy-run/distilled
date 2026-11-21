@@ -10,13 +10,15 @@ import {
   PURE,
   suspendConst,
 } from "./emit.ts";
+import { SPREAD_TRAIT } from "./flatten-payload.ts";
 import { orderIndex, reachableFrom, shapeDeps, topoOrder, type ShapeMap } from "./graph.ts";
 import {
   ADDITIONAL_PROPERTIES_TRAIT,
   DEFAULT_TRAIT,
   memberBases,
-  SERVER_STREAMING_TRAIT,
   smithyWireName,
+  STREAM_WHEN_TRAIT,
+  streamsOutput,
 } from "./members.ts";
 /**
  * The generic smithy→SDK service generator (dev-time only).
@@ -39,6 +41,7 @@ import {
   collectOperations,
   collectOpErrorIds,
   ensureNamedIo,
+  inheritServiceErrors,
   modelNamespace,
   type OpEntry,
 } from "./operations.ts";
@@ -75,10 +78,15 @@ const PAGINATED_TRAIT = "smithy.api#paginated";
  *
  * and the error class is emitted with `.pipe(C.withNotFoundError)`. A model
  * with no `httpError` gets no categories — the same as today.
+ *
+ * A category the status can't say (an AWS 400 that means "not found", a
+ * conflict that means "already exists") goes in {@link ERROR_CATEGORIES_TRAIT}:
+ *
+ *   "traits": { "distilled.errors#categories": ["AlreadyExistsError"] }
  */
 export const errorCategories = (
   traits: Record<string, any> | undefined,
-  /** Categories a provider knows that the traits don't say (AWS's spec file). */
+  /** Categories a provider derives that the traits don't say (AWS's name rules). */
   extra: readonly string[] = [],
 ): string[] => {
   const categories: string[] = [];
@@ -110,13 +118,89 @@ export const errorCategories = (
     add("RetryableError");
     if (retryable?.throttling) add("ThrottlingError");
   }
+  const declared = traits?.[ERROR_CATEGORIES_TRAIT];
+  if (declared !== undefined) {
+    if (!Array.isArray(declared) || declared.some((name) => !ERROR_CATEGORY_NAMES.has(name))) {
+      throw new Error(
+        `${ERROR_CATEGORIES_TRAIT} must list categories from core category.ts (${[...ERROR_CATEGORY_NAMES].join(", ")}), got ${JSON.stringify(declared)}`,
+      );
+    }
+    for (const name of declared) add(name);
+  }
   for (const name of extra) add(name);
   return categories;
 };
 
-/** `["NotFoundError"]` → `C.withNotFoundError`. */
-const categoryPipes = (traits: Record<string, any> | undefined): string[] =>
-  errorCategories(traits).map((name) => `C.with${name}`);
+/**
+ * Operation trait listing the JSON bodies the spec documents for the
+ * operation's error responses, `[{ status, target }]`, as the OpenAPI
+ * converter writes it. An error class's `body` is typed with the bodies its
+ * operations document for the statuses it matches, or the raw text of a
+ * non-JSON response.
+ */
+export const ERROR_BODIES_TRAIT = "distilled.errors#bodies";
+
+/** The HTTP statuses an error class stands for: its `httpError`, then its matchers' statuses. */
+const errorStatuses = (
+  traits: Record<string, any> | undefined,
+  matchersTrait?: string,
+): number[] => {
+  const out: number[] = [];
+  const add = (s: unknown) => {
+    if (typeof s === "number" && !out.includes(s)) out.push(s);
+  };
+  add(traits?.["smithy.api#httpError"]);
+  if (matchersTrait) for (const m of traits?.[matchersTrait] ?? []) add(m?.status);
+  return out;
+};
+
+/** Error categories a model states that its error traits can't (see {@link errorCategories}). */
+export const ERROR_CATEGORIES_TRAIT = "distilled.errors#categories";
+
+/** The categories core `category.ts` has a `with<Name>` for. */
+const ERROR_CATEGORY_NAMES = new Set([
+  "AuthError",
+  "BadRequestError",
+  "ConflictError",
+  "NotFoundError",
+  "QuotaError",
+  "ServerError",
+  "ThrottlingError",
+  "NetworkError",
+  "ParseError",
+  "ConfigurationError",
+  "TimeoutError",
+  "RetryableError",
+  "LockedError",
+  "AbortedError",
+  "AlreadyExistsError",
+  "DependencyViolationError",
+]);
+
+/** Categories whose errors the retry policy may retry, so they carry the server's hint. */
+const RETRY_HINT_CATEGORIES = new Set(["RetryableError", "ThrottlingError", "ServerError"]);
+
+/**
+ * The response fields core fills on an error (`body`, `headers`, and the
+ * `retryAfter` hint on errors the retry policy may retry) that `fields` does
+ * not already declare.
+ */
+const responseFieldLines = (
+  fields: readonly string[],
+  categories: readonly string[],
+  body: string = "S.Unknown",
+): string[] => {
+  const declared = new Set(fields.map((line) => line.match(/^\s*"?([\w$]+)"?\??:/)?.[1]));
+  const out: string[] = [];
+  if (!declared.has("body")) out.push(`  body: ${PURE}S.optional(${body}),`);
+  if (!declared.has("headers")) {
+    out.push(`  headers: ${PURE}S.optional(${PURE}S.Record(S.String, S.String)),`);
+  }
+  if (!declared.has("retryAfter") && categories.some((c) => RETRY_HINT_CATEGORIES.has(c))) {
+    out.push(`  retryAfter: ${PURE}S.optional(S.Duration),`);
+  }
+  return out;
+};
 
 /** A member's resolved binding. The four generic kinds plus provider extras. */
 export type MemberBinding = "label" | "query" | "header" | "body" | (string & {});
@@ -189,7 +273,52 @@ export interface OperationEmit {
    * spec's own `operation` emitter must include them.
    */
   readonly telemetry: readonly string[];
+  /**
+   * The op config line for `distilled.retry#policy` (`retryPolicy: {…}`,
+   * the service's trait with the operation's on top); undefined when
+   * neither sets one. A spec's own `operation` emitter must include it.
+   */
+  readonly retryPolicy?: string;
 }
+
+/** Retry numbers for a service or an operation (see core `RetryOverride`). */
+export const RETRY_POLICY_TRAIT = "distilled.retry#policy";
+const RETRY_POLICY_KEYS = [
+  "maxAttempts",
+  "baseMs",
+  "throttlingBaseMs",
+  "capMs",
+  "factor",
+  "longPoll",
+] as const;
+
+/** The trait's value, checked: known keys, whole numbers, `factor` ≥ 1, `longPoll` a boolean. */
+const retryPolicyOf = (value: unknown, where: string): Record<string, number | boolean> => {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) {
+    throw new Error(`${where}: ${RETRY_POLICY_TRAIT} must be an object`);
+  }
+  for (const [key, n] of Object.entries(value)) {
+    if (!(RETRY_POLICY_KEYS as readonly string[]).includes(key)) {
+      throw new Error(`${where}: ${RETRY_POLICY_TRAIT} has unknown key ${key}`);
+    }
+    if (key === "longPoll") {
+      if (typeof n !== "boolean") {
+        throw new Error(`${where}: ${RETRY_POLICY_TRAIT}.longPoll must be a boolean`);
+      }
+      continue;
+    }
+    if (key === "factor") {
+      if (typeof n !== "number" || !(n >= 1)) {
+        throw new Error(`${where}: ${RETRY_POLICY_TRAIT}.factor must be a number of at least 1`);
+      }
+      continue;
+    }
+    if (!Number.isInteger(n) || (n as number) < (key === "maxAttempts" ? 1 : 0)) {
+      throw new Error(`${where}: ${RETRY_POLICY_TRAIT}.${key} must be a whole number`);
+    }
+  }
+  return value as Record<string, number | boolean>;
+};
 
 export interface SdkSpec {
   /** Namespace fallback for models with no operations. Default `"smithy.unknown"`. */
@@ -367,6 +496,12 @@ export interface SdkSpec {
    * `"primitive"`: emit unwrapped unions of primitive or enum values.
    */
   readonly unionStyle?: "opaque-cases" | "untagged" | "primitive";
+  /**
+   * Member trait whose value is the member's own key dictionary (also listed
+   * in `memberTraitPipes`). An opaque-cases union cannot carry member pipes,
+   * so each case's dictionaries go on `T.UnionCases` instead.
+   */
+  readonly memberKeyDictionaryTrait?: string;
   /** Full override of union emission. */
   readonly union?: (ctx: {
     readonly name: string;
@@ -402,6 +537,14 @@ export interface SdkSpec {
     readonly field?: (name: string, target: string) => string;
     /** Optional wrapper (e.g. matcher application) from the shape's traits. */
     readonly wrap?: (traits: Record<string, any>) => ((cls: string) => string) | undefined;
+    /**
+     * Declare the fields core fills on every error built from a response:
+     * `body`, `headers`, and `retryAfter` on retryable, throttling and
+     * server errors (see `responseErrorFields` in core `protocol-http`).
+     * Default `true`. Set `false` only for a protocol that builds its errors
+     * without core's `matchTypedError`, so the fields would stay empty.
+     */
+    readonly responseFields?: boolean;
   };
 
   /**
@@ -479,6 +622,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
   // their string spelling (see boolean-string-enums.ts).
   booleanStringEnums(model);
   const shapes: ShapeMap = model.shapes;
+  inheritServiceErrors(shapes);
   const pure = spec.pure ?? PURE;
   const prelude = spec.prelude ?? JSON_PRELUDE;
   const tsPrelude = spec.tsPrelude ?? TS_JSON_PRELUDE;
@@ -511,7 +655,40 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
   if (selected.length === 0 && extraRoots.length === 0) return { code: "", operations: 0 };
 
   // 2. Reachability + dependencies-first order (cycles suspend at refs).
-  const roots = [...selected.flatMap((op) => [op.def.__input, op.def.__output]), ...extraRoots];
+  // An operation that streams only when its input asks also roots its frame.
+  const streamWhenOf = (
+    op: OpEntry,
+  ): { input: Record<string, unknown>; items: string } | undefined =>
+    op.def.traits?.[STREAM_WHEN_TRAIT];
+  // Each error's documented body shapes: what the operations that list it
+  // document for the statuses it matches.
+  const errorBodies = new Map<string, string[]>();
+  for (const op of selected) {
+    const documented = (op.def.traits?.[ERROR_BODIES_TRAIT] ?? []) as Array<{
+      status: number;
+      target: string;
+    }>;
+    if (documented.length === 0) continue;
+    for (const e of op.def.errors ?? []) {
+      const statuses = errorStatuses(shapes[e.target]?.traits, spec.errorMatchersTrait);
+      for (const { status, target } of documented) {
+        if (!statuses.includes(status) || !shapes[target]) continue;
+        const list = errorBodies.get(e.target) ?? [];
+        if (!list.includes(target)) list.push(target);
+        errorBodies.set(e.target, list);
+      }
+    }
+  }
+  const errorBodyTargets = (id: string): string[] => errorBodies.get(id) ?? [];
+  const roots = [
+    ...selected.flatMap((op) => [
+      op.def.__input,
+      op.def.__output,
+      ...(streamWhenOf(op) ? [streamWhenOf(op)!.items] : []),
+    ]),
+    ...collectOpErrorIds(selected, shapes).flatMap(errorBodyTargets),
+    ...extraRoots,
+  ];
   const reachable = reachableFrom(shapes, roots, shapeDeps);
   const order = topoOrder(shapes, reachable, shapeDeps);
   const indexOf = orderIndex(order);
@@ -854,13 +1031,32 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
             errorField("code", "smithy.api#Integer"),
             errorField("message", "smithy.api#String"),
           ]);
+    const categoryNames = errorCategories(d.traits);
+    const members: string[] = [];
+    if (spec.errors?.responseFields ?? true) {
+      // A documented body is typed, with the raw text of a non-JSON response
+      // (an HTML error page from a proxy) as the other case. The schema is
+      // for the runtime (core maps the body's keys by it); the class body
+      // states the type, since generated schemas are typed `any`.
+      const bodies = errorBodyTargets(id);
+      const body = bodies.length
+        ? `${PURE}S.Union([${bodies
+            .map((t) => `S.suspend(() => ${ref(t, Number.MAX_SAFE_INTEGER)})`)
+            .join(", ")}, S.String])`
+        : undefined;
+      fields.push(...responseFieldLines(fields, categoryNames, body));
+      if (body !== undefined && !(d.members && "body" in d.members)) {
+        members.push(`  declare readonly body?: ${bodies.map(tsRef).join(" | ")} | string;`);
+      }
+    }
     const matchers = spec.errorMatchersTrait ? d.traits?.[spec.errorMatchersTrait] : undefined;
-    const categories = categoryPipes(d.traits);
+    const categories = categoryNames.map((n) => `C.with${n}`);
     if (categories.length) usesCategories = true;
     out.push(
       errorClass({
         name,
         fields,
+        members,
         pipes: categories.length ? `.pipe(${categories.join(", ")})` : undefined,
         wrap:
           spec.errors?.wrap?.(d.traits ?? {}) ??
@@ -921,7 +1117,8 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
             ? [`T.KeyDictionary(KEY_DICTIONARY)`]
             : []),
         ];
-        out.push(`export type ${name} = ${tsRef(m.target)};`);
+        const nullable = spec.nullableTrait !== undefined && spec.nullableTrait in (m.traits ?? {});
+        out.push(`export type ${name} = ${tsRef(m.target)}${nullable ? " | null" : ""};`);
         out.push(
           suspendConst({
             name,
@@ -929,7 +1126,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
             multiline: true,
             annotateIdentifier: true,
             castTo: `S.${spec.schemaType ?? "Schema"}<${name}>`,
-            expr: `${ref(m.target, i)}.pipe(${rootPipes.join(", ")})`,
+            expr: `${nullable ? `S.NullOr(${ref(m.target, i)})` : ref(m.target, i)}.pipe(${rootPipes.join(", ")})`,
           }),
         );
         return;
@@ -937,9 +1134,13 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
 
       // Paginated outputs always deliver their items member — required.
       const itemsRoot = paginatedItemsRoot.get(id);
-      const infos = memberInfos(d, id).map((info) =>
+      const allInfos = memberInfos(d, id).map((info) =>
         info.tsName === itemsRoot ? { ...info, required: true } : info,
       );
+      // An inlined request body (see ./flatten-payload.ts): the shape
+      // extends the body's struct and interface instead of copying them.
+      const spread = allInfos.find((info) => SPREAD_TRAIT in info.traits);
+      const infos = spread ? allInfos.filter((info) => info !== spread) : allInfos;
       const fields = infos.flatMap((info) =>
         interfaceField({
           name: info.tsName,
@@ -962,7 +1163,11 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
       // to accept every declared member's type too, so it stays `unknown`.
       const open = ADDITIONAL_PROPERTIES_TRAIT in (d.traits ?? {});
       if (open) fields.push(`  [key: string]: unknown;`);
-      const struct = open ? `S.StructWithRest(${closed}, [S.Record(S.String, S.Unknown)])` : closed;
+      const struct = spread
+        ? `S.Extend(${ref(spread.target, i)}, ${closed})`
+        : open
+          ? `S.StructWithRest(${closed}, [S.Record(S.String, S.Unknown)])`
+          : closed;
       const structCtx = {
         id,
         isOpIo: opIoShapes.has(id),
@@ -998,7 +1203,24 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         if (!structCtx.isOpIo) {
           structBodies.set(bodyKey, { id, name });
         }
-        out.push(interfaceDecl(name, fields));
+        if (spread) {
+          // Body fields a path or query member shadows are left out.
+          const own = new Set(infos.map((info) => info.tsName));
+          const shadowed = memberInfos(shapes[spread.target] ?? {})
+            .map((m) => m.tsName)
+            .filter((n) => own.has(n));
+          const base = tsRefAt(spread.target, id);
+          const parent = shadowed.length
+            ? `Omit<${base}, ${shadowed.map((n) => JSON.stringify(n)).join(" | ")}>`
+            : base;
+          out.push(
+            fields.length
+              ? `export interface ${name} extends ${parent} {\n${fields.join("\n")}\n}`
+              : `export interface ${name} extends ${parent} {}`,
+          );
+        } else {
+          out.push(interfaceDecl(name, fields));
+        }
         out.push(
           suspendConst({
             name,
@@ -1081,9 +1303,26 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         );
       } else if (spec.unionStyle === "opaque-cases") {
         const disc = unionDiscriminator(caseTargets);
+        const dictTrait = spec.memberKeyDictionaryTrait;
+        const dictionaries = caseTargets.map((t: string) => {
+          const cd = shapes[t];
+          return dictTrait && cd?.type === "structure"
+            ? Object.fromEntries(
+                memberInfos(cd)
+                  .filter((mi) => mi.traits[dictTrait] !== undefined)
+                  .map((mi) => [mi.tsName, mi.traits[dictTrait]]),
+              )
+            : {};
+        });
+        const hasDictionaries = dictionaries.some((d) => Object.keys(d).length > 0);
+        const args = [
+          JSON.stringify(caseKeys),
+          ...(disc ? [JSON.stringify(disc)] : hasDictionaries ? ["undefined"] : []),
+          ...(hasDictionaries ? [JSON.stringify(dictionaries)] : []),
+        ];
         out.push(
           `export type ${name} = ${caseTargets.map((t) => tsRefAt(t, id)).join(" | ") || "unknown"};`,
-          `export const ${name} = ${pure}S.Unknown.pipe(T.UnionCases(${JSON.stringify(caseKeys)}${disc ? `, ${JSON.stringify(disc)}` : ""}));\n`,
+          `export const ${name} = ${pure}S.Unknown.pipe(T.UnionCases(${args.join(", ")}));\n`,
         );
       } else {
         throw new Error(`no union emission configured for shape ${id} — set unionStyle or union`);
@@ -1159,16 +1398,43 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
       const overrides = decl.overrides?.(ctx);
       const contextType = overrides?.contextType ?? decl.contextType;
       const paginated = ctx.pagination !== undefined;
-      const streaming = !paginated && SERVER_STREAMING_TRAIT in (ctx.op.def.traits ?? {});
+      const streaming = !paginated && streamsOutput(ctx.op.def.traits);
       if (streaming && !spec.streams) {
         throw new Error(
           `${ctx.op.id}: a server-streaming operation needs a protocol that streams; ` +
             "set `streams: true` on the SdkSpec only if its protocol implements `stream`",
         );
       }
+      const streamWhen = streaming ? streamWhenOf(ctx.op) : undefined;
+      const streamLines: string[] = [];
+      if (streamWhen !== undefined) {
+        if (shapes[streamWhen.items] === undefined) {
+          throw new Error(
+            `${ctx.op.id}: ${STREAM_WHEN_TRAIT} items ${streamWhen.items} is not a shape`,
+          );
+        }
+        const inputMembers = memberInfos(shapes[ctx.op.def.__input] ?? {});
+        const fixed = Object.fromEntries(
+          Object.entries(streamWhen.input).map(([name, value]) => {
+            const member = inputMembers.find((m) => m.name === name);
+            if (member === undefined) {
+              throw new Error(
+                `${ctx.op.id}: ${STREAM_WHEN_TRAIT} input member ${name} is not in the input`,
+              );
+            }
+            return [member.tsName, value];
+          }),
+        );
+        streamLines.push(
+          `items: ${ref(streamWhen.items, indexOf.size)}`,
+          `streamInput: ${JSON.stringify(fixed)}`,
+        );
+      }
       const itemTsType = paginated
         ? paginatedItemTsType(ctx.op.def.__output, paginatedItemsPath.get(ctx.op.id) ?? "")
-        : undefined;
+        : streamWhen !== undefined
+          ? tsRef(streamWhen.items)
+          : undefined;
       const typeAnnotation =
         overrides?.typeAnnotation ??
         `API.${paginated ? "PaginatedOperationMethod" : streaming ? "StreamingOperationMethod" : "OperationMethod"}<\n` +
@@ -1189,7 +1455,9 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         `  protocol: ${protocol},\n` +
         (decl.retry ? `  retry: ${decl.retry},\n` : "") +
         (decl.extraConfig?.(ctx) ?? []).map((l) => `  ${l},\n`).join("") +
+        streamLines.map((l) => `  ${l},\n`).join("") +
         ctx.telemetry.map((l) => `  ${l},\n`).join("") +
+        (ctx.retryPolicy !== undefined ? `  ${ctx.retryPolicy},\n` : "") +
         (paginated ? `  pagination: ${JSON.stringify(ctx.pagination)} as const,\n` : "") +
         `}`;
       return [
@@ -1456,6 +1724,20 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
     ];
   };
 
+  const serviceRetryPolicy = (() => {
+    const svc = Object.values(shapes).find((d: any) => d?.type === "service") as any;
+    const trait = svc?.traits?.[RETRY_POLICY_TRAIT];
+    return trait === undefined ? undefined : retryPolicyOf(trait, "service");
+  })();
+  const retryPolicyLine = (op: { id: string; def: any }): string | undefined => {
+    const own = op.def.traits?.[RETRY_POLICY_TRAIT];
+    const merged = {
+      ...serviceRetryPolicy,
+      ...(own === undefined ? {} : retryPolicyOf(own, op.id)),
+    };
+    return Object.keys(merged).length === 0 ? undefined : `retryPolicy: ${JSON.stringify(merged)}`;
+  };
+
   for (const op of selected) {
     const opName = local(op.id);
     const errNames = ((op.def.errors ?? []) as Array<{ target: string }>)
@@ -1474,6 +1756,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         doc: oneLine(op.def.traits?.["smithy.api#documentation"]),
         pagination: op.def.__pagination,
         telemetry: telemetryLines(op),
+        retryPolicy: retryPolicyLine(op),
       }),
     );
   }

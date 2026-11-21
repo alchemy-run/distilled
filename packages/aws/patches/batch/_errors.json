@@ -1,0 +1,187 @@
+{
+  "description": "Batch: Error shapes the model does not declare, for the errors operations.json list (a shape with aws.codegen#synthetic matches its base wire error by message); categories (distilled.errors#categories) the error traits do not express.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.batch#ComputeEnvironmentNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "ClientException",
+            "message": {
+              "matches": "compute-environment/.* does not exist"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.amazonaws.batch#ClientException/members",
+      "path": "/shapes/com.amazonaws.batch#ComputeEnvironmentNotFound/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.batch#ComputeEnvironmentBeingModified",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "ClientException",
+            "message": {
+              "includes": "is being modified"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.amazonaws.batch#ClientException/members",
+      "path": "/shapes/com.amazonaws.batch#ComputeEnvironmentBeingModified/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.batch#ComputeEnvironmentInUse",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "ClientException",
+            "message": {
+              "includes": "found existing JobQueue relationship"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.amazonaws.batch#ClientException/members",
+      "path": "/shapes/com.amazonaws.batch#ComputeEnvironmentInUse/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.batch#ComputeEnvironmentNotValid",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "ClientException",
+            "message": {
+              "matches": "must be (created and )?valid before attaching"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.amazonaws.batch#ClientException/members",
+      "path": "/shapes/com.amazonaws.batch#ComputeEnvironmentNotValid/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.batch#JobQueueAlreadyExists",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "ClientException",
+            "message": {
+              "includes": "already exists"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.amazonaws.batch#ClientException/members",
+      "path": "/shapes/com.amazonaws.batch#JobQueueAlreadyExists/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.batch#JobQueueNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "ClientException",
+            "message": {
+              "matches": "job-queue/.* does not exist"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.amazonaws.batch#ClientException/members",
+      "path": "/shapes/com.amazonaws.batch#JobQueueNotFound/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.batch#JobQueueBeingModified",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "ClientException",
+            "message": {
+              "includes": "is being modified"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.amazonaws.batch#ClientException/members",
+      "path": "/shapes/com.amazonaws.batch#JobQueueBeingModified/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.batch#ComputeEnvironmentNotFound/traits/distilled.errors#categories",
+      "value": ["NotFoundError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.batch#ComputeEnvironmentBeingModified/traits/distilled.errors#categories",
+      "value": ["ConflictError", "RetryableError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.batch#ComputeEnvironmentInUse/traits/distilled.errors#categories",
+      "value": ["DependencyViolationError", "RetryableError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.batch#ComputeEnvironmentNotValid/traits/distilled.errors#categories",
+      "value": ["DependencyViolationError", "RetryableError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.batch#JobQueueNotFound/traits/distilled.errors#categories",
+      "value": ["NotFoundError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.batch#JobQueueAlreadyExists/traits/distilled.errors#categories",
+      "value": ["AlreadyExistsError", "ConflictError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.batch#JobQueueBeingModified/traits/distilled.errors#categories",
+      "value": ["ConflictError", "RetryableError"]
+    }
+  ]
+}

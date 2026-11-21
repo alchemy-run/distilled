@@ -520,28 +520,30 @@ export interface EventHandler {
 }
 /** Event handler of a hub. */
 export type WebPubSubHubPropertiesEventHandlersList = Array<EventHandler>;
-export type EventListenerFilterType = "EventName";
-/** A base class for event filter which determines whether an event should be sent to an event listener. */
-export interface EventListenerFilter {
-  type: EventListenerFilterType | (string & {});
-  /** EventNameFilter: system events to forward (`connected`, `disconnected`). */
-  systemEvents?: EventHandlerSystemEventsList | undefined;
-  /** EventNameFilter: matching pattern for user event names (`*`, `event1,event2`, or a single name). */
+export type EventNameFilterType = "EventName";
+/** Gets or sets a list of system events. Supported events: "connected" and "disconnected". Blocking event "connect" is not supported because it requires a response. */
+export type EventNameFilterSystemEventsList = Array<string>;
+/** Filter events by their name. */
+export interface EventNameFilter {
+  type: EventNameFilterType | (string & {});
+  /** Gets or sets a list of system events. Supported events: "connected" and "disconnected". Blocking event "connect" is not supported because it requires a response. */
+  systemEvents?: EventNameFilterSystemEventsList | undefined;
+  /** Gets or sets a matching pattern for event names. There are 3 kinds of patterns supported: 1. "*", it matches any event name 2. Combine multiple events with ",", for example "event1,event2", it matches events "event1" and "event2" 3. A single event name, for example, "event1", it matches "event1" */
   userEventPattern?: string | undefined;
 }
-export type EventListenerEndpointType = "EventHub";
-/** An endpoint specifying where Web PubSub should send events to. */
-export interface EventListenerEndpoint {
-  type: EventListenerEndpointType | (string & {});
-  /** EventHubEndpoint: fully qualified Event Hubs namespace, e.g. `my.servicebus.windows.net`. */
-  fullyQualifiedNamespace?: string | undefined;
-  /** EventHubEndpoint: name of the event hub. */
-  eventHubName?: string | undefined;
+export type EventHubEndpointType = "EventHub";
+/** An Event Hub endpoint. The managed identity of Web PubSub service must be enabled, and the identity should have the "Azure Event Hubs Data sender" role to access Event Hub. */
+export interface EventHubEndpoint {
+  type: EventHubEndpointType | (string & {});
+  /** The fully qualified namespace name of the Event Hub resource. For example, "example.servicebus.windows.net". */
+  fullyQualifiedNamespace: string;
+  /** The name of the Event Hub. */
+  eventHubName: string;
 }
 /** A setting defines which kinds of events should be sent to which endpoint. */
 export interface EventListener {
-  filter: EventListenerFilter;
-  endpoint: EventListenerEndpoint;
+  filter: EventNameFilter;
+  endpoint: EventHubEndpoint;
 }
 /** Event listener settings for forwarding your client events to listeners. Event listener is transparent to Web PubSub clients, and it doesn't return any result to clients nor interrupt the lifetime of clients. One event can be sent to multiple listeners, as long as it matches the filters in those listeners. The order of the array elements doesn't matter. Maximum count of event listeners among all hubs is 10. */
 export type WebPubSubHubPropertiesEventListenersList = Array<EventListener>;
@@ -2451,15 +2453,15 @@ function __c6(j: number): any {
           systemEvents: S.optional(__S(1824, __c57, 0)),
           userEventPattern: S.optional(S.String),
         }),
-      ).annotate({ identifier: "EventListenerFilter" });
+      ).annotate({ identifier: "EventNameFilter" });
     case 5:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          fullyQualifiedNamespace: S.optional(S.String),
-          eventHubName: S.optional(S.String),
+          fullyQualifiedNamespace: S.String,
+          eventHubName: S.String,
         }),
-      ).annotate({ identifier: "EventListenerEndpoint" });
+      ).annotate({ identifier: "EventHubEndpoint" });
     case 6:
       return S.suspend(() =>
         S.Struct({

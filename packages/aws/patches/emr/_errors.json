@@ -1,0 +1,203 @@
+{
+  "description": "EMR: Error shapes the model does not declare, for the errors operations.json list (a shape with aws.codegen#synthetic matches its base wire error by message); categories (distilled.errors#categories) the error traits do not express.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emr#ClusterNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "InvalidRequestException",
+            "message": {
+              "matches": "^Cluster id .* is not valid"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.amazonaws.emr#InvalidRequestException/members",
+      "path": "/shapes/com.amazonaws.emr#ClusterNotFound/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emr#JobFlowNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "ValidationException",
+            "message": {
+              "includes": "Specified job flow ID not valid"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emr#SecurityConfigurationAlreadyExists",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "InvalidRequestException",
+            "message": {
+              "matches": "^SecurityConfiguration with name .* already exists"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.amazonaws.emr#InvalidRequestException/members",
+      "path": "/shapes/com.amazonaws.emr#SecurityConfigurationAlreadyExists/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emr#SecurityConfigurationNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "InvalidRequestException",
+            "message": {
+              "matches": "^Security configuration with name .* does not exist"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.amazonaws.emr#InvalidRequestException/members",
+      "path": "/shapes/com.amazonaws.emr#SecurityConfigurationNotFound/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emr#StudioServiceRoleNotAssumable",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "InvalidRequestException",
+            "message": {
+              "includes": "does not have permissions to assume role"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.amazonaws.emr#InvalidRequestException/members",
+      "path": "/shapes/com.amazonaws.emr#StudioServiceRoleNotAssumable/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emr#StudioServiceRoleMissingS3Access",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "InvalidRequestException",
+            "message": {
+              "includes": "does not have permission to access the 'S3 Location'"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.amazonaws.emr#InvalidRequestException/members",
+      "path": "/shapes/com.amazonaws.emr#StudioServiceRoleMissingS3Access/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emr#StudioNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "InvalidRequestException",
+            "message": {
+              "includes": "Studio does not exist"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.amazonaws.emr#InvalidRequestException/members",
+      "path": "/shapes/com.amazonaws.emr#StudioNotFound/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emr#EmrInstanceProfileNotReady",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "ValidationException",
+            "message": {
+              "includes": "Invalid InstanceProfile"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emr#ClusterNotFound/traits/distilled.errors#categories",
+      "value": ["NotFoundError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emr#SecurityConfigurationNotFound/traits/distilled.errors#categories",
+      "value": ["NotFoundError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emr#SecurityConfigurationAlreadyExists/traits/distilled.errors#categories",
+      "value": ["AlreadyExistsError", "ConflictError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emr#StudioNotFound/traits/distilled.errors#categories",
+      "value": ["NotFoundError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emr#StudioServiceRoleNotAssumable/traits/distilled.errors#categories",
+      "value": ["RetryableError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emr#StudioServiceRoleMissingS3Access/traits/distilled.errors#categories",
+      "value": ["RetryableError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emr#JobFlowNotFound/traits/distilled.errors#categories",
+      "value": ["NotFoundError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.emr#EmrInstanceProfileNotReady/traits/distilled.errors#categories",
+      "value": ["RetryableError"]
+    }
+  ]
+}

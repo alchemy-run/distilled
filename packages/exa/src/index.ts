@@ -14,8 +14,9 @@
  * import { Effect, Layer } from "effect";
  * import * as FetchHttpClient from "effect/http/FetchHttpClient";
  * import * as Exa from "@distilled.cloud/exa";
+ * import * as Api from "@distilled.cloud/exa/api";
  *
- * const program = Exa.api.search({ query: "Effect TypeScript", numResults: 3 });
+ * const program = Api.search({ query: "Effect TypeScript", numResults: 3 });
  *
  * program.pipe(
  *   Effect.provide(Layer.mergeAll(FetchHttpClient.layer, Exa.CredentialsFromEnv, Exa.ExaProtocol)),
@@ -34,4 +35,3 @@ export {
 } from "./protocol.ts";
 export { paginateCursor } from "./pagination.ts";
 export * as Retry from "./retry.ts";
-export * from "./services/index.ts";

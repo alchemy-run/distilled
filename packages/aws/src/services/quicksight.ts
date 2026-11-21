@@ -111,7 +111,7 @@ export class ConcurrentUpdatingException
       RequestId: /*@__PURE__*/ S.optional(S.String),
     },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
@@ -156,13 +156,13 @@ export class InternalFailureException
       RequestId: /*@__PURE__*/ S.optional(S.String),
     },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
     "InternalServerException",
     { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InvalidDataSetParameterValueException
   extends /*@__PURE__*/ S.TaggedError<InvalidDataSetParameterValueException>()(
     "InvalidDataSetParameterValueException",
@@ -219,7 +219,7 @@ export class LimitExceededException
       RequestId: /*@__PURE__*/ S.optional(S.String),
     },
     /*@__PURE__*/ T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+  ).pipe(C.withConflictError, C.withThrottlingError, C.withRetryableError) {}
 export class PreconditionNotMetException
   extends /*@__PURE__*/ S.TaggedError<PreconditionNotMetException>()(
     "PreconditionNotMetException",
@@ -288,7 +288,7 @@ export class ResourceUnavailableException
       RequestId: /*@__PURE__*/ S.optional(S.String),
     },
     /*@__PURE__*/ T.HttpError(503),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class SessionLifetimeInMinutesInvalidException
   extends /*@__PURE__*/ S.TaggedError<SessionLifetimeInMinutesInvalidException>()(
     "SessionLifetimeInMinutesInvalidException",
@@ -306,7 +306,7 @@ export class ThrottlingException
       RequestId: /*@__PURE__*/ S.optional(S.String),
     },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class UnsupportedPricingPlanException
   extends /*@__PURE__*/ S.TaggedError<UnsupportedPricingPlanException>()(
     "UnsupportedPricingPlanException",

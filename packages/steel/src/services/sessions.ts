@@ -32,51 +32,101 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)),
+          /*@__PURE__*/ S.suspend(() => __S(32, __c2, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(17, __c1, 1)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?:
+    | ErrorResponse
+    | ReleaseSessionsResponse
+    | RunCommandsErrorResponse
+    | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class Gone
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Gone>()("Gone", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(17, __c1, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 410 }],
-  ) {}
+  )
+{
+  declare readonly body?: RunCommandsErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(17, __c1, 1)),
+          /*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: RunCommandsErrorResponse | ErrorResponse | string;
+}
 
 /** The `profileId` names no profile in this organization (`profile_not_found`); profiles expire after a TTL. */
 export class ProfileNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<ProfileNotFound>()("ProfileNotFound", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404, body: { "/code": "profile_not_found" } }],
   ) {}
@@ -86,18 +136,36 @@ export class SessionEnded
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<SessionEnded>()("SessionEnded", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(17, __c1, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 410, body: { "/error/code": "session_ended" } }],
-  ) {}
+  )
+{
+  declare readonly body?: RunCommandsErrorResponse | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(17, __c1, 1)),
+          /*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  ) {}
+  )
+{
+  declare readonly body?: RunCommandsErrorResponse | ErrorResponse | string;
+}
 
 export interface CancelCommandExecutionRequest {
   /** Session ID */
@@ -3393,6 +3461,36 @@ export interface UpdateSessionMetadataRequest {
   /** Metadata keys to change, up to 100 per update. Keys follow the same rules as metadata keys. Send a string, finite number or boolean to set a key, or null to remove it; keys you leave out are kept. The merged metadata must stay within 50 keys and 8192 UTF-8 JSON bytes. */
   metadata: UpdateSessionMetadataRequestMetadataMap;
 }
+export interface ErrorResponseContextItem {
+  keyword: string;
+  message: string;
+  params: unknown;
+}
+export type ErrorResponseContextList = Array<ErrorResponseContextItem>;
+/** An error response from the API */
+export interface ErrorResponse {
+  /** Stable machine-readable reason, e.g. 'budget_exceeded' or 'profile_not_ready'. Branch on this instead of parsing the message. */
+  code?: string | undefined;
+  context?: ErrorResponseContextList | undefined;
+  error?: string | undefined;
+  linkToDocs?: string | undefined;
+  message: string;
+  /** The request field that caused the error, if any. */
+  param?: string | undefined;
+  /** Seconds to wait before retrying. Also sent as the Retry-After header. */
+  retryAfterSeconds?: number | undefined;
+  /** Whether the same request can succeed later without changes. False means fix the request or the account first. */
+  retryable?: boolean | undefined;
+}
+export interface RunCommandsErrorResponseError {
+  /** Error code, such as session_ended or queue_full. */
+  code: string;
+  message: string;
+}
+export interface RunCommandsErrorResponse {
+  error: RunCommandsErrorResponseError;
+  [key: string]: unknown;
+}
 export type CancelCommandExecutionError =
   | Forbidden
   | NotFound
@@ -3407,8 +3505,8 @@ export const cancelCommandExecution: API.OperationMethod<
   CancelCommandExecutionError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<CancelCommandExecutionRequest>,
-  output: __S(358, __c22, 6) as any as S.Schema<RunCommandsResponse>,
+  input: __S(368, __c23, 0) as any as S.Schema<CancelCommandExecutionRequest>,
+  output: __S(390, __c24, 6) as any as S.Schema<RunCommandsResponse>,
   errors: [Forbidden, NotFound, Gone, UnprocessableEntity, SessionEnded, UnknownSteelError],
   protocol: SteelProtocol,
   retry: Retry.Retry,
@@ -3431,8 +3529,8 @@ export const createSession: API.OperationMethod<
   CreateSessionError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(370, __c23, 2) as any as S.Schema<CreateSessionRequest>,
-  output: __S(422, __c26, 6) as any as S.Schema<SessionResponse>,
+  input: __S(402, __c25, 2) as any as S.Schema<CreateSessionRequest>,
+  output: __S(454, __c28, 6) as any as S.Schema<SessionResponse>,
   errors: [
     BadRequest,
     Forbidden,
@@ -3456,8 +3554,8 @@ export const executeComputerAction: API.OperationMethod<
   ExecuteComputerActionError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<ExecuteComputerActionRequest>,
-  output: __S(1, __c0, 1) as any as S.Schema<ComputerActionResponse>,
+  input: __S(48, __c3, 0) as any as S.Schema<ExecuteComputerActionRequest>,
+  output: __S(49, __c3, 1) as any as S.Schema<ComputerActionResponse>,
   errors: [BadRequest, UnknownSteelError],
   protocol: SteelProtocol,
   retry: Retry.Retry,
@@ -3479,8 +3577,8 @@ export const getCommandExecution: API.OperationMethod<
   GetCommandExecutionError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c1, 0) as any as S.Schema<GetCommandExecutionRequest>,
-  output: __S(358, __c22, 6) as any as S.Schema<RunCommandsResponse>,
+  input: __S(64, __c4, 0) as any as S.Schema<GetCommandExecutionRequest>,
+  output: __S(390, __c24, 6) as any as S.Schema<RunCommandsResponse>,
   errors: [Forbidden, NotFound, Gone, UnprocessableEntity, SessionEnded, UnknownSteelError],
   protocol: SteelProtocol,
   retry: Retry.Retry,
@@ -3496,8 +3594,8 @@ export const getSession: API.OperationMethod<
   GetSessionError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<GetSessionRequest>,
-  output: __S(422, __c26, 6) as any as S.Schema<SessionResponse>,
+  input: __S(80, __c5, 0) as any as S.Schema<GetSessionRequest>,
+  output: __S(454, __c28, 6) as any as S.Schema<SessionResponse>,
   errors: [BadRequest, NotFound, UnknownSteelError],
   protocol: SteelProtocol,
   retry: Retry.Retry,
@@ -3513,8 +3611,8 @@ export const getSessionAgentLogs: API.OperationMethod<
   GetSessionAgentLogsError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<GetSessionAgentLogsRequest>,
-  output: __S(66, __c4, 2) as any as S.Schema<GetSessionAgentLogsResponse>,
+  input: __S(96, __c6, 0) as any as S.Schema<GetSessionAgentLogsRequest>,
+  output: __S(114, __c7, 2) as any as S.Schema<GetSessionAgentLogsResponse>,
   errors: [BadRequest, NotFound, UnknownSteelError],
   protocol: SteelProtocol,
   retry: Retry.Retry,
@@ -3530,8 +3628,8 @@ export const getSessionAgentTraces: API.OperationMethod<
   GetSessionAgentTracesError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<GetSessionAgentTracesRequest>,
-  output: __S(66, __c4, 2) as any as S.Schema<GetSessionAgentTracesResponse>,
+  input: __S(128, __c8, 0) as any as S.Schema<GetSessionAgentTracesRequest>,
+  output: __S(114, __c7, 2) as any as S.Schema<GetSessionAgentTracesResponse>,
   errors: [BadRequest, NotFound, UnknownSteelError],
   protocol: SteelProtocol,
   retry: Retry.Retry,
@@ -3547,8 +3645,8 @@ export const getSessionContext: API.OperationMethod<
   GetSessionContextError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<GetSessionContextRequest>,
-  output: __S(445, __c27, 13) as any as S.Schema<SessionContextResponse>,
+  input: __S(144, __c9, 0) as any as S.Schema<GetSessionContextRequest>,
+  output: __S(477, __c29, 13) as any as S.Schema<SessionContextResponse>,
   errors: [NotFound, UnknownSteelError],
   protocol: SteelProtocol,
   retry: Retry.Retry,
@@ -3564,8 +3662,8 @@ export const getSessionCost: API.OperationMethod<
   GetSessionCostError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<GetSessionCostRequest>,
-  output: __S(117, __c7, 5) as any as S.Schema<SessionCostResponse>,
+  input: __S(160, __c10, 0) as any as S.Schema<GetSessionCostRequest>,
+  output: __S(165, __c10, 5) as any as S.Schema<SessionCostResponse>,
   errors: [NotFound, Conflict, UnknownSteelError],
   protocol: SteelProtocol,
   retry: Retry.Retry,
@@ -3581,8 +3679,8 @@ export const getSessionEvents: API.OperationMethod<
   GetSessionEventsError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<GetSessionEventsRequest>,
-  output: __S(130, __c8, 2) as any as S.Schema<GetSessionEventsResponse2>,
+  input: __S(176, __c11, 0) as any as S.Schema<GetSessionEventsRequest>,
+  output: __S(178, __c11, 2) as any as S.Schema<GetSessionEventsResponse2>,
   errors: [BadRequest, NotFound, UnknownSteelError],
   protocol: SteelProtocol,
   retry: Retry.Retry,
@@ -3598,8 +3696,8 @@ export const getSessionHlsPlaylist: API.OperationMethod<
   GetSessionHlsPlaylistError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<GetSessionHlsPlaylistRequest>,
-  output: __S(145, __c9, 1) as any as S.Codec<GetSessionHlsPlaylistResponse>,
+  input: __S(192, __c12, 0) as any as S.Schema<GetSessionHlsPlaylistRequest>,
+  output: __S(193, __c12, 1) as any as S.Codec<GetSessionHlsPlaylistResponse>,
   errors: [NotFound, UnknownSteelError],
   protocol: SteelProtocol,
   retry: Retry.Retry,
@@ -3615,8 +3713,8 @@ export const getSessionLiveDetails: API.OperationMethod<
   GetSessionLiveDetailsError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<GetSessionLiveDetailsRequest>,
-  output: __S(163, __c10, 3) as any as S.Schema<SessionLiveDetailsResponse>,
+  input: __S(208, __c13, 0) as any as S.Schema<GetSessionLiveDetailsRequest>,
+  output: __S(211, __c13, 3) as any as S.Schema<SessionLiveDetailsResponse>,
   errors: [Forbidden, NotFound, UnknownSteelError],
   protocol: SteelProtocol,
   retry: Retry.Retry,
@@ -3632,8 +3730,8 @@ export const getSessionLogs: API.OperationMethod<
   GetSessionLogsError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<GetSessionLogsRequest>,
-  output: __S(179, __c11, 3) as any as S.Schema<GetSessionLogsResponse>,
+  input: __S(224, __c14, 0) as any as S.Schema<GetSessionLogsRequest>,
+  output: __S(227, __c14, 3) as any as S.Schema<GetSessionLogsResponse>,
   errors: [BadRequest, NotFound, UnknownSteelError],
   protocol: SteelProtocol,
   retry: Retry.Retry,
@@ -3649,8 +3747,8 @@ export const getSessionSignalCatalog: API.OperationMethod<
   GetSessionSignalCatalogError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<GetSessionSignalCatalogRequest>,
-  output: __S(195, __c12, 3) as any as S.Schema<SessionSignalCatalogResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<GetSessionSignalCatalogRequest>,
+  output: __S(243, __c15, 3) as any as S.Schema<SessionSignalCatalogResponse>,
   errors: [UnknownSteelError],
   protocol: SteelProtocol,
   retry: Retry.Retry,
@@ -3668,8 +3766,8 @@ export const listSessions: API.PaginatedOperationMethod<
   SessionsResponseSessionsItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(208, __c13, 0) as any as S.Schema<ListSessionsRequest>,
-    output: __S(210, __c13, 2) as any as S.Schema<SessionsResponse>,
+    input: __S(256, __c16, 0) as any as S.Schema<ListSessionsRequest>,
+    output: __S(258, __c16, 2) as any as S.Schema<SessionsResponse>,
     errors: [UnknownSteelError],
     protocol: SteelProtocol,
     retry: Retry.Retry,
@@ -3694,8 +3792,8 @@ export const releaseAllSessions: API.OperationMethod<
   ReleaseAllSessionsError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<ReleaseAllSessionsRequest>,
-  output: __S(240, __c15, 0) as any as S.Schema<ReleaseSessionsResponse>,
+  input: __S(272, __c17, 0) as any as S.Schema<ReleaseAllSessionsRequest>,
+  output: __S(32, __c2, 0) as any as S.Schema<ReleaseSessionsResponse>,
   errors: [BadRequest, UnknownSteelError],
   protocol: SteelProtocol,
   retry: Retry.Retry,
@@ -3711,8 +3809,8 @@ export const releaseSession: API.OperationMethod<
   ReleaseSessionError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<ReleaseSessionRequest>,
-  output: __S(240, __c15, 0) as any as S.Schema<ReleaseSessionResponse>,
+  input: __S(288, __c18, 0) as any as S.Schema<ReleaseSessionRequest>,
+  output: __S(32, __c2, 0) as any as S.Schema<ReleaseSessionResponse>,
   errors: [BadRequest, NotFound, UnknownSteelError],
   protocol: SteelProtocol,
   retry: Retry.Retry,
@@ -3728,8 +3826,8 @@ export const replaceSessionMetadata: API.OperationMethod<
   ReplaceSessionMetadataError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(273, __c17, 1) as any as S.Schema<ReplaceSessionMetadataRequest>,
-  output: __S(288, __c18, 0) as any as S.Schema<SessionMetadataResponse>,
+  input: __S(305, __c19, 1) as any as S.Schema<ReplaceSessionMetadataRequest>,
+  output: __S(320, __c20, 0) as any as S.Schema<SessionMetadataResponse>,
   errors: [BadRequest, NotFound, UnknownSteelError],
   protocol: SteelProtocol,
   retry: Retry.Retry,
@@ -3752,8 +3850,8 @@ export const runCommands: API.OperationMethod<
   RunCommandsError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(305, __c19, 1) as any as S.Schema<RunCommandsRequest>,
-  output: __S(358, __c22, 6) as any as S.Schema<RunCommandsResponse>,
+  input: __S(337, __c21, 1) as any as S.Schema<RunCommandsRequest>,
+  output: __S(390, __c24, 6) as any as S.Schema<RunCommandsResponse>,
   errors: [
     BadRequest,
     Forbidden,
@@ -3777,8 +3875,8 @@ export const updateSessionMetadata: API.OperationMethod<
   UpdateSessionMetadataError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(321, __c20, 1) as any as S.Schema<UpdateSessionMetadataRequest>,
-  output: __S(288, __c18, 0) as any as S.Schema<SessionMetadataResponse>,
+  input: __S(353, __c22, 1) as any as S.Schema<UpdateSessionMetadataRequest>,
+  output: __S(320, __c20, 0) as any as S.Schema<SessionMetadataResponse>,
   errors: [BadRequest, NotFound, UnknownSteelError],
   protocol: SteelProtocol,
   retry: Retry.Retry,
@@ -3788,6 +3886,64 @@ export const updateSessionMetadata: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          keyword: S.String,
+          message: S.String,
+          params: S.Unknown,
+        }),
+      ).annotate({ identifier: "ErrorResponseContextItem" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          context: S.optional(__S(1, __c0, 1)),
+          error: S.optional(S.String),
+          linkToDocs: S.optional(S.String),
+          message: S.String,
+          param: S.optional(S.String),
+          retryAfterSeconds: S.optional(S.Number),
+          retryable: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.String,
+          message: S.String,
+        }),
+      ).annotate({ identifier: "RunCommandsErrorResponseError" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            error: __S(16, __c1, 0),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "RunCommandsErrorResponse" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.String,
+          success: S.Boolean,
+        }),
+      ).annotate({ identifier: "ReleaseSessionsResponse" });
+  }
+}
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3807,7 +3963,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "ComputerActionResponse" });
   }
 }
-function __c1(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3824,7 +3980,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "GetCommandExecutionRequest" });
   }
 }
-function __c2(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3834,7 +3990,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GetSessionRequest" });
   }
 }
-function __c3(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3843,30 +3999,30 @@ function __c3(j: number): any {
           namespace: S.optional(S.String.pipe(T.Query())),
           startTime: S.optional(S.String.pipe(T.Query())),
           endTime: S.optional(S.String.pipe(T.Query())),
-          eventTypes: S.optional(__S(384, __c24, 0).pipe(T.Query())),
+          eventTypes: S.optional(__S(416, __c26, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v1/sessions/{id}/agent-logs", code: 200 })),
       ).annotate({ identifier: "GetSessionAgentLogsRequest" });
   }
 }
-function __c4(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
     case 1:
-      return S.Array(__S(64, __c4, 0));
+      return S.Array(__S(112, __c7, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          events: __S(65, __c4, 1),
+          events: __S(113, __c7, 1),
           hasMore: S.Boolean,
           total: S.Number,
         }),
       ).annotate({ identifier: "GetSessionAgentLogsResponse" });
   }
 }
-function __c5(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3875,14 +4031,14 @@ function __c5(j: number): any {
           namespace: S.optional(S.String.pipe(T.Query())),
           startTime: S.optional(S.String.pipe(T.Query())),
           endTime: S.optional(S.String.pipe(T.Query())),
-          eventTypes: S.optional(__S(384, __c24, 0).pipe(T.Query())),
+          eventTypes: S.optional(__S(416, __c26, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v1/sessions/{id}/agent-traces", code: 200 })),
       ).annotate({ identifier: "GetSessionAgentTracesRequest" });
   }
 }
-function __c6(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3892,7 +4048,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GetSessionContextRequest" });
   }
 }
-function __c7(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3922,9 +4078,9 @@ function __c7(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          browser: __S(113, __c7, 1),
-          captcha: __S(114, __c7, 2),
-          proxy: __S(115, __c7, 3),
+          browser: __S(161, __c10, 1),
+          captcha: __S(162, __c10, 2),
+          proxy: __S(163, __c10, 3),
         }),
       ).annotate({ identifier: "SessionCostResponseUsage" });
     case 5:
@@ -3934,12 +4090,12 @@ function __c7(j: number): any {
           id: S.String,
           totalCost: S.Number,
           unit: S.String,
-          usage: __S(116, __c7, 4),
+          usage: __S(164, __c10, 4),
         }),
       ).annotate({ identifier: "SessionCostResponse" });
   }
 }
-function __c8(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3953,12 +4109,12 @@ function __c8(j: number): any {
     case 1:
       return S.Array(S.Unknown);
     case 2:
-      return S.suspend(() => __S(129, __c8, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(177, __c11, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetSessionEventsResponse2",
       });
   }
 }
-function __c9(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3970,7 +4126,7 @@ function __c9(j: number): any {
       return S.instanceOf(Uint8Array).pipe(/*@__PURE__*/ T.BinaryResponse());
   }
 }
-function __c10(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3990,11 +4146,11 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "SessionLiveDetailsResponsePagesItem" });
     case 2:
-      return S.Array(__S(161, __c10, 1));
+      return S.Array(__S(209, __c13, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          pages: __S(162, __c10, 2),
+          pages: __S(210, __c13, 2),
           sessionViewerFullscreenUrl: S.String,
           sessionViewerUrl: S.String,
           wsUrl: S.String,
@@ -4002,7 +4158,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "SessionLiveDetailsResponse" });
   }
 }
-function __c11(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4011,7 +4167,7 @@ function __c11(j: number): any {
           namespace: S.optional(S.String.pipe(T.Query())),
           startTime: S.optional(S.String.pipe(T.Query())),
           endTime: S.optional(S.String.pipe(T.Query())),
-          eventTypes: S.optional(__S(384, __c24, 0).pipe(T.Query())),
+          eventTypes: S.optional(__S(416, __c26, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v1/sessions/{id}/logs", code: 200 })),
@@ -4026,18 +4182,18 @@ function __c11(j: number): any {
         }),
       ).annotate({ identifier: "GetSessionLogsResponseEventsItem" });
     case 2:
-      return S.Array(__S(177, __c11, 1));
+      return S.Array(__S(225, __c14, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          events: __S(178, __c11, 2),
+          events: __S(226, __c14, 2),
           hasMore: S.Boolean,
           total: S.Number,
         }),
       ).annotate({ identifier: "GetSessionLogsResponse" });
   }
 }
-function __c12(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4056,17 +4212,17 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "SessionSignalCatalogResponseSignalsItem" });
     case 2:
-      return S.Array(__S(193, __c12, 1));
+      return S.Array(__S(241, __c15, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           semantics: S.String,
-          signals: __S(194, __c12, 2),
+          signals: __S(242, __c15, 2),
         }),
       ).annotate({ identifier: "SessionSignalCatalogResponse" });
   }
 }
-function __c13(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4078,23 +4234,23 @@ function __c13(j: number): any {
           projectId: S.optional(S.String.pipe(T.Query())),
           createdAfter: S.optional(S.String.pipe(T.Query())),
           createdBefore: S.optional(S.String.pipe(T.Query())),
-          signal: S.optional(__S(421, __c26, 5).pipe(T.Query())),
-          metadata: S.optional(__S(400, __c25, 0).pipe(T.Query())),
+          signal: S.optional(__S(453, __c28, 5).pipe(T.Query())),
+          metadata: S.optional(__S(432, __c27, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v1/sessions", code: 200 })),
       ).annotate({ identifier: "ListSessionsRequest" });
     case 1:
-      return S.Array(__S(422, __c26, 6));
+      return S.Array(__S(454, __c28, 6));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextCursor: S.NullOr(S.String),
-          sessions: __S(209, __c13, 1),
+          sessions: __S(257, __c16, 1),
           totalCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "SessionsResponse" });
   }
 }
-function __c14(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4104,18 +4260,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "ReleaseAllSessionsRequest" });
   }
 }
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          message: S.String,
-          success: S.Boolean,
-        }),
-      ).annotate({ identifier: "ReleaseSessionsResponse" });
-  }
-}
-function __c16(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4125,7 +4270,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "ReleaseSessionRequest" });
   }
 }
-function __c17(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
@@ -4133,22 +4278,22 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          metadata: __S(272, __c17, 0),
+          metadata: __S(304, __c19, 0),
         }).pipe(T.Http({ method: "PUT", uri: "/v1/sessions/{id}/metadata", code: 200 })),
       ).annotate({ identifier: "ReplaceSessionMetadataRequest" });
   }
 }
-function __c18(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          metadata: __S(400, __c25, 0),
+          metadata: __S(432, __c27, 0),
         }),
       ).annotate({ identifier: "SessionMetadataResponse" });
   }
 }
-function __c19(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4167,12 +4312,12 @@ function __c19(j: number): any {
           sessionId: S.String.pipe(T.Label()),
           after: S.optional(S.String),
           commands: S.Unknown,
-          observe: S.optional(__S(304, __c19, 0)),
+          observe: S.optional(__S(336, __c21, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v1/sessions/{sessionId}/commands", code: 200 })),
       ).annotate({ identifier: "RunCommandsRequest" });
   }
 }
-function __c20(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.Unknown));
@@ -4180,12 +4325,12 @@ function __c20(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          metadata: __S(320, __c20, 0),
+          metadata: __S(352, __c22, 0),
         }).pipe(T.Http({ method: "PATCH", uri: "/v1/sessions/{id}/metadata", code: 200 })),
       ).annotate({ identifier: "UpdateSessionMetadataRequest" });
   }
 }
-function __c21(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4202,7 +4347,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "CancelCommandExecutionRequest" });
   }
 }
-function __c22(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4226,7 +4371,7 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           effect: S.String,
-          error: S.optional(__S(353, __c22, 1)),
+          error: S.optional(__S(385, __c24, 1)),
           id: S.String,
           ran: S.Number,
           replayed: S.Boolean,
@@ -4239,7 +4384,7 @@ function __c22(j: number): any {
           additions: S.optional(S.Number),
           base: S.optional(S.String),
           diff: S.optional(S.String),
-          error: S.optional(__S(353, __c22, 1)),
+          error: S.optional(__S(385, __c24, 1)),
           full: S.optional(S.Boolean),
           removals: S.optional(S.Number),
           snapshot: S.optional(S.String),
@@ -4260,19 +4405,19 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           bodyExpired: S.optional(S.Boolean),
-          dialog: S.optional(__S(352, __c22, 0)),
+          dialog: S.optional(__S(384, __c24, 0)),
           epochChanged: S.optional(S.Boolean),
-          execution: __S(354, __c22, 2),
+          execution: __S(386, __c24, 2),
           id: S.String,
           next: S.optional(S.String),
-          observe: S.optional(__S(355, __c22, 3)),
-          page: S.NullOr(__S(356, __c22, 4)),
-          results: __S(357, __c22, 5),
+          observe: S.optional(__S(387, __c24, 3)),
+          page: S.NullOr(__S(388, __c24, 4)),
+          results: __S(389, __c24, 5),
         }),
       ).annotate({ identifier: "RunCommandsResponse" });
   }
 }
-function __c23(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4281,7 +4426,7 @@ function __c23(j: number): any {
           blurFields: S.optional(S.Boolean),
           credentialProvider: S.optional(S.String),
           exactOrigin: S.optional(S.Boolean),
-          origins: S.optional(__S(384, __c24, 0)),
+          origins: S.optional(__S(416, __c26, 0)),
         }),
       ).annotate({ identifier: "CreateSessionRequestCredentials" });
     case 1:
@@ -4290,19 +4435,19 @@ function __c23(j: number): any {
       return S.suspend(() =>
         S.Struct({
           blockAds: S.optional(S.Boolean),
-          caCertificates: S.optional(__S(384, __c24, 0)),
+          caCertificates: S.optional(__S(416, __c26, 0)),
           concurrency: S.optional(S.Number),
-          credentials: S.optional(__S(368, __c23, 0)),
-          debugConfig: S.optional(__S(416, __c26, 0)),
-          deviceConfig: S.optional(__S(417, __c26, 1)),
-          dimensions: S.optional(__S(418, __c26, 2)),
-          experimentalFeatures: S.optional(__S(384, __c24, 0)),
-          extensionIds: S.optional(__S(384, __c24, 0)),
+          credentials: S.optional(__S(400, __c25, 0)),
+          debugConfig: S.optional(__S(448, __c28, 0)),
+          deviceConfig: S.optional(__S(449, __c28, 1)),
+          dimensions: S.optional(__S(450, __c28, 2)),
+          experimentalFeatures: S.optional(__S(416, __c26, 0)),
+          extensionIds: S.optional(__S(416, __c26, 0)),
           fullscreen: S.optional(S.Boolean),
           headless: S.optional(S.Boolean),
           inactivityTimeout: S.optional(S.Number),
           isSelenium: S.optional(S.Boolean),
-          metadata: S.optional(__S(369, __c23, 1)),
+          metadata: S.optional(__S(401, __c25, 1)),
           namespace: S.optional(S.String),
           optimizeBandwidth: S.optional(S.Unknown),
           persistProfile: S.optional(S.Boolean),
@@ -4311,10 +4456,10 @@ function __c23(j: number): any {
           proxyUrl: S.optional(S.String),
           recording: S.optional(S.Boolean),
           region: S.optional(S.Unknown),
-          sessionContext: S.optional(__S(445, __c27, 13)),
+          sessionContext: S.optional(__S(477, __c29, 13)),
           sessionId: S.optional(S.String),
           solveCaptcha: S.optional(S.Boolean),
-          stealthConfig: S.optional(__S(420, __c26, 4)),
+          stealthConfig: S.optional(__S(452, __c28, 4)),
           timeout: S.optional(S.Number),
           useProxy: S.optional(S.Unknown),
           userAgent: S.optional(S.String),
@@ -4322,19 +4467,19 @@ function __c23(j: number): any {
       ).annotate({ identifier: "CreateSessionRequest" });
   }
 }
-function __c24(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c25(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c26(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4359,11 +4504,11 @@ function __c26(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          blockHosts: S.optional(__S(384, __c24, 0)),
+          blockHosts: S.optional(__S(416, __c26, 0)),
           blockImages: S.optional(S.Boolean),
           blockMedia: S.optional(S.Boolean),
           blockStylesheets: S.optional(S.Boolean),
-          blockUrlPatterns: S.optional(__S(384, __c24, 0)),
+          blockUrlPatterns: S.optional(__S(416, __c26, 0)),
         }),
       ).annotate({ identifier: "CreateSessionRequestOptimizeBandwidthCase1" });
     case 4:
@@ -4382,10 +4527,10 @@ function __c26(j: number): any {
           browserMode: S.String,
           createdAt: S.String,
           creditsUsed: S.Number,
-          debugConfig: S.optional(__S(416, __c26, 0)),
+          debugConfig: S.optional(__S(448, __c28, 0)),
           debugUrl: S.String.pipe(T.SensitiveValue({})),
-          deviceConfig: S.optional(__S(417, __c26, 1)),
-          dimensions: __S(418, __c26, 2),
+          deviceConfig: S.optional(__S(449, __c28, 1)),
+          dimensions: __S(450, __c28, 2),
           duration: S.Number,
           eventCount: S.Number,
           fullscreen: S.optional(S.Boolean),
@@ -4393,8 +4538,8 @@ function __c26(j: number): any {
           id: S.String,
           inactivityTimeout: S.optional(S.Number),
           isSelenium: S.optional(S.Boolean),
-          metadata: S.optional(__S(400, __c25, 0)),
-          optimizeBandwidth: __S(419, __c26, 3),
+          metadata: S.optional(__S(432, __c27, 0)),
+          optimizeBandwidth: __S(451, __c28, 3),
           persistProfile: S.optional(S.Boolean),
           profileId: S.optional(S.String),
           projectId: S.optional(S.NullOr(S.String)),
@@ -4403,10 +4548,10 @@ function __c26(j: number): any {
           region: S.optional(S.String),
           releaseReason: S.optional(S.NullOr(S.String)),
           sessionViewerUrl: S.String,
-          signals: __S(421, __c26, 5),
+          signals: __S(453, __c28, 5),
           solveCaptcha: S.optional(S.Boolean),
           status: S.String,
-          stealthConfig: S.optional(__S(420, __c26, 4)),
+          stealthConfig: S.optional(__S(452, __c28, 4)),
           timeout: S.Number,
           userAgent: S.optional(S.String),
           websocketUrl: S.String.pipe(T.SensitiveValue({})),
@@ -4414,7 +4559,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "SessionResponse" });
   }
 }
-function __c27(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4430,7 +4575,7 @@ function __c27(j: number): any {
           expires: S.optional(S.Number),
           httpOnly: S.optional(S.Boolean),
           name: S.String,
-          partitionKey: S.optional(__S(432, __c27, 0)),
+          partitionKey: S.optional(__S(464, __c29, 0)),
           path: S.optional(S.String),
           priority: S.optional(S.String),
           sameParty: S.optional(S.Boolean),
@@ -4445,7 +4590,7 @@ function __c27(j: number): any {
         }),
       ).annotate({ identifier: "CreateSessionRequestSessionContextCookiesItem" });
     case 2:
-      return S.Array(__S(433, __c27, 1));
+      return S.Array(__S(465, __c29, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -4461,11 +4606,11 @@ function __c27(j: number): any {
           "CreateSessionRequestSessionContextIndexedDBValueItemDataItemRecordsItemBlobFilesItem",
       });
     case 4:
-      return S.Array(__S(435, __c27, 3));
+      return S.Array(__S(467, __c29, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          blobFiles: S.optional(__S(436, __c27, 4)),
+          blobFiles: S.optional(__S(468, __c29, 4)),
           key: S.Unknown,
           value: S.Unknown,
         }),
@@ -4473,38 +4618,38 @@ function __c27(j: number): any {
         identifier: "CreateSessionRequestSessionContextIndexedDBValueItemDataItemRecordsItem",
       });
     case 6:
-      return S.Array(__S(437, __c27, 5));
+      return S.Array(__S(469, __c29, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           id: S.Number,
           name: S.String,
-          records: __S(438, __c27, 6),
+          records: __S(470, __c29, 6),
         }),
       ).annotate({ identifier: "CreateSessionRequestSessionContextIndexedDBValueItemDataItem" });
     case 8:
-      return S.Array(__S(439, __c27, 7));
+      return S.Array(__S(471, __c29, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          data: __S(440, __c27, 8),
+          data: __S(472, __c29, 8),
           id: S.Number,
           name: S.String,
         }),
       ).annotate({ identifier: "CreateSessionRequestSessionContextIndexedDBValueItem" });
     case 10:
-      return S.Array(__S(441, __c27, 9));
+      return S.Array(__S(473, __c29, 9));
     case 11:
-      return S.Record(S.String, __S(442, __c27, 10));
+      return S.Record(S.String, __S(474, __c29, 10));
     case 12:
-      return S.Record(S.String, __S(400, __c25, 0));
+      return S.Record(S.String, __S(432, __c27, 0));
     case 13:
       return S.suspend(() =>
         S.Struct({
-          cookies: S.optional(__S(434, __c27, 2)),
-          indexedDB: S.optional(__S(443, __c27, 11)),
-          localStorage: S.optional(__S(444, __c27, 12)),
-          sessionStorage: S.optional(__S(444, __c27, 12)),
+          cookies: S.optional(__S(466, __c29, 2)),
+          indexedDB: S.optional(__S(475, __c29, 11)),
+          localStorage: S.optional(__S(476, __c29, 12)),
+          sessionStorage: S.optional(__S(476, __c29, 12)),
         }),
       ).annotate({ identifier: "CreateSessionRequestSessionContext" });
   }

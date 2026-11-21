@@ -49,6 +49,8 @@ export const awsProtocolsAwsJson1_0Symbol = "distilled-aws/aws.protocols#awsJson
 export interface AwsProtocolsAwsJson1_0Trait {
   http?: string[];
   eventStreamHttp?: string[];
+  /** `aws.protocols#awsQueryCompatible`: the service was an awsQuery one. */
+  awsQueryCompatible?: boolean;
 }
 export const AwsProtocolsAwsJson1_0 = (trait?: AwsProtocolsAwsJson1_0Trait) =>
   makeProtocolAnnotation(awsProtocolsAwsJson1_0Symbol, awsJson1_0Protocol, trait);
@@ -58,6 +60,8 @@ export const awsProtocolsAwsJson1_1Symbol = "distilled-aws/aws.protocols#awsJson
 export interface AwsProtocolsAwsJson1_1Trait {
   http?: string[];
   eventStreamHttp?: string[];
+  /** `aws.protocols#awsQueryCompatible`: the service was an awsQuery one. */
+  awsQueryCompatible?: boolean;
 }
 export const AwsProtocolsAwsJson1_1 = (trait?: AwsProtocolsAwsJson1_1Trait) =>
   makeProtocolAnnotation(awsProtocolsAwsJson1_1Symbol, awsJson1_1Protocol, trait);

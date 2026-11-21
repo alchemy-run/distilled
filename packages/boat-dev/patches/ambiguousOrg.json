@@ -1,0 +1,171 @@
+{
+  "description": "Type the 409 `ambiguous_org` that calls selecting an organization by name get when two of the caller's organizations share that name. The spec documents it on the shared `org` query parameter (\"Two organizations sharing the name answer `409 ambiguous_org` and need the id\"; `X-Boat-Org` is \"Same as the `org` query parameter\") and on PATCH /orgs/active's 409 response, but every failure body is the shared ErrorEnvelope, so all of them generated as one Conflict. Added to every operation that takes `org` or `X-Boat-Org`, plus setActiveOrganization. Source: spec-mirror-boat-dev 71ab00f, components.parameters.OrgId.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#AmbiguousOrg",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "Several of the caller's organizations share the name passed as `org` / `X-Boat-Org`. Pass the organization id (`team_…`) instead.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "body": {
+                "/code": "ambiguous_org"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#SetActiveOrganization/errors/-",
+      "value": {
+        "target": "com.boat.api#AmbiguousOrg"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#Limits/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.boat.api#AmbiguousOrg"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#GetAiProxy/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.boat.api#AmbiguousOrg"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#UpdateAiProxy/errors/-",
+      "value": {
+        "target": "com.boat.api#AmbiguousOrg"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#GetAiUsage/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.boat.api#AmbiguousOrg"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#Environments/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.boat.api#AmbiguousOrg"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#CreateEnvironment/errors/-",
+      "value": {
+        "target": "com.boat.api#AmbiguousOrg"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#UpdateEnvironment/errors/-",
+      "value": {
+        "target": "com.boat.api#AmbiguousOrg"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#DeleteEnvironment/errors/-",
+      "value": {
+        "target": "com.boat.api#AmbiguousOrg"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#UpgradeEnvironment/errors/-",
+      "value": {
+        "target": "com.boat.api#AmbiguousOrg"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#SetEnvironmentVar/errors/-",
+      "value": {
+        "target": "com.boat.api#AmbiguousOrg"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#DeleteEnvironmentVar/errors/-",
+      "value": {
+        "target": "com.boat.api#AmbiguousOrg"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#SetEnvironmentSecretFile/errors/-",
+      "value": {
+        "target": "com.boat.api#AmbiguousOrg"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#DeleteEnvironmentSecretFile/errors/-",
+      "value": {
+        "target": "com.boat.api#AmbiguousOrg"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#AddEnvironmentRepo/errors/-",
+      "value": {
+        "target": "com.boat.api#AmbiguousOrg"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#DeleteEnvironmentRepo/errors/-",
+      "value": {
+        "target": "com.boat.api#AmbiguousOrg"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#Sandboxes/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.boat.api#AmbiguousOrg"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#Create/errors/-",
+      "value": {
+        "target": "com.boat.api#AmbiguousOrg"
+      }
+    }
+  ]
+}

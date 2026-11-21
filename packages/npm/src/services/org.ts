@@ -30,9 +30,16 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error401Body | string;
+}
 
 /** Role to give user in org */
 export type ChangeOrgMembershipRequestRole = "developer" | "admin" | "owner";
@@ -70,6 +77,10 @@ export interface GetOrgMembershipRequest {
 }
 export type GetOrgMembershipResponseBodyMap = { [key: string]: string | undefined };
 export type GetOrgMembershipResponse = GetOrgMembershipResponseBodyMap;
+export interface Error401Body {
+  /** Error message */
+  error?: string | undefined;
+}
 export type ChangeOrgMembershipError = Forbidden | NpmOpError;
 /** Set user membership in an org Set a user's membership in an org. If the user is not already a member, an invite will be sent. Granular Access Tokens with `bypass_2fa: true` are not permitted to call this endpoint and receive `403 Forbidden`. This operation must be performed via an interactive 2FA challenge. */
 export const changeOrgMembership: API.OperationMethod<
@@ -78,8 +89,8 @@ export const changeOrgMembership: API.OperationMethod<
   ChangeOrgMembershipError,
   NpmOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<ChangeOrgMembershipRequest>,
-  output: __S(2, __c0, 2) as any as S.Schema<ChangeOrgMembershipResponse>,
+  input: __S(4, __c1, 0) as any as S.Schema<ChangeOrgMembershipRequest>,
+  output: __S(6, __c1, 2) as any as S.Schema<ChangeOrgMembershipResponse>,
   errors: [Forbidden, UnknownNpmError],
   protocol: NpmProtocol,
   retry: Retry.Retry,
@@ -95,8 +106,8 @@ export const deleteOrgMembership: API.OperationMethod<
   DeleteOrgMembershipError,
   NpmOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c1, 0) as any as S.Schema<DeleteOrgMembershipRequest>,
-  output: __S(5, __c1, 1) as any as S.Schema<DeleteOrgMembershipResponse>,
+  input: __S(8, __c2, 0) as any as S.Schema<DeleteOrgMembershipRequest>,
+  output: __S(9, __c2, 1) as any as S.Schema<DeleteOrgMembershipResponse>,
   errors: [Forbidden, UnknownNpmError],
   protocol: NpmProtocol,
   retry: Retry.Retry,
@@ -112,8 +123,8 @@ export const getOrgMembership: API.OperationMethod<
   GetOrgMembershipError,
   NpmOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<GetOrgMembershipRequest>,
-  output: __S(10, __c2, 2) as any as S.Schema<GetOrgMembershipResponse>,
+  input: __S(12, __c3, 0) as any as S.Schema<GetOrgMembershipRequest>,
+  output: __S(14, __c3, 2) as any as S.Schema<GetOrgMembershipResponse>,
   errors: [UnknownNpmError],
   protocol: NpmProtocol,
   retry: Retry.Retry,
@@ -123,6 +134,16 @@ export const getOrgMembership: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          error: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Error401Body" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -142,14 +163,14 @@ function __c0(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          org: S.optional(__S(1, __c0, 1)),
+          org: S.optional(__S(5, __c1, 1)),
           user: S.optional(S.String),
           role: S.optional(S.String),
         }),
       ).annotate({ identifier: "ChangeOrgMembershipResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -162,7 +183,7 @@ function __c1(j: number): any {
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteOrgMembershipResponse" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -173,7 +194,7 @@ function __c2(j: number): any {
     case 1:
       return S.Record(S.String, S.String);
     case 2:
-      return S.suspend(() => __S(9, __c2, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(13, __c3, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetOrgMembershipResponse",
       });
   }

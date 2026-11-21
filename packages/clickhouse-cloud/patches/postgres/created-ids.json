@@ -1,0 +1,12 @@
+{
+  "description": "ClickHouse's spec marks no response member required, so PostgresService.id is optional, and a caller must handle a createPostgresService answer without the new service's ID. It is always present: Alchemy's ClickHouse Cloud provider created a Postgres service, waited on it, updated it and deleted it by the `id` the create returned (live, 2026-11-12), and ClickHouse's Terraform provider (ClickHouse/terraform-provider-clickhouse at 66ecf4fa, internal/api) stores that `id` as the resource ID and waits on it. Marking PostgresService.id required lets callers read the ID without checking for undefined.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.postgres#PostgresService/members/id/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    }
+  ]
+}

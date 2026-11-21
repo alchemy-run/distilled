@@ -1,9 +1,0 @@
-{
-  "structures": {
-    "Agent": {
-      "members": {
-        "agentVersion": { "optional": true }
-      }
-    }
-  }
-}

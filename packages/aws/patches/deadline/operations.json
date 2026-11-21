@@ -1,0 +1,131 @@
+{
+  "description": "deadline: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.deadline#CreateQueue/errors/-",
+      "value": {
+        "target": "com.amazonaws.deadline#ConflictException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.deadline#CreateStorageProfile/errors/-",
+      "value": {
+        "target": "com.amazonaws.deadline#ConflictException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.deadline#CreateBudget/errors/-",
+      "value": {
+        "target": "com.amazonaws.deadline#ConflictException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.deadline#CreateFleet/errors/-",
+      "value": {
+        "target": "com.amazonaws.deadline#ConflictException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.deadline#CreateFleet/errors/-",
+      "value": {
+        "target": "com.amazonaws.deadline#DeadlineRoleNotAssumable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.deadline#CreateMonitor/errors/-",
+      "value": {
+        "target": "com.amazonaws.deadline#ConflictException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.deadline#UpdateFarm/errors/-",
+      "value": {
+        "target": "com.amazonaws.deadline#ConflictException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.deadline#UpdateQueue/errors/-",
+      "value": {
+        "target": "com.amazonaws.deadline#ConflictException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.deadline#UpdateFleet/errors/-",
+      "value": {
+        "target": "com.amazonaws.deadline#DeadlineRoleNotAssumable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.deadline#UpdateStorageProfile/errors/-",
+      "value": {
+        "target": "com.amazonaws.deadline#ConflictException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.deadline#UpdateBudget/errors/-",
+      "value": {
+        "target": "com.amazonaws.deadline#ConflictException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.deadline#UpdateBudget/errors/-",
+      "value": {
+        "target": "com.amazonaws.deadline#InternalServerException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.deadline#UpdateMonitor/errors/-",
+      "value": {
+        "target": "com.amazonaws.deadline#ConflictException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.deadline#DeleteFarm/errors/-",
+      "value": {
+        "target": "com.amazonaws.deadline#ConflictException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.deadline#DeleteBudget/errors/-",
+      "value": {
+        "target": "com.amazonaws.deadline#ConflictException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.deadline#DeleteStorageProfile/errors/-",
+      "value": {
+        "target": "com.amazonaws.deadline#ConflictException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.deadline#DeleteStorageProfile/errors/-",
+      "value": {
+        "target": "com.amazonaws.deadline#ResourceNotFoundException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.deadline#DeleteMonitor/errors/-",
+      "value": {
+        "target": "com.amazonaws.deadline#ConflictException"
+      }
+    }
+  ]
+}

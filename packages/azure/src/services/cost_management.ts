@@ -1949,9 +1949,15 @@ export interface GetSettingsByScopeRequest {
   /** Setting type. */
   type: GetSettingsByScopeRequestType | (string & {});
 }
-/** Specifies the kind of settings. */
-export type SettingsKind = "taginheritance";
-export interface GetSettingsByScopeResponse {
+/** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
+export type TagInheritanceSettingKind = "taginheritance";
+/** The properties of the tag inheritance setting. */
+export interface TagInheritanceProperties {
+  /** This property defines the behavior when an inherited tag being applied matches a lower scope tag (Eg. Subscription tag matches the resource tag). If set to true - when tags match, the highest scope tags will be applied. Billing profile is the highest scope, followed by invoice sections, subscriptions and resource groups (allows overriding of lower scope tag values). If set to false - when tags match, the lowest scope tags will be applied. So, if a resource has the same tag as a subscription tag, the resource tag will be applied (does not allow overriding of lower scope tag values). */
+  preferContainerTags: boolean;
+}
+/** Tag Inheritance Setting definition. */
+export interface TagInheritanceSetting {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string | undefined;
   /** The name of the resource */
@@ -1961,8 +1967,11 @@ export interface GetSettingsByScopeResponse {
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
   systemData?: SystemData | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind: SettingsKind;
+  kind: TagInheritanceSettingKind;
+  /** The properties of the tag inheritance setting. */
+  properties?: TagInheritanceProperties | undefined;
 }
+export type GetSettingsByScopeResponse = TagInheritanceSetting;
 export interface GetViewRequest {
   /** View name */
   viewName: string;
@@ -2252,10 +2261,10 @@ export interface AllSavingsList {
   /** The link (URL) to the next page of results. */
   nextLink?: string | undefined;
 }
-/** Kind of the recommendation scope. */
-export type Scope = "Single" | "Shared" | "ManagementGroup";
-/** The properties of the benefit recommendations. */
-export interface BenefitRecommendationProperties {
+/** Benefit scope. For example, Single or Shared. */
+export type ManagementGroupScopeBenefitRecommendationPropertiesScope = "ManagementGroup";
+/** The properties of the benefit recommendation when scope is 'ManagementGroup'. */
+export interface ManagementGroupScopeBenefitRecommendationProperties {
   /** The first usage date used for looking back for computing the recommendations. */
   firstConsumptionDate?: string | undefined;
   /** The last usage date used for looking back for computing the recommendations. */
@@ -2281,8 +2290,83 @@ export interface BenefitRecommendationProperties {
   /** The list of all benefit recommendations with the recommendation details. */
   allRecommendationDetails?: AllSavingsList | undefined;
   /** Benefit scope. For example, Single or Shared. */
-  scope: Scope;
+  scope: ManagementGroupScopeBenefitRecommendationPropertiesScope;
+  /** Fully-qualified identifier of the management group that this management group scope recommendation is for, of the format /providers/Microsoft.Management/managementGroups/{managementGroupId}. Applicable only if recommendation is for 'ManagementGroup' scope. */
+  managementGroupId?: string | undefined;
+  /** The tenant ID associated with the management group. Populated only when managementGroupId is populated. */
+  tenantId?: string | undefined;
 }
+/** Benefit scope. For example, Single or Shared. */
+export type SharedScopeBenefitRecommendationPropertiesScope = "Shared";
+/** The properties of the benefit recommendations. */
+export interface SharedScopeBenefitRecommendationProperties {
+  /** The first usage date used for looking back for computing the recommendations. */
+  firstConsumptionDate?: string | undefined;
+  /** The last usage date used for looking back for computing the recommendations. */
+  lastConsumptionDate?: string | undefined;
+  /** The number of days of usage evaluated for computing the recommendations. */
+  lookBackPeriod?: LookBackPeriod | undefined;
+  /** The total hours for which the cost is covered. Its equal to number of records in a property 'properties/usage/charges'. */
+  totalHours?: number | undefined;
+  /** On-demand charges between firstConsumptionDate and lastConsumptionDate that were used for computing benefit recommendations. */
+  usage?: RecommendationUsageDetails | undefined;
+  /** ARM SKU name. 'Compute_Savings_Plan' for SavingsPlan. */
+  armSkuName?: string | undefined;
+  /** Term period of the benefit. For example, P1Y or P3Y. */
+  term?: Term | undefined;
+  /** Grain of the proposed commitment amount. Supported values: 'Hourly' */
+  commitmentGranularity?: Grain | undefined;
+  /** An ISO 4217 currency code identifier for the costs and savings amounts. */
+  currencyCode?: string | undefined;
+  /** The current cost without benefit, corresponds to 'totalHours' in the look-back period. */
+  costWithoutBenefit?: number | undefined;
+  /** The details of the proposed recommendation. */
+  recommendationDetails?: AllSavingsBenefitDetails | undefined;
+  /** The list of all benefit recommendations with the recommendation details. */
+  allRecommendationDetails?: AllSavingsList | undefined;
+  /** Benefit scope. For example, Single or Shared. */
+  scope: SharedScopeBenefitRecommendationPropertiesScope;
+}
+/** Benefit scope. For example, Single or Shared. */
+export type SingleScopeBenefitRecommendationPropertiesScope = "Single";
+/** The properties of the benefit recommendations when scope is 'Single'. */
+export interface SingleScopeBenefitRecommendationProperties {
+  /** The first usage date used for looking back for computing the recommendations. */
+  firstConsumptionDate?: string | undefined;
+  /** The last usage date used for looking back for computing the recommendations. */
+  lastConsumptionDate?: string | undefined;
+  /** The number of days of usage evaluated for computing the recommendations. */
+  lookBackPeriod?: LookBackPeriod | undefined;
+  /** The total hours for which the cost is covered. Its equal to number of records in a property 'properties/usage/charges'. */
+  totalHours?: number | undefined;
+  /** On-demand charges between firstConsumptionDate and lastConsumptionDate that were used for computing benefit recommendations. */
+  usage?: RecommendationUsageDetails | undefined;
+  /** ARM SKU name. 'Compute_Savings_Plan' for SavingsPlan. */
+  armSkuName?: string | undefined;
+  /** Term period of the benefit. For example, P1Y or P3Y. */
+  term?: Term | undefined;
+  /** Grain of the proposed commitment amount. Supported values: 'Hourly' */
+  commitmentGranularity?: Grain | undefined;
+  /** An ISO 4217 currency code identifier for the costs and savings amounts. */
+  currencyCode?: string | undefined;
+  /** The current cost without benefit, corresponds to 'totalHours' in the look-back period. */
+  costWithoutBenefit?: number | undefined;
+  /** The details of the proposed recommendation. */
+  recommendationDetails?: AllSavingsBenefitDetails | undefined;
+  /** The list of all benefit recommendations with the recommendation details. */
+  allRecommendationDetails?: AllSavingsList | undefined;
+  /** Benefit scope. For example, Single or Shared. */
+  scope: SingleScopeBenefitRecommendationPropertiesScope;
+  /** The subscription ID that this single scope recommendation is for. Applicable only if recommendation is for 'Single' scope. */
+  subscriptionId?: string | undefined;
+  /** The resource group that this single scope recommendation is for. Applicable only if recommendation is for 'Single' scope and 'ResourceGroup' request scope. */
+  resourceGroup?: string | undefined;
+}
+/** The properties of the benefit recommendations. */
+export type BenefitRecommendationProperties =
+  | ManagementGroupScopeBenefitRecommendationProperties
+  | SharedScopeBenefitRecommendationProperties
+  | SingleScopeBenefitRecommendationProperties;
 /** benefit plan recommendation details. */
 export interface BenefitRecommendationModel {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2322,8 +2406,25 @@ export interface ListBenefitUtilizationSummaryByBillingAccountIdRequest {
   /** Supports filtering by properties/benefitId, properties/benefitOrderId and properties/usageDate. */
   filter?: string | undefined;
 }
-/** Benefit utilization summary resource. */
-export interface BenefitUtilizationSummary {
+/** Supported values: 'SavingsPlan'. */
+export type IncludedQuantityUtilizationSummaryKind = "IncludedQuantity";
+/** Included Quantity utilization summary properties. */
+export interface IncludedQuantityUtilizationSummaryProperties {
+  /** ARM SKU name. For example, 'Compute_Savings_Plan' for savings plan. */
+  armSkuName?: string | undefined;
+  /** The benefit ID is the identifier of the benefit. */
+  benefitId?: string | undefined;
+  /** The benefit order ID is the identifier for a benefit purchase. */
+  benefitOrderId?: string | undefined;
+  /** The benefit type. Supported values: 'SavingsPlan'. */
+  benefitType?: BenefitKind | undefined;
+  /** Date corresponding to the utilization summary record. If the grain of data is monthly, value for this field will be first day of the month. */
+  usageDate?: string | undefined;
+  /** This is the utilized percentage for the benefit ID. */
+  utilizationPercentage?: number | undefined;
+}
+/** Included Quantity utilization summary resource. */
+export interface IncludedQuantityUtilizationSummary {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string | undefined;
   /** The name of the resource */
@@ -2333,8 +2434,50 @@ export interface BenefitUtilizationSummary {
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
   systemData?: SystemData | undefined;
   /** Supported values: 'SavingsPlan'. */
-  kind: BenefitKind;
+  kind: IncludedQuantityUtilizationSummaryKind;
+  /** Included Quantity utilization summary properties. */
+  properties?: IncludedQuantityUtilizationSummaryProperties | undefined;
 }
+/** Supported values: 'SavingsPlan'. */
+export type SavingsPlanUtilizationSummaryKind = "SavingsPlan";
+/** Savings plan utilization summary properties. */
+export interface SavingsPlanUtilizationSummaryProperties {
+  /** ARM SKU name. For example, 'Compute_Savings_Plan' for savings plan. */
+  armSkuName?: string | undefined;
+  /** The benefit ID is the identifier of the benefit. */
+  benefitId?: string | undefined;
+  /** The benefit order ID is the identifier for a benefit purchase. */
+  benefitOrderId?: string | undefined;
+  /** The benefit type. Supported values: 'SavingsPlan'. */
+  benefitType?: BenefitKind | undefined;
+  /** Date corresponding to the utilization summary record. If the grain of data is monthly, value for this field will be first day of the month. */
+  usageDate?: string | undefined;
+  /** This is the average hourly utilization for each date range that corresponds to given grain (Daily, Monthly). Suppose the API call is for usageDate > 2025-03-01 and usageDate < 2022-10-31 at a daily granularity. There will be one record per benefit id for each day. For a single day, the avgUtilizationPercentage value will be equal to the average of the set of values where the set contains 24 utilization percentage entries one for each hour in a specific day. */
+  avgUtilizationPercentage?: number | undefined;
+  /** This is the minimum hourly utilization for each date range that corresponds to given grain (Daily, Monthly). Suppose the API call is for usageDate > 2025-03-01 and usageDate < 2022-10-31 at a daily granularity. There will be one record per benefit id for each day. For a single day, the minUtilizationPercentage value will be equal to the smallest in the set of values where the set contains 24 utilization percentage entries one for each hour in a specific day. If on the day 2022-10-18, the lowest utilization percentage was 10% at hour 4, then the value for the minUtilizationPercentage in the response will be 10%. */
+  minUtilizationPercentage?: number | undefined;
+  /** This is the maximum hourly utilization for each date range that corresponds to given grain (Daily, Monthly). Suppose the API call is for usageDate > 2025-03-01 and usageDate < 2022-10-31 at a daily granularity. There will be one record per benefit id for each day. For a single day, the maxUtilizationPercentage value will be equal to the largest in the set of values where the set contains 24 utilization percentage entries one for each hour in a specific day. If on the day 2022-10-18, the largest utilization percentage was 90% at hour 5, then the value for the maxUtilizationPercentage in the response will be 90%. */
+  maxUtilizationPercentage?: number | undefined;
+}
+/** Savings plan utilization summary resource. */
+export interface SavingsPlanUtilizationSummary {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** Supported values: 'SavingsPlan'. */
+  kind: SavingsPlanUtilizationSummaryKind;
+  /** Savings plan utilization summary properties. */
+  properties?: SavingsPlanUtilizationSummaryProperties | undefined;
+}
+/** Benefit utilization summary resource. */
+export type BenefitUtilizationSummary =
+  | IncludedQuantityUtilizationSummary
+  | SavingsPlanUtilizationSummary;
 /** The list of benefit utilization summaries. */
 export type BenefitUtilizationSummariesListResultValueList = Array<BenefitUtilizationSummary>;
 /** List of benefit utilization summaries. */
@@ -2603,21 +2746,8 @@ export interface ListSettingsRequest {
   /** undefined */
   scope: string;
 }
-/** Setting definition. */
-export interface Setting {
-  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string | undefined;
-  /** The name of the resource */
-  name?: string | undefined;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string | undefined;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData | undefined;
-  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind: SettingsKind;
-}
 /** The list of settings. */
-export type SettingsListResultValueList = Array<Setting>;
+export type SettingsListResultValueList = Array<TagInheritanceSetting>;
 /** Setting list result. It contains a list of settings. */
 export interface SettingsListResult {
   /** The list of settings. */
@@ -2893,26 +3023,23 @@ export interface ScheduledActionsCreateOrUpdateByScopeResponse {
   kind?: ScheduledActionKind | undefined;
 }
 export type SettingsCreateOrUpdateByScopeRequestType = "taginheritance";
+/** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
+export type TagInheritanceSettingInputKind = "taginheritance";
+/** Tag Inheritance Setting definition. */
+export interface TagInheritanceSettingInput {
+  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
+  kind: TagInheritanceSettingInputKind | (string & {});
+  /** The properties of the tag inheritance setting. */
+  properties?: TagInheritanceProperties | undefined;
+}
 export interface SettingsCreateOrUpdateByScopeRequest {
   /** undefined */
   scope: string;
   /** Setting type. */
   type: SettingsCreateOrUpdateByScopeRequestType | (string & {});
-  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind: SettingsKind | (string & {});
+  body: TagInheritanceSettingInput;
 }
-export interface SettingsCreateOrUpdateByScopeResponse {
-  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string | undefined;
-  /** The name of the resource */
-  name?: string | undefined;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string | undefined;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData | undefined;
-  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind: SettingsKind;
-}
+export type SettingsCreateOrUpdateByScopeResponse = TagInheritanceSetting;
 /** List of KPIs to show in Cost Analysis UI. */
 export type ViewPropertiesInputKpisList = Array<KpiProperties>;
 /** Configuration of 3 sub-views in the Cost Analysis UI. */
@@ -3089,8 +3216,8 @@ export const CreateGenerateCostDetailsReportOperation: API.OperationMethod<
   CreateGenerateCostDetailsReportOperationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1104, __c69, 0) as any as S.Schema<CreateGenerateCostDetailsReportOperationRequest>,
-  output: __S(1141, __c71, 5) as any as S.Schema<CostDetailsOperationResults>,
+  input: __S(1120, __c70, 0) as any as S.Schema<CreateGenerateCostDetailsReportOperationRequest>,
+  output: __S(1157, __c72, 5) as any as S.Schema<CostDetailsOperationResults>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3750,7 +3877,7 @@ export const GetGenerateCostDetailsReportOperationResults: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(784, __c49, 0) as any as S.Schema<GetGenerateCostDetailsReportOperationResultsRequest>,
-  output: __S(1141, __c71, 5) as any as S.Schema<CostDetailsOperationResults>,
+  output: __S(1157, __c72, 5) as any as S.Schema<CostDetailsOperationResults>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3881,7 +4008,7 @@ export const GetSettingsByScope: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(944, __c59, 0) as any as S.Schema<GetSettingsByScopeRequest>,
-  output: __S(960, __c60, 0) as any as S.Schema<GetSettingsByScopeResponse>,
+  output: __S(976, __c61, 0) as any as S.Schema<GetSettingsByScopeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3900,8 +4027,8 @@ export const GetView: API.OperationMethod<
   GetViewError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<GetViewRequest>,
-  output: __S(1019, __c63, 11) as any as S.Schema<GetViewResponse>,
+  input: __S(992, __c62, 0) as any as S.Schema<GetViewRequest>,
+  output: __S(1035, __c64, 11) as any as S.Schema<GetViewResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3917,8 +4044,8 @@ export const GetViewByScope: API.OperationMethod<
   GetViewByScopeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<GetViewByScopeRequest>,
-  output: __S(1019, __c63, 11) as any as S.Schema<GetViewByScopeResponse>,
+  input: __S(1040, __c65, 0) as any as S.Schema<GetViewByScopeRequest>,
+  output: __S(1035, __c64, 11) as any as S.Schema<GetViewByScopeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3937,8 +4064,8 @@ export const ListAlertExternal: API.OperationMethod<
   ListAlertExternalError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c65, 0) as any as S.Schema<ListAlertExternalRequest>,
-  output: __S(1057, __c66, 1) as any as S.Schema<AlertsResult>,
+  input: __S(1056, __c66, 0) as any as S.Schema<ListAlertExternalRequest>,
+  output: __S(1073, __c67, 1) as any as S.Schema<AlertsResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3954,8 +4081,8 @@ export const ListAlerts: API.OperationMethod<
   ListAlertsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1072, __c67, 0) as any as S.Schema<ListAlertsRequest>,
-  output: __S(1057, __c66, 1) as any as S.Schema<AlertsResult>,
+  input: __S(1088, __c68, 0) as any as S.Schema<ListAlertsRequest>,
+  output: __S(1073, __c67, 1) as any as S.Schema<AlertsResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3974,8 +4101,8 @@ export const ListBenefitRecommendations: API.OperationMethod<
   ListBenefitRecommendationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<ListBenefitRecommendationsRequest>,
-  output: __S(1097, __c68, 9) as any as S.Schema<BenefitRecommendationsListResult>,
+  input: __S(1104, __c69, 0) as any as S.Schema<ListBenefitRecommendationsRequest>,
+  output: __S(1116, __c69, 12) as any as S.Schema<BenefitRecommendationsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3997,11 +4124,11 @@ export const ListBenefitUtilizationSummaryByBillingAccountId: API.OperationMetho
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1168,
-    __c73,
+    1184,
+    __c74,
     0,
   ) as any as S.Schema<ListBenefitUtilizationSummaryByBillingAccountIdRequest>,
-  output: __S(1184, __c74, 0) as any as S.Schema<BenefitUtilizationSummariesListResult>,
+  output: __S(1206, __c75, 6) as any as S.Schema<BenefitUtilizationSummariesListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4022,7 +4149,7 @@ export const ListBenefitUtilizationSummaryByBillingProfileId: API.OperationMetho
     __c76,
     0,
   ) as any as S.Schema<ListBenefitUtilizationSummaryByBillingProfileIdRequest>,
-  output: __S(1184, __c74, 0) as any as S.Schema<BenefitUtilizationSummariesListResult>,
+  output: __S(1206, __c75, 6) as any as S.Schema<BenefitUtilizationSummariesListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4043,7 +4170,7 @@ export const ListBenefitUtilizationSummaryBySavingsPlanId: API.OperationMethod<
     __c77,
     0,
   ) as any as S.Schema<ListBenefitUtilizationSummaryBySavingsPlanIdRequest>,
-  output: __S(1184, __c74, 0) as any as S.Schema<BenefitUtilizationSummariesListResult>,
+  output: __S(1206, __c75, 6) as any as S.Schema<BenefitUtilizationSummariesListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4064,7 +4191,7 @@ export const ListBenefitUtilizationSummaryBySavingsPlanOrder: API.OperationMetho
     __c78,
     0,
   ) as any as S.Schema<ListBenefitUtilizationSummaryBySavingsPlanOrderRequest>,
-  output: __S(1184, __c74, 0) as any as S.Schema<BenefitUtilizationSummariesListResult>,
+  output: __S(1206, __c75, 6) as any as S.Schema<BenefitUtilizationSummariesListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4229,7 +4356,7 @@ export const ListSettings: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c90, 0) as any as S.Schema<ListSettingsRequest>,
-  output: __S(1441, __c90, 1) as any as S.Schema<SettingsListResult>,
+  output: __S(1442, __c90, 2) as any as S.Schema<SettingsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4417,8 +4544,8 @@ export const SettingsCreateOrUpdateByScope: API.OperationMethod<
   SettingsCreateOrUpdateByScopeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c104, 0) as any as S.Schema<SettingsCreateOrUpdateByScopeRequest>,
-  output: __S(960, __c60, 0) as any as S.Schema<SettingsCreateOrUpdateByScopeResponse>,
+  input: __S(1665, __c104, 1) as any as S.Schema<SettingsCreateOrUpdateByScopeRequest>,
+  output: __S(976, __c61, 0) as any as S.Schema<SettingsCreateOrUpdateByScopeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4438,7 +4565,7 @@ export const ViewsCreateOrUpdate: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1680, __c105, 0) as any as S.Schema<ViewsCreateOrUpdateRequest>,
-  output: __S(1019, __c63, 11) as any as S.Schema<ViewsCreateOrUpdateResponse>,
+  output: __S(1035, __c64, 11) as any as S.Schema<ViewsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4455,7 +4582,7 @@ export const ViewsCreateOrUpdateByScope: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1712, __c107, 0) as any as S.Schema<ViewsCreateOrUpdateByScopeRequest>,
-  output: __S(1019, __c63, 11) as any as S.Schema<ViewsCreateOrUpdateByScopeResponse>,
+  output: __S(1035, __c64, 11) as any as S.Schema<ViewsCreateOrUpdateByScopeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5205,7 +5332,7 @@ function __c27(j: number): any {
           fileName: S.optional(S.String),
           manifestFile: S.optional(S.String),
           runSettings: S.optional(__S(440, __c27, 8)),
-          error: S.optional(__S(1120, __c70, 0)),
+          error: S.optional(__S(1136, __c71, 0)),
         }),
       ).annotate({ identifier: "ExportRunProperties" });
     case 10:
@@ -5925,7 +6052,7 @@ function __c53(j: number): any {
           status: S.optional(__S(849, __c53, 1)),
           startTime: S.optional(S.String),
           endTime: S.optional(S.String),
-          error: S.optional(__S(1120, __c70, 0)),
+          error: S.optional(__S(1136, __c71, 0)),
         }),
       ).annotate({ identifier: "GetGenerateDetailedCostReportOperationStatusResponse" });
   }
@@ -6097,16 +6224,31 @@ function __c60(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          preferContainerTags: S.Boolean,
+        }),
+      ).annotate({ identifier: "TagInheritanceProperties" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(64, __c4, 0)),
           kind: S.String,
+          properties: S.optional(__S(960, __c60, 0)),
         }),
-      ).annotate({ identifier: "GetSettingsByScopeResponse" });
+      ).annotate({ identifier: "TagInheritanceSetting" });
   }
 }
 function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => __S(961, __c60, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetSettingsByScopeResponse",
+      });
+  }
+}
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6123,7 +6265,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "GetViewRequest" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6133,7 +6275,7 @@ function __c62(j: number): any {
         }),
       ).annotate({ identifier: "ReportConfigAggregation" });
     case 1:
-      return S.Record(S.String, __S(992, __c62, 0));
+      return S.Record(S.String, __S(1008, __c63, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -6142,10 +6284,10 @@ function __c62(j: number): any {
         }),
       ).annotate({ identifier: "ReportConfigGrouping" });
     case 3:
-      return S.Array(__S(994, __c62, 2));
+      return S.Array(__S(1010, __c63, 2));
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6155,14 +6297,14 @@ function __c63(j: number): any {
         }),
       ).annotate({ identifier: "ReportConfigSorting" });
     case 1:
-      return S.Array(__S(1008, __c63, 0));
+      return S.Array(__S(1024, __c64, 0));
     case 2:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(1011, __c63, 3)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(1027, __c64, 3)));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          and: S.optional(__S(1010, __c63, 2)),
-          or: S.optional(__S(1010, __c63, 2)),
+          and: S.optional(__S(1026, __c64, 2)),
+          or: S.optional(__S(1026, __c64, 2)),
           dimensions: S.optional(__S(16, __c1, 0)),
           tags: S.optional(__S(16, __c1, 0)),
         }),
@@ -6172,10 +6314,10 @@ function __c63(j: number): any {
         S.Struct({
           granularity: S.optional(S.String),
           configuration: S.optional(__S(496, __c31, 0)),
-          aggregation: S.optional(__S(993, __c62, 1)),
-          grouping: S.optional(__S(995, __c62, 3)),
-          sorting: S.optional(__S(1009, __c63, 1)),
-          filter: S.optional(__S(1011, __c63, 3)),
+          aggregation: S.optional(__S(1009, __c63, 1)),
+          grouping: S.optional(__S(1011, __c63, 3)),
+          sorting: S.optional(__S(1025, __c64, 1)),
+          filter: S.optional(__S(1027, __c64, 3)),
         }),
       ).annotate({ identifier: "ReportConfigDataset" });
     case 5:
@@ -6184,7 +6326,7 @@ function __c63(j: number): any {
           type: S.String,
           timeframe: S.String,
           timePeriod: S.optional(__S(400, __c25, 0)),
-          dataSet: S.optional(__S(1012, __c63, 4)),
+          dataSet: S.optional(__S(1028, __c64, 4)),
           includeMonetaryCommitment: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ReportConfigDefinition" });
@@ -6197,7 +6339,7 @@ function __c63(j: number): any {
         }),
       ).annotate({ identifier: "KpiProperties" });
     case 7:
-      return S.Array(__S(1014, __c63, 6));
+      return S.Array(__S(1030, __c64, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -6206,7 +6348,7 @@ function __c63(j: number): any {
         }),
       ).annotate({ identifier: "PivotProperties" });
     case 9:
-      return S.Array(__S(1016, __c63, 8));
+      return S.Array(__S(1032, __c64, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
@@ -6216,12 +6358,12 @@ function __c63(j: number): any {
           modifiedOn: S.optional(S.String),
           dateRange: S.optional(S.String),
           currency: S.optional(S.String),
-          query: S.optional(__S(1013, __c63, 5)),
+          query: S.optional(__S(1029, __c64, 5)),
           chart: S.optional(S.String),
           accumulated: S.optional(S.String),
           metric: S.optional(S.String),
-          kpis: S.optional(__S(1015, __c63, 7)),
-          pivots: S.optional(__S(1017, __c63, 9)),
+          kpis: S.optional(__S(1031, __c64, 7)),
+          pivots: S.optional(__S(1033, __c64, 9)),
         }),
       ).annotate({ identifier: "ViewProperties" });
     case 11:
@@ -6231,13 +6373,13 @@ function __c63(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(64, __c4, 0)),
-          properties: S.optional(__S(1018, __c63, 10)),
+          properties: S.optional(__S(1034, __c64, 10)),
           eTag: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetViewResponse" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6255,7 +6397,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "GetViewByScopeRequest" });
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6273,20 +6415,20 @@ function __c65(j: number): any {
       ).annotate({ identifier: "ListAlertExternalRequest" });
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(291, __c18, 3));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1056, __c66, 0)),
+          value: S.optional(__S(1072, __c67, 0)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AlertsResult" });
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6303,7 +6445,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "ListAlertsRequest" });
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6327,7 +6469,7 @@ function __c68(j: number): any {
       return S.suspend(() =>
         S.Struct({
           usageGrain: S.optional(S.String),
-          charges: S.optional(__S(1089, __c68, 1)),
+          charges: S.optional(__S(1105, __c69, 1)),
         }),
       ).annotate({ identifier: "RecommendationUsageDetails" });
     case 3:
@@ -6345,11 +6487,11 @@ function __c68(j: number): any {
         }),
       ).annotate({ identifier: "AllSavingsBenefitDetails" });
     case 4:
-      return S.Array(__S(1091, __c68, 3));
+      return S.Array(__S(1107, __c69, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1092, __c68, 4)),
+          value: S.optional(__S(1108, __c69, 4)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AllSavingsList" });
@@ -6360,18 +6502,60 @@ function __c68(j: number): any {
           lastConsumptionDate: S.optional(S.String),
           lookBackPeriod: S.optional(S.String),
           totalHours: S.optional(S.Number),
-          usage: S.optional(__S(1090, __c68, 2)),
+          usage: S.optional(__S(1106, __c69, 2)),
           armSkuName: S.optional(S.String),
           term: S.optional(S.String),
           commitmentGranularity: S.optional(S.String),
           currencyCode: S.optional(S.String),
           costWithoutBenefit: S.optional(S.Number),
-          recommendationDetails: S.optional(__S(1091, __c68, 3)),
-          allRecommendationDetails: S.optional(__S(1093, __c68, 5)),
+          recommendationDetails: S.optional(__S(1107, __c69, 3)),
+          allRecommendationDetails: S.optional(__S(1109, __c69, 5)),
+          scope: S.String,
+          managementGroupId: S.optional(S.String),
+          tenantId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ManagementGroupScopeBenefitRecommendationProperties" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          firstConsumptionDate: S.optional(S.String),
+          lastConsumptionDate: S.optional(S.String),
+          lookBackPeriod: S.optional(S.String),
+          totalHours: S.optional(S.Number),
+          usage: S.optional(__S(1106, __c69, 2)),
+          armSkuName: S.optional(S.String),
+          term: S.optional(S.String),
+          commitmentGranularity: S.optional(S.String),
+          currencyCode: S.optional(S.String),
+          costWithoutBenefit: S.optional(S.Number),
+          recommendationDetails: S.optional(__S(1107, __c69, 3)),
+          allRecommendationDetails: S.optional(__S(1109, __c69, 5)),
           scope: S.String,
         }),
-      ).annotate({ identifier: "BenefitRecommendationProperties" });
-    case 7:
+      ).annotate({ identifier: "SharedScopeBenefitRecommendationProperties" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          firstConsumptionDate: S.optional(S.String),
+          lastConsumptionDate: S.optional(S.String),
+          lookBackPeriod: S.optional(S.String),
+          totalHours: S.optional(S.Number),
+          usage: S.optional(__S(1106, __c69, 2)),
+          armSkuName: S.optional(S.String),
+          term: S.optional(S.String),
+          commitmentGranularity: S.optional(S.String),
+          currencyCode: S.optional(S.String),
+          costWithoutBenefit: S.optional(S.Number),
+          recommendationDetails: S.optional(__S(1107, __c69, 3)),
+          allRecommendationDetails: S.optional(__S(1109, __c69, 5)),
+          scope: S.String,
+          subscriptionId: S.optional(S.String),
+          resourceGroup: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SingleScopeBenefitRecommendationProperties" });
+    case 9:
+      return S.Union([__S(1110, __c69, 6), __S(1111, __c69, 7), __S(1112, __c69, 8)]);
+    case 10:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -6379,28 +6563,28 @@ function __c68(j: number): any {
           type: S.optional(S.String),
           systemData: S.optional(__S(64, __c4, 0)),
           kind: S.optional(S.String),
-          properties: S.optional(__S(1094, __c68, 6)),
+          properties: S.optional(__S(1113, __c69, 9)),
         }),
       ).annotate({ identifier: "BenefitRecommendationModel" });
-    case 8:
-      return S.Array(__S(1095, __c68, 7));
-    case 9:
+    case 11:
+      return S.Array(__S(1114, __c69, 10));
+    case 12:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1096, __c68, 8)),
+          value: S.optional(__S(1115, __c69, 11)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "BenefitRecommendationsListResult" });
   }
 }
-function __c69(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           scope: S.String.pipe(T.Label()),
           metric: S.optional(S.String),
-          timePeriod: S.optional(__S(1152, __c72, 0)),
+          timePeriod: S.optional(__S(1168, __c73, 0)),
           billingPeriod: S.optional(S.String),
           invoiceId: S.optional(S.String),
         }).pipe(
@@ -6414,7 +6598,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "CreateGenerateCostDetailsReportOperationRequest" });
   }
 }
-function __c70(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6425,13 +6609,13 @@ function __c70(j: number): any {
       ).annotate({ identifier: "ErrorDetails" });
   }
 }
-function __c71(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           metric: S.optional(S.String),
-          timePeriod: S.optional(__S(1152, __c72, 0)),
+          timePeriod: S.optional(__S(1168, __c73, 0)),
           billingPeriod: S.optional(S.String),
           invoiceId: S.optional(S.String),
         }),
@@ -6440,7 +6624,7 @@ function __c71(j: number): any {
       return S.suspend(() =>
         S.Struct({
           requestScope: S.optional(S.String),
-          requestBody: S.optional(__S(1136, __c71, 0)),
+          requestBody: S.optional(__S(1152, __c72, 0)),
         }),
       ).annotate({ identifier: "RequestContext" });
     case 2:
@@ -6451,7 +6635,7 @@ function __c71(j: number): any {
         }),
       ).annotate({ identifier: "BlobInfo" });
     case 3:
-      return S.Array(__S(1138, __c71, 2));
+      return S.Array(__S(1154, __c72, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -6460,8 +6644,8 @@ function __c71(j: number): any {
           byteCount: S.optional(S.Number),
           blobCount: S.optional(S.Number),
           compressData: S.optional(S.Boolean),
-          requestContext: S.optional(__S(1137, __c71, 1)),
-          blobs: S.optional(__S(1139, __c71, 3)),
+          requestContext: S.optional(__S(1153, __c72, 1)),
+          blobs: S.optional(__S(1155, __c72, 3)),
         }),
       ).annotate({ identifier: "ReportManifest" });
     case 5:
@@ -6471,16 +6655,16 @@ function __c71(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           status: S.optional(S.String),
-          manifest: S.optional(__S(1140, __c71, 4)),
+          manifest: S.optional(__S(1156, __c72, 4)),
           validTill: S.optional(S.String),
-          error: S.optional(__S(1120, __c70, 0)),
+          error: S.optional(__S(1136, __c71, 0)),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
           location: S.optional(S.String.pipe(T.Header("Location"))),
         }),
       ).annotate({ identifier: "CostDetailsOperationResults" });
   }
 }
-function __c72(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6491,7 +6675,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "CostDetailsTimePeriod" });
   }
 }
-function __c73(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6510,21 +6694,65 @@ function __c73(j: number): any {
       ).annotate({ identifier: "ListBenefitUtilizationSummaryByBillingAccountIdRequest" });
   }
 }
-function __c74(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1200, __c75, 0)),
+          armSkuName: S.optional(S.String),
+          benefitId: S.optional(S.String),
+          benefitOrderId: S.optional(S.String),
+          benefitType: S.optional(S.String),
+          usageDate: S.optional(S.String),
+          utilizationPercentage: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "IncludedQuantityUtilizationSummaryProperties" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(64, __c4, 0)),
+          kind: S.String,
+          properties: S.optional(__S(1200, __c75, 0)),
+        }),
+      ).annotate({ identifier: "IncludedQuantityUtilizationSummary" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          armSkuName: S.optional(S.String),
+          benefitId: S.optional(S.String),
+          benefitOrderId: S.optional(S.String),
+          benefitType: S.optional(S.String),
+          usageDate: S.optional(S.String),
+          avgUtilizationPercentage: S.optional(S.Number),
+          minUtilizationPercentage: S.optional(S.Number),
+          maxUtilizationPercentage: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "SavingsPlanUtilizationSummaryProperties" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(64, __c4, 0)),
+          kind: S.String,
+          properties: S.optional(__S(1202, __c75, 2)),
+        }),
+      ).annotate({ identifier: "SavingsPlanUtilizationSummary" });
+    case 4:
+      return S.Union([__S(1201, __c75, 1), __S(1203, __c75, 3)]);
+    case 5:
+      return S.Array(__S(1204, __c75, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          value: S.optional(__S(1205, __c75, 5)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "BenefitUtilizationSummariesListResult" });
-  }
-}
-function __c75(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(960, __c60, 0));
   }
 }
 function __c76(j: number): any {
@@ -6764,7 +6992,7 @@ function __c85(j: number): any {
         S.Struct({
           scope: S.String.pipe(T.Label()),
           metric: S.optional(S.String),
-          timePeriod: S.optional(__S(1152, __c72, 0)),
+          timePeriod: S.optional(__S(1168, __c73, 0)),
           billingPeriod: S.optional(S.String),
           invoiceId: S.optional(S.String),
           customerId: S.optional(S.String),
@@ -6867,9 +7095,11 @@ function __c90(j: number): any {
         ),
       ).annotate({ identifier: "ListSettingsRequest" });
     case 1:
+      return S.Array(__S(961, __c60, 1));
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1200, __c75, 0)),
+          value: S.optional(__S(1441, __c90, 1)),
         }),
       ).annotate({ identifier: "SettingsListResult" });
   }
@@ -6894,7 +7124,7 @@ function __c91(j: number): any {
 function __c92(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1019, __c63, 11));
+      return S.Array(__S(1035, __c64, 11));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -6978,8 +7208,8 @@ function __c96(j: number): any {
         S.Struct({
           granularity: S.optional(S.String),
           configuration: S.optional(__S(496, __c31, 0)),
-          aggregation: S.optional(__S(993, __c62, 1)),
-          grouping: S.optional(__S(995, __c62, 3)),
+          aggregation: S.optional(__S(1009, __c63, 1)),
+          grouping: S.optional(__S(1011, __c63, 3)),
           filter: S.optional(__S(1537, __c96, 1)),
         }),
       ).annotate({ identifier: "QueryDataset" });
@@ -7112,9 +7342,16 @@ function __c104(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          kind: S.String,
+          properties: S.optional(__S(960, __c60, 0)),
+        }),
+      ).annotate({ identifier: "TagInheritanceSettingInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           scope: S.String.pipe(T.Label()),
           type: S.String.pipe(T.Label()),
-          kind: S.String,
+          body: __S(1664, __c104, 0).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -7154,12 +7391,12 @@ function __c106(j: number): any {
           scope: S.optional(S.String),
           modifiedOn: S.optional(S.String),
           dateRange: S.optional(S.String),
-          query: S.optional(__S(1013, __c63, 5)),
+          query: S.optional(__S(1029, __c64, 5)),
           chart: S.optional(S.String),
           accumulated: S.optional(S.Boolean.pipe(T.StringEncoded())),
           metric: S.optional(S.String),
-          kpis: S.optional(__S(1015, __c63, 7)),
-          pivots: S.optional(__S(1017, __c63, 9)),
+          kpis: S.optional(__S(1031, __c64, 7)),
+          pivots: S.optional(__S(1033, __c64, 9)),
         }),
       ).annotate({ identifier: "ViewPropertiesInput" });
   }

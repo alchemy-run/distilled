@@ -9,9 +9,9 @@
  *
  * @example
  * ```ts
- * import * as Azure from "@distilled.cloud/azure";
+ * import * as Resources from "@distilled.cloud/azure/resources";
  *
- * const groups = yield* Azure.resources.ResourceGroupsList({});
+ * const groups = yield* Resources.ResourceGroupsList({});
  * ```
  */
 export * from "./credentials.ts";
@@ -19,4 +19,3 @@ export * from "./errors.ts";
 export * as T from "./traits.ts";
 export { AzureProtocol, type AzureOpError, type AzureOpContext } from "./protocol.ts";
 export * as Retry from "./retry.ts";
-export * from "./services/index.ts";

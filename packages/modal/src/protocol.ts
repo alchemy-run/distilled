@@ -23,7 +23,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
 import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
+import { type AuthTokenError, Credentials, type Config } from "./credentials.ts";
 import { descriptors } from "./descriptors.ts";
 import { UnknownModalError, type DefaultErrors, ModalParseError } from "./errors.ts";
 
@@ -58,6 +58,7 @@ export const LIBMODAL_JS_VERSION = "0.11.1";
 export type ModalOpError =
   | DefaultErrors
   | ConfigError
+  | AuthTokenError
   | HttpClientError.HttpClientError
   | InvalidInput
   | SdkError;

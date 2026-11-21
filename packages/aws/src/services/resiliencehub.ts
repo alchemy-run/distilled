@@ -113,7 +113,7 @@ export class InternalServerException
     "InternalServerException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
@@ -138,7 +138,7 @@ export class ThrottlingException
       retryAfterSeconds: /*@__PURE__*/ S.optional(S.Number),
     },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
@@ -5072,12 +5072,12 @@ function __c54(j: number): any {
           maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
           name: S.optional(S.String).pipe(T.HttpQuery("name")),
           appArn: S.optional(S.String).pipe(T.HttpQuery("appArn")),
-          fromLastAssessmentTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-            T.HttpQuery("fromLastAssessmentTime"),
-          ),
-          toLastAssessmentTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-            T.HttpQuery("toLastAssessmentTime"),
-          ),
+          fromLastAssessmentTime: S.optional(
+            T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          ).pipe(T.HttpQuery("fromLastAssessmentTime")),
+          toLastAssessmentTime: S.optional(
+            T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          ).pipe(T.HttpQuery("toLastAssessmentTime")),
           reverseOrder: S.optional(S.Boolean).pipe(T.HttpQuery("reverseOrder")),
           awsApplicationArn: S.optional(S.String).pipe(T.HttpQuery("awsApplicationArn")),
         }).pipe(T.all(T.Http({ method: "GET", uri: "/list-apps" }), svc, auth, proto, ver, rules)),

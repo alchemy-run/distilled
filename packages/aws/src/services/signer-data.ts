@@ -85,7 +85,7 @@ export class InternalServiceErrorException
       code: /*@__PURE__*/ S.optional(S.String),
     },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class TooManyRequestsException
   extends /*@__PURE__*/ S.TaggedError<TooManyRequestsException>()(
     "TooManyRequestsException",
@@ -94,7 +94,7 @@ export class TooManyRequestsException
       code: /*@__PURE__*/ S.optional(S.String),
     },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
@@ -158,7 +158,7 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          signatureTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(
+          signatureTimestamp: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
             T.HttpQuery("signatureTimestamp"),
           ),
           platformId: S.String.pipe(T.HttpQuery("platformId")),

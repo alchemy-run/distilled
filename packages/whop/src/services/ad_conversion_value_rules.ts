@@ -30,15 +30,24 @@ export class Conflict
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
   ) {}
@@ -291,6 +300,17 @@ export interface UpdateAdConversionValueRuleRequest {
   /** Targets sharing one scope. Every selected event applies to every target. At most 500 target and event combinations. */
   targets?: UpdateAdConversionValueRuleRequestTargetsList | undefined;
 }
+export interface V1ErrorResponseError {
+  /** Machine-readable reason for this specific refusal, such as `bank_warning_not_acknowledged`. Only present when the error carries one. */
+  code?: string | undefined;
+  /** Human-readable error message. */
+  message: string;
+  /** Machine-readable error code. */
+  type: string;
+}
+export interface V1ErrorResponse {
+  error: V1ErrorResponseError;
+}
 export type CreateAdConversionValueRuleError = Forbidden | Conflict | WhopOpError;
 /** Create a conversion value rule Create one rule covering every selected target and event combination. Active rules cannot overlap for the same platform and event. Customer prices and Whop revenue stay unchanged. */
 export const createAdConversionValueRule: API.OperationMethod<
@@ -299,8 +319,8 @@ export const createAdConversionValueRule: API.OperationMethod<
   CreateAdConversionValueRuleError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateAdConversionValueRuleRequest>,
-  output: __S(13, __c1, 5) as any as S.Schema<AdConversionValueRule>,
+  input: __S(8, __c1, 0) as any as S.Schema<CreateAdConversionValueRuleRequest>,
+  output: __S(21, __c2, 5) as any as S.Schema<AdConversionValueRule>,
   errors: [Forbidden, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -316,8 +336,8 @@ export const deleteAdConversionValueRule: API.OperationMethod<
   DeleteAdConversionValueRuleError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<DeleteAdConversionValueRuleRequest>,
-  output: __S(25, __c3, 1) as any as S.Schema<DeleteAdConversionValueRuleResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<DeleteAdConversionValueRuleRequest>,
+  output: __S(33, __c4, 1) as any as S.Schema<DeleteAdConversionValueRuleResponse>,
   errors: [],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -333,8 +353,8 @@ export const getAdConversionValueRule: API.OperationMethod<
   GetAdConversionValueRuleError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<GetAdConversionValueRuleRequest>,
-  output: __S(13, __c1, 5) as any as S.Schema<AdConversionValueRule>,
+  input: __S(40, __c5, 0) as any as S.Schema<GetAdConversionValueRuleRequest>,
+  output: __S(21, __c2, 5) as any as S.Schema<AdConversionValueRule>,
   errors: [],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -352,8 +372,8 @@ export const listAdConversionValueRules: API.PaginatedOperationMethod<
   AdConversionValueRule
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(40, __c5, 0) as any as S.Schema<ListAdConversionValueRulesRequest>,
-    output: __S(43, __c5, 3) as any as S.Schema<ListAdConversionValueRulesResponse>,
+    input: __S(48, __c6, 0) as any as S.Schema<ListAdConversionValueRulesRequest>,
+    output: __S(51, __c6, 3) as any as S.Schema<ListAdConversionValueRulesResponse>,
     errors: [],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -379,8 +399,8 @@ export const pauseAdConversionValueRule: API.OperationMethod<
   PauseAdConversionValueRuleError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<PauseAdConversionValueRuleRequest>,
-  output: __S(13, __c1, 5) as any as S.Schema<AdConversionValueRule>,
+  input: __S(56, __c7, 0) as any as S.Schema<PauseAdConversionValueRuleRequest>,
+  output: __S(21, __c2, 5) as any as S.Schema<AdConversionValueRule>,
   errors: [Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -396,8 +416,8 @@ export const unpauseAdConversionValueRule: API.OperationMethod<
   UnpauseAdConversionValueRuleError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<UnpauseAdConversionValueRuleRequest>,
-  output: __S(13, __c1, 5) as any as S.Schema<AdConversionValueRule>,
+  input: __S(64, __c8, 0) as any as S.Schema<UnpauseAdConversionValueRuleRequest>,
+  output: __S(21, __c2, 5) as any as S.Schema<AdConversionValueRule>,
   errors: [Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -413,8 +433,8 @@ export const updateAdConversionValueRule: API.OperationMethod<
   UpdateAdConversionValueRuleError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<UpdateAdConversionValueRuleRequest>,
-  output: __S(13, __c1, 5) as any as S.Schema<AdConversionValueRule>,
+  input: __S(72, __c9, 0) as any as S.Schema<UpdateAdConversionValueRuleRequest>,
+  output: __S(21, __c2, 5) as any as S.Schema<AdConversionValueRule>,
   errors: [],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -428,21 +448,39 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          code: S.optional(S.String),
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "V1ErrorResponseError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "V1ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           account_id: S.String,
           adjustment_type: S.String,
-          events: __S(17, __c2, 1),
-          fixed_value: S.optional(S.NullOr(__S(18, __c2, 2))),
-          metadata: S.optional(__S(19, __c2, 3)),
+          events: __S(25, __c3, 1),
+          fixed_value: S.optional(S.NullOr(__S(26, __c3, 2))),
+          metadata: S.optional(__S(27, __c3, 3)),
           percentage_change: S.optional(S.NullOr(S.Number)),
-          replace_rule_ids: S.optional(__S(20, __c2, 4)),
+          replace_rule_ids: S.optional(__S(28, __c3, 4)),
           status: S.optional(S.String),
-          targets: __S(22, __c2, 6),
+          targets: __S(30, __c3, 6),
           idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(T.Http({ method: "POST", uri: "/ad_conversion_value_rules", code: 200 })),
       ).annotate({ identifier: "CreateAdConversionValueRuleRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -452,7 +490,7 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "AdConversionValueRuleEvent" });
     case 1:
-      return S.Array(__S(8, __c1, 0));
+      return S.Array(__S(16, __c2, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -472,26 +510,26 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "AdConversionValueRuleTarget" });
     case 4:
-      return S.Array(__S(11, __c1, 3));
+      return S.Array(__S(19, __c2, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           account_id: S.String,
           adjustment_type: S.String,
           created_at: S.String,
-          events: __S(9, __c1, 1),
-          fixed_value: S.NullOr(__S(10, __c1, 2)),
+          events: __S(17, __c2, 1),
+          fixed_value: S.NullOr(__S(18, __c2, 2)),
           id: S.String,
           metadata: S.Unknown,
           percentage_change: S.NullOr(S.Number),
           status: S.String,
-          targets: __S(12, __c1, 4),
+          targets: __S(20, __c2, 4),
           updated_at: S.String,
         }),
       ).annotate({ identifier: "AdConversionValueRule" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -501,7 +539,7 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "CreateAdConversionValueRuleRequestEventsItem" });
     case 1:
-      return S.Array(__S(16, __c2, 0));
+      return S.Array(__S(24, __c3, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -522,10 +560,10 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "CreateAdConversionValueRuleRequestTargetsItem" });
     case 6:
-      return S.Array(__S(21, __c2, 5));
+      return S.Array(__S(29, __c3, 5));
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -542,7 +580,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "DeleteAdConversionValueRuleResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -552,7 +590,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetAdConversionValueRuleRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -570,7 +608,7 @@ function __c5(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/ad_conversion_value_rules", code: 200 })),
       ).annotate({ identifier: "ListAdConversionValueRulesRequest" });
     case 1:
-      return S.Array(__S(13, __c1, 5));
+      return S.Array(__S(21, __c2, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -583,13 +621,13 @@ function __c5(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(41, __c5, 1),
-          page_info: __S(42, __c5, 2),
+          data: __S(49, __c6, 1),
+          page_info: __S(50, __c6, 2),
         }),
       ).annotate({ identifier: "ListAdConversionValueRulesResponse" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -602,7 +640,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "PauseAdConversionValueRuleRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -615,19 +653,19 @@ function __c7(j: number): any {
       ).annotate({ identifier: "UnpauseAdConversionValueRuleRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           adjustment_type: S.optional(S.String),
-          events: S.optional(__S(17, __c2, 1)),
-          fixed_value: S.optional(S.NullOr(__S(18, __c2, 2))),
-          metadata: S.optional(__S(19, __c2, 3)),
+          events: S.optional(__S(25, __c3, 1)),
+          fixed_value: S.optional(S.NullOr(__S(26, __c3, 2))),
+          metadata: S.optional(__S(27, __c3, 3)),
           percentage_change: S.optional(S.NullOr(S.Number)),
-          replace_rule_ids: S.optional(__S(20, __c2, 4)),
-          targets: S.optional(__S(22, __c2, 6)),
+          replace_rule_ids: S.optional(__S(28, __c3, 4)),
+          targets: S.optional(__S(30, __c3, 6)),
         }).pipe(T.Http({ method: "PATCH", uri: "/ad_conversion_value_rules/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateAdConversionValueRuleRequest" });
   }

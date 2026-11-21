@@ -30,9 +30,16 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error401Body | string;
+}
 
 export interface CreateTeamMembershipRequest {
   /** Name of an org */
@@ -85,6 +92,10 @@ export interface PutScopeTeamResponse {
   /** The name of the team that was created */
   name?: string | undefined;
 }
+export interface Error401Body {
+  /** Error message */
+  error?: string | undefined;
+}
 export type CreateTeamMembershipError = Forbidden | NpmOpError;
 /** Add a user to a team Add a user to a team in an org. The user must already be a member of the org. Granular Access Tokens with `bypass_2fa: true` are not permitted to call this endpoint and receive `403 Forbidden`. This operation must be performed via an interactive 2FA challenge. */
 export const createTeamMembership: API.OperationMethod<
@@ -93,8 +104,8 @@ export const createTeamMembership: API.OperationMethod<
   CreateTeamMembershipError,
   NpmOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateTeamMembershipRequest>,
-  output: __S(2, __c1, 0) as any as S.Schema<CreateTeamMembershipResponse>,
+  input: __S(2, __c1, 0) as any as S.Schema<CreateTeamMembershipRequest>,
+  output: __S(4, __c2, 0) as any as S.Schema<CreateTeamMembershipResponse>,
   errors: [Forbidden, UnknownNpmError],
   protocol: NpmProtocol,
   retry: Retry.Retry,
@@ -110,8 +121,8 @@ export const deleteTeam: API.OperationMethod<
   DeleteTeamError,
   NpmOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c2, 0) as any as S.Schema<DeleteTeamRequest>,
-  output: __S(2, __c1, 0) as any as S.Schema<DeleteTeamResponse>,
+  input: __S(6, __c3, 0) as any as S.Schema<DeleteTeamRequest>,
+  output: __S(4, __c2, 0) as any as S.Schema<DeleteTeamResponse>,
   errors: [Forbidden, UnknownNpmError],
   protocol: NpmProtocol,
   retry: Retry.Retry,
@@ -127,8 +138,8 @@ export const deleteTeamMembership: API.OperationMethod<
   DeleteTeamMembershipError,
   NpmOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6, __c3, 0) as any as S.Schema<DeleteTeamMembershipRequest>,
-  output: __S(2, __c1, 0) as any as S.Schema<DeleteTeamMembershipResponse>,
+  input: __S(8, __c4, 0) as any as S.Schema<DeleteTeamMembershipRequest>,
+  output: __S(4, __c2, 0) as any as S.Schema<DeleteTeamMembershipResponse>,
   errors: [Forbidden, UnknownNpmError],
   protocol: NpmProtocol,
   retry: Retry.Retry,
@@ -144,8 +155,8 @@ export const getScopeTeams: API.OperationMethod<
   GetScopeTeamsError,
   NpmOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c4, 0) as any as S.Schema<GetScopeTeamsRequest>,
-  output: __S(11, __c5, 1) as any as S.Schema<GetScopeTeamsResponse>,
+  input: __S(10, __c5, 0) as any as S.Schema<GetScopeTeamsRequest>,
+  output: __S(13, __c6, 1) as any as S.Schema<GetScopeTeamsResponse>,
   errors: [UnknownNpmError],
   protocol: NpmProtocol,
   retry: Retry.Retry,
@@ -161,8 +172,8 @@ export const getTeamMembership: API.OperationMethod<
   GetTeamMembershipError,
   NpmOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c6, 0) as any as S.Schema<GetTeamMembershipRequest>,
-  output: __S(11, __c5, 1) as any as S.Schema<GetTeamMembershipResponse>,
+  input: __S(14, __c7, 0) as any as S.Schema<GetTeamMembershipRequest>,
+  output: __S(13, __c6, 1) as any as S.Schema<GetTeamMembershipResponse>,
   errors: [UnknownNpmError],
   protocol: NpmProtocol,
   retry: Retry.Retry,
@@ -178,8 +189,8 @@ export const putScopeTeam: API.OperationMethod<
   PutScopeTeamError,
   NpmOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14, __c7, 0) as any as S.Schema<PutScopeTeamRequest>,
-  output: __S(15, __c7, 1) as any as S.Schema<PutScopeTeamResponse>,
+  input: __S(16, __c8, 0) as any as S.Schema<PutScopeTeamRequest>,
+  output: __S(17, __c8, 1) as any as S.Schema<PutScopeTeamResponse>,
   errors: [Forbidden, UnknownNpmError],
   protocol: NpmProtocol,
   retry: Retry.Retry,
@@ -193,6 +204,16 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          error: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Error401Body" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           orgName: S.String.pipe(T.Label()),
           teamName: S.String.pipe(T.Label()),
           user: S.optional(S.String),
@@ -200,13 +221,13 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateTeamMembershipRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CreateTeamMembershipResponse" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -217,7 +238,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "DeleteTeamRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -229,7 +250,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "DeleteTeamMembershipRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -239,17 +260,17 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetScopeTeamsRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
     case 1:
-      return S.suspend(() => __S(10, __c5, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(12, __c6, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetScopeTeamsResponse",
       });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -260,7 +281,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GetTeamMembershipRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

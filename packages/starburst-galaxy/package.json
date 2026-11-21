@@ -19,7 +19,6 @@
       "types": "./lib/index.d.ts",
       "bun": "./src/index.ts",
       "worker": "./src/index.ts",
-      "distilled-lazy": "./lib/index.lazy.js",
       "default": "./lib/index.js"
     },
     "./Credentials": {
@@ -85,7 +84,7 @@
     "effect": "catalog:"
   },
   "distilled": {
-    "generatedAt": "2026-11-13",
+    "generatedAt": "2026-11-15",
     "specUpdatedAt": "2026-11-13"
   }
 }

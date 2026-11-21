@@ -16,13 +16,14 @@ npm install @distilled.cloud/starburst-galaxy effect
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as StarburstGalaxy from "@distilled.cloud/starburst-galaxy";
+import * as Cluster from "@distilled.cloud/starburst-galaxy/cluster";
 
 const program = Effect.gen(function* () {
-  const { result } = yield* StarburstGalaxy.cluster.listClusters({});
+  const { result } = yield* Cluster.listClusters({});
   const [first] = result;
   if (first === undefined) return undefined;
 
-  const cluster = yield* StarburstGalaxy.cluster.getCluster({ clusterId: first.clusterId });
+  const cluster = yield* Cluster.getCluster({ clusterId: first.clusterId });
   yield* Effect.log(`${cluster.name}: ${cluster.clusterState} at ${cluster.trinoUri}`);
   return cluster;
 });
@@ -42,10 +43,10 @@ List operations stream every page with `.items()` (or `.pages()`):
 
 ```ts
 import { Effect, Stream } from "effect";
-import * as StarburstGalaxy from "@distilled.cloud/starburst-galaxy";
+import * as Catalog from "@distilled.cloud/starburst-galaxy/catalog";
 
 const catalogs = Effect.gen(function* () {
-  return yield* StarburstGalaxy.catalog.listCatalogs.items({}).pipe(Stream.runCollect);
+  return yield* Catalog.listCatalogs.items({}).pipe(Stream.runCollect);
 });
 ```
 
@@ -57,10 +58,10 @@ members, and a request whose whole body is such a union takes it as `body`:
 
 ```ts
 import { Effect, Redacted } from "effect";
-import * as StarburstGalaxy from "@distilled.cloud/starburst-galaxy";
+import * as Catalog from "@distilled.cloud/starburst-galaxy/catalog";
 
 const mysql = Effect.gen(function* () {
-  return yield* StarburstGalaxy.catalog.createMySQLCatalog({
+  return yield* Catalog.createMySQLCatalog({
     body: {
       connectionType: "direct",
       name: "orders",

@@ -74,6 +74,8 @@ export class IngestStreamNotFound
     /*@__PURE__*/ S.TaggedError<IngestStreamNotFound>()("IngestStreamNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ code: 1000 }],
   ) {}
@@ -84,6 +86,8 @@ export class InvalidIngestData
     /*@__PURE__*/ S.TaggedError<InvalidIngestData>()("InvalidIngestData", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ code: 1002 }, { code: 1003 }],
   ) {}
@@ -93,6 +97,8 @@ export class InvalidSinkConfig
     /*@__PURE__*/ S.TaggedError<InvalidSinkConfig>()("InvalidSinkConfig", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1012 }],
   ) {}
@@ -102,6 +108,8 @@ export class InvalidSinkId
     /*@__PURE__*/ S.TaggedError<InvalidSinkId>()("InvalidSinkId", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 2 }],
   ) {}
@@ -111,6 +119,8 @@ export class InvalidSql
     /*@__PURE__*/ S.TaggedError<InvalidSql>()("InvalidSql", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1014 }],
   ) {}
@@ -120,6 +130,8 @@ export class InvalidStreamId
     /*@__PURE__*/ S.TaggedError<InvalidStreamId>()("InvalidStreamId", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 2 }],
   ) {}
@@ -129,6 +141,8 @@ export class InvalidStreamName
     /*@__PURE__*/ S.TaggedError<InvalidStreamName>()("InvalidStreamName", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 2 }],
   ) {}
@@ -138,6 +152,8 @@ export class PipelineAlreadyExists
     /*@__PURE__*/ S.TaggedError<PipelineAlreadyExists>()("PipelineAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1003 }],
   ) {}
@@ -147,6 +163,8 @@ export class PipelineNotExists
     /*@__PURE__*/ S.TaggedError<PipelineNotExists>()("PipelineNotExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1000 }],
   ) {}
@@ -156,6 +174,8 @@ export class SinkAlreadyExists
     /*@__PURE__*/ S.TaggedError<SinkAlreadyExists>()("SinkAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1003 }],
   ) {}
@@ -165,6 +185,8 @@ export class SinkAuthFailed
     /*@__PURE__*/ S.TaggedError<SinkAuthFailed>()("SinkAuthFailed", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1012, message: { includes: "could not authenticate" } }],
   ) {}
@@ -174,6 +196,8 @@ export class SinkInUse
     /*@__PURE__*/ S.TaggedError<SinkInUse>()("SinkInUse", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 422, message: { includes: "in use" } }],
   ) {}
@@ -183,6 +207,8 @@ export class SinkNotFound
     /*@__PURE__*/ S.TaggedError<SinkNotFound>()("SinkNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1015 }],
   ) {}
@@ -192,6 +218,8 @@ export class StreamAlreadyExists
     /*@__PURE__*/ S.TaggedError<StreamAlreadyExists>()("StreamAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1003 }],
   ) {}
@@ -201,6 +229,8 @@ export class StreamInUse
     /*@__PURE__*/ S.TaggedError<StreamInUse>()("StreamInUse", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 422, message: { includes: "in use" } }],
   ) {}
@@ -210,6 +240,8 @@ export class StreamNotFound
     /*@__PURE__*/ S.TaggedError<StreamNotFound>()("StreamNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1016 }],
   ) {}
@@ -219,6 +251,8 @@ export class TableNotFound
     /*@__PURE__*/ S.TaggedError<TableNotFound>()("TableNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1014, message: { includes: "not found" } }],
   ) {}

@@ -53,6 +53,8 @@ export class AccessRuleNotFound
     /*@__PURE__*/ S.TaggedError<AccessRuleNotFound>()("AccessRuleNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10001, message: { includes: "not_found" } }, { status: 404 }],
   ) {}
@@ -62,6 +64,8 @@ export class DuplicateAccessRule
     /*@__PURE__*/ S.TaggedError<DuplicateAccessRule>()("DuplicateAccessRule", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10009, message: { includes: "duplicate_of_existing" } }],
   ) {}
@@ -71,6 +75,8 @@ export class DuplicateLockdown
     /*@__PURE__*/ S.TaggedError<DuplicateLockdown>()("DuplicateLockdown", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10009, message: { includes: "zonelockdown.api.duplicate_of_existing" } }],
   ) {}
@@ -80,6 +86,8 @@ export class DuplicateUaRule
     /*@__PURE__*/ S.TaggedError<DuplicateUaRule>()("DuplicateUaRule", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10009, message: { includes: "firewalluablock.api.duplicate_of_existing" } }],
   ) {}
@@ -89,6 +97,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -98,6 +108,8 @@ export class LockdownNotFound
     /*@__PURE__*/ S.TaggedError<LockdownNotFound>()("LockdownNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10001, message: { includes: "zonelockdown.api.not_found" } }, { status: 404 }],
   ) {}
@@ -107,6 +119,8 @@ export class UaRuleNotFound
     /*@__PURE__*/ S.TaggedError<UaRuleNotFound>()("UaRuleNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10001, message: { includes: "firewalluablock.api.not_found" } }, { status: 404 }],
   ) {}

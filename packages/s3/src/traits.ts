@@ -73,6 +73,14 @@ const applyHttpChecksum: MiddlewareFn = (schema, request) =>
     loadOwnModule(() => (checksumModule ??= import("./middleware/checksum.ts"))),
     (m) => m.applyHttpChecksum(schema, request),
   );
+
+/** Request compression middleware, loaded on the first request that needs it. */
+let compressionModule: Promise<typeof import("./middleware/compression.ts")> | undefined;
+const applyRequestCompression: MiddlewareFn = (schema, request) =>
+  Effect.flatMap(
+    loadOwnModule(() => (compressionModule ??= import("./middleware/compression.ts"))),
+    (m) => m.applyRequestCompression(schema, request),
+  );
 import type { RuleSetObject } from "./rules-engine/expression.ts";
 
 // The annotation machinery (pipeable builders usable as S.Class annotation
@@ -133,6 +141,13 @@ export const httpPrefixHeadersSymbol = "distilled-aws/http-prefix-headers" as co
 export const HttpPrefixHeaders = (prefix: string) =>
   makeAnnotation(httpPrefixHeadersSymbol, prefix);
 
+/**
+ * smithy.api#mediaType - The media type of a header or payload member's
+ * value (from its target shape): a payload's Content-Type.
+ */
+export const mediaTypeSymbol = "distilled-aws/media-type" as const;
+export const MediaType = (mediaType: string) => makeAnnotation(mediaTypeSymbol, mediaType);
+
 /** smithy.api#httpResponseCode - Bind member to the HTTP response status code */
 export const httpResponseCodeSymbol = coreResponseCodeSymbol;
 export const HttpResponseCode = () => makeAnnotation(httpResponseCodeSymbol, true);
@@ -159,7 +174,15 @@ export const XmlAttribute = () => makeAnnotation(xmlAttributeSymbol, true);
 
 /** smithy.api#xmlNamespace - XML namespace URI for the element */
 export const xmlNamespaceSymbol = "distilled-aws/xml-namespace" as const;
-export const XmlNamespace = (uri: string) => makeAnnotation(xmlNamespaceSymbol, uri);
+/** smithy.api#xmlNamespace `prefix` - the namespace is declared as `xmlns:prefix` */
+export const xmlNamespacePrefixSymbol = "distilled-aws/xml-namespace-prefix" as const;
+export const XmlNamespace = (uri: string, prefix?: string) =>
+  prefix === undefined
+    ? makeAnnotation(xmlNamespaceSymbol, uri)
+    : all(
+        makeAnnotation(xmlNamespaceSymbol, uri),
+        makeAnnotation(xmlNamespacePrefixSymbol, prefix),
+      );
 
 // =============================================================================
 // JSON Serialization Traits (smithy.api#json*)
@@ -369,6 +392,30 @@ export const AwsProtocolsHttpChecksum = (trait: AwsProtocolsHttpChecksumTrait) =
     { symbol: middlewareSymbol, value },
   ];
   (fn as any)[awsProtocolsHttpChecksumSymbol] = value;
+  (fn as any)[middlewareSymbol] = value;
+  return fn as Annotation;
+};
+
+/** smithy.api#requestCompression - gzip the request body, with embedded middleware */
+export const requestCompressionSymbol = "distilled-aws/smithy.api#requestCompression" as const;
+export interface RequestCompressionTrait {
+  encodings: string[];
+}
+export const RequestCompression = (trait: RequestCompressionTrait) => {
+  const value: MiddlewareAnnotationValue & RequestCompressionTrait = {
+    ...trait,
+    middleware: applyRequestCompression,
+  };
+  const fn = <A extends Annotatable>(schema: A): A =>
+    schema.annotate({
+      [requestCompressionSymbol]: value,
+      [middlewareSymbol]: [...(getMiddlewareList(schema) || []), value],
+    }) as A;
+  (fn as any)[annotationMetaSymbol] = [
+    { symbol: requestCompressionSymbol, value },
+    { symbol: middlewareSymbol, value },
+  ];
+  (fn as any)[requestCompressionSymbol] = value;
   (fn as any)[middlewareSymbol] = value;
   return fn as Annotation;
 };
@@ -734,23 +781,15 @@ export const eventStreamWith = <A, E>(
   f: (codec: EventStreamCodec) => Stream.Stream<A, E>,
 ): Stream.Stream<A, E> => Stream.unwrap(Effect.map(codecFor(eventSchema), f));
 
-/** A request body built by the event stream codec registered for `eventSchema`. */
+/**
+ * A request body built by the event stream codec registered for
+ * `eventSchema`. The codec loads in the calling operation's fiber, so a
+ * failed load fails the call with its `SdkError`.
+ */
 export const eventStreamBody = (
   eventSchema: unknown,
-  f: (codec: EventStreamCodec) => ReadableStream<Uint8Array>,
-): ReadableStream<Uint8Array> => {
-  let reader: ReadableStreamDefaultReader<Uint8Array> | undefined;
-  const open = async () =>
-    (reader ??= f(await Effect.runPromise(codecFor(eventSchema))).getReader());
-  return new ReadableStream<Uint8Array>({
-    async pull(controller) {
-      const { done, value } = await (await open()).read();
-      if (done) controller.close();
-      else controller.enqueue(value);
-    },
-    cancel: (reason) => reader?.cancel(reason),
-  });
-};
+  f: (codec: EventStreamCodec) => Stream.Stream<Uint8Array, unknown>,
+): Effect.Effect<Stream.Stream<Uint8Array, unknown>> => Effect.map(codecFor(eventSchema), f);
 
 export const EventStream = <A>(
   eventSchema: S.Schema<A>,
@@ -946,6 +985,45 @@ export const getPropAnnotation = <T>(
   return getAnnotationUnwrap(prop.type, symbol);
 };
 
+/**
+ * An annotation of the member itself: on the property, or on its schema
+ * through an optional wrapper, but not on the shape it targets. A
+ * structure's own `@xmlName` names it only as a document root.
+ */
+export const getMemberAnnotation = <T>(
+  prop: AST.PropertySignature,
+  symbol: string | symbol,
+): T | undefined => {
+  // @ts-expect-error
+  const propAnnot = prop.annotations?.[symbol] as T | undefined;
+  if (propAnnot !== undefined) return propAnnot;
+  return getOwnAnnotation(prop.type, symbol);
+};
+
+/**
+ * An annotation of this schema node, through an optional wrapper and an
+ * encoding, without entering a suspended (structure) schema.
+ */
+export const getOwnAnnotation = <T>(ast: AST.AST, symbol: string | symbol): T | undefined => {
+  const direct = (ast.annotations as Record<string | symbol, unknown> | undefined)?.[symbol] as
+    | T
+    | undefined;
+  if (direct !== undefined) return direct;
+  if (ast.encoding && ast.encoding.length > 0) {
+    const encoded = (
+      ast.encoding[0].to?.annotations as Record<string | symbol, unknown> | undefined
+    )?.[symbol] as T | undefined;
+    if (encoded !== undefined) return encoded;
+  }
+  if (ast._tag === "Union") {
+    const nonNullishTypes = ast.types.filter(
+      (t) => t._tag !== "Undefined" && !(t._tag === "Literal" && t.literal === null),
+    );
+    if (nonNullishTypes.length === 1) return getOwnAnnotation(nonNullishTypes[0], symbol);
+  }
+  return undefined;
+};
+
 export const hasPropAnnotation = (
   prop: AST.PropertySignature,
   symbol: string | symbol,
@@ -1072,6 +1150,9 @@ export const hasHttpQueryParams = (prop: AST.PropertySignature): boolean =>
 export const getHttpPrefixHeaders = (prop: AST.PropertySignature): string | undefined =>
   getPropAnnotation<string>(prop, httpPrefixHeadersSymbol);
 
+export const getMediaType = (prop: AST.PropertySignature): string | undefined =>
+  getPropAnnotation<string>(prop, mediaTypeSymbol);
+
 export const hasHttpPayload = (prop: AST.PropertySignature): boolean =>
   hasPropAnnotation(prop, httpPayloadSymbol);
 
@@ -1118,6 +1199,9 @@ export const getAwsProtocolsHttpChecksum = (
   ast: AST.AST,
 ): AwsProtocolsHttpChecksumTrait | undefined =>
   getAnnotationUnwrap<AwsProtocolsHttpChecksumTrait>(ast, awsProtocolsHttpChecksumSymbol);
+
+export const getRequestCompression = (ast: AST.AST): RequestCompressionTrait | undefined =>
+  getAnnotationUnwrap<RequestCompressionTrait>(ast, requestCompressionSymbol);
 
 export const hasHttpChecksumRequired = (ast: AST.AST): boolean =>
   hasAnnotation(ast, httpChecksumRequiredSymbol);

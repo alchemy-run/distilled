@@ -1,0 +1,13 @@
+{
+  "description": "ServiceDiscovery: Members the API leaves out (not required).",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.servicediscovery#SOA/members/TTL/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.servicediscovery#DnsConfig/members/DnsRecords/traits/smithy.api#required"
+    }
+  ]
+}

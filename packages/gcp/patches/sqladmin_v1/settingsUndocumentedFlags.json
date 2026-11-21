@@ -1,0 +1,25 @@
+{
+  "description": "Add Settings.recreateReplicasOnPrimaryCrash and Settings.assistiveTroubleshootingEnabled (booleans). Cloud SQL Admin returns both in the settings of instances.get and instances.list (observed live 2026-11-13 on PostgreSQL instances), but the discovery document (revision 20261018 in the mirror, 20261107 live) lists neither, so strict response validation rejects every instance read with 'Expected a union member, got an object at [\"settings\"]'.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#Settings/members/recreateReplicasOnPrimaryCrash",
+      "value": {
+        "target": "smithy.api#Boolean",
+        "traits": {
+          "smithy.api#documentation": "Whether Cloud SQL recreates the instance's read replicas after the primary crashes. Returned by Cloud SQL Admin but not listed in the discovery document."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#Settings/members/assistiveTroubleshootingEnabled",
+      "value": {
+        "target": "smithy.api#Boolean",
+        "traits": {
+          "smithy.api#documentation": "Whether assistive troubleshooting is enabled for the instance. Returned by Cloud SQL Admin but not listed in the discovery document."
+        }
+      }
+    }
+  ]
+}

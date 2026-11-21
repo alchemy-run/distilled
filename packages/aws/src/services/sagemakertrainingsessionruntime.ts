@@ -110,7 +110,7 @@ export class InternalServerException
     "InternalServerException",
     { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
@@ -122,7 +122,7 @@ export class ThrottlingException
     "ThrottlingException",
     { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
@@ -594,7 +594,7 @@ export const sampleTrainingSession: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<SampleTrainingSessionInput>,
-  output: __S(176, __c11, 0) as any as S.Schema<SampleTrainingSessionOutput>,
+  output: __S(161, __c10, 1) as any as S.Schema<SampleTrainingSessionOutput>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -626,7 +626,7 @@ export const sampleTrainingSessionWithResponseStream: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<SampleTrainingSessionWithResponseStreamInput>,
-  output: __S(176, __c11, 0) as any as S.Schema<SampleTrainingSessionWithResponseStreamOutput>,
+  output: __S(1, __c0, 1) as any as S.Schema<SampleTrainingSessionWithResponseStreamOutput>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -668,6 +668,13 @@ function __c0(j: number): any {
           ),
         ),
       ).annotate({ identifier: "SampleTrainingSessionWithResponseStreamInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+          body: T.StreamingOutput.pipe(T.HttpPayload(), T.MediaType("text/event-stream")),
+        }),
+      ).annotate({ identifier: "SampleTrainingSessionWithResponseStreamOutput" });
   }
 }
 function __c1(j: number): any {
@@ -1012,11 +1019,7 @@ function __c10(j: number): any {
           ),
         ),
       ).annotate({ identifier: "SampleTrainingSessionInput" });
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),

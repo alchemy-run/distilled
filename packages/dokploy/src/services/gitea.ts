@@ -30,27 +30,48 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorBADREQUEST | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorFORBIDDEN | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorNOTFOUND | string;
+}
 
 export interface CreateGiteaRequest {
   giteaId?: string | undefined;
@@ -113,6 +134,44 @@ export interface UpdateGiteaRequest {
   organizationName?: string | undefined;
 }
 export type UpdateGiteaResponse = unknown;
+export interface ErrorBADREQUESTIssuesItem {
+  message: string;
+}
+/** An array of issues that were responsible for the error */
+export type ErrorBADREQUESTIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorBADREQUEST {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorBADREQUESTIssuesList | undefined;
+}
+export type ErrorFORBIDDENIssuesItem = ErrorBADREQUESTIssuesItem;
+/** An array of issues that were responsible for the error */
+export type ErrorFORBIDDENIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorFORBIDDEN {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorFORBIDDENIssuesList | undefined;
+}
+export type ErrorNOTFOUNDIssuesItem = ErrorBADREQUESTIssuesItem;
+/** An array of issues that were responsible for the error */
+export type ErrorNOTFOUNDIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorNOTFOUND {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorNOTFOUNDIssuesList | undefined;
+}
 export type CreateGiteaError = BadRequest | Forbidden | DokployOpError;
 export const createGitea: API.OperationMethod<
   CreateGiteaRequest,
@@ -120,8 +179,8 @@ export const createGitea: API.OperationMethod<
   CreateGiteaError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2, __c1, 0) as any as S.Schema<CreateGiteaRequest>,
-  output: __S(4, __c2, 0) as any as S.Schema<CreateGiteaResponse>,
+  input: __S(8, __c2, 0) as any as S.Schema<CreateGiteaRequest>,
+  output: __S(12, __c3, 0) as any as S.Schema<CreateGiteaResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -136,8 +195,8 @@ export const getGitea: API.OperationMethod<
   GetGiteaError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6, __c3, 0) as any as S.Schema<GetGiteaRequest>,
-  output: __S(4, __c2, 0) as any as S.Schema<GetGiteaResponse>,
+  input: __S(16, __c4, 0) as any as S.Schema<GetGiteaRequest>,
+  output: __S(12, __c3, 0) as any as S.Schema<GetGiteaResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -152,8 +211,8 @@ export const getGiteaBranches: API.OperationMethod<
   GetGiteaBranchesError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c4, 0) as any as S.Schema<GetGiteaBranchesRequest>,
-  output: __S(4, __c2, 0) as any as S.Schema<GetGiteaBranchesResponse>,
+  input: __S(20, __c5, 0) as any as S.Schema<GetGiteaBranchesRequest>,
+  output: __S(12, __c3, 0) as any as S.Schema<GetGiteaBranchesResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -168,8 +227,8 @@ export const getGiteaProviders: API.OperationMethod<
   GetGiteaProvidersError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10, __c5, 0) as any as S.Schema<GetGiteaProvidersRequest>,
-  output: __S(4, __c2, 0) as any as S.Schema<GetGiteaProvidersResponse>,
+  input: __S(24, __c6, 0) as any as S.Schema<GetGiteaProvidersRequest>,
+  output: __S(12, __c3, 0) as any as S.Schema<GetGiteaProvidersResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -184,8 +243,8 @@ export const getGiteaRepositories: API.OperationMethod<
   GetGiteaRepositoriesError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c6, 0) as any as S.Schema<GetGiteaRepositoriesRequest>,
-  output: __S(4, __c2, 0) as any as S.Schema<GetGiteaRepositoriesResponse>,
+  input: __S(28, __c7, 0) as any as S.Schema<GetGiteaRepositoriesRequest>,
+  output: __S(12, __c3, 0) as any as S.Schema<GetGiteaRepositoriesResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -200,8 +259,8 @@ export const getGiteaUrl: API.OperationMethod<
   GetGiteaUrlError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14, __c7, 0) as any as S.Schema<GetGiteaUrlRequest>,
-  output: __S(4, __c2, 0) as any as S.Schema<GetGiteaUrlResponse>,
+  input: __S(32, __c8, 0) as any as S.Schema<GetGiteaUrlRequest>,
+  output: __S(12, __c3, 0) as any as S.Schema<GetGiteaUrlResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -216,8 +275,8 @@ export const testGiteaConnection: API.OperationMethod<
   TestGiteaConnectionError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c8, 0) as any as S.Schema<TestGiteaConnectionRequest>,
-  output: __S(4, __c2, 0) as any as S.Schema<TestGiteaConnectionResponse>,
+  input: __S(36, __c9, 0) as any as S.Schema<TestGiteaConnectionRequest>,
+  output: __S(12, __c3, 0) as any as S.Schema<TestGiteaConnectionResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -232,8 +291,8 @@ export const updateGitea: API.OperationMethod<
   UpdateGiteaError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<UpdateGiteaRequest>,
-  output: __S(4, __c2, 0) as any as S.Schema<UpdateGiteaResponse>,
+  input: __S(4, __c1, 0) as any as S.Schema<UpdateGiteaRequest>,
+  output: __S(12, __c3, 0) as any as S.Schema<UpdateGiteaResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -243,6 +302,26 @@ export const updateGitea: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.String,
+        }),
+      ).annotate({ identifier: "ErrorBADREQUESTIssuesItem" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.String,
+          code: S.String,
+          issues: S.optional(__S(1, __c0, 1)),
+        }),
+      ).annotate({ identifier: "ErrorBADREQUEST" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -266,7 +345,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "UpdateGiteaRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -290,7 +369,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "CreateGiteaRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -298,7 +377,7 @@ function __c2(j: number): any {
       });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -308,7 +387,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GetGiteaRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -320,7 +399,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetGiteaBranchesRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -328,7 +407,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GetGiteaProvidersRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -338,7 +417,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GetGiteaRepositoriesRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -348,7 +427,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetGiteaUrlRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

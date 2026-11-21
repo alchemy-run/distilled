@@ -35,6 +35,7 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
   ) {}
@@ -44,6 +45,7 @@ export class Conflict
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
   ) {}
@@ -53,6 +55,7 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
   ) {}
@@ -62,6 +65,7 @@ export class NotFound
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
@@ -250,7 +254,7 @@ export interface PaginatedPolicy {
   result: PaginatedPolicyResultList;
 }
 /** Policy scopes */
-export type UpdatePolicyRequestScopesList = Array<unknown>;
+export type UpdatePolicyRequestScopesList = Array<PolicyScope>;
 export interface UpdatePolicyRequest {
   /** - A policy - This parameter can be looked up using `name` instead of its Id. Use `name=value` instead of an Id to lookup/search using the `value`. `value` must be encoded ([see RFC](https://www.rfc-editor.org/rfc/rfc3986#section-2.2) including `=`) */
   policyId: string;
@@ -266,6 +270,32 @@ export interface UpdatePolicyRequest {
   expiration?: string | undefined;
   /** Policy scopes */
   scopes?: UpdatePolicyRequestScopesList | undefined;
+}
+/** Any fields/values that are invalid or incorrect */
+export type BadRequestFieldsList = Array<string>;
+/** Invalid request */
+export interface BadRequest2 {
+  /** Description of the error */
+  message?: string | undefined;
+  /** Any fields/values that are invalid or incorrect */
+  fields?: BadRequestFieldsList | undefined;
+}
+/** Already exists */
+export interface Exists {
+  message?: string | undefined;
+}
+/** Authorization failed */
+export type Forbidden2 = Exists;
+/** Any fields/values that weren't found */
+export type NotFoundFieldsList = Array<string>;
+/** A resource or required component was not found */
+export interface NotFound2 {
+  /** Name of the resource */
+  message: string;
+  /** Violation description */
+  description?: string | undefined;
+  /** Any fields/values that weren't found */
+  fields?: NotFoundFieldsList | undefined;
 }
 export type CreatePolicyError = BadRequest | Forbidden | Conflict | StarburstGalaxyOpError;
 /** Create a policy */
@@ -359,7 +389,7 @@ export const updatePolicy: API.OperationMethod<
   UpdatePolicyError,
   StarburstGalaxyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(41, __c5, 1) as any as S.Schema<UpdatePolicyRequest>,
+  input: __S(40, __c5, 0) as any as S.Schema<UpdatePolicyRequest>,
   output: __S(13, __c1, 5) as any as S.Schema<Policy>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStarburstGalaxyError],
   protocol: StarburstGalaxyProtocol,
@@ -477,8 +507,6 @@ function __c4(j: number): any {
 function __c5(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.Unknown);
-    case 1:
       return S.suspend(() =>
         S.Struct({
           policyId: S.String.pipe(T.Label()),
@@ -487,7 +515,7 @@ function __c5(j: number): any {
           predicate: S.optional(S.String),
           description: S.optional(S.String),
           expiration: S.optional(S.String),
-          scopes: S.optional(__S(40, __c5, 0)),
+          scopes: S.optional(__S(12, __c1, 4)),
         }).pipe(T.Http({ method: "PATCH", uri: "/public/api/v1/policy/{policyId}", code: 200 })),
       ).annotate({ identifier: "UpdatePolicyRequest" });
   }

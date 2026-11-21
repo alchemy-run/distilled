@@ -108,7 +108,7 @@ export class InternalServerError
       ),
     },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InvalidGatewayRequestException
   extends /*@__PURE__*/ S.TaggedError<InvalidGatewayRequestException>()(
     "InvalidGatewayRequestException",
@@ -134,7 +134,7 @@ export class ServiceUnavailableError
       ),
     },
     /*@__PURE__*/ T.HttpError(503),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export type ActivationKey = string;
 export type GatewayName = string;
 export type GatewayTimezone = string;

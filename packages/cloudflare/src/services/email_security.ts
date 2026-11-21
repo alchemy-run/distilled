@@ -150,6 +150,8 @@ export class AllowPolicyNotFound
     /*@__PURE__*/ S.TaggedError<AllowPolicyNotFound>()("AllowPolicyNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404 }],
   ) {}
@@ -159,6 +161,8 @@ export class BlockSenderNotFound
     /*@__PURE__*/ S.TaggedError<BlockSenderNotFound>()("BlockSenderNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404 }],
   ) {}
@@ -168,6 +172,8 @@ export class EmailSecurityDomainNotFound
     /*@__PURE__*/ S.TaggedError<EmailSecurityDomainNotFound>()("EmailSecurityDomainNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404 }],
   ) {}
@@ -177,6 +183,8 @@ export class EmailSecurityNotEntitled
     /*@__PURE__*/ S.TaggedError<EmailSecurityNotEntitled>()("EmailSecurityNotEntitled", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403, message: { includes: "not available in the current subscription" } }],
   ) {}
@@ -186,6 +194,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -197,6 +207,8 @@ export class ImpersonationRegistryEntryNotFound
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ status: 404 }],
@@ -207,6 +219,8 @@ export class TrustedDomainNotFound
     /*@__PURE__*/ S.TaggedError<TrustedDomainNotFound>()("TrustedDomainNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404 }],
   ) {}

@@ -199,13 +199,14 @@ export interface OrderTrackingSignal {
   /** Output only. The ID that uniquely identifies this order tracking signal. */
   orderTrackingSignalId?: string | undefined;
 }
-export interface CreateAccountsOrderTrackingSignalsRequest {
+export interface CreateAccountsOrderTrackingSignalsRequest extends Omit<
+  OrderTrackingSignal,
+  "orderTrackingSignalId"
+> {
   /** Required. The account of the business for which the order signal is created. Format: accounts/{account} */
   parent: string;
   /** Output only. The ID that uniquely identifies this order tracking signal. */
   orderTrackingSignalId?: string | undefined;
-  /** Request body */
-  body?: OrderTrackingSignal | undefined;
 }
 export type CreateAccountsOrderTrackingSignalsError =
   | NotFound
@@ -322,11 +323,13 @@ function __c0(j: number): any {
       ).annotate({ identifier: "OrderTrackingSignal" });
     case 11:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          orderTrackingSignalId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(10, __c0, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10, __c0, 10),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            orderTrackingSignalId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "ordertracking/v1beta/{+parent}/orderTrackingSignals",

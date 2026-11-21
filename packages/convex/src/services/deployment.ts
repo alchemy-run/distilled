@@ -30,6 +30,8 @@ export class AuditLogsTooOld
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<AuditLogsTooOld>()("AuditLogsTooOld", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ body: { "/code": "AuditLogsTooOld" } }],
   ) {}
@@ -40,6 +42,8 @@ export class AuthConfigMissingEnvironmentVariable
       "AuthConfigMissingEnvironmentVariable",
       {
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ).pipe(C.withBadRequestError),
     [{ body: { "/code": "AuthConfigMissingEnvironmentVariable" } }],
@@ -49,6 +53,8 @@ export class BadDeployKey
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadDeployKey>()("BadDeployKey", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ body: { "/code": "BadDeployKey" } }],
   ) {}
@@ -57,6 +63,8 @@ export class DuplicateUsageLimit
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<DuplicateUsageLimit>()("DuplicateUsageLimit", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ body: { "/code": "DuplicateUsageLimit" } }],
   ) {}
@@ -67,6 +75,8 @@ export class EnvironmentVariableNameInvalid
       "EnvironmentVariableNameInvalid",
       {
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ).pipe(C.withBadRequestError),
     [{ body: { "/code": "EnvironmentVariableNameInvalid" } }],
@@ -76,6 +86,8 @@ export class InvalidLogStreamId
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<InvalidLogStreamId>()("InvalidLogStreamId", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ body: { "/code": "InvalidLogStreamId" } }],
   ) {}
@@ -84,6 +96,8 @@ export class InvalidUsageLimitId
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<InvalidUsageLimitId>()("InvalidUsageLimitId", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ body: { "/code": "InvalidId" } }],
   ) {}
@@ -92,6 +106,8 @@ export class LogStreamAlreadyExists
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<LogStreamAlreadyExists>()("LogStreamAlreadyExists", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ body: { "/code": "LogStreamAlreadyExists" } }],
   ) {}
@@ -100,6 +116,8 @@ export class LogStreamDoesntExist
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<LogStreamDoesntExist>()("LogStreamDoesntExist", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ body: { "/code": "LogStreamDoesntExist" } }],
   ) {}
@@ -108,6 +126,8 @@ export class LogStreamingNotEnabled
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<LogStreamingNotEnabled>()("LogStreamingNotEnabled", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ body: { "/code": "LogStreamingNotEnabled" } }],
   ) {}
@@ -116,6 +136,8 @@ export class MalformedAccessToken
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<MalformedAccessToken>()("MalformedAccessToken", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ body: { "/code": "MalformedAccessToken" } }],
   ) {}
@@ -124,6 +146,8 @@ export class OperationNotPermitted
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<OperationNotPermitted>()("OperationNotPermitted", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ body: { "/code": "OperationNotPermitted" } }],
   ) {}
@@ -132,6 +156,8 @@ export class StreamingExportNotEnabled
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<StreamingExportNotEnabled>()("StreamingExportNotEnabled", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ body: { "/code": "StreamingExportNotEnabled" } }],
   ) {}
@@ -140,6 +166,8 @@ export class UnpauseDeploymentFailed
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnpauseDeploymentFailed>()("UnpauseDeploymentFailed", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ body: { "/code": "UnpauseDeploymentFailed" } }],
   ) {}
@@ -148,6 +176,8 @@ export class UsageLimitNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UsageLimitNotFound>()("UsageLimitNotFound", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ body: { "/code": "UsageLimitNotFound" } }],
   ) {}

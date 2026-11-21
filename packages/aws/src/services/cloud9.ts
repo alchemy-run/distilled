@@ -4,6 +4,7 @@ import * as __L from "@distilled.cloud/core/schema-lite";
 import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
+import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
@@ -130,7 +131,7 @@ export class LimitExceededException
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     className: /*@__PURE__*/ S.optional(S.String),
     code: /*@__PURE__*/ S.optional(S.Number),
-  }) {}
+  }).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class NotFoundException
   extends /*@__PURE__*/ S.TaggedError<NotFoundException>()("NotFoundException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
@@ -142,7 +143,7 @@ export class TooManyRequestsException
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     className: /*@__PURE__*/ S.optional(S.String),
     code: /*@__PURE__*/ S.optional(S.Number),
-  }) {}
+  }).pipe(C.withThrottlingError, C.withRetryableError) {}
 export type EnvironmentName = string;
 export type EnvironmentDescription = string | redacted.Redacted<string>;
 export type ClientRequestToken = string;

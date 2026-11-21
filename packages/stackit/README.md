@@ -14,9 +14,10 @@ npm install @distilled.cloud/stackit effect
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Stackit from "@distilled.cloud/stackit";
+import * as Dns from "@distilled.cloud/stackit/dns";
 
 const program = Effect.gen(function* () {
-  const result = yield* Stackit.dns.listZones({});
+  const result = yield* Dns.listZones({});
   return result;
 });
 

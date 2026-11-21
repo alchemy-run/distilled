@@ -94,7 +94,7 @@ export class BadGatewayException
     "BadGatewayException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(502),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class BadRequestException
   extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
     "BadRequestException",
@@ -118,13 +118,13 @@ export class GatewayTimeoutException
     "GatewayTimeoutException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(504),
-  ).pipe(C.withTimeoutError) {}
+  ).pipe(C.withTimeoutError, C.withRetryableError) {}
 export class InternalServerErrorException
   extends /*@__PURE__*/ S.TaggedError<InternalServerErrorException>()(
     "InternalServerErrorException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class MediaLiveRoleNotYetTrusted
   extends /*@__PURE__*/ S.TaggedError<MediaLiveRoleNotYetTrusted>()(
     "MediaLiveRoleNotYetTrusted",
@@ -152,7 +152,7 @@ export class TooManyRequestsException
     "TooManyRequestsException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class UnprocessableEntityException
   extends /*@__PURE__*/ S.TaggedError<UnprocessableEntityException>()(
     "UnprocessableEntityException",
@@ -1471,6 +1471,7 @@ export interface MediaPackageV2AbWatermarkerIrdetoSettings {
 export interface MediaPackageV2WatermarkingSettings {
   MediaPackageV2AbWatermarkerIrdetoSettings?: MediaPackageV2AbWatermarkerIrdetoSettings | undefined;
 }
+export type MediaPackageV2CaptionLanguageSetting = "AUTO" | "NONE" | (string & {});
 export interface MediaPackageV2GroupSettings {
   CaptionLanguageMappings?: CaptionLanguageMapping[] | undefined;
   Id3Behavior?: CmafId3Behavior | undefined;
@@ -1484,6 +1485,7 @@ export interface MediaPackageV2GroupSettings {
   TimedMetadataPassthrough?: CmafTimedMetadataPassthrough | undefined;
   AdditionalDestinations?: MediaPackageAdditionalDestinations[] | undefined;
   WatermarkingSettings?: MediaPackageV2WatermarkingSettings | undefined;
+  CaptionLanguageSetting?: MediaPackageV2CaptionLanguageSetting | undefined;
 }
 export interface MediaPackageGroupSettings {
   Destination?: OutputLocationRef | undefined;
@@ -10052,7 +10054,7 @@ export type DeleteReservationError =
   | TooManyRequestsException
   | CommonErrors;
 /**
- * Delete an expired reservation.
+ * Delete an expired reservation, or cancel an active reservation during the calendar month (UTC) in which you purchased it. You can't cancel an active reservation that you purchased in an earlier month, including one that renewed automatically. You also can't cancel an active reservation during the last hour of the month, from 23:00 UTC on the last day of the month.
  */
 export const deleteReservation: API.OperationMethod<
   DeleteReservationRequest & RegionInput,
@@ -15846,6 +15848,7 @@ function __c51(j: number): any {
           TimedMetadataPassthrough: S.optional(S.String),
           AdditionalDestinations: S.optional(__listOfMediaPackageAdditionalDestinations),
           WatermarkingSettings: S.optional(__S(1659, __c51, 27)),
+          CaptionLanguageSetting: S.optional(S.String),
         }).pipe(
           S.encodeKeys({
             CaptionLanguageMappings: "captionLanguageMappings",
@@ -15860,6 +15863,7 @@ function __c51(j: number): any {
             TimedMetadataPassthrough: "timedMetadataPassthrough",
             AdditionalDestinations: "additionalDestinations",
             WatermarkingSettings: "watermarkingSettings",
+            CaptionLanguageSetting: "captionLanguageSetting",
           }),
         ),
       ).annotate({ identifier: "MediaPackageV2GroupSettings" });

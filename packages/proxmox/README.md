@@ -17,16 +17,19 @@ This program lists all guests and counts the settings in each guest's configurat
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Proxmox from "@distilled.cloud/proxmox";
+import * as Cluster from "@distilled.cloud/proxmox/cluster";
+import * as NodesLxc from "@distilled.cloud/proxmox/nodes_lxc";
+import * as NodesQemu from "@distilled.cloud/proxmox/nodes_qemu";
 
 const program = Effect.gen(function* () {
-  const guests = yield* Proxmox.cluster.getClusterResources({ type: "vm" });
+  const guests = yield* Cluster.getClusterResources({ type: "vm" });
   for (const guest of guests) {
     if (!guest.node || !guest.vmid) continue;
     const input = { node: guest.node, vmid: guest.vmid };
     const config =
       guest.type === "lxc"
-        ? yield* Proxmox.nodesLxc.getNodesByNodeLxcByVmidConfig(input)
-        : yield* Proxmox.nodesQemu.getNodesByNodeQemuByVmidConfig(input);
+        ? yield* NodesLxc.getNodesByNodeLxcByVmidConfig(input)
+        : yield* NodesQemu.getNodesByNodeQemuByVmidConfig(input);
     console.log(guest.vmid, guest.type, Object.keys(config).length);
   }
 });
@@ -107,9 +110,11 @@ Most write operations start a task and return its ID. `waitForTask` polls the ta
 (by default for up to 2 minutes) and fails with `TaskFailed` or `TaskTimeout`:
 
 ```ts
+import * as NodesLxc from "@distilled.cloud/proxmox/nodes_lxc";
+
 const startAndWait = Effect.gen(function* () {
   const input = { node: "node1", vmid: 4242 };
-  const upid = yield* Proxmox.nodesLxc.postNodesByNodeLxcByVmidStatusStart(input);
+  const upid = yield* NodesLxc.postNodesByNodeLxcByVmidStatusStart(input);
   const task = yield* Proxmox.waitForTask(input.node, upid, { timeout: "5 minutes" });
   return task.warnings;
 });

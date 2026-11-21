@@ -42,3 +42,18 @@ export {
   rawResponseSymbol,
   rawResponseRootSymbol,
 } from "@distilled.cloud/core/protocol-rest";
+
+/**
+ * A resource field in a patch operation's input: every nested field is
+ * optional, and `null` removes it (JSON merge patch, RFC 7396). The same
+ * shape serves a strategic merge patch and a server-side apply, where the
+ * object names only the fields the caller sets.
+ */
+export type MergePatch<T> =
+  T extends ReadonlyArray<infer U>
+    ? ReadonlyArray<MergePatch<U>>
+    : T extends string | number | boolean | bigint | Uint8Array | Date
+      ? T
+      : T extends object
+        ? { [K in keyof T]?: MergePatch<T[K]> | null }
+        : T;

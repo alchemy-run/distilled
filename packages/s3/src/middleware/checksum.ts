@@ -1,6 +1,7 @@
 import { InvalidInput } from "@distilled.cloud/core/protocol-http";
 import * as Effect from "effect/Effect";
 import type * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 // `#crc32`, `#md5`, `#utf8`: Node builds and browser builds differ (package.json `imports`).
 import { getCrc32ChecksumAlgorithmFunction } from "#crc32";
 import { getMd5ChecksumAlgorithmFunction } from "#md5";
@@ -9,7 +10,7 @@ import type { Request as ProtocolRequest } from "../client/request.ts";
 import type { Checksum } from "../hash/checksum.ts";
 import { getAwsProtocolsHttpChecksum } from "../traits.ts";
 import { toBase64 } from "../util/base64.ts";
-import { createBufferedReadableStream } from "../util/stream.ts";
+import { bodyStream, isStreamBody, minChunkSize, type StreamBody } from "../util/stream.ts";
 
 export type SourceData = string | ArrayBuffer | ArrayBufferView;
 
@@ -17,22 +18,15 @@ export interface ChecksumConstructor {
   new (secret?: SourceData): Checksum;
 }
 
+/** The checksum of a buffered body. */
 export const stringHasher = (
   checksumAlgorithmFn: ChecksumConstructor,
-  body: any,
-): Effect.Effect<Uint8Array, InvalidInput> =>
-  Effect.tryPromise({
-    try: async () => {
-      const hash = new checksumAlgorithmFn();
-      hash.update(toUint8Array(body || ""));
-      return hash.digest();
-    },
-    catch: (cause) =>
-      new InvalidInput({
-        member: "body",
-        message: `the request body could not be checksummed: ${cause instanceof Error ? cause.message : String(cause)}`,
-      }),
-  });
+  body: string | Uint8Array,
+): Uint8Array => {
+  const hash = new checksumAlgorithmFn();
+  hash.update(toUint8Array(body));
+  return hash.digest();
+};
 
 // Minimum chunk size for S3 aws-chunked encoding (8KB, except for the last chunk)
 const MIN_CHUNK_SIZE = 8 * 1024;
@@ -80,7 +74,7 @@ export const applyHttpChecksum = (
     }
 
     // Determine algorithm: use specified, or default to CRC32 for streaming, MD5 for non-streaming
-    const isStreaming = body instanceof ReadableStream;
+    const isStreaming = isStreamBody(body);
     const algorithm = specifiedAlgorithm ?? (isStreaming ? "crc32" : "md5");
     const checksumHeader = algorithm === "md5" ? "Content-MD5" : `x-amz-checksum-${algorithm}`;
 
@@ -102,11 +96,8 @@ export const applyHttpChecksum = (
 
     // Handle streaming body with aws-chunked encoding
     if (isStreaming) {
-      // Buffer small chunks to meet S3's 8KB minimum requirement
-      const bufferedStream = createBufferedReadableStream(body, MIN_CHUNK_SIZE);
-
       // Create aws-chunked encoded stream with trailing checksum
-      const chunkedBody = createAwsChunkedStream(bufferedStream, hasher, checksumHeader);
+      const chunkedBody = createAwsChunkedStream(body, hasher, checksumHeader);
 
       const contentLength = request.headers["Content-Length"] || request.headers["content-length"];
 
@@ -133,7 +124,7 @@ export const applyHttpChecksum = (
     }
 
     // Non-streaming: compute checksum directly
-    const checksum = toBase64(yield* stringHasher(hasher, body));
+    const checksum = toBase64(stringHasher(hasher, body));
 
     return {
       ...request,
@@ -145,53 +136,38 @@ export const applyHttpChecksum = (
   });
 
 /**
- * Create an aws-chunked encoded stream with trailing checksum.
+ * Create an aws-chunked encoded stream with trailing checksum, its chunks
+ * joined to S3's 8KB minimum. It runs in the fiber that sends the request,
+ * with a fresh hash each run (a retried request re-runs it).
  * Format: <chunk-size-hex>\r\n<chunk-data>\r\n...0\r\n<trailer>\r\n\r\n
  *
  * @see https://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-streaming.html
  */
-export function createAwsChunkedStream(
-  source: ReadableStream<Uint8Array>,
+export const createAwsChunkedStream = (
+  source: StreamBody,
   checksumAlgorithmFn: ChecksumConstructor,
   checksumLocationName: string,
-): ReadableStream<Uint8Array> {
-  const hash = new checksumAlgorithmFn();
-  const reader = source.getReader();
-  const encoder = new TextEncoder();
-
-  return new ReadableStream({
-    async pull(controller) {
-      const { done, value } = await reader.read();
-
-      if (done) {
-        // Send final chunk (size 0) and trailer with checksum
-        const checksum = toBase64(await hash.digest());
-        const trailer = `0\r\n${checksumLocationName}:${checksum}\r\n\r\n`;
-        controller.enqueue(encoder.encode(trailer));
-        controller.close();
-        return;
-      }
-
-      // Update hash with chunk data
-      hash.update(value);
-
-      // Write chunk in aws-chunked format: <hex-size>\r\n<data>\r\n
-      const chunkSize = value.byteLength.toString(16);
-      const header = encoder.encode(`${chunkSize}\r\n`);
-      const footer = encoder.encode("\r\n");
-
-      // Combine header + data + footer
-      const combined = new Uint8Array(header.length + value.length + footer.length);
-      combined.set(header, 0);
-      combined.set(value, header.length);
-      combined.set(footer, header.length + value.length);
-
-      controller.enqueue(combined);
-    },
-    // A source that already errored rejects `cancel()`; releasing it is best
-    // effort, as in Effect's `Stream.fromReadableStream`.
-    cancel(reason) {
-      return reader.cancel(reason).catch(() => {});
-    },
+): Stream.Stream<Uint8Array, unknown> =>
+  Stream.suspend(() => {
+    const hash = new checksumAlgorithmFn();
+    const encoder = new TextEncoder();
+    const trailer = Stream.sync(() =>
+      encoder.encode(`0\r\n${checksumLocationName}:${toBase64(hash.digest())}\r\n\r\n`),
+    );
+    return bodyStream(source).pipe(
+      minChunkSize(MIN_CHUNK_SIZE),
+      Stream.map((chunk) => {
+        hash.update(chunk);
+        // <hex-size>\r\n<data>\r\n
+        const header = encoder.encode(`${chunk.byteLength.toString(16)}\r\n`);
+        const framed = new Uint8Array(header.length + chunk.length + 2);
+        framed.set(header, 0);
+        framed.set(chunk, header.length);
+        framed.set(CRLF, header.length + chunk.length);
+        return framed;
+      }),
+      Stream.concat(trailer),
+    );
   });
-}
+
+const CRLF = /*@__PURE__*/ new TextEncoder().encode("\r\n");

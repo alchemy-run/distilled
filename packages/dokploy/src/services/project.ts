@@ -29,27 +29,48 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorBADREQUEST | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorFORBIDDEN | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorNOTFOUND | string;
+}
 
 export interface CompleteProjectOnboardingRequest {}
 export type CompleteProjectOnboardingResponse = unknown;
@@ -114,6 +135,44 @@ export interface UpdateProjectRequest {
   env?: string | undefined;
 }
 export type UpdateProjectResponse = unknown;
+export interface ErrorBADREQUESTIssuesItem {
+  message: string;
+}
+/** An array of issues that were responsible for the error */
+export type ErrorBADREQUESTIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorBADREQUEST {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorBADREQUESTIssuesList | undefined;
+}
+export type ErrorFORBIDDENIssuesItem = ErrorBADREQUESTIssuesItem;
+/** An array of issues that were responsible for the error */
+export type ErrorFORBIDDENIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorFORBIDDEN {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorFORBIDDENIssuesList | undefined;
+}
+export type ErrorNOTFOUNDIssuesItem = ErrorBADREQUESTIssuesItem;
+/** An array of issues that were responsible for the error */
+export type ErrorNOTFOUNDIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorNOTFOUND {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorNOTFOUNDIssuesList | undefined;
+}
 export type CompleteProjectOnboardingError = BadRequest | Forbidden | DokployOpError;
 export const completeProjectOnboarding: API.OperationMethod<
   CompleteProjectOnboardingRequest,
@@ -121,8 +180,8 @@ export const completeProjectOnboarding: API.OperationMethod<
   CompleteProjectOnboardingError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<CompleteProjectOnboardingRequest>,
-  output: __S(20, __c5, 0) as any as S.Schema<CompleteProjectOnboardingResponse>,
+  input: __S(20, __c5, 0) as any as S.Schema<CompleteProjectOnboardingRequest>,
+  output: __S(24, __c6, 0) as any as S.Schema<CompleteProjectOnboardingResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -137,8 +196,8 @@ export const createProject: API.OperationMethod<
   CreateProjectError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<CreateProjectRequest>,
-  output: __S(20, __c5, 0) as any as S.Schema<CreateProjectResponse>,
+  input: __S(28, __c7, 0) as any as S.Schema<CreateProjectRequest>,
+  output: __S(24, __c6, 0) as any as S.Schema<CreateProjectResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -153,8 +212,8 @@ export const deleteProject: API.OperationMethod<
   DeleteProjectError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<DeleteProjectRequest>,
-  output: __S(20, __c5, 0) as any as S.Schema<DeleteProjectResponse>,
+  input: __S(32, __c8, 0) as any as S.Schema<DeleteProjectRequest>,
+  output: __S(24, __c6, 0) as any as S.Schema<DeleteProjectResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -169,8 +228,8 @@ export const duplicateProject: API.OperationMethod<
   DuplicateProjectError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34, __c8, 2) as any as S.Schema<DuplicateProjectRequest>,
-  output: __S(20, __c5, 0) as any as S.Schema<DuplicateProjectResponse>,
+  input: __S(38, __c9, 2) as any as S.Schema<DuplicateProjectRequest>,
+  output: __S(24, __c6, 0) as any as S.Schema<DuplicateProjectResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -185,8 +244,8 @@ export const getProject: API.OperationMethod<
   GetProjectError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<GetProjectRequest>,
-  output: __S(20, __c5, 0) as any as S.Schema<GetProjectResponse>,
+  input: __S(40, __c10, 0) as any as S.Schema<GetProjectRequest>,
+  output: __S(24, __c6, 0) as any as S.Schema<GetProjectResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -201,8 +260,8 @@ export const getProjectHomeStats: API.OperationMethod<
   GetProjectHomeStatsError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c10, 0) as any as S.Schema<GetProjectHomeStatsRequest>,
-  output: __S(20, __c5, 0) as any as S.Schema<GetProjectHomeStatsResponse>,
+  input: __S(44, __c11, 0) as any as S.Schema<GetProjectHomeStatsRequest>,
+  output: __S(24, __c6, 0) as any as S.Schema<GetProjectHomeStatsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -217,8 +276,8 @@ export const getProjectOnboardingStatus: API.OperationMethod<
   GetProjectOnboardingStatusError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(44, __c11, 0) as any as S.Schema<GetProjectOnboardingStatusRequest>,
-  output: __S(20, __c5, 0) as any as S.Schema<GetProjectOnboardingStatusResponse>,
+  input: __S(48, __c12, 0) as any as S.Schema<GetProjectOnboardingStatusRequest>,
+  output: __S(24, __c6, 0) as any as S.Schema<GetProjectOnboardingStatusResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -233,8 +292,8 @@ export const listProjects: API.OperationMethod<
   ListProjectsError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<ListProjectsRequest>,
-  output: __S(20, __c5, 0) as any as S.Schema<ListProjectsResponse>,
+  input: __S(4, __c1, 0) as any as S.Schema<ListProjectsRequest>,
+  output: __S(24, __c6, 0) as any as S.Schema<ListProjectsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -249,8 +308,8 @@ export const listProjectsForPermissions: API.OperationMethod<
   ListProjectsForPermissionsError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c1, 0) as any as S.Schema<ListProjectsForPermissionsRequest>,
-  output: __S(20, __c5, 0) as any as S.Schema<ListProjectsForPermissionsResponse>,
+  input: __S(8, __c2, 0) as any as S.Schema<ListProjectsForPermissionsRequest>,
+  output: __S(24, __c6, 0) as any as S.Schema<ListProjectsForPermissionsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -265,8 +324,8 @@ export const searchProject: API.OperationMethod<
   SearchProjectError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<SearchProjectRequest>,
-  output: __S(20, __c5, 0) as any as S.Schema<SearchProjectResponse>,
+  input: __S(12, __c3, 0) as any as S.Schema<SearchProjectRequest>,
+  output: __S(24, __c6, 0) as any as S.Schema<SearchProjectResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -281,8 +340,8 @@ export const updateProject: API.OperationMethod<
   UpdateProjectError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<UpdateProjectRequest>,
-  output: __S(20, __c5, 0) as any as S.Schema<UpdateProjectResponse>,
+  input: __S(16, __c4, 0) as any as S.Schema<UpdateProjectRequest>,
+  output: __S(24, __c6, 0) as any as S.Schema<UpdateProjectResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -295,11 +354,31 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({
+          message: S.String,
+        }),
+      ).annotate({ identifier: "ErrorBADREQUESTIssuesItem" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.String,
+          code: S.String,
+          issues: S.optional(__S(1, __c0, 1)),
+        }),
+      ).annotate({ identifier: "ErrorBADREQUEST" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/project.all", code: 200 })),
       ).annotate({ identifier: "ListProjectsRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -307,7 +386,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "ListProjectsForPermissionsRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -321,7 +400,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "SearchProjectRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -334,7 +413,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "UpdateProjectRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -344,7 +423,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "CompleteProjectOnboardingRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -352,7 +431,7 @@ function __c5(j: number): any {
       });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -364,7 +443,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "CreateProjectRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -374,7 +453,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "DeleteProjectRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -384,7 +463,7 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "DuplicateProjectRequestSelectedServicesItem" });
     case 1:
-      return S.Array(__S(32, __c8, 0));
+      return S.Array(__S(36, __c9, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -392,13 +471,13 @@ function __c8(j: number): any {
           name: S.String,
           description: S.optional(S.String),
           includeServices: S.optional(S.Boolean),
-          selectedServices: S.optional(__S(33, __c8, 1)),
+          selectedServices: S.optional(__S(37, __c9, 1)),
           duplicateInSameProject: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/project.duplicate", code: 200 })),
       ).annotate({ identifier: "DuplicateProjectRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -408,7 +487,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GetProjectRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -416,7 +495,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetProjectHomeStatsRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

@@ -8,7 +8,7 @@
  *
  * Each SDK's `matchError` calls these helpers and attaches the resulting
  * `Duration` to retryable errors via the optional `retryAfter` field, where
- * the retry policy will honor it with precedence over the default backoff.
+ * the retry policy waits at least that long (RFC 9110).
  *
  * Services that use bespoke headers or body fields are expected to do their
  * own parsing in the SDK's `matchError`, optionally falling back to these

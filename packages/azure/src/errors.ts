@@ -698,7 +698,7 @@ export class NetAppVolumeGroupNotReadable
   extends /*@__PURE__*/ Schema.TaggedError<NetAppVolumeGroupNotReadable>()(
     "NetAppVolumeGroupNotReadable",
     AzureErrorFields,
-  ).pipe(Category.withServerError) {}
+  ).pipe(Category.withServerError, Category.withRetryable()) {}
 
 /**
  * Returned when an operation needs a subscription preview feature that is
@@ -1685,7 +1685,7 @@ export class MetricsContainerNotReady
   extends /*@__PURE__*/ Schema.TaggedError<MetricsContainerNotReady>()(
     "MetricsContainerNotReady",
     AzureErrorFields,
-  ).pipe(Category.withServerError) {}
+  ).pipe(Category.withServerError, Category.withRetryable()) {}
 
 /**
  * Returned when a resource's `extendedLocation` names an Arc custom

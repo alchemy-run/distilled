@@ -30,27 +30,48 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c1, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: AuthErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export type GetCostsForProjectRequestDepth = "project" | "service" | "auto";
 export type GetCostsForProjectRequestGranularity =
@@ -222,6 +243,16 @@ export interface ListCostsForResellerRequest {
 }
 export type ListCostsForResellerResponseBodyList = Array<ProjectCost>;
 export type ListCostsForResellerResponse = ListCostsForResellerResponseBodyList;
+export interface ErrorResponse {
+  msg: string;
+}
+export interface AuthErrorResponse {
+  error: string;
+  message: string;
+  path: string;
+  status: number;
+  timeStamp: string;
+}
 export type GetCostsForProjectError = BadRequest | Forbidden | NotFound | StackitOpError;
 /** V3 Costs for a certain project Get costs for a certain project in a customer account */
 export const getCostsForProject: API.OperationMethod<
@@ -230,8 +261,8 @@ export const getCostsForProject: API.OperationMethod<
   GetCostsForProjectError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetCostsForProjectRequest>,
-  output: __S(1, __c0, 1) as any as S.Schema<GetCostsForProjectResponse>,
+  input: __S(4, __c2, 0) as any as S.Schema<GetCostsForProjectRequest>,
+  output: __S(5, __c2, 1) as any as S.Schema<GetCostsForProjectResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -247,8 +278,8 @@ export const listCostsForCustomer: API.OperationMethod<
   ListCostsForCustomerError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2, __c1, 0) as any as S.Schema<ListCostsForCustomerRequest>,
-  output: __S(5, __c2, 1) as any as S.Schema<ListCostsForCustomerResponse>,
+  input: __S(6, __c3, 0) as any as S.Schema<ListCostsForCustomerRequest>,
+  output: __S(9, __c4, 1) as any as S.Schema<ListCostsForCustomerResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -264,8 +295,8 @@ export const listCostsForReseller: API.OperationMethod<
   ListCostsForResellerError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6, __c3, 0) as any as S.Schema<ListCostsForResellerRequest>,
-  output: __S(5, __c2, 1) as any as S.Schema<ListCostsForResellerResponse>,
+  input: __S(10, __c5, 0) as any as S.Schema<ListCostsForResellerRequest>,
+  output: __S(9, __c4, 1) as any as S.Schema<ListCostsForResellerResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -275,6 +306,30 @@ export const listCostsForReseller: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          msg: S.String,
+        }),
+      ).annotate({ identifier: "ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          error: S.String,
+          message: S.String,
+          path: S.String,
+          status: S.Number,
+          timeStamp: S.String,
+        }),
+      ).annotate({ identifier: "AuthErrorResponse" });
+  }
+}
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -301,7 +356,7 @@ function __c0(j: number): any {
       });
   }
 }
-function __c1(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -323,17 +378,17 @@ function __c1(j: number): any {
       ).annotate({ identifier: "ListCostsForCustomerRequest" });
   }
 }
-function __c2(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
     case 1:
-      return S.suspend(() => __S(4, __c2, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(8, __c4, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCostsForCustomerResponse",
       });
   }
 }
-function __c3(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

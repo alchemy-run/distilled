@@ -417,7 +417,7 @@ for (const [type, description] of errorTypes) {
     traits: {
       "smithy.api#error": "client",
       "smithy.api#documentation": `${description.replace(/\s+/g, " ").replace(/- /g, "-")}.`,
-      [ERROR_MATCHERS_TRAIT]: [{ message: { matches: `^urn:ietf:params:acme:error:${type}$` } }],
+      [ERROR_MATCHERS_TRAIT]: [{ body: { "/type": `urn:ietf:params:acme:error:${type}` } }],
     },
   };
 }

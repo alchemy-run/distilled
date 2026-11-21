@@ -249,7 +249,7 @@ export class HealthUnavailableException
       /*@__PURE__*/ T.AwsQueryError({ code: "HealthUnavailable", httpResponseCode: 500 }),
       /*@__PURE__*/ T.HttpError(500),
     ),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class IncompatibleProtocolsException
   extends /*@__PURE__*/ S.TaggedError<IncompatibleProtocolsException>()(
     "IncompatibleProtocolsException",
@@ -267,7 +267,7 @@ export class InsufficientCapacityException
       /*@__PURE__*/ T.AwsQueryError({ code: "InsufficientCapacity", httpResponseCode: 500 }),
       /*@__PURE__*/ T.HttpError(500),
     ),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InvalidCaCertificatesBundleException
   extends /*@__PURE__*/ S.TaggedError<InvalidCaCertificatesBundleException>()(
     "InvalidCaCertificatesBundleException",
@@ -384,7 +384,7 @@ export class PriorRequestNotCompleteException
       /*@__PURE__*/ T.AwsQueryError({ code: "PriorRequestNotComplete", httpResponseCode: 429 }),
       /*@__PURE__*/ T.HttpError(429),
     ),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ResourceInUseException
   extends /*@__PURE__*/ S.TaggedError<ResourceInUseException>()(
     "ResourceInUseException",

@@ -30,18 +30,32 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ValidationError | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(8, __c1, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: ConflictError | string;
+}
 
 /** List of IPs that can mount the Resource Pool in read-only; IPs must have a subnet mask (e.g. "172.16.0.0/24" for a range of IPs, or "172.16.0.250/32" for a specific IP) */
 export type CreateResourcePoolRequestIpAclList = Array<string>;
@@ -561,6 +575,33 @@ export interface UpdateShareExportPolicyRequest {
 export interface UpdateShareExportPolicyResponse {
   shareExportPolicy?: ShareExportPolicy | undefined;
 }
+export interface ValidationErrorField {
+  /** The name of the field in the request that has failed the validation */
+  field: string;
+  /** The reason why the validation failed */
+  reason: string;
+}
+export type ValidationErrorFieldsList = Array<ValidationErrorField>;
+export interface ValidationError {
+  /** Human-readable string of the error that occured */
+  error_description?: unknown | undefined;
+  /** Human-readable description of the error that occurred. */
+  title: string;
+  /** URI Uniquely identifies the error type. It will be in the format of storage.stackit.cloud/<error-type> e.g. storage.stackit.cloud/validation-error */
+  type: string;
+  fields: ValidationErrorFieldsList;
+}
+/** Conflict error response */
+export interface ConflictError {
+  /** Human-readable explanation of the specific problem */
+  detail: string;
+  /** Human-readable string of the error that occurred */
+  error_description: string;
+  /** The HTTP status code */
+  status_code: number;
+  /** URI Uniquely identifies the error type. It will be in the format of storage.stackit.cloud/<error-type> e.g. storage.stackit.cloud/conflict */
+  type: string;
+}
 export type CreateResourcePoolError = BadRequest | Conflict | StackitOpError;
 /** Create Resource Pool Create a Resource Pool in a project. */
 export const createResourcePool: API.OperationMethod<
@@ -569,8 +610,8 @@ export const createResourcePool: API.OperationMethod<
   CreateResourcePoolError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<CreateResourcePoolRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<CreateResourcePoolResponse>,
+  input: __S(112, __c14, 0) as any as S.Schema<CreateResourcePoolRequest>,
+  output: __S(128, __c16, 0) as any as S.Schema<CreateResourcePoolResponse>,
   errors: [BadRequest, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -586,8 +627,8 @@ export const createResourcePoolSnapshot: API.OperationMethod<
   CreateResourcePoolSnapshotError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<CreateResourcePoolSnapshotRequest>,
-  output: __S(208, __c26, 0) as any as S.Schema<CreateResourcePoolSnapshotResponse>,
+  input: __S(208, __c26, 0) as any as S.Schema<CreateResourcePoolSnapshotRequest>,
+  output: __S(224, __c28, 0) as any as S.Schema<CreateResourcePoolSnapshotResponse>,
   errors: [BadRequest, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -603,8 +644,8 @@ export const createShare: API.OperationMethod<
   CreateShareError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<CreateShareRequest>,
-  output: __S(232, __c29, 0) as any as S.Schema<CreateShareResponse>,
+  input: __S(232, __c29, 0) as any as S.Schema<CreateShareRequest>,
+  output: __S(248, __c31, 0) as any as S.Schema<CreateShareResponse>,
   errors: [BadRequest, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -620,8 +661,8 @@ export const createShareExportPolicy: API.OperationMethod<
   CreateShareExportPolicyError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(248, __c31, 0) as any as S.Schema<CreateShareExportPolicyRequest>,
-  output: __S(256, __c32, 0) as any as S.Schema<CreateShareExportPolicyResponse>,
+  input: __S(264, __c33, 0) as any as S.Schema<CreateShareExportPolicyRequest>,
+  output: __S(272, __c34, 0) as any as S.Schema<CreateShareExportPolicyResponse>,
   errors: [BadRequest, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -637,8 +678,8 @@ export const deleteResourcePool: API.OperationMethod<
   DeleteResourcePoolError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<DeleteResourcePoolRequest>,
-  output: __S(280, __c35, 0) as any as S.Schema<DeleteResourcePoolResponse2>,
+  input: __S(288, __c36, 0) as any as S.Schema<DeleteResourcePoolRequest>,
+  output: __S(296, __c37, 0) as any as S.Schema<DeleteResourcePoolResponse2>,
   errors: [BadRequest, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -654,8 +695,8 @@ export const deleteResourcePoolSnapshot: API.OperationMethod<
   DeleteResourcePoolSnapshotError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c36, 0) as any as S.Schema<DeleteResourcePoolSnapshotRequest>,
-  output: __S(280, __c35, 0) as any as S.Schema<DeleteResourcePoolSnapshotResponse2>,
+  input: __S(304, __c38, 0) as any as S.Schema<DeleteResourcePoolSnapshotRequest>,
+  output: __S(296, __c37, 0) as any as S.Schema<DeleteResourcePoolSnapshotResponse2>,
   errors: [BadRequest, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -671,8 +712,8 @@ export const deleteShare: API.OperationMethod<
   DeleteShareError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(296, __c37, 0) as any as S.Schema<DeleteShareRequest>,
-  output: __S(280, __c35, 0) as any as S.Schema<DeleteShareResponse2>,
+  input: __S(312, __c39, 0) as any as S.Schema<DeleteShareRequest>,
+  output: __S(296, __c37, 0) as any as S.Schema<DeleteShareResponse2>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -688,8 +729,8 @@ export const deleteShareExportPolicy: API.OperationMethod<
   DeleteShareExportPolicyError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c38, 0) as any as S.Schema<DeleteShareExportPolicyRequest>,
-  output: __S(280, __c35, 0) as any as S.Schema<DeleteShareExportPolicyResponse2>,
+  input: __S(320, __c40, 0) as any as S.Schema<DeleteShareExportPolicyRequest>,
+  output: __S(296, __c37, 0) as any as S.Schema<DeleteShareExportPolicyResponse2>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -705,8 +746,8 @@ export const disableLock: API.OperationMethod<
   DisableLockError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<DisableLockRequest>,
-  output: __S(280, __c35, 0) as any as S.Schema<DisableLockResponse2>,
+  input: __S(16, __c2, 0) as any as S.Schema<DisableLockRequest>,
+  output: __S(296, __c37, 0) as any as S.Schema<DisableLockResponse2>,
   errors: [Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -722,8 +763,8 @@ export const enableLock: API.OperationMethod<
   EnableLockError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<EnableLockRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<EnableLockResponse>,
+  input: __S(24, __c3, 0) as any as S.Schema<EnableLockRequest>,
+  output: __S(32, __c4, 0) as any as S.Schema<EnableLockResponse>,
   errors: [Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -739,8 +780,8 @@ export const getLock: API.OperationMethod<
   GetLockError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<GetLockRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<GetLockResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<GetLockRequest>,
+  output: __S(32, __c4, 0) as any as S.Schema<GetLockResponse>,
   errors: [UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -756,8 +797,8 @@ export const getResourcePool: API.OperationMethod<
   GetResourcePoolError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<GetResourcePoolRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<GetResourcePoolResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<GetResourcePoolRequest>,
+  output: __S(128, __c16, 0) as any as S.Schema<GetResourcePoolResponse>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -773,8 +814,8 @@ export const getResourcePoolSnapshot: API.OperationMethod<
   GetResourcePoolSnapshotError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<GetResourcePoolSnapshotRequest>,
-  output: __S(208, __c26, 0) as any as S.Schema<GetResourcePoolSnapshotResponse>,
+  input: __S(56, __c7, 0) as any as S.Schema<GetResourcePoolSnapshotRequest>,
+  output: __S(224, __c28, 0) as any as S.Schema<GetResourcePoolSnapshotResponse>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -790,8 +831,8 @@ export const getShare: API.OperationMethod<
   GetShareError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<GetShareRequest>,
-  output: __S(232, __c29, 0) as any as S.Schema<GetShareResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<GetShareRequest>,
+  output: __S(248, __c31, 0) as any as S.Schema<GetShareResponse>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -807,8 +848,8 @@ export const getShareExportPolicy: API.OperationMethod<
   GetShareExportPolicyError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<GetShareExportPolicyRequest>,
-  output: __S(256, __c32, 0) as any as S.Schema<GetShareExportPolicyResponse>,
+  input: __S(72, __c9, 0) as any as S.Schema<GetShareExportPolicyRequest>,
+  output: __S(272, __c34, 0) as any as S.Schema<GetShareExportPolicyResponse>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -824,8 +865,8 @@ export const getSnapshotPolicy: API.OperationMethod<
   GetSnapshotPolicyError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<GetSnapshotPolicyRequest>,
-  output: __S(65, __c8, 1) as any as S.Schema<GetSnapshotPolicyResponse>,
+  input: __S(80, __c10, 0) as any as S.Schema<GetSnapshotPolicyRequest>,
+  output: __S(81, __c10, 1) as any as S.Schema<GetSnapshotPolicyResponse>,
   errors: [UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -841,8 +882,8 @@ export const listPerformanceClasses: API.OperationMethod<
   ListPerformanceClassesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<ListPerformanceClassesRequest>,
-  output: __S(83, __c10, 3) as any as S.Schema<ListPerformanceClassesResponse>,
+  input: __S(96, __c12, 0) as any as S.Schema<ListPerformanceClassesRequest>,
+  output: __S(99, __c12, 3) as any as S.Schema<ListPerformanceClassesResponse>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -858,8 +899,8 @@ export const listResourcePools: API.OperationMethod<
   ListResourcePoolsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<ListResourcePoolsRequest>,
-  output: __S(90, __c11, 2) as any as S.Schema<ListResourcePoolsResponse>,
+  input: __S(104, __c13, 0) as any as S.Schema<ListResourcePoolsRequest>,
+  output: __S(106, __c13, 2) as any as S.Schema<ListResourcePoolsResponse>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -875,8 +916,8 @@ export const listResourcePoolSnapshots: API.OperationMethod<
   ListResourcePoolSnapshotsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<ListResourcePoolSnapshotsRequest>,
-  output: __S(130, __c16, 2) as any as S.Schema<ListResourcePoolSnapshotsResponse>,
+  input: __S(144, __c18, 0) as any as S.Schema<ListResourcePoolSnapshotsRequest>,
+  output: __S(146, __c18, 2) as any as S.Schema<ListResourcePoolSnapshotsResponse>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -892,8 +933,8 @@ export const listShareExportPolicies: API.OperationMethod<
   ListShareExportPoliciesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<ListShareExportPoliciesRequest>,
-  output: __S(138, __c17, 2) as any as S.Schema<ListShareExportPoliciesResponse>,
+  input: __S(152, __c19, 0) as any as S.Schema<ListShareExportPoliciesRequest>,
+  output: __S(154, __c19, 2) as any as S.Schema<ListShareExportPoliciesResponse>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -909,8 +950,8 @@ export const listShares: API.OperationMethod<
   ListSharesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<ListSharesRequest>,
-  output: __S(146, __c18, 2) as any as S.Schema<ListSharesResponse>,
+  input: __S(160, __c20, 0) as any as S.Schema<ListSharesRequest>,
+  output: __S(162, __c20, 2) as any as S.Schema<ListSharesResponse>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -926,8 +967,8 @@ export const listSnapshotPolicies: API.OperationMethod<
   ListSnapshotPoliciesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<ListSnapshotPoliciesRequest>,
-  output: __S(154, __c19, 2) as any as S.Schema<ListSnapshotPoliciesResponse>,
+  input: __S(168, __c21, 0) as any as S.Schema<ListSnapshotPoliciesRequest>,
+  output: __S(170, __c21, 2) as any as S.Schema<ListSnapshotPoliciesResponse>,
   errors: [UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -943,8 +984,8 @@ export const updateResourcePool: API.OperationMethod<
   UpdateResourcePoolError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<UpdateResourcePoolRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<UpdateResourcePoolResponse>,
+  input: __S(176, __c22, 0) as any as S.Schema<UpdateResourcePoolRequest>,
+  output: __S(128, __c16, 0) as any as S.Schema<UpdateResourcePoolResponse>,
   errors: [BadRequest, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -960,8 +1001,8 @@ export const updateResourcePoolSnapshot: API.OperationMethod<
   UpdateResourcePoolSnapshotError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<UpdateResourcePoolSnapshotRequest>,
-  output: __S(208, __c26, 0) as any as S.Schema<UpdateResourcePoolSnapshotResponse>,
+  input: __S(184, __c23, 0) as any as S.Schema<UpdateResourcePoolSnapshotRequest>,
+  output: __S(224, __c28, 0) as any as S.Schema<UpdateResourcePoolSnapshotResponse>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -977,8 +1018,8 @@ export const updateShare: API.OperationMethod<
   UpdateShareError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<UpdateShareRequest>,
-  output: __S(232, __c29, 0) as any as S.Schema<UpdateShareResponse>,
+  input: __S(192, __c24, 0) as any as S.Schema<UpdateShareRequest>,
+  output: __S(248, __c31, 0) as any as S.Schema<UpdateShareResponse>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -994,8 +1035,8 @@ export const updateShareExportPolicy: API.OperationMethod<
   UpdateShareExportPolicyError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<UpdateShareExportPolicyRequest>,
-  output: __S(256, __c32, 0) as any as S.Schema<UpdateShareExportPolicyResponse>,
+  input: __S(200, __c25, 0) as any as S.Schema<UpdateShareExportPolicyRequest>,
+  output: __S(272, __c34, 0) as any as S.Schema<UpdateShareExportPolicyResponse>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1005,6 +1046,41 @@ export const updateShareExportPolicy: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.String,
+          reason: S.String,
+        }),
+      ).annotate({ identifier: "ValidationErrorField" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          error_description: S.optional(S.Unknown),
+          title: S.String,
+          type: S.String,
+          fields: __S(1, __c0, 1),
+        }),
+      ).annotate({ identifier: "ValidationError" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          detail: S.String,
+          error_description: S.String,
+          status_code: S.Number,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "ConflictError" });
+  }
+}
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1022,7 +1098,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "DisableLockRequest" });
   }
 }
-function __c1(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1040,7 +1116,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "EnableLockRequest" });
   }
 }
-function __c2(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1050,7 +1126,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "EnableLockResponse" });
   }
 }
-function __c3(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1068,7 +1144,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GetLockRequest" });
   }
 }
-function __c4(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1087,7 +1163,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetResourcePoolRequest" });
   }
 }
-function __c5(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1107,7 +1183,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GetResourcePoolSnapshotRequest" });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1127,7 +1203,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GetShareRequest" });
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1146,7 +1222,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetShareExportPolicyRequest" });
   }
 }
-function __c8(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1165,12 +1241,12 @@ function __c8(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          snapshotPolicy: S.optional(__S(76, __c9, 4)),
+          snapshotPolicy: S.optional(__S(92, __c11, 4)),
         }),
       ).annotate({ identifier: "GetSnapshotPolicyResponse" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1183,7 +1259,7 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "SnapshotPolicySchedule" });
     case 1:
-      return S.Array(__S(72, __c9, 0));
+      return S.Array(__S(88, __c11, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1197,7 +1273,7 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "SnapshotPolicySnapshotPolicySchedule" });
     case 3:
-      return S.Array(__S(74, __c9, 2));
+      return S.Array(__S(90, __c11, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -1206,13 +1282,13 @@ function __c9(j: number): any {
           enabled: S.optional(S.Boolean),
           id: S.optional(S.String),
           name: S.optional(S.String),
-          schedules: S.optional(__S(73, __c9, 1)),
-          snapshotSchedules: S.optional(__S(75, __c9, 3)),
+          schedules: S.optional(__S(89, __c11, 1)),
+          snapshotSchedules: S.optional(__S(91, __c11, 3)),
         }),
       ).annotate({ identifier: "SnapshotPolicy" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1234,16 +1310,16 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "PerformanceClass" });
     case 2:
-      return S.Array(__S(81, __c10, 1));
+      return S.Array(__S(97, __c12, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          performanceClasses: S.optional(__S(82, __c10, 2)),
+          performanceClasses: S.optional(__S(98, __c12, 2)),
         }),
       ).annotate({ identifier: "ListPerformanceClassesResponse" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1260,16 +1336,16 @@ function __c11(j: number): any {
         ),
       ).annotate({ identifier: "ListResourcePoolsRequest" });
     case 1:
-      return S.Array(__S(107, __c13, 3));
+      return S.Array(__S(123, __c15, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          resourcePools: S.optional(__S(89, __c11, 1)),
+          resourcePools: S.optional(__S(105, __c13, 1)),
         }),
       ).annotate({ identifier: "ListResourcePoolsResponse" });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1277,8 +1353,8 @@ function __c12(j: number): any {
           projectId: S.String.pipe(T.Label()),
           region: S.String.pipe(T.Label()),
           availabilityZone: S.String,
-          ipAcl: __S(120, __c15, 0),
-          labels: S.optional(__S(121, __c15, 1)),
+          ipAcl: __S(136, __c17, 0),
+          labels: S.optional(__S(137, __c17, 1)),
           name: S.String,
           performanceClass: S.String,
           sizeGigabytes: S.Number,
@@ -1295,7 +1371,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "CreateResourcePoolRequest" });
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1328,32 +1404,32 @@ function __c13(j: number): any {
           countShares: S.optional(S.Number),
           createdAt: S.optional(S.String),
           id: S.optional(S.String),
-          ipAcl: S.optional(__S(120, __c15, 0)),
-          labels: S.optional(__S(121, __c15, 1)),
+          ipAcl: S.optional(__S(136, __c17, 0)),
+          labels: S.optional(__S(137, __c17, 1)),
           mountPath: S.optional(S.String),
           name: S.optional(S.String),
-          performanceClass: S.optional(__S(104, __c13, 0)),
+          performanceClass: S.optional(__S(120, __c15, 0)),
           performanceClassDowngradableAt: S.optional(S.String),
           sizeReducibleAt: S.optional(S.String),
-          snapshotPolicy: S.optional(S.NullOr(__S(105, __c13, 1))),
+          snapshotPolicy: S.optional(S.NullOr(__S(121, __c15, 1))),
           snapshotsAreVisible: S.optional(S.Boolean),
-          space: S.optional(__S(106, __c13, 2)),
+          space: S.optional(__S(122, __c15, 2)),
           state: S.optional(S.String),
         }),
       ).annotate({ identifier: "ResourcePool" });
   }
 }
-function __c14(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resourcePool: S.optional(__S(107, __c13, 3)),
+          resourcePool: S.optional(__S(123, __c15, 3)),
         }),
       ).annotate({ identifier: "CreateResourcePoolResponse" });
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -1361,7 +1437,7 @@ function __c15(j: number): any {
       return S.Record(S.String, S.String);
   }
 }
-function __c16(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1379,16 +1455,16 @@ function __c16(j: number): any {
         ),
       ).annotate({ identifier: "ListResourcePoolSnapshotsRequest" });
     case 1:
-      return S.Array(__S(200, __c25, 0));
+      return S.Array(__S(216, __c27, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          resourcePoolSnapshots: S.optional(__S(129, __c16, 1)),
+          resourcePoolSnapshots: S.optional(__S(145, __c18, 1)),
         }),
       ).annotate({ identifier: "ListResourcePoolSnapshotsResponse" });
   }
 }
-function __c17(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1405,16 +1481,16 @@ function __c17(j: number): any {
         ),
       ).annotate({ identifier: "ListShareExportPoliciesRequest" });
     case 1:
-      return S.Array(__S(242, __c30, 2));
+      return S.Array(__S(258, __c32, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          shareExportPolicies: S.optional(__S(137, __c17, 1)),
+          shareExportPolicies: S.optional(__S(153, __c19, 1)),
         }),
       ).annotate({ identifier: "ListShareExportPoliciesResponse" });
   }
 }
-function __c18(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1432,16 +1508,16 @@ function __c18(j: number): any {
         ),
       ).annotate({ identifier: "ListSharesRequest" });
     case 1:
-      return S.Array(__S(224, __c28, 0));
+      return S.Array(__S(240, __c30, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          shares: S.optional(__S(145, __c18, 1)),
+          shares: S.optional(__S(161, __c20, 1)),
         }),
       ).annotate({ identifier: "ListSharesResponse" });
   }
 }
-function __c19(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1458,16 +1534,16 @@ function __c19(j: number): any {
         ),
       ).annotate({ identifier: "ListSnapshotPoliciesRequest" });
     case 1:
-      return S.Array(__S(76, __c9, 4));
+      return S.Array(__S(92, __c11, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          snapshotPolicies: S.optional(__S(153, __c19, 1)),
+          snapshotPolicies: S.optional(__S(169, __c21, 1)),
         }),
       ).annotate({ identifier: "ListSnapshotPoliciesResponse" });
   }
 }
-function __c20(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1475,8 +1551,8 @@ function __c20(j: number): any {
           projectId: S.String.pipe(T.Label()),
           region: S.String.pipe(T.Label()),
           resourcePoolId: S.String.pipe(T.Label()),
-          ipAcl: S.optional(__S(120, __c15, 0)),
-          labels: S.optional(__S(121, __c15, 1)),
+          ipAcl: S.optional(__S(136, __c17, 0)),
+          labels: S.optional(__S(137, __c17, 1)),
           performanceClass: S.optional(S.String),
           sizeGigabytes: S.optional(S.NullOr(S.Number)),
           snapshotPolicyId: S.optional(S.NullOr(S.String)),
@@ -1492,7 +1568,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "UpdateResourcePoolRequest" });
   }
 }
-function __c21(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1514,7 +1590,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "UpdateResourcePoolSnapshotRequest" });
   }
 }
-function __c22(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1524,7 +1600,7 @@ function __c22(j: number): any {
           resourcePoolId: S.String.pipe(T.Label()),
           shareId: S.String.pipe(T.Label()),
           exportPolicyName: S.optional(S.NullOr(S.String)),
-          labels: S.optional(__S(121, __c15, 1)),
+          labels: S.optional(__S(137, __c17, 1)),
           spaceHardLimitGigabytes: S.optional(S.NullOr(S.Number)),
         }).pipe(
           T.Http({
@@ -1537,7 +1613,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "UpdateShareRequest" });
   }
 }
-function __c23(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1545,8 +1621,8 @@ function __c23(j: number): any {
           projectId: S.String.pipe(T.Label()),
           region: S.String.pipe(T.Label()),
           policyId: S.String.pipe(T.Label()),
-          labels: S.optional(__S(121, __c15, 1)),
-          rules: S.optional(S.NullOr(__S(265, __c33, 1))),
+          labels: S.optional(__S(137, __c17, 1)),
+          rules: S.optional(S.NullOr(__S(281, __c35, 1))),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1558,7 +1634,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "UpdateShareExportPolicyRequest" });
   }
 }
-function __c24(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1580,7 +1656,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "CreateResourcePoolSnapshotRequest" });
   }
 }
-function __c25(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1596,17 +1672,17 @@ function __c25(j: number): any {
       ).annotate({ identifier: "ResourcePoolSnapshot" });
   }
 }
-function __c26(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resourcePoolSnapshot: S.optional(__S(200, __c25, 0)),
+          resourcePoolSnapshot: S.optional(__S(216, __c27, 0)),
         }),
       ).annotate({ identifier: "CreateResourcePoolSnapshotResponse" });
   }
 }
-function __c27(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1615,7 +1691,7 @@ function __c27(j: number): any {
           region: S.String.pipe(T.Label()),
           resourcePoolId: S.String.pipe(T.Label()),
           exportPolicyName: S.optional(S.NullOr(S.String)),
-          labels: S.optional(__S(121, __c15, 1)),
+          labels: S.optional(__S(137, __c17, 1)),
           name: S.String,
           spaceHardLimitGigabytes: S.Number,
         }).pipe(
@@ -1629,15 +1705,15 @@ function __c27(j: number): any {
       ).annotate({ identifier: "CreateShareRequest" });
   }
 }
-function __c28(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           createdAt: S.optional(S.String),
-          exportPolicy: S.optional(S.NullOr(__S(242, __c30, 2))),
+          exportPolicy: S.optional(S.NullOr(__S(258, __c32, 2))),
           id: S.optional(S.String),
-          labels: S.optional(__S(121, __c15, 1)),
+          labels: S.optional(__S(137, __c17, 1)),
           mountPath: S.optional(S.String),
           name: S.optional(S.String),
           spaceHardLimitGigabytes: S.optional(S.Number),
@@ -1646,17 +1722,17 @@ function __c28(j: number): any {
       ).annotate({ identifier: "Share" });
   }
 }
-function __c29(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          share: S.optional(__S(224, __c28, 0)),
+          share: S.optional(__S(240, __c30, 0)),
         }),
       ).annotate({ identifier: "CreateShareResponse" });
   }
 }
-function __c30(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1664,7 +1740,7 @@ function __c30(j: number): any {
           createdAt: S.optional(S.String),
           description: S.optional(S.NullOr(S.String)),
           id: S.optional(S.String),
-          ipAcl: S.optional(__S(120, __c15, 0)),
+          ipAcl: S.optional(__S(136, __c17, 0)),
           order: S.optional(S.Number),
           readOnly: S.optional(S.Boolean),
           setUuid: S.optional(S.Boolean),
@@ -1672,30 +1748,30 @@ function __c30(j: number): any {
         }),
       ).annotate({ identifier: "ShareExportPolicyRule" });
     case 1:
-      return S.Array(__S(240, __c30, 0));
+      return S.Array(__S(256, __c32, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           createdAt: S.optional(S.String),
           id: S.optional(S.String),
-          labels: S.optional(__S(121, __c15, 1)),
+          labels: S.optional(__S(137, __c17, 1)),
           name: S.optional(S.String),
-          rules: S.optional(__S(241, __c30, 1)),
+          rules: S.optional(__S(257, __c32, 1)),
           sharesUsingExportPolicy: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ShareExportPolicy" });
   }
 }
-function __c31(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           region: S.String.pipe(T.Label()),
-          labels: S.optional(__S(121, __c15, 1)),
+          labels: S.optional(__S(137, __c17, 1)),
           name: S.String,
-          rules: S.optional(__S(265, __c33, 1)),
+          rules: S.optional(__S(281, __c35, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1707,23 +1783,23 @@ function __c31(j: number): any {
       ).annotate({ identifier: "CreateShareExportPolicyRequest" });
   }
 }
-function __c32(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          shareExportPolicy: S.optional(__S(242, __c30, 2)),
+          shareExportPolicy: S.optional(__S(258, __c32, 2)),
         }),
       ).annotate({ identifier: "CreateShareExportPolicyResponse" });
   }
 }
-function __c33(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
-          ipAcl: S.optional(__S(120, __c15, 0)),
+          ipAcl: S.optional(__S(136, __c17, 0)),
           order: S.optional(S.Number),
           readOnly: S.optional(S.Boolean),
           setUuid: S.optional(S.Boolean),
@@ -1731,10 +1807,10 @@ function __c33(j: number): any {
         }),
       ).annotate({ identifier: "CreateShareExportPolicyRequestRule" });
     case 1:
-      return S.Array(__S(264, __c33, 0));
+      return S.Array(__S(280, __c35, 0));
   }
 }
-function __c34(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1753,7 +1829,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "DeleteResourcePoolRequest" });
   }
 }
-function __c35(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -1761,7 +1837,7 @@ function __c35(j: number): any {
       });
   }
 }
-function __c36(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1781,7 +1857,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "DeleteResourcePoolSnapshotRequest" });
   }
 }
-function __c37(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1801,7 +1877,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "DeleteShareRequest" });
   }
 }
-function __c38(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

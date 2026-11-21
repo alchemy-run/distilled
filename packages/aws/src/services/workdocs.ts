@@ -190,7 +190,7 @@ export class LimitExceededException
     "LimitExceededException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+  ).pipe(C.withConflictError, C.withThrottlingError, C.withRetryableError) {}
 export class ProhibitedStateException
   extends /*@__PURE__*/ S.TaggedError<ProhibitedStateException>()(
     "ProhibitedStateException",
@@ -214,7 +214,7 @@ export class ServiceUnavailableException
     "ServiceUnavailableException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(503),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class StorageLimitExceededException
   extends /*@__PURE__*/ S.TaggedError<StorageLimitExceededException>()(
     "StorageLimitExceededException",
@@ -3353,10 +3353,10 @@ function __c26(j: number): any {
       return S.suspend(() =>
         S.Struct({
           AuthenticationToken: S.optional(SensitiveString).pipe(T.HttpHeader("Authentication")),
-          StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          StartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("startTime"),
           ),
-          EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("endTime"),
           ),
           OrganizationId: S.optional(S.String).pipe(T.HttpQuery("organizationId")),

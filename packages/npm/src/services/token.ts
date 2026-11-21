@@ -30,27 +30,52 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(8, __c1, 0)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error401Body | Error500Body | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error403Body | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(8, __c1, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error500Body | string;
+}
 
 export type CreateTokenRequestNpmAuthType = "web";
 export type CreateTokenRequestNpmCommand = "token";
@@ -230,6 +255,16 @@ export interface ListTokensResponse {
   /** Pagination URLs for next/previous pages */
   urls?: ListTokensResponseUrlsMap | undefined;
 }
+export interface Error401Body {
+  error?: string | undefined;
+}
+export interface Error500Body {
+  message?: string | undefined;
+}
+export interface Error403Body {
+  /** Error message */
+  error?: string | undefined;
+}
 export type CreateTokenError = BadRequest | Forbidden | NpmOpError;
 /** Create npm access token Create a new npm access token with customizable permissions, scope restrictions, expiration, and CIDR IP range limitations. To create a stage-only Granular Access Token (GAT), set `packages_and_scopes_permission` to `read-write-stage-only` and select at least one package or scope. This grants package write access but restricts publishing new versions to `POST /-/stage/package/{package-name}` (`npm stage publish`). Direct publication is not allowed or automatically staged. Requests rejected by the publish-policy check return `403 Forbidden` with `E_STAGE_REQUIRED` in the error message. Earlier authentication or package authorization checks can return other errors, including `404 Not Found`. A maintainer must approve the staged version with 2FA before publication. Stage-only is not a valid value for `orgs_permission`. The publish restriction is separate from `bypass_2fa`. Stage-only tokens can be created with either setting, and existing scope, permission, and 2FA checks still apply to all operations. The restriction does not itself remove other package write capabilities, such as changing dist-tags or deprecating versions. **Requirements:** - Must be authenticated - **Two-factor authentication is required for this endpoint** - If 2FA is enabled on your account, provide the OTP via the `npm-otp` header - If 2FA is not enabled, an email OTP will be sent and must be provided via the `npm-otp` header - For WebAuthn users, the OTP is returned in the `doneUrl` after authentication - **Granular Access Tokens with `bypass_2fa: true` are not permitted** to call this endpoint and receive `403 Forbidden`. Token creation (and escalation) requires an interactive 2FA challenge. **Important notices:** - All responses include security notices via the `npm-notice` header regarding token limitations */
 export const createToken: API.OperationMethod<
@@ -238,8 +273,8 @@ export const createToken: API.OperationMethod<
   CreateTokenError,
   NpmOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateTokenRequest>,
-  output: __S(1, __c0, 1) as any as S.Schema<CreateTokenResponse>,
+  input: __S(16, __c2, 0) as any as S.Schema<CreateTokenRequest>,
+  output: __S(17, __c2, 1) as any as S.Schema<CreateTokenResponse>,
   errors: [BadRequest, Forbidden, UnknownNpmError],
   protocol: NpmProtocol,
   retry: Retry.Retry,
@@ -255,8 +290,8 @@ export const deleteToken: API.OperationMethod<
   DeleteTokenError,
   NpmOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<DeleteTokenRequest>,
-  output: __S(17, __c2, 1) as any as S.Schema<DeleteTokenResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<DeleteTokenRequest>,
+  output: __S(33, __c4, 1) as any as S.Schema<DeleteTokenResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownNpmError],
   protocol: NpmProtocol,
   retry: Retry.Retry,
@@ -272,8 +307,8 @@ export const listTokens: API.OperationMethod<
   ListTokensError,
   NpmOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<ListTokensRequest>,
-  output: __S(28, __c3, 4) as any as S.Schema<ListTokensResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<ListTokensRequest>,
+  output: __S(44, __c5, 4) as any as S.Schema<ListTokensResponse>,
   errors: [UnknownNpmError],
   protocol: NpmProtocol,
   retry: Retry.Retry,
@@ -287,6 +322,26 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          error: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Error401Body" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Error500Body" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           npmOtp: S.String.pipe(T.Header("npm-otp")),
           npmAuthType: S.optional(S.String.pipe(T.Header("npm-auth-type"))),
           npmCommand: S.optional(S.String.pipe(T.Header("npm-command"))),
@@ -295,10 +350,10 @@ function __c0(j: number): any {
           token_description: S.optional(S.NullOr(S.String)),
           expires: S.optional(S.Unknown),
           bypass_2fa: S.optional(S.Boolean),
-          cidr: S.optional(S.NullOr(__S(8, __c1, 0))),
-          packages: S.optional(__S(8, __c1, 0)),
-          scopes: S.optional(__S(8, __c1, 0)),
-          orgs: S.optional(__S(8, __c1, 0)),
+          cidr: S.optional(S.NullOr(__S(24, __c3, 0))),
+          packages: S.optional(__S(24, __c3, 0)),
+          scopes: S.optional(__S(24, __c3, 0)),
+          orgs: S.optional(__S(24, __c3, 0)),
           packages_and_scopes_permission: S.optional(S.String),
           orgs_permission: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/-/npm/v1/tokens", code: 200 })),
@@ -311,19 +366,19 @@ function __c0(j: number): any {
           description: S.optional(S.NullOr(S.String)),
           token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           expiry: S.optional(S.NullOr(S.String)),
-          cidr: S.optional(S.NullOr(__S(8, __c1, 0))),
+          cidr: S.optional(S.NullOr(__S(24, __c3, 0))),
           bypass_2fa: S.optional(S.Boolean),
           revoked: S.optional(S.NullOr(S.String)),
           created: S.optional(S.String),
           updated: S.optional(S.NullOr(S.String)),
           accessed: S.optional(S.NullOr(S.String)),
-          permissions: S.optional(__S(10, __c1, 2)),
-          scopes: S.optional(__S(12, __c1, 4)),
+          permissions: S.optional(__S(26, __c3, 2)),
+          scopes: S.optional(__S(28, __c3, 4)),
         }),
       ).annotate({ identifier: "CreateTokenResponse" });
   }
 }
-function __c1(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -335,7 +390,7 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "CreateTokenResponsePermissionsItem" });
     case 2:
-      return S.Array(__S(9, __c1, 1));
+      return S.Array(__S(25, __c3, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -344,10 +399,10 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "CreateTokenResponseScopesItem" });
     case 4:
-      return S.Array(__S(11, __c1, 3));
+      return S.Array(__S(27, __c3, 3));
   }
 }
-function __c2(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -362,7 +417,7 @@ function __c2(j: number): any {
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteTokenResponse" });
   }
 }
-function __c3(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -381,25 +436,25 @@ function __c3(j: number): any {
           token: S.optional(S.String),
           readonly: S.optional(S.Boolean),
           bypass_2fa: S.optional(S.Boolean),
-          cidr: S.optional(S.NullOr(__S(8, __c1, 0))),
+          cidr: S.optional(S.NullOr(__S(24, __c3, 0))),
           revoked: S.optional(S.NullOr(S.String)),
           created: S.optional(S.String),
           updated: S.optional(S.String),
           accessed: S.optional(S.NullOr(S.String)),
-          permissions: S.optional(__S(10, __c1, 2)),
-          scopes: S.optional(__S(12, __c1, 4)),
+          permissions: S.optional(__S(26, __c3, 2)),
+          scopes: S.optional(__S(28, __c3, 4)),
         }),
       ).annotate({ identifier: "ListTokensResponseObjectsItem" });
     case 2:
-      return S.Array(__S(25, __c3, 1));
+      return S.Array(__S(41, __c5, 1));
     case 3:
       return S.Record(S.String, S.String);
     case 4:
       return S.suspend(() =>
         S.Struct({
-          objects: S.optional(__S(26, __c3, 2)),
+          objects: S.optional(__S(42, __c5, 2)),
           total: S.optional(S.Number),
-          urls: S.optional(__S(27, __c3, 3)),
+          urls: S.optional(__S(43, __c5, 3)),
         }),
       ).annotate({ identifier: "ListTokensResponse" });
   }

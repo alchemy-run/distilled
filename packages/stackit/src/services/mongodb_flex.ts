@@ -31,27 +31,48 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | string;
+}
 
 export type CloneInstanceRequestRegion = "eu01" | "eu02";
 export interface CloneInstanceRequest {
@@ -622,6 +643,14 @@ export interface UpdateUserRequest {
   roles: UpdateUserRequestRolesList;
 }
 export interface UpdateUserResponse {}
+export type ErrorFieldsValueList = Array<string>;
+export type ErrorFieldsMap = { [key: string]: ErrorFieldsValueList | undefined };
+export interface Error {
+  code?: number | undefined;
+  fields?: ErrorFieldsMap | undefined;
+  message?: string | undefined;
+  type?: string | undefined;
+}
 export type CloneInstanceError = BadRequest | NotFound | StackitOpError;
 /** Clone instance Clone an instance via PIT restore<br/> Note that the Timestamp is a RFC3339 standard and uses by default UTC time format<br/> As an example a valid timestamp look like "2023-04-20T15:05:15Z" */
 export const cloneInstance: API.OperationMethod<
@@ -630,8 +659,8 @@ export const cloneInstance: API.OperationMethod<
   CloneInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<CloneInstanceRequest>,
-  output: __S(305, __c19, 1) as any as S.Schema<CloneInstanceResponse>,
+  input: __S(320, __c20, 0) as any as S.Schema<CloneInstanceRequest>,
+  output: __S(321, __c20, 1) as any as S.Schema<CloneInstanceResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -647,8 +676,8 @@ export const createInstance: API.OperationMethod<
   CreateInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<CreateInstanceRequest>,
-  output: __S(321, __c20, 1) as any as S.Schema<CreateInstanceResponse>,
+  input: __S(336, __c21, 0) as any as S.Schema<CreateInstanceRequest>,
+  output: __S(337, __c21, 1) as any as S.Schema<CreateInstanceResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -749,8 +778,8 @@ export const getUser: API.OperationMethod<
   GetUserError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetUserRequest>,
-  output: __S(2, __c0, 2) as any as S.Schema<GetUserResponse>,
+  input: __S(16, __c1, 0) as any as S.Schema<GetUserRequest>,
+  output: __S(18, __c1, 2) as any as S.Schema<GetUserResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -766,8 +795,8 @@ export const listAdvisorSlowQueries: API.OperationMethod<
   ListAdvisorSlowQueriesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c1, 0) as any as S.Schema<ListAdvisorSlowQueriesRequest>,
-  output: __S(19, __c1, 3) as any as S.Schema<HandlersInstancesSlowQueriesResponse>,
+  input: __S(32, __c2, 0) as any as S.Schema<ListAdvisorSlowQueriesRequest>,
+  output: __S(35, __c2, 3) as any as S.Schema<HandlersInstancesSlowQueriesResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -783,8 +812,8 @@ export const listBackups: API.OperationMethod<
   ListBackupsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<ListBackupsRequest>,
-  output: __S(34, __c2, 2) as any as S.Schema<ListBackupsResponse>,
+  input: __S(48, __c3, 0) as any as S.Schema<ListBackupsRequest>,
+  output: __S(50, __c3, 2) as any as S.Schema<ListBackupsResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -800,8 +829,8 @@ export const listFlavors: API.OperationMethod<
   ListFlavorsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<ListFlavorsRequest>,
-  output: __S(51, __c3, 3) as any as S.Schema<ListFlavorsResponse>,
+  input: __S(64, __c4, 0) as any as S.Schema<ListFlavorsRequest>,
+  output: __S(67, __c4, 3) as any as S.Schema<ListFlavorsResponse>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -817,8 +846,8 @@ export const listInstances: API.OperationMethod<
   ListInstancesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<ListInstancesRequest>,
-  output: __S(67, __c4, 3) as any as S.Schema<ListInstancesResponse>,
+  input: __S(80, __c5, 0) as any as S.Schema<ListInstancesRequest>,
+  output: __S(83, __c5, 3) as any as S.Schema<ListInstancesResponse>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -834,8 +863,8 @@ export const listMetrics: API.OperationMethod<
   ListMetricsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<ListMetricsRequest>,
-  output: __S(87, __c5, 7) as any as S.Schema<ListMetricsResponse>,
+  input: __S(96, __c6, 0) as any as S.Schema<ListMetricsRequest>,
+  output: __S(103, __c6, 7) as any as S.Schema<ListMetricsResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -851,8 +880,8 @@ export const listRestoreJobs: API.OperationMethod<
   ListRestoreJobsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<ListRestoreJobsRequest>,
-  output: __S(98, __c6, 2) as any as S.Schema<ListRestoreJobsResponse>,
+  input: __S(112, __c7, 0) as any as S.Schema<ListRestoreJobsRequest>,
+  output: __S(114, __c7, 2) as any as S.Schema<ListRestoreJobsResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -868,8 +897,8 @@ export const listStorages: API.OperationMethod<
   ListStoragesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<ListStoragesRequest>,
-  output: __S(130, __c8, 2) as any as S.Schema<ListStoragesResponse>,
+  input: __S(144, __c9, 0) as any as S.Schema<ListStoragesRequest>,
+  output: __S(146, __c9, 2) as any as S.Schema<ListStoragesResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -885,8 +914,8 @@ export const listSuggestedIndexes: API.OperationMethod<
   ListSuggestedIndexesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<ListSuggestedIndexesRequest>,
-  output: __S(155, __c9, 11) as any as S.Schema<HandlersInstancesSuggestedIndexesResponse>,
+  input: __S(160, __c10, 0) as any as S.Schema<ListSuggestedIndexesRequest>,
+  output: __S(171, __c10, 11) as any as S.Schema<HandlersInstancesSuggestedIndexesResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -902,8 +931,8 @@ export const listUsers: API.OperationMethod<
   ListUsersError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<ListUsersRequest>,
-  output: __S(163, __c10, 3) as any as S.Schema<ListUsersResponse>,
+  input: __S(176, __c11, 0) as any as S.Schema<ListUsersRequest>,
+  output: __S(179, __c11, 3) as any as S.Schema<ListUsersResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -919,8 +948,8 @@ export const listVersions: API.OperationMethod<
   ListVersionsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<ListVersionsRequest>,
-  output: __S(177, __c11, 1) as any as S.Schema<ListVersionsResponse>,
+  input: __S(192, __c12, 0) as any as S.Schema<ListVersionsRequest>,
+  output: __S(193, __c12, 1) as any as S.Schema<ListVersionsResponse>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -936,7 +965,7 @@ export const partialUpdateInstance: API.OperationMethod<
   PartialUpdateInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<PartialUpdateInstanceRequest>,
+  input: __S(208, __c13, 0) as any as S.Schema<PartialUpdateInstanceRequest>,
   output: __S(514, __c32, 2) as any as S.Schema<UpdateInstanceResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
@@ -953,7 +982,7 @@ export const partialUpdateUser: API.OperationMethod<
   PartialUpdateUserError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<PartialUpdateUserRequest>,
+  input: __S(224, __c14, 0) as any as S.Schema<PartialUpdateUserRequest>,
   output: __S(432, __c27, 0) as any as S.Schema<PartialUpdateUserResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
@@ -970,7 +999,7 @@ export const resetUser: API.OperationMethod<
   ResetUserError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<ResetUserRequest>,
+  input: __S(240, __c15, 0) as any as S.Schema<ResetUserRequest>,
   output: __S(400, __c25, 0) as any as S.Schema<User>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
@@ -987,8 +1016,8 @@ export const restoreInstance: API.OperationMethod<
   RestoreInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<RestoreInstanceRequest>,
-  output: __S(241, __c15, 1) as any as S.Schema<RestoreInstanceResponse>,
+  input: __S(256, __c16, 0) as any as S.Schema<RestoreInstanceRequest>,
+  output: __S(257, __c16, 1) as any as S.Schema<RestoreInstanceResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1004,8 +1033,8 @@ export const updateBackupSchedule: API.OperationMethod<
   UpdateBackupScheduleError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<UpdateBackupScheduleRequest>,
-  output: __S(257, __c16, 1) as any as S.Schema<BackupSchedule>,
+  input: __S(272, __c17, 0) as any as S.Schema<UpdateBackupScheduleRequest>,
+  output: __S(273, __c17, 1) as any as S.Schema<BackupSchedule>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1021,7 +1050,7 @@ export const updateInstance: API.OperationMethod<
   UpdateInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<UpdateInstanceRequest>,
+  input: __S(288, __c18, 0) as any as S.Schema<UpdateInstanceRequest>,
   output: __S(514, __c32, 2) as any as S.Schema<UpdateInstanceResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
@@ -1038,7 +1067,7 @@ export const updateUser: API.OperationMethod<
   UpdateUserError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<UpdateUserRequest>,
+  input: __S(304, __c19, 0) as any as S.Schema<UpdateUserRequest>,
   output: __S(432, __c27, 0) as any as S.Schema<UpdateUserResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
@@ -1049,6 +1078,23 @@ export const updateUser: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.Record(S.String, __S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.Number),
+          fields: S.optional(__S(1, __c0, 1)),
+          message: S.optional(S.String),
+          type: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Error" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1073,19 +1119,19 @@ function __c0(j: number): any {
           host: S.optional(S.String),
           id: S.optional(S.String),
           port: S.optional(S.Number),
-          roles: S.optional(__S(336, __c21, 0)),
+          roles: S.optional(__S(0, __c0, 0)),
           username: S.optional(S.String),
         }),
       ).annotate({ identifier: "InstanceResponseUser" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          item: S.optional(__S(1, __c0, 1)),
+          item: S.optional(__S(17, __c1, 1)),
         }),
       ).annotate({ identifier: "GetUserResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1110,16 +1156,16 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "SlowQuery" });
     case 2:
-      return S.Array(__S(17, __c1, 1));
+      return S.Array(__S(33, __c2, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          slowQueries: S.optional(__S(18, __c1, 2)),
+          slowQueries: S.optional(__S(34, __c2, 2)),
         }),
       ).annotate({ identifier: "HandlersInstancesSlowQueriesResponse" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1142,12 +1188,12 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
-          items: S.optional(__S(33, __c2, 1)),
+          items: S.optional(__S(49, __c3, 1)),
         }),
       ).annotate({ identifier: "ListBackupsResponse" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1166,7 +1212,7 @@ function __c3(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          categories: S.optional(__S(336, __c21, 0)),
+          categories: S.optional(__S(0, __c0, 0)),
           cpu: S.optional(S.Number),
           description: S.optional(S.String),
           id: S.optional(S.String),
@@ -1174,16 +1220,16 @@ function __c3(j: number): any {
         }),
       ).annotate({ identifier: "InstanceFlavor" });
     case 2:
-      return S.Array(__S(49, __c3, 1));
+      return S.Array(__S(65, __c4, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          flavors: S.optional(__S(50, __c3, 2)),
+          flavors: S.optional(__S(66, __c4, 2)),
         }),
       ).annotate({ identifier: "ListFlavorsResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1209,17 +1255,17 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "InstanceListInstance" });
     case 2:
-      return S.Array(__S(65, __c4, 1));
+      return S.Array(__S(81, __c5, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
-          items: S.optional(__S(66, __c4, 2)),
+          items: S.optional(__S(82, __c5, 2)),
         }),
       ).annotate({ identifier: "ListInstancesResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1249,35 +1295,35 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "DataPoint" });
     case 2:
-      return S.Array(__S(81, __c5, 1));
+      return S.Array(__S(97, __c6, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          datapoints: S.optional(__S(82, __c5, 2)),
+          datapoints: S.optional(__S(98, __c6, 2)),
           name: S.optional(S.String),
           units: S.optional(S.String),
         }),
       ).annotate({ identifier: "HostMetric" });
     case 4:
-      return S.Array(__S(83, __c5, 3));
+      return S.Array(__S(99, __c6, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          hostMetrics: S.optional(__S(84, __c5, 4)),
+          hostMetrics: S.optional(__S(100, __c6, 4)),
           id: S.optional(S.String),
         }),
       ).annotate({ identifier: "Host" });
     case 6:
-      return S.Array(__S(85, __c5, 5));
+      return S.Array(__S(101, __c6, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          hosts: S.optional(__S(86, __c5, 6)),
+          hosts: S.optional(__S(102, __c6, 6)),
         }),
       ).annotate({ identifier: "ListMetricsResponse" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1295,16 +1341,16 @@ function __c6(j: number): any {
         ),
       ).annotate({ identifier: "ListRestoreJobsRequest" });
     case 1:
-      return S.Array(__S(112, __c7, 0));
+      return S.Array(__S(128, __c8, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(97, __c6, 1)),
+          items: S.optional(__S(113, __c7, 1)),
         }),
       ).annotate({ identifier: "ListRestoreJobsResponse" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1318,7 +1364,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "RestoreInstanceStatus" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1345,13 +1391,13 @@ function __c8(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          storageClasses: S.optional(__S(336, __c21, 0)),
-          storageRange: S.optional(__S(129, __c8, 1)),
+          storageClasses: S.optional(__S(0, __c0, 0)),
+          storageRange: S.optional(__S(145, __c9, 1)),
         }),
       ).annotate({ identifier: "ListStoragesResponse" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1382,13 +1428,13 @@ function __c9(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          predicates: S.optional(__S(145, __c9, 1)),
+          predicates: S.optional(__S(161, __c10, 1)),
           raw: S.optional(S.String),
-          stats: S.optional(__S(146, __c9, 2)),
+          stats: S.optional(__S(162, __c10, 2)),
         }),
       ).annotate({ identifier: "MongodbatlasOperation" });
     case 4:
-      return S.Array(__S(147, __c9, 3));
+      return S.Array(__S(163, __c10, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -1397,37 +1443,37 @@ function __c9(j: number): any {
           id: S.optional(S.String),
           inefficiencyScore: S.optional(S.Number),
           namespace: S.optional(S.String),
-          operations: S.optional(__S(148, __c9, 4)),
+          operations: S.optional(__S(164, __c10, 4)),
         }),
       ).annotate({ identifier: "Shape" });
     case 6:
-      return S.Array(__S(149, __c9, 5));
+      return S.Array(__S(165, __c10, 5));
     case 7:
       return S.Record(S.String, S.Number);
     case 8:
-      return S.Array(__S(151, __c9, 7));
+      return S.Array(__S(167, __c10, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          impact: S.optional(__S(336, __c21, 0)),
-          index: S.optional(__S(152, __c9, 8)),
+          impact: S.optional(__S(0, __c0, 0)),
+          index: S.optional(__S(168, __c10, 8)),
           namespace: S.optional(S.String),
           weight: S.optional(S.Number),
         }),
       ).annotate({ identifier: "SuggestedIndex" });
     case 10:
-      return S.Array(__S(153, __c9, 9));
+      return S.Array(__S(169, __c10, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          shapes: S.optional(__S(150, __c9, 6)),
-          suggestedIndexes: S.optional(__S(154, __c9, 10)),
+          shapes: S.optional(__S(166, __c10, 6)),
+          suggestedIndexes: S.optional(__S(170, __c10, 10)),
         }),
       ).annotate({ identifier: "HandlersInstancesSuggestedIndexesResponse" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1452,17 +1498,17 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "ListUser" });
     case 2:
-      return S.Array(__S(161, __c10, 1));
+      return S.Array(__S(177, __c11, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
-          items: S.optional(__S(162, __c10, 2)),
+          items: S.optional(__S(178, __c11, 2)),
         }),
       ).annotate({ identifier: "ListUsersResponse" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1481,12 +1527,12 @@ function __c11(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          versions: S.optional(__S(336, __c21, 0)),
+          versions: S.optional(__S(0, __c0, 0)),
         }),
       ).annotate({ identifier: "ListVersionsResponse" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1514,7 +1560,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "PartialUpdateInstanceRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1524,7 +1570,7 @@ function __c13(j: number): any {
           instanceId: S.String.pipe(T.Label()),
           userId: S.String.pipe(T.Label()),
           database: S.optional(S.String),
-          roles: S.optional(__S(336, __c21, 0)),
+          roles: S.optional(__S(0, __c0, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1536,7 +1582,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "PartialUpdateUserRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1556,7 +1602,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "ResetUserRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1577,12 +1623,12 @@ function __c15(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          item: S.optional(__S(112, __c7, 0)),
+          item: S.optional(__S(128, __c8, 0)),
         }),
       ).annotate({ identifier: "RestoreInstanceResponse" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1618,7 +1664,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "BackupSchedule" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1646,7 +1692,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "UpdateInstanceRequest" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1656,7 +1702,7 @@ function __c18(j: number): any {
           instanceId: S.String.pipe(T.Label()),
           userId: S.String.pipe(T.Label()),
           database: S.String,
-          roles: __S(336, __c21, 0),
+          roles: __S(0, __c0, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -1668,7 +1714,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "UpdateUserRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1694,7 +1740,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "CloneInstanceResponse" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1727,12 +1773,6 @@ function __c20(j: number): any {
       ).annotate({ identifier: "CreateInstanceResponse" });
   }
 }
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
 function __c22(j: number): any {
   switch (j) {
     case 0:
@@ -1744,7 +1784,7 @@ function __c23(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(336, __c21, 0)),
+          items: S.optional(__S(0, __c0, 0)),
         }),
       ).annotate({ identifier: "ACL" });
     case 1:
@@ -1765,7 +1805,7 @@ function __c24(j: number): any {
           region: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
           database: S.String,
-          roles: __S(336, __c21, 0),
+          roles: __S(0, __c0, 0),
           username: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -1794,7 +1834,7 @@ function __c25(j: number): any {
           id: S.optional(S.String),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           port: S.optional(S.Number),
-          roles: S.optional(__S(336, __c21, 0)),
+          roles: S.optional(__S(0, __c0, 0)),
           uri: S.optional(S.String),
           username: S.optional(S.String),
         }),
@@ -1880,7 +1920,7 @@ function __c30(j: number): any {
           endTime: S.optional(S.String),
           error: S.optional(S.String),
           id: S.optional(S.String),
-          labels: S.optional(__S(336, __c21, 0)),
+          labels: S.optional(__S(0, __c0, 0)),
           name: S.optional(S.String),
           options: S.optional(__S(352, __c22, 0)),
           size: S.optional(S.Number),

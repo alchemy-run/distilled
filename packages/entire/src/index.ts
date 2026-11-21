@@ -17,16 +17,20 @@
  * import { Effect, Layer } from "effect";
  * import * as FetchHttpClient from "effect/http/FetchHttpClient";
  * import * as Entire from "@distilled.cloud/entire";
+ * import * as Identity from "@distilled.cloud/entire/identity";
+ * import * as Projects from "@distilled.cloud/entire/projects";
+ * import * as Repos from "@distilled.cloud/entire/repos";
+ * import * as Trails from "@distilled.cloud/entire/trails";
  *
  * const program = Effect.gen(function* () {
- *   const me = yield* Entire.identity.getMe({});
- *   const project = yield* Entire.projects.createProject({
+ *   const me = yield* Identity.getMe({});
+ *   const project = yield* Projects.createProject({
  *     name: "acme",
  *     ownerType: "account",
  *     ownerId: me.global.accountId,
  *   });
- *   const repo = yield* Entire.repos.createRepo({ projectId: project.id, name: "api" });
- *   const { items } = yield* Entire.trails.listTrails({ repo_id: repo.id });
+ *   const repo = yield* Repos.createRepo({ projectId: project.id, name: "api" });
+ *   const { items } = yield* Trails.listTrails({ repo_id: repo.id });
  *   return { repo, trails: items ?? [] };
  * });
  *
@@ -46,4 +50,3 @@ export {
 } from "./protocol.ts";
 export { paginateCursor } from "./pagination.ts";
 export * as Retry from "./retry.ts";
-export * from "./services/index.ts";

@@ -16,6 +16,7 @@ import type * as AST from "effect/SchemaAST";
 import { getAnn, getProps, resolveNode } from "./annotations.ts";
 import * as Category from "./category.ts";
 import { isOpaqueValue } from "./plain-values.ts";
+import { parseServerRetryHint } from "./retry-after.ts";
 import * as Schema from "./schema-lite-typed.ts";
 import { SdkError } from "./sdk-error.ts";
 import { restoreStack, suppressStack } from "./telemetry.ts";
@@ -118,6 +119,21 @@ export const withResponseHeaders = (
 
 export { isOpaqueValue };
 
+/** TS name -> wire name (encode) or every wire spelling -> TS name (decode). */
+const renameTable = (
+  dict: KeyDictionaryEntries,
+  direction: "encode" | "decode",
+): Record<string, string> =>
+  direction === "decode"
+    ? Object.fromEntries(
+        Object.entries(dict).flatMap(([ts, wire]) =>
+          typeof wire === "string" ? [[wire, ts] as const] : wire.map((w) => [w, ts] as const),
+        ),
+      )
+    : Object.fromEntries(
+        Object.entries(dict).map(([ts, wire]) => [ts, typeof wire === "string" ? wire : wire[0]!]),
+      );
+
 /**
  * Deep-rename keys via a plain dictionary (see `T.KeyDictionary`). An entry
  * may list several wire spellings; encode uses the first (canonical) one and
@@ -134,19 +150,7 @@ export const mapKeysByDictionary = (
   if (Array.isArray(value)) {
     return value.map((v) => mapKeysByDictionary(dict, v, direction));
   }
-  const rename: Record<string, string> =
-    direction === "decode"
-      ? Object.fromEntries(
-          Object.entries(dict).flatMap(([ts, wire]) =>
-            typeof wire === "string" ? [[wire, ts] as const] : wire.map((w) => [w, ts] as const),
-          ),
-        )
-      : Object.fromEntries(
-          Object.entries(dict).map(([ts, wire]) => [
-            ts,
-            typeof wire === "string" ? wire : wire[0]!,
-          ]),
-        );
+  const rename = renameTable(dict, direction);
   const out: Record<string, unknown> = {};
   for (const [k, v] of Object.entries(value as Record<string, unknown>)) {
     if (v === undefined) continue;
@@ -175,7 +179,8 @@ const stringEncode = (value: unknown): unknown =>
 /**
  * Whether {@link mapKeys} returns every value of `root` unchanged (as a deep
  * copy) in `direction` with no fallback dictionary: no member is renamed,
- * string-encoded (encode) or picked by `T.UnionCases` (decode), and no
+ * string-encoded (encode) or picked by `T.UnionCases` (decode, or encode for
+ * a union whose cases carry member dictionaries), and no
  * `T.KeyDictionary` is in scope anywhere below `root`. Protocols use it to
  * skip the walk. Computed once per schema node and direction.
  */
@@ -194,7 +199,11 @@ export const mapsVerbatim = (root: AST.AST, direction: "encode" | "decode"): boo
       result = false;
       break;
     }
-    if (direction === "decode" && getAnn(ast, unionCasesSymbol) !== undefined) {
+    const unionCases = getAnn(ast, unionCasesSymbol) as UnionCasesValue | undefined;
+    if (
+      unionCases !== undefined &&
+      (direction === "decode" || unionCases.dictionaries !== undefined)
+    ) {
       result = false;
       break;
     }
@@ -223,6 +232,13 @@ export const mapsVerbatim = (root: AST.AST, direction: "encode" | "decode"): boo
   cache.set(root, result);
   return result;
 };
+
+/** The value `T.UnionCases` annotates. */
+interface UnionCasesValue {
+  readonly cases: ReadonlyArray<ReadonlyArray<string>>;
+  readonly discriminator?: UnionDiscriminator;
+  readonly dictionaries?: ReadonlyArray<Readonly<Record<string, KeyDictionaryEntries>>>;
+}
 const verbatimEncode = /*@__PURE__*/ new WeakMap<AST.AST, boolean>();
 const verbatimDecode = /*@__PURE__*/ new WeakMap<AST.AST, boolean>();
 
@@ -247,27 +263,33 @@ export const mapKeys = (
   // active case is the one that best EXPLAINS the value: most present,
   // non-null keys covered, minus present keys the case cannot explain (ties
   // break by coverage, then declaration order).
-  const unionCases = getAnn(ast, unionCasesSymbol) as
-    | {
-        readonly cases: ReadonlyArray<ReadonlyArray<string>>;
-        readonly discriminator?: UnionDiscriminator;
-      }
-    | undefined;
-  if (unionCases && direction === "decode" && !Array.isArray(value)) {
-    const obj = (dict ? mapKeysByDictionary(dict, value, "decode") : value) as Record<
-      string,
-      unknown
-    >;
+  //
+  // A case member with its own dictionary (`{}` for caller content such as
+  // a Worker binding's `json`) maps its value by that one. Encode takes this
+  // path only for a union that has such members: it picks the case the same
+  // way, then renames the top-level keys.
+  const unionCases = getAnn(ast, unionCasesSymbol) as UnionCasesValue | undefined;
+  if (
+    unionCases &&
+    (direction === "decode" || unionCases.dictionaries !== undefined) &&
+    !Array.isArray(value)
+  ) {
+    // Top-level keys in TS names; values still as given.
+    const rename = dict ? renameTable(dict, direction) : undefined;
+    const obj: Record<string, unknown> = {};
+    for (const [k, v] of Object.entries(value as Record<string, unknown>)) {
+      if (v !== undefined) obj[direction === "decode" ? (rename?.[k] ?? k) : k] = v;
+    }
     const present = Object.keys(obj).filter((k) => obj[k] !== undefined && obj[k] !== null);
     const disc = unionCases.discriminator;
     const tag = disc ? obj[disc.key] : undefined;
     const tagged = typeof tag === "string" ? disc!.values.indexOf(tag) : -1;
-    let best: { keys: ReadonlyArray<string>; score: number; matched: number } | undefined;
+    let best: { index: number; score: number; matched: number } | undefined;
     if (tagged >= 0) {
-      best = { keys: unionCases.cases[tagged]!, score: 0, matched: 0 };
+      best = { index: tagged, score: 0, matched: 0 };
     } else {
-      for (const keys of unionCases.cases) {
-        const set = new Set(keys);
+      for (let index = 0; index < unionCases.cases.length; index++) {
+        const set = new Set(unionCases.cases[index]);
         let matched = 0;
         let excess = 0;
         for (const k of present) {
@@ -279,16 +301,25 @@ export const mapKeys = (
           matched > 0 &&
           (!best || score > best.score || (score === best.score && matched > best.matched))
         ) {
-          best = { keys, score, matched };
+          best = { index, score, matched };
         }
       }
     }
-    if (best) {
-      const out: Record<string, unknown> = {};
-      for (const k of best.keys) out[k] = obj[k];
-      return out;
+    const own = best ? unionCases.dictionaries?.[best.index] : undefined;
+    const mapValue = (k: string, v: unknown): unknown => {
+      const d = own?.[k] ?? dict;
+      return d ? mapKeysByDictionary(d, v, direction) : v;
+    };
+    const out: Record<string, unknown> = {};
+    if (direction === "encode") {
+      // Every given key goes out, like the plain dictionary walk.
+      for (const [k, v] of Object.entries(obj)) out[rename?.[k] ?? k] = mapValue(k, v);
+    } else {
+      for (const k of best ? unionCases.cases[best.index]! : Object.keys(obj)) {
+        out[k] = mapValue(k, obj[k]);
+      }
     }
-    return obj;
+    return out;
   }
 
   const node = resolveNode(ast);
@@ -783,33 +814,36 @@ const requestOrInvalid = ({
   const bodied = !BODYLESS.has(http.method);
   if (http.contentType === "multipart") {
     // Multipart upload: each body member is a form part (objects
-    // JSON-encoded under their wire name), each file appends under its own
-    // filename. A whole-body member (T.HttpBody) that is a record of files
-    // becomes one part per entry (e.g. asset upload: { <hash>: File }).
-    // Files and byte buffers become binary parts; objects become JSON parts.
+    // JSON-encoded under their wire name). Files and byte buffers become
+    // binary parts under the member's wire name, with a File's own filename
+    // (the wire name for a nameless Blob or a byte buffer); a list of them is
+    // one such part per element, the repeated-field form multipart APIs read
+    // (`-F documents=@a.pdf -F documents=@b.txt`). `FormDataFile()` members
+    // append under each file's own filename instead (below). A whole-body
+    // member (T.HttpBody) that is a record of files becomes one part per
+    // entry (e.g. asset upload: { <hash>: File }).
     const form = new FormData();
     const parts =
       rawBody !== undefined && typeof rawBody === "object"
         ? (rawBody as Record<string, unknown>)
         : body;
-    const isFileOrBlob = (v: unknown): v is Blob => v instanceof Blob || v instanceof File;
-    for (const [key, value] of Object.entries(parts)) {
-      if (value === undefined || value === null) continue;
-      if (isFileOrBlob(value)) {
+    const isBinary = (v: unknown): v is Blob | Uint8Array | ArrayBuffer =>
+      v instanceof Blob || v instanceof Uint8Array || v instanceof ArrayBuffer;
+    const appendBinary = (key: string, value: Blob | Uint8Array | ArrayBuffer) => {
+      if (value instanceof Blob) {
         form.append(key, value, value instanceof File ? value.name : key);
-      } else if (value instanceof Uint8Array || value instanceof ArrayBuffer) {
+      } else {
+        // Copy a Uint8Array view's own bytes (a subarray shares a larger buffer).
         const bytes = value instanceof Uint8Array ? new Uint8Array(value).buffer : value;
         form.append(key, new Blob([bytes]), key);
-      } else if (Array.isArray(value) && value.length > 0 && isFileOrBlob(value[0])) {
-        for (const file of value as Blob[]) {
-          if (isFileOrBlob(file)) {
-            form.append(
-              file instanceof File ? file.name : key,
-              file,
-              file instanceof File ? file.name : undefined,
-            );
-          }
-        }
+      }
+    };
+    for (const [key, value] of Object.entries(parts)) {
+      if (value === undefined || value === null) continue;
+      if (isBinary(value)) {
+        appendBinary(key, value);
+      } else if (Array.isArray(value) && value.length > 0 && value.every(isBinary)) {
+        for (const element of value) appendBinary(key, element);
       } else if (typeof value === "object") {
         form.append(key, JSON.stringify(value));
       } else {
@@ -842,7 +876,8 @@ const requestOrInvalid = ({
     // Binary payloads (Blob / ArrayBuffer / Uint8Array) send verbatim
     // (raw object uploads). With a bodyMediaType, the member is a
     // preserialized payload (string / bytes) sent verbatim; otherwise it's
-    // JSON.
+    // JSON, under the Content-Type member when set (e.g. Kubernetes'
+    // application/merge-patch+json).
     //
     // `setBody` overwrites the Content-Type header with the body's media
     // type (and removes it when that is undefined), so the body carries the
@@ -864,7 +899,7 @@ const requestOrInvalid = ({
           : HttpBody.uint8Array(rawBody as Uint8Array, mediaType),
       );
     }
-    return HttpClientRequest.setBody(request, HttpBody.jsonUnsafe(rawBody));
+    return HttpClientRequest.setBody(request, HttpBody.jsonUnsafe(rawBody, memberContentType));
   }
   if (
     // A GET/HEAD sends a body only when body members actually carry values.
@@ -880,8 +915,10 @@ const requestOrInvalid = ({
     ((hasBodyMembers || emptyJsonBody === true) && bodied && http.method !== "DELETE")
   ) {
     // Send `{}` rather than no body when the schema declares body members --
-    // some endpoints reject a missing JSON body outright.
-    return HttpClientRequest.setBody(request, HttpBody.jsonUnsafe(body));
+    // some endpoints reject a missing JSON body outright. A Content-Type
+    // member names the JSON media type, as for a whole body above (a
+    // Kubernetes merge patch is `application/merge-patch+json`).
+    return HttpClientRequest.setBody(request, HttpBody.jsonUnsafe(body, memberContentType));
   }
   return request;
 };
@@ -893,6 +930,11 @@ const requestOrInvalid = ({
 export interface ErrorResponse {
   readonly body?: unknown;
   readonly headers?: Readonly<Record<string, string | undefined>>;
+  /**
+   * JSON pointer to the object that holds the error's fields when the
+   * provider nests them, e.g. `"/error"` for `{ error: { status, details } }`.
+   */
+  readonly fieldsAt?: string;
 }
 
 const matchesText = (matcher: ErrorTextMatcher, value: unknown): boolean => {
@@ -970,6 +1012,56 @@ export const matchesExpression = (
   return true;
 };
 
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === "object" && value !== null && !Array.isArray(value);
+
+/**
+ * The body values whose keys the error class declares as fields: from the
+ * object at `fieldsAt` first, then from the top level.
+ */
+const declaredBodyFields = (
+  fields: Record<string, unknown> | undefined,
+  body: unknown,
+  fieldsAt: string | undefined,
+): Record<string, unknown> => {
+  if (fields === undefined) return {};
+  const nested = fieldsAt === undefined ? undefined : atPointer(body, fieldsAt);
+  const out: Record<string, unknown> = {};
+  for (const key of Object.keys(fields)) {
+    if (isRecord(nested) && Object.hasOwn(nested, key)) out[key] = nested[key];
+    else if (isRecord(body) && Object.hasOwn(body, key)) out[key] = body[key];
+  }
+  return out;
+};
+
+/**
+ * The fields every error built from a response gets, when its class declares
+ * them: the body (keys mapped to TS names when the class types it), the
+ * headers, and the server's retry hint from `Retry-After` or `RateLimit`.
+ */
+export const responseErrorFields = (
+  fields: Record<string, unknown> | undefined,
+  response: ErrorResponse,
+): Record<string, unknown> => {
+  // A typed body (the provider's documented error schema) gets the TS names
+  // a success body gets; an untyped one stays as the wire sent it.
+  const bodyAst = (fields?.body as { readonly ast?: AST.AST } | undefined)?.ast;
+  const out: Record<string, unknown> = {
+    body:
+      bodyAst !== undefined &&
+      typeof response.body === "object" &&
+      response.body !== null &&
+      !mapsVerbatim(bodyAst, "decode")
+        ? mapKeys(bodyAst, response.body, "decode")
+        : response.body,
+    headers: response.headers,
+  };
+  if (fields !== undefined && Object.hasOwn(fields, "retryAfter") && response.headers) {
+    out.retryAfter = parseServerRetryHint(response.headers);
+  }
+  return out;
+};
+
 /**
  * Pick the operation's typed error class for a failed response: among all
  * declared classes whose matchers (see `applyErrorMatchers`) match the wire
@@ -977,6 +1069,11 @@ export const matchesExpression = (
  * Empty error lists use an HTTP-status message so body/header-only failures can
  * still match. The constructor receives the raw body and headers as well as
  * code/message; error schemas can declare these fields to expose them to callers.
+ * Any other field the class declares is read from the JSON body's key of the
+ * same name -- at `response.fieldsAt` first, then at the top level -- so a
+ * patch that adds `requestId` to an error gets the body's `requestId`. A
+ * declared `retryAfter` gets the `Retry-After` / `RateLimit` header hint. The
+ * matched `code` and `message` always win over the body's.
  */
 export const matchTypedError = (
   errorClasses: ReadonlyArray<unknown>,
@@ -1000,13 +1097,14 @@ export const matchTypedError = (
     }
   }
   if (!best) return undefined;
+  const fields = (best.cls as { fields?: Record<string, unknown> }).fields;
   const saved = suppressStack();
   try {
     return new (best.cls as new (args: any) => unknown)({
+      ...declaredBodyFields(fields, response.body, response.fieldsAt),
       code: best.code ?? 0,
       message: best.message,
-      body: response.body,
-      headers: response.headers,
+      ...responseErrorFields(fields, response),
     });
   } finally {
     restoreStack(saved);

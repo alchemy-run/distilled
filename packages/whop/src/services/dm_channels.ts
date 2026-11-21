@@ -30,36 +30,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 /** The list of user identifiers to include in the DM channel. Each entry can be an email, username, or user ID (e.g. 'user_xxxxx'). */
 export type CreateDmChannelRequestWithUserIdsList = Array<string>;
@@ -136,6 +164,17 @@ export interface UpdateDmChannelRequest {
   /** A new custom display name for the DM channel. For example, 'Project Discussion'. */
   custom_name?: string | null | undefined;
 }
+export interface Error400BodyError {
+  /** A short string indicating the specific error code, e.g. 'parameter_missing', 'parameter_invalid', 'invalid_json' */
+  code?: string | null | undefined;
+  message: string;
+  /** The parameter that caused the error, if applicable */
+  param?: string | null | undefined;
+  type: string;
+}
+export interface Error400Body {
+  error: Error400BodyError;
+}
 export type CreateDmChannelError =
   | BadRequest
   | Forbidden
@@ -149,8 +188,8 @@ export const createDmChannel: API.OperationMethod<
   CreateDmChannelError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1, __c0, 1) as any as S.Schema<CreateDmChannelRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<DmChannel>,
+  input: __S(5, __c1, 1) as any as S.Schema<CreateDmChannelRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<DmChannel>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -171,8 +210,8 @@ export const deleteDmChannel: API.OperationMethod<
   DeleteDmChannelError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<DeleteDmChannelRequest>,
-  output: __S(9, __c2, 1) as any as S.Schema<DeleteDmChannelResponse>,
+  input: __S(12, __c3, 0) as any as S.Schema<DeleteDmChannelRequest>,
+  output: __S(13, __c3, 1) as any as S.Schema<DeleteDmChannelResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -193,8 +232,8 @@ export const getDmChannel: API.OperationMethod<
   GetDmChannelError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<GetDmChannelRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<DmChannel>,
+  input: __S(16, __c4, 0) as any as S.Schema<GetDmChannelRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<DmChannel>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -217,8 +256,8 @@ export const listDmChannel: API.PaginatedOperationMethod<
   DmChannelListItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(16, __c4, 0) as any as S.Schema<ListDmChannelRequest>,
-    output: __S(19, __c4, 3) as any as S.Schema<ListDmChannelResponse>,
+    input: __S(20, __c5, 0) as any as S.Schema<ListDmChannelRequest>,
+    output: __S(23, __c5, 3) as any as S.Schema<ListDmChannelResponse>,
     errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -249,8 +288,8 @@ export const updateDmChannel: API.OperationMethod<
   UpdateDmChannelError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<UpdateDmChannelRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<DmChannel>,
+  input: __S(24, __c6, 0) as any as S.Schema<UpdateDmChannelRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<DmChannel>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -262,6 +301,25 @@ export const updateDmChannel: API.OperationMethod<
 function __c0(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.NullOr(S.String)),
+          message: S.String,
+          param: S.optional(S.NullOr(S.String)),
+          type: S.String,
+        }),
+      ).annotate({ identifier: "Error400BodyError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "Error400Body" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
       return S.Array(S.String);
     case 1:
       return S.suspend(() =>
@@ -269,12 +327,12 @@ function __c0(j: number): any {
           account_id: S.optional(S.NullOr(S.String)),
           custom_name: S.optional(S.NullOr(S.String)),
           notifications_enabled: S.optional(S.NullOr(S.Boolean)),
-          with_user_ids: __S(0, __c0, 0),
+          with_user_ids: __S(4, __c1, 0),
         }).pipe(T.Http({ method: "POST", uri: "/dm_channels", code: 200 })),
       ).annotate({ identifier: "CreateDmChannelRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -287,7 +345,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "DmChannel" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -301,7 +359,7 @@ function __c2(j: number): any {
       });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -311,7 +369,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GetDmChannelRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -324,7 +382,7 @@ function __c4(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/dm_channels", code: 200 })),
       ).annotate({ identifier: "ListDmChannelRequest" });
     case 1:
-      return S.Array(__S(4, __c1, 0));
+      return S.Array(__S(8, __c2, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -337,13 +395,13 @@ function __c4(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(17, __c4, 1),
-          page_info: __S(18, __c4, 2),
+          data: __S(21, __c5, 1),
+          page_info: __S(22, __c5, 2),
         }),
       ).annotate({ identifier: "ListDmChannelResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

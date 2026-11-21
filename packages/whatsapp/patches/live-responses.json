@@ -1,0 +1,60 @@
+{
+  "description": "Response members the spec gets wrong against the wire (live, 2026-11-18, v23.0, test number on a test WABA). GET /{WABA-ID}/phone_numbers returned a phone number with `verified_name`, `code_verification_status`, `display_phone_number`, `quality_rating`, `platform_type`, `throughput` and `id`, and no `status`. GET /{Phone-Number-ID}/settings returned `calling: { status: \"NOT_SET\", call_icon_visibility, callback_permission_status, call_permission_mode }` with no `ip_addresses` while calling is not enabled. Both lose `smithy.api#required`. GET /{Media-ID} for an uploaded 179-byte PNG returned `\"file_size\": 179`, a number where the spec has a string, so `file_size` becomes a Long. GET /{Phone-Number-ID}/whatsapp_business_profile returned `{ data: [{ about, description, vertical, websites, messaging_product }] }`: each item is the profile itself, not `{ business_profile: {...} }`, so the list holds WhatsAppBusinessProfile. GET /{Phone-Number-ID} with `fields=...,platform_type,throughput` returned `platform_type: \"CLOUD_API\"` and `throughput: { level: \"STANDARD\" }`, which PhoneNumberInfo gains.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.meta.whatsapp#WhatsAppBusinessAccountPhoneNumber/members/status/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.meta.whatsapp#CallingSettingsResponse/members/ip_addresses/traits/smithy.api#required"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.meta.whatsapp#RetrieveMediaUrlResponse/members/file_size/target",
+      "value": "smithy.api#Long"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.meta.whatsapp#WhatsAppBusinessProfileResponseDataList/member/target",
+      "value": "com.meta.whatsapp#WhatsAppBusinessProfile"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.meta.whatsapp#WhatsAppBusinessProfileResponseDataItem"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#PhoneNumberInfo/members/platform_type",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Where the number is hosted, e.g. `CLOUD_API`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#PhoneNumberInfo/members/throughput",
+      "value": {
+        "target": "com.meta.whatsapp#PhoneNumberThroughput"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#PhoneNumberThroughput",
+      "value": {
+        "type": "structure",
+        "members": {
+          "level": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Messaging throughput level, e.g. `STANDARD`."
+            }
+          }
+        },
+        "traits": {}
+      }
+    }
+  ]
+}

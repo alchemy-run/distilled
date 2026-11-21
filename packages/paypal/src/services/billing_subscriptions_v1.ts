@@ -31,36 +31,123 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?:
+    | Error400Body10
+    | Error400Body9
+    | Error400Body11
+    | Error400Body2
+    | Error400Body5
+    | Error400Body
+    | Error400Body3
+    | Error400Body6
+    | Error400Body4
+    | Error400Body7
+    | Error400Body12
+    | Error400Body8
+    | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error403Body | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error404Body | Error404 | Error404Body2 | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  ) {}
+  )
+{
+  declare readonly body?:
+    | Error422Body3
+    | Error422Body11
+    | Error422Body10
+    | Error422Body12
+    | Error422Body
+    | Error422Body6
+    | Error422Body4
+    | Error422Body2
+    | Error422Body7
+    | Error422Body5
+    | Error422Body8
+    | Error422Body9
+    | string;
+}
 
 export interface ActivatePlanRequest {
   /** The ID of the subscription. */
@@ -1010,6 +1097,448 @@ export interface SuspendSubscriptionRequest {
   reason: string;
 }
 export interface SuspendSubscriptionResponse {}
+export type Error400BodyName10 = "INVALID_REQUEST";
+export type Error400BodyMessage10 =
+  "Request is not well-formed, syntactically incorrect, or violates schema.";
+/** The location of the field that caused the error. Value is `body`, `path`, or `query`. */
+export type ErrorLocation = "body" | "path" | "query";
+/** The error details. Required for client-side `4XX` errors. */
+export interface ErrorDetails {
+  /** The field that caused the error. If this field is in the body, set this value to the field's JSON pointer value. Required for client-side errors. */
+  field?: string | undefined;
+  /** The value of the field that caused the error. */
+  value?: string | undefined;
+  location?: ErrorLocation | undefined;
+  /** The unique, fine-grained application-level error code. */
+  issue: string;
+  /** The human-readable description for an issue. The description can change over the lifetime of an API, so clients must not depend on this value. */
+  description?: string | undefined;
+}
+export type Error400BodyDetailsList10 = Array<ErrorDetails>;
+/** The HTTP method required to make the related call. */
+export type ErrorLinkDescriptionMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
+/** The request-related [HATEOAS link](/api/rest/responses/#hateoas-links) information. */
+export interface ErrorLinkDescription {
+  /** The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call. */
+  href: string;
+  /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
+  rel: string;
+  /** The HTTP method required to make the related call. */
+  method?: ErrorLinkDescriptionMethod | undefined;
+}
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error400BodyLinksList10 = Array<ErrorLinkDescription>;
+export interface Error400Body10 {
+  name?: Error400BodyName10 | undefined;
+  message?: Error400BodyMessage10 | undefined;
+  details?: Error400BodyDetailsList10 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error400BodyLinksList10 | undefined;
+}
+export type Error400BodyName9 = "INVALID_REQUEST";
+export type Error400BodyMessage9 =
+  "Request is not well-formed, syntactically incorrect, or violates schema.";
+export type Error400BodyDetailsList9 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error400BodyLinksList9 = Array<ErrorLinkDescription>;
+export interface Error400Body9 {
+  name?: Error400BodyName9 | undefined;
+  message?: Error400BodyMessage9 | undefined;
+  details?: Error400BodyDetailsList9 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error400BodyLinksList9 | undefined;
+}
+export type Error400BodyName11 = "INVALID_REQUEST";
+export type Error400BodyMessage11 =
+  "Request is not well-formed, syntactically incorrect, or violates schema.";
+export type Error400BodyDetailsList11 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error400BodyLinksList11 = Array<ErrorLinkDescription>;
+export interface Error400Body11 {
+  name?: Error400BodyName11 | undefined;
+  message?: Error400BodyMessage11 | undefined;
+  details?: Error400BodyDetailsList11 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error400BodyLinksList11 | undefined;
+}
+export type Error400BodyName2 = "INVALID_REQUEST";
+export type Error400BodyMessage2 =
+  "Request is not well-formed, syntactically incorrect, or violates schema.";
+export type Error400BodyDetailsList2 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error400BodyLinksList2 = Array<ErrorLinkDescription>;
+export interface Error400Body2 {
+  name?: Error400BodyName2 | undefined;
+  message?: Error400BodyMessage2 | undefined;
+  details?: Error400BodyDetailsList2 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error400BodyLinksList2 | undefined;
+}
+export type Error400BodyName5 = "INVALID_REQUEST";
+export type Error400BodyMessage5 =
+  "Request is not well-formed, syntactically incorrect, or violates schema.";
+export type Error400BodyDetailsList5 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error400BodyLinksList5 = Array<ErrorLinkDescription>;
+export interface Error400Body5 {
+  name?: Error400BodyName5 | undefined;
+  message?: Error400BodyMessage5 | undefined;
+  details?: Error400BodyDetailsList5 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error400BodyLinksList5 | undefined;
+}
+export type Error400BodyName = "INVALID_REQUEST";
+export type Error400BodyMessage =
+  "Request is not well-formed, syntactically incorrect, or violates schema.";
+export type Error400BodyDetailsList = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error400BodyLinksList = Array<ErrorLinkDescription>;
+export interface Error400Body {
+  name?: Error400BodyName | undefined;
+  message?: Error400BodyMessage | undefined;
+  details?: Error400BodyDetailsList | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error400BodyLinksList | undefined;
+}
+export type Error400BodyName3 = "INVALID_REQUEST";
+export type Error400BodyMessage3 =
+  "Request is not well-formed, syntactically incorrect, or violates schema.";
+export type Error400BodyDetailsList3 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error400BodyLinksList3 = Array<ErrorLinkDescription>;
+export interface Error400Body3 {
+  name?: Error400BodyName3 | undefined;
+  message?: Error400BodyMessage3 | undefined;
+  details?: Error400BodyDetailsList3 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error400BodyLinksList3 | undefined;
+}
+export type Error400BodyName6 = "INVALID_REQUEST";
+export type Error400BodyMessage6 =
+  "Request is not well-formed, syntactically incorrect, or violates schema.";
+export type Error400BodyDetailsList6 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error400BodyLinksList6 = Array<ErrorLinkDescription>;
+export interface Error400Body6 {
+  name?: Error400BodyName6 | undefined;
+  message?: Error400BodyMessage6 | undefined;
+  details?: Error400BodyDetailsList6 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error400BodyLinksList6 | undefined;
+}
+export type Error400BodyName4 = "INVALID_REQUEST";
+export type Error400BodyMessage4 =
+  "Request is not well-formed, syntactically incorrect, or violates schema.";
+export type Error400BodyDetailsList4 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error400BodyLinksList4 = Array<ErrorLinkDescription>;
+export interface Error400Body4 {
+  name?: Error400BodyName4 | undefined;
+  message?: Error400BodyMessage4 | undefined;
+  details?: Error400BodyDetailsList4 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error400BodyLinksList4 | undefined;
+}
+export type Error400BodyName7 = "INVALID_REQUEST";
+export type Error400BodyMessage7 =
+  "Request is not well-formed, syntactically incorrect, or violates schema.";
+export type Error400BodyDetailsList7 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error400BodyLinksList7 = Array<ErrorLinkDescription>;
+export interface Error400Body7 {
+  name?: Error400BodyName7 | undefined;
+  message?: Error400BodyMessage7 | undefined;
+  details?: Error400BodyDetailsList7 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error400BodyLinksList7 | undefined;
+}
+export type Error400BodyName12 = "INVALID_REQUEST";
+export type Error400BodyMessage12 =
+  "Request is not well-formed, syntactically incorrect, or violates schema.";
+export type Error400BodyDetailsList12 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error400BodyLinksList12 = Array<ErrorLinkDescription>;
+export interface Error400Body12 {
+  name?: Error400BodyName12 | undefined;
+  message?: Error400BodyMessage12 | undefined;
+  details?: Error400BodyDetailsList12 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error400BodyLinksList12 | undefined;
+}
+export type Error400BodyName8 = "INVALID_REQUEST";
+export type Error400BodyMessage8 =
+  "Request is not well-formed, syntactically incorrect, or violates schema.";
+export type Error400BodyDetailsList8 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error400BodyLinksList8 = Array<ErrorLinkDescription>;
+export interface Error400Body8 {
+  name?: Error400BodyName8 | undefined;
+  message?: Error400BodyMessage8 | undefined;
+  details?: Error400BodyDetailsList8 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error400BodyLinksList8 | undefined;
+}
+export type Error403BodyName = "NOT_AUTHORIZED";
+export type Error403BodyMessage = "Authorization failed due to insufficient permissions.";
+export type Error403BodyDetailsList = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error403BodyLinksList = Array<ErrorLinkDescription>;
+export interface Error403Body {
+  name?: Error403BodyName | undefined;
+  message?: Error403BodyMessage | undefined;
+  details?: Error403BodyDetailsList | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error403BodyLinksList | undefined;
+}
+export type Error404BodyName = "RESOURCE_NOT_FOUND";
+export type Error404BodyMessage = "The specified resource does not exist.";
+export type Error404BodyDetailsList = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error404BodyLinksList = Array<ErrorLinkDescription>;
+export interface Error404Body {
+  name?: Error404BodyName | undefined;
+  message?: Error404BodyMessage | undefined;
+  details?: Error404BodyDetailsList | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error404BodyLinksList | undefined;
+}
+export type Error404Name = "RESOURCE_NOT_FOUND";
+export type Error404Message = "The specified resource does not exist.";
+export type Error404DetailsList = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error404LinksList = Array<ErrorLinkDescription>;
+/** The server has not found anything matching the request URI. This either means that the URI is incorrect or the resource is not available. */
+export interface Error404 {
+  name?: Error404Name | undefined;
+  message?: Error404Message | undefined;
+  details?: Error404DetailsList | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error404LinksList | undefined;
+}
+export type Error404BodyName2 = "RESOURCE_NOT_FOUND";
+export type Error404BodyMessage2 = "The specified resource does not exist.";
+export type Error404BodyDetailsList2 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error404BodyLinksList2 = Array<ErrorLinkDescription>;
+export interface Error404Body2 {
+  name?: Error404BodyName2 | undefined;
+  message?: Error404BodyMessage2 | undefined;
+  details?: Error404BodyDetailsList2 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error404BodyLinksList2 | undefined;
+}
+export type Error422BodyName3 = "UNPROCESSABLE_ENTITY";
+export type Error422BodyMessage3 =
+  "The requested action could not be performed, semantically incorrect, or failed business validation.";
+export type Error422BodyDetailsList3 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error422BodyLinksList3 = Array<ErrorLinkDescription>;
+export interface Error422Body3 {
+  name?: Error422BodyName3 | undefined;
+  message?: Error422BodyMessage3 | undefined;
+  details?: Error422BodyDetailsList3 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error422BodyLinksList3 | undefined;
+}
+export type Error422BodyName11 = "UNPROCESSABLE_ENTITY";
+export type Error422BodyMessage11 =
+  "The requested action could not be performed, semantically incorrect, or failed business validation.";
+export type Error422BodyDetailsList11 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error422BodyLinksList11 = Array<ErrorLinkDescription>;
+export interface Error422Body11 {
+  name?: Error422BodyName11 | undefined;
+  message?: Error422BodyMessage11 | undefined;
+  details?: Error422BodyDetailsList11 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error422BodyLinksList11 | undefined;
+}
+export type Error422BodyName10 = "UNPROCESSABLE_ENTITY";
+export type Error422BodyMessage10 =
+  "The requested action could not be performed, semantically incorrect, or failed business validation.";
+export type Error422BodyDetailsList10 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error422BodyLinksList10 = Array<ErrorLinkDescription>;
+export interface Error422Body10 {
+  name?: Error422BodyName10 | undefined;
+  message?: Error422BodyMessage10 | undefined;
+  details?: Error422BodyDetailsList10 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error422BodyLinksList10 | undefined;
+}
+export type Error422BodyName12 = "UNPROCESSABLE_ENTITY";
+export type Error422BodyMessage12 =
+  "The requested action could not be performed, semantically incorrect, or failed business validation.";
+export type Error422BodyDetailsList12 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error422BodyLinksList12 = Array<ErrorLinkDescription>;
+export interface Error422Body12 {
+  name?: Error422BodyName12 | undefined;
+  message?: Error422BodyMessage12 | undefined;
+  details?: Error422BodyDetailsList12 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error422BodyLinksList12 | undefined;
+}
+export type Error422BodyName = "UNPROCESSABLE_ENTITY";
+export type Error422BodyMessage =
+  "The requested action could not be performed, semantically incorrect, or failed business validation.";
+export type Error422BodyDetailsList = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error422BodyLinksList = Array<ErrorLinkDescription>;
+export interface Error422Body {
+  name?: Error422BodyName | undefined;
+  message?: Error422BodyMessage | undefined;
+  details?: Error422BodyDetailsList | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error422BodyLinksList | undefined;
+}
+export type Error422BodyName6 = "UNPROCESSABLE_ENTITY";
+export type Error422BodyMessage6 =
+  "The requested action could not be performed, semantically incorrect, or failed business validation.";
+export type Error422BodyDetailsList6 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error422BodyLinksList6 = Array<ErrorLinkDescription>;
+export interface Error422Body6 {
+  name?: Error422BodyName6 | undefined;
+  message?: Error422BodyMessage6 | undefined;
+  details?: Error422BodyDetailsList6 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error422BodyLinksList6 | undefined;
+}
+export type Error422BodyName4 = "UNPROCESSABLE_ENTITY";
+export type Error422BodyMessage4 =
+  "The requested action could not be performed, semantically incorrect, or failed business validation.";
+export type Error422BodyDetailsList4 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error422BodyLinksList4 = Array<ErrorLinkDescription>;
+export interface Error422Body4 {
+  name?: Error422BodyName4 | undefined;
+  message?: Error422BodyMessage4 | undefined;
+  details?: Error422BodyDetailsList4 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error422BodyLinksList4 | undefined;
+}
+export type Error422BodyName2 = "UNPROCESSABLE_ENTITY";
+export type Error422BodyMessage2 =
+  "The requested action could not be performed, semantically incorrect, or failed business validation.";
+export type Error422BodyDetailsList2 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error422BodyLinksList2 = Array<ErrorLinkDescription>;
+export interface Error422Body2 {
+  name?: Error422BodyName2 | undefined;
+  message?: Error422BodyMessage2 | undefined;
+  details?: Error422BodyDetailsList2 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error422BodyLinksList2 | undefined;
+}
+export type Error422BodyName7 = "UNPROCESSABLE_ENTITY";
+export type Error422BodyMessage7 =
+  "The requested action could not be performed, semantically incorrect, or failed business validation.";
+export type Error422BodyDetailsList7 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error422BodyLinksList7 = Array<ErrorLinkDescription>;
+export interface Error422Body7 {
+  name?: Error422BodyName7 | undefined;
+  message?: Error422BodyMessage7 | undefined;
+  details?: Error422BodyDetailsList7 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error422BodyLinksList7 | undefined;
+}
+export type Error422BodyName5 = "UNPROCESSABLE_ENTITY";
+export type Error422BodyMessage5 =
+  "The requested action could not be performed, semantically incorrect, or failed business validation.";
+export type Error422BodyDetailsList5 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error422BodyLinksList5 = Array<ErrorLinkDescription>;
+export interface Error422Body5 {
+  name?: Error422BodyName5 | undefined;
+  message?: Error422BodyMessage5 | undefined;
+  details?: Error422BodyDetailsList5 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error422BodyLinksList5 | undefined;
+}
+export type Error422BodyName8 = "UNPROCESSABLE_ENTITY";
+export type Error422BodyMessage8 =
+  "The requested action could not be performed, semantically incorrect, or failed business validation.";
+export type Error422BodyDetailsList8 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error422BodyLinksList8 = Array<ErrorLinkDescription>;
+export interface Error422Body8 {
+  name?: Error422BodyName8 | undefined;
+  message?: Error422BodyMessage8 | undefined;
+  details?: Error422BodyDetailsList8 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error422BodyLinksList8 | undefined;
+}
+export type Error422BodyName9 = "UNPROCESSABLE_ENTITY";
+export type Error422BodyMessage9 =
+  "The requested action could not be performed, semantically incorrect, or failed business validation.";
+export type Error422BodyDetailsList9 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error422BodyLinksList9 = Array<ErrorLinkDescription>;
+export interface Error422Body9 {
+  name?: Error422BodyName9 | undefined;
+  message?: Error422BodyMessage9 | undefined;
+  details?: Error422BodyDetailsList9 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error422BodyLinksList9 | undefined;
+}
 export type ActivatePlanError = Forbidden | NotFound | UnprocessableEntity | PaypalOpError;
 /** Activate plan Activates a plan, by ID. */
 export const activatePlan: API.OperationMethod<
@@ -1018,8 +1547,8 @@ export const activatePlan: API.OperationMethod<
   ActivatePlanError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<ActivatePlanRequest>,
-  output: __S(384, __c12, 0) as any as S.Schema<ActivatePlanResponse>,
+  input: __S(384, __c12, 0) as any as S.Schema<ActivatePlanRequest>,
+  output: __S(416, __c13, 0) as any as S.Schema<ActivatePlanResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -1040,8 +1569,8 @@ export const activateSubscription: API.OperationMethod<
   ActivateSubscriptionError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<ActivateSubscriptionRequest>,
-  output: __S(384, __c12, 0) as any as S.Schema<ActivateSubscriptionResponse>,
+  input: __S(448, __c14, 0) as any as S.Schema<ActivateSubscriptionRequest>,
+  output: __S(416, __c13, 0) as any as S.Schema<ActivateSubscriptionResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -1062,8 +1591,8 @@ export const cancelSubscription: API.OperationMethod<
   CancelSubscriptionError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<CancelSubscriptionRequest>,
-  output: __S(384, __c12, 0) as any as S.Schema<CancelSubscriptionResponse>,
+  input: __S(480, __c15, 0) as any as S.Schema<CancelSubscriptionRequest>,
+  output: __S(416, __c13, 0) as any as S.Schema<CancelSubscriptionResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -1084,8 +1613,8 @@ export const captureSubscription: API.OperationMethod<
   CaptureSubscriptionError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<CaptureSubscriptionRequest>,
-  output: __S(514, __c16, 2) as any as S.Schema<Transaction>,
+  input: __S(512, __c16, 0) as any as S.Schema<CaptureSubscriptionRequest>,
+  output: __S(546, __c17, 2) as any as S.Schema<Transaction>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -1101,8 +1630,8 @@ export const createPlan: API.OperationMethod<
   CreatePlanError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(578, __c18, 2) as any as S.Schema<CreatePlanRequest>,
-  output: __S(608, __c19, 0) as any as S.Schema<Plan>,
+  input: __S(610, __c19, 2) as any as S.Schema<CreatePlanRequest>,
+  output: __S(640, __c20, 0) as any as S.Schema<Plan>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -1135,8 +1664,8 @@ export const deactivatePlan: API.OperationMethod<
   DeactivatePlanError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<DeactivatePlanRequest>,
-  output: __S(384, __c12, 0) as any as S.Schema<DeactivatePlanResponse>,
+  input: __S(32, __c1, 0) as any as S.Schema<DeactivatePlanRequest>,
+  output: __S(416, __c13, 0) as any as S.Schema<DeactivatePlanResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -1148,8 +1677,8 @@ export type GetPlanError = Forbidden | NotFound | PaypalOpError;
 /** Show plan details Shows details for a plan, by ID. */
 export const getPlan: API.OperationMethod<GetPlanRequest, Plan, GetPlanError, PaypalOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(32, __c1, 0) as any as S.Schema<GetPlanRequest>,
-    output: __S(608, __c19, 0) as any as S.Schema<Plan>,
+    input: __S(64, __c2, 0) as any as S.Schema<GetPlanRequest>,
+    output: __S(640, __c20, 0) as any as S.Schema<Plan>,
     errors: [Forbidden, NotFound, UnknownPaypalError],
     protocol: PaypalProtocol,
     retry: Retry.Retry,
@@ -1165,7 +1694,7 @@ export const getSubscription: API.OperationMethod<
   GetSubscriptionError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<GetSubscriptionRequest>,
+  input: __S(96, __c3, 0) as any as S.Schema<GetSubscriptionRequest>,
   output: __S(853, __c26, 21) as any as S.Schema<GetSubscriptionResponse>,
   errors: [Forbidden, NotFound, UnknownPaypalError],
   protocol: PaypalProtocol,
@@ -1182,8 +1711,8 @@ export const listPlans: API.OperationMethod<
   ListPlansError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c3, 0) as any as S.Schema<ListPlansRequest>,
-  output: __S(98, __c3, 2) as any as S.Schema<PlanCollection>,
+  input: __S(128, __c4, 0) as any as S.Schema<ListPlansRequest>,
+  output: __S(130, __c4, 2) as any as S.Schema<PlanCollection>,
   errors: [BadRequest, Forbidden, NotFound, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -1204,8 +1733,8 @@ export const patchPlan: API.OperationMethod<
   PatchPlanError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<PatchPlanRequest>,
-  output: __S(384, __c12, 0) as any as S.Schema<PatchPlanResponse>,
+  input: __S(160, __c5, 0) as any as S.Schema<PatchPlanRequest>,
+  output: __S(416, __c13, 0) as any as S.Schema<PatchPlanResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -1226,8 +1755,8 @@ export const patchSubscription: API.OperationMethod<
   PatchSubscriptionError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<PatchSubscriptionRequest>,
-  output: __S(384, __c12, 0) as any as S.Schema<PatchSubscriptionResponse>,
+  input: __S(224, __c7, 0) as any as S.Schema<PatchSubscriptionRequest>,
+  output: __S(416, __c13, 0) as any as S.Schema<PatchSubscriptionResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -1248,8 +1777,8 @@ export const plansUpdatePricingSchemes: API.OperationMethod<
   PlansUpdatePricingSchemesError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(226, __c7, 2) as any as S.Schema<PlansUpdatePricingSchemesRequest>,
-  output: __S(384, __c12, 0) as any as S.Schema<PlansUpdatePricingSchemesResponse>,
+  input: __S(258, __c8, 2) as any as S.Schema<PlansUpdatePricingSchemesRequest>,
+  output: __S(416, __c13, 0) as any as S.Schema<PlansUpdatePricingSchemesResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -1270,8 +1799,8 @@ export const subscriptionsRevise: API.OperationMethod<
   SubscriptionsReviseError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(257, __c8, 1) as any as S.Schema<SubscriptionsReviseRequest>,
-  output: __S(261, __c8, 5) as any as S.Schema<SubscriptionReviseResponse>,
+  input: __S(289, __c9, 1) as any as S.Schema<SubscriptionsReviseRequest>,
+  output: __S(293, __c9, 5) as any as S.Schema<SubscriptionReviseResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -1287,8 +1816,8 @@ export const subscriptionsTransactions: API.OperationMethod<
   SubscriptionsTransactionsError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<SubscriptionsTransactionsRequest>,
-  output: __S(290, __c9, 2) as any as S.Schema<TransactionsList>,
+  input: __S(320, __c10, 0) as any as S.Schema<SubscriptionsTransactionsRequest>,
+  output: __S(322, __c10, 2) as any as S.Schema<TransactionsList>,
   errors: [BadRequest, Forbidden, NotFound, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -1309,8 +1838,8 @@ export const suspendSubscription: API.OperationMethod<
   SuspendSubscriptionError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<SuspendSubscriptionRequest>,
-  output: __S(384, __c12, 0) as any as S.Schema<SuspendSubscriptionResponse>,
+  input: __S(352, __c11, 0) as any as S.Schema<SuspendSubscriptionRequest>,
+  output: __S(416, __c13, 0) as any as S.Schema<SuspendSubscriptionResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -1324,12 +1853,48 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          href: S.String,
+          rel: S.String,
+          method: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LinkDescription" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.optional(S.String),
+          value: S.optional(S.String),
+          location: S.optional(S.String),
+          issue: S.String,
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ErrorDetails" });
+    case 3:
+      return S.Array(__S(2, __c0, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          message: S.optional(S.String),
+          details: S.optional(__S(3, __c0, 3)),
+          debug_id: S.optional(S.String),
+          links: S.optional(__S(1, __c0, 1)),
+        }),
+      ).annotate({ identifier: "Error400Body10" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           id: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "POST", uri: "/v1/billing/plans/{id}/deactivate", code: 200 })),
       ).annotate({ identifier: "DeactivatePlanRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1339,7 +1904,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "GetPlanRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1350,7 +1915,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GetSubscriptionRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1363,30 +1928,30 @@ function __c3(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/billing/plans", code: 200 })),
       ).annotate({ identifier: "ListPlansRequest" });
     case 1:
-      return S.Array(__S(608, __c19, 0));
+      return S.Array(__S(640, __c20, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          plans: S.optional(__S(97, __c3, 1)),
+          plans: S.optional(__S(129, __c4, 1)),
           total_items: S.optional(S.Number),
           total_pages: S.optional(S.Number),
-          links: S.optional(__S(737, __c23, 1)),
+          links: S.optional(__S(1, __c0, 1)),
         }),
       ).annotate({ identifier: "PlanCollection" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          body: S.optional(__S(161, __c5, 1).pipe(T.HttpBody())),
+          body: S.optional(__S(193, __c6, 1).pipe(T.HttpBody())),
         }).pipe(T.Http({ method: "PATCH", uri: "/v1/billing/plans/{id}", code: 200 })),
       ).annotate({ identifier: "PatchPlanRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1398,21 +1963,21 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "Patch" });
     case 1:
-      return S.Array(__S(160, __c5, 0));
+      return S.Array(__S(192, __c6, 0));
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          body: S.optional(__S(161, __c5, 1).pipe(T.HttpBody())),
+          body: S.optional(__S(193, __c6, 1).pipe(T.HttpBody())),
         }).pipe(T.Http({ method: "PATCH", uri: "/v1/billing/subscriptions/{id}", code: 200 })),
       ).annotate({ identifier: "PatchSubscriptionRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1422,12 +1987,12 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "UpdatePricingSchemeRequestInput" });
     case 1:
-      return S.Array(__S(224, __c7, 0));
+      return S.Array(__S(256, __c8, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          pricing_schemes: __S(225, __c7, 1),
+          pricing_schemes: __S(257, __c8, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1438,7 +2003,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "PlansUpdatePricingSchemesRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1457,9 +2022,9 @@ function __c8(j: number): any {
           id: S.String.pipe(T.Label()),
           plan_id: S.optional(S.String),
           quantity: S.optional(S.String),
-          shipping_amount: S.optional(__S(544, __c17, 0)),
+          shipping_amount: S.optional(__S(576, __c18, 0)),
           shipping_address: S.optional(__S(868, __c27, 4)),
-          application_context: S.optional(__S(256, __c8, 0)),
+          application_context: S.optional(__S(288, __c9, 0)),
           plan: S.optional(__S(900, __c28, 4)),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/billing/subscriptions/{id}/revise", code: 200 }),
@@ -1468,18 +2033,18 @@ function __c8(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          pricing_scheme: S.optional(__S(705, __c22, 1)),
+          pricing_scheme: S.optional(__S(737, __c23, 1)),
           sequence: S.Number,
           total_cycles: S.optional(S.Number),
         }),
       ).annotate({ identifier: "BillingCycleOverride" });
     case 3:
-      return S.Array(__S(258, __c8, 2));
+      return S.Array(__S(290, __c9, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          billing_cycles: S.optional(__S(259, __c8, 3)),
-          payment_preferences: S.optional(__S(704, __c22, 0)),
+          billing_cycles: S.optional(__S(291, __c9, 3)),
+          payment_preferences: S.optional(__S(736, __c23, 0)),
           taxes: S.optional(__S(899, __c28, 3)),
         }),
       ).annotate({ identifier: "PlanOverride" });
@@ -1488,16 +2053,16 @@ function __c8(j: number): any {
         S.Struct({
           plan_id: S.optional(S.String),
           quantity: S.optional(S.String),
-          shipping_amount: S.optional(__S(544, __c17, 0)),
+          shipping_amount: S.optional(__S(576, __c18, 0)),
           shipping_address: S.optional(__S(868, __c27, 4)),
-          plan: S.optional(__S(260, __c8, 4)),
+          plan: S.optional(__S(292, __c9, 4)),
           plan_overridden: S.optional(S.Boolean),
-          links: S.optional(__S(737, __c23, 1)),
+          links: S.optional(__S(1, __c0, 1)),
         }),
       ).annotate({ identifier: "SubscriptionReviseResponse" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1510,19 +2075,19 @@ function __c9(j: number): any {
         ),
       ).annotate({ identifier: "SubscriptionsTransactionsRequest" });
     case 1:
-      return S.Array(__S(514, __c16, 2));
+      return S.Array(__S(546, __c17, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          transactions: S.optional(__S(289, __c9, 1)),
+          transactions: S.optional(__S(321, __c10, 1)),
           total_items: S.optional(S.Number),
           total_pages: S.optional(S.Number),
-          links: S.optional(__S(737, __c23, 1)),
+          links: S.optional(__S(1, __c0, 1)),
         }),
       ).annotate({ identifier: "TransactionsList" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1535,7 +2100,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "SuspendSubscriptionRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1545,13 +2110,13 @@ function __c11(j: number): any {
       ).annotate({ identifier: "ActivatePlanRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "ActivatePlanResponse" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1564,7 +2129,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "ActivateSubscriptionRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1577,7 +2142,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "CancelSubscriptionRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1586,24 +2151,24 @@ function __c15(j: number): any {
           payPalRequestId: S.optional(S.String.pipe(T.Header("PayPal-Request-Id"))),
           note: S.String,
           capture_type: S.String,
-          amount: __S(544, __c17, 0),
+          amount: __S(576, __c18, 0),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/billing/subscriptions/{id}/capture", code: 200 }),
         ),
       ).annotate({ identifier: "CaptureSubscriptionRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          gross_amount: __S(544, __c17, 0),
-          total_item_amount: S.optional(__S(544, __c17, 0)),
-          fee_amount: S.optional(__S(544, __c17, 0)),
-          shipping_amount: S.optional(__S(544, __c17, 0)),
-          tax_amount: S.optional(__S(544, __c17, 0)),
-          net_amount: S.optional(__S(544, __c17, 0)),
+          gross_amount: __S(576, __c18, 0),
+          total_item_amount: S.optional(__S(576, __c18, 0)),
+          fee_amount: S.optional(__S(576, __c18, 0)),
+          shipping_amount: S.optional(__S(576, __c18, 0)),
+          tax_amount: S.optional(__S(576, __c18, 0)),
+          net_amount: S.optional(__S(576, __c18, 0)),
         }),
       ).annotate({ identifier: "AmountWithBreakdown" });
     case 1:
@@ -1622,15 +2187,15 @@ function __c16(j: number): any {
         S.Struct({
           status: S.optional(S.String),
           id: S.String,
-          amount_with_breakdown: __S(512, __c16, 0),
-          payer_name: S.optional(__S(513, __c16, 1)),
+          amount_with_breakdown: __S(544, __c17, 0),
+          payer_name: S.optional(__S(545, __c17, 1)),
           payer_email: S.optional(S.String),
           time: S.String,
         }),
       ).annotate({ identifier: "Transaction" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1641,20 +2206,20 @@ function __c17(j: number): any {
       ).annotate({ identifier: "Money" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           pricing_scheme: S.optional(__S(768, __c24, 0)),
-          frequency: __S(640, __c20, 0),
+          frequency: __S(672, __c21, 0),
           tenure_type: S.String,
           sequence: S.Number,
           total_cycles: S.optional(S.Number),
         }),
       ).annotate({ identifier: "BillingCycleInput" });
     case 1:
-      return S.Array(__S(576, __c18, 0));
+      return S.Array(__S(608, __c19, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1664,15 +2229,15 @@ function __c18(j: number): any {
           name: S.String,
           status: S.optional(S.String),
           description: S.optional(S.String),
-          billing_cycles: __S(577, __c18, 1),
-          payment_preferences: __S(704, __c22, 0),
-          taxes: S.optional(__S(641, __c20, 1)),
+          billing_cycles: __S(609, __c19, 1),
+          payment_preferences: __S(736, __c23, 0),
+          taxes: S.optional(__S(673, __c21, 1)),
           quantity_supported: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/v1/billing/plans", code: 200 })),
       ).annotate({ identifier: "CreatePlanRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1682,18 +2247,18 @@ function __c19(j: number): any {
           name: S.optional(S.String),
           status: S.optional(S.String),
           description: S.optional(S.String),
-          billing_cycles: S.optional(__S(643, __c20, 3)),
-          payment_preferences: S.optional(__S(704, __c22, 0)),
-          taxes: S.optional(__S(641, __c20, 1)),
+          billing_cycles: S.optional(__S(675, __c21, 3)),
+          payment_preferences: S.optional(__S(736, __c23, 0)),
+          taxes: S.optional(__S(673, __c21, 1)),
           quantity_supported: S.optional(S.Boolean),
           create_time: S.optional(S.String),
           update_time: S.optional(S.String),
-          links: S.optional(__S(737, __c23, 1)),
+          links: S.optional(__S(1, __c0, 1)),
         }),
       ).annotate({ identifier: "Plan" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1712,29 +2277,15 @@ function __c20(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          pricing_scheme: S.optional(__S(705, __c22, 1)),
-          frequency: __S(640, __c20, 0),
+          pricing_scheme: S.optional(__S(737, __c23, 1)),
+          frequency: __S(672, __c21, 0),
           tenure_type: S.String,
           sequence: S.Number,
           total_cycles: S.optional(S.Number),
         }),
       ).annotate({ identifier: "BillingCycle" });
     case 3:
-      return S.Array(__S(642, __c20, 2));
-  }
-}
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          starting_quantity: S.String,
-          ending_quantity: S.optional(S.String),
-          amount: __S(544, __c17, 0),
-        }),
-      ).annotate({ identifier: "PricingTier" });
-    case 1:
-      return S.Array(__S(672, __c21, 0));
+      return S.Array(__S(674, __c21, 2));
   }
 }
 function __c22(j: number): any {
@@ -1742,8 +2293,22 @@ function __c22(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          starting_quantity: S.String,
+          ending_quantity: S.optional(S.String),
+          amount: __S(576, __c18, 0),
+        }),
+      ).annotate({ identifier: "PricingTier" });
+    case 1:
+      return S.Array(__S(704, __c22, 0));
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           auto_bill_outstanding: S.optional(S.Boolean),
-          setup_fee: S.optional(__S(544, __c17, 0)),
+          setup_fee: S.optional(__S(576, __c18, 0)),
           setup_fee_failure_action: S.optional(S.String),
           payment_failure_threshold: S.optional(S.Number),
         }),
@@ -1752,27 +2317,13 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           version: S.optional(S.Number),
-          fixed_price: S.optional(__S(544, __c17, 0)),
+          fixed_price: S.optional(__S(576, __c18, 0)),
           pricing_model: S.optional(S.String),
-          tiers: S.optional(__S(673, __c21, 1)),
+          tiers: S.optional(__S(705, __c22, 1)),
           create_time: S.optional(S.String),
           update_time: S.optional(S.String),
         }),
       ).annotate({ identifier: "PricingScheme" });
-  }
-}
-function __c23(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          href: S.String,
-          rel: S.String,
-          method: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "LinkDescription" });
-    case 1:
-      return S.Array(__S(736, __c23, 0));
   }
 }
 function __c24(j: number): any {
@@ -1780,9 +2331,9 @@ function __c24(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          fixed_price: S.optional(__S(544, __c17, 0)),
+          fixed_price: S.optional(__S(576, __c18, 0)),
           pricing_model: S.optional(S.String),
-          tiers: S.optional(__S(673, __c21, 1)),
+          tiers: S.optional(__S(705, __c22, 1)),
         }),
       ).annotate({ identifier: "PricingSchemeInput" });
   }
@@ -1866,7 +2417,7 @@ function __c25(j: number): any {
           plan_id: S.String,
           start_time: S.optional(S.String),
           quantity: S.optional(S.String),
-          shipping_amount: S.optional(__S(544, __c17, 0)),
+          shipping_amount: S.optional(__S(576, __c18, 0)),
           subscriber: S.optional(__S(806, __c25, 6)),
           auto_renewal: S.optional(S.Boolean),
           application_context: S.optional(__S(807, __c25, 7)),
@@ -1927,7 +2478,7 @@ function __c26(j: number): any {
           id: S.optional(S.String),
           status: S.optional(S.String),
           customer: S.optional(__S(838, __c26, 6)),
-          links: S.optional(__S(737, __c23, 1)),
+          links: S.optional(__S(1, __c0, 1)),
         }),
       ).annotate({ identifier: "VaultResponse" });
     case 8:
@@ -2004,14 +2555,14 @@ function __c26(j: number): any {
     case 17:
       return S.suspend(() =>
         S.Struct({
-          amount: S.optional(__S(544, __c17, 0)),
+          amount: S.optional(__S(576, __c18, 0)),
           time: S.optional(S.String),
         }),
       ).annotate({ identifier: "LastPaymentDetails" });
     case 18:
       return S.suspend(() =>
         S.Struct({
-          amount: __S(544, __c17, 0),
+          amount: __S(576, __c18, 0),
           time: S.String,
           reason_code: S.optional(S.String),
           next_payment_retry_time: S.optional(S.String),
@@ -2020,7 +2571,7 @@ function __c26(j: number): any {
     case 19:
       return S.suspend(() =>
         S.Struct({
-          outstanding_balance: __S(544, __c17, 0),
+          outstanding_balance: __S(576, __c18, 0),
           cycle_executions: S.optional(__S(848, __c26, 16)),
           last_payment: S.optional(__S(849, __c26, 17)),
           next_billing_time: S.optional(S.String),
@@ -2035,9 +2586,9 @@ function __c26(j: number): any {
           product_id: S.optional(S.String),
           name: S.optional(S.String),
           description: S.optional(S.String),
-          billing_cycles: S.optional(__S(643, __c20, 3)),
-          payment_preferences: S.optional(__S(704, __c22, 0)),
-          taxes: S.optional(__S(641, __c20, 1)),
+          billing_cycles: S.optional(__S(675, __c21, 3)),
+          payment_preferences: S.optional(__S(736, __c23, 0)),
+          taxes: S.optional(__S(673, __c21, 1)),
           quantity_supported: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CreateSubscriptionResponsePlan" });
@@ -2051,7 +2602,7 @@ function __c26(j: number): any {
           plan_id: S.optional(S.String),
           start_time: S.optional(S.String),
           quantity: S.optional(S.String),
-          shipping_amount: S.optional(__S(544, __c17, 0)),
+          shipping_amount: S.optional(__S(576, __c18, 0)),
           subscriber: S.optional(__S(846, __c26, 14)),
           billing_info: S.optional(__S(851, __c26, 19)),
           create_time: S.optional(S.String),
@@ -2059,7 +2610,7 @@ function __c26(j: number): any {
           custom_id: S.optional(S.String),
           plan_overridden: S.optional(S.Boolean),
           plan: S.optional(__S(852, __c26, 20)),
-          links: S.optional(__S(737, __c23, 1)),
+          links: S.optional(__S(1, __c0, 1)),
         }),
       ).annotate({ identifier: "CreateSubscriptionResponse" });
   }
@@ -2078,7 +2629,7 @@ function __c27(j: number): any {
           id: S.String,
           label: S.String,
           type: S.optional(S.String),
-          amount: S.optional(__S(544, __c17, 0)),
+          amount: S.optional(__S(576, __c18, 0)),
           selected: S.Boolean,
         }),
       ).annotate({ identifier: "ShippingOption" });
@@ -2135,7 +2686,7 @@ function __c28(j: number): any {
       return S.suspend(() =>
         S.Struct({
           billing_cycles: S.optional(__S(898, __c28, 2)),
-          payment_preferences: S.optional(__S(704, __c22, 0)),
+          payment_preferences: S.optional(__S(736, __c23, 0)),
           taxes: S.optional(__S(899, __c28, 3)),
         }),
       ).annotate({ identifier: "PlanOverrideInput" });

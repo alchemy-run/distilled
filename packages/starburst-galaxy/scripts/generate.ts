@@ -56,9 +56,9 @@ const starburstGalaxySpec: SdkSpec = {
       ? `string | Redacted.Redacted<string>${m.nullable ? " | null" : ""}`
       : undefined,
 
-  // Unions are Galaxy's discriminated hierarchies, which convert rewrites
-  // into a `oneOf` of standalone subtypes with the discriminator pinned to
-  // its mapping key. Each arm is a real schema, so validation picks the arm
+  // Unions are Galaxy's discriminated hierarchies, which the shared
+  // converter rewrites into a `oneOf` of subtypes with the discriminator
+  // pinned to its mapping key. Each arm is a real schema, so validation picks the arm
   // the discriminator names and the protocol wraps the sensitive members of
   // every arm (a SASL `password`, a `secretAccessKey`) in Redacted.
   unionStyle: "untagged",

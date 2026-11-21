@@ -45,6 +45,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -54,6 +56,8 @@ export class KeylessCertificateNotFound
     /*@__PURE__*/ S.TaggedError<KeylessCertificateNotFound>()("KeylessCertificateNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1005, message: { includes: "Invalid or missing Keyless SSL" } }],
   ) {}
@@ -63,6 +67,8 @@ export class KeylessSslNotAvailable
     /*@__PURE__*/ S.TaggedError<KeylessSslNotAvailable>()("KeylessSslNotAvailable", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1067, message: { includes: "Keyless SSL is not available" } }],
   ) {}

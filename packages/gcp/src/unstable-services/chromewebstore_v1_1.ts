@@ -37,9 +37,9 @@ export class BadRequest
       code: /*@__PURE__*/ S.optional(S.Number),
       message: S.String,
       status: /*@__PURE__*/ S.optional(S.String),
-      reason: /*@__PURE__*/ S.optional(S.String),
-      domain: /*@__PURE__*/ S.optional(S.String),
       details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
   ) {}
@@ -50,9 +50,9 @@ export class Conflict
       code: /*@__PURE__*/ S.optional(S.Number),
       message: S.String,
       status: /*@__PURE__*/ S.optional(S.String),
-      reason: /*@__PURE__*/ S.optional(S.String),
-      domain: /*@__PURE__*/ S.optional(S.String),
       details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
   ) {}
@@ -63,9 +63,9 @@ export class Forbidden
       code: /*@__PURE__*/ S.optional(S.Number),
       message: S.String,
       status: /*@__PURE__*/ S.optional(S.String),
-      reason: /*@__PURE__*/ S.optional(S.String),
-      domain: /*@__PURE__*/ S.optional(S.String),
       details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
   ) {}
@@ -76,9 +76,9 @@ export class NotFound
       code: /*@__PURE__*/ S.optional(S.Number),
       message: S.String,
       status: /*@__PURE__*/ S.optional(S.String),
-      reason: /*@__PURE__*/ S.optional(S.String),
-      domain: /*@__PURE__*/ S.optional(S.String),
       details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
@@ -99,18 +99,18 @@ export interface ItemError {
 }
 export type ItemErrorList = Array<ItemError>;
 export interface Item {
-  /** Identifies this resource as an Item. Value: the fixed string "chromewebstore#item". */
-  kind?: string | undefined;
   /** The CRX version of the item. If the projection is draft, then it is the draft's CRX version. */
   crxVersion?: string | undefined;
-  /** Unique ID of the item. */
-  id?: string | undefined;
-  /** Detail human-readable status of the operation, in English only. Same error messages are displayed when you upload your app to the Chrome Web Store. */
-  itemError?: ItemErrorList | undefined;
   /** Status of the operation. Possible values are: - \"FAILURE\" - \"IN_PROGRESS\" - \"NOT_FOUND\" - \"SUCCESS\" */
   uploadState?: string | undefined;
   /** Public key of this item. */
   publicKey?: string | undefined;
+  /** Detail human-readable status of the operation, in English only. Same error messages are displayed when you upload your app to the Chrome Web Store. */
+  itemError?: ItemErrorList | undefined;
+  /** Identifies this resource as an Item. Value: the fixed string "chromewebstore#item". */
+  kind?: string | undefined;
+  /** Unique ID of the item. */
+  id?: string | undefined;
 }
 export interface InsertItemsRequest {
   /** The email of the publisher who owns the items. Defaults to the caller's email address. */
@@ -119,39 +119,38 @@ export interface InsertItemsRequest {
 export interface PublishRequest {
   /** The target deploy percentage of the item. It's only useful for items with big user base. */
   deployPercentage?: number | undefined;
-  /** Optional. The caller request to exempt the review and directly publish because the update is within the list that we can automatically validate. The API will check if the exemption can be granted using real time data. */
-  reviewExemption?: boolean | undefined;
   /** The publish target of this publish operation. This is the same as using publishTarget as a URL query parameter. The string value can either be target="trustedTesters" or target="default". The default value, if none is supplied, is target="default". Recommended usage is to use the URL query parameter to specificy the value. */
   target?: string | undefined;
+  /** Optional. The caller request to exempt the review and directly publish because the update is within the list that we can automatically validate. The API will check if the exemption can be granted using real time data. */
+  reviewExemption?: boolean | undefined;
 }
-export interface PublishItemsRequest {
-  /** The ID of the item to publish. */
-  itemId: string;
+export interface PublishItemsRequest extends Omit<
+  PublishRequest,
+  "deployPercentage" | "reviewExemption"
+> {
   /** Provide defined publishTarget in URL (case sensitive): publishTarget="trustedTesters" or publishTarget="default". Defaults to publishTarget="default". */
   publishTarget?: string | undefined;
+  /** The ID of the item to publish. */
+  itemId: string;
   /** The deploy percentage you want to set for your item. Valid values are [0, 100]. If set to any number less than 100, only that many percentage of users will be allowed to get the update. */
   deployPercentage?: number | undefined;
   /** Optional. The caller request to exempt the review and directly publish because the update is within the list that we can automatically validate. The API will check if the exemption can be granted using real time data. */
   reviewExemption?: boolean | undefined;
-  /** Request body */
-  body?: PublishRequest | undefined;
 }
 export type StringList = Array<string>;
 export interface Item2 {
-  /** Static string value is always "chromewebstore#item". */
-  kind?: string | undefined;
-  /** The status code of this publish operation. It may contain multiple elements from the following list: NOT_AUTHORIZED, INVALID_DEVELOPER, DEVELOPER_NO_OWNERSHIP, DEVELOPER_SUSPENDED, ITEM_NOT_FOUND, ITEM_PENDING_REVIEW, ITEM_TAKEN_DOWN, PUBLISHER_SUSPENDED. */
-  status?: StringList | undefined;
-  /** Detailed human-comprehensible explanation of the status code above. */
-  statusDetail?: StringList | undefined;
   /** The ID of this item. */
   item_id?: string | undefined;
+  /** Detailed human-comprehensible explanation of the status code above. */
+  statusDetail?: StringList | undefined;
+  /** The status code of this publish operation. It may contain multiple elements from the following list: NOT_AUTHORIZED, INVALID_DEVELOPER, DEVELOPER_NO_OWNERSHIP, DEVELOPER_SUSPENDED, ITEM_NOT_FOUND, ITEM_PENDING_REVIEW, ITEM_TAKEN_DOWN, PUBLISHER_SUSPENDED. */
+  status?: StringList | undefined;
+  /** Static string value is always "chromewebstore#item". */
+  kind?: string | undefined;
 }
-export interface UpdateItemsRequest {
+export interface UpdateItemsRequest extends Item {
   /** The ID of the item to upload. */
   itemId: string;
-  /** Request body */
-  body?: Item | undefined;
 }
 export type GetItemsError = NotFound | Forbidden | GcpOpError;
 /** Gets your own Chrome Web Store item. */
@@ -249,12 +248,12 @@ function __c1(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          kind: S.optional(S.String),
           crxVersion: S.optional(S.String),
-          id: S.optional(S.String),
-          itemError: S.optional(__S(5, __c1, 1)),
           uploadState: S.optional(S.String),
           publicKey: S.optional(S.String),
+          itemError: S.optional(__S(5, __c1, 1)),
+          kind: S.optional(S.String),
+          id: S.optional(S.String),
         }),
       ).annotate({ identifier: "Item" });
   }
@@ -281,19 +280,21 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           deployPercentage: S.optional(S.Number),
-          reviewExemption: S.optional(S.Boolean),
           target: S.optional(S.String),
+          reviewExemption: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "PublishRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          itemId: S.String.pipe(T.Label()),
-          publishTarget: S.optional(S.String.pipe(T.Query())),
-          deployPercentage: S.optional(S.Number.pipe(T.Query())),
-          reviewExemption: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(12, __c3, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12, __c3, 0),
+          S.Struct({
+            publishTarget: S.optional(S.String.pipe(T.Query())),
+            itemId: S.String.pipe(T.Label()),
+            deployPercentage: S.optional(S.Number.pipe(T.Query())),
+            reviewExemption: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "chromewebstore/v1.1/items/{itemId}/publish",
@@ -306,10 +307,10 @@ function __c3(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          kind: S.optional(S.String),
-          status: S.optional(__S(14, __c3, 2)),
-          statusDetail: S.optional(__S(14, __c3, 2)),
           item_id: S.optional(S.String),
+          statusDetail: S.optional(__S(14, __c3, 2)),
+          status: S.optional(__S(14, __c3, 2)),
+          kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "Item2" });
   }
@@ -318,10 +319,12 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          itemId: S.String.pipe(T.Label()),
-          body: S.optional(__S(6, __c1, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6, __c1, 2),
+          S.Struct({
+            itemId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "chromewebstore/v1.1/items/{itemId}",

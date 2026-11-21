@@ -29,27 +29,48 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorBADREQUEST | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorFORBIDDEN | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorNOTFOUND | string;
+}
 
 export type CreateNetworkRequestDriver = "bridge" | "overlay";
 export interface CreateNetworkRequestIpamConfigItem {
@@ -108,6 +129,44 @@ export interface ResyncNetworkRequest {
   networkId: string;
 }
 export type ResyncNetworkResponse = unknown;
+export interface ErrorBADREQUESTIssuesItem {
+  message: string;
+}
+/** An array of issues that were responsible for the error */
+export type ErrorBADREQUESTIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorBADREQUEST {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorBADREQUESTIssuesList | undefined;
+}
+export type ErrorFORBIDDENIssuesItem = ErrorBADREQUESTIssuesItem;
+/** An array of issues that were responsible for the error */
+export type ErrorFORBIDDENIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorFORBIDDEN {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorFORBIDDENIssuesList | undefined;
+}
+export type ErrorNOTFOUNDIssuesItem = ErrorBADREQUESTIssuesItem;
+/** An array of issues that were responsible for the error */
+export type ErrorNOTFOUNDIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorNOTFOUND {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorNOTFOUNDIssuesList | undefined;
+}
 export type CreateNetworkError = BadRequest | Forbidden | DokployOpError;
 export const createNetwork: API.OperationMethod<
   CreateNetworkRequest,
@@ -115,8 +174,8 @@ export const createNetwork: API.OperationMethod<
   CreateNetworkError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11, __c2, 3) as any as S.Schema<CreateNetworkRequest>,
-  output: __S(12, __c3, 0) as any as S.Schema<CreateNetworkResponse>,
+  input: __S(15, __c3, 3) as any as S.Schema<CreateNetworkRequest>,
+  output: __S(16, __c4, 0) as any as S.Schema<CreateNetworkResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -131,8 +190,8 @@ export const deleteNetwork: API.OperationMethod<
   DeleteNetworkError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<DeleteNetworkRequest>,
-  output: __S(12, __c3, 0) as any as S.Schema<DeleteNetworkResponse>,
+  input: __S(20, __c5, 0) as any as S.Schema<DeleteNetworkRequest>,
+  output: __S(16, __c4, 0) as any as S.Schema<DeleteNetworkResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -147,8 +206,8 @@ export const getNetwork: API.OperationMethod<
   GetNetworkError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<GetNetworkRequest>,
-  output: __S(12, __c3, 0) as any as S.Schema<GetNetworkResponse>,
+  input: __S(24, __c6, 0) as any as S.Schema<GetNetworkRequest>,
+  output: __S(16, __c4, 0) as any as S.Schema<GetNetworkResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -163,8 +222,8 @@ export const getNetworksToSync: API.OperationMethod<
   GetNetworksToSyncError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<GetNetworksToSyncRequest>,
-  output: __S(12, __c3, 0) as any as S.Schema<GetNetworksToSyncResponse>,
+  input: __S(28, __c7, 0) as any as S.Schema<GetNetworksToSyncRequest>,
+  output: __S(16, __c4, 0) as any as S.Schema<GetNetworksToSyncResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -179,8 +238,8 @@ export const importNetwork: API.OperationMethod<
   ImportNetworkError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29, __c7, 1) as any as S.Schema<ImportNetworkRequest>,
-  output: __S(12, __c3, 0) as any as S.Schema<ImportNetworkResponse>,
+  input: __S(33, __c8, 1) as any as S.Schema<ImportNetworkRequest>,
+  output: __S(16, __c4, 0) as any as S.Schema<ImportNetworkResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -195,8 +254,8 @@ export const inspectNetwork: API.OperationMethod<
   InspectNetworkError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c8, 0) as any as S.Schema<InspectNetworkRequest>,
-  output: __S(12, __c3, 0) as any as S.Schema<InspectNetworkResponse>,
+  input: __S(36, __c9, 0) as any as S.Schema<InspectNetworkRequest>,
+  output: __S(16, __c4, 0) as any as S.Schema<InspectNetworkResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -211,8 +270,8 @@ export const listNetworks: API.OperationMethod<
   ListNetworksError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<ListNetworksRequest>,
-  output: __S(12, __c3, 0) as any as S.Schema<ListNetworksResponse>,
+  input: __S(40, __c10, 0) as any as S.Schema<ListNetworksRequest>,
+  output: __S(16, __c4, 0) as any as S.Schema<ListNetworksResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -227,8 +286,8 @@ export const recreateNetwork: API.OperationMethod<
   RecreateNetworkError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<RecreateNetworkRequest>,
-  output: __S(12, __c3, 0) as any as S.Schema<RecreateNetworkResponse>,
+  input: __S(4, __c1, 0) as any as S.Schema<RecreateNetworkRequest>,
+  output: __S(16, __c4, 0) as any as S.Schema<RecreateNetworkResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -243,8 +302,8 @@ export const resyncNetwork: API.OperationMethod<
   ResyncNetworkError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c1, 0) as any as S.Schema<ResyncNetworkRequest>,
-  output: __S(12, __c3, 0) as any as S.Schema<ResyncNetworkResponse>,
+  input: __S(8, __c2, 0) as any as S.Schema<ResyncNetworkRequest>,
+  output: __S(16, __c4, 0) as any as S.Schema<ResyncNetworkResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -258,12 +317,32 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          message: S.String,
+        }),
+      ).annotate({ identifier: "ErrorBADREQUESTIssuesItem" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.String,
+          code: S.String,
+          issues: S.optional(__S(1, __c0, 1)),
+        }),
+      ).annotate({ identifier: "ErrorBADREQUEST" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           networkId: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/network.recreate", code: 200 })),
       ).annotate({ identifier: "RecreateNetworkRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -273,7 +352,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "ResyncNetworkRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -284,12 +363,12 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "CreateNetworkRequestIpamConfigItem" });
     case 1:
-      return S.Array(__S(8, __c2, 0));
+      return S.Array(__S(12, __c3, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           driver: S.optional(S.String),
-          config: S.optional(__S(9, __c2, 1)),
+          config: S.optional(__S(13, __c3, 1)),
         }),
       ).annotate({ identifier: "CreateNetworkRequestIpam" });
     case 3:
@@ -302,13 +381,13 @@ function __c2(j: number): any {
           enableIPv4: S.optional(S.Boolean),
           enableIPv6: S.optional(S.Boolean),
           mtu: S.optional(S.NullOr(S.Number)),
-          ipam: S.optional(S.NullOr(__S(10, __c2, 2))),
+          ipam: S.optional(S.NullOr(__S(14, __c3, 2))),
           serverId: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "POST", uri: "/network.create", code: 200 })),
       ).annotate({ identifier: "CreateNetworkRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -316,7 +395,7 @@ function __c3(j: number): any {
       });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -326,7 +405,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "DeleteNetworkRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -336,7 +415,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GetNetworkRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -346,7 +425,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GetNetworksToSyncRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -354,12 +433,12 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           serverId: S.optional(S.String),
-          names: __S(28, __c7, 0),
+          names: __S(32, __c8, 0),
         }).pipe(T.Http({ method: "POST", uri: "/network.import", code: 200 })),
       ).annotate({ identifier: "ImportNetworkRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -369,7 +448,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "InspectNetworkRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

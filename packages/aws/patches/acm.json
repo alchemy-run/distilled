@@ -1,7 +1,0 @@
-{
-  "errorCategories": {
-    "ThrottlingException": ["ThrottlingError", "RetryableError"],
-    "LimitExceededException": ["QuotaError"],
-    "RequestInProgressException": ["ConflictError", "RetryableError"]
-  }
-}

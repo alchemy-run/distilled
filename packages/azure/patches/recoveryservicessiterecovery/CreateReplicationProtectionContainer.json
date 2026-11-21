@@ -1,16 +1,6 @@
 {
-  "description": "ASR ProtectionContainer provider-specific details are polymorphic on instanceType (A2A, Azure, HyperVReplicaAzure, InMageRcm, ...); the converted model keeps only the `instanceType` discriminator, so S.Struct strips every subtype field on encode and decode. Retype them as untyped documents.",
+  "description": "ASR ProtectionContainer `fabricSpecificDetails` is polymorphic on instanceType, but the spec declares no subtype of `ProtectionContainerFabricSpecificDetails`, so the converted model keeps only `instanceType` and S.Struct strips every other field on decode. Retype it as an untyped document.",
   "patches": [
-    {
-      "op": "replace",
-      "path": "/shapes/com.azure.recoveryservicessiterecovery#CreateProtectionContainerInputProperties/members/providerSpecificInput",
-      "value": {
-        "target": "smithy.api#Document",
-        "traits": {
-          "smithy.api#documentation": "Provider specific inputs for container creation. Polymorphic on `instanceType` (list of provider-specific objects, e.g. `[{ instanceType: \"A2A\", ... }]`)."
-        }
-      }
-    },
     {
       "op": "replace",
       "path": "/shapes/com.azure.recoveryservicessiterecovery#ProtectionContainerProperties/members/fabricSpecificDetails",

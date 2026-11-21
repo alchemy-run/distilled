@@ -1,0 +1,10 @@
+{
+  "description": "kendra: Members that hold secrets (sensitive).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.kendra#UserContext/members/Token/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

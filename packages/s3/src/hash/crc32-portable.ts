@@ -22,7 +22,7 @@ export class Crc32 implements Checksum {
     }
   }
 
-  async digest(): Promise<Uint8Array> {
+  digest(): Uint8Array {
     return checksumBytes((this.checksum ^ 0xffffffff) >>> 0);
   }
 

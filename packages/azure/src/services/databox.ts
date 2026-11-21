@@ -114,14 +114,31 @@ export interface ShippingAddress {
   taxIdentificationNumber?: string | undefined;
 }
 /** Account Type of the data to be transferred. */
-export type DataAccountDetailsDataAccountType = "StorageAccount" | "ManagedDisk";
-/** Account details of the data to be transferred */
-export interface DataAccountDetails {
+export type ManagedDiskDetailsDataAccountType = "ManagedDisk";
+/** Details of the managed disks. */
+export interface ManagedDiskDetails {
   /** Account Type of the data to be transferred. */
-  dataAccountType: DataAccountDetailsDataAccountType | (string & {});
+  dataAccountType: ManagedDiskDetailsDataAccountType;
   /** Password for all the shares to be created on the device. Should not be passed for TransferType:ExportFromAzure jobs. If this is not passed, the service will generate password itself. This will not be returned in Get Call. Password Requirements : Password must be minimum of 12 and maximum of 64 characters. Password must have at least one uppercase alphabet, one number and one special character. Password cannot have the following characters : IilLoO0 Password can have only alphabets, numbers and these characters : @#\-$%^!+=;:_()]+ */
   sharePassword?: string | Redacted.Redacted<string> | undefined;
+  /** Resource Group Id of the compute disks. */
+  resourceGroupId: string;
+  /** Resource Id of the storage account that can be used to copy the vhd for staging. */
+  stagingStorageAccountId: string;
 }
+/** Account Type of the data to be transferred. */
+export type StorageAccountDetailsDataAccountType = "StorageAccount";
+/** Details for the storage account. */
+export interface StorageAccountDetails {
+  /** Account Type of the data to be transferred. */
+  dataAccountType: StorageAccountDetailsDataAccountType;
+  /** Password for all the shares to be created on the device. Should not be passed for TransferType:ExportFromAzure jobs. If this is not passed, the service will generate password itself. This will not be returned in Get Call. Password Requirements : Password must be minimum of 12 and maximum of 64 characters. Password must have at least one uppercase alphabet, one number and one special character. Password cannot have the following characters : IilLoO0 Password can have only alphabets, numbers and these characters : @#\-$%^!+=;:_()]+ */
+  sharePassword?: string | Redacted.Redacted<string> | undefined;
+  /** Storage Account Resource Id. */
+  storageAccountId: string;
+}
+/** Account details of the data to be transferred */
+export type DataAccountDetails = ManagedDiskDetails | StorageAccountDetails;
 /** Level of the logs to be collected. */
 export type DataImportDetailsLogCollectionLevel = "Error" | "Verbose";
 /** Details of the data to be used for importing data to azure. */
@@ -132,7 +149,7 @@ export interface DataImportDetails {
   logCollectionLevel?: DataImportDetailsLogCollectionLevel | (string & {}) | undefined;
 }
 /** Details of the data to be imported into azure. */
-export type JobDetailsInputDataImportDetailsList = Array<DataImportDetails>;
+export type DataBoxCustomerDiskJobDetailsInputDataImportDetailsList = Array<DataImportDetails>;
 /** Type of the configuration for transfer. */
 export type TransferConfigurationType = "TransferAll" | "TransferUsingFilter";
 /** Type of the account of data. */
@@ -231,9 +248,9 @@ export interface DataExportDetails {
   accountDetails: DataAccountDetails;
 }
 /** Details of the data to be exported from azure. */
-export type JobDetailsInputDataExportDetailsList = Array<DataExportDetails>;
+export type DataBoxCustomerDiskJobDetailsInputDataExportDetailsList = Array<DataExportDetails>;
 /** Indicates the type of job details. */
-export type ClassDiscriminator = "DataBox" | "DataBoxDisk" | "DataBoxHeavy" | "DataBoxCustomerDisk";
+export type DataBoxCustomerDiskJobDetailsInputJobDetailsType = "DataBoxCustomerDisk";
 /** Preferred data center region. */
 export type PreferencesInputPreferredDataCenterRegionList = Array<string>;
 /** Transport Shipment Type supported for given region. */
@@ -317,18 +334,40 @@ export interface KeyEncryptionKey {
   /** Kek vault resource id. It is required in case of Customer managed KekType. */
   kekVaultResourceID?: string | undefined;
 }
-/** Job details. */
-export interface JobDetailsInput {
+/** Import disk details */
+export interface ImportDiskDetailsInput {
+  /** The relative path of the manifest file on the disk. */
+  manifestFile: string;
+  /** The Base16-encoded MD5 hash of the manifest file on the disk. */
+  manifestHash: string;
+  /** BitLocker key used to encrypt the disk. */
+  bitLockerKey: string;
+}
+/** Contains the map of disk serial number to the disk details for import jobs. */
+export type DataBoxCustomerDiskJobDetailsInputImportDiskDetailsCollectionMap = {
+  [key: string]: ImportDiskDetailsInput | undefined;
+};
+/** Package carrier details. */
+export interface PackageCarrierDetails {
+  /** Carrier Account Number of customer for customer disk. */
+  carrierAccountNumber?: string | undefined;
+  /** Name of the carrier. */
+  carrierName?: string | undefined;
+  /** Tracking Id of shipment. */
+  trackingId?: string | undefined;
+}
+/** Customer disk job details. */
+export interface DataBoxCustomerDiskJobDetailsInput {
   /** Contact details for notification and shipping. */
   contactDetails: ContactDetails;
   /** Shipping address of the customer. */
   shippingAddress?: ShippingAddress | undefined;
   /** Details of the data to be imported into azure. */
-  dataImportDetails?: JobDetailsInputDataImportDetailsList | undefined;
+  dataImportDetails?: DataBoxCustomerDiskJobDetailsInputDataImportDetailsList | undefined;
   /** Details of the data to be exported from azure. */
-  dataExportDetails?: JobDetailsInputDataExportDetailsList | undefined;
+  dataExportDetails?: DataBoxCustomerDiskJobDetailsInputDataExportDetailsList | undefined;
   /** Indicates the type of job details. */
-  jobDetailsType: ClassDiscriminator | (string & {});
+  jobDetailsType: DataBoxCustomerDiskJobDetailsInputJobDetailsType;
   /** Preferences for the order. */
   preferences?: PreferencesInput | undefined;
   /** Optional Reverse Shipping details for order. */
@@ -337,7 +376,112 @@ export interface JobDetailsInput {
   keyEncryptionKey?: KeyEncryptionKey | undefined;
   /** The expected size of the data, which needs to be transferred in this job, in terabytes. */
   expectedDataSizeInTeraBytes?: number | undefined;
+  /** Contains the map of disk serial number to the disk details for import jobs. */
+  importDiskDetailsCollection?:
+    | DataBoxCustomerDiskJobDetailsInputImportDiskDetailsCollectionMap
+    | undefined;
+  /** Return package shipping details. */
+  returnToCustomerPackageDetails: PackageCarrierDetails;
+  /** Flag to indicate if disk manifest should be backed-up in the Storage Account. */
+  enableManifestBackup?: boolean | undefined;
 }
+/** Details of the data to be imported into azure. */
+export type DataBoxDiskJobDetailsInputDataImportDetailsList = Array<DataImportDetails>;
+/** Details of the data to be exported from azure. */
+export type DataBoxDiskJobDetailsInputDataExportDetailsList = Array<DataExportDetails>;
+/** Indicates the type of job details. */
+export type DataBoxDiskJobDetailsInputJobDetailsType = "DataBoxDisk";
+/** User preference on what size disks are needed for the job. The map is from the disk size in TB to the count. Eg. {2,5} means 5 disks of 2 TB size. Key is string but will be checked against an int. */
+export type DataBoxDiskJobDetailsInputPreferredDisksMap = { [key: string]: number | undefined };
+/** DataBox Disk Job Details. */
+export interface DataBoxDiskJobDetailsInput {
+  /** Contact details for notification and shipping. */
+  contactDetails: ContactDetails;
+  /** Shipping address of the customer. */
+  shippingAddress?: ShippingAddress | undefined;
+  /** Details of the data to be imported into azure. */
+  dataImportDetails?: DataBoxDiskJobDetailsInputDataImportDetailsList | undefined;
+  /** Details of the data to be exported from azure. */
+  dataExportDetails?: DataBoxDiskJobDetailsInputDataExportDetailsList | undefined;
+  /** Indicates the type of job details. */
+  jobDetailsType: DataBoxDiskJobDetailsInputJobDetailsType;
+  /** Preferences for the order. */
+  preferences?: PreferencesInput | undefined;
+  /** Optional Reverse Shipping details for order. */
+  reverseShippingDetails?: ReverseShippingDetailsInput | undefined;
+  /** Details about which key encryption type is being used. */
+  keyEncryptionKey?: KeyEncryptionKey | undefined;
+  /** The expected size of the data, which needs to be transferred in this job, in terabytes. */
+  expectedDataSizeInTeraBytes?: number | undefined;
+  /** User preference on what size disks are needed for the job. The map is from the disk size in TB to the count. Eg. {2,5} means 5 disks of 2 TB size. Key is string but will be checked against an int. */
+  preferredDisks?: DataBoxDiskJobDetailsInputPreferredDisksMap | undefined;
+  /** User entered passkey for DataBox Disk job. */
+  passkey?: string | undefined;
+}
+/** Details of the data to be imported into azure. */
+export type DataBoxHeavyJobDetailsInputDataImportDetailsList = Array<DataImportDetails>;
+/** Details of the data to be exported from azure. */
+export type DataBoxHeavyJobDetailsInputDataExportDetailsList = Array<DataExportDetails>;
+/** Indicates the type of job details. */
+export type DataBoxHeavyJobDetailsInputJobDetailsType = "DataBoxHeavy";
+/** Databox Heavy Device Job Details */
+export interface DataBoxHeavyJobDetailsInput {
+  /** Contact details for notification and shipping. */
+  contactDetails: ContactDetails;
+  /** Shipping address of the customer. */
+  shippingAddress?: ShippingAddress | undefined;
+  /** Details of the data to be imported into azure. */
+  dataImportDetails?: DataBoxHeavyJobDetailsInputDataImportDetailsList | undefined;
+  /** Details of the data to be exported from azure. */
+  dataExportDetails?: DataBoxHeavyJobDetailsInputDataExportDetailsList | undefined;
+  /** Indicates the type of job details. */
+  jobDetailsType: DataBoxHeavyJobDetailsInputJobDetailsType;
+  /** Preferences for the order. */
+  preferences?: PreferencesInput | undefined;
+  /** Optional Reverse Shipping details for order. */
+  reverseShippingDetails?: ReverseShippingDetailsInput | undefined;
+  /** Details about which key encryption type is being used. */
+  keyEncryptionKey?: KeyEncryptionKey | undefined;
+  /** The expected size of the data, which needs to be transferred in this job, in terabytes. */
+  expectedDataSizeInTeraBytes?: number | undefined;
+  /** Set Device password for unlocking Databox Heavy. Should not be passed for TransferType:ExportFromAzure jobs. If this is not passed, the service will generate password itself. This will not be returned in Get Call. Password Requirements : Password must be minimum of 12 and maximum of 64 characters. Password must have at least one uppercase alphabet, one number and one special character. Password cannot have the following characters : IilLoO0 Password can have only alphabets, numbers and these characters : @#\-$%^!+=;:_()]+ */
+  devicePassword?: string | Redacted.Redacted<string> | undefined;
+}
+/** Details of the data to be imported into azure. */
+export type DataBoxJobDetailsInputDataImportDetailsList = Array<DataImportDetails>;
+/** Details of the data to be exported from azure. */
+export type DataBoxJobDetailsInputDataExportDetailsList = Array<DataExportDetails>;
+/** Indicates the type of job details. */
+export type DataBoxJobDetailsInputJobDetailsType = "DataBox";
+/** Databox Job Details */
+export interface DataBoxJobDetailsInput {
+  /** Contact details for notification and shipping. */
+  contactDetails: ContactDetails;
+  /** Shipping address of the customer. */
+  shippingAddress?: ShippingAddress | undefined;
+  /** Details of the data to be imported into azure. */
+  dataImportDetails?: DataBoxJobDetailsInputDataImportDetailsList | undefined;
+  /** Details of the data to be exported from azure. */
+  dataExportDetails?: DataBoxJobDetailsInputDataExportDetailsList | undefined;
+  /** Indicates the type of job details. */
+  jobDetailsType: DataBoxJobDetailsInputJobDetailsType;
+  /** Preferences for the order. */
+  preferences?: PreferencesInput | undefined;
+  /** Optional Reverse Shipping details for order. */
+  reverseShippingDetails?: ReverseShippingDetailsInput | undefined;
+  /** Details about which key encryption type is being used. */
+  keyEncryptionKey?: KeyEncryptionKey | undefined;
+  /** The expected size of the data, which needs to be transferred in this job, in terabytes. */
+  expectedDataSizeInTeraBytes?: number | undefined;
+  /** Set Device password for unlocking Databox. Should not be passed for TransferType:ExportFromAzure jobs. If this is not passed, the service will generate password itself. This will not be returned in Get Call. Password Requirements : Password must be minimum of 12 and maximum of 64 characters. Password must have at least one uppercase alphabet, one number and one special character. Password cannot have the following characters : IilLoO0 Password can have only alphabets, numbers and these characters : @#\-$%^!+=;:_()]+ */
+  devicePassword?: string | Redacted.Redacted<string> | undefined;
+}
+/** Job details. */
+export type JobDetailsInput =
+  | DataBoxCustomerDiskJobDetailsInput
+  | DataBoxDiskJobDetailsInput
+  | DataBoxHeavyJobDetailsInput
+  | DataBoxJobDetailsInput;
 /** Delivery type of Job. */
 export type JobPropertiesInputDeliveryType = "NonScheduled" | "Scheduled";
 /** Additional delivery info. */
@@ -536,7 +680,7 @@ export interface JobStages {
   delayInformation?: JobStagesDelayInformationList | undefined;
 }
 /** List of stages that run in the job. */
-export type JobDetailsJobStagesList = Array<JobStages>;
+export type DataBoxCustomerDiskJobDetailsJobStagesList = Array<JobStages>;
 /** package shipping details */
 export interface PackageShippingDetails {
   /** Url where shipment can be tracked. */
@@ -547,9 +691,11 @@ export interface PackageShippingDetails {
   trackingId?: string | undefined;
 }
 /** Details of the data to be imported into azure. */
-export type JobDetailsDataImportDetailsList = Array<DataImportDetails>;
+export type DataBoxCustomerDiskJobDetailsDataImportDetailsList = Array<DataImportDetails>;
 /** Details of the data to be exported from azure. */
-export type JobDetailsDataExportDetailsList = Array<DataExportDetails>;
+export type DataBoxCustomerDiskJobDetailsDataExportDetailsList = Array<DataExportDetails>;
+/** Indicates the type of job details. */
+export type DataBoxCustomerDiskJobDetailsJobDetailsType = "DataBoxCustomerDisk";
 /** Preferred data center region. */
 export type PreferencesPreferredDataCenterRegionList = Array<string>;
 /** Preferences related to the shipment logistics of the sku */
@@ -587,13 +733,70 @@ export interface ReverseShippingDetails {
   /** A flag to indicate whether Reverse Shipping details are updated or not after device has been prepared. Read only field */
   isUpdated?: boolean | undefined;
 }
-/** Details for log generated during copy. */
-export interface CopyLogDetails {
+/** Indicates the type of job details. */
+export type DataBoxAccountCopyLogDetailsCopyLogDetailsType = "DataBox";
+/** Copy log details for a storage account of a DataBox job */
+export interface DataBoxAccountCopyLogDetails {
   /** Indicates the type of job details. */
-  copyLogDetailsType: ClassDiscriminator;
+  copyLogDetailsType: DataBoxAccountCopyLogDetailsCopyLogDetailsType;
+  /** Account name. */
+  accountName?: string | undefined;
+  /** Link for copy logs. */
+  copyLogLink?: string | undefined;
+  /** Link for copy verbose logs. This will be set only when LogCollectionLevel is set to Verbose. */
+  copyVerboseLogLink?: string | undefined;
 }
+/** Indicates the type of job details. */
+export type DataBoxCustomerDiskCopyLogDetailsCopyLogDetailsType = "DataBoxCustomerDisk";
+/** Copy Log Details for customer disk */
+export interface DataBoxCustomerDiskCopyLogDetails {
+  /** Indicates the type of job details. */
+  copyLogDetailsType: DataBoxCustomerDiskCopyLogDetailsCopyLogDetailsType;
+  /** Disk Serial Number. */
+  serialNumber?: string | undefined;
+  /** Link for copy error logs. */
+  errorLogLink?: string | undefined;
+  /** Link for copy verbose logs. */
+  verboseLogLink?: string | undefined;
+}
+/** Indicates the type of job details. */
+export type DataBoxDiskCopyLogDetailsCopyLogDetailsType = "DataBoxDisk";
+/** Copy Log Details for a disk */
+export interface DataBoxDiskCopyLogDetails {
+  /** Indicates the type of job details. */
+  copyLogDetailsType: DataBoxDiskCopyLogDetailsCopyLogDetailsType;
+  /** Disk Serial Number. */
+  diskSerialNumber?: string | undefined;
+  /** Link for copy error logs. */
+  errorLogLink?: string | undefined;
+  /** Link for copy verbose logs. */
+  verboseLogLink?: string | undefined;
+}
+/** Indicates the type of job details. */
+export type DataBoxHeavyAccountCopyLogDetailsCopyLogDetailsType = "DataBoxHeavy";
+/** Link for copy logs. */
+export type DataBoxHeavyAccountCopyLogDetailsCopyLogLinkList = Array<string>;
+/** Link for copy verbose logs. This will be set only when the LogCollectionLevel is set to verbose. */
+export type DataBoxHeavyAccountCopyLogDetailsCopyVerboseLogLinkList = Array<string>;
+/** Copy log details for a storage account for Databox heavy */
+export interface DataBoxHeavyAccountCopyLogDetails {
+  /** Indicates the type of job details. */
+  copyLogDetailsType: DataBoxHeavyAccountCopyLogDetailsCopyLogDetailsType;
+  /** Account name. */
+  accountName?: string | undefined;
+  /** Link for copy logs. */
+  copyLogLink?: DataBoxHeavyAccountCopyLogDetailsCopyLogLinkList | undefined;
+  /** Link for copy verbose logs. This will be set only when the LogCollectionLevel is set to verbose. */
+  copyVerboseLogLink?: DataBoxHeavyAccountCopyLogDetailsCopyVerboseLogLinkList | undefined;
+}
+/** Details for log generated during copy. */
+export type CopyLogDetails =
+  | DataBoxAccountCopyLogDetails
+  | DataBoxCustomerDiskCopyLogDetails
+  | DataBoxDiskCopyLogDetails
+  | DataBoxHeavyAccountCopyLogDetails;
 /** List of copy log details. */
-export type JobDetailsCopyLogDetailsList = Array<CopyLogDetails>;
+export type DataBoxCustomerDiskJobDetailsCopyLogDetailsList = Array<CopyLogDetails>;
 /** Device erasure details with erasure completion status, secure erasure sas key and erasureordestructionlog sas key */
 export interface DeviceErasureDetails {
   /** Holds the device erasure completion status */
@@ -611,7 +814,7 @@ export type CustomerResolutionCode =
   | "Restart"
   | "ReachOutToOperation";
 /** Available actions on the job. */
-export type JobDetailsActionsList = Array<CustomerResolutionCode>;
+export type DataBoxCustomerDiskJobDetailsActionsList = Array<CustomerResolutionCode>;
 /** Last Mitigation Action Performed On Job */
 export interface LastMitigationActionOnJob {
   /** Action performed date time */
@@ -622,20 +825,69 @@ export interface LastMitigationActionOnJob {
   customerResolution?: CustomerResolutionCode | undefined;
 }
 /** Data center address type */
-export type DatacenterAddressType = "DatacenterAddressLocation" | "DatacenterAddressInstruction";
+export type DatacenterAddressInstructionResponseDatacenterAddressType =
+  "DatacenterAddressInstruction";
 /** List of supported carriers for return shipment. */
-export type DatacenterAddressResponseSupportedCarriersForReturnShipmentList = Array<string>;
-/** Datacenter address for given storage location. */
-export interface DatacenterAddressResponse {
+export type DatacenterAddressInstructionResponseSupportedCarriersForReturnShipmentList =
+  Array<string>;
+/** Datacenter instruction for given storage location. */
+export interface DatacenterAddressInstructionResponse {
   /** Data center address type */
-  datacenterAddressType: DatacenterAddressType;
+  datacenterAddressType: DatacenterAddressInstructionResponseDatacenterAddressType;
   /** List of supported carriers for return shipment. */
   supportedCarriersForReturnShipment?:
-    | DatacenterAddressResponseSupportedCarriersForReturnShipmentList
+    | DatacenterAddressInstructionResponseSupportedCarriersForReturnShipmentList
     | undefined;
   /** Azure Location where the Data Center serves primarily. */
   dataCenterAzureLocation?: string | undefined;
+  /** Data center communication instruction */
+  communicationInstruction?: string | undefined;
 }
+/** Data center address type */
+export type DatacenterAddressLocationResponseDatacenterAddressType = "DatacenterAddressLocation";
+/** List of supported carriers for return shipment. */
+export type DatacenterAddressLocationResponseSupportedCarriersForReturnShipmentList = Array<string>;
+/** Datacenter address for given storage location. */
+export interface DatacenterAddressLocationResponse {
+  /** Data center address type */
+  datacenterAddressType: DatacenterAddressLocationResponseDatacenterAddressType;
+  /** List of supported carriers for return shipment. */
+  supportedCarriersForReturnShipment?:
+    | DatacenterAddressLocationResponseSupportedCarriersForReturnShipmentList
+    | undefined;
+  /** Azure Location where the Data Center serves primarily. */
+  dataCenterAzureLocation?: string | undefined;
+  /** Contact person name */
+  contactPersonName?: string | undefined;
+  /** Company name */
+  company?: string | undefined;
+  /** Street address line 1 */
+  street1?: string | undefined;
+  /** Street address line 2 */
+  street2?: string | undefined;
+  /** Street address line 3 */
+  street3?: string | undefined;
+  /** City name */
+  city?: string | undefined;
+  /** name of the state */
+  state?: string | undefined;
+  /** Zip code */
+  zip?: string | undefined;
+  /** name of the country */
+  country?: string | undefined;
+  /** Phone number */
+  phone?: string | undefined;
+  /** Phone extension */
+  phoneExtension?: string | undefined;
+  /** Address type */
+  addressType?: string | undefined;
+  /** Special instruction for shipping */
+  additionalShippingInformation?: string | undefined;
+}
+/** Datacenter address for given storage location. */
+export type DatacenterAddressResponse =
+  | DatacenterAddressInstructionResponse
+  | DatacenterAddressLocationResponse;
 /** DataCenter code. */
 export type DataCenterCode =
   | "Invalid"
@@ -706,10 +958,112 @@ export type DataCenterCode =
   | "AMS25"
   | "CPQ21"
   | "OSA23";
-/** Job details. */
-export interface JobDetails {
+/** Import disk details */
+export interface ImportDiskDetails {
+  /** The relative path of the manifest file on the disk. */
+  manifestFile: string;
+  /** The Base16-encoded MD5 hash of the manifest file on the disk. */
+  manifestHash: string;
+  /** BitLocker key used to encrypt the disk. */
+  bitLockerKey: string;
+  /** Path to backed up manifest, only returned if enableManifestBackup is true. */
+  backupManifestCloudPath?: string | undefined;
+}
+/** Contains the map of disk serial number to the disk details for import jobs. */
+export type DataBoxCustomerDiskJobDetailsImportDiskDetailsCollectionMap = {
+  [key: string]: ImportDiskDetails | undefined;
+};
+/** Export disk details */
+export interface ExportDiskDetails {
+  /** The relative path of the manifest file on the disk. */
+  manifestFile?: string | undefined;
+  /** The Base16-encoded MD5 hash of the manifest file on the disk. */
+  manifestHash?: string | undefined;
+  /** Path to backed up manifest, only returned if enableManifestBackup is true. */
+  backupManifestCloudPath?: string | undefined;
+}
+/** Contains the map of disk serial number to the disk details for export jobs. */
+export type DataBoxCustomerDiskJobDetailsExportDiskDetailsCollectionMap = {
+  [key: string]: ExportDiskDetails | undefined;
+};
+/** Type of the account. */
+export type DataAccountType = "StorageAccount" | "ManagedDisk";
+/** Available actions on the job. */
+export type DataBoxCustomerDiskCopyProgressActionsList = Array<CustomerResolutionCode>;
+/** The Status of the copy */
+export type CopyStatus =
+  | "NotStarted"
+  | "InProgress"
+  | "Completed"
+  | "CompletedWithErrors"
+  | "Failed"
+  | "NotReturned"
+  | "HardwareError"
+  | "DeviceFormatted"
+  | "DeviceMetadataModified"
+  | "StorageAccountNotAccessible"
+  | "UnsupportedData"
+  | "DriveNotReceived"
+  | "UnsupportedDrive"
+  | "OtherServiceError"
+  | "OtherUserError"
+  | "DriveNotDetected"
+  | "DriveCorrupted"
+  | "MetadataFilesModifiedOrRemoved";
+/** DataBox CustomerDisk Copy Progress */
+export interface DataBoxCustomerDiskCopyProgress {
+  /** Name of the storage account. This will be empty for data account types other than storage account. */
+  storageAccountName?: string | undefined;
+  /** Transfer type of data */
+  transferType?: TransferType | undefined;
+  /** Data Account Type. */
+  dataAccountType?: DataAccountType | undefined;
+  /** Id of the account where the data needs to be uploaded. */
+  accountId?: string | undefined;
+  /** To indicate bytes transferred. */
+  bytesProcessed?: number | undefined;
+  /** Total amount of data to be processed by the job. */
+  totalBytesToProcess?: number | undefined;
+  /** Number of files processed */
+  filesProcessed?: number | undefined;
+  /** Total files to process */
+  totalFilesToProcess?: number | undefined;
+  /** Number of files not adhering to azure naming conventions which were processed by automatic renaming */
+  invalidFilesProcessed?: number | undefined;
+  /** Total amount of data not adhering to azure naming conventions which were processed by automatic renaming */
+  invalidFileBytesUploaded?: number | undefined;
+  /** Number of folders not adhering to azure naming conventions which were processed by automatic renaming */
+  renamedContainerCount?: number | undefined;
+  /** Number of files which could not be copied */
+  filesErroredOut?: number | undefined;
+  /** To indicate directories errored out in the job. */
+  directoriesErroredOut?: number | undefined;
+  /** To indicate directories renamed */
+  invalidDirectoriesProcessed?: number | undefined;
+  /** To indicate if enumeration of data is in progress. Until this is true, the TotalBytesToProcess may not be valid. */
+  isEnumerationInProgress?: boolean | undefined;
+  /** Error, if any, in the stage */
+  error?: CloudError | undefined;
+  /** Available actions on the job. */
+  actions?: DataBoxCustomerDiskCopyProgressActionsList | undefined;
+  /** Disk Serial Number. */
+  serialNumber?: string | undefined;
+  /** The Status of the copy */
+  copyStatus?: CopyStatus | undefined;
+}
+/** Copy progress per disk. */
+export type DataBoxCustomerDiskJobDetailsCopyProgressList = Array<DataBoxCustomerDiskCopyProgress>;
+/** package carrier info */
+export interface PackageCarrierInfo {
+  /** Name of the carrier. */
+  carrierName?: string | undefined;
+  /** Tracking Id of shipment. */
+  trackingId?: string | undefined;
+}
+/** Customer disk job details. */
+export interface DataBoxCustomerDiskJobDetails {
   /** List of stages that run in the job. */
-  jobStages?: JobDetailsJobStagesList | undefined;
+  jobStages?: DataBoxCustomerDiskJobDetailsJobStagesList | undefined;
   /** Contact details for notification and shipping. */
   contactDetails: ContactDetails;
   /** Shipping address of the customer. */
@@ -719,17 +1073,17 @@ export interface JobDetails {
   /** Return package shipping details. */
   returnPackage?: PackageShippingDetails | undefined;
   /** Details of the data to be imported into azure. */
-  dataImportDetails?: JobDetailsDataImportDetailsList | undefined;
+  dataImportDetails?: DataBoxCustomerDiskJobDetailsDataImportDetailsList | undefined;
   /** Details of the data to be exported from azure. */
-  dataExportDetails?: JobDetailsDataExportDetailsList | undefined;
+  dataExportDetails?: DataBoxCustomerDiskJobDetailsDataExportDetailsList | undefined;
   /** Indicates the type of job details. */
-  jobDetailsType: ClassDiscriminator;
+  jobDetailsType: DataBoxCustomerDiskJobDetailsJobDetailsType;
   /** Preferences for the order. */
   preferences?: Preferences | undefined;
   /** Optional Reverse Shipping details for order. */
   reverseShippingDetails?: ReverseShippingDetails | undefined;
   /** List of copy log details. */
-  copyLogDetails?: JobDetailsCopyLogDetailsList | undefined;
+  copyLogDetails?: DataBoxCustomerDiskJobDetailsCopyLogDetailsList | undefined;
   /** Shared access key to download the return shipment label */
   reverseShipmentLabelSasKey?: string | undefined;
   /** Shared access key to download the chain of custody logs */
@@ -741,14 +1095,350 @@ export interface JobDetails {
   /** The expected size of the data, which needs to be transferred in this job, in terabytes. */
   expectedDataSizeInTeraBytes?: number | undefined;
   /** Available actions on the job. */
-  actions?: JobDetailsActionsList | undefined;
+  actions?: DataBoxCustomerDiskJobDetailsActionsList | undefined;
   /** Last mitigation action performed on the job. */
   lastMitigationActionOnJob?: LastMitigationActionOnJob | undefined;
   /** Datacenter address to ship to, for the given sku and storage location. */
   datacenterAddress?: DatacenterAddressResponse | undefined;
   /** DataCenter code. */
   dataCenterCode?: DataCenterCode | undefined;
+  /** Contains the map of disk serial number to the disk details for import jobs. */
+  importDiskDetailsCollection?:
+    | DataBoxCustomerDiskJobDetailsImportDiskDetailsCollectionMap
+    | undefined;
+  /** Contains the map of disk serial number to the disk details for export jobs. */
+  exportDiskDetailsCollection?:
+    | DataBoxCustomerDiskJobDetailsExportDiskDetailsCollectionMap
+    | undefined;
+  /** Copy progress per disk. */
+  copyProgress?: DataBoxCustomerDiskJobDetailsCopyProgressList | undefined;
+  /** Delivery package shipping details. */
+  deliverToDcPackageDetails?: PackageCarrierInfo | undefined;
+  /** Return package shipping details. */
+  returnToCustomerPackageDetails: PackageCarrierDetails;
+  /** Flag to indicate if disk manifest should be backed-up in the Storage Account. */
+  enableManifestBackup?: boolean | undefined;
 }
+/** List of stages that run in the job. */
+export type DataBoxDiskJobDetailsJobStagesList = Array<JobStages>;
+/** Details of the data to be imported into azure. */
+export type DataBoxDiskJobDetailsDataImportDetailsList = Array<DataImportDetails>;
+/** Details of the data to be exported from azure. */
+export type DataBoxDiskJobDetailsDataExportDetailsList = Array<DataExportDetails>;
+/** Indicates the type of job details. */
+export type DataBoxDiskJobDetailsJobDetailsType = "DataBoxDisk";
+/** List of copy log details. */
+export type DataBoxDiskJobDetailsCopyLogDetailsList = Array<CopyLogDetails>;
+/** Available actions on the job. */
+export type DataBoxDiskJobDetailsActionsList = Array<CustomerResolutionCode>;
+/** User preference on what size disks are needed for the job. The map is from the disk size in TB to the count. Eg. {2,5} means 5 disks of 2 TB size. Key is string but will be checked against an int. */
+export type DataBoxDiskJobDetailsPreferredDisksMap = { [key: string]: number | undefined };
+/** Available actions on the job. */
+export type DataBoxDiskCopyProgressActionsList = Array<CustomerResolutionCode>;
+/** DataBox Disk Copy Progress */
+export interface DataBoxDiskCopyProgress {
+  /** The serial number of the disk */
+  serialNumber?: string | undefined;
+  /** Bytes copied during the copy of disk. */
+  bytesCopied?: number | undefined;
+  /** Indicates the percentage completed for the copy of the disk. */
+  percentComplete?: number | undefined;
+  /** The Status of the copy */
+  status?: CopyStatus | undefined;
+  /** Error, if any, in the stage */
+  error?: CloudError | undefined;
+  /** Available actions on the job. */
+  actions?: DataBoxDiskCopyProgressActionsList | undefined;
+}
+/** Copy progress per disk. */
+export type DataBoxDiskJobDetailsCopyProgressList = Array<DataBoxDiskCopyProgress>;
+/** Available actions on the job. */
+export type DataBoxDiskGranularCopyProgressActionsList = Array<CustomerResolutionCode>;
+/** DataBox Disk Granular Copy Progress */
+export interface DataBoxDiskGranularCopyProgress {
+  /** Name of the storage account. This will be empty for data account types other than storage account. */
+  storageAccountName?: string | undefined;
+  /** Transfer type of data */
+  transferType?: TransferType | undefined;
+  /** Data Account Type. */
+  dataAccountType?: DataAccountType | undefined;
+  /** Id of the account where the data needs to be uploaded. */
+  accountId?: string | undefined;
+  /** To indicate bytes transferred. */
+  bytesProcessed?: number | undefined;
+  /** Total amount of data to be processed by the job. */
+  totalBytesToProcess?: number | undefined;
+  /** Number of files processed */
+  filesProcessed?: number | undefined;
+  /** Total files to process */
+  totalFilesToProcess?: number | undefined;
+  /** Number of files not adhering to azure naming conventions which were processed by automatic renaming */
+  invalidFilesProcessed?: number | undefined;
+  /** Total amount of data not adhering to azure naming conventions which were processed by automatic renaming */
+  invalidFileBytesUploaded?: number | undefined;
+  /** Number of folders not adhering to azure naming conventions which were processed by automatic renaming */
+  renamedContainerCount?: number | undefined;
+  /** Number of files which could not be copied */
+  filesErroredOut?: number | undefined;
+  /** To indicate directories errored out in the job. */
+  directoriesErroredOut?: number | undefined;
+  /** To indicate directories renamed */
+  invalidDirectoriesProcessed?: number | undefined;
+  /** To indicate if enumeration of data is in progress. Until this is true, the TotalBytesToProcess may not be valid. */
+  isEnumerationInProgress?: boolean | undefined;
+  /** Error, if any, in the stage */
+  error?: CloudError | undefined;
+  /** Available actions on the job. */
+  actions?: DataBoxDiskGranularCopyProgressActionsList | undefined;
+  /** Disk Serial Number. */
+  serialNumber?: string | undefined;
+  /** The Status of the copy */
+  copyStatus?: CopyStatus | undefined;
+}
+/** Copy progress per disk. */
+export type DataBoxDiskJobDetailsGranularCopyProgressList = Array<DataBoxDiskGranularCopyProgress>;
+/** Indicates the type of job details. */
+export type DataBoxDiskGranularCopyLogDetailsCopyLogDetailsType = "DataBoxCustomerDisk";
+/** Granular Copy Log Details for customer disk */
+export interface DataBoxDiskGranularCopyLogDetails {
+  /** Indicates the type of job details. */
+  copyLogDetailsType: DataBoxDiskGranularCopyLogDetailsCopyLogDetailsType;
+  /** Disk Serial Number. */
+  serialNumber?: string | undefined;
+  /** Account id. */
+  accountId?: string | undefined;
+  /** Link for copy error logs. */
+  errorLogLink?: string | undefined;
+  /** Link for copy verbose logs. */
+  verboseLogLink?: string | undefined;
+}
+/** Copy progress per disk. */
+export type DataBoxDiskJobDetailsGranularCopyLogDetailsList =
+  Array<DataBoxDiskGranularCopyLogDetails>;
+/** Contains the map of disk serial number to the disk size being used for the job. Is returned only after the disks are shipped to the customer. */
+export type DataBoxDiskJobDetailsDisksAndSizeDetailsMap = { [key: string]: number | undefined };
+/** DataBox Disk Job Details. */
+export interface DataBoxDiskJobDetails {
+  /** List of stages that run in the job. */
+  jobStages?: DataBoxDiskJobDetailsJobStagesList | undefined;
+  /** Contact details for notification and shipping. */
+  contactDetails: ContactDetails;
+  /** Shipping address of the customer. */
+  shippingAddress?: ShippingAddress | undefined;
+  /** Delivery package shipping details. */
+  deliveryPackage?: PackageShippingDetails | undefined;
+  /** Return package shipping details. */
+  returnPackage?: PackageShippingDetails | undefined;
+  /** Details of the data to be imported into azure. */
+  dataImportDetails?: DataBoxDiskJobDetailsDataImportDetailsList | undefined;
+  /** Details of the data to be exported from azure. */
+  dataExportDetails?: DataBoxDiskJobDetailsDataExportDetailsList | undefined;
+  /** Indicates the type of job details. */
+  jobDetailsType: DataBoxDiskJobDetailsJobDetailsType;
+  /** Preferences for the order. */
+  preferences?: Preferences | undefined;
+  /** Optional Reverse Shipping details for order. */
+  reverseShippingDetails?: ReverseShippingDetails | undefined;
+  /** List of copy log details. */
+  copyLogDetails?: DataBoxDiskJobDetailsCopyLogDetailsList | undefined;
+  /** Shared access key to download the return shipment label */
+  reverseShipmentLabelSasKey?: string | undefined;
+  /** Shared access key to download the chain of custody logs */
+  chainOfCustodySasKey?: string | undefined;
+  /** Holds device data erasure details */
+  deviceErasureDetails?: DeviceErasureDetails | undefined;
+  /** Details about which key encryption type is being used. */
+  keyEncryptionKey?: KeyEncryptionKey | undefined;
+  /** The expected size of the data, which needs to be transferred in this job, in terabytes. */
+  expectedDataSizeInTeraBytes?: number | undefined;
+  /** Available actions on the job. */
+  actions?: DataBoxDiskJobDetailsActionsList | undefined;
+  /** Last mitigation action performed on the job. */
+  lastMitigationActionOnJob?: LastMitigationActionOnJob | undefined;
+  /** Datacenter address to ship to, for the given sku and storage location. */
+  datacenterAddress?: DatacenterAddressResponse | undefined;
+  /** DataCenter code. */
+  dataCenterCode?: DataCenterCode | undefined;
+  /** User preference on what size disks are needed for the job. The map is from the disk size in TB to the count. Eg. {2,5} means 5 disks of 2 TB size. Key is string but will be checked against an int. */
+  preferredDisks?: DataBoxDiskJobDetailsPreferredDisksMap | undefined;
+  /** Copy progress per disk. */
+  copyProgress?: DataBoxDiskJobDetailsCopyProgressList | undefined;
+  /** Copy progress per disk. */
+  granularCopyProgress?: DataBoxDiskJobDetailsGranularCopyProgressList | undefined;
+  /** Copy progress per disk. */
+  granularCopyLogDetails?: DataBoxDiskJobDetailsGranularCopyLogDetailsList | undefined;
+  /** Contains the map of disk serial number to the disk size being used for the job. Is returned only after the disks are shipped to the customer. */
+  disksAndSizeDetails?: DataBoxDiskJobDetailsDisksAndSizeDetailsMap | undefined;
+  /** User entered passkey for DataBox Disk job. */
+  passkey?: string | undefined;
+}
+/** List of stages that run in the job. */
+export type DataBoxHeavyJobDetailsJobStagesList = Array<JobStages>;
+/** Details of the data to be imported into azure. */
+export type DataBoxHeavyJobDetailsDataImportDetailsList = Array<DataImportDetails>;
+/** Details of the data to be exported from azure. */
+export type DataBoxHeavyJobDetailsDataExportDetailsList = Array<DataExportDetails>;
+/** Indicates the type of job details. */
+export type DataBoxHeavyJobDetailsJobDetailsType = "DataBoxHeavy";
+/** List of copy log details. */
+export type DataBoxHeavyJobDetailsCopyLogDetailsList = Array<CopyLogDetails>;
+/** Available actions on the job. */
+export type DataBoxHeavyJobDetailsActionsList = Array<CustomerResolutionCode>;
+/** Available actions on the job. */
+export type CopyProgressActionsList = Array<CustomerResolutionCode>;
+/** Copy progress. */
+export interface CopyProgress {
+  /** Name of the storage account. This will be empty for data account types other than storage account. */
+  storageAccountName?: string | undefined;
+  /** Transfer type of data */
+  transferType?: TransferType | undefined;
+  /** Data Account Type. */
+  dataAccountType?: DataAccountType | undefined;
+  /** Id of the account where the data needs to be uploaded. */
+  accountId?: string | undefined;
+  /** To indicate bytes transferred. */
+  bytesProcessed?: number | undefined;
+  /** Total amount of data to be processed by the job. */
+  totalBytesToProcess?: number | undefined;
+  /** Number of files processed */
+  filesProcessed?: number | undefined;
+  /** Total files to process */
+  totalFilesToProcess?: number | undefined;
+  /** Number of files not adhering to azure naming conventions which were processed by automatic renaming */
+  invalidFilesProcessed?: number | undefined;
+  /** Total amount of data not adhering to azure naming conventions which were processed by automatic renaming */
+  invalidFileBytesUploaded?: number | undefined;
+  /** Number of folders not adhering to azure naming conventions which were processed by automatic renaming */
+  renamedContainerCount?: number | undefined;
+  /** Number of files which could not be copied */
+  filesErroredOut?: number | undefined;
+  /** To indicate directories errored out in the job. */
+  directoriesErroredOut?: number | undefined;
+  /** To indicate directories renamed */
+  invalidDirectoriesProcessed?: number | undefined;
+  /** To indicate if enumeration of data is in progress. Until this is true, the TotalBytesToProcess may not be valid. */
+  isEnumerationInProgress?: boolean | undefined;
+  /** Error, if any, in the stage */
+  error?: CloudError | undefined;
+  /** Available actions on the job. */
+  actions?: CopyProgressActionsList | undefined;
+}
+/** Copy progress per account. */
+export type DataBoxHeavyJobDetailsCopyProgressList = Array<CopyProgress>;
+/** Databox Heavy Device Job Details */
+export interface DataBoxHeavyJobDetails {
+  /** List of stages that run in the job. */
+  jobStages?: DataBoxHeavyJobDetailsJobStagesList | undefined;
+  /** Contact details for notification and shipping. */
+  contactDetails: ContactDetails;
+  /** Shipping address of the customer. */
+  shippingAddress?: ShippingAddress | undefined;
+  /** Delivery package shipping details. */
+  deliveryPackage?: PackageShippingDetails | undefined;
+  /** Return package shipping details. */
+  returnPackage?: PackageShippingDetails | undefined;
+  /** Details of the data to be imported into azure. */
+  dataImportDetails?: DataBoxHeavyJobDetailsDataImportDetailsList | undefined;
+  /** Details of the data to be exported from azure. */
+  dataExportDetails?: DataBoxHeavyJobDetailsDataExportDetailsList | undefined;
+  /** Indicates the type of job details. */
+  jobDetailsType: DataBoxHeavyJobDetailsJobDetailsType;
+  /** Preferences for the order. */
+  preferences?: Preferences | undefined;
+  /** Optional Reverse Shipping details for order. */
+  reverseShippingDetails?: ReverseShippingDetails | undefined;
+  /** List of copy log details. */
+  copyLogDetails?: DataBoxHeavyJobDetailsCopyLogDetailsList | undefined;
+  /** Shared access key to download the return shipment label */
+  reverseShipmentLabelSasKey?: string | undefined;
+  /** Shared access key to download the chain of custody logs */
+  chainOfCustodySasKey?: string | undefined;
+  /** Holds device data erasure details */
+  deviceErasureDetails?: DeviceErasureDetails | undefined;
+  /** Details about which key encryption type is being used. */
+  keyEncryptionKey?: KeyEncryptionKey | undefined;
+  /** The expected size of the data, which needs to be transferred in this job, in terabytes. */
+  expectedDataSizeInTeraBytes?: number | undefined;
+  /** Available actions on the job. */
+  actions?: DataBoxHeavyJobDetailsActionsList | undefined;
+  /** Last mitigation action performed on the job. */
+  lastMitigationActionOnJob?: LastMitigationActionOnJob | undefined;
+  /** Datacenter address to ship to, for the given sku and storage location. */
+  datacenterAddress?: DatacenterAddressResponse | undefined;
+  /** DataCenter code. */
+  dataCenterCode?: DataCenterCode | undefined;
+  /** Copy progress per account. */
+  copyProgress?: DataBoxHeavyJobDetailsCopyProgressList | undefined;
+  /** Set Device password for unlocking Databox Heavy. Should not be passed for TransferType:ExportFromAzure jobs. If this is not passed, the service will generate password itself. This will not be returned in Get Call. Password Requirements : Password must be minimum of 12 and maximum of 64 characters. Password must have at least one uppercase alphabet, one number and one special character. Password cannot have the following characters : IilLoO0 Password can have only alphabets, numbers and these characters : @#\-$%^!+=;:_()]+ */
+  devicePassword?: string | Redacted.Redacted<string> | undefined;
+}
+/** List of stages that run in the job. */
+export type DataBoxJobDetailsJobStagesList = Array<JobStages>;
+/** Details of the data to be imported into azure. */
+export type DataBoxJobDetailsDataImportDetailsList = Array<DataImportDetails>;
+/** Details of the data to be exported from azure. */
+export type DataBoxJobDetailsDataExportDetailsList = Array<DataExportDetails>;
+/** Indicates the type of job details. */
+export type DataBoxJobDetailsJobDetailsType = "DataBox";
+/** List of copy log details. */
+export type DataBoxJobDetailsCopyLogDetailsList = Array<CopyLogDetails>;
+/** Available actions on the job. */
+export type DataBoxJobDetailsActionsList = Array<CustomerResolutionCode>;
+/** Copy progress per storage account. */
+export type DataBoxJobDetailsCopyProgressList = Array<CopyProgress>;
+/** Databox Job Details */
+export interface DataBoxJobDetails {
+  /** List of stages that run in the job. */
+  jobStages?: DataBoxJobDetailsJobStagesList | undefined;
+  /** Contact details for notification and shipping. */
+  contactDetails: ContactDetails;
+  /** Shipping address of the customer. */
+  shippingAddress?: ShippingAddress | undefined;
+  /** Delivery package shipping details. */
+  deliveryPackage?: PackageShippingDetails | undefined;
+  /** Return package shipping details. */
+  returnPackage?: PackageShippingDetails | undefined;
+  /** Details of the data to be imported into azure. */
+  dataImportDetails?: DataBoxJobDetailsDataImportDetailsList | undefined;
+  /** Details of the data to be exported from azure. */
+  dataExportDetails?: DataBoxJobDetailsDataExportDetailsList | undefined;
+  /** Indicates the type of job details. */
+  jobDetailsType: DataBoxJobDetailsJobDetailsType;
+  /** Preferences for the order. */
+  preferences?: Preferences | undefined;
+  /** Optional Reverse Shipping details for order. */
+  reverseShippingDetails?: ReverseShippingDetails | undefined;
+  /** List of copy log details. */
+  copyLogDetails?: DataBoxJobDetailsCopyLogDetailsList | undefined;
+  /** Shared access key to download the return shipment label */
+  reverseShipmentLabelSasKey?: string | undefined;
+  /** Shared access key to download the chain of custody logs */
+  chainOfCustodySasKey?: string | undefined;
+  /** Holds device data erasure details */
+  deviceErasureDetails?: DeviceErasureDetails | undefined;
+  /** Details about which key encryption type is being used. */
+  keyEncryptionKey?: KeyEncryptionKey | undefined;
+  /** The expected size of the data, which needs to be transferred in this job, in terabytes. */
+  expectedDataSizeInTeraBytes?: number | undefined;
+  /** Available actions on the job. */
+  actions?: DataBoxJobDetailsActionsList | undefined;
+  /** Last mitigation action performed on the job. */
+  lastMitigationActionOnJob?: LastMitigationActionOnJob | undefined;
+  /** Datacenter address to ship to, for the given sku and storage location. */
+  datacenterAddress?: DatacenterAddressResponse | undefined;
+  /** DataCenter code. */
+  dataCenterCode?: DataCenterCode | undefined;
+  /** Copy progress per storage account. */
+  copyProgress?: DataBoxJobDetailsCopyProgressList | undefined;
+  /** Set Device password for unlocking Databox. Should not be passed for TransferType:ExportFromAzure jobs. If this is not passed, the service will generate password itself. This will not be returned in Get Call. Password Requirements : Password must be minimum of 12 and maximum of 64 characters. Password must have at least one uppercase alphabet, one number and one special character. Password cannot have the following characters : IilLoO0 Password can have only alphabets, numbers and these characters : @#\-$%^!+=;:_()]+ */
+  devicePassword?: string | Redacted.Redacted<string> | undefined;
+}
+/** Job details. */
+export type JobDetails =
+  | DataBoxCustomerDiskJobDetails
+  | DataBoxDiskJobDetails
+  | DataBoxHeavyJobDetails
+  | DataBoxJobDetails;
 /** Delivery type of Job. */
 export type JobPropertiesDeliveryType = "NonScheduled" | "Scheduled";
 /** Job Properties */
@@ -901,13 +1591,6 @@ export interface ShipmentPickUpResponse {
   /** Time by which shipment should be ready for pick up, this is in local time of pick up area. */
   readyByTime?: string | undefined;
 }
-/** package carrier info */
-export interface PackageCarrierInfo {
-  /** Name of the carrier. */
-  carrierName?: string | undefined;
-  /** Tracking Id of shipment. */
-  trackingId?: string | undefined;
-}
 export interface JobsMarkDevicesShippedRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -967,6 +1650,8 @@ export interface ListJobCredentialsRequest {
   /** The name of the job Resource within the specified resource group. job names must be between 3 and 24 characters in length and use any alphanumeric and underscore only */
   jobName: string;
 }
+/** Used to indicate what type of job secrets object. */
+export type CustomerDiskJobSecretsJobSecretsType = "DataBoxCustomerDisk";
 /** Dc access security code */
 export interface DcAccessSecurityCode {
   /** Reverse Dc access security code. */
@@ -974,15 +1659,162 @@ export interface DcAccessSecurityCode {
   /** Forward Dc access security code. */
   forwardDCAccessCode?: string | undefined;
 }
-/** The base class for the secrets */
-export interface JobSecrets {
+/** Contains all the secrets of a Disk. */
+export interface DiskSecret {
+  /** Serial number of the assigned disk. */
+  diskSerialNumber?: string | undefined;
+  /** Bit Locker key of the disk which can be used to unlock the disk to copy data. */
+  bitLockerKey?: string | undefined;
+}
+/** Contains the list of secrets object for that device. */
+export type CustomerDiskJobSecretsDiskSecretsList = Array<DiskSecret>;
+/** The secrets related to customer disk job. */
+export interface CustomerDiskJobSecrets {
   /** Used to indicate what type of job secrets object. */
-  jobSecretsType: ClassDiscriminator;
+  jobSecretsType: CustomerDiskJobSecretsJobSecretsType;
   /** Dc Access Security Code for Customer Managed Shipping */
   dcAccessSecurityCode?: DcAccessSecurityCode | undefined;
   /** Error while fetching the secrets. */
   error?: CloudError | undefined;
+  /** Contains the list of secrets object for that device. */
+  diskSecrets?: CustomerDiskJobSecretsDiskSecretsList | undefined;
+  /** Carrier Account Number of the customer */
+  carrierAccountNumber?: string | undefined;
 }
+/** Used to indicate what type of job secrets object. */
+export type DataBoxDiskJobSecretsJobSecretsType = "DataBoxDisk";
+/** Contains the list of secrets object for that device. */
+export type DataBoxDiskJobSecretsDiskSecretsList = Array<DiskSecret>;
+/** The secrets related to disk job. */
+export interface DataBoxDiskJobSecrets {
+  /** Used to indicate what type of job secrets object. */
+  jobSecretsType: DataBoxDiskJobSecretsJobSecretsType;
+  /** Dc Access Security Code for Customer Managed Shipping */
+  dcAccessSecurityCode?: DcAccessSecurityCode | undefined;
+  /** Error while fetching the secrets. */
+  error?: CloudError | undefined;
+  /** Contains the list of secrets object for that device. */
+  diskSecrets?: DataBoxDiskJobSecretsDiskSecretsList | undefined;
+  /** PassKey for the disk Job. */
+  passKey?: string | undefined;
+  /** Whether passkey was provided by user. */
+  isPasskeyUserDefined?: boolean | undefined;
+}
+/** Used to indicate what type of job secrets object. */
+export type DataBoxHeavyJobSecretsJobSecretsType = "DataBoxHeavy";
+/** The Network Adapter configuration of a DataBox. */
+export interface ApplianceNetworkConfiguration {
+  /** Name of the network. */
+  name?: string | undefined;
+  /** Mac Address. */
+  macAddress?: string | undefined;
+}
+/** Network configuration of the appliance. */
+export type DataBoxHeavySecretNetworkConfigurationsList = Array<ApplianceNetworkConfiguration>;
+/** Type of the share. */
+export type ShareDestinationFormatType =
+  | "UnknownType"
+  | "HCS"
+  | "BlockBlob"
+  | "PageBlob"
+  | "AzureFile"
+  | "ManagedDisk";
+/** Access protocols supported on the device. */
+export type AccessProtocol = "SMB" | "NFS";
+/** Access protocols supported on the device. */
+export type ShareCredentialDetailsSupportedAccessProtocolsList = Array<AccessProtocol>;
+/** Credential details of the shares in account. */
+export interface ShareCredentialDetails {
+  /** Name of the share. */
+  shareName?: string | undefined;
+  /** Type of the share. */
+  shareType?: ShareDestinationFormatType | undefined;
+  /** User name for the share. */
+  userName?: string | undefined;
+  /** Password for the share. */
+  password?: string | Redacted.Redacted<string> | undefined;
+  /** Access protocols supported on the device. */
+  supportedAccessProtocols?: ShareCredentialDetailsSupportedAccessProtocolsList | undefined;
+}
+/** Per share level unencrypted access credentials. */
+export type AccountCredentialDetailsShareCredentialDetailsList = Array<ShareCredentialDetails>;
+/** Credential details of the account. */
+export interface AccountCredentialDetails {
+  /** Name of the account. */
+  accountName?: string | undefined;
+  /** Type of the account. */
+  dataAccountType?: DataAccountType | undefined;
+  /** Connection string of the account endpoint to use the account as a storage endpoint on the device. */
+  accountConnectionString?: string | undefined;
+  /** Per share level unencrypted access credentials. */
+  shareCredentialDetails?: AccountCredentialDetailsShareCredentialDetailsList | undefined;
+}
+/** Per account level access credentials. */
+export type DataBoxHeavySecretAccountCredentialDetailsList = Array<AccountCredentialDetails>;
+/** The secrets related to a databox heavy. */
+export interface DataBoxHeavySecret {
+  /** Serial number of the assigned device. */
+  deviceSerialNumber?: string | undefined;
+  /** Password for out of the box experience on device. */
+  devicePassword?: string | Redacted.Redacted<string> | undefined;
+  /** Network configuration of the appliance. */
+  networkConfigurations?: DataBoxHeavySecretNetworkConfigurationsList | undefined;
+  /** The base 64 encoded public key to authenticate with the device */
+  encodedValidationCertPubKey?: string | undefined;
+  /** Per account level access credentials. */
+  accountCredentialDetails?: DataBoxHeavySecretAccountCredentialDetailsList | undefined;
+}
+/** Contains the list of secret objects for a databox heavy job. */
+export type DataBoxHeavyJobSecretsCabinetPodSecretsList = Array<DataBoxHeavySecret>;
+/** The secrets related to a databox heavy job. */
+export interface DataBoxHeavyJobSecrets {
+  /** Used to indicate what type of job secrets object. */
+  jobSecretsType: DataBoxHeavyJobSecretsJobSecretsType;
+  /** Dc Access Security Code for Customer Managed Shipping */
+  dcAccessSecurityCode?: DcAccessSecurityCode | undefined;
+  /** Error while fetching the secrets. */
+  error?: CloudError | undefined;
+  /** Contains the list of secret objects for a databox heavy job. */
+  cabinetPodSecrets?: DataBoxHeavyJobSecretsCabinetPodSecretsList | undefined;
+}
+/** Used to indicate what type of job secrets object. */
+export type DataboxJobSecretsJobSecretsType = "DataBox";
+/** Network configuration of the appliance. */
+export type DataBoxSecretNetworkConfigurationsList = Array<ApplianceNetworkConfiguration>;
+/** Per account level access credentials. */
+export type DataBoxSecretAccountCredentialDetailsList = Array<AccountCredentialDetails>;
+/** The secrets related to a DataBox. */
+export interface DataBoxSecret {
+  /** Serial number of the assigned device. */
+  deviceSerialNumber?: string | undefined;
+  /** Password for out of the box experience on device. */
+  devicePassword?: string | Redacted.Redacted<string> | undefined;
+  /** Network configuration of the appliance. */
+  networkConfigurations?: DataBoxSecretNetworkConfigurationsList | undefined;
+  /** The base 64 encoded public key to authenticate with the device */
+  encodedValidationCertPubKey?: string | undefined;
+  /** Per account level access credentials. */
+  accountCredentialDetails?: DataBoxSecretAccountCredentialDetailsList | undefined;
+}
+/** Contains the list of secret objects for a job. */
+export type DataboxJobSecretsPodSecretsList = Array<DataBoxSecret>;
+/** The secrets related to a databox job. */
+export interface DataboxJobSecrets {
+  /** Used to indicate what type of job secrets object. */
+  jobSecretsType: DataboxJobSecretsJobSecretsType;
+  /** Dc Access Security Code for Customer Managed Shipping */
+  dcAccessSecurityCode?: DcAccessSecurityCode | undefined;
+  /** Error while fetching the secrets. */
+  error?: CloudError | undefined;
+  /** Contains the list of secret objects for a job. */
+  podSecrets?: DataboxJobSecretsPodSecretsList | undefined;
+}
+/** The base class for the secrets */
+export type JobSecrets =
+  | CustomerDiskJobSecrets
+  | DataBoxDiskJobSecrets
+  | DataBoxHeavyJobSecrets
+  | DataboxJobSecrets;
 /** Unencrypted credentials for accessing device. */
 export interface UnencryptedCredentials {
   /** Name of the job. */
@@ -1155,17 +1987,52 @@ export interface MitigateRequest {
     | undefined;
 }
 export interface MitigateResponse {}
+/** Sku Name for which the order is to be scheduled. */
+export type DataBoxScheduleAvailabilityRequestSkuName = "DataBox";
 /** Request body to get the availability for scheduling orders. */
-export interface ScheduleAvailabilityRequest {
+export interface DataBoxScheduleAvailabilityRequest {
   /** Location for data transfer. For locations check: https://management.azure.com/subscriptions/SUBSCRIPTIONID/locations?api-version=2018-01-01 */
   storageLocation: string;
   /** Sku Name for which the order is to be scheduled. */
-  skuName: SkuName | (string & {});
+  skuName: DataBoxScheduleAvailabilityRequestSkuName;
   /** Country in which storage location should be supported. */
   country?: string | undefined;
   /** The customer friendly name of the combination of version and capacity of the device. This field is necessary only at the time of ordering the newer generation device i.e. AzureDataBox120 and AzureDataBox525 as of Feb/2025 */
   model?: ModelName | (string & {}) | undefined;
 }
+/** Sku Name for which the order is to be scheduled. */
+export type DiskScheduleAvailabilityRequestSkuName = "DataBoxDisk";
+/** Request body to get the availability for scheduling disk orders. */
+export interface DiskScheduleAvailabilityRequest {
+  /** Location for data transfer. For locations check: https://management.azure.com/subscriptions/SUBSCRIPTIONID/locations?api-version=2018-01-01 */
+  storageLocation: string;
+  /** Sku Name for which the order is to be scheduled. */
+  skuName: DiskScheduleAvailabilityRequestSkuName;
+  /** Country in which storage location should be supported. */
+  country?: string | undefined;
+  /** The customer friendly name of the combination of version and capacity of the device. This field is necessary only at the time of ordering the newer generation device i.e. AzureDataBox120 and AzureDataBox525 as of Feb/2025 */
+  model?: ModelName | (string & {}) | undefined;
+  /** The expected size of the data, which needs to be transferred in this job, in terabytes. */
+  expectedDataSizeInTeraBytes: number;
+}
+/** Sku Name for which the order is to be scheduled. */
+export type HeavyScheduleAvailabilityRequestSkuName = "DataBoxHeavy";
+/** Request body to get the availability for scheduling orders. */
+export interface HeavyScheduleAvailabilityRequest {
+  /** Location for data transfer. For locations check: https://management.azure.com/subscriptions/SUBSCRIPTIONID/locations?api-version=2018-01-01 */
+  storageLocation: string;
+  /** Sku Name for which the order is to be scheduled. */
+  skuName: HeavyScheduleAvailabilityRequestSkuName;
+  /** Country in which storage location should be supported. */
+  country?: string | undefined;
+  /** The customer friendly name of the combination of version and capacity of the device. This field is necessary only at the time of ordering the newer generation device i.e. AzureDataBox120 and AzureDataBox525 as of Feb/2025 */
+  model?: ModelName | (string & {}) | undefined;
+}
+/** Request body to get the availability for scheduling orders. */
+export type ScheduleAvailabilityRequest =
+  | DataBoxScheduleAvailabilityRequest
+  | DiskScheduleAvailabilityRequest
+  | HeavyScheduleAvailabilityRequest;
 /** Request body to get the transport availability for given sku. */
 export interface TransportAvailabilityRequest {
   /** Type of the device. */
@@ -1259,15 +2126,6 @@ export interface ServiceRegionConfigurationByResourceGroupRequest {
   /** Request body to get the device capabilities for a given sku. */
   deviceCapabilityRequest?: TransportAvailabilityRequest | undefined;
 }
-/** Package carrier details. */
-export interface PackageCarrierDetails {
-  /** Carrier Account Number of customer for customer disk. */
-  carrierAccountNumber?: string | undefined;
-  /** Name of the carrier. */
-  carrierName?: string | undefined;
-  /** Tracking Id of shipment. */
-  trackingId?: string | undefined;
-}
 /** Job details for update. */
 export interface UpdateJobDetailsInput {
   /** Contact details for notification and shipping. */
@@ -1331,45 +2189,208 @@ export interface UpdateJobResponse {
   retryAfter?: number | undefined;
 }
 /** Identify the nature of validation. */
-export type ValidateServiceInputsRequestValidationCategory = "JobCreationValidation";
+export type CreateJobValidationsInputValidationCategory = "JobCreationValidation";
 /** Identifies the type of validation request. */
-export type ValidationInputDiscriminator =
-  | "ValidateAddress"
-  | "ValidateSubscriptionIsAllowedToCreateJob"
-  | "ValidatePreferences"
-  | "ValidateCreateOrderLimit"
-  | "ValidateSkuAvailability"
-  | "ValidateDataTransferDetails";
-/** Minimum fields that must be present in any type of validation request. */
-export interface ValidationInputRequest {
+export type CreateOrderLimitForSubscriptionValidationRequestValidationType =
+  "ValidateCreateOrderLimit";
+/** Request to validate create order limit for current subscription. */
+export interface CreateOrderLimitForSubscriptionValidationRequest {
   /** Identifies the type of validation request. */
-  validationType: ValidationInputDiscriminator | (string & {});
+  validationType: CreateOrderLimitForSubscriptionValidationRequestValidationType;
+  /** Device type to be used for the job. */
+  deviceType: SkuName | (string & {});
+  /** The customer friendly name of the combination of version and capacity of the device. This field is necessary only at the time of ordering the newer generation device i.e. AzureDataBox120 and AzureDataBox525 as of Feb/2025 */
+  model?: ModelName | (string & {}) | undefined;
 }
+/** Identifies the type of validation request. */
+export type DataTransferDetailsValidationRequestValidationType = "ValidateDataTransferDetails";
+/** List of DataTransfer details to be used to export data from azure. */
+export type DataTransferDetailsValidationRequestDataExportDetailsList = Array<DataExportDetails>;
+/** List of DataTransfer details to be used to import data to azure. */
+export type DataTransferDetailsValidationRequestDataImportDetailsList = Array<DataImportDetails>;
+/** Request to validate export and import data details. */
+export interface DataTransferDetailsValidationRequest {
+  /** Identifies the type of validation request. */
+  validationType: DataTransferDetailsValidationRequestValidationType;
+  /** List of DataTransfer details to be used to export data from azure. */
+  dataExportDetails?: DataTransferDetailsValidationRequestDataExportDetailsList | undefined;
+  /** List of DataTransfer details to be used to import data to azure. */
+  dataImportDetails?: DataTransferDetailsValidationRequestDataImportDetailsList | undefined;
+  /** Device type. */
+  deviceType: SkuName | (string & {});
+  /** Type of the transfer. */
+  transferType: TransferType | (string & {});
+  /** The customer friendly name of the combination of version and capacity of the device. This field is necessary only at the time of ordering the newer generation device i.e. AzureDataBox120 and AzureDataBox525 as of Feb/2025 */
+  model?: ModelName | (string & {}) | undefined;
+}
+/** Identifies the type of validation request. */
+export type PreferencesValidationRequestInputValidationType = "ValidatePreferences";
+/** Request to validate preference of transport and data center. */
+export interface PreferencesValidationRequestInput {
+  /** Identifies the type of validation request. */
+  validationType: PreferencesValidationRequestInputValidationType;
+  /** Preference of transport and data center. */
+  preference?: PreferencesInput | undefined;
+  /** Device type to be used for the job. */
+  deviceType: SkuName | (string & {});
+  /** The customer friendly name of the combination of version and capacity of the device. This field is necessary only at the time of ordering the newer generation device i.e. AzureDataBox120 and AzureDataBox525 as of Feb/2025 */
+  model?: ModelName | (string & {}) | undefined;
+}
+/** Identifies the type of validation request. */
+export type SkuAvailabilityValidationRequestValidationType = "ValidateSkuAvailability";
+/** Request to validate sku availability. */
+export interface SkuAvailabilityValidationRequest {
+  /** Identifies the type of validation request. */
+  validationType: SkuAvailabilityValidationRequestValidationType;
+  /** Device type to be used for the job. */
+  deviceType: SkuName | (string & {});
+  /** Type of the transfer. */
+  transferType: TransferType | (string & {});
+  /** ISO country code. Country for hardware shipment. For codes check: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements */
+  country: string;
+  /** Location for data transfer. For locations check: https://management.azure.com/subscriptions/SUBSCRIPTIONID/locations?api-version=2018-01-01 */
+  location: string;
+  /** The customer friendly name of the combination of version and capacity of the device. This field is necessary only at the time of ordering the newer generation device i.e. AzureDataBox120 and AzureDataBox525 as of Feb/2025 */
+  model?: ModelName | (string & {}) | undefined;
+}
+/** Identifies the type of validation request. */
+export type SubscriptionIsAllowedToCreateJobValidationRequestValidationType =
+  "ValidateSubscriptionIsAllowedToCreateJob";
+/** Minimum fields that must be present in any type of validation request. */
+export interface SubscriptionIsAllowedToCreateJobValidationRequest {
+  /** Identifies the type of validation request. */
+  validationType: SubscriptionIsAllowedToCreateJobValidationRequestValidationType;
+}
+/** Identifies the type of validation request. */
+export type ValidateAddressInputValidationType = "ValidateAddress";
+/** The requirements to validate customer address where the device needs to be shipped. */
+export interface ValidateAddressInput {
+  /** Identifies the type of validation request. */
+  validationType: ValidateAddressInputValidationType;
+  /** Shipping address of the customer. */
+  shippingAddress: ShippingAddress;
+  /** Device type to be used for the job. */
+  deviceType: SkuName | (string & {});
+  /** Preferences related to the shipment logistics of the sku. */
+  transportPreferences?: TransportPreferencesInput | undefined;
+  /** The customer friendly name of the combination of version and capacity of the device. This field is necessary only at the time of ordering the newer generation device i.e. AzureDataBox120 and AzureDataBox525 as of Feb/2025 */
+  model?: ModelName | (string & {}) | undefined;
+}
+/** Minimum fields that must be present in any type of validation request. */
+export type ValidationInputRequestInput =
+  | CreateOrderLimitForSubscriptionValidationRequest
+  | DataTransferDetailsValidationRequest
+  | PreferencesValidationRequestInput
+  | SkuAvailabilityValidationRequest
+  | SubscriptionIsAllowedToCreateJobValidationRequest
+  | ValidateAddressInput;
 /** List of request details contain validationType and its request as key and value respectively. */
-export type ValidateServiceInputsRequestIndividualRequestDetailsList =
-  Array<ValidationInputRequest>;
+export type CreateJobValidationsInputIndividualRequestDetailsList =
+  Array<ValidationInputRequestInput>;
+/** Minimum request requirement of any validation category. */
+export interface CreateJobValidationsInput {
+  /** Identify the nature of validation. */
+  validationCategory: CreateJobValidationsInputValidationCategory | (string & {});
+  /** List of request details contain validationType and its request as key and value respectively. */
+  individualRequestDetails: CreateJobValidationsInputIndividualRequestDetailsList;
+}
 export interface ValidateServiceInputsRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of Azure region. */
   location: string;
-  /** Identify the nature of validation. */
-  validationCategory: ValidateServiceInputsRequestValidationCategory | (string & {});
-  /** List of request details contain validationType and its request as key and value respectively. */
-  individualRequestDetails: ValidateServiceInputsRequestIndividualRequestDetailsList;
+  body: CreateJobValidationsInput;
 }
 /** Overall validation status. */
 export type OverallValidationStatus =
   | "AllValidToProceed"
   | "InputsRevisitRequired"
   | "CertainInputValidationsSkipped";
-/** Minimum properties that should be present in each individual validation response. */
-export interface ValidationInputResponse {
+/** Identifies the type of validation response. */
+export type AddressValidationPropertiesValidationType = "ValidateAddress";
+/** The address validation status. */
+export type AddressValidationStatus = "Valid" | "Invalid" | "Ambiguous";
+/** List of alternate addresses. */
+export type AddressValidationPropertiesAlternateAddressesList = Array<ShippingAddress>;
+/** The address validation output. */
+export interface AddressValidationProperties {
   /** Identifies the type of validation response. */
-  validationType: ValidationInputDiscriminator;
+  validationType: AddressValidationPropertiesValidationType;
   /** Error code and message of validation response. */
   error?: CloudError | undefined;
+  /** The address validation status. */
+  validationStatus?: AddressValidationStatus | undefined;
+  /** List of alternate addresses. */
+  alternateAddresses?: AddressValidationPropertiesAlternateAddressesList | undefined;
 }
+/** Identifies the type of validation response. */
+export type CreateOrderLimitForSubscriptionValidationResponsePropertiesValidationType =
+  "ValidateCreateOrderLimit";
+/** Create order limit validation status. */
+export type ValidationStatus = "Valid" | "Invalid" | "Skipped";
+/** Properties of create order limit for subscription validation response. */
+export interface CreateOrderLimitForSubscriptionValidationResponseProperties {
+  /** Identifies the type of validation response. */
+  validationType: CreateOrderLimitForSubscriptionValidationResponsePropertiesValidationType;
+  /** Error code and message of validation response. */
+  error?: CloudError | undefined;
+  /** Create order limit validation status. */
+  status?: ValidationStatus | undefined;
+}
+/** Identifies the type of validation response. */
+export type DataTransferDetailsValidationResponsePropertiesValidationType =
+  "ValidateDataTransferDetails";
+/** Properties of data transfer details validation response. */
+export interface DataTransferDetailsValidationResponseProperties {
+  /** Identifies the type of validation response. */
+  validationType: DataTransferDetailsValidationResponsePropertiesValidationType;
+  /** Error code and message of validation response. */
+  error?: CloudError | undefined;
+  /** Data transfer details validation status. */
+  status?: ValidationStatus | undefined;
+}
+/** Identifies the type of validation response. */
+export type PreferencesValidationResponsePropertiesValidationType = "ValidatePreferences";
+/** Properties of data center and transport preference validation response. */
+export interface PreferencesValidationResponseProperties {
+  /** Identifies the type of validation response. */
+  validationType: PreferencesValidationResponsePropertiesValidationType;
+  /** Error code and message of validation response. */
+  error?: CloudError | undefined;
+  /** Validation status of requested data center and transport. */
+  status?: ValidationStatus | undefined;
+}
+/** Identifies the type of validation response. */
+export type SkuAvailabilityValidationResponsePropertiesValidationType = "ValidateSkuAvailability";
+/** Properties of sku availability validation response. */
+export interface SkuAvailabilityValidationResponseProperties {
+  /** Identifies the type of validation response. */
+  validationType: SkuAvailabilityValidationResponsePropertiesValidationType;
+  /** Error code and message of validation response. */
+  error?: CloudError | undefined;
+  /** Sku availability validation status. */
+  status?: ValidationStatus | undefined;
+}
+/** Identifies the type of validation response. */
+export type SubscriptionIsAllowedToCreateJobValidationResponsePropertiesValidationType =
+  "ValidateSubscriptionIsAllowedToCreateJob";
+/** Properties of subscription permission to create job validation response. */
+export interface SubscriptionIsAllowedToCreateJobValidationResponseProperties {
+  /** Identifies the type of validation response. */
+  validationType: SubscriptionIsAllowedToCreateJobValidationResponsePropertiesValidationType;
+  /** Error code and message of validation response. */
+  error?: CloudError | undefined;
+  /** Validation status of subscription permission to create job. */
+  status?: ValidationStatus | undefined;
+}
+/** Minimum properties that should be present in each individual validation response. */
+export type ValidationInputResponse =
+  | AddressValidationProperties
+  | CreateOrderLimitForSubscriptionValidationResponseProperties
+  | DataTransferDetailsValidationResponseProperties
+  | PreferencesValidationResponseProperties
+  | SkuAvailabilityValidationResponseProperties
+  | SubscriptionIsAllowedToCreateJobValidationResponseProperties;
 /** List of response details contain validationType and its response as key and value respectively. */
 export type ValidationResponsePropertiesIndividualResponseDetailsList =
   Array<ValidationInputResponse>;
@@ -1385,11 +2406,6 @@ export interface ValidationResponse {
   /** Properties of pre job creation validation response. */
   properties?: ValidationResponseProperties | undefined;
 }
-/** Identify the nature of validation. */
-export type ValidateServiceInputsByResourceGroupRequestValidationCategory = "JobCreationValidation";
-/** List of request details contain validationType and its request as key and value respectively. */
-export type ValidateServiceInputsByResourceGroupRequestIndividualRequestDetailsList =
-  Array<ValidationInputRequest>;
 export interface ValidateServiceInputsByResourceGroupRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -1397,10 +2413,7 @@ export interface ValidateServiceInputsByResourceGroupRequest {
   resourceGroupName: string;
   /** The name of Azure region. */
   location: string;
-  /** Identify the nature of validation. */
-  validationCategory: ValidateServiceInputsByResourceGroupRequestValidationCategory | (string & {});
-  /** List of request details contain validationType and its request as key and value respectively. */
-  individualRequestDetails: ValidateServiceInputsByResourceGroupRequestIndividualRequestDetailsList;
+  body: CreateJobValidationsInput;
 }
 export type CancelJobError = AzureOpError;
 /** CancelJob. */
@@ -1427,8 +2440,8 @@ export const CreateJob: API.OperationMethod<
   CreateJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(66, __c2, 2) as any as S.Schema<CreateJobRequest>,
-  output: __S(101, __c3, 5) as any as S.Schema<CreateJobResponse>,
+  input: __S(71, __c2, 7) as any as S.Schema<CreateJobRequest>,
+  output: __S(99, __c3, 3) as any as S.Schema<CreateJobResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1444,8 +2457,8 @@ export const DeleteJob: API.OperationMethod<
   DeleteJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<DeleteJobRequest>,
-  output: __S(609, __c19, 1) as any as S.Schema<DeleteJobResponse>,
+  input: __S(736, __c23, 0) as any as S.Schema<DeleteJobRequest>,
+  output: __S(737, __c23, 1) as any as S.Schema<DeleteJobResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1461,8 +2474,8 @@ export const GetJob: API.OperationMethod<
   GetJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<GetJobRequest>,
-  output: __S(672, __c21, 0) as any as S.Schema<GetJobResponse>,
+  input: __S(768, __c24, 0) as any as S.Schema<GetJobRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<GetJobResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1478,8 +2491,8 @@ export const JobsBookShipmentPickUp: API.OperationMethod<
   JobsBookShipmentPickUpError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<JobsBookShipmentPickUpRequest>,
-  output: __S(705, __c22, 1) as any as S.Schema<ShipmentPickUpResponse>,
+  input: __S(832, __c26, 0) as any as S.Schema<JobsBookShipmentPickUpRequest>,
+  output: __S(833, __c26, 1) as any as S.Schema<ShipmentPickUpResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1495,7 +2508,7 @@ export const JobsMarkDevicesShipped: API.OperationMethod<
   JobsMarkDevicesShippedError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(737, __c23, 1) as any as S.Schema<JobsMarkDevicesShippedRequest>,
+  input: __S(864, __c27, 0) as any as S.Schema<JobsMarkDevicesShippedRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<JobsMarkDevicesShippedResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -1512,8 +2525,8 @@ export const ListJobByResourceGroup: API.OperationMethod<
   ListJobByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<ListJobByResourceGroupRequest>,
-  output: __S(801, __c25, 1) as any as S.Schema<JobResourceList>,
+  input: __S(896, __c28, 0) as any as S.Schema<ListJobByResourceGroupRequest>,
+  output: __S(929, __c29, 1) as any as S.Schema<JobResourceList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1529,8 +2542,8 @@ export const ListJobCredentials: API.OperationMethod<
   ListJobCredentialsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<ListJobCredentialsRequest>,
-  output: __S(837, __c26, 5) as any as S.Schema<UnencryptedCredentialsList>,
+  input: __S(960, __c30, 0) as any as S.Schema<ListJobCredentialsRequest>,
+  output: __S(979, __c30, 19) as any as S.Schema<UnencryptedCredentialsList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1546,8 +2559,8 @@ export const ListJobs: API.OperationMethod<
   ListJobsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<ListJobsRequest>,
-  output: __S(801, __c25, 1) as any as S.Schema<JobResourceList>,
+  input: __S(992, __c31, 0) as any as S.Schema<ListJobsRequest>,
+  output: __S(929, __c29, 1) as any as S.Schema<JobResourceList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1563,8 +2576,8 @@ export const ListOperations: API.OperationMethod<
   ListOperationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<ListOperationsRequest>,
-  output: __S(900, __c28, 4) as any as S.Schema<OperationList>,
+  input: __S(1024, __c32, 0) as any as S.Schema<ListOperationsRequest>,
+  output: __S(1028, __c32, 4) as any as S.Schema<OperationList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1580,8 +2593,8 @@ export const ListServiceAvailableSkusByResourceGroup: API.OperationMethod<
   ListServiceAvailableSkusByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<ListServiceAvailableSkusByResourceGroupRequest>,
-  output: __S(329, __c10, 9) as any as S.Schema<AvailableSkusResult>,
+  input: __S(448, __c14, 0) as any as S.Schema<ListServiceAvailableSkusByResourceGroupRequest>,
+  output: __S(457, __c14, 9) as any as S.Schema<AvailableSkusResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1597,7 +2610,7 @@ export const Mitigate: API.OperationMethod<
   MitigateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(353, __c11, 1) as any as S.Schema<MitigateRequest>,
+  input: __S(481, __c15, 1) as any as S.Schema<MitigateRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<MitigateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -1614,8 +2627,8 @@ export const ServiceRegionConfiguration: API.OperationMethod<
   ServiceRegionConfigurationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<ServiceRegionConfigurationRequest>,
-  output: __S(426, __c13, 10) as any as S.Schema<RegionConfigurationResponse>,
+  input: __S(512, __c16, 0) as any as S.Schema<ServiceRegionConfigurationRequest>,
+  output: __S(556, __c17, 12) as any as S.Schema<RegionConfigurationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1631,8 +2644,8 @@ export const ServiceRegionConfigurationByResourceGroup: API.OperationMethod<
   ServiceRegionConfigurationByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<ServiceRegionConfigurationByResourceGroupRequest>,
-  output: __S(426, __c13, 10) as any as S.Schema<RegionConfigurationResponse>,
+  input: __S(576, __c18, 0) as any as S.Schema<ServiceRegionConfigurationByResourceGroupRequest>,
+  output: __S(556, __c17, 12) as any as S.Schema<RegionConfigurationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1648,8 +2661,8 @@ export const UpdateJob: API.OperationMethod<
   UpdateJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(483, __c15, 3) as any as S.Schema<UpdateJobRequest>,
-  output: __S(101, __c3, 5) as any as S.Schema<UpdateJobResponse>,
+  input: __S(610, __c19, 2) as any as S.Schema<UpdateJobRequest>,
+  output: __S(99, __c3, 3) as any as S.Schema<UpdateJobResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1665,8 +2678,8 @@ export const ValidateServiceInputs: API.OperationMethod<
   ValidateServiceInputsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<ValidateServiceInputsRequest>,
-  output: __S(549, __c17, 5) as any as S.Schema<ValidationResponse>,
+  input: __S(640, __c20, 0) as any as S.Schema<ValidateServiceInputsRequest>,
+  output: __S(687, __c21, 15) as any as S.Schema<ValidationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1682,8 +2695,8 @@ export const ValidateServiceInputsByResourceGroup: API.OperationMethod<
   ValidateServiceInputsByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<ValidateServiceInputsByResourceGroupRequest>,
-  output: __S(549, __c17, 5) as any as S.Schema<ValidationResponse>,
+  input: __S(704, __c22, 0) as any as S.Schema<ValidateServiceInputsByResourceGroupRequest>,
+  output: __S(687, __c21, 15) as any as S.Schema<ValidationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1723,37 +2736,83 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          contactDetails: __S(259, __c8, 3),
-          shippingAddress: S.optional(__S(260, __c8, 4)),
-          dataImportDetails: S.optional(__S(263, __c8, 7)),
-          dataExportDetails: S.optional(__S(274, __c8, 18)),
-          jobDetailsType: S.String,
-          preferences: S.optional(__S(97, __c3, 1)),
-          reverseShippingDetails: S.optional(__S(98, __c3, 2)),
-          keyEncryptionKey: S.optional(__S(279, __c8, 23)),
-          expectedDataSizeInTeraBytes: S.optional(S.Number),
+          manifestFile: S.String,
+          manifestHash: S.String,
+          bitLockerKey: S.String,
         }),
-      ).annotate({ identifier: "JobDetailsInput" });
+      ).annotate({ identifier: "ImportDiskDetailsInput" });
     case 1:
+      return S.Record(S.String, __S(64, __c2, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          contactDetails: __S(355, __c11, 3),
+          shippingAddress: S.optional(__S(416, __c13, 0)),
+          dataImportDetails: S.optional(__S(421, __c13, 5)),
+          dataExportDetails: S.optional(__S(432, __c13, 16)),
+          jobDetailsType: S.String,
+          preferences: S.optional(__S(129, __c4, 1)),
+          reverseShippingDetails: S.optional(__S(96, __c3, 0)),
+          keyEncryptionKey: S.optional(__S(359, __c11, 7)),
+          expectedDataSizeInTeraBytes: S.optional(S.Number),
+          importDiskDetailsCollection: S.optional(__S(65, __c2, 1)),
+          returnToCustomerPackageDetails: __S(360, __c11, 8),
+          enableManifestBackup: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "DataBoxCustomerDiskJobDetailsInput" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          contactDetails: __S(355, __c11, 3),
+          shippingAddress: S.optional(__S(416, __c13, 0)),
+          dataImportDetails: S.optional(__S(421, __c13, 5)),
+          dataExportDetails: S.optional(__S(432, __c13, 16)),
+          jobDetailsType: S.String,
+          preferences: S.optional(__S(129, __c4, 1)),
+          reverseShippingDetails: S.optional(__S(96, __c3, 0)),
+          keyEncryptionKey: S.optional(__S(359, __c11, 7)),
+          expectedDataSizeInTeraBytes: S.optional(S.Number),
+          preferredDisks: S.optional(__S(361, __c11, 9)),
+          passkey: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DataBoxDiskJobDetailsInput" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          contactDetails: __S(355, __c11, 3),
+          shippingAddress: S.optional(__S(416, __c13, 0)),
+          dataImportDetails: S.optional(__S(421, __c13, 5)),
+          dataExportDetails: S.optional(__S(432, __c13, 16)),
+          jobDetailsType: S.String,
+          preferences: S.optional(__S(129, __c4, 1)),
+          reverseShippingDetails: S.optional(__S(96, __c3, 0)),
+          keyEncryptionKey: S.optional(__S(359, __c11, 7)),
+          expectedDataSizeInTeraBytes: S.optional(S.Number),
+          devicePassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
+        }),
+      ).annotate({ identifier: "DataBoxHeavyJobDetailsInput" });
+    case 5:
+      return S.Union([__S(66, __c2, 2), __S(67, __c2, 3), __S(68, __c2, 4), __S(68, __c2, 4)]);
+    case 6:
       return S.suspend(() =>
         S.Struct({
           transferType: S.String,
-          details: S.optional(__S(64, __c2, 0)),
+          details: S.optional(__S(69, __c2, 5)),
           deliveryType: S.optional(S.String),
-          deliveryInfo: S.optional(__S(280, __c8, 24)),
+          deliveryInfo: S.optional(__S(362, __c11, 10)),
         }),
       ).annotate({ identifier: "JobPropertiesInput" });
-    case 2:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           jobName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(256, __c8, 0)),
+          tags: S.optional(__S(352, __c11, 0)),
           location: S.String,
-          properties: __S(65, __c2, 1),
-          sku: __S(193, __c6, 1),
-          identity: S.optional(__S(100, __c3, 4)),
+          properties: __S(70, __c2, 6),
+          sku: __S(288, __c9, 0),
+          identity: S.optional(__S(98, __c3, 2)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -1770,47 +2829,31 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          preferredShipmentType: S.String,
+          contactDetails: S.optional(__S(356, __c11, 4)),
+          shippingAddress: S.optional(__S(416, __c13, 0)),
         }),
-      ).annotate({ identifier: "TransportPreferencesInput" });
+      ).annotate({ identifier: "ReverseShippingDetailsInput" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          preferredDataCenterRegion: S.optional(__S(160, __c5, 0)),
-          transportPreferences: S.optional(__S(96, __c3, 0)),
-          reverseTransportPreferences: S.optional(__S(96, __c3, 0)),
-          encryptionPreferences: S.optional(__S(275, __c8, 19)),
-          storageAccountAccessTierPreferences: S.optional(__S(192, __c6, 0)),
-        }),
-      ).annotate({ identifier: "PreferencesInput" });
+      return S.Record(S.String, __S(32, __c1, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          contactDetails: S.optional(__S(276, __c8, 20)),
-          shippingAddress: S.optional(__S(260, __c8, 4)),
-        }),
-      ).annotate({ identifier: "ReverseShippingDetailsInput" });
-    case 3:
-      return S.Record(S.String, __S(32, __c1, 0));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
           type: S.optional(S.String),
-          userAssignedIdentities: S.optional(__S(99, __c3, 3)),
+          userAssignedIdentities: S.optional(__S(97, __c3, 1)),
         }),
       ).annotate({ identifier: "ResourceIdentityInput" });
-    case 5:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(281, __c8, 25)),
-          tags: S.optional(__S(256, __c8, 0)),
+          systemData: S.optional(__S(363, __c11, 11)),
+          tags: S.optional(__S(352, __c11, 0)),
           location: S.String,
-          properties: __S(295, __c9, 7),
-          sku: __S(193, __c6, 1),
-          identity: S.optional(__S(298, __c9, 10)),
+          properties: __S(396, __c12, 12),
+          sku: __S(288, __c9, 0),
+          identity: S.optional(__S(399, __c12, 15)),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
@@ -1820,41 +2863,76 @@ function __c3(j: number): any {
 function __c4(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.Unknown);
+      return S.suspend(() =>
+        S.Struct({
+          preferredShipmentType: S.String,
+        }),
+      ).annotate({ identifier: "TransportPreferencesInput" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          info: S.optional(__S(128, __c4, 0)),
-          type: S.optional(S.String),
+          preferredDataCenterRegion: S.optional(__S(256, __c8, 0)),
+          transportPreferences: S.optional(__S(128, __c4, 0)),
+          reverseTransportPreferences: S.optional(__S(128, __c4, 0)),
+          encryptionPreferences: S.optional(__S(433, __c13, 17)),
+          storageAccountAccessTierPreferences: S.optional(__S(192, __c6, 0)),
         }),
-      ).annotate({ identifier: "AdditionalErrorInfo" });
-    case 2:
-      return S.Array(__S(129, __c4, 1));
-    case 3:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(132, __c4, 4)));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          additionalInfo: S.optional(__S(130, __c4, 2)),
-          code: S.optional(S.String),
-          details: S.optional(__S(131, __c4, 3)),
-          message: S.optional(S.String),
-          target: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CloudError" });
+      ).annotate({ identifier: "PreferencesInput" });
   }
 }
 function __c5(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
+      return S.suspend(() =>
+        S.Struct({
+          carrierName: S.optional(S.String),
+          trackingId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PackageCarrierInfo" });
   }
 }
 function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
     case 1:
+      return S.suspend(() =>
+        S.Struct({
+          info: S.optional(__S(224, __c7, 0)),
+          type: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AdditionalErrorInfo" });
+    case 2:
+      return S.Array(__S(225, __c7, 1));
+    case 3:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(228, __c7, 4)));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          additionalInfo: S.optional(__S(226, __c7, 2)),
+          code: S.optional(S.String),
+          details: S.optional(__S(227, __c7, 3)),
+          message: S.optional(S.String),
+          target: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CloudError" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
@@ -1865,19 +2943,43 @@ function __c6(j: number): any {
       ).annotate({ identifier: "Sku" });
   }
 }
-function __c7(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           datacenterAddressType: S.String,
-          supportedCarriersForReturnShipment: S.optional(__S(160, __c5, 0)),
+          supportedCarriersForReturnShipment: S.optional(__S(256, __c8, 0)),
           dataCenterAzureLocation: S.optional(S.String),
+          communicationInstruction: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DatacenterAddressResponse" });
+      ).annotate({ identifier: "DatacenterAddressInstructionResponse" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          datacenterAddressType: S.String,
+          supportedCarriersForReturnShipment: S.optional(__S(256, __c8, 0)),
+          dataCenterAzureLocation: S.optional(S.String),
+          contactPersonName: S.optional(S.String),
+          company: S.optional(S.String),
+          street1: S.optional(S.String),
+          street2: S.optional(S.String),
+          street3: S.optional(S.String),
+          city: S.optional(S.String),
+          state: S.optional(S.String),
+          zip: S.optional(S.String),
+          country: S.optional(S.String),
+          phone: S.optional(S.String),
+          phoneExtension: S.optional(S.String),
+          addressType: S.optional(S.String),
+          additionalShippingInformation: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DatacenterAddressLocationResponse" });
+    case 2:
+      return S.Union([__S(320, __c10, 0), __S(321, __c10, 1)]);
   }
 }
-function __c8(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
@@ -1889,7 +2991,7 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "NotificationPreference" });
     case 2:
-      return S.Array(__S(257, __c8, 1));
+      return S.Array(__S(353, __c11, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -1897,11 +2999,428 @@ function __c8(j: number): any {
           phone: S.String,
           phoneExtension: S.optional(S.String),
           mobile: S.optional(S.String),
-          emailList: __S(160, __c5, 0),
-          notificationPreference: S.optional(__S(258, __c8, 2)),
+          emailList: __S(256, __c8, 0),
+          notificationPreference: S.optional(__S(354, __c11, 2)),
         }),
       ).annotate({ identifier: "ContactDetails" });
     case 4:
+      return S.suspend(() =>
+        S.Struct({
+          contactName: S.String,
+          phone: S.String,
+          phoneExtension: S.optional(S.String),
+          mobile: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ContactInfo" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          resourceId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UserAssignedProperties" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          userAssigned: S.optional(__S(357, __c11, 5)),
+        }),
+      ).annotate({ identifier: "IdentityProperties" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          kekType: S.String,
+          identityProperties: S.optional(__S(358, __c11, 6)),
+          kekUrl: S.optional(S.String),
+          kekVaultResourceID: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "KeyEncryptionKey" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          carrierAccountNumber: S.optional(S.String),
+          carrierName: S.optional(S.String),
+          trackingId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PackageCarrierDetails" });
+    case 9:
+      return S.Record(S.String, S.Number);
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          scheduledDateTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "JobDeliveryInfo" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          createdBy: S.optional(S.String),
+          createdByType: S.optional(S.String),
+          createdAt: S.optional(S.String),
+          lastModifiedBy: S.optional(S.String),
+          lastModifiedByType: S.optional(S.String),
+          lastModifiedAt: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SystemData" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          errorCode: S.optional(S.String),
+          description: S.optional(S.String),
+          startTime: S.optional(S.String),
+          resolutionTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "JobDelayDetails" });
+    case 13:
+      return S.Array(__S(364, __c11, 12));
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          stageName: S.optional(S.String),
+          displayName: S.optional(S.String),
+          stageStatus: S.optional(S.String),
+          stageTime: S.optional(S.String),
+          jobStageDetails: S.optional(S.Unknown),
+          delayInformation: S.optional(__S(365, __c11, 13)),
+        }),
+      ).annotate({ identifier: "JobStages" });
+    case 15:
+      return S.Array(__S(366, __c11, 14));
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          trackingUrl: S.optional(S.String),
+          carrierName: S.optional(S.String),
+          trackingId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PackageShippingDetails" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          preferredShipmentType: S.String,
+          isUpdated: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "TransportPreferences" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          preferredDataCenterRegion: S.optional(__S(256, __c8, 0)),
+          transportPreferences: S.optional(__S(369, __c11, 17)),
+          reverseTransportPreferences: S.optional(__S(369, __c11, 17)),
+          encryptionPreferences: S.optional(__S(433, __c13, 17)),
+          storageAccountAccessTierPreferences: S.optional(__S(192, __c6, 0)),
+        }),
+      ).annotate({ identifier: "Preferences" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          contactDetails: S.optional(__S(356, __c11, 4)),
+          shippingAddress: S.optional(__S(416, __c13, 0)),
+          isUpdated: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ReverseShippingDetails" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          copyLogDetailsType: S.String,
+          accountName: S.optional(S.String),
+          copyLogLink: S.optional(S.String),
+          copyVerboseLogLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DataBoxAccountCopyLogDetails" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          copyLogDetailsType: S.String,
+          serialNumber: S.optional(S.String),
+          errorLogLink: S.optional(S.String),
+          verboseLogLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DataBoxCustomerDiskCopyLogDetails" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          copyLogDetailsType: S.String,
+          diskSerialNumber: S.optional(S.String),
+          errorLogLink: S.optional(S.String),
+          verboseLogLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DataBoxDiskCopyLogDetails" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          copyLogDetailsType: S.String,
+          accountName: S.optional(S.String),
+          copyLogLink: S.optional(__S(256, __c8, 0)),
+          copyVerboseLogLink: S.optional(__S(256, __c8, 0)),
+        }),
+      ).annotate({ identifier: "DataBoxHeavyAccountCopyLogDetails" });
+    case 24:
+      return S.Union([
+        __S(372, __c11, 20),
+        __S(373, __c11, 21),
+        __S(374, __c11, 22),
+        __S(375, __c11, 23),
+      ]);
+    case 25:
+      return S.Array(__S(376, __c11, 24));
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          deviceErasureStatus: S.optional(S.String),
+          erasureOrDestructionCertificateSasKey: S.optional(S.String),
+          secureErasureCertificateSasKey: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DeviceErasureDetails" });
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          actionDateTimeInUtc: S.optional(S.String),
+          isPerformedByCustomer: S.optional(S.Boolean),
+          customerResolution: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LastMitigationActionOnJob" });
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          manifestFile: S.String,
+          manifestHash: S.String,
+          bitLockerKey: S.String,
+          backupManifestCloudPath: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ImportDiskDetails" });
+    case 29:
+      return S.Record(S.String, __S(380, __c11, 28));
+    case 30:
+      return S.suspend(() =>
+        S.Struct({
+          manifestFile: S.optional(S.String),
+          manifestHash: S.optional(S.String),
+          backupManifestCloudPath: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ExportDiskDetails" });
+    case 31:
+      return S.Record(S.String, __S(382, __c11, 30));
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          storageAccountName: S.optional(S.String),
+          transferType: S.optional(S.String),
+          dataAccountType: S.optional(S.String),
+          accountId: S.optional(S.String),
+          bytesProcessed: S.optional(S.Number),
+          totalBytesToProcess: S.optional(S.Number),
+          filesProcessed: S.optional(S.Number),
+          totalFilesToProcess: S.optional(S.Number),
+          invalidFilesProcessed: S.optional(S.Number),
+          invalidFileBytesUploaded: S.optional(S.Number),
+          renamedContainerCount: S.optional(S.Number),
+          filesErroredOut: S.optional(S.Number),
+          directoriesErroredOut: S.optional(S.Number),
+          invalidDirectoriesProcessed: S.optional(S.Number),
+          isEnumerationInProgress: S.optional(S.Boolean),
+          error: S.optional(__S(228, __c7, 4)),
+          actions: S.optional(__S(192, __c6, 0)),
+          serialNumber: S.optional(S.String),
+          copyStatus: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DataBoxCustomerDiskCopyProgress" });
+    case 1:
+      return S.Array(__S(384, __c12, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          jobStages: S.optional(__S(367, __c11, 15)),
+          contactDetails: __S(355, __c11, 3),
+          shippingAddress: S.optional(__S(416, __c13, 0)),
+          deliveryPackage: S.optional(__S(368, __c11, 16)),
+          returnPackage: S.optional(__S(368, __c11, 16)),
+          dataImportDetails: S.optional(__S(421, __c13, 5)),
+          dataExportDetails: S.optional(__S(432, __c13, 16)),
+          jobDetailsType: S.String,
+          preferences: S.optional(__S(370, __c11, 18)),
+          reverseShippingDetails: S.optional(__S(371, __c11, 19)),
+          copyLogDetails: S.optional(__S(377, __c11, 25)),
+          reverseShipmentLabelSasKey: S.optional(S.String),
+          chainOfCustodySasKey: S.optional(S.String),
+          deviceErasureDetails: S.optional(__S(378, __c11, 26)),
+          keyEncryptionKey: S.optional(__S(359, __c11, 7)),
+          expectedDataSizeInTeraBytes: S.optional(S.Number),
+          actions: S.optional(__S(192, __c6, 0)),
+          lastMitigationActionOnJob: S.optional(__S(379, __c11, 27)),
+          datacenterAddress: S.optional(__S(322, __c10, 2)),
+          dataCenterCode: S.optional(S.String),
+          importDiskDetailsCollection: S.optional(__S(381, __c11, 29)),
+          exportDiskDetailsCollection: S.optional(__S(383, __c11, 31)),
+          copyProgress: S.optional(__S(385, __c12, 1)),
+          deliverToDcPackageDetails: S.optional(__S(160, __c5, 0)),
+          returnToCustomerPackageDetails: __S(360, __c11, 8),
+          enableManifestBackup: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "DataBoxCustomerDiskJobDetails" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          serialNumber: S.optional(S.String),
+          bytesCopied: S.optional(S.Number),
+          percentComplete: S.optional(S.Number),
+          status: S.optional(S.String),
+          error: S.optional(__S(228, __c7, 4)),
+          actions: S.optional(__S(192, __c6, 0)),
+        }),
+      ).annotate({ identifier: "DataBoxDiskCopyProgress" });
+    case 4:
+      return S.Array(__S(387, __c12, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          copyLogDetailsType: S.String,
+          serialNumber: S.optional(S.String),
+          accountId: S.optional(S.String),
+          errorLogLink: S.optional(S.String),
+          verboseLogLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DataBoxDiskGranularCopyLogDetails" });
+    case 6:
+      return S.Array(__S(389, __c12, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          jobStages: S.optional(__S(367, __c11, 15)),
+          contactDetails: __S(355, __c11, 3),
+          shippingAddress: S.optional(__S(416, __c13, 0)),
+          deliveryPackage: S.optional(__S(368, __c11, 16)),
+          returnPackage: S.optional(__S(368, __c11, 16)),
+          dataImportDetails: S.optional(__S(421, __c13, 5)),
+          dataExportDetails: S.optional(__S(432, __c13, 16)),
+          jobDetailsType: S.String,
+          preferences: S.optional(__S(370, __c11, 18)),
+          reverseShippingDetails: S.optional(__S(371, __c11, 19)),
+          copyLogDetails: S.optional(__S(377, __c11, 25)),
+          reverseShipmentLabelSasKey: S.optional(S.String),
+          chainOfCustodySasKey: S.optional(S.String),
+          deviceErasureDetails: S.optional(__S(378, __c11, 26)),
+          keyEncryptionKey: S.optional(__S(359, __c11, 7)),
+          expectedDataSizeInTeraBytes: S.optional(S.Number),
+          actions: S.optional(__S(192, __c6, 0)),
+          lastMitigationActionOnJob: S.optional(__S(379, __c11, 27)),
+          datacenterAddress: S.optional(__S(322, __c10, 2)),
+          dataCenterCode: S.optional(S.String),
+          preferredDisks: S.optional(__S(361, __c11, 9)),
+          copyProgress: S.optional(__S(388, __c12, 4)),
+          granularCopyProgress: S.optional(__S(385, __c12, 1)),
+          granularCopyLogDetails: S.optional(__S(390, __c12, 6)),
+          disksAndSizeDetails: S.optional(__S(361, __c11, 9)),
+          passkey: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DataBoxDiskJobDetails" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          storageAccountName: S.optional(S.String),
+          transferType: S.optional(S.String),
+          dataAccountType: S.optional(S.String),
+          accountId: S.optional(S.String),
+          bytesProcessed: S.optional(S.Number),
+          totalBytesToProcess: S.optional(S.Number),
+          filesProcessed: S.optional(S.Number),
+          totalFilesToProcess: S.optional(S.Number),
+          invalidFilesProcessed: S.optional(S.Number),
+          invalidFileBytesUploaded: S.optional(S.Number),
+          renamedContainerCount: S.optional(S.Number),
+          filesErroredOut: S.optional(S.Number),
+          directoriesErroredOut: S.optional(S.Number),
+          invalidDirectoriesProcessed: S.optional(S.Number),
+          isEnumerationInProgress: S.optional(S.Boolean),
+          error: S.optional(__S(228, __c7, 4)),
+          actions: S.optional(__S(192, __c6, 0)),
+        }),
+      ).annotate({ identifier: "CopyProgress" });
+    case 9:
+      return S.Array(__S(392, __c12, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          jobStages: S.optional(__S(367, __c11, 15)),
+          contactDetails: __S(355, __c11, 3),
+          shippingAddress: S.optional(__S(416, __c13, 0)),
+          deliveryPackage: S.optional(__S(368, __c11, 16)),
+          returnPackage: S.optional(__S(368, __c11, 16)),
+          dataImportDetails: S.optional(__S(421, __c13, 5)),
+          dataExportDetails: S.optional(__S(432, __c13, 16)),
+          jobDetailsType: S.String,
+          preferences: S.optional(__S(370, __c11, 18)),
+          reverseShippingDetails: S.optional(__S(371, __c11, 19)),
+          copyLogDetails: S.optional(__S(377, __c11, 25)),
+          reverseShipmentLabelSasKey: S.optional(S.String),
+          chainOfCustodySasKey: S.optional(S.String),
+          deviceErasureDetails: S.optional(__S(378, __c11, 26)),
+          keyEncryptionKey: S.optional(__S(359, __c11, 7)),
+          expectedDataSizeInTeraBytes: S.optional(S.Number),
+          actions: S.optional(__S(192, __c6, 0)),
+          lastMitigationActionOnJob: S.optional(__S(379, __c11, 27)),
+          datacenterAddress: S.optional(__S(322, __c10, 2)),
+          dataCenterCode: S.optional(S.String),
+          copyProgress: S.optional(__S(393, __c12, 9)),
+          devicePassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
+        }),
+      ).annotate({ identifier: "DataBoxHeavyJobDetails" });
+    case 11:
+      return S.Union([
+        __S(386, __c12, 2),
+        __S(391, __c12, 7),
+        __S(394, __c12, 10),
+        __S(394, __c12, 10),
+      ]);
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          transferType: S.String,
+          isCancellable: S.optional(S.Boolean),
+          isDeletable: S.optional(S.Boolean),
+          isShippingAddressEditable: S.optional(S.Boolean),
+          reverseShippingDetailsUpdate: S.optional(S.String),
+          reverseTransportPreferenceUpdate: S.optional(S.String),
+          isPrepareToShipEnabled: S.optional(S.Boolean),
+          status: S.optional(S.String),
+          delayedStage: S.optional(S.String),
+          startTime: S.optional(S.String),
+          error: S.optional(__S(228, __c7, 4)),
+          details: S.optional(__S(395, __c12, 11)),
+          cancellationReason: S.optional(S.String),
+          deliveryType: S.optional(S.String),
+          deliveryInfo: S.optional(__S(362, __c11, 10)),
+          isCancellableWithoutFee: S.optional(S.Boolean),
+          allDevicesLost: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "JobProperties" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          principalId: S.optional(S.String),
+          clientId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ResourceIdentityUserAssignedIdentitiesValue" });
+    case 14:
+      return S.Record(S.String, __S(397, __c12, 13));
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          principalId: S.optional(S.String),
+          tenantId: S.optional(S.String),
+          userAssignedIdentities: S.optional(__S(398, __c12, 14)),
+        }),
+      ).annotate({ identifier: "ResourceIdentity" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           streetAddress1: S.String,
@@ -1918,63 +3437,75 @@ function __c8(j: number): any {
           taxIdentificationNumber: S.optional(S.String),
         }),
       ).annotate({ identifier: "ShippingAddress" });
-    case 5:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           dataAccountType: S.String,
           sharePassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          resourceGroupId: S.String,
+          stagingStorageAccountId: S.String,
         }),
-      ).annotate({ identifier: "DataAccountDetails" });
-    case 6:
+      ).annotate({ identifier: "ManagedDiskDetails" });
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          accountDetails: __S(261, __c8, 5),
+          dataAccountType: S.String,
+          sharePassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          storageAccountId: S.String,
+        }),
+      ).annotate({ identifier: "StorageAccountDetails" });
+    case 3:
+      return S.Union([__S(417, __c13, 1), __S(418, __c13, 2)]);
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          accountDetails: __S(419, __c13, 3),
           logCollectionLevel: S.optional(S.String),
         }),
       ).annotate({ identifier: "DataImportDetails" });
-    case 7:
-      return S.Array(__S(262, __c8, 6));
-    case 8:
+    case 5:
+      return S.Array(__S(420, __c13, 4));
+    case 6:
       return S.suspend(() =>
         S.Struct({
-          blobPrefixList: S.optional(__S(160, __c5, 0)),
-          blobPathList: S.optional(__S(160, __c5, 0)),
-          containerList: S.optional(__S(160, __c5, 0)),
+          blobPrefixList: S.optional(__S(256, __c8, 0)),
+          blobPathList: S.optional(__S(256, __c8, 0)),
+          containerList: S.optional(__S(256, __c8, 0)),
         }),
       ).annotate({ identifier: "BlobFilterDetails" });
-    case 9:
+    case 7:
       return S.suspend(() =>
         S.Struct({
-          filePrefixList: S.optional(__S(160, __c5, 0)),
-          filePathList: S.optional(__S(160, __c5, 0)),
-          fileShareList: S.optional(__S(160, __c5, 0)),
+          filePrefixList: S.optional(__S(256, __c8, 0)),
+          filePathList: S.optional(__S(256, __c8, 0)),
+          fileShareList: S.optional(__S(256, __c8, 0)),
         }),
       ).annotate({ identifier: "AzureFileFilterDetails" });
-    case 10:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           filterFileType: S.String,
           filterFilePath: S.String,
         }),
       ).annotate({ identifier: "FilterFileDetails" });
-    case 11:
-      return S.Array(__S(266, __c8, 10));
-    case 12:
+    case 9:
+      return S.Array(__S(424, __c13, 8));
+    case 10:
       return S.suspend(() =>
         S.Struct({
           dataAccountType: S.String,
-          blobFilterDetails: S.optional(__S(264, __c8, 8)),
-          azureFileFilterDetails: S.optional(__S(265, __c8, 9)),
-          filterFileDetails: S.optional(__S(267, __c8, 11)),
+          blobFilterDetails: S.optional(__S(422, __c13, 6)),
+          azureFileFilterDetails: S.optional(__S(423, __c13, 7)),
+          filterFileDetails: S.optional(__S(425, __c13, 9)),
         }),
       ).annotate({ identifier: "TransferFilterDetails" });
-    case 13:
+    case 11:
       return S.suspend(() =>
         S.Struct({
-          include: S.optional(__S(268, __c8, 12)),
+          include: S.optional(__S(426, __c13, 10)),
         }),
       ).annotate({ identifier: "TransferConfigurationTransferFilterDetails" });
-    case 14:
+    case 12:
       return S.suspend(() =>
         S.Struct({
           dataAccountType: S.String,
@@ -1982,239 +3513,40 @@ function __c8(j: number): any {
           transferAllFiles: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "TransferAllDetails" });
-    case 15:
+    case 13:
       return S.suspend(() =>
         S.Struct({
-          include: S.optional(__S(270, __c8, 14)),
+          include: S.optional(__S(428, __c13, 12)),
         }),
       ).annotate({ identifier: "TransferConfigurationTransferAllDetails" });
-    case 16:
+    case 14:
       return S.suspend(() =>
         S.Struct({
           transferConfigurationType: S.String,
-          transferFilterDetails: S.optional(__S(269, __c8, 13)),
-          transferAllDetails: S.optional(__S(271, __c8, 15)),
+          transferFilterDetails: S.optional(__S(427, __c13, 11)),
+          transferAllDetails: S.optional(__S(429, __c13, 13)),
         }),
       ).annotate({ identifier: "TransferConfiguration" });
-    case 17:
+    case 15:
       return S.suspend(() =>
         S.Struct({
-          transferConfiguration: __S(272, __c8, 16),
+          transferConfiguration: __S(430, __c13, 14),
           logCollectionLevel: S.optional(S.String),
-          accountDetails: __S(261, __c8, 5),
+          accountDetails: __S(419, __c13, 3),
         }),
       ).annotate({ identifier: "DataExportDetails" });
-    case 18:
-      return S.Array(__S(273, __c8, 17));
-    case 19:
+    case 16:
+      return S.Array(__S(431, __c13, 15));
+    case 17:
       return S.suspend(() =>
         S.Struct({
           doubleEncryption: S.optional(S.String),
           hardwareEncryption: S.optional(S.String),
         }),
       ).annotate({ identifier: "EncryptionPreferences" });
-    case 20:
-      return S.suspend(() =>
-        S.Struct({
-          contactName: S.String,
-          phone: S.String,
-          phoneExtension: S.optional(S.String),
-          mobile: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ContactInfo" });
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          resourceId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "UserAssignedProperties" });
-    case 22:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          userAssigned: S.optional(__S(277, __c8, 21)),
-        }),
-      ).annotate({ identifier: "IdentityProperties" });
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
-          kekType: S.String,
-          identityProperties: S.optional(__S(278, __c8, 22)),
-          kekUrl: S.optional(S.String),
-          kekVaultResourceID: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "KeyEncryptionKey" });
-    case 24:
-      return S.suspend(() =>
-        S.Struct({
-          scheduledDateTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "JobDeliveryInfo" });
-    case 25:
-      return S.suspend(() =>
-        S.Struct({
-          createdBy: S.optional(S.String),
-          createdByType: S.optional(S.String),
-          createdAt: S.optional(S.String),
-          lastModifiedBy: S.optional(S.String),
-          lastModifiedByType: S.optional(S.String),
-          lastModifiedAt: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SystemData" });
-    case 26:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.String),
-          errorCode: S.optional(S.String),
-          description: S.optional(S.String),
-          startTime: S.optional(S.String),
-          resolutionTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "JobDelayDetails" });
-    case 27:
-      return S.Array(__S(282, __c8, 26));
-    case 28:
-      return S.suspend(() =>
-        S.Struct({
-          stageName: S.optional(S.String),
-          displayName: S.optional(S.String),
-          stageStatus: S.optional(S.String),
-          stageTime: S.optional(S.String),
-          jobStageDetails: S.optional(S.Unknown),
-          delayInformation: S.optional(__S(283, __c8, 27)),
-        }),
-      ).annotate({ identifier: "JobStages" });
-    case 29:
-      return S.Array(__S(284, __c8, 28));
-    case 30:
-      return S.suspend(() =>
-        S.Struct({
-          trackingUrl: S.optional(S.String),
-          carrierName: S.optional(S.String),
-          trackingId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PackageShippingDetails" });
-    case 31:
-      return S.suspend(() =>
-        S.Struct({
-          preferredShipmentType: S.String,
-          isUpdated: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "TransportPreferences" });
   }
 }
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          preferredDataCenterRegion: S.optional(__S(160, __c5, 0)),
-          transportPreferences: S.optional(__S(287, __c8, 31)),
-          reverseTransportPreferences: S.optional(__S(287, __c8, 31)),
-          encryptionPreferences: S.optional(__S(275, __c8, 19)),
-          storageAccountAccessTierPreferences: S.optional(__S(192, __c6, 0)),
-        }),
-      ).annotate({ identifier: "Preferences" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          contactDetails: S.optional(__S(276, __c8, 20)),
-          shippingAddress: S.optional(__S(260, __c8, 4)),
-          isUpdated: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "ReverseShippingDetails" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          copyLogDetailsType: S.String,
-        }),
-      ).annotate({ identifier: "CopyLogDetails" });
-    case 3:
-      return S.Array(__S(290, __c9, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          deviceErasureStatus: S.optional(S.String),
-          erasureOrDestructionCertificateSasKey: S.optional(S.String),
-          secureErasureCertificateSasKey: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DeviceErasureDetails" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          actionDateTimeInUtc: S.optional(S.String),
-          isPerformedByCustomer: S.optional(S.Boolean),
-          customerResolution: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "LastMitigationActionOnJob" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          jobStages: S.optional(__S(285, __c8, 29)),
-          contactDetails: __S(259, __c8, 3),
-          shippingAddress: S.optional(__S(260, __c8, 4)),
-          deliveryPackage: S.optional(__S(286, __c8, 30)),
-          returnPackage: S.optional(__S(286, __c8, 30)),
-          dataImportDetails: S.optional(__S(263, __c8, 7)),
-          dataExportDetails: S.optional(__S(274, __c8, 18)),
-          jobDetailsType: S.String,
-          preferences: S.optional(__S(288, __c9, 0)),
-          reverseShippingDetails: S.optional(__S(289, __c9, 1)),
-          copyLogDetails: S.optional(__S(291, __c9, 3)),
-          reverseShipmentLabelSasKey: S.optional(S.String),
-          chainOfCustodySasKey: S.optional(S.String),
-          deviceErasureDetails: S.optional(__S(292, __c9, 4)),
-          keyEncryptionKey: S.optional(__S(279, __c8, 23)),
-          expectedDataSizeInTeraBytes: S.optional(S.Number),
-          actions: S.optional(__S(192, __c6, 0)),
-          lastMitigationActionOnJob: S.optional(__S(293, __c9, 5)),
-          datacenterAddress: S.optional(__S(224, __c7, 0)),
-          dataCenterCode: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "JobDetails" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          transferType: S.String,
-          isCancellable: S.optional(S.Boolean),
-          isDeletable: S.optional(S.Boolean),
-          isShippingAddressEditable: S.optional(S.Boolean),
-          reverseShippingDetailsUpdate: S.optional(S.String),
-          reverseTransportPreferenceUpdate: S.optional(S.String),
-          isPrepareToShipEnabled: S.optional(S.Boolean),
-          status: S.optional(S.String),
-          delayedStage: S.optional(S.String),
-          startTime: S.optional(S.String),
-          error: S.optional(__S(132, __c4, 4)),
-          details: S.optional(__S(294, __c9, 6)),
-          cancellationReason: S.optional(S.String),
-          deliveryType: S.optional(S.String),
-          deliveryInfo: S.optional(__S(280, __c8, 24)),
-          isCancellableWithoutFee: S.optional(S.Boolean),
-          allDevicesLost: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "JobProperties" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          principalId: S.optional(S.String),
-          clientId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ResourceIdentityUserAssignedIdentitiesValue" });
-    case 9:
-      return S.Record(S.String, __S(296, __c9, 8));
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          principalId: S.optional(S.String),
-          tenantId: S.optional(S.String),
-          userAssignedIdentities: S.optional(__S(297, __c9, 9)),
-        }),
-      ).annotate({ identifier: "ResourceIdentity" });
-  }
-}
-function __c10(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2242,7 +3574,7 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "DataLocationToServiceLocationMap" });
     case 2:
-      return S.Array(__S(321, __c10, 1));
+      return S.Array(__S(449, __c14, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -2260,40 +3592,40 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "SkuCost" });
     case 5:
-      return S.Array(__S(324, __c10, 4));
+      return S.Array(__S(452, __c14, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          dataLocationToServiceLocationMap: S.optional(__S(322, __c10, 2)),
-          capacity: S.optional(__S(323, __c10, 3)),
-          costs: S.optional(__S(325, __c10, 5)),
-          apiVersions: S.optional(__S(160, __c5, 0)),
+          dataLocationToServiceLocationMap: S.optional(__S(450, __c14, 2)),
+          capacity: S.optional(__S(451, __c14, 3)),
+          costs: S.optional(__S(453, __c14, 5)),
+          apiVersions: S.optional(__S(256, __c8, 0)),
           disabledReason: S.optional(S.String),
           disabledReasonMessage: S.optional(S.String),
           requiredFeature: S.optional(S.String),
-          countriesWithinCommerceBoundary: S.optional(__S(160, __c5, 0)),
+          countriesWithinCommerceBoundary: S.optional(__S(256, __c8, 0)),
         }),
       ).annotate({ identifier: "SkuProperties" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          sku: S.optional(__S(193, __c6, 1)),
+          sku: S.optional(__S(288, __c9, 0)),
           enabled: S.optional(S.Boolean),
-          properties: S.optional(__S(326, __c10, 6)),
+          properties: S.optional(__S(454, __c14, 6)),
         }),
       ).annotate({ identifier: "SkuInformation" });
     case 8:
-      return S.Array(__S(327, __c10, 7));
+      return S.Array(__S(455, __c14, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          value: __S(328, __c10, 8),
+          value: __S(456, __c14, 8),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AvailableSkusResult" });
   }
 }
-function __c11(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
@@ -2304,7 +3636,7 @@ function __c11(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           jobName: S.String.pipe(T.Label()),
           customerResolutionCode: S.optional(S.String),
-          serialNumberCustomerResolutionMap: S.optional(__S(352, __c11, 0)),
+          serialNumberCustomerResolutionMap: S.optional(__S(480, __c15, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2316,17 +3648,17 @@ function __c11(j: number): any {
       ).annotate({ identifier: "MitigateRequest" });
   }
 }
-function __c12(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
-          scheduleAvailabilityRequest: S.optional(__S(416, __c13, 0)),
-          transportAvailabilityRequest: S.optional(__S(417, __c13, 1)),
-          datacenterAddressRequest: S.optional(__S(418, __c13, 2)),
-          deviceCapabilityRequest: S.optional(__S(417, __c13, 1)),
+          scheduleAvailabilityRequest: S.optional(__S(546, __c17, 2)),
+          transportAvailabilityRequest: S.optional(__S(547, __c17, 3)),
+          datacenterAddressRequest: S.optional(__S(548, __c17, 4)),
+          deviceCapabilityRequest: S.optional(__S(547, __c17, 3)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2338,7 +3670,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "ServiceRegionConfigurationRequest" });
   }
 }
-function __c13(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2348,15 +3680,27 @@ function __c13(j: number): any {
           country: S.optional(S.String),
           model: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ScheduleAvailabilityRequest" });
+      ).annotate({ identifier: "DataBoxScheduleAvailabilityRequest" });
     case 1:
+      return S.suspend(() =>
+        S.Struct({
+          storageLocation: S.String,
+          skuName: S.String,
+          country: S.optional(S.String),
+          model: S.optional(S.String),
+          expectedDataSizeInTeraBytes: S.Number,
+        }),
+      ).annotate({ identifier: "DiskScheduleAvailabilityRequest" });
+    case 2:
+      return S.Union([__S(544, __c17, 0), __S(545, __c17, 1), __S(544, __c17, 0)]);
+    case 3:
       return S.suspend(() =>
         S.Struct({
           skuName: S.optional(S.String),
           model: S.optional(S.String),
         }),
       ).annotate({ identifier: "TransportAvailabilityRequest" });
-    case 2:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           storageLocation: S.String,
@@ -2364,52 +3708,52 @@ function __c13(j: number): any {
           model: S.optional(S.String),
         }),
       ).annotate({ identifier: "DatacenterAddressRequest" });
-    case 3:
+    case 5:
       return S.suspend(() =>
         S.Struct({
-          availableDates: S.optional(__S(160, __c5, 0)),
+          availableDates: S.optional(__S(256, __c8, 0)),
         }),
       ).annotate({ identifier: "ScheduleAvailabilityResponse" });
-    case 4:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           shipmentType: S.optional(S.String),
         }),
       ).annotate({ identifier: "TransportAvailabilityDetails" });
-    case 5:
-      return S.Array(__S(420, __c13, 4));
-    case 6:
+    case 7:
+      return S.Array(__S(550, __c17, 6));
+    case 8:
       return S.suspend(() =>
         S.Struct({
-          transportAvailabilityDetails: S.optional(__S(421, __c13, 5)),
+          transportAvailabilityDetails: S.optional(__S(551, __c17, 7)),
         }),
       ).annotate({ identifier: "TransportAvailabilityResponse" });
-    case 7:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           hardwareEncryption: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeviceCapabilityDetails" });
-    case 8:
-      return S.Array(__S(423, __c13, 7));
-    case 9:
+    case 10:
+      return S.Array(__S(553, __c17, 9));
+    case 11:
       return S.suspend(() =>
         S.Struct({
-          deviceCapabilityDetails: S.optional(__S(424, __c13, 8)),
+          deviceCapabilityDetails: S.optional(__S(554, __c17, 10)),
         }),
       ).annotate({ identifier: "DeviceCapabilityResponse" });
-    case 10:
+    case 12:
       return S.suspend(() =>
         S.Struct({
-          scheduleAvailabilityResponse: S.optional(__S(419, __c13, 3)),
-          transportAvailabilityResponse: S.optional(__S(422, __c13, 6)),
-          datacenterAddressResponse: S.optional(__S(224, __c7, 0)),
-          deviceCapabilityResponse: S.optional(__S(425, __c13, 9)),
+          scheduleAvailabilityResponse: S.optional(__S(549, __c17, 5)),
+          transportAvailabilityResponse: S.optional(__S(552, __c17, 8)),
+          datacenterAddressResponse: S.optional(__S(322, __c10, 2)),
+          deviceCapabilityResponse: S.optional(__S(555, __c17, 11)),
         }),
       ).annotate({ identifier: "RegionConfigurationResponse" });
   }
 }
-function __c14(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2417,10 +3761,10 @@ function __c14(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
-          scheduleAvailabilityRequest: S.optional(__S(416, __c13, 0)),
-          transportAvailabilityRequest: S.optional(__S(417, __c13, 1)),
-          datacenterAddressRequest: S.optional(__S(418, __c13, 2)),
-          deviceCapabilityRequest: S.optional(__S(417, __c13, 1)),
+          scheduleAvailabilityRequest: S.optional(__S(546, __c17, 2)),
+          transportAvailabilityRequest: S.optional(__S(547, __c17, 3)),
+          datacenterAddressRequest: S.optional(__S(548, __c17, 4)),
+          deviceCapabilityRequest: S.optional(__S(547, __c17, 3)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2432,42 +3776,34 @@ function __c14(j: number): any {
       ).annotate({ identifier: "ServiceRegionConfigurationByResourceGroupRequest" });
   }
 }
-function __c15(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          carrierAccountNumber: S.optional(S.String),
-          carrierName: S.optional(S.String),
-          trackingId: S.optional(S.String),
+          contactDetails: S.optional(__S(355, __c11, 3)),
+          shippingAddress: S.optional(__S(416, __c13, 0)),
+          reverseShippingDetails: S.optional(__S(96, __c3, 0)),
+          preferences: S.optional(__S(129, __c4, 1)),
+          keyEncryptionKey: S.optional(__S(359, __c11, 7)),
+          returnToCustomerPackageDetails: S.optional(__S(360, __c11, 8)),
         }),
-      ).annotate({ identifier: "PackageCarrierDetails" });
+      ).annotate({ identifier: "UpdateJobDetailsInput" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          contactDetails: S.optional(__S(259, __c8, 3)),
-          shippingAddress: S.optional(__S(260, __c8, 4)),
-          reverseShippingDetails: S.optional(__S(98, __c3, 2)),
-          preferences: S.optional(__S(97, __c3, 1)),
-          keyEncryptionKey: S.optional(__S(279, __c8, 23)),
-          returnToCustomerPackageDetails: S.optional(__S(480, __c15, 0)),
-        }),
-      ).annotate({ identifier: "UpdateJobDetailsInput" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          details: S.optional(__S(481, __c15, 1)),
+          details: S.optional(__S(608, __c19, 0)),
         }),
       ).annotate({ identifier: "UpdateJobPropertiesInput" });
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           jobName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(482, __c15, 2)),
-          tags: S.optional(__S(256, __c8, 0)),
-          identity: S.optional(__S(100, __c3, 4)),
+          properties: S.optional(__S(609, __c19, 1)),
+          tags: S.optional(__S(352, __c11, 0)),
+          identity: S.optional(__S(98, __c3, 2)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2479,15 +3815,14 @@ function __c15(j: number): any {
       ).annotate({ identifier: "UpdateJobRequest" });
   }
 }
-function __c16(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
-          validationCategory: S.String,
-          individualRequestDetails: __S(545, __c17, 1),
+          body: __S(680, __c21, 8).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2499,41 +3834,127 @@ function __c16(j: number): any {
       ).annotate({ identifier: "ValidateServiceInputsRequest" });
   }
 }
-function __c17(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           validationType: S.String,
+          deviceType: S.String,
+          model: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ValidationInputRequest" });
+      ).annotate({ identifier: "CreateOrderLimitForSubscriptionValidationRequest" });
     case 1:
-      return S.Array(__S(544, __c17, 0));
+      return S.suspend(() =>
+        S.Struct({
+          validationType: S.String,
+          dataExportDetails: S.optional(__S(432, __c13, 16)),
+          dataImportDetails: S.optional(__S(421, __c13, 5)),
+          deviceType: S.String,
+          transferType: S.String,
+          model: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DataTransferDetailsValidationRequest" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           validationType: S.String,
-          error: S.optional(__S(132, __c4, 4)),
+          preference: S.optional(__S(129, __c4, 1)),
+          deviceType: S.String,
+          model: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ValidationInputResponse" });
+      ).annotate({ identifier: "PreferencesValidationRequestInput" });
     case 3:
-      return S.Array(__S(546, __c17, 2));
+      return S.suspend(() =>
+        S.Struct({
+          validationType: S.String,
+          deviceType: S.String,
+          transferType: S.String,
+          country: S.String,
+          location: S.String,
+          model: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SkuAvailabilityValidationRequest" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          status: S.optional(S.String),
-          individualResponseDetails: S.optional(__S(547, __c17, 3)),
+          validationType: S.String,
         }),
-      ).annotate({ identifier: "ValidationResponseProperties" });
+      ).annotate({ identifier: "SubscriptionIsAllowedToCreateJobValidationRequest" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(548, __c17, 4)),
+          validationType: S.String,
+          shippingAddress: __S(416, __c13, 0),
+          deviceType: S.String,
+          transportPreferences: S.optional(__S(128, __c4, 0)),
+          model: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ValidateAddressInput" });
+    case 6:
+      return S.Union([
+        __S(672, __c21, 0),
+        __S(673, __c21, 1),
+        __S(674, __c21, 2),
+        __S(675, __c21, 3),
+        __S(676, __c21, 4),
+        __S(677, __c21, 5),
+      ]);
+    case 7:
+      return S.Array(__S(678, __c21, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          validationCategory: S.String,
+          individualRequestDetails: __S(679, __c21, 7),
+        }),
+      ).annotate({ identifier: "CreateJobValidationsInput" });
+    case 9:
+      return S.Array(__S(416, __c13, 0));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          validationType: S.String,
+          error: S.optional(__S(228, __c7, 4)),
+          validationStatus: S.optional(S.String),
+          alternateAddresses: S.optional(__S(681, __c21, 9)),
+        }),
+      ).annotate({ identifier: "AddressValidationProperties" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          validationType: S.String,
+          error: S.optional(__S(228, __c7, 4)),
+          status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateOrderLimitForSubscriptionValidationResponseProperties" });
+    case 12:
+      return S.Union([
+        __S(682, __c21, 10),
+        __S(683, __c21, 11),
+        __S(683, __c21, 11),
+        __S(683, __c21, 11),
+        __S(683, __c21, 11),
+        __S(683, __c21, 11),
+      ]);
+    case 13:
+      return S.Array(__S(684, __c21, 12));
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          individualResponseDetails: S.optional(__S(685, __c21, 13)),
+        }),
+      ).annotate({ identifier: "ValidationResponseProperties" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          properties: S.optional(__S(686, __c21, 14)),
         }),
       ).annotate({ identifier: "ValidationResponse" });
   }
 }
-function __c18(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2541,8 +3962,7 @@ function __c18(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
-          validationCategory: S.String,
-          individualRequestDetails: __S(545, __c17, 1),
+          body: __S(680, __c21, 8).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2554,7 +3974,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "ValidateServiceInputsByResourceGroupRequest" });
   }
 }
-function __c19(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2580,7 +4000,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "DeleteJobResponse" });
   }
 }
-function __c20(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2600,7 +4020,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "GetJobRequest" });
   }
 }
-function __c21(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2608,17 +4028,17 @@ function __c21(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(281, __c8, 25)),
-          tags: S.optional(__S(256, __c8, 0)),
+          systemData: S.optional(__S(363, __c11, 11)),
+          tags: S.optional(__S(352, __c11, 0)),
           location: S.String,
-          properties: __S(295, __c9, 7),
-          sku: __S(193, __c6, 1),
-          identity: S.optional(__S(298, __c9, 10)),
+          properties: __S(396, __c12, 12),
+          sku: __S(288, __c9, 0),
+          identity: S.optional(__S(399, __c12, 15)),
         }),
       ).annotate({ identifier: "GetJobResponse" });
   }
 }
-function __c22(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2647,22 +4067,15 @@ function __c22(j: number): any {
       ).annotate({ identifier: "ShipmentPickUpResponse" });
   }
 }
-function __c23(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          carrierName: S.optional(S.String),
-          trackingId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PackageCarrierInfo" });
-    case 1:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           jobName: S.String.pipe(T.Label()),
-          deliverToDcPackageDetails: __S(736, __c23, 0),
+          deliverToDcPackageDetails: __S(160, __c5, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2674,7 +4087,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "JobsMarkDevicesShippedRequest" });
   }
 }
-function __c24(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2693,20 +4106,20 @@ function __c24(j: number): any {
       ).annotate({ identifier: "ListJobByResourceGroupRequest" });
   }
 }
-function __c25(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(672, __c21, 0));
+      return S.Array(__S(800, __c25, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(800, __c25, 0),
+          value: __S(928, __c29, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "JobResourceList" });
   }
 }
-function __c26(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2733,30 +4146,121 @@ function __c26(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          jobSecretsType: S.String,
-          dcAccessSecurityCode: S.optional(__S(833, __c26, 1)),
-          error: S.optional(__S(132, __c4, 4)),
+          diskSerialNumber: S.optional(S.String),
+          bitLockerKey: S.optional(S.String),
         }),
-      ).annotate({ identifier: "JobSecrets" });
+      ).annotate({ identifier: "DiskSecret" });
     case 3:
+      return S.Array(__S(962, __c30, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
-          jobName: S.optional(S.String),
-          jobSecrets: S.optional(__S(834, __c26, 2)),
+          jobSecretsType: S.String,
+          dcAccessSecurityCode: S.optional(__S(961, __c30, 1)),
+          error: S.optional(__S(228, __c7, 4)),
+          diskSecrets: S.optional(__S(963, __c30, 3)),
+          carrierAccountNumber: S.optional(S.String),
         }),
-      ).annotate({ identifier: "UnencryptedCredentials" });
-    case 4:
-      return S.Array(__S(835, __c26, 3));
+      ).annotate({ identifier: "CustomerDiskJobSecrets" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          value: __S(836, __c26, 4),
+          jobSecretsType: S.String,
+          dcAccessSecurityCode: S.optional(__S(961, __c30, 1)),
+          error: S.optional(__S(228, __c7, 4)),
+          diskSecrets: S.optional(__S(963, __c30, 3)),
+          passKey: S.optional(S.String),
+          isPasskeyUserDefined: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "DataBoxDiskJobSecrets" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          macAddress: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ApplianceNetworkConfiguration" });
+    case 7:
+      return S.Array(__S(966, __c30, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          shareName: S.optional(S.String),
+          shareType: S.optional(S.String),
+          userName: S.optional(S.String),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          supportedAccessProtocols: S.optional(__S(192, __c6, 0)),
+        }),
+      ).annotate({ identifier: "ShareCredentialDetails" });
+    case 9:
+      return S.Array(__S(968, __c30, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          accountName: S.optional(S.String),
+          dataAccountType: S.optional(S.String),
+          accountConnectionString: S.optional(S.String),
+          shareCredentialDetails: S.optional(__S(969, __c30, 9)),
+        }),
+      ).annotate({ identifier: "AccountCredentialDetails" });
+    case 11:
+      return S.Array(__S(970, __c30, 10));
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          deviceSerialNumber: S.optional(S.String),
+          devicePassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          networkConfigurations: S.optional(__S(967, __c30, 7)),
+          encodedValidationCertPubKey: S.optional(S.String),
+          accountCredentialDetails: S.optional(__S(971, __c30, 11)),
+        }),
+      ).annotate({ identifier: "DataBoxHeavySecret" });
+    case 13:
+      return S.Array(__S(972, __c30, 12));
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          jobSecretsType: S.String,
+          dcAccessSecurityCode: S.optional(__S(961, __c30, 1)),
+          error: S.optional(__S(228, __c7, 4)),
+          cabinetPodSecrets: S.optional(__S(973, __c30, 13)),
+        }),
+      ).annotate({ identifier: "DataBoxHeavyJobSecrets" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          jobSecretsType: S.String,
+          dcAccessSecurityCode: S.optional(__S(961, __c30, 1)),
+          error: S.optional(__S(228, __c7, 4)),
+          podSecrets: S.optional(__S(973, __c30, 13)),
+        }),
+      ).annotate({ identifier: "DataboxJobSecrets" });
+    case 16:
+      return S.Union([
+        __S(964, __c30, 4),
+        __S(965, __c30, 5),
+        __S(974, __c30, 14),
+        __S(975, __c30, 15),
+      ]);
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          jobName: S.optional(S.String),
+          jobSecrets: S.optional(__S(976, __c30, 16)),
+        }),
+      ).annotate({ identifier: "UnencryptedCredentials" });
+    case 18:
+      return S.Array(__S(977, __c30, 17));
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(978, __c30, 18),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "UnencryptedCredentialsList" });
   }
 }
-function __c27(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2774,7 +4278,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "ListJobsRequest" });
   }
 }
-function __c28(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2800,18 +4304,18 @@ function __c28(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          display: S.optional(__S(897, __c28, 1)),
+          display: S.optional(__S(1025, __c32, 1)),
           properties: S.optional(S.Unknown),
           origin: S.optional(S.String),
           isDataAction: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Operation" });
     case 3:
-      return S.Array(__S(898, __c28, 2));
+      return S.Array(__S(1026, __c32, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(899, __c28, 3)),
+          value: S.optional(__S(1027, __c32, 3)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OperationList" });

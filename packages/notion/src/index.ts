@@ -16,12 +16,14 @@
  * import { Effect, Layer } from "effect";
  * import * as FetchHttpClient from "effect/http/FetchHttpClient";
  * import * as Notion from "@distilled.cloud/notion";
+ * import * as Search from "@distilled.cloud/notion/search";
+ * import * as Pages from "@distilled.cloud/notion/pages";
  *
  * const program = Effect.gen(function* () {
- *   const { results } = yield* Notion.search.searchByTitle({ query: "Roadmap", page_size: 1 });
+ *   const { results } = yield* Search.searchByTitle({ query: "Roadmap", page_size: 1 });
  *   const first = results[0];
  *   if (first === undefined || first.object !== "page") return undefined;
- *   return yield* Notion.pages.getPage({ page_id: first.id });
+ *   return yield* Pages.getPage({ page_id: first.id });
  * });
  *
  * const Live = Layer.mergeAll(
@@ -39,4 +41,3 @@ export * as T from "./traits.ts";
 export { NotionProtocol, type NotionOpError, type NotionOpContext } from "./protocol.ts";
 export { paginateCursor } from "./pagination.ts";
 export * as Retry from "./retry.ts";
-export * from "./services/index.ts";

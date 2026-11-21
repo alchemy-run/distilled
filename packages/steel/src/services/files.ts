@@ -30,36 +30,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class UnsupportedMediaType
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnsupportedMediaType>()("UnsupportedMediaType", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 415 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export interface DeleteAllFilesRequest {
   sessionId: string;
@@ -126,6 +154,27 @@ export interface UploadGlobalFileRequest {
   /** Path to the file in the storage system */
   path?: string | undefined;
 }
+export interface ErrorResponseContextItem {
+  keyword: string;
+  message: string;
+  params: unknown;
+}
+export type ErrorResponseContextList = Array<ErrorResponseContextItem>;
+/** An error response from the API */
+export interface ErrorResponse {
+  /** Stable machine-readable reason, e.g. 'budget_exceeded' or 'profile_not_ready'. Branch on this instead of parsing the message. */
+  code?: string | undefined;
+  context?: ErrorResponseContextList | undefined;
+  error?: string | undefined;
+  linkToDocs?: string | undefined;
+  message: string;
+  /** The request field that caused the error, if any. */
+  param?: string | undefined;
+  /** Seconds to wait before retrying. Also sent as the Retry-After header. */
+  retryAfterSeconds?: number | undefined;
+  /** Whether the same request can succeed later without changes. False means fix the request or the account first. */
+  retryable?: boolean | undefined;
+}
 export type DeleteAllFilesError = NotFound | Conflict | SteelOpError;
 /** Delete all files Delete all files from a session */
 export const deleteAllFiles: API.OperationMethod<
@@ -134,8 +183,8 @@ export const deleteAllFiles: API.OperationMethod<
   DeleteAllFilesError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c6, 0) as any as S.Schema<DeleteAllFilesRequest>,
-  output: __S(14, __c7, 0) as any as S.Schema<DeleteAllFilesResponse>,
+  input: __S(28, __c7, 0) as any as S.Schema<DeleteAllFilesRequest>,
+  output: __S(32, __c8, 0) as any as S.Schema<DeleteAllFilesResponse>,
   errors: [NotFound, Conflict, UnknownSteelError],
   protocol: SteelProtocol,
   retry: Retry.Retry,
@@ -151,8 +200,8 @@ export const deleteFile: API.OperationMethod<
   DeleteFileError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c8, 0) as any as S.Schema<DeleteFileRequest>,
-  output: __S(14, __c7, 0) as any as S.Schema<DeleteFileResponse>,
+  input: __S(36, __c9, 0) as any as S.Schema<DeleteFileRequest>,
+  output: __S(32, __c8, 0) as any as S.Schema<DeleteFileResponse>,
   errors: [NotFound, Conflict, UnknownSteelError],
   protocol: SteelProtocol,
   retry: Retry.Retry,
@@ -168,8 +217,8 @@ export const deleteGlobalFile: API.OperationMethod<
   DeleteGlobalFileError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18, __c9, 0) as any as S.Schema<DeleteGlobalFileRequest>,
-  output: __S(14, __c7, 0) as any as S.Schema<DeleteGlobalFileResponse>,
+  input: __S(40, __c10, 0) as any as S.Schema<DeleteGlobalFileRequest>,
+  output: __S(32, __c8, 0) as any as S.Schema<DeleteGlobalFileResponse>,
   errors: [NotFound, UnknownSteelError],
   protocol: SteelProtocol,
   retry: Retry.Retry,
@@ -185,8 +234,8 @@ export const downloadArchive: API.OperationMethod<
   DownloadArchiveError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c10, 0) as any as S.Schema<DownloadArchiveRequest>,
-  output: __S(21, __c10, 1) as any as S.Codec<DownloadArchiveResponse>,
+  input: __S(44, __c11, 0) as any as S.Schema<DownloadArchiveRequest>,
+  output: __S(45, __c11, 1) as any as S.Codec<DownloadArchiveResponse>,
   errors: [NotFound, Conflict, UnknownSteelError],
   protocol: SteelProtocol,
   retry: Retry.Retry,
@@ -202,8 +251,8 @@ export const downloadFile: API.OperationMethod<
   DownloadFileError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22, __c11, 0) as any as S.Schema<DownloadFileRequest>,
-  output: __S(23, __c11, 1) as any as S.Codec<DownloadFileResponse>,
+  input: __S(48, __c12, 0) as any as S.Schema<DownloadFileRequest>,
+  output: __S(49, __c12, 1) as any as S.Codec<DownloadFileResponse>,
   errors: [NotFound, Conflict, UnknownSteelError],
   protocol: SteelProtocol,
   retry: Retry.Retry,
@@ -219,8 +268,8 @@ export const downloadGlobalFile: API.OperationMethod<
   DownloadGlobalFileError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c12, 0) as any as S.Schema<DownloadGlobalFileRequest>,
-  output: __S(25, __c12, 1) as any as S.Codec<DownloadGlobalFileResponse>,
+  input: __S(52, __c13, 0) as any as S.Schema<DownloadGlobalFileRequest>,
+  output: __S(53, __c13, 1) as any as S.Codec<DownloadGlobalFileResponse>,
   errors: [NotFound, UnknownSteelError],
   protocol: SteelProtocol,
   retry: Retry.Retry,
@@ -236,8 +285,8 @@ export const listFiles: API.OperationMethod<
   ListFilesError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<ListFilesRequest>,
-  output: __S(3, __c1, 1) as any as S.Schema<MultipleFiles>,
+  input: __S(4, __c1, 0) as any as S.Schema<ListFilesRequest>,
+  output: __S(9, __c2, 1) as any as S.Schema<MultipleFiles>,
   errors: [NotFound, Conflict, UnknownSteelError],
   protocol: SteelProtocol,
   retry: Retry.Retry,
@@ -253,8 +302,8 @@ export const listGlobalFiles: API.OperationMethod<
   ListGlobalFilesError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6, __c3, 0) as any as S.Schema<ListGlobalFilesRequest>,
-  output: __S(3, __c1, 1) as any as S.Schema<MultipleFiles>,
+  input: __S(16, __c4, 0) as any as S.Schema<ListGlobalFilesRequest>,
+  output: __S(9, __c2, 1) as any as S.Schema<MultipleFiles>,
   errors: [UnknownSteelError],
   protocol: SteelProtocol,
   retry: Retry.Retry,
@@ -275,8 +324,8 @@ export const uploadFile: API.OperationMethod<
   UploadFileError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c4, 0) as any as S.Schema<UploadFileRequest>,
-  output: __S(4, __c2, 0) as any as S.Schema<FileDetails>,
+  input: __S(20, __c5, 0) as any as S.Schema<UploadFileRequest>,
+  output: __S(12, __c3, 0) as any as S.Schema<FileDetails>,
   errors: [BadRequest, NotFound, Conflict, UnsupportedMediaType, UnknownSteelError],
   protocol: SteelProtocol,
   retry: Retry.Retry,
@@ -292,8 +341,8 @@ export const uploadGlobalFile: API.OperationMethod<
   UploadGlobalFileError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10, __c5, 0) as any as S.Schema<UploadGlobalFileRequest>,
-  output: __S(4, __c2, 0) as any as S.Schema<FileDetails>,
+  input: __S(24, __c6, 0) as any as S.Schema<UploadGlobalFileRequest>,
+  output: __S(12, __c3, 0) as any as S.Schema<FileDetails>,
   errors: [BadRequest, UnsupportedMediaType, UnknownSteelError],
   protocol: SteelProtocol,
   retry: Retry.Retry,
@@ -307,24 +356,51 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          sessionId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/sessions/{sessionId}/files", code: 200 })),
-      ).annotate({ identifier: "ListFilesRequest" });
+          keyword: S.String,
+          message: S.String,
+          params: S.Unknown,
+        }),
+      ).annotate({ identifier: "ErrorResponseContextItem" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          context: S.optional(__S(1, __c0, 1)),
+          error: S.optional(S.String),
+          linkToDocs: S.optional(S.String),
+          message: S.String,
+          param: S.optional(S.String),
+          retryAfterSeconds: S.optional(S.Number),
+          retryable: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ErrorResponse" });
   }
 }
 function __c1(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(4, __c2, 0));
+      return S.suspend(() =>
+        S.Struct({
+          sessionId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/sessions/{sessionId}/files", code: 200 })),
+      ).annotate({ identifier: "ListFilesRequest" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(12, __c3, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2, __c1, 0),
+          data: __S(8, __c2, 0),
         }),
       ).annotate({ identifier: "MultipleFiles" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -336,7 +412,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "MultipleFilesDataItem" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -344,7 +420,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "ListGlobalFilesRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -363,7 +439,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "UploadFileRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -374,7 +450,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "UploadGlobalFileRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -384,13 +460,13 @@ function __c6(j: number): any {
       ).annotate({ identifier: "DeleteAllFilesRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteAllFilesResponse" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -403,7 +479,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "DeleteFileRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -413,7 +489,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "DeleteGlobalFileRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -425,7 +501,7 @@ function __c10(j: number): any {
       return S.instanceOf(Uint8Array).pipe(/*@__PURE__*/ T.BinaryResponse());
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -438,7 +514,7 @@ function __c11(j: number): any {
       return S.instanceOf(Uint8Array).pipe(/*@__PURE__*/ T.BinaryResponse());
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

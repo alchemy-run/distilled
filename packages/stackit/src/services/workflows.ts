@@ -31,36 +31,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export interface BasicAuth {
   /** The password or token */
@@ -503,6 +531,14 @@ export interface UpdateObservabilityRequest {
   /** Unique identifier of the customer's observability instance. */
   observabilityId?: string | undefined;
 }
+export type ErrorResponseFieldsValueList = Array<string>;
+export type ErrorResponseFieldsMap = { [key: string]: ErrorResponseFieldsValueList | undefined };
+export interface ErrorResponse {
+  code: number;
+  fields?: ErrorResponseFieldsMap | undefined;
+  message: string;
+  type: string;
+}
 export type CreateDagBundleError = BadRequest | Forbidden | NotFound | Conflict | StackitOpError;
 /** Adds a new DAG bundle to this STACKIT Workflows instance. Only supported for Airflow 3 instances. Maximum 10 bundles per instance. */
 export const createDagBundle: API.OperationMethod<
@@ -511,8 +547,8 @@ export const createDagBundle: API.OperationMethod<
   CreateDagBundleError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<CreateDagBundleRequest>,
-  output: __S(72, __c9, 0) as any as S.Schema<CreateDagBundleResponse>,
+  input: __S(72, __c9, 0) as any as S.Schema<CreateDagBundleRequest>,
+  output: __S(80, __c10, 0) as any as S.Schema<CreateDagBundleResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -528,8 +564,8 @@ export const createInstance: API.OperationMethod<
   CreateInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<CreateInstanceRequest>,
-  output: __S(92, __c11, 4) as any as S.Schema<Instance>,
+  input: __S(88, __c11, 0) as any as S.Schema<CreateInstanceRequest>,
+  output: __S(100, __c12, 4) as any as S.Schema<Instance>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -545,8 +581,8 @@ export const deleteDagBundle: API.OperationMethod<
   DeleteDagBundleError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<DeleteDagBundleRequest>,
-  output: __S(104, __c13, 0) as any as S.Schema<DeleteDagBundleResponse>,
+  input: __S(104, __c13, 0) as any as S.Schema<DeleteDagBundleRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<DeleteDagBundleResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -562,8 +598,8 @@ export const deleteInstance: API.OperationMethod<
   DeleteInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<DeleteInstanceRequest>,
-  output: __S(104, __c13, 0) as any as S.Schema<DeleteInstanceResponse>,
+  input: __S(120, __c15, 0) as any as S.Schema<DeleteInstanceRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<DeleteInstanceResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -579,8 +615,8 @@ export const getDagBundle: API.OperationMethod<
   GetDagBundleError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<GetDagBundleRequest>,
-  output: __S(72, __c9, 0) as any as S.Schema<GetDagBundleResponse>,
+  input: __S(128, __c16, 0) as any as S.Schema<GetDagBundleRequest>,
+  output: __S(80, __c10, 0) as any as S.Schema<GetDagBundleResponse>,
   errors: [Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -596,8 +632,8 @@ export const getInstance: API.OperationMethod<
   GetInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<GetInstanceRequest>,
-  output: __S(92, __c11, 4) as any as S.Schema<Instance>,
+  input: __S(136, __c17, 0) as any as S.Schema<GetInstanceRequest>,
+  output: __S(100, __c12, 4) as any as S.Schema<Instance>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -613,8 +649,8 @@ export const getProviderOptions: API.OperationMethod<
   GetProviderOptionsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetProviderOptionsRequest>,
-  output: __S(3, __c0, 3) as any as S.Schema<ProviderOptions>,
+  input: __S(8, __c1, 0) as any as S.Schema<GetProviderOptionsRequest>,
+  output: __S(11, __c1, 3) as any as S.Schema<ProviderOptions>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -630,8 +666,8 @@ export const listDagBundles: API.OperationMethod<
   ListDagBundlesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<ListDagBundlesRequest>,
-  output: __S(10, __c1, 2) as any as S.Schema<ListDagBundlesResponseOutput>,
+  input: __S(16, __c2, 0) as any as S.Schema<ListDagBundlesRequest>,
+  output: __S(18, __c2, 2) as any as S.Schema<ListDagBundlesResponseOutput>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -647,8 +683,8 @@ export const listInstances: API.OperationMethod<
   ListInstancesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<ListInstancesRequest>,
-  output: __S(18, __c2, 2) as any as S.Schema<ListInstancesResponse>,
+  input: __S(24, __c3, 0) as any as S.Schema<ListInstancesRequest>,
+  output: __S(26, __c3, 2) as any as S.Schema<ListInstancesResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -664,8 +700,8 @@ export const updateDagBundle: API.OperationMethod<
   UpdateDagBundleError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<UpdateDagBundleRequest>,
-  output: __S(72, __c9, 0) as any as S.Schema<UpdateDagBundleResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<UpdateDagBundleRequest>,
+  output: __S(80, __c10, 0) as any as S.Schema<UpdateDagBundleResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -681,8 +717,8 @@ export const updateDagsRepository: API.OperationMethod<
   UpdateDagsRepositoryError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<UpdateDagsRepositoryRequest>,
-  output: __S(92, __c11, 4) as any as S.Schema<Instance>,
+  input: __S(40, __c5, 0) as any as S.Schema<UpdateDagsRepositoryRequest>,
+  output: __S(100, __c12, 4) as any as S.Schema<Instance>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -698,8 +734,8 @@ export const updateIdentityProvider: API.OperationMethod<
   UpdateIdentityProviderError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<UpdateIdentityProviderRequest>,
-  output: __S(92, __c11, 4) as any as S.Schema<Instance>,
+  input: __S(48, __c6, 0) as any as S.Schema<UpdateIdentityProviderRequest>,
+  output: __S(100, __c12, 4) as any as S.Schema<Instance>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -715,8 +751,8 @@ export const updateInstance: API.OperationMethod<
   UpdateInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<UpdateInstanceRequest>,
-  output: __S(92, __c11, 4) as any as S.Schema<Instance>,
+  input: __S(56, __c7, 0) as any as S.Schema<UpdateInstanceRequest>,
+  output: __S(100, __c12, 4) as any as S.Schema<Instance>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -732,8 +768,8 @@ export const updateObservability: API.OperationMethod<
   UpdateObservabilityError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<UpdateObservabilityRequest>,
-  output: __S(92, __c11, 4) as any as S.Schema<Instance>,
+  input: __S(64, __c8, 0) as any as S.Schema<UpdateObservabilityRequest>,
+  output: __S(100, __c12, 4) as any as S.Schema<Instance>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -743,6 +779,23 @@ export const updateObservability: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.Record(S.String, __S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.Number,
+          fields: S.optional(__S(1, __c0, 1)),
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -766,16 +819,16 @@ function __c0(j: number): any {
         }),
       ).annotate({ identifier: "SupportedVersion" });
     case 2:
-      return S.Array(__S(1, __c0, 1));
+      return S.Array(__S(9, __c1, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          versions: __S(2, __c0, 2),
+          versions: __S(10, __c1, 2),
         }),
       ).annotate({ identifier: "ProviderOptions" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -797,12 +850,12 @@ function __c1(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          dagBundles: __S(9, __c1, 1),
+          dagBundles: __S(17, __c2, 1),
         }),
       ).annotate({ identifier: "ListDagBundlesResponseOutput" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -819,16 +872,16 @@ function __c2(j: number): any {
         ),
       ).annotate({ identifier: "ListInstancesRequest" });
     case 1:
-      return S.Array(__S(92, __c11, 4));
+      return S.Array(__S(100, __c12, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          instances: __S(17, __c2, 1),
+          instances: __S(25, __c3, 1),
         }),
       ).annotate({ identifier: "ListInstancesResponse" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -849,7 +902,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "UpdateDagBundleRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -871,7 +924,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "UpdateDagsRepositoryRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -891,7 +944,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "UpdateIdentityProviderRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -915,7 +968,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "UpdateInstanceRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -935,7 +988,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "UpdateObservabilityRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -955,7 +1008,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "CreateDagBundleRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -963,21 +1016,21 @@ function __c9(j: number): any {
       });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           regionId: S.String.pipe(T.Label()),
-          dagBundles: S.optional(__S(88, __c11, 0)),
-          dagsRepository: S.optional(__S(89, __c11, 1)),
+          dagBundles: S.optional(__S(96, __c12, 0)),
+          dagsRepository: S.optional(__S(97, __c12, 1)),
           description: S.optional(S.String),
           displayName: S.String,
           enableAirflowExampleDags: S.optional(S.Boolean),
           enableStackitExampleDags: S.optional(S.Boolean),
           identityProvider: S.optional(S.Unknown),
-          network: S.optional(__S(90, __c11, 2)),
+          network: S.optional(__S(98, __c12, 2)),
           observabilityId: S.optional(S.String),
           version: S.String,
         }).pipe(
@@ -991,7 +1044,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "CreateInstanceRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -1020,16 +1073,16 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           createdAt: S.String,
-          dagBundles: S.optional(__S(88, __c11, 0)),
-          dagsRepository: S.optional(__S(89, __c11, 1)),
+          dagBundles: S.optional(__S(96, __c12, 0)),
+          dagsRepository: S.optional(__S(97, __c12, 1)),
           description: S.optional(S.String),
           displayName: S.String,
           enableAirflowExampleDags: S.optional(S.Boolean),
           enableStackitExampleDags: S.optional(S.Boolean),
-          endpoints: __S(91, __c11, 3),
+          endpoints: __S(99, __c12, 3),
           id: S.String,
           identityProvider: S.Unknown,
-          network: S.optional(__S(90, __c11, 2)),
+          network: S.optional(__S(98, __c12, 2)),
           observabilityId: S.optional(S.String),
           projectId: S.String,
           regionId: S.String,
@@ -1040,7 +1093,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "Instance" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1060,13 +1113,13 @@ function __c12(j: number): any {
       ).annotate({ identifier: "DeleteDagBundleRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteDagBundleResponse" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1085,7 +1138,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "DeleteInstanceRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1105,7 +1158,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GetDagBundleRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

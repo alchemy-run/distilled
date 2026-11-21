@@ -31,15 +31,24 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
   ) {}
@@ -49,6 +58,8 @@ export class NotFound
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
@@ -58,6 +69,8 @@ export class UnprocessableEntity
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
   ) {}
@@ -318,6 +331,12 @@ export interface UpdateDremioInstanceRequest {
   /** The display name is a short name chosen by the user to identify the resource. */
   displayName?: string | undefined;
 }
+export interface Error {
+  /** The http return code. */
+  code?: number | undefined;
+  /** The message explaining the error. */
+  message?: string | undefined;
+}
 export type CreateDremioInstanceError =
   | BadRequest
   | Conflict
@@ -330,8 +349,8 @@ export const createDremioInstance: API.OperationMethod<
   CreateDremioInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<CreateDremioInstanceRequest>,
-  output: __S(88, __c5, 8) as any as S.Schema<DremioResponseOutput>,
+  input: __S(64, __c4, 0) as any as S.Schema<CreateDremioInstanceRequest>,
+  output: __S(104, __c6, 8) as any as S.Schema<DremioResponseOutput>,
   errors: [BadRequest, Conflict, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -347,8 +366,8 @@ export const createDremioUser: API.OperationMethod<
   CreateDremioUserError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<CreateDremioUserRequest>,
-  output: __S(112, __c7, 0) as any as S.Schema<DremioUserResponse>,
+  input: __S(112, __c7, 0) as any as S.Schema<CreateDremioUserRequest>,
+  output: __S(128, __c8, 0) as any as S.Schema<DremioUserResponse>,
   errors: [BadRequest, Conflict, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -369,8 +388,8 @@ export const deleteDremioInstance: API.OperationMethod<
   DeleteDremioInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<DeleteDremioInstanceRequest>,
-  output: __S(144, __c9, 0) as any as S.Schema<DeleteDremioInstanceResponse>,
+  input: __S(144, __c9, 0) as any as S.Schema<DeleteDremioInstanceRequest>,
+  output: __S(160, __c10, 0) as any as S.Schema<DeleteDremioInstanceResponse>,
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -391,8 +410,8 @@ export const deleteDremioUser: API.OperationMethod<
   DeleteDremioUserError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<DeleteDremioUserRequest>,
-  output: __S(144, __c9, 0) as any as S.Schema<DeleteDremioUserResponse>,
+  input: __S(176, __c11, 0) as any as S.Schema<DeleteDremioUserRequest>,
+  output: __S(160, __c10, 0) as any as S.Schema<DeleteDremioUserResponse>,
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -408,8 +427,8 @@ export const getDremioInstance: API.OperationMethod<
   GetDremioInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<GetDremioInstanceRequest>,
-  output: __S(88, __c5, 8) as any as S.Schema<DremioResponseOutput>,
+  input: __S(192, __c12, 0) as any as S.Schema<GetDremioInstanceRequest>,
+  output: __S(104, __c6, 8) as any as S.Schema<DremioResponseOutput>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -425,8 +444,8 @@ export const getDremioUser: API.OperationMethod<
   GetDremioUserError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<GetDremioUserRequest>,
-  output: __S(112, __c7, 0) as any as S.Schema<DremioUserResponse>,
+  input: __S(208, __c13, 0) as any as S.Schema<GetDremioUserRequest>,
+  output: __S(128, __c8, 0) as any as S.Schema<DremioUserResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -442,8 +461,8 @@ export const listDremioInstances: API.OperationMethod<
   ListDremioInstancesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<ListDremioInstancesRequest>,
-  output: __S(2, __c0, 2) as any as S.Schema<ListDremiosResponseOutput>,
+  input: __S(16, __c1, 0) as any as S.Schema<ListDremioInstancesRequest>,
+  output: __S(18, __c1, 2) as any as S.Schema<ListDremiosResponseOutput>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -459,8 +478,8 @@ export const listDremioUsers: API.OperationMethod<
   ListDremioUsersError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c1, 0) as any as S.Schema<ListDremioUsersRequest>,
-  output: __S(18, __c1, 2) as any as S.Schema<ListDremioUsersResponse>,
+  input: __S(32, __c2, 0) as any as S.Schema<ListDremioUsersRequest>,
+  output: __S(34, __c2, 2) as any as S.Schema<ListDremioUsersResponse>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -481,8 +500,8 @@ export const updateDremioInstance: API.OperationMethod<
   UpdateDremioInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<UpdateDremioInstanceRequest>,
-  output: __S(88, __c5, 8) as any as S.Schema<DremioResponseOutput>,
+  input: __S(48, __c3, 0) as any as S.Schema<UpdateDremioInstanceRequest>,
+  output: __S(104, __c6, 8) as any as S.Schema<DremioResponseOutput>,
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -492,6 +511,17 @@ export const updateDremioInstance: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.Number),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Error" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -510,17 +540,17 @@ function __c0(j: number): any {
         ),
       ).annotate({ identifier: "ListDremioInstancesRequest" });
     case 1:
-      return S.Array(__S(88, __c5, 8));
+      return S.Array(__S(104, __c6, 8));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          dremios: __S(1, __c0, 1),
+          dremios: __S(17, __c1, 1),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDremiosResponseOutput" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -540,17 +570,17 @@ function __c1(j: number): any {
         ),
       ).annotate({ identifier: "ListDremioUsersRequest" });
     case 1:
-      return S.Array(__S(112, __c7, 0));
+      return S.Array(__S(128, __c8, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          dremioUsers: __S(17, __c1, 1),
+          dremioUsers: __S(33, __c2, 1),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDremioUsersResponse" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -558,8 +588,8 @@ function __c2(j: number): any {
           projectId: S.String.pipe(T.Label()),
           regionId: S.String.pipe(T.Label()),
           dremioId: S.String.pipe(T.Label()),
-          acl: S.optional(__S(80, __c5, 0)),
-          authentication: S.optional(__S(66, __c4, 2)),
+          acl: S.optional(__S(96, __c6, 0)),
+          authentication: S.optional(__S(82, __c5, 2)),
           description: S.optional(S.String),
           displayName: S.optional(S.String),
         }).pipe(
@@ -573,15 +603,15 @@ function __c2(j: number): any {
       ).annotate({ identifier: "UpdateDremioInstanceRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           regionId: S.String.pipe(T.Label()),
-          acl: S.optional(__S(80, __c5, 0)),
-          authentication: S.optional(__S(66, __c4, 2)),
+          acl: S.optional(__S(96, __c6, 0)),
+          authentication: S.optional(__S(82, __c5, 2)),
           description: S.optional(S.String),
           displayName: S.String,
         }).pipe(
@@ -595,7 +625,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "CreateDremioInstanceRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -611,22 +641,22 @@ function __c4(j: number): any {
           authorityUrl: S.String,
           clientId: S.String,
           clientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          jwtClaims: __S(81, __c5, 1),
-          parameters: S.optional(__S(83, __c5, 3)),
+          jwtClaims: __S(97, __c6, 1),
+          parameters: S.optional(__S(99, __c6, 3)),
           scope: S.optional(S.String),
         }),
       ).annotate({ identifier: "OauthInput" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          azuread: S.optional(__S(64, __c4, 0)),
-          oauth: S.optional(__S(65, __c4, 1)),
+          azuread: S.optional(__S(80, __c5, 0)),
+          oauth: S.optional(__S(81, __c5, 1)),
           type: S.String,
         }),
       ).annotate({ identifier: "AuthenticationInput" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -644,7 +674,7 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "AuthParameters" });
     case 3:
-      return S.Array(__S(82, __c5, 2));
+      return S.Array(__S(98, __c6, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -658,8 +688,8 @@ function __c5(j: number): any {
         S.Struct({
           authorityUrl: S.String,
           clientId: S.String,
-          jwtClaims: __S(81, __c5, 1),
-          parameters: S.optional(__S(83, __c5, 3)),
+          jwtClaims: __S(97, __c6, 1),
+          parameters: S.optional(__S(99, __c6, 3)),
           redirectUrl: S.optional(S.String),
           scope: S.optional(S.String),
         }),
@@ -667,8 +697,8 @@ function __c5(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          azuread: S.optional(__S(84, __c5, 4)),
-          oauth: S.optional(__S(85, __c5, 5)),
+          azuread: S.optional(__S(100, __c6, 4)),
+          oauth: S.optional(__S(101, __c6, 5)),
           type: S.String,
         }),
       ).annotate({ identifier: "AuthenticationOutput" });
@@ -683,12 +713,12 @@ function __c5(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          acl: __S(80, __c5, 0),
-          authentication: __S(86, __c5, 6),
+          acl: __S(96, __c6, 0),
+          authentication: __S(102, __c6, 6),
           create_time: S.String,
           description: S.optional(S.String),
           displayName: S.String,
-          endpoints: __S(87, __c5, 7),
+          endpoints: __S(103, __c6, 7),
           errorMessage: S.optional(S.String),
           id: S.String,
           state: S.String,
@@ -696,7 +726,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "DremioResponseOutput" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -721,7 +751,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "CreateDremioUserRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -739,7 +769,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "DremioUserResponse" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -758,13 +788,13 @@ function __c8(j: number): any {
       ).annotate({ identifier: "DeleteDremioInstanceRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteDremioInstanceResponse" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -784,7 +814,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "DeleteDremioUserRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -803,7 +833,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetDremioInstanceRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

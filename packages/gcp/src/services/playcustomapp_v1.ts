@@ -37,9 +37,9 @@ export class BadRequest
       code: /*@__PURE__*/ S.optional(S.Number),
       message: S.String,
       status: /*@__PURE__*/ S.optional(S.String),
-      reason: /*@__PURE__*/ S.optional(S.String),
-      domain: /*@__PURE__*/ S.optional(S.String),
       details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
   ) {}
@@ -50,9 +50,9 @@ export class Conflict
       code: /*@__PURE__*/ S.optional(S.Number),
       message: S.String,
       status: /*@__PURE__*/ S.optional(S.String),
-      reason: /*@__PURE__*/ S.optional(S.String),
-      domain: /*@__PURE__*/ S.optional(S.String),
       details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
   ) {}
@@ -63,9 +63,9 @@ export class Forbidden
       code: /*@__PURE__*/ S.optional(S.Number),
       message: S.String,
       status: /*@__PURE__*/ S.optional(S.String),
-      reason: /*@__PURE__*/ S.optional(S.String),
-      domain: /*@__PURE__*/ S.optional(S.String),
       details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
   ) {}
@@ -76,37 +76,35 @@ export class NotFound
       code: /*@__PURE__*/ S.optional(S.Number),
       message: S.String,
       status: /*@__PURE__*/ S.optional(S.String),
-      reason: /*@__PURE__*/ S.optional(S.String),
-      domain: /*@__PURE__*/ S.optional(S.String),
       details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
 
 /** Represents an organization that can access a custom app. */
 export interface Organization {
-  /** Optional. A human-readable name of the organization, to help recognize the organization. */
-  organizationName?: string | undefined;
   /** Required. ID of the organization. */
   organizationId?: string | undefined;
+  /** Optional. A human-readable name of the organization, to help recognize the organization. */
+  organizationName?: string | undefined;
 }
 export type OrganizationList = Array<Organization>;
 /** This resource represents a custom app. */
 export interface CustomApp {
+  /** Output only. Package name of the created Android app. Only present in the API response. */
+  packageName?: string | undefined;
   /** Title for the Android app. */
   title?: string | undefined;
   /** Organizations to which the custom app should be made available. If the request contains any organizations, then the app will be restricted to only these organizations. To support the organization linked to the developer account, the organization ID should be provided explicitly together with other organizations. If no organizations are provided, then the app is only available to the organization linked to the developer account. */
   organizations?: OrganizationList | undefined;
-  /** Output only. Package name of the created Android app. Only present in the API response. */
-  packageName?: string | undefined;
   /** Default listing language in BCP 47 format. */
   languageCode?: string | undefined;
 }
-export interface CreateAccountsCustomAppsRequest {
+export interface CreateAccountsCustomAppsRequest extends CustomApp {
   /** Developer account ID. */
   account: string;
-  /** Request body */
-  body?: CustomApp | undefined;
 }
 export type CreateAccountsCustomAppsError =
   | NotFound
@@ -136,8 +134,8 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          organizationName: S.optional(S.String),
           organizationId: S.optional(S.String),
+          organizationName: S.optional(S.String),
         }),
       ).annotate({ identifier: "Organization" });
     case 1:
@@ -145,18 +143,20 @@ function __c0(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          packageName: S.optional(S.String),
           title: S.optional(S.String),
           organizations: S.optional(__S(1, __c0, 1)),
-          packageName: S.optional(S.String),
           languageCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomApp" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          account: S.String.pipe(T.Label()),
-          body: S.optional(__S(2, __c0, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2, __c0, 2),
+          S.Struct({
+            account: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "playcustomapp/v1/accounts/{account}/customApps",

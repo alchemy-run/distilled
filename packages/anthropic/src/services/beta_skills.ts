@@ -463,7 +463,7 @@ function __c0(j: number): any {
           anthropicBeta: S.optional(__S(8, __c2, 0).pipe(T.Header("anthropic-beta"))),
           anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
           anthropicWorkspaceId: S.optional(S.String.pipe(T.Header("anthropic-workspace-id"))),
-          files: __S(4, __c1, 0),
+          files: __S(4, __c1, 0).pipe(T.Body("files[]")),
           display_name: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "POST", uri: "/v1/skills", code: 200, contentType: "multipart" })),
       ).annotate({ identifier: "CreateSkillRequest" });
@@ -518,7 +518,7 @@ function __c4(j: number): any {
           anthropicBeta: S.optional(__S(8, __c2, 0).pipe(T.Header("anthropic-beta"))),
           anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
           anthropicWorkspaceId: S.optional(S.String.pipe(T.Header("anthropic-workspace-id"))),
-          files: __S(4, __c1, 0),
+          files: __S(4, __c1, 0).pipe(T.Body("files[]")),
         }).pipe(
           T.Http({
             method: "POST",

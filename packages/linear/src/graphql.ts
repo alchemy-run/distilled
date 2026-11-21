@@ -11,6 +11,7 @@ import {
   rootList,
   scalarField,
   type ErrorSpec,
+  type FieldWithArgs,
   type Query,
   type TypeMeta,
 } from "@distilled.cloud/core/graphql";
@@ -9576,7 +9577,11 @@ export interface Release {
   readonly documents: ReadonlyArray<Document>;
   readonly history: ReadonlyArray<ReleaseHistory>;
   readonly id: string;
-  readonly issueCount: number;
+  readonly issueCount: FieldWithArgs<
+    number,
+    { readonly includeArchived?: boolean | null | undefined },
+    false
+  >;
   readonly issues: ReadonlyArray<Issue>;
   readonly links: ReadonlyArray<EntityExternalLink>;
   readonly name: string;
@@ -10028,7 +10033,11 @@ export interface Team {
   readonly initiativesEnabled: boolean;
   readonly integrationsSettings: IntegrationsSettings | null;
   readonly inviteHash: string;
-  readonly issueCount: number;
+  readonly issueCount: FieldWithArgs<
+    number,
+    { readonly includeArchived?: boolean | null | undefined },
+    false
+  >;
   readonly issueEstimationAllowZero: boolean;
   readonly issueEstimationExtended: boolean;
   readonly issueEstimationType: string;
@@ -10041,7 +10050,7 @@ export interface Team {
   readonly loops: ReadonlyArray<WorkflowDefinition>;
   readonly markedAsDuplicateWorkflowState: WorkflowState | null;
   readonly members: ReadonlyArray<User>;
-  readonly membership: TeamMembership | null;
+  readonly membership: FieldWithArgs<TeamMembership | null, { readonly userId: string }>;
   readonly memberships: ReadonlyArray<TeamMembership>;
   readonly mergeableWorkflowState: WorkflowState | null;
   readonly mergeWorkflowState: WorkflowState | null;
@@ -10449,7 +10458,7 @@ export interface User {
   readonly statusEmoji: string | null;
   readonly statusLabel: string | null;
   readonly statusUntilAt: string | null;
-  readonly supportsAgentSessions: boolean;
+  readonly supportsAgentSessions: FieldWithArgs<boolean, { readonly forCurrentUser: boolean }>;
   readonly teamMemberships: ReadonlyArray<TeamMembership>;
   readonly teams: ReadonlyArray<Team>;
   readonly timezone: string | null;
@@ -10529,7 +10538,14 @@ export interface UserSettings {
   readonly subscribedToDPA: boolean;
   readonly subscribedToInviteAccepted: boolean;
   readonly subscribedToPrivacyLegalUpdates: boolean;
-  readonly theme: UserSettingsTheme | null;
+  readonly theme: FieldWithArgs<
+    UserSettingsTheme | null,
+    {
+      readonly deviceType?: "desktop" | "mobileWeb" | null | undefined;
+      readonly mode?: "light" | "dark" | null | undefined;
+    },
+    false
+  >;
   readonly unsubscribedFrom: ReadonlyArray<string>;
   readonly updatedAt: string;
   readonly user: User;
@@ -18265,7 +18281,7 @@ const ReleaseFields: TypeMeta["fields"] = {
     orderBy: "PaginationOrderBy",
   }),
   id: scalarField("id"),
-  issueCount: scalarField("issueCount"),
+  issueCount: scalarField("issueCount", { argTypes: { includeArchived: "Boolean" } }),
   issues: connectionField("issues", Issue, {
     filter: "IssueFilter",
     before: "String",
@@ -18739,7 +18755,7 @@ const TeamFields: TypeMeta["fields"] = {
   initiativesEnabled: scalarField("initiativesEnabled"),
   integrationsSettings: objectField("integrationsSettings", IntegrationsSettings),
   inviteHash: scalarField("inviteHash"),
-  issueCount: scalarField("issueCount"),
+  issueCount: scalarField("issueCount", { argTypes: { includeArchived: "Boolean" } }),
   issueEstimationAllowZero: scalarField("issueEstimationAllowZero"),
   issueEstimationExtended: scalarField("issueEstimationExtended"),
   issueEstimationType: scalarField("issueEstimationType"),
@@ -18786,7 +18802,7 @@ const TeamFields: TypeMeta["fields"] = {
     orderBy: "PaginationOrderBy",
     sort: "[UserSortInput!]",
   }),
-  membership: objectField("membership", TeamMembership),
+  membership: objectField("membership", TeamMembership, { userId: "String!" }),
   memberships: connectionField("memberships", TeamMembership, {
     before: "String",
     after: "String",
@@ -19215,7 +19231,9 @@ const UserFields: TypeMeta["fields"] = {
   statusEmoji: scalarField("statusEmoji"),
   statusLabel: scalarField("statusLabel"),
   statusUntilAt: scalarField("statusUntilAt"),
-  supportsAgentSessions: scalarField("supportsAgentSessions"),
+  supportsAgentSessions: scalarField("supportsAgentSessions", {
+    argTypes: { forCurrentUser: "Boolean!" },
+  }),
   teamMemberships: connectionField("teamMemberships", TeamMembership, {
     before: "String",
     after: "String",
@@ -19307,7 +19325,10 @@ const UserSettingsFields: TypeMeta["fields"] = {
   subscribedToDPA: scalarField("subscribedToDPA"),
   subscribedToInviteAccepted: scalarField("subscribedToInviteAccepted"),
   subscribedToPrivacyLegalUpdates: scalarField("subscribedToPrivacyLegalUpdates"),
-  theme: objectField("theme", UserSettingsTheme),
+  theme: objectField("theme", UserSettingsTheme, {
+    deviceType: "UserSettingsThemeDeviceType",
+    mode: "UserSettingsThemeMode",
+  }),
   unsubscribedFrom: scalarField("unsubscribedFrom"),
   updatedAt: scalarField("updatedAt"),
   user: objectField("user", User),

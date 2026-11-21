@@ -30,27 +30,48 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export interface ActivateExperimentRequest {
   /** The experiment identifier -- the `expt_` id or the flag_key handle. */
@@ -398,6 +419,17 @@ export interface UpdateExperimentRequest {
   /** Grow treatment allocation. Pass every existing treatment with an equal-or-higher weight; append new names to add arms. Weights never decrease and arms are never removed. Omit to leave unchanged. */
   variants?: UpdateExperimentRequestVariantsList | undefined;
 }
+export interface V1ErrorResponseError {
+  /** Machine-readable reason for this specific refusal, such as `bank_warning_not_acknowledged`. Only present when the error carries one. */
+  code?: string | undefined;
+  /** Human-readable error message. */
+  message: string;
+  /** Machine-readable error code. */
+  type: string;
+}
+export interface V1ErrorResponse {
+  error: V1ErrorResponseError;
+}
 export type ActivateExperimentError = BadRequest | Conflict | WhopOpError;
 /** Activate Experiment Starts (or resumes) an experiment or feature flag so evaluation begins serving it. Activating a draft stamps `started_at`; resuming a paused experiment keeps the original start. Only drafts and paused experiments can be activated. Requires the corresponding experiment permission on the owning account, or Whop internal access for internal experiments. */
 export const activateExperiment: API.OperationMethod<
@@ -406,8 +438,8 @@ export const activateExperiment: API.OperationMethod<
   ActivateExperimentError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c1, 0) as any as S.Schema<ActivateExperimentRequest>,
-  output: __S(57, __c3, 9) as any as S.Schema<Experiment>,
+  input: __S(32, __c2, 0) as any as S.Schema<ActivateExperimentRequest>,
+  output: __S(73, __c4, 9) as any as S.Schema<Experiment>,
   errors: [BadRequest, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -423,8 +455,8 @@ export const createExperiment: API.OperationMethod<
   CreateExperimentError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(66, __c4, 2) as any as S.Schema<CreateExperimentRequest>,
-  output: __S(57, __c3, 9) as any as S.Schema<Experiment>,
+  input: __S(82, __c5, 2) as any as S.Schema<CreateExperimentRequest>,
+  output: __S(73, __c4, 9) as any as S.Schema<Experiment>,
   errors: [Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -440,8 +472,8 @@ export const endExperiment: API.OperationMethod<
   EndExperimentError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<EndExperimentRequest>,
-  output: __S(57, __c3, 9) as any as S.Schema<Experiment>,
+  input: __S(96, __c6, 0) as any as S.Schema<EndExperimentRequest>,
+  output: __S(73, __c4, 9) as any as S.Schema<Experiment>,
   errors: [BadRequest, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -457,8 +489,8 @@ export const evaluateExperimentExposures: API.OperationMethod<
   EvaluateExperimentExposuresError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(97, __c6, 1) as any as S.Schema<EvaluateExperimentExposuresRequest>,
-  output: __S(98, __c6, 2) as any as S.Schema<EvaluateExperimentExposuresResponse>,
+  input: __S(113, __c7, 1) as any as S.Schema<EvaluateExperimentExposuresRequest>,
+  output: __S(114, __c7, 2) as any as S.Schema<EvaluateExperimentExposuresResponse>,
   errors: [],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -474,8 +506,8 @@ export const getExperiment: API.OperationMethod<
   GetExperimentError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<GetExperimentRequest>,
-  output: __S(57, __c3, 9) as any as S.Schema<Experiment>,
+  input: __S(128, __c8, 0) as any as S.Schema<GetExperimentRequest>,
+  output: __S(73, __c4, 9) as any as S.Schema<Experiment>,
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -493,8 +525,8 @@ export const listExperiments: API.PaginatedOperationMethod<
   Experiment
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(128, __c8, 0) as any as S.Schema<ListExperimentsRequest>,
-    output: __S(131, __c8, 3) as any as S.Schema<ListExperimentsResponse>,
+    input: __S(144, __c9, 0) as any as S.Schema<ListExperimentsRequest>,
+    output: __S(147, __c9, 3) as any as S.Schema<ListExperimentsResponse>,
     errors: [BadRequest],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -520,8 +552,8 @@ export const pauseExperiment: API.OperationMethod<
   PauseExperimentError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<PauseExperimentRequest>,
-  output: __S(57, __c3, 9) as any as S.Schema<Experiment>,
+  input: __S(160, __c10, 0) as any as S.Schema<PauseExperimentRequest>,
+  output: __S(73, __c4, 9) as any as S.Schema<Experiment>,
   errors: [Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -537,8 +569,8 @@ export const updateExperiment: API.OperationMethod<
   UpdateExperimentError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2, __c0, 2) as any as S.Schema<UpdateExperimentRequest>,
-  output: __S(57, __c3, 9) as any as S.Schema<Experiment>,
+  input: __S(18, __c1, 2) as any as S.Schema<UpdateExperimentRequest>,
+  output: __S(73, __c4, 9) as any as S.Schema<Experiment>,
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -552,28 +584,46 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          code: S.optional(S.String),
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "V1ErrorResponseError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "V1ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           name: S.String,
-          related_resource: S.optional(S.NullOr(__S(32, __c2, 0))),
+          related_resource: S.optional(S.NullOr(__S(48, __c3, 0))),
           weight: S.optional(S.Number),
         }),
       ).annotate({ identifier: "UpdateExperimentRequestVariantsItem" });
     case 1:
-      return S.Array(__S(0, __c0, 0));
+      return S.Array(__S(16, __c1, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           account_id: S.optional(S.String.pipe(T.Query())),
-          control: S.optional(__S(48, __c3, 0)),
+          control: S.optional(__S(64, __c4, 0)),
           hypothesis: S.optional(S.NullOr(S.String)),
-          related_resource: S.optional(S.NullOr(__S(32, __c2, 0))),
-          targeting_rules: S.optional(__S(52, __c3, 4)),
-          variants: S.optional(__S(1, __c0, 1)),
+          related_resource: S.optional(S.NullOr(__S(48, __c3, 0))),
+          targeting_rules: S.optional(__S(68, __c4, 4)),
+          variants: S.optional(__S(17, __c1, 1)),
         }).pipe(T.Http({ method: "PATCH", uri: "/experiments/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateExperimentRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -586,7 +636,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "ActivateExperimentRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -597,12 +647,12 @@ function __c2(j: number): any {
       ).annotate({ identifier: "ExperimentResourceReference" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          related_resource: S.optional(S.NullOr(__S(32, __c2, 0))),
+          related_resource: S.optional(S.NullOr(__S(48, __c3, 0))),
         }),
       ).annotate({ identifier: "ExperimentControl" });
     case 1:
@@ -615,31 +665,31 @@ function __c3(j: number): any {
         }),
       ).annotate({ identifier: "ExperimentTargetingRulesItemConditionsItem" });
     case 2:
-      return S.Array(__S(49, __c3, 1));
+      return S.Array(__S(65, __c4, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          conditions: __S(50, __c3, 2),
+          conditions: __S(66, __c4, 2),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExperimentTargetingRulesItem" });
     case 4:
-      return S.Array(__S(51, __c3, 3));
+      return S.Array(__S(67, __c4, 3));
     case 5:
       return S.Array(S.Number);
     case 6:
-      return S.Array(__S(53, __c3, 5));
+      return S.Array(__S(69, __c4, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          ranges: S.optional(__S(54, __c3, 6)),
-          related_resource: S.optional(S.NullOr(__S(32, __c2, 0))),
+          ranges: S.optional(__S(70, __c4, 6)),
+          related_resource: S.optional(S.NullOr(__S(48, __c3, 0))),
           weight: S.Number,
         }),
       ).annotate({ identifier: "ExperimentVariantsItem" });
     case 8:
-      return S.Array(__S(55, __c3, 7));
+      return S.Array(__S(71, __c4, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -647,7 +697,7 @@ function __c3(j: number): any {
           assignment_seed: S.String,
           bucket_by: S.optional(S.NullOr(S.String)),
           configuration_revision: S.Number,
-          control: __S(48, __c3, 0),
+          control: __S(64, __c4, 0),
           created_at: S.optional(S.NullOr(S.String)),
           created_by: S.optional(S.NullOr(S.String)),
           ended_at: S.optional(S.NullOr(S.String)),
@@ -657,48 +707,48 @@ function __c3(j: number): any {
           hypothesis: S.optional(S.NullOr(S.String)),
           id: S.String,
           name: S.String,
-          related_resource: S.NullOr(__S(32, __c2, 0)),
+          related_resource: S.NullOr(__S(48, __c3, 0)),
           started_at: S.optional(S.NullOr(S.String)),
           status: S.String,
-          targeting_rules: __S(52, __c3, 4),
+          targeting_rules: __S(68, __c4, 4),
           updated_at: S.NullOr(S.String),
-          variants: __S(56, __c3, 8),
+          variants: __S(72, __c4, 8),
           winning_arm: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "Experiment" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          related_resource: S.optional(S.NullOr(__S(32, __c2, 0))),
+          related_resource: S.optional(S.NullOr(__S(48, __c3, 0))),
           weight: S.Number,
         }),
       ).annotate({ identifier: "CreateExperimentRequestVariantsItem" });
     case 1:
-      return S.Array(__S(64, __c4, 0));
+      return S.Array(__S(80, __c5, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           account_id: S.String,
           bucket_by: S.optional(S.String),
-          control: S.optional(__S(48, __c3, 0)),
+          control: S.optional(__S(64, __c4, 0)),
           feature_flag_only: S.optional(S.Boolean),
           flag_key: S.String,
           hypothesis: S.optional(S.NullOr(S.String)),
           name: S.optional(S.String),
-          related_resource: S.optional(S.NullOr(__S(32, __c2, 0))),
-          targeting_rules: S.optional(__S(52, __c3, 4)),
-          variants: S.optional(__S(65, __c4, 1)),
+          related_resource: S.optional(S.NullOr(__S(48, __c3, 0))),
+          targeting_rules: S.optional(__S(68, __c4, 4)),
+          variants: S.optional(__S(81, __c5, 1)),
           idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(T.Http({ method: "POST", uri: "/experiments", code: 200 })),
       ).annotate({ identifier: "CreateExperimentRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -712,7 +762,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "EndExperimentRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -725,8 +775,8 @@ function __c6(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          subject: S.optional(__S(96, __c6, 0).pipe(T.Query())),
-          related_resource: S.optional(__S(32, __c2, 0).pipe(T.Query())),
+          subject: S.optional(__S(112, __c7, 0).pipe(T.Query())),
+          related_resource: S.optional(__S(48, __c3, 0).pipe(T.Query())),
           flag_key: S.optional(S.String.pipe(T.Query())),
           account_id: S.optional(S.String.pipe(T.Query())),
           properties: S.optional(S.String.pipe(T.Query())),
@@ -739,7 +789,7 @@ function __c6(j: number): any {
       });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -750,13 +800,13 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetExperimentRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           account_id: S.optional(S.String.pipe(T.Query())),
-          related_resource: S.optional(__S(32, __c2, 0).pipe(T.Query())),
+          related_resource: S.optional(__S(48, __c3, 0).pipe(T.Query())),
           status: S.optional(S.String.pipe(T.Query())),
           first: S.optional(S.Number.pipe(T.Query())),
           after: S.optional(S.String.pipe(T.Query())),
@@ -767,7 +817,7 @@ function __c8(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/experiments", code: 200 })),
       ).annotate({ identifier: "ListExperimentsRequest" });
     case 1:
-      return S.Array(__S(57, __c3, 9));
+      return S.Array(__S(73, __c4, 9));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -780,13 +830,13 @@ function __c8(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(129, __c8, 1),
-          page_info: __S(130, __c8, 2),
+          data: __S(145, __c9, 1),
+          page_info: __S(146, __c9, 2),
         }),
       ).annotate({ identifier: "ListExperimentsResponse" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

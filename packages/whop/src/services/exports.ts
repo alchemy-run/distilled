@@ -29,36 +29,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 /** Column keys to include. Empty means all columns for the resource. */
 export type CreateExportRequestColumnsList = Array<string>;
@@ -252,6 +280,17 @@ export interface ListExportsResponse {
   data: ListExportsResponseDataList;
   page_info: ListExportsResponsePageInfo;
 }
+export interface V1ErrorResponseError {
+  /** Machine-readable reason for this specific refusal, such as `bank_warning_not_acknowledged`. Only present when the error carries one. */
+  code?: string | undefined;
+  /** Human-readable error message. */
+  message: string;
+  /** Machine-readable error code. */
+  type: string;
+}
+export interface V1ErrorResponse {
+  error: V1ErrorResponseError;
+}
 export type CreateExportError = BadRequest | Forbidden | Conflict | WhopOpError;
 /** Create Export Starts an asynchronous export of a resource for an account. Returns the export in `pending`; poll `GET /exports/{id}` until `download_url` is set. */
 export const createExport: API.OperationMethod<
@@ -260,8 +299,8 @@ export const createExport: API.OperationMethod<
   CreateExportError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1, __c0, 1) as any as S.Schema<CreateExportRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<Export>,
+  input: __S(5, __c1, 1) as any as S.Schema<CreateExportRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<Export>,
   errors: [BadRequest, Forbidden, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -277,8 +316,8 @@ export const getExport: API.OperationMethod<
   GetExportError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<GetExportRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<Export>,
+  input: __S(12, __c3, 0) as any as S.Schema<GetExportRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<Export>,
   errors: [Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -294,8 +333,8 @@ export const listExports: API.OperationMethod<
   ListExportsError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<ListExportsRequest>,
-  output: __S(15, __c3, 3) as any as S.Schema<ListExportsResponse>,
+  input: __S(16, __c4, 0) as any as S.Schema<ListExportsRequest>,
+  output: __S(19, __c4, 3) as any as S.Schema<ListExportsResponse>,
   errors: [BadRequest, Forbidden],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -307,12 +346,30 @@ export const listExports: API.OperationMethod<
 function __c0(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "V1ErrorResponseError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "V1ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
       return S.Array(S.String);
     case 1:
       return S.suspend(() =>
         S.Struct({
           account_id: S.optional(S.String),
-          columns: S.optional(__S(0, __c0, 0)),
+          columns: S.optional(__S(4, __c1, 0)),
           filters: S.optional(S.Unknown),
           resource: S.String,
           timezone: S.optional(S.String),
@@ -321,7 +378,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateExportRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -338,7 +395,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "Export" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -348,7 +405,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GetExportRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -363,7 +420,7 @@ function __c3(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/exports", code: 200 })),
       ).annotate({ identifier: "ListExportsRequest" });
     case 1:
-      return S.Array(__S(4, __c1, 0));
+      return S.Array(__S(8, __c2, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -376,8 +433,8 @@ function __c3(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(13, __c3, 1),
-          page_info: __S(14, __c3, 2),
+          data: __S(17, __c4, 1),
+          page_info: __S(18, __c4, 2),
         }),
       ).annotate({ identifier: "ListExportsResponse" });
   }

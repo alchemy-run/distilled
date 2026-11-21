@@ -31,18 +31,32 @@ export class NotFound
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: OutboundError | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  ) {}
+  )
+{
+  declare readonly body?: OutboundError | string;
+}
 
 export interface AcknowledgeSlaMissVulnerabilityRemediationsRequestUpdatesItem {
   /** SLA miss acknowledgement comment. This comment should describe why the SLA was missed. */
@@ -7672,6 +7686,9 @@ export interface VerifyKnowledgeBaseResourceRequest {
   expirationDate?: string | undefined;
 }
 export type VerifyKnowledgeBaseResourceResponse = TrustKnowledgeBaseResourceOutput;
+export interface OutboundError {
+  message: string;
+}
 export type AcknowledgeSlaMissVulnerabilityRemediationsError = VantaOpError;
 /** Acknowledge SLA miss Acknowledge an SLA miss for a vulnerability remediation. */
 export const acknowledgeSlaMissVulnerabilityRemediations: API.OperationMethod<
@@ -7681,11 +7698,11 @@ export const acknowledgeSlaMissVulnerabilityRemediations: API.OperationMethod<
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2338,
-    __c146,
+    2354,
+    __c147,
     2,
   ) as any as S.Schema<AcknowledgeSlaMissVulnerabilityRemediationsRequest>,
-  output: __S(2353, __c147, 1) as any as S.Schema<BulkResponse>,
+  output: __S(2369, __c148, 1) as any as S.Schema<BulkResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -7701,8 +7718,8 @@ export const addAccountMappings: API.OperationMethod<
   AddAccountMappingsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4352, __c272, 0) as any as S.Schema<AddAccountMappingsRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<AddAccountMappingsResponse>,
+  input: __S(4368, __c273, 0) as any as S.Schema<AddAccountMappingsRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<AddAccountMappingsResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -7718,8 +7735,8 @@ export const addControlFromLibrary: API.OperationMethod<
   AddControlFromLibraryError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4720, __c295, 0) as any as S.Schema<AddControlFromLibraryRequest>,
-  output: __S(4768, __c298, 0) as any as S.Schema<Control>,
+  input: __S(4736, __c296, 0) as any as S.Schema<AddControlFromLibraryRequest>,
+  output: __S(4784, __c299, 0) as any as S.Schema<Control>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -7735,8 +7752,8 @@ export const addControlToTrustCenter: API.OperationMethod<
   AddControlToTrustCenterError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5136, __c321, 0) as any as S.Schema<AddControlToTrustCenterRequest>,
-  output: __S(5184, __c324, 0) as any as S.Schema<TrustCenterControl>,
+  input: __S(5152, __c322, 0) as any as S.Schema<AddControlToTrustCenterRequest>,
+  output: __S(5200, __c325, 0) as any as S.Schema<TrustCenterControl>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -7752,8 +7769,8 @@ export const addCustomAssetMappings: API.OperationMethod<
   AddCustomAssetMappingsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5440, __c340, 0) as any as S.Schema<AddCustomAssetMappingsRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<AddCustomAssetMappingsResponse>,
+  input: __S(5456, __c341, 0) as any as S.Schema<AddCustomAssetMappingsRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<AddCustomAssetMappingsResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -7769,8 +7786,8 @@ export const addDiscoveredVendorToManaged: API.OperationMethod<
   AddDiscoveredVendorToManagedError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5616, __c351, 0) as any as S.Schema<AddDiscoveredVendorToManagedRequest>,
-  output: __S(5639, __c352, 7) as any as S.Schema<Vendor>,
+  input: __S(5632, __c352, 0) as any as S.Schema<AddDiscoveredVendorToManagedRequest>,
+  output: __S(5655, __c353, 7) as any as S.Schema<Vendor>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -7786,8 +7803,8 @@ export const addDocumentToControl: API.OperationMethod<
   AddDocumentToControlError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5808, __c363, 0) as any as S.Schema<AddDocumentToControlRequest>,
-  output: __S(5809, __c363, 1) as any as S.Schema<AddDocumentToControlResponse>,
+  input: __S(5824, __c364, 0) as any as S.Schema<AddDocumentToControlRequest>,
+  output: __S(5825, __c364, 1) as any as S.Schema<AddDocumentToControlResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -7803,8 +7820,8 @@ export const addIntegrationMappings: API.OperationMethod<
   AddIntegrationMappingsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6048, __c378, 0) as any as S.Schema<AddIntegrationMappingsRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<AddIntegrationMappingsResponse>,
+  input: __S(6064, __c379, 0) as any as S.Schema<AddIntegrationMappingsRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<AddIntegrationMappingsResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -7820,8 +7837,8 @@ export const addIssueMappings: API.OperationMethod<
   AddIssueMappingsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<AddIssueMappingsRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<AddIssueMappingsResponse>,
+  input: __S(16, __c1, 0) as any as S.Schema<AddIssueMappingsRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<AddIssueMappingsResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -7837,8 +7854,8 @@ export const addPeopleToGroup: API.OperationMethod<
   AddPeopleToGroupError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<AddPeopleToGroupRequest>,
-  output: __S(2353, __c147, 1) as any as S.Schema<BulkResponse>,
+  input: __S(272, __c17, 0) as any as S.Schema<AddPeopleToGroupRequest>,
+  output: __S(2369, __c148, 1) as any as S.Schema<BulkResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -7854,8 +7871,8 @@ export const addPersonToGroup: API.OperationMethod<
   AddPersonToGroupError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<AddPersonToGroupRequest>,
-  output: __S(574, __c35, 14) as any as S.Schema<Person>,
+  input: __S(544, __c34, 0) as any as S.Schema<AddPersonToGroupRequest>,
+  output: __S(590, __c36, 14) as any as S.Schema<Person>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -7871,8 +7888,8 @@ export const addTagCategoryProductContext: API.OperationMethod<
   AddTagCategoryProductContextError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<AddTagCategoryProductContextRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<AddTagCategoryProductContextResponse>,
+  input: __S(800, __c50, 0) as any as S.Schema<AddTagCategoryProductContextRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<AddTagCategoryProductContextResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -7888,8 +7905,8 @@ export const addTestToControl: API.OperationMethod<
   AddTestToControlError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<AddTestToControlRequest>,
-  output: __S(993, __c62, 1) as any as S.Schema<AddTestToControlResponse>,
+  input: __S(1008, __c63, 0) as any as S.Schema<AddTestToControlRequest>,
+  output: __S(1009, __c63, 1) as any as S.Schema<AddTestToControlResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -7905,8 +7922,8 @@ export const addTrustCenterControlCategory: API.OperationMethod<
   AddTrustCenterControlCategoryError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1296, __c81, 0) as any as S.Schema<AddTrustCenterControlCategoryRequest>,
-  output: __S(5152, __c322, 0) as any as S.Schema<TrustCenterControlCategory>,
+  input: __S(1312, __c82, 0) as any as S.Schema<AddTrustCenterControlCategoryRequest>,
+  output: __S(5168, __c323, 0) as any as S.Schema<TrustCenterControlCategory>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -7922,8 +7939,8 @@ export const addTrustCenterFaqCategory: API.OperationMethod<
   AddTrustCenterFaqCategoryError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c94, 0) as any as S.Schema<AddTrustCenterFaqCategoryRequest>,
-  output: __S(1520, __c95, 0) as any as S.Schema<TrustCenterFaqCategory>,
+  input: __S(1520, __c95, 0) as any as S.Schema<AddTrustCenterFaqCategoryRequest>,
+  output: __S(1536, __c96, 0) as any as S.Schema<TrustCenterFaqCategory>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -7939,8 +7956,8 @@ export const addTrustCenterResourceCategory: API.OperationMethod<
   AddTrustCenterResourceCategoryError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1712, __c107, 0) as any as S.Schema<AddTrustCenterResourceCategoryRequest>,
-  output: __S(1520, __c95, 0) as any as S.Schema<TrustCenterResourceCategory>,
+  input: __S(1728, __c108, 0) as any as S.Schema<AddTrustCenterResourceCategoryRequest>,
+  output: __S(1536, __c96, 0) as any as S.Schema<TrustCenterResourceCategory>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -7956,8 +7973,8 @@ export const addTrustCenterViewer: API.OperationMethod<
   AddTrustCenterViewerError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1904, __c119, 0) as any as S.Schema<AddTrustCenterViewerRequest>,
-  output: __S(1941, __c121, 5) as any as S.Schema<TrustCenterViewer>,
+  input: __S(1920, __c120, 0) as any as S.Schema<AddTrustCenterViewerRequest>,
+  output: __S(1957, __c122, 5) as any as S.Schema<TrustCenterViewer>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -7973,8 +7990,8 @@ export const addVendorFindingMappings: API.OperationMethod<
   AddVendorFindingMappingsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c132, 0) as any as S.Schema<AddVendorFindingMappingsRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<AddVendorFindingMappingsResponse>,
+  input: __S(2128, __c133, 0) as any as S.Schema<AddVendorFindingMappingsRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<AddVendorFindingMappingsResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -7990,8 +8007,8 @@ export const approveQuestionnaire: API.OperationMethod<
   ApproveQuestionnaireError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c148, 0) as any as S.Schema<ApproveQuestionnaireRequest>,
-  output: __S(2421, __c151, 5) as any as S.Schema<CustomerTrustQuestionnaire>,
+  input: __S(2384, __c149, 0) as any as S.Schema<ApproveQuestionnaireRequest>,
+  output: __S(2437, __c152, 5) as any as S.Schema<CustomerTrustQuestionnaire>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8007,8 +8024,8 @@ export const approveTrustCenterAccessRequest: API.OperationMethod<
   ApproveTrustCenterAccessRequestError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2608, __c163, 0) as any as S.Schema<ApproveTrustCenterAccessRequestRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<ApproveTrustCenterAccessRequestResponse>,
+  input: __S(2624, __c164, 0) as any as S.Schema<ApproveTrustCenterAccessRequestRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<ApproveTrustCenterAccessRequestResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8024,8 +8041,8 @@ export const bulkAddTagsToControls: API.OperationMethod<
   BulkAddTagsToControlsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c176, 0) as any as S.Schema<BulkAddTagsToControlsRequest>,
-  output: __S(2832, __c177, 0) as any as S.Schema<ArrayResponseTrustCenterControl>,
+  input: __S(2832, __c177, 0) as any as S.Schema<BulkAddTagsToControlsRequest>,
+  output: __S(2848, __c178, 0) as any as S.Schema<ArrayResponseTrustCenterControl>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8041,8 +8058,8 @@ export const bulkRemoveTagsFromControls: API.OperationMethod<
   BulkRemoveTagsFromControlsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c190, 0) as any as S.Schema<BulkRemoveTagsFromControlsRequest>,
-  output: __S(2832, __c177, 0) as any as S.Schema<ArrayResponseTrustCenterControl>,
+  input: __S(3056, __c191, 0) as any as S.Schema<BulkRemoveTagsFromControlsRequest>,
+  output: __S(2848, __c178, 0) as any as S.Schema<ArrayResponseTrustCenterControl>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8058,8 +8075,8 @@ export const cancelRiskScenarioApprovalRequest: API.OperationMethod<
   CancelRiskScenarioApprovalRequestError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3216, __c201, 0) as any as S.Schema<CancelRiskScenarioApprovalRequestRequest>,
-  output: __S(3236, __c202, 4) as any as S.Schema<RiskScenario>,
+  input: __S(3232, __c202, 0) as any as S.Schema<CancelRiskScenarioApprovalRequestRequest>,
+  output: __S(3252, __c203, 4) as any as S.Schema<RiskScenario>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8075,8 +8092,8 @@ export const clearLeaveForPerson: API.OperationMethod<
   ClearLeaveForPersonError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c214, 0) as any as S.Schema<ClearLeaveForPersonRequest>,
-  output: __S(574, __c35, 14) as any as S.Schema<Person>,
+  input: __S(3440, __c215, 0) as any as S.Schema<ClearLeaveForPersonRequest>,
+  output: __S(590, __c36, 14) as any as S.Schema<Person>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8092,8 +8109,8 @@ export const completeQuestionnaire: API.OperationMethod<
   CompleteQuestionnaireError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3600, __c225, 0) as any as S.Schema<CompleteQuestionnaireRequest>,
-  output: __S(2421, __c151, 5) as any as S.Schema<CustomerTrustQuestionnaire>,
+  input: __S(3616, __c226, 0) as any as S.Schema<CompleteQuestionnaireRequest>,
+  output: __S(2437, __c152, 5) as any as S.Schema<CustomerTrustQuestionnaire>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8109,8 +8126,8 @@ export const createAnswerLibraryEntry: API.OperationMethod<
   CreateAnswerLibraryEntryError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3776, __c236, 0) as any as S.Schema<CreateAnswerLibraryEntryRequest>,
-  output: __S(3808, __c238, 0) as any as S.Schema<KnowledgeBaseAnswerLibraryEntryOutput>,
+  input: __S(3792, __c237, 0) as any as S.Schema<CreateAnswerLibraryEntryRequest>,
+  output: __S(3824, __c239, 0) as any as S.Schema<KnowledgeBaseAnswerLibraryEntryOutput>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8126,8 +8143,8 @@ export const createComplianceFramework: API.OperationMethod<
   CreateComplianceFrameworkError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3984, __c249, 0) as any as S.Schema<CreateComplianceFrameworkRequest>,
-  output: __S(4000, __c250, 0) as any as S.Schema<TrustCenterComplianceFramework>,
+  input: __S(4000, __c250, 0) as any as S.Schema<CreateComplianceFrameworkRequest>,
+  output: __S(4016, __c251, 0) as any as S.Schema<TrustCenterComplianceFramework>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8143,8 +8160,8 @@ export const createCustomControl: API.OperationMethod<
   CreateCustomControlError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4178, __c261, 2) as any as S.Schema<CreateCustomControlRequest>,
-  output: __S(4768, __c298, 0) as any as S.Schema<Control>,
+  input: __S(4194, __c262, 2) as any as S.Schema<CreateCustomControlRequest>,
+  output: __S(4784, __c299, 0) as any as S.Schema<Control>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8160,8 +8177,8 @@ export const createCustomerTrustAccount: API.OperationMethod<
   CreateCustomerTrustAccountError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4402, __c275, 2) as any as S.Schema<CreateCustomerTrustAccountRequest>,
-  output: __S(4452, __c278, 4) as any as S.Schema<CustomerTrustAccountVantaApi>,
+  input: __S(4418, __c276, 2) as any as S.Schema<CreateCustomerTrustAccountRequest>,
+  output: __S(4468, __c279, 4) as any as S.Schema<CustomerTrustAccountVantaApi>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8177,8 +8194,8 @@ export const createCustomRequirement: API.OperationMethod<
   CreateCustomRequirementError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4496, __c281, 0) as any as S.Schema<CreateCustomRequirementRequest>,
-  output: __S(4512, __c282, 0) as any as S.Schema<CustomRequirement>,
+  input: __S(4512, __c282, 0) as any as S.Schema<CreateCustomRequirementRequest>,
+  output: __S(4528, __c283, 0) as any as S.Schema<CustomRequirement>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8194,8 +8211,8 @@ export const createDeletionRequest: API.OperationMethod<
   CreateDeletionRequestError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4528, __c283, 0) as any as S.Schema<CreateDeletionRequestRequest>,
-  output: __S(4544, __c284, 0) as any as S.Schema<CreateDeletionRequestResponse>,
+  input: __S(4544, __c284, 0) as any as S.Schema<CreateDeletionRequestRequest>,
+  output: __S(4560, __c285, 0) as any as S.Schema<CreateDeletionRequestResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8211,8 +8228,8 @@ export const createDocument: API.OperationMethod<
   CreateDocumentError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4560, __c285, 0) as any as S.Schema<CreateDocumentRequest>,
-  output: __S(5824, __c364, 0) as any as S.Schema<Document>,
+  input: __S(4576, __c286, 0) as any as S.Schema<CreateDocumentRequest>,
+  output: __S(5840, __c365, 0) as any as S.Schema<Document>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8228,8 +8245,8 @@ export const createDocumentResource: API.OperationMethod<
   CreateDocumentResourceError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4576, __c286, 0) as any as S.Schema<CreateDocumentResourceRequest>,
-  output: __S(4592, __c287, 0) as any as S.Schema<KnowledgeBaseDocumentResourceOutput>,
+  input: __S(4592, __c287, 0) as any as S.Schema<CreateDocumentResourceRequest>,
+  output: __S(4608, __c288, 0) as any as S.Schema<KnowledgeBaseDocumentResourceOutput>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8245,8 +8262,8 @@ export const createFileQuestionnaire: API.OperationMethod<
   CreateFileQuestionnaireError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4608, __c288, 0) as any as S.Schema<CreateFileQuestionnaireRequest>,
-  output: __S(2421, __c151, 5) as any as S.Schema<CustomerTrustQuestionnaire>,
+  input: __S(4624, __c289, 0) as any as S.Schema<CreateFileQuestionnaireRequest>,
+  output: __S(2437, __c152, 5) as any as S.Schema<CustomerTrustQuestionnaire>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8262,8 +8279,8 @@ export const createFrameworkControlsExport: API.OperationMethod<
   CreateFrameworkControlsExportError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4624, __c289, 0) as any as S.Schema<CreateFrameworkControlsExportRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<CreateFrameworkControlsExportResponse>,
+  input: __S(4640, __c290, 0) as any as S.Schema<CreateFrameworkControlsExportRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<CreateFrameworkControlsExportResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8279,8 +8296,8 @@ export const createGroup: API.OperationMethod<
   CreateGroupError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4640, __c290, 0) as any as S.Schema<CreateGroupRequest>,
-  output: __S(4657, __c291, 1) as any as S.Schema<Group>,
+  input: __S(4656, __c291, 0) as any as S.Schema<CreateGroupRequest>,
+  output: __S(4673, __c292, 1) as any as S.Schema<Group>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8296,8 +8313,8 @@ export const createLinkForDocument: API.OperationMethod<
   CreateLinkForDocumentError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4672, __c292, 0) as any as S.Schema<CreateLinkForDocumentRequest>,
-  output: __S(4688, __c293, 0) as any as S.Schema<UploadedLink>,
+  input: __S(4688, __c293, 0) as any as S.Schema<CreateLinkForDocumentRequest>,
+  output: __S(4704, __c294, 0) as any as S.Schema<UploadedLink>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8313,8 +8330,8 @@ export const createQuestionnaireExport: API.OperationMethod<
   CreateQuestionnaireExportError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4704, __c294, 0) as any as S.Schema<CreateQuestionnaireExportRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<CreateQuestionnaireExportResponse>,
+  input: __S(4720, __c295, 0) as any as S.Schema<CreateQuestionnaireExportRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<CreateQuestionnaireExportResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8330,8 +8347,8 @@ export const createRiskScenario: API.OperationMethod<
   CreateRiskScenarioError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4800, __c300, 0) as any as S.Schema<CreateRiskScenarioRequest>,
-  output: __S(3236, __c202, 4) as any as S.Schema<RiskScenario>,
+  input: __S(4816, __c301, 0) as any as S.Schema<CreateRiskScenarioRequest>,
+  output: __S(3252, __c203, 4) as any as S.Schema<RiskScenario>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8347,8 +8364,8 @@ export const createRiskScenarioControl: API.OperationMethod<
   CreateRiskScenarioControlError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4816, __c301, 0) as any as S.Schema<CreateRiskScenarioControlRequest>,
-  output: __S(4832, __c302, 0) as any as S.Schema<RiskScenarioControl>,
+  input: __S(4832, __c302, 0) as any as S.Schema<CreateRiskScenarioControlRequest>,
+  output: __S(4848, __c303, 0) as any as S.Schema<RiskScenarioControl>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8364,8 +8381,8 @@ export const createTaskRequirementSet: API.OperationMethod<
   CreateTaskRequirementSetError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4848, __c303, 0) as any as S.Schema<CreateTaskRequirementSetRequest>,
-  output: __S(4867, __c304, 3) as any as S.Schema<TaskRequirementSet>,
+  input: __S(4864, __c304, 0) as any as S.Schema<CreateTaskRequirementSetRequest>,
+  output: __S(4883, __c305, 3) as any as S.Schema<TaskRequirementSet>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8381,8 +8398,8 @@ export const createTrustCenterFaq: API.OperationMethod<
   CreateTrustCenterFaqError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4896, __c306, 0) as any as S.Schema<CreateTrustCenterFaqRequest>,
-  output: __S(4912, __c307, 0) as any as S.Schema<TrustCenterFaq>,
+  input: __S(4912, __c307, 0) as any as S.Schema<CreateTrustCenterFaqRequest>,
+  output: __S(4928, __c308, 0) as any as S.Schema<TrustCenterFaq>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8398,8 +8415,8 @@ export const createTrustCenterResource: API.OperationMethod<
   CreateTrustCenterResourceError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4928, __c308, 0) as any as S.Schema<CreateTrustCenterResourceRequest>,
-  output: __S(4944, __c309, 0) as any as S.Schema<TrustCenterResource>,
+  input: __S(4944, __c309, 0) as any as S.Schema<CreateTrustCenterResourceRequest>,
+  output: __S(4960, __c310, 0) as any as S.Schema<TrustCenterResource>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8415,8 +8432,8 @@ export const createTrustCenterSubprocessor: API.OperationMethod<
   CreateTrustCenterSubprocessorError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4960, __c310, 0) as any as S.Schema<CreateTrustCenterSubprocessorRequest>,
-  output: __S(4976, __c311, 0) as any as S.Schema<CreateTrustCenterSubprocessorResponse>,
+  input: __S(4976, __c311, 0) as any as S.Schema<CreateTrustCenterSubprocessorRequest>,
+  output: __S(4992, __c312, 0) as any as S.Schema<CreateTrustCenterSubprocessorResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8432,8 +8449,8 @@ export const createTrustCenterSubscriber: API.OperationMethod<
   CreateTrustCenterSubscriberError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4992, __c312, 0) as any as S.Schema<CreateTrustCenterSubscriberRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<TrustCenterSubscriber>,
+  input: __S(5008, __c313, 0) as any as S.Schema<CreateTrustCenterSubscriberRequest>,
+  output: __S(5040, __c315, 0) as any as S.Schema<TrustCenterSubscriber>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8449,8 +8466,8 @@ export const createTrustCenterSubscriberGroup: API.OperationMethod<
   CreateTrustCenterSubscriberGroupError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5040, __c315, 0) as any as S.Schema<CreateTrustCenterSubscriberGroupRequest>,
-  output: __S(5056, __c316, 0) as any as S.Schema<TrustCenterSubscriberGroup>,
+  input: __S(5056, __c316, 0) as any as S.Schema<CreateTrustCenterSubscriberGroupRequest>,
+  output: __S(5072, __c317, 0) as any as S.Schema<TrustCenterSubscriberGroup>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8466,8 +8483,8 @@ export const createTrustCenterUpdate: API.OperationMethod<
   CreateTrustCenterUpdateError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5072, __c317, 0) as any as S.Schema<CreateTrustCenterUpdateRequest>,
-  output: __S(5088, __c318, 0) as any as S.Schema<TrustCenterUpdateAPIResponse>,
+  input: __S(5088, __c318, 0) as any as S.Schema<CreateTrustCenterUpdateRequest>,
+  output: __S(5104, __c319, 0) as any as S.Schema<TrustCenterUpdateAPIResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8483,8 +8500,8 @@ export const createVendor: API.OperationMethod<
   CreateVendorError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5105, __c319, 1) as any as S.Schema<CreateVendorRequest>,
-  output: __S(5639, __c352, 7) as any as S.Schema<Vendor>,
+  input: __S(5121, __c320, 1) as any as S.Schema<CreateVendorRequest>,
+  output: __S(5655, __c353, 7) as any as S.Schema<Vendor>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8500,8 +8517,8 @@ export const createVendorCategory: API.OperationMethod<
   CreateVendorCategoryError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5200, __c325, 0) as any as S.Schema<CreateVendorCategoryRequest>,
-  output: __S(5216, __c326, 0) as any as S.Schema<VendorCategory2>,
+  input: __S(5216, __c326, 0) as any as S.Schema<CreateVendorCategoryRequest>,
+  output: __S(5232, __c327, 0) as any as S.Schema<VendorCategory2>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8517,8 +8534,8 @@ export const createVendorFinding: API.OperationMethod<
   CreateVendorFindingError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5232, __c327, 0) as any as S.Schema<CreateVendorFindingRequest>,
-  output: __S(5249, __c328, 1) as any as S.Schema<VendorFinding>,
+  input: __S(5248, __c328, 0) as any as S.Schema<CreateVendorFindingRequest>,
+  output: __S(5265, __c329, 1) as any as S.Schema<VendorFinding>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8534,8 +8551,8 @@ export const createWebpageResource: API.OperationMethod<
   CreateWebpageResourceError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5280, __c330, 0) as any as S.Schema<CreateWebpageResourceRequest>,
-  output: __S(5296, __c331, 0) as any as S.Schema<KnowledgeBaseWebpageResourceOutput>,
+  input: __S(5296, __c331, 0) as any as S.Schema<CreateWebpageResourceRequest>,
+  output: __S(5312, __c332, 0) as any as S.Schema<KnowledgeBaseWebpageResourceOutput>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8551,8 +8568,8 @@ export const createWebsiteQuestionnaire: API.OperationMethod<
   CreateWebsiteQuestionnaireError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5312, __c332, 0) as any as S.Schema<CreateWebsiteQuestionnaireRequest>,
-  output: __S(2421, __c151, 5) as any as S.Schema<CustomerTrustQuestionnaire>,
+  input: __S(5328, __c333, 0) as any as S.Schema<CreateWebsiteQuestionnaireRequest>,
+  output: __S(2437, __c152, 5) as any as S.Schema<CustomerTrustQuestionnaire>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8568,8 +8585,8 @@ export const deactivateTestEntity: API.OperationMethod<
   DeactivateTestEntityError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5344, __c334, 0) as any as S.Schema<DeactivateTestEntityRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<DeactivateTestEntityResponse>,
+  input: __S(5360, __c335, 0) as any as S.Schema<DeactivateTestEntityRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<DeactivateTestEntityResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8585,8 +8602,8 @@ export const deactivateVulnerabilities: API.OperationMethod<
   DeactivateVulnerabilitiesError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5362, __c335, 2) as any as S.Schema<DeactivateVulnerabilitiesRequest>,
-  output: __S(2353, __c147, 1) as any as S.Schema<BulkResponse>,
+  input: __S(5378, __c336, 2) as any as S.Schema<DeactivateVulnerabilitiesRequest>,
+  output: __S(2369, __c148, 1) as any as S.Schema<BulkResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8602,8 +8619,8 @@ export const deleteAnswerLibraryEntryRoute: API.OperationMethod<
   DeleteAnswerLibraryEntryRouteError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5376, __c336, 0) as any as S.Schema<DeleteAnswerLibraryEntryRouteRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<DeleteAnswerLibraryEntryRouteResponse>,
+  input: __S(5392, __c337, 0) as any as S.Schema<DeleteAnswerLibraryEntryRouteRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<DeleteAnswerLibraryEntryRouteResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8619,8 +8636,8 @@ export const deleteById: API.OperationMethod<
   DeleteByIdError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5392, __c337, 0) as any as S.Schema<DeleteByIdRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<DeleteByIdResponse>,
+  input: __S(5408, __c338, 0) as any as S.Schema<DeleteByIdRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<DeleteByIdResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8636,8 +8653,8 @@ export const deleteComplianceFramework: API.OperationMethod<
   DeleteComplianceFrameworkError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5408, __c338, 0) as any as S.Schema<DeleteComplianceFrameworkRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<DeleteComplianceFrameworkResponse>,
+  input: __S(5424, __c339, 0) as any as S.Schema<DeleteComplianceFrameworkRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<DeleteComplianceFrameworkResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8653,8 +8670,8 @@ export const deleteContract: API.OperationMethod<
   DeleteContractError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5424, __c339, 0) as any as S.Schema<DeleteContractRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<DeleteContractResponse>,
+  input: __S(5440, __c340, 0) as any as S.Schema<DeleteContractRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<DeleteContractResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8670,8 +8687,8 @@ export const deleteControl: API.OperationMethod<
   DeleteControlError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5456, __c341, 0) as any as S.Schema<DeleteControlRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<DeleteControlResponse>,
+  input: __S(5472, __c342, 0) as any as S.Schema<DeleteControlRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<DeleteControlResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8687,8 +8704,8 @@ export const deleteCustomerTrustAccount: API.OperationMethod<
   DeleteCustomerTrustAccountError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5472, __c342, 0) as any as S.Schema<DeleteCustomerTrustAccountRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<DeleteCustomerTrustAccountResponse>,
+  input: __S(5488, __c343, 0) as any as S.Schema<DeleteCustomerTrustAccountRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<DeleteCustomerTrustAccountResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8704,8 +8721,8 @@ export const deleteCustomFramework: API.OperationMethod<
   DeleteCustomFrameworkError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5488, __c343, 0) as any as S.Schema<DeleteCustomFrameworkRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<DeleteCustomFrameworkResponse>,
+  input: __S(5504, __c344, 0) as any as S.Schema<DeleteCustomFrameworkRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<DeleteCustomFrameworkResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8721,8 +8738,8 @@ export const deleteDocument: API.OperationMethod<
   DeleteDocumentError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5504, __c344, 0) as any as S.Schema<DeleteDocumentRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<DeleteDocumentResponse>,
+  input: __S(5520, __c345, 0) as any as S.Schema<DeleteDocumentRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<DeleteDocumentResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8738,8 +8755,8 @@ export const deleteDocumentForcontrol: API.OperationMethod<
   DeleteDocumentForcontrolError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5520, __c345, 0) as any as S.Schema<DeleteDocumentForcontrolRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<DeleteDocumentForcontrolResponse>,
+  input: __S(5536, __c346, 0) as any as S.Schema<DeleteDocumentForcontrolRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<DeleteDocumentForcontrolResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8755,8 +8772,8 @@ export const deleteFileForDocument: API.OperationMethod<
   DeleteFileForDocumentError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5536, __c346, 0) as any as S.Schema<DeleteFileForDocumentRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<DeleteFileForDocumentResponse>,
+  input: __S(5552, __c347, 0) as any as S.Schema<DeleteFileForDocumentRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<DeleteFileForDocumentResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8772,8 +8789,8 @@ export const deleteFindingById: API.OperationMethod<
   DeleteFindingByIdError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5552, __c347, 0) as any as S.Schema<DeleteFindingByIdRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<DeleteFindingByIdResponse>,
+  input: __S(5568, __c348, 0) as any as S.Schema<DeleteFindingByIdRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<DeleteFindingByIdResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8789,8 +8806,8 @@ export const deleteGroup: API.OperationMethod<
   DeleteGroupError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5568, __c348, 0) as any as S.Schema<DeleteGroupRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<DeleteGroupResponse>,
+  input: __S(5584, __c349, 0) as any as S.Schema<DeleteGroupRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<DeleteGroupResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8806,8 +8823,8 @@ export const deleteKnowledgeBaseResource: API.OperationMethod<
   DeleteKnowledgeBaseResourceError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5584, __c349, 0) as any as S.Schema<DeleteKnowledgeBaseResourceRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<DeleteKnowledgeBaseResourceResponse>,
+  input: __S(5600, __c350, 0) as any as S.Schema<DeleteKnowledgeBaseResourceRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<DeleteKnowledgeBaseResourceResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8823,8 +8840,8 @@ export const deleteLinkForDocument: API.OperationMethod<
   DeleteLinkForDocumentError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5600, __c350, 0) as any as S.Schema<DeleteLinkForDocumentRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<DeleteLinkForDocumentResponse>,
+  input: __S(5616, __c351, 0) as any as S.Schema<DeleteLinkForDocumentRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<DeleteLinkForDocumentResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8840,8 +8857,8 @@ export const deleteQuestionnaire: API.OperationMethod<
   DeleteQuestionnaireError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5648, __c353, 0) as any as S.Schema<DeleteQuestionnaireRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<DeleteQuestionnaireResponse>,
+  input: __S(5664, __c354, 0) as any as S.Schema<DeleteQuestionnaireRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<DeleteQuestionnaireResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8857,8 +8874,8 @@ export const deleteRiskScenarioControl: API.OperationMethod<
   DeleteRiskScenarioControlError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5664, __c354, 0) as any as S.Schema<DeleteRiskScenarioControlRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<DeleteRiskScenarioControlResponse>,
+  input: __S(5680, __c355, 0) as any as S.Schema<DeleteRiskScenarioControlRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<DeleteRiskScenarioControlResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8874,8 +8891,8 @@ export const deleteSecurityReviewDocumentById: API.OperationMethod<
   DeleteSecurityReviewDocumentByIdError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5680, __c355, 0) as any as S.Schema<DeleteSecurityReviewDocumentByIdRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<DeleteSecurityReviewDocumentByIdResponse>,
+  input: __S(5696, __c356, 0) as any as S.Schema<DeleteSecurityReviewDocumentByIdRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<DeleteSecurityReviewDocumentByIdResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8891,8 +8908,8 @@ export const deleteTestForControl: API.OperationMethod<
   DeleteTestForControlError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5696, __c356, 0) as any as S.Schema<DeleteTestForControlRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<DeleteTestForControlResponse>,
+  input: __S(5712, __c357, 0) as any as S.Schema<DeleteTestForControlRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<DeleteTestForControlResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8908,8 +8925,8 @@ export const deleteTrustCenterControl: API.OperationMethod<
   DeleteTrustCenterControlError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5712, __c357, 0) as any as S.Schema<DeleteTrustCenterControlRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<DeleteTrustCenterControlResponse>,
+  input: __S(5728, __c358, 0) as any as S.Schema<DeleteTrustCenterControlRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<DeleteTrustCenterControlResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8925,8 +8942,8 @@ export const deleteTrustCenterControlCategory: API.OperationMethod<
   DeleteTrustCenterControlCategoryError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5728, __c358, 0) as any as S.Schema<DeleteTrustCenterControlCategoryRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<DeleteTrustCenterControlCategoryResponse>,
+  input: __S(5744, __c359, 0) as any as S.Schema<DeleteTrustCenterControlCategoryRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<DeleteTrustCenterControlCategoryResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8942,8 +8959,8 @@ export const deleteTrustCenterFaq: API.OperationMethod<
   DeleteTrustCenterFaqError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5744, __c359, 0) as any as S.Schema<DeleteTrustCenterFaqRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<DeleteTrustCenterFaqResponse>,
+  input: __S(5760, __c360, 0) as any as S.Schema<DeleteTrustCenterFaqRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<DeleteTrustCenterFaqResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8959,8 +8976,8 @@ export const deleteTrustCenterFaqCategory: API.OperationMethod<
   DeleteTrustCenterFaqCategoryError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5760, __c360, 0) as any as S.Schema<DeleteTrustCenterFaqCategoryRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<DeleteTrustCenterFaqCategoryResponse>,
+  input: __S(5776, __c361, 0) as any as S.Schema<DeleteTrustCenterFaqCategoryRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<DeleteTrustCenterFaqCategoryResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8976,8 +8993,8 @@ export const deleteTrustCenterResource: API.OperationMethod<
   DeleteTrustCenterResourceError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5776, __c361, 0) as any as S.Schema<DeleteTrustCenterResourceRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<DeleteTrustCenterResourceResponse>,
+  input: __S(5792, __c362, 0) as any as S.Schema<DeleteTrustCenterResourceRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<DeleteTrustCenterResourceResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -8993,8 +9010,8 @@ export const deleteTrustCenterResourceCategory: API.OperationMethod<
   DeleteTrustCenterResourceCategoryError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5792, __c362, 0) as any as S.Schema<DeleteTrustCenterResourceCategoryRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<DeleteTrustCenterResourceCategoryResponse>,
+  input: __S(5808, __c363, 0) as any as S.Schema<DeleteTrustCenterResourceCategoryRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<DeleteTrustCenterResourceCategoryResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9010,8 +9027,8 @@ export const deleteTrustCenterSubprocessor: API.OperationMethod<
   DeleteTrustCenterSubprocessorError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5840, __c365, 0) as any as S.Schema<DeleteTrustCenterSubprocessorRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<DeleteTrustCenterSubprocessorResponse>,
+  input: __S(5856, __c366, 0) as any as S.Schema<DeleteTrustCenterSubprocessorRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<DeleteTrustCenterSubprocessorResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9027,8 +9044,8 @@ export const deleteTrustCenterSubscriber: API.OperationMethod<
   DeleteTrustCenterSubscriberError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5856, __c366, 0) as any as S.Schema<DeleteTrustCenterSubscriberRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<DeleteTrustCenterSubscriberResponse>,
+  input: __S(5872, __c367, 0) as any as S.Schema<DeleteTrustCenterSubscriberRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<DeleteTrustCenterSubscriberResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9044,8 +9061,8 @@ export const deleteTrustCenterSubscriberGroup: API.OperationMethod<
   DeleteTrustCenterSubscriberGroupError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5872, __c367, 0) as any as S.Schema<DeleteTrustCenterSubscriberGroupRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<DeleteTrustCenterSubscriberGroupResponse>,
+  input: __S(5888, __c368, 0) as any as S.Schema<DeleteTrustCenterSubscriberGroupRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<DeleteTrustCenterSubscriberGroupResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9061,8 +9078,8 @@ export const deleteTrustCenterUpdate: API.OperationMethod<
   DeleteTrustCenterUpdateError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5888, __c368, 0) as any as S.Schema<DeleteTrustCenterUpdateRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<DeleteTrustCenterUpdateResponse>,
+  input: __S(5904, __c369, 0) as any as S.Schema<DeleteTrustCenterUpdateRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<DeleteTrustCenterUpdateResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9078,8 +9095,8 @@ export const deleteVendorCategory: API.OperationMethod<
   DeleteVendorCategoryError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5904, __c369, 0) as any as S.Schema<DeleteVendorCategoryRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<DeleteVendorCategoryResponse>,
+  input: __S(5920, __c370, 0) as any as S.Schema<DeleteVendorCategoryRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<DeleteVendorCategoryResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9095,8 +9112,8 @@ export const denyTrustCenterAccessRequest: API.OperationMethod<
   DenyTrustCenterAccessRequestError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5920, __c370, 0) as any as S.Schema<DenyTrustCenterAccessRequestRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<DenyTrustCenterAccessRequestResponse>,
+  input: __S(5936, __c371, 0) as any as S.Schema<DenyTrustCenterAccessRequestRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<DenyTrustCenterAccessRequestResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9112,8 +9129,8 @@ export const evaluateDocument: API.OperationMethod<
   EvaluateDocumentError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5936, __c371, 0) as any as S.Schema<EvaluateDocumentRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<EvaluateDocumentResponse>,
+  input: __S(5952, __c372, 0) as any as S.Schema<EvaluateDocumentRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<EvaluateDocumentResponse>,
   errors: [UnprocessableEntity, UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9129,8 +9146,8 @@ export const getAnswerLibraryEntry: API.OperationMethod<
   GetAnswerLibraryEntryError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5952, __c372, 0) as any as S.Schema<GetAnswerLibraryEntryRequest>,
-  output: __S(3808, __c238, 0) as any as S.Schema<KnowledgeBaseAnswerLibraryEntryOutput>,
+  input: __S(5968, __c373, 0) as any as S.Schema<GetAnswerLibraryEntryRequest>,
+  output: __S(3824, __c239, 0) as any as S.Schema<KnowledgeBaseAnswerLibraryEntryOutput>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9146,8 +9163,8 @@ export const getAssessmentById: API.OperationMethod<
   GetAssessmentByIdError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5968, __c373, 0) as any as S.Schema<GetAssessmentByIdRequest>,
-  output: __S(5969, __c373, 1) as any as S.Schema<VendorAssessment>,
+  input: __S(5984, __c374, 0) as any as S.Schema<GetAssessmentByIdRequest>,
+  output: __S(5985, __c374, 1) as any as S.Schema<VendorAssessment>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9163,10 +9180,10 @@ export const getAssessmentsByVendorId: API.OperationMethod<
   GetAssessmentsByVendorIdError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6016, __c376, 0) as any as S.Schema<GetAssessmentsByVendorIdRequest>,
+  input: __S(6032, __c377, 0) as any as S.Schema<GetAssessmentsByVendorIdRequest>,
   output: __S(
-    6022,
-    __c376,
+    6038,
+    __c377,
     6,
   ) as any as S.Schema<PaginatedResponseVendorAssessmentWithQuestionnaire>,
   errors: [UnknownVantaError],
@@ -9184,8 +9201,8 @@ export const getBusinessUnit: API.OperationMethod<
   GetBusinessUnitError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6064, __c379, 0) as any as S.Schema<GetBusinessUnitRequest>,
-  output: __S(6080, __c380, 0) as any as S.Schema<BusinessUnit>,
+  input: __S(6080, __c380, 0) as any as S.Schema<GetBusinessUnitRequest>,
+  output: __S(6096, __c381, 0) as any as S.Schema<BusinessUnit>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9201,8 +9218,8 @@ export const getChatbotConversationMessages: API.OperationMethod<
   GetChatbotConversationMessagesError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6096, __c381, 0) as any as S.Schema<GetChatbotConversationMessagesRequest>,
-  output: __S(6099, __c381, 3) as any as S.Schema<ArrayResponseTrustCenterChatbotMessage>,
+  input: __S(6112, __c382, 0) as any as S.Schema<GetChatbotConversationMessagesRequest>,
+  output: __S(6115, __c382, 3) as any as S.Schema<ArrayResponseTrustCenterChatbotMessage>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9218,8 +9235,8 @@ export const getConnectedIntegration: API.OperationMethod<
   GetConnectedIntegrationError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6112, __c382, 0) as any as S.Schema<GetConnectedIntegrationRequest>,
-  output: __S(6130, __c383, 2) as any as S.Schema<Integration>,
+  input: __S(6128, __c383, 0) as any as S.Schema<GetConnectedIntegrationRequest>,
+  output: __S(6146, __c384, 2) as any as S.Schema<Integration>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9235,8 +9252,8 @@ export const getContract: API.OperationMethod<
   GetContractError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6144, __c384, 0) as any as S.Schema<GetContractRequest>,
-  output: __S(6160, __c385, 0) as any as S.Schema<Contract>,
+  input: __S(6160, __c385, 0) as any as S.Schema<GetContractRequest>,
+  output: __S(6176, __c386, 0) as any as S.Schema<Contract>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9252,8 +9269,8 @@ export const getControl: API.OperationMethod<
   GetControlError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6176, __c386, 0) as any as S.Schema<GetControlRequest>,
-  output: __S(6192, __c387, 0) as any as S.Schema<ControlDetail>,
+  input: __S(6192, __c387, 0) as any as S.Schema<GetControlRequest>,
+  output: __S(6208, __c388, 0) as any as S.Schema<ControlDetail>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9269,8 +9286,8 @@ export const getCustomerTrustAccount: API.OperationMethod<
   GetCustomerTrustAccountError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6208, __c388, 0) as any as S.Schema<GetCustomerTrustAccountRequest>,
-  output: __S(4452, __c278, 4) as any as S.Schema<CustomerTrustAccountVantaApi>,
+  input: __S(6224, __c389, 0) as any as S.Schema<GetCustomerTrustAccountRequest>,
+  output: __S(4468, __c279, 4) as any as S.Schema<CustomerTrustAccountVantaApi>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9286,8 +9303,8 @@ export const getDocument: API.OperationMethod<
   GetDocumentError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6224, __c389, 0) as any as S.Schema<GetDocumentRequest>,
-  output: __S(6226, __c389, 2) as any as S.Schema<DocumentDetail>,
+  input: __S(6240, __c390, 0) as any as S.Schema<GetDocumentRequest>,
+  output: __S(6242, __c390, 2) as any as S.Schema<DocumentDetail>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9303,8 +9320,8 @@ export const getDocumentDraftEvaluation: API.OperationMethod<
   GetDocumentDraftEvaluationError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6240, __c390, 0) as any as S.Schema<GetDocumentDraftEvaluationRequest>,
-  output: __S(6241, __c390, 1) as any as S.Schema<DocumentEvaluation>,
+  input: __S(6256, __c391, 0) as any as S.Schema<GetDocumentDraftEvaluationRequest>,
+  output: __S(6257, __c391, 1) as any as S.Schema<DocumentEvaluation>,
   errors: [NotFound, UnprocessableEntity, UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9320,8 +9337,8 @@ export const getFramework: API.OperationMethod<
   GetFrameworkError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6256, __c391, 0) as any as S.Schema<GetFrameworkRequest>,
-  output: __S(6267, __c391, 11) as any as S.Schema<FrameworkDetail>,
+  input: __S(6272, __c392, 0) as any as S.Schema<GetFrameworkRequest>,
+  output: __S(6283, __c392, 11) as any as S.Schema<FrameworkDetail>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9337,8 +9354,8 @@ export const getFrameworkControlsExport: API.OperationMethod<
   GetFrameworkControlsExportError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6288, __c393, 0) as any as S.Schema<GetFrameworkControlsExportRequest>,
-  output: __S(6289, __c393, 1) as any as S.Schema<GetFrameworkControlsExportResponse>,
+  input: __S(6304, __c394, 0) as any as S.Schema<GetFrameworkControlsExportRequest>,
+  output: __S(6305, __c394, 1) as any as S.Schema<GetFrameworkControlsExportResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9350,8 +9367,8 @@ export type GetGroupError = VantaOpError;
 /** Get group by ID Get a group by ID. */
 export const getGroup: API.OperationMethod<GetGroupRequest, Group, GetGroupError, VantaOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(16, __c1, 0) as any as S.Schema<GetGroupRequest>,
-    output: __S(4657, __c291, 1) as any as S.Schema<Group>,
+    input: __S(32, __c2, 0) as any as S.Schema<GetGroupRequest>,
+    output: __S(4673, __c292, 1) as any as S.Schema<Group>,
     errors: [UnknownVantaError],
     protocol: VantaProtocol,
     retry: Retry.Retry,
@@ -9367,8 +9384,8 @@ export const getGroupMembers: API.OperationMethod<
   GetGroupMembersError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<GetGroupMembersRequest>,
-  output: __S(33, __c2, 1) as any as S.Schema<GetGroupMembersResponse>,
+  input: __S(48, __c3, 0) as any as S.Schema<GetGroupMembersRequest>,
+  output: __S(49, __c3, 1) as any as S.Schema<GetGroupMembersResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9384,8 +9401,8 @@ export const getGroupTaskRequirementSet: API.OperationMethod<
   GetGroupTaskRequirementSetError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<GetGroupTaskRequirementSetRequest>,
-  output: __S(4867, __c304, 3) as any as S.Schema<GetGroupTaskRequirementSetResponse>,
+  input: __S(80, __c5, 0) as any as S.Schema<GetGroupTaskRequirementSetRequest>,
+  output: __S(4883, __c305, 3) as any as S.Schema<GetGroupTaskRequirementSetResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9401,8 +9418,8 @@ export const getIssue: API.OperationMethod<
   GetIssueError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<GetIssueRequest>,
-  output: __S(81, __c5, 1) as any as S.Schema<GetIssueResponse>,
+  input: __S(96, __c6, 0) as any as S.Schema<GetIssueRequest>,
+  output: __S(97, __c6, 1) as any as S.Schema<GetIssueResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9418,8 +9435,8 @@ export const getKnowledgeBaseResource: API.OperationMethod<
   GetKnowledgeBaseResourceError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<GetKnowledgeBaseResourceRequest>,
-  output: __S(112, __c7, 0) as any as S.Schema<GetKnowledgeBaseResourceResponse>,
+  input: __S(112, __c7, 0) as any as S.Schema<GetKnowledgeBaseResourceRequest>,
+  output: __S(128, __c8, 0) as any as S.Schema<GetKnowledgeBaseResourceResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9435,8 +9452,8 @@ export const getMonitoredComputer: API.OperationMethod<
   GetMonitoredComputerError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<GetMonitoredComputerRequest>,
-  output: __S(146, __c9, 2) as any as S.Schema<MonitoredComputer>,
+  input: __S(144, __c9, 0) as any as S.Schema<GetMonitoredComputerRequest>,
+  output: __S(162, __c10, 2) as any as S.Schema<MonitoredComputer>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9452,8 +9469,8 @@ export const getOrganization: API.OperationMethod<
   GetOrganizationError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<GetOrganizationRequest>,
-  output: __S(161, __c10, 1) as any as S.Schema<OrganizationIdentity>,
+  input: __S(176, __c11, 0) as any as S.Schema<GetOrganizationRequest>,
+  output: __S(177, __c11, 1) as any as S.Schema<OrganizationIdentity>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9469,8 +9486,8 @@ export const getPerson: API.OperationMethod<
   GetPersonError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<GetPersonRequest>,
-  output: __S(574, __c35, 14) as any as S.Schema<Person>,
+  input: __S(192, __c12, 0) as any as S.Schema<GetPersonRequest>,
+  output: __S(590, __c36, 14) as any as S.Schema<Person>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9486,8 +9503,8 @@ export const getPolicy: API.OperationMethod<
   GetPolicyError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<GetPolicyRequest>,
-  output: __S(212, __c13, 4) as any as S.Schema<Policy>,
+  input: __S(208, __c13, 0) as any as S.Schema<GetPolicyRequest>,
+  output: __S(228, __c14, 4) as any as S.Schema<Policy>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9503,8 +9520,8 @@ export const getProgramScope: API.OperationMethod<
   GetProgramScopeError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<GetProgramScopeRequest>,
-  output: __S(240, __c15, 0) as any as S.Schema<ProgramScope>,
+  input: __S(240, __c15, 0) as any as S.Schema<GetProgramScopeRequest>,
+  output: __S(256, __c16, 0) as any as S.Schema<ProgramScope>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9520,8 +9537,8 @@ export const getQuestionnaire: API.OperationMethod<
   GetQuestionnaireError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<GetQuestionnaireRequest>,
-  output: __S(2421, __c151, 5) as any as S.Schema<CustomerTrustQuestionnaire>,
+  input: __S(304, __c19, 0) as any as S.Schema<GetQuestionnaireRequest>,
+  output: __S(2437, __c152, 5) as any as S.Schema<CustomerTrustQuestionnaire>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9537,8 +9554,8 @@ export const getQuestionnaireExport: API.OperationMethod<
   GetQuestionnaireExportError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<GetQuestionnaireExportRequest>,
-  output: __S(305, __c19, 1) as any as S.Schema<CustomerTrustExportStatusResponse>,
+  input: __S(320, __c20, 0) as any as S.Schema<GetQuestionnaireExportRequest>,
+  output: __S(321, __c20, 1) as any as S.Schema<CustomerTrustExportStatusResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9554,8 +9571,8 @@ export const getQuestionnaireResponse: API.OperationMethod<
   GetQuestionnaireResponseError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<GetQuestionnaireResponseRequest>,
-  output: __S(345, __c21, 9) as any as S.Schema<QuestionnaireResponseWithoutViewerPermissions>,
+  input: __S(336, __c21, 0) as any as S.Schema<GetQuestionnaireResponseRequest>,
+  output: __S(361, __c22, 9) as any as S.Schema<QuestionnaireResponseWithoutViewerPermissions>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9571,8 +9588,8 @@ export const getResource: API.OperationMethod<
   GetResourceError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<GetResourceRequest>,
-  output: __S(353, __c22, 1) as any as S.Schema<GetResourceResponse>,
+  input: __S(368, __c23, 0) as any as S.Schema<GetResourceRequest>,
+  output: __S(369, __c23, 1) as any as S.Schema<GetResourceResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9588,8 +9605,8 @@ export const getResourceKindDetails: API.OperationMethod<
   GetResourceKindDetailsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<GetResourceKindDetailsRequest>,
-  output: __S(369, __c23, 1) as any as S.Schema<ResourceKindDetails>,
+  input: __S(384, __c24, 0) as any as S.Schema<GetResourceKindDetailsRequest>,
+  output: __S(385, __c24, 1) as any as S.Schema<ResourceKindDetails>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9605,8 +9622,8 @@ export const getRiskScenario: API.OperationMethod<
   GetRiskScenarioError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<GetRiskScenarioRequest>,
-  output: __S(3236, __c202, 4) as any as S.Schema<RiskScenario>,
+  input: __S(400, __c25, 0) as any as S.Schema<GetRiskScenarioRequest>,
+  output: __S(3252, __c203, 4) as any as S.Schema<RiskScenario>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9622,8 +9639,8 @@ export const getSecurityReviewDocuments: API.OperationMethod<
   GetSecurityReviewDocumentsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<GetSecurityReviewDocumentsRequest>,
-  output: __S(418, __c26, 2) as any as S.Schema<PaginatedResponseVendorDocument>,
+  input: __S(416, __c26, 0) as any as S.Schema<GetSecurityReviewDocumentsRequest>,
+  output: __S(434, __c27, 2) as any as S.Schema<PaginatedResponseVendorDocument>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9639,8 +9656,8 @@ export const getSecurityReviewsById: API.OperationMethod<
   GetSecurityReviewsByIdError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<GetSecurityReviewsByIdRequest>,
-  output: __S(465, __c29, 1) as any as S.Schema<SecurityReview>,
+  input: __S(464, __c29, 0) as any as S.Schema<GetSecurityReviewsByIdRequest>,
+  output: __S(481, __c30, 1) as any as S.Schema<SecurityReview>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9656,8 +9673,8 @@ export const getSecurityReviewsByVendorId: API.OperationMethod<
   GetSecurityReviewsByVendorIdError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<GetSecurityReviewsByVendorIdRequest>,
-  output: __S(483, __c30, 3) as any as S.Schema<PaginatedResponseSecurityReview>,
+  input: __S(496, __c31, 0) as any as S.Schema<GetSecurityReviewsByVendorIdRequest>,
+  output: __S(499, __c31, 3) as any as S.Schema<PaginatedResponseSecurityReview>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9673,8 +9690,8 @@ export const getSettings: API.OperationMethod<
   GetSettingsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<GetSettingsRequest>,
-  output: __S(512, __c32, 0) as any as S.Schema<GetSettingsResponse>,
+  input: __S(512, __c32, 0) as any as S.Schema<GetSettingsRequest>,
+  output: __S(528, __c33, 0) as any as S.Schema<GetSettingsResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9690,8 +9707,8 @@ export const getTagsForCategory: API.OperationMethod<
   GetTagsForCategoryError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<GetTagsForCategoryRequest>,
-  output: __S(579, __c36, 3) as any as S.Schema<TagCategoryWithTags>,
+  input: __S(592, __c37, 0) as any as S.Schema<GetTagsForCategoryRequest>,
+  output: __S(595, __c37, 3) as any as S.Schema<TagCategoryWithTags>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9707,8 +9724,8 @@ export const getTaskRequirementSet: API.OperationMethod<
   GetTaskRequirementSetError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<GetTaskRequirementSetRequest>,
-  output: __S(4867, __c304, 3) as any as S.Schema<TaskRequirementSet>,
+  input: __S(608, __c38, 0) as any as S.Schema<GetTaskRequirementSetRequest>,
+  output: __S(4883, __c305, 3) as any as S.Schema<TaskRequirementSet>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9720,8 +9737,8 @@ export type GetTestError = VantaOpError;
 /** Get test by ID Gets a test by ID. Test IDs can be found in Vanta in URL bar after /tests/. */
 export const getTest: API.OperationMethod<GetTestRequest, Test, GetTestError, VantaOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(608, __c38, 0) as any as S.Schema<GetTestRequest>,
-    output: __S(1011, __c63, 3) as any as S.Schema<Test>,
+    input: __S(624, __c39, 0) as any as S.Schema<GetTestRequest>,
+    output: __S(1027, __c64, 3) as any as S.Schema<Test>,
     errors: [UnknownVantaError],
     protocol: VantaProtocol,
     retry: Retry.Retry,
@@ -9737,8 +9754,8 @@ export const getTestEntities: API.OperationMethod<
   GetTestEntitiesError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<GetTestEntitiesRequest>,
-  output: __S(628, __c39, 4) as any as S.Schema<PaginatedResponseTestResourceEntity>,
+  input: __S(640, __c40, 0) as any as S.Schema<GetTestEntitiesRequest>,
+  output: __S(644, __c40, 4) as any as S.Schema<PaginatedResponseTestResourceEntity>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9754,8 +9771,8 @@ export const getTrustCenter: API.OperationMethod<
   GetTrustCenterError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<GetTrustCenterRequest>,
-  output: __S(658, __c41, 2) as any as S.Schema<TrustCenter>,
+  input: __S(656, __c41, 0) as any as S.Schema<GetTrustCenterRequest>,
+  output: __S(674, __c42, 2) as any as S.Schema<TrustCenter>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9771,8 +9788,8 @@ export const getTrustCenterAccessRequest: API.OperationMethod<
   GetTrustCenterAccessRequestError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<GetTrustCenterAccessRequestRequest>,
-  output: __S(688, __c43, 0) as any as S.Schema<TrustCenterAccessRequest>,
+  input: __S(688, __c43, 0) as any as S.Schema<GetTrustCenterAccessRequestRequest>,
+  output: __S(704, __c44, 0) as any as S.Schema<TrustCenterAccessRequest>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9788,8 +9805,8 @@ export const getTrustCenterControl: API.OperationMethod<
   GetTrustCenterControlError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<GetTrustCenterControlRequest>,
-  output: __S(5184, __c324, 0) as any as S.Schema<TrustCenterControl>,
+  input: __S(720, __c45, 0) as any as S.Schema<GetTrustCenterControlRequest>,
+  output: __S(5200, __c325, 0) as any as S.Schema<TrustCenterControl>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9805,8 +9822,8 @@ export const getTrustCenterControlCategories: API.OperationMethod<
   GetTrustCenterControlCategoriesError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<GetTrustCenterControlCategoriesRequest>,
-  output: __S(736, __c46, 0) as any as S.Schema<ArrayResponseTrustCenterControlCategory>,
+  input: __S(736, __c46, 0) as any as S.Schema<GetTrustCenterControlCategoriesRequest>,
+  output: __S(752, __c47, 0) as any as S.Schema<ArrayResponseTrustCenterControlCategory>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9822,8 +9839,8 @@ export const getTrustCenterControlCategory: API.OperationMethod<
   GetTrustCenterControlCategoryError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<GetTrustCenterControlCategoryRequest>,
-  output: __S(5152, __c322, 0) as any as S.Schema<TrustCenterControlCategory>,
+  input: __S(768, __c48, 0) as any as S.Schema<GetTrustCenterControlCategoryRequest>,
+  output: __S(5168, __c323, 0) as any as S.Schema<TrustCenterControlCategory>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9839,8 +9856,8 @@ export const getTrustCenterFaq: API.OperationMethod<
   GetTrustCenterFaqError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<GetTrustCenterFaqRequest>,
-  output: __S(4912, __c307, 0) as any as S.Schema<TrustCenterFaq>,
+  input: __S(784, __c49, 0) as any as S.Schema<GetTrustCenterFaqRequest>,
+  output: __S(4928, __c308, 0) as any as S.Schema<TrustCenterFaq>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9856,8 +9873,8 @@ export const getTrustCenterResource: API.OperationMethod<
   GetTrustCenterResourceError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<GetTrustCenterResourceRequest>,
-  output: __S(4944, __c309, 0) as any as S.Schema<TrustCenterResource>,
+  input: __S(816, __c51, 0) as any as S.Schema<GetTrustCenterResourceRequest>,
+  output: __S(4960, __c310, 0) as any as S.Schema<TrustCenterResource>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9873,8 +9890,8 @@ export const getTrustCenterResourceMedia: API.OperationMethod<
   GetTrustCenterResourceMediaError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c51, 0) as any as S.Schema<GetTrustCenterResourceMediaRequest>,
-  output: __S(832, __c52, 0) as any as S.Schema<NodeJSReadableStream>,
+  input: __S(832, __c52, 0) as any as S.Schema<GetTrustCenterResourceMediaRequest>,
+  output: __S(848, __c53, 0) as any as S.Schema<NodeJSReadableStream>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9890,8 +9907,8 @@ export const getTrustCenterSubprocessor: API.OperationMethod<
   GetTrustCenterSubprocessorError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<GetTrustCenterSubprocessorRequest>,
-  output: __S(4976, __c311, 0) as any as S.Schema<TrustCenterSubprocessor>,
+  input: __S(864, __c54, 0) as any as S.Schema<GetTrustCenterSubprocessorRequest>,
+  output: __S(4992, __c312, 0) as any as S.Schema<TrustCenterSubprocessor>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9907,8 +9924,8 @@ export const getTrustCenterSubscriber: API.OperationMethod<
   GetTrustCenterSubscriberError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c54, 0) as any as S.Schema<GetTrustCenterSubscriberRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<TrustCenterSubscriber>,
+  input: __S(880, __c55, 0) as any as S.Schema<GetTrustCenterSubscriberRequest>,
+  output: __S(5040, __c315, 0) as any as S.Schema<TrustCenterSubscriber>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9924,8 +9941,8 @@ export const getTrustCenterSubscriberGroup: API.OperationMethod<
   GetTrustCenterSubscriberGroupError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<GetTrustCenterSubscriberGroupRequest>,
-  output: __S(5056, __c316, 0) as any as S.Schema<TrustCenterSubscriberGroup>,
+  input: __S(896, __c56, 0) as any as S.Schema<GetTrustCenterSubscriberGroupRequest>,
+  output: __S(5072, __c317, 0) as any as S.Schema<TrustCenterSubscriberGroup>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9941,8 +9958,8 @@ export const getTrustCenterUpdate: API.OperationMethod<
   GetTrustCenterUpdateError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<GetTrustCenterUpdateRequest>,
-  output: __S(5088, __c318, 0) as any as S.Schema<TrustCenterUpdateAPIResponse>,
+  input: __S(912, __c57, 0) as any as S.Schema<GetTrustCenterUpdateRequest>,
+  output: __S(5104, __c319, 0) as any as S.Schema<TrustCenterUpdateAPIResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9958,8 +9975,8 @@ export const getTrustCenterViewer: API.OperationMethod<
   GetTrustCenterViewerError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<GetTrustCenterViewerRequest>,
-  output: __S(1941, __c121, 5) as any as S.Schema<TrustCenterViewer>,
+  input: __S(928, __c58, 0) as any as S.Schema<GetTrustCenterViewerRequest>,
+  output: __S(1957, __c122, 5) as any as S.Schema<TrustCenterViewer>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9975,8 +9992,8 @@ export const getUploadedfileMedia: API.OperationMethod<
   GetUploadedfileMediaError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<GetUploadedfileMediaRequest>,
-  output: __S(832, __c52, 0) as any as S.Schema<NodeJSReadableStream>,
+  input: __S(944, __c59, 0) as any as S.Schema<GetUploadedfileMediaRequest>,
+  output: __S(848, __c53, 0) as any as S.Schema<NodeJSReadableStream>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -9988,8 +10005,8 @@ export type GetUserError = VantaOpError;
 /** Get user by ID Returns a user by ID. */
 export const getUser: API.OperationMethod<GetUserRequest, User, GetUserError, VantaOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(944, __c59, 0) as any as S.Schema<GetUserRequest>,
-    output: __S(960, __c60, 0) as any as S.Schema<User>,
+    input: __S(960, __c60, 0) as any as S.Schema<GetUserRequest>,
+    output: __S(976, __c61, 0) as any as S.Schema<User>,
     errors: [UnknownVantaError],
     protocol: VantaProtocol,
     retry: Retry.Retry,
@@ -10005,8 +10022,8 @@ export const getVendor: API.OperationMethod<
   GetVendorError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<GetVendorRequest>,
-  output: __S(5639, __c352, 7) as any as S.Schema<Vendor>,
+  input: __S(992, __c62, 0) as any as S.Schema<GetVendorRequest>,
+  output: __S(5655, __c353, 7) as any as S.Schema<Vendor>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10022,8 +10039,8 @@ export const getVendorAlert: API.OperationMethod<
   GetVendorAlertError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<GetVendorAlertRequest>,
-  output: __S(1040, __c65, 0) as any as S.Schema<VendorAlert>,
+  input: __S(1040, __c65, 0) as any as S.Schema<GetVendorAlertRequest>,
+  output: __S(1056, __c66, 0) as any as S.Schema<VendorAlert>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10039,8 +10056,8 @@ export const getVendorAlertSettings: API.OperationMethod<
   GetVendorAlertSettingsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c66, 0) as any as S.Schema<GetVendorAlertSettingsRequest>,
-  output: __S(1074, __c67, 2) as any as S.Schema<VendorAlertSettingsResponse>,
+  input: __S(1072, __c67, 0) as any as S.Schema<GetVendorAlertSettingsRequest>,
+  output: __S(1090, __c68, 2) as any as S.Schema<VendorAlertSettingsResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10056,8 +10073,8 @@ export const getVendorAssessmentType: API.OperationMethod<
   GetVendorAssessmentTypeError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<GetVendorAssessmentTypeRequest>,
-  output: __S(1104, __c69, 0) as any as S.Schema<VendorAssessmentType>,
+  input: __S(1104, __c69, 0) as any as S.Schema<GetVendorAssessmentTypeRequest>,
+  output: __S(1120, __c70, 0) as any as S.Schema<VendorAssessmentType>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10073,8 +10090,8 @@ export const getVendorCategory: API.OperationMethod<
   GetVendorCategoryError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c70, 0) as any as S.Schema<GetVendorCategoryRequest>,
-  output: __S(5216, __c326, 0) as any as S.Schema<VendorCategory2>,
+  input: __S(1136, __c71, 0) as any as S.Schema<GetVendorCategoryRequest>,
+  output: __S(5232, __c327, 0) as any as S.Schema<VendorCategory2>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10090,8 +10107,8 @@ export const getVendorExternalFinding: API.OperationMethod<
   GetVendorExternalFindingError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c71, 0) as any as S.Schema<GetVendorExternalFindingRequest>,
-  output: __S(1153, __c72, 1) as any as S.Schema<VendorExternalFinding>,
+  input: __S(1152, __c72, 0) as any as S.Schema<GetVendorExternalFindingRequest>,
+  output: __S(1169, __c73, 1) as any as S.Schema<VendorExternalFinding>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10107,8 +10124,8 @@ export const getVendorSecurityIncidentAlert: API.OperationMethod<
   GetVendorSecurityIncidentAlertError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1168, __c73, 0) as any as S.Schema<GetVendorSecurityIncidentAlertRequest>,
-  output: __S(1190, __c74, 6) as any as S.Schema<VendorSecurityIncidentAlert>,
+  input: __S(1184, __c74, 0) as any as S.Schema<GetVendorSecurityIncidentAlertRequest>,
+  output: __S(1206, __c75, 6) as any as S.Schema<VendorSecurityIncidentAlert>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10124,8 +10141,8 @@ export const getVulnerability: API.OperationMethod<
   GetVulnerabilityError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c75, 0) as any as S.Schema<GetVulnerabilityRequest>,
-  output: __S(1217, __c76, 1) as any as S.Schema<Vulnerability>,
+  input: __S(1216, __c76, 0) as any as S.Schema<GetVulnerabilityRequest>,
+  output: __S(1233, __c77, 1) as any as S.Schema<Vulnerability>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10141,8 +10158,8 @@ export const getVulnerableAsset: API.OperationMethod<
   GetVulnerableAssetError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1232, __c77, 0) as any as S.Schema<GetVulnerableAssetRequest>,
-  output: __S(1250, __c78, 2) as any as S.Schema<VulnerableAsset>,
+  input: __S(1248, __c78, 0) as any as S.Schema<GetVulnerableAssetRequest>,
+  output: __S(1266, __c79, 2) as any as S.Schema<VulnerableAsset>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10158,8 +10175,8 @@ export const importIdpGroups: API.OperationMethod<
   ImportIdpGroupsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c79, 0) as any as S.Schema<ImportIdpGroupsRequest>,
-  output: __S(1266, __c79, 2) as any as S.Schema<ImportIdpGroupsResponse>,
+  input: __S(1280, __c80, 0) as any as S.Schema<ImportIdpGroupsRequest>,
+  output: __S(1282, __c80, 2) as any as S.Schema<ImportIdpGroupsResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10175,8 +10192,8 @@ export const list: API.OperationMethod<
   ListError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c80, 0) as any as S.Schema<ListRequest>,
-  output: __S(1283, __c80, 3) as any as S.Schema<PaginatedResponseIssue>,
+  input: __S(1296, __c81, 0) as any as S.Schema<ListRequest>,
+  output: __S(1299, __c81, 3) as any as S.Schema<PaginatedResponseIssue>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10192,8 +10209,8 @@ export const listAccountMappings: API.OperationMethod<
   ListAccountMappingsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c82, 0) as any as S.Schema<ListAccountMappingsRequest>,
-  output: __S(1314, __c82, 2) as any as S.Schema<PaginatedResponseRiskScenarioAccountMapping>,
+  input: __S(1328, __c83, 0) as any as S.Schema<ListAccountMappingsRequest>,
+  output: __S(1330, __c83, 2) as any as S.Schema<PaginatedResponseRiskScenarioAccountMapping>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10209,10 +10226,10 @@ export const listAnswerLibraryEntries: API.OperationMethod<
   ListAnswerLibraryEntriesError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1328, __c83, 0) as any as S.Schema<ListAnswerLibraryEntriesRequest>,
+  input: __S(1344, __c84, 0) as any as S.Schema<ListAnswerLibraryEntriesRequest>,
   output: __S(
-    1331,
-    __c83,
+    1347,
+    __c84,
     3,
   ) as any as S.Schema<PaginatedResponseKnowledgeBaseAnswerLibraryEntryOutput>,
   errors: [UnknownVantaError],
@@ -10230,8 +10247,8 @@ export const listAssignableUsers: API.OperationMethod<
   ListAssignableUsersError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c84, 0) as any as S.Schema<ListAssignableUsersRequest>,
-  output: __S(1346, __c84, 2) as any as S.Schema<QuestionnaireAssignableUsersResponse>,
+  input: __S(1360, __c85, 0) as any as S.Schema<ListAssignableUsersRequest>,
+  output: __S(1362, __c85, 2) as any as S.Schema<QuestionnaireAssignableUsersResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10247,8 +10264,8 @@ export const listBusinessUnits: API.OperationMethod<
   ListBusinessUnitsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c86, 0) as any as S.Schema<ListBusinessUnitsRequest>,
-  output: __S(1378, __c86, 2) as any as S.Schema<PaginatedResponseBusinessUnit>,
+  input: __S(1392, __c87, 0) as any as S.Schema<ListBusinessUnitsRequest>,
+  output: __S(1394, __c87, 2) as any as S.Schema<PaginatedResponseBusinessUnit>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10264,8 +10281,8 @@ export const listChatbotConversations: API.OperationMethod<
   ListChatbotConversationsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1392, __c87, 0) as any as S.Schema<ListChatbotConversationsRequest>,
-  output: __S(1396, __c87, 4) as any as S.Schema<PaginatedResponseTrustCenterChatbotConversation>,
+  input: __S(1408, __c88, 0) as any as S.Schema<ListChatbotConversationsRequest>,
+  output: __S(1412, __c88, 4) as any as S.Schema<PaginatedResponseTrustCenterChatbotConversation>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10281,8 +10298,8 @@ export const listComplianceFrameworks: API.OperationMethod<
   ListComplianceFrameworksError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c88, 0) as any as S.Schema<ListComplianceFrameworksRequest>,
-  output: __S(1410, __c88, 2) as any as S.Schema<TrustCenterComplianceFrameworkListResponse>,
+  input: __S(1424, __c89, 0) as any as S.Schema<ListComplianceFrameworksRequest>,
+  output: __S(1426, __c89, 2) as any as S.Schema<TrustCenterComplianceFrameworkListResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10298,8 +10315,8 @@ export const listConnectedIntegrations: API.OperationMethod<
   ListConnectedIntegrationsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1424, __c89, 0) as any as S.Schema<ListConnectedIntegrationsRequest>,
-  output: __S(1427, __c89, 3) as any as S.Schema<PaginatedResponseIntegration>,
+  input: __S(1440, __c90, 0) as any as S.Schema<ListConnectedIntegrationsRequest>,
+  output: __S(1443, __c90, 3) as any as S.Schema<PaginatedResponseIntegration>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10315,8 +10332,8 @@ export const listContracts: API.OperationMethod<
   ListContractsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c90, 0) as any as S.Schema<ListContractsRequest>,
-  output: __S(1443, __c90, 3) as any as S.Schema<PaginatedResponseContract>,
+  input: __S(1456, __c91, 0) as any as S.Schema<ListContractsRequest>,
+  output: __S(1459, __c91, 3) as any as S.Schema<PaginatedResponseContract>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10332,8 +10349,8 @@ export const listControls: API.OperationMethod<
   ListControlsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1456, __c91, 0) as any as S.Schema<ListControlsRequest>,
-  output: __S(1474, __c92, 2) as any as S.Schema<PaginatedResponseControl>,
+  input: __S(1472, __c92, 0) as any as S.Schema<ListControlsRequest>,
+  output: __S(1490, __c93, 2) as any as S.Schema<PaginatedResponseControl>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10349,8 +10366,8 @@ export const listControlsForDocument: API.OperationMethod<
   ListControlsForDocumentError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1488, __c93, 0) as any as S.Schema<ListControlsForDocumentRequest>,
-  output: __S(1474, __c92, 2) as any as S.Schema<PaginatedResponseControl>,
+  input: __S(1504, __c94, 0) as any as S.Schema<ListControlsForDocumentRequest>,
+  output: __S(1490, __c93, 2) as any as S.Schema<PaginatedResponseControl>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10366,8 +10383,8 @@ export const listControlsForFramework: API.OperationMethod<
   ListControlsForFrameworkError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c96, 0) as any as S.Schema<ListControlsForFrameworkRequest>,
-  output: __S(1474, __c92, 2) as any as S.Schema<PaginatedResponseControl>,
+  input: __S(1552, __c97, 0) as any as S.Schema<ListControlsForFrameworkRequest>,
+  output: __S(1490, __c93, 2) as any as S.Schema<PaginatedResponseControl>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10383,8 +10400,8 @@ export const listCustomAssetMappings: API.OperationMethod<
   ListCustomAssetMappingsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1552, __c97, 0) as any as S.Schema<ListCustomAssetMappingsRequest>,
-  output: __S(1556, __c97, 4) as any as S.Schema<PaginatedResponseRiskScenarioCustomAssetMapping>,
+  input: __S(1568, __c98, 0) as any as S.Schema<ListCustomAssetMappingsRequest>,
+  output: __S(1572, __c98, 4) as any as S.Schema<PaginatedResponseRiskScenarioCustomAssetMapping>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10400,8 +10417,8 @@ export const listCustomAssets: API.OperationMethod<
   ListCustomAssetsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c98, 0) as any as S.Schema<ListCustomAssetsRequest>,
-  output: __S(1572, __c98, 4) as any as S.Schema<PaginatedResponseCustomAsset>,
+  input: __S(1584, __c99, 0) as any as S.Schema<ListCustomAssetsRequest>,
+  output: __S(1588, __c99, 4) as any as S.Schema<PaginatedResponseCustomAsset>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10417,8 +10434,8 @@ export const listCustomerTrustAccounts: API.OperationMethod<
   ListCustomerTrustAccountsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1584, __c99, 0) as any as S.Schema<ListCustomerTrustAccountsRequest>,
-  output: __S(1587, __c99, 3) as any as S.Schema<PaginatedResponseCustomerTrustAccountVantaApi>,
+  input: __S(1600, __c100, 0) as any as S.Schema<ListCustomerTrustAccountsRequest>,
+  output: __S(1603, __c100, 3) as any as S.Schema<PaginatedResponseCustomerTrustAccountVantaApi>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10434,8 +10451,8 @@ export const listCustomRequirements: API.OperationMethod<
   ListCustomRequirementsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c100, 0) as any as S.Schema<ListCustomRequirementsRequest>,
-  output: __S(1603, __c100, 3) as any as S.Schema<PaginatedResponseCustomRequirement>,
+  input: __S(1616, __c101, 0) as any as S.Schema<ListCustomRequirementsRequest>,
+  output: __S(1619, __c101, 3) as any as S.Schema<PaginatedResponseCustomRequirement>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10451,8 +10468,8 @@ export const listDeactivatedControls: API.OperationMethod<
   ListDeactivatedControlsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1616, __c101, 0) as any as S.Schema<ListDeactivatedControlsRequest>,
-  output: __S(1622, __c101, 6) as any as S.Schema<PaginatedResponseDeactivatedControl>,
+  input: __S(1632, __c102, 0) as any as S.Schema<ListDeactivatedControlsRequest>,
+  output: __S(1638, __c102, 6) as any as S.Schema<PaginatedResponseDeactivatedControl>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10468,8 +10485,8 @@ export const listDiscoveredVendorAccounts: API.OperationMethod<
   ListDiscoveredVendorAccountsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c102, 0) as any as S.Schema<ListDiscoveredVendorAccountsRequest>,
-  output: __S(1635, __c102, 3) as any as S.Schema<PaginatedResponseDiscoveredVendorAccount>,
+  input: __S(1648, __c103, 0) as any as S.Schema<ListDiscoveredVendorAccountsRequest>,
+  output: __S(1651, __c103, 3) as any as S.Schema<PaginatedResponseDiscoveredVendorAccount>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10485,8 +10502,8 @@ export const listDiscoveredVendors: API.OperationMethod<
   ListDiscoveredVendorsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1648, __c103, 0) as any as S.Schema<ListDiscoveredVendorsRequest>,
-  output: __S(1654, __c103, 6) as any as S.Schema<PaginatedResponseDiscoveredVendor>,
+  input: __S(1664, __c104, 0) as any as S.Schema<ListDiscoveredVendorsRequest>,
+  output: __S(1670, __c104, 6) as any as S.Schema<PaginatedResponseDiscoveredVendor>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10502,8 +10519,8 @@ export const listDocuments: API.OperationMethod<
   ListDocumentsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c104, 0) as any as S.Schema<ListDocumentsRequest>,
-  output: __S(1682, __c105, 2) as any as S.Schema<PaginatedResponseDocument>,
+  input: __S(1680, __c105, 0) as any as S.Schema<ListDocumentsRequest>,
+  output: __S(1698, __c106, 2) as any as S.Schema<PaginatedResponseDocument>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10519,8 +10536,8 @@ export const listDocumentsForControl: API.OperationMethod<
   ListDocumentsForControlError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c106, 0) as any as S.Schema<ListDocumentsForControlRequest>,
-  output: __S(1682, __c105, 2) as any as S.Schema<PaginatedResponseDocument>,
+  input: __S(1712, __c107, 0) as any as S.Schema<ListDocumentsForControlRequest>,
+  output: __S(1698, __c106, 2) as any as S.Schema<PaginatedResponseDocument>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10536,10 +10553,10 @@ export const listEnterpriseRiskMappings: API.OperationMethod<
   ListEnterpriseRiskMappingsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c108, 0) as any as S.Schema<ListEnterpriseRiskMappingsRequest>,
+  input: __S(1744, __c109, 0) as any as S.Schema<ListEnterpriseRiskMappingsRequest>,
   output: __S(
-    1732,
-    __c108,
+    1748,
+    __c109,
     4,
   ) as any as S.Schema<PaginatedResponseRiskScenarioEnterpriseRiskMapping>,
   errors: [UnknownVantaError],
@@ -10557,8 +10574,8 @@ export const listEventLogs: API.OperationMethod<
   ListEventLogsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1744, __c109, 0) as any as S.Schema<ListEventLogsRequest>,
-  output: __S(1750, __c109, 6) as any as S.Schema<PaginatedResponseEventLog>,
+  input: __S(1760, __c110, 0) as any as S.Schema<ListEventLogsRequest>,
+  output: __S(1766, __c110, 6) as any as S.Schema<PaginatedResponseEventLog>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10574,8 +10591,8 @@ export const listFilesForDocument: API.OperationMethod<
   ListFilesForDocumentError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c110, 0) as any as S.Schema<ListFilesForDocumentRequest>,
-  output: __S(1763, __c110, 3) as any as S.Schema<PaginatedResponseUploadedFileT>,
+  input: __S(1776, __c111, 0) as any as S.Schema<ListFilesForDocumentRequest>,
+  output: __S(1779, __c111, 3) as any as S.Schema<PaginatedResponseUploadedFileT>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10591,8 +10608,8 @@ export const listFrameworks: API.OperationMethod<
   ListFrameworksError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c112, 0) as any as S.Schema<ListFrameworksRequest>,
-  output: __S(1796, __c112, 4) as any as S.Schema<PaginatedResponseFramework>,
+  input: __S(1808, __c113, 0) as any as S.Schema<ListFrameworksRequest>,
+  output: __S(1812, __c113, 4) as any as S.Schema<PaginatedResponseFramework>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10608,8 +10625,8 @@ export const listImportableIdpGroups: API.OperationMethod<
   ListImportableIdpGroupsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1808, __c113, 0) as any as S.Schema<ListImportableIdpGroupsRequest>,
-  output: __S(1812, __c113, 4) as any as S.Schema<PaginatedImportableIdpGroupResponse>,
+  input: __S(1824, __c114, 0) as any as S.Schema<ListImportableIdpGroupsRequest>,
+  output: __S(1828, __c114, 4) as any as S.Schema<PaginatedImportableIdpGroupResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10625,8 +10642,8 @@ export const listIntegrationMappings: API.OperationMethod<
   ListIntegrationMappingsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c114, 0) as any as S.Schema<ListIntegrationMappingsRequest>,
-  output: __S(1828, __c114, 4) as any as S.Schema<PaginatedResponseRiskScenarioIntegrationMapping>,
+  input: __S(1840, __c115, 0) as any as S.Schema<ListIntegrationMappingsRequest>,
+  output: __S(1844, __c115, 4) as any as S.Schema<PaginatedResponseRiskScenarioIntegrationMapping>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10642,8 +10659,8 @@ export const listIssueMappings: API.OperationMethod<
   ListIssueMappingsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1840, __c115, 0) as any as S.Schema<ListIssueMappingsRequest>,
-  output: __S(1844, __c115, 4) as any as S.Schema<PaginatedResponseRiskScenarioIssueMapping>,
+  input: __S(1856, __c116, 0) as any as S.Schema<ListIssueMappingsRequest>,
+  output: __S(1860, __c116, 4) as any as S.Schema<PaginatedResponseRiskScenarioIssueMapping>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10659,10 +10676,10 @@ export const listKnowledgeBaseResources: API.OperationMethod<
   ListKnowledgeBaseResourcesError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c116, 0) as any as S.Schema<ListKnowledgeBaseResourcesRequest>,
+  input: __S(1872, __c117, 0) as any as S.Schema<ListKnowledgeBaseResourcesRequest>,
   output: __S(
-    1859,
-    __c116,
+    1875,
+    __c117,
     3,
   ) as any as S.Schema<PaginatedResponseTrustKnowledgeBaseResourceOutput>,
   errors: [UnknownVantaError],
@@ -10680,8 +10697,8 @@ export const listLinksForDocument: API.OperationMethod<
   ListLinksForDocumentError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1872, __c117, 0) as any as S.Schema<ListLinksForDocumentRequest>,
-  output: __S(1875, __c117, 3) as any as S.Schema<PaginatedResponseUploadedLink>,
+  input: __S(1888, __c118, 0) as any as S.Schema<ListLinksForDocumentRequest>,
+  output: __S(1891, __c118, 3) as any as S.Schema<PaginatedResponseUploadedLink>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10697,8 +10714,8 @@ export const listMonitoredComputers: API.OperationMethod<
   ListMonitoredComputersError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c118, 0) as any as S.Schema<ListMonitoredComputersRequest>,
-  output: __S(1891, __c118, 3) as any as S.Schema<PaginatedResponseMonitoredComputer>,
+  input: __S(1904, __c119, 0) as any as S.Schema<ListMonitoredComputersRequest>,
+  output: __S(1907, __c119, 3) as any as S.Schema<PaginatedResponseMonitoredComputer>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10714,8 +10731,8 @@ export const listPeople: API.OperationMethod<
   ListPeopleError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c122, 0) as any as S.Schema<ListPeopleRequest>,
-  output: __S(1954, __c122, 2) as any as S.Schema<PaginatedResponsePerson>,
+  input: __S(1968, __c123, 0) as any as S.Schema<ListPeopleRequest>,
+  output: __S(1970, __c123, 2) as any as S.Schema<PaginatedResponsePerson>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10731,8 +10748,8 @@ export const listPersonGroups: API.OperationMethod<
   ListPersonGroupsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1968, __c123, 0) as any as S.Schema<ListPersonGroupsRequest>,
-  output: __S(1971, __c123, 3) as any as S.Schema<PaginatedResponseGroup>,
+  input: __S(1984, __c124, 0) as any as S.Schema<ListPersonGroupsRequest>,
+  output: __S(1987, __c124, 3) as any as S.Schema<PaginatedResponseGroup>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10748,8 +10765,8 @@ export const listPolicies: API.OperationMethod<
   ListPoliciesError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c124, 0) as any as S.Schema<ListPoliciesRequest>,
-  output: __S(1987, __c124, 3) as any as S.Schema<PaginatedResponsePolicy>,
+  input: __S(2000, __c125, 0) as any as S.Schema<ListPoliciesRequest>,
+  output: __S(2003, __c125, 3) as any as S.Schema<PaginatedResponsePolicy>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10765,8 +10782,8 @@ export const listProgramScopes: API.OperationMethod<
   ListProgramScopesError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2000, __c125, 0) as any as S.Schema<ListProgramScopesRequest>,
-  output: __S(2003, __c125, 3) as any as S.Schema<PaginatedResponseProgramScope>,
+  input: __S(2016, __c126, 0) as any as S.Schema<ListProgramScopesRequest>,
+  output: __S(2019, __c126, 3) as any as S.Schema<PaginatedResponseProgramScope>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10782,10 +10799,10 @@ export const listQuestionnaireResponses: API.OperationMethod<
   ListQuestionnaireResponsesError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c126, 0) as any as S.Schema<ListQuestionnaireResponsesRequest>,
+  input: __S(2032, __c127, 0) as any as S.Schema<ListQuestionnaireResponsesRequest>,
   output: __S(
-    2019,
-    __c126,
+    2035,
+    __c127,
     3,
   ) as any as S.Schema<PaginatedResponseQuestionnaireResponseWithoutViewerPermissions>,
   errors: [UnknownVantaError],
@@ -10803,8 +10820,8 @@ export const listQuestionnaires: API.OperationMethod<
   ListQuestionnairesError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2032, __c127, 0) as any as S.Schema<ListQuestionnairesRequest>,
-  output: __S(2035, __c127, 3) as any as S.Schema<PaginatedResponseCustomerTrustQuestionnaire>,
+  input: __S(2048, __c128, 0) as any as S.Schema<ListQuestionnairesRequest>,
+  output: __S(2051, __c128, 3) as any as S.Schema<PaginatedResponseCustomerTrustQuestionnaire>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10820,8 +10837,8 @@ export const listResourceKindSummaries: API.OperationMethod<
   ListResourceKindSummariesError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c128, 0) as any as S.Schema<ListResourceKindSummariesRequest>,
-  output: __S(2051, __c128, 3) as any as S.Schema<ListResourceKindSummariesResponse>,
+  input: __S(2064, __c129, 0) as any as S.Schema<ListResourceKindSummariesRequest>,
+  output: __S(2067, __c129, 3) as any as S.Schema<ListResourceKindSummariesResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10837,8 +10854,8 @@ export const listResources: API.OperationMethod<
   ListResourcesError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2064, __c129, 0) as any as S.Schema<ListResourcesRequest>,
-  output: __S(2067, __c129, 3) as any as S.Schema<PaginatedResponseAnyResource>,
+  input: __S(2080, __c130, 0) as any as S.Schema<ListResourcesRequest>,
+  output: __S(2083, __c130, 3) as any as S.Schema<PaginatedResponseAnyResource>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10854,8 +10871,8 @@ export const listRiskScenario: API.OperationMethod<
   ListRiskScenarioError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2082, __c130, 2) as any as S.Schema<ListRiskScenarioRequest>,
-  output: __S(2085, __c130, 5) as any as S.Schema<PaginatedResponseRiskScenario>,
+  input: __S(2098, __c131, 2) as any as S.Schema<ListRiskScenarioRequest>,
+  output: __S(2101, __c131, 5) as any as S.Schema<PaginatedResponseRiskScenario>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10871,8 +10888,8 @@ export const listRiskScenarioControls: API.OperationMethod<
   ListRiskScenarioControlsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2096, __c131, 0) as any as S.Schema<ListRiskScenarioControlsRequest>,
-  output: __S(2099, __c131, 3) as any as S.Schema<PaginatedResponseRiskScenarioControl>,
+  input: __S(2112, __c132, 0) as any as S.Schema<ListRiskScenarioControlsRequest>,
+  output: __S(2115, __c132, 3) as any as S.Schema<PaginatedResponseRiskScenarioControl>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10888,8 +10905,8 @@ export const listTagCategories: API.OperationMethod<
   ListTagCategoriesError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2128, __c133, 0) as any as S.Schema<ListTagCategoriesRequest>,
-  output: __S(2129, __c133, 1) as any as S.Schema<ArrayResponseUserDefinedTagCategory>,
+  input: __S(2144, __c134, 0) as any as S.Schema<ListTagCategoriesRequest>,
+  output: __S(2145, __c134, 1) as any as S.Schema<ArrayResponseUserDefinedTagCategory>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10905,8 +10922,8 @@ export const listTaskRequirementSets: API.OperationMethod<
   ListTaskRequirementSetsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c134, 0) as any as S.Schema<ListTaskRequirementSetsRequest>,
-  output: __S(2147, __c134, 3) as any as S.Schema<PaginatedResponseTaskRequirementSet>,
+  input: __S(2160, __c135, 0) as any as S.Schema<ListTaskRequirementSetsRequest>,
+  output: __S(2163, __c135, 3) as any as S.Schema<PaginatedResponseTaskRequirementSet>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10922,8 +10939,8 @@ export const listTests: API.OperationMethod<
   ListTestsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2160, __c135, 0) as any as S.Schema<ListTestsRequest>,
-  output: __S(2178, __c136, 2) as any as S.Schema<PaginatedResponseTest>,
+  input: __S(2176, __c136, 0) as any as S.Schema<ListTestsRequest>,
+  output: __S(2194, __c137, 2) as any as S.Schema<PaginatedResponseTest>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10939,8 +10956,8 @@ export const listTestsForControl: API.OperationMethod<
   ListTestsForControlError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2192, __c137, 0) as any as S.Schema<ListTestsForControlRequest>,
-  output: __S(2178, __c136, 2) as any as S.Schema<PaginatedResponseTest>,
+  input: __S(2208, __c138, 0) as any as S.Schema<ListTestsForControlRequest>,
+  output: __S(2194, __c137, 2) as any as S.Schema<PaginatedResponseTest>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10956,8 +10973,8 @@ export const listTrustCenterAccessRequests: API.OperationMethod<
   ListTrustCenterAccessRequestsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c138, 0) as any as S.Schema<ListTrustCenterAccessRequestsRequest>,
-  output: __S(2211, __c138, 3) as any as S.Schema<PaginatedResponseTrustCenterAccessRequest>,
+  input: __S(2224, __c139, 0) as any as S.Schema<ListTrustCenterAccessRequestsRequest>,
+  output: __S(2227, __c139, 3) as any as S.Schema<PaginatedResponseTrustCenterAccessRequest>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10973,8 +10990,8 @@ export const listTrustCenterActivityEvents: API.OperationMethod<
   ListTrustCenterActivityEventsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2224, __c139, 0) as any as S.Schema<ListTrustCenterActivityEventsRequest>,
-  output: __S(2228, __c139, 4) as any as S.Schema<PaginatedResponseTrustCenterActivityEvent>,
+  input: __S(2240, __c140, 0) as any as S.Schema<ListTrustCenterActivityEventsRequest>,
+  output: __S(2244, __c140, 4) as any as S.Schema<PaginatedResponseTrustCenterActivityEvent>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -10990,8 +11007,8 @@ export const listTrustCenterControls: API.OperationMethod<
   ListTrustCenterControlsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c140, 0) as any as S.Schema<ListTrustCenterControlsRequest>,
-  output: __S(2242, __c140, 2) as any as S.Schema<PaginatedResponseTrustCenterControl>,
+  input: __S(2256, __c141, 0) as any as S.Schema<ListTrustCenterControlsRequest>,
+  output: __S(2258, __c141, 2) as any as S.Schema<PaginatedResponseTrustCenterControl>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11007,8 +11024,8 @@ export const listTrustCenterDataCollected: API.OperationMethod<
   ListTrustCenterDataCollectedError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2256, __c141, 0) as any as S.Schema<ListTrustCenterDataCollectedRequest>,
-  output: __S(2274, __c142, 2) as any as S.Schema<ArrayResponseTrustCenterDataCollected>,
+  input: __S(2272, __c142, 0) as any as S.Schema<ListTrustCenterDataCollectedRequest>,
+  output: __S(2290, __c143, 2) as any as S.Schema<ArrayResponseTrustCenterDataCollected>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11024,8 +11041,8 @@ export const listTrustCenterFaqCategories: API.OperationMethod<
   ListTrustCenterFaqCategoriesError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2288, __c143, 0) as any as S.Schema<ListTrustCenterFaqCategoriesRequest>,
-  output: __S(2304, __c144, 0) as any as S.Schema<ArrayResponseTrustCenterFaqCategory>,
+  input: __S(2304, __c144, 0) as any as S.Schema<ListTrustCenterFaqCategoriesRequest>,
+  output: __S(2320, __c145, 0) as any as S.Schema<ArrayResponseTrustCenterFaqCategory>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11041,8 +11058,8 @@ export const listTrustCenterFaqs: API.OperationMethod<
   ListTrustCenterFaqsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2320, __c145, 0) as any as S.Schema<ListTrustCenterFaqsRequest>,
-  output: __S(2322, __c145, 2) as any as S.Schema<ArrayResponseTrustCenterFaq>,
+  input: __S(2336, __c146, 0) as any as S.Schema<ListTrustCenterFaqsRequest>,
+  output: __S(2338, __c146, 2) as any as S.Schema<ArrayResponseTrustCenterFaq>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11058,10 +11075,10 @@ export const listTrustCenterHistoricalAccessRequests: API.OperationMethod<
   ListTrustCenterHistoricalAccessRequestsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c152, 0) as any as S.Schema<ListTrustCenterHistoricalAccessRequestsRequest>,
+  input: __S(2448, __c153, 0) as any as S.Schema<ListTrustCenterHistoricalAccessRequestsRequest>,
   output: __S(
-    2436,
-    __c152,
+    2452,
+    __c153,
     4,
   ) as any as S.Schema<PaginatedResponseTrustCenterAccessRequestHistorical>,
   errors: [UnknownVantaError],
@@ -11079,8 +11096,8 @@ export const listTrustCenterResourceCategories: API.OperationMethod<
   ListTrustCenterResourceCategoriesError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2448, __c153, 0) as any as S.Schema<ListTrustCenterResourceCategoriesRequest>,
-  output: __S(2304, __c144, 0) as any as S.Schema<ArrayResponseTrustCenterResourceCategory>,
+  input: __S(2464, __c154, 0) as any as S.Schema<ListTrustCenterResourceCategoriesRequest>,
+  output: __S(2320, __c145, 0) as any as S.Schema<ArrayResponseTrustCenterResourceCategory>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11096,8 +11113,8 @@ export const listTrustCenterResources: API.OperationMethod<
   ListTrustCenterResourcesError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c154, 0) as any as S.Schema<ListTrustCenterResourcesRequest>,
-  output: __S(2466, __c154, 2) as any as S.Schema<ArrayResponseTrustCenterResource>,
+  input: __S(2480, __c155, 0) as any as S.Schema<ListTrustCenterResourcesRequest>,
+  output: __S(2482, __c155, 2) as any as S.Schema<ArrayResponseTrustCenterResource>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11113,8 +11130,8 @@ export const listTrustCenterSubprocessors: API.OperationMethod<
   ListTrustCenterSubprocessorsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2480, __c155, 0) as any as S.Schema<ListTrustCenterSubprocessorsRequest>,
-  output: __S(2482, __c155, 2) as any as S.Schema<ArrayResponseTrustCenterSubprocessor>,
+  input: __S(2496, __c156, 0) as any as S.Schema<ListTrustCenterSubprocessorsRequest>,
+  output: __S(2498, __c156, 2) as any as S.Schema<ArrayResponseTrustCenterSubprocessor>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11130,8 +11147,8 @@ export const listTrustCenterSubscriberGroups: API.OperationMethod<
   ListTrustCenterSubscriberGroupsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c156, 0) as any as S.Schema<ListTrustCenterSubscriberGroupsRequest>,
-  output: __S(2499, __c156, 3) as any as S.Schema<PaginatedResponseTrustCenterSubscriberGroup>,
+  input: __S(2512, __c157, 0) as any as S.Schema<ListTrustCenterSubscriberGroupsRequest>,
+  output: __S(2515, __c157, 3) as any as S.Schema<PaginatedResponseTrustCenterSubscriberGroup>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11147,8 +11164,8 @@ export const listTrustCenterSubscribers: API.OperationMethod<
   ListTrustCenterSubscribersError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2512, __c157, 0) as any as S.Schema<ListTrustCenterSubscribersRequest>,
-  output: __S(2515, __c157, 3) as any as S.Schema<PaginatedResponseTrustCenterSubscriber>,
+  input: __S(2528, __c158, 0) as any as S.Schema<ListTrustCenterSubscribersRequest>,
+  output: __S(2531, __c158, 3) as any as S.Schema<PaginatedResponseTrustCenterSubscriber>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11164,8 +11181,8 @@ export const listTrustCenterUpdates: API.OperationMethod<
   ListTrustCenterUpdatesError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c158, 0) as any as S.Schema<ListTrustCenterUpdatesRequest>,
-  output: __S(2531, __c158, 3) as any as S.Schema<PaginatedResponseTrustCenterUpdateAPIResponse>,
+  input: __S(2544, __c159, 0) as any as S.Schema<ListTrustCenterUpdatesRequest>,
+  output: __S(2547, __c159, 3) as any as S.Schema<PaginatedResponseTrustCenterUpdateAPIResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11181,8 +11198,8 @@ export const listTrustCenterVideos: API.OperationMethod<
   ListTrustCenterVideosError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2544, __c159, 0) as any as S.Schema<ListTrustCenterVideosRequest>,
-  output: __S(2562, __c160, 2) as any as S.Schema<ArrayResponseTrustCenterVideo>,
+  input: __S(2560, __c160, 0) as any as S.Schema<ListTrustCenterVideosRequest>,
+  output: __S(2578, __c161, 2) as any as S.Schema<ArrayResponseTrustCenterVideo>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11198,8 +11215,8 @@ export const listTrustCenterViewers: API.OperationMethod<
   ListTrustCenterViewersError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2576, __c161, 0) as any as S.Schema<ListTrustCenterViewersRequest>,
-  output: __S(2579, __c161, 3) as any as S.Schema<PaginatedResponseTrustCenterViewer>,
+  input: __S(2592, __c162, 0) as any as S.Schema<ListTrustCenterViewersRequest>,
+  output: __S(2595, __c162, 3) as any as S.Schema<PaginatedResponseTrustCenterViewer>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11215,8 +11232,8 @@ export const listUsers: API.OperationMethod<
   ListUsersError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c162, 0) as any as S.Schema<ListUsersRequest>,
-  output: __S(2595, __c162, 3) as any as S.Schema<PaginatedResponseUser>,
+  input: __S(2608, __c163, 0) as any as S.Schema<ListUsersRequest>,
+  output: __S(2611, __c163, 3) as any as S.Schema<PaginatedResponseUser>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11232,8 +11249,8 @@ export const listVendorAlerts: API.OperationMethod<
   ListVendorAlertsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c164, 0) as any as S.Schema<ListVendorAlertsRequest>,
-  output: __S(2626, __c164, 2) as any as S.Schema<PaginatedResponseVendorAlert>,
+  input: __S(2640, __c165, 0) as any as S.Schema<ListVendorAlertsRequest>,
+  output: __S(2642, __c165, 2) as any as S.Schema<PaginatedResponseVendorAlert>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11249,8 +11266,8 @@ export const listVendorAssessmentTypes: API.OperationMethod<
   ListVendorAssessmentTypesError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c166, 0) as any as S.Schema<ListVendorAssessmentTypesRequest>,
-  output: __S(2659, __c166, 3) as any as S.Schema<PaginatedResponseVendorAssessmentType>,
+  input: __S(2672, __c167, 0) as any as S.Schema<ListVendorAssessmentTypesRequest>,
+  output: __S(2675, __c167, 3) as any as S.Schema<PaginatedResponseVendorAssessmentType>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11266,8 +11283,8 @@ export const listVendorCategories: API.OperationMethod<
   ListVendorCategoriesError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2672, __c167, 0) as any as S.Schema<ListVendorCategoriesRequest>,
-  output: __S(2675, __c167, 3) as any as S.Schema<PaginatedResponseVendorCategory>,
+  input: __S(2688, __c168, 0) as any as S.Schema<ListVendorCategoriesRequest>,
+  output: __S(2691, __c168, 3) as any as S.Schema<PaginatedResponseVendorCategory>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11283,8 +11300,8 @@ export const listVendorDocuments: API.OperationMethod<
   ListVendorDocumentsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c168, 0) as any as S.Schema<ListVendorDocumentsRequest>,
-  output: __S(418, __c26, 2) as any as S.Schema<PaginatedResponseVendorDocument>,
+  input: __S(2704, __c169, 0) as any as S.Schema<ListVendorDocumentsRequest>,
+  output: __S(434, __c27, 2) as any as S.Schema<PaginatedResponseVendorDocument>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11300,8 +11317,8 @@ export const listVendorExternalFindings: API.OperationMethod<
   ListVendorExternalFindingsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2704, __c169, 0) as any as S.Schema<ListVendorExternalFindingsRequest>,
-  output: __S(2707, __c169, 3) as any as S.Schema<PaginatedResponseVendorExternalFinding>,
+  input: __S(2720, __c170, 0) as any as S.Schema<ListVendorExternalFindingsRequest>,
+  output: __S(2723, __c170, 3) as any as S.Schema<PaginatedResponseVendorExternalFinding>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11317,10 +11334,10 @@ export const listVendorFindingMappings: API.OperationMethod<
   ListVendorFindingMappingsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c170, 0) as any as S.Schema<ListVendorFindingMappingsRequest>,
+  input: __S(2736, __c171, 0) as any as S.Schema<ListVendorFindingMappingsRequest>,
   output: __S(
-    2724,
-    __c170,
+    2740,
+    __c171,
     4,
   ) as any as S.Schema<PaginatedResponseRiskScenarioVendorFindingMapping>,
   errors: [UnknownVantaError],
@@ -11338,8 +11355,8 @@ export const listVendorFindings: API.OperationMethod<
   ListVendorFindingsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2736, __c171, 0) as any as S.Schema<ListVendorFindingsRequest>,
-  output: __S(2739, __c171, 3) as any as S.Schema<PaginatedResponseVendorFinding>,
+  input: __S(2752, __c172, 0) as any as S.Schema<ListVendorFindingsRequest>,
+  output: __S(2755, __c172, 3) as any as S.Schema<PaginatedResponseVendorFinding>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11355,8 +11372,8 @@ export const listVendorRiskAttributes: API.OperationMethod<
   ListVendorRiskAttributesError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c172, 0) as any as S.Schema<ListVendorRiskAttributesRequest>,
-  output: __S(2756, __c172, 4) as any as S.Schema<PaginatedResponseVendorRiskAttribute>,
+  input: __S(2768, __c173, 0) as any as S.Schema<ListVendorRiskAttributesRequest>,
+  output: __S(2772, __c173, 4) as any as S.Schema<PaginatedResponseVendorRiskAttribute>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11372,8 +11389,8 @@ export const listVendors: API.OperationMethod<
   ListVendorsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2768, __c173, 0) as any as S.Schema<ListVendorsRequest>,
-  output: __S(2771, __c173, 3) as any as S.Schema<PaginatedResponseVendor>,
+  input: __S(2784, __c174, 0) as any as S.Schema<ListVendorsRequest>,
+  output: __S(2787, __c174, 3) as any as S.Schema<PaginatedResponseVendor>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11389,8 +11406,8 @@ export const listVendorSecurityIncidentAlerts: API.OperationMethod<
   ListVendorSecurityIncidentAlertsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c174, 0) as any as S.Schema<ListVendorSecurityIncidentAlertsRequest>,
-  output: __S(2786, __c174, 2) as any as S.Schema<PaginatedResponseVendorSecurityIncidentAlert>,
+  input: __S(2800, __c175, 0) as any as S.Schema<ListVendorSecurityIncidentAlertsRequest>,
+  output: __S(2802, __c175, 2) as any as S.Schema<PaginatedResponseVendorSecurityIncidentAlert>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11406,8 +11423,8 @@ export const listVulnerabilities: API.OperationMethod<
   ListVulnerabilitiesError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2864, __c179, 0) as any as S.Schema<ListVulnerabilitiesRequest>,
-  output: __S(2867, __c179, 3) as any as S.Schema<PaginatedResponseVulnerability>,
+  input: __S(2880, __c180, 0) as any as S.Schema<ListVulnerabilitiesRequest>,
+  output: __S(2883, __c180, 3) as any as S.Schema<PaginatedResponseVulnerability>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11423,8 +11440,8 @@ export const listVulnerabilityRemediations: API.OperationMethod<
   ListVulnerabilityRemediationsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c180, 0) as any as S.Schema<ListVulnerabilityRemediationsRequest>,
-  output: __S(2884, __c180, 4) as any as S.Schema<PaginatedResponseVulnerabilityRemediation>,
+  input: __S(2896, __c181, 0) as any as S.Schema<ListVulnerabilityRemediationsRequest>,
+  output: __S(2900, __c181, 4) as any as S.Schema<PaginatedResponseVulnerabilityRemediation>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11440,8 +11457,8 @@ export const listVulnerableAssets: API.OperationMethod<
   ListVulnerableAssetsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2896, __c181, 0) as any as S.Schema<ListVulnerableAssetsRequest>,
-  output: __S(2899, __c181, 3) as any as S.Schema<PaginatedResponseVulnerableAsset>,
+  input: __S(2912, __c182, 0) as any as S.Schema<ListVulnerableAssetsRequest>,
+  output: __S(2915, __c182, 3) as any as S.Schema<PaginatedResponseVulnerableAsset>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11457,8 +11474,8 @@ export const markAsNotPeople: API.OperationMethod<
   MarkAsNotPeopleError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2914, __c182, 2) as any as S.Schema<MarkAsNotPeopleRequest>,
-  output: __S(2353, __c147, 1) as any as S.Schema<BulkResponse>,
+  input: __S(2930, __c183, 2) as any as S.Schema<MarkAsNotPeopleRequest>,
+  output: __S(2369, __c148, 1) as any as S.Schema<BulkResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11474,8 +11491,8 @@ export const markAsPeople: API.OperationMethod<
   MarkAsPeopleError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2928, __c183, 0) as any as S.Schema<MarkAsPeopleRequest>,
-  output: __S(2353, __c147, 1) as any as S.Schema<BulkResponse>,
+  input: __S(2944, __c184, 0) as any as S.Schema<MarkAsPeopleRequest>,
+  output: __S(2369, __c148, 1) as any as S.Schema<BulkResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11491,8 +11508,8 @@ export const offboardPeople: API.OperationMethod<
   OffboardPeopleError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2946, __c184, 2) as any as S.Schema<OffboardPeopleRequest>,
-  output: __S(2353, __c147, 1) as any as S.Schema<BulkResponse>,
+  input: __S(2962, __c185, 2) as any as S.Schema<OffboardPeopleRequest>,
+  output: __S(2369, __c148, 1) as any as S.Schema<BulkResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11508,8 +11525,8 @@ export const reactivateFramework: API.OperationMethod<
   ReactivateFrameworkError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2960, __c185, 0) as any as S.Schema<ReactivateFrameworkRequest>,
-  output: __S(2976, __c186, 0) as any as S.Schema<FrameworkSnooze>,
+  input: __S(2976, __c186, 0) as any as S.Schema<ReactivateFrameworkRequest>,
+  output: __S(2992, __c187, 0) as any as S.Schema<FrameworkSnooze>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11525,8 +11542,8 @@ export const reactivateTestEntity: API.OperationMethod<
   ReactivateTestEntityError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2992, __c187, 0) as any as S.Schema<ReactivateTestEntityRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<ReactivateTestEntityResponse>,
+  input: __S(3008, __c188, 0) as any as S.Schema<ReactivateTestEntityRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<ReactivateTestEntityResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11542,8 +11559,8 @@ export const reactivateVulnerabilities: API.OperationMethod<
   ReactivateVulnerabilitiesError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c188, 0) as any as S.Schema<ReactivateVulnerabilitiesRequest>,
-  output: __S(2353, __c147, 1) as any as S.Schema<BulkResponse>,
+  input: __S(3024, __c189, 0) as any as S.Schema<ReactivateVulnerabilitiesRequest>,
+  output: __S(2369, __c148, 1) as any as S.Schema<BulkResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11559,8 +11576,8 @@ export const removeAccountMappings: API.OperationMethod<
   RemoveAccountMappingsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3024, __c189, 0) as any as S.Schema<RemoveAccountMappingsRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<RemoveAccountMappingsResponse>,
+  input: __S(3040, __c190, 0) as any as S.Schema<RemoveAccountMappingsRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<RemoveAccountMappingsResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11576,8 +11593,8 @@ export const removeCustomAssetMappings: API.OperationMethod<
   RemoveCustomAssetMappingsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3056, __c191, 0) as any as S.Schema<RemoveCustomAssetMappingsRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<RemoveCustomAssetMappingsResponse>,
+  input: __S(3072, __c192, 0) as any as S.Schema<RemoveCustomAssetMappingsRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<RemoveCustomAssetMappingsResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11593,8 +11610,8 @@ export const removeEngagement: API.OperationMethod<
   RemoveEngagementError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c192, 0) as any as S.Schema<RemoveEngagementRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<RemoveEngagementResponse>,
+  input: __S(3088, __c193, 0) as any as S.Schema<RemoveEngagementRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<RemoveEngagementResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11610,8 +11627,8 @@ export const removeIntegrationMappings: API.OperationMethod<
   RemoveIntegrationMappingsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3088, __c193, 0) as any as S.Schema<RemoveIntegrationMappingsRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<RemoveIntegrationMappingsResponse>,
+  input: __S(3104, __c194, 0) as any as S.Schema<RemoveIntegrationMappingsRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<RemoveIntegrationMappingsResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11627,8 +11644,8 @@ export const removeIssueMappings: API.OperationMethod<
   RemoveIssueMappingsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c194, 0) as any as S.Schema<RemoveIssueMappingsRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<RemoveIssueMappingsResponse>,
+  input: __S(3120, __c195, 0) as any as S.Schema<RemoveIssueMappingsRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<RemoveIssueMappingsResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11644,8 +11661,8 @@ export const removePeopleFromGroup: API.OperationMethod<
   RemovePeopleFromGroupError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3120, __c195, 0) as any as S.Schema<RemovePeopleFromGroupRequest>,
-  output: __S(2353, __c147, 1) as any as S.Schema<BulkResponse>,
+  input: __S(3136, __c196, 0) as any as S.Schema<RemovePeopleFromGroupRequest>,
+  output: __S(2369, __c148, 1) as any as S.Schema<BulkResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11661,8 +11678,8 @@ export const removePersonFromGroup: API.OperationMethod<
   RemovePersonFromGroupError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c196, 0) as any as S.Schema<RemovePersonFromGroupRequest>,
-  output: __S(574, __c35, 14) as any as S.Schema<Person>,
+  input: __S(3152, __c197, 0) as any as S.Schema<RemovePersonFromGroupRequest>,
+  output: __S(590, __c36, 14) as any as S.Schema<Person>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11678,8 +11695,8 @@ export const removeTagCategoryProductContext: API.OperationMethod<
   RemoveTagCategoryProductContextError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3152, __c197, 0) as any as S.Schema<RemoveTagCategoryProductContextRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<RemoveTagCategoryProductContextResponse>,
+  input: __S(3168, __c198, 0) as any as S.Schema<RemoveTagCategoryProductContextRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<RemoveTagCategoryProductContextResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11695,8 +11712,8 @@ export const removeTrustCenterViewer: API.OperationMethod<
   RemoveTrustCenterViewerError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c198, 0) as any as S.Schema<RemoveTrustCenterViewerRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<RemoveTrustCenterViewerResponse>,
+  input: __S(3184, __c199, 0) as any as S.Schema<RemoveTrustCenterViewerRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<RemoveTrustCenterViewerResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11712,8 +11729,8 @@ export const removeVendorFindingMappings: API.OperationMethod<
   RemoveVendorFindingMappingsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3184, __c199, 0) as any as S.Schema<RemoveVendorFindingMappingsRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<RemoveVendorFindingMappingsResponse>,
+  input: __S(3200, __c200, 0) as any as S.Schema<RemoveVendorFindingMappingsRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<RemoveVendorFindingMappingsResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11729,8 +11746,8 @@ export const replaceDocumentResourceFile: API.OperationMethod<
   ReplaceDocumentResourceFileError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c200, 0) as any as S.Schema<ReplaceDocumentResourceFileRequest>,
-  output: __S(4592, __c287, 0) as any as S.Schema<KnowledgeBaseDocumentResourceOutput>,
+  input: __S(3216, __c201, 0) as any as S.Schema<ReplaceDocumentResourceFileRequest>,
+  output: __S(4608, __c288, 0) as any as S.Schema<KnowledgeBaseDocumentResourceOutput>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11746,8 +11763,8 @@ export const sendNotificationsToAllSubscribers: API.OperationMethod<
   SendNotificationsToAllSubscribersError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c204, 0) as any as S.Schema<SendNotificationsToAllSubscribersRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<SendNotificationsToAllSubscribersResponse>,
+  input: __S(3280, __c205, 0) as any as S.Schema<SendNotificationsToAllSubscribersRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<SendNotificationsToAllSubscribersResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11763,8 +11780,8 @@ export const sendTrustCenterUpdateNotifications: API.OperationMethod<
   SendTrustCenterUpdateNotificationsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3283, __c205, 3) as any as S.Schema<SendTrustCenterUpdateNotificationsRequest>,
-  output: __S(3284, __c205, 4) as any as S.Schema<NotifySpecificSubscribersResponse>,
+  input: __S(3299, __c206, 3) as any as S.Schema<SendTrustCenterUpdateNotificationsRequest>,
+  output: __S(3300, __c206, 4) as any as S.Schema<NotifySpecificSubscribersResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11780,8 +11797,8 @@ export const sendTrustCenterViewerInviteReminder: API.OperationMethod<
   SendTrustCenterViewerInviteReminderError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c206, 0) as any as S.Schema<SendTrustCenterViewerInviteReminderRequest>,
-  output: __S(4544, __c284, 0) as any as S.Schema<InviteReminderResponse>,
+  input: __S(3312, __c207, 0) as any as S.Schema<SendTrustCenterViewerInviteReminderRequest>,
+  output: __S(4560, __c285, 0) as any as S.Schema<InviteReminderResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11797,8 +11814,8 @@ export const setEngagement: API.OperationMethod<
   SetEngagementError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3312, __c207, 0) as any as S.Schema<SetEngagementRequest>,
-  output: __S(3313, __c207, 1) as any as S.Schema<VendorEngagement>,
+  input: __S(3328, __c208, 0) as any as S.Schema<SetEngagementRequest>,
+  output: __S(3329, __c208, 1) as any as S.Schema<VendorEngagement>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11814,8 +11831,8 @@ export const setFrameworkVariant: API.OperationMethod<
   SetFrameworkVariantError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c208, 0) as any as S.Schema<SetFrameworkVariantRequest>,
-  output: __S(3329, __c208, 1) as any as S.Schema<FrameworkVariantSelection>,
+  input: __S(3344, __c209, 0) as any as S.Schema<SetFrameworkVariantRequest>,
+  output: __S(3345, __c209, 1) as any as S.Schema<FrameworkVariantSelection>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11831,8 +11848,8 @@ export const setLeaveForPerson: API.OperationMethod<
   SetLeaveForPersonError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3344, __c209, 0) as any as S.Schema<SetLeaveForPersonRequest>,
-  output: __S(574, __c35, 14) as any as S.Schema<Person>,
+  input: __S(3360, __c210, 0) as any as S.Schema<SetLeaveForPersonRequest>,
+  output: __S(590, __c36, 14) as any as S.Schema<Person>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11848,8 +11865,8 @@ export const setOwnerForControl: API.OperationMethod<
   SetOwnerForControlError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3360, __c210, 0) as any as S.Schema<SetOwnerForControlRequest>,
-  output: __S(4768, __c298, 0) as any as S.Schema<Control>,
+  input: __S(3376, __c211, 0) as any as S.Schema<SetOwnerForControlRequest>,
+  output: __S(4784, __c299, 0) as any as S.Schema<Control>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11865,8 +11882,8 @@ export const setOwnerForDocument: API.OperationMethod<
   SetOwnerForDocumentError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3376, __c211, 0) as any as S.Schema<SetOwnerForDocumentRequest>,
-  output: __S(5824, __c364, 0) as any as S.Schema<Document>,
+  input: __S(3392, __c212, 0) as any as S.Schema<SetOwnerForDocumentRequest>,
+  output: __S(5840, __c365, 0) as any as S.Schema<Document>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11882,8 +11899,8 @@ export const setStatusForVendor: API.OperationMethod<
   SetStatusForVendorError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3392, __c212, 0) as any as S.Schema<SetStatusForVendorRequest>,
-  output: __S(5639, __c352, 7) as any as S.Schema<Vendor>,
+  input: __S(3408, __c213, 0) as any as S.Schema<SetStatusForVendorRequest>,
+  output: __S(5655, __c353, 7) as any as S.Schema<Vendor>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11899,8 +11916,8 @@ export const snoozeFramework: API.OperationMethod<
   SnoozeFrameworkError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3408, __c213, 0) as any as S.Schema<SnoozeFrameworkRequest>,
-  output: __S(2976, __c186, 0) as any as S.Schema<FrameworkSnooze>,
+  input: __S(3424, __c214, 0) as any as S.Schema<SnoozeFrameworkRequest>,
+  output: __S(2992, __c187, 0) as any as S.Schema<FrameworkSnooze>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11916,8 +11933,8 @@ export const submitDocumentCollection: API.OperationMethod<
   SubmitDocumentCollectionError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3440, __c215, 0) as any as S.Schema<SubmitDocumentCollectionRequest>,
-  output: __S(4384, __c274, 0) as any as S.Schema<SubmitDocumentCollectionResponse>,
+  input: __S(3456, __c216, 0) as any as S.Schema<SubmitDocumentCollectionRequest>,
+  output: __S(4400, __c275, 0) as any as S.Schema<SubmitDocumentCollectionResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11933,8 +11950,8 @@ export const submitRiskForApproval: API.OperationMethod<
   SubmitRiskForApprovalError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3456, __c216, 0) as any as S.Schema<SubmitRiskForApprovalRequest>,
-  output: __S(3236, __c202, 4) as any as S.Schema<RiskScenario>,
+  input: __S(3472, __c217, 0) as any as S.Schema<SubmitRiskForApprovalRequest>,
+  output: __S(3252, __c203, 4) as any as S.Schema<RiskScenario>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11950,8 +11967,8 @@ export const updateAnswerLibraryEntryRoute: API.OperationMethod<
   UpdateAnswerLibraryEntryRouteError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3472, __c217, 0) as any as S.Schema<UpdateAnswerLibraryEntryRouteRequest>,
-  output: __S(3808, __c238, 0) as any as S.Schema<KnowledgeBaseAnswerLibraryEntryOutput>,
+  input: __S(3488, __c218, 0) as any as S.Schema<UpdateAnswerLibraryEntryRouteRequest>,
+  output: __S(3824, __c239, 0) as any as S.Schema<KnowledgeBaseAnswerLibraryEntryOutput>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11967,8 +11984,8 @@ export const updateComplianceFramework: API.OperationMethod<
   UpdateComplianceFrameworkError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c218, 0) as any as S.Schema<UpdateComplianceFrameworkRequest>,
-  output: __S(4000, __c250, 0) as any as S.Schema<TrustCenterComplianceFramework>,
+  input: __S(3504, __c219, 0) as any as S.Schema<UpdateComplianceFrameworkRequest>,
+  output: __S(4016, __c251, 0) as any as S.Schema<TrustCenterComplianceFramework>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -11984,8 +12001,8 @@ export const updateControlMetadata: API.OperationMethod<
   UpdateControlMetadataError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3504, __c219, 0) as any as S.Schema<UpdateControlMetadataRequest>,
-  output: __S(6192, __c387, 0) as any as S.Schema<ControlDetail>,
+  input: __S(3520, __c220, 0) as any as S.Schema<UpdateControlMetadataRequest>,
+  output: __S(6208, __c388, 0) as any as S.Schema<ControlDetail>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -12001,8 +12018,8 @@ export const updateCustomerTrustAccount: API.OperationMethod<
   UpdateCustomerTrustAccountError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3520, __c220, 0) as any as S.Schema<UpdateCustomerTrustAccountRequest>,
-  output: __S(4452, __c278, 4) as any as S.Schema<CustomerTrustAccountVantaApi>,
+  input: __S(3536, __c221, 0) as any as S.Schema<UpdateCustomerTrustAccountRequest>,
+  output: __S(4468, __c279, 4) as any as S.Schema<CustomerTrustAccountVantaApi>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -12018,8 +12035,8 @@ export const updateCustomRequirement: API.OperationMethod<
   UpdateCustomRequirementError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3536, __c221, 0) as any as S.Schema<UpdateCustomRequirementRequest>,
-  output: __S(4512, __c282, 0) as any as S.Schema<CustomRequirement>,
+  input: __S(3552, __c222, 0) as any as S.Schema<UpdateCustomRequirementRequest>,
+  output: __S(4528, __c283, 0) as any as S.Schema<CustomRequirement>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -12035,8 +12052,8 @@ export const updateDocumentResource: API.OperationMethod<
   UpdateDocumentResourceError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c222, 0) as any as S.Schema<UpdateDocumentResourceRequest>,
-  output: __S(4592, __c287, 0) as any as S.Schema<KnowledgeBaseDocumentResourceOutput>,
+  input: __S(3568, __c223, 0) as any as S.Schema<UpdateDocumentResourceRequest>,
+  output: __S(4608, __c288, 0) as any as S.Schema<KnowledgeBaseDocumentResourceOutput>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -12052,8 +12069,8 @@ export const updateGroup: API.OperationMethod<
   UpdateGroupError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3568, __c223, 0) as any as S.Schema<UpdateGroupRequest>,
-  output: __S(4657, __c291, 1) as any as S.Schema<Group>,
+  input: __S(3584, __c224, 0) as any as S.Schema<UpdateGroupRequest>,
+  output: __S(4673, __c292, 1) as any as S.Schema<Group>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -12069,8 +12086,8 @@ export const updatePerson: API.OperationMethod<
   UpdatePersonError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3586, __c224, 2) as any as S.Schema<UpdatePersonRequest>,
-  output: __S(574, __c35, 14) as any as S.Schema<Person>,
+  input: __S(3602, __c225, 2) as any as S.Schema<UpdatePersonRequest>,
+  output: __S(590, __c36, 14) as any as S.Schema<Person>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -12086,8 +12103,8 @@ export const updateQuestionnaire: API.OperationMethod<
   UpdateQuestionnaireError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c226, 0) as any as S.Schema<UpdateQuestionnaireRequest>,
-  output: __S(2421, __c151, 5) as any as S.Schema<CustomerTrustQuestionnaire>,
+  input: __S(3632, __c227, 0) as any as S.Schema<UpdateQuestionnaireRequest>,
+  output: __S(2437, __c152, 5) as any as S.Schema<CustomerTrustQuestionnaire>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -12103,8 +12120,8 @@ export const updateQuestionnaireResponseContent: API.OperationMethod<
   UpdateQuestionnaireResponseContentError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3633, __c227, 1) as any as S.Schema<UpdateQuestionnaireResponseContentRequest>,
-  output: __S(345, __c21, 9) as any as S.Schema<QuestionnaireResponseWithoutViewerPermissions>,
+  input: __S(3649, __c228, 1) as any as S.Schema<UpdateQuestionnaireResponseContentRequest>,
+  output: __S(361, __c22, 9) as any as S.Schema<QuestionnaireResponseWithoutViewerPermissions>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -12120,8 +12137,8 @@ export const updateQuestionnaireResponseOwner: API.OperationMethod<
   UpdateQuestionnaireResponseOwnerError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3648, __c228, 0) as any as S.Schema<UpdateQuestionnaireResponseOwnerRequest>,
-  output: __S(345, __c21, 9) as any as S.Schema<QuestionnaireResponseWithoutViewerPermissions>,
+  input: __S(3664, __c229, 0) as any as S.Schema<UpdateQuestionnaireResponseOwnerRequest>,
+  output: __S(361, __c22, 9) as any as S.Schema<QuestionnaireResponseWithoutViewerPermissions>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -12137,8 +12154,8 @@ export const updateResource: API.OperationMethod<
   UpdateResourceError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3664, __c229, 0) as any as S.Schema<UpdateResourceRequest2>,
-  output: __S(4384, __c274, 0) as any as S.Schema<UpdateResourceResponse>,
+  input: __S(3680, __c230, 0) as any as S.Schema<UpdateResourceRequest2>,
+  output: __S(4400, __c275, 0) as any as S.Schema<UpdateResourceResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -12154,8 +12171,8 @@ export const updateResources: API.OperationMethod<
   UpdateResourcesError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3682, __c230, 2) as any as S.Schema<UpdateResourcesRequest>,
-  output: __S(2353, __c147, 1) as any as S.Schema<BulkResponse>,
+  input: __S(3698, __c231, 2) as any as S.Schema<UpdateResourcesRequest>,
+  output: __S(2369, __c148, 1) as any as S.Schema<BulkResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -12171,8 +12188,8 @@ export const updateRiskScenario: API.OperationMethod<
   UpdateRiskScenarioError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3696, __c231, 0) as any as S.Schema<UpdateRiskScenarioRequest>,
-  output: __S(3236, __c202, 4) as any as S.Schema<RiskScenario>,
+  input: __S(3712, __c232, 0) as any as S.Schema<UpdateRiskScenarioRequest>,
+  output: __S(3252, __c203, 4) as any as S.Schema<RiskScenario>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -12188,8 +12205,8 @@ export const updateRiskScenarioControl: API.OperationMethod<
   UpdateRiskScenarioControlError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3712, __c232, 0) as any as S.Schema<UpdateRiskScenarioControlRequest>,
-  output: __S(4832, __c302, 0) as any as S.Schema<RiskScenarioControl>,
+  input: __S(3728, __c233, 0) as any as S.Schema<UpdateRiskScenarioControlRequest>,
+  output: __S(4848, __c303, 0) as any as S.Schema<RiskScenarioControl>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -12205,8 +12222,8 @@ export const updateSettings: API.OperationMethod<
   UpdateSettingsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3728, __c233, 0) as any as S.Schema<UpdateSettingsRequest>,
-  output: __S(512, __c32, 0) as any as S.Schema<UpdateSettingsResponse>,
+  input: __S(3744, __c234, 0) as any as S.Schema<UpdateSettingsRequest>,
+  output: __S(528, __c33, 0) as any as S.Schema<UpdateSettingsResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -12222,8 +12239,8 @@ export const updateTaskRequirementSetDetails: API.OperationMethod<
   UpdateTaskRequirementSetDetailsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3744, __c234, 0) as any as S.Schema<UpdateTaskRequirementSetDetailsRequest>,
-  output: __S(4867, __c304, 3) as any as S.Schema<TaskRequirementSet>,
+  input: __S(3760, __c235, 0) as any as S.Schema<UpdateTaskRequirementSetDetailsRequest>,
+  output: __S(4883, __c305, 3) as any as S.Schema<TaskRequirementSet>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -12239,8 +12256,8 @@ export const updateTaskRequirementSetRequirements: API.OperationMethod<
   UpdateTaskRequirementSetRequirementsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3760, __c235, 0) as any as S.Schema<UpdateTaskRequirementSetRequirementsRequest>,
-  output: __S(4867, __c304, 3) as any as S.Schema<TaskRequirementSet>,
+  input: __S(3776, __c236, 0) as any as S.Schema<UpdateTaskRequirementSetRequirementsRequest>,
+  output: __S(4883, __c305, 3) as any as S.Schema<TaskRequirementSet>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -12256,8 +12273,8 @@ export const updateTrustCenter: API.OperationMethod<
   UpdateTrustCenterError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3826, __c239, 2) as any as S.Schema<UpdateTrustCenterRequest>,
-  output: __S(658, __c41, 2) as any as S.Schema<TrustCenter>,
+  input: __S(3842, __c240, 2) as any as S.Schema<UpdateTrustCenterRequest>,
+  output: __S(674, __c42, 2) as any as S.Schema<TrustCenter>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -12273,8 +12290,8 @@ export const updateTrustCenterControlCategory: API.OperationMethod<
   UpdateTrustCenterControlCategoryError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3840, __c240, 0) as any as S.Schema<UpdateTrustCenterControlCategoryRequest>,
-  output: __S(5152, __c322, 0) as any as S.Schema<TrustCenterControlCategory>,
+  input: __S(3856, __c241, 0) as any as S.Schema<UpdateTrustCenterControlCategoryRequest>,
+  output: __S(5168, __c323, 0) as any as S.Schema<TrustCenterControlCategory>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -12290,8 +12307,8 @@ export const updateTrustCenterControlsInCategory: API.OperationMethod<
   UpdateTrustCenterControlsInCategoryError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3856, __c241, 0) as any as S.Schema<UpdateTrustCenterControlsInCategoryRequest>,
-  output: __S(5152, __c322, 0) as any as S.Schema<TrustCenterControlCategory>,
+  input: __S(3872, __c242, 0) as any as S.Schema<UpdateTrustCenterControlsInCategoryRequest>,
+  output: __S(5168, __c323, 0) as any as S.Schema<TrustCenterControlCategory>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -12307,8 +12324,8 @@ export const updateTrustCenterFaq: API.OperationMethod<
   UpdateTrustCenterFaqError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3872, __c242, 0) as any as S.Schema<UpdateTrustCenterFaqRequest>,
-  output: __S(4912, __c307, 0) as any as S.Schema<TrustCenterFaq>,
+  input: __S(3888, __c243, 0) as any as S.Schema<UpdateTrustCenterFaqRequest>,
+  output: __S(4928, __c308, 0) as any as S.Schema<TrustCenterFaq>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -12324,8 +12341,8 @@ export const updateTrustCenterFaqCategory: API.OperationMethod<
   UpdateTrustCenterFaqCategoryError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3888, __c243, 0) as any as S.Schema<UpdateTrustCenterFaqCategoryRequest>,
-  output: __S(1520, __c95, 0) as any as S.Schema<TrustCenterFaqCategory>,
+  input: __S(3904, __c244, 0) as any as S.Schema<UpdateTrustCenterFaqCategoryRequest>,
+  output: __S(1536, __c96, 0) as any as S.Schema<TrustCenterFaqCategory>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -12341,8 +12358,8 @@ export const updateTrustCenterResource: API.OperationMethod<
   UpdateTrustCenterResourceError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3904, __c244, 0) as any as S.Schema<UpdateTrustCenterResourceRequest>,
-  output: __S(4944, __c309, 0) as any as S.Schema<TrustCenterResource>,
+  input: __S(3920, __c245, 0) as any as S.Schema<UpdateTrustCenterResourceRequest>,
+  output: __S(4960, __c310, 0) as any as S.Schema<TrustCenterResource>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -12358,8 +12375,8 @@ export const updateTrustCenterResourceCategory: API.OperationMethod<
   UpdateTrustCenterResourceCategoryError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3920, __c245, 0) as any as S.Schema<UpdateTrustCenterResourceCategoryRequest>,
-  output: __S(1520, __c95, 0) as any as S.Schema<TrustCenterResourceCategory>,
+  input: __S(3936, __c246, 0) as any as S.Schema<UpdateTrustCenterResourceCategoryRequest>,
+  output: __S(1536, __c96, 0) as any as S.Schema<TrustCenterResourceCategory>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -12375,8 +12392,8 @@ export const updateTrustCenterSubprocessor: API.OperationMethod<
   UpdateTrustCenterSubprocessorError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3936, __c246, 0) as any as S.Schema<UpdateTrustCenterSubprocessorRequest>,
-  output: __S(4976, __c311, 0) as any as S.Schema<TrustCenterSubprocessor>,
+  input: __S(3952, __c247, 0) as any as S.Schema<UpdateTrustCenterSubprocessorRequest>,
+  output: __S(4992, __c312, 0) as any as S.Schema<TrustCenterSubprocessor>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -12392,8 +12409,8 @@ export const updateTrustCenterSubscriberGroup: API.OperationMethod<
   UpdateTrustCenterSubscriberGroupError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3952, __c247, 0) as any as S.Schema<UpdateTrustCenterSubscriberGroupRequest>,
-  output: __S(5056, __c316, 0) as any as S.Schema<TrustCenterSubscriberGroup>,
+  input: __S(3968, __c248, 0) as any as S.Schema<UpdateTrustCenterSubscriberGroupRequest>,
+  output: __S(5072, __c317, 0) as any as S.Schema<TrustCenterSubscriberGroup>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -12409,8 +12426,8 @@ export const updateTrustCenterUpdate: API.OperationMethod<
   UpdateTrustCenterUpdateError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3968, __c248, 0) as any as S.Schema<UpdateTrustCenterUpdateRequest>,
-  output: __S(5088, __c318, 0) as any as S.Schema<TrustCenterUpdateAPIResponse>,
+  input: __S(3984, __c249, 0) as any as S.Schema<UpdateTrustCenterUpdateRequest>,
+  output: __S(5104, __c319, 0) as any as S.Schema<TrustCenterUpdateAPIResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -12426,8 +12443,8 @@ export const updateTrustCenterViewer: API.OperationMethod<
   UpdateTrustCenterViewerError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4016, __c251, 0) as any as S.Schema<UpdateTrustCenterViewerRequest>,
-  output: __S(1941, __c121, 5) as any as S.Schema<TrustCenterViewer>,
+  input: __S(4032, __c252, 0) as any as S.Schema<UpdateTrustCenterViewerRequest>,
+  output: __S(1957, __c122, 5) as any as S.Schema<TrustCenterViewer>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -12443,8 +12460,8 @@ export const updateVendor: API.OperationMethod<
   UpdateVendorError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4033, __c252, 1) as any as S.Schema<UpdateVendorRequest>,
-  output: __S(5639, __c352, 7) as any as S.Schema<Vendor>,
+  input: __S(4049, __c253, 1) as any as S.Schema<UpdateVendorRequest>,
+  output: __S(5655, __c353, 7) as any as S.Schema<Vendor>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -12460,8 +12477,8 @@ export const updateVendorAlerts: API.OperationMethod<
   UpdateVendorAlertsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4048, __c253, 0) as any as S.Schema<UpdateVendorAlertsRequest>,
-  output: __S(4049, __c253, 1) as any as S.Schema<UpdateVendorAlertsResponse>,
+  input: __S(4064, __c254, 0) as any as S.Schema<UpdateVendorAlertsRequest>,
+  output: __S(4065, __c254, 1) as any as S.Schema<UpdateVendorAlertsResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -12477,8 +12494,8 @@ export const updateVendorAlertSettings: API.OperationMethod<
   UpdateVendorAlertSettingsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4066, __c254, 2) as any as S.Schema<UpdateVendorAlertSettingsRequest>,
-  output: __S(1074, __c67, 2) as any as S.Schema<VendorAlertSettingsResponse>,
+  input: __S(4082, __c255, 2) as any as S.Schema<UpdateVendorAlertSettingsRequest>,
+  output: __S(1090, __c68, 2) as any as S.Schema<VendorAlertSettingsResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -12494,8 +12511,8 @@ export const updateVendorCategory: API.OperationMethod<
   UpdateVendorCategoryError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4080, __c255, 0) as any as S.Schema<UpdateVendorCategoryRequest>,
-  output: __S(5216, __c326, 0) as any as S.Schema<VendorCategory2>,
+  input: __S(4096, __c256, 0) as any as S.Schema<UpdateVendorCategoryRequest>,
+  output: __S(5232, __c327, 0) as any as S.Schema<VendorCategory2>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -12511,8 +12528,8 @@ export const updateVendorFinding: API.OperationMethod<
   UpdateVendorFindingError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4096, __c256, 0) as any as S.Schema<UpdateVendorFindingRequest>,
-  output: __S(5249, __c328, 1) as any as S.Schema<VendorFinding>,
+  input: __S(4112, __c257, 0) as any as S.Schema<UpdateVendorFindingRequest>,
+  output: __S(5265, __c329, 1) as any as S.Schema<VendorFinding>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -12528,8 +12545,8 @@ export const updateVendorSecurityIncidentAlerts: API.OperationMethod<
   UpdateVendorSecurityIncidentAlertsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4112, __c257, 0) as any as S.Schema<UpdateVendorSecurityIncidentAlertsRequest>,
-  output: __S(4113, __c257, 1) as any as S.Schema<UpdateVendorSecurityIncidentAlertsResponse>,
+  input: __S(4128, __c258, 0) as any as S.Schema<UpdateVendorSecurityIncidentAlertsRequest>,
+  output: __S(4129, __c258, 1) as any as S.Schema<UpdateVendorSecurityIncidentAlertsResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -12545,8 +12562,8 @@ export const updateWebpageResource: API.OperationMethod<
   UpdateWebpageResourceError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4128, __c258, 0) as any as S.Schema<UpdateWebpageResourceRequest>,
-  output: __S(5296, __c331, 0) as any as S.Schema<KnowledgeBaseWebpageResourceOutput>,
+  input: __S(4144, __c259, 0) as any as S.Schema<UpdateWebpageResourceRequest>,
+  output: __S(5312, __c332, 0) as any as S.Schema<KnowledgeBaseWebpageResourceOutput>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -12562,8 +12579,8 @@ export const uploadComplianceFrameworkBadge: API.OperationMethod<
   UploadComplianceFrameworkBadgeError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4144, __c259, 0) as any as S.Schema<UploadComplianceFrameworkBadgeRequest>,
-  output: __S(4544, __c284, 0) as any as S.Schema<BadgeUploadResponse>,
+  input: __S(4160, __c260, 0) as any as S.Schema<UploadComplianceFrameworkBadgeRequest>,
+  output: __S(4560, __c285, 0) as any as S.Schema<BadgeUploadResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -12579,8 +12596,8 @@ export const uploadContract: API.OperationMethod<
   UploadContractError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4160, __c260, 0) as any as S.Schema<UploadContractRequest>,
-  output: __S(6160, __c385, 0) as any as S.Schema<Contract>,
+  input: __S(4176, __c261, 0) as any as S.Schema<UploadContractRequest>,
+  output: __S(6176, __c386, 0) as any as S.Schema<Contract>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -12596,8 +12613,8 @@ export const uploadDocumentForSecurityReview: API.OperationMethod<
   UploadDocumentForSecurityReviewError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4192, __c262, 0) as any as S.Schema<UploadDocumentForSecurityReviewRequest>,
-  output: __S(432, __c27, 0) as any as S.Schema<VendorDocument>,
+  input: __S(4208, __c263, 0) as any as S.Schema<UploadDocumentForSecurityReviewRequest>,
+  output: __S(448, __c28, 0) as any as S.Schema<VendorDocument>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -12613,8 +12630,8 @@ export const uploadDocumentToVendor: API.OperationMethod<
   UploadDocumentToVendorError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4208, __c263, 0) as any as S.Schema<UploadDocumentToVendorRequest>,
-  output: __S(432, __c27, 0) as any as S.Schema<VendorDocument>,
+  input: __S(4224, __c264, 0) as any as S.Schema<UploadDocumentToVendorRequest>,
+  output: __S(448, __c28, 0) as any as S.Schema<VendorDocument>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -12630,8 +12647,8 @@ export const uploadFileForDocument: API.OperationMethod<
   UploadFileForDocumentError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4224, __c264, 0) as any as S.Schema<UploadFileForDocumentRequest>,
-  output: __S(1776, __c111, 0) as any as S.Schema<UploadedFileT>,
+  input: __S(4240, __c265, 0) as any as S.Schema<UploadFileForDocumentRequest>,
+  output: __S(1792, __c112, 0) as any as S.Schema<UploadedFileT>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -12647,8 +12664,8 @@ export const uploadTrustCenterFavicon: API.OperationMethod<
   UploadTrustCenterFaviconError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4240, __c265, 0) as any as S.Schema<UploadTrustCenterFaviconRequest>,
-  output: __S(4544, __c284, 0) as any as S.Schema<UploadFaviconResponse>,
+  input: __S(4256, __c266, 0) as any as S.Schema<UploadTrustCenterFaviconRequest>,
+  output: __S(4560, __c285, 0) as any as S.Schema<UploadFaviconResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -12664,8 +12681,8 @@ export const upsertGroupsForTrustCenterSubscriber: API.OperationMethod<
   UpsertGroupsForTrustCenterSubscriberError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4256, __c266, 0) as any as S.Schema<UpsertGroupsForTrustCenterSubscriberRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<TrustCenterSubscriber>,
+  input: __S(4272, __c267, 0) as any as S.Schema<UpsertGroupsForTrustCenterSubscriberRequest>,
+  output: __S(5040, __c315, 0) as any as S.Schema<TrustCenterSubscriber>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -12681,8 +12698,8 @@ export const upsertTrustCenterControlCategoriesOrder: API.OperationMethod<
   UpsertTrustCenterControlCategoriesOrderError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4272, __c267, 0) as any as S.Schema<UpsertTrustCenterControlCategoriesOrderRequest>,
-  output: __S(736, __c46, 0) as any as S.Schema<ArrayResponseTrustCenterControlCategory>,
+  input: __S(4288, __c268, 0) as any as S.Schema<UpsertTrustCenterControlCategoriesOrderRequest>,
+  output: __S(752, __c47, 0) as any as S.Schema<ArrayResponseTrustCenterControlCategory>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -12698,8 +12715,8 @@ export const upsertTrustCenterControlsInCategoryOrder: API.OperationMethod<
   UpsertTrustCenterControlsInCategoryOrderError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4288, __c268, 0) as any as S.Schema<UpsertTrustCenterControlsInCategoryOrderRequest>,
-  output: __S(5152, __c322, 0) as any as S.Schema<TrustCenterControlCategory>,
+  input: __S(4304, __c269, 0) as any as S.Schema<UpsertTrustCenterControlsInCategoryOrderRequest>,
+  output: __S(5168, __c323, 0) as any as S.Schema<TrustCenterControlCategory>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -12715,8 +12732,8 @@ export const upsertTrustCenterDataCollected: API.OperationMethod<
   UpsertTrustCenterDataCollectedError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4304, __c269, 0) as any as S.Schema<UpsertTrustCenterDataCollectedRequest>,
-  output: __S(2274, __c142, 2) as any as S.Schema<ArrayResponseTrustCenterDataCollected>,
+  input: __S(4320, __c270, 0) as any as S.Schema<UpsertTrustCenterDataCollectedRequest>,
+  output: __S(2290, __c143, 2) as any as S.Schema<ArrayResponseTrustCenterDataCollected>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -12732,8 +12749,8 @@ export const upsertTrustCenterResourceCategoriesOrder: API.OperationMethod<
   UpsertTrustCenterResourceCategoriesOrderError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4320, __c270, 0) as any as S.Schema<UpsertTrustCenterResourceCategoriesOrderRequest>,
-  output: __S(2304, __c144, 0) as any as S.Schema<ArrayResponseTrustCenterResourceCategory>,
+  input: __S(4336, __c271, 0) as any as S.Schema<UpsertTrustCenterResourceCategoriesOrderRequest>,
+  output: __S(2320, __c145, 0) as any as S.Schema<ArrayResponseTrustCenterResourceCategory>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -12749,8 +12766,8 @@ export const upsertTrustCenterVideos: API.OperationMethod<
   UpsertTrustCenterVideosError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4338, __c271, 2) as any as S.Schema<UpsertTrustCenterVideosRequest>,
-  output: __S(2562, __c160, 2) as any as S.Schema<ArrayResponseTrustCenterVideo>,
+  input: __S(4354, __c272, 2) as any as S.Schema<UpsertTrustCenterVideosRequest>,
+  output: __S(2578, __c161, 2) as any as S.Schema<ArrayResponseTrustCenterVideo>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -12766,8 +12783,8 @@ export const verifyAnswerLibraryEntryRoute: API.OperationMethod<
   VerifyAnswerLibraryEntryRouteError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4464, __c279, 0) as any as S.Schema<VerifyAnswerLibraryEntryRouteRequest>,
-  output: __S(3808, __c238, 0) as any as S.Schema<KnowledgeBaseAnswerLibraryEntryOutput>,
+  input: __S(4480, __c280, 0) as any as S.Schema<VerifyAnswerLibraryEntryRouteRequest>,
+  output: __S(3824, __c239, 0) as any as S.Schema<KnowledgeBaseAnswerLibraryEntryOutput>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -12783,8 +12800,8 @@ export const verifyKnowledgeBaseResource: API.OperationMethod<
   VerifyKnowledgeBaseResourceError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4480, __c280, 0) as any as S.Schema<VerifyKnowledgeBaseResourceRequest>,
-  output: __S(112, __c7, 0) as any as S.Schema<VerifyKnowledgeBaseResourceResponse>,
+  input: __S(4496, __c281, 0) as any as S.Schema<VerifyKnowledgeBaseResourceRequest>,
+  output: __S(128, __c8, 0) as any as S.Schema<VerifyKnowledgeBaseResourceResponse>,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -12798,8 +12815,18 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          message: S.String,
+        }),
+      ).annotate({ identifier: "OutboundError" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           riskScenarioId: S.String.pipe(T.Label()),
-          issueIdsToLink: __S(4736, __c296, 0),
+          issueIdsToLink: __S(4752, __c297, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -12810,7 +12837,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "AddIssueMappingsRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12820,7 +12847,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "GetGroupRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12829,18 +12856,18 @@ function __c2(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/groups/{groupId}/people", code: 200 })),
       ).annotate({ identifier: "GetGroupMembersRequest" });
     case 1:
-      return S.suspend(() => __S(48, __c3, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(64, __c4, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetGroupMembersResponse",
       });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(574, __c35, 14));
+      return S.Array(__S(590, __c36, 14));
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12852,7 +12879,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetGroupTaskRequirementSetRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12866,7 +12893,7 @@ function __c5(j: number): any {
       });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12876,7 +12903,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GetKnowledgeBaseResourceRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -12884,7 +12911,7 @@ function __c7(j: number): any {
       });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12894,7 +12921,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetMonitoredComputerRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12915,19 +12942,19 @@ function __c9(j: number): any {
           id: S.String,
           integrationId: S.String,
           lastCheckDate: S.NullOr(S.String),
-          screenlock: __S(144, __c9, 0),
-          diskEncryption: __S(144, __c9, 0),
-          passwordManager: __S(144, __c9, 0),
-          antivirusInstallation: __S(144, __c9, 0),
-          operatingSystem: S.NullOr(__S(145, __c9, 1)),
-          owner: S.NullOr(__S(4784, __c299, 0)),
+          screenlock: __S(160, __c10, 0),
+          diskEncryption: __S(160, __c10, 0),
+          passwordManager: __S(160, __c10, 0),
+          antivirusInstallation: __S(160, __c10, 0),
+          operatingSystem: S.NullOr(__S(161, __c10, 1)),
+          owner: S.NullOr(__S(4800, __c300, 0)),
           serialNumber: S.NullOr(S.String),
           udid: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "MonitoredComputer" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12943,7 +12970,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "OrganizationIdentity" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12953,7 +12980,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetPersonRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12963,7 +12990,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GetPolicyRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12980,12 +13007,12 @@ function __c13(j: number): any {
         }),
       ).annotate({ identifier: "PolicyDocument" });
     case 2:
-      return S.Array(__S(209, __c13, 1));
+      return S.Array(__S(225, __c14, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           versionId: S.String,
-          documents: __S(210, __c13, 2),
+          documents: __S(226, __c14, 2),
         }),
       ).annotate({ identifier: "PolicyLatestApprovedVersion" });
     case 4:
@@ -12996,13 +13023,13 @@ function __c13(j: number): any {
           description: S.String,
           status: S.String,
           approvedAtDate: S.NullOr(S.String),
-          latestVersion: __S(208, __c13, 0),
-          latestApprovedVersion: S.NullOr(__S(211, __c13, 3)),
+          latestVersion: __S(224, __c14, 0),
+          latestApprovedVersion: S.NullOr(__S(227, __c14, 3)),
         }),
       ).annotate({ identifier: "Policy" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13012,7 +13039,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetProgramScopeRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13024,18 +13051,18 @@ function __c15(j: number): any {
       ).annotate({ identifier: "ProgramScope" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           groupId: S.String.pipe(T.Label()),
-          updates: __S(273, __c17, 1),
+          updates: __S(289, __c18, 1),
         }).pipe(T.Http({ method: "POST", uri: "/groups/{groupId}/add-people", code: 200 })),
       ).annotate({ identifier: "AddPeopleToGroupRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13044,10 +13071,10 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "AddPeopleToGroupRequestUpdatesItem" });
     case 1:
-      return S.Array(__S(272, __c17, 0));
+      return S.Array(__S(288, __c18, 0));
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13063,7 +13090,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetQuestionnaireRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13089,7 +13116,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "CustomerTrustExportStatusResponse" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13106,7 +13133,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "GetQuestionnaireResponseRequest" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
@@ -13123,9 +13150,9 @@ function __c21(j: number): any {
           _ref: S.optional(S.String.pipe(T.Body("$ref"))),
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
           _comment: S.optional(S.String.pipe(T.Body("$comment"))),
-          _defs: S.optional(__S(336, __c21, 0).pipe(T.Body("$defs"))),
+          _defs: S.optional(__S(352, __c22, 0).pipe(T.Body("$defs"))),
           type: S.optional(S.Unknown),
-          enum: S.optional(__S(337, __c21, 1)),
+          enum: S.optional(__S(353, __c22, 1)),
           const: S.optional(S.NullOr(S.Unknown)),
           multipleOf: S.optional(S.Number),
           maximum: S.optional(S.Number),
@@ -13143,23 +13170,23 @@ function __c21(j: number): any {
           contains: S.optional(S.Unknown),
           maxProperties: S.optional(S.Number),
           minProperties: S.optional(S.Number),
-          required: S.optional(__S(4736, __c296, 0)),
-          properties: S.optional(__S(336, __c21, 0)),
-          patternProperties: S.optional(__S(336, __c21, 0)),
+          required: S.optional(__S(4752, __c297, 0)),
+          properties: S.optional(__S(352, __c22, 0)),
+          patternProperties: S.optional(__S(352, __c22, 0)),
           additionalProperties: S.optional(S.Unknown),
-          dependencies: S.optional(__S(339, __c21, 3)),
+          dependencies: S.optional(__S(355, __c22, 3)),
           propertyNames: S.optional(S.Unknown),
           if: S.optional(S.Unknown),
           then: S.optional(S.Unknown),
           else: S.optional(S.Unknown),
-          allOf: S.optional(__S(338, __c21, 2)),
-          anyOf: S.optional(__S(338, __c21, 2)),
-          oneOf: S.optional(__S(338, __c21, 2)),
+          allOf: S.optional(__S(354, __c22, 2)),
+          anyOf: S.optional(__S(354, __c22, 2)),
+          oneOf: S.optional(__S(354, __c22, 2)),
           not: S.optional(S.Unknown),
           format: S.optional(S.String),
           contentMediaType: S.optional(S.String),
           contentEncoding: S.optional(S.String),
-          definitions: S.optional(__S(336, __c21, 0)),
+          definitions: S.optional(__S(352, __c22, 0)),
           title: S.optional(S.String),
           description: S.optional(S.String),
           default: S.optional(S.NullOr(S.Unknown)),
@@ -13184,13 +13211,13 @@ function __c21(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          uploadedDocument: __S(342, __c21, 6),
+          uploadedDocument: __S(358, __c22, 6),
         }),
       ).annotate({
         identifier: "QuestionnaireResponseWithoutViewerPermissionsAttachedEvidenceItem",
       });
     case 8:
-      return S.Array(__S(343, __c21, 7));
+      return S.Array(__S(359, __c22, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -13198,21 +13225,21 @@ function __c21(j: number): any {
           sectionId: S.optional(S.NullOr(S.String)),
           sequenceLabel: S.optional(S.String),
           question: S.String,
-          editedBy: S.optional(S.NullOr(__S(1920, __c120, 0))),
-          approvedBy: S.optional(S.NullOr(__S(1920, __c120, 0))),
+          editedBy: S.optional(S.NullOr(__S(1936, __c121, 0))),
+          approvedBy: S.optional(S.NullOr(__S(1936, __c121, 0))),
           isPendingAnswerGeneration: S.Boolean,
           originType: S.optional(S.String),
           answerSchema: S.optional(S.String),
-          answerPartsSchema: S.optional(__S(340, __c21, 4)),
-          answerPartsValues: S.optional(__S(341, __c21, 5)),
-          attachedEvidence: S.optional(__S(344, __c21, 8)),
+          answerPartsSchema: S.optional(__S(356, __c22, 4)),
+          answerPartsValues: S.optional(__S(357, __c22, 5)),
+          attachedEvidence: S.optional(__S(360, __c22, 8)),
           generatedAnswerLogId: S.optional(S.String),
-          ownerAssignment: S.NullOr(__S(2384, __c149, 0)),
+          ownerAssignment: S.NullOr(__S(2400, __c150, 0)),
         }),
       ).annotate({ identifier: "QuestionnaireResponseWithoutViewerPermissions" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13234,7 +13261,7 @@ function __c22(j: number): any {
       });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13266,7 +13293,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "ResourceKindDetails" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13276,7 +13303,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "GetRiskScenarioRequest" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13295,26 +13322,26 @@ function __c25(j: number): any {
       ).annotate({ identifier: "GetSecurityReviewDocumentsRequest" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(432, __c27, 0));
+      return S.Array(__S(448, __c28, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(416, __c26, 0),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(432, __c27, 0),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseVendorDocumentResults" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          results: __S(417, __c26, 1),
+          results: __S(433, __c27, 1),
         }),
       ).annotate({ identifier: "PaginatedResponseVendorDocument" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13324,7 +13351,7 @@ function __c27(j: number): any {
           title: S.String,
           description: S.NullOr(S.String),
           mimeType: S.String,
-          uploadedBy: S.NullOr(__S(3792, __c237, 0)),
+          uploadedBy: S.NullOr(__S(3808, __c238, 0)),
           creationDate: S.String,
           updatedDate: S.String,
           deletionDate: S.NullOr(S.String),
@@ -13334,7 +13361,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "VendorDocument" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13351,7 +13378,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "GetSecurityReviewsByIdRequest" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13372,14 +13399,14 @@ function __c29(j: number): any {
           dueDate: S.NullOr(S.String),
           overrideDueDate: S.NullOr(S.String),
           completionDate: S.NullOr(S.String),
-          decision: S.NullOr(__S(464, __c29, 0)),
-          assessmentType: __S(6000, __c375, 0),
-          owner: S.NullOr(__S(6001, __c375, 1)),
+          decision: S.NullOr(__S(480, __c30, 0)),
+          assessmentType: __S(6016, __c376, 0),
+          owner: S.NullOr(__S(6017, __c376, 1)),
         }),
       ).annotate({ identifier: "SecurityReview" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13390,23 +13417,23 @@ function __c30(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/vendors/{vendorId}/security-reviews", code: 200 })),
       ).annotate({ identifier: "GetSecurityReviewsByVendorIdRequest" });
     case 1:
-      return S.Array(__S(465, __c29, 1));
+      return S.Array(__S(481, __c30, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(481, __c30, 1),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(497, __c31, 1),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseSecurityReviewResults" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(482, __c30, 2),
+          results: __S(498, __c31, 2),
         }),
       ).annotate({ identifier: "PaginatedResponseSecurityReview" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13416,7 +13443,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "GetSettingsRequest" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -13424,7 +13451,7 @@ function __c32(j: number): any {
       });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13435,7 +13462,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "AddPersonToGroupRequest" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13445,7 +13472,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "Training" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13482,7 +13509,7 @@ function __c35(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          employment: __S(563, __c35, 3),
+          employment: __S(579, __c36, 3),
           emailAddress: S.Unknown,
         }),
       ).annotate({ identifier: "PersonSources" });
@@ -13494,7 +13521,7 @@ function __c35(j: number): any {
         }),
       ).annotate({ identifier: "CompleteTrainingsTaskSummaryDisabled" });
     case 6:
-      return S.Array(__S(544, __c34, 0));
+      return S.Array(__S(560, __c35, 0));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -13502,9 +13529,9 @@ function __c35(j: number): any {
           status: S.String,
           dueDate: S.NullOr(S.String),
           completionDate: S.NullOr(S.String),
-          disabled: S.NullOr(__S(565, __c35, 5)),
-          incompleteTrainings: __S(566, __c35, 6),
-          completedTrainings: __S(566, __c35, 6),
+          disabled: S.NullOr(__S(581, __c36, 5)),
+          incompleteTrainings: __S(582, __c36, 6),
+          completedTrainings: __S(582, __c36, 6),
         }),
       ).annotate({ identifier: "CompleteTrainingsTaskSummary" });
     case 8:
@@ -13514,9 +13541,9 @@ function __c35(j: number): any {
           status: S.String,
           dueDate: S.NullOr(S.String),
           completionDate: S.NullOr(S.String),
-          disabled: S.NullOr(__S(565, __c35, 5)),
-          unacceptedPolicies: __S(566, __c35, 6),
-          acceptedPolicies: __S(566, __c35, 6),
+          disabled: S.NullOr(__S(581, __c36, 5)),
+          unacceptedPolicies: __S(582, __c36, 6),
+          acceptedPolicies: __S(582, __c36, 6),
         }),
       ).annotate({ identifier: "AcceptPoliciesTaskSummary" });
     case 9:
@@ -13526,9 +13553,9 @@ function __c35(j: number): any {
           status: S.String,
           dueDate: S.NullOr(S.String),
           completionDate: S.NullOr(S.String),
-          disabled: S.NullOr(__S(565, __c35, 5)),
-          incompleteCustomTasks: __S(566, __c35, 6),
-          completedCustomTasks: __S(566, __c35, 6),
+          disabled: S.NullOr(__S(581, __c36, 5)),
+          incompleteCustomTasks: __S(582, __c36, 6),
+          completedCustomTasks: __S(582, __c36, 6),
         }),
       ).annotate({ identifier: "CompleteCustomTasksTaskSummary" });
     case 10:
@@ -13538,9 +13565,9 @@ function __c35(j: number): any {
           status: S.String,
           dueDate: S.NullOr(S.String),
           completionDate: S.NullOr(S.String),
-          disabled: S.NullOr(__S(565, __c35, 5)),
-          incompleteCustomOffboardingTasks: __S(566, __c35, 6),
-          completedCustomOffboardingTasks: __S(566, __c35, 6),
+          disabled: S.NullOr(__S(581, __c36, 5)),
+          incompleteCustomOffboardingTasks: __S(582, __c36, 6),
+          completedCustomOffboardingTasks: __S(582, __c36, 6),
         }),
       ).annotate({ identifier: "CompleteOffboardingCustomTasksTaskSummary" });
     case 11:
@@ -13550,24 +13577,24 @@ function __c35(j: number): any {
           status: S.String,
           dueDate: S.NullOr(S.String),
           completionDate: S.NullOr(S.String),
-          disabled: S.NullOr(__S(565, __c35, 5)),
+          disabled: S.NullOr(__S(581, __c36, 5)),
         }),
       ).annotate({ identifier: "InstallDeviceMonitoringTaskSummary" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          completeTrainings: __S(567, __c35, 7),
-          acceptPolicies: __S(568, __c35, 8),
-          completeCustomTasks: __S(569, __c35, 9),
-          completeOffboardingCustomTasks: __S(570, __c35, 10),
-          installDeviceMonitoring: __S(571, __c35, 11),
-          completeBackgroundChecks: __S(571, __c35, 11),
+          completeTrainings: __S(583, __c36, 7),
+          acceptPolicies: __S(584, __c36, 8),
+          completeCustomTasks: __S(585, __c36, 9),
+          completeOffboardingCustomTasks: __S(586, __c36, 10),
+          installDeviceMonitoring: __S(587, __c36, 11),
+          completeBackgroundChecks: __S(587, __c36, 11),
         }),
       ).annotate({ identifier: "TaskSummaryDetails" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          details: __S(572, __c35, 12),
+          details: __S(588, __c36, 12),
           status: S.String,
           dueDate: S.NullOr(S.String),
           completionDate: S.NullOr(S.String),
@@ -13579,18 +13606,18 @@ function __c35(j: number): any {
           id: S.String,
           userId: S.NullOr(S.String),
           emailAddress: S.String,
-          employment: __S(560, __c35, 0),
-          leaveInfo: S.NullOr(__S(561, __c35, 1)),
-          groupIds: __S(4736, __c296, 0),
-          name: __S(562, __c35, 2),
-          sources: __S(564, __c35, 4),
-          tasksSummary: __S(573, __c35, 13),
-          programScopeIds: S.optional(__S(4736, __c296, 0)),
+          employment: __S(576, __c36, 0),
+          leaveInfo: S.NullOr(__S(577, __c36, 1)),
+          groupIds: __S(4752, __c297, 0),
+          name: __S(578, __c36, 2),
+          sources: __S(580, __c36, 4),
+          tasksSummary: __S(589, __c36, 13),
+          programScopeIds: S.optional(__S(4752, __c297, 0)),
         }),
       ).annotate({ identifier: "Person" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13613,17 +13640,17 @@ function __c36(j: number): any {
         }),
       ).annotate({ identifier: "UserDefinedTag" });
     case 2:
-      return S.Array(__S(577, __c36, 1));
+      return S.Array(__S(593, __c37, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          category: __S(6080, __c380, 0),
-          tags: __S(578, __c36, 2),
+          category: __S(6096, __c381, 0),
+          tags: __S(594, __c37, 2),
         }),
       ).annotate({ identifier: "TagCategoryWithTags" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13635,7 +13662,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "GetTaskRequirementSetRequest" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13645,7 +13672,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "GetTestRequest" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13669,23 +13696,23 @@ function __c39(j: number): any {
         }),
       ).annotate({ identifier: "TestResourceEntity" });
     case 2:
-      return S.Array(__S(625, __c39, 1));
+      return S.Array(__S(641, __c40, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(626, __c39, 2),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(642, __c40, 2),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseTestResourceEntityResults" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          results: __S(627, __c39, 3),
+          results: __S(643, __c40, 3),
         }),
       ).annotate({ identifier: "PaginatedResponseTestResourceEntity" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13695,7 +13722,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "GetTrustCenterRequest" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13722,8 +13749,8 @@ function __c41(j: number): any {
           awsMarketplaceListing: S.NullOr(S.String),
           customDomain: S.NullOr(S.String),
           isPublic: S.Boolean,
-          bannerSetting: __S(656, __c41, 0),
-          customTheme: __S(657, __c41, 1),
+          bannerSetting: __S(672, __c42, 0),
+          customTheme: __S(673, __c42, 1),
           contactEmail: S.NullOr(S.String),
           customHeading: S.NullOr(S.String),
           controlVisibilityMode: S.String,
@@ -13733,7 +13760,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "TrustCenter" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13750,7 +13777,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "GetTrustCenterAccessRequestRequest" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13760,7 +13787,7 @@ function __c43(j: number): any {
           name: S.String,
           companyName: S.String,
           reason: S.String,
-          requestedResources: S.NullOr(__S(4736, __c296, 0)),
+          requestedResources: S.NullOr(__S(4752, __c297, 0)),
           accessLevel: S.String,
           creationDate: S.String,
           updatedDate: S.String,
@@ -13768,7 +13795,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "TrustCenterAccessRequest" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13781,7 +13808,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "GetTrustCenterControlRequest" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13793,17 +13820,17 @@ function __c45(j: number): any {
       ).annotate({ identifier: "GetTrustCenterControlCategoriesRequest" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          results: __S(5168, __c323, 0),
+          results: __S(5184, __c324, 0),
         }),
       ).annotate({ identifier: "ArrayResponseTrustCenterControlCategory" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13820,7 +13847,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "GetTrustCenterControlCategoryRequest" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13831,7 +13858,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "GetTrustCenterFaqRequest" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13848,7 +13875,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "AddTagCategoryProductContextRequest" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13865,7 +13892,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "GetTrustCenterResourceRequest" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13882,7 +13909,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "GetTrustCenterResourceMediaRequest" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13892,7 +13919,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "NodeJSReadableStream" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13909,7 +13936,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "GetTrustCenterSubprocessorRequest" });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13926,7 +13953,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "GetTrustCenterSubscriberRequest" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13943,7 +13970,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "GetTrustCenterSubscriberGroupRequest" });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13956,7 +13983,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "GetTrustCenterUpdateRequest" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13969,7 +13996,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "GetTrustCenterViewerRequest" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13986,7 +14013,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "GetUploadedfileMediaRequest" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13996,7 +14023,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "GetUserRequest" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14009,7 +14036,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "User" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14019,7 +14046,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "GetVendorRequest" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14033,13 +14060,13 @@ function __c62(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          test: __S(1011, __c63, 3),
-          control: __S(4768, __c298, 0),
+          test: __S(1027, __c64, 3),
+          control: __S(4784, __c299, 0),
         }),
       ).annotate({ identifier: "AddTestToControlResponse" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14074,18 +14101,18 @@ function __c63(j: number): any {
           description: S.String,
           failureDescription: S.String,
           remediationDescription: S.String,
-          version: __S(1008, __c63, 0),
+          version: __S(1024, __c64, 0),
           category: S.String,
-          integrations: __S(4736, __c296, 0),
+          integrations: __S(4752, __c297, 0),
           status: S.String,
-          deactivatedStatusInfo: __S(1009, __c63, 1),
-          remediationStatusInfo: __S(1010, __c63, 2),
-          owner: S.NullOr(__S(4784, __c299, 0)),
+          deactivatedStatusInfo: __S(1025, __c64, 1),
+          remediationStatusInfo: __S(1026, __c64, 2),
+          owner: S.NullOr(__S(4800, __c300, 0)),
         }),
       ).annotate({ identifier: "Test" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14095,7 +14122,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "GetVendorAlertRequest" });
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14115,7 +14142,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "VendorAlert" });
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14123,7 +14150,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "GetVendorAlertSettingsRequest" });
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14135,16 +14162,16 @@ function __c67(j: number): any {
         }),
       ).annotate({ identifier: "VendorAlertSettingsItem" });
     case 1:
-      return S.Array(__S(1072, __c67, 0));
+      return S.Array(__S(1088, __c68, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1073, __c67, 1),
+          items: __S(1089, __c68, 1),
         }),
       ).annotate({ identifier: "VendorAlertSettingsResponse" });
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14156,7 +14183,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "GetVendorAssessmentTypeRequest" });
   }
 }
-function __c69(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14170,7 +14197,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "VendorAssessmentType" });
   }
 }
-function __c70(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14180,7 +14207,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "GetVendorCategoryRequest" });
   }
 }
-function __c71(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14197,7 +14224,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "GetVendorExternalFindingRequest" });
   }
 }
-function __c72(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14226,12 +14253,12 @@ function __c72(j: number): any {
           appearances: S.Number,
           remediationGuidance: S.NullOr(S.String),
           riskContext: S.NullOr(S.String),
-          cveMetadata: S.NullOr(__S(1152, __c72, 0)),
+          cveMetadata: S.NullOr(__S(1168, __c73, 0)),
         }),
       ).annotate({ identifier: "VendorExternalFinding" });
   }
 }
-function __c73(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14243,7 +14270,7 @@ function __c73(j: number): any {
       ).annotate({ identifier: "GetVendorSecurityIncidentAlertRequest" });
   }
 }
-function __c74(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14255,7 +14282,7 @@ function __c74(j: number): any {
         }),
       ).annotate({ identifier: "VendorSecurityIncidentAlertPublicUrlEvidence" });
     case 1:
-      return S.Array(__S(1184, __c74, 0));
+      return S.Array(__S(1200, __c75, 0));
     case 2:
       return S.Array(S.Unknown);
     case 3:
@@ -14263,9 +14290,9 @@ function __c74(j: number): any {
         S.Struct({
           severity: S.String,
           context: S.String,
-          affectedParties: __S(3248, __c203, 0),
+          affectedParties: __S(3264, __c204, 0),
           dataLeakStatus: S.String,
-          consequences: __S(1186, __c74, 2),
+          consequences: __S(1202, __c75, 2),
         }),
       ).annotate({ identifier: "VendorSecurityIncidentAlertImpact" });
     case 4:
@@ -14276,7 +14303,7 @@ function __c74(j: number): any {
         }),
       ).annotate({ identifier: "VendorSecurityIncidentAlertTimelineEvent" });
     case 5:
-      return S.Array(__S(1188, __c74, 4));
+      return S.Array(__S(1204, __c75, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -14284,20 +14311,20 @@ function __c74(j: number): any {
           resolutionState: S.String,
           createdAt: S.String,
           updatedAt: S.String,
-          affectedVendorIds: __S(4736, __c296, 0),
-          relatedVendorIds: __S(4736, __c296, 0),
+          affectedVendorIds: __S(4752, __c297, 0),
+          relatedVendorIds: __S(4752, __c297, 0),
           status: S.String,
           title: S.String,
           rootCause: S.String,
-          threatActor: __S(544, __c34, 0),
-          evidence: __S(1185, __c74, 1),
-          impact: __S(1187, __c74, 3),
-          timeline: __S(1189, __c74, 5),
+          threatActor: __S(560, __c35, 0),
+          evidence: __S(1201, __c75, 1),
+          impact: __S(1203, __c75, 3),
+          timeline: __S(1205, __c75, 5),
         }),
       ).annotate({ identifier: "VendorSecurityIncidentAlert" });
   }
 }
-function __c75(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14307,7 +14334,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "GetVulnerabilityRequest" });
   }
 }
-function __c76(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14337,18 +14364,18 @@ function __c76(j: number): any {
           scannerScore: S.NullOr(S.Number),
           isFixable: S.Boolean,
           remediateByDate: S.NullOr(S.String),
-          relatedVulns: __S(4736, __c296, 0),
-          relatedUrls: __S(4736, __c296, 0),
+          relatedVulns: __S(4752, __c297, 0),
+          relatedUrls: __S(4752, __c297, 0),
           externalURL: S.String,
           scanSource: S.optional(S.String),
-          deactivateMetadata: S.NullOr(__S(1216, __c76, 0)),
+          deactivateMetadata: S.NullOr(__S(1232, __c77, 0)),
           fixedVersion: S.NullOr(S.String),
           externalId: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "Vulnerability" });
   }
 }
-function __c77(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14360,7 +14387,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "GetVulnerableAssetRequest" });
   }
 }
-function __c78(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14369,21 +14396,21 @@ function __c78(j: number): any {
           integrationId: S.String,
           imageDigest: S.NullOr(S.String),
           imagePushedAtDate: S.NullOr(S.String),
-          imageTags: S.NullOr(__S(4736, __c296, 0)),
-          assetTags: S.NullOr(__S(5329, __c333, 1)),
+          imageTags: S.NullOr(__S(4752, __c297, 0)),
+          assetTags: S.NullOr(__S(5345, __c334, 1)),
           parentAccountOrOrganization: S.NullOr(S.String),
           biosUuid: S.NullOr(S.String),
-          ipv4s: S.NullOr(__S(4736, __c296, 0)),
-          ipv6s: S.NullOr(__S(4736, __c296, 0)),
-          macAddresses: S.NullOr(__S(4736, __c296, 0)),
-          hostnames: S.NullOr(__S(4736, __c296, 0)),
-          fqdns: S.NullOr(__S(4736, __c296, 0)),
-          operatingSystems: S.NullOr(__S(4736, __c296, 0)),
+          ipv4s: S.NullOr(__S(4752, __c297, 0)),
+          ipv6s: S.NullOr(__S(4752, __c297, 0)),
+          macAddresses: S.NullOr(__S(4752, __c297, 0)),
+          hostnames: S.NullOr(__S(4752, __c297, 0)),
+          fqdns: S.NullOr(__S(4752, __c297, 0)),
+          operatingSystems: S.NullOr(__S(4752, __c297, 0)),
           targetId: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "VulnerableAssetScanner" });
     case 1:
-      return S.Array(__S(1248, __c78, 0));
+      return S.Array(__S(1264, __c79, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -14392,27 +14419,9 @@ function __c78(j: number): any {
           assetType: S.String,
           hasBeenScanned: S.Boolean,
           imageScanTag: S.NullOr(S.String),
-          scanners: __S(1249, __c78, 1),
+          scanners: __S(1265, __c79, 1),
         }),
       ).annotate({ identifier: "VulnerableAsset" });
-  }
-}
-function __c79(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          idpGroupIds: __S(4736, __c296, 0),
-        }).pipe(T.Http({ method: "POST", uri: "/groups/import-from-idp", code: 200 })),
-      ).annotate({ identifier: "ImportIdpGroupsRequest" });
-    case 1:
-      return S.Array(S.Unknown);
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          results: __S(1265, __c79, 1),
-        }),
-      ).annotate({ identifier: "ImportIdpGroupsResponse" });
   }
 }
 function __c80(j: number): any {
@@ -14420,17 +14429,35 @@ function __c80(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          idpGroupIds: __S(4752, __c297, 0),
+        }).pipe(T.Http({ method: "POST", uri: "/groups/import-from-idp", code: 200 })),
+      ).annotate({ identifier: "ImportIdpGroupsRequest" });
+    case 1:
+      return S.Array(S.Unknown);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          results: __S(1281, __c80, 1),
+        }),
+      ).annotate({ identifier: "ImportIdpGroupsResponse" });
+  }
+}
+function __c81(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageCursor: S.optional(S.String.pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
-          readableIssueIdMatchesAny: S.optional(__S(4736, __c296, 0).pipe(T.Query())),
-          statusMatchesAny: S.optional(__S(3248, __c203, 0).pipe(T.Query())),
-          severityMatchesAny: S.optional(__S(3248, __c203, 0).pipe(T.Query())),
-          sourceMatchesAny: S.optional(__S(3248, __c203, 0).pipe(T.Query())),
-          typeMatchesAny: S.optional(__S(3248, __c203, 0).pipe(T.Query())),
-          ownerIdMatchesAny: S.optional(__S(4736, __c296, 0).pipe(T.Query())),
-          templateMatchesAny: S.optional(__S(3248, __c203, 0).pipe(T.Query())),
-          closeReasonMatchesAny: S.optional(__S(3248, __c203, 0).pipe(T.Query())),
+          readableIssueIdMatchesAny: S.optional(__S(4752, __c297, 0).pipe(T.Query())),
+          statusMatchesAny: S.optional(__S(3264, __c204, 0).pipe(T.Query())),
+          severityMatchesAny: S.optional(__S(3264, __c204, 0).pipe(T.Query())),
+          sourceMatchesAny: S.optional(__S(3264, __c204, 0).pipe(T.Query())),
+          typeMatchesAny: S.optional(__S(3264, __c204, 0).pipe(T.Query())),
+          ownerIdMatchesAny: S.optional(__S(4752, __c297, 0).pipe(T.Query())),
+          templateMatchesAny: S.optional(__S(3264, __c204, 0).pipe(T.Query())),
+          closeReasonMatchesAny: S.optional(__S(3264, __c204, 0).pipe(T.Query())),
           closedAfterDate: S.optional(S.String.pipe(T.Query())),
           closedBeforeDate: S.optional(S.String.pipe(T.Query())),
           includeIssuesWithoutDueDate: S.optional(S.Boolean.pipe(T.Query())),
@@ -14441,8 +14468,8 @@ function __c80(j: number): any {
           detectedBeforeDate: S.optional(S.String.pipe(T.Query())),
           createdAfterDate: S.optional(S.String.pipe(T.Query())),
           createdBeforeDate: S.optional(S.String.pipe(T.Query())),
-          auditIdMatchesAny: S.optional(__S(4736, __c296, 0).pipe(T.Query())),
-          controlIdMatchesAny: S.optional(__S(4736, __c296, 0).pipe(T.Query())),
+          auditIdMatchesAny: S.optional(__S(4752, __c297, 0).pipe(T.Query())),
+          controlIdMatchesAny: S.optional(__S(4752, __c297, 0).pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
           orderDirection: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/issues", code: 200 })),
@@ -14452,19 +14479,19 @@ function __c80(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1281, __c80, 1),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(1297, __c81, 1),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseIssueResults" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(1282, __c80, 2),
+          results: __S(1298, __c81, 2),
         }),
       ).annotate({ identifier: "PaginatedResponseIssue" });
   }
 }
-function __c81(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14477,7 +14504,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "AddTrustCenterControlCategoryRequest" });
   }
 }
-function __c82(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14496,19 +14523,19 @@ function __c82(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(4369, __c273, 1),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(4385, __c274, 1),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseRiskScenarioAccountMappingResults" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          results: __S(1313, __c82, 1),
+          results: __S(1329, __c83, 1),
         }),
       ).annotate({ identifier: "PaginatedResponseRiskScenarioAccountMapping" });
   }
 }
-function __c83(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14524,23 +14551,23 @@ function __c83(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/knowledge-base/answer-library", code: 200 })),
       ).annotate({ identifier: "ListAnswerLibraryEntriesRequest" });
     case 1:
-      return S.Array(__S(3808, __c238, 0));
+      return S.Array(__S(3824, __c239, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1329, __c83, 1),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(1345, __c84, 1),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseKnowledgeBaseAnswerLibraryEntryOutputResults" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(1330, __c83, 2),
+          results: __S(1346, __c84, 2),
         }),
       ).annotate({ identifier: "PaginatedResponseKnowledgeBaseAnswerLibraryEntryOutput" });
   }
 }
-function __c84(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14558,24 +14585,24 @@ function __c84(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1360, __c85, 0),
+          data: __S(1376, __c86, 0),
         }),
       ).annotate({ identifier: "QuestionnaireAssignableUsersResponseResults" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          results: __S(1345, __c84, 1),
+          results: __S(1361, __c85, 1),
         }),
       ).annotate({ identifier: "QuestionnaireAssignableUsersResponse" });
   }
 }
-function __c85(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(6080, __c380, 0));
+      return S.Array(__S(6096, __c381, 0));
   }
 }
-function __c86(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14587,19 +14614,19 @@ function __c86(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1360, __c85, 0),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(1376, __c86, 0),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseBusinessUnitResults" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          results: __S(1377, __c86, 1),
+          results: __S(1393, __c87, 1),
         }),
       ).annotate({ identifier: "PaginatedResponseBusinessUnit" });
   }
 }
-function __c87(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14628,23 +14655,23 @@ function __c87(j: number): any {
         }),
       ).annotate({ identifier: "TrustCenterChatbotConversation" });
     case 2:
-      return S.Array(__S(1393, __c87, 1));
+      return S.Array(__S(1409, __c88, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1394, __c87, 2),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(1410, __c88, 2),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseTrustCenterChatbotConversationResults" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          results: __S(1395, __c87, 3),
+          results: __S(1411, __c88, 3),
         }),
       ).annotate({ identifier: "PaginatedResponseTrustCenterChatbotConversation" });
   }
 }
-function __c88(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14659,40 +14686,14 @@ function __c88(j: number): any {
         ),
       ).annotate({ identifier: "ListComplianceFrameworksRequest" });
     case 1:
-      return S.Array(__S(4000, __c250, 0));
+      return S.Array(__S(4016, __c251, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          results: __S(1409, __c88, 1),
+          results: __S(1425, __c89, 1),
           isSectionVisible: S.Boolean,
         }),
       ).annotate({ identifier: "TrustCenterComplianceFrameworkListResponse" });
-  }
-}
-function __c89(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageCursor: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/integrations", code: 200 })),
-      ).annotate({ identifier: "ListConnectedIntegrationsRequest" });
-    case 1:
-      return S.Array(__S(6130, __c383, 2));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(1425, __c89, 1),
-          pageInfo: __S(6032, __c377, 0),
-        }),
-      ).annotate({ identifier: "PaginatedResponseIntegrationResults" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          results: __S(1426, __c89, 2),
-        }),
-      ).annotate({ identifier: "PaginatedResponseIntegration" });
   }
 }
 function __c90(j: number): any {
@@ -14702,23 +14703,23 @@ function __c90(j: number): any {
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageCursor: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/contracts", code: 200 })),
-      ).annotate({ identifier: "ListContractsRequest" });
+        }).pipe(T.Http({ method: "GET", uri: "/integrations", code: 200 })),
+      ).annotate({ identifier: "ListConnectedIntegrationsRequest" });
     case 1:
-      return S.Array(__S(6160, __c385, 0));
+      return S.Array(__S(6146, __c384, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           data: __S(1441, __c90, 1),
-          pageInfo: __S(6032, __c377, 0),
+          pageInfo: __S(6048, __c378, 0),
         }),
-      ).annotate({ identifier: "PaginatedResponseContractResults" });
+      ).annotate({ identifier: "PaginatedResponseIntegrationResults" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           results: __S(1442, __c90, 2),
         }),
-      ).annotate({ identifier: "PaginatedResponseContract" });
+      ).annotate({ identifier: "PaginatedResponseIntegration" });
   }
 }
 function __c91(j: number): any {
@@ -14728,31 +14729,57 @@ function __c91(j: number): any {
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageCursor: S.optional(S.String.pipe(T.Query())),
-          frameworkMatchesAny: S.optional(__S(4736, __c296, 0).pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/controls", code: 200 })),
-      ).annotate({ identifier: "ListControlsRequest" });
+        }).pipe(T.Http({ method: "GET", uri: "/contracts", code: 200 })),
+      ).annotate({ identifier: "ListContractsRequest" });
+    case 1:
+      return S.Array(__S(6176, __c386, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(1457, __c91, 1),
+          pageInfo: __S(6048, __c378, 0),
+        }),
+      ).annotate({ identifier: "PaginatedResponseContractResults" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          results: __S(1458, __c91, 2),
+        }),
+      ).annotate({ identifier: "PaginatedResponseContract" });
   }
 }
 function __c92(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(4768, __c298, 0));
+      return S.suspend(() =>
+        S.Struct({
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageCursor: S.optional(S.String.pipe(T.Query())),
+          frameworkMatchesAny: S.optional(__S(4752, __c297, 0).pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/controls", code: 200 })),
+      ).annotate({ identifier: "ListControlsRequest" });
+  }
+}
+function __c93(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(4784, __c299, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1472, __c92, 0),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(1488, __c93, 0),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseControlResults" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          results: __S(1473, __c92, 1),
+          results: __S(1489, __c93, 1),
         }),
       ).annotate({ identifier: "PaginatedResponseControl" });
   }
 }
-function __c93(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14764,7 +14791,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "ListControlsForDocumentRequest" });
   }
 }
-function __c94(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14777,7 +14804,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "AddTrustCenterFaqCategoryRequest" });
   }
 }
-function __c95(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14788,7 +14815,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "TrustCenterFaqCategory" });
   }
 }
-function __c96(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14800,7 +14827,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "ListControlsForFrameworkRequest" });
   }
 }
-function __c97(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14823,23 +14850,23 @@ function __c97(j: number): any {
         }),
       ).annotate({ identifier: "RiskScenarioCustomAssetMapping" });
     case 2:
-      return S.Array(__S(1553, __c97, 1));
+      return S.Array(__S(1569, __c98, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1554, __c97, 2),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(1570, __c98, 2),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseRiskScenarioCustomAssetMappingResults" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          results: __S(1555, __c97, 3),
+          results: __S(1571, __c98, 3),
         }),
       ).annotate({ identifier: "PaginatedResponseRiskScenarioCustomAssetMapping" });
   }
 }
-function __c98(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14857,23 +14884,23 @@ function __c98(j: number): any {
         }),
       ).annotate({ identifier: "CustomAsset" });
     case 2:
-      return S.Array(__S(1569, __c98, 1));
+      return S.Array(__S(1585, __c99, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1570, __c98, 2),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(1586, __c99, 2),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseCustomAssetResults" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          results: __S(1571, __c98, 3),
+          results: __S(1587, __c99, 3),
         }),
       ).annotate({ identifier: "PaginatedResponseCustomAsset" });
   }
 }
-function __c99(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14886,23 +14913,23 @@ function __c99(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/customer-trust/accounts", code: 200 })),
       ).annotate({ identifier: "ListCustomerTrustAccountsRequest" });
     case 1:
-      return S.Array(__S(4452, __c278, 4));
+      return S.Array(__S(4468, __c279, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1585, __c99, 1),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(1601, __c100, 1),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseCustomerTrustAccountVantaApiResults" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(1586, __c99, 2),
+          results: __S(1602, __c100, 2),
         }),
       ).annotate({ identifier: "PaginatedResponseCustomerTrustAccountVantaApi" });
   }
 }
-function __c100(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14915,23 +14942,23 @@ function __c100(j: number): any {
         ),
       ).annotate({ identifier: "ListCustomRequirementsRequest" });
     case 1:
-      return S.Array(__S(4512, __c282, 0));
+      return S.Array(__S(4528, __c283, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1601, __c100, 1),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(1617, __c101, 1),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseCustomRequirementResults" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(1602, __c100, 2),
+          results: __S(1618, __c101, 2),
         }),
       ).annotate({ identifier: "PaginatedResponseCustomRequirement" });
   }
 }
-function __c101(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14946,11 +14973,11 @@ function __c101(j: number): any {
           id: S.String,
           displayName: S.String,
           shorthandName: S.String,
-          sections: __S(4736, __c296, 0),
+          sections: __S(4752, __c297, 0),
         }),
       ).annotate({ identifier: "DeactivatedControlFramework" });
     case 2:
-      return S.Array(__S(1617, __c101, 1));
+      return S.Array(__S(1633, __c102, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -14959,35 +14986,35 @@ function __c101(j: number): any {
           name: S.String,
           description: S.String,
           source: S.String,
-          domains: __S(4736, __c296, 0),
-          owner: S.NullOr(__S(4784, __c299, 0)),
+          domains: __S(4752, __c297, 0),
+          owner: S.NullOr(__S(4800, __c300, 0)),
           role: S.optional(S.NullOr(S.String)),
-          customFields: __S(4753, __c297, 1),
+          customFields: __S(4769, __c298, 1),
           creationDate: S.NullOr(S.String),
           modificationDate: S.NullOr(S.String),
           implementationDetails: S.optional(S.NullOr(S.String)),
-          frameworks: __S(1618, __c101, 2),
+          frameworks: __S(1634, __c102, 2),
           deactivationReason: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "DeactivatedControl" });
     case 4:
-      return S.Array(__S(1619, __c101, 3));
+      return S.Array(__S(1635, __c102, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1620, __c101, 4),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(1636, __c102, 4),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseDeactivatedControlResults" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          results: __S(1621, __c101, 5),
+          results: __S(1637, __c102, 5),
         }),
       ).annotate({ identifier: "PaginatedResponseDeactivatedControl" });
   }
 }
-function __c102(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15008,19 +15035,19 @@ function __c102(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1633, __c102, 1),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(1649, __c103, 1),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseDiscoveredVendorAccountResults" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(1634, __c102, 2),
+          results: __S(1650, __c103, 2),
         }),
       ).annotate({ identifier: "PaginatedResponseDiscoveredVendorAccount" });
   }
 }
-function __c103(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15052,64 +15079,64 @@ function __c103(j: number): any {
           id: S.String,
           name: S.String,
           normalizedName: S.String,
-          category: S.NullOr(__S(544, __c34, 0)),
+          category: S.NullOr(__S(560, __c35, 0)),
           source: S.String,
           discoveredDate: S.String,
           numberOfAccounts: S.Number,
-          ignored: S.NullOr(__S(1649, __c103, 1)),
-          rejected: S.NullOr(__S(1650, __c103, 2)),
+          ignored: S.NullOr(__S(1665, __c104, 1)),
+          rejected: S.NullOr(__S(1666, __c104, 2)),
         }),
       ).annotate({ identifier: "DiscoveredVendor" });
     case 4:
-      return S.Array(__S(1651, __c103, 3));
+      return S.Array(__S(1667, __c104, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1652, __c103, 4),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(1668, __c104, 4),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseDiscoveredVendorResults" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          results: __S(1653, __c103, 5),
+          results: __S(1669, __c104, 5),
         }),
       ).annotate({ identifier: "PaginatedResponseDiscoveredVendor" });
   }
 }
-function __c104(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageCursor: S.optional(S.String.pipe(T.Query())),
-          frameworkMatchesAny: S.optional(__S(4736, __c296, 0).pipe(T.Query())),
-          statusMatchesAny: S.optional(__S(3248, __c203, 0).pipe(T.Query())),
+          frameworkMatchesAny: S.optional(__S(4752, __c297, 0).pipe(T.Query())),
+          statusMatchesAny: S.optional(__S(3264, __c204, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/documents", code: 200 })),
       ).annotate({ identifier: "ListDocumentsRequest" });
   }
 }
-function __c105(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(5824, __c364, 0));
+      return S.Array(__S(5840, __c365, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1680, __c105, 0),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(1696, __c106, 0),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseDocumentResults" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          results: __S(1681, __c105, 1),
+          results: __S(1697, __c106, 1),
         }),
       ).annotate({ identifier: "PaginatedResponseDocument" });
   }
 }
-function __c106(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15121,7 +15148,7 @@ function __c106(j: number): any {
       ).annotate({ identifier: "ListDocumentsForControlRequest" });
   }
 }
-function __c107(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15134,7 +15161,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "AddTrustCenterResourceCategoryRequest" });
   }
 }
-function __c108(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15155,23 +15182,23 @@ function __c108(j: number): any {
         }),
       ).annotate({ identifier: "RiskScenarioEnterpriseRiskMapping" });
     case 2:
-      return S.Array(__S(1729, __c108, 1));
+      return S.Array(__S(1745, __c109, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1730, __c108, 2),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(1746, __c109, 2),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseRiskScenarioEnterpriseRiskMappingResults" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          results: __S(1731, __c108, 3),
+          results: __S(1747, __c109, 3),
         }),
       ).annotate({ identifier: "PaginatedResponseRiskScenarioEnterpriseRiskMapping" });
   }
 }
-function __c109(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15189,35 +15216,35 @@ function __c109(j: number): any {
         }),
       ).annotate({ identifier: "EventLogActor" });
     case 2:
-      return S.Array(__S(1745, __c109, 1));
+      return S.Array(__S(1761, __c110, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          actor: __S(1745, __c109, 1),
+          actor: __S(1761, __c110, 1),
           date: S.String,
           action: S.String,
-          targets: __S(1746, __c109, 2),
+          targets: __S(1762, __c110, 2),
         }),
       ).annotate({ identifier: "EventLog" });
     case 4:
-      return S.Array(__S(1747, __c109, 3));
+      return S.Array(__S(1763, __c110, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1748, __c109, 4),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(1764, __c110, 4),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseEventLogResults" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          results: __S(1749, __c109, 5),
+          results: __S(1765, __c110, 5),
         }),
       ).annotate({ identifier: "PaginatedResponseEventLog" });
   }
 }
-function __c110(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15228,23 +15255,23 @@ function __c110(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/documents/{documentId}/uploads", code: 200 })),
       ).annotate({ identifier: "ListFilesForDocumentRequest" });
     case 1:
-      return S.Array(__S(1776, __c111, 0));
+      return S.Array(__S(1792, __c112, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1761, __c110, 1),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(1777, __c111, 1),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseUploadedFileTResults" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(1762, __c110, 2),
+          results: __S(1778, __c111, 2),
         }),
       ).annotate({ identifier: "PaginatedResponseUploadedFileT" });
   }
 }
-function __c111(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15254,7 +15281,7 @@ function __c111(j: number): any {
           title: S.String,
           description: S.NullOr(S.String),
           mimeType: S.String,
-          uploadedBy: S.NullOr(__S(3792, __c237, 0)),
+          uploadedBy: S.NullOr(__S(3808, __c238, 0)),
           creationDate: S.String,
           updatedDate: S.String,
           deletionDate: S.NullOr(S.String),
@@ -15264,7 +15291,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "UploadedFileT" });
   }
 }
-function __c112(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15291,27 +15318,27 @@ function __c112(j: number): any {
           numTestsPassing: S.Number,
           numTestsTotal: S.Number,
           isPurchased: S.Boolean,
-          activeVariants: S.optional(__S(6273, __c392, 1)),
+          activeVariants: S.optional(__S(6289, __c393, 1)),
         }),
       ).annotate({ identifier: "Framework" });
     case 2:
-      return S.Array(__S(1793, __c112, 1));
+      return S.Array(__S(1809, __c113, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1794, __c112, 2),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(1810, __c113, 2),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseFrameworkResults" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          results: __S(1795, __c112, 3),
+          results: __S(1811, __c113, 3),
         }),
       ).annotate({ identifier: "PaginatedResponseFramework" });
   }
 }
-function __c113(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15319,7 +15346,7 @@ function __c113(j: number): any {
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageCursor: S.optional(S.String.pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
-          integrationId: S.optional(__S(4736, __c296, 0).pipe(T.Query())),
+          integrationId: S.optional(__S(4752, __c297, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/groups/importable-idp-groups", code: 200 })),
       ).annotate({ identifier: "ListImportableIdpGroupsRequest" });
     case 1:
@@ -15332,23 +15359,23 @@ function __c113(j: number): any {
         }),
       ).annotate({ identifier: "ImportableIdpGroup" });
     case 2:
-      return S.Array(__S(1809, __c113, 1));
+      return S.Array(__S(1825, __c114, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1810, __c113, 2),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(1826, __c114, 2),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedImportableIdpGroupResponseResults" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          results: __S(1811, __c113, 3),
+          results: __S(1827, __c114, 3),
         }),
       ).annotate({ identifier: "PaginatedImportableIdpGroupResponse" });
   }
 }
-function __c114(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15371,23 +15398,23 @@ function __c114(j: number): any {
         }),
       ).annotate({ identifier: "RiskScenarioIntegrationMapping" });
     case 2:
-      return S.Array(__S(1825, __c114, 1));
+      return S.Array(__S(1841, __c115, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1826, __c114, 2),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(1842, __c115, 2),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseRiskScenarioIntegrationMappingResults" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          results: __S(1827, __c114, 3),
+          results: __S(1843, __c115, 3),
         }),
       ).annotate({ identifier: "PaginatedResponseRiskScenarioIntegrationMapping" });
   }
 }
-function __c115(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15410,23 +15437,23 @@ function __c115(j: number): any {
         }),
       ).annotate({ identifier: "RiskScenarioIssueMapping" });
     case 2:
-      return S.Array(__S(1841, __c115, 1));
+      return S.Array(__S(1857, __c116, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1842, __c115, 2),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(1858, __c116, 2),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseRiskScenarioIssueMappingResults" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          results: __S(1843, __c115, 3),
+          results: __S(1859, __c116, 3),
         }),
       ).annotate({ identifier: "PaginatedResponseRiskScenarioIssueMapping" });
   }
 }
-function __c116(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15434,7 +15461,7 @@ function __c116(j: number): any {
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageCursor: S.optional(S.String.pipe(T.Query())),
           q: S.optional(S.String.pipe(T.Query())),
-          typeMatchesAny: S.optional(__S(3248, __c203, 0).pipe(T.Query())),
+          typeMatchesAny: S.optional(__S(3264, __c204, 0).pipe(T.Query())),
           lastUpdatedAfter: S.optional(S.String.pipe(T.Query())),
           lastUpdatedBefore: S.optional(S.String.pipe(T.Query())),
           matchesTags: S.optional(S.String.pipe(T.Query())),
@@ -15447,19 +15474,19 @@ function __c116(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1857, __c116, 1),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(1873, __c117, 1),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseTrustKnowledgeBaseResourceOutputResults" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(1858, __c116, 2),
+          results: __S(1874, __c117, 2),
         }),
       ).annotate({ identifier: "PaginatedResponseTrustKnowledgeBaseResourceOutput" });
   }
 }
-function __c117(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15470,50 +15497,50 @@ function __c117(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/documents/{documentId}/links", code: 200 })),
       ).annotate({ identifier: "ListLinksForDocumentRequest" });
     case 1:
-      return S.Array(__S(4688, __c293, 0));
+      return S.Array(__S(4704, __c294, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1873, __c117, 1),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(1889, __c118, 1),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseUploadedLinkResults" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(1874, __c117, 2),
+          results: __S(1890, __c118, 2),
         }),
       ).annotate({ identifier: "PaginatedResponseUploadedLink" });
   }
 }
-function __c118(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageCursor: S.optional(S.String.pipe(T.Query())),
-          complianceStatusFilterMatchesAny: S.optional(__S(3248, __c203, 0).pipe(T.Query())),
+          complianceStatusFilterMatchesAny: S.optional(__S(3264, __c204, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/monitored-computers", code: 200 })),
       ).annotate({ identifier: "ListMonitoredComputersRequest" });
     case 1:
-      return S.Array(__S(146, __c9, 2));
+      return S.Array(__S(162, __c10, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1889, __c118, 1),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(1905, __c119, 1),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseMonitoredComputerResults" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(1890, __c118, 2),
+          results: __S(1906, __c119, 2),
         }),
       ).annotate({ identifier: "PaginatedResponseMonitoredComputer" });
   }
 }
-function __c119(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15524,14 +15551,14 @@ function __c119(j: number): any {
           companyName: S.String,
           isNdaRequired: S.Boolean,
           expirationDate: S.optional(S.String),
-          resourceIds: S.optional(__S(4736, __c296, 0)),
+          resourceIds: S.optional(__S(4752, __c297, 0)),
           accessLevel: S.String,
           customerTrustAccountId: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/trust-centers/{slugId}/viewers", code: 200 })),
       ).annotate({ identifier: "AddTrustCenterViewerRequest" });
   }
 }
-function __c120(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15545,7 +15572,7 @@ function __c120(j: number): any {
       ).annotate({ identifier: "CustomerTrustUser" });
   }
 }
-function __c121(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15566,8 +15593,8 @@ function __c121(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          docuSign: S.NullOr(__S(1936, __c121, 0)),
-          oneClick: S.NullOr(__S(1937, __c121, 1)),
+          docuSign: S.NullOr(__S(1952, __c122, 0)),
+          oneClick: S.NullOr(__S(1953, __c122, 1)),
           provider: S.String,
           satisfiedDate: S.NullOr(S.String),
         }),
@@ -15581,7 +15608,7 @@ function __c121(j: number): any {
         }),
       ).annotate({ identifier: "TrustCenterViewerExternalServiceAssociationsItem" });
     case 4:
-      return S.Array(__S(1939, __c121, 3));
+      return S.Array(__S(1955, __c122, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -15589,50 +15616,17 @@ function __c121(j: number): any {
           email: S.String,
           name: S.NullOr(S.String),
           companyName: S.NullOr(S.String),
-          resourceIds: S.NullOr(__S(4736, __c296, 0)),
+          resourceIds: S.NullOr(__S(4752, __c297, 0)),
           accessLevel: S.String,
-          ndaInfo: S.NullOr(__S(1938, __c121, 2)),
-          externalServiceAssociations: S.NullOr(__S(1940, __c121, 4)),
+          ndaInfo: S.NullOr(__S(1954, __c122, 2)),
+          externalServiceAssociations: S.NullOr(__S(1956, __c122, 4)),
           creationDate: S.String,
           updatedDate: S.String,
           expirationDate: S.NullOr(S.String),
-          addedByUser: S.NullOr(__S(1920, __c120, 0)),
+          addedByUser: S.NullOr(__S(1936, __c121, 0)),
           customerTrustAccountId: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "TrustCenterViewer" });
-  }
-}
-function __c122(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageCursor: S.optional(S.String.pipe(T.Query())),
-          tasksSummaryStatusMatchesAny: S.optional(__S(3248, __c203, 0).pipe(T.Query())),
-          taskTypeMatchesAny: S.optional(__S(3248, __c203, 0).pipe(T.Query())),
-          taskStatusMatchesAny: S.optional(__S(3248, __c203, 0).pipe(T.Query())),
-          emailAndNameFilter: S.optional(S.String.pipe(T.Query())),
-          groupIdsMatchesAny: S.optional(__S(4736, __c296, 0).pipe(T.Query())),
-          employmentStatus: S.optional(S.String.pipe(T.Query())),
-          frameworkIdMatchesAny: S.optional(__S(4736, __c296, 0).pipe(T.Query())),
-          programScopeIdMatchesAny: S.optional(__S(4736, __c296, 0).pipe(T.Query())),
-          businessUnitIdMatchesAny: S.optional(__S(4736, __c296, 0).pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/people", code: 200 })),
-      ).annotate({ identifier: "ListPeopleRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(48, __c3, 0),
-          pageInfo: __S(6032, __c377, 0),
-        }),
-      ).annotate({ identifier: "PaginatedResponsePersonResults" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          results: __S(1953, __c122, 1),
-        }),
-      ).annotate({ identifier: "PaginatedResponsePerson" });
   }
 }
 function __c123(j: number): any {
@@ -15642,23 +15636,30 @@ function __c123(j: number): any {
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageCursor: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/groups", code: 200 })),
-      ).annotate({ identifier: "ListPersonGroupsRequest" });
+          tasksSummaryStatusMatchesAny: S.optional(__S(3264, __c204, 0).pipe(T.Query())),
+          taskTypeMatchesAny: S.optional(__S(3264, __c204, 0).pipe(T.Query())),
+          taskStatusMatchesAny: S.optional(__S(3264, __c204, 0).pipe(T.Query())),
+          emailAndNameFilter: S.optional(S.String.pipe(T.Query())),
+          groupIdsMatchesAny: S.optional(__S(4752, __c297, 0).pipe(T.Query())),
+          employmentStatus: S.optional(S.String.pipe(T.Query())),
+          frameworkIdMatchesAny: S.optional(__S(4752, __c297, 0).pipe(T.Query())),
+          programScopeIdMatchesAny: S.optional(__S(4752, __c297, 0).pipe(T.Query())),
+          businessUnitIdMatchesAny: S.optional(__S(4752, __c297, 0).pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/people", code: 200 })),
+      ).annotate({ identifier: "ListPeopleRequest" });
     case 1:
-      return S.Array(__S(4657, __c291, 1));
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(64, __c4, 0),
+          pageInfo: __S(6048, __c378, 0),
+        }),
+      ).annotate({ identifier: "PaginatedResponsePersonResults" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1969, __c123, 1),
-          pageInfo: __S(6032, __c377, 0),
+          results: __S(1969, __c123, 1),
         }),
-      ).annotate({ identifier: "PaginatedResponseGroupResults" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          results: __S(1970, __c123, 2),
-        }),
-      ).annotate({ identifier: "PaginatedResponseGroup" });
+      ).annotate({ identifier: "PaginatedResponsePerson" });
   }
 }
 function __c124(j: number): any {
@@ -15668,23 +15669,23 @@ function __c124(j: number): any {
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageCursor: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/policies", code: 200 })),
-      ).annotate({ identifier: "ListPoliciesRequest" });
+        }).pipe(T.Http({ method: "GET", uri: "/groups", code: 200 })),
+      ).annotate({ identifier: "ListPersonGroupsRequest" });
     case 1:
-      return S.Array(__S(212, __c13, 4));
+      return S.Array(__S(4673, __c292, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           data: __S(1985, __c124, 1),
-          pageInfo: __S(6032, __c377, 0),
+          pageInfo: __S(6048, __c378, 0),
         }),
-      ).annotate({ identifier: "PaginatedResponsePolicyResults" });
+      ).annotate({ identifier: "PaginatedResponseGroupResults" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           results: __S(1986, __c124, 2),
         }),
-      ).annotate({ identifier: "PaginatedResponsePolicy" });
+      ).annotate({ identifier: "PaginatedResponseGroup" });
   }
 }
 function __c125(j: number): any {
@@ -15694,28 +15695,54 @@ function __c125(j: number): any {
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageCursor: S.optional(S.String.pipe(T.Query())),
-          businessUnitIdMatchesAny: S.optional(__S(4736, __c296, 0).pipe(T.Query())),
-          frameworkIdMatchesAny: S.optional(__S(4736, __c296, 0).pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/program-scopes", code: 200 })),
-      ).annotate({ identifier: "ListProgramScopesRequest" });
+        }).pipe(T.Http({ method: "GET", uri: "/policies", code: 200 })),
+      ).annotate({ identifier: "ListPoliciesRequest" });
     case 1:
-      return S.Array(__S(240, __c15, 0));
+      return S.Array(__S(228, __c14, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
           data: __S(2001, __c125, 1),
-          pageInfo: __S(6032, __c377, 0),
+          pageInfo: __S(6048, __c378, 0),
         }),
-      ).annotate({ identifier: "PaginatedResponseProgramScopeResults" });
+      ).annotate({ identifier: "PaginatedResponsePolicyResults" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           results: __S(2002, __c125, 2),
         }),
-      ).annotate({ identifier: "PaginatedResponseProgramScope" });
+      ).annotate({ identifier: "PaginatedResponsePolicy" });
   }
 }
 function __c126(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageCursor: S.optional(S.String.pipe(T.Query())),
+          businessUnitIdMatchesAny: S.optional(__S(4752, __c297, 0).pipe(T.Query())),
+          frameworkIdMatchesAny: S.optional(__S(4752, __c297, 0).pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/program-scopes", code: 200 })),
+      ).annotate({ identifier: "ListProgramScopesRequest" });
+    case 1:
+      return S.Array(__S(256, __c16, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(2017, __c126, 1),
+          pageInfo: __S(6048, __c378, 0),
+        }),
+      ).annotate({ identifier: "PaginatedResponseProgramScopeResults" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          results: __S(2018, __c126, 2),
+        }),
+      ).annotate({ identifier: "PaginatedResponseProgramScope" });
+  }
+}
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15733,12 +15760,12 @@ function __c126(j: number): any {
         ),
       ).annotate({ identifier: "ListQuestionnaireResponsesRequest" });
     case 1:
-      return S.Array(__S(345, __c21, 9));
+      return S.Array(__S(361, __c22, 9));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2017, __c126, 1),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(2033, __c127, 1),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({
         identifier: "PaginatedResponseQuestionnaireResponseWithoutViewerPermissionsResults",
@@ -15746,12 +15773,12 @@ function __c126(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(2018, __c126, 2),
+          results: __S(2034, __c127, 2),
         }),
       ).annotate({ identifier: "PaginatedResponseQuestionnaireResponseWithoutViewerPermissions" });
   }
 }
-function __c127(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15759,32 +15786,32 @@ function __c127(j: number): any {
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageCursor: S.optional(S.String.pipe(T.Query())),
           q: S.optional(S.String.pipe(T.Query())),
-          statusMatchesAny: S.optional(__S(3248, __c203, 0).pipe(T.Query())),
-          typeMatchesAny: S.optional(__S(3248, __c203, 0).pipe(T.Query())),
+          statusMatchesAny: S.optional(__S(3264, __c204, 0).pipe(T.Query())),
+          typeMatchesAny: S.optional(__S(3264, __c204, 0).pipe(T.Query())),
           createdAfter: S.optional(S.String.pipe(T.Query())),
           createdBefore: S.optional(S.String.pipe(T.Query())),
-          ownerIdMatchesAny: S.optional(__S(4736, __c296, 0).pipe(T.Query())),
-          approverIdMatchesAny: S.optional(__S(4736, __c296, 0).pipe(T.Query())),
+          ownerIdMatchesAny: S.optional(__S(4752, __c297, 0).pipe(T.Query())),
+          approverIdMatchesAny: S.optional(__S(4752, __c297, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/customer-trust/questionnaires", code: 200 })),
       ).annotate({ identifier: "ListQuestionnairesRequest" });
     case 1:
-      return S.Array(__S(2421, __c151, 5));
+      return S.Array(__S(2437, __c152, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2033, __c127, 1),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(2049, __c128, 1),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseCustomerTrustQuestionnaireResults" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(2034, __c127, 2),
+          results: __S(2050, __c128, 2),
         }),
       ).annotate({ identifier: "PaginatedResponseCustomerTrustQuestionnaire" });
   }
 }
-function __c128(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15805,14 +15832,14 @@ function __c128(j: number): any {
         }),
       ).annotate({ identifier: "ResourceKindSummary" });
     case 2:
-      return S.Array(__S(2049, __c128, 1));
+      return S.Array(__S(2065, __c129, 1));
     case 3:
-      return S.suspend(() => __S(2050, __c128, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2066, __c129, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListResourceKindSummariesResponse",
       });
   }
 }
-function __c129(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15838,19 +15865,19 @@ function __c129(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2065, __c129, 1),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(2081, __c130, 1),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseAnyResourceResults" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(2066, __c129, 2),
+          results: __S(2082, __c130, 2),
         }),
       ).annotate({ identifier: "PaginatedResponseAnyResource" });
   }
 }
-function __c130(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -15862,36 +15889,36 @@ function __c130(j: number): any {
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageCursor: S.optional(S.String.pipe(T.Query())),
           includeIgnored: S.optional(S.Boolean.pipe(T.Query())),
-          ownerMatchesAny: S.optional(__S(4736, __c296, 0).pipe(T.Query())),
+          ownerMatchesAny: S.optional(__S(4752, __c297, 0).pipe(T.Query())),
           searchString: S.optional(S.String.pipe(T.Query())),
-          categoryMatchesAny: S.optional(__S(4736, __c296, 0).pipe(T.Query())),
-          ciaCategoryMatchesAny: S.optional(__S(2080, __c130, 0).pipe(T.Query())),
-          treatmentTypeMatchesAny: S.optional(__S(2081, __c130, 1).pipe(T.Query())),
-          inherentScoreGroupMatchesAny: S.optional(__S(3248, __c203, 0).pipe(T.Query())),
-          residualScoreGroupMatchesAny: S.optional(__S(3248, __c203, 0).pipe(T.Query())),
-          reviewStatusMatchesAny: S.optional(__S(3248, __c203, 0).pipe(T.Query())),
+          categoryMatchesAny: S.optional(__S(4752, __c297, 0).pipe(T.Query())),
+          ciaCategoryMatchesAny: S.optional(__S(2096, __c131, 0).pipe(T.Query())),
+          treatmentTypeMatchesAny: S.optional(__S(2097, __c131, 1).pipe(T.Query())),
+          inherentScoreGroupMatchesAny: S.optional(__S(3264, __c204, 0).pipe(T.Query())),
+          residualScoreGroupMatchesAny: S.optional(__S(3264, __c204, 0).pipe(T.Query())),
+          reviewStatusMatchesAny: S.optional(__S(3264, __c204, 0).pipe(T.Query())),
           type: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/risk-scenarios", code: 200 })),
       ).annotate({ identifier: "ListRiskScenarioRequest" });
     case 3:
-      return S.Array(__S(3236, __c202, 4));
+      return S.Array(__S(3252, __c203, 4));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2083, __c130, 3),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(2099, __c131, 3),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseRiskScenarioResults" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          results: __S(2084, __c130, 4),
+          results: __S(2100, __c131, 4),
         }),
       ).annotate({ identifier: "PaginatedResponseRiskScenario" });
   }
 }
-function __c131(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15904,29 +15931,29 @@ function __c131(j: number): any {
         ),
       ).annotate({ identifier: "ListRiskScenarioControlsRequest" });
     case 1:
-      return S.Array(__S(4832, __c302, 0));
+      return S.Array(__S(4848, __c303, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2097, __c131, 1),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(2113, __c132, 1),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseRiskScenarioControlResults" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(2098, __c131, 2),
+          results: __S(2114, __c132, 2),
         }),
       ).annotate({ identifier: "PaginatedResponseRiskScenarioControl" });
   }
 }
-function __c132(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           riskScenarioId: S.String.pipe(T.Label()),
-          vendorFindingIdsToLink: __S(4736, __c296, 0),
+          vendorFindingIdsToLink: __S(4752, __c297, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -15937,23 +15964,23 @@ function __c132(j: number): any {
       ).annotate({ identifier: "AddVendorFindingMappingsRequest" });
   }
 }
-function __c133(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          productContextIdsMatchesAny: S.optional(__S(3248, __c203, 0).pipe(T.Query())),
+          productContextIdsMatchesAny: S.optional(__S(3264, __c204, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/customer-trust/tag-categories", code: 200 })),
       ).annotate({ identifier: "ListTagCategoriesRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          results: __S(1360, __c85, 0),
+          results: __S(1376, __c86, 0),
         }),
       ).annotate({ identifier: "ArrayResponseUserDefinedTagCategory" });
   }
 }
-function __c134(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15964,23 +15991,23 @@ function __c134(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/task-requirement-sets", code: 200 })),
       ).annotate({ identifier: "ListTaskRequirementSetsRequest" });
     case 1:
-      return S.Array(__S(4867, __c304, 3));
+      return S.Array(__S(4883, __c305, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2145, __c134, 1),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(2161, __c135, 1),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseTaskRequirementSetResults" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(2146, __c134, 2),
+          results: __S(2162, __c135, 2),
         }),
       ).annotate({ identifier: "PaginatedResponseTaskRequirementSet" });
   }
 }
-function __c135(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15998,26 +16025,26 @@ function __c135(j: number): any {
       ).annotate({ identifier: "ListTestsRequest" });
   }
 }
-function __c136(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1011, __c63, 3));
+      return S.Array(__S(1027, __c64, 3));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2176, __c136, 0),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(2192, __c137, 0),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseTestResults" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          results: __S(2177, __c136, 1),
+          results: __S(2193, __c137, 1),
         }),
       ).annotate({ identifier: "PaginatedResponseTest" });
   }
 }
-function __c137(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16029,7 +16056,7 @@ function __c137(j: number): any {
       ).annotate({ identifier: "ListTestsForControlRequest" });
   }
 }
-function __c138(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16042,23 +16069,23 @@ function __c138(j: number): any {
         ),
       ).annotate({ identifier: "ListTrustCenterAccessRequestsRequest" });
     case 1:
-      return S.Array(__S(688, __c43, 0));
+      return S.Array(__S(704, __c44, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2209, __c138, 1),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(2225, __c139, 1),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseTrustCenterAccessRequestResults" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(2210, __c138, 2),
+          results: __S(2226, __c139, 2),
         }),
       ).annotate({ identifier: "PaginatedResponseTrustCenterAccessRequest" });
   }
 }
-function __c139(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16066,7 +16093,7 @@ function __c139(j: number): any {
           slugId: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageCursor: S.optional(S.String.pipe(T.Query())),
-          eventTypesMatchesAny: S.optional(__S(3248, __c203, 0).pipe(T.Query())),
+          eventTypesMatchesAny: S.optional(__S(3264, __c204, 0).pipe(T.Query())),
           afterDate: S.optional(S.String.pipe(T.Query())),
           beforeDate: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/trust-centers/{slugId}/activity", code: 200 })),
@@ -16085,23 +16112,23 @@ function __c139(j: number): any {
         }),
       ).annotate({ identifier: "TrustCenterActivityEvent" });
     case 2:
-      return S.Array(__S(2225, __c139, 1));
+      return S.Array(__S(2241, __c140, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2226, __c139, 2),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(2242, __c140, 2),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseTrustCenterActivityEventResults" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          results: __S(2227, __c139, 3),
+          results: __S(2243, __c140, 3),
         }),
       ).annotate({ identifier: "PaginatedResponseTrustCenterActivityEvent" });
   }
 }
-function __c140(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16114,19 +16141,19 @@ function __c140(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2848, __c178, 0),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(2864, __c179, 0),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseTrustCenterControlResults" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          results: __S(2241, __c140, 1),
+          results: __S(2257, __c141, 1),
         }),
       ).annotate({ identifier: "PaginatedResponseTrustCenterControl" });
   }
 }
-function __c141(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16138,7 +16165,7 @@ function __c141(j: number): any {
       ).annotate({ identifier: "ListTrustCenterDataCollectedRequest" });
   }
 }
-function __c142(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16148,16 +16175,16 @@ function __c142(j: number): any {
         }),
       ).annotate({ identifier: "TrustCenterDataCollected" });
     case 1:
-      return S.Array(__S(2272, __c142, 0));
+      return S.Array(__S(2288, __c143, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          results: __S(2273, __c142, 1),
+          results: __S(2289, __c143, 1),
         }),
       ).annotate({ identifier: "ArrayResponseTrustCenterDataCollected" });
   }
 }
-function __c143(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16169,17 +16196,17 @@ function __c143(j: number): any {
       ).annotate({ identifier: "ListTrustCenterFaqCategoriesRequest" });
   }
 }
-function __c144(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          results: __S(5008, __c313, 0),
+          results: __S(5024, __c314, 0),
         }),
       ).annotate({ identifier: "ArrayResponseTrustCenterFaqCategory" });
   }
 }
-function __c145(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16188,16 +16215,16 @@ function __c145(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/trust-centers/{slugId}/faqs", code: 200 })),
       ).annotate({ identifier: "ListTrustCenterFaqsRequest" });
     case 1:
-      return S.Array(__S(4912, __c307, 0));
+      return S.Array(__S(4928, __c308, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          results: __S(2321, __c145, 1),
+          results: __S(2337, __c146, 1),
         }),
       ).annotate({ identifier: "ArrayResponseTrustCenterFaq" });
   }
 }
-function __c146(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16207,11 +16234,11 @@ function __c146(j: number): any {
         }),
       ).annotate({ identifier: "AcknowledgeSlaMissVulnerabilityRemediationsRequestUpdatesItem" });
     case 1:
-      return S.Array(__S(2336, __c146, 0));
+      return S.Array(__S(2352, __c147, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          updates: __S(2337, __c146, 1),
+          updates: __S(2353, __c147, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -16222,19 +16249,19 @@ function __c146(j: number): any {
       ).annotate({ identifier: "AcknowledgeSlaMissVulnerabilityRemediationsRequest" });
   }
 }
-function __c147(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          results: __S(2352, __c147, 0),
+          results: __S(2368, __c148, 0),
         }),
       ).annotate({ identifier: "BulkResponse" });
   }
 }
-function __c148(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16251,7 +16278,7 @@ function __c148(j: number): any {
       ).annotate({ identifier: "ApproveQuestionnaireRequest" });
   }
 }
-function __c149(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16263,7 +16290,7 @@ function __c149(j: number): any {
       ).annotate({ identifier: "ActorAssignment" });
   }
 }
-function __c150(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16273,10 +16300,10 @@ function __c150(j: number): any {
         }),
       ).annotate({ identifier: "TagInput" });
     case 1:
-      return S.Array(__S(2400, __c150, 0));
+      return S.Array(__S(2416, __c151, 0));
   }
 }
-function __c151(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16289,14 +16316,14 @@ function __c151(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          updatedBy: __S(2416, __c151, 0),
+          updatedBy: __S(2432, __c152, 0),
           updatedAt: S.String,
           status: S.String,
           message: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "QuestionnaireStatusChangeEntry" });
     case 2:
-      return S.Array(__S(2417, __c151, 1));
+      return S.Array(__S(2433, __c152, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -16305,7 +16332,7 @@ function __c151(j: number): any {
         }),
       ).annotate({ identifier: "CustomerTrustQuestionnaireMetadataItem" });
     case 4:
-      return S.Array(__S(2419, __c151, 3));
+      return S.Array(__S(2435, __c152, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -16314,13 +16341,13 @@ function __c151(j: number): any {
           url: S.optional(S.String),
           type: S.String,
           status: S.String,
-          statusLog: __S(2418, __c151, 2),
-          ownerAssignment: S.optional(__S(2384, __c149, 0)),
-          approverAssignment: S.optional(__S(2384, __c149, 0)),
+          statusLog: __S(2434, __c152, 2),
+          ownerAssignment: S.optional(__S(2400, __c150, 0)),
+          approverAssignment: S.optional(__S(2400, __c150, 0)),
           customerTrustAccountId: S.optional(S.String),
           dueDate: S.optional(S.String),
-          metadata: S.optional(__S(2420, __c151, 4)),
-          tagAndCategoryIds: __S(2401, __c150, 1),
+          metadata: S.optional(__S(2436, __c152, 4)),
+          tagAndCategoryIds: __S(2417, __c151, 1),
           createdDate: S.String,
           updatedDate: S.String,
           completedDate: S.optional(S.String),
@@ -16328,7 +16355,7 @@ function __c151(j: number): any {
       ).annotate({ identifier: "CustomerTrustQuestionnaire" });
   }
 }
-function __c152(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16352,7 +16379,7 @@ function __c152(j: number): any {
           name: S.String,
           companyName: S.String,
           reason: S.String,
-          requestedResources: S.NullOr(__S(4736, __c296, 0)),
+          requestedResources: S.NullOr(__S(4752, __c297, 0)),
           accessLevel: S.String,
           creationDate: S.String,
           updatedDate: S.String,
@@ -16361,23 +16388,23 @@ function __c152(j: number): any {
         }),
       ).annotate({ identifier: "TrustCenterAccessRequestHistorical" });
     case 2:
-      return S.Array(__S(2433, __c152, 1));
+      return S.Array(__S(2449, __c153, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2434, __c152, 2),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(2450, __c153, 2),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseTrustCenterAccessRequestHistoricalResults" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          results: __S(2435, __c152, 3),
+          results: __S(2451, __c153, 3),
         }),
       ).annotate({ identifier: "PaginatedResponseTrustCenterAccessRequestHistorical" });
   }
 }
-function __c153(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16389,7 +16416,7 @@ function __c153(j: number): any {
       ).annotate({ identifier: "ListTrustCenterResourceCategoriesRequest" });
   }
 }
-function __c154(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16398,16 +16425,16 @@ function __c154(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/trust-centers/{slugId}/resources", code: 200 })),
       ).annotate({ identifier: "ListTrustCenterResourcesRequest" });
     case 1:
-      return S.Array(__S(4944, __c309, 0));
+      return S.Array(__S(4960, __c310, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          results: __S(2465, __c154, 1),
+          results: __S(2481, __c155, 1),
         }),
       ).annotate({ identifier: "ArrayResponseTrustCenterResource" });
   }
 }
-function __c155(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16416,16 +16443,16 @@ function __c155(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/trust-centers/{slugId}/subprocessors", code: 200 })),
       ).annotate({ identifier: "ListTrustCenterSubprocessorsRequest" });
     case 1:
-      return S.Array(__S(4976, __c311, 0));
+      return S.Array(__S(4992, __c312, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          results: __S(2481, __c155, 1),
+          results: __S(2497, __c156, 1),
         }),
       ).annotate({ identifier: "ArrayResponseTrustCenterSubprocessor" });
   }
 }
-function __c156(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16438,23 +16465,23 @@ function __c156(j: number): any {
         ),
       ).annotate({ identifier: "ListTrustCenterSubscriberGroupsRequest" });
     case 1:
-      return S.Array(__S(5056, __c316, 0));
+      return S.Array(__S(5072, __c317, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2497, __c156, 1),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(2513, __c157, 1),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseTrustCenterSubscriberGroupResults" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(2498, __c156, 2),
+          results: __S(2514, __c157, 2),
         }),
       ).annotate({ identifier: "PaginatedResponseTrustCenterSubscriberGroup" });
   }
 }
-function __c157(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16466,23 +16493,23 @@ function __c157(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/trust-centers/{slugId}/subscribers", code: 200 })),
       ).annotate({ identifier: "ListTrustCenterSubscribersRequest" });
     case 1:
-      return S.Array(__S(5024, __c314, 0));
+      return S.Array(__S(5040, __c315, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2513, __c157, 1),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(2529, __c158, 1),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseTrustCenterSubscriberResults" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(2514, __c157, 2),
+          results: __S(2530, __c158, 2),
         }),
       ).annotate({ identifier: "PaginatedResponseTrustCenterSubscriber" });
   }
 }
-function __c158(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16493,23 +16520,23 @@ function __c158(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/trust-centers/{slugId}/updates", code: 200 })),
       ).annotate({ identifier: "ListTrustCenterUpdatesRequest" });
     case 1:
-      return S.Array(__S(5088, __c318, 0));
+      return S.Array(__S(5104, __c319, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2529, __c158, 1),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(2545, __c159, 1),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseTrustCenterUpdateAPIResponseResults" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(2530, __c158, 2),
+          results: __S(2546, __c159, 2),
         }),
       ).annotate({ identifier: "PaginatedResponseTrustCenterUpdateAPIResponse" });
   }
 }
-function __c159(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16519,7 +16546,7 @@ function __c159(j: number): any {
       ).annotate({ identifier: "ListTrustCenterVideosRequest" });
   }
 }
-function __c160(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16531,16 +16558,16 @@ function __c160(j: number): any {
         }),
       ).annotate({ identifier: "TrustCenterVideo" });
     case 1:
-      return S.Array(__S(2560, __c160, 0));
+      return S.Array(__S(2576, __c161, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          results: __S(2561, __c160, 1),
+          results: __S(2577, __c161, 1),
         }),
       ).annotate({ identifier: "ArrayResponseTrustCenterVideo" });
   }
 }
-function __c161(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16552,23 +16579,23 @@ function __c161(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/trust-centers/{slugId}/viewers", code: 200 })),
       ).annotate({ identifier: "ListTrustCenterViewersRequest" });
     case 1:
-      return S.Array(__S(1941, __c121, 5));
+      return S.Array(__S(1957, __c122, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2577, __c161, 1),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(2593, __c162, 1),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseTrustCenterViewerResults" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(2578, __c161, 2),
+          results: __S(2594, __c162, 2),
         }),
       ).annotate({ identifier: "PaginatedResponseTrustCenterViewer" });
   }
 }
-function __c162(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16578,23 +16605,23 @@ function __c162(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/users", code: 200 })),
       ).annotate({ identifier: "ListUsersRequest" });
     case 1:
-      return S.Array(__S(960, __c60, 0));
+      return S.Array(__S(976, __c61, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2593, __c162, 1),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(2609, __c163, 1),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseUserResults" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(2594, __c162, 2),
+          results: __S(2610, __c163, 2),
         }),
       ).annotate({ identifier: "PaginatedResponseUser" });
   }
 }
-function __c163(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16603,7 +16630,7 @@ function __c163(j: number): any {
           accessRequestId: S.String.pipe(T.Label()),
           expirationDate: S.optional(S.String),
           isNdaRequired: S.optional(S.Boolean),
-          resourceIds: S.optional(__S(4736, __c296, 0)),
+          resourceIds: S.optional(__S(4752, __c297, 0)),
           accessLevel: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -16615,7 +16642,7 @@ function __c163(j: number): any {
       ).annotate({ identifier: "ApproveTrustCenterAccessRequestRequest" });
   }
 }
-function __c164(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16623,11 +16650,11 @@ function __c164(j: number): any {
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageCursor: S.optional(S.String.pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
-          statusMatchesAny: S.optional(__S(3248, __c203, 0).pipe(T.Query())),
-          severityMatchesAny: S.optional(__S(3248, __c203, 0).pipe(T.Query())),
-          categoryMatchesAny: S.optional(__S(4736, __c296, 0).pipe(T.Query())),
-          typeMatchesAny: S.optional(__S(3248, __c203, 0).pipe(T.Query())),
-          vendorRiskLevelMatchesAny: S.optional(__S(3248, __c203, 0).pipe(T.Query())),
+          statusMatchesAny: S.optional(__S(3264, __c204, 0).pipe(T.Query())),
+          severityMatchesAny: S.optional(__S(3264, __c204, 0).pipe(T.Query())),
+          categoryMatchesAny: S.optional(__S(4752, __c297, 0).pipe(T.Query())),
+          typeMatchesAny: S.optional(__S(3264, __c204, 0).pipe(T.Query())),
+          vendorRiskLevelMatchesAny: S.optional(__S(3264, __c204, 0).pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
           orderDirection: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/vendor-alerts", code: 200 })),
@@ -16635,25 +16662,25 @@ function __c164(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2640, __c165, 0),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(2656, __c166, 0),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseVendorAlertResults" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          results: __S(2625, __c164, 1),
+          results: __S(2641, __c165, 1),
         }),
       ).annotate({ identifier: "PaginatedResponseVendorAlert" });
   }
 }
-function __c165(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1040, __c65, 0));
+      return S.Array(__S(1056, __c66, 0));
   }
 }
-function __c166(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16664,23 +16691,23 @@ function __c166(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/vendor-assessment-types", code: 200 })),
       ).annotate({ identifier: "ListVendorAssessmentTypesRequest" });
     case 1:
-      return S.Array(__S(1104, __c69, 0));
+      return S.Array(__S(1120, __c70, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2657, __c166, 1),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(2673, __c167, 1),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseVendorAssessmentTypeResults" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(2658, __c166, 2),
+          results: __S(2674, __c167, 2),
         }),
       ).annotate({ identifier: "PaginatedResponseVendorAssessmentType" });
   }
 }
-function __c167(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16690,23 +16717,23 @@ function __c167(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/vendor-categories", code: 200 })),
       ).annotate({ identifier: "ListVendorCategoriesRequest" });
     case 1:
-      return S.Array(__S(5216, __c326, 0));
+      return S.Array(__S(5232, __c327, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2673, __c167, 1),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(2689, __c168, 1),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseVendorCategoryResults" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(2674, __c167, 2),
+          results: __S(2690, __c168, 2),
         }),
       ).annotate({ identifier: "PaginatedResponseVendorCategory" });
   }
 }
-function __c168(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16718,7 +16745,7 @@ function __c168(j: number): any {
       ).annotate({ identifier: "ListVendorDocumentsRequest" });
   }
 }
-function __c169(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16727,9 +16754,9 @@ function __c169(j: number): any {
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageCursor: S.optional(S.String.pipe(T.Query())),
           q: S.optional(S.String.pipe(T.Query())),
-          severityMatchesAny: S.optional(__S(3248, __c203, 0).pipe(T.Query())),
-          statusMatchesAny: S.optional(__S(3248, __c203, 0).pipe(T.Query())),
-          categoryMatchesAny: S.optional(__S(3248, __c203, 0).pipe(T.Query())),
+          severityMatchesAny: S.optional(__S(3264, __c204, 0).pipe(T.Query())),
+          statusMatchesAny: S.optional(__S(3264, __c204, 0).pipe(T.Query())),
+          categoryMatchesAny: S.optional(__S(3264, __c204, 0).pipe(T.Query())),
           firstSeenStartDate: S.optional(S.String.pipe(T.Query())),
           firstSeenEndDate: S.optional(S.String.pipe(T.Query())),
           sort: S.optional(S.String.pipe(T.Query())),
@@ -16737,23 +16764,23 @@ function __c169(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/vendors/{vendorId}/external-findings", code: 200 })),
       ).annotate({ identifier: "ListVendorExternalFindingsRequest" });
     case 1:
-      return S.Array(__S(1153, __c72, 1));
+      return S.Array(__S(1169, __c73, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2705, __c169, 1),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(2721, __c170, 1),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseVendorExternalFindingResults" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(2706, __c169, 2),
+          results: __S(2722, __c170, 2),
         }),
       ).annotate({ identifier: "PaginatedResponseVendorExternalFinding" });
   }
 }
-function __c170(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16776,23 +16803,23 @@ function __c170(j: number): any {
         }),
       ).annotate({ identifier: "RiskScenarioVendorFindingMapping" });
     case 2:
-      return S.Array(__S(2721, __c170, 1));
+      return S.Array(__S(2737, __c171, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2722, __c170, 2),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(2738, __c171, 2),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseRiskScenarioVendorFindingMappingResults" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          results: __S(2723, __c170, 3),
+          results: __S(2739, __c171, 3),
         }),
       ).annotate({ identifier: "PaginatedResponseRiskScenarioVendorFindingMapping" });
   }
 }
-function __c171(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16805,23 +16832,23 @@ function __c171(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/vendors/{vendorId}/findings", code: 200 })),
       ).annotate({ identifier: "ListVendorFindingsRequest" });
     case 1:
-      return S.Array(__S(5249, __c328, 1));
+      return S.Array(__S(5265, __c329, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2737, __c171, 1),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(2753, __c172, 1),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseVendorFindingResults" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(2738, __c171, 2),
+          results: __S(2754, __c172, 2),
         }),
       ).annotate({ identifier: "PaginatedResponseVendorFinding" });
   }
 }
-function __c172(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16836,57 +16863,28 @@ function __c172(j: number): any {
           id: S.String,
           name: S.String,
           description: S.String,
-          vendorCategoryIds: __S(4736, __c296, 0),
-          vendorCategories: __S(4736, __c296, 0),
+          vendorCategoryIds: __S(4752, __c297, 0),
+          vendorCategories: __S(4752, __c297, 0),
           enabled: S.Boolean,
           riskLevel: S.String,
-          riskSection: __S(1520, __c95, 0),
+          riskSection: __S(1536, __c96, 0),
         }),
       ).annotate({ identifier: "VendorRiskAttribute" });
     case 2:
-      return S.Array(__S(2753, __c172, 1));
+      return S.Array(__S(2769, __c173, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2754, __c172, 2),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(2770, __c173, 2),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseVendorRiskAttributeResults" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          results: __S(2755, __c172, 3),
+          results: __S(2771, __c173, 3),
         }),
       ).annotate({ identifier: "PaginatedResponseVendorRiskAttribute" });
-  }
-}
-function __c173(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageCursor: S.optional(S.String.pipe(T.Query())),
-          name: S.optional(S.String.pipe(T.Query())),
-          websiteUrl: S.optional(S.String.pipe(T.Query())),
-          statusMatchesAny: S.optional(__S(3248, __c203, 0).pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/vendors", code: 200 })),
-      ).annotate({ identifier: "ListVendorsRequest" });
-    case 1:
-      return S.Array(__S(5639, __c352, 7));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(2769, __c173, 1),
-          pageInfo: __S(6032, __c377, 0),
-        }),
-      ).annotate({ identifier: "PaginatedResponseVendorResults" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          results: __S(2770, __c173, 2),
-        }),
-      ).annotate({ identifier: "PaginatedResponseVendor" });
   }
 }
 function __c174(j: number): any {
@@ -16896,12 +16894,41 @@ function __c174(j: number): any {
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageCursor: S.optional(S.String.pipe(T.Query())),
+          name: S.optional(S.String.pipe(T.Query())),
+          websiteUrl: S.optional(S.String.pipe(T.Query())),
+          statusMatchesAny: S.optional(__S(3264, __c204, 0).pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/vendors", code: 200 })),
+      ).annotate({ identifier: "ListVendorsRequest" });
+    case 1:
+      return S.Array(__S(5655, __c353, 7));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(2785, __c174, 1),
+          pageInfo: __S(6048, __c378, 0),
+        }),
+      ).annotate({ identifier: "PaginatedResponseVendorResults" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          results: __S(2786, __c174, 2),
+        }),
+      ).annotate({ identifier: "PaginatedResponseVendor" });
+  }
+}
+function __c175(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageCursor: S.optional(S.String.pipe(T.Query())),
           q: S.optional(S.String.pipe(T.Query())),
-          vendorIdMatchesAny: S.optional(__S(4736, __c296, 0).pipe(T.Query())),
-          resolutionStateMatchesAny: S.optional(__S(3248, __c203, 0).pipe(T.Query())),
-          confirmationStatusMatchesAny: S.optional(__S(3248, __c203, 0).pipe(T.Query())),
-          impactSeverityMatchesAny: S.optional(__S(3248, __c203, 0).pipe(T.Query())),
-          dataLeakSeverityMatchesAny: S.optional(__S(3248, __c203, 0).pipe(T.Query())),
+          vendorIdMatchesAny: S.optional(__S(4752, __c297, 0).pipe(T.Query())),
+          resolutionStateMatchesAny: S.optional(__S(3264, __c204, 0).pipe(T.Query())),
+          confirmationStatusMatchesAny: S.optional(__S(3264, __c204, 0).pipe(T.Query())),
+          impactSeverityMatchesAny: S.optional(__S(3264, __c204, 0).pipe(T.Query())),
+          dataLeakSeverityMatchesAny: S.optional(__S(3264, __c204, 0).pipe(T.Query())),
           sort: S.optional(S.String.pipe(T.Query())),
           direction: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/vendor-security-incident-alerts", code: 200 })),
@@ -16909,37 +16936,22 @@ function __c174(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2800, __c175, 0),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(2816, __c176, 0),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseVendorSecurityIncidentAlertResults" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          results: __S(2785, __c174, 1),
+          results: __S(2801, __c175, 1),
         }),
       ).annotate({ identifier: "PaginatedResponseVendorSecurityIncidentAlert" });
-  }
-}
-function __c175(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(1190, __c74, 6));
   }
 }
 function __c176(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          slugId: S.String.pipe(T.Label()),
-          controlIds: __S(4736, __c296, 0),
-          tagCategory: S.String,
-          tags: __S(4736, __c296, 0),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/trust-centers/{slugId}/controls/tags", code: 200 }),
-        ),
-      ).annotate({ identifier: "BulkAddTagsToControlsRequest" });
+      return S.Array(__S(1206, __c75, 6));
   }
 }
 function __c177(j: number): any {
@@ -16947,18 +16959,33 @@ function __c177(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          results: __S(2848, __c178, 0),
-        }),
-      ).annotate({ identifier: "ArrayResponseTrustCenterControl" });
+          slugId: S.String.pipe(T.Label()),
+          controlIds: __S(4752, __c297, 0),
+          tagCategory: S.String,
+          tags: __S(4752, __c297, 0),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/trust-centers/{slugId}/controls/tags", code: 200 }),
+        ),
+      ).annotate({ identifier: "BulkAddTagsToControlsRequest" });
   }
 }
 function __c178(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(5184, __c324, 0));
+      return S.suspend(() =>
+        S.Struct({
+          results: __S(2864, __c179, 0),
+        }),
+      ).annotate({ identifier: "ArrayResponseTrustCenterControl" });
   }
 }
 function __c179(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(5200, __c325, 0));
+  }
+}
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16979,23 +17006,23 @@ function __c179(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/vulnerabilities", code: 200 })),
       ).annotate({ identifier: "ListVulnerabilitiesRequest" });
     case 1:
-      return S.Array(__S(1217, __c76, 1));
+      return S.Array(__S(1233, __c77, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2865, __c179, 1),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(2881, __c180, 1),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseVulnerabilityResults" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(2866, __c179, 2),
+          results: __S(2882, __c180, 2),
         }),
       ).annotate({ identifier: "PaginatedResponseVulnerability" });
   }
 }
-function __c180(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17022,23 +17049,23 @@ function __c180(j: number): any {
         }),
       ).annotate({ identifier: "VulnerabilityRemediation" });
     case 2:
-      return S.Array(__S(2881, __c180, 1));
+      return S.Array(__S(2897, __c181, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2882, __c180, 2),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(2898, __c181, 2),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseVulnerabilityRemediationResults" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          results: __S(2883, __c180, 3),
+          results: __S(2899, __c181, 3),
         }),
       ).annotate({ identifier: "PaginatedResponseVulnerabilityRemediation" });
   }
 }
-function __c181(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17052,23 +17079,23 @@ function __c181(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/vulnerable-assets", code: 200 })),
       ).annotate({ identifier: "ListVulnerableAssetsRequest" });
     case 1:
-      return S.Array(__S(1250, __c78, 2));
+      return S.Array(__S(1266, __c79, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2897, __c181, 1),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(2913, __c182, 1),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseVulnerableAssetResults" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(2898, __c181, 2),
+          results: __S(2914, __c182, 2),
         }),
       ).annotate({ identifier: "PaginatedResponseVulnerableAsset" });
   }
 }
-function __c182(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17078,26 +17105,26 @@ function __c182(j: number): any {
         }),
       ).annotate({ identifier: "MarkAsNotPeopleRequestUpdatesItem" });
     case 1:
-      return S.Array(__S(2912, __c182, 0));
+      return S.Array(__S(2928, __c183, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          updates: __S(2913, __c182, 1),
+          updates: __S(2929, __c183, 1),
         }).pipe(T.Http({ method: "POST", uri: "/people/mark-as-not-people", code: 200 })),
       ).annotate({ identifier: "MarkAsNotPeopleRequest" });
   }
 }
-function __c183(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          updates: __S(273, __c17, 1),
+          updates: __S(289, __c18, 1),
         }).pipe(T.Http({ method: "POST", uri: "/people/mark-as-people", code: 200 })),
       ).annotate({ identifier: "MarkAsPeopleRequest" });
   }
 }
-function __c184(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17107,16 +17134,16 @@ function __c184(j: number): any {
         }),
       ).annotate({ identifier: "OffboardPeopleRequestUpdatesItem" });
     case 1:
-      return S.Array(__S(2944, __c184, 0));
+      return S.Array(__S(2960, __c185, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          updates: __S(2945, __c184, 1),
+          updates: __S(2961, __c185, 1),
         }).pipe(T.Http({ method: "POST", uri: "/people/offboard", code: 200 })),
       ).annotate({ identifier: "OffboardPeopleRequest" });
   }
 }
-function __c185(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17126,7 +17153,7 @@ function __c185(j: number): any {
       ).annotate({ identifier: "ReactivateFrameworkRequest" });
   }
 }
-function __c186(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17139,7 +17166,7 @@ function __c186(j: number): any {
       ).annotate({ identifier: "FrameworkSnooze" });
   }
 }
-function __c187(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17156,23 +17183,23 @@ function __c187(j: number): any {
       ).annotate({ identifier: "ReactivateTestEntityRequest" });
   }
 }
-function __c188(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          updates: __S(273, __c17, 1),
-        }).pipe(T.Http({ method: "POST", uri: "/vulnerabilities/reactivate", code: 200 })),
-      ).annotate({ identifier: "ReactivateVulnerabilitiesRequest" });
-  }
-}
 function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          updates: __S(289, __c18, 1),
+        }).pipe(T.Http({ method: "POST", uri: "/vulnerabilities/reactivate", code: 200 })),
+      ).annotate({ identifier: "ReactivateVulnerabilitiesRequest" });
+  }
+}
+function __c190(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           riskScenarioId: S.String.pipe(T.Label()),
-          accountsToUnlink: __S(4369, __c273, 1),
+          accountsToUnlink: __S(4385, __c274, 1),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -17183,28 +17210,28 @@ function __c189(j: number): any {
       ).annotate({ identifier: "RemoveAccountMappingsRequest" });
   }
 }
-function __c190(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           slugId: S.String.pipe(T.Label()),
-          controlIds: __S(4736, __c296, 0),
+          controlIds: __S(4752, __c297, 0),
           tagCategory: S.String,
-          tags: __S(4736, __c296, 0),
+          tags: __S(4752, __c297, 0),
         }).pipe(
           T.Http({ method: "DELETE", uri: "/trust-centers/{slugId}/controls/tags", code: 200 }),
         ),
       ).annotate({ identifier: "BulkRemoveTagsFromControlsRequest" });
   }
 }
-function __c191(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           riskScenarioId: S.String.pipe(T.Label()),
-          customAssetIdsToUnlink: __S(4736, __c296, 0),
+          customAssetIdsToUnlink: __S(4752, __c297, 0),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -17215,7 +17242,7 @@ function __c191(j: number): any {
       ).annotate({ identifier: "RemoveCustomAssetMappingsRequest" });
   }
 }
-function __c192(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17232,13 +17259,13 @@ function __c192(j: number): any {
       ).annotate({ identifier: "RemoveEngagementRequest" });
   }
 }
-function __c193(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           riskScenarioId: S.String.pipe(T.Label()),
-          integrationIdsToRemove: __S(4736, __c296, 0),
+          integrationIdsToRemove: __S(4752, __c297, 0),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -17249,13 +17276,13 @@ function __c193(j: number): any {
       ).annotate({ identifier: "RemoveIntegrationMappingsRequest" });
   }
 }
-function __c194(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           riskScenarioId: S.String.pipe(T.Label()),
-          issueIdsToUnlink: __S(4736, __c296, 0),
+          issueIdsToUnlink: __S(4752, __c297, 0),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -17266,18 +17293,18 @@ function __c194(j: number): any {
       ).annotate({ identifier: "RemoveIssueMappingsRequest" });
   }
 }
-function __c195(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           groupId: S.String.pipe(T.Label()),
-          updates: __S(273, __c17, 1),
+          updates: __S(289, __c18, 1),
         }).pipe(T.Http({ method: "POST", uri: "/groups/{groupId}/remove-people", code: 200 })),
       ).annotate({ identifier: "RemovePeopleFromGroupRequest" });
   }
 }
-function __c196(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17290,7 +17317,7 @@ function __c196(j: number): any {
       ).annotate({ identifier: "RemovePersonFromGroupRequest" });
   }
 }
-function __c197(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17307,7 +17334,7 @@ function __c197(j: number): any {
       ).annotate({ identifier: "RemoveTagCategoryProductContextRequest" });
   }
 }
-function __c198(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17324,13 +17351,13 @@ function __c198(j: number): any {
       ).annotate({ identifier: "RemoveTrustCenterViewerRequest" });
   }
 }
-function __c199(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           riskScenarioId: S.String.pipe(T.Label()),
-          vendorFindingIdsToUnlink: __S(4736, __c296, 0),
+          vendorFindingIdsToUnlink: __S(4752, __c297, 0),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -17341,7 +17368,7 @@ function __c199(j: number): any {
       ).annotate({ identifier: "RemoveVendorFindingMappingsRequest" });
   }
 }
-function __c200(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17359,7 +17386,7 @@ function __c200(j: number): any {
       ).annotate({ identifier: "ReplaceDocumentResourceFileRequest" });
   }
 }
-function __c201(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17375,7 +17402,7 @@ function __c201(j: number): any {
       ).annotate({ identifier: "CancelRiskScenarioApprovalRequestRequest" });
   }
 }
-function __c202(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17385,7 +17412,7 @@ function __c202(j: number): any {
         }),
       ).annotate({ identifier: "CustomAttribute" });
     case 1:
-      return S.Array(__S(3232, __c202, 0));
+      return S.Array(__S(3248, __c203, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -17399,7 +17426,7 @@ function __c202(j: number): any {
         }),
       ).annotate({ identifier: "ScoreBreakdownEntry" });
     case 3:
-      return S.Array(__S(3234, __c202, 2));
+      return S.Array(__S(3250, __c203, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -17411,30 +17438,30 @@ function __c202(j: number): any {
           impact: S.NullOr(S.Number),
           residualLikelihood: S.NullOr(S.Number),
           residualImpact: S.NullOr(S.Number),
-          categories: __S(4736, __c296, 0),
-          ciaCategories: __S(3248, __c203, 0),
+          categories: __S(4752, __c297, 0),
+          ciaCategories: __S(3264, __c204, 0),
           treatment: S.NullOr(S.String),
           owner: S.NullOr(S.String),
           note: S.NullOr(S.String),
           riskRegister: S.NullOr(S.String),
-          customFields: __S(3233, __c202, 1),
+          customFields: __S(3249, __c203, 1),
           isArchived: S.Boolean,
           reviewStatus: S.String,
-          requiredApprovers: __S(4736, __c296, 0),
+          requiredApprovers: __S(4752, __c297, 0),
           type: S.String,
           identificationDate: S.String,
-          scoreBreakdown: S.NullOr(__S(3235, __c202, 3)),
+          scoreBreakdown: S.NullOr(__S(3251, __c203, 3)),
         }),
       ).annotate({ identifier: "RiskScenario" });
   }
 }
-function __c203(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c204(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17451,7 +17478,7 @@ function __c204(j: number): any {
       ).annotate({ identifier: "SendNotificationsToAllSubscribersRequest" });
   }
 }
-function __c205(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17461,12 +17488,12 @@ function __c205(j: number): any {
         }),
       ).annotate({ identifier: "CustomerTrustAccountCustomFieldFilter" });
     case 1:
-      return S.Array(__S(3280, __c205, 0));
+      return S.Array(__S(3296, __c206, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          customFieldsFilter: S.optional(__S(3281, __c205, 1)),
-          tagsByCategory: S.optional(__S(4433, __c277, 1)),
+          customFieldsFilter: S.optional(__S(3297, __c206, 1)),
+          tagsByCategory: S.optional(__S(4449, __c278, 1)),
         }),
       ).annotate({ identifier: "CustomerTrustAccountsInput" });
     case 3:
@@ -17474,9 +17501,9 @@ function __c205(j: number): any {
         S.Struct({
           slugId: S.String.pipe(T.Label()),
           updateId: S.String.pipe(T.Label()),
-          emails: __S(4736, __c296, 0),
-          subscriberGroupIds: __S(4736, __c296, 0),
-          customerTrustAccounts: S.optional(__S(3282, __c205, 2)),
+          emails: __S(4752, __c297, 0),
+          subscriberGroupIds: __S(4752, __c297, 0),
+          customerTrustAccounts: S.optional(__S(3298, __c206, 2)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -17493,7 +17520,7 @@ function __c205(j: number): any {
       ).annotate({ identifier: "NotifySpecificSubscribersResponse" });
   }
 }
-function __c206(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17510,7 +17537,7 @@ function __c206(j: number): any {
       ).annotate({ identifier: "SendTrustCenterViewerInviteReminderRequest" });
   }
 }
-function __c207(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17534,25 +17561,25 @@ function __c207(j: number): any {
       ).annotate({ identifier: "VendorEngagement" });
   }
 }
-function __c208(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           frameworkId: S.String.pipe(T.Label()),
-          variantIds: __S(4736, __c296, 0),
+          variantIds: __S(4752, __c297, 0),
         }).pipe(T.Http({ method: "PUT", uri: "/frameworks/{frameworkId}/variants", code: 200 })),
       ).annotate({ identifier: "SetFrameworkVariantRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           frameworkId: S.String,
-          variantIds: __S(4736, __c296, 0),
+          variantIds: __S(4752, __c297, 0),
         }),
       ).annotate({ identifier: "FrameworkVariantSelection" });
   }
 }
-function __c209(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17564,7 +17591,7 @@ function __c209(j: number): any {
       ).annotate({ identifier: "SetLeaveForPersonRequest" });
   }
 }
-function __c210(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17575,7 +17602,7 @@ function __c210(j: number): any {
       ).annotate({ identifier: "SetOwnerForControlRequest" });
   }
 }
-function __c211(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17586,7 +17613,7 @@ function __c211(j: number): any {
       ).annotate({ identifier: "SetOwnerForDocumentRequest" });
   }
 }
-function __c212(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17604,7 +17631,7 @@ function __c212(j: number): any {
       ).annotate({ identifier: "SetStatusForVendorRequest" });
   }
 }
-function __c213(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17615,7 +17642,7 @@ function __c213(j: number): any {
       ).annotate({ identifier: "SnoozeFrameworkRequest" });
   }
 }
-function __c214(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17625,7 +17652,7 @@ function __c214(j: number): any {
       ).annotate({ identifier: "ClearLeaveForPersonRequest" });
   }
 }
-function __c215(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17635,7 +17662,7 @@ function __c215(j: number): any {
       ).annotate({ identifier: "SubmitDocumentCollectionRequest" });
   }
 }
-function __c216(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17652,7 +17679,7 @@ function __c216(j: number): any {
       ).annotate({ identifier: "SubmitRiskForApprovalRequest" });
   }
 }
-function __c217(j: number): any {
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17660,14 +17687,14 @@ function __c217(j: number): any {
           id: S.String.pipe(T.Label()),
           question: S.optional(S.String),
           answer: S.optional(S.String),
-          ownerAssignment: S.optional(S.NullOr(__S(3792, __c237, 0))),
+          ownerAssignment: S.optional(S.NullOr(__S(3808, __c238, 0))),
           expirationDate: S.optional(S.NullOr(S.String)),
-          tags: S.optional(__S(2401, __c150, 1)),
+          tags: S.optional(__S(2417, __c151, 1)),
         }).pipe(T.Http({ method: "PATCH", uri: "/knowledge-base/answer-library/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateAnswerLibraryEntryRouteRequest" });
   }
 }
-function __c218(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17687,7 +17714,7 @@ function __c218(j: number): any {
       ).annotate({ identifier: "UpdateComplianceFrameworkRequest" });
   }
 }
-function __c219(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17699,12 +17726,12 @@ function __c219(j: number): any {
           description: S.optional(S.String),
           domain: S.optional(S.String),
           note: S.optional(S.String),
-          customFields: S.optional(__S(4753, __c297, 1)),
+          customFields: S.optional(__S(4769, __c298, 1)),
         }).pipe(T.Http({ method: "PATCH", uri: "/controls/{controlId}", code: 200 })),
       ).annotate({ identifier: "UpdateControlMetadataRequest" });
   }
 }
-function __c220(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17712,16 +17739,16 @@ function __c220(j: number): any {
           accountId: S.String.pipe(T.Label()),
           name: S.optional(S.String),
           emailDomain: S.optional(S.String),
-          customFields: S.optional(__S(4753, __c297, 1)),
-          revenueOverrides: S.optional(__S(4417, __c276, 1)),
-          tagsByCategory: S.optional(__S(4433, __c277, 1)),
+          customFields: S.optional(__S(4769, __c298, 1)),
+          revenueOverrides: S.optional(__S(4433, __c277, 1)),
+          tagsByCategory: S.optional(__S(4449, __c278, 1)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/customer-trust/accounts/{accountId}", code: 200 }),
         ),
       ).annotate({ identifier: "UpdateCustomerTrustAccountRequest" });
   }
 }
-function __c221(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17738,7 +17765,7 @@ function __c221(j: number): any {
       ).annotate({ identifier: "UpdateCustomRequirementRequest" });
   }
 }
-function __c222(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17746,12 +17773,12 @@ function __c222(j: number): any {
           id: S.String.pipe(T.Label()),
           title: S.optional(S.String),
           description: S.optional(S.NullOr(S.String)),
-          ownerAssignment: S.optional(S.NullOr(__S(3792, __c237, 0))),
+          ownerAssignment: S.optional(S.NullOr(__S(3808, __c238, 0))),
           customerVisibility: S.optional(S.String),
           downloadPermission: S.optional(S.String),
           isUsedInQuestionnaires: S.optional(S.Boolean),
           expirationDate: S.optional(S.NullOr(S.String)),
-          tags: S.optional(__S(2401, __c150, 1)),
+          tags: S.optional(__S(2417, __c151, 1)),
           categoryId: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/knowledge-base/resources/documents/{id}", code: 200 }),
@@ -17759,7 +17786,7 @@ function __c222(j: number): any {
       ).annotate({ identifier: "UpdateDocumentResourceRequest" });
   }
 }
-function __c223(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17772,7 +17799,7 @@ function __c223(j: number): any {
       ).annotate({ identifier: "UpdateGroupRequest" });
   }
 }
-function __c224(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17791,13 +17818,13 @@ function __c224(j: number): any {
       return S.suspend(() =>
         S.Struct({
           personId: S.String.pipe(T.Label()),
-          name: S.optional(__S(3584, __c224, 0)),
-          employment: S.optional(__S(3585, __c224, 1)),
+          name: S.optional(__S(3600, __c225, 0)),
+          employment: S.optional(__S(3601, __c225, 1)),
         }).pipe(T.Http({ method: "PATCH", uri: "/people/{personId}", code: 200 })),
       ).annotate({ identifier: "UpdatePersonRequest" });
   }
 }
-function __c225(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17814,7 +17841,7 @@ function __c225(j: number): any {
       ).annotate({ identifier: "CompleteQuestionnaireRequest" });
   }
 }
-function __c226(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17823,10 +17850,10 @@ function __c226(j: number): any {
           displayName: S.optional(S.String),
           dueDate: S.optional(S.NullOr(S.String)),
           status: S.optional(S.String),
-          ownerAssignment: S.optional(S.NullOr(__S(3792, __c237, 0))),
-          approverAssignment: S.optional(S.NullOr(__S(3792, __c237, 0))),
-          metadata: S.optional(__S(5329, __c333, 1)),
-          tagAndCategoryIds: S.optional(__S(2401, __c150, 1)),
+          ownerAssignment: S.optional(S.NullOr(__S(3808, __c238, 0))),
+          approverAssignment: S.optional(S.NullOr(__S(3808, __c238, 0))),
+          metadata: S.optional(__S(5345, __c334, 1)),
+          tagAndCategoryIds: S.optional(__S(2417, __c151, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -17837,7 +17864,7 @@ function __c226(j: number): any {
       ).annotate({ identifier: "UpdateQuestionnaireRequest" });
   }
 }
-function __c227(j: number): any {
+function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
@@ -17846,7 +17873,7 @@ function __c227(j: number): any {
         S.Struct({
           questionnaireId: S.String.pipe(T.Label()),
           responseId: S.String.pipe(T.Label()),
-          answerPartsValues: __S(3632, __c227, 0),
+          answerPartsValues: __S(3648, __c228, 0),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -17857,14 +17884,14 @@ function __c227(j: number): any {
       ).annotate({ identifier: "UpdateQuestionnaireResponseContentRequest" });
   }
 }
-function __c228(j: number): any {
+function __c229(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           questionnaireId: S.String.pipe(T.Label()),
           responseId: S.String.pipe(T.Label()),
-          ownerAssignment: S.NullOr(__S(3792, __c237, 0)),
+          ownerAssignment: S.NullOr(__S(3808, __c238, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -17875,7 +17902,7 @@ function __c228(j: number): any {
       ).annotate({ identifier: "UpdateQuestionnaireResponseOwnerRequest" });
   }
 }
-function __c229(j: number): any {
+function __c230(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17896,7 +17923,7 @@ function __c229(j: number): any {
       ).annotate({ identifier: "UpdateResourceRequest2" });
   }
 }
-function __c230(j: number): any {
+function __c231(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17908,13 +17935,13 @@ function __c230(j: number): any {
         }),
       ).annotate({ identifier: "UpdateResourceRequest" });
     case 1:
-      return S.Array(__S(3680, __c230, 0));
+      return S.Array(__S(3696, __c231, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           integrationId: S.String.pipe(T.Label()),
           resourceKind: S.String.pipe(T.Label()),
-          updates: __S(3681, __c230, 1),
+          updates: __S(3697, __c231, 1),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -17925,7 +17952,7 @@ function __c230(j: number): any {
       ).annotate({ identifier: "UpdateResourcesRequest" });
   }
 }
-function __c231(j: number): any {
+function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17938,20 +17965,20 @@ function __c231(j: number): any {
           impact: S.optional(S.Number),
           residualLikelihood: S.optional(S.Number),
           residualImpact: S.optional(S.Number),
-          categories: S.optional(__S(4736, __c296, 0)),
-          ciaCategories: S.optional(__S(3248, __c203, 0)),
+          categories: S.optional(__S(4752, __c297, 0)),
+          ciaCategories: S.optional(__S(3264, __c204, 0)),
           treatment: S.optional(S.String),
           owner: S.optional(S.NullOr(S.String)),
           note: S.optional(S.String),
           riskRegister: S.optional(S.String),
-          customFields: S.optional(__S(3233, __c202, 1)),
+          customFields: S.optional(__S(3249, __c203, 1)),
           type: S.optional(S.String),
           identificationDate: S.optional(S.String),
         }).pipe(T.Http({ method: "PATCH", uri: "/risk-scenarios/{riskScenarioId}", code: 200 })),
       ).annotate({ identifier: "UpdateRiskScenarioRequest" });
   }
 }
-function __c232(j: number): any {
+function __c233(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17969,18 +17996,18 @@ function __c232(j: number): any {
       ).annotate({ identifier: "UpdateRiskScenarioControlRequest" });
   }
 }
-function __c233(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           frequency: S.optional(S.String),
-          channels: S.optional(__S(3248, __c203, 0)),
+          channels: S.optional(__S(3264, __c204, 0)),
         }).pipe(T.Http({ method: "PATCH", uri: "/personnel-notification-settings", code: 200 })),
       ).annotate({ identifier: "UpdateSettingsRequest" });
   }
 }
-function __c234(j: number): any {
+function __c235(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17998,14 +18025,14 @@ function __c234(j: number): any {
       ).annotate({ identifier: "UpdateTaskRequirementSetDetailsRequest" });
   }
 }
-function __c235(j: number): any {
+function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           requirementSetId: S.String.pipe(T.Label()),
-          onboarding: S.optional(__S(4880, __c305, 0)),
-          offboarding: S.optional(__S(4881, __c305, 1)),
+          onboarding: S.optional(__S(4896, __c306, 0)),
+          offboarding: S.optional(__S(4897, __c306, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -18016,21 +18043,21 @@ function __c235(j: number): any {
       ).annotate({ identifier: "UpdateTaskRequirementSetRequirementsRequest" });
   }
 }
-function __c236(j: number): any {
+function __c237(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           question: S.String,
           answer: S.String,
-          ownerAssignment: S.optional(__S(3792, __c237, 0)),
+          ownerAssignment: S.optional(__S(3808, __c238, 0)),
           expirationDate: S.optional(S.String),
-          tags: S.optional(__S(2401, __c150, 1)),
+          tags: S.optional(__S(2417, __c151, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/knowledge-base/answer-library", code: 200 })),
       ).annotate({ identifier: "CreateAnswerLibraryEntryRequest" });
   }
 }
-function __c237(j: number): any {
+function __c238(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18041,7 +18068,7 @@ function __c237(j: number): any {
       ).annotate({ identifier: "AnswerLibraryActorAssignmentInput" });
   }
 }
-function __c238(j: number): any {
+function __c239(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18050,17 +18077,17 @@ function __c238(j: number): any {
           question: S.String,
           answer: S.String,
           expirationStatus: S.String,
-          ownerAssignment: S.NullOr(__S(2384, __c149, 0)),
+          ownerAssignment: S.NullOr(__S(2400, __c150, 0)),
           expirationDate: S.NullOr(S.String),
           createdAt: S.String,
           lastUpdated: S.String,
           lastVerified: S.NullOr(S.String),
-          tags: __S(2401, __c150, 1),
+          tags: __S(2417, __c151, 1),
         }),
       ).annotate({ identifier: "KnowledgeBaseAnswerLibraryEntryOutput" });
   }
 }
-function __c239(j: number): any {
+function __c240(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18083,8 +18110,8 @@ function __c239(j: number): any {
           slugId: S.String.pipe(T.Label()),
           title: S.optional(S.NullOr(S.String)),
           companyDescription: S.optional(S.NullOr(S.String)),
-          bannerSetting: S.optional(__S(3824, __c239, 0)),
-          customTheme: S.optional(__S(3825, __c239, 1)),
+          bannerSetting: S.optional(__S(3840, __c240, 0)),
+          customTheme: S.optional(__S(3841, __c240, 1)),
           privacyPolicy: S.optional(S.NullOr(S.String)),
           awsMarketplaceListing: S.optional(S.NullOr(S.String)),
           isPublic: S.optional(S.Boolean),
@@ -18095,7 +18122,7 @@ function __c239(j: number): any {
       ).annotate({ identifier: "UpdateTrustCenterRequest" });
   }
 }
-function __c240(j: number): any {
+function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18115,15 +18142,15 @@ function __c240(j: number): any {
       ).annotate({ identifier: "UpdateTrustCenterControlCategoryRequest" });
   }
 }
-function __c241(j: number): any {
+function __c242(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           slugId: S.String.pipe(T.Label()),
           categoryId: S.String.pipe(T.Label()),
-          controlsToAdd: __S(4736, __c296, 0),
-          controlsToRemove: __S(4736, __c296, 0),
+          controlsToAdd: __S(4752, __c297, 0),
+          controlsToRemove: __S(4752, __c297, 0),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -18134,7 +18161,7 @@ function __c241(j: number): any {
       ).annotate({ identifier: "UpdateTrustCenterControlsInCategoryRequest" });
   }
 }
-function __c242(j: number): any {
+function __c243(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18150,7 +18177,7 @@ function __c242(j: number): any {
       ).annotate({ identifier: "UpdateTrustCenterFaqRequest" });
   }
 }
-function __c243(j: number): any {
+function __c244(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18168,7 +18195,7 @@ function __c243(j: number): any {
       ).annotate({ identifier: "UpdateTrustCenterFaqCategoryRequest" });
   }
 }
-function __c244(j: number): any {
+function __c245(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18188,7 +18215,7 @@ function __c244(j: number): any {
       ).annotate({ identifier: "UpdateTrustCenterResourceRequest" });
   }
 }
-function __c245(j: number): any {
+function __c246(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18206,7 +18233,7 @@ function __c245(j: number): any {
       ).annotate({ identifier: "UpdateTrustCenterResourceCategoryRequest" });
   }
 }
-function __c246(j: number): any {
+function __c247(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18226,7 +18253,7 @@ function __c246(j: number): any {
       ).annotate({ identifier: "UpdateTrustCenterSubprocessorRequest" });
   }
 }
-function __c247(j: number): any {
+function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18244,7 +18271,7 @@ function __c247(j: number): any {
       ).annotate({ identifier: "UpdateTrustCenterSubscriberGroupRequest" });
   }
 }
-function __c248(j: number): any {
+function __c249(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18261,7 +18288,7 @@ function __c248(j: number): any {
       ).annotate({ identifier: "UpdateTrustCenterUpdateRequest" });
   }
 }
-function __c249(j: number): any {
+function __c250(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18280,7 +18307,7 @@ function __c249(j: number): any {
       ).annotate({ identifier: "CreateComplianceFrameworkRequest" });
   }
 }
-function __c250(j: number): any {
+function __c251(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18293,7 +18320,7 @@ function __c250(j: number): any {
       ).annotate({ identifier: "TrustCenterComplianceFramework" });
   }
 }
-function __c251(j: number): any {
+function __c252(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18301,7 +18328,7 @@ function __c251(j: number): any {
           slugId: S.String.pipe(T.Label()),
           viewerId: S.String.pipe(T.Label()),
           accessLevel: S.optional(S.String),
-          resourceIds: S.optional(__S(4736, __c296, 0)),
+          resourceIds: S.optional(__S(4752, __c297, 0)),
           expirationDate: S.optional(S.NullOr(S.String)),
           isNdaRequired: S.optional(S.Boolean),
           customerTrustAccountId: S.optional(S.NullOr(S.String)),
@@ -18311,7 +18338,7 @@ function __c251(j: number): any {
       ).annotate({ identifier: "UpdateTrustCenterViewerRequest" });
   }
 }
-function __c252(j: number): any {
+function __c253(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18339,39 +18366,39 @@ function __c252(j: number): any {
           contractRenewalDate: S.optional(S.NullOr(S.String)),
           contractTerminationDate: S.optional(S.NullOr(S.String)),
           isVisibleToAuditors: S.optional(S.Boolean),
-          authDetails: S.optional(__S(4032, __c252, 0)),
+          authDetails: S.optional(__S(4048, __c253, 0)),
           status: S.optional(S.String),
           category: S.optional(S.String),
           categoryId: S.optional(S.NullOr(S.String)),
           inherentRiskLevel: S.optional(S.NullOr(S.String)),
           residualRiskLevel: S.optional(S.String),
-          riskAttributeIds: S.optional(__S(4736, __c296, 0)),
+          riskAttributeIds: S.optional(__S(4752, __c297, 0)),
           vendorHeadquarters: S.optional(S.NullOr(S.String)),
-          contractAmount: S.optional(S.NullOr(__S(5634, __c352, 2))),
-          customFields: S.optional(__S(4753, __c297, 1)),
-          frameworkScope: S.optional(__S(5120, __c320, 0)),
+          contractAmount: S.optional(S.NullOr(__S(5650, __c353, 2))),
+          customFields: S.optional(__S(4769, __c298, 1)),
+          frameworkScope: S.optional(__S(5136, __c321, 0)),
         }).pipe(T.Http({ method: "PATCH", uri: "/vendors/{vendorId}", code: 200 })),
       ).annotate({ identifier: "UpdateVendorRequest" });
   }
 }
-function __c253(j: number): any {
+function __c254(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          alertIds: __S(4736, __c296, 0),
+          alertIds: __S(4752, __c297, 0),
           status: S.String,
         }).pipe(T.Http({ method: "PATCH", uri: "/vendor-alerts", code: 200 })),
       ).annotate({ identifier: "UpdateVendorAlertsRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          results: __S(2640, __c165, 0),
+          results: __S(2656, __c166, 0),
         }),
       ).annotate({ identifier: "UpdateVendorAlertsResponse" });
   }
 }
-function __c254(j: number): any {
+function __c255(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18383,16 +18410,16 @@ function __c254(j: number): any {
         }),
       ).annotate({ identifier: "VendorAlertSettingsChange" });
     case 1:
-      return S.Array(__S(4064, __c254, 0));
+      return S.Array(__S(4080, __c255, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          changes: __S(4065, __c254, 1),
+          changes: __S(4081, __c255, 1),
         }).pipe(T.Http({ method: "PATCH", uri: "/vendor-alert-settings", code: 200 })),
       ).annotate({ identifier: "UpdateVendorAlertSettingsRequest" });
   }
 }
-function __c255(j: number): any {
+function __c256(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18404,7 +18431,7 @@ function __c255(j: number): any {
       ).annotate({ identifier: "UpdateVendorCategoryRequest" });
   }
 }
-function __c256(j: number): any {
+function __c257(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18413,28 +18440,11 @@ function __c256(j: number): any {
           findingId: S.String.pipe(T.Label()),
           content: S.optional(S.String),
           riskStatus: S.optional(S.String),
-          remediation: S.optional(__S(5264, __c329, 0)),
+          remediation: S.optional(__S(5280, __c330, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/vendors/{vendorId}/findings/{findingId}", code: 200 }),
         ),
       ).annotate({ identifier: "UpdateVendorFindingRequest" });
-  }
-}
-function __c257(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          alertIds: __S(4736, __c296, 0),
-          resolutionState: S.String,
-        }).pipe(T.Http({ method: "PATCH", uri: "/vendor-security-incident-alerts", code: 200 })),
-      ).annotate({ identifier: "UpdateVendorSecurityIncidentAlertsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          results: __S(2800, __c175, 0),
-        }),
-      ).annotate({ identifier: "UpdateVendorSecurityIncidentAlertsResponse" });
   }
 }
 function __c258(j: number): any {
@@ -18442,15 +18452,32 @@ function __c258(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          alertIds: __S(4752, __c297, 0),
+          resolutionState: S.String,
+        }).pipe(T.Http({ method: "PATCH", uri: "/vendor-security-incident-alerts", code: 200 })),
+      ).annotate({ identifier: "UpdateVendorSecurityIncidentAlertsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          results: __S(2816, __c176, 0),
+        }),
+      ).annotate({ identifier: "UpdateVendorSecurityIncidentAlertsResponse" });
+  }
+}
+function __c259(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           id: S.String.pipe(T.Label()),
           title: S.optional(S.String),
           description: S.optional(S.NullOr(S.String)),
-          ownerAssignment: S.optional(S.NullOr(__S(3792, __c237, 0))),
+          ownerAssignment: S.optional(S.NullOr(__S(3808, __c238, 0))),
           customerVisibility: S.optional(S.String),
           includeSubPages: S.optional(S.Boolean),
           isUsedInQuestionnaires: S.optional(S.Boolean),
           expirationDate: S.optional(S.NullOr(S.String)),
-          tags: S.optional(__S(2401, __c150, 1)),
+          tags: S.optional(__S(2417, __c151, 1)),
           categoryId: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/knowledge-base/resources/webpages/{id}", code: 200 }),
@@ -18458,7 +18485,7 @@ function __c258(j: number): any {
       ).annotate({ identifier: "UpdateWebpageResourceRequest" });
   }
 }
-function __c259(j: number): any {
+function __c260(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18477,7 +18504,7 @@ function __c259(j: number): any {
       ).annotate({ identifier: "UploadComplianceFrameworkBadgeRequest" });
   }
 }
-function __c260(j: number): any {
+function __c261(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18490,7 +18517,7 @@ function __c260(j: number): any {
       ).annotate({ identifier: "UploadContractRequest" });
   }
 }
-function __c261(j: number): any {
+function __c262(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18500,7 +18527,7 @@ function __c261(j: number): any {
         }),
       ).annotate({ identifier: "FrameworkSection" });
     case 1:
-      return S.Array(__S(4176, __c261, 0));
+      return S.Array(__S(4192, __c262, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -18509,14 +18536,14 @@ function __c261(j: number): any {
           description: S.String,
           effectiveDate: S.String,
           domain: S.String,
-          sections: S.optional(S.NullOr(__S(4177, __c261, 1))),
+          sections: S.optional(S.NullOr(__S(4193, __c262, 1))),
           role: S.optional(S.NullOr(S.String)),
-          customFields: S.optional(__S(4753, __c297, 1)),
+          customFields: S.optional(__S(4769, __c298, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/controls", code: 200 })),
       ).annotate({ identifier: "CreateCustomControlRequest" });
   }
 }
-function __c262(j: number): any {
+function __c263(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18538,7 +18565,7 @@ function __c262(j: number): any {
       ).annotate({ identifier: "UploadDocumentForSecurityReviewRequest" });
   }
 }
-function __c263(j: number): any {
+function __c264(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18559,7 +18586,7 @@ function __c263(j: number): any {
       ).annotate({ identifier: "UploadDocumentToVendorRequest" });
   }
 }
-function __c264(j: number): any {
+function __c265(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18579,7 +18606,7 @@ function __c264(j: number): any {
       ).annotate({ identifier: "UploadFileForDocumentRequest" });
   }
 }
-function __c265(j: number): any {
+function __c266(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18597,14 +18624,14 @@ function __c265(j: number): any {
       ).annotate({ identifier: "UploadTrustCenterFaviconRequest" });
   }
 }
-function __c266(j: number): any {
+function __c267(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           slugId: S.String.pipe(T.Label()),
           subscriberId: S.String.pipe(T.Label()),
-          groupIds: __S(4736, __c296, 0),
+          groupIds: __S(4752, __c297, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -18615,13 +18642,13 @@ function __c266(j: number): any {
       ).annotate({ identifier: "UpsertGroupsForTrustCenterSubscriberRequest" });
   }
 }
-function __c267(j: number): any {
+function __c268(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           slugId: S.String.pipe(T.Label()),
-          orderedCategoryIds: __S(4736, __c296, 0),
+          orderedCategoryIds: __S(4752, __c297, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -18632,14 +18659,14 @@ function __c267(j: number): any {
       ).annotate({ identifier: "UpsertTrustCenterControlCategoriesOrderRequest" });
   }
 }
-function __c268(j: number): any {
+function __c269(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           slugId: S.String.pipe(T.Label()),
           categoryId: S.String.pipe(T.Label()),
-          orderedControlIds: __S(4736, __c296, 0),
+          orderedControlIds: __S(4752, __c297, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -18650,13 +18677,13 @@ function __c268(j: number): any {
       ).annotate({ identifier: "UpsertTrustCenterControlsInCategoryOrderRequest" });
   }
 }
-function __c269(j: number): any {
+function __c270(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           slugId: S.String.pipe(T.Label()),
-          dataCollected: __S(2273, __c142, 1),
+          dataCollected: __S(2289, __c143, 1),
           dataCollectedHeading: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({ method: "PUT", uri: "/trust-centers/{slugId}/data-collected", code: 200 }),
@@ -18664,13 +18691,13 @@ function __c269(j: number): any {
       ).annotate({ identifier: "UpsertTrustCenterDataCollectedRequest" });
   }
 }
-function __c270(j: number): any {
+function __c271(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           slugId: S.String.pipe(T.Label()),
-          categoryIds: __S(4736, __c296, 0),
+          categoryIds: __S(4752, __c297, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -18681,7 +18708,7 @@ function __c270(j: number): any {
       ).annotate({ identifier: "UpsertTrustCenterResourceCategoriesOrderRequest" });
   }
 }
-function __c271(j: number): any {
+function __c272(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18693,23 +18720,23 @@ function __c271(j: number): any {
         }),
       ).annotate({ identifier: "SetTrustCenterVideoItem" });
     case 1:
-      return S.Array(__S(4336, __c271, 0));
+      return S.Array(__S(4352, __c272, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           slugId: S.String.pipe(T.Label()),
-          videos: __S(4337, __c271, 1),
+          videos: __S(4353, __c272, 1),
         }).pipe(T.Http({ method: "PUT", uri: "/trust-centers/{slugId}/videos", code: 200 })),
       ).annotate({ identifier: "UpsertTrustCenterVideosRequest" });
   }
 }
-function __c272(j: number): any {
+function __c273(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           riskScenarioId: S.String.pipe(T.Label()),
-          accountsToLink: __S(4369, __c273, 1),
+          accountsToLink: __S(4385, __c274, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -18720,7 +18747,7 @@ function __c272(j: number): any {
       ).annotate({ identifier: "AddAccountMappingsRequest" });
   }
 }
-function __c273(j: number): any {
+function __c274(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18731,16 +18758,16 @@ function __c273(j: number): any {
         }),
       ).annotate({ identifier: "RiskScenarioAccountMapping" });
     case 1:
-      return S.Array(__S(4368, __c273, 0));
+      return S.Array(__S(4384, __c274, 0));
   }
 }
-function __c274(j: number): any {
+function __c275(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "AddAccountMappingsResponse" });
   }
 }
-function __c275(j: number): any {
+function __c276(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18753,7 +18780,7 @@ function __c275(j: number): any {
         S.Struct({
           autoApprovalEnabled: S.Boolean,
           grantAccessOption: S.optional(S.NullOr(S.String)),
-          tagsByCategory: S.optional(__S(4433, __c277, 1)),
+          tagsByCategory: S.optional(__S(4449, __c278, 1)),
         }),
       ).annotate({ identifier: "CustomerTrustAccountAccessConfigInput" });
     case 2:
@@ -18761,16 +18788,16 @@ function __c275(j: number): any {
         S.Struct({
           name: S.String,
           emailDomain: S.String,
-          ndaDetails: S.optional(__S(4400, __c275, 0)),
-          accessConfig: S.optional(__S(4401, __c275, 1)),
-          customFields: S.optional(__S(4753, __c297, 1)),
-          revenueOverrides: S.optional(__S(4417, __c276, 1)),
-          tagsByCategory: S.optional(__S(4433, __c277, 1)),
+          ndaDetails: S.optional(__S(4416, __c276, 0)),
+          accessConfig: S.optional(__S(4417, __c276, 1)),
+          customFields: S.optional(__S(4769, __c298, 1)),
+          revenueOverrides: S.optional(__S(4433, __c277, 1)),
+          tagsByCategory: S.optional(__S(4449, __c278, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/customer-trust/accounts", code: 200 })),
       ).annotate({ identifier: "CreateCustomerTrustAccountRequest" });
   }
 }
-function __c276(j: number): any {
+function __c277(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18780,23 +18807,23 @@ function __c276(j: number): any {
         }),
       ).annotate({ identifier: "CustomerTrustAccountRevenueOverrideInput" });
     case 1:
-      return S.Array(__S(4416, __c276, 0));
+      return S.Array(__S(4432, __c277, 0));
   }
 }
-function __c277(j: number): any {
+function __c278(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           categoryId: S.String,
-          tagIds: __S(4736, __c296, 0),
+          tagIds: __S(4752, __c297, 0),
         }),
       ).annotate({ identifier: "TagsByCategoryInput" });
     case 1:
-      return S.Array(__S(4432, __c277, 0));
+      return S.Array(__S(4448, __c278, 0));
   }
 }
-function __c278(j: number): any {
+function __c279(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18824,7 +18851,7 @@ function __c278(j: number): any {
         }),
       ).annotate({ identifier: "CustomerTrustAccountCustomRevenueMetric" });
     case 3:
-      return S.Array(__S(4450, __c278, 2));
+      return S.Array(__S(4466, __c279, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -18833,16 +18860,16 @@ function __c278(j: number): any {
           emailDomain: S.String,
           createdDate: S.String,
           updatedDate: S.String,
-          ndaDetails: __S(4448, __c278, 0),
-          accessConfig: S.NullOr(__S(4449, __c278, 1)),
-          customFields: __S(4753, __c297, 1),
-          tagsByCategory: __S(4433, __c277, 1),
-          customRevenueMetrics: __S(4451, __c278, 3),
+          ndaDetails: __S(4464, __c279, 0),
+          accessConfig: S.NullOr(__S(4465, __c279, 1)),
+          customFields: __S(4769, __c298, 1),
+          tagsByCategory: __S(4449, __c278, 1),
+          customRevenueMetrics: __S(4467, __c279, 3),
         }),
       ).annotate({ identifier: "CustomerTrustAccountVantaApi" });
   }
 }
-function __c279(j: number): any {
+function __c280(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18855,7 +18882,7 @@ function __c279(j: number): any {
       ).annotate({ identifier: "VerifyAnswerLibraryEntryRouteRequest" });
   }
 }
-function __c280(j: number): any {
+function __c281(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18868,7 +18895,7 @@ function __c280(j: number): any {
       ).annotate({ identifier: "VerifyKnowledgeBaseResourceRequest" });
   }
 }
-function __c281(j: number): any {
+function __c282(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18880,7 +18907,7 @@ function __c281(j: number): any {
       ).annotate({ identifier: "CreateCustomRequirementRequest" });
   }
 }
-function __c282(j: number): any {
+function __c283(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18898,7 +18925,7 @@ function __c282(j: number): any {
       ).annotate({ identifier: "CustomRequirement" });
   }
 }
-function __c283(j: number): any {
+function __c284(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18908,7 +18935,7 @@ function __c283(j: number): any {
       ).annotate({ identifier: "CreateDeletionRequestRequest" });
   }
 }
-function __c284(j: number): any {
+function __c285(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18918,7 +18945,7 @@ function __c284(j: number): any {
       ).annotate({ identifier: "CreateDeletionRequestResponse" });
   }
 }
-function __c285(j: number): any {
+function __c286(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18933,7 +18960,7 @@ function __c285(j: number): any {
       ).annotate({ identifier: "CreateDocumentRequest" });
   }
 }
-function __c286(j: number): any {
+function __c287(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18959,7 +18986,7 @@ function __c286(j: number): any {
       ).annotate({ identifier: "CreateDocumentResourceRequest" });
   }
 }
-function __c287(j: number): any {
+function __c288(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18972,18 +18999,18 @@ function __c287(j: number): any {
           customerVisibility: S.NullOr(S.String),
           downloadPermission: S.NullOr(S.String),
           isUsedInQuestionnaires: S.NullOr(S.Boolean),
-          ownerAssignment: S.NullOr(__S(2384, __c149, 0)),
+          ownerAssignment: S.NullOr(__S(2400, __c150, 0)),
           expirationStatus: S.String,
           expirationDate: S.NullOr(S.String),
           lastUpdated: S.String,
           lastVerified: S.NullOr(S.String),
-          tags: __S(2401, __c150, 1),
+          tags: __S(2417, __c151, 1),
           categoryId: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "KnowledgeBaseDocumentResourceOutput" });
   }
 }
-function __c288(j: number): any {
+function __c289(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19010,7 +19037,7 @@ function __c288(j: number): any {
       ).annotate({ identifier: "CreateFileQuestionnaireRequest" });
   }
 }
-function __c289(j: number): any {
+function __c290(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19021,7 +19048,7 @@ function __c289(j: number): any {
       ).annotate({ identifier: "CreateFrameworkControlsExportRequest" });
   }
 }
-function __c290(j: number): any {
+function __c291(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19033,7 +19060,7 @@ function __c290(j: number): any {
       ).annotate({ identifier: "CreateGroupRequest" });
   }
 }
-function __c291(j: number): any {
+function __c292(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19051,12 +19078,12 @@ function __c291(j: number): any {
           description: S.NullOr(S.String),
           source: S.String,
           personnelCount: S.Number,
-          pointOfContact: S.NullOr(__S(4656, __c291, 0)),
+          pointOfContact: S.NullOr(__S(4672, __c292, 0)),
         }),
       ).annotate({ identifier: "Group" });
   }
 }
-function __c292(j: number): any {
+function __c293(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19070,7 +19097,7 @@ function __c292(j: number): any {
       ).annotate({ identifier: "CreateLinkForDocumentRequest" });
   }
 }
-function __c293(j: number): any {
+function __c294(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19085,7 +19112,7 @@ function __c293(j: number): any {
       ).annotate({ identifier: "UploadedLink" });
   }
 }
-function __c294(j: number): any {
+function __c295(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19098,7 +19125,7 @@ function __c294(j: number): any {
       ).annotate({ identifier: "CreateQuestionnaireExportRequest" });
   }
 }
-function __c295(j: number): any {
+function __c296(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19108,13 +19135,13 @@ function __c295(j: number): any {
       ).annotate({ identifier: "AddControlFromLibraryRequest" });
   }
 }
-function __c296(j: number): any {
+function __c297(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c297(j: number): any {
+function __c298(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19124,10 +19151,10 @@ function __c297(j: number): any {
         }),
       ).annotate({ identifier: "CustomField" });
     case 1:
-      return S.Array(__S(4752, __c297, 0));
+      return S.Array(__S(4768, __c298, 0));
   }
 }
-function __c298(j: number): any {
+function __c299(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19137,10 +19164,10 @@ function __c298(j: number): any {
           name: S.String,
           description: S.String,
           source: S.String,
-          domains: __S(4736, __c296, 0),
-          owner: S.NullOr(__S(4784, __c299, 0)),
+          domains: __S(4752, __c297, 0),
+          owner: S.NullOr(__S(4800, __c300, 0)),
           role: S.optional(S.NullOr(S.String)),
-          customFields: __S(4753, __c297, 1),
+          customFields: __S(4769, __c298, 1),
           creationDate: S.NullOr(S.String),
           modificationDate: S.NullOr(S.String),
           implementationDetails: S.optional(S.NullOr(S.String)),
@@ -19148,7 +19175,7 @@ function __c298(j: number): any {
       ).annotate({ identifier: "Control" });
   }
 }
-function __c299(j: number): any {
+function __c300(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19160,7 +19187,7 @@ function __c299(j: number): any {
       ).annotate({ identifier: "Owner" });
   }
 }
-function __c300(j: number): any {
+function __c301(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19173,20 +19200,20 @@ function __c300(j: number): any {
           impact: S.optional(S.Number),
           residualLikelihood: S.optional(S.Number),
           residualImpact: S.optional(S.Number),
-          categories: S.optional(__S(4736, __c296, 0)),
-          ciaCategories: S.optional(__S(3248, __c203, 0)),
+          categories: S.optional(__S(4752, __c297, 0)),
+          ciaCategories: S.optional(__S(3264, __c204, 0)),
           treatment: S.optional(S.String),
           owner: S.optional(S.String),
           note: S.optional(S.String),
           riskRegister: S.optional(S.String),
-          customFields: S.optional(__S(3233, __c202, 1)),
+          customFields: S.optional(__S(3249, __c203, 1)),
           type: S.optional(S.String),
           identificationDate: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/risk-scenarios", code: 200 })),
       ).annotate({ identifier: "CreateRiskScenarioRequest" });
   }
 }
-function __c301(j: number): any {
+function __c302(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19200,7 +19227,7 @@ function __c301(j: number): any {
       ).annotate({ identifier: "CreateRiskScenarioControlRequest" });
   }
 }
-function __c302(j: number): any {
+function __c303(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19211,7 +19238,7 @@ function __c302(j: number): any {
       ).annotate({ identifier: "RiskScenarioControl" });
   }
 }
-function __c303(j: number): any {
+function __c304(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19219,14 +19246,14 @@ function __c303(j: number): any {
           name: S.String,
           description: S.optional(S.NullOr(S.String)),
           isReusable: S.Boolean,
-          onboarding: S.optional(__S(4880, __c305, 0)),
-          offboarding: S.optional(__S(4881, __c305, 1)),
+          onboarding: S.optional(__S(4896, __c306, 0)),
+          offboarding: S.optional(__S(4897, __c306, 1)),
           groupId: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/task-requirement-sets", code: 200 })),
       ).annotate({ identifier: "CreateTaskRequirementSetRequest" });
   }
 }
-function __c304(j: number): any {
+function __c305(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19248,8 +19275,8 @@ function __c304(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          onboarding: __S(4864, __c304, 0),
-          offboarding: __S(4865, __c304, 1),
+          onboarding: __S(4880, __c305, 0),
+          offboarding: __S(4881, __c305, 1),
         }),
       ).annotate({ identifier: "TaskRequirements" });
     case 3:
@@ -19261,12 +19288,12 @@ function __c304(j: number): any {
           isReusable: S.Boolean,
           createdAt: S.String,
           updatedAt: S.String,
-          taskRequirements: __S(4866, __c304, 2),
+          taskRequirements: __S(4882, __c305, 2),
         }),
       ).annotate({ identifier: "TaskRequirementSet" });
   }
 }
-function __c305(j: number): any {
+function __c306(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19287,7 +19314,7 @@ function __c305(j: number): any {
       ).annotate({ identifier: "OffboardingRequirementsInput" });
   }
 }
-function __c306(j: number): any {
+function __c307(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19300,7 +19327,7 @@ function __c306(j: number): any {
       ).annotate({ identifier: "CreateTrustCenterFaqRequest" });
   }
 }
-function __c307(j: number): any {
+function __c308(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19308,12 +19335,12 @@ function __c307(j: number): any {
           id: S.String,
           question: S.String,
           answer: S.String,
-          category: S.NullOr(__S(1520, __c95, 0)),
+          category: S.NullOr(__S(1536, __c96, 0)),
         }),
       ).annotate({ identifier: "TrustCenterFaq" });
   }
 }
-function __c308(j: number): any {
+function __c309(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19334,7 +19361,7 @@ function __c308(j: number): any {
       ).annotate({ identifier: "CreateTrustCenterResourceRequest" });
   }
 }
-function __c309(j: number): any {
+function __c310(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19351,7 +19378,7 @@ function __c309(j: number): any {
       ).annotate({ identifier: "TrustCenterResource" });
   }
 }
-function __c310(j: number): any {
+function __c311(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19368,7 +19395,7 @@ function __c310(j: number): any {
       ).annotate({ identifier: "CreateTrustCenterSubprocessorRequest" });
   }
 }
-function __c311(j: number): any {
+function __c312(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19383,7 +19410,7 @@ function __c311(j: number): any {
       ).annotate({ identifier: "CreateTrustCenterSubprocessorResponse" });
   }
 }
-function __c312(j: number): any {
+function __c313(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19396,13 +19423,13 @@ function __c312(j: number): any {
       ).annotate({ identifier: "CreateTrustCenterSubscriberRequest" });
   }
 }
-function __c313(j: number): any {
+function __c314(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1520, __c95, 0));
+      return S.Array(__S(1536, __c96, 0));
   }
 }
-function __c314(j: number): any {
+function __c315(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19412,23 +19439,9 @@ function __c314(j: number): any {
           isEmailVerified: S.Boolean,
           creationDate: S.String,
           customerTrustAccountId: S.NullOr(S.String),
-          groups: __S(5008, __c313, 0),
+          groups: __S(5024, __c314, 0),
         }),
       ).annotate({ identifier: "TrustCenterSubscriber" });
-  }
-}
-function __c315(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          slugId: S.String.pipe(T.Label()),
-          name: S.String,
-          subscriberIds: __S(4736, __c296, 0),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/trust-centers/{slugId}/subscriber-groups", code: 200 }),
-        ),
-      ).annotate({ identifier: "CreateTrustCenterSubscriberGroupRequest" });
   }
 }
 function __c316(j: number): any {
@@ -19436,15 +19449,29 @@ function __c316(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          slugId: S.String.pipe(T.Label()),
+          name: S.String,
+          subscriberIds: __S(4752, __c297, 0),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/trust-centers/{slugId}/subscriber-groups", code: 200 }),
+        ),
+      ).annotate({ identifier: "CreateTrustCenterSubscriberGroupRequest" });
+  }
+}
+function __c317(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           id: S.String,
           name: S.String,
-          subscriberIds: __S(4736, __c296, 0),
+          subscriberIds: __S(4752, __c297, 0),
           creationDate: S.String,
         }),
       ).annotate({ identifier: "TrustCenterSubscriberGroup" });
   }
 }
-function __c317(j: number): any {
+function __c318(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19454,14 +19481,14 @@ function __c317(j: number): any {
           description: S.String,
           category: S.String,
           visibilityType: S.optional(S.String),
-          notifiedEmails: S.optional(__S(4736, __c296, 0)),
+          notifiedEmails: S.optional(__S(4752, __c297, 0)),
           notificationTarget: S.optional(S.String),
-          subscriberGroupIds: S.optional(__S(4736, __c296, 0)),
+          subscriberGroupIds: S.optional(__S(4752, __c297, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/trust-centers/{slugId}/updates", code: 200 })),
       ).annotate({ identifier: "CreateTrustCenterUpdateRequest" });
   }
 }
-function __c318(j: number): any {
+function __c319(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19473,12 +19500,12 @@ function __c318(j: number): any {
           creationDate: S.String,
           updatedDate: S.String,
           visibilityType: S.String,
-          notifiedEmails: S.optional(__S(4736, __c296, 0)),
+          notifiedEmails: S.optional(__S(4752, __c297, 0)),
         }),
       ).annotate({ identifier: "TrustCenterUpdateAPIResponse" });
   }
 }
-function __c319(j: number): any {
+function __c320(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19505,29 +19532,18 @@ function __c319(j: number): any {
           contractRenewalDate: S.optional(S.String),
           contractTerminationDate: S.optional(S.String),
           isVisibleToAuditors: S.optional(S.Boolean),
-          authDetails: S.optional(__S(5104, __c319, 0)),
+          authDetails: S.optional(__S(5120, __c320, 0)),
           status: S.optional(S.String),
           category: S.optional(S.String),
           categoryId: S.optional(S.NullOr(S.String)),
           inherentRiskLevel: S.optional(S.String),
           residualRiskLevel: S.optional(S.String),
           vendorHeadquarters: S.optional(S.String),
-          contractAmount: S.optional(__S(5634, __c352, 2)),
-          customFields: S.optional(__S(4753, __c297, 1)),
-          frameworkScope: S.optional(__S(5120, __c320, 0)),
+          contractAmount: S.optional(__S(5650, __c353, 2)),
+          customFields: S.optional(__S(4769, __c298, 1)),
+          frameworkScope: S.optional(__S(5136, __c321, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/vendors", code: 200 })),
       ).annotate({ identifier: "CreateVendorRequest" });
-  }
-}
-function __c320(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          scopeType: S.String,
-          frameworkIds: S.optional(__S(4736, __c296, 0)),
-        }),
-      ).annotate({ identifier: "VendorFrameworkScope" });
   }
 }
 function __c321(j: number): any {
@@ -19535,14 +19551,25 @@ function __c321(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          scopeType: S.String,
+          frameworkIds: S.optional(__S(4752, __c297, 0)),
+        }),
+      ).annotate({ identifier: "VendorFrameworkScope" });
+  }
+}
+function __c322(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           slugId: S.String.pipe(T.Label()),
           controlId: S.String,
-          categoryIds: __S(4736, __c296, 0),
+          categoryIds: __S(4752, __c297, 0),
         }).pipe(T.Http({ method: "POST", uri: "/trust-centers/{slugId}/controls", code: 200 })),
       ).annotate({ identifier: "AddControlToTrustCenterRequest" });
   }
 }
-function __c322(j: number): any {
+function __c323(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19555,13 +19582,13 @@ function __c322(j: number): any {
       ).annotate({ identifier: "TrustCenterControlCategory" });
   }
 }
-function __c323(j: number): any {
+function __c324(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(5152, __c322, 0));
+      return S.Array(__S(5168, __c323, 0));
   }
 }
-function __c324(j: number): any {
+function __c325(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19569,12 +19596,12 @@ function __c324(j: number): any {
           id: S.String,
           name: S.String,
           description: S.String,
-          categories: S.NullOr(__S(5168, __c323, 0)),
+          categories: S.NullOr(__S(5184, __c324, 0)),
         }),
       ).annotate({ identifier: "TrustCenterControl" });
   }
 }
-function __c325(j: number): any {
+function __c326(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19585,7 +19612,7 @@ function __c325(j: number): any {
       ).annotate({ identifier: "CreateVendorCategoryRequest" });
   }
 }
-function __c326(j: number): any {
+function __c327(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19598,7 +19625,7 @@ function __c326(j: number): any {
       ).annotate({ identifier: "VendorCategory2" });
   }
 }
-function __c327(j: number): any {
+function __c328(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19606,14 +19633,14 @@ function __c327(j: number): any {
           vendorId: S.String.pipe(T.Label()),
           content: S.String,
           riskStatus: S.String,
-          remediation: S.optional(__S(5264, __c329, 0)),
+          remediation: S.optional(__S(5280, __c330, 0)),
           securityReviewId: S.optional(S.String),
           documentId: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/vendors/{vendorId}/findings", code: 200 })),
       ).annotate({ identifier: "CreateVendorFindingRequest" });
   }
 }
-function __c328(j: number): any {
+function __c329(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19631,12 +19658,12 @@ function __c328(j: number): any {
           documentId: S.NullOr(S.String),
           content: S.String,
           riskStatus: S.String,
-          remediation: S.NullOr(__S(5248, __c328, 0)),
+          remediation: S.NullOr(__S(5264, __c329, 0)),
         }),
       ).annotate({ identifier: "VendorFinding" });
   }
 }
-function __c329(j: number): any {
+function __c330(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19647,7 +19674,7 @@ function __c329(j: number): any {
       ).annotate({ identifier: "CreateVendorFindingRequestRemediation" });
   }
 }
-function __c330(j: number): any {
+function __c331(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19655,18 +19682,18 @@ function __c330(j: number): any {
           title: S.String,
           url: S.String,
           description: S.optional(S.String),
-          ownerAssignment: S.optional(__S(3792, __c237, 0)),
+          ownerAssignment: S.optional(__S(3808, __c238, 0)),
           customerVisibility: S.optional(S.String),
           includeSubPages: S.optional(S.Boolean),
           isUsedInQuestionnaires: S.optional(S.Boolean),
           expirationDate: S.optional(S.String),
-          tags: S.optional(__S(2401, __c150, 1)),
+          tags: S.optional(__S(2417, __c151, 1)),
           categoryId: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "POST", uri: "/knowledge-base/resources/webpages", code: 200 })),
       ).annotate({ identifier: "CreateWebpageResourceRequest" });
   }
 }
-function __c331(j: number): any {
+function __c332(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19679,40 +19706,40 @@ function __c331(j: number): any {
           customerVisibility: S.NullOr(S.String),
           includeSubPages: S.NullOr(S.Boolean),
           isUsedInQuestionnaires: S.NullOr(S.Boolean),
-          ownerAssignment: S.NullOr(__S(2384, __c149, 0)),
+          ownerAssignment: S.NullOr(__S(2400, __c150, 0)),
           expirationStatus: S.String,
           expirationDate: S.NullOr(S.String),
           lastUpdated: S.String,
           lastVerified: S.NullOr(S.String),
-          tags: __S(2401, __c150, 1),
+          tags: __S(2417, __c151, 1),
           categoryId: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "KnowledgeBaseWebpageResourceOutput" });
   }
 }
-function __c332(j: number): any {
+function __c333(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           displayName: S.String,
           url: S.String,
-          ownerAssignment: S.optional(__S(3792, __c237, 0)),
-          approverAssignment: S.optional(__S(3792, __c237, 0)),
+          ownerAssignment: S.optional(__S(3808, __c238, 0)),
+          approverAssignment: S.optional(__S(3808, __c238, 0)),
           companyUrl: S.optional(S.String),
           customerTrustAccountId: S.optional(S.String),
           description: S.optional(S.String),
           dueDate: S.optional(S.String),
-          metadata: S.optional(__S(5329, __c333, 1)),
-          includeUntaggedEntitiesForCategoryIds: S.optional(__S(4736, __c296, 0)),
-          tagAndCategoryIds: S.optional(__S(2401, __c150, 1)),
+          metadata: S.optional(__S(5345, __c334, 1)),
+          includeUntaggedEntitiesForCategoryIds: S.optional(__S(4752, __c297, 0)),
+          tagAndCategoryIds: S.optional(__S(2417, __c151, 1)),
         }).pipe(
           T.Http({ method: "POST", uri: "/customer-trust/questionnaires/website", code: 200 }),
         ),
       ).annotate({ identifier: "CreateWebsiteQuestionnaireRequest" });
   }
 }
-function __c333(j: number): any {
+function __c334(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19722,10 +19749,10 @@ function __c333(j: number): any {
         }),
       ).annotate({ identifier: "QuestionnaireMetadata" });
     case 1:
-      return S.Array(__S(5328, __c333, 0));
+      return S.Array(__S(5344, __c334, 0));
   }
 }
-function __c334(j: number): any {
+function __c335(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19744,7 +19771,7 @@ function __c334(j: number): any {
       ).annotate({ identifier: "DeactivateTestEntityRequest" });
   }
 }
-function __c335(j: number): any {
+function __c336(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19756,16 +19783,16 @@ function __c335(j: number): any {
         }),
       ).annotate({ identifier: "VulnerabilityDeactivateRequest" });
     case 1:
-      return S.Array(__S(5360, __c335, 0));
+      return S.Array(__S(5376, __c336, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          updates: __S(5361, __c335, 1),
+          updates: __S(5377, __c336, 1),
         }).pipe(T.Http({ method: "POST", uri: "/vulnerabilities/deactivate", code: 200 })),
       ).annotate({ identifier: "DeactivateVulnerabilitiesRequest" });
   }
 }
-function __c336(j: number): any {
+function __c337(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19777,7 +19804,7 @@ function __c336(j: number): any {
       ).annotate({ identifier: "DeleteAnswerLibraryEntryRouteRequest" });
   }
 }
-function __c337(j: number): any {
+function __c338(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19787,7 +19814,7 @@ function __c337(j: number): any {
       ).annotate({ identifier: "DeleteByIdRequest" });
   }
 }
-function __c338(j: number): any {
+function __c339(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19804,7 +19831,7 @@ function __c338(j: number): any {
       ).annotate({ identifier: "DeleteComplianceFrameworkRequest" });
   }
 }
-function __c339(j: number): any {
+function __c340(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19814,13 +19841,13 @@ function __c339(j: number): any {
       ).annotate({ identifier: "DeleteContractRequest" });
   }
 }
-function __c340(j: number): any {
+function __c341(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           riskScenarioId: S.String.pipe(T.Label()),
-          customAssetIdsToLink: __S(4736, __c296, 0),
+          customAssetIdsToLink: __S(4752, __c297, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -19831,7 +19858,7 @@ function __c340(j: number): any {
       ).annotate({ identifier: "AddCustomAssetMappingsRequest" });
   }
 }
-function __c341(j: number): any {
+function __c342(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19841,7 +19868,7 @@ function __c341(j: number): any {
       ).annotate({ identifier: "DeleteControlRequest" });
   }
 }
-function __c342(j: number): any {
+function __c343(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19853,7 +19880,7 @@ function __c342(j: number): any {
       ).annotate({ identifier: "DeleteCustomerTrustAccountRequest" });
   }
 }
-function __c343(j: number): any {
+function __c344(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19863,7 +19890,7 @@ function __c343(j: number): any {
       ).annotate({ identifier: "DeleteCustomFrameworkRequest" });
   }
 }
-function __c344(j: number): any {
+function __c345(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19873,7 +19900,7 @@ function __c344(j: number): any {
       ).annotate({ identifier: "DeleteDocumentRequest" });
   }
 }
-function __c345(j: number): any {
+function __c346(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19890,7 +19917,7 @@ function __c345(j: number): any {
       ).annotate({ identifier: "DeleteDocumentForcontrolRequest" });
   }
 }
-function __c346(j: number): any {
+function __c347(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19907,7 +19934,7 @@ function __c346(j: number): any {
       ).annotate({ identifier: "DeleteFileForDocumentRequest" });
   }
 }
-function __c347(j: number): any {
+function __c348(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19920,7 +19947,7 @@ function __c347(j: number): any {
       ).annotate({ identifier: "DeleteFindingByIdRequest" });
   }
 }
-function __c348(j: number): any {
+function __c349(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19930,7 +19957,7 @@ function __c348(j: number): any {
       ).annotate({ identifier: "DeleteGroupRequest" });
   }
 }
-function __c349(j: number): any {
+function __c350(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19940,7 +19967,7 @@ function __c349(j: number): any {
       ).annotate({ identifier: "DeleteKnowledgeBaseResourceRequest" });
   }
 }
-function __c350(j: number): any {
+function __c351(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19953,7 +19980,7 @@ function __c350(j: number): any {
       ).annotate({ identifier: "DeleteLinkForDocumentRequest" });
   }
 }
-function __c351(j: number): any {
+function __c352(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19969,7 +19996,7 @@ function __c351(j: number): any {
       ).annotate({ identifier: "AddDiscoveredVendorToManagedRequest" });
   }
 }
-function __c352(j: number): any {
+function __c353(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20018,7 +20045,7 @@ function __c352(j: number): any {
         }),
       ).annotate({ identifier: "VendorRelationshipSummary" });
     case 6:
-      return S.Array(__S(5637, __c352, 5));
+      return S.Array(__S(5653, __c353, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -20038,25 +20065,25 @@ function __c352(j: number): any {
           lastSecurityReviewCompletionDate: S.NullOr(S.String),
           isVisibleToAuditors: S.NullOr(S.Boolean),
           isRiskAutoScored: S.NullOr(S.Boolean),
-          riskAttributeIds: __S(4736, __c296, 0),
+          riskAttributeIds: __S(4752, __c297, 0),
           categoryId: S.NullOr(S.String),
-          category: S.NullOr(__S(5632, __c352, 0)),
-          authDetails: __S(5633, __c352, 1),
+          category: S.NullOr(__S(5648, __c353, 0)),
+          authDetails: __S(5649, __c353, 1),
           status: S.String,
           inherentRiskLevel: S.String,
           residualRiskLevel: S.String,
           vendorHeadquarters: S.NullOr(S.String),
-          contractAmount: S.NullOr(__S(5634, __c352, 2)),
-          customFields: S.NullOr(__S(4753, __c297, 1)),
-          latestDecision: S.NullOr(__S(5635, __c352, 3)),
-          linkedTaskTrackerTaskProcurementRequest: S.NullOr(__S(5636, __c352, 4)),
-          engagements: S.optional(__S(5638, __c352, 6)),
-          parentVendor: S.optional(S.NullOr(__S(5637, __c352, 5))),
+          contractAmount: S.NullOr(__S(5650, __c353, 2)),
+          customFields: S.NullOr(__S(4769, __c298, 1)),
+          latestDecision: S.NullOr(__S(5651, __c353, 3)),
+          linkedTaskTrackerTaskProcurementRequest: S.NullOr(__S(5652, __c353, 4)),
+          engagements: S.optional(__S(5654, __c353, 6)),
+          parentVendor: S.optional(S.NullOr(__S(5653, __c353, 5))),
         }),
       ).annotate({ identifier: "Vendor" });
   }
 }
-function __c353(j: number): any {
+function __c354(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20072,7 +20099,7 @@ function __c353(j: number): any {
       ).annotate({ identifier: "DeleteQuestionnaireRequest" });
   }
 }
-function __c354(j: number): any {
+function __c355(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20089,7 +20116,7 @@ function __c354(j: number): any {
       ).annotate({ identifier: "DeleteRiskScenarioControlRequest" });
   }
 }
-function __c355(j: number): any {
+function __c356(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20107,7 +20134,7 @@ function __c355(j: number): any {
       ).annotate({ identifier: "DeleteSecurityReviewDocumentByIdRequest" });
   }
 }
-function __c356(j: number): any {
+function __c357(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20120,7 +20147,7 @@ function __c356(j: number): any {
       ).annotate({ identifier: "DeleteTestForControlRequest" });
   }
 }
-function __c357(j: number): any {
+function __c358(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20137,7 +20164,7 @@ function __c357(j: number): any {
       ).annotate({ identifier: "DeleteTrustCenterControlRequest" });
   }
 }
-function __c358(j: number): any {
+function __c359(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20154,7 +20181,7 @@ function __c358(j: number): any {
       ).annotate({ identifier: "DeleteTrustCenterControlCategoryRequest" });
   }
 }
-function __c359(j: number): any {
+function __c360(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20167,7 +20194,7 @@ function __c359(j: number): any {
       ).annotate({ identifier: "DeleteTrustCenterFaqRequest" });
   }
 }
-function __c360(j: number): any {
+function __c361(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20184,7 +20211,7 @@ function __c360(j: number): any {
       ).annotate({ identifier: "DeleteTrustCenterFaqCategoryRequest" });
   }
 }
-function __c361(j: number): any {
+function __c362(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20201,7 +20228,7 @@ function __c361(j: number): any {
       ).annotate({ identifier: "DeleteTrustCenterResourceRequest" });
   }
 }
-function __c362(j: number): any {
+function __c363(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20218,7 +20245,7 @@ function __c362(j: number): any {
       ).annotate({ identifier: "DeleteTrustCenterResourceCategoryRequest" });
   }
 }
-function __c363(j: number): any {
+function __c364(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20236,13 +20263,13 @@ function __c363(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          document: __S(5824, __c364, 0),
-          control: __S(4768, __c298, 0),
+          document: __S(5840, __c365, 0),
+          control: __S(4784, __c299, 0),
         }),
       ).annotate({ identifier: "AddDocumentToControlResponse" });
   }
 }
-function __c364(j: number): any {
+function __c365(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20260,7 +20287,7 @@ function __c364(j: number): any {
       ).annotate({ identifier: "Document" });
   }
 }
-function __c365(j: number): any {
+function __c366(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20277,7 +20304,7 @@ function __c365(j: number): any {
       ).annotate({ identifier: "DeleteTrustCenterSubprocessorRequest" });
   }
 }
-function __c366(j: number): any {
+function __c367(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20294,7 +20321,7 @@ function __c366(j: number): any {
       ).annotate({ identifier: "DeleteTrustCenterSubscriberRequest" });
   }
 }
-function __c367(j: number): any {
+function __c368(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20311,7 +20338,7 @@ function __c367(j: number): any {
       ).annotate({ identifier: "DeleteTrustCenterSubscriberGroupRequest" });
   }
 }
-function __c368(j: number): any {
+function __c369(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20328,7 +20355,7 @@ function __c368(j: number): any {
       ).annotate({ identifier: "DeleteTrustCenterUpdateRequest" });
   }
 }
-function __c369(j: number): any {
+function __c370(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20339,7 +20366,7 @@ function __c369(j: number): any {
       ).annotate({ identifier: "DeleteVendorCategoryRequest" });
   }
 }
-function __c370(j: number): any {
+function __c371(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20358,7 +20385,7 @@ function __c370(j: number): any {
       ).annotate({ identifier: "DenyTrustCenterAccessRequestRequest" });
   }
 }
-function __c371(j: number): any {
+function __c372(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20368,7 +20395,7 @@ function __c371(j: number): any {
       ).annotate({ identifier: "EvaluateDocumentRequest" });
   }
 }
-function __c372(j: number): any {
+function __c373(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20378,7 +20405,7 @@ function __c372(j: number): any {
       ).annotate({ identifier: "GetAnswerLibraryEntryRequest" });
   }
 }
-function __c373(j: number): any {
+function __c374(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20406,14 +20433,14 @@ function __c373(j: number): any {
           overrideDueDate: S.NullOr(S.String),
           completionDate: S.NullOr(S.String),
           createdDate: S.String,
-          decision: S.NullOr(__S(5984, __c374, 0)),
-          assessmentType: __S(6000, __c375, 0),
-          owner: S.NullOr(__S(6001, __c375, 1)),
+          decision: S.NullOr(__S(6000, __c375, 0)),
+          assessmentType: __S(6016, __c376, 0),
+          owner: S.NullOr(__S(6017, __c376, 1)),
         }),
       ).annotate({ identifier: "VendorAssessment" });
   }
 }
-function __c374(j: number): any {
+function __c375(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20425,7 +20452,7 @@ function __c374(j: number): any {
       ).annotate({ identifier: "VendorAssessmentDecision" });
   }
 }
-function __c375(j: number): any {
+function __c376(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20446,7 +20473,7 @@ function __c375(j: number): any {
       ).annotate({ identifier: "AssessmentOwner" });
   }
 }
-function __c376(j: number): any {
+function __c377(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20454,8 +20481,8 @@ function __c376(j: number): any {
           vendorId: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageCursor: S.optional(S.String.pipe(T.Query())),
-          typeIdMatchesAny: S.optional(__S(4736, __c296, 0).pipe(T.Query())),
-          statusMatchesAny: S.optional(__S(3248, __c203, 0).pipe(T.Query())),
+          typeIdMatchesAny: S.optional(__S(4752, __c297, 0).pipe(T.Query())),
+          statusMatchesAny: S.optional(__S(3264, __c204, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/vendors/{vendorId}/assessments", code: 200 })),
       ).annotate({ identifier: "GetAssessmentsByVendorIdRequest" });
     case 1:
@@ -20470,7 +20497,7 @@ function __c376(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          questionCounts: __S(6017, __c376, 1),
+          questionCounts: __S(6033, __c377, 1),
         }),
       ).annotate({ identifier: "VendorAssessmentQuestionnaire" });
     case 3:
@@ -20486,30 +20513,30 @@ function __c376(j: number): any {
           overrideDueDate: S.NullOr(S.String),
           completionDate: S.NullOr(S.String),
           createdDate: S.String,
-          decision: S.NullOr(__S(5984, __c374, 0)),
-          assessmentType: __S(6000, __c375, 0),
-          owner: S.NullOr(__S(6001, __c375, 1)),
-          questionnaire: S.optional(S.NullOr(__S(6018, __c376, 2))),
+          decision: S.NullOr(__S(6000, __c375, 0)),
+          assessmentType: __S(6016, __c376, 0),
+          owner: S.NullOr(__S(6017, __c376, 1)),
+          questionnaire: S.optional(S.NullOr(__S(6034, __c377, 2))),
         }),
       ).annotate({ identifier: "VendorAssessmentWithQuestionnaire" });
     case 4:
-      return S.Array(__S(6019, __c376, 3));
+      return S.Array(__S(6035, __c377, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          data: __S(6020, __c376, 4),
-          pageInfo: __S(6032, __c377, 0),
+          data: __S(6036, __c377, 4),
+          pageInfo: __S(6048, __c378, 0),
         }),
       ).annotate({ identifier: "PaginatedResponseVendorAssessmentWithQuestionnaireResults" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          results: __S(6021, __c376, 5),
+          results: __S(6037, __c377, 5),
         }),
       ).annotate({ identifier: "PaginatedResponseVendorAssessmentWithQuestionnaire" });
   }
 }
-function __c377(j: number): any {
+function __c378(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20522,13 +20549,13 @@ function __c377(j: number): any {
       ).annotate({ identifier: "PageInfo" });
   }
 }
-function __c378(j: number): any {
+function __c379(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           riskScenarioId: S.String.pipe(T.Label()),
-          integrationIdsToAdd: __S(4736, __c296, 0),
+          integrationIdsToAdd: __S(4752, __c297, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -20539,7 +20566,7 @@ function __c378(j: number): any {
       ).annotate({ identifier: "AddIntegrationMappingsRequest" });
   }
 }
-function __c379(j: number): any {
+function __c380(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20549,7 +20576,7 @@ function __c379(j: number): any {
       ).annotate({ identifier: "GetBusinessUnitRequest" });
   }
 }
-function __c380(j: number): any {
+function __c381(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20560,7 +20587,7 @@ function __c380(j: number): any {
       ).annotate({ identifier: "BusinessUnit" });
   }
 }
-function __c381(j: number): any {
+function __c382(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20582,20 +20609,20 @@ function __c381(j: number): any {
           role: S.String,
           message: S.String,
           createdAt: S.String,
-          references: __S(4736, __c296, 0),
+          references: __S(4752, __c297, 0),
         }),
       ).annotate({ identifier: "TrustCenterChatbotMessage" });
     case 2:
-      return S.Array(__S(6097, __c381, 1));
+      return S.Array(__S(6113, __c382, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(6098, __c381, 2),
+          results: __S(6114, __c382, 2),
         }),
       ).annotate({ identifier: "ArrayResponseTrustCenterChatbotMessage" });
   }
 }
-function __c382(j: number): any {
+function __c383(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20605,7 +20632,7 @@ function __c382(j: number): any {
       ).annotate({ identifier: "GetConnectedIntegrationRequest" });
   }
 }
-function __c383(j: number): any {
+function __c384(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20616,19 +20643,19 @@ function __c383(j: number): any {
         }),
       ).annotate({ identifier: "Connection" });
     case 1:
-      return S.Array(__S(6128, __c383, 0));
+      return S.Array(__S(6144, __c384, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           integrationId: S.String,
           displayName: S.String,
-          resourceKinds: __S(4736, __c296, 0),
-          connections: __S(6129, __c383, 1),
+          resourceKinds: __S(4752, __c297, 0),
+          connections: __S(6145, __c384, 1),
         }),
       ).annotate({ identifier: "Integration" });
   }
 }
-function __c384(j: number): any {
+function __c385(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20638,7 +20665,7 @@ function __c384(j: number): any {
       ).annotate({ identifier: "GetContractRequest" });
   }
 }
-function __c385(j: number): any {
+function __c386(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20653,7 +20680,7 @@ function __c385(j: number): any {
       ).annotate({ identifier: "Contract" });
   }
 }
-function __c386(j: number): any {
+function __c387(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20663,7 +20690,7 @@ function __c386(j: number): any {
       ).annotate({ identifier: "GetControlRequest" });
   }
 }
-function __c387(j: number): any {
+function __c388(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20673,10 +20700,10 @@ function __c387(j: number): any {
           name: S.String,
           description: S.String,
           source: S.String,
-          domains: __S(4736, __c296, 0),
-          owner: S.NullOr(__S(4784, __c299, 0)),
+          domains: __S(4752, __c297, 0),
+          owner: S.NullOr(__S(4800, __c300, 0)),
           role: S.optional(S.NullOr(S.String)),
-          customFields: __S(4753, __c297, 1),
+          customFields: __S(4769, __c298, 1),
           creationDate: S.NullOr(S.String),
           modificationDate: S.NullOr(S.String),
           implementationDetails: S.optional(S.NullOr(S.String)),
@@ -20690,7 +20717,7 @@ function __c387(j: number): any {
       ).annotate({ identifier: "ControlDetail" });
   }
 }
-function __c388(j: number): any {
+function __c389(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20700,7 +20727,7 @@ function __c388(j: number): any {
       ).annotate({ identifier: "GetCustomerTrustAccountRequest" });
   }
 }
-function __c389(j: number): any {
+function __c390(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20729,17 +20756,17 @@ function __c389(j: number): any {
           uploadStatus: S.String,
           uploadStatusDate: S.NullOr(S.String),
           url: S.NullOr(S.String),
-          deactivatedStatus: __S(6225, __c389, 1),
+          deactivatedStatus: __S(6241, __c390, 1),
           note: S.NullOr(S.String),
           nextRenewalDate: S.NullOr(S.String),
           renewalCadence: S.String,
           reminderWindow: S.NullOr(S.String),
-          subscribers: __S(4736, __c296, 0),
+          subscribers: __S(4752, __c297, 0),
         }),
       ).annotate({ identifier: "DocumentDetail" });
   }
 }
-function __c390(j: number): any {
+function __c391(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20755,7 +20782,7 @@ function __c390(j: number): any {
       ).annotate({ identifier: "DocumentEvaluation" });
   }
 }
-function __c391(j: number): any {
+function __c392(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20764,7 +20791,7 @@ function __c391(j: number): any {
           includeStatus: S.optional(S.Boolean.pipe(T.Query())),
           includeRequirements: S.optional(S.Boolean.pipe(T.Query())),
           requirementsScope: S.optional(S.String.pipe(T.Query())),
-          variants: S.optional(__S(4736, __c296, 0).pipe(T.Query())),
+          variants: S.optional(__S(4752, __c297, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/frameworks/{frameworkId}", code: 200 })),
       ).annotate({ identifier: "GetFrameworkRequest" });
     case 1:
@@ -20777,11 +20804,11 @@ function __c391(j: number): any {
         }),
       ).annotate({ identifier: "FrameworkRequirementCategoryRequirementsItemControlsItem" });
     case 2:
-      return S.Array(__S(6257, __c391, 1));
+      return S.Array(__S(6273, __c392, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          controls: __S(6258, __c391, 2),
+          controls: __S(6274, __c392, 2),
           description: S.NullOr(S.String),
           shorthand: S.NullOr(S.String),
           name: S.String,
@@ -20789,18 +20816,18 @@ function __c391(j: number): any {
         }),
       ).annotate({ identifier: "FrameworkRequirementCategoryRequirementsItem" });
     case 4:
-      return S.Array(__S(6259, __c391, 3));
+      return S.Array(__S(6275, __c392, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           name: S.String,
           shorthand: S.NullOr(S.String),
-          requirements: __S(6260, __c391, 4),
+          requirements: __S(6276, __c392, 4),
         }),
       ).annotate({ identifier: "FrameworkRequirementCategory" });
     case 6:
-      return S.Array(__S(6261, __c391, 5));
+      return S.Array(__S(6277, __c392, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -20816,18 +20843,18 @@ function __c391(j: number): any {
           shorthand: S.NullOr(S.String),
           description: S.NullOr(S.String),
           parentRequirementId: S.NullOr(S.String),
-          category: S.NullOr(__S(6263, __c391, 7)),
-          controlIds: __S(4736, __c296, 0),
+          category: S.NullOr(__S(6279, __c392, 7)),
+          controlIds: __S(4752, __c297, 0),
         }),
       ).annotate({ identifier: "FrameworkRequirementItem" });
     case 9:
-      return S.Array(__S(6264, __c391, 8));
+      return S.Array(__S(6280, __c392, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
           scope: S.String,
-          variants: __S(4736, __c296, 0),
-          items: __S(6265, __c391, 9),
+          variants: __S(4752, __c297, 0),
+          items: __S(6281, __c392, 9),
         }),
       ).annotate({ identifier: "FrameworkRequirements" });
     case 11:
@@ -20844,14 +20871,14 @@ function __c391(j: number): any {
           numDocumentsTotal: S.Number,
           numTestsPassing: S.Number,
           numTestsTotal: S.Number,
-          requirementCategories: __S(6262, __c391, 6),
-          activeVariants: S.optional(__S(6273, __c392, 1)),
-          requirements: S.optional(__S(6266, __c391, 10)),
+          requirementCategories: __S(6278, __c392, 6),
+          activeVariants: S.optional(__S(6289, __c393, 1)),
+          requirements: S.optional(__S(6282, __c392, 10)),
         }),
       ).annotate({ identifier: "FrameworkDetail" });
   }
 }
-function __c392(j: number): any {
+function __c393(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20861,10 +20888,10 @@ function __c392(j: number): any {
         }),
       ).annotate({ identifier: "FrameworkActiveVariant" });
     case 1:
-      return S.Array(__S(6272, __c392, 0));
+      return S.Array(__S(6288, __c393, 0));
   }
 }
-function __c393(j: number): any {
+function __c394(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

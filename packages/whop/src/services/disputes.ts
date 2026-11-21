@@ -30,45 +30,92 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)),
+          /*@__PURE__*/ S.suspend(() => __S(33, __c1, 1)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | Error400Body | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)),
+          /*@__PURE__*/ S.suspend(() => __S(33, __c1, 1)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | Error400Body | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)),
+          /*@__PURE__*/ S.suspend(() => __S(33, __c1, 1)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | Error400Body | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(33, __c1, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export interface GetDisputeRequest {
   /** The dispute ID (`dspt_` tag). */
@@ -1154,6 +1201,28 @@ export interface UploadDisputeEvidenceRequest {
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
   idempotency_key?: string | undefined;
 }
+export interface V1ErrorResponseError {
+  /** Machine-readable reason for this specific refusal, such as `bank_warning_not_acknowledged`. Only present when the error carries one. */
+  code?: string | undefined;
+  /** Human-readable error message. */
+  message: string;
+  /** Machine-readable error code. */
+  type: string;
+}
+export interface V1ErrorResponse {
+  error: V1ErrorResponseError;
+}
+export interface Error400BodyError {
+  /** A short string indicating the specific error code, e.g. 'parameter_missing', 'parameter_invalid', 'invalid_json' */
+  code?: string | null | undefined;
+  message: string;
+  /** The parameter that caused the error, if applicable */
+  param?: string | null | undefined;
+  type: string;
+}
+export interface Error400Body {
+  error: Error400BodyError;
+}
 export type GetDisputeError = NotFound | WhopOpError;
 /** Retrieve Dispute Retrieves a single dispute. */
 export const getDispute: API.OperationMethod<
@@ -1162,8 +1231,8 @@ export const getDispute: API.OperationMethod<
   GetDisputeError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<GetDisputeRequest>,
-  output: __S(178, __c5, 18) as any as S.Schema<Dispute>,
+  input: __S(192, __c6, 0) as any as S.Schema<GetDisputeRequest>,
+  output: __S(242, __c7, 18) as any as S.Schema<Dispute>,
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1179,8 +1248,8 @@ export const getDisputeSummary: API.OperationMethod<
   GetDisputeSummaryError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<GetDisputeSummaryRequest>,
-  output: __S(196, __c6, 4) as any as S.Schema<GetDisputeSummaryResponse>,
+  input: __S(256, __c8, 0) as any as S.Schema<GetDisputeSummaryRequest>,
+  output: __S(260, __c8, 4) as any as S.Schema<GetDisputeSummaryResponse>,
   errors: [BadRequest],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1198,8 +1267,8 @@ export const listDisputes: API.PaginatedOperationMethod<
   Dispute
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(256, __c8, 0) as any as S.Schema<ListDisputesRequest>,
-    output: __S(259, __c8, 3) as any as S.Schema<ListDisputesResponse>,
+    input: __S(320, __c10, 0) as any as S.Schema<ListDisputesRequest>,
+    output: __S(323, __c10, 3) as any as S.Schema<ListDisputesResponse>,
     errors: [BadRequest, Forbidden],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -1225,8 +1294,8 @@ export const submitDispute: API.OperationMethod<
   SubmitDisputeError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<SubmitDisputeRequest>,
-  output: __S(178, __c5, 18) as any as S.Schema<Dispute>,
+  input: __S(352, __c11, 0) as any as S.Schema<SubmitDisputeRequest>,
+  output: __S(242, __c7, 18) as any as S.Schema<Dispute>,
   errors: [BadRequest, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1247,8 +1316,8 @@ export const submitEvidenceDispute: API.OperationMethod<
   SubmitEvidenceDisputeError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<SubmitEvidenceDisputeRequest>,
-  output: __S(363, __c11, 11) as any as S.Schema<LegacyDispute>,
+  input: __S(384, __c12, 0) as any as S.Schema<SubmitEvidenceDisputeRequest>,
+  output: __S(427, __c13, 11) as any as S.Schema<LegacyDispute>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1264,8 +1333,8 @@ export const updateDispute: API.OperationMethod<
   UpdateDisputeError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2, __c0, 2) as any as S.Schema<UpdateDisputeRequest>,
-  output: __S(178, __c5, 18) as any as S.Schema<Dispute>,
+  input: __S(66, __c2, 2) as any as S.Schema<UpdateDisputeRequest>,
+  output: __S(242, __c7, 18) as any as S.Schema<Dispute>,
   errors: [BadRequest, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1286,8 +1355,8 @@ export const updateEvidenceDispute: API.OperationMethod<
   UpdateEvidenceDisputeError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<UpdateEvidenceDisputeRequest>,
-  output: __S(363, __c11, 11) as any as S.Schema<LegacyDispute>,
+  input: __S(128, __c4, 0) as any as S.Schema<UpdateEvidenceDisputeRequest>,
+  output: __S(427, __c13, 11) as any as S.Schema<LegacyDispute>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1303,8 +1372,8 @@ export const uploadDisputeEvidence: API.OperationMethod<
   UploadDisputeEvidenceError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c3, 0) as any as S.Schema<UploadDisputeEvidenceRequest>,
-  output: __S(178, __c5, 18) as any as S.Schema<Dispute>,
+  input: __S(160, __c5, 0) as any as S.Schema<UploadDisputeEvidenceRequest>,
+  output: __S(242, __c7, 18) as any as S.Schema<Dispute>,
   errors: [BadRequest, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1318,6 +1387,43 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          code: S.optional(S.String),
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "V1ErrorResponseError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "V1ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.NullOr(S.String)),
+          message: S.String,
+          param: S.optional(S.NullOr(S.String)),
+          type: S.String,
+        }),
+      ).annotate({ identifier: "Error400BodyError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(32, __c1, 0),
+        }),
+      ).annotate({ identifier: "Error400Body" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           direct_upload_id: S.optional(S.String),
           id: S.optional(S.String),
         }),
@@ -1327,31 +1433,31 @@ function __c0(j: number): any {
         S.Struct({
           access_activity_log: S.optional(S.NullOr(S.String)),
           billing_address: S.optional(S.NullOr(S.String)),
-          cancellation_policy_attachment: S.optional(S.NullOr(__S(0, __c0, 0))),
+          cancellation_policy_attachment: S.optional(S.NullOr(__S(64, __c2, 0))),
           cancellation_policy_disclosure: S.optional(S.NullOr(S.String)),
-          customer_communication_attachment: S.optional(S.NullOr(__S(0, __c0, 0))),
+          customer_communication_attachment: S.optional(S.NullOr(__S(64, __c2, 0))),
           customer_email_address: S.optional(S.NullOr(S.String)),
           customer_name: S.optional(S.NullOr(S.String)),
-          documents: S.optional(__S(33, __c1, 1)),
+          documents: S.optional(__S(97, __c3, 1)),
           notes: S.optional(S.NullOr(S.String)),
           product_description: S.optional(S.NullOr(S.String)),
-          refund_policy_attachment: S.optional(S.NullOr(__S(0, __c0, 0))),
+          refund_policy_attachment: S.optional(S.NullOr(__S(64, __c2, 0))),
           refund_policy_disclosure: S.optional(S.NullOr(S.String)),
           refund_refusal_explanation: S.optional(S.NullOr(S.String)),
           service_date: S.optional(S.NullOr(S.String)),
-          uncategorized_attachment: S.optional(S.NullOr(__S(0, __c0, 0))),
+          uncategorized_attachment: S.optional(S.NullOr(__S(64, __c2, 0))),
         }),
       ).annotate({ identifier: "UpdateDisputeRequestEvidence" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          evidence: S.optional(__S(1, __c0, 1)),
+          evidence: S.optional(__S(65, __c2, 1)),
         }).pipe(T.Http({ method: "PATCH", uri: "/disputes/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateDisputeRequest" });
   }
 }
-function __c1(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1363,10 +1469,10 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "UpdateDisputeRequestEvidenceDocumentsItem" });
     case 1:
-      return S.Array(__S(32, __c1, 0));
+      return S.Array(__S(96, __c3, 0));
   }
 }
-function __c2(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1374,35 +1480,35 @@ function __c2(j: number): any {
           id: S.String.pipe(T.Label()),
           access_activity_log: S.optional(S.NullOr(S.String)),
           billing_address: S.optional(S.NullOr(S.String)),
-          cancellation_policy_attachment: S.optional(S.NullOr(__S(362, __c11, 10))),
+          cancellation_policy_attachment: S.optional(S.NullOr(__S(426, __c13, 10))),
           cancellation_policy_disclosure: S.optional(S.NullOr(S.String)),
-          customer_communication_attachment: S.optional(S.NullOr(__S(362, __c11, 10))),
+          customer_communication_attachment: S.optional(S.NullOr(__S(426, __c13, 10))),
           customer_email_address: S.optional(S.NullOr(S.String)),
           customer_name: S.optional(S.NullOr(S.String)),
           notes: S.optional(S.NullOr(S.String)),
           product_description: S.optional(S.NullOr(S.String)),
-          refund_policy_attachment: S.optional(S.NullOr(__S(362, __c11, 10))),
+          refund_policy_attachment: S.optional(S.NullOr(__S(426, __c13, 10))),
           refund_policy_disclosure: S.optional(S.NullOr(S.String)),
           refund_refusal_explanation: S.optional(S.NullOr(S.String)),
           service_date: S.optional(S.NullOr(S.String)),
-          uncategorized_attachment: S.optional(S.NullOr(__S(362, __c11, 10))),
+          uncategorized_attachment: S.optional(S.NullOr(__S(426, __c13, 10))),
         }).pipe(T.Http({ method: "POST", uri: "/disputes/{id}/update_evidence", code: 200 })),
       ).annotate({ identifier: "UpdateEvidenceDisputeRequest" });
   }
 }
-function __c3(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          documents: __S(33, __c1, 1),
+          documents: __S(97, __c3, 1),
           idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(T.Http({ method: "POST", uri: "/disputes/{id}/upload_evidence", code: 200 })),
       ).annotate({ identifier: "UploadDisputeEvidenceRequest" });
   }
 }
-function __c4(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1412,7 +1518,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetDisputeRequest" });
   }
 }
-function __c5(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1442,7 +1548,7 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "FileMultipartUrl" });
     case 3:
-      return S.Array(__S(162, __c5, 2));
+      return S.Array(__S(226, __c7, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -1453,7 +1559,7 @@ function __c5(j: number): any {
           id: S.String,
           multipart_chunk_size: S.optional(S.NullOr(S.Number)),
           multipart_upload_id: S.optional(S.NullOr(S.String)),
-          multipart_upload_urls: S.optional(S.NullOr(__S(163, __c5, 3))),
+          multipart_upload_urls: S.optional(S.NullOr(__S(227, __c7, 3))),
           object: S.String,
           size: S.NullOr(S.Number),
           upload_headers: S.optional(S.Unknown),
@@ -1464,25 +1570,25 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "DisputeEvidenceDocument" });
     case 5:
-      return S.Array(__S(164, __c5, 4));
+      return S.Array(__S(228, __c7, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           access_activity_log: S.NullOr(S.String),
           billing_address: S.NullOr(S.String),
-          cancellation_policy_attachment: S.NullOr(__S(161, __c5, 1)),
+          cancellation_policy_attachment: S.NullOr(__S(225, __c7, 1)),
           cancellation_policy_disclosure: S.NullOr(S.String),
-          customer_communication_attachment: S.NullOr(__S(161, __c5, 1)),
+          customer_communication_attachment: S.NullOr(__S(225, __c7, 1)),
           customer_email_address: S.NullOr(S.String),
           customer_name: S.NullOr(S.String),
-          documents: __S(165, __c5, 5),
+          documents: __S(229, __c7, 5),
           notes: S.NullOr(S.String),
           product_description: S.NullOr(S.String),
-          refund_policy_attachment: S.NullOr(__S(161, __c5, 1)),
+          refund_policy_attachment: S.NullOr(__S(225, __c7, 1)),
           refund_policy_disclosure: S.NullOr(S.String),
           refund_refusal_explanation: S.NullOr(S.String),
           service_date: S.NullOr(S.String),
-          uncategorized_attachment: S.NullOr(__S(161, __c5, 1)),
+          uncategorized_attachment: S.NullOr(__S(225, __c7, 1)),
         }),
       ).annotate({ identifier: "DisputeEvidence" });
     case 7:
@@ -1493,7 +1599,7 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "DisputeIssuerComment" });
     case 8:
-      return S.Array(__S(167, __c5, 7));
+      return S.Array(__S(231, __c7, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -1513,11 +1619,11 @@ function __c5(j: number): any {
           product_id: S.NullOr(S.String),
           product_title: S.NullOr(S.String),
           quantity: S.Number,
-          subtotal: S.NullOr(__S(169, __c5, 9)),
+          subtotal: S.NullOr(__S(233, __c7, 9)),
         }),
       ).annotate({ identifier: "ReceiptLineItem" });
     case 11:
-      return S.Array(__S(170, __c5, 10));
+      return S.Array(__S(234, __c7, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
@@ -1540,23 +1646,23 @@ function __c5(j: number): any {
     case 14:
       return S.suspend(() =>
         S.Struct({
-          dark: __S(173, __c5, 13),
-          light: __S(173, __c5, 13),
+          dark: __S(237, __c7, 13),
+          light: __S(237, __c7, 13),
         }),
       ).annotate({ identifier: "PaymentMethodIconVariants" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          card: __S(174, __c5, 14),
-          square: __S(174, __c5, 14),
+          card: __S(238, __c7, 14),
+          square: __S(238, __c7, 14),
         }),
       ).annotate({ identifier: "PaymentMethodIcons" });
     case 16:
       return S.suspend(() =>
         S.Struct({
-          card: S.NullOr(__S(172, __c5, 12)),
+          card: S.NullOr(__S(236, __c7, 12)),
           display_name: S.String,
-          icons: __S(175, __c5, 15),
+          icons: __S(239, __c7, 15),
           installment_count: S.NullOr(S.Number),
           payment_method_type: S.String,
         }),
@@ -1570,7 +1676,7 @@ function __c5(j: number): any {
           created_at: S.String,
           currency: S.NullOr(S.String),
           id: S.String,
-          payment_instrument: S.NullOr(__S(176, __c5, 16)),
+          payment_instrument: S.NullOr(__S(240, __c7, 16)),
           payment_method_type: S.NullOr(S.String),
           payment_processor: S.NullOr(S.String),
         }),
@@ -1580,19 +1686,19 @@ function __c5(j: number): any {
         S.Struct({
           account_id: S.NullOr(S.String),
           amount: S.Number,
-          buyer: __S(160, __c5, 0),
+          buyer: __S(224, __c7, 0),
           created_at: S.String,
           currency: S.String,
-          evidence: __S(166, __c5, 6),
+          evidence: __S(230, __c7, 6),
           evidence_due_at: S.NullOr(S.String),
           evidence_editable: S.Boolean,
           evidence_locked_reason: S.NullOr(S.String),
           evidence_submitted_at: S.NullOr(S.String),
           id: S.String,
           inquiry: S.Boolean,
-          issuer_comments: __S(168, __c5, 8),
-          line_items: __S(171, __c5, 11),
-          payment: __S(177, __c5, 17),
+          issuer_comments: __S(232, __c7, 8),
+          line_items: __S(235, __c7, 11),
+          payment: __S(241, __c7, 17),
           plan_id: S.NullOr(S.String),
           product_id: S.NullOr(S.String),
           reason: S.String,
@@ -1603,14 +1709,14 @@ function __c5(j: number): any {
       ).annotate({ identifier: "Dispute" });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          groups: S.optional(__S(224, __c7, 0).pipe(T.Query())),
+          groups: S.optional(__S(288, __c9, 0).pipe(T.Query())),
           account_id: S.optional(S.String.pipe(T.Query())),
-          status: S.optional(__S(224, __c7, 0).pipe(T.Query())),
+          status: S.optional(__S(288, __c9, 0).pipe(T.Query())),
           currency: S.optional(S.String.pipe(T.Query())),
           created_before: S.optional(S.String.pipe(T.Query())),
           created_after: S.optional(S.String.pipe(T.Query())),
@@ -1634,26 +1740,26 @@ function __c6(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          currency: S.optional(__S(193, __c6, 1)),
-          status: S.optional(__S(194, __c6, 2)),
+          currency: S.optional(__S(257, __c8, 1)),
+          status: S.optional(__S(258, __c8, 2)),
         }),
       ).annotate({ identifier: "GetDisputeSummaryResponseGroups" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          groups: __S(195, __c6, 3),
+          groups: __S(259, __c8, 3),
           total: S.Number,
         }),
       ).annotate({ identifier: "GetDisputeSummaryResponse" });
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c8(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1665,14 +1771,14 @@ function __c8(j: number): any {
           before: S.optional(S.String.pipe(T.Query())),
           order: S.optional(S.String.pipe(T.Query())),
           direction: S.optional(S.String.pipe(T.Query())),
-          status: S.optional(__S(224, __c7, 0).pipe(T.Query())),
+          status: S.optional(__S(288, __c9, 0).pipe(T.Query())),
           currency: S.optional(S.String.pipe(T.Query())),
           created_before: S.optional(S.String.pipe(T.Query())),
           created_after: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/disputes", code: 200 })),
       ).annotate({ identifier: "ListDisputesRequest" });
     case 1:
-      return S.Array(__S(178, __c5, 18));
+      return S.Array(__S(242, __c7, 18));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1685,13 +1791,13 @@ function __c8(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(257, __c8, 1),
-          page_info: __S(258, __c8, 2),
+          data: __S(321, __c10, 1),
+          page_info: __S(322, __c10, 2),
         }),
       ).annotate({ identifier: "ListDisputesResponse" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1702,7 +1808,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "SubmitDisputeRequest" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1712,7 +1818,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "SubmitEvidenceDisputeRequest" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1753,21 +1859,21 @@ function __c11(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          dark: __S(356, __c11, 4),
-          light: __S(356, __c11, 4),
+          dark: __S(420, __c13, 4),
+          light: __S(420, __c13, 4),
         }),
       ).annotate({ identifier: "LegacyDisputePaymentPaymentInstrumentIconsSquare" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          square: __S(357, __c11, 5),
+          square: __S(421, __c13, 5),
         }),
       ).annotate({ identifier: "LegacyDisputePaymentPaymentInstrumentIcons" });
     case 7:
       return S.suspend(() =>
         S.Struct({
           display_name: S.String,
-          icons: __S(358, __c11, 6),
+          icons: __S(422, __c13, 6),
           installment_count: S.NullOr(S.Number),
           payment_method_type: S.String,
         }),
@@ -1791,15 +1897,15 @@ function __c11(j: number): any {
           currency: S.String,
           dispute_alerted_at: S.NullOr(S.String),
           id: S.String,
-          member: S.NullOr(__S(354, __c11, 2)),
-          membership: S.NullOr(__S(355, __c11, 3)),
+          member: S.NullOr(__S(418, __c13, 2)),
+          membership: S.NullOr(__S(419, __c13, 3)),
           paid_at: S.NullOr(S.String),
-          payment_instrument: S.NullOr(__S(359, __c11, 7)),
+          payment_instrument: S.NullOr(__S(423, __c13, 7)),
           payment_method_type: S.NullOr(S.String),
           subtotal: S.NullOr(S.Number),
           total: S.NullOr(S.Number),
           usd_total: S.NullOr(S.Number),
-          user: S.NullOr(__S(360, __c11, 8)),
+          user: S.NullOr(__S(424, __c13, 8)),
         }),
       ).annotate({ identifier: "LegacyDisputePayment" });
     case 10:
@@ -1814,30 +1920,30 @@ function __c11(j: number): any {
           access_activity_log: S.NullOr(S.String),
           amount: S.Number,
           billing_address: S.NullOr(S.String),
-          cancellation_policy_attachment: S.NullOr(__S(352, __c11, 0)),
+          cancellation_policy_attachment: S.NullOr(__S(416, __c13, 0)),
           cancellation_policy_disclosure: S.NullOr(S.String),
-          company: S.NullOr(__S(353, __c11, 1)),
+          company: S.NullOr(__S(417, __c13, 1)),
           created_at: S.NullOr(S.String),
           currency: S.String,
-          customer_communication_attachment: S.NullOr(__S(352, __c11, 0)),
+          customer_communication_attachment: S.NullOr(__S(416, __c13, 0)),
           customer_email_address: S.NullOr(S.String),
           customer_name: S.NullOr(S.String),
           editable: S.NullOr(S.Boolean),
           id: S.String,
           needs_response_by: S.NullOr(S.String),
           notes: S.NullOr(S.String),
-          payment: S.NullOr(__S(361, __c11, 9)),
-          plan: S.NullOr(__S(362, __c11, 10)),
-          product: S.NullOr(__S(353, __c11, 1)),
+          payment: S.NullOr(__S(425, __c13, 9)),
+          plan: S.NullOr(__S(426, __c13, 10)),
+          product: S.NullOr(__S(417, __c13, 1)),
           product_description: S.NullOr(S.String),
           reason: S.NullOr(S.String),
           reason_code: S.NullOr(S.String),
-          refund_policy_attachment: S.NullOr(__S(352, __c11, 0)),
+          refund_policy_attachment: S.NullOr(__S(416, __c13, 0)),
           refund_policy_disclosure: S.NullOr(S.String),
           refund_refusal_explanation: S.NullOr(S.String),
           service_date: S.NullOr(S.String),
           status: S.String,
-          uncategorized_attachment: S.NullOr(__S(352, __c11, 0)),
+          uncategorized_attachment: S.NullOr(__S(416, __c13, 0)),
           visa_rdr: S.Boolean,
         }),
       ).annotate({ identifier: "LegacyDispute" });

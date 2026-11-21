@@ -1,0 +1,12 @@
+{
+  "description": "MediaLive: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.medialive#CreateChannel/errors/-",
+      "value": {
+        "target": "com.amazonaws.medialive#MediaLiveRoleNotYetTrusted"
+      }
+    }
+  ]
+}

@@ -120,7 +120,7 @@ export class LimitExceededException
       /*@__PURE__*/ T.AwsQueryError({ code: "LimitExceededException", httpResponseCode: 403 }),
       /*@__PURE__*/ T.HttpError(403),
     ),
-  ).pipe(C.withAuthError) {}
+  ).pipe(C.withAuthError, C.withThrottlingError, C.withRetryableError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",

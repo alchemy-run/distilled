@@ -42,6 +42,8 @@ export class Gone
     /*@__PURE__*/ S.TaggedError<Gone>()("Gone", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 3005 }, { message: { includes: "index deleted" } }],
   ) {}
@@ -51,6 +53,8 @@ export class IndexAlreadyExists
     /*@__PURE__*/ S.TaggedError<IndexAlreadyExists>()("IndexAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 3002 }],
   ) {}
@@ -60,6 +64,8 @@ export class IndexInvalidConfig
     /*@__PURE__*/ S.TaggedError<IndexInvalidConfig>()("IndexInvalidConfig", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 3003 }],
   ) {}
@@ -69,6 +75,8 @@ export class IndexInvalidName
     /*@__PURE__*/ S.TaggedError<IndexInvalidName>()("IndexInvalidName", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 3001 }],
   ) {}
@@ -78,6 +86,8 @@ export class MetadataIndexAlreadyExists
     /*@__PURE__*/ S.TaggedError<MetadataIndexAlreadyExists>()("MetadataIndexAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 40004 }],
   ) {}
@@ -87,6 +97,8 @@ export class MetadataIndexInvalidType
     /*@__PURE__*/ S.TaggedError<MetadataIndexInvalidType>()("MetadataIndexInvalidType", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 40026 }],
   ) {}
@@ -96,6 +108,8 @@ export class MetadataIndexNotFound
     /*@__PURE__*/ S.TaggedError<MetadataIndexNotFound>()("MetadataIndexNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 40005 }],
   ) {}
@@ -105,6 +119,8 @@ export class NotFound
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 3000 }],
   ) {}

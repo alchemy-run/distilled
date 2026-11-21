@@ -30,18 +30,32 @@ export class ProjectNameInUse
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<ProjectNameInUse>()("ProjectNameInUse", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 409, message: { includes: "project name already in use" } }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorModel | string;
+}
 
 /** The name is not a valid project name: at most 32 lowercase letters, digits, `.` and `-` (HTTP 400, `project/name-invalid`). */
 export class ProjectNameInvalid
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<ProjectNameInvalid>()("ProjectNameInvalid", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 400, message: { includes: "invalid project name" } }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorModel | string;
+}
 
 export type CreateProjectRequestOwnerType = "org" | "account";
 export interface CreateProjectRequest {
@@ -479,6 +493,34 @@ export interface RevokeProjectInvitationRequest {
   id: string;
 }
 export interface RevokeProjectInvitationResponse {}
+export interface ErrorDetail {
+  /** Where the error occurred, e.g. 'body.items[3].tags' or 'path.thing-id' */
+  location?: string | undefined;
+  /** Error message text */
+  message?: string | undefined;
+  /** The value at the given location */
+  value?: unknown | undefined;
+  [key: string]: unknown;
+}
+/** Optional list of individual error details */
+export type ErrorModelErrorsList = Array<ErrorDetail>;
+export interface ErrorModel {
+  /** A URL to the JSON Schema for this object. */
+  _schema?: string | undefined;
+  /** A human-readable explanation specific to this occurrence of the problem. */
+  detail?: string | undefined;
+  /** Optional list of individual error details */
+  errors?: ErrorModelErrorsList | undefined;
+  /** A URI reference that identifies the specific occurrence of the problem. */
+  instance?: string | undefined;
+  /** HTTP status code */
+  status?: number | undefined;
+  /** A short, human-readable summary of the problem type. This value should not change between occurrences of the error. */
+  title?: string | undefined;
+  /** A URI reference to human-readable documentation for the error. */
+  type?: string | undefined;
+  [key: string]: unknown;
+}
 export type CreateProjectError = ProjectNameInUse | ProjectNameInvalid | EntireOpError;
 /** Create project */
 export const createProject: API.OperationMethod<
@@ -487,8 +529,8 @@ export const createProject: API.OperationMethod<
   CreateProjectError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<CreateProjectRequest>,
-  output: __S(65, __c8, 1) as any as S.Schema<CreatedProject>,
+  input: __S(72, __c9, 0) as any as S.Schema<CreateProjectRequest>,
+  output: __S(73, __c9, 1) as any as S.Schema<CreatedProject>,
   errors: [ProjectNameInUse, ProjectNameInvalid, UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -504,8 +546,8 @@ export const createProjectInvitation: API.OperationMethod<
   CreateProjectInvitationError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<CreateProjectInvitationRequest>,
-  output: __S(91, __c11, 3) as any as S.Schema<ResourceInvitation>,
+  input: __S(88, __c11, 0) as any as S.Schema<CreateProjectInvitationRequest>,
+  output: __S(99, __c12, 3) as any as S.Schema<ResourceInvitation>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -521,8 +563,8 @@ export const deleteProject: API.OperationMethod<
   DeleteProjectError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<DeleteProjectRequest>,
-  output: __S(104, __c13, 0) as any as S.Schema<DeleteProjectResponse>,
+  input: __S(104, __c13, 0) as any as S.Schema<DeleteProjectRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<DeleteProjectResponse>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -538,8 +580,8 @@ export const getProject: API.OperationMethod<
   GetProjectError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<GetProjectRequest>,
-  output: __S(120, __c15, 0) as any as S.Schema<Project>,
+  input: __S(120, __c15, 0) as any as S.Schema<GetProjectRequest>,
+  output: __S(128, __c16, 0) as any as S.Schema<Project>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -555,8 +597,8 @@ export const grantProjectAccess: API.OperationMethod<
   GrantProjectAccessError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<GrantProjectAccessRequest>,
-  output: __S(129, __c16, 1) as any as S.Schema<GrantProjectAccessOutputBody>,
+  input: __S(136, __c17, 0) as any as S.Schema<GrantProjectAccessRequest>,
+  output: __S(137, __c17, 1) as any as S.Schema<GrantProjectAccessOutputBody>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -574,8 +616,8 @@ export const listOrgProjects: API.PaginatedOperationMethod<
   Project
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(136, __c17, 0) as any as S.Schema<ListOrgProjectsRequest>,
-    output: __S(145, __c18, 1) as any as S.Schema<ListOrgProjectsOutputBody>,
+    input: __S(144, __c18, 0) as any as S.Schema<ListOrgProjectsRequest>,
+    output: __S(153, __c19, 1) as any as S.Schema<ListOrgProjectsOutputBody>,
     errors: [UnknownEntireError],
     protocol: EntireCoreProtocol,
     retry: Retry.Retry,
@@ -601,8 +643,8 @@ export const listProjectCollaborators: API.PaginatedOperationMethod<
   ProjectCollaborator
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(152, __c19, 0) as any as S.Schema<ListProjectCollaboratorsRequest>,
-    output: __S(155, __c19, 3) as any as S.Schema<ListProjectCollaboratorsOutputBody>,
+    input: __S(160, __c20, 0) as any as S.Schema<ListProjectCollaboratorsRequest>,
+    output: __S(163, __c20, 3) as any as S.Schema<ListProjectCollaboratorsOutputBody>,
     errors: [UnknownEntireError],
     protocol: EntireCoreProtocol,
     retry: Retry.Retry,
@@ -628,8 +670,8 @@ export const listProjectInvitations: API.PaginatedOperationMethod<
   ResourceInvitation
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(160, __c20, 0) as any as S.Schema<ListProjectInvitationsRequest>,
-    output: __S(161, __c20, 1) as any as S.Schema<ListResourceInvitationsOutputBody>,
+    input: __S(168, __c21, 0) as any as S.Schema<ListProjectInvitationsRequest>,
+    output: __S(169, __c21, 1) as any as S.Schema<ListResourceInvitationsOutputBody>,
     errors: [UnknownEntireError],
     protocol: EntireCoreProtocol,
     retry: Retry.Retry,
@@ -655,8 +697,8 @@ export const listProjectMembers: API.PaginatedOperationMethod<
   ProjectGrant
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(0, __c0, 0) as any as S.Schema<ListProjectMembersRequest>,
-    output: __S(3, __c0, 3) as any as S.Schema<ListProjectMembersOutputBody>,
+    input: __S(8, __c1, 0) as any as S.Schema<ListProjectMembersRequest>,
+    output: __S(11, __c1, 3) as any as S.Schema<ListProjectMembersOutputBody>,
     errors: [UnknownEntireError],
     protocol: EntireCoreProtocol,
     retry: Retry.Retry,
@@ -682,8 +724,8 @@ export const listProjectPeople: API.PaginatedOperationMethod<
   ResourcePerson
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(8, __c1, 0) as any as S.Schema<ListProjectPeopleRequest>,
-    output: __S(13, __c1, 5) as any as S.Schema<ResourcePeopleOutputBody>,
+    input: __S(16, __c2, 0) as any as S.Schema<ListProjectPeopleRequest>,
+    output: __S(21, __c2, 5) as any as S.Schema<ResourcePeopleOutputBody>,
     errors: [UnknownEntireError],
     protocol: EntireCoreProtocol,
     retry: Retry.Retry,
@@ -709,8 +751,8 @@ export const listProjects: API.PaginatedOperationMethod<
   Project
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(16, __c2, 0) as any as S.Schema<ListProjectsRequest>,
-    output: __S(145, __c18, 1) as any as S.Schema<ListProjectsOutputBody>,
+    input: __S(24, __c3, 0) as any as S.Schema<ListProjectsRequest>,
+    output: __S(153, __c19, 1) as any as S.Schema<ListProjectsOutputBody>,
     errors: [UnknownEntireError],
     protocol: EntireCoreProtocol,
     retry: Retry.Retry,
@@ -734,8 +776,8 @@ export const lookupProjectBySlug: API.OperationMethod<
   LookupProjectBySlugError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<LookupProjectBySlugRequest>,
-  output: __S(25, __c3, 1) as any as S.Schema<LookupProjectBySlugOutputBody>,
+  input: __S(32, __c4, 0) as any as S.Schema<LookupProjectBySlugRequest>,
+  output: __S(33, __c4, 1) as any as S.Schema<LookupProjectBySlugOutputBody>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -751,8 +793,8 @@ export const resolveProject: API.OperationMethod<
   ResolveProjectError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<ResolveProjectRequest>,
-  output: __S(34, __c4, 2) as any as S.Schema<ResolveProjectOutputBody>,
+  input: __S(40, __c5, 0) as any as S.Schema<ResolveProjectRequest>,
+  output: __S(42, __c5, 2) as any as S.Schema<ResolveProjectOutputBody>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -768,8 +810,8 @@ export const revokeProjectAccess: API.OperationMethod<
   RevokeProjectAccessError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<RevokeProjectAccessRequest>,
-  output: __S(104, __c13, 0) as any as S.Schema<RevokeProjectAccessResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<RevokeProjectAccessRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<RevokeProjectAccessResponse>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -785,8 +827,8 @@ export const revokeProjectAccessByProvider: API.OperationMethod<
   RevokeProjectAccessByProviderError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<RevokeProjectAccessByProviderRequest>,
-  output: __S(104, __c13, 0) as any as S.Schema<RevokeProjectAccessByProviderResponse>,
+  input: __S(56, __c7, 0) as any as S.Schema<RevokeProjectAccessByProviderRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<RevokeProjectAccessByProviderResponse>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -802,8 +844,8 @@ export const revokeProjectInvitation: API.OperationMethod<
   RevokeProjectInvitationError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<RevokeProjectInvitationRequest>,
-  output: __S(104, __c13, 0) as any as S.Schema<RevokeProjectInvitationResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<RevokeProjectInvitationRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<RevokeProjectInvitationResponse>,
   errors: [UnknownEntireError],
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
@@ -813,6 +855,38 @@ export const revokeProjectInvitation: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            location: S.optional(S.String),
+            message: S.optional(S.String),
+            value: S.optional(S.Unknown),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ErrorDetail" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+            detail: S.optional(S.String),
+            errors: S.optional(__S(1, __c0, 1)),
+            instance: S.optional(S.String),
+            status: S.optional(S.Number),
+            title: S.optional(S.String),
+            type: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ErrorModel" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -838,13 +912,13 @@ function __c0(j: number): any {
         ),
       ).annotate({ identifier: "ProjectGrant" });
     case 2:
-      return S.Array(__S(1, __c0, 1));
+      return S.Array(__S(9, __c1, 1));
     case 3:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-            members: __S(2, __c0, 2),
+            members: __S(10, __c1, 2),
             nextPageToken: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
@@ -852,7 +926,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "ListProjectMembersOutputBody" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -877,34 +951,34 @@ function __c1(j: number): any {
         ),
       ).annotate({ identifier: "ResourcePersonDirectGrant" });
     case 2:
-      return S.Array(__S(9, __c1, 1));
+      return S.Array(__S(17, __c2, 1));
     case 3:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             accountId: S.String,
             avatarUrl: S.optional(S.String),
-            directGrant: __S(9, __c1, 1),
+            directGrant: __S(17, __c2, 1),
             displayName: S.optional(S.String),
             handle: S.optional(S.String),
             joinedAt: S.optional(S.String),
             provider: S.optional(S.String),
             role: S.String,
-            sources: __S(10, __c1, 2),
+            sources: __S(18, __c2, 2),
             username: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "ResourcePerson" });
     case 4:
-      return S.Array(__S(11, __c1, 3));
+      return S.Array(__S(19, __c2, 3));
     case 5:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-            invitations: S.optional(__S(168, __c21, 0)),
-            items: __S(12, __c1, 4),
+            invitations: S.optional(__S(176, __c22, 0)),
+            items: __S(20, __c2, 4),
             nextPageToken: S.optional(S.String),
             totalCount: S.Number,
           }),
@@ -913,7 +987,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "ResourcePeopleOutputBody" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -927,7 +1001,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "ListProjectsRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -951,7 +1025,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "LookupProjectBySlugOutputBody" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -983,15 +1057,15 @@ function __c4(j: number): any {
         S.StructWithRest(
           S.Struct({
             _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-            project: __S(120, __c15, 0),
-            reference: __S(33, __c4, 1),
+            project: __S(128, __c16, 0),
+            reference: __S(41, __c5, 1),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "ResolveProjectOutputBody" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1009,7 +1083,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "RevokeProjectAccessRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1027,7 +1101,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "RevokeProjectAccessByProviderRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1044,7 +1118,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "RevokeProjectInvitationRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1062,7 +1136,7 @@ function __c8(j: number): any {
           S.Struct({
             _schema: S.optional(S.String.pipe(T.Body("$schema"))),
             apiUrl: S.optional(S.String),
-            capabilities: __S(72, __c9, 0),
+            capabilities: __S(80, __c10, 0),
             commitToken: S.optional(S.String),
             createdAt: S.String,
             id: S.String,
@@ -1070,7 +1144,7 @@ function __c8(j: number): any {
             ownerId: S.String,
             ownerName: S.optional(S.String),
             ownerType: S.String,
-            plugins: S.optional(__S(74, __c9, 2)),
+            plugins: S.optional(__S(82, __c10, 2)),
             primaryProcessingCell: S.optional(S.String),
             region: S.String,
             repositoryCount: S.optional(S.Number),
@@ -1080,7 +1154,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "CreatedProject" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1107,10 +1181,10 @@ function __c9(j: number): any {
         ),
       ).annotate({ identifier: "ProjectPlugin" });
     case 2:
-      return S.Array(__S(73, __c9, 1));
+      return S.Array(__S(81, __c10, 1));
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1124,7 +1198,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "CreateProjectInvitationRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1138,14 +1212,14 @@ function __c11(j: number): any {
         ),
       ).annotate({ identifier: "AccountProfileHandle" });
     case 1:
-      return S.Array(__S(88, __c11, 0));
+      return S.Array(__S(96, __c12, 0));
     case 2:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             avatarUrl: S.optional(S.String),
             displayName: S.optional(S.String),
-            handles: __S(89, __c11, 1),
+            handles: __S(97, __c12, 1),
             username: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
@@ -1158,16 +1232,16 @@ function __c11(j: number): any {
             _schema: S.optional(S.String.pipe(T.Body("$schema"))),
             acceptedAt: S.optional(S.String),
             acceptedBy: S.optional(S.String),
-            acceptedByIdentity: S.optional(__S(90, __c11, 2)),
+            acceptedByIdentity: S.optional(__S(98, __c12, 2)),
             createdAt: S.String,
             declinedAt: S.optional(S.String),
             email: S.optional(S.String),
             expiresAt: S.String,
             id: S.String,
             invitedBy: S.String,
-            invitedByIdentity: S.optional(__S(90, __c11, 2)),
+            invitedByIdentity: S.optional(__S(98, __c12, 2)),
             inviteeAccountId: S.optional(S.String),
-            inviteeIdentity: S.optional(__S(90, __c11, 2)),
+            inviteeIdentity: S.optional(__S(98, __c12, 2)),
             revokedAt: S.optional(S.String),
             role: S.String,
             scope: S.String,
@@ -1179,7 +1253,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "ResourceInvitation" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1189,13 +1263,13 @@ function __c12(j: number): any {
       ).annotate({ identifier: "DeleteProjectRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteProjectResponse" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1207,7 +1281,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetProjectRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1215,14 +1289,14 @@ function __c15(j: number): any {
           S.Struct({
             _schema: S.optional(S.String.pipe(T.Body("$schema"))),
             apiUrl: S.optional(S.String),
-            capabilities: __S(72, __c9, 0),
+            capabilities: __S(80, __c10, 0),
             createdAt: S.String,
             id: S.String,
             name: S.String,
             ownerId: S.String,
             ownerName: S.optional(S.String),
             ownerType: S.String,
-            plugins: S.optional(__S(74, __c9, 2)),
+            plugins: S.optional(__S(82, __c10, 2)),
             primaryProcessingCell: S.optional(S.String),
             region: S.String,
             repositoryCount: S.optional(S.Number),
@@ -1232,7 +1306,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "Project" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1257,7 +1331,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GrantProjectAccessOutputBody" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1270,25 +1344,25 @@ function __c17(j: number): any {
       ).annotate({ identifier: "ListOrgProjectsRequest" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(120, __c15, 0));
+      return S.Array(__S(128, __c16, 0));
     case 1:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             _schema: S.optional(S.String.pipe(T.Body("$schema"))),
             nextPageToken: S.optional(S.String),
-            project: S.optional(__S(120, __c15, 0)),
-            projects: __S(144, __c18, 0),
+            project: S.optional(__S(128, __c16, 0)),
+            projects: __S(152, __c19, 0),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "ListOrgProjectsOutputBody" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1316,13 +1390,13 @@ function __c19(j: number): any {
         ),
       ).annotate({ identifier: "ProjectCollaborator" });
     case 2:
-      return S.Array(__S(153, __c19, 1));
+      return S.Array(__S(161, __c20, 1));
     case 3:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-            collaborators: __S(154, __c19, 2),
+            collaborators: __S(162, __c20, 2),
             nextPageToken: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
@@ -1330,7 +1404,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "ListProjectCollaboratorsOutputBody" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1348,7 +1422,7 @@ function __c20(j: number): any {
         S.StructWithRest(
           S.Struct({
             _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-            invitations: __S(168, __c21, 0),
+            invitations: __S(176, __c22, 0),
             nextPageToken: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
@@ -1356,10 +1430,10 @@ function __c20(j: number): any {
       ).annotate({ identifier: "ListResourceInvitationsOutputBody" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(91, __c11, 3));
+      return S.Array(__S(99, __c12, 3));
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

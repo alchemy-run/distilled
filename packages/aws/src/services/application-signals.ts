@@ -120,7 +120,7 @@ export class ThrottlingException
     "ThrottlingException",
     { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
@@ -2193,8 +2193,12 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(T.HttpQuery("StartTime")),
-          EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(T.HttpQuery("EndTime")),
+          StartTime: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
+            T.HttpQuery("StartTime"),
+          ),
+          EndTime: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
+            T.HttpQuery("EndTime"),
+          ),
           KeyAttributes: __S(1344, __c42, 0),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/service" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetServiceInput" });
@@ -2303,8 +2307,12 @@ function __c14(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(T.HttpQuery("StartTime")),
-          EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(T.HttpQuery("EndTime")),
+          StartTime: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
+            T.HttpQuery("StartTime"),
+          ),
+          EndTime: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
+            T.HttpQuery("EndTime"),
+          ),
           Auditors: S.optional(__S(1120, __c35, 0)),
           AuditTargets: __S(454, __c14, 6),
           DetailLevel: S.optional(S.String),
@@ -2532,8 +2540,12 @@ function __c20(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(T.HttpQuery("StartTime")),
-          EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(T.HttpQuery("EndTime")),
+          StartTime: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
+            T.HttpQuery("StartTime"),
+          ),
+          EndTime: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
+            T.HttpQuery("EndTime"),
+          ),
           KeyAttributes: __S(1344, __c42, 0),
           MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
           NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
@@ -2575,8 +2587,12 @@ function __c21(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(T.HttpQuery("StartTime")),
-          EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(T.HttpQuery("EndTime")),
+          StartTime: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
+            T.HttpQuery("StartTime"),
+          ),
+          EndTime: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
+            T.HttpQuery("EndTime"),
+          ),
           KeyAttributes: __S(1344, __c42, 0),
           MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
           NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
@@ -2684,8 +2700,12 @@ function __c24(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(T.HttpQuery("StartTime")),
-          EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(T.HttpQuery("EndTime")),
+          StartTime: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
+            T.HttpQuery("StartTime"),
+          ),
+          EndTime: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
+            T.HttpQuery("EndTime"),
+          ),
           KeyAttributes: __S(1344, __c42, 0),
           MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
           NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
@@ -2722,8 +2742,12 @@ function __c25(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(T.HttpQuery("StartTime")),
-          EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(T.HttpQuery("EndTime")),
+          StartTime: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
+            T.HttpQuery("StartTime"),
+          ),
+          EndTime: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
+            T.HttpQuery("EndTime"),
+          ),
           MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
           NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
           IncludeLinkedAccounts: S.optional(S.Boolean).pipe(T.HttpQuery("IncludeLinkedAccounts")),

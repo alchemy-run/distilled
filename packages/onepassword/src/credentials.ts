@@ -15,9 +15,13 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  */
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
-import * as Base64 from "effect/encoding/Base64";
+import * as HttpClient from "effect/http/HttpClient";
+import * as HttpClientRequest from "effect/http/HttpClientRequest";
+import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
+import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
+import * as Schema from "effect/Schema";
 
 // ---------------------------------------------------------------------------
 // Connect -- access token for a self-hosted Connect server
@@ -221,103 +225,126 @@ export class UsersCredentials
     Effect.Effect<UsersConfig, ConfigError>
   >()("OnepasswordUsersCredentials") {}
 
+const TokenResponse = /*@__PURE__*/ Schema.Struct({
+  access_token: Schema.String,
+  expires_in: /*@__PURE__*/ Schema.optional(Schema.Number),
+});
+
+/** The OAuth error body (RFC 6749 section 5.2). */
+const decodeOAuthError = /*@__PURE__*/ Schema.decodeUnknownOption(
+  /*@__PURE__*/ Schema.fromJsonString(
+    /*@__PURE__*/ Schema.Struct({
+      error: /*@__PURE__*/ Schema.optional(Schema.String),
+      error_description: /*@__PURE__*/ Schema.optional(Schema.String),
+    }),
+  ),
+);
+
+const tokenRequestFailed = (reason: string) =>
+  new ConfigError({ message: `1Password OAuth token request failed${reason}` });
+
 /**
  * Exchange OAuth application client credentials for an access token at
  * `POST {apiBaseUrl}/v1/oauth/token` (client credentials grant, HTTP Basic
- * auth). Errors carry the status and OAuth error code, never the secret.
+ * auth), through the caller's `HttpClient`. Errors carry the status and
+ * OAuth error code, never the secret.
  */
 export const exchangeAccessToken = (
   config: OAuthConfig,
 ): Effect.Effect<
   { readonly accessToken: Redacted.Redacted<string>; readonly expiresInSeconds: number },
-  ConfigError
+  ConfigError,
+  HttpClient.HttpClient
 > =>
   Effect.gen(function* () {
-    const basic = Base64.encode(`${config.clientId}:${Redacted.value(config.clientSecret)}`);
-    const res = yield* Effect.tryPromise(() =>
-      fetch(`${config.apiBaseUrl.replace(/\/+$/, "")}/v1/oauth/token`, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/x-www-form-urlencoded",
-          Authorization: `Basic ${basic}`,
-        },
-        body: "grant_type=client_credentials",
-      }),
-    ).pipe(
-      Effect.mapError(
-        (cause) =>
-          new ConfigError({
-            message: `1Password OAuth token request failed: ${String(cause)}`,
-          }),
+    const client = yield* HttpClient.HttpClient;
+    const response = yield* client
+      .execute(
+        HttpClientRequest.post(`${config.apiBaseUrl.replace(/\/+$/, "")}/v1/oauth/token`).pipe(
+          HttpClientRequest.acceptJson,
+          HttpClientRequest.basicAuth(config.clientId, config.clientSecret),
+          HttpClientRequest.bodyUrlParams({ grant_type: "client_credentials" }),
+        ),
+      )
+      .pipe(Effect.mapError((error) => tokenRequestFailed(`: ${error.message}`)));
+
+    if (response.status < 200 || response.status >= 300) {
+      const body = yield* response.text.pipe(
+        Effect.mapError((error) =>
+          tokenRequestFailed(
+            ` with ${response.status}, and its body could not be read: ${error.message}`,
+          ),
+        ),
+      );
+      const oauth = Option.getOrUndefined(decodeOAuthError(body));
+      const code = oauth?.error !== undefined ? ` ${oauth.error}` : "";
+      const description =
+        oauth?.error_description !== undefined ? `: ${oauth.error_description}` : "";
+      return yield* tokenRequestFailed(` with ${response.status}${code}${description}`);
+    }
+
+    const token = yield* HttpClientResponse.schemaBodyJson(TokenResponse)(response).pipe(
+      Effect.mapError((error) =>
+        tokenRequestFailed(`: unexpected token response: ${error.message}`),
       ),
     );
-
-    const data = (yield* Effect.tryPromise(() => res.json()).pipe(
-      Effect.orElseSucceed(() => undefined),
-    )) as
-      | {
-          access_token?: unknown;
-          expires_in?: unknown;
-          error?: unknown;
-          error_description?: unknown;
-        }
-      | undefined;
-
-    if (!res.ok) {
-      const code = typeof data?.error === "string" ? ` ${data.error}` : "";
-      const description =
-        typeof data?.error_description === "string" ? `: ${data.error_description}` : "";
-      return yield* new ConfigError({
-        message: `1Password OAuth token request failed with ${res.status}${code}${description}`,
-      });
-    }
-
-    if (typeof data?.access_token !== "string") {
-      return yield* new ConfigError({
-        message: "1Password OAuth token response is missing access_token",
-      });
-    }
-
     return {
-      accessToken: Redacted.make(data.access_token),
+      accessToken: Redacted.make(token.access_token),
       expiresInSeconds:
-        typeof data.expires_in === "number" && data.expires_in > 0
-          ? data.expires_in
+        token.expires_in !== undefined && token.expires_in > 0
+          ? token.expires_in
           : DEFAULT_TOKEN_TTL_SECONDS,
     };
   });
 
 /**
  * A per-layer token cache: exchanges on first use, reuses the token until
- * shortly before expiry, then exchanges again.
+ * shortly before expiry, then exchanges again. The cache belongs to the
+ * layer value, so it outlives each build of the layer; each build only
+ * supplies the `HttpClient` to exchange with.
  */
 const cachedAccessToken = (
   load: Effect.Effect<OAuthConfig, ConfigError>,
   exchange: (config: OAuthConfig) => ReturnType<typeof exchangeAccessToken>,
-): Effect.Effect<UsersConfig, ConfigError> => {
+): ((client: HttpClient.HttpClient) => Effect.Effect<UsersConfig, ConfigError>) => {
   let cached: UsersConfig | undefined;
   let refreshAt = 0;
 
-  return Effect.suspend(() => {
-    if (cached !== undefined && Date.now() < refreshAt) {
-      return Effect.succeed(cached);
-    }
-    return Effect.gen(function* () {
-      const config = yield* load;
-      const token = yield* exchange(config);
-      cached = { accessToken: token.accessToken, apiBaseUrl: config.apiBaseUrl };
-      refreshAt =
-        Date.now() +
-        Math.max(token.expiresInSeconds * 1000 - TOKEN_REFRESH_WINDOW_MS, TOKEN_REFRESH_WINDOW_MS);
-      return cached;
+  return (client) =>
+    Effect.suspend(() => {
+      if (cached !== undefined && Date.now() < refreshAt) {
+        return Effect.succeed(cached);
+      }
+      return Effect.gen(function* () {
+        const config = yield* load;
+        const token = yield* exchange(config).pipe(
+          Effect.provideService(HttpClient.HttpClient, client),
+        );
+        cached = { accessToken: token.accessToken, apiBaseUrl: config.apiBaseUrl };
+        refreshAt =
+          Date.now() +
+          Math.max(
+            token.expiresInSeconds * 1000 - TOKEN_REFRESH_WINDOW_MS,
+            TOKEN_REFRESH_WINDOW_MS,
+          );
+        return cached;
+      });
     });
-  });
+};
+
+/** A layer whose token cache exchanges through the `HttpClient` it is built with. */
+const cachedAccessTokenLayer = (
+  load: Effect.Effect<OAuthConfig, ConfigError>,
+  exchange: (config: OAuthConfig) => ReturnType<typeof exchangeAccessToken>,
+): Layer.Layer<UsersCredentials, never, HttpClient.HttpClient> => {
+  const resolveWith = cachedAccessToken(load, exchange);
+  return Layer.effect(UsersCredentials, Effect.map(HttpClient.HttpClient, resolveWith));
 };
 
 /**
  * Layer from OAuth application client credentials. The access token is
- * requested on first use and refreshed shortly before it expires.
+ * requested on first use, through the layer's `HttpClient`, and refreshed
+ * shortly before it expires.
  */
 export const usersCredentials = (
   config: {
@@ -327,17 +354,14 @@ export const usersCredentials = (
   },
   /** Token exchange; override in tests. */
   exchange: (config: OAuthConfig) => ReturnType<typeof exchangeAccessToken> = exchangeAccessToken,
-): Layer.Layer<UsersCredentials> =>
-  Layer.succeed(
-    UsersCredentials,
-    cachedAccessToken(
-      Effect.succeed({
-        clientId: config.clientId,
-        clientSecret: config.clientSecret,
-        apiBaseUrl: config.apiBaseUrl ?? DEFAULT_USERS_API_BASE_URL,
-      }),
-      exchange,
-    ),
+): Layer.Layer<UsersCredentials, never, HttpClient.HttpClient> =>
+  cachedAccessTokenLayer(
+    Effect.succeed({
+      clientId: config.clientId,
+      clientSecret: config.clientSecret,
+      apiBaseUrl: config.apiBaseUrl ?? DEFAULT_USERS_API_BASE_URL,
+    }),
+    exchange,
   );
 
 /** Layer from an access token you already hold (no refresh). */
@@ -358,10 +382,8 @@ export const usersCredentialsFromAccessToken = (config: {
  * OP_USERS_API_BASE_URL (optional), and exchanges them for a cached access
  * token on first use.
  */
-export const UsersCredentialsFromEnv: Layer.Layer<UsersCredentials> = /*@__PURE__*/ Layer.succeed(
-  UsersCredentials,
-  /*@__PURE__*/ cachedAccessToken(usersEnvConfig, exchangeAccessToken),
-);
+export const UsersCredentialsFromEnv: Layer.Layer<UsersCredentials, never, HttpClient.HttpClient> =
+  /*@__PURE__*/ cachedAccessTokenLayer(usersEnvConfig, exchangeAccessToken);
 
 // ---------------------------------------------------------------------------
 // Partnership API -- bearer token issued by the 1Password partnerships team

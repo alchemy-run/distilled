@@ -16,13 +16,15 @@ List the organization's services.
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as ClickHouseCloud from "@distilled.cloud/clickhouse-cloud";
+import * as Organization from "@distilled.cloud/clickhouse-cloud/organization";
+import * as Service from "@distilled.cloud/clickhouse-cloud/service";
 
 const program = Effect.gen(function* () {
-  const organizations = yield* ClickHouseCloud.organization.listOrganizations({});
+  const organizations = yield* Organization.listOrganizations({});
   const organizationId = organizations.result[0]?.id;
   if (organizationId === undefined) return [];
 
-  const services = yield* ClickHouseCloud.service.listServices({ organizationId });
+  const services = yield* Service.listServices({ organizationId });
   return services.map(({ name, state, region }) => ({ name, state, region }));
 });
 
@@ -41,10 +43,11 @@ before it can be deleted, and both are asynchronous):
 
 ```ts
 import { Effect, Schedule } from "effect";
+import * as Service from "@distilled.cloud/clickhouse-cloud/service";
 
 const lifecycle = (organizationId: string) =>
   Effect.gen(function* () {
-    const { service } = yield* ClickHouseCloud.service.createService({
+    const { service } = yield* Service.createService({
       organizationId,
       name: "distilled-example",
       provider: "aws",
@@ -54,18 +57,18 @@ const lifecycle = (organizationId: string) =>
     if (service?.id === undefined) return;
     const serviceId = service.id;
 
-    yield* ClickHouseCloud.service.updateServiceState({
+    yield* Service.updateServiceState({
       organizationId,
       serviceId,
       command: "stop",
     });
-    yield* ClickHouseCloud.service.getService({ organizationId, serviceId }).pipe(
+    yield* Service.getService({ organizationId, serviceId }).pipe(
       Effect.repeat({
         until: ({ state }) => state === "stopped",
         schedule: Schedule.spaced("15 seconds"),
       }),
     );
-    yield* ClickHouseCloud.service.deleteService({ organizationId, serviceId });
+    yield* Service.deleteService({ organizationId, serviceId });
   });
 ```
 

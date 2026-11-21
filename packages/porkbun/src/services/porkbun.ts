@@ -31,36 +31,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export interface AccountVerifyEmailConfirmRequest {
   /** The verification code from the email, exactly as written. */
@@ -3893,6 +3921,42 @@ export interface WebhookRotateSecretRequest {
   /** Endpoint id. */
   id: number;
 }
+export type ErrorResponseStatus = "ERROR";
+/** Stable action category an agent can branch on. */
+export type ErrorResponseNextActionType =
+  | "fix_request"
+  | "authenticate"
+  | "enable_setting"
+  | "verify_account"
+  | "add_funds"
+  | "top_up"
+  | "retry"
+  | "wait_and_retry"
+  | "pay"
+  | "use_website"
+  | "choose_alternative"
+  | "contact_support"
+  | "none";
+/** Present on many errors: a machine-readable remediation hint so an agent can self-correct without parsing the message. Absent when no specific action applies. */
+export interface ErrorResponseNextAction {
+  /** Stable action category an agent can branch on. */
+  type?: ErrorResponseNextActionType | undefined;
+  /** Human-readable instruction. */
+  hint?: string | undefined;
+  /** Where to take the action, when applicable. */
+  url?: string | undefined;
+}
+export interface ErrorResponse {
+  status: ErrorResponseStatus;
+  /** Human-readable description of the error */
+  message: string;
+  /** Machine-readable error code. Use for programmatic handling; use `message` for display. See the Error codes section in the API description for a full list. */
+  code?: string | undefined;
+  /** On DOMAIN_NOT_FOUND, DOMAIN_NOT_REGISTERED, API_ACCESS_DISABLED and the /dns/* INVALID_DOMAIN: the username of the account the key belongs to */
+  account?: string | undefined;
+  /** Present on many errors: a machine-readable remediation hint so an agent can self-correct without parsing the message. Absent when no specific action applies. */
+  next_action?: ErrorResponseNextAction | undefined;
+}
 export type AccountVerifyEmailConfirmError = PorkbunOpError;
 /** Confirm the email verification code Marks the account's email address verified with the code from the verification email (`POST /account/verifyEmail/send`, or any verification email sent in the last 3 days). The code must belong to this account and to the address being verified. A wrong, expired or superseded code returns `EMAIL_CODE_INVALID`; 10 wrong codes in an hour lock it for the hour (`EMAIL_VERIFY_LIMIT`). The response says whether the phone is verified too, since purchases need both. Accounts subscribed to `account.verification.completed` get a webhook. */
 export const accountVerifyEmailConfirm: API.OperationMethod<
@@ -3901,8 +3965,8 @@ export const accountVerifyEmailConfirm: API.OperationMethod<
   AccountVerifyEmailConfirmError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2160, __c135, 0) as any as S.Schema<AccountVerifyEmailConfirmRequest>,
-  output: __S(2161, __c135, 1) as any as S.Schema<AccountVerifyEmailConfirmResponse>,
+  input: __S(2176, __c136, 0) as any as S.Schema<AccountVerifyEmailConfirmRequest>,
+  output: __S(2177, __c136, 1) as any as S.Schema<AccountVerifyEmailConfirmResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3918,8 +3982,8 @@ export const accountVerifyEmailSend: API.OperationMethod<
   AccountVerifyEmailSendError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2384, __c149, 0) as any as S.Schema<AccountVerifyEmailSendRequest>,
-  output: __S(2385, __c149, 1) as any as S.Schema<AccountVerifyEmailSendResponse>,
+  input: __S(2400, __c150, 0) as any as S.Schema<AccountVerifyEmailSendRequest>,
+  output: __S(2401, __c150, 1) as any as S.Schema<AccountVerifyEmailSendResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3935,8 +3999,8 @@ export const accountVerifyPhoneConfirm: API.OperationMethod<
   AccountVerifyPhoneConfirmError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2608, __c163, 0) as any as S.Schema<AccountVerifyPhoneConfirmRequest>,
-  output: __S(2609, __c163, 1) as any as S.Schema<AccountVerifyPhoneConfirmResponse>,
+  input: __S(2624, __c164, 0) as any as S.Schema<AccountVerifyPhoneConfirmRequest>,
+  output: __S(2625, __c164, 1) as any as S.Schema<AccountVerifyPhoneConfirmResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3952,8 +4016,8 @@ export const accountVerifyPhoneSend: API.OperationMethod<
   AccountVerifyPhoneSendError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2864, __c179, 0) as any as S.Schema<AccountVerifyPhoneSendRequest>,
-  output: __S(2865, __c179, 1) as any as S.Schema<AccountVerifyPhoneSendResponse>,
+  input: __S(2880, __c180, 0) as any as S.Schema<AccountVerifyPhoneSendRequest>,
+  output: __S(2881, __c180, 1) as any as S.Schema<AccountVerifyPhoneSendResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3969,8 +4033,8 @@ export const apikeyRequest: API.OperationMethod<
   ApikeyRequestError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3073, __c192, 1) as any as S.Schema<ApikeyRequestRequest>,
-  output: __S(3074, __c192, 2) as any as S.Schema<ApikeyRequestResponse>,
+  input: __S(3089, __c193, 1) as any as S.Schema<ApikeyRequestRequest>,
+  output: __S(3090, __c193, 2) as any as S.Schema<ApikeyRequestResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3986,8 +4050,8 @@ export const apikeyRevokeShare: API.OperationMethod<
   ApikeyRevokeShareError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3280, __c205, 0) as any as S.Schema<ApikeyRevokeShareRequest>,
-  output: __S(3281, __c205, 1) as any as S.Schema<ApikeyRevokeShareResponse>,
+  input: __S(3296, __c206, 0) as any as S.Schema<ApikeyRevokeShareRequest>,
+  output: __S(3297, __c206, 1) as any as S.Schema<ApikeyRevokeShareResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4003,8 +4067,8 @@ export const apikeyShares: API.OperationMethod<
   ApikeySharesError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<ApikeySharesRequest>,
-  output: __S(18, __c1, 2) as any as S.Schema<ApikeySharesResponse>,
+  input: __S(16, __c1, 0) as any as S.Schema<ApikeySharesRequest>,
+  output: __S(34, __c2, 2) as any as S.Schema<ApikeySharesResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4020,8 +4084,8 @@ export const bulkDomainCheckDomain: API.OperationMethod<
   BulkDomainCheckDomainError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<BulkDomainCheckDomainRequest>,
-  output: __S(273, __c17, 1) as any as S.Schema<BulkDomainCheckDomainResponse>,
+  input: __S(288, __c18, 0) as any as S.Schema<BulkDomainCheckDomainRequest>,
+  output: __S(289, __c18, 1) as any as S.Schema<BulkDomainCheckDomainResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4037,8 +4101,8 @@ export const claimApikey: API.OperationMethod<
   ClaimApikeyError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<ClaimApikeyRequest>,
-  output: __S(545, __c34, 1) as any as S.Schema<ClaimApikeyResponse>,
+  input: __S(560, __c35, 0) as any as S.Schema<ClaimApikeyRequest>,
+  output: __S(561, __c35, 1) as any as S.Schema<ClaimApikeyResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4054,8 +4118,8 @@ export const closeoutBuy: API.OperationMethod<
   CloseoutBuyError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<CloseoutBuyRequest>,
-  output: __S(721, __c45, 1) as any as S.Schema<CloseoutBuyResponse>,
+  input: __S(736, __c46, 0) as any as S.Schema<CloseoutBuyRequest>,
+  output: __S(737, __c46, 1) as any as S.Schema<CloseoutBuyResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4071,8 +4135,8 @@ export const cloudflareCreateRecord: API.OperationMethod<
   CloudflareCreateRecordError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<CloudflareCreateRecordRequest>,
-  output: __S(928, __c58, 0) as any as S.Schema<CloudflareCreateRecordResponse>,
+  input: __S(928, __c58, 0) as any as S.Schema<CloudflareCreateRecordRequest>,
+  output: __S(944, __c59, 0) as any as S.Schema<CloudflareCreateRecordResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4088,8 +4152,8 @@ export const cloudflareDeleteRecord: API.OperationMethod<
   CloudflareDeleteRecordError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c71, 0) as any as S.Schema<CloudflareDeleteRecordRequest>,
-  output: __S(928, __c58, 0) as any as S.Schema<CloudflareDeleteRecordResponse>,
+  input: __S(1152, __c72, 0) as any as S.Schema<CloudflareDeleteRecordRequest>,
+  output: __S(944, __c59, 0) as any as S.Schema<CloudflareDeleteRecordResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4105,8 +4169,8 @@ export const cloudflareEditRecord: API.OperationMethod<
   CloudflareEditRecordError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1328, __c83, 0) as any as S.Schema<CloudflareEditRecordRequest>,
-  output: __S(928, __c58, 0) as any as S.Schema<CloudflareEditRecordResponse>,
+  input: __S(1344, __c84, 0) as any as S.Schema<CloudflareEditRecordRequest>,
+  output: __S(944, __c59, 0) as any as S.Schema<CloudflareEditRecordResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4122,8 +4186,8 @@ export const cloudflareGetConnection: API.OperationMethod<
   CloudflareGetConnectionError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c94, 0) as any as S.Schema<CloudflareGetConnectionRequest>,
-  output: __S(928, __c58, 0) as any as S.Schema<CloudflareGetConnectionResponse>,
+  input: __S(1520, __c95, 0) as any as S.Schema<CloudflareGetConnectionRequest>,
+  output: __S(944, __c59, 0) as any as S.Schema<CloudflareGetConnectionResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4139,8 +4203,8 @@ export const cloudflareGetQueue: API.OperationMethod<
   CloudflareGetQueueError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1680, __c105, 0) as any as S.Schema<CloudflareGetQueueRequest>,
-  output: __S(928, __c58, 0) as any as S.Schema<CloudflareGetQueueResponse>,
+  input: __S(1696, __c106, 0) as any as S.Schema<CloudflareGetQueueRequest>,
+  output: __S(944, __c59, 0) as any as S.Schema<CloudflareGetQueueResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4156,8 +4220,8 @@ export const cloudflareGetRecords: API.OperationMethod<
   CloudflareGetRecordsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1712, __c107, 0) as any as S.Schema<CloudflareGetRecordsRequest>,
-  output: __S(928, __c58, 0) as any as S.Schema<CloudflareGetRecordsResponse>,
+  input: __S(1728, __c108, 0) as any as S.Schema<CloudflareGetRecordsRequest>,
+  output: __S(944, __c59, 0) as any as S.Schema<CloudflareGetRecordsResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4173,8 +4237,8 @@ export const cloudflareGetZone: API.OperationMethod<
   CloudflareGetZoneError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c108, 0) as any as S.Schema<CloudflareGetZoneRequest>,
-  output: __S(928, __c58, 0) as any as S.Schema<CloudflareGetZoneResponse>,
+  input: __S(1744, __c109, 0) as any as S.Schema<CloudflareGetZoneRequest>,
+  output: __S(944, __c59, 0) as any as S.Schema<CloudflareGetZoneResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4190,8 +4254,8 @@ export const cloudflareGetZoneSettings: API.OperationMethod<
   CloudflareGetZoneSettingsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1744, __c109, 0) as any as S.Schema<CloudflareGetZoneSettingsRequest>,
-  output: __S(928, __c58, 0) as any as S.Schema<CloudflareGetZoneSettingsResponse>,
+  input: __S(1760, __c110, 0) as any as S.Schema<CloudflareGetZoneSettingsRequest>,
+  output: __S(944, __c59, 0) as any as S.Schema<CloudflareGetZoneSettingsResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4207,8 +4271,8 @@ export const cloudflareInventory: API.OperationMethod<
   CloudflareInventoryError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c110, 0) as any as S.Schema<CloudflareInventoryRequest>,
-  output: __S(928, __c58, 0) as any as S.Schema<CloudflareInventoryResponse>,
+  input: __S(1776, __c111, 0) as any as S.Schema<CloudflareInventoryRequest>,
+  output: __S(944, __c59, 0) as any as S.Schema<CloudflareInventoryResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4224,8 +4288,8 @@ export const cloudflareRollback: API.OperationMethod<
   CloudflareRollbackError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1776, __c111, 0) as any as S.Schema<CloudflareRollbackRequest>,
-  output: __S(928, __c58, 0) as any as S.Schema<CloudflareRollbackResponse>,
+  input: __S(1792, __c112, 0) as any as S.Schema<CloudflareRollbackRequest>,
+  output: __S(944, __c59, 0) as any as S.Schema<CloudflareRollbackResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4241,8 +4305,8 @@ export const cloudflareSetProxy: API.OperationMethod<
   CloudflareSetProxyError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c112, 0) as any as S.Schema<CloudflareSetProxyRequest>,
-  output: __S(928, __c58, 0) as any as S.Schema<CloudflareSetProxyResponse>,
+  input: __S(1808, __c113, 0) as any as S.Schema<CloudflareSetProxyRequest>,
+  output: __S(944, __c59, 0) as any as S.Schema<CloudflareSetProxyResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4258,8 +4322,8 @@ export const cloudflareSetZoneSettings: API.OperationMethod<
   CloudflareSetZoneSettingsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1808, __c113, 0) as any as S.Schema<CloudflareSetZoneSettingsRequest>,
-  output: __S(928, __c58, 0) as any as S.Schema<CloudflareSetZoneSettingsResponse>,
+  input: __S(1824, __c114, 0) as any as S.Schema<CloudflareSetZoneSettingsRequest>,
+  output: __S(944, __c59, 0) as any as S.Schema<CloudflareSetZoneSettingsResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4275,8 +4339,8 @@ export const connectCloudflare: API.OperationMethod<
   ConnectCloudflareError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c114, 0) as any as S.Schema<ConnectCloudflareRequest>,
-  output: __S(928, __c58, 0) as any as S.Schema<ConnectCloudflareResponse>,
+  input: __S(1840, __c115, 0) as any as S.Schema<ConnectCloudflareRequest>,
+  output: __S(944, __c59, 0) as any as S.Schema<ConnectCloudflareResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4292,8 +4356,8 @@ export const createAccountInvite: API.OperationMethod<
   CreateAccountInviteError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1840, __c115, 0) as any as S.Schema<CreateAccountInviteRequest>,
-  output: __S(1841, __c115, 1) as any as S.Schema<CreateAccountInviteResponse>,
+  input: __S(1856, __c116, 0) as any as S.Schema<CreateAccountInviteRequest>,
+  output: __S(1857, __c116, 1) as any as S.Schema<CreateAccountInviteResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4309,8 +4373,8 @@ export const createDns: API.OperationMethod<
   CreateDnsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c116, 0) as any as S.Schema<CreateDnsRequest>,
-  output: __S(1857, __c116, 1) as any as S.Schema<CreateDnsResponse>,
+  input: __S(1872, __c117, 0) as any as S.Schema<CreateDnsRequest>,
+  output: __S(1873, __c117, 1) as any as S.Schema<CreateDnsResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4326,8 +4390,8 @@ export const createDomain: API.OperationMethod<
   CreateDomainError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1872, __c117, 0) as any as S.Schema<CreateDomainRequest>,
-  output: __S(1873, __c117, 1) as any as S.Schema<CreateDomainResponse2>,
+  input: __S(1888, __c118, 0) as any as S.Schema<CreateDomainRequest>,
+  output: __S(1889, __c118, 1) as any as S.Schema<CreateDomainResponse2>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4343,8 +4407,8 @@ export const createHosting: API.OperationMethod<
   CreateHostingError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c118, 0) as any as S.Schema<CreateHostingRequest>,
-  output: __S(1890, __c118, 2) as any as S.Schema<CreateHostingResponse>,
+  input: __S(1904, __c119, 0) as any as S.Schema<CreateHostingRequest>,
+  output: __S(1906, __c119, 2) as any as S.Schema<CreateHostingResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4360,8 +4424,8 @@ export const createLinkInBio: API.OperationMethod<
   CreateLinkInBioError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c120, 0) as any as S.Schema<CreateLinkInBioRequest>,
-  output: __S(1952, __c122, 0) as any as S.Schema<LinkInBioResponse>,
+  input: __S(1936, __c121, 0) as any as S.Schema<CreateLinkInBioRequest>,
+  output: __S(1968, __c123, 0) as any as S.Schema<LinkInBioResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4377,8 +4441,8 @@ export const createWebhook: API.OperationMethod<
   CreateWebhookError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1968, __c123, 0) as any as S.Schema<CreateWebhookRequest>,
-  output: __S(2000, __c125, 0) as any as S.Schema<WebhookEndpointResponse>,
+  input: __S(1984, __c124, 0) as any as S.Schema<CreateWebhookRequest>,
+  output: __S(2016, __c126, 0) as any as S.Schema<WebhookEndpointResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4394,8 +4458,8 @@ export const deleteDns: API.OperationMethod<
   DeleteDnsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c126, 0) as any as S.Schema<DeleteDnsRequest>,
-  output: __S(2032, __c127, 0) as any as S.Schema<BasicResponse>,
+  input: __S(2032, __c127, 0) as any as S.Schema<DeleteDnsRequest>,
+  output: __S(2048, __c128, 0) as any as S.Schema<BasicResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4411,8 +4475,8 @@ export const deleteHosting: API.OperationMethod<
   DeleteHostingError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c128, 0) as any as S.Schema<DeleteHostingRequest>,
-  output: __S(2032, __c127, 0) as any as S.Schema<BasicResponse>,
+  input: __S(2064, __c129, 0) as any as S.Schema<DeleteHostingRequest>,
+  output: __S(2048, __c128, 0) as any as S.Schema<BasicResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4428,8 +4492,8 @@ export const deleteWebhook: API.OperationMethod<
   DeleteWebhookError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2064, __c129, 0) as any as S.Schema<DeleteWebhookRequest>,
-  output: __S(2080, __c130, 0) as any as S.Schema<DeleteWebhookResponse>,
+  input: __S(2080, __c130, 0) as any as S.Schema<DeleteWebhookRequest>,
+  output: __S(2096, __c131, 0) as any as S.Schema<DeleteWebhookResponse>,
   errors: [NotFound, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4445,8 +4509,8 @@ export const deployHosting: API.OperationMethod<
   DeployHostingError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2098, __c131, 2) as any as S.Schema<DeployHostingRequest>,
-  output: __S(2101, __c131, 5) as any as S.Schema<DeployHostingResponse>,
+  input: __S(2114, __c132, 2) as any as S.Schema<DeployHostingRequest>,
+  output: __S(2117, __c132, 5) as any as S.Schema<DeployHostingResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4462,8 +4526,8 @@ export const disconnectCloudflare: API.OperationMethod<
   DisconnectCloudflareError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c132, 0) as any as S.Schema<DisconnectCloudflareRequest>,
-  output: __S(928, __c58, 0) as any as S.Schema<DisconnectCloudflareResponse>,
+  input: __S(2128, __c133, 0) as any as S.Schema<DisconnectCloudflareRequest>,
+  output: __S(944, __c59, 0) as any as S.Schema<DisconnectCloudflareResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4479,8 +4543,8 @@ export const dnsCreateDnssecRecord: API.OperationMethod<
   DnsCreateDnssecRecordError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2128, __c133, 0) as any as S.Schema<DnsCreateDnssecRecordRequest>,
-  output: __S(2032, __c127, 0) as any as S.Schema<DnsCreateDnssecRecordResponse>,
+  input: __S(2144, __c134, 0) as any as S.Schema<DnsCreateDnssecRecordRequest>,
+  output: __S(2048, __c128, 0) as any as S.Schema<DnsCreateDnssecRecordResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4496,8 +4560,8 @@ export const dnsDeleteByNameType: API.OperationMethod<
   DnsDeleteByNameTypeError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c134, 0) as any as S.Schema<DnsDeleteByNameTypeRequest>,
-  output: __S(2032, __c127, 0) as any as S.Schema<BasicResponse>,
+  input: __S(2160, __c135, 0) as any as S.Schema<DnsDeleteByNameTypeRequest>,
+  output: __S(2048, __c128, 0) as any as S.Schema<BasicResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4513,8 +4577,8 @@ export const dnsDeleteDnssecRecord: API.OperationMethod<
   DnsDeleteDnssecRecordError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c136, 0) as any as S.Schema<DnsDeleteDnssecRecordRequest>,
-  output: __S(2032, __c127, 0) as any as S.Schema<BasicResponse>,
+  input: __S(2192, __c137, 0) as any as S.Schema<DnsDeleteDnssecRecordRequest>,
+  output: __S(2048, __c128, 0) as any as S.Schema<BasicResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4530,8 +4594,8 @@ export const dnsDiff: API.OperationMethod<
   DnsDiffError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2192, __c137, 0) as any as S.Schema<DnsDiffRequest>,
-  output: __S(2194, __c137, 2) as any as S.Schema<DnsDiffResponse>,
+  input: __S(2208, __c138, 0) as any as S.Schema<DnsDiffRequest>,
+  output: __S(2210, __c138, 2) as any as S.Schema<DnsDiffResponse>,
   errors: [NotFound, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4547,8 +4611,8 @@ export const dnsEditByNameType: API.OperationMethod<
   DnsEditByNameTypeError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2224, __c139, 0) as any as S.Schema<DnsEditByNameTypeRequest>,
-  output: __S(2032, __c127, 0) as any as S.Schema<BasicResponse>,
+  input: __S(2240, __c140, 0) as any as S.Schema<DnsEditByNameTypeRequest>,
+  output: __S(2048, __c128, 0) as any as S.Schema<BasicResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4564,8 +4628,8 @@ export const dnsGetDnssecRecords: API.OperationMethod<
   DnsGetDnssecRecordsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c140, 0) as any as S.Schema<DnsGetDnssecRecordsRequest>,
-  output: __S(2258, __c141, 2) as any as S.Schema<DnsGetDnssecRecordsResponse>,
+  input: __S(2256, __c141, 0) as any as S.Schema<DnsGetDnssecRecordsRequest>,
+  output: __S(2274, __c142, 2) as any as S.Schema<DnsGetDnssecRecordsResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4581,8 +4645,8 @@ export const dnsHistory: API.OperationMethod<
   DnsHistoryError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c142, 0) as any as S.Schema<DnsHistoryRequest>,
-  output: __S(2275, __c142, 3) as any as S.Schema<DnsHistoryResponse>,
+  input: __S(2288, __c143, 0) as any as S.Schema<DnsHistoryRequest>,
+  output: __S(2291, __c143, 3) as any as S.Schema<DnsHistoryResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4598,8 +4662,8 @@ export const dnsPreflight: API.OperationMethod<
   DnsPreflightError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2288, __c143, 0) as any as S.Schema<DnsPreflightRequest>,
-  output: __S(2291, __c143, 3) as any as S.Schema<DnsPreflightResponse>,
+  input: __S(2304, __c144, 0) as any as S.Schema<DnsPreflightRequest>,
+  output: __S(2307, __c144, 3) as any as S.Schema<DnsPreflightResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4615,8 +4679,8 @@ export const dnsRetrieveById: API.OperationMethod<
   DnsRetrieveByIdError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c144, 0) as any as S.Schema<DnsRetrieveByIdRequest>,
-  output: __S(2322, __c145, 2) as any as S.Schema<DnsRecordsResponse>,
+  input: __S(2320, __c145, 0) as any as S.Schema<DnsRetrieveByIdRequest>,
+  output: __S(2338, __c146, 2) as any as S.Schema<DnsRecordsResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4632,8 +4696,8 @@ export const dnsRetrieveByNameType: API.OperationMethod<
   DnsRetrieveByNameTypeError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c146, 0) as any as S.Schema<DnsRetrieveByNameTypeRequest>,
-  output: __S(2322, __c145, 2) as any as S.Schema<DnsRecordsResponse>,
+  input: __S(2352, __c147, 0) as any as S.Schema<DnsRetrieveByNameTypeRequest>,
+  output: __S(2338, __c146, 2) as any as S.Schema<DnsRecordsResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4649,8 +4713,8 @@ export const dnsScan: API.OperationMethod<
   DnsScanError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2352, __c147, 0) as any as S.Schema<DnsScanRequest>,
-  output: __S(2353, __c147, 1) as any as S.Schema<DnsScanResponse>,
+  input: __S(2368, __c148, 0) as any as S.Schema<DnsScanRequest>,
+  output: __S(2369, __c148, 1) as any as S.Schema<DnsScanResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4666,8 +4730,8 @@ export const domainAddUrlForward: API.OperationMethod<
   DomainAddUrlForwardError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c148, 0) as any as S.Schema<DomainAddUrlForwardRequest>,
-  output: __S(2032, __c127, 0) as any as S.Schema<BasicResponse>,
+  input: __S(2384, __c149, 0) as any as S.Schema<DomainAddUrlForwardRequest>,
+  output: __S(2048, __c128, 0) as any as S.Schema<BasicResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4683,8 +4747,8 @@ export const domainCancelTransfer: API.OperationMethod<
   DomainCancelTransferError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c150, 0) as any as S.Schema<DomainCancelTransferRequest>,
-  output: __S(2401, __c150, 1) as any as S.Schema<DomainCancelTransferResponse>,
+  input: __S(2416, __c151, 0) as any as S.Schema<DomainCancelTransferRequest>,
+  output: __S(2417, __c151, 1) as any as S.Schema<DomainCancelTransferResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4700,8 +4764,8 @@ export const domainCheckDomain: API.OperationMethod<
   DomainCheckDomainError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2417, __c151, 1) as any as S.Schema<DomainCheckDomainRequest>,
-  output: __S(2423, __c151, 7) as any as S.Schema<CheckDomainResponse>,
+  input: __S(2433, __c152, 1) as any as S.Schema<DomainCheckDomainRequest>,
+  output: __S(2439, __c152, 7) as any as S.Schema<CheckDomainResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4717,8 +4781,8 @@ export const domainCreateGlue: API.OperationMethod<
   DomainCreateGlueError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c152, 0) as any as S.Schema<DomainCreateGlueRequest>,
-  output: __S(2032, __c127, 0) as any as S.Schema<BasicResponse>,
+  input: __S(2448, __c153, 0) as any as S.Schema<DomainCreateGlueRequest>,
+  output: __S(2048, __c128, 0) as any as S.Schema<BasicResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4734,8 +4798,8 @@ export const domainDeleteGlue: API.OperationMethod<
   DomainDeleteGlueError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2448, __c153, 0) as any as S.Schema<DomainDeleteGlueRequest>,
-  output: __S(2032, __c127, 0) as any as S.Schema<BasicResponse>,
+  input: __S(2464, __c154, 0) as any as S.Schema<DomainDeleteGlueRequest>,
+  output: __S(2048, __c128, 0) as any as S.Schema<BasicResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4751,8 +4815,8 @@ export const domainDeleteUrlForward: API.OperationMethod<
   DomainDeleteUrlForwardError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c154, 0) as any as S.Schema<DomainDeleteUrlForwardRequest>,
-  output: __S(2032, __c127, 0) as any as S.Schema<BasicResponse>,
+  input: __S(2480, __c155, 0) as any as S.Schema<DomainDeleteUrlForwardRequest>,
+  output: __S(2048, __c128, 0) as any as S.Schema<BasicResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4768,8 +4832,8 @@ export const domainGetContacts: API.OperationMethod<
   DomainGetContactsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2480, __c155, 0) as any as S.Schema<DomainGetContactsRequest>,
-  output: __S(2481, __c155, 1) as any as S.Schema<DomainGetContactsResponse>,
+  input: __S(2496, __c156, 0) as any as S.Schema<DomainGetContactsRequest>,
+  output: __S(2497, __c156, 1) as any as S.Schema<DomainGetContactsResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4785,8 +4849,8 @@ export const domainGetGlue: API.OperationMethod<
   DomainGetGlueError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2512, __c157, 0) as any as S.Schema<DomainGetGlueRequest>,
-  output: __S(2515, __c157, 3) as any as S.Schema<DomainGetGlueResponse>,
+  input: __S(2528, __c158, 0) as any as S.Schema<DomainGetGlueRequest>,
+  output: __S(2531, __c158, 3) as any as S.Schema<DomainGetGlueResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4802,8 +4866,8 @@ export const domainGetNs: API.OperationMethod<
   DomainGetNsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2544, __c159, 0) as any as S.Schema<DomainGetNsRequest>,
-  output: __S(2560, __c160, 0) as any as S.Schema<DomainGetNsResponse>,
+  input: __S(2560, __c160, 0) as any as S.Schema<DomainGetNsRequest>,
+  output: __S(2576, __c161, 0) as any as S.Schema<DomainGetNsResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4819,8 +4883,8 @@ export const domainGetRegistrationRequirements: API.OperationMethod<
   DomainGetRegistrationRequirementsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2576, __c161, 0) as any as S.Schema<DomainGetRegistrationRequirementsRequest>,
-  output: __S(2577, __c161, 1) as any as S.Schema<DomainGetRegistrationRequirementsResponse>,
+  input: __S(2592, __c162, 0) as any as S.Schema<DomainGetRegistrationRequirementsRequest>,
+  output: __S(2593, __c162, 1) as any as S.Schema<DomainGetRegistrationRequirementsResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4836,8 +4900,8 @@ export const domainGetTransferSetup: API.OperationMethod<
   DomainGetTransferSetupError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c162, 0) as any as S.Schema<DomainGetTransferSetupRequest>,
-  output: __S(2593, __c162, 1) as any as S.Schema<DomainGetTransferSetupResponse>,
+  input: __S(2608, __c163, 0) as any as S.Schema<DomainGetTransferSetupRequest>,
+  output: __S(2609, __c163, 1) as any as S.Schema<DomainGetTransferSetupResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4853,8 +4917,8 @@ export const domainGetUrlForwarding: API.OperationMethod<
   DomainGetUrlForwardingError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c164, 0) as any as S.Schema<DomainGetUrlForwardingRequest>,
-  output: __S(2642, __c165, 2) as any as S.Schema<GetUrlForwardingResponse>,
+  input: __S(2640, __c165, 0) as any as S.Schema<DomainGetUrlForwardingRequest>,
+  output: __S(2658, __c166, 2) as any as S.Schema<GetUrlForwardingResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4870,8 +4934,8 @@ export const domainStartTransfer: API.OperationMethod<
   DomainStartTransferError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c166, 0) as any as S.Schema<DomainStartTransferRequest>,
-  output: __S(2672, __c167, 0) as any as S.Schema<DomainStartTransferResponse>,
+  input: __S(2672, __c167, 0) as any as S.Schema<DomainStartTransferRequest>,
+  output: __S(2688, __c168, 0) as any as S.Schema<DomainStartTransferResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4887,8 +4951,8 @@ export const domainUpdateAutoRenew: API.OperationMethod<
   DomainUpdateAutoRenewError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c168, 0) as any as S.Schema<DomainUpdateAutoRenewRequest>,
-  output: __S(2690, __c168, 2) as any as S.Schema<DomainUpdateAutoRenewResponse>,
+  input: __S(2704, __c169, 0) as any as S.Schema<DomainUpdateAutoRenewRequest>,
+  output: __S(2706, __c169, 2) as any as S.Schema<DomainUpdateAutoRenewResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4904,8 +4968,8 @@ export const domainUpdateContacts: API.OperationMethod<
   DomainUpdateContactsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2704, __c169, 0) as any as S.Schema<DomainUpdateContactsRequest>,
-  output: __S(2705, __c169, 1) as any as S.Schema<DomainUpdateContactsResponse>,
+  input: __S(2720, __c170, 0) as any as S.Schema<DomainUpdateContactsRequest>,
+  output: __S(2721, __c170, 1) as any as S.Schema<DomainUpdateContactsResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4921,8 +4985,8 @@ export const domainUpdateGlue: API.OperationMethod<
   DomainUpdateGlueError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c170, 0) as any as S.Schema<DomainUpdateGlueRequest>,
-  output: __S(2032, __c127, 0) as any as S.Schema<BasicResponse>,
+  input: __S(2736, __c171, 0) as any as S.Schema<DomainUpdateGlueRequest>,
+  output: __S(2048, __c128, 0) as any as S.Schema<BasicResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4938,8 +5002,8 @@ export const domainUpdateNs: API.OperationMethod<
   DomainUpdateNsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2736, __c171, 0) as any as S.Schema<DomainUpdateNsRequest>,
-  output: __S(2032, __c127, 0) as any as S.Schema<BasicResponse>,
+  input: __S(2752, __c172, 0) as any as S.Schema<DomainUpdateNsRequest>,
+  output: __S(2048, __c128, 0) as any as S.Schema<BasicResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4955,8 +5019,8 @@ export const domainUpdateTransferAuthCode: API.OperationMethod<
   DomainUpdateTransferAuthCodeError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c172, 0) as any as S.Schema<DomainUpdateTransferAuthCodeRequest>,
-  output: __S(2753, __c172, 1) as any as S.Schema<DomainUpdateTransferAuthCodeResponse>,
+  input: __S(2768, __c173, 0) as any as S.Schema<DomainUpdateTransferAuthCodeRequest>,
+  output: __S(2769, __c173, 1) as any as S.Schema<DomainUpdateTransferAuthCodeResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4972,8 +5036,8 @@ export const editDns: API.OperationMethod<
   EditDnsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2768, __c173, 0) as any as S.Schema<EditDnsRequest>,
-  output: __S(2032, __c127, 0) as any as S.Schema<BasicResponse>,
+  input: __S(2784, __c174, 0) as any as S.Schema<EditDnsRequest>,
+  output: __S(2048, __c128, 0) as any as S.Schema<BasicResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4989,8 +5053,8 @@ export const emailAddForward: API.OperationMethod<
   EmailAddForwardError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c174, 0) as any as S.Schema<EmailAddForwardRequest>,
-  output: __S(2788, __c174, 4) as any as S.Schema<EmailAddForwardResponse>,
+  input: __S(2800, __c175, 0) as any as S.Schema<EmailAddForwardRequest>,
+  output: __S(2804, __c175, 4) as any as S.Schema<EmailAddForwardResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5006,8 +5070,8 @@ export const emailCreateMailbox: API.OperationMethod<
   EmailCreateMailboxError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c176, 0) as any as S.Schema<EmailCreateMailboxRequest>,
-  output: __S(2848, __c178, 0) as any as S.Schema<EmailCreateMailboxResponse>,
+  input: __S(2832, __c177, 0) as any as S.Schema<EmailCreateMailboxRequest>,
+  output: __S(2864, __c179, 0) as any as S.Schema<EmailCreateMailboxResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5023,8 +5087,8 @@ export const emailDeleteForward: API.OperationMethod<
   EmailDeleteForwardError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c180, 0) as any as S.Schema<EmailDeleteForwardRequest>,
-  output: __S(2881, __c180, 1) as any as S.Schema<EmailDeleteForwardResponse>,
+  input: __S(2896, __c181, 0) as any as S.Schema<EmailDeleteForwardRequest>,
+  output: __S(2897, __c181, 1) as any as S.Schema<EmailDeleteForwardResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5040,8 +5104,8 @@ export const emailGetForwards: API.OperationMethod<
   EmailGetForwardsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2896, __c181, 0) as any as S.Schema<EmailGetForwardsRequest>,
-  output: __S(2914, __c182, 2) as any as S.Schema<EmailGetForwardsResponse>,
+  input: __S(2912, __c182, 0) as any as S.Schema<EmailGetForwardsRequest>,
+  output: __S(2930, __c183, 2) as any as S.Schema<EmailGetForwardsResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5057,8 +5121,8 @@ export const emailGetMailboxes: API.OperationMethod<
   EmailGetMailboxesError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2928, __c183, 0) as any as S.Schema<EmailGetMailboxesRequest>,
-  output: __S(2945, __c184, 1) as any as S.Schema<EmailGetMailboxesResponse>,
+  input: __S(2944, __c184, 0) as any as S.Schema<EmailGetMailboxesRequest>,
+  output: __S(2961, __c185, 1) as any as S.Schema<EmailGetMailboxesResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5074,8 +5138,8 @@ export const emailRenewMailbox: API.OperationMethod<
   EmailRenewMailboxError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2960, __c185, 0) as any as S.Schema<EmailRenewMailboxRequest>,
-  output: __S(2961, __c185, 1) as any as S.Schema<EmailRenewMailboxResponse>,
+  input: __S(2976, __c186, 0) as any as S.Schema<EmailRenewMailboxRequest>,
+  output: __S(2977, __c186, 1) as any as S.Schema<EmailRenewMailboxResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5091,8 +5155,8 @@ export const emailSetPassword: API.OperationMethod<
   EmailSetPasswordError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c186, 0) as any as S.Schema<EmailSetPasswordRequest>,
-  output: __S(2032, __c127, 0) as any as S.Schema<BasicResponse>,
+  input: __S(2992, __c187, 0) as any as S.Schema<EmailSetPasswordRequest>,
+  output: __S(2048, __c128, 0) as any as S.Schema<BasicResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5108,8 +5172,8 @@ export const emailSetupMailbox: API.OperationMethod<
   EmailSetupMailboxError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2992, __c187, 0) as any as S.Schema<EmailSetupMailboxRequest>,
-  output: __S(2848, __c178, 0) as any as S.Schema<EmailSetupMailboxResponse>,
+  input: __S(3008, __c188, 0) as any as S.Schema<EmailSetupMailboxRequest>,
+  output: __S(2864, __c179, 0) as any as S.Schema<EmailSetupMailboxResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5125,8 +5189,8 @@ export const getAccountInviteStatus: API.OperationMethod<
   GetAccountInviteStatusError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c188, 0) as any as S.Schema<GetAccountInviteStatusRequest>,
-  output: __S(3009, __c188, 1) as any as S.Schema<GetAccountInviteStatusResponse>,
+  input: __S(3024, __c189, 0) as any as S.Schema<GetAccountInviteStatusRequest>,
+  output: __S(3025, __c189, 1) as any as S.Schema<GetAccountInviteStatusResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5142,8 +5206,8 @@ export const getApikey: API.OperationMethod<
   GetApikeyError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3024, __c189, 0) as any as S.Schema<GetApikeyRequest>,
-  output: __S(3025, __c189, 1) as any as S.Schema<GetApikeyResponse>,
+  input: __S(3040, __c190, 0) as any as S.Schema<GetApikeyRequest>,
+  output: __S(3041, __c190, 1) as any as S.Schema<GetApikeyResponse>,
   errors: [BadRequest, Forbidden, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5159,8 +5223,8 @@ export const getApikeyShare: API.OperationMethod<
   GetApikeyShareError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c190, 0) as any as S.Schema<GetApikeyShareRequest>,
-  output: __S(18, __c1, 2) as any as S.Schema<GetApikeyShareResponse>,
+  input: __S(3056, __c191, 0) as any as S.Schema<GetApikeyShareRequest>,
+  output: __S(34, __c2, 2) as any as S.Schema<GetApikeyShareResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5176,8 +5240,8 @@ export const getApiSettings: API.OperationMethod<
   GetApiSettingsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3056, __c191, 0) as any as S.Schema<GetApiSettingsRequest>,
-  output: __S(3060, __c191, 4) as any as S.Schema<ApiSettingsResponse>,
+  input: __S(3072, __c192, 0) as any as S.Schema<GetApiSettingsRequest>,
+  output: __S(3076, __c192, 4) as any as S.Schema<ApiSettingsResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5193,8 +5257,8 @@ export const getAutoTopup: API.OperationMethod<
   GetAutoTopupError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3088, __c193, 0) as any as S.Schema<GetAutoTopupRequest>,
-  output: __S(3106, __c194, 2) as any as S.Schema<AutoTopupResponse>,
+  input: __S(3104, __c194, 0) as any as S.Schema<GetAutoTopupRequest>,
+  output: __S(3122, __c195, 2) as any as S.Schema<AutoTopupResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5210,8 +5274,8 @@ export const getBalance: API.OperationMethod<
   GetBalanceError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3120, __c195, 0) as any as S.Schema<GetBalanceRequest>,
-  output: __S(3121, __c195, 1) as any as S.Schema<BalanceResponse>,
+  input: __S(3136, __c196, 0) as any as S.Schema<GetBalanceRequest>,
+  output: __S(3137, __c196, 1) as any as S.Schema<BalanceResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5227,8 +5291,8 @@ export const getCloseout: API.OperationMethod<
   GetCloseoutError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c196, 0) as any as S.Schema<GetCloseoutRequest>,
-  output: __S(3137, __c196, 1) as any as S.Schema<GetCloseoutResponse>,
+  input: __S(3152, __c197, 0) as any as S.Schema<GetCloseoutRequest>,
+  output: __S(3153, __c197, 1) as any as S.Schema<GetCloseoutResponse>,
   errors: [NotFound, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5244,8 +5308,8 @@ export const getCloudflare: API.OperationMethod<
   GetCloudflareError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c198, 0) as any as S.Schema<GetCloudflareRequest>,
-  output: __S(928, __c58, 0) as any as S.Schema<GetCloudflareResponse>,
+  input: __S(3184, __c199, 0) as any as S.Schema<GetCloudflareRequest>,
+  output: __S(944, __c59, 0) as any as S.Schema<GetCloudflareResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5261,8 +5325,8 @@ export const getDns: API.OperationMethod<
   GetDnsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3184, __c199, 0) as any as S.Schema<GetDnsRequest>,
-  output: __S(2322, __c145, 2) as any as S.Schema<DnsRecordsResponse>,
+  input: __S(3200, __c200, 0) as any as S.Schema<GetDnsRequest>,
+  output: __S(2338, __c146, 2) as any as S.Schema<DnsRecordsResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5278,8 +5342,8 @@ export const getDnsRecordById: API.OperationMethod<
   GetDnsRecordByIdError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c200, 0) as any as S.Schema<GetDnsRecordByIdRequest>,
-  output: __S(2322, __c145, 2) as any as S.Schema<DnsRecordsResponse>,
+  input: __S(3216, __c201, 0) as any as S.Schema<GetDnsRecordByIdRequest>,
+  output: __S(2338, __c146, 2) as any as S.Schema<DnsRecordsResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5295,8 +5359,8 @@ export const getDnsRecords: API.OperationMethod<
   GetDnsRecordsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3216, __c201, 0) as any as S.Schema<GetDnsRecordsRequest>,
-  output: __S(2322, __c145, 2) as any as S.Schema<DnsRecordsResponse>,
+  input: __S(3232, __c202, 0) as any as S.Schema<GetDnsRecordsRequest>,
+  output: __S(2338, __c146, 2) as any as S.Schema<DnsRecordsResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5312,8 +5376,8 @@ export const getDnsRecordsByNameType: API.OperationMethod<
   GetDnsRecordsByNameTypeError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c202, 0) as any as S.Schema<GetDnsRecordsByNameTypeRequest>,
-  output: __S(2322, __c145, 2) as any as S.Schema<DnsRecordsResponse>,
+  input: __S(3248, __c203, 0) as any as S.Schema<GetDnsRecordsByNameTypeRequest>,
+  output: __S(2338, __c146, 2) as any as S.Schema<DnsRecordsResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5329,8 +5393,8 @@ export const getDnssecRecords: API.OperationMethod<
   GetDnssecRecordsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3248, __c203, 0) as any as S.Schema<GetDnssecRecordsRequest>,
-  output: __S(2258, __c141, 2) as any as S.Schema<GetDnssecRecordsResponse>,
+  input: __S(3264, __c204, 0) as any as S.Schema<GetDnssecRecordsRequest>,
+  output: __S(2274, __c142, 2) as any as S.Schema<GetDnssecRecordsResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5346,8 +5410,8 @@ export const getDomain: API.OperationMethod<
   GetDomainError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c204, 0) as any as S.Schema<GetDomainRequest>,
-  output: __S(3266, __c204, 2) as any as S.Schema<GetDomainResponse>,
+  input: __S(3280, __c205, 0) as any as S.Schema<GetDomainRequest>,
+  output: __S(3282, __c205, 2) as any as S.Schema<GetDomainResponse>,
   errors: [NotFound, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5363,8 +5427,8 @@ export const getDomainGlue: API.OperationMethod<
   GetDomainGlueError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c206, 0) as any as S.Schema<GetDomainGlueRequest>,
-  output: __S(3299, __c206, 3) as any as S.Schema<GetDomainGlueResponse>,
+  input: __S(3312, __c207, 0) as any as S.Schema<GetDomainGlueRequest>,
+  output: __S(3315, __c207, 3) as any as S.Schema<GetDomainGlueResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5380,8 +5444,8 @@ export const getDomainNs: API.OperationMethod<
   GetDomainNsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3312, __c207, 0) as any as S.Schema<GetDomainNsRequest>,
-  output: __S(2560, __c160, 0) as any as S.Schema<GetDomainNsResponse>,
+  input: __S(3328, __c208, 0) as any as S.Schema<GetDomainNsRequest>,
+  output: __S(2576, __c161, 0) as any as S.Schema<GetDomainNsResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5397,8 +5461,8 @@ export const getDomains: API.OperationMethod<
   GetDomainsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c208, 0) as any as S.Schema<GetDomainsRequest>,
-  output: __S(3348, __c209, 4) as any as S.Schema<DomainListAllResponse>,
+  input: __S(3344, __c209, 0) as any as S.Schema<GetDomainsRequest>,
+  output: __S(3364, __c210, 4) as any as S.Schema<DomainListAllResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5414,8 +5478,8 @@ export const getDomainUrlForwarding: API.OperationMethod<
   GetDomainUrlForwardingError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3360, __c210, 0) as any as S.Schema<GetDomainUrlForwardingRequest>,
-  output: __S(2642, __c165, 2) as any as S.Schema<GetUrlForwardingResponse>,
+  input: __S(3376, __c211, 0) as any as S.Schema<GetDomainUrlForwardingRequest>,
+  output: __S(2658, __c166, 2) as any as S.Schema<GetUrlForwardingResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5431,8 +5495,8 @@ export const getEmailForwards: API.OperationMethod<
   GetEmailForwardsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3376, __c211, 0) as any as S.Schema<GetEmailForwardsRequest>,
-  output: __S(2914, __c182, 2) as any as S.Schema<GetEmailForwardsResponse>,
+  input: __S(3392, __c212, 0) as any as S.Schema<GetEmailForwardsRequest>,
+  output: __S(2930, __c183, 2) as any as S.Schema<GetEmailForwardsResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5448,8 +5512,8 @@ export const getEmailMailboxes: API.OperationMethod<
   GetEmailMailboxesError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3392, __c212, 0) as any as S.Schema<GetEmailMailboxesRequest>,
-  output: __S(2945, __c184, 1) as any as S.Schema<GetEmailMailboxesResponse>,
+  input: __S(3408, __c213, 0) as any as S.Schema<GetEmailMailboxesRequest>,
+  output: __S(2961, __c185, 1) as any as S.Schema<GetEmailMailboxesResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5465,8 +5529,8 @@ export const getHosting: API.OperationMethod<
   GetHostingError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3408, __c213, 0) as any as S.Schema<GetHostingRequest>,
-  output: __S(3418, __c213, 10) as any as S.Schema<GetHostingResponse>,
+  input: __S(3424, __c214, 0) as any as S.Schema<GetHostingRequest>,
+  output: __S(3434, __c214, 10) as any as S.Schema<GetHostingResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5482,8 +5546,8 @@ export const getHostingBackup: API.OperationMethod<
   GetHostingBackupError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c214, 0) as any as S.Schema<GetHostingBackupRequest>,
-  output: __S(3442, __c215, 2) as any as S.Schema<GetHostingBackupResponse>,
+  input: __S(3440, __c215, 0) as any as S.Schema<GetHostingBackupRequest>,
+  output: __S(3458, __c216, 2) as any as S.Schema<GetHostingBackupResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5499,8 +5563,8 @@ export const getInvoice: API.OperationMethod<
   GetInvoiceError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3456, __c216, 0) as any as S.Schema<GetInvoiceRequest>,
-  output: __S(3461, __c216, 5) as any as S.Schema<GetInvoiceResponse>,
+  input: __S(3472, __c217, 0) as any as S.Schema<GetInvoiceRequest>,
+  output: __S(3477, __c217, 5) as any as S.Schema<GetInvoiceResponse>,
   errors: [NotFound, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5516,8 +5580,8 @@ export const getInvoicePdf: API.OperationMethod<
   GetInvoicePdfError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3472, __c217, 0) as any as S.Schema<GetInvoicePdfRequest>,
-  output: __S(3473, __c217, 1) as any as S.Schema<GetInvoicePdfResponse>,
+  input: __S(3488, __c218, 0) as any as S.Schema<GetInvoicePdfRequest>,
+  output: __S(3489, __c218, 1) as any as S.Schema<GetInvoicePdfResponse>,
   errors: [NotFound, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5529,8 +5593,8 @@ export type GetIpError = PorkbunOpError;
 /** Get caller IP address Returns the caller's public IP address. No credentials required. Use the `api-ipv4.porkbun.com` hostname if you need to force an IPv4 address. */
 export const getIp: API.OperationMethod<GetIpRequest, IpResponse, GetIpError, PorkbunOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(32, __c2, 0) as any as S.Schema<GetIpRequest>,
-    output: __S(48, __c3, 0) as any as S.Schema<IpResponse>,
+    input: __S(48, __c3, 0) as any as S.Schema<GetIpRequest>,
+    output: __S(64, __c4, 0) as any as S.Schema<IpResponse>,
     errors: [UnknownPorkbunError],
     protocol: PorkbunProtocol,
     retry: Retry.Retry,
@@ -5546,8 +5610,8 @@ export const getLinkInBio: API.OperationMethod<
   GetLinkInBioError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<GetLinkInBioRequest>,
-  output: __S(1952, __c122, 0) as any as S.Schema<LinkInBioResponse>,
+  input: __S(80, __c5, 0) as any as S.Schema<GetLinkInBioRequest>,
+  output: __S(1968, __c123, 0) as any as S.Schema<LinkInBioResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5563,8 +5627,8 @@ export const getPing: API.OperationMethod<
   GetPingError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<GetPingRequest>,
-  output: __S(96, __c6, 0) as any as S.Schema<GetPingResponse>,
+  input: __S(96, __c6, 0) as any as S.Schema<GetPingRequest>,
+  output: __S(112, __c7, 0) as any as S.Schema<GetPingResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5580,8 +5644,8 @@ export const getPricing: API.OperationMethod<
   GetPricingError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<GetPricingRequest>,
-  output: __S(132, __c8, 4) as any as S.Schema<GetPricingResponse>,
+  input: __S(128, __c8, 0) as any as S.Schema<GetPricingRequest>,
+  output: __S(148, __c9, 4) as any as S.Schema<GetPricingResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5597,8 +5661,8 @@ export const getPricingGet: API.OperationMethod<
   GetPricingGetError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<GetPricingGetRequest>,
-  output: __S(132, __c8, 4) as any as S.Schema<GetPricingGetResponse>,
+  input: __S(160, __c10, 0) as any as S.Schema<GetPricingGetRequest>,
+  output: __S(148, __c9, 4) as any as S.Schema<GetPricingGetResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5614,8 +5678,8 @@ export const getSsl: API.OperationMethod<
   GetSslError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<GetSslRequest>,
-  output: __S(176, __c11, 0) as any as S.Schema<GetSslResponse>,
+  input: __S(176, __c11, 0) as any as S.Schema<GetSslRequest>,
+  output: __S(192, __c12, 0) as any as S.Schema<GetSslResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5631,8 +5695,8 @@ export const getSslRetrieve: API.OperationMethod<
   GetSslRetrieveError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<GetSslRetrieveRequest>,
-  output: __S(176, __c11, 0) as any as S.Schema<GetSslRetrieveResponse>,
+  input: __S(208, __c13, 0) as any as S.Schema<GetSslRetrieveRequest>,
+  output: __S(192, __c12, 0) as any as S.Schema<GetSslRetrieveResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5648,8 +5712,8 @@ export const getTransferGet: API.OperationMethod<
   GetTransferGetError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<GetTransferGetRequest>,
-  output: __S(209, __c13, 1) as any as S.Schema<GetTransferResponse>,
+  input: __S(224, __c14, 0) as any as S.Schema<GetTransferGetRequest>,
+  output: __S(225, __c14, 1) as any as S.Schema<GetTransferResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5665,8 +5729,8 @@ export const getWebhook: API.OperationMethod<
   GetWebhookError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<GetWebhookRequest>,
-  output: __S(2000, __c125, 0) as any as S.Schema<WebhookEndpointResponse>,
+  input: __S(256, __c16, 0) as any as S.Schema<GetWebhookRequest>,
+  output: __S(2016, __c126, 0) as any as S.Schema<WebhookEndpointResponse>,
   errors: [NotFound, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5682,8 +5746,8 @@ export const hostingBackups: API.OperationMethod<
   HostingBackupsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<HostingBackupsRequest>,
-  output: __S(3442, __c215, 2) as any as S.Schema<HostingBackupsResponse>,
+  input: __S(272, __c17, 0) as any as S.Schema<HostingBackupsRequest>,
+  output: __S(3458, __c216, 2) as any as S.Schema<HostingBackupsResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5699,8 +5763,8 @@ export const hostingCreateBackup: API.OperationMethod<
   HostingCreateBackupError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<HostingCreateBackupRequest>,
-  output: __S(2672, __c167, 0) as any as S.Schema<HostingCreateBackupResponse>,
+  input: __S(352, __c22, 0) as any as S.Schema<HostingCreateBackupRequest>,
+  output: __S(2688, __c168, 0) as any as S.Schema<HostingCreateBackupResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5716,8 +5780,8 @@ export const hostingCreateStaging: API.OperationMethod<
   HostingCreateStagingError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<HostingCreateStagingRequest>,
-  output: __S(353, __c22, 1) as any as S.Schema<HostingCreateStagingResponse>,
+  input: __S(368, __c23, 0) as any as S.Schema<HostingCreateStagingRequest>,
+  output: __S(369, __c23, 1) as any as S.Schema<HostingCreateStagingResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5733,8 +5797,8 @@ export const hostingCreateWpCredentials: API.OperationMethod<
   HostingCreateWpCredentialsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<HostingCreateWpCredentialsRequest>,
-  output: __S(386, __c24, 2) as any as S.Schema<HostingCreateWpCredentialsResponse>,
+  input: __S(400, __c25, 0) as any as S.Schema<HostingCreateWpCredentialsRequest>,
+  output: __S(402, __c25, 2) as any as S.Schema<HostingCreateWpCredentialsResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5750,8 +5814,8 @@ export const hostingDeleteBackup: API.OperationMethod<
   HostingDeleteBackupError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<HostingDeleteBackupRequest>,
-  output: __S(2672, __c167, 0) as any as S.Schema<HostingDeleteBackupResponse>,
+  input: __S(416, __c26, 0) as any as S.Schema<HostingDeleteBackupRequest>,
+  output: __S(2688, __c168, 0) as any as S.Schema<HostingDeleteBackupResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5767,8 +5831,8 @@ export const hostingDeleteFile: API.OperationMethod<
   HostingDeleteFileError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<HostingDeleteFileRequest>,
-  output: __S(417, __c26, 1) as any as S.Schema<HostingDeleteFileResponse>,
+  input: __S(432, __c27, 0) as any as S.Schema<HostingDeleteFileRequest>,
+  output: __S(433, __c27, 1) as any as S.Schema<HostingDeleteFileResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5784,8 +5848,8 @@ export const hostingDeleteStaging: API.OperationMethod<
   HostingDeleteStagingError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<HostingDeleteStagingRequest>,
-  output: __S(449, __c28, 1) as any as S.Schema<HostingDeleteStagingResponse>,
+  input: __S(448, __c28, 0) as any as S.Schema<HostingDeleteStagingRequest>,
+  output: __S(465, __c29, 1) as any as S.Schema<HostingDeleteStagingResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5801,8 +5865,8 @@ export const hostingDeleteWpCredentials: API.OperationMethod<
   HostingDeleteWpCredentialsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<HostingDeleteWpCredentialsRequest>,
-  output: __S(465, __c29, 1) as any as S.Schema<HostingDeleteWpCredentialsResponse>,
+  input: __S(480, __c30, 0) as any as S.Schema<HostingDeleteWpCredentialsRequest>,
+  output: __S(481, __c30, 1) as any as S.Schema<HostingDeleteWpCredentialsResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5818,8 +5882,8 @@ export const hostingFiles: API.OperationMethod<
   HostingFilesError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<HostingFilesRequest>,
-  output: __S(481, __c30, 1) as any as S.Schema<HostingFilesResponse>,
+  input: __S(496, __c31, 0) as any as S.Schema<HostingFilesRequest>,
+  output: __S(497, __c31, 1) as any as S.Schema<HostingFilesResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5835,8 +5899,8 @@ export const hostingGetStaging: API.OperationMethod<
   HostingGetStagingError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<HostingGetStagingRequest>,
-  output: __S(512, __c32, 0) as any as S.Schema<HostingGetStagingResponse>,
+  input: __S(512, __c32, 0) as any as S.Schema<HostingGetStagingRequest>,
+  output: __S(528, __c33, 0) as any as S.Schema<HostingGetStagingResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5852,8 +5916,8 @@ export const hostingGetStagingGet: API.OperationMethod<
   HostingGetStagingGetError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<HostingGetStagingGetRequest>,
-  output: __S(512, __c32, 0) as any as S.Schema<HostingGetStagingGetResponse>,
+  input: __S(544, __c34, 0) as any as S.Schema<HostingGetStagingGetRequest>,
+  output: __S(528, __c33, 0) as any as S.Schema<HostingGetStagingGetResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5869,8 +5933,8 @@ export const hostingGetWpCredentials: API.OperationMethod<
   HostingGetWpCredentialsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<HostingGetWpCredentialsRequest>,
-  output: __S(561, __c35, 1) as any as S.Schema<HostingGetWpCredentialsResponse>,
+  input: __S(576, __c36, 0) as any as S.Schema<HostingGetWpCredentialsRequest>,
+  output: __S(577, __c36, 1) as any as S.Schema<HostingGetWpCredentialsResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5886,8 +5950,8 @@ export const hostingMakeDir: API.OperationMethod<
   HostingMakeDirError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<HostingMakeDirRequest>,
-  output: __S(577, __c36, 1) as any as S.Schema<HostingMakeDirResponse>,
+  input: __S(592, __c37, 0) as any as S.Schema<HostingMakeDirRequest>,
+  output: __S(593, __c37, 1) as any as S.Schema<HostingMakeDirResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5903,8 +5967,8 @@ export const hostingPlans: API.OperationMethod<
   HostingPlansError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<HostingPlansRequest>,
-  output: __S(595, __c37, 3) as any as S.Schema<HostingPlansResponse>,
+  input: __S(608, __c38, 0) as any as S.Schema<HostingPlansRequest>,
+  output: __S(611, __c38, 3) as any as S.Schema<HostingPlansResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5920,8 +5984,8 @@ export const hostingPublishStaging: API.OperationMethod<
   HostingPublishStagingError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<HostingPublishStagingRequest>,
-  output: __S(449, __c28, 1) as any as S.Schema<HostingPublishStagingResponse>,
+  input: __S(624, __c39, 0) as any as S.Schema<HostingPublishStagingRequest>,
+  output: __S(465, __c29, 1) as any as S.Schema<HostingPublishStagingResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5937,8 +6001,8 @@ export const hostingReissueSsl: API.OperationMethod<
   HostingReissueSslError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<HostingReissueSslRequest>,
-  output: __S(2672, __c167, 0) as any as S.Schema<HostingReissueSslResponse>,
+  input: __S(640, __c40, 0) as any as S.Schema<HostingReissueSslRequest>,
+  output: __S(2688, __c168, 0) as any as S.Schema<HostingReissueSslResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5954,8 +6018,8 @@ export const hostingResetStaging: API.OperationMethod<
   HostingResetStagingError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<HostingResetStagingRequest>,
-  output: __S(449, __c28, 1) as any as S.Schema<HostingResetStagingResponse>,
+  input: __S(656, __c41, 0) as any as S.Schema<HostingResetStagingRequest>,
+  output: __S(465, __c29, 1) as any as S.Schema<HostingResetStagingResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5971,8 +6035,8 @@ export const hostingRestoreBackup: API.OperationMethod<
   HostingRestoreBackupError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<HostingRestoreBackupRequest>,
-  output: __S(658, __c41, 2) as any as S.Schema<HostingRestoreBackupResponse>,
+  input: __S(672, __c42, 0) as any as S.Schema<HostingRestoreBackupRequest>,
+  output: __S(674, __c42, 2) as any as S.Schema<HostingRestoreBackupResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -5988,8 +6052,8 @@ export const hostingSetPhpVersion: API.OperationMethod<
   HostingSetPhpVersionError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<HostingSetPhpVersionRequest>,
-  output: __S(2672, __c167, 0) as any as S.Schema<HostingSetPhpVersionResponse>,
+  input: __S(688, __c43, 0) as any as S.Schema<HostingSetPhpVersionRequest>,
+  output: __S(2688, __c168, 0) as any as S.Schema<HostingSetPhpVersionResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6005,8 +6069,8 @@ export const hostingSetSearchVisibility: API.OperationMethod<
   HostingSetSearchVisibilityError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<HostingSetSearchVisibilityRequest>,
-  output: __S(2672, __c167, 0) as any as S.Schema<HostingSetSearchVisibilityResponse>,
+  input: __S(704, __c44, 0) as any as S.Schema<HostingSetSearchVisibilityRequest>,
+  output: __S(2688, __c168, 0) as any as S.Schema<HostingSetSearchVisibilityResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6022,8 +6086,8 @@ export const hostingSetStagingEnvironment: API.OperationMethod<
   HostingSetStagingEnvironmentError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<HostingSetStagingEnvironmentRequest>,
-  output: __S(449, __c28, 1) as any as S.Schema<HostingSetStagingEnvironmentResponse>,
+  input: __S(720, __c45, 0) as any as S.Schema<HostingSetStagingEnvironmentRequest>,
+  output: __S(465, __c29, 1) as any as S.Schema<HostingSetStagingEnvironmentResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6039,8 +6103,8 @@ export const hostingSetStagingGate: API.OperationMethod<
   HostingSetStagingGateError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<HostingSetStagingGateRequest>,
-  output: __S(738, __c46, 2) as any as S.Schema<HostingSetStagingGateResponse>,
+  input: __S(752, __c47, 0) as any as S.Schema<HostingSetStagingGateRequest>,
+  output: __S(754, __c47, 2) as any as S.Schema<HostingSetStagingGateResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6056,8 +6120,8 @@ export const hostingSetStagingGuard: API.OperationMethod<
   HostingSetStagingGuardError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<HostingSetStagingGuardRequest>,
-  output: __S(449, __c28, 1) as any as S.Schema<HostingSetStagingGuardResponse>,
+  input: __S(768, __c48, 0) as any as S.Schema<HostingSetStagingGuardRequest>,
+  output: __S(465, __c29, 1) as any as S.Schema<HostingSetStagingGuardResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6073,8 +6137,8 @@ export const hostingSetWordPressVersion: API.OperationMethod<
   HostingSetWordPressVersionError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<HostingSetWordPressVersionRequest>,
-  output: __S(2672, __c167, 0) as any as S.Schema<HostingSetWordPressVersionResponse>,
+  input: __S(784, __c49, 0) as any as S.Schema<HostingSetWordPressVersionRequest>,
+  output: __S(2688, __c168, 0) as any as S.Schema<HostingSetWordPressVersionResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6090,8 +6154,8 @@ export const hostingUpdateAutoRenew: API.OperationMethod<
   HostingUpdateAutoRenewError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<HostingUpdateAutoRenewRequest>,
-  output: __S(785, __c49, 1) as any as S.Schema<HostingUpdateAutoRenewResponse>,
+  input: __S(800, __c50, 0) as any as S.Schema<HostingUpdateAutoRenewRequest>,
+  output: __S(801, __c50, 1) as any as S.Schema<HostingUpdateAutoRenewResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6107,8 +6171,8 @@ export const hostingWpRequest: API.OperationMethod<
   HostingWpRequestError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<HostingWpRequestRequest>,
-  output: __S(801, __c50, 1) as any as S.Schema<HostingWpRequestResponse>,
+  input: __S(816, __c51, 0) as any as S.Schema<HostingWpRequestRequest>,
+  output: __S(817, __c51, 1) as any as S.Schema<HostingWpRequestResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6124,8 +6188,8 @@ export const hostingWpUploadMedia: API.OperationMethod<
   HostingWpUploadMediaError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c51, 0) as any as S.Schema<HostingWpUploadMediaRequest>,
-  output: __S(818, __c51, 2) as any as S.Schema<HostingWpUploadMediaResponse>,
+  input: __S(832, __c52, 0) as any as S.Schema<HostingWpUploadMediaRequest>,
+  output: __S(834, __c52, 2) as any as S.Schema<HostingWpUploadMediaResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6141,8 +6205,8 @@ export const importDns: API.OperationMethod<
   ImportDnsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c52, 0) as any as S.Schema<ImportDnsRequest>,
-  output: __S(833, __c52, 1) as any as S.Schema<ImportDnsResponse>,
+  input: __S(848, __c53, 0) as any as S.Schema<ImportDnsRequest>,
+  output: __S(849, __c53, 1) as any as S.Schema<ImportDnsResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6158,8 +6222,8 @@ export const linkInBioAddLink: API.OperationMethod<
   LinkInBioAddLinkError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<LinkInBioAddLinkRequest>,
-  output: __S(865, __c54, 1) as any as S.Schema<LinkInBioLinkResponse>,
+  input: __S(864, __c54, 0) as any as S.Schema<LinkInBioAddLinkRequest>,
+  output: __S(881, __c55, 1) as any as S.Schema<LinkInBioLinkResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6175,8 +6239,8 @@ export const linkInBioDeleteLink: API.OperationMethod<
   LinkInBioDeleteLinkError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<LinkInBioDeleteLinkRequest>,
-  output: __S(1952, __c122, 0) as any as S.Schema<LinkInBioResponse>,
+  input: __S(896, __c56, 0) as any as S.Schema<LinkInBioDeleteLinkRequest>,
+  output: __S(1968, __c123, 0) as any as S.Schema<LinkInBioResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6192,8 +6256,8 @@ export const linkInBioEditLink: API.OperationMethod<
   LinkInBioEditLinkError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<LinkInBioEditLinkRequest>,
-  output: __S(865, __c54, 1) as any as S.Schema<LinkInBioLinkResponse>,
+  input: __S(912, __c57, 0) as any as S.Schema<LinkInBioEditLinkRequest>,
+  output: __S(881, __c55, 1) as any as S.Schema<LinkInBioLinkResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6209,8 +6273,8 @@ export const linkInBioGetPost: API.OperationMethod<
   LinkInBioGetPostError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c59, 0) as any as S.Schema<LinkInBioGetPostRequest>,
-  output: __S(1952, __c122, 0) as any as S.Schema<LinkInBioResponse>,
+  input: __S(960, __c60, 0) as any as S.Schema<LinkInBioGetPostRequest>,
+  output: __S(1968, __c123, 0) as any as S.Schema<LinkInBioResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6226,8 +6290,8 @@ export const linkInBioReorderLinks: API.OperationMethod<
   LinkInBioReorderLinksError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<LinkInBioReorderLinksRequest>,
-  output: __S(1952, __c122, 0) as any as S.Schema<LinkInBioResponse>,
+  input: __S(976, __c61, 0) as any as S.Schema<LinkInBioReorderLinksRequest>,
+  output: __S(1968, __c123, 0) as any as S.Schema<LinkInBioResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6243,8 +6307,8 @@ export const linkInBioUpdateAppearance: API.OperationMethod<
   LinkInBioUpdateAppearanceError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<LinkInBioUpdateAppearanceRequest>,
-  output: __S(1952, __c122, 0) as any as S.Schema<LinkInBioResponse>,
+  input: __S(1008, __c63, 0) as any as S.Schema<LinkInBioUpdateAppearanceRequest>,
+  output: __S(1968, __c123, 0) as any as S.Schema<LinkInBioResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6260,8 +6324,8 @@ export const linkInBioUpdateProfile: API.OperationMethod<
   LinkInBioUpdateProfileError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<LinkInBioUpdateProfileRequest>,
-  output: __S(1952, __c122, 0) as any as S.Schema<LinkInBioResponse>,
+  input: __S(1024, __c64, 0) as any as S.Schema<LinkInBioUpdateProfileRequest>,
+  output: __S(1968, __c123, 0) as any as S.Schema<LinkInBioResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6277,8 +6341,8 @@ export const linkInBioUpdateSettings: API.OperationMethod<
   LinkInBioUpdateSettingsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1025, __c64, 1) as any as S.Schema<LinkInBioUpdateSettingsRequest>,
-  output: __S(1952, __c122, 0) as any as S.Schema<LinkInBioResponse>,
+  input: __S(1041, __c65, 1) as any as S.Schema<LinkInBioUpdateSettingsRequest>,
+  output: __S(1968, __c123, 0) as any as S.Schema<LinkInBioResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6294,8 +6358,8 @@ export const linkInBioUpdateSocials: API.OperationMethod<
   LinkInBioUpdateSocialsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1041, __c65, 1) as any as S.Schema<LinkInBioUpdateSocialsRequest>,
-  output: __S(1952, __c122, 0) as any as S.Schema<LinkInBioResponse>,
+  input: __S(1057, __c66, 1) as any as S.Schema<LinkInBioUpdateSocialsRequest>,
+  output: __S(1968, __c123, 0) as any as S.Schema<LinkInBioResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6311,8 +6375,8 @@ export const listDomains: API.OperationMethod<
   ListDomainsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c66, 0) as any as S.Schema<ListDomainsRequest>,
-  output: __S(3348, __c209, 4) as any as S.Schema<DomainListAllResponse>,
+  input: __S(1072, __c67, 0) as any as S.Schema<ListDomainsRequest>,
+  output: __S(3364, __c210, 4) as any as S.Schema<DomainListAllResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6328,8 +6392,8 @@ export const listInvoices: API.OperationMethod<
   ListInvoicesError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1072, __c67, 0) as any as S.Schema<ListInvoicesRequest>,
-  output: __S(1075, __c67, 3) as any as S.Schema<ListInvoicesResponse>,
+  input: __S(1088, __c68, 0) as any as S.Schema<ListInvoicesRequest>,
+  output: __S(1091, __c68, 3) as any as S.Schema<ListInvoicesResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6345,8 +6409,8 @@ export const listMarketplaceListings: API.OperationMethod<
   ListMarketplaceListingsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<ListMarketplaceListingsRequest>,
-  output: __S(1106, __c69, 2) as any as S.Schema<ListMarketplaceListingsResponse>,
+  input: __S(1104, __c69, 0) as any as S.Schema<ListMarketplaceListingsRequest>,
+  output: __S(1122, __c70, 2) as any as S.Schema<ListMarketplaceListingsResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6362,8 +6426,8 @@ export const listMarketplaceListingsGet: API.OperationMethod<
   ListMarketplaceListingsGetError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c70, 0) as any as S.Schema<ListMarketplaceListingsGetRequest>,
-  output: __S(1106, __c69, 2) as any as S.Schema<ListMarketplaceListingsGetResponse>,
+  input: __S(1136, __c71, 0) as any as S.Schema<ListMarketplaceListingsGetRequest>,
+  output: __S(1122, __c70, 2) as any as S.Schema<ListMarketplaceListingsGetResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6379,8 +6443,8 @@ export const listTransfersGet: API.OperationMethod<
   ListTransfersGetError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c72, 0) as any as S.Schema<ListTransfersGetRequest>,
-  output: __S(1154, __c72, 2) as any as S.Schema<ListTransfersResponse>,
+  input: __S(1168, __c73, 0) as any as S.Schema<ListTransfersGetRequest>,
+  output: __S(1170, __c73, 2) as any as S.Schema<ListTransfersResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6396,8 +6460,8 @@ export const listWebhook: API.OperationMethod<
   ListWebhookError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1168, __c73, 0) as any as S.Schema<ListWebhookRequest>,
-  output: __S(1170, __c73, 2) as any as S.Schema<WebhookListResponse>,
+  input: __S(1184, __c74, 0) as any as S.Schema<ListWebhookRequest>,
+  output: __S(1186, __c74, 2) as any as S.Schema<WebhookListResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6413,8 +6477,8 @@ export const mockDirectory: API.OperationMethod<
   MockDirectoryError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c74, 0) as any as S.Schema<MockDirectoryRequest>,
-  output: __S(1187, __c74, 3) as any as S.Schema<MockDirectoryResponse>,
+  input: __S(1200, __c75, 0) as any as S.Schema<MockDirectoryRequest>,
+  output: __S(1203, __c75, 3) as any as S.Schema<MockDirectoryResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6430,8 +6494,8 @@ export const mockEndpoint: API.OperationMethod<
   MockEndpointError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c75, 0) as any as S.Schema<MockEndpointRequest>,
-  output: __S(928, __c58, 0) as any as S.Schema<MockEndpointResponse>,
+  input: __S(1216, __c76, 0) as any as S.Schema<MockEndpointRequest>,
+  output: __S(944, __c59, 0) as any as S.Schema<MockEndpointResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6443,8 +6507,8 @@ export type PingError = BadRequest | PorkbunOpError;
 /** Test credentials and get caller IP Returns the caller's public IP address. Optionally validates API credentials. - **No credentials supplied** -- returns IP only. - **Valid credentials supplied** -- returns IP with `credentialsValid: true`. - **Invalid credentials supplied** -- returns an error. Useful for agents and clients to verify their API key is working before making other calls. */
 export const ping: API.OperationMethod<PingRequest, PingResponse, PingError, PorkbunOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(1216, __c76, 0) as any as S.Schema<PingRequest>,
-    output: __S(96, __c6, 0) as any as S.Schema<PingResponse>,
+    input: __S(1232, __c77, 0) as any as S.Schema<PingRequest>,
+    output: __S(112, __c7, 0) as any as S.Schema<PingResponse>,
     errors: [BadRequest, UnknownPorkbunError],
     protocol: PorkbunProtocol,
     retry: Retry.Retry,
@@ -6456,8 +6520,8 @@ export type PostIpError = PorkbunOpError;
 /** Get caller IP address Returns the caller's public IP address. No credentials required. Use the `api-ipv4.porkbun.com` hostname if you need to force an IPv4 address. */
 export const postIp: API.OperationMethod<PostIpRequest, IpResponse, PostIpError, PorkbunOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(1232, __c77, 0) as any as S.Schema<PostIpRequest>,
-    output: __S(48, __c3, 0) as any as S.Schema<IpResponse>,
+    input: __S(1248, __c78, 0) as any as S.Schema<PostIpRequest>,
+    output: __S(64, __c4, 0) as any as S.Schema<IpResponse>,
     errors: [UnknownPorkbunError],
     protocol: PorkbunProtocol,
     retry: Retry.Retry,
@@ -6473,8 +6537,8 @@ export const previewCloudflare: API.OperationMethod<
   PreviewCloudflareError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c78, 0) as any as S.Schema<PreviewCloudflareRequest>,
-  output: __S(928, __c58, 0) as any as S.Schema<PreviewCloudflareResponse>,
+  input: __S(1264, __c79, 0) as any as S.Schema<PreviewCloudflareRequest>,
+  output: __S(944, __c59, 0) as any as S.Schema<PreviewCloudflareResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6490,8 +6554,8 @@ export const renewDomain: API.OperationMethod<
   RenewDomainError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c79, 0) as any as S.Schema<RenewDomainRequest>,
-  output: __S(1265, __c79, 1) as any as S.Schema<RenewDomainResponse2>,
+  input: __S(1280, __c80, 0) as any as S.Schema<RenewDomainRequest>,
+  output: __S(1281, __c80, 1) as any as S.Schema<RenewDomainResponse2>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6507,8 +6571,8 @@ export const resendWebhook: API.OperationMethod<
   ResendWebhookError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c80, 0) as any as S.Schema<ResendWebhookRequest>,
-  output: __S(1281, __c80, 1) as any as S.Schema<WebhookResendResponse>,
+  input: __S(1296, __c81, 0) as any as S.Schema<ResendWebhookRequest>,
+  output: __S(1297, __c81, 1) as any as S.Schema<WebhookResendResponse>,
   errors: [BadRequest, NotFound, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6524,8 +6588,8 @@ export const resetSandbox: API.OperationMethod<
   ResetSandboxError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c82, 0) as any as S.Schema<ResetSandboxRequest>,
-  output: __S(1313, __c82, 1) as any as S.Schema<ResetSandboxResponse>,
+  input: __S(1328, __c83, 0) as any as S.Schema<ResetSandboxRequest>,
+  output: __S(1329, __c83, 1) as any as S.Schema<ResetSandboxResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6541,8 +6605,8 @@ export const restoreDns: API.OperationMethod<
   RestoreDnsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c84, 0) as any as S.Schema<RestoreDnsRequest>,
-  output: __S(1347, __c84, 3) as any as S.Schema<DnsRestoreResponse>,
+  input: __S(1360, __c85, 0) as any as S.Schema<RestoreDnsRequest>,
+  output: __S(1363, __c85, 3) as any as S.Schema<DnsRestoreResponse>,
   errors: [NotFound, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6558,8 +6622,8 @@ export const retryCloudflare: API.OperationMethod<
   RetryCloudflareError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1360, __c85, 0) as any as S.Schema<RetryCloudflareRequest>,
-  output: __S(928, __c58, 0) as any as S.Schema<RetryCloudflareResponse>,
+  input: __S(1376, __c86, 0) as any as S.Schema<RetryCloudflareRequest>,
+  output: __S(944, __c59, 0) as any as S.Schema<RetryCloudflareResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6575,8 +6639,8 @@ export const revokeApikey: API.OperationMethod<
   RevokeApikeyError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c86, 0) as any as S.Schema<RevokeApikeyRequest>,
-  output: __S(1378, __c86, 2) as any as S.Schema<RevokeApikeyResponse>,
+  input: __S(1392, __c87, 0) as any as S.Schema<RevokeApikeyRequest>,
+  output: __S(1394, __c87, 2) as any as S.Schema<RevokeApikeyResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6592,8 +6656,8 @@ export const sandboxTopup: API.OperationMethod<
   SandboxTopupError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1392, __c87, 0) as any as S.Schema<SandboxTopupRequest>,
-  output: __S(1393, __c87, 1) as any as S.Schema<SandboxTopupResponse>,
+  input: __S(1408, __c88, 0) as any as S.Schema<SandboxTopupRequest>,
+  output: __S(1409, __c88, 1) as any as S.Schema<SandboxTopupResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6609,8 +6673,8 @@ export const sandboxTriggerWebhook: API.OperationMethod<
   SandboxTriggerWebhookError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c88, 0) as any as S.Schema<SandboxTriggerWebhookRequest>,
-  output: __S(1409, __c88, 1) as any as S.Schema<SandboxTriggerWebhookResponse>,
+  input: __S(1424, __c89, 0) as any as S.Schema<SandboxTriggerWebhookRequest>,
+  output: __S(1425, __c89, 1) as any as S.Schema<SandboxTriggerWebhookResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6626,8 +6690,8 @@ export const searchAftermarket: API.OperationMethod<
   SearchAftermarketError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1424, __c89, 0) as any as S.Schema<SearchAftermarketRequest>,
-  output: __S(1427, __c89, 3) as any as S.Schema<SearchAftermarketResponse>,
+  input: __S(1440, __c90, 0) as any as S.Schema<SearchAftermarketRequest>,
+  output: __S(1443, __c90, 3) as any as S.Schema<SearchAftermarketResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6643,8 +6707,8 @@ export const searchCloseout: API.OperationMethod<
   SearchCloseoutError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c90, 0) as any as S.Schema<SearchCloseoutRequest>,
-  output: __S(1442, __c90, 2) as any as S.Schema<SearchCloseoutResponse>,
+  input: __S(1456, __c91, 0) as any as S.Schema<SearchCloseoutRequest>,
+  output: __S(1458, __c91, 2) as any as S.Schema<SearchCloseoutResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6660,8 +6724,8 @@ export const setAutoTopup: API.OperationMethod<
   SetAutoTopupError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1456, __c91, 0) as any as S.Schema<SetAutoTopupRequest>,
-  output: __S(3106, __c194, 2) as any as S.Schema<AutoTopupResponse>,
+  input: __S(1472, __c92, 0) as any as S.Schema<SetAutoTopupRequest>,
+  output: __S(3122, __c195, 2) as any as S.Schema<AutoTopupResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6677,8 +6741,8 @@ export const shareApikey: API.OperationMethod<
   ShareApikeyError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c92, 0) as any as S.Schema<ShareApikeyRequest>,
-  output: __S(1473, __c92, 1) as any as S.Schema<ShareApikeyResponse>,
+  input: __S(1488, __c93, 0) as any as S.Schema<ShareApikeyRequest>,
+  output: __S(1489, __c93, 1) as any as S.Schema<ShareApikeyResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6694,8 +6758,8 @@ export const testWebhook: API.OperationMethod<
   TestWebhookError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1488, __c93, 0) as any as S.Schema<TestWebhookRequest>,
-  output: __S(1489, __c93, 1) as any as S.Schema<WebhookTestResponse>,
+  input: __S(1504, __c94, 0) as any as S.Schema<TestWebhookRequest>,
+  output: __S(1505, __c94, 1) as any as S.Schema<WebhookTestResponse>,
   errors: [BadRequest, NotFound, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6711,8 +6775,8 @@ export const topupAccountCredit: API.OperationMethod<
   TopupAccountCreditError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1520, __c95, 0) as any as S.Schema<TopupAccountCreditRequest>,
-  output: __S(1524, __c95, 4) as any as S.Schema<TopupAccountCreditResponse>,
+  input: __S(1536, __c96, 0) as any as S.Schema<TopupAccountCreditRequest>,
+  output: __S(1540, __c96, 4) as any as S.Schema<TopupAccountCreditResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6728,8 +6792,8 @@ export const topupCrypto: API.OperationMethod<
   TopupCryptoError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c96, 0) as any as S.Schema<TopupCryptoRequest>,
-  output: __S(1537, __c96, 1) as any as S.Schema<TopupCryptoResponse>,
+  input: __S(1552, __c97, 0) as any as S.Schema<TopupCryptoRequest>,
+  output: __S(1553, __c97, 1) as any as S.Schema<TopupCryptoResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6745,8 +6809,8 @@ export const topupCryptoStatus: API.OperationMethod<
   TopupCryptoStatusError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1552, __c97, 0) as any as S.Schema<TopupCryptoStatusRequest>,
-  output: __S(1553, __c97, 1) as any as S.Schema<TopupCryptoStatusResponse>,
+  input: __S(1568, __c98, 0) as any as S.Schema<TopupCryptoStatusRequest>,
+  output: __S(1569, __c98, 1) as any as S.Schema<TopupCryptoStatusResponse>,
   errors: [NotFound, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6762,8 +6826,8 @@ export const topupMpp: API.OperationMethod<
   TopupMppError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c98, 0) as any as S.Schema<TopupMppRequest>,
-  output: __S(1569, __c98, 1) as any as S.Schema<TopupMppResponse>,
+  input: __S(1584, __c99, 0) as any as S.Schema<TopupMppRequest>,
+  output: __S(1585, __c99, 1) as any as S.Schema<TopupMppResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6779,8 +6843,8 @@ export const transferDomain: API.OperationMethod<
   TransferDomainError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1584, __c99, 0) as any as S.Schema<TransferDomainRequest>,
-  output: __S(1585, __c99, 1) as any as S.Schema<TransferDomainResponse2>,
+  input: __S(1600, __c100, 0) as any as S.Schema<TransferDomainRequest>,
+  output: __S(1601, __c100, 1) as any as S.Schema<TransferDomainResponse2>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6796,8 +6860,8 @@ export const transferDomainPrepare: API.OperationMethod<
   TransferDomainPrepareError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c100, 0) as any as S.Schema<TransferDomainPrepareRequest>,
-  output: __S(1601, __c100, 1) as any as S.Schema<TransferDomainPrepareResponse>,
+  input: __S(1616, __c101, 0) as any as S.Schema<TransferDomainPrepareRequest>,
+  output: __S(1617, __c101, 1) as any as S.Schema<TransferDomainPrepareResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6813,8 +6877,8 @@ export const updateWebhook: API.OperationMethod<
   UpdateWebhookError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1616, __c101, 0) as any as S.Schema<UpdateWebhookRequest>,
-  output: __S(2000, __c125, 0) as any as S.Schema<WebhookEndpointResponse>,
+  input: __S(1632, __c102, 0) as any as S.Schema<UpdateWebhookRequest>,
+  output: __S(2016, __c126, 0) as any as S.Schema<WebhookEndpointResponse>,
   errors: [BadRequest, NotFound, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6830,8 +6894,8 @@ export const webhookDeliveries: API.OperationMethod<
   WebhookDeliveriesError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c102, 0) as any as S.Schema<WebhookDeliveriesRequest>,
-  output: __S(1634, __c102, 2) as any as S.Schema<WebhookDeliveryListResponse>,
+  input: __S(1648, __c103, 0) as any as S.Schema<WebhookDeliveriesRequest>,
+  output: __S(1650, __c103, 2) as any as S.Schema<WebhookDeliveryListResponse>,
   errors: [BadRequest, NotFound, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6847,8 +6911,8 @@ export const webhookDelivery2: API.OperationMethod<
   WebhookDelivery2Error,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1648, __c103, 0) as any as S.Schema<WebhookDeliveryRequest>,
-  output: __S(1649, __c103, 1) as any as S.Schema<WebhookDeliveryResponse>,
+  input: __S(1664, __c104, 0) as any as S.Schema<WebhookDeliveryRequest>,
+  output: __S(1665, __c104, 1) as any as S.Schema<WebhookDeliveryResponse>,
   errors: [NotFound, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6864,8 +6928,8 @@ export const webhookEventTypes: API.OperationMethod<
   WebhookEventTypesError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c104, 0) as any as S.Schema<WebhookEventTypesRequest>,
-  output: __S(1665, __c104, 1) as any as S.Schema<WebhookEventTypesResponse>,
+  input: __S(1680, __c105, 0) as any as S.Schema<WebhookEventTypesRequest>,
+  output: __S(1681, __c105, 1) as any as S.Schema<WebhookEventTypesResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6881,8 +6945,8 @@ export const webhookRotateSecret: API.OperationMethod<
   WebhookRotateSecretError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c106, 0) as any as S.Schema<WebhookRotateSecretRequest>,
-  output: __S(2000, __c125, 0) as any as S.Schema<WebhookEndpointResponse>,
+  input: __S(1712, __c107, 0) as any as S.Schema<WebhookRotateSecretRequest>,
+  output: __S(2016, __c126, 0) as any as S.Schema<WebhookEndpointResponse>,
   errors: [NotFound, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -6895,11 +6959,33 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          hint: S.optional(S.String),
+          url: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ErrorResponseNextAction" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.String,
+          message: S.String,
+          code: S.optional(S.String),
+          account: S.optional(S.String),
+          next_action: S.optional(__S(0, __c0, 0)),
+        }),
+      ).annotate({ identifier: "ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "POST", uri: "/apikey/shares", code: 200 })),
       ).annotate({ identifier: "ApikeySharesRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6923,17 +7009,17 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "ApikeySharesResponseSharesItem" });
     case 1:
-      return S.Array(__S(16, __c1, 0));
+      return S.Array(__S(32, __c2, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          shares: S.optional(__S(17, __c1, 1)),
+          shares: S.optional(__S(33, __c2, 1)),
         }),
       ).annotate({ identifier: "ApikeySharesResponse" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6941,7 +7027,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GetIpRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6953,7 +7039,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "IpResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6963,7 +7049,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetLinkInBioRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6971,7 +7057,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GetPingRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6981,12 +7067,12 @@ function __c6(j: number): any {
           xForwardedFor: S.optional(S.String),
           credentialsValid: S.optional(S.Boolean),
           account: S.optional(S.String),
-          scopes: S.optional(__S(320, __c20, 0)),
+          scopes: S.optional(__S(336, __c21, 0)),
         }),
       ).annotate({ identifier: "GetPingResponse" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6997,7 +7083,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetPricingRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7010,7 +7096,7 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "GetPricingResponsePricingValueCouponsValue" });
     case 1:
-      return S.Record(S.String, __S(128, __c8, 0));
+      return S.Record(S.String, __S(144, __c9, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -7018,22 +7104,22 @@ function __c8(j: number): any {
           renewal: S.optional(S.String),
           transfer: S.optional(S.String),
           specialType: S.optional(S.String),
-          coupons: S.optional(__S(129, __c8, 1)),
+          coupons: S.optional(__S(145, __c9, 1)),
         }),
       ).annotate({ identifier: "GetPricingResponsePricingValue" });
     case 3:
-      return S.Record(S.String, __S(130, __c8, 2));
+      return S.Record(S.String, __S(146, __c9, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          unsupported: S.optional(__S(320, __c20, 0)),
-          pricing: S.optional(__S(131, __c8, 3)),
+          unsupported: S.optional(__S(336, __c21, 0)),
+          pricing: S.optional(__S(147, __c9, 3)),
         }),
       ).annotate({ identifier: "GetPricingResponse" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7044,7 +7130,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GetPricingGetRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7054,7 +7140,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetSslRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7067,7 +7153,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetSslResponse" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7077,7 +7163,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GetSslRetrieveRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7089,12 +7175,12 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          transfer: S.optional(__S(224, __c14, 0)),
+          transfer: S.optional(__S(240, __c15, 0)),
         }),
       ).annotate({ identifier: "GetTransferResponse" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7108,7 +7194,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetTransferResponseTransfer" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7118,7 +7204,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GetWebhookRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7131,12 +7217,12 @@ function __c16(j: number): any {
       ).annotate({ identifier: "HostingBackupsRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          domains: __S(320, __c20, 0),
+          domains: __S(336, __c21, 0),
         }).pipe(T.Http({ method: "POST", uri: "/domain/checkDomain", code: 200 })),
       ).annotate({ identifier: "BulkDomainCheckDomainRequest" });
     case 1:
@@ -7144,33 +7230,33 @@ function __c17(j: number): any {
         S.Struct({
           status: S.optional(S.String),
           checked: S.optional(S.Number),
-          domains: S.optional(__S(304, __c19, 0)),
-          unresolved: S.optional(__S(320, __c20, 0)),
-          invalid: S.optional(__S(288, __c18, 0)),
+          domains: S.optional(__S(320, __c20, 0)),
+          unresolved: S.optional(__S(336, __c21, 0)),
+          invalid: S.optional(__S(304, __c19, 0)),
           limits: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "BulkDomainCheckDomainResponse" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7181,7 +7267,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "HostingCreateBackupRequest" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7196,13 +7282,13 @@ function __c22(j: number): any {
         S.Struct({
           status: S.optional(S.String),
           domain: S.optional(S.String),
-          staging: S.optional(__S(372, __c23, 4)),
+          staging: S.optional(__S(388, __c24, 4)),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "HostingCreateStagingResponse" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7239,17 +7325,17 @@ function __c23(j: number): any {
           status: S.optional(S.String),
           operation: S.optional(S.NullOr(S.String)),
           operationState: S.optional(S.NullOr(S.String)),
-          builtFromBackup: S.optional(S.NullOr(__S(368, __c23, 0))),
-          passwordProtection: S.optional(__S(369, __c23, 1)),
-          outbound: S.optional(__S(370, __c23, 2)),
+          builtFromBackup: S.optional(S.NullOr(__S(384, __c24, 0))),
+          passwordProtection: S.optional(__S(385, __c24, 1)),
+          outbound: S.optional(__S(386, __c24, 2)),
           environment: S.optional(S.String),
-          ssl: S.optional(S.NullOr(__S(371, __c23, 3))),
+          ssl: S.optional(S.NullOr(__S(387, __c24, 3))),
           createdAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "WordPressStaging" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7278,13 +7364,13 @@ function __c24(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          credentials: S.optional(__S(385, __c24, 1)),
+          credentials: S.optional(__S(401, __c25, 1)),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "HostingCreateWpCredentialsResponse" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7296,7 +7382,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "HostingDeleteBackupRequest" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7315,7 +7401,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "HostingDeleteFileResponse" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7325,7 +7411,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "HostingDeleteStagingRequest" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7339,13 +7425,13 @@ function __c28(j: number): any {
         S.Struct({
           status: S.optional(S.String),
           domain: S.optional(S.String),
-          operation: S.optional(__S(448, __c28, 0)),
+          operation: S.optional(__S(464, __c29, 0)),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "HostingDeleteStagingResponse" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7369,7 +7455,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "HostingDeleteWpCredentialsResponse" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7382,12 +7468,12 @@ function __c30(j: number): any {
         S.Struct({
           status: S.optional(S.String),
           path: S.optional(S.String),
-          files: S.optional(__S(320, __c20, 0)),
+          files: S.optional(__S(336, __c21, 0)),
         }),
       ).annotate({ identifier: "HostingFilesResponse" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7397,19 +7483,19 @@ function __c31(j: number): any {
       ).annotate({ identifier: "HostingGetStagingRequest" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
           domain: S.optional(S.String),
-          staging: S.optional(__S(372, __c23, 4)),
+          staging: S.optional(__S(388, __c24, 4)),
         }),
       ).annotate({ identifier: "HostingGetStagingResponse" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7419,7 +7505,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "HostingGetStagingGetRequest" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7442,7 +7528,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "ClaimApikeyResponse" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7456,12 +7542,12 @@ function __c35(j: number): any {
         S.Struct({
           status: S.optional(S.String),
           wpUser: S.optional(S.String),
-          credentials: S.optional(__S(288, __c18, 0)),
+          credentials: S.optional(__S(304, __c19, 0)),
         }),
       ).annotate({ identifier: "HostingGetWpCredentialsResponse" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7479,7 +7565,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "HostingMakeDirResponse" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7500,17 +7586,17 @@ function __c37(j: number): any {
         }),
       ).annotate({ identifier: "HostingPlansResponsePlansItem" });
     case 2:
-      return S.Array(__S(593, __c37, 1));
+      return S.Array(__S(609, __c38, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          plans: S.optional(__S(594, __c37, 2)),
+          plans: S.optional(__S(610, __c38, 2)),
         }),
       ).annotate({ identifier: "HostingPlansResponse" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7520,7 +7606,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "HostingPublishStagingRequest" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7530,7 +7616,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "HostingReissueSslRequest" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7542,7 +7628,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "HostingResetStagingRequest" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7567,13 +7653,13 @@ function __c41(j: number): any {
           status: S.optional(S.String),
           domain: S.optional(S.String),
           target: S.optional(S.String),
-          operation: S.optional(__S(657, __c41, 1)),
+          operation: S.optional(__S(673, __c42, 1)),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "HostingRestoreBackupResponse" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7584,7 +7670,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "HostingSetPhpVersionRequest" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7597,7 +7683,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "HostingSetSearchVisibilityRequest" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7610,7 +7696,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "HostingSetStagingEnvironmentRequest" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7638,7 +7724,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "CloseoutBuyResponse" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7660,13 +7746,13 @@ function __c46(j: number): any {
         S.Struct({
           status: S.optional(S.String),
           domain: S.optional(S.String),
-          passwordProtection: S.optional(__S(737, __c46, 1)),
+          passwordProtection: S.optional(__S(753, __c47, 1)),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "HostingSetStagingGateResponse" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7678,7 +7764,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "HostingSetStagingGuardRequest" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7691,7 +7777,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "HostingSetWordPressVersionRequest" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7709,13 +7795,13 @@ function __c49(j: number): any {
           autoRenew: S.optional(S.Boolean),
           isTrial: S.optional(S.Boolean),
           expireDate: S.optional(S.String),
-          cost: S.optional(__S(1904, __c119, 0)),
+          cost: S.optional(__S(1920, __c120, 0)),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "HostingUpdateAutoRenewResponse" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7723,8 +7809,8 @@ function __c50(j: number): any {
           domain: S.String.pipe(T.Label()),
           method: S.optional(S.String),
           path: S.String,
-          query: S.optional(__S(304, __c19, 0)),
-          body: S.optional(__S(304, __c19, 0)),
+          query: S.optional(__S(320, __c20, 0)),
+          body: S.optional(__S(320, __c20, 0)),
           embed: S.optional(S.Boolean),
           asAdministrator: S.optional(S.Boolean),
           acknowledgeFullAccess: S.optional(S.Boolean),
@@ -7746,7 +7832,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "HostingWpRequestResponse" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7778,20 +7864,20 @@ function __c51(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          media: S.optional(__S(817, __c51, 1)),
+          media: S.optional(__S(833, __c52, 1)),
           actsAs: S.optional(S.String),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "HostingWpUploadMediaResponse" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           domain: S.String.pipe(T.Label()),
-          records: S.optional(__S(2209, __c138, 1)),
+          records: S.optional(__S(2225, __c139, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/dns/import/{domain}", code: 200 })),
       ).annotate({ identifier: "ImportDnsRequest" });
     case 1:
@@ -7802,13 +7888,13 @@ function __c52(j: number): any {
           created: S.optional(S.Number),
           skipped: S.optional(S.Number),
           failed: S.optional(S.Number),
-          failures: S.optional(__S(288, __c18, 0)),
-          warnings: S.optional(__S(320, __c20, 0)),
+          failures: S.optional(__S(304, __c19, 0)),
+          warnings: S.optional(__S(336, __c21, 0)),
         }),
       ).annotate({ identifier: "ImportDnsResponse" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7821,13 +7907,13 @@ function __c53(j: number): any {
           startDate: S.optional(S.NullOr(S.String)),
           endDate: S.optional(S.NullOr(S.String)),
           animation: S.optional(S.NullOr(S.String)),
-          protection: S.optional(S.NullOr(__S(864, __c54, 0))),
+          protection: S.optional(S.NullOr(__S(880, __c55, 0))),
           position: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/linkinbio/addLink/{domain}", code: 200 })),
       ).annotate({ identifier: "LinkInBioAddLinkRequest" });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7841,13 +7927,13 @@ function __c54(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          link: S.optional(__S(1940, __c121, 4)),
-          linkInBio: S.optional(__S(1947, __c121, 11)),
+          link: S.optional(__S(1956, __c122, 4)),
+          linkInBio: S.optional(__S(1963, __c122, 11)),
         }),
       ).annotate({ identifier: "LinkInBioLinkResponse" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7858,7 +7944,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "LinkInBioDeleteLinkRequest" });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7871,13 +7957,13 @@ function __c56(j: number): any {
           startDate: S.optional(S.NullOr(S.String)),
           endDate: S.optional(S.NullOr(S.String)),
           animation: S.optional(S.NullOr(S.String)),
-          protection: S.optional(S.NullOr(__S(864, __c54, 0))),
+          protection: S.optional(S.NullOr(__S(880, __c55, 0))),
           id: S.Number,
         }).pipe(T.Http({ method: "POST", uri: "/linkinbio/editLink/{domain}", code: 200 })),
       ).annotate({ identifier: "LinkInBioEditLinkRequest" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7896,7 +7982,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "CloudflareCreateRecordRequest" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -7904,7 +7990,7 @@ function __c58(j: number): any {
       });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7914,24 +8000,24 @@ function __c59(j: number): any {
       ).annotate({ identifier: "LinkInBioGetPostRequest" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           domain: S.String.pipe(T.Label()),
-          ids: __S(976, __c61, 0),
+          ids: __S(992, __c62, 0),
         }).pipe(T.Http({ method: "POST", uri: "/linkinbio/reorderLinks/{domain}", code: 200 })),
       ).annotate({ identifier: "LinkInBioReorderLinksRequest" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7952,7 +8038,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "LinkInBioUpdateAppearanceRequest" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7965,7 +8051,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "LinkInBioUpdateProfileRequest" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
@@ -7974,12 +8060,12 @@ function __c64(j: number): any {
         S.Struct({
           domain: S.String.pipe(T.Label()),
           sensitiveContent: S.optional(S.NullOr(S.String)),
-          analytics: S.optional(__S(1024, __c64, 0)),
+          analytics: S.optional(__S(1040, __c65, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/linkinbio/updateSettings/{domain}", code: 200 })),
       ).annotate({ identifier: "LinkInBioUpdateSettingsRequest" });
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.String));
@@ -7988,12 +8074,12 @@ function __c65(j: number): any {
         S.Struct({
           domain: S.String.pipe(T.Label()),
           location: S.optional(S.String),
-          socials: S.optional(__S(1040, __c65, 0)),
+          socials: S.optional(__S(1056, __c66, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/linkinbio/updateSocials/{domain}", code: 200 })),
       ).annotate({ identifier: "LinkInBioUpdateSocialsRequest" });
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8009,7 +8095,7 @@ function __c66(j: number): any {
           createdBefore: S.optional(S.String),
           expiresAfter: S.optional(S.String),
           expiresBefore: S.optional(S.String),
-          tlds: S.optional(__S(320, __c20, 0)),
+          tlds: S.optional(__S(336, __c21, 0)),
           autoRenew: S.optional(S.String),
           apiAccess: S.optional(S.String),
           sortName: S.optional(S.String),
@@ -8018,7 +8104,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "ListDomainsRequest" });
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8037,26 +8123,26 @@ function __c67(j: number): any {
           total_cents: S.optional(S.Number),
           total: S.optional(S.String),
           itemCount: S.optional(S.Number),
-          domains: S.optional(__S(320, __c20, 0)),
+          domains: S.optional(__S(336, __c21, 0)),
           url: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "ListInvoicesResponseInvoicesItem" });
     case 2:
-      return S.Array(__S(1073, __c67, 1));
+      return S.Array(__S(1089, __c68, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          invoices: S.optional(__S(1074, __c67, 2)),
+          invoices: S.optional(__S(1090, __c68, 2)),
           total: S.optional(S.Number),
           start: S.optional(S.Number),
           limit: S.optional(S.Number),
-          years: S.optional(__S(976, __c61, 0)),
+          years: S.optional(__S(992, __c62, 0)),
         }),
       ).annotate({ identifier: "ListInvoicesResponse" });
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8064,7 +8150,7 @@ function __c68(j: number): any {
           start: S.optional(S.Number),
           limit: S.optional(S.Number),
           query: S.optional(S.String),
-          tlds: S.optional(__S(320, __c20, 0)),
+          tlds: S.optional(__S(336, __c21, 0)),
           sldLengthMin: S.optional(S.Number),
           sldLengthMax: S.optional(S.Number),
           sortName: S.optional(S.String),
@@ -8073,7 +8159,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "ListMarketplaceListingsRequest" });
   }
 }
-function __c69(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8086,25 +8172,25 @@ function __c69(j: number): any {
         }),
       ).annotate({ identifier: "ListMarketplaceListingsResponseDomainsItem" });
     case 1:
-      return S.Array(__S(1104, __c69, 0));
+      return S.Array(__S(1120, __c70, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
           count: S.optional(S.Number),
           filtered: S.optional(S.Boolean),
-          domains: S.optional(__S(1105, __c69, 1)),
+          domains: S.optional(__S(1121, __c70, 1)),
         }),
       ).annotate({ identifier: "ListMarketplaceListingsResponse" });
   }
 }
-function __c70(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           query: S.optional(S.String.pipe(T.Query())),
-          tlds: S.optional(__S(320, __c20, 0).pipe(T.Query())),
+          tlds: S.optional(__S(336, __c21, 0).pipe(T.Query())),
           sldLengthMin: S.optional(S.Number.pipe(T.Query())),
           sldLengthMax: S.optional(S.Number.pipe(T.Query())),
           sortName: S.optional(S.String.pipe(T.Query())),
@@ -8115,7 +8201,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "ListMarketplaceListingsGetRequest" });
   }
 }
-function __c71(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8133,41 +8219,41 @@ function __c71(j: number): any {
       ).annotate({ identifier: "CloudflareDeleteRecordRequest" });
   }
 }
-function __c72(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/domain/listTransfers", code: 200 })),
       ).annotate({ identifier: "ListTransfersGetRequest" });
     case 1:
-      return S.Array(__S(224, __c14, 0));
+      return S.Array(__S(240, __c15, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          transfers: S.optional(__S(1153, __c72, 1)),
+          transfers: S.optional(__S(1169, __c73, 1)),
         }),
       ).annotate({ identifier: "ListTransfersResponse" });
   }
 }
-function __c73(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/webhook/list", code: 200 })),
       ).annotate({ identifier: "ListWebhookRequest" });
     case 1:
-      return S.Array(__S(1984, __c124, 0));
+      return S.Array(__S(2000, __c125, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          endpoints: S.optional(__S(1169, __c73, 1)),
+          endpoints: S.optional(__S(1185, __c74, 1)),
         }),
       ).annotate({ identifier: "WebhookListResponse" });
   }
 }
-function __c74(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8183,19 +8269,19 @@ function __c74(j: number): any {
         }),
       ).annotate({ identifier: "MockDirectoryResponseEndpointsItem" });
     case 2:
-      return S.Array(__S(1185, __c74, 1));
+      return S.Array(__S(1201, __c75, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
           mock: S.optional(S.Boolean),
           count: S.optional(S.Number),
-          endpoints: S.optional(__S(1186, __c74, 2)),
+          endpoints: S.optional(__S(1202, __c75, 2)),
         }),
       ).annotate({ identifier: "MockDirectoryResponse" });
   }
 }
-function __c75(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8206,7 +8292,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "MockEndpointRequest" });
   }
 }
-function __c76(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8214,7 +8300,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "PingRequest" });
   }
 }
-function __c77(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8222,7 +8308,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "PostIpRequest" });
   }
 }
-function __c78(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8232,7 +8318,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "PreviewCloudflareRequest" });
   }
 }
-function __c79(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8251,7 +8337,7 @@ function __c79(j: number): any {
       });
   }
 }
-function __c80(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8263,13 +8349,13 @@ function __c80(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          delivery: S.optional(__S(1296, __c81, 0)),
+          delivery: S.optional(__S(1312, __c82, 0)),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "WebhookResendResponse" });
   }
 }
-function __c81(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8291,7 +8377,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "WebhookDelivery" });
   }
 }
-function __c82(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8309,7 +8395,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "ResetSandboxResponse" });
   }
 }
-function __c83(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8331,7 +8417,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "CloudflareEditRecordRequest" });
   }
 }
-function __c84(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8351,23 +8437,23 @@ function __c84(j: number): any {
         }),
       ).annotate({ identifier: "DnsRestoreResponseFailedItem" });
     case 2:
-      return S.Array(__S(1345, __c84, 1));
+      return S.Array(__S(1361, __c85, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          warnings: S.optional(__S(320, __c20, 0)),
+          warnings: S.optional(__S(336, __c21, 0)),
           status: S.optional(S.String),
           domain: S.optional(S.String),
           restoredFrom: S.optional(S.Number),
           previousStateSavedAs: S.optional(S.NullOr(S.Number)),
           restored: S.optional(S.Number),
           removed: S.optional(S.Number),
-          failed: S.optional(__S(1346, __c84, 2)),
+          failed: S.optional(__S(1362, __c85, 2)),
         }),
       ).annotate({ identifier: "DnsRestoreResponse" });
   }
 }
-function __c85(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8377,7 +8463,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "RetryCloudflareRequest" });
   }
 }
-function __c86(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8397,13 +8483,13 @@ function __c86(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          revoked: S.optional(__S(1377, __c86, 1)),
+          revoked: S.optional(__S(1393, __c87, 1)),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "RevokeApikeyResponse" });
   }
 }
-function __c87(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8423,7 +8509,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "SandboxTopupResponse" });
   }
 }
-function __c88(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8445,7 +8531,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "SandboxTriggerWebhookResponse" });
   }
 }
-function __c89(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8473,23 +8559,23 @@ function __c89(j: number): any {
         }),
       ).annotate({ identifier: "AftermarketListing" });
     case 2:
-      return S.Array(__S(1425, __c89, 1));
+      return S.Array(__S(1441, __c90, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
           query: S.optional(S.String),
-          exactMatch: S.optional(S.NullOr(__S(1425, __c89, 1))),
-          listings: S.optional(__S(1426, __c89, 2)),
+          exactMatch: S.optional(S.NullOr(__S(1441, __c90, 1))),
+          listings: S.optional(__S(1442, __c90, 2)),
           count: S.optional(S.Number),
           total: S.optional(S.Number),
-          sourcesUnavailable: S.optional(__S(320, __c20, 0)),
+          sourcesUnavailable: S.optional(__S(336, __c21, 0)),
           note: S.optional(S.String),
         }),
       ).annotate({ identifier: "SearchAftermarketResponse" });
   }
 }
-function __c90(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8508,7 +8594,7 @@ function __c90(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/closeout/search", code: 200 })),
       ).annotate({ identifier: "SearchCloseoutRequest" });
     case 1:
-      return S.Array(__S(3152, __c197, 0));
+      return S.Array(__S(3168, __c198, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -8517,12 +8603,12 @@ function __c90(j: number): any {
           totalAvailable: S.optional(S.Number),
           start: S.optional(S.Number),
           limit: S.optional(S.Number),
-          closeouts: S.optional(__S(1441, __c90, 1)),
+          closeouts: S.optional(__S(1457, __c91, 1)),
         }),
       ).annotate({ identifier: "SearchCloseoutResponse" });
   }
 }
-function __c91(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8535,7 +8621,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "SetAutoTopupRequest" });
   }
 }
-function __c92(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8562,7 +8648,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "ShareApikeyResponse" });
   }
 }
-function __c93(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8580,7 +8666,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "WebhookTestResponse" });
   }
 }
-function __c94(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8588,7 +8674,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "CloudflareGetConnectionRequest" });
   }
 }
-function __c95(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8622,7 +8708,7 @@ function __c95(j: number): any {
         }),
       ).annotate({ identifier: "DeclinedCard" });
     case 3:
-      return S.Array(__S(1522, __c95, 2));
+      return S.Array(__S(1538, __c96, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -8637,14 +8723,14 @@ function __c95(j: number): any {
           chargesThisMonth: S.optional(S.Number),
           simulated: S.optional(S.Boolean),
           message: S.optional(S.String),
-          card: S.optional(__S(1521, __c95, 1)),
+          card: S.optional(__S(1537, __c96, 1)),
           usedBackup: S.optional(S.Boolean),
-          declinedFirst: S.optional(__S(1523, __c95, 3)),
+          declinedFirst: S.optional(__S(1539, __c96, 3)),
         }),
       ).annotate({ identifier: "TopupAccountCreditResponse" });
   }
 }
-function __c96(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8671,7 +8757,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "TopupCryptoResponse" });
   }
 }
-function __c97(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8694,7 +8780,7 @@ function __c97(j: number): any {
       ).annotate({ identifier: "TopupCryptoStatusResponse" });
   }
 }
-function __c98(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8711,13 +8797,13 @@ function __c98(j: number): any {
           payUrl: S.optional(S.String),
           expiresAt: S.optional(S.String),
           protocol: S.optional(S.String),
-          methods: S.optional(__S(320, __c20, 0)),
+          methods: S.optional(__S(336, __c21, 0)),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "TopupMppResponse" });
   }
 }
-function __c99(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8738,7 +8824,7 @@ function __c99(j: number): any {
       });
   }
 }
-function __c100(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8754,25 +8840,25 @@ function __c100(j: number): any {
           zoneReady: S.optional(S.Boolean),
           recordCount: S.optional(S.Number),
           message: S.optional(S.String),
-          porkbunNameservers: S.optional(__S(320, __c20, 0)),
+          porkbunNameservers: S.optional(__S(336, __c21, 0)),
         }),
       ).annotate({ identifier: "TransferDomainPrepareResponse" });
   }
 }
-function __c101(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.Number,
           url: S.optional(S.String),
-          events: S.optional(__S(320, __c20, 0)),
+          events: S.optional(__S(336, __c21, 0)),
           status: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/webhook/update", code: 200 })),
       ).annotate({ identifier: "UpdateWebhookRequest" });
   }
 }
-function __c102(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8784,12 +8870,12 @@ function __c102(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/webhook/deliveries", code: 200 })),
       ).annotate({ identifier: "WebhookDeliveriesRequest" });
     case 1:
-      return S.Array(__S(1296, __c81, 0));
+      return S.Array(__S(1312, __c82, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          deliveries: S.optional(__S(1633, __c102, 1)),
+          deliveries: S.optional(__S(1649, __c103, 1)),
           total: S.optional(S.Number),
           start: S.optional(S.Number),
           limit: S.optional(S.Number),
@@ -8798,7 +8884,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "WebhookDeliveryListResponse" });
   }
 }
-function __c103(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8810,12 +8896,12 @@ function __c103(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          delivery: S.optional(__S(1296, __c81, 0)),
+          delivery: S.optional(__S(1312, __c82, 0)),
         }),
       ).annotate({ identifier: "WebhookDeliveryResponse" });
   }
 }
-function __c104(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8825,12 +8911,12 @@ function __c104(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          eventTypes: S.optional(__S(320, __c20, 0)),
+          eventTypes: S.optional(__S(336, __c21, 0)),
         }),
       ).annotate({ identifier: "WebhookEventTypesResponse" });
   }
 }
-function __c105(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8838,7 +8924,7 @@ function __c105(j: number): any {
       ).annotate({ identifier: "CloudflareGetQueueRequest" });
   }
 }
-function __c106(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8848,7 +8934,7 @@ function __c106(j: number): any {
       ).annotate({ identifier: "WebhookRotateSecretRequest" });
   }
 }
-function __c107(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8858,7 +8944,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "CloudflareGetRecordsRequest" });
   }
 }
-function __c108(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8868,7 +8954,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "CloudflareGetZoneRequest" });
   }
 }
-function __c109(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8878,7 +8964,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "CloudflareGetZoneSettingsRequest" });
   }
 }
-function __c110(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8886,7 +8972,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "CloudflareInventoryRequest" });
   }
 }
-function __c111(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8896,20 +8982,20 @@ function __c111(j: number): any {
       ).annotate({ identifier: "CloudflareRollbackRequest" });
   }
 }
-function __c112(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           domain: S.String.pipe(T.Label()),
           enabled: S.Boolean,
-          records: S.optional(__S(320, __c20, 0)),
+          records: S.optional(__S(336, __c21, 0)),
           dryRun: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/cloudflare/setProxy/{domain}", code: 200 })),
       ).annotate({ identifier: "CloudflareSetProxyRequest" });
   }
 }
-function __c113(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8926,18 +9012,18 @@ function __c113(j: number): any {
       ).annotate({ identifier: "CloudflareSetZoneSettingsRequest" });
   }
 }
-function __c114(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          domains: __S(320, __c20, 0),
+          domains: __S(336, __c21, 0),
           dryRun: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/cloudflare/connect", code: 200 })),
       ).annotate({ identifier: "ConnectCloudflareRequest" });
   }
 }
-function __c115(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8957,7 +9043,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "CreateAccountInviteResponse" });
   }
 }
-function __c116(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8977,12 +9063,12 @@ function __c116(j: number): any {
         S.Struct({
           status: S.optional(S.String),
           id: S.optional(S.Number),
-          warnings: S.optional(__S(320, __c20, 0)),
+          warnings: S.optional(__S(336, __c21, 0)),
         }),
       ).annotate({ identifier: "CreateDnsResponse" });
   }
 }
-function __c117(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9004,7 +9090,7 @@ function __c117(j: number): any {
       });
   }
 }
-function __c118(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9039,15 +9125,15 @@ function __c118(j: number): any {
         S.Struct({
           status: S.optional(S.String),
           orderId: S.optional(S.Number),
-          hosting: S.optional(__S(1889, __c118, 1)),
+          hosting: S.optional(__S(1905, __c119, 1)),
           charged: S.optional(S.Number),
-          cost: S.optional(__S(1904, __c119, 0)),
+          cost: S.optional(__S(1920, __c120, 0)),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateHostingResponse" });
   }
 }
-function __c119(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9059,7 +9145,7 @@ function __c119(j: number): any {
       ).annotate({ identifier: "CreateHostingResponseCost" });
   }
 }
-function __c120(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9070,7 +9156,7 @@ function __c120(j: number): any {
       ).annotate({ identifier: "CreateLinkInBioRequest" });
   }
 }
-function __c121(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9122,12 +9208,12 @@ function __c121(j: number): any {
           startDate: S.optional(S.NullOr(S.String)),
           endDate: S.optional(S.NullOr(S.String)),
           animation: S.optional(S.NullOr(S.String)),
-          protection: S.optional(S.NullOr(__S(1939, __c121, 3))),
+          protection: S.optional(S.NullOr(__S(1955, __c122, 3))),
           imageUrl: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "LinkInBioLink" });
     case 5:
-      return S.Array(__S(1940, __c121, 4));
+      return S.Array(__S(1956, __c122, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -9179,8 +9265,8 @@ function __c121(j: number): any {
       return S.suspend(() =>
         S.Struct({
           sensitiveContent: S.optional(S.NullOr(S.String)),
-          analytics: S.optional(__S(1944, __c121, 8)),
-          mailingList: S.optional(__S(1945, __c121, 9)),
+          analytics: S.optional(__S(1960, __c122, 8)),
+          mailingList: S.optional(__S(1961, __c122, 9)),
         }),
       ).annotate({ identifier: "LinkInBioSettings" });
     case 11:
@@ -9189,31 +9275,20 @@ function __c121(j: number): any {
           domain: S.optional(S.String),
           url: S.optional(S.String),
           delivery: S.optional(S.String),
-          plan: S.optional(__S(1936, __c121, 0)),
+          plan: S.optional(__S(1952, __c122, 0)),
           status: S.optional(S.String),
           isTrial: S.optional(S.Boolean),
           expireDate: S.optional(S.NullOr(S.String)),
-          features: S.optional(__S(1937, __c121, 1)),
+          features: S.optional(__S(1953, __c122, 1)),
           linkCount: S.optional(S.Number),
-          profile: S.optional(__S(1938, __c121, 2)),
-          links: S.optional(__S(1941, __c121, 5)),
-          socials: S.optional(__S(1942, __c121, 6)),
-          appearance: S.optional(__S(1943, __c121, 7)),
-          settings: S.optional(__S(1946, __c121, 10)),
+          profile: S.optional(__S(1954, __c122, 2)),
+          links: S.optional(__S(1957, __c122, 5)),
+          socials: S.optional(__S(1958, __c122, 6)),
+          appearance: S.optional(__S(1959, __c122, 7)),
+          settings: S.optional(__S(1962, __c122, 10)),
           editorUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "LinkInBio" });
-  }
-}
-function __c122(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.String),
-          linkInBio: S.optional(__S(1947, __c121, 11)),
-        }),
-      ).annotate({ identifier: "LinkInBioResponse" });
   }
 }
 function __c123(j: number): any {
@@ -9221,10 +9296,10 @@ function __c123(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          url: S.String,
-          events: S.optional(__S(320, __c20, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/webhook/create", code: 200 })),
-      ).annotate({ identifier: "CreateWebhookRequest" });
+          status: S.optional(S.String),
+          linkInBio: S.optional(__S(1963, __c122, 11)),
+        }),
+      ).annotate({ identifier: "LinkInBioResponse" });
   }
 }
 function __c124(j: number): any {
@@ -9232,10 +9307,21 @@ function __c124(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          url: S.String,
+          events: S.optional(__S(336, __c21, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/webhook/create", code: 200 })),
+      ).annotate({ identifier: "CreateWebhookRequest" });
+  }
+}
+function __c125(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           id: S.optional(S.Number),
           url: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          events: S.optional(__S(320, __c20, 0)),
+          events: S.optional(__S(336, __c21, 0)),
           status: S.optional(S.String),
           consecutiveFailures: S.optional(S.Number),
           lastSuccessDate: S.optional(S.NullOr(S.String)),
@@ -9246,18 +9332,18 @@ function __c124(j: number): any {
       ).annotate({ identifier: "WebhookEndpoint" });
   }
 }
-function __c125(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          endpoint: S.optional(__S(1984, __c124, 0)),
+          endpoint: S.optional(__S(2000, __c125, 0)),
         }),
       ).annotate({ identifier: "WebhookEndpointResponse" });
   }
 }
-function __c126(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9268,12 +9354,12 @@ function __c126(j: number): any {
       ).annotate({ identifier: "DeleteDnsRequest" });
   }
 }
-function __c127(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          warnings: S.optional(__S(320, __c20, 0)),
+          warnings: S.optional(__S(336, __c21, 0)),
           status: S.String,
           message: S.optional(S.String),
           code: S.optional(S.String),
@@ -9281,7 +9367,7 @@ function __c127(j: number): any {
       ).annotate({ identifier: "BasicResponse" });
   }
 }
-function __c128(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9291,7 +9377,7 @@ function __c128(j: number): any {
       ).annotate({ identifier: "DeleteHostingRequest" });
   }
 }
-function __c129(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9301,7 +9387,7 @@ function __c129(j: number): any {
       ).annotate({ identifier: "DeleteWebhookRequest" });
   }
 }
-function __c130(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9312,7 +9398,7 @@ function __c130(j: number): any {
       ).annotate({ identifier: "DeleteWebhookResponse" });
   }
 }
-function __c131(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9322,12 +9408,12 @@ function __c131(j: number): any {
         }),
       ).annotate({ identifier: "DeployHostingRequestFilesItem" });
     case 1:
-      return S.Array(__S(2096, __c131, 0));
+      return S.Array(__S(2112, __c132, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           domain: S.String.pipe(T.Label()),
-          files: __S(2097, __c131, 1),
+          files: __S(2113, __c132, 1),
         }).pipe(T.Http({ method: "POST", uri: "/hosting/deploy/{domain}", code: 200 })),
       ).annotate({ identifier: "DeployHostingRequest" });
     case 3:
@@ -9338,18 +9424,18 @@ function __c131(j: number): any {
         }),
       ).annotate({ identifier: "DeployHostingResponseSkippedItem" });
     case 4:
-      return S.Array(__S(2099, __c131, 3));
+      return S.Array(__S(2115, __c132, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          deployed: S.optional(__S(320, __c20, 0)),
-          skipped: S.optional(__S(2100, __c131, 4)),
+          deployed: S.optional(__S(336, __c21, 0)),
+          skipped: S.optional(__S(2116, __c132, 4)),
         }),
       ).annotate({ identifier: "DeployHostingResponse" });
   }
 }
-function __c132(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9357,7 +9443,7 @@ function __c132(j: number): any {
       ).annotate({ identifier: "DisconnectCloudflareRequest" });
   }
 }
-function __c133(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9376,7 +9462,7 @@ function __c133(j: number): any {
       ).annotate({ identifier: "DnsCreateDnssecRecordRequest" });
   }
 }
-function __c134(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9394,7 +9480,7 @@ function __c134(j: number): any {
       ).annotate({ identifier: "DnsDeleteByNameTypeRequest" });
   }
 }
-function __c135(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9414,7 +9500,7 @@ function __c135(j: number): any {
       ).annotate({ identifier: "AccountVerifyEmailConfirmResponse" });
   }
 }
-function __c136(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9427,7 +9513,7 @@ function __c136(j: number): any {
       ).annotate({ identifier: "DnsDeleteDnssecRecordRequest" });
   }
 }
-function __c137(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9449,15 +9535,15 @@ function __c137(j: number): any {
         S.Struct({
           status: S.optional(S.String),
           domain: S.optional(S.String),
-          snapshot: S.optional(__S(2193, __c137, 1)),
-          missing: S.optional(__S(2209, __c138, 1)),
-          extra: S.optional(__S(2209, __c138, 1)),
+          snapshot: S.optional(__S(2209, __c138, 1)),
+          missing: S.optional(__S(2225, __c139, 1)),
+          extra: S.optional(__S(2225, __c139, 1)),
           inSync: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "DnsDiffResponse" });
   }
 }
-function __c138(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9470,10 +9556,10 @@ function __c138(j: number): any {
         }),
       ).annotate({ identifier: "DnsHistoryRecord" });
     case 1:
-      return S.Array(__S(2208, __c138, 0));
+      return S.Array(__S(2224, __c139, 0));
   }
 }
-function __c139(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9495,7 +9581,7 @@ function __c139(j: number): any {
       ).annotate({ identifier: "DnsEditByNameTypeRequest" });
   }
 }
-function __c140(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9505,7 +9591,7 @@ function __c140(j: number): any {
       ).annotate({ identifier: "DnsGetDnssecRecordsRequest" });
   }
 }
-function __c141(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9518,17 +9604,17 @@ function __c141(j: number): any {
         }),
       ).annotate({ identifier: "DnsGetDnssecRecordsResponseRecordsValue" });
     case 1:
-      return S.Record(S.String, __S(2256, __c141, 0));
+      return S.Record(S.String, __S(2272, __c142, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          records: S.optional(__S(2257, __c141, 1)),
+          records: S.optional(__S(2273, __c142, 1)),
         }),
       ).annotate({ identifier: "DnsGetDnssecRecordsResponse" });
   }
 }
-function __c142(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9548,18 +9634,18 @@ function __c142(j: number): any {
         }),
       ).annotate({ identifier: "DnsHistoryResponseRestorePointsItem" });
     case 2:
-      return S.Array(__S(2273, __c142, 1));
+      return S.Array(__S(2289, __c143, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
           domain: S.optional(S.String),
-          restorePoints: S.optional(__S(2274, __c142, 2)),
+          restorePoints: S.optional(__S(2290, __c143, 2)),
         }),
       ).annotate({ identifier: "DnsHistoryResponse" });
   }
 }
-function __c143(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9580,7 +9666,7 @@ function __c143(j: number): any {
         }),
       ).annotate({ identifier: "DnsPreflightResponseChecksItem" });
     case 2:
-      return S.Array(__S(2289, __c143, 1));
+      return S.Array(__S(2305, __c144, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -9588,14 +9674,14 @@ function __c143(j: number): any {
           domain: S.optional(S.String),
           intent: S.optional(S.String),
           safe: S.optional(S.Boolean),
-          blockers: S.optional(__S(320, __c20, 0)),
-          warnings: S.optional(__S(320, __c20, 0)),
-          checks: S.optional(__S(2290, __c143, 2)),
+          blockers: S.optional(__S(336, __c21, 0)),
+          warnings: S.optional(__S(336, __c21, 0)),
+          checks: S.optional(__S(2306, __c144, 2)),
         }),
       ).annotate({ identifier: "DnsPreflightResponse" });
   }
 }
-function __c144(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9606,7 +9692,7 @@ function __c144(j: number): any {
       ).annotate({ identifier: "DnsRetrieveByIdRequest" });
   }
 }
-function __c145(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9621,18 +9707,18 @@ function __c145(j: number): any {
         }),
       ).annotate({ identifier: "DnsRecordsResponseRecordsItem" });
     case 1:
-      return S.Array(__S(2320, __c145, 0));
+      return S.Array(__S(2336, __c146, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           status: S.String,
           cloudflare: S.optional(S.String),
-          records: __S(2321, __c145, 1),
+          records: __S(2337, __c146, 1),
         }),
       ).annotate({ identifier: "DnsRecordsResponse" });
   }
 }
-function __c146(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9650,7 +9736,7 @@ function __c146(j: number): any {
       ).annotate({ identifier: "DnsRetrieveByNameTypeRequest" });
   }
 }
-function __c147(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9664,12 +9750,12 @@ function __c147(j: number): any {
           status: S.optional(S.String),
           domain: S.optional(S.String),
           recordCount: S.optional(S.Number),
-          records: S.optional(__S(2209, __c138, 1)),
+          records: S.optional(__S(2225, __c139, 1)),
         }),
       ).annotate({ identifier: "DnsScanResponse" });
   }
 }
-function __c148(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9685,7 +9771,7 @@ function __c148(j: number): any {
       ).annotate({ identifier: "DomainAddUrlForwardRequest" });
   }
 }
-function __c149(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9707,7 +9793,7 @@ function __c149(j: number): any {
       ).annotate({ identifier: "AccountVerifyEmailSendResponse" });
   }
 }
-function __c150(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9734,7 +9820,7 @@ function __c150(j: number): any {
       ).annotate({ identifier: "DomainCancelTransferResponse" });
   }
 }
-function __c151(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9759,7 +9845,7 @@ function __c151(j: number): any {
         }),
       ).annotate({ identifier: "CheckDomainResponseResponseIdnLanguagesItem" });
     case 3:
-      return S.Array(__S(2418, __c151, 2));
+      return S.Array(__S(2434, __c152, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -9771,8 +9857,8 @@ function __c151(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          renewal: S.optional(__S(2420, __c151, 4)),
-          transfer: S.optional(__S(2420, __c151, 4)),
+          renewal: S.optional(__S(2436, __c152, 4)),
+          transfer: S.optional(__S(2436, __c152, 4)),
         }),
       ).annotate({ identifier: "CheckDomainResponseResponseAdditional" });
     case 6:
@@ -9785,39 +9871,39 @@ function __c151(j: number): any {
           regularPrice: S.optional(S.String),
           premium: S.optional(S.String),
           minDuration: S.optional(S.Number),
-          idnLanguages: S.optional(__S(2419, __c151, 3)),
+          idnLanguages: S.optional(__S(2435, __c152, 3)),
           inYourAccount: S.optional(S.Boolean),
           aftermarketSearch: S.optional(S.String),
           note: S.optional(S.String),
-          additional: S.optional(__S(2421, __c151, 5)),
+          additional: S.optional(__S(2437, __c152, 5)),
         }),
       ).annotate({ identifier: "CheckDomainResponseResponse" });
     case 7:
       return S.suspend(() =>
         S.Struct({
           status: S.String,
-          response: __S(2422, __c151, 6),
-          limits: S.optional(__S(2416, __c151, 0)),
+          response: __S(2438, __c152, 6),
+          limits: S.optional(__S(2432, __c152, 0)),
           ttlRemaining: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CheckDomainResponse" });
   }
 }
-function __c152(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           domain: S.String.pipe(T.Label()),
           subdomain: S.String.pipe(T.Label()),
-          ips: __S(320, __c20, 0),
+          ips: __S(336, __c21, 0),
         }).pipe(
           T.Http({ method: "POST", uri: "/domain/createGlue/{domain}/{subdomain}", code: 200 }),
         ),
       ).annotate({ identifier: "DomainCreateGlueRequest" });
   }
 }
-function __c153(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9830,7 +9916,7 @@ function __c153(j: number): any {
       ).annotate({ identifier: "DomainDeleteGlueRequest" });
   }
 }
-function __c154(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9843,7 +9929,7 @@ function __c154(j: number): any {
       ).annotate({ identifier: "DomainDeleteUrlForwardRequest" });
   }
 }
-function __c155(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9855,12 +9941,12 @@ function __c155(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          contacts: S.optional(__S(2497, __c156, 1)),
+          contacts: S.optional(__S(2513, __c157, 1)),
         }),
       ).annotate({ identifier: "DomainGetContactsResponse" });
   }
 }
-function __c156(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9884,15 +9970,15 @@ function __c156(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          registrant: S.optional(__S(2496, __c156, 0)),
-          admin: S.optional(__S(2496, __c156, 0)),
-          tech: S.optional(__S(2496, __c156, 0)),
-          billing: S.optional(__S(2496, __c156, 0)),
+          registrant: S.optional(__S(2512, __c157, 0)),
+          admin: S.optional(__S(2512, __c157, 0)),
+          tech: S.optional(__S(2512, __c157, 0)),
+          billing: S.optional(__S(2512, __c157, 0)),
         }),
       ).annotate({ identifier: "DomainGetContactsResponseContacts" });
   }
 }
-function __c157(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9903,32 +9989,32 @@ function __c157(j: number): any {
     case 1:
       return S.Array(S.Unknown);
     case 2:
-      return S.Array(__S(2513, __c157, 1));
+      return S.Array(__S(2529, __c158, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          hosts: S.optional(__S(2514, __c157, 2)),
-          glue: S.optional(__S(2529, __c158, 1)),
+          hosts: S.optional(__S(2530, __c158, 2)),
+          glue: S.optional(__S(2545, __c159, 1)),
         }),
       ).annotate({ identifier: "DomainGetGlueResponse" });
   }
 }
-function __c158(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           host: S.String,
-          v4: __S(320, __c20, 0),
-          v6: __S(320, __c20, 0),
+          v4: __S(336, __c21, 0),
+          v6: __S(336, __c21, 0),
         }),
       ).annotate({ identifier: "DomainGetGlueResponseGlueItem" });
     case 1:
-      return S.Array(__S(2528, __c158, 0));
+      return S.Array(__S(2544, __c159, 0));
   }
 }
-function __c159(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9938,18 +10024,18 @@ function __c159(j: number): any {
       ).annotate({ identifier: "DomainGetNsRequest" });
   }
 }
-function __c160(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          ns: S.optional(__S(320, __c20, 0)),
+          ns: S.optional(__S(336, __c21, 0)),
         }),
       ).annotate({ identifier: "DomainGetNsResponse" });
   }
 }
-function __c161(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9977,7 +10063,7 @@ function __c161(j: number): any {
       ).annotate({ identifier: "DomainGetRegistrationRequirementsResponse" });
   }
 }
-function __c162(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9997,12 +10083,12 @@ function __c162(j: number): any {
           delegation: S.optional(S.Unknown),
           dnssec: S.optional(S.Number),
           nextStep: S.optional(S.Unknown),
-          porkbunNameservers: S.optional(__S(320, __c20, 0)),
+          porkbunNameservers: S.optional(__S(336, __c21, 0)),
         }),
       ).annotate({ identifier: "DomainGetTransferSetupResponse" });
   }
 }
-function __c163(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10022,7 +10108,7 @@ function __c163(j: number): any {
       ).annotate({ identifier: "AccountVerifyPhoneConfirmResponse" });
   }
 }
-function __c164(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10032,7 +10118,7 @@ function __c164(j: number): any {
       ).annotate({ identifier: "DomainGetUrlForwardingRequest" });
   }
 }
-function __c165(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10047,17 +10133,17 @@ function __c165(j: number): any {
         }),
       ).annotate({ identifier: "GetUrlForwardingResponseForwardsItem" });
     case 1:
-      return S.Array(__S(2640, __c165, 0));
+      return S.Array(__S(2656, __c166, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           status: S.String,
-          forwards: __S(2641, __c165, 1),
+          forwards: __S(2657, __c166, 1),
         }),
       ).annotate({ identifier: "GetUrlForwardingResponse" });
   }
 }
-function __c166(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10068,7 +10154,7 @@ function __c166(j: number): any {
       ).annotate({ identifier: "DomainStartTransferRequest" });
   }
 }
-function __c167(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10080,35 +10166,35 @@ function __c167(j: number): any {
       ).annotate({ identifier: "DomainStartTransferResponse" });
   }
 }
-function __c168(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          domain: S.String.pipe(T.Label()),
-          status: S.String,
-          domains: S.optional(__S(320, __c20, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/domain/updateAutoRenew/{domain}", code: 200 })),
-      ).annotate({ identifier: "DomainUpdateAutoRenewRequest" });
-    case 1:
-      return S.Record(S.String, __S(2080, __c130, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.String),
-          results: S.optional(__S(2689, __c168, 1)),
-        }),
-      ).annotate({ identifier: "DomainUpdateAutoRenewResponse" });
-  }
-}
 function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           domain: S.String.pipe(T.Label()),
-          contacts: S.optional(__S(2497, __c156, 1)),
-          contact: S.optional(__S(2496, __c156, 0)),
+          status: S.String,
+          domains: S.optional(__S(336, __c21, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/domain/updateAutoRenew/{domain}", code: 200 })),
+      ).annotate({ identifier: "DomainUpdateAutoRenewRequest" });
+    case 1:
+      return S.Record(S.String, __S(2096, __c131, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          results: S.optional(__S(2705, __c169, 1)),
+        }),
+      ).annotate({ identifier: "DomainUpdateAutoRenewResponse" });
+  }
+}
+function __c170(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+          contacts: S.optional(__S(2513, __c157, 1)),
+          contact: S.optional(__S(2512, __c157, 0)),
           dryRun: S.optional(S.Boolean),
           addressValidationChoice: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/domain/updateContacts/{domain}", code: 200 })),
@@ -10123,32 +10209,32 @@ function __c169(j: number): any {
       ).annotate({ identifier: "DomainUpdateContactsResponse" });
   }
 }
-function __c170(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          domain: S.String.pipe(T.Label()),
-          subdomain: S.String.pipe(T.Label()),
-          ips: __S(320, __c20, 0),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/domain/updateGlue/{domain}/{subdomain}", code: 200 }),
-        ),
-      ).annotate({ identifier: "DomainUpdateGlueRequest" });
-  }
-}
 function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           domain: S.String.pipe(T.Label()),
-          ns: __S(320, __c20, 0),
+          subdomain: S.String.pipe(T.Label()),
+          ips: __S(336, __c21, 0),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/domain/updateGlue/{domain}/{subdomain}", code: 200 }),
+        ),
+      ).annotate({ identifier: "DomainUpdateGlueRequest" });
+  }
+}
+function __c172(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+          ns: __S(336, __c21, 0),
         }).pipe(T.Http({ method: "POST", uri: "/domain/updateNs/{domain}", code: 200 })),
       ).annotate({ identifier: "DomainUpdateNsRequest" });
   }
 }
-function __c172(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10172,7 +10258,7 @@ function __c172(j: number): any {
       ).annotate({ identifier: "DomainUpdateTransferAuthCodeResponse" });
   }
 }
-function __c173(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10189,7 +10275,7 @@ function __c173(j: number): any {
       ).annotate({ identifier: "EditDnsRequest" });
   }
 }
-function __c174(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10210,11 +10296,11 @@ function __c174(j: number): any {
         }),
       ).annotate({ identifier: "EmailAddForwardResponseDnsChangesMxRecordsRemovedItem" });
     case 2:
-      return S.Array(__S(2785, __c174, 1));
+      return S.Array(__S(2801, __c175, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          mxRecordsRemoved: S.optional(__S(2786, __c174, 2)),
+          mxRecordsRemoved: S.optional(__S(2802, __c175, 2)),
           spf: S.optional(S.String),
           spfBefore: S.optional(S.String),
           spfAfter: S.optional(S.String),
@@ -10227,13 +10313,13 @@ function __c174(j: number): any {
           domain: S.optional(S.String),
           address: S.optional(S.String),
           forwardTo: S.optional(S.String),
-          dnsChanges: S.optional(__S(2787, __c174, 3)),
-          limits: S.optional(__S(2800, __c175, 0)),
+          dnsChanges: S.optional(__S(2803, __c175, 3)),
+          limits: S.optional(__S(2816, __c176, 0)),
         }),
       ).annotate({ identifier: "EmailAddForwardResponse" });
   }
 }
-function __c175(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10244,7 +10330,7 @@ function __c175(j: number): any {
       ).annotate({ identifier: "EmailAddForwardResponseLimits" });
   }
 }
-function __c176(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10263,7 +10349,7 @@ function __c176(j: number): any {
       ).annotate({ identifier: "EmailCreateMailboxRequest" });
   }
 }
-function __c177(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10280,14 +10366,14 @@ function __c177(j: number): any {
       ).annotate({ identifier: "EmailCreateMailboxResponseMailbox" });
   }
 }
-function __c178(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
           domain: S.optional(S.String),
-          mailbox: S.optional(__S(2832, __c177, 0)),
+          mailbox: S.optional(__S(2848, __c178, 0)),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           passwordGenerated: S.optional(S.Boolean),
           dnsChanges: S.optional(S.Unknown),
@@ -10299,7 +10385,7 @@ function __c178(j: number): any {
       ).annotate({ identifier: "EmailCreateMailboxResponse" });
   }
 }
-function __c179(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10324,7 +10410,7 @@ function __c179(j: number): any {
       ).annotate({ identifier: "AccountVerifyPhoneSendResponse" });
   }
 }
-function __c180(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10345,7 +10431,7 @@ function __c180(j: number): any {
       ).annotate({ identifier: "EmailDeleteForwardResponse" });
   }
 }
-function __c181(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10355,7 +10441,7 @@ function __c181(j: number): any {
       ).annotate({ identifier: "EmailGetForwardsRequest" });
   }
 }
-function __c182(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10366,20 +10452,20 @@ function __c182(j: number): any {
         }),
       ).annotate({ identifier: "EmailGetForwardsResponseForwardsItem" });
     case 1:
-      return S.Array(__S(2912, __c182, 0));
+      return S.Array(__S(2928, __c183, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
           domain: S.optional(S.String),
-          forwards: S.optional(__S(2913, __c182, 1)),
-          limits: S.optional(__S(2800, __c175, 0)),
+          forwards: S.optional(__S(2929, __c183, 1)),
+          limits: S.optional(__S(2816, __c176, 0)),
           dnsConfigured: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "EmailGetForwardsResponse" });
   }
 }
-function __c183(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10389,22 +10475,22 @@ function __c183(j: number): any {
       ).annotate({ identifier: "EmailGetMailboxesRequest" });
   }
 }
-function __c184(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2832, __c177, 0));
+      return S.Array(__S(2848, __c178, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          mailboxes: S.optional(__S(2944, __c184, 0)),
-          price: S.optional(__S(1904, __c119, 0)),
+          mailboxes: S.optional(__S(2960, __c185, 0)),
+          price: S.optional(__S(1920, __c120, 0)),
           clientSettings: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "EmailGetMailboxesResponse" });
   }
 }
-function __c185(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10432,7 +10518,7 @@ function __c185(j: number): any {
       ).annotate({ identifier: "EmailRenewMailboxResponse" });
   }
 }
-function __c186(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10443,7 +10529,7 @@ function __c186(j: number): any {
       ).annotate({ identifier: "EmailSetPasswordRequest" });
   }
 }
-function __c187(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10458,7 +10544,7 @@ function __c187(j: number): any {
       ).annotate({ identifier: "EmailSetupMailboxRequest" });
   }
 }
-function __c188(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10476,7 +10562,7 @@ function __c188(j: number): any {
       ).annotate({ identifier: "GetAccountInviteStatusResponse" });
   }
 }
-function __c189(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10497,7 +10583,7 @@ function __c189(j: number): any {
       ).annotate({ identifier: "GetApikeyResponse" });
   }
 }
-function __c190(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10505,7 +10591,7 @@ function __c190(j: number): any {
       ).annotate({ identifier: "GetApikeyShareRequest" });
   }
 }
-function __c191(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10542,15 +10628,15 @@ function __c191(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          settings: S.optional(__S(3057, __c191, 1)),
+          settings: S.optional(__S(3073, __c192, 1)),
           monthlySpend: S.optional(S.Number),
-          spendLimit: S.optional(__S(3058, __c191, 2)),
-          topupLimit: S.optional(__S(3059, __c191, 3)),
+          spendLimit: S.optional(__S(3074, __c192, 2)),
+          topupLimit: S.optional(__S(3075, __c192, 3)),
         }),
       ).annotate({ identifier: "ApiSettingsResponse" });
   }
 }
-function __c192(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -10562,7 +10648,7 @@ function __c192(j: number): any {
           codeChallengeMethod: S.optional(S.String),
           sandbox: S.optional(S.Boolean),
           returnUrl: S.optional(S.String),
-          scopes: S.optional(__S(3072, __c192, 0)),
+          scopes: S.optional(__S(3088, __c193, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/apikey/request", code: 200 })),
       ).annotate({ identifier: "ApikeyRequestRequest" });
     case 2:
@@ -10578,7 +10664,7 @@ function __c192(j: number): any {
       ).annotate({ identifier: "ApikeyRequestResponse" });
   }
 }
-function __c193(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10586,7 +10672,7 @@ function __c193(j: number): any {
       ).annotate({ identifier: "GetAutoTopupRequest" });
   }
 }
-function __c194(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10605,7 +10691,7 @@ function __c194(j: number): any {
         }),
       ).annotate({ identifier: "SavedCard" });
     case 1:
-      return S.Array(__S(3104, __c194, 0));
+      return S.Array(__S(3120, __c195, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -10616,18 +10702,18 @@ function __c194(j: number): any {
           effectiveAmount: S.optional(S.Number),
           defaultAmount: S.optional(S.Number),
           paymentMethodOnFile: S.optional(S.Boolean),
-          cards: S.optional(__S(3105, __c194, 1)),
+          cards: S.optional(__S(3121, __c195, 1)),
           balance: S.optional(S.Number),
           chargesToday: S.optional(S.Number),
           chargesThisMonth: S.optional(S.Number),
           maxChargesPerDay: S.optional(S.Number),
           maxChargesPerMonth: S.optional(S.Number),
-          warnings: S.optional(__S(320, __c20, 0)),
+          warnings: S.optional(__S(336, __c21, 0)),
         }),
       ).annotate({ identifier: "AutoTopupResponse" });
   }
 }
-function __c195(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10643,7 +10729,7 @@ function __c195(j: number): any {
       ).annotate({ identifier: "BalanceResponse" });
   }
 }
-function __c196(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10656,12 +10742,12 @@ function __c196(j: number): any {
         S.Struct({
           status: S.optional(S.String),
           available: S.optional(S.Boolean),
-          closeout: S.optional(__S(3152, __c197, 0)),
+          closeout: S.optional(__S(3168, __c198, 0)),
         }),
       ).annotate({ identifier: "GetCloseoutResponse" });
   }
 }
-function __c197(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10688,7 +10774,7 @@ function __c197(j: number): any {
       ).annotate({ identifier: "CloseoutItem" });
   }
 }
-function __c198(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10698,7 +10784,7 @@ function __c198(j: number): any {
       ).annotate({ identifier: "GetCloudflareRequest" });
   }
 }
-function __c199(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10708,7 +10794,7 @@ function __c199(j: number): any {
       ).annotate({ identifier: "GetDnsRequest" });
   }
 }
-function __c200(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10719,7 +10805,7 @@ function __c200(j: number): any {
       ).annotate({ identifier: "GetDnsRecordByIdRequest" });
   }
 }
-function __c201(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10729,7 +10815,7 @@ function __c201(j: number): any {
       ).annotate({ identifier: "GetDnsRecordsRequest" });
   }
 }
-function __c202(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10747,7 +10833,7 @@ function __c202(j: number): any {
       ).annotate({ identifier: "GetDnsRecordsByNameTypeRequest" });
   }
 }
-function __c203(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10757,7 +10843,7 @@ function __c203(j: number): any {
       ).annotate({ identifier: "GetDnssecRecordsRequest" });
   }
 }
-function __c204(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10785,12 +10871,12 @@ function __c204(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          domain: S.optional(__S(3265, __c204, 1)),
+          domain: S.optional(__S(3281, __c205, 1)),
         }),
       ).annotate({ identifier: "GetDomainResponse" });
   }
 }
-function __c205(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10809,7 +10895,7 @@ function __c205(j: number): any {
       ).annotate({ identifier: "ApikeyRevokeShareResponse" });
   }
 }
-function __c206(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10820,18 +10906,18 @@ function __c206(j: number): any {
     case 1:
       return S.Array(S.Unknown);
     case 2:
-      return S.Array(__S(3297, __c206, 1));
+      return S.Array(__S(3313, __c207, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          hosts: S.optional(__S(3298, __c206, 2)),
-          glue: S.optional(__S(2529, __c158, 1)),
+          hosts: S.optional(__S(3314, __c207, 2)),
+          glue: S.optional(__S(2545, __c159, 1)),
         }),
       ).annotate({ identifier: "GetDomainGlueResponse" });
   }
 }
-function __c207(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10841,7 +10927,7 @@ function __c207(j: number): any {
       ).annotate({ identifier: "GetDomainNsRequest" });
   }
 }
-function __c208(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10857,7 +10943,7 @@ function __c208(j: number): any {
           createdBefore: S.optional(S.String.pipe(T.Query())),
           expiresAfter: S.optional(S.String.pipe(T.Query())),
           expiresBefore: S.optional(S.String.pipe(T.Query())),
-          tlds: S.optional(__S(320, __c20, 0).pipe(T.Query())),
+          tlds: S.optional(__S(336, __c21, 0).pipe(T.Query())),
           autoRenew: S.optional(S.String.pipe(T.Query())),
           apiAccess: S.optional(S.String.pipe(T.Query())),
           sortName: S.optional(S.String.pipe(T.Query())),
@@ -10866,7 +10952,7 @@ function __c208(j: number): any {
       ).annotate({ identifier: "GetDomainsRequest" });
   }
 }
-function __c209(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10877,7 +10963,7 @@ function __c209(j: number): any {
         }),
       ).annotate({ identifier: "DomainListAllResponseDomainsItemLabelsItem" });
     case 1:
-      return S.Array(__S(3344, __c209, 0));
+      return S.Array(__S(3360, __c210, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -10892,22 +10978,22 @@ function __c209(j: number): any {
           autoRenew: S.optional(S.Number),
           apiAccess: S.optional(S.Number),
           notLocal: S.optional(S.Number),
-          labels: S.optional(__S(3345, __c209, 1)),
+          labels: S.optional(__S(3361, __c210, 1)),
         }),
       ).annotate({ identifier: "DomainListAllResponseDomainsItem" });
     case 3:
-      return S.Array(__S(3346, __c209, 2));
+      return S.Array(__S(3362, __c210, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           status: S.String,
           count: S.optional(S.Number),
-          domains: __S(3347, __c209, 3),
+          domains: __S(3363, __c210, 3),
         }),
       ).annotate({ identifier: "DomainListAllResponse" });
   }
 }
-function __c210(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10917,7 +11003,7 @@ function __c210(j: number): any {
       ).annotate({ identifier: "GetDomainUrlForwardingRequest" });
   }
 }
-function __c211(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10927,7 +11013,7 @@ function __c211(j: number): any {
       ).annotate({ identifier: "GetEmailForwardsRequest" });
   }
 }
-function __c212(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10937,7 +11023,7 @@ function __c212(j: number): any {
       ).annotate({ identifier: "GetEmailMailboxesRequest" });
   }
 }
-function __c213(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10990,19 +11076,19 @@ function __c213(j: number): any {
         }),
       ).annotate({ identifier: "WordPressSiteOperationsItem" });
     case 6:
-      return S.Array(__S(3413, __c213, 5));
+      return S.Array(__S(3429, __c214, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           siteId: S.optional(S.NullOr(S.Number)),
           phpVersion: S.optional(S.NullOr(S.String)),
-          availablePhpVersions: S.optional(S.NullOr(__S(320, __c20, 0))),
+          availablePhpVersions: S.optional(S.NullOr(__S(336, __c21, 0))),
           wordPressVersion: S.optional(S.NullOr(S.String)),
-          ssl: S.optional(S.NullOr(__S(3409, __c213, 1))),
-          storage: S.optional(S.NullOr(__S(3410, __c213, 2))),
-          searchVisibility: S.optional(S.NullOr(__S(3411, __c213, 3))),
-          staging: S.optional(S.NullOr(__S(3412, __c213, 4))),
-          operations: S.optional(S.NullOr(__S(3414, __c213, 6))),
+          ssl: S.optional(S.NullOr(__S(3425, __c214, 1))),
+          storage: S.optional(S.NullOr(__S(3426, __c214, 2))),
+          searchVisibility: S.optional(S.NullOr(__S(3427, __c214, 3))),
+          staging: S.optional(S.NullOr(__S(3428, __c214, 4))),
+          operations: S.optional(S.NullOr(__S(3430, __c214, 6))),
         }),
       ).annotate({ identifier: "WordPressSite" });
     case 8:
@@ -11010,7 +11096,7 @@ function __c213(j: number): any {
         S.Struct({
           restUrl: S.optional(S.String),
           adminUrl: S.optional(S.String),
-          site: S.optional(__S(3415, __c213, 7)),
+          site: S.optional(__S(3431, __c214, 7)),
         }),
       ).annotate({ identifier: "GetHostingResponseHostingWordpress" });
     case 9:
@@ -11026,19 +11112,19 @@ function __c213(j: number): any {
           expireDate: S.optional(S.String),
           pendingRetire: S.optional(S.Boolean),
           cost: S.optional(S.Unknown),
-          wordpress: S.optional(__S(3416, __c213, 8)),
+          wordpress: S.optional(__S(3432, __c214, 8)),
         }),
       ).annotate({ identifier: "GetHostingResponseHosting" });
     case 10:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          hosting: S.optional(S.NullOr(__S(3417, __c213, 9))),
+          hosting: S.optional(S.NullOr(__S(3433, __c214, 9))),
         }),
       ).annotate({ identifier: "GetHostingResponse" });
   }
 }
-function __c214(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11051,7 +11137,7 @@ function __c214(j: number): any {
       ).annotate({ identifier: "GetHostingBackupRequest" });
   }
 }
-function __c215(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11064,14 +11150,14 @@ function __c215(j: number): any {
         }),
       ).annotate({ identifier: "GetHostingBackupResponseBackupsItem" });
     case 1:
-      return S.Array(__S(3440, __c215, 0));
+      return S.Array(__S(3456, __c216, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
           domain: S.optional(S.String),
           target: S.optional(S.String),
-          backups: S.optional(__S(3441, __c215, 1)),
+          backups: S.optional(__S(3457, __c216, 1)),
           count: S.optional(S.Number),
           total: S.optional(S.Number),
           retention: S.optional(S.String),
@@ -11080,7 +11166,7 @@ function __c215(j: number): any {
       ).annotate({ identifier: "GetHostingBackupResponse" });
   }
 }
-function __c216(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11108,20 +11194,20 @@ function __c216(j: number): any {
           status: S.optional(S.String),
           price_cents: S.optional(S.Number),
           discount_cents: S.optional(S.Number),
-          tags: S.optional(__S(320, __c20, 0)),
+          tags: S.optional(__S(336, __c21, 0)),
         }),
       ).annotate({ identifier: "GetInvoiceResponseInvoiceItemsItem" });
     case 3:
-      return S.Array(__S(3458, __c216, 2));
+      return S.Array(__S(3474, __c217, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.Number),
           date: S.optional(S.String),
           state: S.optional(S.String),
-          billTo: S.optional(__S(3457, __c216, 1)),
-          paymentMethods: S.optional(__S(320, __c20, 0)),
-          items: S.optional(__S(3459, __c216, 3)),
+          billTo: S.optional(__S(3473, __c217, 1)),
+          paymentMethods: S.optional(__S(336, __c21, 0)),
+          items: S.optional(__S(3475, __c217, 3)),
           gross_cents: S.optional(S.Number),
           refunded_cents: S.optional(S.Number),
           total_cents: S.optional(S.Number),
@@ -11137,12 +11223,12 @@ function __c216(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          invoice: S.optional(__S(3460, __c216, 4)),
+          invoice: S.optional(__S(3476, __c217, 4)),
         }),
       ).annotate({ identifier: "GetInvoiceResponse" });
   }
 }
-function __c217(j: number): any {
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

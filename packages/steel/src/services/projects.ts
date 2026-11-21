@@ -30,9 +30,16 @@ export class NotFound
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export interface GetProjectRequest {
   id: string;
@@ -62,6 +69,27 @@ export type ProjectsResponseProjectsList = Array<ProjectsResponseProjectsItem>;
 export interface ProjectsResponse {
   projects: ProjectsResponseProjectsList;
 }
+export interface ErrorResponseContextItem {
+  keyword: string;
+  message: string;
+  params: unknown;
+}
+export type ErrorResponseContextList = Array<ErrorResponseContextItem>;
+/** An error response from the API */
+export interface ErrorResponse {
+  /** Stable machine-readable reason, e.g. 'budget_exceeded' or 'profile_not_ready'. Branch on this instead of parsing the message. */
+  code?: string | undefined;
+  context?: ErrorResponseContextList | undefined;
+  error?: string | undefined;
+  linkToDocs?: string | undefined;
+  message: string;
+  /** The request field that caused the error, if any. */
+  param?: string | undefined;
+  /** Seconds to wait before retrying. Also sent as the Retry-After header. */
+  retryAfterSeconds?: number | undefined;
+  /** Whether the same request can succeed later without changes. False means fix the request or the account first. */
+  retryable?: boolean | undefined;
+}
 export type GetProjectError = NotFound | SteelOpError;
 /** Get project Get a project by ID. */
 export const getProject: API.OperationMethod<
@@ -70,8 +98,8 @@ export const getProject: API.OperationMethod<
   GetProjectError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetProjectRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<Project>,
+  input: __S(4, __c1, 0) as any as S.Schema<GetProjectRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<Project>,
   errors: [NotFound, UnknownSteelError],
   protocol: SteelProtocol,
   retry: Retry.Retry,
@@ -87,8 +115,8 @@ export const listProjects: API.OperationMethod<
   ListProjectsError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<ListProjectsRequest>,
-  output: __S(10, __c2, 2) as any as S.Schema<ProjectsResponse>,
+  input: __S(12, __c3, 0) as any as S.Schema<ListProjectsRequest>,
+  output: __S(14, __c3, 2) as any as S.Schema<ProjectsResponse>,
   errors: [UnknownSteelError],
   protocol: SteelProtocol,
   retry: Retry.Retry,
@@ -102,12 +130,39 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          keyword: S.String,
+          message: S.String,
+          params: S.Unknown,
+        }),
+      ).annotate({ identifier: "ErrorResponseContextItem" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          context: S.optional(__S(1, __c0, 1)),
+          error: S.optional(S.String),
+          linkToDocs: S.optional(S.String),
+          message: S.String,
+          param: S.optional(S.String),
+          retryAfterSeconds: S.optional(S.Number),
+          retryable: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           id: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "GET", uri: "/v1/projects/{id}", code: 200 })),
       ).annotate({ identifier: "GetProjectRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -124,18 +179,18 @@ function __c1(j: number): any {
       ).annotate({ identifier: "Project" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/projects", code: 200 })),
       ).annotate({ identifier: "ListProjectsRequest" });
     case 1:
-      return S.Array(__S(4, __c1, 0));
+      return S.Array(__S(8, __c2, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          projects: __S(9, __c2, 1),
+          projects: __S(13, __c3, 1),
         }),
       ).annotate({ identifier: "ProjectsResponse" });
   }

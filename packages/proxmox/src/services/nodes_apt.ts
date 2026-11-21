@@ -119,7 +119,7 @@ export type GetNodesByNodeAptUpdateResultItemArch =
   | "arm64"
   | "amd64"
   | "ppc64el"
-  | "risc64"
+  | "riscv64"
   | "s390x"
   | "all";
 export interface GetNodesByNodeAptUpdateResultItem {
@@ -144,7 +144,7 @@ export type GetNodesByNodeAptVersionsResultItemArch =
   | "arm64"
   | "amd64"
   | "ppc64el"
-  | "risc64"
+  | "riscv64"
   | "s390x"
   | "all";
 export type GetNodesByNodeAptVersionsResultItemCurrentState =

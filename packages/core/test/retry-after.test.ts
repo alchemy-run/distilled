@@ -17,6 +17,7 @@ import {
   parseRetryAfterForStatus,
   parseServerRetryHint,
 } from "../src/retry-after.ts";
+import { defaultBudget } from "../src/retry.ts";
 import * as Retry from "../src/retry.ts";
 import * as S from "../src/schema.ts";
 import * as T from "../src/trait.ts";
@@ -30,6 +31,7 @@ beforeEach(() => {
   vi.spyOn(Date, "now").mockReturnValue(NOW);
   // Pin retry jitter to zero so end-to-end delays are exact.
   vi.spyOn(Math, "random").mockReturnValue(0);
+  defaultBudget.reset();
 });
 
 afterEach(() => {
@@ -238,7 +240,7 @@ const retryDelays = async (status: number, headers: Record<string, string>) => {
 };
 
 describe("Retry-After feeding the default retry delay", () => {
-  test("delay-seconds replaces the default backoff", async () => {
+  test("delay-seconds is the least the default policy waits", async () => {
     expect(await retryDelays(503, { "retry-after": "3" })).toEqual([3_000]);
   });
 
@@ -253,12 +255,14 @@ describe("Retry-After feeding the default retry delay", () => {
   });
 
   test("an invalid header falls back to the default backoff", async () => {
-    expect(await retryDelays(503, { "retry-after": "soon" })).toEqual([250]);
+    vi.spyOn(Math, "random").mockReturnValue(0.5);
+    expect(await retryDelays(503, { "retry-after": "soon" })).toEqual([25]);
     expect(await retryDelays(429, { "retry-after": "soon" })).toEqual([500]);
   });
 
   test("a RateLimit header with quota left falls back to the default backoff", async () => {
-    expect(await retryDelays(503, { ratelimit: "r=4, t=30" })).toEqual([250]);
+    vi.spyOn(Math, "random").mockReturnValue(0.5);
+    expect(await retryDelays(503, { ratelimit: "r=4, t=30" })).toEqual([25]);
   });
 
   test("a hint on a non-retryable status neither stamps nor triggers a retry", async () => {

@@ -37,9 +37,9 @@ export class BadRequest
       code: /*@__PURE__*/ S.optional(S.Number),
       message: S.String,
       status: /*@__PURE__*/ S.optional(S.String),
-      reason: /*@__PURE__*/ S.optional(S.String),
-      domain: /*@__PURE__*/ S.optional(S.String),
       details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
   ) {}
@@ -50,9 +50,9 @@ export class Conflict
       code: /*@__PURE__*/ S.optional(S.Number),
       message: S.String,
       status: /*@__PURE__*/ S.optional(S.String),
-      reason: /*@__PURE__*/ S.optional(S.String),
-      domain: /*@__PURE__*/ S.optional(S.String),
       details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
   ) {}
@@ -63,9 +63,9 @@ export class Forbidden
       code: /*@__PURE__*/ S.optional(S.Number),
       message: S.String,
       status: /*@__PURE__*/ S.optional(S.String),
-      reason: /*@__PURE__*/ S.optional(S.String),
-      domain: /*@__PURE__*/ S.optional(S.String),
       details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
   ) {}
@@ -76,9 +76,9 @@ export class NotFound
       code: /*@__PURE__*/ S.optional(S.Number),
       message: S.String,
       status: /*@__PURE__*/ S.optional(S.String),
-      reason: /*@__PURE__*/ S.optional(S.String),
-      domain: /*@__PURE__*/ S.optional(S.String),
       details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
@@ -89,14 +89,14 @@ export interface BorrowShelvesBooksRequest {
 }
 /** A single book in the library. */
 export interface GoogleExampleLibraryagentV1Book {
+  /** The name of the book author. */
+  author?: string | undefined;
   /** The title of the book. */
   title?: string | undefined;
   /** Value indicating whether the book has been read. */
   read?: boolean | undefined;
   /** The resource name of the book. Book names have the form `shelves/{shelf_id}/books/{book_id}`. The name is ignored when creating a book. */
   name?: string | undefined;
-  /** The name of the book author. */
-  author?: string | undefined;
 }
 export interface GetShelvesRequest {
   /** Required. The name of the shelf to retrieve. */
@@ -114,10 +114,10 @@ export interface GetShelvesBooksRequest {
   name: string;
 }
 export interface ListShelvesRequest {
-  /** Requested page size. Server may return fewer shelves than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number | undefined;
   /** A token identifying a page of results the server should return. Typically, this is the value of ListShelvesResponse.next_page_token returned from the previous call to `ListShelves` method. */
   pageToken?: string | undefined;
+  /** Requested page size. Server may return fewer shelves than requested. If unspecified, server will pick an appropriate default. */
+  pageSize?: number | undefined;
 }
 export type GoogleExampleLibraryagentV1ShelfList = Array<GoogleExampleLibraryagentV1Shelf>;
 /** Response message for LibraryAgent.ListShelves. */
@@ -275,10 +275,10 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          author: S.optional(S.String),
           title: S.optional(S.String),
           read: S.optional(S.Boolean),
           name: S.optional(S.String),
-          author: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleExampleLibraryagentV1Book" });
   }
@@ -331,8 +331,8 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",

@@ -191,7 +191,7 @@ export class LimitExceededException
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     Code: /*@__PURE__*/ S.optional(S.String),
     Logref: /*@__PURE__*/ S.optional(S.String),
-  }) {}
+  }).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class MalformedPolicyDocumentException
   extends /*@__PURE__*/ S.TaggedError<MalformedPolicyDocumentException>()(
     "MalformedPolicyDocumentException",
@@ -209,7 +209,7 @@ export class ProvisionedThroughputExceededException
       Code: /*@__PURE__*/ S.optional(S.String),
       Logref: /*@__PURE__*/ S.optional(S.String),
     },
-  ) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ResourceAlreadyExistsException
   extends /*@__PURE__*/ S.TaggedError<ResourceAlreadyExistsException>()(
     "ResourceAlreadyExistsException",
@@ -257,7 +257,7 @@ export class ThrottlingException
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     Code: /*@__PURE__*/ S.optional(S.String),
     Logref: /*@__PURE__*/ S.optional(S.String),
-  }) {}
+  }).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class VideoTooLargeException
   extends /*@__PURE__*/ S.TaggedError<VideoTooLargeException>()("VideoTooLargeException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),

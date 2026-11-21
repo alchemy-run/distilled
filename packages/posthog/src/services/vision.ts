@@ -29,36 +29,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ReplayVisionError | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: ReplayVisionError | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ReplayVisionError | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: ReplayVisionError | string;
+}
 
 /** * `metric` - Metric * `match` - Match */
 export type VisionAlertKindEnum = "metric" | "match";
@@ -2690,6 +2718,11 @@ export interface VisionScannersObservationsRetryCreateRequest {
   id: string;
 }
 export interface VisionScannersObservationsRetryCreateResponse {}
+/** The shape every Replay Vision error response uses, so generated clients read one key. */
+export interface ReplayVisionError {
+  /** Human-readable explanation of why the request was refused. */
+  detail: string;
+}
 export type CreateVisionAlertError = PosthogOpError;
 export const createVisionAlert: API.OperationMethod<
   CreateVisionAlertRequest,
@@ -2697,8 +2730,8 @@ export const createVisionAlert: API.OperationMethod<
   CreateVisionAlertError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<CreateVisionAlertRequest>,
-  output: __S(1280, __c40, 0) as any as S.Schema<VisionAlertConfiguration>,
+  input: __S(1216, __c38, 0) as any as S.Schema<CreateVisionAlertRequest>,
+  output: __S(1312, __c41, 0) as any as S.Schema<VisionAlertConfiguration>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2714,8 +2747,8 @@ export const createVisionAlertsDestination: API.OperationMethod<
   CreateVisionAlertsDestinationError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<CreateVisionAlertsDestinationRequest>,
-  output: __S(1793, __c56, 1) as any as S.Schema<VisionAlertDestinationResponse>,
+  input: __S(1824, __c57, 0) as any as S.Schema<CreateVisionAlertsDestinationRequest>,
+  output: __S(1825, __c57, 1) as any as S.Schema<VisionAlertDestinationResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2731,8 +2764,8 @@ export const createVisionObservationsFeedDismissal: API.OperationMethod<
   CreateVisionObservationsFeedDismissalError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<CreateVisionObservationsFeedDismissalRequest>,
-  output: __S(2176, __c68, 0) as any as S.Schema<CreateVisionObservationsFeedDismissalResponse>,
+  input: __S(2176, __c68, 0) as any as S.Schema<CreateVisionObservationsFeedDismissalRequest>,
+  output: __S(2208, __c69, 0) as any as S.Schema<CreateVisionObservationsFeedDismissalResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2748,8 +2781,8 @@ export const createVisionObservationsLabel: API.OperationMethod<
   CreateVisionObservationsLabelError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<CreateVisionObservationsLabelRequest>,
-  output: __S(2592, __c81, 0) as any as S.Schema<ReplayObservationLabel>,
+  input: __S(2592, __c81, 0) as any as S.Schema<CreateVisionObservationsLabelRequest>,
+  output: __S(2624, __c82, 0) as any as S.Schema<ReplayObservationLabel>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2765,8 +2798,8 @@ export const createVisionObservationsViewed: API.OperationMethod<
   CreateVisionObservationsViewedError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c90, 0) as any as S.Schema<CreateVisionObservationsViewedRequest>,
-  output: __S(2176, __c68, 0) as any as S.Schema<CreateVisionObservationsViewedResponse>,
+  input: __S(2912, __c91, 0) as any as S.Schema<CreateVisionObservationsViewedRequest>,
+  output: __S(2208, __c69, 0) as any as S.Schema<CreateVisionObservationsViewedResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2782,8 +2815,8 @@ export const createVisionRequest: API.OperationMethod<
   CreateVisionRequestError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2913, __c91, 1) as any as S.Schema<CreateVisionRequestRequest>,
-  output: __S(2978, __c93, 2) as any as S.Schema<ObservationRequest>,
+  input: __S(2945, __c92, 1) as any as S.Schema<CreateVisionRequestRequest>,
+  output: __S(3010, __c94, 2) as any as S.Schema<ObservationRequest>,
   errors: [Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2799,8 +2832,8 @@ export const createVisionScanner: API.OperationMethod<
   CreateVisionScannerError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateVisionScannerRequest>,
-  output: __S(64, __c2, 0) as any as S.Schema<ReplayScannerOutput>,
+  input: __S(32, __c1, 0) as any as S.Schema<CreateVisionScannerRequest>,
+  output: __S(96, __c3, 0) as any as S.Schema<ReplayScannerOutput>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2816,8 +2849,8 @@ export const createVisionScannersAffectedCohort: API.OperationMethod<
   CreateVisionScannersAffectedCohortError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c3, 0) as any as S.Schema<CreateVisionScannersAffectedCohortRequest>,
-  output: __S(97, __c3, 1) as any as S.Schema<AffectedCohortResponse>,
+  input: __S(128, __c4, 0) as any as S.Schema<CreateVisionScannersAffectedCohortRequest>,
+  output: __S(129, __c4, 1) as any as S.Schema<AffectedCohortResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2833,8 +2866,8 @@ export const createVisionScannersBackfill: API.OperationMethod<
   CreateVisionScannersBackfillError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<CreateVisionScannersBackfillRequest>,
-  output: __S(160, __c5, 0) as any as S.Schema<ReplayScannerBackfill>,
+  input: __S(160, __c5, 0) as any as S.Schema<CreateVisionScannersBackfillRequest>,
+  output: __S(192, __c6, 0) as any as S.Schema<ReplayScannerBackfill>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2850,8 +2883,8 @@ export const createVisionScannersBackfillsEstimate: API.OperationMethod<
   CreateVisionScannersBackfillsEstimateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<CreateVisionScannersBackfillsEstimateRequest>,
-  output: __S(193, __c6, 1) as any as S.Schema<BackfillEstimateResponse>,
+  input: __S(224, __c7, 0) as any as S.Schema<CreateVisionScannersBackfillsEstimateRequest>,
+  output: __S(225, __c7, 1) as any as S.Schema<BackfillEstimateResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2867,8 +2900,8 @@ export const createVisionScannersDraft: API.OperationMethod<
   CreateVisionScannersDraftError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<CreateVisionScannersDraftRequest>,
-  output: __S(225, __c7, 1) as any as S.Schema<DraftScannerResponse>,
+  input: __S(256, __c8, 0) as any as S.Schema<CreateVisionScannersDraftRequest>,
+  output: __S(257, __c8, 1) as any as S.Schema<DraftScannerResponse>,
   errors: [BadRequest, Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2884,8 +2917,8 @@ export const createVisionScannersEstimate: API.OperationMethod<
   CreateVisionScannersEstimateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(257, __c8, 1) as any as S.Schema<CreateVisionScannersEstimateRequest>,
-  output: __S(258, __c8, 2) as any as S.Schema<EstimateResponse>,
+  input: __S(289, __c9, 1) as any as S.Schema<CreateVisionScannersEstimateRequest>,
+  output: __S(290, __c9, 2) as any as S.Schema<EstimateResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2901,10 +2934,10 @@ export const createVisionScannersHighlightFeedImpression: API.OperationMethod<
   CreateVisionScannersHighlightFeedImpressionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<CreateVisionScannersHighlightFeedImpressionRequest>,
+  input: __S(320, __c10, 0) as any as S.Schema<CreateVisionScannersHighlightFeedImpressionRequest>,
   output: __S(
-    2176,
-    __c68,
+    2208,
+    __c69,
     0,
   ) as any as S.Schema<CreateVisionScannersHighlightFeedImpressionResponse>,
   errors: [],
@@ -2922,8 +2955,8 @@ export const createVisionScannersInlineScan: API.OperationMethod<
   CreateVisionScannersInlineScanError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<CreateVisionScannersInlineScanRequest>,
-  output: __S(2176, __c68, 0) as any as S.Schema<CreateVisionScannersInlineScanResponse>,
+  input: __S(352, __c11, 0) as any as S.Schema<CreateVisionScannersInlineScanRequest>,
+  output: __S(2208, __c69, 0) as any as S.Schema<CreateVisionScannersInlineScanResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2940,13 +2973,13 @@ export const createVisionScannersObservationsFeedDismissal: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    352,
-    __c11,
+    384,
+    __c12,
     0,
   ) as any as S.Schema<CreateVisionScannersObservationsFeedDismissalRequest>,
   output: __S(
-    2176,
-    __c68,
+    2208,
+    __c69,
     0,
   ) as any as S.Schema<CreateVisionScannersObservationsFeedDismissalResponse>,
   errors: [],
@@ -2964,8 +2997,8 @@ export const createVisionScannersObservationsLabel: API.OperationMethod<
   CreateVisionScannersObservationsLabelError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<CreateVisionScannersObservationsLabelRequest>,
-  output: __S(2592, __c81, 0) as any as S.Schema<ReplayObservationLabel>,
+  input: __S(416, __c13, 0) as any as S.Schema<CreateVisionScannersObservationsLabelRequest>,
+  output: __S(2624, __c82, 0) as any as S.Schema<ReplayObservationLabel>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2981,8 +3014,8 @@ export const createVisionScannersObservationsViewed: API.OperationMethod<
   CreateVisionScannersObservationsViewedError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<CreateVisionScannersObservationsViewedRequest>,
-  output: __S(2176, __c68, 0) as any as S.Schema<CreateVisionScannersObservationsViewedResponse>,
+  input: __S(448, __c14, 0) as any as S.Schema<CreateVisionScannersObservationsViewedRequest>,
+  output: __S(2208, __c69, 0) as any as S.Schema<CreateVisionScannersObservationsViewedResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2998,8 +3031,8 @@ export const createVisionScannersObserve: API.OperationMethod<
   CreateVisionScannersObserveError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<CreateVisionScannersObserveRequest>,
-  output: __S(449, __c14, 1) as any as S.Schema<ObserveAlreadyScanned>,
+  input: __S(480, __c15, 0) as any as S.Schema<CreateVisionScannersObserveRequest>,
+  output: __S(481, __c15, 1) as any as S.Schema<ObserveAlreadyScanned>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3015,8 +3048,8 @@ export const createVisionScannersScout: API.OperationMethod<
   CreateVisionScannersScoutError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(484, __c15, 4) as any as S.Schema<CreateVisionScannersScoutRequest>,
-  output: __S(487, __c15, 7) as any as S.Schema<ScannerScoutCreateResponse>,
+  input: __S(516, __c16, 4) as any as S.Schema<CreateVisionScannersScoutRequest>,
+  output: __S(519, __c16, 7) as any as S.Schema<ScannerScoutCreateResponse>,
   errors: [Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3031,8 +3064,8 @@ export const getEnvironmentVisionQuota: API.OperationMethod<
   GetEnvironmentVisionQuotaError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<GetEnvironmentVisionQuotaRequest>,
-  output: __S(545, __c17, 1) as any as S.Schema<VisionQuota>,
+  input: __S(576, __c18, 0) as any as S.Schema<GetEnvironmentVisionQuotaRequest>,
+  output: __S(577, __c18, 1) as any as S.Schema<VisionQuota>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3047,8 +3080,8 @@ export const getEnvironmentVisionQuotaSpendSeries: API.OperationMethod<
   GetEnvironmentVisionQuotaSpendSeriesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<GetEnvironmentVisionQuotaSpendSeriesRequest>,
-  output: __S(579, __c18, 3) as any as S.Schema<VisionSpendSeries>,
+  input: __S(608, __c19, 0) as any as S.Schema<GetEnvironmentVisionQuotaSpendSeriesRequest>,
+  output: __S(611, __c19, 3) as any as S.Schema<VisionSpendSeries>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3063,8 +3096,8 @@ export const getVisionAlert: API.OperationMethod<
   GetVisionAlertError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<GetVisionAlertRequest>,
-  output: __S(611, __c19, 3) as any as S.Schema<VisionAlertConfigurationDetail>,
+  input: __S(640, __c20, 0) as any as S.Schema<GetVisionAlertRequest>,
+  output: __S(643, __c20, 3) as any as S.Schema<VisionAlertConfigurationDetail>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3080,8 +3113,8 @@ export const getVisionGroup: API.OperationMethod<
   GetVisionGroupError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<GetVisionGroupRequest>,
-  output: __S(674, __c21, 2) as any as S.Schema<Cluster>,
+  input: __S(672, __c21, 0) as any as S.Schema<GetVisionGroupRequest>,
+  output: __S(706, __c22, 2) as any as S.Schema<Cluster>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3097,8 +3130,8 @@ export const getVisionObservation: API.OperationMethod<
   GetVisionObservationError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<GetVisionObservationRequest>,
-  output: __S(740, __c23, 4) as any as S.Schema<ReplayObservation>,
+  input: __S(736, __c23, 0) as any as S.Schema<GetVisionObservationRequest>,
+  output: __S(772, __c24, 4) as any as S.Schema<ReplayObservation>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3114,8 +3147,8 @@ export const getVisionObservationsThumbnail: API.OperationMethod<
   GetVisionObservationsThumbnailError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<GetVisionObservationsThumbnailRequest>,
-  output: __S(2176, __c68, 0) as any as S.Schema<GetVisionObservationsThumbnailResponse>,
+  input: __S(800, __c25, 0) as any as S.Schema<GetVisionObservationsThumbnailRequest>,
+  output: __S(2208, __c69, 0) as any as S.Schema<GetVisionObservationsThumbnailResponse>,
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3131,8 +3164,8 @@ export const getVisionRequest: API.OperationMethod<
   GetVisionRequestError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<GetVisionRequestRequest>,
-  output: __S(2978, __c93, 2) as any as S.Schema<ObservationRequest>,
+  input: __S(832, __c26, 0) as any as S.Schema<GetVisionRequestRequest>,
+  output: __S(3010, __c94, 2) as any as S.Schema<ObservationRequest>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3148,8 +3181,8 @@ export const getVisionScanner: API.OperationMethod<
   GetVisionScannerError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<GetVisionScannerRequest>,
-  output: __S(64, __c2, 0) as any as S.Schema<ReplayScannerOutput>,
+  input: __S(864, __c27, 0) as any as S.Schema<GetVisionScannerRequest>,
+  output: __S(96, __c3, 0) as any as S.Schema<ReplayScannerOutput>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3165,8 +3198,8 @@ export const getVisionScannersBackfill: API.OperationMethod<
   GetVisionScannersBackfillError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<GetVisionScannersBackfillRequest>,
-  output: __S(160, __c5, 0) as any as S.Schema<ReplayScannerBackfill>,
+  input: __S(896, __c28, 0) as any as S.Schema<GetVisionScannersBackfillRequest>,
+  output: __S(192, __c6, 0) as any as S.Schema<ReplayScannerBackfill>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3182,8 +3215,8 @@ export const getVisionScannersCreator: API.OperationMethod<
   GetVisionScannersCreatorError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<GetVisionScannersCreatorRequest>,
-  output: __S(897, __c28, 1) as any as S.Schema<ScannerCreatorsResponse>,
+  input: __S(928, __c29, 0) as any as S.Schema<GetVisionScannersCreatorRequest>,
+  output: __S(929, __c29, 1) as any as S.Schema<ScannerCreatorsResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3199,8 +3232,8 @@ export const getVisionScannersHighlightFeed: API.OperationMethod<
   GetVisionScannersHighlightFeedError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<GetVisionScannersHighlightFeedRequest>,
-  output: __S(932, __c29, 4) as any as S.Schema<HighlightFeedResponse>,
+  input: __S(960, __c30, 0) as any as S.Schema<GetVisionScannersHighlightFeedRequest>,
+  output: __S(964, __c30, 4) as any as S.Schema<HighlightFeedResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3216,8 +3249,8 @@ export const getVisionScannersImpact: API.OperationMethod<
   GetVisionScannersImpactError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<GetVisionScannersImpactRequest>,
-  output: __S(961, __c30, 1) as any as S.Schema<ScannerImpact>,
+  input: __S(992, __c31, 0) as any as S.Schema<GetVisionScannersImpactRequest>,
+  output: __S(993, __c31, 1) as any as S.Schema<ScannerImpact>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3233,8 +3266,8 @@ export const getVisionScannersObservation: API.OperationMethod<
   GetVisionScannersObservationError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<GetVisionScannersObservationRequest>,
-  output: __S(740, __c23, 4) as any as S.Schema<ReplayObservation>,
+  input: __S(1024, __c32, 0) as any as S.Schema<GetVisionScannersObservationRequest>,
+  output: __S(772, __c24, 4) as any as S.Schema<ReplayObservation>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3250,8 +3283,8 @@ export const getVisionScannersObservationsStat: API.OperationMethod<
   GetVisionScannersObservationsStatError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<GetVisionScannersObservationsStatRequest>,
-  output: __S(1040, __c32, 16) as any as S.Schema<ObservationStats>,
+  input: __S(1056, __c33, 0) as any as S.Schema<GetVisionScannersObservationsStatRequest>,
+  output: __S(1072, __c33, 16) as any as S.Schema<ObservationStats>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3267,8 +3300,8 @@ export const getVisionScannersObservationsThumbnail: API.OperationMethod<
   GetVisionScannersObservationsThumbnailError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<GetVisionScannersObservationsThumbnailRequest>,
-  output: __S(2176, __c68, 0) as any as S.Schema<GetVisionScannersObservationsThumbnailResponse>,
+  input: __S(1088, __c34, 0) as any as S.Schema<GetVisionScannersObservationsThumbnailRequest>,
+  output: __S(2208, __c69, 0) as any as S.Schema<GetVisionScannersObservationsThumbnailResponse>,
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3284,8 +3317,8 @@ export const getVisionScannersScoutReport: API.OperationMethod<
   GetVisionScannersScoutReportError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<GetVisionScannersScoutReportRequest>,
-  output: __S(1122, __c35, 2) as any as S.Schema<ScoutReport>,
+  input: __S(1120, __c35, 0) as any as S.Schema<GetVisionScannersScoutReportRequest>,
+  output: __S(1154, __c36, 2) as any as S.Schema<ScoutReport>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3301,8 +3334,8 @@ export const getVisionScannersSelfDrivingStat: API.OperationMethod<
   GetVisionScannersSelfDrivingStatError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<GetVisionScannersSelfDrivingStatRequest>,
-  output: __S(1157, __c36, 5) as any as S.Schema<ScannerSelfDrivingStats>,
+  input: __S(1184, __c37, 0) as any as S.Schema<GetVisionScannersSelfDrivingStatRequest>,
+  output: __S(1189, __c37, 5) as any as S.Schema<ScannerSelfDrivingStats>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3318,8 +3351,8 @@ export const getVisionScannersStat: API.OperationMethod<
   GetVisionScannersStatError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<GetVisionScannersStatRequest>,
-  output: __S(1347, __c42, 3) as any as S.Schema<ScannerStatsResponse>,
+  input: __S(1376, __c43, 0) as any as S.Schema<GetVisionScannersStatRequest>,
+  output: __S(1379, __c43, 3) as any as S.Schema<ScannerStatsResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3335,8 +3368,8 @@ export const getVisionTheme: API.OperationMethod<
   GetVisionThemeError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<GetVisionThemeRequest>,
-  output: __S(674, __c21, 2) as any as S.Schema<Cluster>,
+  input: __S(1408, __c44, 0) as any as S.Schema<GetVisionThemeRequest>,
+  output: __S(706, __c22, 2) as any as S.Schema<Cluster>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3351,8 +3384,8 @@ export const listVisionAlerts: API.OperationMethod<
   ListVisionAlertsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<ListVisionAlertsRequest>,
-  output: __S(1410, __c44, 2) as any as S.Schema<PaginatedVisionAlertConfigurationList>,
+  input: __S(1440, __c45, 0) as any as S.Schema<ListVisionAlertsRequest>,
+  output: __S(1442, __c45, 2) as any as S.Schema<PaginatedVisionAlertConfigurationList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3368,8 +3401,8 @@ export const listVisionAlertsEvents: API.OperationMethod<
   ListVisionAlertsEventsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<ListVisionAlertsEventsRequest>,
-  output: __S(1443, __c45, 3) as any as S.Schema<PaginatedVisionAlertEventList>,
+  input: __S(1472, __c46, 0) as any as S.Schema<ListVisionAlertsEventsRequest>,
+  output: __S(1475, __c46, 3) as any as S.Schema<PaginatedVisionAlertEventList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3385,8 +3418,8 @@ export const listVisionGroups: API.OperationMethod<
   ListVisionGroupsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<ListVisionGroupsRequest>,
-  output: __S(1505, __c47, 1) as any as S.Schema<ClusterList>,
+  input: __S(1504, __c47, 0) as any as S.Schema<ListVisionGroupsRequest>,
+  output: __S(1537, __c48, 1) as any as S.Schema<ClusterList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3402,8 +3435,8 @@ export const listVisionObservations: API.OperationMethod<
   ListVisionObservationsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<ListVisionObservationsRequest>,
-  output: __S(1568, __c49, 0) as any as S.Schema<PaginatedReplayObservationList>,
+  input: __S(1568, __c49, 0) as any as S.Schema<ListVisionObservationsRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<PaginatedReplayObservationList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3419,8 +3452,8 @@ export const listVisionObservationsSignalReports: API.OperationMethod<
   ListVisionObservationsSignalReportsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<ListVisionObservationsSignalReportsRequest>,
-  output: __S(1666, __c52, 2) as any as S.Schema<ListVisionObservationsSignalReportsResponse>,
+  input: __S(1664, __c52, 0) as any as S.Schema<ListVisionObservationsSignalReportsRequest>,
+  output: __S(1698, __c53, 2) as any as S.Schema<ListVisionObservationsSignalReportsResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3436,8 +3469,8 @@ export const listVisionScanners: API.OperationMethod<
   ListVisionScannersError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<ListVisionScannersRequest>,
-  output: __S(1698, __c53, 2) as any as S.Schema<PaginatedReplayScannerListOutput>,
+  input: __S(1728, __c54, 0) as any as S.Schema<ListVisionScannersRequest>,
+  output: __S(1730, __c54, 2) as any as S.Schema<PaginatedReplayScannerListOutput>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3453,8 +3486,8 @@ export const listVisionScannersBackfills: API.OperationMethod<
   ListVisionScannersBackfillsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<ListVisionScannersBackfillsRequest>,
-  output: __S(1730, __c54, 2) as any as S.Schema<PaginatedReplayScannerBackfillList>,
+  input: __S(1760, __c55, 0) as any as S.Schema<ListVisionScannersBackfillsRequest>,
+  output: __S(1762, __c55, 2) as any as S.Schema<PaginatedReplayScannerBackfillList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3470,8 +3503,8 @@ export const listVisionScannersObservations: API.OperationMethod<
   ListVisionScannersObservationsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<ListVisionScannersObservationsRequest>,
-  output: __S(1568, __c49, 0) as any as S.Schema<PaginatedReplayObservationList>,
+  input: __S(1792, __c56, 0) as any as S.Schema<ListVisionScannersObservationsRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<PaginatedReplayObservationList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3487,10 +3520,10 @@ export const listVisionScannersObservationsSignalReports: API.OperationMethod<
   ListVisionScannersObservationsSignalReportsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<ListVisionScannersObservationsSignalReportsRequest>,
+  input: __S(1856, __c58, 0) as any as S.Schema<ListVisionScannersObservationsSignalReportsRequest>,
   output: __S(
-    1666,
-    __c52,
+    1698,
+    __c53,
     2,
   ) as any as S.Schema<ListVisionScannersObservationsSignalReportsResponse>,
   errors: [],
@@ -3508,8 +3541,8 @@ export const listVisionScannersScoutReports: API.OperationMethod<
   ListVisionScannersScoutReportsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<ListVisionScannersScoutReportsRequest>,
-  output: __S(1858, __c58, 2) as any as S.Schema<ListVisionScannersScoutReportsResponse>,
+  input: __S(1888, __c59, 0) as any as S.Schema<ListVisionScannersScoutReportsRequest>,
+  output: __S(1890, __c59, 2) as any as S.Schema<ListVisionScannersScoutReportsResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3525,8 +3558,8 @@ export const listVisionScannersScoutsTemplates: API.OperationMethod<
   ListVisionScannersScoutsTemplatesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<ListVisionScannersScoutsTemplatesRequest>,
-  output: __S(1891, __c59, 3) as any as S.Schema<ListVisionScannersScoutsTemplatesResponse>,
+  input: __S(1920, __c60, 0) as any as S.Schema<ListVisionScannersScoutsTemplatesRequest>,
+  output: __S(1923, __c60, 3) as any as S.Schema<ListVisionScannersScoutsTemplatesResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3542,8 +3575,8 @@ export const listVisionScannersVariants: API.OperationMethod<
   ListVisionScannersVariantsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<ListVisionScannersVariantsRequest>,
-  output: __S(1930, __c60, 10) as any as S.Schema<ExperimentVariantsReadout>,
+  input: __S(1952, __c61, 0) as any as S.Schema<ListVisionScannersVariantsRequest>,
+  output: __S(1962, __c61, 10) as any as S.Schema<ExperimentVariantsReadout>,
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3559,8 +3592,8 @@ export const listVisionThemes: API.OperationMethod<
   ListVisionThemesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<ListVisionThemesRequest>,
-  output: __S(1505, __c47, 1) as any as S.Schema<ClusterList>,
+  input: __S(1984, __c62, 0) as any as S.Schema<ListVisionThemesRequest>,
+  output: __S(1537, __c48, 1) as any as S.Schema<ClusterList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3575,8 +3608,8 @@ export const updateVisionAlert: API.OperationMethod<
   UpdateVisionAlertError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<UpdateVisionAlertRequest>,
-  output: __S(1280, __c40, 0) as any as S.Schema<VisionAlertConfiguration>,
+  input: __S(2016, __c63, 0) as any as S.Schema<UpdateVisionAlertRequest>,
+  output: __S(1312, __c41, 0) as any as S.Schema<VisionAlertConfiguration>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3591,8 +3624,8 @@ export const updateVisionAlertsPartial: API.OperationMethod<
   UpdateVisionAlertsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<UpdateVisionAlertsPartialRequest>,
-  output: __S(1280, __c40, 0) as any as S.Schema<VisionAlertConfiguration>,
+  input: __S(2048, __c64, 0) as any as S.Schema<UpdateVisionAlertsPartialRequest>,
+  output: __S(1312, __c41, 0) as any as S.Schema<VisionAlertConfiguration>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3608,8 +3641,8 @@ export const updateVisionScannersPartial: API.OperationMethod<
   UpdateVisionScannersPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<UpdateVisionScannersPartialRequest>,
-  output: __S(64, __c2, 0) as any as S.Schema<ReplayScannerOutput>,
+  input: __S(2080, __c65, 0) as any as S.Schema<UpdateVisionScannersPartialRequest>,
+  output: __S(96, __c3, 0) as any as S.Schema<ReplayScannerOutput>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3625,8 +3658,8 @@ export const visionAlertsDestinationsDeleteCreate: API.OperationMethod<
   VisionAlertsDestinationsDeleteCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<VisionAlertsDestinationsDeleteCreateRequest>,
-  output: __S(2176, __c68, 0) as any as S.Schema<VisionAlertsDestinationsDeleteCreateResponse>,
+  input: __S(2112, __c66, 0) as any as S.Schema<VisionAlertsDestinationsDeleteCreateRequest>,
+  output: __S(2208, __c69, 0) as any as S.Schema<VisionAlertsDestinationsDeleteCreateResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3641,8 +3674,8 @@ export const visionAlertsDestroy: API.OperationMethod<
   VisionAlertsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<VisionAlertsDestroyRequest>,
-  output: __S(2176, __c68, 0) as any as S.Schema<VisionAlertsDestroyResponse>,
+  input: __S(2144, __c67, 0) as any as S.Schema<VisionAlertsDestroyRequest>,
+  output: __S(2208, __c69, 0) as any as S.Schema<VisionAlertsDestroyResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3658,8 +3691,8 @@ export const visionAlertsResetCreate: API.OperationMethod<
   VisionAlertsResetCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<VisionAlertsResetCreateRequest>,
-  output: __S(1280, __c40, 0) as any as S.Schema<VisionAlertConfiguration>,
+  input: __S(2240, __c70, 0) as any as S.Schema<VisionAlertsResetCreateRequest>,
+  output: __S(1312, __c41, 0) as any as S.Schema<VisionAlertConfiguration>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3675,8 +3708,8 @@ export const visionObservationsCreateTaskCreate: API.OperationMethod<
   VisionObservationsCreateTaskCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<VisionObservationsCreateTaskCreateRequest>,
-  output: __S(2272, __c71, 0) as any as S.Schema<CreateTaskFromObservationResponse>,
+  input: __S(2272, __c71, 0) as any as S.Schema<VisionObservationsCreateTaskCreateRequest>,
+  output: __S(2304, __c72, 0) as any as S.Schema<CreateTaskFromObservationResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3692,8 +3725,8 @@ export const visionObservationsFeedDismissalDestroy: API.OperationMethod<
   VisionObservationsFeedDismissalDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<VisionObservationsFeedDismissalDestroyRequest>,
-  output: __S(2176, __c68, 0) as any as S.Schema<VisionObservationsFeedDismissalDestroyResponse>,
+  input: __S(2336, __c73, 0) as any as S.Schema<VisionObservationsFeedDismissalDestroyRequest>,
+  output: __S(2208, __c69, 0) as any as S.Schema<VisionObservationsFeedDismissalDestroyResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3709,8 +3742,8 @@ export const visionObservationsLabelDestroy: API.OperationMethod<
   VisionObservationsLabelDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c73, 0) as any as S.Schema<VisionObservationsLabelDestroyRequest>,
-  output: __S(2176, __c68, 0) as any as S.Schema<VisionObservationsLabelDestroyResponse>,
+  input: __S(2368, __c74, 0) as any as S.Schema<VisionObservationsLabelDestroyRequest>,
+  output: __S(2208, __c69, 0) as any as S.Schema<VisionObservationsLabelDestroyResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3726,8 +3759,8 @@ export const visionObservationsRetryCreate: API.OperationMethod<
   VisionObservationsRetryCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c74, 0) as any as S.Schema<VisionObservationsRetryCreateRequest>,
-  output: __S(2176, __c68, 0) as any as S.Schema<VisionObservationsRetryCreateResponse>,
+  input: __S(2400, __c75, 0) as any as S.Schema<VisionObservationsRetryCreateRequest>,
+  output: __S(2208, __c69, 0) as any as S.Schema<VisionObservationsRetryCreateResponse>,
   errors: [Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3743,8 +3776,8 @@ export const visionObservationsSearchRetrieve: API.OperationMethod<
   VisionObservationsSearchRetrieveError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c75, 0) as any as S.Schema<VisionObservationsSearchRetrieveRequest>,
-  output: __S(2403, __c75, 3) as any as S.Schema<ObservationSearchResponse>,
+  input: __S(2432, __c76, 0) as any as S.Schema<VisionObservationsSearchRetrieveRequest>,
+  output: __S(2435, __c76, 3) as any as S.Schema<ObservationSearchResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3760,8 +3793,8 @@ export const visionObservationsSearchSuggestionsRetrieve: API.OperationMethod<
   VisionObservationsSearchSuggestionsRetrieveError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c76, 0) as any as S.Schema<VisionObservationsSearchSuggestionsRetrieveRequest>,
-  output: __S(2433, __c76, 1) as any as S.Schema<SearchSuggestionsResponse>,
+  input: __S(2464, __c77, 0) as any as S.Schema<VisionObservationsSearchSuggestionsRetrieveRequest>,
+  output: __S(2465, __c77, 1) as any as S.Schema<SearchSuggestionsResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3777,8 +3810,8 @@ export const visionObservationsSearchViewedCreate: API.OperationMethod<
   VisionObservationsSearchViewedCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<VisionObservationsSearchViewedCreateRequest>,
-  output: __S(2176, __c68, 0) as any as S.Schema<VisionObservationsSearchViewedCreateResponse>,
+  input: __S(2496, __c78, 0) as any as S.Schema<VisionObservationsSearchViewedCreateRequest>,
+  output: __S(2208, __c69, 0) as any as S.Schema<VisionObservationsSearchViewedCreateResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3794,8 +3827,8 @@ export const visionScannersBackfillsCancelCreate: API.OperationMethod<
   VisionScannersBackfillsCancelCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<VisionScannersBackfillsCancelCreateRequest>,
-  output: __S(160, __c5, 0) as any as S.Schema<ReplayScannerBackfill>,
+  input: __S(2528, __c79, 0) as any as S.Schema<VisionScannersBackfillsCancelCreateRequest>,
+  output: __S(192, __c6, 0) as any as S.Schema<ReplayScannerBackfill>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3811,8 +3844,8 @@ export const visionScannersBackfillsResumeCreate: API.OperationMethod<
   VisionScannersBackfillsResumeCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<VisionScannersBackfillsResumeCreateRequest>,
-  output: __S(160, __c5, 0) as any as S.Schema<ReplayScannerBackfill>,
+  input: __S(2560, __c80, 0) as any as S.Schema<VisionScannersBackfillsResumeCreateRequest>,
+  output: __S(192, __c6, 0) as any as S.Schema<ReplayScannerBackfill>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3828,8 +3861,8 @@ export const visionScannersBulkObserveCreate: API.OperationMethod<
   VisionScannersBulkObserveCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<VisionScannersBulkObserveCreateRequest>,
-  output: __S(2176, __c68, 0) as any as S.Schema<VisionScannersBulkObserveCreateResponse>,
+  input: __S(2656, __c83, 0) as any as S.Schema<VisionScannersBulkObserveCreateRequest>,
+  output: __S(2208, __c69, 0) as any as S.Schema<VisionScannersBulkObserveCreateResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3845,8 +3878,8 @@ export const visionScannersCreateDashboardCreate: API.OperationMethod<
   VisionScannersCreateDashboardCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<VisionScannersCreateDashboardCreateRequest>,
-  output: __S(2657, __c83, 1) as any as S.Schema<ScannerDashboardResponse>,
+  input: __S(2688, __c84, 0) as any as S.Schema<VisionScannersCreateDashboardCreateRequest>,
+  output: __S(2689, __c84, 1) as any as S.Schema<ScannerDashboardResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3862,8 +3895,8 @@ export const visionScannersDestroy: API.OperationMethod<
   VisionScannersDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c84, 0) as any as S.Schema<VisionScannersDestroyRequest>,
-  output: __S(2176, __c68, 0) as any as S.Schema<VisionScannersDestroyResponse>,
+  input: __S(2720, __c85, 0) as any as S.Schema<VisionScannersDestroyRequest>,
+  output: __S(2208, __c69, 0) as any as S.Schema<VisionScannersDestroyResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3879,8 +3912,8 @@ export const visionScannersDuplicateCreate: API.OperationMethod<
   VisionScannersDuplicateCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<VisionScannersDuplicateCreateRequest>,
-  output: __S(64, __c2, 0) as any as S.Schema<ReplayScannerOutput>,
+  input: __S(2752, __c86, 0) as any as S.Schema<VisionScannersDuplicateCreateRequest>,
+  output: __S(96, __c3, 0) as any as S.Schema<ReplayScannerOutput>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3896,8 +3929,8 @@ export const visionScannersObservationsCreateTaskCreate: API.OperationMethod<
   VisionScannersObservationsCreateTaskCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<VisionScannersObservationsCreateTaskCreateRequest>,
-  output: __S(2272, __c71, 0) as any as S.Schema<CreateTaskFromObservationResponse>,
+  input: __S(2784, __c87, 0) as any as S.Schema<VisionScannersObservationsCreateTaskCreateRequest>,
+  output: __S(2304, __c72, 0) as any as S.Schema<CreateTaskFromObservationResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3914,13 +3947,13 @@ export const visionScannersObservationsFeedDismissalDestroy: API.OperationMethod
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2784,
-    __c87,
+    2816,
+    __c88,
     0,
   ) as any as S.Schema<VisionScannersObservationsFeedDismissalDestroyRequest>,
   output: __S(
-    2176,
-    __c68,
+    2208,
+    __c69,
     0,
   ) as any as S.Schema<VisionScannersObservationsFeedDismissalDestroyResponse>,
   errors: [],
@@ -3938,8 +3971,8 @@ export const visionScannersObservationsLabelDestroy: API.OperationMethod<
   VisionScannersObservationsLabelDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<VisionScannersObservationsLabelDestroyRequest>,
-  output: __S(2176, __c68, 0) as any as S.Schema<VisionScannersObservationsLabelDestroyResponse>,
+  input: __S(2848, __c89, 0) as any as S.Schema<VisionScannersObservationsLabelDestroyRequest>,
+  output: __S(2208, __c69, 0) as any as S.Schema<VisionScannersObservationsLabelDestroyResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3955,8 +3988,8 @@ export const visionScannersObservationsRetryCreate: API.OperationMethod<
   VisionScannersObservationsRetryCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<VisionScannersObservationsRetryCreateRequest>,
-  output: __S(2176, __c68, 0) as any as S.Schema<VisionScannersObservationsRetryCreateResponse>,
+  input: __S(2880, __c90, 0) as any as S.Schema<VisionScannersObservationsRetryCreateRequest>,
+  output: __S(2208, __c69, 0) as any as S.Schema<VisionScannersObservationsRetryCreateResponse>,
   errors: [Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3970,10 +4003,20 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          detail: S.String,
+        }),
+      ).annotate({ identifier: "ReplayVisionError" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           project_id: S.String.pipe(T.Label()),
           name: S.String,
           description: S.optional(S.String),
-          tags: S.optional(__S(1312, __c41, 0)),
+          tags: S.optional(__S(1344, __c42, 0)),
           scanner_type: S.String,
           goal: S.optional(S.NullOr(S.String)),
           creation_method: S.optional(S.NullOr(S.String)),
@@ -3989,14 +4032,14 @@ function __c0(j: number): any {
           model: S.String,
           enabled: S.optional(S.Boolean),
           emits_signals: S.optional(S.Boolean),
-          experiment_targeting: S.optional(S.NullOr(__S(32, __c1, 0))),
+          experiment_targeting: S.optional(S.NullOr(__S(64, __c2, 0))),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/projects/{project_id}/vision/scanners/", code: 200 }),
         ),
       ).annotate({ identifier: "CreateVisionScannerRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4007,7 +4050,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "ScannerExperimentTargeting" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4015,7 +4058,7 @@ function __c2(j: number): any {
           id: S.String,
           name: S.String,
           description: S.optional(S.String),
-          tags: S.optional(__S(1312, __c41, 0)),
+          tags: S.optional(__S(1344, __c42, 0)),
           scanner_type: S.String,
           goal: S.optional(S.NullOr(S.String)),
           scanner_config: S.Unknown,
@@ -4029,7 +4072,7 @@ function __c2(j: number): any {
           model: S.String,
           enabled: S.optional(S.Boolean),
           emits_signals: S.optional(S.Boolean),
-          experiment_targeting: S.optional(S.NullOr(__S(32, __c1, 0))),
+          experiment_targeting: S.optional(S.NullOr(__S(64, __c2, 0))),
           scanner_version: S.Number,
           estimated_monthly_observations: S.NullOr(S.Number),
           estimated_at: S.NullOr(S.String),
@@ -4047,14 +4090,14 @@ function __c2(j: number): any {
           filter_error: S.NullOr(S.String),
           unrunnable_reason: S.NullOr(S.String),
           created_at: S.String,
-          created_by: S.NullOr(__S(1217, __c38, 1)),
+          created_by: S.NullOr(__S(1249, __c39, 1)),
           updated_at: S.String,
           user_access_level: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "ReplayScannerOutput" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4085,7 +4128,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "AffectedCohortResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4105,7 +4148,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "CreateVisionScannersBackfillRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4122,14 +4165,14 @@ function __c5(j: number): any {
           failed_count: S.Number,
           ineligible_count: S.Number,
           in_flight_count: S.Number,
-          created_by: S.NullOr(__S(1217, __c38, 1)),
+          created_by: S.NullOr(__S(1249, __c39, 1)),
           created_at: S.String,
           finished_at: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "ReplayScannerBackfill" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4159,7 +4202,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "BackfillEstimateResponse" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4198,13 +4241,13 @@ function __c7(j: number): any {
       ).annotate({ identifier: "DraftScannerResponse" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           experiment_id: S.Number,
-          variants: S.optional(S.NullOr(__S(1312, __c41, 0))),
+          variants: S.optional(S.NullOr(__S(1344, __c42, 0))),
         }),
       ).annotate({ identifier: "EstimateExperimentScope" });
     case 1:
@@ -4216,8 +4259,8 @@ function __c8(j: number): any {
           sampling_mode: S.optional(S.String),
           scanner_id: S.optional(S.NullOr(S.String)),
           model: S.optional(S.String),
-          experiment_targeting: S.optional(S.NullOr(__S(32, __c1, 0))),
-          experiment: S.optional(S.NullOr(__S(256, __c8, 0))),
+          experiment_targeting: S.optional(S.NullOr(__S(64, __c2, 0))),
+          experiment: S.optional(S.NullOr(__S(288, __c9, 0))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4242,14 +4285,14 @@ function __c8(j: number): any {
       ).annotate({ identifier: "EstimateResponse" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           feed_load_id: S.String,
-          observation_ids: __S(1312, __c41, 0),
+          observation_ids: __S(1344, __c42, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4260,7 +4303,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "CreateVisionScannersHighlightFeedImpressionRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4271,7 +4314,7 @@ function __c10(j: number): any {
           scanner_type: S.optional(S.String),
           scanner_config: S.optional(S.Unknown),
           model: S.optional(S.String),
-          session_ids: __S(1312, __c41, 0),
+          session_ids: __S(1344, __c42, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4282,7 +4325,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "CreateVisionScannersInlineScanRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4301,7 +4344,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "CreateVisionScannersObservationsFeedDismissalRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4321,7 +4364,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "CreateVisionScannersObservationsLabelRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4339,7 +4382,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "CreateVisionScannersObservationsViewedRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4363,14 +4406,14 @@ function __c14(j: number): any {
       ).annotate({ identifier: "ObserveAlreadyScanned" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           integration_id: S.Number,
           channel: S.optional(S.NullOr(S.String)),
-          users: S.optional(S.NullOr(__S(1312, __c41, 0))),
+          users: S.optional(S.NullOr(__S(1344, __c42, 0))),
           thread_reports: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "SignalScoutSlackDestination" });
@@ -4383,8 +4426,8 @@ function __c15(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          slack: S.optional(S.NullOr(__S(480, __c15, 0))),
-          webhook: S.optional(S.NullOr(__S(481, __c15, 1))),
+          slack: S.optional(S.NullOr(__S(512, __c16, 0))),
+          webhook: S.optional(S.NullOr(__S(513, __c16, 1))),
           inbox: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "SignalScoutOutputDestinations" });
@@ -4392,19 +4435,19 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           model: S.optional(S.NullOr(S.String)),
-          tags: S.optional(__S(1312, __c41, 0)),
-          structured_output_schema: S.optional(S.NullOr(__S(1216, __c38, 0))),
-          mcp_gateway_server_ids: S.optional(__S(1312, __c41, 0)),
-          repositories: S.optional(__S(1312, __c41, 0)),
-          write_scopes: S.optional(__S(1312, __c41, 0)),
+          tags: S.optional(__S(1344, __c42, 0)),
+          structured_output_schema: S.optional(S.NullOr(__S(1248, __c39, 0))),
+          mcp_gateway_server_ids: S.optional(__S(1344, __c42, 0)),
+          repositories: S.optional(__S(1344, __c42, 0)),
+          write_scopes: S.optional(__S(1344, __c42, 0)),
           lifecycle_locked: S.optional(S.Boolean),
-          allowed_mcp_tools: S.optional(S.NullOr(__S(1312, __c41, 0))),
+          allowed_mcp_tools: S.optional(S.NullOr(__S(1344, __c42, 0))),
           tool_preset: S.optional(S.String),
           precheck_query: S.optional(S.NullOr(S.String)),
           enabled: S.optional(S.Boolean),
           emit: S.optional(S.Boolean),
           run_interval_minutes: S.optional(S.Number),
-          output_destinations: S.optional(__S(482, __c15, 2)),
+          output_destinations: S.optional(__S(514, __c16, 2)),
           network_access: S.optional(S.String),
           auto_pause_exempt: S.optional(S.Boolean),
           run_cron_schedule: S.optional(S.NullOr(S.String)),
@@ -4419,7 +4462,7 @@ function __c15(j: number): any {
           name: S.optional(S.String),
           description: S.String,
           body: S.String,
-          config: S.optional(__S(483, __c15, 3)),
+          config: S.optional(__S(515, __c16, 3)),
           variant_analysis: S.optional(S.Boolean),
           template_key: S.optional(S.String),
         }).pipe(
@@ -4448,8 +4491,8 @@ function __c15(j: number): any {
           display_name: S.optional(S.String),
           scout_origin: S.String,
           scout_role: S.String,
-          deprecation: S.NullOr(__S(485, __c15, 5)),
-          owners: __S(512, __c16, 0),
+          deprecation: S.NullOr(__S(517, __c16, 5)),
+          owners: __S(544, __c17, 0),
           enabled: S.Boolean,
           status: S.String,
           pause_reason: S.NullOr(S.String),
@@ -4457,15 +4500,15 @@ function __c15(j: number): any {
           emit: S.Boolean,
           run_interval_minutes: S.Number,
           run_cron_schedule: S.NullOr(S.String),
-          output_destinations: __S(482, __c15, 2),
-          structured_output_schema: S.NullOr(__S(1216, __c38, 0)),
+          output_destinations: __S(514, __c16, 2),
+          structured_output_schema: S.NullOr(__S(1248, __c39, 0)),
           network_access: S.String,
           model: S.NullOr(S.String),
-          mcp_gateway_server_ids: __S(1312, __c41, 0),
-          repositories: S.optional(__S(1312, __c41, 0)),
-          write_scopes: __S(1312, __c41, 0),
+          mcp_gateway_server_ids: __S(1344, __c42, 0),
+          repositories: S.optional(__S(1344, __c42, 0)),
+          write_scopes: __S(1344, __c42, 0),
           lifecycle_locked: S.Boolean,
-          allowed_mcp_tools: S.NullOr(__S(1312, __c41, 0)),
+          allowed_mcp_tools: S.NullOr(__S(1344, __c42, 0)),
           tool_preset: S.NullOr(S.String),
           precheck_query: S.NullOr(S.String),
           precheck_disabled: S.Boolean,
@@ -4477,9 +4520,9 @@ function __c15(j: number): any {
           last_run_at: S.NullOr(S.String),
           consecutive_failure_count: S.Number,
           status_changed_at: S.NullOr(S.String),
-          status_changed_by: S.NullOr(__S(1217, __c38, 1)),
+          status_changed_by: S.NullOr(__S(1249, __c39, 1)),
           auto_pause_exempt: S.Boolean,
-          tags: S.optional(__S(1312, __c41, 0)),
+          tags: S.optional(__S(1344, __c42, 0)),
           source_product: S.NullOr(S.String),
           source_id: S.NullOr(S.String),
           created_at: S.String,
@@ -4490,18 +4533,18 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           created: S.Boolean,
-          config: __S(486, __c15, 6),
+          config: __S(518, __c16, 6),
         }),
       ).annotate({ identifier: "ScannerScoutCreateResponse" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1217, __c38, 1));
+      return S.Array(__S(1249, __c39, 1));
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4531,7 +4574,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "VisionQuota" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4553,18 +4596,18 @@ function __c18(j: number): any {
         }),
       ).annotate({ identifier: "VisionSpendDay" });
     case 2:
-      return S.Array(__S(577, __c18, 1));
+      return S.Array(__S(609, __c19, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           period_start: S.String,
           period_end: S.String,
-          days: __S(578, __c18, 2),
+          days: __S(610, __c19, 2),
         }),
       ).annotate({ identifier: "VisionSpendSeries" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4582,7 +4625,7 @@ function __c19(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          hog_function_ids: __S(1312, __c41, 0),
+          hog_function_ids: __S(1344, __c42, 0),
           type: S.String,
           enabled: S.Boolean,
           slack_workspace_id: S.optional(S.Number),
@@ -4591,7 +4634,7 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "VisionAlertDestinationConfig" });
     case 2:
-      return S.Array(__S(609, __c19, 1));
+      return S.Array(__S(641, __c20, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -4600,7 +4643,7 @@ function __c19(j: number): any {
           name: S.optional(S.String),
           enabled: S.optional(S.Boolean),
           kind: S.String,
-          selection: S.optional(__S(1248, __c39, 0)),
+          selection: S.optional(__S(1280, __c40, 0)),
           metric: S.optional(S.String),
           direction: S.optional(S.String),
           threshold: S.optional(S.NullOr(S.Number)),
@@ -4610,7 +4653,7 @@ function __c19(j: number): any {
           evaluation_periods: S.optional(S.Number),
           datapoints_to_alarm: S.optional(S.Number),
           cooldown_minutes: S.optional(S.Number),
-          schedule_restriction: S.optional(S.NullOr(__S(1251, __c39, 3))),
+          schedule_restriction: S.optional(S.NullOr(__S(1283, __c40, 3))),
           snooze_until: S.optional(S.NullOr(S.String)),
           next_check_at: S.NullOr(S.String),
           last_notified_at: S.NullOr(S.String),
@@ -4618,14 +4661,14 @@ function __c19(j: number): any {
           consecutive_failures: S.Number,
           first_enabled_at: S.NullOr(S.String),
           created_at: S.String,
-          created_by: S.NullOr(__S(1217, __c38, 1)),
+          created_by: S.NullOr(__S(1249, __c39, 1)),
           updated_at: S.NullOr(S.String),
-          destinations: __S(610, __c19, 2),
+          destinations: __S(642, __c20, 2),
         }),
       ).annotate({ identifier: "VisionAlertConfigurationDetail" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4648,7 +4691,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "GetVisionGroupRequest" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4659,7 +4702,7 @@ function __c21(j: number): any {
         }),
       ).annotate({ identifier: "VariantCount" });
     case 1:
-      return S.Array(__S(672, __c21, 0));
+      return S.Array(__S(704, __c22, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -4673,14 +4716,14 @@ function __c21(j: number): any {
           previous_observation_count: S.Number,
           first_seen: S.String,
           last_seen: S.String,
-          example_observation_ids: __S(1312, __c41, 0),
+          example_observation_ids: __S(1344, __c42, 0),
           example_summary: S.String,
-          variants: __S(673, __c21, 1),
+          variants: __S(705, __c22, 1),
         }),
       ).annotate({ identifier: "Cluster" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4716,7 +4759,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "GetVisionObservationRequest" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Number);
@@ -4730,7 +4773,7 @@ function __c23(j: number): any {
           provider: S.String,
           emits_signals: S.Boolean,
           scanner_config: S.Unknown,
-          variant_sampling_rates: S.optional(S.NullOr(__S(736, __c23, 0))),
+          variant_sampling_rates: S.optional(S.NullOr(__S(768, __c24, 0))),
         }),
       ).annotate({ identifier: "ScannerSnapshot" });
     case 2:
@@ -4744,7 +4787,7 @@ function __c23(j: number): any {
         }),
       ).annotate({ identifier: "ReplayObservationMedia" });
     case 3:
-      return S.Array(__S(738, __c23, 2));
+      return S.Array(__S(770, __c24, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -4755,20 +4798,20 @@ function __c23(j: number): any {
           status: S.String,
           error_reason: S.String,
           workflow_id: S.String,
-          scanner_snapshot: S.NullOr(__S(737, __c23, 1)),
-          scanner_result: S.NullOr(__S(2944, __c92, 0)),
+          scanner_snapshot: S.NullOr(__S(769, __c24, 1)),
+          scanner_result: S.NullOr(__S(2976, __c93, 0)),
           prompt_question: S.NullOr(S.String),
           prompt_valence: S.NullOr(S.String),
           triggered_by: S.String,
-          triggered_by_user: S.NullOr(__S(1217, __c38, 1)),
+          triggered_by_user: S.NullOr(__S(1249, __c39, 1)),
           backfill_id: S.NullOr(S.String),
           distinct_id: S.NullOr(S.String),
           recording_subject_email: S.NullOr(S.String),
           previous_observation_id: S.NullOr(S.String),
           next_observation_id: S.NullOr(S.String),
-          label: S.NullOr(__S(2592, __c81, 0)),
+          label: S.NullOr(__S(2624, __c82, 0)),
           viewed: S.Boolean,
-          media: __S(739, __c23, 3),
+          media: __S(771, __c24, 3),
           summary_line: S.String,
           started_at: S.optional(S.NullOr(S.String)),
           completed_at: S.optional(S.NullOr(S.String)),
@@ -4777,7 +4820,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "ReplayObservation" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4796,7 +4839,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "GetVisionObservationsThumbnailRequest" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4813,7 +4856,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "GetVisionRequestRequest" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4830,7 +4873,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "GetVisionScannerRequest" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4848,7 +4891,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "GetVisionScannersBackfillRequest" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4865,12 +4908,12 @@ function __c28(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          creators: __S(512, __c16, 0),
+          creators: __S(544, __c17, 0),
         }),
       ).annotate({ identifier: "ScannerCreatorsResponse" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4906,23 +4949,23 @@ function __c29(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          observation: __S(740, __c23, 4),
-          reason: __S(929, __c29, 1),
+          observation: __S(772, __c24, 4),
+          reason: __S(961, __c30, 1),
         }),
       ).annotate({ identifier: "HighlightFeedItem" });
     case 3:
-      return S.Array(__S(930, __c29, 2));
+      return S.Array(__S(962, __c30, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          results: __S(931, __c29, 3),
+          results: __S(963, __c30, 3),
           has_more: S.Boolean,
           as_of: S.String,
         }),
       ).annotate({ identifier: "HighlightFeedResponse" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4953,7 +4996,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "ScannerImpact" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4990,7 +5033,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "GetVisionScannersObservationRequest" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5052,7 +5095,7 @@ function __c32(j: number): any {
         }),
       ).annotate({ identifier: "ObservationLabelDayCount" });
     case 4:
-      return S.Array(__S(1027, __c32, 3));
+      return S.Array(__S(1059, __c33, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -5073,15 +5116,15 @@ function __c32(j: number): any {
         }),
       ).annotate({ identifier: "ObservationVersionMarker" });
     case 6:
-      return S.Array(__S(1029, __c32, 5));
+      return S.Array(__S(1061, __c33, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           up_total: S.Number,
           down_total: S.Number,
-          by_day: __S(1028, __c32, 4),
-          by_rating_day: __S(1028, __c32, 4),
-          version_markers: __S(1030, __c32, 6),
+          by_day: __S(1060, __c33, 4),
+          by_rating_day: __S(1060, __c33, 4),
+          version_markers: __S(1062, __c33, 6),
         }),
       ).annotate({ identifier: "ObservationLabelStats" });
     case 8:
@@ -5100,12 +5143,12 @@ function __c32(j: number): any {
         }),
       ).annotate({ identifier: "TagCount" });
     case 10:
-      return S.Array(__S(1033, __c32, 9));
+      return S.Array(__S(1065, __c33, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          fixed_ranked: __S(1034, __c32, 10),
-          freeform_ranked: __S(1034, __c32, 10),
+          fixed_ranked: __S(1066, __c33, 10),
+          freeform_ranked: __S(1066, __c33, 10),
           total_with_tags: S.Number,
         }),
       ).annotate({ identifier: "ClassifierStats" });
@@ -5126,32 +5169,32 @@ function __c32(j: number): any {
     case 14:
       return S.suspend(() =>
         S.Struct({
-          labels: __S(1312, __c41, 0),
-          counts: __S(1037, __c32, 13),
+          labels: __S(1344, __c42, 0),
+          counts: __S(1069, __c33, 13),
         }),
       ).annotate({ identifier: "ScorerHistogram" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          summary: S.NullOr(__S(1036, __c32, 12)),
-          histogram: S.NullOr(__S(1038, __c32, 14)),
+          summary: S.NullOr(__S(1068, __c33, 12)),
+          histogram: S.NullOr(__S(1070, __c33, 14)),
         }),
       ).annotate({ identifier: "ScorerStats" });
     case 16:
       return S.suspend(() =>
         S.Struct({
-          status_counts: __S(1025, __c32, 1),
-          coverage: __S(1026, __c32, 2),
-          labels: __S(1031, __c32, 7),
-          available_tags: __S(1312, __c41, 0),
-          monitor: S.NullOr(__S(1032, __c32, 8)),
-          classifier: S.NullOr(__S(1035, __c32, 11)),
-          scorer: S.NullOr(__S(1039, __c32, 15)),
+          status_counts: __S(1057, __c33, 1),
+          coverage: __S(1058, __c33, 2),
+          labels: __S(1063, __c33, 7),
+          available_tags: __S(1344, __c42, 0),
+          monitor: S.NullOr(__S(1064, __c33, 8)),
+          classifier: S.NullOr(__S(1067, __c33, 11)),
+          scorer: S.NullOr(__S(1071, __c33, 15)),
         }),
       ).annotate({ identifier: "ObservationStats" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5171,7 +5214,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "GetVisionScannersObservationsThumbnailRequest" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5189,7 +5232,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "GetVisionScannersScoutReportRequest" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5202,7 +5245,7 @@ function __c35(j: number): any {
         }),
       ).annotate({ identifier: "ReportChart" });
     case 1:
-      return S.Array(__S(1120, __c35, 0));
+      return S.Array(__S(1152, __c36, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -5211,12 +5254,12 @@ function __c35(j: number): any {
           filed_at: S.String,
           title: S.String,
           summary: S.String,
-          charts: __S(1121, __c35, 1),
+          charts: __S(1153, __c36, 1),
         }),
       ).annotate({ identifier: "ScoutReport" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5240,7 +5283,7 @@ function __c36(j: number): any {
         }),
       ).annotate({ identifier: "SelfDrivingReport" });
     case 2:
-      return S.Array(__S(1153, __c36, 1));
+      return S.Array(__S(1185, __c37, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -5249,7 +5292,7 @@ function __c36(j: number): any {
         }),
       ).annotate({ identifier: "SelfDrivingPullRequest" });
     case 4:
-      return S.Array(__S(1155, __c36, 3));
+      return S.Array(__S(1187, __c37, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -5257,13 +5300,13 @@ function __c36(j: number): any {
           reports_contributed: S.Number,
           prs_opened: S.Number,
           prs_merged: S.Number,
-          reports: __S(1154, __c36, 2),
-          pull_requests: __S(1156, __c36, 4),
+          reports: __S(1186, __c37, 2),
+          pull_requests: __S(1188, __c37, 4),
         }),
       ).annotate({ identifier: "ScannerSelfDrivingStats" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5273,7 +5316,7 @@ function __c37(j: number): any {
           name: S.optional(S.String),
           enabled: S.optional(S.Boolean),
           kind: S.String,
-          selection: S.optional(__S(1248, __c39, 0)),
+          selection: S.optional(__S(1280, __c40, 0)),
           metric: S.optional(S.String),
           direction: S.optional(S.String),
           threshold: S.optional(S.NullOr(S.Number)),
@@ -5282,7 +5325,7 @@ function __c37(j: number): any {
           evaluation_periods: S.optional(S.Number),
           datapoints_to_alarm: S.optional(S.Number),
           cooldown_minutes: S.optional(S.Number),
-          schedule_restriction: S.optional(S.NullOr(__S(1251, __c39, 3))),
+          schedule_restriction: S.optional(S.NullOr(__S(1283, __c40, 3))),
           snooze_until: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/projects/{project_id}/vision/alerts/", code: 200 }),
@@ -5290,7 +5333,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "CreateVisionAlertRequest" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
@@ -5304,19 +5347,19 @@ function __c38(j: number): any {
           last_name: S.optional(S.String),
           email: S.optional(S.String),
           is_email_verified: S.optional(S.NullOr(S.Boolean)),
-          hedgehog_config: S.optional(S.NullOr(__S(1216, __c38, 0))),
+          hedgehog_config: S.optional(S.NullOr(__S(1248, __c39, 0))),
           role_at_organization: S.optional(S.NullOr(S.Unknown)),
         }),
       ).annotate({ identifier: "UserBasic" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          verdict: S.optional(__S(1312, __c41, 0)),
-          tags: S.optional(__S(1312, __c41, 0)),
+          verdict: S.optional(__S(1344, __c42, 0)),
+          tags: S.optional(__S(1344, __c42, 0)),
           min_score: S.optional(S.Number),
           max_score: S.optional(S.Number),
         }),
@@ -5329,16 +5372,16 @@ function __c39(j: number): any {
         }),
       ).annotate({ identifier: "AlertScheduleRestrictionWindow" });
     case 2:
-      return S.Array(__S(1249, __c39, 1));
+      return S.Array(__S(1281, __c40, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          blocked_windows: S.optional(__S(1250, __c39, 2)),
+          blocked_windows: S.optional(__S(1282, __c40, 2)),
         }),
       ).annotate({ identifier: "AlertScheduleRestriction" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5348,7 +5391,7 @@ function __c40(j: number): any {
           name: S.optional(S.String),
           enabled: S.optional(S.Boolean),
           kind: S.String,
-          selection: S.optional(__S(1248, __c39, 0)),
+          selection: S.optional(__S(1280, __c40, 0)),
           metric: S.optional(S.String),
           direction: S.optional(S.String),
           threshold: S.optional(S.NullOr(S.Number)),
@@ -5358,7 +5401,7 @@ function __c40(j: number): any {
           evaluation_periods: S.optional(S.Number),
           datapoints_to_alarm: S.optional(S.Number),
           cooldown_minutes: S.optional(S.Number),
-          schedule_restriction: S.optional(S.NullOr(__S(1251, __c39, 3))),
+          schedule_restriction: S.optional(S.NullOr(__S(1283, __c40, 3))),
           snooze_until: S.optional(S.NullOr(S.String)),
           next_check_at: S.NullOr(S.String),
           last_notified_at: S.NullOr(S.String),
@@ -5366,19 +5409,19 @@ function __c40(j: number): any {
           consecutive_failures: S.Number,
           first_enabled_at: S.NullOr(S.String),
           created_at: S.String,
-          created_by: S.NullOr(__S(1217, __c38, 1)),
+          created_by: S.NullOr(__S(1249, __c39, 1)),
           updated_at: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "VisionAlertConfiguration" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5402,11 +5445,11 @@ function __c42(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          monitor: __S(1345, __c42, 1),
-          classifier: __S(1345, __c42, 1),
-          scorer: __S(1345, __c42, 1),
-          summarizer: __S(1345, __c42, 1),
-          experiment: __S(1345, __c42, 1),
+          monitor: __S(1377, __c43, 1),
+          classifier: __S(1377, __c43, 1),
+          scorer: __S(1377, __c43, 1),
+          summarizer: __S(1377, __c43, 1),
+          experiment: __S(1377, __c43, 1),
         }),
       ).annotate({ identifier: "ScannerStatsByType" });
     case 3:
@@ -5414,12 +5457,12 @@ function __c42(j: number): any {
         S.Struct({
           total: S.Number,
           enabled: S.Number,
-          by_type: __S(1346, __c42, 2),
+          by_type: __S(1378, __c43, 2),
         }),
       ).annotate({ identifier: "ScannerStatsResponse" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5439,7 +5482,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "GetVisionThemeRequest" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5453,19 +5496,19 @@ function __c44(j: number): any {
         ),
       ).annotate({ identifier: "ListVisionAlertsRequest" });
     case 1:
-      return S.Array(__S(1280, __c40, 0));
+      return S.Array(__S(1312, __c41, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(1409, __c44, 1),
+          results: __S(1441, __c45, 1),
         }),
       ).annotate({ identifier: "PaginatedVisionAlertConfigurationList" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5497,19 +5540,19 @@ function __c45(j: number): any {
         }),
       ).annotate({ identifier: "VisionAlertEvent" });
     case 2:
-      return S.Array(__S(1441, __c45, 1));
+      return S.Array(__S(1473, __c46, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(1442, __c45, 2),
+          results: __S(1474, __c46, 2),
         }),
       ).annotate({ identifier: "PaginatedVisionAlertEventList" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5530,20 +5573,20 @@ function __c46(j: number): any {
       ).annotate({ identifier: "ListVisionGroupsRequest" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(674, __c21, 2));
+      return S.Array(__S(706, __c22, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          results: __S(1504, __c47, 0),
+          results: __S(1536, __c48, 0),
           has_more: S.Boolean,
         }),
       ).annotate({ identifier: "ClusterList" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5563,7 +5606,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "ListVisionObservationsRequest" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5571,18 +5614,18 @@ function __c49(j: number): any {
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(1600, __c50, 0),
+          results: __S(1632, __c51, 0),
         }),
       ).annotate({ identifier: "PaginatedReplayObservationList" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(740, __c23, 4));
+      return S.Array(__S(772, __c24, 4));
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5599,7 +5642,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "ListVisionObservationsSignalReportsRequest" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5611,14 +5654,14 @@ function __c52(j: number): any {
         }),
       ).annotate({ identifier: "ObservationSignalReport" });
     case 1:
-      return S.Array(__S(1664, __c52, 0));
+      return S.Array(__S(1696, __c53, 0));
     case 2:
-      return S.suspend(() => __S(1665, __c52, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1697, __c53, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListVisionObservationsSignalReportsResponse",
       });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5639,19 +5682,19 @@ function __c53(j: number): any {
         ),
       ).annotate({ identifier: "ListVisionScannersRequest" });
     case 1:
-      return S.Array(__S(64, __c2, 0));
+      return S.Array(__S(96, __c3, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(1697, __c53, 1),
+          results: __S(1729, __c54, 1),
         }),
       ).annotate({ identifier: "PaginatedReplayScannerListOutput" });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5669,19 +5712,19 @@ function __c54(j: number): any {
         ),
       ).annotate({ identifier: "ListVisionScannersBackfillsRequest" });
     case 1:
-      return S.Array(__S(160, __c5, 0));
+      return S.Array(__S(192, __c6, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(1729, __c54, 1),
+          results: __S(1761, __c55, 1),
         }),
       ).annotate({ identifier: "PaginatedReplayScannerBackfillList" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5719,7 +5762,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "ListVisionScannersObservationsRequest" });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5742,12 +5785,12 @@ function __c56(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          hog_function_ids: __S(1312, __c41, 0),
+          hog_function_ids: __S(1344, __c42, 0),
         }),
       ).annotate({ identifier: "VisionAlertDestinationResponse" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5784,7 +5827,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "ListVisionScannersObservationsSignalReportsRequest" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5800,14 +5843,14 @@ function __c58(j: number): any {
         ),
       ).annotate({ identifier: "ListVisionScannersScoutReportsRequest" });
     case 1:
-      return S.Array(__S(1122, __c35, 2));
+      return S.Array(__S(1154, __c36, 2));
     case 2:
-      return S.suspend(() => __S(1857, __c58, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1889, __c59, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListVisionScannersScoutReportsResponse",
       });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5834,14 +5877,14 @@ function __c59(j: number): any {
         }),
       ).annotate({ identifier: "ScannerScoutTemplate" });
     case 2:
-      return S.Array(__S(1889, __c59, 1));
+      return S.Array(__S(1921, __c60, 1));
     case 3:
-      return S.suspend(() => __S(1890, __c59, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1922, __c60, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListVisionScannersScoutsTemplatesResponse",
       });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5883,11 +5926,11 @@ function __c60(j: number): any {
           statement: S.String,
           count: S.Number,
           read: S.NullOr(S.Number),
-          example_observation_ids: __S(1312, __c41, 0),
+          example_observation_ids: __S(1344, __c42, 0),
         }),
       ).annotate({ identifier: "VariantAnalysisLine" });
     case 4:
-      return S.Array(__S(1923, __c60, 3));
+      return S.Array(__S(1955, __c61, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -5897,23 +5940,23 @@ function __c60(j: number): any {
           median_session_duration_s: S.NullOr(S.Number),
           sampling_rate: S.NullOr(S.Number),
           analysis_observations: S.NullOr(S.Number),
-          digest: S.NullOr(__S(1924, __c60, 4)),
-          latest_observations: __S(1600, __c50, 0),
+          digest: S.NullOr(__S(1956, __c61, 4)),
+          latest_observations: __S(1632, __c51, 0),
         }),
       ).annotate({ identifier: "VariantReadout" });
     case 6:
-      return S.Array(__S(1925, __c60, 5));
+      return S.Array(__S(1957, __c61, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           theme: S.String,
           statement: S.String,
-          counts: __S(736, __c23, 0),
-          read: __S(736, __c23, 0),
+          counts: __S(768, __c24, 0),
+          read: __S(768, __c24, 0),
         }),
       ).annotate({ identifier: "VariantAnalysisDifference" });
     case 8:
-      return S.Array(__S(1927, __c60, 7));
+      return S.Array(__S(1959, __c61, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -5927,17 +5970,17 @@ function __c60(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          experiment: S.NullOr(__S(1921, __c60, 1)),
-          window: __S(1922, __c60, 2),
-          variants: __S(1926, __c60, 6),
-          differences: S.NullOr(__S(1928, __c60, 8)),
+          experiment: S.NullOr(__S(1953, __c61, 1)),
+          window: __S(1954, __c61, 2),
+          variants: __S(1958, __c61, 6),
+          differences: S.NullOr(__S(1960, __c61, 8)),
           unattributed_count: S.Number,
-          analysis: S.NullOr(__S(1929, __c60, 9)),
+          analysis: S.NullOr(__S(1961, __c61, 9)),
         }),
       ).annotate({ identifier: "ExperimentVariantsReadout" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5955,7 +5998,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "ListVisionThemesRequest" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5966,7 +6009,7 @@ function __c62(j: number): any {
           name: S.optional(S.String),
           enabled: S.optional(S.Boolean),
           kind: S.String,
-          selection: S.optional(__S(1248, __c39, 0)),
+          selection: S.optional(__S(1280, __c40, 0)),
           metric: S.optional(S.String),
           direction: S.optional(S.String),
           threshold: S.optional(S.NullOr(S.Number)),
@@ -5975,7 +6018,7 @@ function __c62(j: number): any {
           evaluation_periods: S.optional(S.Number),
           datapoints_to_alarm: S.optional(S.Number),
           cooldown_minutes: S.optional(S.Number),
-          schedule_restriction: S.optional(S.NullOr(__S(1251, __c39, 3))),
+          schedule_restriction: S.optional(S.NullOr(__S(1283, __c40, 3))),
           snooze_until: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({
@@ -5987,7 +6030,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "UpdateVisionAlertRequest" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5998,7 +6041,7 @@ function __c63(j: number): any {
           name: S.optional(S.String),
           enabled: S.optional(S.Boolean),
           kind: S.optional(S.String),
-          selection: S.optional(__S(1248, __c39, 0)),
+          selection: S.optional(__S(1280, __c40, 0)),
           metric: S.optional(S.String),
           direction: S.optional(S.String),
           threshold: S.optional(S.NullOr(S.Number)),
@@ -6007,7 +6050,7 @@ function __c63(j: number): any {
           evaluation_periods: S.optional(S.Number),
           datapoints_to_alarm: S.optional(S.Number),
           cooldown_minutes: S.optional(S.Number),
-          schedule_restriction: S.optional(S.NullOr(__S(1251, __c39, 3))),
+          schedule_restriction: S.optional(S.NullOr(__S(1283, __c40, 3))),
           snooze_until: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({
@@ -6019,7 +6062,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "UpdateVisionAlertsPartialRequest" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6028,7 +6071,7 @@ function __c64(j: number): any {
           id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
           description: S.optional(S.String),
-          tags: S.optional(__S(1312, __c41, 0)),
+          tags: S.optional(__S(1344, __c42, 0)),
           scanner_type: S.optional(S.String),
           goal: S.optional(S.NullOr(S.String)),
           creation_method: S.optional(S.NullOr(S.String)),
@@ -6044,7 +6087,7 @@ function __c64(j: number): any {
           model: S.optional(S.String),
           enabled: S.optional(S.Boolean),
           emits_signals: S.optional(S.Boolean),
-          experiment_targeting: S.optional(S.NullOr(__S(32, __c1, 0))),
+          experiment_targeting: S.optional(S.NullOr(__S(64, __c2, 0))),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6055,14 +6098,14 @@ function __c64(j: number): any {
       ).annotate({ identifier: "UpdateVisionScannersPartialRequest" });
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          hog_function_ids: __S(1312, __c41, 0),
+          hog_function_ids: __S(1344, __c42, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6073,7 +6116,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "VisionAlertsDestinationsDeleteCreateRequest" });
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6090,7 +6133,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "VisionAlertsDestroyRequest" });
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6108,7 +6151,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "CreateVisionObservationsFeedDismissalRequest" });
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -6116,7 +6159,7 @@ function __c68(j: number): any {
       });
   }
 }
-function __c69(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6133,7 +6176,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "VisionAlertsResetCreateRequest" });
   }
 }
-function __c70(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6150,7 +6193,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "VisionObservationsCreateTaskCreateRequest" });
   }
 }
-function __c71(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6160,7 +6203,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "CreateTaskFromObservationResponse" });
   }
 }
-function __c72(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6177,7 +6220,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "VisionObservationsFeedDismissalDestroyRequest" });
   }
 }
-function __c73(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6194,7 +6237,7 @@ function __c73(j: number): any {
       ).annotate({ identifier: "VisionObservationsLabelDestroyRequest" });
   }
 }
-function __c74(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6211,7 +6254,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "VisionObservationsRetryCreateRequest" });
   }
 }
-function __c75(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6237,24 +6280,24 @@ function __c75(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          observation: __S(740, __c23, 4),
+          observation: __S(772, __c24, 4),
           distance: S.Number,
           matched_content: S.String,
         }),
       ).annotate({ identifier: "ObservationSearchResult" });
     case 2:
-      return S.Array(__S(2401, __c75, 1));
+      return S.Array(__S(2433, __c76, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(2402, __c75, 2),
+          results: __S(2434, __c76, 2),
           truncated: S.Boolean,
           reranked: S.Boolean,
         }),
       ).annotate({ identifier: "ObservationSearchResponse" });
   }
 }
-function __c76(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6272,12 +6315,12 @@ function __c76(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          queries: __S(1312, __c41, 0),
+          queries: __S(1344, __c42, 0),
         }),
       ).annotate({ identifier: "SearchSuggestionsResponse" });
   }
 }
-function __c77(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6294,7 +6337,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "VisionObservationsSearchViewedCreateRequest" });
   }
 }
-function __c78(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6312,7 +6355,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "VisionScannersBackfillsCancelCreateRequest" });
   }
 }
-function __c79(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6330,7 +6373,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "VisionScannersBackfillsResumeCreateRequest" });
   }
 }
-function __c80(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6349,7 +6392,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "CreateVisionObservationsLabelRequest" });
   }
 }
-function __c81(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6360,14 +6403,14 @@ function __c81(j: number): any {
       ).annotate({ identifier: "ReplayObservationLabel" });
   }
 }
-function __c82(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          session_ids: __S(1312, __c41, 0),
+          session_ids: __S(1344, __c42, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6378,7 +6421,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "VisionScannersBulkObserveCreateRequest" });
   }
 }
-function __c83(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6403,7 +6446,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "ScannerDashboardResponse" });
   }
 }
-function __c84(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6420,7 +6463,7 @@ function __c84(j: number): any {
       ).annotate({ identifier: "VisionScannersDestroyRequest" });
   }
 }
-function __c85(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6437,7 +6480,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "VisionScannersDuplicateCreateRequest" });
   }
 }
-function __c86(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6455,7 +6498,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "VisionScannersObservationsCreateTaskCreateRequest" });
   }
 }
-function __c87(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6473,7 +6516,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "VisionScannersObservationsFeedDismissalDestroyRequest" });
   }
 }
-function __c88(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6491,7 +6534,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "VisionScannersObservationsLabelDestroyRequest" });
   }
 }
-function __c89(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6509,7 +6552,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "VisionScannersObservationsRetryCreateRequest" });
   }
 }
-function __c90(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6526,7 +6569,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "CreateVisionObservationsViewedRequest" });
   }
 }
-function __c91(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6542,9 +6585,9 @@ function __c91(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          session_ids: __S(1312, __c41, 0),
+          session_ids: __S(1344, __c42, 0),
           scanner_id: S.optional(S.String),
-          inline: S.optional(__S(2912, __c91, 0)),
+          inline: S.optional(__S(2944, __c92, 0)),
           idempotency_key: S.optional(S.String),
           reference: S.optional(S.String),
           wait_for_session_end: S.optional(S.Boolean),
@@ -6554,7 +6597,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "CreateVisionRequestRequest" });
   }
 }
-function __c92(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6567,7 +6610,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "ScannerResult" });
   }
 }
-function __c93(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6576,11 +6619,11 @@ function __c93(j: number): any {
           scan_outcome: S.NullOr(S.String),
           state: S.String,
           observation_id: S.NullOr(S.String),
-          scanner_result: S.NullOr(__S(2944, __c92, 0)),
+          scanner_result: S.NullOr(__S(2976, __c93, 0)),
         }),
       ).annotate({ identifier: "ObservationRequestSession" });
     case 1:
-      return S.Array(__S(2976, __c93, 0));
+      return S.Array(__S(3008, __c94, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -6589,7 +6632,7 @@ function __c93(j: number): any {
           scanner_id: S.NullOr(S.String),
           reference: S.String,
           created_at: S.String,
-          sessions: __S(2977, __c93, 1),
+          sessions: __S(3009, __c94, 1),
         }),
       ).annotate({ identifier: "ObservationRequest" });
   }

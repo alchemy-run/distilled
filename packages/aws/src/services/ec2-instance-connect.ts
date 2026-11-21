@@ -139,7 +139,7 @@ export class EC2InstanceUnavailableException
       /*@__PURE__*/ T.AwsQueryError({ code: "EC2InstanceUnavailable", httpResponseCode: 503 }),
       /*@__PURE__*/ T.HttpError(503),
     ),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InvalidArgsException
   extends /*@__PURE__*/ S.TaggedError<InvalidArgsException>()(
     "InvalidArgsException",
@@ -181,7 +181,7 @@ export class SerialConsoleSessionUnavailableException
       }),
       /*@__PURE__*/ T.HttpError(500),
     ),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class SerialConsoleSessionUnsupportedException
   extends /*@__PURE__*/ S.TaggedError<SerialConsoleSessionUnsupportedException>()(
     "SerialConsoleSessionUnsupportedException",
@@ -202,7 +202,7 @@ export class ServiceException
       /*@__PURE__*/ T.AwsQueryError({ code: "InternalServerError", httpResponseCode: 500 }),
       /*@__PURE__*/ T.HttpError(500),
     ),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
     "ThrottlingException",

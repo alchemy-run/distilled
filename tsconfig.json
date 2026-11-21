@@ -227,6 +227,12 @@
       "path": "./packages/vercel/tsconfig.scripts.json"
     },
     {
+      "path": "./packages/whatsapp/tsconfig.json"
+    },
+    {
+      "path": "./packages/whatsapp/tsconfig.scripts.json"
+    },
+    {
       "path": "./packages/whop/tsconfig.json"
     },
     {
@@ -562,6 +568,12 @@
       "path": "./packages/modrinth/tsconfig.scripts.json"
     },
     {
+      "path": "./packages/mux/tsconfig.json"
+    },
+    {
+      "path": "./packages/mux/tsconfig.scripts.json"
+    },
+    {
       "path": "./packages/namespacelabs/tsconfig.json"
     },
     {
@@ -585,6 +597,8 @@
     {
       "path": "./packages/opencode/tsconfig.scripts.json"
     },
+    { "path": "./packages/opensearch/tsconfig.json" },
+    { "path": "./packages/opensearch/tsconfig.scripts.json" },
     {
       "path": "./packages/growthbook/tsconfig.json"
     },
@@ -631,6 +645,12 @@
       "path": "./packages/stackit/tsconfig.scripts.json"
     },
     {
+      "path": "./packages/scaleway/tsconfig.json"
+    },
+    {
+      "path": "./packages/scaleway/tsconfig.scripts.json"
+    },
+    {
       "path": "./packages/daytona/tsconfig.json"
     },
     { "path": "./packages/daytona/tsconfig.test.json" },
@@ -655,6 +675,12 @@
     },
     {
       "path": "./packages/boat-dev/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/boxd/tsconfig.json"
+    },
+    {
+      "path": "./packages/boxd/tsconfig.scripts.json"
     },
     {
       "path": "./packages/notion/tsconfig.json"
@@ -683,6 +709,12 @@
     { "path": "./packages/starburst-galaxy/tsconfig.json" },
     { "path": "./packages/starburst-galaxy/tsconfig.scripts.json" },
     { "path": "./packages/clickhouse-cloud/tsconfig.json" },
-    { "path": "./packages/clickhouse-cloud/tsconfig.scripts.json" }
+    { "path": "./packages/clickhouse-cloud/tsconfig.scripts.json" },
+    { "path": "./packages/hydradb/tsconfig.json" },
+    { "path": "./packages/hydradb/tsconfig.scripts.json" },
+    { "path": "./packages/tinybird/tsconfig.json" },
+    { "path": "./packages/tinybird/tsconfig.scripts.json" },
+    { "path": "./packages/twitch/tsconfig.json" },
+    { "path": "./packages/twitch/tsconfig.scripts.json" }
   ]
 }
