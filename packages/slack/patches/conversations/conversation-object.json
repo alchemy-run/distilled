@@ -1,0 +1,205 @@
+{
+  "description": "The docs reference the conversation object as `{ \"schema\": \"conversation\" }`, which has no JSON twin, so every `channel` in a conversations.* response converted as an untyped Document. Model the documented conversation object (https://docs.slack.dev/reference/objects/conversation-object) and use it for the channel returned by conversations.create, .info, .rename, .join, .invite and each item of conversations.list. Only `id` is required: the object's other fields vary with the conversation type.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.slack.conversations#ConversationTopic",
+      "value": {
+        "type": "structure",
+        "members": {
+          "value": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The text."
+            }
+          },
+          "creator": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "User ID of the member who last set it."
+            }
+          },
+          "last_set": {
+            "target": "smithy.api#Long",
+            "traits": {
+              "smithy.api#documentation": "Unix time it was last set (0 when never)."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "A channel's topic or purpose."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.slack.conversations#ConversationPreviousNames",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.slack.conversations#Conversation",
+      "value": {
+        "type": "structure",
+        "members": {
+          "id": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "Conversation ID (`C\u2026` for channels, `G\u2026` for some private channels, `D\u2026` for DMs)."
+            }
+          },
+          "name": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Channel name, without the leading `#`. Absent on DMs."
+            }
+          },
+          "name_normalized": {
+            "target": "smithy.api#String"
+          },
+          "previous_names": {
+            "target": "com.slack.conversations#ConversationPreviousNames",
+            "traits": {
+              "smithy.api#documentation": "Names the channel had before a rename."
+            }
+          },
+          "created": {
+            "target": "smithy.api#Long",
+            "traits": {
+              "smithy.api#documentation": "Unix time the conversation was created."
+            }
+          },
+          "creator": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "User ID of the member who created it."
+            }
+          },
+          "updated": {
+            "target": "smithy.api#Long",
+            "traits": {
+              "smithy.api#documentation": "Unix time in milliseconds of the last change."
+            }
+          },
+          "is_channel": {
+            "target": "smithy.api#Boolean"
+          },
+          "is_group": {
+            "target": "smithy.api#Boolean"
+          },
+          "is_im": {
+            "target": "smithy.api#Boolean"
+          },
+          "is_mpim": {
+            "target": "smithy.api#Boolean"
+          },
+          "is_private": {
+            "target": "smithy.api#Boolean",
+            "traits": {
+              "smithy.api#documentation": "Whether the channel is private."
+            }
+          },
+          "is_archived": {
+            "target": "smithy.api#Boolean",
+            "traits": {
+              "smithy.api#documentation": "Whether the channel is archived."
+            }
+          },
+          "is_general": {
+            "target": "smithy.api#Boolean",
+            "traits": {
+              "smithy.api#documentation": "Whether this is the workspace's #general channel."
+            }
+          },
+          "is_shared": {
+            "target": "smithy.api#Boolean"
+          },
+          "is_ext_shared": {
+            "target": "smithy.api#Boolean"
+          },
+          "is_org_shared": {
+            "target": "smithy.api#Boolean"
+          },
+          "is_pending_ext_shared": {
+            "target": "smithy.api#Boolean"
+          },
+          "is_member": {
+            "target": "smithy.api#Boolean",
+            "traits": {
+              "smithy.api#documentation": "Whether the calling user or bot is a member."
+            }
+          },
+          "num_members": {
+            "target": "smithy.api#Integer",
+            "traits": {
+              "smithy.api#documentation": "Member count (with `include_num_members`)."
+            }
+          },
+          "context_team_id": {
+            "target": "smithy.api#String"
+          },
+          "unlinked": {
+            "target": "smithy.api#Integer"
+          },
+          "topic": {
+            "target": "com.slack.conversations#ConversationTopic",
+            "traits": {
+              "smithy.api#documentation": "The channel topic."
+            }
+          },
+          "purpose": {
+            "target": "com.slack.conversations#ConversationTopic",
+            "traits": {
+              "smithy.api#documentation": "The channel description (purpose)."
+            }
+          },
+          "properties": {
+            "target": "smithy.api#Document",
+            "traits": {
+              "smithy.api#documentation": "Channel properties (tabs, canvas, \u2026)."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "A conversation object: a channel, private channel, DM or group DM. See https://docs.slack.dev/reference/objects/conversation-object"
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.slack.conversations#ConversationsCreateResponse/members/channel/target",
+      "value": "com.slack.conversations#Conversation"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.slack.conversations#ConversationsInfoResponse/members/channel/target",
+      "value": "com.slack.conversations#Conversation"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.slack.conversations#ConversationsRenameResponse/members/channel/target",
+      "value": "com.slack.conversations#Conversation"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.slack.conversations#ConversationsJoinResponse/members/channel/target",
+      "value": "com.slack.conversations#Conversation"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.slack.conversations#ConversationsInviteResponse/members/channel/target",
+      "value": "com.slack.conversations#Conversation"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.slack.conversations#ConversationsListResponseChannelsList/member/target",
+      "value": "com.slack.conversations#Conversation"
+    }
+  ]
+}

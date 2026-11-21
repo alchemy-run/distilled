@@ -1,0 +1,87 @@
+{
+  "description": "The docs reference the bookmark object as `{ \"schema\": \"bookmark\" }`, which has no JSON twin, so bookmarks.add/.edit/.list converted it as an untyped Document. Model the fields the bookmarks.list example documents.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.slack.bookmarks#Bookmark",
+      "value": {
+        "type": "structure",
+        "members": {
+          "id": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Bookmark ID (`Bk\u2026`).",
+              "smithy.api#required": {}
+            }
+          },
+          "channel_id": {
+            "target": "smithy.api#String"
+          },
+          "title": {
+            "target": "smithy.api#String"
+          },
+          "link": {
+            "target": "smithy.api#String"
+          },
+          "emoji": {
+            "target": "smithy.api#String"
+          },
+          "icon_url": {
+            "target": "smithy.api#String"
+          },
+          "type": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "`link`, or a folder/file entity type."
+            }
+          },
+          "entity_id": {
+            "target": "smithy.api#String"
+          },
+          "date_created": {
+            "target": "smithy.api#Long"
+          },
+          "date_updated": {
+            "target": "smithy.api#Long"
+          },
+          "rank": {
+            "target": "smithy.api#String"
+          },
+          "last_updated_by_user_id": {
+            "target": "smithy.api#String"
+          },
+          "last_updated_by_team_id": {
+            "target": "smithy.api#String"
+          },
+          "shortcut_id": {
+            "target": "smithy.api#String"
+          },
+          "app_id": {
+            "target": "smithy.api#String"
+          },
+          "parent_id": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "A channel bookmark. See https://docs.slack.dev/reference/methods/bookmarks.list"
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.slack.bookmarks#BookmarksAddResponse/members/bookmark/target",
+      "value": "com.slack.bookmarks#Bookmark"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.slack.bookmarks#BookmarksEditResponse/members/bookmark/target",
+      "value": "com.slack.bookmarks#Bookmark"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.slack.bookmarks#BookmarksListResponseBookmarksList/member/target",
+      "value": "com.slack.bookmarks#Bookmark"
+    }
+  ]
+}

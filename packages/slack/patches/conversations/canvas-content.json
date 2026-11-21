@@ -1,0 +1,36 @@
+{
+  "description": "conversations.canvases.create takes the same `document_content` object as canvases.create (`{\"type\":\"markdown\",\"markdown\":\"\u2026\"}`), which converted as an untyped Document.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.slack.conversations#CanvasDocumentContent",
+      "value": {
+        "type": "structure",
+        "members": {
+          "type": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Always `markdown`.",
+              "smithy.api#required": {}
+            }
+          },
+          "markdown": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Canvas content as Slack-flavored markdown.",
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Canvas content. See https://docs.slack.dev/messaging/canvases/#canvas-formatting"
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.slack.conversations#CanvasesCreateRequest/members/document_content/target",
+      "value": "com.slack.conversations#CanvasDocumentContent"
+    }
+  ]
+}

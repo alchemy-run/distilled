@@ -388,10 +388,46 @@ export interface CreateUsergroupRequest {
   /** Configure this user group to show as a sidebar section for all group members. Note: Only relevant if group has 1 or more default channels added. */
   enable_section?: boolean | undefined;
 }
+export type UsergroupUserIds = Array<string>;
+export interface UsergroupPrefs {
+  /** Default channel IDs. */
+  channels?: UsergroupUserIds | undefined;
+  /** Default private channel IDs. */
+  groups?: UsergroupUserIds | undefined;
+}
+/** A user group. See https://docs.slack.dev/reference/objects/usergroup-object */
+export interface Usergroup {
+  /** User group ID (`S...`). */
+  id: string;
+  team_id?: string | undefined;
+  is_usergroup?: boolean | undefined;
+  is_subteam?: boolean | undefined;
+  /** Display name. */
+  name?: string | undefined;
+  description?: string | undefined;
+  /** Mention handle, without the `@`. */
+  handle?: string | undefined;
+  is_external?: boolean | undefined;
+  /** `admin`/`owner` for the built-in groups, otherwise absent. */
+  auto_type?: string | undefined;
+  date_create?: number | undefined;
+  date_update?: number | undefined;
+  /** Unix time the group was disabled (0 while enabled). */
+  date_delete?: number | undefined;
+  created_by?: string | undefined;
+  updated_by?: string | undefined;
+  deleted_by?: string | undefined;
+  /** Default channels and groups. */
+  prefs?: UsergroupPrefs | undefined;
+  /** Member user IDs (with `include_users`). */
+  users?: UsergroupUserIds | undefined;
+  user_count?: number | undefined;
+  channel_count?: number | undefined;
+}
 export interface CreateUsergroupResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
-  usergroup: unknown;
+  usergroup: Usergroup;
 }
 export interface DisableUsergroupRequest {
   /** Include the number of users in the User Group. */
@@ -404,7 +440,7 @@ export interface DisableUsergroupRequest {
 export interface DisableUsergroupResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
-  usergroup: unknown;
+  usergroup: Usergroup;
 }
 export interface EnableUsergroupRequest {
   /** Include the number of users in the User Group. */
@@ -417,7 +453,7 @@ export interface EnableUsergroupRequest {
 export interface EnableUsergroupResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
-  usergroup: unknown;
+  usergroup: Usergroup;
 }
 export interface ListUsergroupsRequest {
   /** Include the number of users in each User Group. */
@@ -429,7 +465,7 @@ export interface ListUsergroupsRequest {
   /** The user group's encoded team ID. Required if org token is used. */
   team_id?: string | undefined;
 }
-export type ListUsergroupsResponseUsergroupsList = Array<unknown>;
+export type ListUsergroupsResponseUsergroupsList = Array<Usergroup>;
 export interface ListUsergroupsResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
@@ -443,7 +479,7 @@ export interface ListUsersRequest {
   /** The user group's encoded team ID. Required if org token is used. */
   team_id?: string | undefined;
 }
-export type ListUsersResponseUsersList = Array<unknown>;
+export type ListUsersResponseUsersList = Array<string>;
 export interface ListUsersResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
@@ -470,7 +506,7 @@ export interface UpdateUserRequest {
 export interface UpdateUserResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
-  usergroup: unknown;
+  usergroup: Usergroup;
 }
 /** A comma separated string of encoded channel IDs for which the User Group uses as a default. */
 export type UpdateUsergroupRequestChannelsList = Array<string>;
@@ -501,7 +537,7 @@ export type UpdateUsergroupResponseChannelLimitUserIdsList = Array<string>;
 export interface UpdateUsergroupResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
-  usergroup: unknown;
+  usergroup: Usergroup;
   /** List of user IDs who would exceed their channel limit */
   channel_limit_user_ids?: UpdateUsergroupResponseChannelLimitUserIdsList | undefined;
 }
@@ -530,7 +566,7 @@ export const createUsergroup: API.OperationMethod<
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateUsergroupRequest>,
-  output: __S(2, __c1, 0) as any as S.Schema<CreateUsergroupResponse>,
+  output: __S(12, __c3, 0) as any as S.Schema<CreateUsergroupResponse>,
   errors: [
     BadHandle,
     DescriptionTooLong,
@@ -570,8 +606,8 @@ export const disableUsergroup: API.OperationMethod<
   DisableUsergroupError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6, __c3, 0) as any as S.Schema<DisableUsergroupRequest>,
-  output: __S(2, __c1, 0) as any as S.Schema<DisableUsergroupResponse>,
+  input: __S(16, __c4, 0) as any as S.Schema<DisableUsergroupRequest>,
+  output: __S(12, __c3, 0) as any as S.Schema<DisableUsergroupResponse>,
   errors: [
     MissingArgument,
     PermissionDenied,
@@ -599,8 +635,8 @@ export const enableUsergroup: API.OperationMethod<
   EnableUsergroupError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c4, 0) as any as S.Schema<EnableUsergroupRequest>,
-  output: __S(2, __c1, 0) as any as S.Schema<EnableUsergroupResponse>,
+  input: __S(20, __c5, 0) as any as S.Schema<EnableUsergroupRequest>,
+  output: __S(12, __c3, 0) as any as S.Schema<EnableUsergroupResponse>,
   errors: [MissingArgument, PermissionDenied, PlanUpgradeRequired, SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -622,8 +658,8 @@ export const listUsergroups: API.OperationMethod<
   ListUsergroupsError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10, __c5, 0) as any as S.Schema<ListUsergroupsRequest>,
-  output: __S(11, __c5, 1) as any as S.Schema<ListUsergroupsResponse>,
+  input: __S(24, __c6, 0) as any as S.Schema<ListUsergroupsRequest>,
+  output: __S(26, __c6, 2) as any as S.Schema<ListUsergroupsResponse>,
   errors: [
     InvalidCursor,
     InvalidTeam,
@@ -647,8 +683,8 @@ export const listUsers: API.OperationMethod<
   ListUsersError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14, __c7, 0) as any as S.Schema<ListUsersRequest>,
-  output: __S(15, __c7, 1) as any as S.Schema<ListUsersResponse>,
+  input: __S(28, __c7, 0) as any as S.Schema<ListUsersRequest>,
+  output: __S(29, __c7, 1) as any as S.Schema<ListUsersResponse>,
   errors: [InvalidCursor, NoSuchSubteam, PlanUpgradeRequired, SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -673,8 +709,8 @@ export const updateUser: API.OperationMethod<
   UpdateUserError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c8, 0) as any as S.Schema<UpdateUserRequest>,
-  output: __S(2, __c1, 0) as any as S.Schema<UpdateUserResponse>,
+  input: __S(32, __c8, 0) as any as S.Schema<UpdateUserRequest>,
+  output: __S(12, __c3, 0) as any as S.Schema<UpdateUserResponse>,
   errors: [
     CannotModifyRoleAdmin,
     FailedForSomeUsers,
@@ -707,8 +743,8 @@ export const updateUsergroup: API.OperationMethod<
   UpdateUsergroupError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18, __c9, 0) as any as S.Schema<UpdateUsergroupRequest>,
-  output: __S(19, __c9, 1) as any as S.Schema<UpdateUsergroupResponse>,
+  input: __S(36, __c9, 0) as any as S.Schema<UpdateUsergroupRequest>,
+  output: __S(37, __c9, 1) as any as S.Schema<UpdateUsergroupResponse>,
   errors: [
     MissingArgument,
     PaidTeamsOnly,
@@ -730,8 +766,8 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          channels: S.optional(__S(4, __c2, 0)),
-          additional_channels: S.optional(__S(4, __c2, 0)),
+          channels: S.optional(__S(4, __c1, 0)),
+          additional_channels: S.optional(__S(4, __c1, 0)),
           description: S.optional(S.String),
           handle: S.optional(S.String),
           include_count: S.optional(S.Boolean),
@@ -745,21 +781,56 @@ function __c0(j: number): any {
 function __c1(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ok: S.Boolean,
-          usergroup: S.Unknown,
-        }),
-      ).annotate({ identifier: "CreateUsergroupResponse" });
+      return S.Array(S.String);
   }
 }
 function __c2(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
+      return S.suspend(() =>
+        S.Struct({
+          channels: S.optional(__S(4, __c1, 0)),
+          groups: S.optional(__S(4, __c1, 0)),
+        }),
+      ).annotate({ identifier: "UsergroupPrefs" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          team_id: S.optional(S.String),
+          is_usergroup: S.optional(S.Boolean),
+          is_subteam: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          handle: S.optional(S.String),
+          is_external: S.optional(S.Boolean),
+          auto_type: S.optional(S.String),
+          date_create: S.optional(S.Number),
+          date_update: S.optional(S.Number),
+          date_delete: S.optional(S.Number),
+          created_by: S.optional(S.String),
+          updated_by: S.optional(S.String),
+          deleted_by: S.optional(S.String),
+          prefs: S.optional(__S(8, __c2, 0)),
+          users: S.optional(__S(4, __c1, 0)),
+          user_count: S.optional(S.Number),
+          channel_count: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "Usergroup" });
   }
 }
 function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          usergroup: __S(9, __c2, 1),
+        }),
+      ).annotate({ identifier: "CreateUsergroupResponse" });
+  }
+}
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -771,7 +842,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "DisableUsergroupRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -783,7 +854,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "EnableUsergroupRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -795,18 +866,14 @@ function __c5(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/usergroups.list", code: 200 })),
       ).annotate({ identifier: "ListUsergroupsRequest" });
     case 1:
+      return S.Array(__S(9, __c2, 1));
+    case 2:
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          usergroups: __S(12, __c6, 0),
+          usergroups: __S(25, __c6, 1),
         }),
       ).annotate({ identifier: "ListUsergroupsResponse" });
-  }
-}
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Unknown);
   }
 }
 function __c7(j: number): any {
@@ -823,7 +890,7 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          users: __S(12, __c6, 0),
+          users: __S(4, __c1, 0),
         }),
       ).annotate({ identifier: "ListUsersResponse" });
   }
@@ -836,8 +903,8 @@ function __c8(j: number): any {
           include_count: S.optional(S.Boolean),
           team_id: S.optional(S.String),
           usergroup: S.String,
-          users: __S(4, __c2, 0),
-          additional_channels: S.optional(__S(4, __c2, 0)),
+          users: __S(4, __c1, 0),
+          additional_channels: S.optional(__S(4, __c1, 0)),
           is_shared: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/usergroups.users.update", code: 200 })),
       ).annotate({ identifier: "UpdateUserRequest" });
@@ -848,8 +915,8 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          channels: S.optional(__S(4, __c2, 0)),
-          additional_channels: S.optional(__S(4, __c2, 0)),
+          channels: S.optional(__S(4, __c1, 0)),
+          additional_channels: S.optional(__S(4, __c1, 0)),
           description: S.optional(S.String),
           handle: S.optional(S.String),
           include_count: S.optional(S.Boolean),
@@ -863,8 +930,8 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          usergroup: S.Unknown,
-          channel_limit_user_ids: S.optional(__S(4, __c2, 0)),
+          usergroup: __S(9, __c2, 1),
+          channel_limit_user_ids: S.optional(__S(4, __c1, 0)),
         }),
       ).annotate({ identifier: "UpdateUsergroupResponse" });
   }

@@ -255,11 +255,18 @@ export class UseSkillsApi
     [{ body: { "/error": "use_skills_api" } }],
   ) {}
 
+/** Canvas content. See https://docs.slack.dev/messaging/canvases/#canvas-formatting */
+export interface CanvasDocumentContent {
+  /** Always `markdown`. */
+  type: string;
+  /** Canvas content as Slack-flavored markdown. */
+  markdown: string;
+}
 export interface CreateCanvaseRequest {
   /** Title of the newly created canvas */
   title?: string | undefined;
   /** Structure describing the type and value of the content to create. The markdown content is limited to 1 MiB (1,048,576 characters). */
-  document_content?: unknown | undefined;
+  document_content?: CanvasDocumentContent | undefined;
   /** Channel ID of the channel the canvas will be tabbed in. This is a required field for free teams. */
   channel_id?: string | undefined;
 }
@@ -301,8 +308,19 @@ export interface DeleteCanvaseResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
 }
+/** One canvas edit. See https://docs.slack.dev/reference/methods/canvases.edit */
+export interface CanvasChange {
+  /** `insert_after`, `insert_before`, `insert_at_start`, `insert_at_end`, `replace`, `delete`, or `rename`. */
+  operation: string;
+  /** Section to act on (`canvases.sections.lookup`); omit to act on the whole canvas. */
+  section_id?: string | undefined;
+  /** Content for insert and replace operations. */
+  document_content?: CanvasDocumentContent | undefined;
+  /** New title for `rename`. */
+  title_content?: CanvasDocumentContent | undefined;
+}
 /** List of changes to apply on the specified canvas. The markdown content of each change is limited to 1 MiB (1,048,576 characters). */
-export type EditCanvaseRequestChangesList = Array<unknown>;
+export type EditCanvaseRequestChangesList = Array<CanvasChange>;
 export interface EditCanvaseRequest {
   /** Encoded ID of the canvas */
   canvas_id: string;
@@ -420,8 +438,8 @@ export const deleteAccess: API.OperationMethod<
   DeleteAccessError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c1, 0) as any as S.Schema<DeleteAccessRequest>,
-  output: __S(16, __c4, 0) as any as S.Schema<DeleteAccessResponse>,
+  input: __S(8, __c2, 0) as any as S.Schema<DeleteAccessRequest>,
+  output: __S(17, __c4, 1) as any as S.Schema<DeleteAccessResponse>,
   errors: [
     CanvasDisabledUserTeam,
     CanvasNotFound,
@@ -484,7 +502,7 @@ export const editCanvase: API.OperationMethod<
   EditCanvaseError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<EditCanvaseRequest>,
+  input: __S(30, __c7, 2) as any as S.Schema<EditCanvaseRequest>,
   output: __S(24, __c6, 0) as any as S.Schema<EditCanvaseResponse>,
   errors: [
     CanvasDisabledUserTeam,
@@ -559,7 +577,7 @@ export const setAccess: API.OperationMethod<
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c10, 0) as any as S.Schema<SetAccessRequest>,
-  output: __S(16, __c4, 0) as any as S.Schema<SetAccessResponse>,
+  output: __S(17, __c4, 1) as any as S.Schema<SetAccessResponse>,
   errors: [
     CanvasDisabledUserTeam,
     CanvasNotFound,
@@ -584,7 +602,7 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           title: S.optional(S.String),
-          document_content: S.optional(S.Unknown),
+          document_content: S.optional(__S(4, __c1, 0)),
           channel_id: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/canvases.create", code: 200 })),
       ).annotate({ identifier: "CreateCanvaseRequest" });
@@ -602,17 +620,22 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          canvas_id: S.String,
-          channel_ids: S.optional(__S(8, __c2, 0)),
-          user_ids: S.optional(__S(12, __c3, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/canvases.access.delete", code: 200 })),
-      ).annotate({ identifier: "DeleteAccessRequest" });
+          type: S.String,
+          markdown: S.String,
+        }),
+      ).annotate({ identifier: "CanvasDocumentContent" });
   }
 }
 function __c2(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.Unknown);
+      return S.suspend(() =>
+        S.Struct({
+          canvas_id: S.String,
+          channel_ids: S.optional(__S(16, __c4, 0)),
+          user_ids: S.optional(__S(12, __c3, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/canvases.access.delete", code: 200 })),
+      ).annotate({ identifier: "DeleteAccessRequest" });
   }
 }
 function __c3(j: number): any {
@@ -624,6 +647,8 @@ function __c3(j: number): any {
 function __c4(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.Unknown);
+    case 1:
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
@@ -658,8 +683,19 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          operation: S.String,
+          section_id: S.optional(S.String),
+          document_content: S.optional(__S(4, __c1, 0)),
+          title_content: S.optional(__S(4, __c1, 0)),
+        }),
+      ).annotate({ identifier: "CanvasChange" });
+    case 1:
+      return S.Array(__S(28, __c7, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
           canvas_id: S.String,
-          changes: __S(8, __c2, 0),
+          changes: __S(29, __c7, 1),
         }).pipe(T.Http({ method: "POST", uri: "/canvases.edit", code: 200 })),
       ).annotate({ identifier: "EditCanvaseRequest" });
   }
@@ -716,7 +752,7 @@ function __c10(j: number): any {
         S.Struct({
           canvas_id: S.String,
           access_level: S.String,
-          channel_ids: S.optional(__S(8, __c2, 0)),
+          channel_ids: S.optional(__S(16, __c4, 0)),
           user_ids: S.optional(__S(12, __c3, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/canvases.access.set", code: 200 })),
       ).annotate({ identifier: "SetAccessRequest" });

@@ -392,10 +392,31 @@ export interface AddBookmarkRequest {
   /** Id of this bookmark's parent */
   parent_id?: string | undefined;
 }
+/** A channel bookmark. See https://docs.slack.dev/reference/methods/bookmarks.list */
+export interface Bookmark {
+  /** Bookmark ID (`Bk...`). */
+  id: string;
+  channel_id?: string | undefined;
+  title?: string | undefined;
+  link?: string | undefined;
+  emoji?: string | undefined;
+  icon_url?: string | undefined;
+  /** `link`, or a folder/file entity type. */
+  type?: string | undefined;
+  entity_id?: string | undefined;
+  date_created?: number | undefined;
+  date_updated?: number | undefined;
+  rank?: string | undefined;
+  last_updated_by_user_id?: string | undefined;
+  last_updated_by_team_id?: string | undefined;
+  shortcut_id?: string | undefined;
+  app_id?: string | undefined;
+  parent_id?: string | undefined;
+}
 export interface AddBookmarkResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
-  bookmark: unknown;
+  bookmark: Bookmark;
 }
 export interface EditBookmarkRequest {
   /** Channel to update bookmark in. Required for public channels. */
@@ -412,13 +433,13 @@ export interface EditBookmarkRequest {
 export interface EditBookmarkResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
-  bookmark: unknown;
+  bookmark: Bookmark;
 }
 export interface ListBookmarksRequest {
   /** Channel to list bookmarks in. Required for public channels. */
   channel_id?: string | undefined;
 }
-export type ListBookmarksResponseBookmarksList = Array<unknown>;
+export type ListBookmarksResponseBookmarksList = Array<Bookmark>;
 export interface ListBookmarksResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
@@ -526,7 +547,7 @@ export const editBookmark: API.OperationMethod<
   EditBookmarkError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<EditBookmarkRequest>,
+  input: __S(12, __c3, 0) as any as S.Schema<EditBookmarkRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<EditBookmarkResponse>,
   errors: [
     AccessDenied,
@@ -558,8 +579,8 @@ export const listBookmarks: API.OperationMethod<
   ListBookmarksError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<ListBookmarksRequest>,
-  output: __S(14, __c3, 2) as any as S.Schema<ListBookmarksResponse>,
+  input: __S(16, __c4, 0) as any as S.Schema<ListBookmarksRequest>,
+  output: __S(18, __c4, 2) as any as S.Schema<ListBookmarksResponse>,
   errors: [AccessDenied, ChannelNotFound, SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -583,8 +604,8 @@ export const removeBookmark: API.OperationMethod<
   RemoveBookmarkError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<RemoveBookmarkRequest>,
-  output: __S(17, __c4, 1) as any as S.Schema<RemoveBookmarkResponse>,
+  input: __S(20, __c5, 0) as any as S.Schema<RemoveBookmarkRequest>,
+  output: __S(21, __c5, 1) as any as S.Schema<RemoveBookmarkResponse>,
   errors: [
     AccessDenied,
     ChannelNotFound,
@@ -626,12 +647,37 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          bookmark: S.Unknown,
+          bookmark: __S(8, __c2, 0),
         }),
       ).annotate({ identifier: "AddBookmarkResponse" });
   }
 }
 function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          channel_id: S.optional(S.String),
+          title: S.optional(S.String),
+          link: S.optional(S.String),
+          emoji: S.optional(S.String),
+          icon_url: S.optional(S.String),
+          type: S.optional(S.String),
+          entity_id: S.optional(S.String),
+          date_created: S.optional(S.Number),
+          date_updated: S.optional(S.Number),
+          rank: S.optional(S.String),
+          last_updated_by_user_id: S.optional(S.String),
+          last_updated_by_team_id: S.optional(S.String),
+          shortcut_id: S.optional(S.String),
+          app_id: S.optional(S.String),
+          parent_id: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Bookmark" });
+  }
+}
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -645,7 +691,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "EditBookmarkRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -654,17 +700,17 @@ function __c3(j: number): any {
         }).pipe(T.Http({ method: "POST", uri: "/bookmarks.list", code: 200 })),
       ).annotate({ identifier: "ListBookmarksRequest" });
     case 1:
-      return S.Array(S.Unknown);
+      return S.Array(__S(8, __c2, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          bookmarks: __S(13, __c3, 1),
+          bookmarks: __S(17, __c4, 1),
         }),
       ).annotate({ identifier: "ListBookmarksResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
