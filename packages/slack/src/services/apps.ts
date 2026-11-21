@@ -1044,7 +1044,7 @@ export interface CreateManifestResponse {
   team_id?: string | undefined;
   /** The team domain where the app was created on */
   team_domain?: string | undefined;
-  app_token?: string | undefined;
+  app_token?: string | Redacted.Redacted<string> | undefined;
 }
 /** A map of attributes referenced in expression */
 export type DatastoreCountRequestExpressionAttributesMap = { [key: string]: unknown | undefined };
@@ -2394,7 +2394,7 @@ function __c7(j: number): any {
           oauth_authorize_url: S.optional(S.String),
           team_id: S.optional(S.String),
           team_domain: S.optional(S.String),
-          app_token: S.optional(S.String),
+          app_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "CreateManifestResponse" });
   }
