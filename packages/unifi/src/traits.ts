@@ -1,8 +1,8 @@
 /**
- * UniFi Network SDK trait surface -- hand-written.
+ * UniFi SDK trait surface -- hand-written.
  *
  * Re-exports the generic protocol traits from core (so generated operations
- * import everything from one place). UniFi Network has no envelope of its
+ * import everything from one place). UniFi has no envelope of its
  * own; the REST-protocol traits (SensitiveValue / RawResponse) come from
  * `core/protocol-rest`.
  */
@@ -15,6 +15,7 @@ export {
   ResponseCode,
   HttpBody,
   FormDataFile,
+  StringEncoded,
   KeyDictionary,
   UnionCases,
   applyErrorMatchers,
@@ -29,6 +30,7 @@ export {
   responseCodeSymbol,
   httpBodySymbol,
   formDataFileSymbol,
+  stringEncodedSymbol,
   keyDictionarySymbol,
   unionCasesSymbol,
   errorMatchersSymbol,

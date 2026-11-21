@@ -716,7 +716,7 @@
     { "path": "./packages/tinybird/tsconfig.scripts.json" },
     { "path": "./packages/twitch/tsconfig.json" },
     { "path": "./packages/twitch/tsconfig.scripts.json" },
-    { "path": "./packages/unifi-network/tsconfig.json" },
-    { "path": "./packages/unifi-network/tsconfig.scripts.json" }
+    { "path": "./packages/unifi/tsconfig.json" },
+    { "path": "./packages/unifi/tsconfig.scripts.json" }
   ]
 }

@@ -1,17 +1,17 @@
 import { type Policy, throttlingFactory, transientFactory } from "@distilled.cloud/core/retry";
 /**
- * UniFi Network retry configuration.
+ * UniFi retry configuration.
  *
  * Defines the per-SDK `Retry` Context.Service tag that generated operations
  * wire into `API.make`. Callers can install a blanket retry policy at the
- * layer level and have every UniFi Network API call below it pick it up:
+ * layer level and have every UniFi API call below it pick it up:
  *
  * @example
  * ```ts
- * import * as UniFiNetwork from "@distilled.cloud/unifi-network";
+ * import * as UniFi from "@distilled.cloud/unifi";
  *
- * myEffect.pipe(UniFiNetwork.Retry.transient);
- * Effect.provide(myEffect, Layer.succeed(UniFiNetwork.Retry.Retry, customPolicy));
+ * myEffect.pipe(UniFi.Retry.transient);
+ * Effect.provide(myEffect, Layer.succeed(UniFi.Retry.Retry, customPolicy));
  * ```
  */
 import * as Context from "effect/Context";
@@ -31,10 +31,10 @@ export {
   transientFactory,
 } from "@distilled.cloud/core/retry";
 
-/** Context tag for configuring retry behavior of UniFi Network API calls. */
-export class Retry extends /*@__PURE__*/ Context.Service<Retry, Policy>()("UniFiNetworkRetry") {}
+/** Context tag for configuring retry behavior of UniFi API calls. */
+export class Retry extends /*@__PURE__*/ Context.Service<Retry, Policy>()("UniFiRetry") {}
 
-/** Provides a custom retry policy to every UniFi Network API call below it. */
+/** Provides a custom retry policy to every UniFi API call below it. */
 export const policy = (optionsOrFactory: Policy) =>
   Effect.provide(Layer.succeed(Retry, optionsOrFactory));
 

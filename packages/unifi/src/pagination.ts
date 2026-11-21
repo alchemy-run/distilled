@@ -1,10 +1,11 @@
 /**
- * UniFi Network pagination -- hand-written.
+ * UniFi pagination -- hand-written.
  *
- * Lists take `offset` (default 0) and `limit` (default 25, max 200) and
- * answer `{ offset, limit, count, totalCount, data: [...] }`. Nothing in the
- * response points at the next page, so the traversal advances `offset` by
- * what it received.
+ * Network and Mobility lists take `offset` and `limit` (Network: default 25,
+ * max 200) and Network answers `{ offset, limit, count, totalCount, data:
+ * [...] }`. Nothing in the response points at the next page, so the
+ * traversal advances `offset` by what it received. The token- and
+ * cursor-paged lists (Site Manager, Carrier Fabric) use core's strategies.
  */
 import {
   getPath,

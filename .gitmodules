@@ -603,8 +603,8 @@ shallow = true
 	url = https://github.com/distilled-mirror/spec-mirror-whatsapp.git
 	ignore = dirty
 	shallow = true
-[submodule "packages/unifi-network/specs/spec-mirror-unifi-network"]
-	path = packages/unifi-network/specs/spec-mirror-unifi-network
-	url = https://github.com/distilled-mirror/spec-mirror-unifi-network.git
+[submodule "packages/unifi/specs/spec-mirror-unifi"]
+	path = packages/unifi/specs/spec-mirror-unifi
+	url = https://github.com/distilled-mirror/spec-mirror-unifi.git
 	ignore = dirty
 	shallow = true

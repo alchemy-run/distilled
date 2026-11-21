@@ -2398,7 +2398,7 @@ importers:
         specifier: 'catalog:'
         version: 2.9.1
 
-  packages/unifi-network:
+  packages/unifi:
     dependencies:
       '@distilled.cloud/core':
         specifier: workspace:*

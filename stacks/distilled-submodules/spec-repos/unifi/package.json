@@ -1,5 +1,5 @@
 {
-  "name": "unifi-network-spec",
+  "name": "unifi-spec",
   "private": true,
   "type": "module",
   "scripts": {

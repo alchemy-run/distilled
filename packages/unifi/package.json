@@ -1,11 +1,11 @@
 {
-  "name": "@distilled.cloud/unifi-network",
+  "name": "@distilled.cloud/unifi",
   "version": "1.0.0-rc.20",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/alchemy-run/distilled",
-    "directory": "packages/unifi-network"
+    "directory": "packages/unifi"
   },
   "files": [
     "lib",
@@ -70,8 +70,8 @@
     "convert": "node --conditions=bun scripts/convert.ts",
     "generate": "node --conditions=bun scripts/generate.ts",
     "typecheck": "tsrs -p tsconfig.json",
-    "specs:fetch": "git submodule update --force --init --depth=1 specs/spec-mirror-unifi-network",
-    "specs:update": "git submodule update --remote --force --depth=1 specs/spec-mirror-unifi-network"
+    "specs:fetch": "git submodule update --force --init --depth=1 specs/spec-mirror-unifi",
+    "specs:update": "git submodule update --remote --force --depth=1 specs/spec-mirror-unifi"
   },
   "dependencies": {
     "@distilled.cloud/core": "workspace:*"
