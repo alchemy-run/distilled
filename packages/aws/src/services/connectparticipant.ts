@@ -159,7 +159,7 @@ export type AttachmentIdList = string[];
 export type NonEmptyClientToken = string;
 export interface CompleteAttachmentUploadRequest {
   AttachmentIds: string[];
-  ClientToken: string;
+  ClientToken?: string | undefined;
   ConnectionToken: string;
 }
 export interface CompleteAttachmentUploadResponse {}
@@ -395,7 +395,7 @@ export interface StartAttachmentUploadRequest {
   ContentType: string;
   AttachmentSizeInBytes: number;
   AttachmentName: string;
-  ClientToken: string;
+  ClientToken?: string | undefined;
   ConnectionToken: string;
 }
 export type MetadataUrl = string;
@@ -1227,7 +1227,7 @@ function __c7(j: number): any {
           ContentType: S.String,
           AttachmentSizeInBytes: S.Number,
           AttachmentName: S.String,
-          ClientToken: S.String.pipe(T.IdempotencyToken()),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           ConnectionToken: S.String.pipe(T.HttpHeader("X-Amz-Bearer")),
         }).pipe(
           T.all(
@@ -1295,7 +1295,7 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           AttachmentIds: __S(160, __c10, 0),
-          ClientToken: S.String.pipe(T.IdempotencyToken()),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           ConnectionToken: S.String.pipe(T.HttpHeader("X-Amz-Bearer")),
         }).pipe(
           T.all(

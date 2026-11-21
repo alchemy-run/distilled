@@ -486,7 +486,7 @@ export interface CreateTrailChangeRequest {
   /** Parent Trail ETag */
   ifMatch: string;
   /** Reuse for retries of the same creation request (24-hour retention) */
-  idempotencyKey: string;
+  idempotencyKey?: string | undefined;
   base?: unknown | undefined;
   branchAction?: unknown | undefined;
   branchName?: unknown | undefined;
@@ -2970,7 +2970,9 @@ function __c23(j: number): any {
           trailId: S.String.pipe(T.Label()),
           project_id: S.optional(S.String.pipe(T.Query())),
           ifMatch: S.String.pipe(T.Header("If-Match")),
-          idempotencyKey: S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           base: S.optional(S.Unknown),
           branchAction: S.optional(S.Unknown),
           branchName: S.optional(S.Unknown),

@@ -286,7 +286,7 @@ export interface CreateProjectAgentRunRequest {
   /** An unarchived agent of the project (ULID). */
   id: string;
   /** Required. Repeating the identical request returns the run it first started, even after the agent was edited or archived; a different request under the key is 409. */
-  idempotencyKey: string;
+  idempotencyKey?: string | undefined;
   /** Optional commit pin: the run is refused (409) if the Change's head is no longer this commit. */
   head_sha?: string | undefined;
   target: RunTargetInput;
@@ -295,7 +295,7 @@ export interface CreateRepoRunRequest {
   /** Repository id (placement ULID or public repo_<group ULID>). */
   repo_id: string;
   /** Required. Repeating the identical request returns the run it first started, even after the agent was edited or archived; a different request under the key is 409. */
-  idempotencyKey: string;
+  idempotencyKey?: string | undefined;
   /** An unarchived agent of the project that owns the repository (ULID). */
   agent_id: string;
   /** Optional commit pin: the run is refused (409) if the Change's head is no longer this commit. */
@@ -1053,7 +1053,9 @@ function __c7(j: number): any {
           host: S.String.pipe(T.Label()),
           project: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          idempotencyKey: S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           head_sha: S.optional(S.String),
           target: __S(256, __c8, 0),
         }).pipe(
@@ -1079,7 +1081,9 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           repo_id: S.String.pipe(T.Label()),
-          idempotencyKey: S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           agent_id: S.String,
           head_sha: S.optional(S.String),
           target: __S(256, __c8, 0),
