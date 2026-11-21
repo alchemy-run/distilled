@@ -21,7 +21,7 @@ export {
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
 import * as Category from "@distilled.cloud/core/category";
-import { UnknownErrorFields } from "@distilled.cloud/core/errors";
+import { API_ERRORS, UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /**
@@ -59,3 +59,12 @@ export class GCPCredentialsError
  * 4xx classes declared in each generated service module.
  */
 export type ClientErrors = UnknownGCPError | GCPParseError | GCPCredentialsError;
+
+/**
+ * The errors declared on the GCP services: any operation can return them,
+ * and every generated operation lists them as its `serviceErrors`. Each of
+ * core's status classes: the protocol builds the one for a failed
+ * response's status when the operation's own classes do not match.
+ */
+export const GcpServiceErrors = API_ERRORS;
+export type GcpServiceError = InstanceType<(typeof GcpServiceErrors)[number]>;

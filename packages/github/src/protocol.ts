@@ -1,15 +1,14 @@
-import * as API from "@distilled.cloud/core/api";
-import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { HTTP_STATUS_MAP, TooManyRequests } from "@distilled.cloud/core/errors";
+import { TooManyRequests } from "@distilled.cloud/core/errors";
+import type { Operation, Protocol } from "@distilled.cloud/core/protocol";
 import { getAnn } from "@distilled.cloud/core/protocol-http";
 import {
-  makeRestProtocol,
+  restProtocol,
   type RestErrorEnvelope,
   type RestErrorInfo,
+  type RestProtocolError,
   unknownErrorProps,
 } from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfter } from "@distilled.cloud/core/retry-after";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import { httpSymbol, type HttpTrait } from "@distilled.cloud/core/trait";
 /**
  * GithubProtocol -- the shared bearer-REST protocol instantiated for GitHub.
@@ -37,11 +36,11 @@ import * as Context from "effect/Context";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
 import * as Layer from "effect/Layer";
+import * as Predicate from "effect/Predicate";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
-import { Gone, UnknownGithubError, type DefaultErrors, GithubParseError } from "./errors.ts";
+import { Credentials, type CredentialsError } from "./credentials.ts";
+import { UnknownGithubError, GithubParseError, type GithubServiceError } from "./errors.ts";
 
 /**
  * The REST API version the generated services were built from -- sent on
@@ -51,17 +50,28 @@ import { Gone, UnknownGithubError, type DefaultErrors, GithubParseError } from "
 export const API_VERSION = "2022-11-28";
 
 /**
- * Error channel shared by every generated GitHub operation. Generated service
- * files annotate operations with `API.OperationMethod<I, O, GithubOpError,
- * GithubOpContext>` explicitly so the compiler never infers these back out of
- * the schema generics.
+ * The errors declared on GitHub's protocol: what the code that builds
+ * requests and reads responses fails with. A response that does not match
+ * its schema ({@link GithubParseError}), a failed response that neither the
+ * operation nor the service declares ({@link UnknownGithubError}), a
+ * rate-limited 403 or 429 (`TooManyRequests`, see {@link rateLimited}), and
+ * core's REST errors (a bad path label, a request that can't be built, the
+ * transport).
  */
-export type GithubOpError =
-  | DefaultErrors
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | InvalidInput
-  | SdkError;
+export type GithubProtocolError =
+  | RestProtocolError
+  | GithubParseError
+  | UnknownGithubError
+  | TooManyRequests;
+
+/**
+ * What every generated GitHub operation fails with besides its own errors:
+ * the service's errors, the protocol's, and what resolving the credentials
+ * fails with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, GithubOpError, GithubOpContext>` explicitly so
+ * the compiler never infers these back out of the schema generics.
+ */
+export type GithubOpError = GithubServiceError | GithubProtocolError | CredentialsError;
 
 /** Context (requirements) shared by every generated GitHub operation. */
 export type GithubOpContext = Credentials | HttpClient.HttpClient;
@@ -117,10 +127,14 @@ export const rateLimited = (info: RestErrorInfo): TooManyRequests | undefined =>
   });
 };
 
-const RestProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
-  // Resolved on the CALLING fiber per request (the layer is memoized per
-  // process); the Credentials service holds an effect so rotating tokens
-  // (GitHub App installation tokens expire hourly) Just Work.
+// A failed status becomes the class the service declares for it
+// (`GithubServiceErrors`: core's status classes, and `Gone` for 410 --
+// GitHub uses it far more than most APIs: issues disabled, deleted migration
+// archives).
+const RestProtocol = /*@__PURE__*/ restProtocol({
+  // Resolved on the CALLING fiber per request; the Credentials service holds
+  // an effect so rotating tokens (GitHub App installation tokens expire
+  // hourly) Just Work.
   credentials: Credentials,
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds) => ({
@@ -131,9 +145,6 @@ const RestProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<C
   }),
   errorEnvelope,
   classifyError: rateLimited,
-  // Core's shared map plus 410 -- GitHub uses Gone far more than most APIs
-  // (issues disabled, deleted migration archives).
-  statusMap: { ...HTTP_STATUS_MAP, 410: Gone },
   unknownError: (info) =>
     new UnknownGithubError({ ...unknownErrorProps(info), headers: info.headers }),
   parseError: ({ body, cause }) => new GithubParseError({ body, cause }),
@@ -178,10 +189,7 @@ export const paceWrites = (options?: { readonly interval?: Duration.Input }): La
   }));
 
 /** Wait for this request's slot when a write gate is in scope. */
-const paced = <A, E, R>(
-  op: API.PreparedOperation,
-  effect: Effect.Effect<A, E, R>,
-): Effect.Effect<A, E, R> =>
+const paced = <A, E, R>(op: Operation, effect: Effect.Effect<A, E, R>): Effect.Effect<A, E, R> =>
   Effect.flatMap(Effect.service(WritePacing), (gate) => {
     const method = (getAnn(op.inputAst, httpSymbol) as HttpTrait | undefined)?.method;
     if (gate === undefined || method === undefined || !WRITE_METHODS.has(method)) return effect;
@@ -203,29 +211,31 @@ const FRESH_TOKEN_RETRY_DELAY = /*@__PURE__*/ Duration.millis(500);
  * Send a call again while it fails with 401 and the token is younger than
  * {@link FRESH_TOKEN_WINDOW_MS}, as Octokit's `@octokit/auth-app` does.
  */
-const retryFreshToken = (call: Effect.Effect<unknown>): Effect.Effect<unknown> => {
-  // Protocol effects erase their error and requirement channels (see
-  // core/protocol-rest), so the failure is read by its tag here.
-  const attempt = Effect.catch(call, (error: unknown) =>
-    (error as { readonly _tag?: unknown } | null)?._tag === "Unauthorized"
-      ? Effect.flatMap(
-          Effect.flatMap(Effect.service(Credentials), (resolve) => resolve),
-          (creds) =>
-            creds.issuedAt !== undefined && Date.now() - creds.issuedAt < FRESH_TOKEN_WINDOW_MS
-              ? Effect.andThen(Effect.sleep(FRESH_TOKEN_RETRY_DELAY), attempt)
-              : Effect.fail(error),
-        )
-      : Effect.fail(error),
-  ) as Effect.Effect<unknown>;
+const retryFreshToken = <A, E, R>(
+  call: Effect.Effect<A, E, R>,
+): Effect.Effect<A, E | CredentialsError, R | Credentials> => {
+  // `Unauthorized` is the service's to declare, so the protocol reads the
+  // failure by its tag.
+  const attempt: Effect.Effect<A, E | CredentialsError, R | Credentials> = Effect.catch(
+    call,
+    (error) =>
+      Predicate.isTagged(error, "Unauthorized")
+        ? Effect.flatMap(
+            Effect.flatMap(Effect.service(Credentials), (resolve) => resolve),
+            (creds) =>
+              creds.issuedAt !== undefined && Date.now() - creds.issuedAt < FRESH_TOKEN_WINDOW_MS
+                ? Effect.andThen(Effect.sleep(FRESH_TOKEN_RETRY_DELAY), attempt)
+                : Effect.fail(error),
+          )
+        : Effect.fail(error),
+  );
   return attempt;
 };
 
-export const GithubProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.effect(
-  API.Protocol,
-  /*@__PURE__*/ Effect.map(Effect.service(API.Protocol), (rest) =>
-    API.Protocol.of({
-      ...rest,
-      call: (op, input) => paced(op, retryFreshToken(rest.call!(op, input))),
-    }),
-  ),
-).pipe(/*@__PURE__*/ Layer.provide(RestProtocol));
+// The annotation is the check: everything the protocol fails with, besides
+// the errors an operation and the service declare, must be listed here.
+export const GithubProtocol: Protocol<GithubProtocolError | CredentialsError, Credentials> = {
+  ...RestProtocol,
+  // The REST protocol always has `call`.
+  call: (op, input) => paced(op, retryFreshToken(RestProtocol.call!(op, input))),
+};
