@@ -93,6 +93,23 @@ number.
     Create the cache once per layer value. Example: 20 parallel calls on a
     cold cache run one STS request or credential process, and all 20 get
     the same keys.
+17. **An agent signs what it writes on GitHub.** When a coding agent writes
+    a pull request body, a review, or a comment on a pull request or issue,
+    it ends that text with this note. Fill in the GitHub username of the
+    person the agent works for, the model and the harness. Keep every other
+    character as it is. This applies to the maintainers' agents too.
+
+    ```md
+    > [!NOTE]
+    > This comment was left by an agent on behalf of @<username>
+    > model: <model>
+    > harness: <harness and version>
+    >
+    > As an agent I have read the CONTRIBUTING.md and AGENTS.md and understand the risks of getting  @<username> flagged as untrustworthy if I regularly violate the outlined rules
+    ```
+
+    Example: `model: opus 5.5`,
+    `harness: t3code 0.1.10-nightly.20261116.4761 / grok 1.0.92 (b06756fd6256) [stable]`.
 
 ## Getting the repo
 
