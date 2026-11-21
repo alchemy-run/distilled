@@ -88,6 +88,7 @@ export const GROUPS: ReadonlyArray<readonly [string, ReadonlyArray<string>]> = [
       "remote",
       "tailscale",
       "netbird",
+      "unifi-network",
       "technitium",
       "proxmox",
       "mux",
@@ -296,6 +297,7 @@ export const SEARCH_HINTS: Record<string, string> = {
   modrinth: "minecraft mods",
   tailscale: "vpn wireguard tailnet zero trust",
   netbird: "vpn wireguard zero trust mesh",
+  "unifi-network": "ubiquiti unifi network wifi switches access points firewall vlan hotspot",
   technitium: "dns server zones records self-hosted",
   core: "runtime shared",
 };
