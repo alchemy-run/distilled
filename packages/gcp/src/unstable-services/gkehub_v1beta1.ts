@@ -532,6 +532,8 @@ export interface PatchProjectsLocationsMembershipsRequest extends Omit<Membershi
   requestId?: string | undefined;
   /** Required. The membership resource name in the format: `projects/[project_id]/locations/global/memberships/[membership_id]` */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Output only. The full, unique name of this Membership resource in the format `projects/*\/locations/*\/memberships/{membership_id}`, set during creation. `membership_id` must be a valid RFC 1123 compliant DNS label: 1. At most 63 characters in length 2. It must consist of lower case alphanumeric characters or `-` 3. It must start and end with an alphanumeric character Which can be expressed as the regex: `[a-z0-9]([-a-z0-9]*[a-z0-9])?`, with a maximum length of 63 characters. */
+  bodyName?: string | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
@@ -1161,6 +1163,7 @@ function __c10(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

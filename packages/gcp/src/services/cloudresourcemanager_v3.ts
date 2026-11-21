@@ -936,24 +936,32 @@ export interface PatchFoldersRequest extends Omit<Folder, "name"> {
   name: string;
   /** Required. Fields to be updated. Only the `display_name` can be updated. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the folder. Its format is `folders/{folder_id}`, for example: "folders/1234". */
+  bodyName?: string | undefined;
 }
 export interface PatchFoldersBoundariesRequest extends Omit<Boundary, "name"> {
   /** Identifier. The unique resource name of the Boundary. Format: - `organizations/{organization_id}/boundaries/{boundary_id}` - `folders/{folder_id}/boundaries/{boundary_id}` Example: `folders/123456789/boundaries/my-boundary` */
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The unique resource name of the Boundary. Format: - `organizations/{organization_id}/boundaries/{boundary_id}` - `folders/{folder_id}/boundaries/{boundary_id}` Example: `folders/123456789/boundaries/my-boundary` */
+  bodyName?: string | undefined;
 }
 export interface PatchFoldersCapabilitiesRequest extends Omit<Capability, "name"> {
   /** Immutable. Identifier. The resource name of the capability. Must be in the following form: * `folders/{folder_id}/capabilities/{capability_name}` For example, `folders/123/capabilities/app-management` Following are the allowed {capability_name} values: * `app-management` */
   name: string;
   /** Optional. The list of fields to update. Only [Capability.value] can be updated. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Immutable. Identifier. The resource name of the capability. Must be in the following form: * `folders/{folder_id}/capabilities/{capability_name}` For example, `folders/123/capabilities/app-management` Following are the allowed {capability_name} values: * `app-management` */
+  bodyName?: string | undefined;
 }
 export interface PatchFoldersCapabilityConfigsRequest extends Omit<CapabilityConfig, "name"> {
   /** Identifier. The unique resource name of the CapabilityConfig. Format: `organizations/{organization}/capabilityConfigs/{capabilityConfig}` or, `folders/{folder}/capabilityConfigs/{capabilityConfig}` or, `projects/{project}/capabilityConfigs/{capabilityConfig}` */
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The unique resource name of the CapabilityConfig. Format: `organizations/{organization}/capabilityConfigs/{capabilityConfig}` or, `folders/{folder}/capabilityConfigs/{capabilityConfig}` or, `projects/{project}/capabilityConfigs/{capabilityConfig}` */
+  bodyName?: string | undefined;
 }
 export interface PatchLocationsTagBindingCollectionsRequest extends Omit<
   TagBindingCollection,
@@ -963,30 +971,40 @@ export interface PatchLocationsTagBindingCollectionsRequest extends Omit<
   name: string;
   /** Optional. An update mask to selectively update fields. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The name of the TagBindingCollection, following the convention: `locations/{location}/tagBindingCollections/{encoded-full-resource-name}` where the encoded-full-resource-name is the UTF-8 encoded name of the GCP resource the TagBindings are bound to. "locations/global/tagBindingCollections/%2f%2fcloudresourcemanager.googleapis.com%2fprojects%2f123" */
+  bodyName?: string | undefined;
 }
 export interface PatchOrganizationsBoundariesRequest extends Omit<Boundary, "name"> {
   /** Identifier. The unique resource name of the Boundary. Format: - `organizations/{organization_id}/boundaries/{boundary_id}` - `folders/{folder_id}/boundaries/{boundary_id}` Example: `folders/123456789/boundaries/my-boundary` */
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The unique resource name of the Boundary. Format: - `organizations/{organization_id}/boundaries/{boundary_id}` - `folders/{folder_id}/boundaries/{boundary_id}` Example: `folders/123456789/boundaries/my-boundary` */
+  bodyName?: string | undefined;
 }
 export interface PatchOrganizationsCapabilityConfigsRequest extends Omit<CapabilityConfig, "name"> {
   /** Identifier. The unique resource name of the CapabilityConfig. Format: `organizations/{organization}/capabilityConfigs/{capabilityConfig}` or, `folders/{folder}/capabilityConfigs/{capabilityConfig}` or, `projects/{project}/capabilityConfigs/{capabilityConfig}` */
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The unique resource name of the CapabilityConfig. Format: `organizations/{organization}/capabilityConfigs/{capabilityConfig}` or, `folders/{folder}/capabilityConfigs/{capabilityConfig}` or, `projects/{project}/capabilityConfigs/{capabilityConfig}` */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsRequest extends Omit<Project, "name"> {
   /** Optional. An update mask to selectively update fields. */
   updateMask?: string | undefined;
   /** Output only. The unique resource name of the project. It is an int64 generated number prefixed by "projects/". Example: `projects/415104041262` */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Output only. The unique resource name of the project. It is an int64 generated number prefixed by "projects/". Example: `projects/415104041262` */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsCapabilityConfigsRequest extends Omit<CapabilityConfig, "name"> {
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
   /** Identifier. The unique resource name of the CapabilityConfig. Format: `organizations/{organization}/capabilityConfigs/{capabilityConfig}` or, `folders/{folder}/capabilityConfigs/{capabilityConfig}` or, `projects/{project}/capabilityConfigs/{capabilityConfig}` */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The unique resource name of the CapabilityConfig. Format: `organizations/{organization}/capabilityConfigs/{capabilityConfig}` or, `folders/{folder}/capabilityConfigs/{capabilityConfig}` or, `projects/{project}/capabilityConfigs/{capabilityConfig}` */
+  bodyName?: string | undefined;
 }
 export interface PatchTagKeysRequest extends Omit<TagKey, "name"> {
   /** Immutable. The resource name for a TagKey. Must be in the format `tagKeys/{tag_key_id}`, where `tag_key_id` is the generated numeric id for the TagKey. */
@@ -995,6 +1013,8 @@ export interface PatchTagKeysRequest extends Omit<TagKey, "name"> {
   validateOnly?: boolean | undefined;
   /** Fields to be updated. The mask may only contain `description` or `etag`. If omitted entirely, both `description` and `etag` are assumed to be significant. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Immutable. The resource name for a TagKey. Must be in the format `tagKeys/{tag_key_id}`, where `tag_key_id` is the generated numeric id for the TagKey. */
+  bodyName?: string | undefined;
 }
 export interface PatchTagValuesRequest extends Omit<TagValue, "name"> {
   /** Optional. Fields to be updated. */
@@ -1003,6 +1023,8 @@ export interface PatchTagValuesRequest extends Omit<TagValue, "name"> {
   validateOnly?: boolean | undefined;
   /** Immutable. Resource name for TagValue in the format `tagValues/456`. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Immutable. Resource name for TagValue in the format `tagValues/456`. */
+  bodyName?: string | undefined;
 }
 export interface SearchFoldersRequest {
   /** Optional. A pagination token returned from a previous call to `SearchFolders` that indicates from where search should continue. */
@@ -1128,12 +1150,16 @@ export interface UpdateBoundaryConfigFoldersRequest extends Omit<BoundaryConfig,
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The unique resource name of the BoundaryConfig. Format: - `organizations/{organization}/boundaryConfig` - `folders/{folder}/boundaryConfig` Example: `folders/123456789/boundaryConfig` */
+  bodyName?: string | undefined;
 }
 export interface UpdateBoundaryConfigOrganizationsRequest extends Omit<BoundaryConfig, "name"> {
   /** Identifier. The unique resource name of the BoundaryConfig. Format: - `organizations/{organization}/boundaryConfig` - `folders/{folder}/boundaryConfig` Example: `folders/123456789/boundaryConfig` */
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The unique resource name of the BoundaryConfig. Format: - `organizations/{organization}/boundaryConfig` - `folders/{folder}/boundaryConfig` Example: `folders/123456789/boundaryConfig` */
+  bodyName?: string | undefined;
 }
 export type CreateFoldersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Creates a folder in the resource hierarchy. Returns an `Operation` which can be used to track the progress of the folder creation workflow. Upon success, the `Operation.response` field will be populated with the created Folder. In order to succeed, the addition of this new folder must not violate the folder naming, height, or fanout constraints. + The folder's `display_name` must be distinct from all other folders that share its parent. + The addition of the folder must not cause the active folder hierarchy to exceed a height of 10. Note, the full active + deleted folder hierarchy is allowed to reach a height of 20; this provides additional headroom when moving folders that contain deleted folders. + The addition of the folder must not cause the total number of folders under its parent to exceed 300. If the operation fails due to a folder constraint violation, some errors may be returned by the `CreateFolder` request, with status code `FAILED_PRECONDITION` and an error description. Other folder constraint violations will be communicated in the `Operation`, with the specific `PreconditionFailure` returned in the details list in the `Operation.error` field. The caller must have `resourcemanager.folders.create` permission on the identified parent. */
@@ -4447,6 +4473,7 @@ function __c81(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4467,6 +4494,7 @@ function __c82(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4487,6 +4515,7 @@ function __c83(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4507,6 +4536,7 @@ function __c84(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4527,6 +4557,7 @@ function __c85(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4547,6 +4578,7 @@ function __c86(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4567,6 +4599,7 @@ function __c87(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4587,6 +4620,7 @@ function __c88(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4679,6 +4713,7 @@ function __c94(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4700,6 +4735,7 @@ function __c95(j: number): any {
             name: S.String.pipe(T.Label()),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4721,6 +4757,7 @@ function __c96(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5106,6 +5143,7 @@ function __c116(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5126,6 +5164,7 @@ function __c117(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

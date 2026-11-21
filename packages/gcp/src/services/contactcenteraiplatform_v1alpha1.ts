@@ -691,6 +691,8 @@ export interface PatchProjectsLocationsContactCentersRequest extends Omit<Contac
   requestId?: string | undefined;
   /** Required. Field mask is used to specify the fields to be overwritten in the ContactCenter resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). name of resource */
+  bodyName?: string | undefined;
 }
 export interface QueryContactCenterQuotaProjectsLocationsRequest {
   /** Required. Parent project resource id. */
@@ -1247,6 +1249,7 @@ function __c8(j: number): any {
             name: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

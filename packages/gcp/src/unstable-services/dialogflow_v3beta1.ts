@@ -1889,6 +1889,8 @@ export interface DetectIntentProjectsLocationsAgentsEnvironmentsSessionsRequest 
   "session"
 > {
   session: string;
+  /** The request body's `session` (`session` is the path parameter). */
+  bodySession?: string | undefined;
 }
 export type GoogleCloudDialogflowCxV3beta1DetectIntentResponseResponseTypeEnum =
   | "RESPONSE_TYPE_UNSPECIFIED"
@@ -1993,6 +1995,8 @@ export interface DetectIntentProjectsLocationsAgentsSessionsRequest extends Omit
   "session"
 > {
   session: string;
+  /** The request body's `session` (`session` is the path parameter). */
+  bodySession?: string | undefined;
 }
 export type GoogleCloudDialogflowCxV3beta1ExportAgentRequestDataFormatEnum =
   | "DATA_FORMAT_UNSPECIFIED"
@@ -2959,6 +2963,8 @@ export interface PatchProjectsLocationsAgentsRequest extends Omit<
 > {
   name: string;
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsAgentsEntityTypesRequest extends Omit<
   GoogleCloudDialogflowCxV3beta1EntityType,
@@ -2967,6 +2973,8 @@ export interface PatchProjectsLocationsAgentsEntityTypesRequest extends Omit<
   name: string;
   languageCode?: string | undefined;
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsAgentsEnvironmentsRequest extends Omit<
   GoogleCloudDialogflowCxV3beta1Environment,
@@ -2974,6 +2982,8 @@ export interface PatchProjectsLocationsAgentsEnvironmentsRequest extends Omit<
 > {
   updateMask?: string | undefined;
   name: string;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsAgentsEnvironmentsExperimentsRequest extends Omit<
   GoogleCloudDialogflowCxV3beta1Experiment,
@@ -2981,6 +2991,8 @@ export interface PatchProjectsLocationsAgentsEnvironmentsExperimentsRequest exte
 > {
   name: string;
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsAgentsEnvironmentsSessionsEntityTypesRequest extends Omit<
   GoogleCloudDialogflowCxV3beta1SessionEntityType,
@@ -2988,6 +3000,8 @@ export interface PatchProjectsLocationsAgentsEnvironmentsSessionsEntityTypesRequ
 > {
   name: string;
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsAgentsFlowsRequest extends Omit<
   GoogleCloudDialogflowCxV3beta1Flow,
@@ -2996,6 +3010,8 @@ export interface PatchProjectsLocationsAgentsFlowsRequest extends Omit<
   languageCode?: string | undefined;
   updateMask?: string | undefined;
   name: string;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsAgentsFlowsPagesRequest extends Omit<
   GoogleCloudDialogflowCxV3beta1Page,
@@ -3004,6 +3020,8 @@ export interface PatchProjectsLocationsAgentsFlowsPagesRequest extends Omit<
   name: string;
   updateMask?: string | undefined;
   languageCode?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsAgentsFlowsTransitionRouteGroupsRequest extends Omit<
   GoogleCloudDialogflowCxV3beta1TransitionRouteGroup,
@@ -3012,6 +3030,8 @@ export interface PatchProjectsLocationsAgentsFlowsTransitionRouteGroupsRequest e
   updateMask?: string | undefined;
   name: string;
   languageCode?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsAgentsFlowsVersionsRequest extends Omit<
   GoogleCloudDialogflowCxV3beta1Version,
@@ -3019,6 +3039,8 @@ export interface PatchProjectsLocationsAgentsFlowsVersionsRequest extends Omit<
 > {
   updateMask?: string | undefined;
   name: string;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsAgentsGeneratorsRequest extends Omit<
   GoogleCloudDialogflowCxV3beta1Generator,
@@ -3027,6 +3049,8 @@ export interface PatchProjectsLocationsAgentsGeneratorsRequest extends Omit<
   updateMask?: string | undefined;
   languageCode?: string | undefined;
   name: string;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsAgentsIntentsRequest extends Omit<
   GoogleCloudDialogflowCxV3beta1Intent,
@@ -3035,6 +3059,8 @@ export interface PatchProjectsLocationsAgentsIntentsRequest extends Omit<
   updateMask?: string | undefined;
   languageCode?: string | undefined;
   name: string;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsAgentsPlaybooksRequest extends Omit<
   GoogleCloudDialogflowCxV3beta1Playbook,
@@ -3042,6 +3068,8 @@ export interface PatchProjectsLocationsAgentsPlaybooksRequest extends Omit<
 > {
   name: string;
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsAgentsPlaybooksExamplesRequest extends Omit<
   GoogleCloudDialogflowCxV3beta1Example,
@@ -3049,6 +3077,8 @@ export interface PatchProjectsLocationsAgentsPlaybooksExamplesRequest extends Om
 > {
   updateMask?: string | undefined;
   name: string;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsAgentsSessionsEntityTypesRequest extends Omit<
   GoogleCloudDialogflowCxV3beta1SessionEntityType,
@@ -3056,6 +3086,8 @@ export interface PatchProjectsLocationsAgentsSessionsEntityTypesRequest extends 
 > {
   name: string;
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsAgentsTestCasesRequest extends Omit<
   GoogleCloudDialogflowCxV3beta1TestCase,
@@ -3063,6 +3095,8 @@ export interface PatchProjectsLocationsAgentsTestCasesRequest extends Omit<
 > {
   updateMask?: string | undefined;
   name: string;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsAgentsToolsRequest extends Omit<
   GoogleCloudDialogflowCxV3beta1Tool,
@@ -3070,6 +3104,8 @@ export interface PatchProjectsLocationsAgentsToolsRequest extends Omit<
 > {
   name: string;
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsAgentsTransitionRouteGroupsRequest extends Omit<
   GoogleCloudDialogflowCxV3beta1TransitionRouteGroup,
@@ -3078,6 +3114,8 @@ export interface PatchProjectsLocationsAgentsTransitionRouteGroupsRequest extend
   name: string;
   languageCode?: string | undefined;
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsAgentsWebhooksRequest extends Omit<
   GoogleCloudDialogflowCxV3beta1Webhook,
@@ -3085,6 +3123,8 @@ export interface PatchProjectsLocationsAgentsWebhooksRequest extends Omit<
 > {
   name: string;
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsSecuritySettingsRequest extends Omit<
   GoogleCloudDialogflowCxV3beta1SecuritySettings,
@@ -3092,6 +3132,8 @@ export interface PatchProjectsLocationsSecuritySettingsRequest extends Omit<
 > {
   updateMask?: string | undefined;
   name: string;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface GoogleCloudDialogflowCxV3beta1RestoreAgentRequestGitSource {
   trackingBranch?: string | undefined;
@@ -3150,12 +3192,16 @@ export interface ServerStreamingDetectIntentProjectsLocationsAgentsEnvironmentsS
   "session"
 > {
   session: string;
+  /** The request body's `session` (`session` is the path parameter). */
+  bodySession?: string | undefined;
 }
 export interface ServerStreamingDetectIntentProjectsLocationsAgentsSessionsRequest extends Omit<
   GoogleCloudDialogflowCxV3beta1DetectIntentRequest,
   "session"
 > {
   session: string;
+  /** The request body's `session` (`session` is the path parameter). */
+  bodySession?: string | undefined;
 }
 export type GoogleCloudDialogflowCxV3beta1StartExperimentRequest =
   GoogleCloudDialogflowCxV3beta1ResponseMessageEndInteraction;
@@ -3192,6 +3238,8 @@ export interface UpdateGenerativeSettingsProjectsLocationsAgentsRequest extends 
 > {
   updateMask?: string | undefined;
   name: string;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface GoogleCloudDialogflowCxV3beta1ValidateAgentRequest {
   languageCode?: string | undefined;
@@ -8183,6 +8231,7 @@ function __c51(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8204,6 +8253,7 @@ function __c52(j: number): any {
             name: S.String.pipe(T.Label()),
             languageCode: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8224,6 +8274,7 @@ function __c53(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8244,6 +8295,7 @@ function __c54(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8264,6 +8316,7 @@ function __c55(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8287,6 +8340,7 @@ function __c56(j: number): any {
             languageCode: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8308,6 +8362,7 @@ function __c57(j: number): any {
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
             languageCode: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8362,6 +8417,7 @@ function __c60(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             languageCode: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8382,6 +8438,7 @@ function __c61(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8403,6 +8460,7 @@ function __c62(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             languageCode: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8424,6 +8482,7 @@ function __c63(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             languageCode: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8444,6 +8503,7 @@ function __c64(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8464,6 +8524,7 @@ function __c65(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8484,6 +8545,7 @@ function __c66(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8504,6 +8566,7 @@ function __c67(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8524,6 +8587,7 @@ function __c68(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8545,6 +8609,7 @@ function __c69(j: number): any {
             name: S.String.pipe(T.Label()),
             languageCode: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8585,6 +8650,7 @@ function __c71(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8605,6 +8671,7 @@ function __c72(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8746,6 +8813,7 @@ function __c78(j: number): any {
           __S(4896, __c153, 0),
           S.Struct({
             session: S.String.pipe(T.Label()),
+            bodySession: S.optional(S.String.pipe(T.Body("session"))),
           }),
         ).pipe(
           T.Http({
@@ -8767,6 +8835,7 @@ function __c79(j: number): any {
           __S(4896, __c153, 0),
           S.Struct({
             session: S.String.pipe(T.Label()),
+            bodySession: S.optional(S.String.pipe(T.Body("session"))),
           }),
         ).pipe(
           T.Http({
@@ -8887,6 +8956,7 @@ function __c85(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -10638,6 +10708,7 @@ function __c149(j: number): any {
           __S(4896, __c153, 0),
           S.Struct({
             session: S.String.pipe(T.Label()),
+            bodySession: S.optional(S.String.pipe(T.Body("session"))),
           }),
         ).pipe(
           T.Http({
@@ -10894,6 +10965,7 @@ function __c154(j: number): any {
           __S(4896, __c153, 0),
           S.Struct({
             session: S.String.pipe(T.Label()),
+            bodySession: S.optional(S.String.pipe(T.Body("session"))),
           }),
         ).pipe(
           T.Http({

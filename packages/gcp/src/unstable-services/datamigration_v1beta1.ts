@@ -612,6 +612,8 @@ export interface PatchProjectsLocationsConnectionProfilesRequest extends Omit<
   name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the connection profile resource by the update. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). The name of this connection profile resource in the form of projects/{project}/locations/{location}/connectionProfiles/{connectionProfile}. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsMigrationJobsRequest extends Omit<MigrationJob, "name"> {
   /** Required. Field mask is used to specify the fields to be overwritten in the migration job resource by the update. */
@@ -620,6 +622,8 @@ export interface PatchProjectsLocationsMigrationJobsRequest extends Omit<Migrati
   requestId?: string | undefined;
   /** The name (URI) of this migration job resource, in the form of: projects/{project}/locations/{location}/migrationJobs/{migrationJob}. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). The name (URI) of this migration job resource, in the form of: projects/{project}/locations/{location}/migrationJobs/{migrationJob}. */
+  bodyName?: string | undefined;
 }
 /** Request message for 'PromoteMigrationJob' request. */
 export type PromoteMigrationJobRequest = CancelOperationRequest;
@@ -1659,6 +1663,7 @@ function __c14(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -1680,6 +1685,7 @@ function __c15(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

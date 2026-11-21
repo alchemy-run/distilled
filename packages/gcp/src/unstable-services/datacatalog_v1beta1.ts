@@ -326,6 +326,8 @@ export interface PatchProjectsLocationsTaxonomiesRequest extends Omit<
   updateMask?: string | undefined;
   /** Identifier. Resource name of this taxonomy, whose format is: "projects/{project_number}/locations/{location_id}/taxonomies/{id}". */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name of this taxonomy, whose format is: "projects/{project_number}/locations/{location_id}/taxonomies/{id}". */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsTaxonomiesPolicyTagsRequest extends Omit<
   GoogleCloudDatacatalogV1beta1PolicyTag,
@@ -335,6 +337,8 @@ export interface PatchProjectsLocationsTaxonomiesPolicyTagsRequest extends Omit<
   updateMask?: string | undefined;
   /** Identifier. Resource name of this policy tag, whose format is: "projects/{project_number}/locations/{location_id}/taxonomies/{taxonomy_id}/policyTags/{id}". */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name of this policy tag, whose format is: "projects/{project_number}/locations/{location_id}/taxonomies/{taxonomy_id}/policyTags/{id}". */
+  bodyName?: string | undefined;
 }
 /** The criteria that select the subspace used for query matching. */
 export interface GoogleCloudDatacatalogV1beta1SearchCatalogRequestScope {
@@ -1005,6 +1009,7 @@ function __c7(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -1025,6 +1030,7 @@ function __c8(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

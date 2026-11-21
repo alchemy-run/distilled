@@ -1485,6 +1485,8 @@ export interface PatchLocationsWorkforcePoolsRequest extends Omit<WorkforcePool,
   updateMask?: string | undefined;
   /** Identifier. The resource name of the pool. Format: `locations/{location}/workforcePools/{workforce_pool_id}` */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the pool. Format: `locations/{location}/workforcePools/{workforce_pool_id}` */
+  bodyName?: string | undefined;
 }
 export interface PatchLocationsWorkforcePoolsProvidersRequest extends Omit<
   WorkforcePoolProvider,
@@ -1494,6 +1496,8 @@ export interface PatchLocationsWorkforcePoolsProvidersRequest extends Omit<
   name: string;
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the provider. Format: `locations/{location}/workforcePools/{workforce_pool_id}/providers/{provider_id}` */
+  bodyName?: string | undefined;
 }
 export interface PatchLocationsWorkforcePoolsProvidersScimTenantsRequest extends Omit<
   WorkforcePoolProviderScimTenant,
@@ -1503,6 +1507,8 @@ export interface PatchLocationsWorkforcePoolsProvidersScimTenantsRequest extends
   name: string;
   /** Optional. Gemini Enterprise only. The list of fields to update. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Gemini Enterprise only. The resource name of the SCIM Tenant. Format: `locations/{location}/workforcePools/{workforce_pool}/providers/ {workforce_pool_provider}/scimTenants/{scim_tenant}` */
+  bodyName?: string | undefined;
 }
 export interface PatchLocationsWorkforcePoolsProvidersScimTenantsTokensRequest extends Omit<
   WorkforcePoolProviderScimToken,
@@ -1512,18 +1518,24 @@ export interface PatchLocationsWorkforcePoolsProvidersScimTenantsTokensRequest e
   updateMask?: string | undefined;
   /** Identifier. Gemini Enterprise only. The resource name of the SCIM Token. Format: `locations/{location}/workforcePools/{workforce_pool}/providers/ {workforce_pool_provider}/scimTenants/{scim_tenant}/tokens/{token}` */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Gemini Enterprise only. The resource name of the SCIM Token. Format: `locations/{location}/workforcePools/{workforce_pool}/providers/ {workforce_pool_provider}/scimTenants/{scim_tenant}/tokens/{token}` */
+  bodyName?: string | undefined;
 }
 export interface PatchOrganizationsRolesRequest extends Omit<Role, "name"> {
   /** The `name` parameter's value depends on the target resource for the request, namely [projects](https://cloud.google.com/iam/docs/reference/rest/v1/projects.roles) or [organizations](https://cloud.google.com/iam/docs/reference/rest/v1/organizations.roles). Each resource type's `name` value format is described below: * [projects.roles.patch](https://cloud.google.com/iam/docs/reference/rest/v1/projects.roles/patch): `projects/{PROJECT_ID}/roles/{CUSTOM_ROLE_ID}`. This method updates only [custom roles](https://cloud.google.com/iam/docs/understanding-custom-roles) that have been created at the project level. Example request URL: `https://iam.googleapis.com/v1/projects/{PROJECT_ID}/roles/{CUSTOM_ROLE_ID}` * [organizations.roles.patch](https://cloud.google.com/iam/docs/reference/rest/v1/organizations.roles/patch): `organizations/{ORGANIZATION_ID}/roles/{CUSTOM_ROLE_ID}`. This method updates only [custom roles](https://cloud.google.com/iam/docs/understanding-custom-roles) that have been created at the organization level. Example request URL: `https://iam.googleapis.com/v1/organizations/{ORGANIZATION_ID}/roles/{CUSTOM_ROLE_ID}` Note: Wildcard (*) values are invalid; you must specify a complete project ID or organization ID. */
   name: string;
   /** A mask describing which fields in the Role have changed. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). The name of the role. When `Role` is used in `CreateRole`, the role name must not be set. When `Role` is used in output and other input such as `UpdateRole`, the role name is the complete path. For example, `roles/logging.viewer` for predefined roles, `organizations/{ORGANIZATION_ID}/roles/myRole` for organization-level custom roles, and `projects/{PROJECT_ID}/roles/myRole` for project-level custom roles. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsOauthClientsRequest extends Omit<OauthClient, "name"> {
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
   /** Immutable. Identifier. The resource name of the OauthClient. Format:`projects/{project}/locations/{location}/oauthClients/{oauth_client}`. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Immutable. Identifier. The resource name of the OauthClient. Format:`projects/{project}/locations/{location}/oauthClients/{oauth_client}`. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsOauthClientsCredentialsRequest extends Omit<
   OauthClientCredential,
@@ -1533,6 +1545,8 @@ export interface PatchProjectsLocationsOauthClientsCredentialsRequest extends Om
   updateMask?: string | undefined;
   /** Immutable. Identifier. The resource name of the OauthClientCredential. Format: `projects/{project}/locations/{location}/oauthClients/{oauth_client}/credentials/{credential}` */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Immutable. Identifier. The resource name of the OauthClientCredential. Format: `projects/{project}/locations/{location}/oauthClients/{oauth_client}/credentials/{credential}` */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsWorkloadIdentityPoolsRequest extends Omit<
   WorkloadIdentityPool,
@@ -1542,6 +1556,8 @@ export interface PatchProjectsLocationsWorkloadIdentityPoolsRequest extends Omit
   name: string;
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the pool. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsWorkloadIdentityPoolsNamespacesRequest extends Omit<
   WorkloadIdentityPoolNamespace,
@@ -1551,6 +1567,8 @@ export interface PatchProjectsLocationsWorkloadIdentityPoolsNamespacesRequest ex
   name: string;
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the namespace. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsWorkloadIdentityPoolsNamespacesManagedIdentitiesRequest extends Omit<
   WorkloadIdentityPoolManagedIdentity,
@@ -1560,6 +1578,8 @@ export interface PatchProjectsLocationsWorkloadIdentityPoolsNamespacesManagedIde
   updateMask?: string | undefined;
   /** Identifier. The resource name of the managed identity. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the managed identity. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsWorkloadIdentityPoolsProvidersRequest extends Omit<
   WorkloadIdentityPoolProvider,
@@ -1569,12 +1589,16 @@ export interface PatchProjectsLocationsWorkloadIdentityPoolsProvidersRequest ext
   name: string;
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the provider. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsRolesRequest extends Omit<Role, "name"> {
   /** The `name` parameter's value depends on the target resource for the request, namely [projects](https://cloud.google.com/iam/docs/reference/rest/v1/projects.roles) or [organizations](https://cloud.google.com/iam/docs/reference/rest/v1/organizations.roles). Each resource type's `name` value format is described below: * [projects.roles.patch](https://cloud.google.com/iam/docs/reference/rest/v1/projects.roles/patch): `projects/{PROJECT_ID}/roles/{CUSTOM_ROLE_ID}`. This method updates only [custom roles](https://cloud.google.com/iam/docs/understanding-custom-roles) that have been created at the project level. Example request URL: `https://iam.googleapis.com/v1/projects/{PROJECT_ID}/roles/{CUSTOM_ROLE_ID}` * [organizations.roles.patch](https://cloud.google.com/iam/docs/reference/rest/v1/organizations.roles/patch): `organizations/{ORGANIZATION_ID}/roles/{CUSTOM_ROLE_ID}`. This method updates only [custom roles](https://cloud.google.com/iam/docs/understanding-custom-roles) that have been created at the organization level. Example request URL: `https://iam.googleapis.com/v1/organizations/{ORGANIZATION_ID}/roles/{CUSTOM_ROLE_ID}` Note: Wildcard (*) values are invalid; you must specify a complete project ID or organization ID. */
   name: string;
   /** A mask describing which fields in the Role have changed. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). The name of the role. When `Role` is used in `CreateRole`, the role name must not be set. When `Role` is used in output and other input such as `UpdateRole`, the role name is the complete path. For example, `roles/logging.viewer` for predefined roles, `organizations/{ORGANIZATION_ID}/roles/myRole` for organization-level custom roles, and `projects/{PROJECT_ID}/roles/myRole` for project-level custom roles. */
+  bodyName?: string | undefined;
 }
 /** The service account patch request. You can patch only the `display_name` and `description` fields. You must use the `update_mask` field to specify which of these fields you want to patch. Only the fields specified in the request are guaranteed to be returned in the response. Other fields may be empty in the response. */
 export interface PatchServiceAccountRequest {
@@ -1890,6 +1914,8 @@ export interface UndeleteServiceAccountResponse {
 export interface UpdateProjectsServiceAccountsRequest extends Omit<ServiceAccount, "name"> {
   /** The resource name of the service account. Use one of the following formats: * `projects/{PROJECT_ID}/serviceAccounts/{EMAIL_ADDRESS}` * `projects/{PROJECT_ID}/serviceAccounts/{UNIQUE_ID}` As an alternative, you can use the `-` wildcard character instead of the project ID: * `projects/-/serviceAccounts/{EMAIL_ADDRESS}` * `projects/-/serviceAccounts/{UNIQUE_ID}` When possible, avoid using the `-` wildcard character, because it can cause response messages to contain misleading error codes. For example, if you try to access the service account `projects/-/serviceAccounts/fake@example.com`, which does not exist, the response contains an HTTP `403 Forbidden` error instead of a `404 Not Found` error. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). The resource name of the service account. Use one of the following formats: * `projects/{PROJECT_ID}/serviceAccounts/{EMAIL_ADDRESS}` * `projects/{PROJECT_ID}/serviceAccounts/{UNIQUE_ID}` As an alternative, you can use the `-` wildcard character instead of the project ID: * `projects/-/serviceAccounts/{EMAIL_ADDRESS}` * `projects/-/serviceAccounts/{UNIQUE_ID}` When possible, avoid using the `-` wildcard character, because it can cause response messages to contain misleading error codes. For example, if you try to access the service account `projects/-/serviceAccounts/fake@example.com`, which does not exist, the response contains an HTTP `403 Forbidden` error instead of a `404 Not Found` error. */
+  bodyName?: string | undefined;
 }
 /** The service account key upload request. */
 export interface UploadServiceAccountKeyRequest {
@@ -5057,6 +5083,7 @@ function __c2(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://iam.googleapis.com/" }),
@@ -5073,6 +5100,7 @@ function __c3(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://iam.googleapis.com/" }),
@@ -5089,6 +5117,7 @@ function __c4(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://iam.googleapis.com/" }),
@@ -5105,6 +5134,7 @@ function __c5(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://iam.googleapis.com/" }),
@@ -5121,6 +5151,7 @@ function __c6(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://iam.googleapis.com/" }),
@@ -5139,6 +5170,7 @@ function __c7(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://iam.googleapis.com/" }),
@@ -5155,6 +5187,7 @@ function __c8(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://iam.googleapis.com/" }),
@@ -6066,6 +6099,7 @@ function __c56(j: number): any {
           __S(568, __c71, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://iam.googleapis.com/" }),
@@ -8104,6 +8138,7 @@ function __c168(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://iam.googleapis.com/" }),
@@ -8120,6 +8155,7 @@ function __c169(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://iam.googleapis.com/" }),
@@ -8136,6 +8172,7 @@ function __c170(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://iam.googleapis.com/" }),
@@ -8152,6 +8189,7 @@ function __c171(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://iam.googleapis.com/" }),
@@ -8168,6 +8206,7 @@ function __c172(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://iam.googleapis.com/" }),

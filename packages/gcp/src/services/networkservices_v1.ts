@@ -2394,12 +2394,16 @@ export interface PatchProjectsLocationsAgentConnectivityTemplatesRequest extends
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the AgentConnectivityTemplate resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Name of the AgentConnectivityTemplate resource. It matches pattern `projects/*\/locations/*\/agentConnectivityTemplates/`. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsAgentGatewaysRequest extends Omit<AgentGateway, "name"> {
   /** Identifier. Name of the AgentGateway resource. It matches pattern `projects/*\/locations/*\/agentGateways/`. */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the AgentGateway resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Name of the AgentGateway resource. It matches pattern `projects/*\/locations/*\/agentGateways/`. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsAuthzExtensionsRequest extends Omit<AuthzExtension, "name"> {
   /** Required. Identifier. Name of the `AuthzExtension` resource in the following format: `projects/{project}/locations/{location}/authzExtensions/{authz_extension}`. */
@@ -2408,6 +2412,8 @@ export interface PatchProjectsLocationsAuthzExtensionsRequest extends Omit<Authz
   requestId?: string | undefined;
   /** Optional. Used to specify the fields to be overwritten in the `AuthzExtension` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field is overwritten if it is in the mask. If the user does not specify a mask, then all fields are overwritten. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Required. Identifier. Name of the `AuthzExtension` resource in the following format: `projects/{project}/locations/{location}/authzExtensions/{authz_extension}`. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsEndpointPoliciesRequest extends Omit<
   EndpointPolicy,
@@ -2417,6 +2423,8 @@ export interface PatchProjectsLocationsEndpointPoliciesRequest extends Omit<
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the EndpointPolicy resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Name of the EndpointPolicy resource. It matches pattern `projects/{project}/locations/*\/endpointPolicies/{endpoint_policy}`. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsExtensionBindingsRequest extends Omit<
   ExtensionBinding,
@@ -2426,24 +2434,32 @@ export interface PatchProjectsLocationsExtensionBindingsRequest extends Omit<
   updateMask?: string | undefined;
   /** Identifier. Name of the `ExtensionBinding` resource in the following format: `projects/{project}/locations/{location}/extensionBindings/{extension_binding}`. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Name of the `ExtensionBinding` resource in the following format: `projects/{project}/locations/{location}/extensionBindings/{extension_binding}`. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsGatewaysRequest extends Omit<Gateway, "name"> {
   /** Identifier. Name of the Gateway resource. It matches pattern `projects/*\/locations/*\/gateways/`. */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the Gateway resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Name of the Gateway resource. It matches pattern `projects/*\/locations/*\/gateways/`. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsGrpcRoutesRequest extends Omit<GrpcRoute, "name"> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the GrpcRoute resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Identifier. Name of the GrpcRoute resource. It matches pattern `projects/*\/locations/*\/grpcRoutes/` */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Name of the GrpcRoute resource. It matches pattern `projects/*\/locations/*\/grpcRoutes/` */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsHttpRoutesRequest extends Omit<HttpRoute, "name"> {
   /** Identifier. Name of the HttpRoute resource. It matches pattern `projects/*\/locations/*\/httpRoutes/http_route_name>`. */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the HttpRoute resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Name of the HttpRoute resource. It matches pattern `projects/*\/locations/*\/httpRoutes/http_route_name>`. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsLbEdgeExtensionsRequest extends Omit<
   LbEdgeExtension,
@@ -2455,6 +2471,8 @@ export interface PatchProjectsLocationsLbEdgeExtensionsRequest extends Omit<
   updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Required. Identifier. Name of the `LbEdgeExtension` resource in the following format: `projects/{project}/locations/{location}/lbEdgeExtensions/{lb_edge_extension}`. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsLbRouteExtensionsRequest extends Omit<
   LbRouteExtension,
@@ -2466,6 +2484,8 @@ export interface PatchProjectsLocationsLbRouteExtensionsRequest extends Omit<
   requestId?: string | undefined;
   /** Required. Identifier. Name of the `LbRouteExtension` resource in the following format: `projects/{project}/locations/{location}/lbRouteExtensions/{lb_route_extension}`. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Required. Identifier. Name of the `LbRouteExtension` resource in the following format: `projects/{project}/locations/{location}/lbRouteExtensions/{lb_route_extension}`. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsLbTrafficExtensionsRequest extends Omit<
   LbTrafficExtension,
@@ -2477,12 +2497,16 @@ export interface PatchProjectsLocationsLbTrafficExtensionsRequest extends Omit<
   name: string;
   /** Optional. Used to specify the fields to be overwritten in the `LbTrafficExtension` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field is overwritten if it is in the mask. If the user does not specify a mask, then all fields are overwritten. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Required. Identifier. Name of the `LbTrafficExtension` resource in the following format: `projects/{project}/locations/{location}/lbTrafficExtensions/{lb_traffic_extension}`. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsMeshesRequest extends Omit<Mesh, "name"> {
   /** Identifier. Name of the Mesh resource. It matches pattern `projects/*\/locations/*\/meshes/`. */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the Mesh resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Name of the Mesh resource. It matches pattern `projects/*\/locations/*\/meshes/`. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsMulticastConsumerAssociationsRequest extends Omit<
   MulticastConsumerAssociation,
@@ -2494,6 +2518,8 @@ export interface PatchProjectsLocationsMulticastConsumerAssociationsRequest exte
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the MulticastConsumerAssociation resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all mutable fields present in the request will be overwritten. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the multicast consumer association. Use the following format: `projects/*\/locations/*\/multicastConsumerAssociations/*`. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsMulticastGroupConsumerActivationsRequest extends Omit<
   MulticastGroupConsumerActivation,
@@ -2505,6 +2531,8 @@ export interface PatchProjectsLocationsMulticastGroupConsumerActivationsRequest 
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the MulticastGroupConsumerActivation resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all mutable fields present in the request will be overwritten. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the multicast group consumer activation. Use the following format: `projects/*\/locations/*\/multicastGroupConsumerActivations/*`. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsServiceBindingsRequest extends Omit<ServiceBinding, "name"> {
   /** Identifier. Name of the ServiceBinding resource. It matches pattern `projects/*\/locations/*\/serviceBindings/`. */
@@ -2513,6 +2541,8 @@ export interface PatchProjectsLocationsServiceBindingsRequest extends Omit<Servi
   requestId?: string | undefined;
   /** Optional. Field mask is used to specify the fields to be overwritten in the ServiceBinding resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Name of the ServiceBinding resource. It matches pattern `projects/*\/locations/*\/serviceBindings/`. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsServiceLbPoliciesRequest extends Omit<
   ServiceLbPolicy,
@@ -2522,24 +2552,32 @@ export interface PatchProjectsLocationsServiceLbPoliciesRequest extends Omit<
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the ServiceLbPolicy resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Name of the ServiceLbPolicy resource. It matches pattern `projects/{project}/locations/{location}/serviceLbPolicies/{service_lb_policy_name}`. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsTcpRoutesRequest extends Omit<TcpRoute, "name"> {
   /** Identifier. Name of the TcpRoute resource. It matches pattern `projects/*\/locations/*\/tcpRoutes/tcp_route_name>`. */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the TcpRoute resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Name of the TcpRoute resource. It matches pattern `projects/*\/locations/*\/tcpRoutes/tcp_route_name>`. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsTlsRoutesRequest extends Omit<TlsRoute, "name"> {
   /** Identifier. Name of the TlsRoute resource. It matches pattern `projects/*\/locations/*\/tlsRoutes/tls_route_name>`. */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the TlsRoute resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Name of the TlsRoute resource. It matches pattern `projects/*\/locations/*\/tlsRoutes/tls_route_name>`. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsWasmPluginsRequest extends Omit<WasmPlugin, "name"> {
   /** Identifier. Name of the `WasmPlugin` resource in the following format: `projects/{project}/locations/{location}/wasmPlugins/{wasm_plugin}`. */
   name: string;
   /** Optional. Used to specify the fields to be overwritten in the `WasmPlugin` resource by the update. The fields specified in the `update_mask` field are relative to the resource, not the full request. An omitted `update_mask` field is treated as an implied `update_mask` field equivalent to all fields that are populated (that have a non-empty value). The `update_mask` field supports a special value `*`, which means that each field in the given `WasmPlugin` resource (including the empty ones) replaces the current value. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Name of the `WasmPlugin` resource in the following format: `projects/{project}/locations/{location}/wasmPlugins/{wasm_plugin}`. */
+  bodyName?: string | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
@@ -5251,6 +5289,7 @@ function __c3(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5271,6 +5310,7 @@ function __c4(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5292,6 +5332,7 @@ function __c5(j: number): any {
             name: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5312,6 +5353,7 @@ function __c6(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5332,6 +5374,7 @@ function __c7(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5352,6 +5395,7 @@ function __c8(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5372,6 +5416,7 @@ function __c9(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5392,6 +5437,7 @@ function __c10(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5413,6 +5459,7 @@ function __c11(j: number): any {
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5572,6 +5619,7 @@ function __c16(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5593,6 +5641,7 @@ function __c17(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5613,6 +5662,7 @@ function __c18(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5634,6 +5684,7 @@ function __c19(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5655,6 +5706,7 @@ function __c20(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5676,6 +5728,7 @@ function __c21(j: number): any {
             name: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5696,6 +5749,7 @@ function __c22(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5716,6 +5770,7 @@ function __c23(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5736,6 +5791,7 @@ function __c24(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5756,6 +5812,7 @@ function __c25(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

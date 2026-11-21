@@ -337,12 +337,16 @@ export interface PatchProjectsLocationsDataExchangesRequest extends Omit<DataExc
   updateMask?: string | undefined;
   /** Output only. The resource name of the data exchange. e.g. `projects/myproject/locations/us/dataExchanges/123`. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Output only. The resource name of the data exchange. e.g. `projects/myproject/locations/us/dataExchanges/123`. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsDataExchangesListingsRequest extends Omit<Listing, "name"> {
   /** Output only. The resource name of the listing. e.g. `projects/myproject/locations/us/dataExchanges/123/listings/456` */
   name: string;
   /** Required. Field mask specifies the fields to update in the listing resource. The fields specified in the `updateMask` are relative to the resource and are not a full request. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Output only. The resource name of the listing. e.g. `projects/myproject/locations/us/dataExchanges/123/listings/456` */
+  bodyName?: string | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
@@ -923,6 +927,7 @@ function __c6(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -943,6 +948,7 @@ function __c7(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

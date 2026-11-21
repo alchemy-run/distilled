@@ -2284,6 +2284,8 @@ export interface PatchChromeosdevicesRequest extends Omit<ChromeOsDevice, "devic
   deviceId: string;
   /** Determines whether the response contains the full list of properties or only a subset. */
   projection?: PatchChromeosdevicesProjectionEnum | (string & {}) | undefined;
+  /** The request body's `deviceId` (`deviceId` is the path parameter). The unique ID of the Chrome device. */
+  bodyDeviceId?: string | undefined;
 }
 export interface PatchCustomersRequest extends Customer {
   /** Id of the customer to be updated */
@@ -2296,12 +2298,16 @@ export interface PatchCustomersChromePrintersRequest extends Omit<Printer, "name
   updateMask?: string | undefined;
   /** Identifier. The resource name of the Printer object, in the format customers/{customer-id}/printers/{printer-id} (During printer creation leave empty) */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the Printer object, in the format customers/{customer-id}/printers/{printer-id} (During printer creation leave empty) */
+  bodyName?: string | undefined;
 }
 export interface PatchCustomersChromePrintServersRequest extends Omit<PrintServer, "name"> {
   /** Identifier. Resource name of the print server. Leave empty when creating. Format: `customers/{customer.id}/printServers/{print_server.id}` */
   name: string;
   /** The list of fields to update. Some fields are read-only and cannot be updated. Values for unspecified fields are patched. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name of the print server. Leave empty when creating. Format: `customers/{customer.id}/printServers/{print_server.id}` */
+  bodyName?: string | undefined;
 }
 export interface PatchGroupsRequest extends Group {
   /** Identifies the group in the API request. The value can be the group's email address, group alias, or the unique group ID. */
@@ -2318,6 +2324,8 @@ export interface PatchOrgunitsRequest extends Omit<OrgUnit, "orgUnitPath"> {
   customerId: string;
   /** The full path of the organizational unit (minus the leading `/`) or its unique ID. */
   orgUnitPath: string;
+  /** The request body's `orgUnitPath` (`orgUnitPath` is the path parameter). The full path to the organizational unit. The `orgUnitPath` is a derived property. When listed, it is derived from `parentOrgunitPath` and organizational unit's `name`. For example, for an organizational unit named 'apps' under parent organization '/engineering', the orgUnitPath is '/engineering/apps'. In order to edit an `orgUnitPath`, either update the name of the organization or the `parentOrgunitPath`. A user's organizational unit determines which Google Workspace services the user has access to. If the user is moved to a new organization, the user's access changes. For more information about organization structures, see the [administration help center](https://support.google.com/a/answer/4352075). For more information about moving a user to a different organization, see [Update a user](https://developers.google.com/workspace/admin/directory/v1/guides/manage-users.html#update_user). */
+  bodyOrgUnitPath?: string | undefined;
 }
 export type PatchResourcesBuildingsCoordinatesSourceEnum =
   | "CLIENT_SPECIFIED"
@@ -2330,6 +2338,8 @@ export interface PatchResourcesBuildingsRequest extends Omit<Building, "building
   coordinatesSource?: PatchResourcesBuildingsCoordinatesSourceEnum | (string & {}) | undefined;
   /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's customer ID. */
   customer: string;
+  /** The request body's `buildingId` (`buildingId` is the path parameter). Unique identifier for the building. The maximum length is 100 characters. */
+  bodyBuildingId?: string | undefined;
 }
 export interface PatchResourcesCalendarsRequest extends CalendarResource {
   /** The unique ID of the calendar resource to update. */
@@ -2348,6 +2358,8 @@ export interface PatchRolesRequest extends Omit<Role, "roleId"> {
   roleId: string;
   /** Immutable ID of the Google Workspace account. */
   customer: string;
+  /** The request body's `roleId` (`roleId` is the path parameter). ID of the role. */
+  bodyRoleId?: string | undefined;
 }
 export interface PatchSchemasRequest extends Admin_Schema {
   /** Name or immutable ID of the schema. */
@@ -2427,6 +2439,8 @@ export interface UpdateChromeosdevicesRequest extends Omit<ChromeOsDevice, "devi
   projection?: UpdateChromeosdevicesProjectionEnum | (string & {}) | undefined;
   /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users resource](https://developers.google.com/workspace/admin/directory/v1/reference/users). */
   customerId: string;
+  /** The request body's `deviceId` (`deviceId` is the path parameter). The unique ID of the Chrome device. */
+  bodyDeviceId?: string | undefined;
 }
 export interface UpdateCustomersRequest extends Customer {
   /** Id of the customer to be updated */
@@ -2447,6 +2461,8 @@ export interface UpdateOrgunitsRequest extends Omit<OrgUnit, "orgUnitPath"> {
   orgUnitPath: string;
   /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users resource](https://developers.google.com/workspace/admin/directory/v1/reference/users). */
   customerId: string;
+  /** The request body's `orgUnitPath` (`orgUnitPath` is the path parameter). The full path to the organizational unit. The `orgUnitPath` is a derived property. When listed, it is derived from `parentOrgunitPath` and organizational unit's `name`. For example, for an organizational unit named 'apps' under parent organization '/engineering', the orgUnitPath is '/engineering/apps'. In order to edit an `orgUnitPath`, either update the name of the organization or the `parentOrgunitPath`. A user's organizational unit determines which Google Workspace services the user has access to. If the user is moved to a new organization, the user's access changes. For more information about organization structures, see the [administration help center](https://support.google.com/a/answer/4352075). For more information about moving a user to a different organization, see [Update a user](https://developers.google.com/workspace/admin/directory/v1/guides/manage-users.html#update_user). */
+  bodyOrgUnitPath?: string | undefined;
 }
 export type UpdateResourcesBuildingsCoordinatesSourceEnum =
   | "CLIENT_SPECIFIED"
@@ -2459,6 +2475,8 @@ export interface UpdateResourcesBuildingsRequest extends Omit<Building, "buildin
   coordinatesSource?: UpdateResourcesBuildingsCoordinatesSourceEnum | (string & {}) | undefined;
   /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's customer ID. */
   customer: string;
+  /** The request body's `buildingId` (`buildingId` is the path parameter). Unique identifier for the building. The maximum length is 100 characters. */
+  bodyBuildingId?: string | undefined;
 }
 export interface UpdateResourcesCalendarsRequest extends CalendarResource {
   /** The unique ID of the calendar resource to update. */
@@ -2477,6 +2495,8 @@ export interface UpdateRolesRequest extends Omit<Role, "roleId"> {
   roleId: string;
   /** Immutable ID of the Google Workspace account. */
   customer: string;
+  /** The request body's `roleId` (`roleId` is the path parameter). ID of the role. */
+  bodyRoleId?: string | undefined;
 }
 export interface UpdateSchemasRequest extends Admin_Schema {
   /** Name or immutable ID of the schema. */
@@ -5198,6 +5218,7 @@ function __c2(j: number): any {
             clearMask: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5218,6 +5239,7 @@ function __c3(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5277,6 +5299,7 @@ function __c6(j: number): any {
           S.Struct({
             customerId: S.String.pipe(T.Label()),
             orgUnitPath: S.String.pipe(T.Label()),
+            bodyOrgUnitPath: S.optional(S.String.pipe(T.Body("orgUnitPath"))),
           }),
         ).pipe(
           T.Http({
@@ -5298,6 +5321,7 @@ function __c7(j: number): any {
             buildingId: S.String.pipe(T.Label()),
             coordinatesSource: S.optional(S.String.pipe(T.Query())),
             customer: S.String.pipe(T.Label()),
+            bodyBuildingId: S.optional(S.String.pipe(T.Body("buildingId"))),
           }),
         ).pipe(
           T.Http({
@@ -5358,6 +5382,7 @@ function __c10(j: number): any {
           S.Struct({
             roleId: S.String.pipe(T.Label()),
             customer: S.String.pipe(T.Label()),
+            bodyRoleId: S.optional(S.String.pipe(T.Body("roleId"))),
           }),
         ).pipe(
           T.Http({
@@ -5580,6 +5605,7 @@ function __c21(j: number): any {
             deviceId: S.String.pipe(T.Label()),
             projection: S.optional(S.String.pipe(T.Query())),
             customerId: S.String.pipe(T.Label()),
+            bodyDeviceId: S.optional(S.String.pipe(T.Body("deviceId"))),
           }),
         ).pipe(
           T.Http({
@@ -5677,6 +5703,7 @@ function __c26(j: number): any {
           S.Struct({
             orgUnitPath: S.String.pipe(T.Label()),
             customerId: S.String.pipe(T.Label()),
+            bodyOrgUnitPath: S.optional(S.String.pipe(T.Body("orgUnitPath"))),
           }),
         ).pipe(
           T.Http({
@@ -5698,6 +5725,7 @@ function __c27(j: number): any {
             buildingId: S.String.pipe(T.Label()),
             coordinatesSource: S.optional(S.String.pipe(T.Query())),
             customer: S.String.pipe(T.Label()),
+            bodyBuildingId: S.optional(S.String.pipe(T.Body("buildingId"))),
           }),
         ).pipe(
           T.Http({
@@ -5758,6 +5786,7 @@ function __c30(j: number): any {
           S.Struct({
             roleId: S.String.pipe(T.Label()),
             customer: S.String.pipe(T.Label()),
+            bodyRoleId: S.optional(S.String.pipe(T.Body("roleId"))),
           }),
         ).pipe(
           T.Http({
@@ -8806,6 +8835,7 @@ function __c159(j: number): any {
             customerId: S.String.pipe(T.Label()),
             deviceId: S.String.pipe(T.Label()),
             projection: S.optional(S.String.pipe(T.Query())),
+            bodyDeviceId: S.optional(S.String.pipe(T.Body("deviceId"))),
           }),
         ).pipe(
           T.Http({

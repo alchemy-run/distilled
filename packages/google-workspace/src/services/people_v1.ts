@@ -1248,6 +1248,8 @@ export interface UpdateContactPeopleRequest extends Omit<Person, "resourceName">
   personFields?: string | undefined;
   /** Required. A field mask to restrict which fields on the person are updated. Multiple fields can be specified by separating them with commas. All updated fields will be replaced. Valid values are: * addresses * biographies * birthdays * calendarUrls * clientData * emailAddresses * events * externalIds * genders * imClients * interests * locales * locations * memberships * miscKeywords * names * nicknames * occupations * organizations * phoneNumbers * relations * sipAddresses * urls * userDefined */
   updatePersonFields?: string | undefined;
+  /** The request body's `resourceName` (`resourceName` is the path parameter). The resource name for the person, assigned by the server. An ASCII string in the form of `people/{person_id}`. */
+  bodyResourceName?: string | undefined;
 }
 export type UpdateContactPhotoRequestSourcesItemEnum =
   | "READ_SOURCE_TYPE_UNSPECIFIED"
@@ -2186,6 +2188,7 @@ function __c19(j: number): any {
             sources: S.optional(__S(832, __c26, 0).pipe(T.Query())),
             personFields: S.optional(S.String.pipe(T.Query())),
             updatePersonFields: S.optional(S.String.pipe(T.Query())),
+            bodyResourceName: S.optional(S.String.pipe(T.Body("resourceName"))),
           }),
         ).pipe(
           T.Http({

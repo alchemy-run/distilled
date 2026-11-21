@@ -458,12 +458,16 @@ export interface PatchProjectsLocationsCustomClassesRequest extends Omit<CustomC
   name: string;
   /** The list of fields to be updated. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). The resource name of the custom class. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsPhraseSetsRequest extends Omit<PhraseSet, "name"> {
   /** The list of fields to be updated. */
   updateMask?: string | undefined;
   /** The resource name of the phrase set. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). The resource name of the phrase set. */
+  bodyName?: string | undefined;
 }
 /** The top-level message sent by the client for the `Recognize` method. */
 export interface RecognizeRequest {
@@ -1057,6 +1061,7 @@ function __c9(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://speech.googleapis.com/" }),
@@ -1073,6 +1078,7 @@ function __c10(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://speech.googleapis.com/" }),

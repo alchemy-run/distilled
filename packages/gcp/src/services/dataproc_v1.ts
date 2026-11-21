@@ -2569,6 +2569,8 @@ export interface CreateProjectsRegionsClustersRequest extends Omit<Cluster, "pro
     | undefined;
   /** Required. The ID of the Google Cloud Platform project that the cluster belongs to. */
   projectId: string;
+  /** The request body's `projectId` (`projectId` is the path parameter). Required. The Google Cloud Platform project ID that the cluster belongs to. */
+  bodyProjectId?: string | undefined;
 }
 export interface CreateProjectsRegionsClustersNodeGroupsRequest extends NodeGroup {
   /** Optional. operation id of the parent operation sending the create request */
@@ -3051,6 +3053,8 @@ export interface PatchProjectsLocationsSessionTemplatesRequest extends Omit<
 > {
   /** Required. Identifier. The resource name of the session template. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Required. Identifier. The resource name of the session template. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsRegionsClustersRequest extends Omit<
   Cluster,
@@ -3068,6 +3072,10 @@ export interface PatchProjectsRegionsClustersRequest extends Omit<
   requestId?: string | undefined;
   /** Required. The ID of the Google Cloud Platform project the cluster belongs to. */
   projectId: string;
+  /** The request body's `clusterName` (`clusterName` is the path parameter). Required. The cluster name, which must be unique within a project. The name must start with a lowercase letter, and can contain up to 51 lowercase letters, numbers, and hyphens. It cannot end with a hyphen. The name of a deleted cluster can be reused. */
+  bodyClusterName?: string | undefined;
+  /** The request body's `projectId` (`projectId` is the path parameter). Required. The Google Cloud Platform project ID that the cluster belongs to. */
+  bodyProjectId?: string | undefined;
 }
 export interface PatchProjectsRegionsJobsRequest extends Job {
   /** Required. The job ID. */
@@ -3982,6 +3990,8 @@ export interface UpdateProjectsLocationsAutoscalingPoliciesRequest extends Omit<
 > {
   /** Output only. The "resource name" of the autoscaling policy, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.autoscalingPolicies, the resource name of the policy has the following format: projects/{project_id}/regions/{region}/autoscalingPolicies/{policy_id} For projects.locations.autoscalingPolicies, the resource name of the policy has the following format: projects/{project_id}/locations/{location}/autoscalingPolicies/{policy_id} */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Output only. The "resource name" of the autoscaling policy, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.autoscalingPolicies, the resource name of the policy has the following format: projects/{project_id}/regions/{region}/autoscalingPolicies/{policy_id} For projects.locations.autoscalingPolicies, the resource name of the policy has the following format: projects/{project_id}/locations/{location}/autoscalingPolicies/{policy_id} */
+  bodyName?: string | undefined;
 }
 export interface UpdateProjectsLocationsWorkflowTemplatesRequest extends Omit<
   WorkflowTemplate,
@@ -3989,6 +3999,8 @@ export interface UpdateProjectsLocationsWorkflowTemplatesRequest extends Omit<
 > {
   /** Output only. The resource name of the workflow template, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/regions/{region}/workflowTemplates/{template_id} For projects.locations.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/locations/{location}/workflowTemplates/{template_id} */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Output only. The resource name of the workflow template, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/regions/{region}/workflowTemplates/{template_id} For projects.locations.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/locations/{location}/workflowTemplates/{template_id} */
+  bodyName?: string | undefined;
 }
 export interface UpdateProjectsRegionsAutoscalingPoliciesRequest extends Omit<
   AutoscalingPolicy,
@@ -3996,6 +4008,8 @@ export interface UpdateProjectsRegionsAutoscalingPoliciesRequest extends Omit<
 > {
   /** Output only. The "resource name" of the autoscaling policy, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.autoscalingPolicies, the resource name of the policy has the following format: projects/{project_id}/regions/{region}/autoscalingPolicies/{policy_id} For projects.locations.autoscalingPolicies, the resource name of the policy has the following format: projects/{project_id}/locations/{location}/autoscalingPolicies/{policy_id} */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Output only. The "resource name" of the autoscaling policy, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.autoscalingPolicies, the resource name of the policy has the following format: projects/{project_id}/regions/{region}/autoscalingPolicies/{policy_id} For projects.locations.autoscalingPolicies, the resource name of the policy has the following format: projects/{project_id}/locations/{location}/autoscalingPolicies/{policy_id} */
+  bodyName?: string | undefined;
 }
 export interface UpdateProjectsRegionsWorkflowTemplatesRequest extends Omit<
   WorkflowTemplate,
@@ -4003,6 +4017,8 @@ export interface UpdateProjectsRegionsWorkflowTemplatesRequest extends Omit<
 > {
   /** Output only. The resource name of the workflow template, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/regions/{region}/workflowTemplates/{template_id} For projects.locations.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/locations/{location}/workflowTemplates/{template_id} */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Output only. The resource name of the workflow template, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/regions/{region}/workflowTemplates/{template_id} For projects.locations.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/locations/{location}/workflowTemplates/{template_id} */
+  bodyName?: string | undefined;
 }
 /** Pool Data */
 export interface PoolData {
@@ -8437,6 +8453,7 @@ function __c52(j: number): any {
           __S(2884, __c90, 4),
           S.Struct({
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://dataproc.googleapis.com/" }),
@@ -8452,6 +8469,7 @@ function __c53(j: number): any {
           __S(3403, __c106, 11),
           S.Struct({
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://dataproc.googleapis.com/" }),
@@ -8467,6 +8485,7 @@ function __c54(j: number): any {
           __S(2884, __c90, 4),
           S.Struct({
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://dataproc.googleapis.com/" }),
@@ -8482,6 +8501,7 @@ function __c55(j: number): any {
           __S(3403, __c106, 11),
           S.Struct({
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://dataproc.googleapis.com/" }),
@@ -10835,6 +10855,7 @@ function __c108(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             actionOnFailedPrimaryWorkers: S.optional(S.String.pipe(T.Query())),
             projectId: S.String.pipe(T.Label()),
+            bodyProjectId: S.optional(S.String.pipe(T.Body("projectId"))),
           }),
         ).pipe(
           T.Http({
@@ -12179,6 +12200,7 @@ function __c178(j: number): any {
           __S(3232, __c101, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -12203,6 +12225,8 @@ function __c179(j: number): any {
             gracefulDecommissionTimeout: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
             projectId: S.String.pipe(T.Label()),
+            bodyClusterName: S.optional(S.String.pipe(T.Body("clusterName"))),
+            bodyProjectId: S.optional(S.String.pipe(T.Body("projectId"))),
           }),
         ).pipe(
           T.Http({

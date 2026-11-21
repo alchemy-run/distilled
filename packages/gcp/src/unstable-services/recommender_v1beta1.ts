@@ -754,6 +754,8 @@ export interface UpdateConfigBillingAccountsLocationsInsightTypesRequest extends
   name: string;
   /** If true, validate the request and preview the change, but do not actually update it. */
   validateOnly?: boolean | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Name of insight type config. Eg, projects/[PROJECT_NUMBER]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]/config */
+  bodyName?: string | undefined;
 }
 export interface UpdateConfigBillingAccountsLocationsRecommendersRequest extends Omit<
   GoogleCloudRecommenderV1beta1RecommenderConfig,
@@ -765,6 +767,8 @@ export interface UpdateConfigBillingAccountsLocationsRecommendersRequest extends
   name: string;
   /** If true, validate the request and preview the change, but do not actually update it. */
   validateOnly?: boolean | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Name of recommender config. Eg, projects/[PROJECT_NUMBER]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]/config */
+  bodyName?: string | undefined;
 }
 export interface UpdateConfigOrganizationsLocationsInsightTypesRequest extends Omit<
   GoogleCloudRecommenderV1beta1InsightTypeConfig,
@@ -776,6 +780,8 @@ export interface UpdateConfigOrganizationsLocationsInsightTypesRequest extends O
   name: string;
   /** If true, validate the request and preview the change, but do not actually update it. */
   validateOnly?: boolean | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Name of insight type config. Eg, projects/[PROJECT_NUMBER]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]/config */
+  bodyName?: string | undefined;
 }
 export interface UpdateConfigOrganizationsLocationsRecommendersRequest extends Omit<
   GoogleCloudRecommenderV1beta1RecommenderConfig,
@@ -787,6 +793,8 @@ export interface UpdateConfigOrganizationsLocationsRecommendersRequest extends O
   updateMask?: string | undefined;
   /** If true, validate the request and preview the change, but do not actually update it. */
   validateOnly?: boolean | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Name of recommender config. Eg, projects/[PROJECT_NUMBER]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]/config */
+  bodyName?: string | undefined;
 }
 export interface UpdateConfigProjectsLocationsInsightTypesRequest extends Omit<
   GoogleCloudRecommenderV1beta1InsightTypeConfig,
@@ -798,6 +806,8 @@ export interface UpdateConfigProjectsLocationsInsightTypesRequest extends Omit<
   updateMask?: string | undefined;
   /** Identifier. Name of insight type config. Eg, projects/[PROJECT_NUMBER]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]/config */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Name of insight type config. Eg, projects/[PROJECT_NUMBER]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]/config */
+  bodyName?: string | undefined;
 }
 export interface UpdateConfigProjectsLocationsRecommendersRequest extends Omit<
   GoogleCloudRecommenderV1beta1RecommenderConfig,
@@ -809,6 +819,8 @@ export interface UpdateConfigProjectsLocationsRecommendersRequest extends Omit<
   name: string;
   /** If true, validate the request and preview the change, but do not actually update it. */
   validateOnly?: boolean | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Name of recommender config. Eg, projects/[PROJECT_NUMBER]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]/config */
+  bodyName?: string | undefined;
 }
 export type GetBillingAccountsLocationsInsightTypesInsightsError =
   | NotFound
@@ -3220,6 +3232,7 @@ function __c55(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3241,6 +3254,7 @@ function __c56(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3262,6 +3276,7 @@ function __c57(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3283,6 +3298,7 @@ function __c58(j: number): any {
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3304,6 +3320,7 @@ function __c59(j: number): any {
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3325,6 +3342,7 @@ function __c60(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

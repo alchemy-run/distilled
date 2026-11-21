@@ -1459,6 +1459,8 @@ export interface PatchOrganizationsLocationsSubscriptionsRequest extends Omit<
   name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the Subscription resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. Mutable fields: seat_count. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Unique resource name of the Subscription. The name is ignored when creating a subscription. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsSecurityGatewaysRequest extends Omit<
   GoogleCloudBeyondcorpSecuritygatewaysV1alphaSecurityGateway,
@@ -1470,6 +1472,8 @@ export interface PatchProjectsLocationsSecurityGatewaysRequest extends Omit<
   requestId?: string | undefined;
   /** Identifier. Name of the resource. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Name of the resource. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsSecurityGatewaysApplicationsRequest extends Omit<
   GoogleCloudBeyondcorpSecuritygatewaysV1alphaApplication,
@@ -1481,6 +1485,8 @@ export interface PatchProjectsLocationsSecurityGatewaysApplicationsRequest exten
   requestId?: string | undefined;
   /** Identifier. Name of the resource. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Name of the resource. */
+  bodyName?: string | undefined;
 }
 export interface ResolveInstanceConfigProjectsLocationsAppConnectorsRequest {
   /** Required. BeyondCorp AppConnector name using the form: `projects/{project_id}/locations/{location_id}/appConnectors/{app_connector}` */
@@ -4895,6 +4901,7 @@ function __c67(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4916,6 +4923,7 @@ function __c68(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4937,6 +4945,7 @@ function __c69(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

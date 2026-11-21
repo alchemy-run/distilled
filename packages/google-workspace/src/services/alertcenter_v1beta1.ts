@@ -149,6 +149,10 @@ export interface CreateAlertsFeedbackRequest extends Omit<AlertFeedback, "alertI
   alertId: string;
   /** Optional. The unique identifier of the Google Workspace account of the customer the alert is associated with. The `customer_id` must have the initial "C" stripped (for example, `046psxkn`). Inferred from the caller identity if not provided. [Find your customer ID](https://support.google.com/cloudidentity/answer/10070793). */
   customerId?: string | undefined;
+  /** The request body's `alertId` (`alertId` is the path parameter). Output only. The alert identifier. */
+  bodyAlertId?: string | undefined;
+  /** The request body's `customerId` (`customerId` is the query parameter). Output only. The unique identifier of the Google Workspace account of the customer. */
+  bodyCustomerId?: string | undefined;
 }
 export interface DeleteAlertsRequest {
   /** Optional. The unique identifier of the Google Workspace account of the customer the alert is associated with. The `customer_id` must have the initial "C" stripped (for example, `046psxkn`). Inferred from the caller identity if not provided. [Find your customer ID](https://support.google.com/cloudidentity/answer/10070793). */
@@ -728,6 +732,8 @@ function __c10(j: number): any {
           S.Struct({
             alertId: S.String.pipe(T.Label()),
             customerId: S.optional(S.String.pipe(T.Query())),
+            bodyAlertId: S.optional(S.String.pipe(T.Body("alertId"))),
+            bodyCustomerId: S.optional(S.String.pipe(T.Body("customerId"))),
           }),
         ).pipe(
           T.Http({

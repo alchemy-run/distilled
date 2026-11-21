@@ -126,6 +126,8 @@ export interface CreateOrganizationsSourcesFindingsRequest extends Omit<
 > {
   parent: string;
   findingId?: string | undefined;
+  /** The request body's `parent` (`parent` is the path parameter). */
+  bodyParent?: string | undefined;
 }
 export interface DeleteOrganizationsOperationsRequest {
   name: string;
@@ -329,6 +331,8 @@ export interface ListFindingsResponse {
 export interface PatchOrganizationsSourcesRequest extends Omit<Source, "name"> {
   name: string;
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchOrganizationsSourcesFindingsRequest extends Omit<
   GoogleCloudSecuritycenterV1beta1Finding,
@@ -336,6 +340,8 @@ export interface PatchOrganizationsSourcesFindingsRequest extends Omit<
 > {
   name: string;
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export type RunAssetDiscoveryRequest = CancelOperationRequest;
 export interface RunDiscoveryOrganizationsAssetsRequest {
@@ -373,6 +379,8 @@ export interface UpdateOrganizationSettingsOrganizationsRequest extends Omit<
 > {
   name: string;
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface UpdateSecurityMarksOrganizationsAssetsRequest extends Omit<
   GoogleCloudSecuritycenterV1beta1SecurityMarks,
@@ -381,6 +389,8 @@ export interface UpdateSecurityMarksOrganizationsAssetsRequest extends Omit<
   name: string;
   startTime?: string | undefined;
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface UpdateSecurityMarksOrganizationsSourcesFindingsRequest extends Omit<
   GoogleCloudSecuritycenterV1beta1SecurityMarks,
@@ -389,6 +399,8 @@ export interface UpdateSecurityMarksOrganizationsSourcesFindingsRequest extends 
   updateMask?: string | undefined;
   startTime?: string | undefined;
   name: string;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export type CancelOrganizationsOperationsError =
   | NotFound
@@ -1166,6 +1178,7 @@ function __c10(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -1186,6 +1199,7 @@ function __c11(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -1300,6 +1314,7 @@ function __c16(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -1321,6 +1336,7 @@ function __c17(j: number): any {
             name: S.String.pipe(T.Label()),
             startTime: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -1342,6 +1358,7 @@ function __c18(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             startTime: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -1416,6 +1433,7 @@ function __c23(j: number): any {
           S.Struct({
             parent: S.String.pipe(T.Label()),
             findingId: S.optional(S.String.pipe(T.Query())),
+            bodyParent: S.optional(S.String.pipe(T.Body("parent"))),
           }),
         ).pipe(
           T.Http({

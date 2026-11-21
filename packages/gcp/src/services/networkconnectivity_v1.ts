@@ -2446,6 +2446,8 @@ export interface PatchProjectsLocationsGlobalHubsRequest extends Omit<Hub, "name
   updateMask?: string | undefined;
   /** Immutable. The name of the hub. Hub names must be unique. They use the following form: `projects/{project_number}/locations/global/hubs/{hub_id}` */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Immutable. The name of the hub. Hub names must be unique. They use the following form: `projects/{project_number}/locations/global/hubs/{hub_id}` */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsGlobalHubsGroupsRequest extends Omit<Group, "name"> {
   /** Immutable. The name of the group. Group names must be unique. They use the following form: `projects/{project_number}/locations/global/hubs/{hub}/groups/{group_id}` */
@@ -2454,6 +2456,8 @@ export interface PatchProjectsLocationsGlobalHubsGroupsRequest extends Omit<Grou
   updateMask?: string | undefined;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check to see whether the original operation was received. If it was, the server ignores the second request. This behavior prevents clients from mistakenly creating duplicate commitments. The request ID must be a valid UUID, with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Immutable. The name of the group. Group names must be unique. They use the following form: `projects/{project_number}/locations/global/hubs/{hub}/groups/{group_id}` */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsInternalRangesRequest extends Omit<InternalRange, "name"> {
   /** Identifier. The name of an internal range. Format: projects/{project}/locations/{location}/internalRanges/{internal_range} See: https://google.aip.dev/122#fields-representing-resource-names */
@@ -2462,6 +2466,8 @@ export interface PatchProjectsLocationsInternalRangesRequest extends Omit<Intern
   requestId?: string | undefined;
   /** Optional. Field mask is used to specify the fields to be overwritten in the InternalRange resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The name of an internal range. Format: projects/{project}/locations/{location}/internalRanges/{internal_range} See: https://google.aip.dev/122#fields-representing-resource-names */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsMulticloudDataTransferConfigsRequest extends Omit<
   MulticloudDataTransferConfig,
@@ -2473,6 +2479,8 @@ export interface PatchProjectsLocationsMulticloudDataTransferConfigsRequest exte
   name: string;
   /** Optional. `FieldMask` is used to specify the fields in the `MulticloudDataTransferConfig` resource to be overwritten by the update. The fields specified in `update_mask` are relative to the resource, not the full request. A field is overwritten if it is in the mask. If you don't specify a mask, all fields are overwritten. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The name of the `MulticloudDataTransferConfig` resource. Format: `projects/{project}/locations/{location}/multicloudDataTransferConfigs/{multicloud_data_transfer_config}`. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsMulticloudDataTransferConfigsDestinationsRequest extends Omit<
   Destination,
@@ -2484,6 +2492,8 @@ export interface PatchProjectsLocationsMulticloudDataTransferConfigsDestinations
   name: string;
   /** Optional. `FieldMask is used to specify the fields to be overwritten in the `Destination` resource by the update. The fields specified in `update_mask` are relative to the resource, not the full request. A field is overwritten if it is in the mask. If you don't specify a mask, all fields are overwritten. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The name of the `Destination` resource. Format: `projects/{project}/locations/{location}/multicloudDataTransferConfigs/{multicloud_data_transfer_config}/destinations/{destination}`. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsServiceClassesRequest extends Omit<ServiceClass, "name"> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the ServiceClass resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
@@ -2492,6 +2502,8 @@ export interface PatchProjectsLocationsServiceClassesRequest extends Omit<Servic
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Immutable. The name of a ServiceClass resource. Format: projects/{project}/locations/{location}/serviceClasses/{service_class} See: https://google.aip.dev/122#fields-representing-resource-names */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsServiceConnectionMapsRequest extends Omit<
   ServiceConnectionMap,
@@ -2503,6 +2515,8 @@ export interface PatchProjectsLocationsServiceConnectionMapsRequest extends Omit
   updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Immutable. The name of a ServiceConnectionMap. Format: projects/{project}/locations/{location}/serviceConnectionMaps/{service_connection_map} See: https://google.aip.dev/122#fields-representing-resource-names */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsServiceConnectionPoliciesRequest extends Omit<
   ServiceConnectionPolicy,
@@ -2514,6 +2528,8 @@ export interface PatchProjectsLocationsServiceConnectionPoliciesRequest extends 
   updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Immutable. The name of a ServiceConnectionPolicy. Format: projects/{project}/locations/{location}/serviceConnectionPolicies/{service_connection_policy} See: https://google.aip.dev/122#fields-representing-resource-names */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsSpokesRequest extends Omit<Spoke, "name"> {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check to see whether the original operation was received. If it was, the server ignores the second request. This behavior prevents clients from mistakenly creating duplicate commitments. The request ID must be a valid UUID, with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -2522,6 +2538,8 @@ export interface PatchProjectsLocationsSpokesRequest extends Omit<Spoke, "name">
   updateMask?: string | undefined;
   /** Immutable. The name of the spoke. Spoke names must be unique. They use the following form: `projects/{project_number}/locations/{region}/spokes/{spoke_id}` */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Immutable. The name of the spoke. Spoke names must be unique. They use the following form: `projects/{project_number}/locations/{region}/spokes/{spoke_id}` */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsSpokesGatewayAdvertisedRoutesRequest extends Omit<
   GatewayAdvertisedRoute,
@@ -2533,6 +2551,8 @@ export interface PatchProjectsLocationsSpokesGatewayAdvertisedRoutesRequest exte
   updateMask?: string | undefined;
   /** Identifier. The name of the gateway advertised route. Route names must be unique and use the following form: `projects/{project_number}/locations/{region}/spokes/{spoke}/gatewayAdvertisedRoutes/{gateway_advertised_route_id}` */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The name of the gateway advertised route. Route names must be unique and use the following form: `projects/{project_number}/locations/{region}/spokes/{spoke}/gatewayAdvertisedRoutes/{gateway_advertised_route_id}` */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsTransportsRequest extends Omit<Transport, "name"> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the Transport resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields present in the request will be overwritten. */
@@ -2541,6 +2561,8 @@ export interface PatchProjectsLocationsTransportsRequest extends Omit<Transport,
   requestId?: string | undefined;
   /** Identifier. Name of the resource. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Name of the resource. */
+  bodyName?: string | undefined;
 }
 export interface QueryStatusProjectsLocationsGlobalHubsRequest {
   /** Optional. Sort the results in ascending order by the specified fields. A comma-separated list of any of these fields: * `psc_propagation_status.source_spoke` * `psc_propagation_status.source_group` * `psc_propagation_status.source_forwarding_rule` * `psc_propagation_status.target_spoke` * `psc_propagation_status.target_group` * `psc_propagation_status.code` If `group_by` is set, the value of the `order_by` field must be the same as or a subset of the `group_by` field. */
@@ -8029,6 +8051,7 @@ function __c128(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8050,6 +8073,7 @@ function __c129(j: number): any {
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8166,6 +8190,7 @@ function __c132(j: number): any {
             name: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8187,6 +8212,7 @@ function __c133(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8208,6 +8234,7 @@ function __c134(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8231,6 +8258,7 @@ function __c135(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8252,6 +8280,7 @@ function __c136(j: number): any {
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8273,6 +8302,7 @@ function __c137(j: number): any {
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8294,6 +8324,7 @@ function __c138(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8315,6 +8346,7 @@ function __c139(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8336,6 +8368,7 @@ function __c140(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

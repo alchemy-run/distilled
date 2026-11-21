@@ -2128,24 +2128,32 @@ export interface PatchProjectsLocationsNotesRequest extends Omit<Note, "name"> {
   updateMask?: string | undefined;
   /** Required. The name of the note in the form of `projects/[PROVIDER_ID]/notes/[NOTE_ID]`. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Output only. The name of the note in the form of `projects/[PROVIDER_ID]/notes/[NOTE_ID]`. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsOccurrencesRequest extends Omit<Occurrence, "name"> {
   /** Required. The name of the occurrence in the form of `projects/[PROJECT_ID]/occurrences/[OCCURRENCE_ID]`. */
   name: string;
   /** The fields to update. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Output only. The name of the occurrence in the form of `projects/[PROJECT_ID]/occurrences/[OCCURRENCE_ID]`. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsNotesRequest extends Omit<Note, "name"> {
   /** The fields to update. */
   updateMask?: string | undefined;
   /** Required. The name of the note in the form of `projects/[PROVIDER_ID]/notes/[NOTE_ID]`. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Output only. The name of the note in the form of `projects/[PROVIDER_ID]/notes/[NOTE_ID]`. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsOccurrencesRequest extends Omit<Occurrence, "name"> {
   /** Required. The name of the occurrence in the form of `projects/[PROJECT_ID]/occurrences/[OCCURRENCE_ID]`. */
   name: string;
   /** The fields to update. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Output only. The name of the occurrence in the form of `projects/[PROJECT_ID]/occurrences/[OCCURRENCE_ID]`. */
+  bodyName?: string | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
@@ -3709,6 +3717,7 @@ function __c33(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3729,6 +3738,7 @@ function __c34(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3749,6 +3759,7 @@ function __c35(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3769,6 +3780,7 @@ function __c36(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

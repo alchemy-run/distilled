@@ -823,6 +823,8 @@ export interface PatchProjectsAppsIssuesRequest extends Omit<Issue, "name"> {
   updateMask?: string | undefined;
   /** Required. Output only. Immutable. Identifier. The name of the issue resource. Format: "projects/{project}/apps/{app}/issues/{issue}". */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Required. Output only. Immutable. Identifier. The name of the issue resource. Format: "projects/{project}/apps/{app}/issues/{issue}". */
+  bodyName?: string | undefined;
 }
 export interface UpdateProfilingManagerConfigProjectsAppsRequest extends Omit<
   ProfilingManagerConfig,
@@ -832,6 +834,8 @@ export interface UpdateProfilingManagerConfigProjectsAppsRequest extends Omit<
   updateMask?: string | undefined;
   /** Identifier. The resource name of the Profiling Manager configuration. Format: "projects/{project}/apps/{app}/profilingManagerConfig". */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the Profiling Manager configuration. Format: "projects/{project}/apps/{app}/profilingManagerConfig". */
+  bodyName?: string | undefined;
 }
 export type BatchGetProjectsAppsEventsError = NotFound | Forbidden | GcpOpError;
 /** Fetch a batch of up to 100 events by name. */
@@ -1357,6 +1361,7 @@ function __c9(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -1377,6 +1382,7 @@ function __c10(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

@@ -1415,34 +1415,46 @@ export interface PatchDevicesDeviceUsersClientStatesRequest extends Omit<ClientS
   updateMask?: string | undefined;
   /** Optional. [Resource name](https://cloud.google.com/apis/design/resource_names) of the customer. If you're using this API for your own organization, use `customers/my_customer` If you're using this API to manage another organization, use `customers/{customer_id}`, where customer_id is the customer to whom the device belongs. */
   customer?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Output only. [Resource name](https://cloud.google.com/apis/design/resource_names) of the ClientState in format: `devices/{device_id}/deviceUsers/{device_user_id}/clientState/{partner_id}`, where partner_id corresponds to the partner storing the data. */
+  bodyName?: string | undefined;
 }
 export interface PatchGroupsRequest extends Omit<Group, "name"> {
   /** Required. The names of fields to update. May only contain the following field names: `display_name`, `description`, `labels`, `dynamic_group_metadata`, `posix_groups`. */
   updateMask?: string | undefined;
   /** Output only. The [resource name](https://cloud.google.com/apis/design/resource_names) of the `Group`. Shall be of the form `groups/{group_id}`. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Output only. The [resource name](https://cloud.google.com/apis/design/resource_names) of the `Group`. Shall be of the form `groups/{group_id}`. */
+  bodyName?: string | undefined;
 }
 export interface PatchInboundOidcSsoProfilesRequest extends Omit<InboundOidcSsoProfile, "name"> {
   /** Required. The list of fields to be updated. */
   updateMask?: string | undefined;
   /** Output only. [Resource name](https://cloud.google.com/apis/design/resource_names) of the OIDC SSO profile. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Output only. [Resource name](https://cloud.google.com/apis/design/resource_names) of the OIDC SSO profile. */
+  bodyName?: string | undefined;
 }
 export interface PatchInboundSamlSsoProfilesRequest extends Omit<InboundSamlSsoProfile, "name"> {
   /** Output only. [Resource name](https://cloud.google.com/apis/design/resource_names) of the SAML SSO profile. */
   name: string;
   /** Required. The list of fields to be updated. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Output only. [Resource name](https://cloud.google.com/apis/design/resource_names) of the SAML SSO profile. */
+  bodyName?: string | undefined;
 }
 export interface PatchInboundSsoAssignmentsRequest extends Omit<InboundSsoAssignment, "name"> {
   /** Output only. [Resource name](https://cloud.google.com/apis/design/resource_names) of the Inbound SSO Assignment. */
   name: string;
   /** Required. The list of fields to be updated. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Output only. [Resource name](https://cloud.google.com/apis/design/resource_names) of the Inbound SSO Assignment. */
+  bodyName?: string | undefined;
 }
 export interface PatchPoliciesRequest extends Omit<Policy, "name"> {
   /** Output only. Identifier. The [resource name](https://cloud.google.com/apis/design/resource_names) of the Policy. Format: policies/{policy}. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Output only. Identifier. The [resource name](https://cloud.google.com/apis/design/resource_names) of the Policy. Format: policies/{policy}. */
+  bodyName?: string | undefined;
 }
 export interface SearchDirectGroupsGroupsMembershipsRequest {
   /** The ordering of membership relation for the display name or email in the response. The syntax for this field can be found at https://cloud.google.com/apis/design/design_patterns#sorting_order. Example: Sort by the ascending display name: order_by="group_name" or order_by="group_name asc". Sort by the descending display name: order_by="group_name desc". Sort by the ascending group key: order_by="group_key" or order_by="group_key asc". Sort by the descending group key: order_by="group_key desc". */
@@ -1590,6 +1602,8 @@ export interface UpdateSecuritySettingsGroupsRequest extends Omit<SecuritySettin
   name: string;
   /** Required. The fully-qualified names of fields to update. May only contain the following field: `member_restriction.query`. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Output only. The resource name of the security settings. Shall be of the form `groups/{group_id}/securitySettings`. */
+  bodyName?: string | undefined;
 }
 /** Request message for wiping all data on the device. */
 export interface WipeDeviceRequest {
@@ -4682,6 +4696,7 @@ function __c78(j: number): any {
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
             customer: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4702,6 +4717,7 @@ function __c79(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4722,6 +4738,7 @@ function __c80(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4742,6 +4759,7 @@ function __c81(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4762,6 +4780,7 @@ function __c82(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4781,6 +4800,7 @@ function __c83(j: number): any {
           __S(706, __c22, 2),
           S.Struct({
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4996,6 +5016,7 @@ function __c92(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

@@ -901,6 +901,8 @@ export interface PatchProjectsDatabasesDocumentsRequest extends Omit<Document, "
   "updateMask.fieldPaths"?: StringList | undefined;
   /** The resource name of the document, for example `projects/{project_id}/databases/{database_id}/documents/{document_path}`. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). The resource name of the document, for example `projects/{project_id}/databases/{database_id}/documents/{document_path}`. */
+  bodyName?: string | undefined;
 }
 /** The request for Firestore.Rollback. */
 export interface RollbackRequest {
@@ -2173,6 +2175,7 @@ function __c17(j: number): any {
             "currentDocument.exists": S.optional(S.Boolean.pipe(T.Query())),
             "updateMask.fieldPaths": S.optional(__S(400, __c25, 0).pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

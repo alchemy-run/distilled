@@ -219,6 +219,8 @@ export interface PatchUsersSshPublicKeysRequest extends Omit<SshPublicKey, "name
   name: string;
   /** Mask to control which fields get updated. Updates all if not present. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Output only. The canonical resource name. */
+  bodyName?: string | undefined;
 }
 /** A request message for creating a POSIX account entry. */
 export interface ProvisionPosixAccountRequest {
@@ -508,6 +510,7 @@ function __c0(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

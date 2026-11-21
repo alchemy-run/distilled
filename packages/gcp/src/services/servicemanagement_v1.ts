@@ -1169,6 +1169,8 @@ export interface Rollout {
 export interface CreateServicesRolloutsRequest extends Omit<Rollout, "serviceName"> {
   /** Required. The name of the service. See the [overview](https://cloud.google.com/service-management/overview) for naming requirements. For example: `example.googleapis.com`. */
   serviceName: string;
+  /** The request body's `serviceName` (`serviceName` is the path parameter). The name of the service associated with this Rollout. */
+  bodyServiceName?: string | undefined;
 }
 export interface DeleteServicesRequest {
   /** Required. The name of the service. See the [overview](https://cloud.google.com/service-management/overview) for naming requirements. For example: `example.googleapis.com`. */
@@ -3306,6 +3308,7 @@ function __c34(j: number): any {
           __S(1123, __c35, 3),
           S.Struct({
             serviceName: S.String.pipe(T.Label()),
+            bodyServiceName: S.optional(S.String.pipe(T.Body("serviceName"))),
           }),
         ).pipe(
           T.Http({

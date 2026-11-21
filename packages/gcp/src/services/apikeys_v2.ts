@@ -261,6 +261,8 @@ export interface PatchProjectsLocationsKeysRequest extends Omit<V2Key, "name"> {
   checkExistingUsage?: PatchProjectsLocationsKeysCheckExistingUsageEnum | (string & {}) | undefined;
   /** Identifier. The resource name of the key. The `name` has the form: `projects//locations/global/keys/`. For example: `projects/123456867718/locations/global/keys/b7ff1f9f-8275-410a-94dd-3855ee9b5dd2` NOTE: Key is a global resource; hence the only supported value for location is `global`. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the key. The `name` has the form: `projects//locations/global/keys/`. For example: `projects/123456867718/locations/global/keys/b7ff1f9f-8275-410a-94dd-3855ee9b5dd2` NOTE: Key is a global resource; hence the only supported value for location is `global`. */
+  bodyName?: string | undefined;
 }
 /** Request message for `UndeleteKey` method. */
 export interface V2UndeleteKeyRequest {}
@@ -479,6 +481,7 @@ function __c1(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             checkExistingUsage: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

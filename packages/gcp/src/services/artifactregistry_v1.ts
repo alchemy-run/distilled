@@ -1218,6 +1218,8 @@ export interface PatchProjectsLocationsRepositoriesRequest extends Omit<Reposito
   updateMask?: string | undefined;
   /** The name of the repository, for example: `projects/p1/locations/us-central1/repositories/repo1`. For each location in a project, repository names must be unique. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). The name of the repository, for example: `projects/p1/locations/us-central1/repositories/repo1`. For each location in a project, repository names must be unique. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsRepositoriesFilesRequest extends Omit<
   GoogleDevtoolsArtifactregistryV1File,
@@ -1227,18 +1229,24 @@ export interface PatchProjectsLocationsRepositoriesFilesRequest extends Omit<
   updateMask?: string | undefined;
   /** The name of the file, for example: `projects/p1/locations/us-central1/repositories/repo1/files/a%2Fb%2Fc.txt`. If the file ID part contains slashes, they are escaped. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). The name of the file, for example: `projects/p1/locations/us-central1/repositories/repo1/files/a%2Fb%2Fc.txt`. If the file ID part contains slashes, they are escaped. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsRepositoriesPackagesRequest extends Omit<Package, "name"> {
   /** The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
   /** The name of the package, for example: `projects/p1/locations/us-central1/repositories/repo1/packages/pkg1`. If the package ID part contains slashes, the slashes are escaped. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). The name of the package, for example: `projects/p1/locations/us-central1/repositories/repo1/packages/pkg1`. If the package ID part contains slashes, the slashes are escaped. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsRepositoriesPackagesTagsRequest extends Omit<Tag, "name"> {
   /** The name of the tag, for example: "projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/tags/tag1". If the package part contains slashes, the slashes are escaped. The tag part can only have characters in [a-zA-Z0-9\-._~:@], anything else must be URL encoded. */
   name: string;
   /** The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). The name of the tag, for example: "projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/tags/tag1". If the package part contains slashes, the slashes are escaped. The tag part can only have characters in [a-zA-Z0-9\-._~:@], anything else must be URL encoded. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsRepositoriesPackagesVersionsRequest extends Omit<
   Version,
@@ -1248,6 +1256,8 @@ export interface PatchProjectsLocationsRepositoriesPackagesVersionsRequest exten
   updateMask?: string | undefined;
   /** The name of the version, for example: `projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/versions/art1`. If the package or version ID parts contain slashes, the slashes are escaped. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). The name of the version, for example: `projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/versions/art1`. If the package or version ID parts contain slashes, the slashes are escaped. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsRepositoriesRulesRequest extends Omit<
   GoogleDevtoolsArtifactregistryV1Rule,
@@ -1257,6 +1267,8 @@ export interface PatchProjectsLocationsRepositoriesRulesRequest extends Omit<
   updateMask?: string | undefined;
   /** The name of the rule, for example: `projects/p1/locations/us-central1/repositories/repo1/rules/rule1`. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). The name of the rule, for example: `projects/p1/locations/us-central1/repositories/repo1/rules/rule1`. */
+  bodyName?: string | undefined;
 }
 /** The platform (architecture and OS) of the image. This is a sub-message. */
 export interface PrewarmPlatform {
@@ -1323,18 +1335,24 @@ export interface UpdateProjectConfigProjectsLocationsRequest extends Omit<Projec
   name: string;
   /** Optional. Field mask to support partial updates. See https://protobuf.dev/reference/protobuf/google.protobuf/#field-mask for more details. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The name of the project's configuration. Always of the form: projects/{project}/locations/{location}/projectConfig */
+  bodyName?: string | undefined;
 }
 export interface UpdateProjectSettingsProjectsRequest extends Omit<ProjectSettings, "name"> {
   /** The name of the project's settings. Always of the form: projects/{project-id}/projectSettings In update request: never set In response: always set */
   name: string;
   /** Field mask to support partial updates. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). The name of the project's settings. Always of the form: projects/{project-id}/projectSettings In update request: never set In response: always set */
+  bodyName?: string | undefined;
 }
 export interface UpdateVpcscConfigProjectsLocationsRequest extends Omit<VPCSCConfig, "name"> {
   /** Field mask to support partial updates. */
   updateMask?: string | undefined;
   /** The name of the project's VPC SC Config. Always of the form: projects/{projectID}/locations/{location}/vpcscConfig In update request: never set In response: always set */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). The name of the project's VPC SC Config. Always of the form: projects/{projectID}/locations/{location}/vpcscConfig In update request: never set In response: always set */
+  bodyName?: string | undefined;
 }
 /** The request to upload an artifact. */
 export type UploadAptArtifactRequest = CancelOperationRequest;
@@ -4203,6 +4221,7 @@ function __c66(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4223,6 +4242,7 @@ function __c67(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4243,6 +4263,7 @@ function __c68(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4263,6 +4284,7 @@ function __c69(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4283,6 +4305,7 @@ function __c70(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4303,6 +4326,7 @@ function __c71(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4482,6 +4506,7 @@ function __c79(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4502,6 +4527,7 @@ function __c80(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4522,6 +4548,7 @@ function __c81(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

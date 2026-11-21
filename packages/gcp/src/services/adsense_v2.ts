@@ -1005,12 +1005,16 @@ export interface PatchAccountsAdclientsAdunitsRequest extends Omit<AdUnit, "name
   name: string;
   /** The list of fields to update. If empty, a full update is performed. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Output only. Resource name of the ad unit. Format: accounts/{account}/adclients/{adclient}/adunits/{adunit} */
+  bodyName?: string | undefined;
 }
 export interface PatchAccountsAdclientsCustomchannelsRequest extends Omit<CustomChannel, "name"> {
   /** Output only. Resource name of the custom channel. Format: accounts/{account}/adclients/{adclient}/customchannels/{customchannel} */
   name: string;
   /** The list of fields to update. If empty, a full update is performed. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Output only. Resource name of the custom channel. Format: accounts/{account}/adclients/{adclient}/customchannels/{customchannel} */
+  bodyName?: string | undefined;
 }
 export type CreateAccountsAdclientsAdunitsError =
   | NotFound
@@ -2409,6 +2413,7 @@ function __c36(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2429,6 +2434,7 @@ function __c37(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

@@ -1367,6 +1367,8 @@ export interface PatchProjectsLocationsAclPoliciesRequest extends Omit<AclPolicy
   requestId?: string | undefined;
   /** Optional. Mask of fields to be updated. At least one path must be supplied in this field. The elements of the repeated paths field may only include these fields from `AclPolicy`: * `rules` */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Full resource path of the ACL policy. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsClustersRequest extends Omit<Cluster, "name"> {
   /** Optional. Idempotent request UUID. */
@@ -1375,12 +1377,16 @@ export interface PatchProjectsLocationsClustersRequest extends Omit<Cluster, "na
   name: string;
   /** Required. Mask of fields to update. At least one path must be supplied in this field. The elements of the repeated paths field may only include these fields from Cluster: * `size_gb` * `replica_count` * `cluster_endpoints` */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Required. Identifier. Unique name of the resource in this scope including project and location using the form: `projects/{project_id}/locations/{location_id}/clusters/{cluster_id}` */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsInstancesRequest extends Omit<Instance, "name"> {
   /** Required. Mask of fields to update. At least one path must be supplied in this field. The elements of the repeated paths field may only include these fields from Instance: * `displayName` * `labels` * `memorySizeGb` * `redisConfig` * `replica_count` */
   updateMask?: string | undefined;
   /** Required. Unique name of the resource in this scope including project and location using the form: `projects/{project_id}/locations/{location_id}/instances/{instance_id}` Note: Redis instances are managed and addressed at regional level so location_id here refers to a GCP region; however, users may choose which specific zone (or collection of zones for cross-zone instances) an instance should be provisioned in. Refer to location_id and alternative_location_id fields for more details. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Required. Unique name of the resource in this scope including project and location using the form: `projects/{project_id}/locations/{location_id}/instances/{instance_id}` Note: Redis instances are managed and addressed at regional level so location_id here refers to a GCP region; however, users may choose which specific zone (or collection of zones for cross-zone instances) an instance should be provisioned in. Refer to location_id and alternative_location_id fields for more details. */
+  bodyName?: string | undefined;
 }
 export type RescheduleClusterMaintenanceRequestRescheduleTypeEnum =
   | "RESCHEDULE_TYPE_UNSPECIFIED"
@@ -3483,6 +3489,7 @@ function __c47(j: number): any {
             name: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3504,6 +3511,7 @@ function __c48(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3524,6 +3532,7 @@ function __c49(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

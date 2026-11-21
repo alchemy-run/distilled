@@ -1350,6 +1350,8 @@ export interface PatchProjectsLocationsEvaluationsRequest extends Omit<Evaluatio
   name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the Evaluation resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Name of resource that has the form `projects/{project_id}/locations/{location_id}/evaluations/{evaluation_id}`. */
+  bodyName?: string | undefined;
 }
 /** Request message for the RunEvaluation RPC. */
 export interface RunEvaluationRequest {
@@ -3408,6 +3410,7 @@ function __c27(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

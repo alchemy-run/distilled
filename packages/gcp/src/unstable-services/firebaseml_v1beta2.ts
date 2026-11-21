@@ -205,6 +205,8 @@ export interface PatchProjectsModelsRequest extends Omit<Model, "name"> {
   name: string;
   /** The update mask */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). The resource name of the Model. Model names have the form `projects/{project_id}/models/{model_id}` The name is ignored when creating a model. */
+  bodyName?: string | undefined;
 }
 export type CreateProjectsModelsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Creates a model in Firebase ML. The longrunning operation will eventually return a Model */
@@ -337,6 +339,7 @@ function __c0(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

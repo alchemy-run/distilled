@@ -628,18 +628,24 @@ export interface PatchProjectsLocationsBackupsRequest extends Omit<Backup, "name
   name: string;
   /** Required. Mask of fields to update. At least one path must be supplied in this field. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Output only. The resource name of the backup, in the format `projects/{project_number}/locations/{location_id}/backups/{backup_id}`. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsInstancesRequest extends Omit<Instance, "name"> {
   /** Output only. The resource name of the instance, in the format `projects/{project}/locations/{location}/instances/{instance}`. */
   name: string;
   /** Mask of fields to update. At least one path must be supplied in this field. The elements of the repeated paths field may only include these fields: * "description" * "file_shares" * "labels" * "performance_config" * "deletion_protection_enabled" * "deletion_protection_reason" */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Output only. The resource name of the instance, in the format `projects/{project}/locations/{location}/instances/{instance}`. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsInstancesSnapshotsRequest extends Omit<Snapshot, "name"> {
   /** Required. Mask of fields to update. At least one path must be supplied in this field. */
   updateMask?: string | undefined;
   /** Output only. The resource name of the snapshot, in the format `projects/{project_id}/locations/{location_id}/instances/{instance_id}/snapshots/{snapshot_id}`. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Output only. The resource name of the snapshot, in the format `projects/{project_id}/locations/{location_id}/instances/{instance_id}/snapshots/{snapshot_id}`. */
+  bodyName?: string | undefined;
 }
 /** PauseReplicaRequest pauses a Filestore standby instance (replica). */
 export type PauseReplicaRequest = CancelOperationRequest;
@@ -1501,6 +1507,7 @@ function __c14(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://file.googleapis.com/" }),
@@ -1517,6 +1524,7 @@ function __c15(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://file.googleapis.com/" }),
@@ -1533,6 +1541,7 @@ function __c16(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://file.googleapis.com/" }),

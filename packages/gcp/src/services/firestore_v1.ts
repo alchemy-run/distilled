@@ -1569,6 +1569,8 @@ export interface PatchProjectsDatabasesRequest extends Omit<
   name: string;
   /** The list of fields to be updated. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). The resource name of the Database. Format: `projects/{project}/databases/{database}` */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsDatabasesBackupSchedulesRequest extends Omit<
   GoogleFirestoreAdminV1BackupSchedule,
@@ -1578,6 +1580,8 @@ export interface PatchProjectsDatabasesBackupSchedulesRequest extends Omit<
   name: string;
   /** The list of fields to be updated. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Output only. The unique backup schedule identifier across all locations and databases for the given project. This will be auto-assigned. Format is `projects/{project}/databases/{database}/backupSchedules/{backup_schedule}` */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsDatabasesCollectionGroupsFieldsRequest extends Omit<
   GoogleFirestoreAdminV1Field,
@@ -1587,6 +1591,8 @@ export interface PatchProjectsDatabasesCollectionGroupsFieldsRequest extends Omi
   updateMask?: string | undefined;
   /** Required. A field name of the form: `projects/{project_id}/databases/{database_id}/collectionGroups/{collection_id}/fields/{field_path}` A field path can be a simple field name, e.g. `address` or a path to fields within `map_value` , e.g. `address.city`, or a special field path. The only valid special field is `*`, which represents any field. Field paths can be quoted using `` ` `` (backtick). The only character that must be escaped within a quoted field path is the backtick character itself, escaped using a backslash. Special characters in field paths that must be quoted include: `*`, `.`, `` ` `` (backtick), `[`, `]`, as well as any ascii symbolic characters. Examples: `` `address.city` `` represents a field named `address.city`, not the map key `city` in the field `address`. `` `*` `` represents a field named `*`, not any field. A special `Field` contains the default indexing settings for all fields. This field's resource name is: `projects/{project_id}/databases/{database_id}/collectionGroups/__default__/fields/*` Indexes defined on this `Field` will be applied to all fields which do not have their own `Field` index configuration. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Required. A field name of the form: `projects/{project_id}/databases/{database_id}/collectionGroups/{collection_id}/fields/{field_path}` A field path can be a simple field name, e.g. `address` or a path to fields within `map_value` , e.g. `address.city`, or a special field path. The only valid special field is `*`, which represents any field. Field paths can be quoted using `` ` `` (backtick). The only character that must be escaped within a quoted field path is the backtick character itself, escaped using a backslash. Special characters in field paths that must be quoted include: `*`, `.`, `` ` `` (backtick), `[`, `]`, as well as any ascii symbolic characters. Examples: `` `address.city` `` represents a field named `address.city`, not the map key `city` in the field `address`. `` `*` `` represents a field named `*`, not any field. A special `Field` contains the default indexing settings for all fields. This field's resource name is: `projects/{project_id}/databases/{database_id}/collectionGroups/__default__/fields/*` Indexes defined on this `Field` will be applied to all fields which do not have their own `Field` index configuration. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsDatabasesDocumentsRequest extends Omit<Document, "name"> {
   /** The resource name of the document, for example `projects/{project_id}/databases/{database_id}/documents/{document_path}`. */
@@ -1601,6 +1607,8 @@ export interface PatchProjectsDatabasesDocumentsRequest extends Omit<Document, "
   "currentDocument.exists"?: boolean | undefined;
   /** The list of field paths in the mask. See Document.fields for a field path syntax reference. */
   "updateMask.fieldPaths"?: StringList | undefined;
+  /** The request body's `name` (`name` is the path parameter). The resource name of the document, for example `projects/{project_id}/databases/{database_id}/documents/{document_path}`. */
+  bodyName?: string | undefined;
 }
 /** The request for FirestoreAdmin.ResetUserPassword. */
 export type GoogleFirestoreAdminV1ResetUserPasswordRequest =
@@ -4589,6 +4597,7 @@ function __c60(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4609,6 +4618,7 @@ function __c61(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4629,6 +4639,7 @@ function __c62(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4653,6 +4664,7 @@ function __c63(j: number): any {
             "requestOptions.requestTags": S.optional(__S(1104, __c69, 0).pipe(T.Query())),
             "currentDocument.exists": S.optional(S.Boolean.pipe(T.Query())),
             "updateMask.fieldPaths": S.optional(__S(1104, __c69, 0).pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

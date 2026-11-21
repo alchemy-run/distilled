@@ -1863,6 +1863,8 @@ export interface PatchProjectsLocationsSynonymSetsRequest extends Omit<
 > {
   /** Required. The name of the synonymSet to update Format: projects/{project_number}/locations/{location}/synonymSets/{context}. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). The resource name of the SynonymSet This is mandatory for google.api.resource. Format: projects/{project_number}/locations/{location}/synonymSets/{context}. */
+  bodyName?: string | undefined;
 }
 /** The DocAI processor information. */
 export interface GoogleCloudContentwarehouseV1ProcessorInfo {
@@ -3674,6 +3676,7 @@ function __c30(j: number): any {
           __S(1890, __c59, 2),
           S.Struct({
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

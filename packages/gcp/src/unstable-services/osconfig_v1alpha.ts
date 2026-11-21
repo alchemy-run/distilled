@@ -1050,6 +1050,8 @@ export interface PatchProjectsLocationsOsPolicyAssignmentsRequest extends Omit<
   updateMask?: string | undefined;
   /** Resource name. Format: `projects/{project_number}/locations/{location}/osPolicyAssignments/{os_policy_assignment_id}` This field is ignored when you create an OS policy assignment. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Resource name. Format: `projects/{project_number}/locations/{location}/osPolicyAssignments/{os_policy_assignment_id}` This field is ignored when you create an OS policy assignment. */
+  bodyName?: string | undefined;
 }
 export type CancelProjectsLocationsOsPolicyAssignmentsOperationsError =
   | NotFound
@@ -1710,6 +1712,7 @@ function __c11(j: number): any {
             allowMissing: S.optional(S.Boolean.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

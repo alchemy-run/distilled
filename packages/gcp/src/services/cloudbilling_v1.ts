@@ -200,14 +200,20 @@ export interface BillingAccount {
 export interface CreateBillingAccountsRequest extends Omit<BillingAccount, "parent"> {
   /** Optional. The parent to create a billing account from. Format: - `billingAccounts/{billing_account_id}`, for example, `billingAccounts/012345-567890-ABCDEF` */
   parent?: string | undefined;
+  /** The request body's `parent` (`parent` is the query parameter). Output only. The billing account's parent resource identifier. Use the `MoveBillingAccount` method to update the account's parent resource if it is a organization. Format: - `organizations/{organization_id}`, for example, `organizations/12345678` - `billingAccounts/{billing_account_id}`, for example, `billingAccounts/012345-567890-ABCDEF` */
+  bodyParent?: string | undefined;
 }
 export interface CreateBillingAccountsSubAccountsRequest extends Omit<BillingAccount, "parent"> {
   /** Optional. The parent to create a billing account from. Format: - `billingAccounts/{billing_account_id}`, for example, `billingAccounts/012345-567890-ABCDEF` */
   parent: string;
+  /** The request body's `parent` (`parent` is the path parameter). Output only. The billing account's parent resource identifier. Use the `MoveBillingAccount` method to update the account's parent resource if it is a organization. Format: - `organizations/{organization_id}`, for example, `organizations/12345678` - `billingAccounts/{billing_account_id}`, for example, `billingAccounts/012345-567890-ABCDEF` */
+  bodyParent?: string | undefined;
 }
 export interface CreateOrganizationsBillingAccountsRequest extends Omit<BillingAccount, "parent"> {
   /** Optional. The parent to create a billing account from. Format: - `billingAccounts/{billing_account_id}`, for example, `billingAccounts/012345-567890-ABCDEF` */
   parent: string;
+  /** The request body's `parent` (`parent` is the path parameter). Output only. The billing account's parent resource identifier. Use the `MoveBillingAccount` method to update the account's parent resource if it is a organization. Format: - `organizations/{organization_id}`, for example, `organizations/12345678` - `billingAccounts/{billing_account_id}`, for example, `billingAccounts/012345-567890-ABCDEF` */
+  bodyParent?: string | undefined;
 }
 /** Defines authentication details, used for push notifications. */
 export interface AuthenticationInfo {
@@ -776,6 +782,8 @@ export interface PatchBillingAccountsRequest extends Omit<BillingAccount, "name"
   updateMask?: string | undefined;
   /** Required. The name of the billing account resource to be updated. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Output only. The resource name of the billing account. The resource name has the form `billingAccounts/{billing_account_id}`. For example, `billingAccounts/012345-567890-ABCDEF` would be the resource name for billing account `012345-567890-ABCDEF`. */
+  bodyName?: string | undefined;
 }
 /** Configuration of a send message request. */
 export interface SendMessageConfiguration {
@@ -875,6 +883,8 @@ export interface TestIamPermissionsResponse {
 export interface UpdateBillingInfoProjectsRequest extends Omit<ProjectBillingInfo, "name"> {
   /** Required. The resource name of the project associated with the billing information that you want to update. For example, `projects/tokyo-rain-123`. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Output only. The resource name for the `ProjectBillingInfo`; has the form `projects/{project_id}/billingInfo`. For example, the resource name for the billing information for project `tokyo-rain-123` would be `projects/tokyo-rain-123/billingInfo`. */
+  bodyName?: string | undefined;
 }
 export type CancelTasksError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Cancel a task from the agent. If supported one should expect no more task updates for the task. */
@@ -2068,6 +2078,7 @@ function __c18(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2246,6 +2257,7 @@ function __c26(j: number): any {
           __S(64, __c2, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2378,6 +2390,7 @@ function __c31(j: number): any {
           __S(1024, __c32, 0),
           S.Struct({
             parent: S.optional(S.String.pipe(T.Query())),
+            bodyParent: S.optional(S.String.pipe(T.Body("parent"))),
           }),
         ).pipe(
           T.Http({
@@ -2412,6 +2425,7 @@ function __c33(j: number): any {
           __S(1024, __c32, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
+            bodyParent: S.optional(S.String.pipe(T.Body("parent"))),
           }),
         ).pipe(
           T.Http({
@@ -2431,6 +2445,7 @@ function __c34(j: number): any {
           __S(1024, __c32, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
+            bodyParent: S.optional(S.String.pipe(T.Body("parent"))),
           }),
         ).pipe(
           T.Http({

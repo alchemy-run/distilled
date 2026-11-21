@@ -1535,6 +1535,8 @@ export interface PatchProjectsLocationsMembershipsFeaturesRequest extends Omit<
   allowMissing?: boolean | undefined;
   /** Output only. The resource name of the membershipFeature, in the format: `projects/{project}/locations/{location}/memberships/{membership}/features/{feature}`. Note that `membershipFeatures` is shortened to `features` in the resource name. (see http://go/aip/122#collection-identifiers) */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Output only. The resource name of the membershipFeature, in the format: `projects/{project}/locations/{location}/memberships/{membership}/features/{feature}`. Note that `membershipFeatures` is shortened to `features` in the resource name. (see http://go/aip/122#collection-identifiers) */
+  bodyName?: string | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -1833,6 +1835,7 @@ function __c3(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             allowMissing: S.optional(S.Boolean.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

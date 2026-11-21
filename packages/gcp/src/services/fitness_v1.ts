@@ -450,6 +450,8 @@ export interface PatchUsersDataSourcesDatasetsRequest extends Omit<Dataset, "dat
   datasetId: string;
   /** The data stream ID of the data source that created the dataset. */
   dataSourceId: string;
+  /** The request body's `dataSourceId` (`dataSourceId` is the path parameter). The data stream ID of the data source that created the points in this dataset. */
+  bodyDataSourceId?: string | undefined;
 }
 export interface UpdateUsersDataSourcesRequest extends DataSource {
   /** Update the data source for the person identified. Use me to indicate the authenticated user. Only me is supported at this time. */
@@ -820,6 +822,7 @@ function __c4(j: number): any {
             userId: S.String.pipe(T.Label()),
             datasetId: S.String.pipe(T.Label()),
             dataSourceId: S.String.pipe(T.Label()),
+            bodyDataSourceId: S.optional(S.String.pipe(T.Body("dataSourceId"))),
           }),
         ).pipe(
           T.Http({

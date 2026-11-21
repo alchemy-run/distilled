@@ -249,6 +249,8 @@ export interface UpdateSettingsOrganizationsLocationsRequest extends Omit<
 > {
   /** Identifier. The resource name of the settings to retrieve. Format: organizations/{organization}/locations/{location}/settings or projects/{projects}/locations/{location}/settings. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the settings to retrieve. Format: organizations/{organization}/locations/{location}/settings or projects/{projects}/locations/{location}/settings. */
+  bodyName?: string | undefined;
 }
 export interface UpdateSettingsProjectsLocationsRequest extends Omit<
   GoogleCloudAdvisorynotificationsV1Settings,
@@ -256,6 +258,8 @@ export interface UpdateSettingsProjectsLocationsRequest extends Omit<
 > {
   /** Identifier. The resource name of the settings to retrieve. Format: organizations/{organization}/locations/{location}/settings or projects/{projects}/locations/{location}/settings. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the settings to retrieve. Format: organizations/{organization}/locations/{location}/settings or projects/{projects}/locations/{location}/settings. */
+  bodyName?: string | undefined;
 }
 export type GetOrganizationsLocationsNotificationsError = NotFound | Forbidden | GcpOpError;
 /** Gets a notification. */
@@ -424,6 +428,7 @@ function __c0(j: number): any {
           __S(98, __c6, 2),
           S.Struct({
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -443,6 +448,7 @@ function __c1(j: number): any {
           __S(98, __c6, 2),
           S.Struct({
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

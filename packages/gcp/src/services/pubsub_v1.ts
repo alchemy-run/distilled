@@ -448,6 +448,8 @@ export interface Subscription {
 export interface CreateProjectsSubscriptionsRequest extends Omit<Subscription, "name"> {
   /** Required. Identifier. The name of the subscription. It must have the format `"projects/{project}/subscriptions/{subscription}"`. `{subscription}` must start with a letter, and contain only letters (`[A-Za-z]`), numbers (`[0-9]`), dashes (`-`), underscores (`_`), periods (`.`), tildes (`~`), plus (`+`) or percent signs (`%`). It must be between 3 and 255 characters in length, and it must not start with `"goog"`. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Required. Identifier. The name of the subscription. It must have the format `"projects/{project}/subscriptions/{subscription}"`. `{subscription}` must start with a letter, and contain only letters (`[A-Za-z]`), numbers (`[0-9]`), dashes (`-`), underscores (`_`), periods (`.`), tildes (`~`), plus (`+`) or percent signs (`%`). It must be between 3 and 255 characters in length, and it must not start with `"goog"`. */
+  bodyName?: string | undefined;
 }
 export type PlatformLogsSettingsSeverityEnum =
   | "SEVERITY_UNSPECIFIED"
@@ -653,6 +655,8 @@ export interface Topic {
 export interface CreateProjectsTopicsRequest extends Omit<Topic, "name"> {
   /** Required. Identifier. The name of the topic. It must have the format `"projects/{project}/topics/{topic}"`. `{topic}` must start with a letter, and contain only letters (`[A-Za-z]`), numbers (`[0-9]`), dashes (`-`), underscores (`_`), periods (`.`), tildes (`~`), plus (`+`) or percent signs (`%`). It must be between 3 and 255 characters in length, and it must not start with `"goog"`. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Required. Identifier. The name of the topic. It must have the format `"projects/{project}/topics/{topic}"`. `{topic}` must start with a letter, and contain only letters (`[A-Za-z]`), numbers (`[0-9]`), dashes (`-`), underscores (`_`), periods (`.`), tildes (`~`), plus (`+`) or percent signs (`%`). It must be between 3 and 255 characters in length, and it must not start with `"goog"`. */
+  bodyName?: string | undefined;
 }
 export interface DeleteProjectsSchemasRequest {
   /** Required. Name of the schema to delete. Format is `projects/{project}/schemas/{schema}`. */
@@ -2013,6 +2017,7 @@ function __c0(j: number): any {
           __S(58, __c3, 10),
           S.Struct({
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://pubsub.googleapis.com/" }),
@@ -2219,6 +2224,7 @@ function __c4(j: number): any {
           __S(90, __c5, 10),
           S.Struct({
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://pubsub.googleapis.com/" }),

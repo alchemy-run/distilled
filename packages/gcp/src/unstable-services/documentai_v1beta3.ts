@@ -2225,6 +2225,8 @@ export interface PatchProjectsLocationsSchemasRequest extends Omit<
   updateMask?: string | undefined;
   /** Identifier. The resource name of the Schema. Format: `projects/{project}/locations/{location}/schemas/{schema}` */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the Schema. Format: `projects/{project}/locations/{location}/schemas/{schema}` */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsSchemasSchemaVersionsRequest extends Omit<
   GoogleCloudDocumentaiV1beta3SchemaVersion,
@@ -2234,6 +2236,8 @@ export interface PatchProjectsLocationsSchemasSchemaVersionsRequest extends Omit
   name: string;
   /** Optional. The update mask to apply to the resource. **Note:** Only the following fields can be updated: - `display_name` - `labels` */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the SchemaVersion. Format: `projects/{project}/locations/{location}/schemas/{schema}/schemaVersions/{schema_version}` */
+  bodyName?: string | undefined;
 }
 /** Request message for the ProcessDocument method. */
 export interface GoogleCloudDocumentaiV1beta3ProcessRequest {
@@ -2430,6 +2434,8 @@ export interface UpdateDatasetProjectsLocationsProcessorsRequest extends Omit<
   updateMask?: string | undefined;
   /** Dataset resource name. Format: `projects/{project}/locations/{location}/processors/{processor}/dataset` */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Dataset resource name. Format: `projects/{project}/locations/{location}/processors/{processor}/dataset` */
+  bodyName?: string | undefined;
 }
 export interface UpdateDatasetSchemaProjectsLocationsProcessorsDatasetRequest extends Omit<
   GoogleCloudDocumentaiV1beta3DatasetSchema,
@@ -2439,6 +2445,8 @@ export interface UpdateDatasetSchemaProjectsLocationsProcessorsDatasetRequest ex
   name: string;
   /** The update mask applies to the resource. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Dataset schema resource name. Format: `projects/{project}/locations/{location}/processors/{processor}/dataset/datasetSchema` */
+  bodyName?: string | undefined;
 }
 export type BatchDeleteDocumentsProjectsLocationsProcessorsDatasetError =
   | NotFound
@@ -5447,6 +5455,7 @@ function __c50(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5467,6 +5476,7 @@ function __c51(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -6017,6 +6027,7 @@ function __c70(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -6037,6 +6048,7 @@ function __c71(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

@@ -172,6 +172,12 @@ export interface PatchLicenseAssignmentsRequest extends Omit<
   productId: string;
   /** The user's current primary email address. If the user's email address changes, use the new email address in your API requests. Since a `userId` is subject to change, do not use a `userId` value as a key for persistent data. This key could break if the current user's email address changes. If the `userId` is suspended, the license status changes. */
   userId: string;
+  /** The request body's `productId` (`productId` is the path parameter). A product's unique identifier. For more information about products in this version of the API, see Product and SKU IDs. */
+  bodyProductId?: string | undefined;
+  /** The request body's `skuId` (`skuId` is the path parameter). A product SKU's unique identifier. For more information about available SKUs in this version of the API, see Products and SKUs. */
+  bodySkuId?: string | undefined;
+  /** The request body's `userId` (`userId` is the path parameter). The user's current primary email address. If the user's email address changes, use the new email address in your API requests. Since a `userId` is subject to change, do not use a `userId` value as a key for persistent data. This key could break if the current user's email address changes. If the `userId` is suspended, the license status changes. */
+  bodyUserId?: string | undefined;
 }
 export interface UpdateLicenseAssignmentsRequest extends Omit<
   LicenseAssignment,
@@ -183,6 +189,12 @@ export interface UpdateLicenseAssignmentsRequest extends Omit<
   productId: string;
   /** A product SKU's unique identifier. For more information about available SKUs in this version of the API, see Products and SKUs. */
   skuId: string;
+  /** The request body's `productId` (`productId` is the path parameter). A product's unique identifier. For more information about products in this version of the API, see Product and SKU IDs. */
+  bodyProductId?: string | undefined;
+  /** The request body's `skuId` (`skuId` is the path parameter). A product SKU's unique identifier. For more information about available SKUs in this version of the API, see Products and SKUs. */
+  bodySkuId?: string | undefined;
+  /** The request body's `userId` (`userId` is the path parameter). The user's current primary email address. If the user's email address changes, use the new email address in your API requests. Since a `userId` is subject to change, do not use a `userId` value as a key for persistent data. This key could break if the current user's email address changes. If the `userId` is suspended, the license status changes. */
+  bodyUserId?: string | undefined;
 }
 export type DeleteLicenseAssignmentsError =
   | NotFound
@@ -341,6 +353,9 @@ function __c0(j: number): any {
             userId: S.String.pipe(T.Label()),
             productId: S.String.pipe(T.Label()),
             skuId: S.String.pipe(T.Label()),
+            bodyProductId: S.optional(S.String.pipe(T.Body("productId"))),
+            bodySkuId: S.optional(S.String.pipe(T.Body("skuId"))),
+            bodyUserId: S.optional(S.String.pipe(T.Body("userId"))),
           }),
         ).pipe(
           T.Http({
@@ -497,6 +512,9 @@ function __c8(j: number): any {
             skuId: S.String.pipe(T.Label()),
             productId: S.String.pipe(T.Label()),
             userId: S.String.pipe(T.Label()),
+            bodyProductId: S.optional(S.String.pipe(T.Body("productId"))),
+            bodySkuId: S.optional(S.String.pipe(T.Body("skuId"))),
+            bodyUserId: S.optional(S.String.pipe(T.Body("userId"))),
           }),
         ).pipe(
           T.Http({

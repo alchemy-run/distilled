@@ -1643,6 +1643,8 @@ export interface PatchSavedQueriesRequest extends Omit<SavedQuery, "name"> {
   name: string;
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). The resource name of the saved query. The format must be: * projects/project_number/savedQueries/saved_query_id * folders/folder_number/savedQueries/saved_query_id * organizations/organization_number/savedQueries/saved_query_id */
+  bodyName?: string | undefined;
 }
 /** BigQuery destination. */
 export interface GoogleCloudAssetV1QueryAssetsOutputConfigBigQueryDestination {
@@ -3247,6 +3249,7 @@ function __c21(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

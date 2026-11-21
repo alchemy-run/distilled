@@ -1021,18 +1021,24 @@ export interface PatchUsersLabelsRequest extends Omit<Label, "id"> {
   userId: string;
   /** The ID of the label to update. */
   id: string;
+  /** The request body's `id` (`id` is the path parameter). The immutable ID of the label. */
+  bodyId?: string | undefined;
 }
 export interface PatchUsersSettingsCseIdentitiesRequest extends Omit<CseIdentity, "emailAddress"> {
   /** The email address of the client-side encryption identity to update. */
   emailAddress: string;
   /** The requester's primary email address. To indicate the authenticated user, you can use the special value `me`. */
   userId: string;
+  /** The request body's `emailAddress` (`emailAddress` is the path parameter). The email address for the sending identity. The email address must be the primary email address of the authenticated user. */
+  bodyEmailAddress?: string | undefined;
 }
 export interface PatchUsersSettingsSendAsRequest extends Omit<SendAs, "sendAsEmail"> {
   /** The send-as alias to be updated. */
   sendAsEmail: string;
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
   userId: string;
+  /** The request body's `sendAsEmail` (`sendAsEmail` is the path parameter). The email address that appears in the "From:" header for mail sent using this alias. This is read-only for all operations except create. */
+  bodySendAsEmail?: string | undefined;
 }
 export interface SendUsersDraftsRequest extends Draft {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
@@ -1101,18 +1107,24 @@ export interface UpdateUsersDraftsRequest extends Omit<Draft, "id"> {
   userId: string;
   /** The ID of the draft to update. */
   id: string;
+  /** The request body's `id` (`id` is the path parameter). The immutable ID of the draft. */
+  bodyId?: string | undefined;
 }
 export interface UpdateUsersLabelsRequest extends Omit<Label, "id"> {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
   /** The ID of the label to update. */
   id: string;
+  /** The request body's `id` (`id` is the path parameter). The immutable ID of the label. */
+  bodyId?: string | undefined;
 }
 export interface UpdateUsersSettingsSendAsRequest extends Omit<SendAs, "sendAsEmail"> {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
   userId: string;
   /** The send-as alias to be updated. */
   sendAsEmail: string;
+  /** The request body's `sendAsEmail` (`sendAsEmail` is the path parameter). The email address that appears in the "From:" header for mail sent using this alias. This is read-only for all operations except create. */
+  bodySendAsEmail?: string | undefined;
 }
 export interface UpdateVacationUsersSettingsRequest extends VacationSettings {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
@@ -4091,6 +4103,7 @@ function __c73(j: number): any {
           S.Struct({
             userId: S.String.pipe(T.Label()),
             id: S.String.pipe(T.Label()),
+            bodyId: S.optional(S.String.pipe(T.Body("id"))),
           }),
         ).pipe(
           T.Http({
@@ -4111,6 +4124,7 @@ function __c74(j: number): any {
           S.Struct({
             emailAddress: S.String.pipe(T.Label()),
             userId: S.String.pipe(T.Label()),
+            bodyEmailAddress: S.optional(S.String.pipe(T.Body("emailAddress"))),
           }),
         ).pipe(
           T.Http({
@@ -4131,6 +4145,7 @@ function __c75(j: number): any {
           S.Struct({
             sendAsEmail: S.String.pipe(T.Label()),
             userId: S.String.pipe(T.Label()),
+            bodySendAsEmail: S.optional(S.String.pipe(T.Body("sendAsEmail"))),
           }),
         ).pipe(
           T.Http({
@@ -4412,6 +4427,7 @@ function __c90(j: number): any {
           S.Struct({
             userId: S.String.pipe(T.Label()),
             id: S.String.pipe(T.Label()),
+            bodyId: S.optional(S.String.pipe(T.Body("id"))),
           }),
         ).pipe(
           T.Http({
@@ -4432,6 +4448,7 @@ function __c91(j: number): any {
           S.Struct({
             userId: S.String.pipe(T.Label()),
             id: S.String.pipe(T.Label()),
+            bodyId: S.optional(S.String.pipe(T.Body("id"))),
           }),
         ).pipe(
           T.Http({
@@ -4452,6 +4469,7 @@ function __c92(j: number): any {
           S.Struct({
             userId: S.String.pipe(T.Label()),
             sendAsEmail: S.String.pipe(T.Label()),
+            bodySendAsEmail: S.optional(S.String.pipe(T.Body("sendAsEmail"))),
           }),
         ).pipe(
           T.Http({

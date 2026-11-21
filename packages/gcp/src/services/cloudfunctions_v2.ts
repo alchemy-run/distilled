@@ -694,6 +694,8 @@ export interface PatchProjectsLocationsFunctionsRequest extends Omit<
   name: string;
   /** The list of fields to be updated. If no field mask is provided, all fields will be updated. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). A user-defined name of the function. Function names must be unique globally and match pattern `projects/*\/locations/*\/functions/*` */
+  bodyName?: string | undefined;
 }
 /** Request for the `RedirectFunctionUpgradeTraffic` method. */
 export type RedirectFunctionUpgradeTrafficRequest = AbortFunctionUpgradeRequest;
@@ -1526,6 +1528,7 @@ function __c10(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

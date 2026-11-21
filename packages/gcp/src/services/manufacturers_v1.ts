@@ -609,6 +609,8 @@ export interface PatchAccountsLanguagesProductCertificationsRequest extends Omit
   name: string;
   /** Optional. The list of fields to update according to aip.dev/134. However, only full update is supported as of right now. Therefore, it can be either ignored or set to "*". Setting any other values will returns UNIMPLEMENTED error. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Required. The unique name identifier of a product certification Format: accounts/{account}/languages/{language_code}/productCertifications/{id} Where `id` is a some unique identifier and `language_code` is a 2-letter ISO 639-1 code of a Shopping supported language according to https://support.google.com/merchants/answer/160637. */
+  bodyName?: string | undefined;
 }
 export interface UpdateAccountsProductsRequest extends Attributes {
   /** Parent ID in the format `accounts/{account_id}`. `account_id` - The ID of the Manufacturer Center account. */
@@ -776,6 +778,7 @@ function __c0(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

@@ -748,6 +748,8 @@ export interface CreateProjectsTestMatricesRequest extends Omit<TestMatrix, "pro
   requestId?: string | undefined;
   /** The GCE project under which this job will run. */
   projectId: string;
+  /** The request body's `projectId` (`projectId` is the path parameter). The cloud project that owns the test matrix. */
+  bodyProjectId?: string | undefined;
 }
 export interface GetApkDetailsApplicationDetailServiceRequest extends FileReference {
   /** A path to a file in Google Cloud Storage. Example: gs://build-app-1414623860166/app%40debug-unaligned.apk These paths are expected to be url encoded (percent encoding) */
@@ -1181,6 +1183,8 @@ export interface PatchProjectsDeviceSessionsRequest extends Omit<DeviceSession, 
   updateMask?: string | undefined;
   /** Optional. Name of the DeviceSession, e.g. "projects/{project_id}/deviceSessions/{session_id}" */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Optional. Name of the DeviceSession, e.g. "projects/{project_id}/deviceSessions/{session_id}" */
+  bodyName?: string | undefined;
 }
 export type CancelProjectsDeviceSessionsError =
   | NotFound
@@ -1693,6 +1697,7 @@ function __c4(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -1820,6 +1825,7 @@ function __c11(j: number): any {
           S.Struct({
             requestId: S.optional(S.String.pipe(T.Query())),
             projectId: S.String.pipe(T.Label()),
+            bodyProjectId: S.optional(S.String.pipe(T.Body("projectId"))),
           }),
         ).pipe(
           T.Http({

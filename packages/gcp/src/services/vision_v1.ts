@@ -858,10 +858,14 @@ export interface BatchAnnotateImagesResponse {
 export interface AnnotateProjectsFilesRequest extends Omit<BatchAnnotateFilesRequest, "parent"> {
   /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
   parent: string;
+  /** The request body's `parent` (`parent` is the path parameter). Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
+  bodyParent?: string | undefined;
 }
 export interface AnnotateProjectsImagesRequest extends Omit<BatchAnnotateImagesRequest, "parent"> {
   /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
   parent: string;
+  /** The request body's `parent` (`parent` is the path parameter). Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
+  bodyParent?: string | undefined;
 }
 export interface AnnotateProjectsLocationsFilesRequest extends Omit<
   BatchAnnotateFilesRequest,
@@ -869,6 +873,8 @@ export interface AnnotateProjectsLocationsFilesRequest extends Omit<
 > {
   /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
   parent: string;
+  /** The request body's `parent` (`parent` is the path parameter). Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
+  bodyParent?: string | undefined;
 }
 export interface AnnotateProjectsLocationsImagesRequest extends Omit<
   BatchAnnotateImagesRequest,
@@ -876,6 +882,8 @@ export interface AnnotateProjectsLocationsImagesRequest extends Omit<
 > {
   /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
   parent: string;
+  /** The request body's `parent` (`parent` is the path parameter). Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
+  bodyParent?: string | undefined;
 }
 /** The Google Cloud Storage location where the output will be written to. */
 export interface GcsDestination {
@@ -942,6 +950,8 @@ export interface AsyncBatchAnnotateProjectsFilesRequest extends Omit<
 > {
   /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
   parent: string;
+  /** The request body's `parent` (`parent` is the path parameter). Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
+  bodyParent?: string | undefined;
 }
 export interface AsyncBatchAnnotateProjectsImagesRequest extends Omit<
   AsyncBatchAnnotateImagesRequest,
@@ -949,6 +959,8 @@ export interface AsyncBatchAnnotateProjectsImagesRequest extends Omit<
 > {
   /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
   parent: string;
+  /** The request body's `parent` (`parent` is the path parameter). Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
+  bodyParent?: string | undefined;
 }
 export interface AsyncBatchAnnotateProjectsLocationsFilesRequest extends Omit<
   AsyncBatchAnnotateFilesRequest,
@@ -956,6 +968,8 @@ export interface AsyncBatchAnnotateProjectsLocationsFilesRequest extends Omit<
 > {
   /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
   parent: string;
+  /** The request body's `parent` (`parent` is the path parameter). Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
+  bodyParent?: string | undefined;
 }
 export interface AsyncBatchAnnotateProjectsLocationsImagesRequest extends Omit<
   AsyncBatchAnnotateImagesRequest,
@@ -963,6 +977,8 @@ export interface AsyncBatchAnnotateProjectsLocationsImagesRequest extends Omit<
 > {
   /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
   parent: string;
+  /** The request body's `parent` (`parent` is the path parameter). Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
+  bodyParent?: string | undefined;
 }
 /** The request message for Operations.CancelOperation. */
 export interface CancelOperationRequest {}
@@ -1166,12 +1182,16 @@ export interface PatchProjectsLocationsProductsRequest extends Omit<Product, "na
   updateMask?: string | undefined;
   /** The resource name of the product. Format is: `projects/PROJECT_ID/locations/LOC_ID/products/PRODUCT_ID`. This field is ignored when creating a product. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). The resource name of the product. Format is: `projects/PROJECT_ID/locations/LOC_ID/products/PRODUCT_ID`. This field is ignored when creating a product. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsProductSetsRequest extends Omit<ProductSet, "name"> {
   /** The FieldMask that specifies which fields to update. If update_mask isn't specified, all mutable fields are to be updated. Valid mask path is `display_name`. */
   updateMask?: string | undefined;
   /** The resource name of the ProductSet. Format is: `projects/PROJECT_ID/locations/LOC_ID/productSets/PRODUCT_SET_ID`. This field is ignored when creating a ProductSet. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). The resource name of the ProductSet. Format is: `projects/PROJECT_ID/locations/LOC_ID/productSets/PRODUCT_SET_ID`. This field is ignored when creating a ProductSet. */
+  bodyName?: string | undefined;
 }
 /** Config to control which ProductSet contains the Products to be deleted. */
 export interface ProductSetPurgeConfig {
@@ -1980,6 +2000,7 @@ function __c0(j: number): any {
           __S(1634, __c51, 2),
           S.Struct({
             parent: S.String.pipe(T.Label()),
+            bodyParent: S.optional(S.String.pipe(T.Body("parent"))),
           }),
         ).pipe(
           T.Http({
@@ -1999,6 +2020,7 @@ function __c1(j: number): any {
           __S(1760, __c55, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
+            bodyParent: S.optional(S.String.pipe(T.Body("parent"))),
           }),
         ).pipe(
           T.Http({
@@ -2107,6 +2129,7 @@ function __c8(j: number): any {
           __S(162, __c5, 2),
           S.Struct({
             parent: S.String.pipe(T.Label()),
+            bodyParent: S.optional(S.String.pipe(T.Body("parent"))),
           }),
         ).pipe(
           T.Http({
@@ -2126,6 +2149,7 @@ function __c9(j: number): any {
           __S(224, __c7, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
+            bodyParent: S.optional(S.String.pipe(T.Body("parent"))),
           }),
         ).pipe(
           T.Http({
@@ -2145,6 +2169,7 @@ function __c10(j: number): any {
           __S(162, __c5, 2),
           S.Struct({
             parent: S.String.pipe(T.Label()),
+            bodyParent: S.optional(S.String.pipe(T.Body("parent"))),
           }),
         ).pipe(
           T.Http({
@@ -2164,6 +2189,7 @@ function __c11(j: number): any {
           __S(224, __c7, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
+            bodyParent: S.optional(S.String.pipe(T.Body("parent"))),
           }),
         ).pipe(
           T.Http({
@@ -2603,6 +2629,7 @@ function __c36(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://vision.googleapis.com/" }),
@@ -2619,6 +2646,7 @@ function __c37(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://vision.googleapis.com/" }),
@@ -3348,6 +3376,7 @@ function __c57(j: number): any {
           __S(1634, __c51, 2),
           S.Struct({
             parent: S.String.pipe(T.Label()),
+            bodyParent: S.optional(S.String.pipe(T.Body("parent"))),
           }),
         ).pipe(
           T.Http({
@@ -3367,6 +3396,7 @@ function __c58(j: number): any {
           __S(1760, __c55, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
+            bodyParent: S.optional(S.String.pipe(T.Body("parent"))),
           }),
         ).pipe(
           T.Http({

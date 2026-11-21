@@ -585,6 +585,8 @@ export interface UndeleteProjectsRequest {
 export interface UpdateProjectsRequest extends Omit<Project, "projectId"> {
   /** The project ID (for example, `my-project-123`). Required. */
   projectId: string;
+  /** The request body's `projectId` (`projectId` is the path parameter). The unique, user-assigned ID of the Project. It must be 6 to 30 lowercase letters, digits, or hyphens. It must start with a letter. Trailing hyphens are prohibited. Example: `tokyo-rain-123` Read-only after creation. */
+  bodyProjectId?: string | undefined;
 }
 export type ClearOrgPolicyFoldersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Clears a `Policy` from a resource. */
@@ -2186,6 +2188,7 @@ function __c44(j: number): any {
           __S(425, __c53, 1),
           S.Struct({
             projectId: S.String.pipe(T.Label()),
+            bodyProjectId: S.optional(S.String.pipe(T.Body("projectId"))),
           }),
         ).pipe(
           T.Http({

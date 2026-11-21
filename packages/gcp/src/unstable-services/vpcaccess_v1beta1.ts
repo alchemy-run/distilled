@@ -246,6 +246,8 @@ export interface PatchProjectsLocationsConnectorsRequest extends Omit<Connector,
   updateMask?: string | undefined;
   /** The resource name in the format `projects/*\/locations/*\/connectors/*`. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). The resource name in the format `projects/*\/locations/*\/connectors/*`. */
+  bodyName?: string | undefined;
 }
 export type CreateProjectsLocationsConnectorsError =
   | NotFound
@@ -444,6 +446,7 @@ function __c1(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

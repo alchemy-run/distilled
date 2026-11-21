@@ -258,6 +258,8 @@ export interface CreateProjectsLocationsCustomTargetTypesRequest extends Omit<
   parent: string;
   /** Required. ID of the `CustomTargetType`. */
   customTargetTypeId?: string | undefined;
+  /** The request body's `customTargetTypeId` (`customTargetTypeId` is the query parameter). Output only. Resource id of the `CustomTargetType`. */
+  bodyCustomTargetTypeId?: string | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -1482,6 +1484,8 @@ export interface CreateProjectsLocationsTargetsRequest extends Omit<Target, "tar
   validateOnly?: boolean | undefined;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** The request body's `targetId` (`targetId` is the query parameter). Output only. Resource id of the `Target`. */
+  bodyTargetId?: string | undefined;
 }
 export interface DeleteProjectsLocationsCustomTargetTypesRequest {
   /** Optional. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
@@ -2371,6 +2375,8 @@ export interface PatchProjectsLocationsCustomTargetTypesRequest extends Omit<
   validateOnly?: boolean | undefined;
   /** Identifier. Name of the `CustomTargetType`. Format is `projects/{project}/locations/{location}/customTargetTypes/{customTargetType}`. The `customTargetType` component must match `[a-z]([a-z0-9-]{0,61}[a-z0-9])?` */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Name of the `CustomTargetType`. Format is `projects/{project}/locations/{location}/customTargetTypes/{customTargetType}`. The `customTargetType` component must match `[a-z]([a-z0-9-]{0,61}[a-z0-9])?` */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsDeliveryPipelinesRequest extends Omit<
   DeliveryPipeline,
@@ -2386,6 +2392,8 @@ export interface PatchProjectsLocationsDeliveryPipelinesRequest extends Omit<
   allowMissing?: boolean | undefined;
   /** Optional. If set to true, the request is validated and the user is provided with an expected result, but no actual change is made. */
   validateOnly?: boolean | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Name of the `DeliveryPipeline`. Format is `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}`. The `deliveryPipeline` component must match `[a-z]([a-z0-9-]{0,61}[a-z0-9])?` */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsDeliveryPipelinesAutomationsRequest extends Omit<
   Automation,
@@ -2401,6 +2409,8 @@ export interface PatchProjectsLocationsDeliveryPipelinesAutomationsRequest exten
   requestId?: string | undefined;
   /** Required. Field mask is used to specify the fields to be overwritten by the update in the `Automation` resource. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it's in the mask. If the user doesn't provide a mask then all fields are overwritten. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Output only. Name of the `Automation`. Format is `projects/{project}/locations/{location}/deliveryPipelines/{delivery_pipeline}/automations/{automation}`. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsDeployPoliciesRequest extends Omit<DeployPolicy, "name"> {
   /** Required. Field mask is used to specify the fields to be overwritten by the update in the `DeployPolicy` resource. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it's in the mask. If the user doesn't provide a mask then all fields are overwritten. */
@@ -2413,6 +2423,8 @@ export interface PatchProjectsLocationsDeployPoliciesRequest extends Omit<Deploy
   validateOnly?: boolean | undefined;
   /** Output only. Name of the `DeployPolicy`. Format is `projects/{project}/locations/{location}/deployPolicies/{deployPolicy}`. The `deployPolicy` component must match `[a-z]([a-z0-9-]{0,61}[a-z0-9])?` */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Output only. Name of the `DeployPolicy`. Format is `projects/{project}/locations/{location}/deployPolicies/{deployPolicy}`. The `deployPolicy` component must match `[a-z]([a-z0-9-]{0,61}[a-z0-9])?` */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsTargetsRequest extends Omit<Target, "name"> {
   /** Identifier. Name of the `Target`. Format is `projects/{project}/locations/{location}/targets/{target}`. The `target` component must match `[a-z]([a-z0-9-]{0,61}[a-z0-9])?` */
@@ -2425,6 +2437,8 @@ export interface PatchProjectsLocationsTargetsRequest extends Omit<Target, "name
   validateOnly?: boolean | undefined;
   /** Required. Field mask is used to specify the fields to be overwritten by the update in the `Target` resource. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it's in the mask. If the user doesn't provide a mask then all fields are overwritten. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Name of the `Target`. Format is `projects/{project}/locations/{location}/targets/{target}`. The `target` component must match `[a-z]([a-z0-9-]{0,61}[a-z0-9])?` */
+  bodyName?: string | undefined;
 }
 /** RetryJobRequest is the request object used by `RetryJob`. */
 export interface RetryJobRequest {
@@ -3929,6 +3943,7 @@ function __c0(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
             customTargetTypeId: S.optional(S.String.pipe(T.Query())),
+            bodyCustomTargetTypeId: S.optional(S.String.pipe(T.Body("customTargetTypeId"))),
           }),
         ).pipe(
           T.Http({
@@ -5072,6 +5087,7 @@ function __c27(j: number): any {
             parent: S.String.pipe(T.Label()),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
+            bodyTargetId: S.optional(S.String.pipe(T.Body("targetId"))),
           }),
         ).pipe(
           T.Http({
@@ -6237,6 +6253,7 @@ function __c70(j: number): any {
             allowMissing: S.optional(S.Boolean.pipe(T.Query())),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -6260,6 +6277,7 @@ function __c71(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             allowMissing: S.optional(S.Boolean.pipe(T.Query())),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -6283,6 +6301,7 @@ function __c72(j: number): any {
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -6306,6 +6325,7 @@ function __c73(j: number): any {
             allowMissing: S.optional(S.Boolean.pipe(T.Query())),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -6329,6 +6349,7 @@ function __c74(j: number): any {
             allowMissing: S.optional(S.Boolean.pipe(T.Query())),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

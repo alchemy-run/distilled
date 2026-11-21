@@ -316,10 +316,14 @@ export interface TestIamPermissionsProjectsPolicyRequest extends TestIamPermissi
 export interface UpdatePolicyProjectsRequest extends Omit<Policy, "name"> {
   /** Output only. The resource name, in the format `projects/*\/policy`. There is at most one policy per project. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Output only. The resource name, in the format `projects/*\/policy`. There is at most one policy per project. */
+  bodyName?: string | undefined;
 }
 export interface UpdateProjectsAttestorsRequest extends Omit<Attestor, "name"> {
   /** Required. The resource name, in the format: `projects/*\/attestors/*`. This field may not be updated. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Required. The resource name, in the format: `projects/*\/attestors/*`. This field may not be updated. */
+  bodyName?: string | undefined;
 }
 export interface Jwt {
   /** The compact encoding of a JWS, which is always three base64 encoded strings joined by periods. For details, see: https://tools.ietf.org/html/rfc7515.html#section-3.1 */
@@ -817,6 +821,7 @@ function __c8(j: number): any {
           __S(156, __c19, 4),
           S.Struct({
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -836,6 +841,7 @@ function __c9(j: number): any {
           __S(100, __c12, 4),
           S.Struct({
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

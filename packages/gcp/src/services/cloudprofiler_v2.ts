@@ -169,6 +169,8 @@ export interface PatchProjectsProfilesRequest extends Omit<Profile, "name"> {
   name: string;
   /** Field mask used to specify the fields to be overwritten. Currently only profile_bytes and labels fields are supported by UpdateProfile, so only those fields can be specified in the mask. When no mask is provided, all fields are overwritten. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Output only. Opaque, server-assigned, unique ID for this profile. */
+  bodyName?: string | undefined;
 }
 export type CreateOfflineProjectsProfilesError =
   | NotFound
@@ -359,6 +361,7 @@ function __c4(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

@@ -1728,6 +1728,8 @@ export interface PatchProjectsLocationsCatalogsRequest extends Omit<
   name: string;
   /** Optional. Indicates which fields in the provided Catalog to update. If an unsupported or unknown field is provided, an INVALID_ARGUMENT error is returned. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Required. Immutable. The fully qualified resource name of the catalog. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsCatalogsBranchesProductsRequest extends Omit<
   GoogleCloudRetailV2Product,
@@ -1739,6 +1741,8 @@ export interface PatchProjectsLocationsCatalogsBranchesProductsRequest extends O
   allowMissing?: boolean | undefined;
   /** Indicates which fields in the provided Product to update. The immutable and output only fields are NOT supported. If not set, all supported fields (the fields that are neither immutable nor output only) are updated. If an unsupported or unknown field is provided, an INVALID_ARGUMENT error is returned. The attribute key can be updated by setting the mask path as "attributes.${key_name}". If a key name is present in the mask but not in the patching product from the request, this key will be deleted after the update. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Immutable. Full resource name of the product, such as `projects/*\/locations/global/catalogs/default_catalog/branches/default_branch/products/product_id`. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsCatalogsControlsRequest extends Omit<
   GoogleCloudRetailV2Control,
@@ -1748,6 +1752,8 @@ export interface PatchProjectsLocationsCatalogsControlsRequest extends Omit<
   updateMask?: string | undefined;
   /** Immutable. Fully qualified name `projects/*\/locations/global/catalogs/*\/controls/*` */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Immutable. Fully qualified name `projects/*\/locations/global/catalogs/*\/controls/*` */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsCatalogsModelsRequest extends Omit<
   GoogleCloudRetailV2Model,
@@ -1757,6 +1763,8 @@ export interface PatchProjectsLocationsCatalogsModelsRequest extends Omit<
   name: string;
   /** Optional. Indicates which fields in the provided 'model' to update. If not set, by default updates all fields. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Required. The fully qualified resource name of the model. Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/models/{model_id}` catalog_id has char limit of 50. recommendation_model_id has char limit of 40. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsCatalogsServingConfigsRequest extends Omit<
   GoogleCloudRetailV2ServingConfig,
@@ -1766,6 +1774,8 @@ export interface PatchProjectsLocationsCatalogsServingConfigsRequest extends Omi
   name: string;
   /** Indicates which fields in the provided ServingConfig to update. The following are NOT supported: * ServingConfig.name If not set, all supported fields are updated. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Immutable. Fully qualified name `projects/*\/locations/global/catalogs/*\/servingConfig/*` */
+  bodyName?: string | undefined;
 }
 /** Request for pausing training of a model. */
 export interface GoogleCloudRetailV2PauseModelRequest {}
@@ -2313,6 +2323,8 @@ export interface UpdateAttributesConfigProjectsLocationsCatalogsRequest extends 
   name: string;
   /** Optional. Indicates which fields in the provided AttributesConfig to update. The following is the only supported field: * AttributesConfig.catalog_attributes If not set, all supported fields are updated. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Required. Immutable. The fully qualified resource name of the attribute config. Format: `projects/*\/locations/*\/catalogs/*\/attributesConfig` */
+  bodyName?: string | undefined;
 }
 export interface UpdateCompletionConfigProjectsLocationsCatalogsRequest extends Omit<
   GoogleCloudRetailV2CompletionConfig,
@@ -2322,6 +2334,8 @@ export interface UpdateCompletionConfigProjectsLocationsCatalogsRequest extends 
   name: string;
   /** Optional. Indicates which fields in the provided CompletionConfig to update. The following are the only supported fields: * CompletionConfig.matching_order * CompletionConfig.max_suggestions * CompletionConfig.min_prefix_length * CompletionConfig.auto_learning If not set, all supported fields are updated. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Required. Immutable. Fully qualified name `projects/*\/locations/*\/catalogs/*\/completionConfig` */
+  bodyName?: string | undefined;
 }
 export interface UpdateConversationalSearchCustomizationConfigProjectsLocationsCatalogsRequest extends Omit<
   GoogleCloudRetailV2ConversationalSearchCustomizationConfig,
@@ -2331,6 +2345,8 @@ export interface UpdateConversationalSearchCustomizationConfigProjectsLocationsC
   updateMask?: string | undefined;
   /** Required. Resource name of the catalog. Format: projects/{project}/locations/{location}/catalogs/{catalog} */
   catalog: string;
+  /** The request body's `catalog` (`catalog` is the path parameter). Required. Resource name of the catalog. Format: projects/{project}/locations/{location}/catalogs/{catalog} */
+  bodyCatalog?: string | undefined;
 }
 export interface UpdateGenerativeQuestionFeatureProjectsLocationsCatalogsRequest extends Omit<
   GoogleCloudRetailV2GenerativeQuestionsFeatureConfig,
@@ -2340,6 +2356,8 @@ export interface UpdateGenerativeQuestionFeatureProjectsLocationsCatalogsRequest
   catalog: string;
   /** Optional. Indicates which fields in the provided GenerativeQuestionsFeatureConfig to update. If not set or empty, all supported fields are updated. */
   updateMask?: string | undefined;
+  /** The request body's `catalog` (`catalog` is the path parameter). Required. Resource name of the affected catalog. Format: projects/{project}/locations/{location}/catalogs/{catalog} */
+  bodyCatalog?: string | undefined;
 }
 export interface UpdateGenerativeQuestionProjectsLocationsCatalogsRequest extends Omit<
   GoogleCloudRetailV2GenerativeQuestionConfig,
@@ -2349,6 +2367,8 @@ export interface UpdateGenerativeQuestionProjectsLocationsCatalogsRequest extend
   updateMask?: string | undefined;
   /** Required. Resource name of the catalog. Format: projects/{project}/locations/{location}/catalogs/{catalog} */
   catalog: string;
+  /** The request body's `catalog` (`catalog` is the path parameter). Required. Resource name of the catalog. Format: projects/{project}/locations/{location}/catalogs/{catalog} */
+  bodyCatalog?: string | undefined;
 }
 export interface WriteProjectsLocationsCatalogsUserEventsRequest extends GoogleCloudRetailV2UserEvent {
   /** If set to true, the user event will be written asynchronously after validation, and the API will respond without waiting for the write. Therefore, silent failures can occur even if the API returns success. In case of silent failures, error messages can be found in Stackdriver logs. */
@@ -6003,6 +6023,7 @@ function __c55(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://retail.googleapis.com/" }),
@@ -6020,6 +6041,7 @@ function __c56(j: number): any {
             name: S.String.pipe(T.Label()),
             allowMissing: S.optional(S.Boolean.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://retail.googleapis.com/" }),
@@ -6160,6 +6182,7 @@ function __c62(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://retail.googleapis.com/" }),
@@ -6176,6 +6199,7 @@ function __c63(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://retail.googleapis.com/" }),
@@ -6192,6 +6216,7 @@ function __c64(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://retail.googleapis.com/" }),
@@ -7020,6 +7045,7 @@ function __c95(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://retail.googleapis.com/" }),
@@ -7036,6 +7062,7 @@ function __c96(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://retail.googleapis.com/" }),
@@ -7052,6 +7079,7 @@ function __c97(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             catalog: S.String.pipe(T.Label()),
+            bodyCatalog: S.optional(S.String.pipe(T.Body("catalog"))),
           }),
         ).pipe(
           T.Http({
@@ -7074,6 +7102,7 @@ function __c98(j: number): any {
           S.Struct({
             catalog: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyCatalog: S.optional(S.String.pipe(T.Body("catalog"))),
           }),
         ).pipe(
           T.Http({
@@ -7094,6 +7123,7 @@ function __c99(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             catalog: S.String.pipe(T.Label()),
+            bodyCatalog: S.optional(S.String.pipe(T.Body("catalog"))),
           }),
         ).pipe(
           T.Http({

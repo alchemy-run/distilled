@@ -143,6 +143,8 @@ export interface AccountsProjectsRequest extends Omit<
 > {
   /** The project ID of the project which the user should belong to. Specifying this field requires a Google OAuth 2.0 credential with the proper [permissions](https://cloud.google.com/identity-platform/docs/access-control). If this is not set, the target project is inferred from the scope associated to the Bearer access token. */
   targetProjectId: string;
+  /** The request body's `targetProjectId` (`targetProjectId` is the path parameter). The project ID of the project which the user should belong to. Specifying this field requires a Google OAuth 2.0 credential with the proper [permissions](https://cloud.google.com/identity-platform/docs/access-control). If this is not set, the target project is inferred from the scope associated to the Bearer access token. */
+  bodyTargetProjectId?: string | undefined;
 }
 /** Response message for SignUp. */
 export interface GoogleCloudIdentitytoolkitV1SignUpResponse {
@@ -168,6 +170,10 @@ export interface AccountsProjectsTenantsRequest extends Omit<
   targetProjectId: string;
   /** The ID of the Identity Platform tenant to create a user under. If not set, the user will be created under the default Identity Platform project. */
   tenantId: string;
+  /** The request body's `tenantId` (`tenantId` is the path parameter). The ID of the Identity Platform tenant to create a user under. If not set, the user will be created under the default Identity Platform project. */
+  bodyTenantId?: string | undefined;
+  /** The request body's `targetProjectId` (`targetProjectId` is the path parameter). The project ID of the project which the user should belong to. Specifying this field requires a Google OAuth 2.0 credential with the proper [permissions](https://cloud.google.com/identity-platform/docs/access-control). If this is not set, the target project is inferred from the scope associated to the Bearer access token. */
+  bodyTargetProjectId?: string | undefined;
 }
 export type GoogleCloudIdentitytoolkitV1UploadAccountRequestPasswordHashOrderEnum =
   | "UNSPECIFIED_ORDER"
@@ -368,6 +374,8 @@ export interface BatchCreateProjectsTenantsAccountsRequest extends Omit<
   targetProjectId: string;
   /** The ID of the Identity Platform tenant the account belongs to. */
   tenantId: string;
+  /** The request body's `tenantId` (`tenantId` is the path parameter). The ID of the Identity Platform tenant the account belongs to. */
+  bodyTenantId?: string | undefined;
 }
 export type StringList = Array<string>;
 /** Request message for BatchDeleteAccounts. */
@@ -407,6 +415,8 @@ export interface BatchDeleteProjectsTenantsAccountsRequest extends Omit<
   tenantId: string;
   /** If `tenant_id` is specified, the ID of the Google Cloud project that the Identity Platform tenant belongs to. Otherwise, the ID of the Google Cloud project that accounts belong to. */
   targetProjectId: string;
+  /** The request body's `tenantId` (`tenantId` is the path parameter). If the accounts belong to an Identity Platform tenant, the ID of the tenant. If the accounts belong to a default Identity Platform project, the field is not needed. */
+  bodyTenantId?: string | undefined;
 }
 export interface BatchGetProjectsAccountsRequest {
   /** The maximum number of results to return. Must be at least 1 and no greater than 1000. By default, it is 20. */
@@ -512,6 +522,8 @@ export interface CreateSessionCookieProjectsTenantsRequest extends Omit<
   targetProjectId: string;
   /** The tenant ID of the Identity Platform tenant the account belongs to. */
   tenantId: string;
+  /** The request body's `tenantId` (`tenantId` is the path parameter). The tenant ID of the Identity Platform tenant the account belongs to. */
+  bodyTenantId?: string | undefined;
 }
 /** Request message for DeleteAccount. */
 export interface GoogleCloudIdentitytoolkitV1DeleteAccountRequest {
@@ -536,6 +548,8 @@ export interface DeleteProjectsAccountsRequest extends Omit<
 > {
   /** The ID of the project which the account belongs to. Should only be specified in authenticated requests that specify local_id of an account. */
   targetProjectId: string;
+  /** The request body's `targetProjectId` (`targetProjectId` is the path parameter). The ID of the project which the account belongs to. Should only be specified in authenticated requests that specify local_id of an account. */
+  bodyTargetProjectId?: string | undefined;
 }
 export interface DeleteProjectsTenantsAccountsRequest extends Omit<
   GoogleCloudIdentitytoolkitV1DeleteAccountRequest,
@@ -545,6 +559,10 @@ export interface DeleteProjectsTenantsAccountsRequest extends Omit<
   tenantId: string;
   /** The ID of the project which the account belongs to. Should only be specified in authenticated requests that specify local_id of an account. */
   targetProjectId: string;
+  /** The request body's `targetProjectId` (`targetProjectId` is the path parameter). The ID of the project which the account belongs to. Should only be specified in authenticated requests that specify local_id of an account. */
+  bodyTargetProjectId?: string | undefined;
+  /** The request body's `tenantId` (`tenantId` is the path parameter). The ID of the tenant that the account belongs to, if applicable. Only require to be specified for authenticated requests bearing a Google OAuth 2.0 credential that specify local_id of an account that belongs to an Identity Platform tenant. */
+  bodyTenantId?: string | undefined;
 }
 export interface GetProjectsV1Request {
   /** The RP OAuth client ID. If set, a check will be performed to ensure that the OAuth client is valid for the retrieved project and the request rejected with a client error if not valid. */
@@ -753,6 +771,8 @@ export interface LookupProjectsAccountsRequest extends Omit<
 > {
   /** The ID of the Google Cloud project that the account or the Identity Platform tenant specified by `tenant_id` belongs to. Should only be specified by authenticated requests bearing a Google OAuth 2.0 credential with proper [permissions](https://cloud.google.com/identity-platform/docs/access-control). */
   targetProjectId: string;
+  /** The request body's `targetProjectId` (`targetProjectId` is the path parameter). The ID of the Google Cloud project that the account or the Identity Platform tenant specified by `tenant_id` belongs to. Should only be specified by authenticated requests bearing a Google OAuth 2.0 credential with proper [permissions](https://cloud.google.com/identity-platform/docs/access-control). */
+  bodyTargetProjectId?: string | undefined;
 }
 export interface LookupProjectsTenantsAccountsRequest extends Omit<
   GoogleCloudIdentitytoolkitV1GetAccountInfoRequest,
@@ -762,6 +782,10 @@ export interface LookupProjectsTenantsAccountsRequest extends Omit<
   targetProjectId: string;
   /** The ID of the tenant that the account belongs to. Should only be specified by authenticated requests from a developer. */
   tenantId: string;
+  /** The request body's `targetProjectId` (`targetProjectId` is the path parameter). The ID of the Google Cloud project that the account or the Identity Platform tenant specified by `tenant_id` belongs to. Should only be specified by authenticated requests bearing a Google OAuth 2.0 credential with proper [permissions](https://cloud.google.com/identity-platform/docs/access-control). */
+  bodyTargetProjectId?: string | undefined;
+  /** The request body's `tenantId` (`tenantId` is the path parameter). The ID of the tenant that the account belongs to. Should only be specified by authenticated requests from a developer. */
+  bodyTenantId?: string | undefined;
 }
 export type GoogleCloudIdentitytoolkitV1QueryUserInfoRequestOrderEnum =
   | "ORDER_UNSPECIFIED"
@@ -825,6 +849,8 @@ export interface QueryProjectsTenantsAccountsRequest extends Omit<
   tenantId: string;
   /** The ID of the project to which the result is scoped. */
   targetProjectId: string;
+  /** The request body's `tenantId` (`tenantId` is the path parameter). The ID of the tenant to which the result is scoped. */
+  bodyTenantId?: string | undefined;
 }
 /** Request message for ResetPassword. */
 export interface GoogleCloudIdentitytoolkitV1ResetPasswordRequest {
@@ -947,6 +973,8 @@ export interface SendOobCodeProjectsAccountsRequest extends Omit<
 > {
   /** The Project ID of the Identity Platform project which the account belongs to. To specify this field, it requires a Google OAuth 2.0 credential with proper [permissions](https://cloud.google.com/identity-platform/docs/access-control). */
   targetProjectId: string;
+  /** The request body's `targetProjectId` (`targetProjectId` is the path parameter). The Project ID of the Identity Platform project which the account belongs to. To specify this field, it requires a Google OAuth 2.0 credential with proper [permissions](https://cloud.google.com/identity-platform/docs/access-control). */
+  bodyTargetProjectId?: string | undefined;
 }
 export interface SendOobCodeProjectsTenantsAccountsRequest extends Omit<
   GoogleCloudIdentitytoolkitV1GetOobCodeRequest,
@@ -956,6 +984,10 @@ export interface SendOobCodeProjectsTenantsAccountsRequest extends Omit<
   targetProjectId: string;
   /** The tenant ID of the Identity Platform tenant the account belongs to. */
   tenantId: string;
+  /** The request body's `tenantId` (`tenantId` is the path parameter). The tenant ID of the Identity Platform tenant the account belongs to. */
+  bodyTenantId?: string | undefined;
+  /** The request body's `targetProjectId` (`targetProjectId` is the path parameter). The Project ID of the Identity Platform project which the account belongs to. To specify this field, it requires a Google OAuth 2.0 credential with proper [permissions](https://cloud.google.com/identity-platform/docs/access-control). */
+  bodyTargetProjectId?: string | undefined;
 }
 export type GoogleCloudIdentitytoolkitV1SendVerificationCodeRequestClientTypeEnum =
   | "CLIENT_TYPE_UNSPECIFIED"
@@ -1453,6 +1485,8 @@ export interface UpdateProjectsAccountsRequest extends Omit<
 > {
   /** The project ID for the project that the account belongs to. Specifying this field requires Google OAuth 2.0 credential with proper [permissions] (https://cloud.google.com/identity-platform/docs/access-control). Requests from end users should pass an Identity Platform ID token instead. */
   targetProjectId: string;
+  /** The request body's `targetProjectId` (`targetProjectId` is the path parameter). The project ID for the project that the account belongs to. Specifying this field requires Google OAuth 2.0 credential with proper [permissions] (https://cloud.google.com/identity-platform/docs/access-control). Requests from end users should pass an Identity Platform ID token instead. */
+  bodyTargetProjectId?: string | undefined;
 }
 export interface UpdateProjectsTenantsAccountsRequest extends Omit<
   GoogleCloudIdentitytoolkitV1SetAccountInfoRequest,
@@ -1462,6 +1496,10 @@ export interface UpdateProjectsTenantsAccountsRequest extends Omit<
   targetProjectId: string;
   /** The tenant ID of the Identity Platform tenant that the account belongs to. Requests from end users should pass an Identity Platform ID token rather than setting this field. */
   tenantId: string;
+  /** The request body's `tenantId` (`tenantId` is the path parameter). The tenant ID of the Identity Platform tenant that the account belongs to. Requests from end users should pass an Identity Platform ID token rather than setting this field. */
+  bodyTenantId?: string | undefined;
+  /** The request body's `targetProjectId` (`targetProjectId` is the path parameter). The project ID for the project that the account belongs to. Specifying this field requires Google OAuth 2.0 credential with proper [permissions] (https://cloud.google.com/identity-platform/docs/access-control). Requests from end users should pass an Identity Platform ID token instead. */
+  bodyTargetProjectId?: string | undefined;
 }
 /** Request message for VerifyIosClient */
 export interface GoogleCloudIdentitytoolkitV1VerifyIosClientRequest {
@@ -2488,6 +2526,7 @@ function __c6(j: number): any {
           S.Struct({
             targetProjectId: S.String.pipe(T.Label()),
             tenantId: S.String.pipe(T.Label()),
+            bodyTenantId: S.optional(S.String.pipe(T.Body("tenantId"))),
           }),
         ).pipe(
           T.Http({
@@ -2541,6 +2580,7 @@ function __c9(j: number): any {
           __S(64, __c8, 0),
           S.Struct({
             targetProjectId: S.String.pipe(T.Label()),
+            bodyTargetProjectId: S.optional(S.String.pipe(T.Body("targetProjectId"))),
           }),
         ).pipe(
           T.Http({
@@ -2561,6 +2601,8 @@ function __c10(j: number): any {
           S.Struct({
             tenantId: S.String.pipe(T.Label()),
             targetProjectId: S.String.pipe(T.Label()),
+            bodyTargetProjectId: S.optional(S.String.pipe(T.Body("targetProjectId"))),
+            bodyTenantId: S.optional(S.String.pipe(T.Body("tenantId"))),
           }),
         ).pipe(
           T.Http({
@@ -2801,6 +2843,7 @@ function __c18(j: number): any {
           __S(138, __c17, 2),
           S.Struct({
             targetProjectId: S.String.pipe(T.Label()),
+            bodyTargetProjectId: S.optional(S.String.pipe(T.Body("targetProjectId"))),
           }),
         ).pipe(
           T.Http({
@@ -2821,6 +2864,8 @@ function __c19(j: number): any {
           S.Struct({
             targetProjectId: S.String.pipe(T.Label()),
             tenantId: S.String.pipe(T.Label()),
+            bodyTargetProjectId: S.optional(S.String.pipe(T.Body("targetProjectId"))),
+            bodyTenantId: S.optional(S.String.pipe(T.Body("tenantId"))),
           }),
         ).pipe(
           T.Http({
@@ -2912,6 +2957,7 @@ function __c23(j: number): any {
           S.Struct({
             tenantId: S.String.pipe(T.Label()),
             targetProjectId: S.String.pipe(T.Label()),
+            bodyTenantId: S.optional(S.String.pipe(T.Body("tenantId"))),
           }),
         ).pipe(
           T.Http({
@@ -3018,6 +3064,7 @@ function __c27(j: number): any {
           __S(208, __c26, 0),
           S.Struct({
             targetProjectId: S.String.pipe(T.Label()),
+            bodyTargetProjectId: S.optional(S.String.pipe(T.Body("targetProjectId"))),
           }),
         ).pipe(
           T.Http({
@@ -3038,6 +3085,8 @@ function __c28(j: number): any {
           S.Struct({
             targetProjectId: S.String.pipe(T.Label()),
             tenantId: S.String.pipe(T.Label()),
+            bodyTenantId: S.optional(S.String.pipe(T.Body("tenantId"))),
+            bodyTargetProjectId: S.optional(S.String.pipe(T.Body("targetProjectId"))),
           }),
         ).pipe(
           T.Http({
@@ -3390,6 +3439,7 @@ function __c36(j: number): any {
           __S(298, __c37, 2),
           S.Struct({
             targetProjectId: S.String.pipe(T.Label()),
+            bodyTargetProjectId: S.optional(S.String.pipe(T.Body("targetProjectId"))),
           }),
         ).pipe(
           T.Http({
@@ -3545,6 +3595,7 @@ function __c41(j: number): any {
           __S(322, __c40, 2),
           S.Struct({
             targetProjectId: S.String.pipe(T.Label()),
+            bodyTargetProjectId: S.optional(S.String.pipe(T.Body("targetProjectId"))),
           }),
         ).pipe(
           T.Http({
@@ -3565,6 +3616,8 @@ function __c42(j: number): any {
           S.Struct({
             targetProjectId: S.String.pipe(T.Label()),
             tenantId: S.String.pipe(T.Label()),
+            bodyTenantId: S.optional(S.String.pipe(T.Body("tenantId"))),
+            bodyTargetProjectId: S.optional(S.String.pipe(T.Body("targetProjectId"))),
           }),
         ).pipe(
           T.Http({
@@ -3613,6 +3666,8 @@ function __c44(j: number): any {
           S.Struct({
             targetProjectId: S.String.pipe(T.Label()),
             tenantId: S.String.pipe(T.Label()),
+            bodyTenantId: S.optional(S.String.pipe(T.Body("tenantId"))),
+            bodyTargetProjectId: S.optional(S.String.pipe(T.Body("targetProjectId"))),
           }),
         ).pipe(
           T.Http({
@@ -3798,6 +3853,7 @@ function __c52(j: number): any {
           S.Struct({
             targetProjectId: S.String.pipe(T.Label()),
             tenantId: S.String.pipe(T.Label()),
+            bodyTenantId: S.optional(S.String.pipe(T.Body("tenantId"))),
           }),
         ).pipe(
           T.Http({
@@ -3871,6 +3927,7 @@ function __c56(j: number): any {
           S.Struct({
             tenantId: S.String.pipe(T.Label()),
             targetProjectId: S.String.pipe(T.Label()),
+            bodyTenantId: S.optional(S.String.pipe(T.Body("tenantId"))),
           }),
         ).pipe(
           T.Http({

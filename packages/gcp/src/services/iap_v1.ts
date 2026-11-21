@@ -445,6 +445,8 @@ export interface PatchProjectsIap_tunnelLocationsDestGroupsRequest extends Omit<
   name: string;
   /** A field mask that specifies which IAP settings to update. If omitted, then all of the settings are updated. See https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Identifier for the TunnelDestGroup. Must be unique within the project and contain only lower case letters (a-z) and dashes (-). */
+  bodyName?: string | undefined;
 }
 /** The request sent to ResetIdentityAwareProxyClientSecret. */
 export interface ResetIdentityAwareProxyClientSecretRequest {}
@@ -482,6 +484,8 @@ export interface UpdateIapSettingsV1Request extends Omit<IapSettings, "name"> {
   updateMask?: string | undefined;
   /** Required. The resource name of the IAP protected resource. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Required. The resource name of the IAP protected resource. */
+  bodyName?: string | undefined;
 }
 export interface ValidateAttributeExpressionV1Request {
   /** Required. User input string expression. Should be of the form `attributes.saml_attributes.filter(attribute, attribute.name in ['{attribute_name}', '{attribute_name}'])` */
@@ -1170,6 +1174,7 @@ function __c8(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://iap.googleapis.com/" }),
@@ -1253,6 +1258,7 @@ function __c12(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
