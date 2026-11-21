@@ -1,0 +1,188 @@
+{
+  "description": "Type the refusals of the RoutingUrl create and update. The spec declares one 409 and one 422 on each and tells the refusals apart only by `error.code`, so every refusal lands in the generic Conflict or UnprocessableEntity, which keep only the message, and a caller has to match on message text. Since 2026-11-20 the live spec (https://api.prisma.io/v1/doc) declares the codes as an enum on each response: POST /v1/services/{serviceId}/urls answers 409 `quota-exceeded` or `logical-id-taken`, and 422 `validation-error`, `invalid-hostname` or `service-not-on-a-branch`; PATCH /v1/urls/{id} answers 409 `quota-exceeded` or `logical-id-taken`, and 422 `validation-error`, `invalid-hostname` or `service-on-another-branch`. Each refusal gets its own error, matched on `/error/code`. `validation-error`, and any other code, still surfaces as the generic error.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.prisma#RoutingUrlQuotaExceeded",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "The service has reached its hostname quota. Remove a RoutingUrl from it, or use another service.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "body": {
+                "/error/code": "quota-exceeded"
+              }
+            }
+          ],
+          "distilled.errors#categories": ["QuotaError"]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.prisma#RoutingUrlLogicalIdTaken",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "Another live RoutingUrl on the Branch already has this `logicalId`.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "body": {
+                "/error/code": "logical-id-taken"
+              }
+            }
+          ],
+          "distilled.errors#categories": ["AlreadyExistsError"]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.prisma#RoutingUrlInvalidHostname",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 422,
+          "smithy.api#documentation": "The hostname is not one a RoutingUrl can serve.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 422,
+              "body": {
+                "/error/code": "invalid-hostname"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.prisma#RoutingUrlServiceNotOnABranch",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 422,
+          "smithy.api#documentation": "The service is not on a Branch, so it cannot have a RoutingUrl.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 422,
+              "body": {
+                "/error/code": "service-not-on-a-branch"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.prisma#RoutingUrlServiceOnAnotherBranch",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 422,
+          "smithy.api#documentation": "The new service is on another Branch than the RoutingUrl.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 422,
+              "body": {
+                "/error/code": "service-on-another-branch"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.prisma#PostV1ServicesByServiceIdUrls/errors/-",
+      "value": {
+        "target": "com.prisma#RoutingUrlQuotaExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.prisma#PostV1ServicesByServiceIdUrls/errors/-",
+      "value": {
+        "target": "com.prisma#RoutingUrlLogicalIdTaken"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.prisma#PostV1ServicesByServiceIdUrls/errors/-",
+      "value": {
+        "target": "com.prisma#RoutingUrlInvalidHostname"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.prisma#PostV1ServicesByServiceIdUrls/errors/-",
+      "value": {
+        "target": "com.prisma#RoutingUrlServiceNotOnABranch"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.prisma#PatchV1UrlsById/errors/-",
+      "value": {
+        "target": "com.prisma#RoutingUrlQuotaExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.prisma#PatchV1UrlsById/errors/-",
+      "value": {
+        "target": "com.prisma#RoutingUrlLogicalIdTaken"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.prisma#PatchV1UrlsById/errors/-",
+      "value": {
+        "target": "com.prisma#RoutingUrlInvalidHostname"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.prisma#PatchV1UrlsById/errors/-",
+      "value": {
+        "target": "com.prisma#RoutingUrlServiceOnAnotherBranch"
+      }
+    }
+  ]
+}
