@@ -2159,23 +2159,17 @@ export interface CreateProjectsLocationsGlossariesRequest extends GoogleCloudDat
   /** Required. Glossary ID: Glossary identifier. */
   glossaryId?: string | undefined;
 }
-export interface CreateProjectsLocationsGlossariesCategoriesRequest extends Omit<
-  GoogleCloudDataplexV1GlossaryCategory,
-  "parent"
-> {
+export interface CreateProjectsLocationsGlossariesCategoriesRequest extends GoogleCloudDataplexV1GlossaryCategory {
   /** Required. GlossaryCategory identifier. */
   categoryId?: string | undefined;
   /** Required. The parent resource where this GlossaryCategory will be created. Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id} where locationId refers to a Google Cloud region. */
-  parent: string;
+  glossary: string;
 }
-export interface CreateProjectsLocationsGlossariesTermsRequest extends Omit<
-  GoogleCloudDataplexV1GlossaryTerm,
-  "parent"
-> {
-  /** Required. The parent resource where the GlossaryTerm will be created. Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id} where location_id refers to a Google Cloud region. */
-  parent: string;
+export interface CreateProjectsLocationsGlossariesTermsRequest extends GoogleCloudDataplexV1GlossaryTerm {
   /** Required. GlossaryTerm identifier. */
   termId?: string | undefined;
+  /** Required. The parent resource where the GlossaryTerm will be created. Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id} where location_id refers to a Google Cloud region. */
+  glossary: string;
 }
 /** Settings to manage association of Dataproc Metastore with a lake. */
 export interface GoogleCloudDataplexV1LakeMetastore {
@@ -13327,12 +13321,12 @@ function __c143(j: number): any {
           __S(5568, __c174, 0),
           S.Struct({
             categoryId: S.optional(S.String.pipe(T.Query())),
-            parent: S.String.pipe(T.Label()),
+            glossary: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
             method: "POST",
-            uri: "v1/{+parent}/categories",
+            uri: "v1/{+glossary}/categories",
             baseUrl: "https://dataplex.googleapis.com/",
           }),
         ),
@@ -13346,13 +13340,13 @@ function __c144(j: number): any {
         S.Extend(
           __S(5600, __c175, 0),
           S.Struct({
-            parent: S.String.pipe(T.Label()),
             termId: S.optional(S.String.pipe(T.Query())),
+            glossary: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
             method: "POST",
-            uri: "v1/{+parent}/terms",
+            uri: "v1/{+glossary}/terms",
             baseUrl: "https://dataplex.googleapis.com/",
           }),
         ),
