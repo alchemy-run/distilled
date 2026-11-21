@@ -117,8 +117,9 @@ same measurement, cut down to finish within the other CI jobs:
   times (`--repeats`): timings keep the fastest run, heap the median.
 - **Whole-SDK memory:** every service module of `aws`, `cloudflare` and `gcp`
   (`ci.json` `providers`) imported in one process, as Alchemy does. An SDK is
-  built and measured only when its package, `core`, `scripts/` or the lockfile
-  differ from main's run (`--reuse`); otherwise main's number is copied. A PR
+  built and measured only when its package, a workspace package it depends on
+  (`core`; `s3` for `aws` and `cloudflare`), `scripts/` or the lockfile differ
+  from main's run (`--reuse`); otherwise main's number is copied. A PR
   that changes `core` rebuilds all three, about 3 minutes.
 - **Main's numbers:** each push to main runs `ci.ts run --wide` (every SDK)
   and caches it with a rolling history of main's runs (the line charts) as

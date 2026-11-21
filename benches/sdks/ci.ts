@@ -202,14 +202,34 @@ const programsOf = (pkgs: string[]): Program[] =>
       target,
     })),
   );
+/** Package directories under packages/ by package name. */
+const packageDirs = new Map(
+  readdirSync(PACKAGES)
+    .filter((d) => existsSync(join(PACKAGES, d, "package.json")))
+    .map((d) => [readJson<{ name: string }>(join(PACKAGES, d, "package.json")).name, d]),
+);
+/** `pkg` and every workspace package it depends on, directly or not (aws: s3, aws4signer, core). */
+const workspaceDeps = (pkg: string, seen = new Set<string>()): Set<string> => {
+  if (seen.has(pkg)) return seen;
+  seen.add(pkg);
+  const json = readJson<Record<string, Record<string, string> | undefined>>(
+    join(PACKAGES, pkg, "package.json"),
+  );
+  for (const name of Object.keys({ ...json.dependencies, ...json.peerDependencies })) {
+    const dir = packageDirs.get(name);
+    if (dir) workspaceDeps(dir, seen);
+  }
+  return seen;
+};
 /**
- * Whole-SDK heap: an SDK's numbers depend only on its package, core, the build
- * scripts and the lockfile. When those git trees match the run in `--reuse`
- * (main's cached run, or the PR's run when this is the base), copy its numbers
- * instead of building the SDK, which takes minutes for aws or gcp.
+ * Whole-SDK heap: an SDK's numbers depend only on its package, the workspace
+ * packages it depends on (core; s3 for aws), the build scripts and the
+ * lockfile. When those git trees match the run in `--reuse` (main's cached
+ * run, or the PR's run when this is the base), copy its numbers instead of
+ * building the SDK, which takes minutes for aws or gcp.
  */
 const inputsOf = (pkg: string) =>
-  [`packages/${pkg}`, "packages/core", "scripts", "pnpm-lock.yaml"]
+  [...[...workspaceDeps(pkg)].sort().map((d) => `packages/${d}`), "scripts", "pnpm-lock.yaml"]
     .map((p) => git("rev-parse", `HEAD:${p}`))
     .join(" ");
 const reuseFrom = (() => {
