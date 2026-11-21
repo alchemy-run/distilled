@@ -40,6 +40,7 @@ export class InteractionsEndpointUnverified
     [
       {
         status: 400,
+        code: 50035,
         body: {
           "/errors/interactions_endpoint_url/_errors/0/code":
             "APPLICATION_INTERACTIONS_ENDPOINT_URL_INVALID",

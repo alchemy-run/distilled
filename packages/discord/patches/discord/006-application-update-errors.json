@@ -1,5 +1,5 @@
 {
-  "description": "Type the 400s PATCH /applications/@me (and /applications/{id}) answers when a field is refused. Discord sends a signed PING to a new `interactions_endpoint_url` or `event_webhooks_url` and refuses the update when the URL doesn't answer it: `{ code: 50035, message: \"Invalid Form Body\", errors: { interactions_endpoint_url: { _errors: [{ code: \"APPLICATION_INTERACTIONS_ENDPOINT_URL_INVALID\", message: \"The specified interactions endpoint url could not be verified.\" }] } } }` (https://discord.com/developers/docs/interactions/overview#setting-up-an-endpoint). `InteractionsEndpointUnverified` is that case; `InvalidFormBody` (JSON code 50035, https://discord.com/developers/docs/topics/opcodes-and-status-codes#json-json-error-codes) is every other refused field. Alchemy retries the first while a just-deployed endpoint starts serving; the Discord InteractionsEndpoint and EventWebhook live suites exercise it.",
+  "description": "Type the 400s PATCH /applications/@me (and /applications/{id}) answers when a field is refused. Discord sends a signed PING to a new `interactions_endpoint_url` or `event_webhooks_url` and refuses the update when the URL doesn't answer it: `{ code: 50035, message: \"Invalid Form Body\", errors: { interactions_endpoint_url: { _errors: [{ code: \"APPLICATION_INTERACTIONS_ENDPOINT_URL_INVALID\", message: \"The specified interactions endpoint url could not be verified.\" }] } } }`. That body is a real response, posted in https://github.com/discord/discord-example-app/issues/8; the docs describe the PING check (https://docs.discord.com/developers/interactions/overview#setting-up-an-endpoint). `InteractionsEndpointUnverified` is that case; its matcher also names code 50035, so it outranks `InvalidFormBody` (JSON code 50035, https://discord.com/developers/docs/topics/opcodes-and-status-codes#json-json-error-codes), which is every other refused field. Alchemy retries the first while a just-deployed endpoint starts serving.",
   "patches": [
     {
       "op": "add",
@@ -14,6 +14,7 @@
           "com.distilled.openapi#errorMatchers": [
             {
               "status": 400,
+              "code": 50035,
               "body": {
                 "/errors/interactions_endpoint_url/_errors/0/code": "APPLICATION_INTERACTIONS_ENDPOINT_URL_INVALID"
               }
