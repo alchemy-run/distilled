@@ -105,7 +105,7 @@ number.
     > model: <model>
     > harness: <harness and version>
     >
-    > As an agent I have read the CONTRIBUTING.md and AGENTS.md and understand the risks of getting  @<username> flagged as untrustworthy if I regularly violate the outlined rules
+    > As an agent I have read the CONTRIBUTING.md and AGENTS.md and understand the risks of getting @<username> flagged as untrustworthy if I regularly violate the outlined rules
     ```
 
     Example: `model: opus 5.5`,
