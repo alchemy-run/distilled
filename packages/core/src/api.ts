@@ -606,7 +606,10 @@ const callUntraced = (
   return Effect.suspend(() => {
     const prepared = prepareOr(state);
     if (prepared instanceof SdkError) return Effect.fail(prepared);
-    const call = Effect.flatMap(
+    // The retry wraps only `runWith`, as on the warm path, so a protocol's
+    // `call` runs once per call and can fix per-call values (idempotency
+    // tokens) that every attempt reuses.
+    return Effect.flatMap(
       debug === undefined
         ? protocolContext(prepared.cfg.protocol)
         : debug.phase("distilled.setup", protocolContext(prepared.cfg.protocol), {
@@ -614,10 +617,9 @@ const callUntraced = (
           }),
       (protocolCtx) => {
         const service = (prepared.service = Context.get(protocolCtx, Protocol));
-        return runWith(prepared, service, input);
+        return applyRetry(runWith(prepared, service, input), prepared.cfg, debug);
       },
     );
-    return applyRetry(call, prepared.cfg, debug);
   });
 };
 
