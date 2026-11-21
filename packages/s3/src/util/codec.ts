@@ -188,6 +188,50 @@ const fits = (n: Node, v: unknown, wire: boolean): boolean => {
  */
 export const fitsWire = (n: Node, v: unknown): boolean => fits(n, v, true);
 
+const keyedUnions = /*@__PURE__*/ new WeakMap<Node, ReadonlyMap<string, Node> | null>();
+
+/**
+ * A Smithy union's members by key: each member of `n` is a struct with one
+ * required member whose wire key is its type key. `null` for any other union.
+ */
+const keyedUnion = (n: Node): ReadonlyMap<string, Node> | null => {
+  let keyed = keyedUnions.get(n);
+  if (keyed !== undefined) return keyed;
+  const byKey = new Map<string, Node>();
+  for (const t of n.types!) {
+    const members =
+      t._tag === "Objects" && !codecOf(t) && !t.indexSignatures?.length ? shapeOf(t).members : [];
+    const m = members[0];
+    if (members.length !== 1 || m!.optional || m!.wire !== m!.name) {
+      keyedUnions.set(n, null);
+      return null;
+    }
+    byKey.set(m!.name, t);
+  }
+  keyedUnions.set(n, (keyed = byKey));
+  return keyed;
+};
+
+/**
+ * The member of a Smithy union that `v` sets, found by its one non-null key
+ * (DynamoDB's `AttributeValue`: `{ S }`, `{ N }`, `{ M }`, ...). The other
+ * members require a key `v` does not have, so none of them fits. `undefined`
+ * when the key does not decide it: `{}`, two keys, or a key not modeled.
+ */
+const keyedMember = (n: Node, v: unknown): Node | undefined => {
+  if (!isRecord(v)) return undefined;
+  const keyed = keyedUnion(n);
+  if (keyed === null) return undefined;
+  let member: Node | undefined;
+  for (const key in v) {
+    if (v[key] == null) continue;
+    const t = keyed.get(key);
+    if (t === undefined || member !== undefined) return undefined;
+    member = t;
+  }
+  return member;
+};
+
 /** Whether `null` is a value of the type `n` (a `@sparse` list element or map value). */
 const acceptsNull = (n: Node): boolean => {
   switch (n._tag) {
@@ -294,6 +338,9 @@ const encodeUnion = (n: Node, v: unknown): unknown => {
   const types = n.types!;
   if (isOptional(n) && types.length === 2)
     return v === undefined ? undefined : encode(types[0]!, v);
+  // The one member that fits: encoding it alone throws what the loop would.
+  const member = keyedMember(n, v);
+  if (member !== undefined) return encode(member, v);
   let first: unknown;
   for (const t of types) {
     if (!fits(t, v, false)) continue;
@@ -415,6 +462,15 @@ const decodeUnion = (n: Node, v: unknown, exact: Exactness): unknown => {
   const types = n.types!;
   if (isOptional(n) && types.length === 2)
     return v === undefined ? undefined : decode(types[0]!, v, exact);
+  const member = keyedMember(n, v);
+  if (member !== undefined) {
+    try {
+      return decode(member, v, exact === "closed" ? "closed" : true);
+    } catch (e) {
+      // Lenient: the loops below keep the value converted as far as it fits.
+      if (exact) throw e;
+    }
+  }
   let first: unknown;
   for (const t of types) {
     if (!fits(t, v, true)) continue;
