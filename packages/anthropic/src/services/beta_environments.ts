@@ -440,7 +440,7 @@ export interface PollWorkRequest {
   anthropicWorkerID?: string | undefined;
   authorization?: string | Redacted.Redacted<string> | undefined;
 }
-export type PollWorkResponse = BetaSelfHostedWork;
+export type PollWorkResponse = BetaSelfHostedWork | null;
 /** Optional header to specify the beta version(s) you want to use. */
 export type RecordHeartbeatRequestAnthropicBetaList = Array<AnthropicBeta>;
 export interface RecordHeartbeatRequest {
@@ -1147,7 +1147,7 @@ function __c19(j: number): any {
         ),
       ).annotate({ identifier: "PollWorkRequest" });
     case 1:
-      return S.suspend(() => __S(16, __c4, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => S.NullOr(__S(16, __c4, 0)).pipe(T.RawResponseRoot())).annotate({
         identifier: "PollWorkResponse",
       });
   }
