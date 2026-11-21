@@ -797,6 +797,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         )
       : undefined;
 
+  const opInputIds = new Set(selected.map((op) => op.def.__input));
   const memberInfos = (d: any, ownerId?: string): EmittedMember[] =>
     memberBases(d, memberName).map((base) => {
       const traits = base.traits;
@@ -806,8 +807,15 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         // A member with a default (Smithy 2.0 `@default`) is always present
         // in a response, so response-only shapes require it. Shapes a
         // request also reaches keep it optional: the sender may omit it.
+        // An operation input's idempotency token is optional even when the
+        // spec requires it: core fills a missing one on every call.
         required:
-          base.required ||
+          (base.required &&
+            !(
+              "smithy.api#idempotencyToken" in traits &&
+              ownerId !== undefined &&
+              opInputIds.has(ownerId)
+            )) ||
           (DEFAULT_TRAIT in traits && ownerId !== undefined && !requestReachable.has(ownerId)),
         binding,
         wire: smithyWireName(traits, base.name, wireKind(binding)),

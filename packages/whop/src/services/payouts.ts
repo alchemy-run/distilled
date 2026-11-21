@@ -448,7 +448,7 @@ export interface CreatePayoutQuoteRequest {
   /** User to pay out from, prefixed `user_`. Provide exactly one of `account_id` or `user_id`. */
   user_id?: string | undefined;
   /** A unique key that makes this quote request safe to retry. */
-  idempotency_key: string;
+  idempotency_key?: string | undefined;
 }
 export interface Money {
   /** The amount in major units, as an exact decimal string -- `"10.00"` is ten dollars. A string so no float rounds it in transit. */
@@ -1859,7 +1859,9 @@ function __c12(j: number): any {
           speed: S.optional(S.String),
           statement_descriptor: S.optional(S.NullOr(S.String)),
           user_id: S.optional(S.String),
-          idempotency_key: S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/payouts/quotes", code: 200 })),
       ).annotate({ identifier: "CreatePayoutQuoteRequest" });
     case 1:

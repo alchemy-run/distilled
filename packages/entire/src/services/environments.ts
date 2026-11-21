@@ -109,7 +109,7 @@ export interface CreateProjectEnvironmentRequest {
   /** Canonical public project name. */
   project: string;
   /** Required. Reuse it, with the same body, to retry this create: the retry returns the configuration the first attempt saved instead of saving another. The same key with a different body returns 409. Scoped to the caller, project and resource; it does not expire. */
-  idempotencyKey: string;
+  idempotencyKey?: string | undefined;
   /** Sandbox lifetime in minutes (Daytona: idle time; E2B: initial wall-clock lifetime, renewed while in use). Omit or send null for the cell default. 422 on a self_hosted environment, which has no sandbox. */
   auto_stop_minutes?: number | null | undefined;
   /** self_hosted only (422 otherwise): how long a run waits for a runner to claim it before it times out, in milliseconds. Omit for 60 minutes. The agent's timeout_ms bounds the review once claimed. */
@@ -542,7 +542,9 @@ function __c5(j: number): any {
         S.Struct({
           host: S.String.pipe(T.Label()),
           project: S.String.pipe(T.Label()),
-          idempotencyKey: S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           auto_stop_minutes: S.optional(S.NullOr(S.Number)),
           claim_timeout_ms: S.optional(S.Number),
           description: S.optional(S.String),

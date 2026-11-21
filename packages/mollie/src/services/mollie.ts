@@ -2918,7 +2918,7 @@ export interface CreateTransferRequest {
   /** The timestamp (in ISO 8601 format) indicating when the client signed the request. Used in conjunction with `X-Client-Signature` for request verification. */
   xClientSignedAt: string;
   /** A unique value used to identify this request and prevent duplicate transfers. UUIDv4 is recommended to guarantee uniqueness across multiple processes or servers. If two requests are received with the same idempotency key, the second request will be discarded. View the [public documentation](https://docs.mollie.com/reference/api-idempotency#using-an-idempotency-key) to learn more. */
-  idempotencyKey: string;
+  idempotencyKey?: string | undefined;
   /** The IBAN of the debtor's (sender) Mollie account from which to initiate the transfer. */
   debtorIban: string;
   /** The creditor (recipient) of the transfer, including their name and account details. */
@@ -14268,7 +14268,9 @@ function __c80(j: number): any {
         S.Struct({
           xClientSignature: S.String.pipe(T.Header("X-Client-Signature")),
           xClientSignedAt: S.String.pipe(T.Header("X-Client-Signed-At")),
-          idempotencyKey: S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           debtorIban: S.String,
           creditor: __S(2065, __c129, 1),
           amount: __S(2128, __c133, 0),
