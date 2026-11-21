@@ -85,6 +85,14 @@ number.
     the only way. Example: `S3.getObject({ Bucket, Key, region })` and
     `Effect.provide(Region.of("eu-west-1"))` both work; #1047 removed R2's
     `jurisdiction` members for a layer and #1063 put them back.
+16. **Concurrent calls share one token refresh.** A credentials layer that
+    caches a token or credentials until they expire mints them once for all
+    callers waiting on a cold or stale cache. Check the cache, take a
+    one-permit `Semaphore`, and check again inside it, as
+    `createRefreshingProvider` in `gcp/src/credentials-service.ts` does.
+    Create the cache once per layer value. Example: 20 parallel calls on a
+    cold cache run one STS request or credential process, and all 20 get
+    the same keys.
 
 ## Getting the repo
 
