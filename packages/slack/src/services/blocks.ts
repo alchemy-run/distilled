@@ -24,6 +24,58 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+/** `invalid_arguments` -- The request arguments are invalid. Ensure you provide exactly one of `blocks`, `view`, or `message`, and that the value is valid JSON. Consult `response_metadata.messages` for details. */
+export class InvalidArguments
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<InvalidArguments>()("InvalidArguments", {
+      message: S.String,
+      needed: /*@__PURE__*/ S.optional(S.String),
+      provided: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }),
+    [{ body: { "/error": "invalid_arguments" } }],
+  ) {}
+
+/** `invalid_blocks` -- The blocks array failed validation. The `errors` field contains a list of issues, each with a JSON pointer path to the invalid element, the constraint that failed, and the expected value. */
+export class InvalidBlocks
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<InvalidBlocks>()("InvalidBlocks", {
+      message: S.String,
+      needed: /*@__PURE__*/ S.optional(S.String),
+      provided: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }),
+    [{ body: { "/error": "invalid_blocks" } }],
+  ) {}
+
+/** `invalid_message` -- The message payload failed validation. The `errors` field contains a list of issues, each with a JSON pointer path to the invalid element, the constraint that failed, and the expected value. */
+export class InvalidMessage
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<InvalidMessage>()("InvalidMessage", {
+      message: S.String,
+      needed: /*@__PURE__*/ S.optional(S.String),
+      provided: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }),
+    [{ body: { "/error": "invalid_message" } }],
+  ) {}
+
+/** `invalid_view` -- The view payload failed validation. The `errors` field contains a list of issues, each with a JSON pointer path to the invalid element, the constraint that failed, and the expected value. */
+export class InvalidView
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<InvalidView>()("InvalidView", {
+      message: S.String,
+      needed: /*@__PURE__*/ S.optional(S.String),
+      provided: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }),
+    [{ body: { "/error": "invalid_view" } }],
+  ) {}
+
 export type ValidateBlockRequestBlocksCase1ItemMap = { [key: string]: unknown | undefined };
 export type ValidateBlockRequestBlocksCase1List = Array<ValidateBlockRequestBlocksCase1ItemMap>;
 /** A JSON-encoded array of [structured blocks](/reference/block-kit/blocks). Provide exactly one of `blocks`, `view`, or `message`. */
@@ -40,8 +92,13 @@ export interface ValidateBlockResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
 }
-export type ValidateBlockError = SlackOpError;
-/** Validates blocks, messages, and views Block Kit JSON payloads. Method-specific errors (the `error` slug on the SlackError): - `invalid_arguments` -- The request arguments are invalid. Ensure you provide exactly one of `blocks`, `view`, or `message`, and that the value is valid JSON. Consult `response_metadata.messages` for details. - `invalid_blocks` -- The blocks array failed validation. The `errors` field contains a list of issues, each with a JSON pointer path to the invalid element, the constraint that failed, and the expected value. - `invalid_view` -- The view payload failed validation. The `errors` field contains a list of issues, each with a JSON pointer path to the invalid element, the constraint that failed, and the expected value. - `invalid_message` -- The message payload failed validation. The `errors` field contains a list of issues, each with a JSON pointer path to the invalid element, the constraint that failed, and the expected value. - `ratelimited` -- Too many requests. Reduce your request rate and retry after a brief wait. See https://docs.slack.dev/reference/methods/blocks.validate */
+export type ValidateBlockError =
+  | InvalidArguments
+  | InvalidBlocks
+  | InvalidMessage
+  | InvalidView
+  | SlackOpError;
+/** Validates blocks, messages, and views Block Kit JSON payloads. Method-specific errors (each a typed error named after its slug): - `invalid_arguments` -- The request arguments are invalid. Ensure you provide exactly one of `blocks`, `view`, or `message`, and that the value is valid JSON. Consult `response_metadata.messages` for details. - `invalid_blocks` -- The blocks array failed validation. The `errors` field contains a list of issues, each with a JSON pointer path to the invalid element, the constraint that failed, and the expected value. - `invalid_view` -- The view payload failed validation. The `errors` field contains a list of issues, each with a JSON pointer path to the invalid element, the constraint that failed, and the expected value. - `invalid_message` -- The message payload failed validation. The `errors` field contains a list of issues, each with a JSON pointer path to the invalid element, the constraint that failed, and the expected value. - `ratelimited` -- Too many requests. Reduce your request rate and retry after a brief wait. See https://docs.slack.dev/reference/methods/blocks.validate */
 export const validateBlock: API.OperationMethod<
   ValidateBlockRequest,
   ValidateBlockResponse,
@@ -50,7 +107,14 @@ export const validateBlock: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1, __c0, 1) as any as S.Schema<ValidateBlockRequest>,
   output: __S(2, __c0, 2) as any as S.Schema<ValidateBlockResponse>,
-  errors: [SlackError, SlackRateLimited],
+  errors: [
+    InvalidArguments,
+    InvalidBlocks,
+    InvalidMessage,
+    InvalidView,
+    SlackError,
+    SlackRateLimited,
+  ],
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

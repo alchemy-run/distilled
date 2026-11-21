@@ -25,6 +25,32 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+/** `invalid_refresh_token` -- The given refresh token is invalid. */
+export class InvalidRefreshToken
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<InvalidRefreshToken>()("InvalidRefreshToken", {
+      message: S.String,
+      needed: /*@__PURE__*/ S.optional(S.String),
+      provided: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }),
+    [{ body: { "/error": "invalid_refresh_token" } }],
+  ) {}
+
+/** `unknown_error` -- Temporary error for dev only restriction */
+export class UnknownError
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<UnknownError>()("UnknownError", {
+      message: S.String,
+      needed: /*@__PURE__*/ S.optional(S.String),
+      provided: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }),
+    [{ body: { "/error": "unknown_error" } }],
+  ) {}
+
 export interface RotateTokenRequest {
   /** The `xoxe` refresh token that was issued along with the old app configuration token. */
   refresh_token: string | Redacted.Redacted<string>;
@@ -33,7 +59,7 @@ export interface RotateTokenResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   /** The app configuration token used to access App Manifest APIs */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** Refresh token for this credential */
   refresh_token: string | Redacted.Redacted<string>;
   /** ID of the team associated with the access token. */
@@ -45,8 +71,8 @@ export interface RotateTokenResponse {
   /** Issued at (iat) identifies the time at which the token was issued. */
   iat: number;
 }
-export type RotateTokenError = SlackOpError;
-/** Exchanges a refresh token for a new app configuration token. Rate limit tier: 5 Method-specific errors (the `error` slug on the SlackError): - `internal_error` -- Internal error - `invalid_refresh_token` -- The given refresh token is invalid. - `unknown_error` -- Temporary error for dev only restriction See https://docs.slack.dev/reference/methods/tooling.tokens.rotate */
+export type RotateTokenError = InvalidRefreshToken | UnknownError | SlackOpError;
+/** Exchanges a refresh token for a new app configuration token. Rate limit tier: 5 Method-specific errors (each a typed error named after its slug): - `internal_error` -- Internal error - `invalid_refresh_token` -- The given refresh token is invalid. - `unknown_error` -- Temporary error for dev only restriction See https://docs.slack.dev/reference/methods/tooling.tokens.rotate */
 export const rotateToken: API.OperationMethod<
   RotateTokenRequest,
   RotateTokenResponse,
@@ -55,7 +81,7 @@ export const rotateToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<RotateTokenRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<RotateTokenResponse>,
-  errors: [SlackError, SlackRateLimited],
+  errors: [InvalidRefreshToken, UnknownError, SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82,7 +108,7 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           refresh_token: S.String.pipe(T.SensitiveValue({})),
           team_id: S.String,
           user_id: S.String,

@@ -24,7 +24,7 @@ import {
 import type { SlackOpContext } from "../src/protocol.ts";
 import * as Retry from "../src/retry.ts";
 import { bulkArchive, getFile } from "../src/services/admin.ts";
-import { postMessage } from "../src/services/chat.ts";
+import { ChannelNotFound, postMessage } from "../src/services/chat.ts";
 import { addRemote } from "../src/services/files.ts";
 import { migrationExchange } from "../src/services/migration.ts";
 import { v2Exchange } from "../src/services/oauth.ts";
@@ -241,12 +241,20 @@ describe("ok:true responses", () => {
 });
 
 describe("ok:false envelopes", () => {
+  test("a slug the method documents is its typed error", async () => {
+    const error = await failWith(postMessage({ channel: "C1" }), {
+      body: notOk("channel_not_found", { needed: "chat:write" }),
+    });
+    expect(error).toBeInstanceOf(ChannelNotFound);
+    expect(error).toMatchObject({ _tag: "ChannelNotFound", needed: "chat:write" });
+  });
+
   test("an unrecognised slug inside HTTP 200 is SlackError carrying the slug", async () => {
     const error = await failWith(postMessage({ channel: "C1" }), {
-      body: notOk("channel_not_found"),
+      body: notOk("some_future_slug"),
     });
     expect(error).toBeInstanceOf(SlackError);
-    expect(error).toMatchObject({ code: "channel_not_found" });
+    expect(error).toMatchObject({ code: "some_future_slug" });
     // The message is omitted when it would only repeat the slug.
     expect((error as SlackError).message).toBe("");
   });
@@ -274,10 +282,10 @@ describe("ok:false envelopes", () => {
 
   test("a bare `errors` list is used as detail too", async () => {
     const error = await failWith(postMessage({ channel: "C1" }), {
-      body: notOk("invalid_blocks", { errors: ["invalid block at index 0"] }),
+      body: notOk("some_future_slug", { errors: ["invalid block at index 0"] }),
     });
     expect(error).toMatchObject({
-      code: "invalid_blocks",
+      code: "some_future_slug",
       message: "invalid block at index 0",
       messages: ["invalid block at index 0"],
     });

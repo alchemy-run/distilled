@@ -25,6 +25,178 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+/** `bad_client_secret` -- The value passed for `client_secret` was invalid. */
+export class BadClientSecret
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<BadClientSecret>()("BadClientSecret", {
+      message: S.String,
+      needed: /*@__PURE__*/ S.optional(S.String),
+      provided: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }),
+    [{ body: { "/error": "bad_client_secret" } }],
+  ) {}
+
+/** `bad_redirect_uri` -- The value passed for `redirect_uri` did not match the `redirect_uri` in the original request. */
+export class BadRedirectUri
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<BadRedirectUri>()("BadRedirectUri", {
+      message: S.String,
+      needed: /*@__PURE__*/ S.optional(S.String),
+      provided: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }),
+    [{ body: { "/error": "bad_redirect_uri" } }],
+  ) {}
+
+/** `cannot_install_an_org_installed_app` -- An org-installed app cannot be installed on a workspace. */
+export class CannotInstallAnOrgInstalledApp
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<CannotInstallAnOrgInstalledApp>()(
+      "CannotInstallAnOrgInstalledApp",
+      {
+        message: S.String,
+        needed: /*@__PURE__*/ S.optional(S.String),
+        provided: /*@__PURE__*/ S.optional(S.String),
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+      },
+    ),
+    [{ body: { "/error": "cannot_install_an_org_installed_app" } }],
+  ) {}
+
+/** `invalid_client` -- Client authentication failed (unknown `client_id` or bad `client_secret`). */
+export class InvalidClient
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<InvalidClient>()("InvalidClient", {
+      message: S.String,
+      needed: /*@__PURE__*/ S.optional(S.String),
+      provided: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }),
+    [{ body: { "/error": "invalid_client" } }],
+  ) {}
+
+/** `invalid_client_id` -- The value passed for `client_id` was invalid. */
+export class InvalidClientId
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<InvalidClientId>()("InvalidClientId", {
+      message: S.String,
+      needed: /*@__PURE__*/ S.optional(S.String),
+      provided: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }),
+    [{ body: { "/error": "invalid_client_id" } }],
+  ) {}
+
+/** `invalid_code` -- The value passed for `code` was invalid. */
+export class InvalidCode
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<InvalidCode>()("InvalidCode", {
+      message: S.String,
+      needed: /*@__PURE__*/ S.optional(S.String),
+      provided: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }),
+    [{ body: { "/error": "invalid_code" } }],
+  ) {}
+
+/** `invalid_grant` -- The authorization code is invalid, expired, revoked, or the PKCE `code_verifier` does not match. */
+export class InvalidGrant
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<InvalidGrant>()("InvalidGrant", {
+      message: S.String,
+      needed: /*@__PURE__*/ S.optional(S.String),
+      provided: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }),
+    [{ body: { "/error": "invalid_grant" } }],
+  ) {}
+
+/** `invalid_grant_type` -- The value passed for `grant_type` was invalid. */
+export class InvalidGrantType
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<InvalidGrantType>()("InvalidGrantType", {
+      message: S.String,
+      needed: /*@__PURE__*/ S.optional(S.String),
+      provided: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }),
+    [{ body: { "/error": "invalid_grant_type" } }],
+  ) {}
+
+/** `invalid_refresh_token` -- The given refresh token is invalid. */
+export class InvalidRefreshToken
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<InvalidRefreshToken>()("InvalidRefreshToken", {
+      message: S.String,
+      needed: /*@__PURE__*/ S.optional(S.String),
+      provided: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }),
+    [{ body: { "/error": "invalid_refresh_token" } }],
+  ) {}
+
+/** `invalid_request` -- The request is missing a required parameter or includes an invalid parameter value. */
+export class InvalidRequest
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<InvalidRequest>()("InvalidRequest", {
+      message: S.String,
+      needed: /*@__PURE__*/ S.optional(S.String),
+      provided: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }),
+    [{ body: { "/error": "invalid_request" } }],
+  ) {}
+
+/** `oauth_authorization_url_mismatch` -- The OAuth flow was initiated on an incorrect version of the authorization URL. The flow must be initiated via /openid/connect/authorize . */
+export class OauthAuthorizationUrlMismatch
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<OauthAuthorizationUrlMismatch>()("OauthAuthorizationUrlMismatch", {
+      message: S.String,
+      needed: /*@__PURE__*/ S.optional(S.String),
+      provided: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }),
+    [{ body: { "/error": "oauth_authorization_url_mismatch" } }],
+  ) {}
+
+/** `preview_feature_not_available` -- The API method is not yet available on the team. */
+export class PreviewFeatureNotAvailable
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<PreviewFeatureNotAvailable>()("PreviewFeatureNotAvailable", {
+      message: S.String,
+      needed: /*@__PURE__*/ S.optional(S.String),
+      provided: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }),
+    [{ body: { "/error": "preview_feature_not_available" } }],
+  ) {}
+
+/** `unsupported_grant_type` -- The `grant_type` is not supported by this endpoint. */
+export class UnsupportedGrantType
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<UnsupportedGrantType>()("UnsupportedGrantType", {
+      message: S.String,
+      needed: /*@__PURE__*/ S.optional(S.String),
+      provided: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }),
+    [{ body: { "/error": "unsupported_grant_type" } }],
+  ) {}
+
 /** The `grant_type` param as described in the OAuth spec. */
 export type ConnectTokenRequestGrantType = "authorization_code" | "refresh_token";
 export interface ConnectTokenRequest {
@@ -92,8 +264,22 @@ export interface UserInfoResponse {
   https___slack_com_team_image_230?: string | undefined;
   https___slack_com_team_image_default?: boolean | undefined;
 }
-export type ConnectTokenError = SlackOpError;
-/** Exchanges a temporary OAuth verifier code for an access token for Sign in with Slack. Rate limit tier: 4 Method-specific errors (the `error` slug on the SlackError): - `bad_client_secret` -- The value passed for `client_secret` was invalid. - `bad_redirect_uri` -- The value passed for `redirect_uri` did not match the `redirect_uri` in the original request. - `cannot_install_an_org_installed_app` -- An org-installed app cannot be installed on a workspace. - `invalid_client` -- Client authentication failed (unknown `client_id` or bad `client_secret`). - `invalid_client_id` -- The value passed for `client_id` was invalid. - `invalid_code` -- The value passed for `code` was invalid. - `invalid_grant` -- The authorization code is invalid, expired, revoked, or the PKCE `code_verifier` does not match. - `invalid_grant_type` -- The value passed for `grant_type` was invalid. - `invalid_refresh_token` -- The given refresh token is invalid. - `invalid_request` -- The request is missing a required parameter or includes an invalid parameter value. - `oauth_authorization_url_mismatch` -- The OAuth flow was initiated on an incorrect version of the authorization URL. The flow must be initiated via /openid/connect/authorize . - `preview_feature_not_available` -- The API method is not yet available on the team. - `unsupported_grant_type` -- The `grant_type` is not supported by this endpoint. See https://docs.slack.dev/reference/methods/openid.connect.token */
+export type ConnectTokenError =
+  | BadClientSecret
+  | BadRedirectUri
+  | CannotInstallAnOrgInstalledApp
+  | InvalidClient
+  | InvalidClientId
+  | InvalidCode
+  | InvalidGrant
+  | InvalidGrantType
+  | InvalidRefreshToken
+  | InvalidRequest
+  | OauthAuthorizationUrlMismatch
+  | PreviewFeatureNotAvailable
+  | UnsupportedGrantType
+  | SlackOpError;
+/** Exchanges a temporary OAuth verifier code for an access token for Sign in with Slack. Rate limit tier: 4 Method-specific errors (each a typed error named after its slug): - `bad_client_secret` -- The value passed for `client_secret` was invalid. - `bad_redirect_uri` -- The value passed for `redirect_uri` did not match the `redirect_uri` in the original request. - `cannot_install_an_org_installed_app` -- An org-installed app cannot be installed on a workspace. - `invalid_client` -- Client authentication failed (unknown `client_id` or bad `client_secret`). - `invalid_client_id` -- The value passed for `client_id` was invalid. - `invalid_code` -- The value passed for `code` was invalid. - `invalid_grant` -- The authorization code is invalid, expired, revoked, or the PKCE `code_verifier` does not match. - `invalid_grant_type` -- The value passed for `grant_type` was invalid. - `invalid_refresh_token` -- The given refresh token is invalid. - `invalid_request` -- The request is missing a required parameter or includes an invalid parameter value. - `oauth_authorization_url_mismatch` -- The OAuth flow was initiated on an incorrect version of the authorization URL. The flow must be initiated via /openid/connect/authorize . - `preview_feature_not_available` -- The API method is not yet available on the team. - `unsupported_grant_type` -- The `grant_type` is not supported by this endpoint. See https://docs.slack.dev/reference/methods/openid.connect.token */
 export const connectToken: API.OperationMethod<
   ConnectTokenRequest,
   ConnectTokenResponse,
@@ -102,7 +288,23 @@ export const connectToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<ConnectTokenRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<ConnectTokenResponse>,
-  errors: [SlackError, SlackRateLimited],
+  errors: [
+    BadClientSecret,
+    BadRedirectUri,
+    CannotInstallAnOrgInstalledApp,
+    InvalidClient,
+    InvalidClientId,
+    InvalidCode,
+    InvalidGrant,
+    InvalidGrantType,
+    InvalidRefreshToken,
+    InvalidRequest,
+    OauthAuthorizationUrlMismatch,
+    PreviewFeatureNotAvailable,
+    UnsupportedGrantType,
+    SlackError,
+    SlackRateLimited,
+  ],
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

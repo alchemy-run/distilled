@@ -24,6 +24,123 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+/** `app_missing_action_url` -- The app associated with the used token doesn't have a Action URL configured in its interactive components settings. */
+export class AppMissingActionUrl
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<AppMissingActionUrl>()("AppMissingActionUrl", {
+      message: S.String,
+      needed: /*@__PURE__*/ S.optional(S.String),
+      provided: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }),
+    [{ body: { "/error": "app_missing_action_url" } }],
+  ) {}
+
+/** `cannot_create_dialog` -- Something exceptional occurred and the dialog could not be created. */
+export class CannotCreateDialog
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<CannotCreateDialog>()("CannotCreateDialog", {
+      message: S.String,
+      needed: /*@__PURE__*/ S.optional(S.String),
+      provided: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }),
+    [{ body: { "/error": "cannot_create_dialog" } }],
+  ) {}
+
+/** `failed_sending_dialog` -- Something exceptional occurred and the dialog could not be sent. */
+export class FailedSendingDialog
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<FailedSendingDialog>()("FailedSendingDialog", {
+      message: S.String,
+      needed: /*@__PURE__*/ S.optional(S.String),
+      provided: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }),
+    [{ body: { "/error": "failed_sending_dialog" } }],
+  ) {}
+
+/** `invalid_trigger` -- The provided `trigger_id` is invalid or cannot be used by this token. */
+export class InvalidTrigger
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<InvalidTrigger>()("InvalidTrigger", {
+      message: S.String,
+      needed: /*@__PURE__*/ S.optional(S.String),
+      provided: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }),
+    [{ body: { "/error": "invalid_trigger" } }],
+  ) {}
+
+/** `missing_dialog` -- No `dialog` argument was presented. */
+export class MissingDialog
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<MissingDialog>()("MissingDialog", {
+      message: S.String,
+      needed: /*@__PURE__*/ S.optional(S.String),
+      provided: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }),
+    [{ body: { "/error": "missing_dialog" } }],
+  ) {}
+
+/** `missing_trigger` -- No `trigger_id` argument was presented. */
+export class MissingTrigger
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<MissingTrigger>()("MissingTrigger", {
+      message: S.String,
+      needed: /*@__PURE__*/ S.optional(S.String),
+      provided: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }),
+    [{ body: { "/error": "missing_trigger" } }],
+  ) {}
+
+/** `trigger_exchanged` -- The provided `trigger_id` has already been exchanged. */
+export class TriggerExchanged
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<TriggerExchanged>()("TriggerExchanged", {
+      message: S.String,
+      needed: /*@__PURE__*/ S.optional(S.String),
+      provided: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }),
+    [{ body: { "/error": "trigger_exchanged" } }],
+  ) {}
+
+/** `trigger_expired` -- The provided `trigger_id` was presented after the 3 second limit. */
+export class TriggerExpired
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<TriggerExpired>()("TriggerExpired", {
+      message: S.String,
+      needed: /*@__PURE__*/ S.optional(S.String),
+      provided: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }),
+    [{ body: { "/error": "trigger_expired" } }],
+  ) {}
+
+/** `validation_errors` -- The provided `dialog` could not be validated. */
+export class ValidationErrors
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<ValidationErrors>()("ValidationErrors", {
+      message: S.String,
+      needed: /*@__PURE__*/ S.optional(S.String),
+      provided: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }),
+    [{ body: { "/error": "validation_errors" } }],
+  ) {}
+
 export interface DialogOpenRequest {
   /** The dialog definition. This must be a JSON-encoded string. */
   dialog: string;
@@ -34,8 +151,18 @@ export interface DialogOpenResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
 }
-export type DialogOpenError = SlackOpError;
-/** Open a dialog with a user Rate limit tier: 4 Method-specific errors (the `error` slug on the SlackError): - `app_missing_action_url` -- The app associated with the used token doesn't have a Action URL configured in its interactive components settings. - `cannot_create_dialog` -- Something exceptional occurred and the dialog could not be created. - `failed_sending_dialog` -- Something exceptional occurred and the dialog could not be sent. - `invalid_trigger` -- The provided `trigger_id` is invalid or cannot be used by this token. - `missing_dialog` -- No `dialog` argument was presented. - `missing_trigger` -- No `trigger_id` argument was presented. - `trigger_exchanged` -- The provided `trigger_id` has already been exchanged. - `trigger_expired` -- The provided `trigger_id` was presented after the 3 second limit. - `validation_errors` -- The provided `dialog` could not be validated. See https://docs.slack.dev/reference/methods/dialog.open */
+export type DialogOpenError =
+  | AppMissingActionUrl
+  | CannotCreateDialog
+  | FailedSendingDialog
+  | InvalidTrigger
+  | MissingDialog
+  | MissingTrigger
+  | TriggerExchanged
+  | TriggerExpired
+  | ValidationErrors
+  | SlackOpError;
+/** Open a dialog with a user Rate limit tier: 4 Method-specific errors (each a typed error named after its slug): - `app_missing_action_url` -- The app associated with the used token doesn't have a Action URL configured in its interactive components settings. - `cannot_create_dialog` -- Something exceptional occurred and the dialog could not be created. - `failed_sending_dialog` -- Something exceptional occurred and the dialog could not be sent. - `invalid_trigger` -- The provided `trigger_id` is invalid or cannot be used by this token. - `missing_dialog` -- No `dialog` argument was presented. - `missing_trigger` -- No `trigger_id` argument was presented. - `trigger_exchanged` -- The provided `trigger_id` has already been exchanged. - `trigger_expired` -- The provided `trigger_id` was presented after the 3 second limit. - `validation_errors` -- The provided `dialog` could not be validated. See https://docs.slack.dev/reference/methods/dialog.open */
 export const dialogOpen: API.OperationMethod<
   DialogOpenRequest,
   DialogOpenResponse,
@@ -44,7 +171,19 @@ export const dialogOpen: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DialogOpenRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<DialogOpenResponse>,
-  errors: [SlackError, SlackRateLimited],
+  errors: [
+    AppMissingActionUrl,
+    CannotCreateDialog,
+    FailedSendingDialog,
+    InvalidTrigger,
+    MissingDialog,
+    MissingTrigger,
+    TriggerExchanged,
+    TriggerExpired,
+    ValidationErrors,
+    SlackError,
+    SlackRateLimited,
+  ],
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

@@ -1,0 +1,10 @@
+{
+  "description": "tooling.tokens.rotate returns a fresh app configuration token (`token`, an `xoxe.xoxp-` credential that authorizes the App Manifest API). Mark it sensitive like the `refresh_token` beside it, so it is Redacted on decode. See https://docs.slack.dev/app-manifests/configuring-apps-with-app-manifests#config-tokens",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.slack.tooling#TokensRotateResponse/members/token/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}
