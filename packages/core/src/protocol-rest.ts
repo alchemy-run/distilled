@@ -947,17 +947,16 @@ type TypedRestOptions<
 
 /**
  * The typed protocol for a simple REST JSON API (core/protocol). Assign the
- * result to a module-level const in the provider's `protocol.ts`, typed with
- * the errors the SDK's protocol declares:
+ * result to a module-level const in the provider's `protocol.ts`:
  *
- *   export const NeonProtocol: Protocol<NeonProtocolError, Credentials> = restProtocol({ ... });
+ *   export const NeonProtocol = restProtocol({ ... });
  *
  * A failed response becomes, in this order: what `classifyError` returns, a
  * class the operation or its service declares (by its matchers, or by status
  * for one of core's status classes), `InternalServerError` for any other
  * 5xx, and `unknownError` for the rest. The protocol declares what the
- * options and {@link RestProtocolError} fail with; the annotation makes the
- * compiler check that list.
+ * options and {@link RestProtocolError} fail with: the result's type lists
+ * them, so no SDK writes that list by hand.
  */
 export function restProtocol<
   Credentials,
