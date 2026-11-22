@@ -12,7 +12,7 @@ import * as Telemetry from "@distilled.cloud/core/telemetry";
  * layer supplies everything AWS-specific per request:
  *
  *   encode:  idempotency-token fill -> wire-family serializer (awsJson 1.0/1.1,
- *            awsQuery, ec2Query, restJson1, restXml -- discovered from the
+ *            awsQuery, ec2Query, restJson1, restXml, rpcv2Cbor -- discovered from the
  *            input schema's protocol trait) -> annotation middleware
  *            (checksums, streaming bodies) -> endpoint resolution (custom
  *            Endpoint service, compiled Smithy endpoint rules, or the
@@ -69,16 +69,19 @@ import { isValidHostLabel } from "./rules-engine/standard-functions.ts";
 import * as SigV4 from "./sigv4.ts";
 import {
   type AwsAuthSigv2Trait,
+  getAnnotationUnwrap,
   getAwsApiService,
   getAwsAuthSigv2,
   getAwsAuthSigv4,
   getProtocol,
   hasHttpPayload,
   isStreamingType,
+  type ProtocolAnnotationValue,
+  protocolSymbol,
 } from "./traits.ts";
 import { getIdentifier, getPropertySignatures } from "./util/ast.ts";
 import { invalidHostLabel } from "./util/serialize-input.ts";
-import { bodyStream, isStreamBody, type StreamBody } from "./util/stream.ts";
+import { bodyStream, isOneShotBody, isStreamBody, type StreamBody } from "./util/stream.ts";
 
 /**
  * Context (requirements) shared by every generated AWS operation.
@@ -164,9 +167,11 @@ const prepare = (config: API.ProtocolOperationConfig): Prepared => {
     sigv2: getAwsAuthSigv2(inputAst),
     serviceSdkId,
     resolveEndpoint: makeEndpointResolver(op),
-    textBody: getPropertySignatures(op.output.ast).every(
-      (prop) => !hasHttpPayload(prop) && !isStreamingType(prop.type),
-    ),
+    textBody:
+      getAnnotationUnwrap<ProtocolAnnotationValue>(inputAst, protocolSymbol)?.binaryBody !== true &&
+      getPropertySignatures(op.output.ast).every(
+        (prop) => !hasHttpPayload(prop) && !isStreamingType(prop.type),
+      ),
     regionInput: !getPropertySignatures(inputAst).some((prop) => prop.name === "region"),
   };
   preparedOps.set(config, prepared);
@@ -556,13 +561,17 @@ const planOf = (prepared: Prepared): Effect.Effect<Plan> => {
   });
 };
 
-/** The signed (or, given `presign`, presigned) HTTP request for `input`, on the calling fiber. */
+/**
+ * The signed (or, given `presign`, presigned) HTTP request for `input`, on
+ * the calling fiber. `f` also learns whether the body is the caller's own
+ * stream, which can be sent only once.
+ */
 const encodeWith = <A>(
   prepared: Prepared,
   plan: Plan,
   fiber: Fiber,
   input: unknown,
-  f: (request: HttpClientRequest.HttpClientRequest) => Effect.Effect<A, any, any>,
+  f: (request: HttpClientRequest.HttpClientRequest, oneShot: boolean) => Effect.Effect<A, any, any>,
   presign?: PresignSettings,
 ): Effect.Effect<A, any, any> => {
   const context = fiber.context as Context.Context<any>;
@@ -573,10 +582,12 @@ const encodeWith = <A>(
   const sendSigned = (request: Request) =>
     withAwsContext(context, callRegion, (credentials, region, custom) => {
       Telemetry.annotate(context, "cloud.region", region);
+      const oneShot = isOneShotBody(request.body);
+      const fWith = (r: HttpClientRequest.HttpClientRequest) => f(r, oneShot);
       if (!traceDebug) {
         return thenSend(
           toHttpRequest(prepared, input, request, credentials, region, custom, fiber, presign),
-          f,
+          fWith,
         );
       }
       // BRAINSTORM: endpoint rules + SigV4 as one debug span.
@@ -599,7 +610,7 @@ const encodeWith = <A>(
           }),
           { "aws.signing.name": prepared.sigv4?.name },
         ),
-        f,
+        fWith,
       );
     });
   // Serialize the input (protocol serializer + annotation middleware)
@@ -688,8 +699,8 @@ const call = (op: API.PreparedOperation, input: unknown): Effect.Effect<unknown>
     const context = fiber.context as Context.Context<any>;
     const run = (plan: Plan) => {
       const client = Context.get(context, HttpClient.HttpClient);
-      return encodeWith(prepared, plan, fiber as unknown as Fiber, input, (request) =>
-        Effect.flatMap(Send.send(context, client, request), (response) =>
+      return encodeWith(prepared, plan, fiber as unknown as Fiber, input, (request, oneShot) =>
+        Effect.flatMap(Send.send(context, client, request, oneShot), (response) =>
           Telemetry.phase(
             context,
             "aws.deserialize",
