@@ -613,3 +613,8 @@ shallow = true
 	url = https://github.com/distilled-mirror/spec-mirror-mollie.git
 	ignore = dirty
 	shallow = true
+[submodule "packages/unifi/specs/spec-mirror-unifi"]
+	path = packages/unifi/specs/spec-mirror-unifi
+	url = https://github.com/distilled-mirror/spec-mirror-unifi.git
+	ignore = dirty
+	shallow = true

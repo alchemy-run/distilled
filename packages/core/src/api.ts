@@ -423,8 +423,9 @@ const retryWith = (
     };
     return Effect.flatMap(schedule.step, (next) => {
       let attempt = 0;
+      // A request whose body could be read only once is never sent again.
       const loop = (e: unknown): Effect.Effect<any, any, any> =>
-        !keepGoing(e)
+        !keepGoing(e) || takeLastRequest().oneShot
           ? Effect.fail(e)
           : Effect.clockWith((clock) =>
               Effect.matchEffect(next(clock.currentTimeMillisUnsafe(), e), {
@@ -446,6 +447,8 @@ const retryWith = (
     }
     // Read now, on the fiber that sent the request that failed.
     const last = takeLastRequest();
+    // Its body could be read only once: a retry would send it empty.
+    if (last.oneShot) return Effect.fail(e);
     return Effect.flatMap(backoffDelay(b, n, e, last.hintMs), (ms) => {
       if (ms === undefined) return Effect.fail(e);
       // No host: the request went out without `send` (`./send.ts`), so no
