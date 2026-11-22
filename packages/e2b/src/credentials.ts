@@ -20,7 +20,7 @@
  */
 import * as EffectConfig from "@distilled.cloud/core/config";
 import { ConfigError } from "@distilled.cloud/core/errors";
-import { isHostLabel } from "@distilled.cloud/core/protocol-http";
+import { invalidHostLabelConfig } from "@distilled.cloud/core/protocol-http";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
@@ -178,15 +178,13 @@ export const resolveSandboxConnection: Effect.Effect<SandboxConnectionConfig, Co
       );
     }
     const sandbox = option.value;
-    const label = `${sandbox.port ?? ENVD_PORT}-${sandbox.sandboxId}`;
-    if (!SHARED_SANDBOX_HOST_DOMAINS.has(sandbox.domain ?? DEFAULT_DOMAIN) && !isHostLabel(label)) {
-      return Effect.fail(
-        new ConfigError({
-          message: `E2B sandbox ${JSON.stringify(sandbox.sandboxId)} cannot be addressed: ${JSON.stringify(label)} must be one DNS label in the sandbox host name`,
-        }),
-      );
-    }
-    return Effect.succeed(sandbox);
+    const invalid = SHARED_SANDBOX_HOST_DOMAINS.has(sandbox.domain ?? DEFAULT_DOMAIN)
+      ? undefined
+      : invalidHostLabelConfig(
+          "E2B sandbox host label (<port>-<sandboxId>)",
+          `${sandbox.port ?? ENVD_PORT}-${sandbox.sandboxId}`,
+        );
+    return invalid === undefined ? Effect.succeed(sandbox) : Effect.fail(invalid);
   });
 
 // =============================================================================

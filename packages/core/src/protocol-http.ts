@@ -15,6 +15,7 @@ import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import type * as AST from "effect/SchemaAST";
 import { getAnn, getProps, resolveNode } from "./annotations.ts";
 import * as Category from "./category.ts";
+import { ConfigError } from "./config.ts";
 import { isOpaqueValue } from "./plain-values.ts";
 import { parseServerRetryHint } from "./retry-after.ts";
 import * as Schema from "./schema-lite-typed.ts";
@@ -797,8 +798,8 @@ export const isHostLabel = (value: unknown, allowSubDomains?: boolean): boolean 
 /**
  * The refusal for a value that goes into a URL host but is not a host label
  * ({@link isHostLabel}), or `undefined`. The host-side counterpart of
- * {@link invalidLabel}. A value read from credentials config should fail with
- * `ConfigError` instead: check it with {@link isHostLabel}.
+ * {@link invalidLabel}. A value read from credentials config fails with
+ * {@link invalidHostLabelConfig} instead.
  */
 export const invalidHostLabel = (
   member: string,
@@ -810,6 +811,22 @@ export const invalidHostLabel = (
     : new InvalidInput({
         member,
         message: `Input member ${member} cannot be ${JSON.stringify(String(value))}: as a host label it would address another host`,
+      });
+
+/**
+ * {@link invalidHostLabel} for a value read from credentials config: the
+ * refusal is a `ConfigError` naming the setting (`"S2 basin"`,
+ * `"STACKIT region"`), or `undefined`.
+ */
+export const invalidHostLabelConfig = (
+  name: string,
+  value: unknown,
+  allowSubDomains?: boolean,
+): ConfigError | undefined =>
+  isHostLabel(value, allowSubDomains)
+    ? undefined
+    : new ConfigError({
+        message: `${name} ${JSON.stringify(String(value))} cannot go into a host name: it must be ${allowSubDomains ? "DNS labels separated by dots, each" : "one DNS label:"} letters, digits and hyphens, at most 63 characters`,
       });
 
 /**

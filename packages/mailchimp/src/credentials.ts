@@ -1,5 +1,5 @@
 import { ConfigError } from "@distilled.cloud/core/errors";
-import { isHostLabel } from "@distilled.cloud/core/protocol-http";
+import { invalidHostLabelConfig } from "@distilled.cloud/core/protocol-http";
 /**
  * Mailchimp credentials -- hand-written.
  *
@@ -62,13 +62,8 @@ const resolve = (config: {
     );
   }
   // The data centre becomes a label of the host name.
-  if (!isHostLabel(server)) {
-    return Effect.fail(
-      new ConfigError({
-        message: `Mailchimp serverPrefix ${JSON.stringify(server)} is not a data centre: it must be one DNS label, such as "us21"`,
-      }),
-    );
-  }
+  const invalid = invalidHostLabelConfig("Mailchimp serverPrefix", server);
+  if (invalid !== undefined) return Effect.fail(invalid);
   return Effect.succeed({ apiKey, apiBaseUrl: apiBaseUrlFor(server) });
 };
 

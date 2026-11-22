@@ -22,11 +22,7 @@ import * as Region from "./region.ts";
 import { dnsSuffix } from "./rules-engine/aws-functions.ts";
 import * as SigV4 from "./sigv4.ts";
 import { toBase64 } from "./util/base64.ts";
-import {
-  encodeGreedyLabel,
-  encodeLabel,
-  invalidRegion,
-} from "./util/serialize-input.ts";
+import { encodeGreedyLabel, encodeLabel, invalidRegion } from "./util/serialize-input.ts";
 import { isStreamBody } from "./util/stream.ts";
 
 /**

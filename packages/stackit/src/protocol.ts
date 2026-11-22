@@ -1,6 +1,6 @@
 import * as API from "@distilled.cloud/core/api";
 import {
-  ConfigError,
+  type ConfigError,
   HTTP_STATUS_MAP,
   InternalServerError,
   type InvalidInput,
@@ -8,7 +8,7 @@ import {
 import {
   buildRequest,
   getAnn,
-  isHostLabel,
+  invalidHostLabelConfig,
   mapKeys,
   matchTypedError,
 } from "@distilled.cloud/core/protocol-http";
@@ -112,12 +112,12 @@ const baseUrlFor = (creds: Config, inputAst: AST.AST): string | SdkError | Confi
     return creds.apiBaseUrl;
   }
   // The region becomes a label of the host name (`applyRegion` accepts the
-  // spec's glued `eu01.` form too), so it must be one DNS label.
-  if (!isHostLabel(creds.region.endsWith(".") ? creds.region.slice(0, -1) : creds.region)) {
-    return new ConfigError({
-      message: `STACKIT region ${JSON.stringify(creds.region)} is not a valid region: it must be one DNS label, such as "eu01"`,
-    });
-  }
+  // spec's glued `eu01.` form too).
+  const invalid = invalidHostLabelConfig(
+    "STACKIT region",
+    creds.region.endsWith(".") ? creds.region.slice(0, -1) : creds.region,
+  );
+  if (invalid !== undefined) return invalid;
   const http = getAnn(inputAst, httpSymbol) as StackitHttpTrait | undefined;
   const specUrl = http?.baseUrl;
   if (typeof specUrl !== "string" || specUrl === "") {

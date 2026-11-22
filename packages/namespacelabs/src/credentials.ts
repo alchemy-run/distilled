@@ -1,6 +1,6 @@
 import * as EffectConfig from "@distilled.cloud/core/config";
 import { ConfigError } from "@distilled.cloud/core/errors";
-import { isHostLabel } from "@distilled.cloud/core/protocol-http";
+import { invalidHostLabelConfig } from "@distilled.cloud/core/protocol-http";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
@@ -60,14 +60,13 @@ export const resolveConfig = (options: Options): Config => {
  * {@link resolveConfig}, failing with `ConfigError` when the region is not
  * one DNS label: it becomes a label of the compute and storage host names.
  */
-const resolveChecked = (options: Options): Effect.Effect<Config, ConfigError> =>
-  options.region === undefined || isHostLabel(options.region)
-    ? Effect.succeed(resolveConfig(options))
-    : Effect.fail(
-        new ConfigError({
-          message: `Namespace region ${JSON.stringify(options.region)} is not a valid region: it must be one DNS label, such as "us"`,
-        }),
-      );
+const resolveChecked = (options: Options): Effect.Effect<Config, ConfigError> => {
+  const invalid =
+    options.region === undefined
+      ? undefined
+      : invalidHostLabelConfig("Namespace region", options.region);
+  return invalid === undefined ? Effect.succeed(resolveConfig(options)) : Effect.fail(invalid);
+};
 
 export class Credentials
   extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
