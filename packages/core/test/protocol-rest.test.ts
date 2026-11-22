@@ -814,7 +814,10 @@ describe("makeRestProtocol label refusals", () => {
     expect(error.member).toBe("key");
   });
 
-  test('an optional `""` label sends an empty segment', async () => {
+  test.each([
+    ['`""`', { name: "db", version: "" }],
+    ["omitted", { name: "db" }],
+  ])("an optional label that is %s sends an empty segment", async (_, input) => {
     const getSecret = API.make(() => ({
       input: L.Struct({
         name: L.String.pipe(T.Label()),
@@ -825,7 +828,7 @@ describe("makeRestProtocol label refusals", () => {
     })) as unknown as (input: Record<string, unknown>) => Effect.Effect<any, any, any>;
     const recorded: Recorded = { requests: [] };
     await succeed(
-      getSecret({ name: "db", version: "" }),
+      getSecret(input),
       fakeClient(() => json({}), recorded),
       creds(),
     );
