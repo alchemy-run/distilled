@@ -9,26 +9,12 @@
  * - A failed call answers `{ "data": null, "message": ..., "errors"?: ... }`.
  *   `errors` names each rejected parameter and is folded into the message.
  */
-import type { Protocol } from "@distilled.cloud/core/protocol";
-import {
-  restProtocol,
-  type RestErrorEnvelope,
-  type RestProtocolError,
-} from "@distilled.cloud/core/protocol-rest";
+import type { ErrorOf, Protocol, ProtocolOf } from "@distilled.cloud/core/protocol";
+import { restProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config, type CredentialsError } from "./credentials.ts";
+import { Credentials, type Config } from "./credentials.ts";
 import { ProxmoxParseError, UnknownProxmoxError, type ProxmoxServiceError } from "./errors.ts";
-
-/**
- * The errors declared on Proxmox's protocol: what the code that builds
- * requests and reads responses fails with. A response that does not match
- * its schema ({@link ProxmoxParseError}), a failed response that neither the
- * operation nor the service declares ({@link UnknownProxmoxError}), and
- * core's REST errors (a bad path label, a request that can't be built, the
- * transport).
- */
-export type ProxmoxProtocolError = RestProtocolError | ProxmoxParseError | UnknownProxmoxError;
 
 /**
  * What every generated Proxmox operation fails with besides its own errors:
@@ -36,7 +22,7 @@ export type ProxmoxProtocolError = RestProtocolError | ProxmoxParseError | Unkno
  * fails with. Generated service files annotate operations with
  * `API.OperationMethod<I, O, ProxmoxOpError, ProxmoxOpContext>` explicitly.
  */
-export type ProxmoxOpError = ProxmoxServiceError | ProxmoxProtocolError | CredentialsError;
+export type ProxmoxOpError = ProxmoxServiceError | ErrorOf<typeof ProxmoxProtocol>;
 
 /** Context (requirements) shared by every generated Proxmox operation. */
 export type ProxmoxOpContext = Credentials | HttpClient.HttpClient;
@@ -82,12 +68,12 @@ const RestProtocol = /*@__PURE__*/ restProtocol({
   parseError: ({ body, cause }) => new ProxmoxParseError({ body, cause }),
 });
 
-/** Core's REST protocol with booleans sent the way Proxmox reads them. */
-// The annotation is the check: everything the protocol fails with, besides
-// the errors an operation and the service declare, must be listed here.
-export const ProxmoxProtocol: Protocol<ProxmoxProtocolError | CredentialsError, Credentials> = {
+const proxmoxProtocolMethods = {
   ...RestProtocol,
   encode: (args) => RestProtocol.encode({ ...args, input: toWire(args.input) }),
   // The REST protocol always has `call`.
   call: (operation, input) => RestProtocol.call!(operation, toWire(input)),
-};
+} satisfies Protocol<unknown, unknown>;
+
+/** Core's REST protocol with booleans sent the way Proxmox reads them. */
+export const ProxmoxProtocol: ProtocolOf<typeof proxmoxProtocolMethods> = proxmoxProtocolMethods;

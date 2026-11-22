@@ -84,9 +84,6 @@ export class Credentials
     "PolymarketCredentials",
   ) {}
 
-/** What resolving the credentials can fail with: declared on {@link Credentials}. */
-export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
-
 const optionalString = (name: string) =>
   EffectConfig.String(name).pipe(EffectConfig.option, EffectConfig.map(Option.getOrUndefined));
 const optionalRedacted = (name: string) =>

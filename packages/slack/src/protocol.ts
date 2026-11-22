@@ -3,14 +3,15 @@ import {
   InternalServerError,
   ServiceUnavailable,
   Unauthorized,
-  type InvalidInput,
 } from "@distilled.cloud/core/errors";
 import type {
   DeclaredError,
   DeclaredErrorClass,
   DecodeArgs,
   EncodeArgs,
+  ErrorOf,
   Protocol,
+  ProtocolOf,
 } from "@distilled.cloud/core/protocol";
 import {
   buildRequest,
@@ -26,7 +27,6 @@ import {
   validateSuccess,
 } from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfterForStatus, parseServerRetryHint } from "@distilled.cloud/core/retry-after";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import { httpSymbol, querySymbol, type HttpTrait } from "@distilled.cloud/core/trait";
 /**
  * SlackProtocol -- hand-written.
@@ -59,10 +59,9 @@ import { httpSymbol, querySymbol, type HttpTrait } from "@distilled.cloud/core/t
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
 import * as Redacted from "effect/Redacted";
 import type * as AST from "effect/SchemaAST";
-import { Credentials, type CredentialsError } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import {
   SlackError,
   SlackHttpError,
@@ -72,31 +71,13 @@ import {
 } from "./errors.ts";
 
 /**
- * The errors declared on Slack's protocol: what the code that builds
- * requests and reads responses fails with. A response that does not match
- * its schema ({@link SlackParseError}), a failed response without an
- * envelope that neither the operation nor the service declares
- * ({@link SlackHttpError}, and `InternalServerError` for a 5xx or the
- * `internal_error` and `fatal_error` slugs), a bad path label
- * (`InvalidInput`), a request that can't be built (`SdkError`), and a body
- * read (`HttpClientError`).
- */
-export type SlackProtocolError =
-  | SlackParseError
-  | SlackHttpError
-  | InternalServerError
-  | InvalidInput
-  | SdkError
-  | HttpClientError.HttpClientError;
-
-/**
  * What every generated Slack operation fails with besides its own errors:
  * the service's errors, the protocol's, and what resolving the credentials
  * fails with. Generated service files annotate operations with
  * `API.OperationMethod<I, O, SlackOpError, SlackOpContext>` explicitly so
  * the compiler never infers these back out of the schema generics.
  */
-export type SlackOpError = SlackServiceError | SlackProtocolError | CredentialsError;
+export type SlackOpError = SlackServiceError | ErrorOf<typeof SlackProtocol>;
 
 /** Context (requirements) shared by every generated Slack operation. */
 export type SlackOpContext = Credentials | HttpClient.HttpClient;
@@ -334,9 +315,9 @@ const decode = ({ response, outputAst, errors: errorClasses }: DecodeArgs) =>
     );
   });
 
-// The annotation is the check: everything the protocol fails with, besides
-// the errors an operation and the service declare, must be listed here.
-export const SlackProtocol: Protocol<SlackProtocolError | CredentialsError, Credentials> = {
+const slackProtocolMethods = {
   encode,
   decode,
-};
+} satisfies Protocol<unknown, unknown>;
+
+export const SlackProtocol: ProtocolOf<typeof slackProtocolMethods> = slackProtocolMethods;
