@@ -1,0 +1,10 @@
+{
+  "description": "Security domain operations are served by a Managed HSM (`https://{name}.managedhsm.azure.net`), which only accepts tokens for the `https://managedhsm.azure.net` audience. The spec names the Key Vault audience.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.keyvault_security_domain#KeyvaultSecurityDomain/traits/com.azure.protocols#audience",
+      "value": "https://managedhsm.azure.net/.default"
+    }
+  ]
+}

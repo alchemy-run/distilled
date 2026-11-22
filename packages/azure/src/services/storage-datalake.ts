@@ -1455,6 +1455,7 @@ function __c0(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { resource: "filesystem" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateFileSystemRequest" });
@@ -1528,6 +1529,7 @@ function __c1(j: number): any {
             apiVersion: "2026-06-06",
             apiVersionHeader: "x-ms-version",
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreatePathRequest" });
@@ -1586,6 +1588,7 @@ function __c2(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { action: "append" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "PathAppendDataRequest" });
@@ -1638,6 +1641,7 @@ function __c3(j: number): any {
             apiVersion: "2026-06-06",
             apiVersionHeader: "x-ms-version",
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "PathLeaseRequest" });
@@ -1685,6 +1689,7 @@ function __c4(j: number): any {
             apiVersion: "2026-06-06",
             apiVersionHeader: "x-ms-version",
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ReadPathRequest" });
@@ -1743,6 +1748,7 @@ function __c5(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { resource: "filesystem" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "SetFileSystemPropertiesRequest" });
@@ -1788,6 +1794,7 @@ function __c6(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { action: "setAccessControl" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "SetPathAccessControlRequest" });
@@ -1830,6 +1837,7 @@ function __c7(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { action: "setAccessControlRecursive" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "SetPathAccessControlRecursiveRequest" });
@@ -1886,6 +1894,7 @@ function __c9(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { comp: "expiry" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "SetPathExpiryRequest" });
@@ -1924,6 +1933,7 @@ function __c10(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { comp: "undelete" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "UndeletePathRequest" });
@@ -1988,6 +1998,7 @@ function __c11(j: number): any {
             apiVersion: "2026-06-06",
             apiVersionHeader: "x-ms-version",
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdatePathRequest" });
@@ -2041,6 +2052,7 @@ function __c12(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { resource: "filesystem" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteFileSystemRequest" });
@@ -2082,6 +2094,7 @@ function __c13(j: number): any {
             apiVersion: "2026-06-06",
             apiVersionHeader: "x-ms-version",
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DeletePathRequest" });
@@ -2138,6 +2151,7 @@ function __c14(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { action: "flush" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "FlushPathDataRequest" });
@@ -2180,6 +2194,7 @@ function __c15(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { resource: "filesystem" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetFileSystemPropertiesRequest" });
@@ -2224,6 +2239,7 @@ function __c16(j: number): any {
             apiVersion: "2026-06-06",
             apiVersionHeader: "x-ms-version",
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetPathPropertiesRequest" });
@@ -2291,6 +2307,7 @@ function __c17(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { restype: "container", comp: "list" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListFileSystemBlobHierarchySegmentRequest" });
@@ -2406,6 +2423,7 @@ function __c18(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { resource: "filesystem" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListFileSystemPathsRequest" });
@@ -2464,6 +2482,7 @@ function __c19(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { resource: "account" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListServiceFileSystemsRequest" });

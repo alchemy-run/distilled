@@ -1549,6 +1549,7 @@ function __c0(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2026-03-12",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "AddCallConnectionParticipantRequest" });
@@ -1702,6 +1703,7 @@ function __c4(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2026-03-12",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "AnswerCallRequest" });
@@ -1818,6 +1820,7 @@ function __c9(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2026-03-12",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateCallRequest" });
@@ -1838,6 +1841,7 @@ function __c10(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2026-03-12",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetCallConnectionCallRequest" });
@@ -1859,6 +1863,7 @@ function __c11(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2026-03-12",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetCallConnectionParticipantRequest" });
@@ -1881,6 +1886,7 @@ function __c12(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2026-03-12",
             nextLink: "nextLink",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetCallConnectionParticipantsRequest" });
@@ -1914,6 +1920,7 @@ function __c14(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2026-03-12",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetCallRecordingRecordingPropertiesRequest" });
@@ -1952,6 +1959,7 @@ function __c16(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2026-03-12",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "MoveCallConnectionParticipantsRequest" });
@@ -1984,6 +1992,7 @@ function __c17(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2026-03-12",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "MuteCallConnectionRequest" });
@@ -2014,6 +2023,7 @@ function __c19(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2026-03-12",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "PauseCallRecordingRecordingRequest" });
@@ -2037,6 +2047,7 @@ function __c20(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2026-03-12",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "RedirectCallRequest" });
@@ -2060,6 +2071,7 @@ function __c21(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2026-03-12",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "RejectCallRequest" });
@@ -2085,6 +2097,7 @@ function __c22(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2026-03-12",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CallConnectionCancelAddParticipantRequest" });
@@ -2117,6 +2130,7 @@ function __c23(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2026-03-12",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "RemoveCallConnectionParticipantRequest" });
@@ -2137,6 +2151,7 @@ function __c24(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2026-03-12",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ResumeCallRecordingRecordingRequest" });
@@ -2163,6 +2178,7 @@ function __c25(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2026-03-12",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "SendCallMediaDtmfTonesRequest" });
@@ -2186,6 +2202,7 @@ function __c26(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2026-03-12",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "StartCallMediaContinuousDtmfRecognitionRequest" });
@@ -2208,6 +2225,7 @@ function __c27(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2026-03-12",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "StartCallMediaMediaStreamingRequest" });
@@ -2232,6 +2250,7 @@ function __c28(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2026-03-12",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "StartCallMediaTranscriptionRequest" });
@@ -2279,6 +2298,7 @@ function __c29(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2026-03-12",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "StartCallRecordingRecordingRequest" });
@@ -2302,6 +2322,7 @@ function __c30(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2026-03-12",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "StopCallMediaContinuousDtmfRecognitionRequest" });
@@ -2324,6 +2345,7 @@ function __c31(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2026-03-12",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "StopCallMediaMediaStreamingRequest" });
@@ -2346,6 +2368,7 @@ function __c32(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2026-03-12",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "StopCallMediaTranscriptionRequest" });
@@ -2366,6 +2389,7 @@ function __c33(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2026-03-12",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CallConnectionHangupCallRequest" });
@@ -2394,6 +2418,7 @@ function __c35(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2026-03-12",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "StopCallRecordingRecordingRequest" });
@@ -2416,6 +2441,7 @@ function __c36(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2026-03-12",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "TerminateCallConnectionCallRequest" });
@@ -2444,6 +2470,7 @@ function __c37(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2026-03-12",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "TransferCallConnectionToParticipantRequest" });
@@ -2468,6 +2495,7 @@ function __c38(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2026-03-12",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateCallMediaTranscriptionRequest" });
@@ -2492,6 +2520,7 @@ function __c39(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2026-03-12",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CallMediaHoldRequest" });
@@ -2561,6 +2590,7 @@ function __c41(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2026-03-12",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CallMediaPlayRequest" });
@@ -2633,6 +2663,7 @@ function __c43(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2026-03-12",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CallMediaRecognizeRequest" });
@@ -2656,6 +2687,7 @@ function __c44(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2026-03-12",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CallMediaUnholdRequest" });
@@ -2676,6 +2708,7 @@ function __c45(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2026-03-12",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CancelCallMediaAllMediaOperationsRequest" });
@@ -2703,6 +2736,7 @@ function __c46(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2026-03-12",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ConnectRequest" });

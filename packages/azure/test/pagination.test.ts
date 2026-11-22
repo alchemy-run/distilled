@@ -18,6 +18,7 @@ import { ARM_SCOPE, Credentials, fromClientSecret, type Config } from "../src/cr
 import * as Retry from "../src/retry.ts";
 import { ListServers } from "../src/services/analysisservices.ts";
 import { ListResourceGroups } from "../src/services/resources.ts";
+import * as blob from "../src/services/storage-blob.ts";
 
 interface Captured {
   readonly method: string;
@@ -33,6 +34,7 @@ interface Canned {
 const subscriptionId = "00000000-0000-0000-0000-000000000001";
 const ARM = "https://management.azure.com";
 const RG_LIST = `${ARM}/subscriptions/${subscriptionId}/resourcegroups`;
+const BLOB = "https://acct.blob.core.windows.net";
 
 const credentials = Layer.succeed(
   Credentials,
@@ -215,6 +217,41 @@ describe("nextLinkName: null", () => {
 
     expect(items.map((s) => s.name)).toEqual(["srv-1", "srv-2"]);
     expect(calls).toHaveLength(1);
+  });
+});
+
+describe("Storage NextMarker pagination", () => {
+  const listing = (names: readonly string[], nextMarker: string) => ({
+    headers: { "Content-Type": "application/xml" },
+    body:
+      '<?xml version="1.0" encoding="utf-8"?>' +
+      `<EnumerationResults ServiceEndpoint="${BLOB}/" ContainerName="assets"><Blobs>` +
+      names
+        .map(
+          (n) =>
+            `<Blob><Name>${n}</Name><Deleted>false</Deleted><Snapshot /><Properties>` +
+            "<Last-Modified>Fri, 23 Oct 2026 10:00:00 GMT</Last-Modified><Etag>0x1</Etag>" +
+            "</Properties></Blob>",
+        )
+        .join("") +
+      `</Blobs>${nextMarker ? `<NextMarker>${nextMarker}</NextMarker>` : "<NextMarker />"}` +
+      "</EnumerationResults>",
+  });
+
+  test("NextMarker goes back as the marker query parameter until it is empty", async () => {
+    const { calls, layer } = fakePages([listing(["a", "b"], "m-2"), listing(["c"], "")]);
+
+    const items = await collect(
+      blob.ListContainerBlobFlatSegment.items({ url: BLOB, containerName: "assets" }),
+      layer,
+    );
+
+    expect(items.map((b) => b.Name.content)).toEqual(["a", "b", "c"]);
+    expect(calls.map((c) => c.url)).toEqual([
+      `${BLOB}/assets?restype=container&comp=list`,
+      `${BLOB}/assets?marker=m-2&restype=container&comp=list`,
+    ]);
+    expect(calls[1]!.headers.authorization).toBe("Bearer aad:https://storage.azure.com/.default");
   });
 });
 

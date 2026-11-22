@@ -5615,6 +5615,7 @@ function __c0(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { comp: "appendblock" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "AppendBlobAppendBlockFromUrlRequest" });
@@ -5665,6 +5666,7 @@ function __c1(j: number): any {
             query: { comp: "copy" },
             headers: { "x-ms-copy-action": "abort" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "BlobAbortCopyFromURLRequest" });
@@ -5717,6 +5719,7 @@ function __c3(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { comp: "block" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "BlockBlobStageBlockRequest" });
@@ -5789,6 +5792,7 @@ function __c4(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { comp: "block" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "BlockBlobStageBlockFromURLRequest" });
@@ -5846,6 +5850,7 @@ function __c5(j: number): any {
             query: { comp: "page" },
             headers: { "x-ms-page-write": "clear" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ClearPageBlobPagesRequest" });
@@ -5890,6 +5895,7 @@ function __c6(j: number): any {
             query: { comp: "lease", restype: "container" },
             headers: { "x-ms-lease-action": "acquire" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ContainerAcquireLeaseRequest" });
@@ -5919,6 +5925,7 @@ function __c7(j: number): any {
             query: { comp: "lease", restype: "container" },
             headers: { "x-ms-lease-action": "break" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ContainerBreakLeaseRequest" });
@@ -5949,6 +5956,7 @@ function __c8(j: number): any {
             query: { comp: "lease", restype: "container" },
             headers: { "x-ms-lease-action": "change" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ContainerChangeLeaseRequest" });
@@ -5978,6 +5986,7 @@ function __c9(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { restype: "container", comp: "blobs" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ContainerFilterBlobsRequest" });
@@ -6065,6 +6074,7 @@ function __c14(j: number): any {
             query: { comp: "lease", restype: "container" },
             headers: { "x-ms-lease-action": "release" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ContainerReleaseLeaseRequest" });
@@ -6125,6 +6135,7 @@ function __c15(j: number): any {
             apiVersionHeader: "x-ms-version",
             headers: { "x-ms-requires-sync": "true" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CopyBlobFromURLRequest" });
@@ -6174,6 +6185,7 @@ function __c16(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { comp: "incrementalcopy" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CopyPageBlobIncrementalRequest" });
@@ -6221,6 +6233,7 @@ function __c17(j: number): any {
             query: { comp: "lease" },
             headers: { "x-ms-lease-action": "acquire" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "BlobAcquireLeaseRequest" });
@@ -6290,6 +6303,7 @@ function __c19(j: number): any {
             apiVersionHeader: "x-ms-version",
             headers: { "x-ms-blob-type": "AppendBlob" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateAppendBlobRequest" });
@@ -6349,6 +6363,7 @@ function __c21(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { comp: "snapshot" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateBlobSnapshotRequest" });
@@ -6398,6 +6413,7 @@ function __c22(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { restype: "container" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateContainerRequest" });
@@ -6425,6 +6441,7 @@ function __c23(j: number): any {
             query: { restype: "container", comp: "session" },
             storage: true,
             xmlRoot: "CreateSessionRequest",
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateContainerSessionRequest" });
@@ -6497,6 +6514,7 @@ function __c24(j: number): any {
             apiVersionHeader: "x-ms-version",
             headers: { "x-ms-blob-type": "PageBlob" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreatePageBlobRequest" });
@@ -6538,6 +6556,7 @@ function __c25(j: number): any {
             apiVersion: "2027-03-07",
             apiVersionHeader: "x-ms-version",
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteBlobRequest" });
@@ -6566,6 +6585,7 @@ function __c26(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { comp: "immutabilityPolicies" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteBlobImmutabilityPolicyRequest" });
@@ -6594,6 +6614,7 @@ function __c27(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { restype: "container" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteContainerRequest" });
@@ -6636,6 +6657,7 @@ function __c28(j: number): any {
             apiVersion: "2027-03-07",
             apiVersionHeader: "x-ms-version",
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DownloadBlobRequest" });
@@ -6731,6 +6753,7 @@ function __c29(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { restype: "account", comp: "properties" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetBlobAccountInfoRequest" });
@@ -6780,6 +6803,7 @@ function __c31(j: number): any {
             query: { comp: "lease" },
             headers: { "x-ms-lease-action": "break" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "BlobBreakLeaseRequest" });
@@ -6836,6 +6860,7 @@ function __c33(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { comp: "layout" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetBlobLayoutRequest" });
@@ -6980,6 +7005,7 @@ function __c34(j: number): any {
             apiVersion: "2027-03-07",
             apiVersionHeader: "x-ms-version",
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetBlobPropertiesRequest" });
@@ -7085,6 +7111,7 @@ function __c35(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { comp: "tags" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetBlobTagsRequest" });
@@ -7121,6 +7148,7 @@ function __c36(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { restype: "container", comp: "acl" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetContainerAccessPolicyRequest" });
@@ -7171,6 +7199,7 @@ function __c38(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { restype: "account", comp: "properties" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetContainerAccountInfoRequest" });
@@ -7197,6 +7226,7 @@ function __c39(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { restype: "container" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetContainerPropertiesRequest" });
@@ -7262,6 +7292,7 @@ function __c40(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { comp: "pagelist" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetPageBlobPageRangesRequest" });
@@ -7328,6 +7359,7 @@ function __c42(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { comp: "pagelist" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetPageBlobPageRangesDiffRequest" });
@@ -7352,6 +7384,7 @@ function __c43(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { restype: "account", comp: "properties" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetServiceAccountInfoRequest" });
@@ -7376,6 +7409,7 @@ function __c44(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { restype: "service", comp: "properties" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetServicePropertiesRequest" });
@@ -7477,6 +7511,7 @@ function __c46(j: number): any {
             query: { comp: "lease" },
             headers: { "x-ms-lease-action": "change" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "BlobChangeLeaseRequest" });
@@ -7513,6 +7548,7 @@ function __c47(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { restype: "service", comp: "stats" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetServiceStatisticsRequest" });
@@ -7558,6 +7594,7 @@ function __c48(j: number): any {
             query: { restype: "service", comp: "userdelegationkey" },
             storage: true,
             xmlRoot: "KeyInfo",
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetServiceUserDelegationKeyRequest" });
@@ -7637,6 +7674,7 @@ function __c49(j: number): any {
             query: { comp: "blocklist" },
             storage: true,
             xmlRoot: "BlockList",
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListBlockBlobCommitBlockRequest" });
@@ -7690,6 +7728,7 @@ function __c51(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { restype: "container", comp: "list" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListContainerBlobFlatSegmentRequest" });
@@ -7828,6 +7867,7 @@ function __c53(j: number): any {
             query: { restype: "container", comp: "list" },
             headers: { Accept: "application/vnd.apache.arrow.stream,application/xml" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListContainerBlobFlatSegmentApacheArrowRequest" });
@@ -7874,6 +7914,7 @@ function __c55(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { restype: "container", comp: "list" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListContainerBlobHierarchySegmentRequest" });
@@ -7942,6 +7983,7 @@ function __c56(j: number): any {
             query: { restype: "container", comp: "list" },
             headers: { Accept: "application/vnd.apache.arrow.stream,application/xml" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListContainerBlobHierarchySegmentApacheArrowRequest" });
@@ -7970,6 +8012,7 @@ function __c57(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { comp: "list" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListServiceContainersSegmentRequest" });
@@ -8093,6 +8136,7 @@ function __c58(j: number): any {
             apiVersionHeader: "x-ms-version",
             headers: { "x-ms-blob-type": "BlockBlob" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "PutBlockBlobBlobFromUrlRequest" });
@@ -8120,6 +8164,7 @@ function __c59(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { restype: "container", comp: "rename" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "RenameContainerRequest" });
@@ -8210,6 +8255,7 @@ function __c60(j: number): any {
             query: { comp: "query" },
             storage: true,
             xmlRoot: "QueryRequest",
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "BlobQueryRequest" });
@@ -8292,6 +8338,7 @@ function __c62(j: number): any {
             query: { comp: "lease" },
             headers: { "x-ms-lease-action": "renew" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "RenewBlobLeaseRequest" });
@@ -8321,6 +8368,7 @@ function __c63(j: number): any {
             query: { comp: "lease", restype: "container" },
             headers: { "x-ms-lease-action": "renew" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "RenewContainerLeaseRequest" });
@@ -8358,6 +8406,7 @@ function __c64(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { comp: "properties" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ResizePageBlobRequest" });
@@ -8405,6 +8454,7 @@ function __c66(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { restype: "container", comp: "undelete" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "RestoreContainerRequest" });
@@ -8439,6 +8489,7 @@ function __c67(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { comp: "seal" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "SealAppendBlobRequest" });
@@ -8479,6 +8530,7 @@ function __c68(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { comp: "blobs" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ServiceFilterBlobsRequest" });
@@ -8507,6 +8559,7 @@ function __c69(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { comp: "expiry" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "SetBlobExpiryRequest" });
@@ -8547,6 +8600,7 @@ function __c70(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { comp: "properties" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "SetBlobHTTPHeadersRequest" });
@@ -8582,6 +8636,7 @@ function __c71(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { comp: "immutabilityPolicies" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "SetBlobImmutabilityPolicyRequest" });
@@ -8626,6 +8681,7 @@ function __c72(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { comp: "legalhold" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "SetBlobLegalHoldRequest" });
@@ -8669,6 +8725,7 @@ function __c73(j: number): any {
             query: { comp: "lease" },
             headers: { "x-ms-lease-action": "release" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "BlobReleaseLeaseRequest" });
@@ -8721,6 +8778,7 @@ function __c75(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { comp: "metadata" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "SetBlobMetadataRequest" });
@@ -8779,6 +8837,7 @@ function __c76(j: number): any {
             query: { comp: "tags" },
             storage: true,
             xmlRoot: "Tags",
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "SetBlobTagsRequest" });
@@ -8811,6 +8870,7 @@ function __c77(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { comp: "tier" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "SetBlobTierRequest" });
@@ -8856,6 +8916,7 @@ function __c79(j: number): any {
             query: { restype: "container", comp: "acl" },
             storage: true,
             xmlRoot: "SignedIdentifiers",
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "SetContainerAccessPolicyRequest" });
@@ -8884,6 +8945,7 @@ function __c80(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { restype: "container", comp: "metadata" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "SetContainerMetadataRequest" });
@@ -8916,6 +8978,7 @@ function __c81(j: number): any {
             query: { restype: "service", comp: "properties" },
             storage: true,
             xmlRoot: "StorageServiceProperties",
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "SetServicePropertiesRequest" });
@@ -8943,6 +9006,7 @@ function __c82(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { restype: "container", comp: "batch" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "SubmitContainerBatchRequest" });
@@ -8982,6 +9046,7 @@ function __c84(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { comp: "batch" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "SubmitServiceBatchRequest" });
@@ -9008,6 +9073,7 @@ function __c85(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { comp: "undelete" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "UndeleteBlobRequest" });
@@ -9042,6 +9108,7 @@ function __c86(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { comp: "properties" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdatePageBlobSequenceNumberRequest" });
@@ -9095,6 +9162,7 @@ function __c87(j: number): any {
             apiVersion: "2027-03-07",
             apiVersionHeader: "x-ms-version",
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "BlobStartCopyFromURLRequest" });
@@ -9170,6 +9238,7 @@ function __c88(j: number): any {
             apiVersionHeader: "x-ms-version",
             headers: { "x-ms-blob-type": "BlockBlob" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "UploadBlockBlobRequest" });
@@ -9238,6 +9307,7 @@ function __c89(j: number): any {
             query: { comp: "page" },
             headers: { "x-ms-page-write": "update" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "UploadPageBlobPagesRequest" });
@@ -9322,6 +9392,7 @@ function __c90(j: number): any {
             query: { comp: "page" },
             headers: { "x-ms-page-write": "update" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "UploadPageBlobPagesFromURLRequest" });
@@ -9389,6 +9460,7 @@ function __c91(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { comp: "appendblock" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "BlockAppendBlobAppendRequest" });
@@ -9442,6 +9514,7 @@ function __c92(j: number): any {
             apiVersionHeader: "x-ms-version",
             query: { comp: "blocklist" },
             storage: true,
+            audience: "https://storage.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "BlockBlobGetBlockListRequest" });

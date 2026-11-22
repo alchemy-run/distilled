@@ -2179,6 +2179,7 @@ function __c0(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateImageFromDataRequest" });
@@ -2293,6 +2294,7 @@ function __c6(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateImageFromFilesRequest" });
@@ -2330,6 +2332,7 @@ function __c8(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteImageTagsRequest" });
@@ -2350,6 +2353,7 @@ function __c9(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteIterationRequest" });
@@ -2370,6 +2374,7 @@ function __c10(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DeletePredictionRequest" });
@@ -2389,6 +2394,7 @@ function __c11(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteProjectRequest" });
@@ -2409,6 +2415,7 @@ function __c12(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteProjectTagRequest" });
@@ -2431,6 +2438,7 @@ function __c13(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ExportIterationRequest" });
@@ -2464,6 +2472,7 @@ function __c15(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ExportProjectRequest" });
@@ -2494,6 +2503,7 @@ function __c16(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetDomainRequest" });
@@ -2531,6 +2541,7 @@ function __c18(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetImageCountRequest" });
@@ -2559,6 +2570,7 @@ function __c20(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetImageRegionProposalsRequest" });
@@ -2621,6 +2633,7 @@ function __c22(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateImageFromPredictionsRequest" });
@@ -2643,6 +2656,7 @@ function __c23(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetImageSuggestedCountRequest" });
@@ -2670,6 +2684,7 @@ function __c24(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetImageTaggedCountRequest" });
@@ -2690,6 +2705,7 @@ function __c25(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetImageUntaggedCountRequest" });
@@ -2710,6 +2726,7 @@ function __c26(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetIterationRequest" });
@@ -2757,6 +2774,7 @@ function __c28(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetIterationPerformanceRequest" });
@@ -2803,6 +2821,7 @@ function __c29(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetIterationPerformanceImageCountRequest" });
@@ -2822,6 +2841,7 @@ function __c30(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetProjectRequest" });
@@ -2842,6 +2862,7 @@ function __c31(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetProjectArtifactRequest" });
@@ -2867,6 +2888,7 @@ function __c32(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetProjectTagRequest" });
@@ -2887,6 +2909,7 @@ function __c33(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ImportProjectRequest" });
@@ -2919,6 +2942,7 @@ function __c34(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateImageFromUrlsRequest" });
@@ -2937,6 +2961,7 @@ function __c35(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListDomainsRequest" });
@@ -2964,6 +2989,7 @@ function __c36(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListImageByIdsRequest" });
@@ -3000,6 +3026,7 @@ function __c38(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListImagesRequest" });
@@ -3026,6 +3053,7 @@ function __c39(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListImageSuggestedRequest" });
@@ -3103,6 +3131,7 @@ function __c41(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListImageTaggedRequest" });
@@ -3126,6 +3155,7 @@ function __c42(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListImageUntaggedRequest" });
@@ -3146,6 +3176,7 @@ function __c43(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListIterationExportsRequest" });
@@ -3176,6 +3207,7 @@ function __c44(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListIterationPerformanceImagesRequest" });
@@ -3215,6 +3247,7 @@ function __c45(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListIterationsRequest" });
@@ -3239,6 +3272,7 @@ function __c46(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListProjectsRequest" });
@@ -3278,6 +3312,7 @@ function __c47(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateImageRegionsRequest" });
@@ -3322,6 +3357,7 @@ function __c48(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListProjectTagsRequest" });
@@ -3366,6 +3402,7 @@ function __c49(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "PredictionsQueryRequest" });
@@ -3424,6 +3461,7 @@ function __c50(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ProjectsQuickTestImageRequest" });
@@ -3460,6 +3498,7 @@ function __c52(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ProjectsQuickTestImageUrlRequest" });
@@ -3481,6 +3520,7 @@ function __c53(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ProjectsSuggestTagsAndRegionsRequest" });
@@ -3522,6 +3562,7 @@ function __c54(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ProjectsTrainRequest" });
@@ -3545,6 +3586,7 @@ function __c55(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "PublishIterationRequest" });
@@ -3569,6 +3611,7 @@ function __c56(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "UnpublishIterationRequest" });
@@ -3590,6 +3633,7 @@ function __c57(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateImageMetadataRequest" });
@@ -3628,6 +3672,7 @@ function __c58(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateIterationRequest" });
@@ -3657,6 +3702,7 @@ function __c59(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateImageTagsRequest" });
@@ -3697,6 +3743,7 @@ function __c60(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateProjectRequest" });
@@ -3720,6 +3767,7 @@ function __c61(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateProjectTagRequest" });
@@ -3745,6 +3793,7 @@ function __c62(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateProjectRequest" });
@@ -3810,6 +3859,7 @@ function __c65(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateProjectTagRequest" });
@@ -3846,6 +3896,7 @@ function __c67(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteImageRequest" });
@@ -3872,6 +3923,7 @@ function __c69(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.3/training",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteImageRegionsRequest" });

@@ -392,7 +392,7 @@ function __c0(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2025-09-01",
-            audience: "https://playwright.microsoft.com/.default",
+            audience: "https://management.core.windows.net/.default",
           }),
         ),
       ).annotate({ identifier: "AccessTokensCreateOrReplaceRequest" });
@@ -431,7 +431,7 @@ function __c2(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2025-09-01",
-            audience: "https://playwright.microsoft.com/.default",
+            audience: "https://management.core.windows.net/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteAccessTokenRequest" });
@@ -461,7 +461,7 @@ function __c4(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2025-09-01",
-            audience: "https://playwright.microsoft.com/.default",
+            audience: "https://management.core.windows.net/.default",
           }),
         ),
       ).annotate({ identifier: "GetAccessTokenRequest" });
@@ -486,7 +486,7 @@ function __c5(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2025-09-01",
-            audience: "https://playwright.microsoft.com/.default",
+            audience: "https://management.core.windows.net/.default",
           }),
         ),
       ).annotate({ identifier: "GetWorkspaceBrowsersRequest" });
@@ -511,7 +511,7 @@ function __c6(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-09-01",
             nextLink: "nextLink",
-            audience: "https://playwright.microsoft.com/.default",
+            audience: "https://management.core.windows.net/.default",
           }),
         ),
       ).annotate({ identifier: "ListAccessTokensRequest" });
@@ -545,7 +545,7 @@ function __c7(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-09-01",
             nextLink: "nextLink",
-            audience: "https://playwright.microsoft.com/.default",
+            audience: "https://management.core.windows.net/.default",
           }),
         ),
       ).annotate({ identifier: "ListTestRunsRequest" });
@@ -639,7 +639,7 @@ function __c9(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-09-01",
             jsonContentType: "application/merge-patch+json",
-            audience: "https://playwright.microsoft.com/.default",
+            audience: "https://management.core.windows.net/.default",
           }),
         ),
       ).annotate({ identifier: "TestRunsCreateOrUpdateRequest" });

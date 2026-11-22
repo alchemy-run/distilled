@@ -3350,6 +3350,7 @@ function __c0(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CommitDatasetBlocksRequest" });
@@ -3381,6 +3382,7 @@ function __c2(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CopyModelRequest" });
@@ -3408,6 +3410,7 @@ function __c3(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteEvaluationRequest" });
@@ -3428,6 +3431,7 @@ function __c4(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteModelRequest" });
@@ -3448,6 +3452,7 @@ function __c5(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteProjectRequest" });
@@ -3468,6 +3473,7 @@ function __c6(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteTranscriptionRequest" });
@@ -3488,6 +3494,7 @@ function __c7(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteWebHookRequest" });
@@ -3508,6 +3515,7 @@ function __c8(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetDatasetRequest" });
@@ -3551,6 +3559,7 @@ function __c10(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetDatasetBlocksRequest" });
@@ -3590,6 +3599,7 @@ function __c11(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetDatasetFileRequest" });
@@ -3638,6 +3648,7 @@ function __c13(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetEndpointRequest" });
@@ -3680,6 +3691,7 @@ function __c15(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetEvaluationRequest" });
@@ -3739,6 +3751,7 @@ function __c17(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateDatasetRequest" });
@@ -3830,6 +3843,7 @@ function __c22(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetEvaluationFileRequest" });
@@ -3850,6 +3864,7 @@ function __c23(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetModelBaseModelRequest" });
@@ -3921,6 +3936,7 @@ function __c25(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetModelBaseModelManifestRequest" });
@@ -3964,6 +3980,7 @@ function __c27(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetModelCustomModelRequest" });
@@ -4008,6 +4025,7 @@ function __c29(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetModelCustomModelManifestRequest" });
@@ -4030,6 +4048,7 @@ function __c30(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetModelFileRequest" });
@@ -4050,6 +4069,7 @@ function __c31(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetProjectRequest" });
@@ -4087,6 +4107,7 @@ function __c33(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetTranscriptionRequest" });
@@ -4179,6 +4200,7 @@ function __c37(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetTranscriptionFileRequest" });
@@ -4199,6 +4221,7 @@ function __c38(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetWebHookRequest" });
@@ -4252,6 +4275,7 @@ function __c40(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateEndpointRequest" });
@@ -4313,6 +4337,7 @@ function __c42(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
             nextLink: "nextLink",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListDatasetFilesRequest" });
@@ -4351,6 +4376,7 @@ function __c44(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
             nextLink: "nextLink",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListDatasetsRequest" });
@@ -4402,6 +4428,7 @@ function __c46(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListDatasetSupportedLocalesRequest" });
@@ -4437,6 +4464,7 @@ function __c47(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
             nextLink: "nextLink",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListEndpointsRequest" });
@@ -4487,6 +4515,7 @@ function __c49(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListEndpointSupportedLocalesRequest" });
@@ -4521,6 +4550,7 @@ function __c51(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
             nextLink: "nextLink",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListEvaluationFilesRequest" });
@@ -4545,6 +4575,7 @@ function __c52(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
             nextLink: "nextLink",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListEvaluationsRequest" });
@@ -4599,6 +4630,7 @@ function __c54(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListEvaluationSupportedLocalesRequest" });
@@ -4623,6 +4655,7 @@ function __c55(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
             nextLink: "nextLink",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListModelBaseModelsRequest" });
@@ -4656,6 +4689,7 @@ function __c56(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
             nextLink: "nextLink",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListModelCustomModelsRequest" });
@@ -4717,6 +4751,7 @@ function __c58(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateEvaluationRequest" });
@@ -4832,6 +4867,7 @@ function __c61(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
             nextLink: "nextLink",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListModelFilesRequest" });
@@ -4851,6 +4887,7 @@ function __c62(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListModelSupportedLocalesRequest" });
@@ -4876,6 +4913,7 @@ function __c63(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
             nextLink: "nextLink",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListProjectDatasetsRequest" });
@@ -4901,6 +4939,7 @@ function __c64(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
             nextLink: "nextLink",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListProjectEndpointsRequest" });
@@ -4926,6 +4965,7 @@ function __c65(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
             nextLink: "nextLink",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListProjectEvaluationsRequest" });
@@ -4951,6 +4991,7 @@ function __c66(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
             nextLink: "nextLink",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListProjectModelsRequest" });
@@ -4975,6 +5016,7 @@ function __c67(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
             nextLink: "nextLink",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListProjectsRequest" });
@@ -5003,6 +5045,7 @@ function __c68(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListProjectSupportedLocalesRequest" });
@@ -5028,6 +5071,7 @@ function __c69(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
             nextLink: "nextLink",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListProjectTranscriptionsRequest" });
@@ -5088,6 +5132,7 @@ function __c71(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
             nextLink: "nextLink",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListTranscriptionFilesRequest" });
@@ -5121,6 +5166,7 @@ function __c72(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateModelRequest" });
@@ -5209,6 +5255,7 @@ function __c75(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
             nextLink: "nextLink",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListTranscriptionsRequest" });
@@ -5228,6 +5275,7 @@ function __c76(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListTranscriptionSupportedLocalesRequest" });
@@ -5259,6 +5307,7 @@ function __c77(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
             nextLink: "nextLink",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListWebHooksRequest" });
@@ -5305,6 +5354,7 @@ function __c78(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ModelsAuthorizeCopyRequest" });
@@ -5336,6 +5386,7 @@ function __c79(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "OperationsGetModelCopyRequest" });
@@ -5375,6 +5426,7 @@ function __c80(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "PingWebHookRequest" });
@@ -5428,6 +5480,7 @@ function __c82(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "SubmitTranscriptionRequest" });
@@ -5469,6 +5522,7 @@ function __c83(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "TestWebHookRequest" });
@@ -5488,6 +5542,7 @@ function __c84(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "TranscriptionsTranscribeRequest" });
@@ -5554,6 +5609,7 @@ function __c85(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateDatasetRequest" });
@@ -5578,6 +5634,7 @@ function __c86(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateProjectRequest" });
@@ -5638,6 +5695,7 @@ function __c88(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateEndpointRequest" });
@@ -5662,6 +5720,7 @@ function __c89(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateEvaluationRequest" });
@@ -5686,6 +5745,7 @@ function __c90(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateModelRequest" });
@@ -5710,6 +5770,7 @@ function __c91(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateProjectRequest" });
@@ -5734,6 +5795,7 @@ function __c92(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateTranscriptionRequest" });
@@ -5760,6 +5822,7 @@ function __c93(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateWebHookRequest" });
@@ -5782,6 +5845,7 @@ function __c94(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "UploadDatasetBlockRequest" });
@@ -5807,6 +5871,7 @@ function __c95(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateWebHookRequest" });
@@ -5900,6 +5965,7 @@ function __c98(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteDatasetRequest" });
@@ -5920,6 +5986,7 @@ function __c99(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteEndpointRequest" });

@@ -313,6 +313,7 @@ function __c0(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.1/prediction",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ImageClassifierClassifyImageRequest" });
@@ -370,6 +371,7 @@ function __c2(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.1/prediction",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ImageClassifierClassifyImageUrlRequest" });
@@ -392,6 +394,7 @@ function __c3(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.1/prediction",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ImageClassifierClassifyImageUrlWithoutSavingRequest" });
@@ -413,6 +416,7 @@ function __c4(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.1/prediction",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ImageClassifierClassifyImageWithoutSavingRequest" });
@@ -434,6 +438,7 @@ function __c5(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.1/prediction",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ObjectDetectorAnalyzeImageRequest" });
@@ -456,6 +461,7 @@ function __c6(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.1/prediction",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ObjectDetectorAnalyzeImageUrlRequest" });
@@ -478,6 +484,7 @@ function __c7(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.1/prediction",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ObjectDetectorAnalyzeImageUrlWithoutSavingRequest" });
@@ -499,6 +506,7 @@ function __c8(j: number): any {
             code: 200,
             host: "{endpoint}/customvision/v3.1/prediction",
             hostRaw: ["endpoint"],
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ObjectDetectorAnalyzeImageWithoutSavingRequest" });

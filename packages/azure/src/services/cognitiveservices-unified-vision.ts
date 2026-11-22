@@ -378,6 +378,7 @@ function __c0(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2024-02-01",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "AnalyzeImageRequest" });
@@ -569,6 +570,7 @@ function __c2(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2024-02-01",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "AnalyzeImageStreamRequest" });
@@ -590,6 +592,7 @@ function __c3(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2024-02-01",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "VectorizeImageRequest" });
@@ -624,6 +627,7 @@ function __c5(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2024-02-01",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "VectorizeImageStreamRequest" });
@@ -645,6 +649,7 @@ function __c6(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2024-02-01",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "VectorizeTextRequest" });

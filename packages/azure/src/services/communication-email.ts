@@ -224,6 +224,7 @@ function __c0(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2025-09-01",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "EmailGetSendResultRequest" });
@@ -336,6 +337,7 @@ function __c2(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2025-09-01",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "SendEmailRequest" });

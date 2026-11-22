@@ -1145,6 +1145,7 @@ function __c0(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             audience: "https://containerregistry.azure.net/.default",
+            tokenExchange: "acr",
           }),
         ),
       ).annotate({ identifier: "AuthenticationExchangeAadAccessTokenForAcrRefreshTokenRequest" });
@@ -1170,6 +1171,7 @@ function __c1(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             audience: "https://containerregistry.azure.net/.default",
+            tokenExchange: "acr",
           }),
         ),
       ).annotate({ identifier: "AuthenticationExchangeAcrRefreshTokenForAcrAccessTokenRequest" });
@@ -1202,6 +1204,7 @@ function __c3(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2021-07-01",
             audience: "https://containerregistry.azure.net/.default",
+            tokenExchange: "acr",
           }),
         ),
       ).annotate({ identifier: "DeleteContainerRegistryBlobBlobRequest" });
@@ -1224,6 +1227,7 @@ function __c4(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2021-07-01",
             audience: "https://containerregistry.azure.net/.default",
+            tokenExchange: "acr",
           }),
         ),
       ).annotate({ identifier: "DeleteContainerRegistryManifestRequest" });
@@ -1245,6 +1249,7 @@ function __c5(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2021-07-01",
             audience: "https://containerregistry.azure.net/.default",
+            tokenExchange: "acr",
           }),
         ),
       ).annotate({ identifier: "DeleteContainerRegistryRepositoryRequest" });
@@ -1267,6 +1272,7 @@ function __c6(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2021-07-01",
             audience: "https://containerregistry.azure.net/.default",
+            tokenExchange: "acr",
           }),
         ),
       ).annotate({ identifier: "DeleteContainerRegistryTagRequest" });
@@ -1289,6 +1295,7 @@ function __c7(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2021-07-01",
             audience: "https://containerregistry.azure.net/.default",
+            tokenExchange: "acr",
           }),
         ),
       ).annotate({ identifier: "GetAuthenticationAcrAccessTokenFromLoginRequest" });
@@ -1311,6 +1318,7 @@ function __c8(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2021-07-01",
             audience: "https://containerregistry.azure.net/.default",
+            tokenExchange: "acr",
           }),
         ),
       ).annotate({ identifier: "GetContainerRegistryBlobBlobRequest" });
@@ -1340,6 +1348,7 @@ function __c9(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2021-07-01",
             audience: "https://containerregistry.azure.net/.default",
+            tokenExchange: "acr",
           }),
         ),
       ).annotate({ identifier: "GetContainerRegistryBlobChunkRequest" });
@@ -1364,6 +1373,7 @@ function __c10(j: number): any {
             accept:
               "application/vnd.oci.image.manifest.v1+json, application/vnd.oci.image.index.v1+json, application/vnd.docker.distribution.manifest.v2+json, application/vnd.docker.distribution.manifest.list.v2+json",
             audience: "https://containerregistry.azure.net/.default",
+            tokenExchange: "acr",
           }),
         ),
       ).annotate({ identifier: "GetContainerRegistryManifestRequest" });
@@ -1531,6 +1541,7 @@ function __c12(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2021-07-01",
             audience: "https://containerregistry.azure.net/.default",
+            tokenExchange: "acr",
           }),
         ),
       ).annotate({ identifier: "GetContainerRegistryManifestPropertiesRequest" });
@@ -1609,6 +1620,7 @@ function __c16(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2021-07-01",
             audience: "https://containerregistry.azure.net/.default",
+            tokenExchange: "acr",
           }),
         ),
       ).annotate({ identifier: "GetContainerRegistryManifestsRequest" });
@@ -1642,6 +1654,7 @@ function __c17(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2021-07-01",
             audience: "https://containerregistry.azure.net/.default",
+            tokenExchange: "acr",
           }),
         ),
       ).annotate({ identifier: "CheckContainerRegistryBlobBlobExistsRequest" });
@@ -1671,6 +1684,7 @@ function __c19(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2021-07-01",
             audience: "https://containerregistry.azure.net/.default",
+            tokenExchange: "acr",
           }),
         ),
       ).annotate({ identifier: "GetContainerRegistryPropertiesRequest" });
@@ -1711,6 +1725,7 @@ function __c21(j: number): any {
             apiVersion: "2021-07-01",
             nextLink: "nextLink",
             audience: "https://containerregistry.azure.net/.default",
+            tokenExchange: "acr",
           }),
         ),
       ).annotate({ identifier: "GetContainerRegistryRepositoriesRequest" });
@@ -1740,6 +1755,7 @@ function __c22(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2021-07-01",
             audience: "https://containerregistry.azure.net/.default",
+            tokenExchange: "acr",
           }),
         ),
       ).annotate({ identifier: "GetContainerRegistryTagPropertiesRequest" });
@@ -1792,6 +1808,7 @@ function __c25(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2021-07-01",
             audience: "https://containerregistry.azure.net/.default",
+            tokenExchange: "acr",
           }),
         ),
       ).annotate({ identifier: "GetContainerRegistryTagsRequest" });
@@ -1829,6 +1846,7 @@ function __c26(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2021-07-01",
             audience: "https://containerregistry.azure.net/.default",
+            tokenExchange: "acr",
           }),
         ),
       ).annotate({ identifier: "UpdateContainerRegistryManifestPropertiesRequest" });
@@ -1854,6 +1872,7 @@ function __c27(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2021-07-01",
             audience: "https://containerregistry.azure.net/.default",
+            tokenExchange: "acr",
           }),
         ),
       ).annotate({ identifier: "UpdateContainerRegistryPropertiesRequest" });
@@ -1880,6 +1899,7 @@ function __c28(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2021-07-01",
             audience: "https://containerregistry.azure.net/.default",
+            tokenExchange: "acr",
           }),
         ),
       ).annotate({ identifier: "UpdateContainerRegistryTagAttributesRequest" });
@@ -1903,6 +1923,7 @@ function __c29(j: number): any {
             apiVersion: "2021-07-01",
             bodyMediaType: "application/octet-stream",
             audience: "https://containerregistry.azure.net/.default",
+            tokenExchange: "acr",
           }),
         ),
       ).annotate({ identifier: "UploadContainerRegistryBlobChunkRequest" });
@@ -1927,6 +1948,7 @@ function __c30(j: number): any {
             apiVersion: "2021-07-01",
             bodyMediaType: "application/octet-stream",
             audience: "https://containerregistry.azure.net/.default",
+            tokenExchange: "acr",
           }),
         ),
       ).annotate({ identifier: "UploadContainerRegistryBlobCompleteRequest" });
@@ -1950,6 +1972,7 @@ function __c31(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2021-07-01",
             audience: "https://containerregistry.azure.net/.default",
+            tokenExchange: "acr",
           }),
         ),
       ).annotate({ identifier: "CheckContainerRegistryBlobChunkExistsRequest" });
@@ -1970,6 +1993,7 @@ function __c32(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2021-07-01",
             audience: "https://containerregistry.azure.net/.default",
+            tokenExchange: "acr",
           }),
         ),
       ).annotate({ identifier: "CheckContainerRegistryDockerV2SupportRequest" });
@@ -1991,6 +2015,7 @@ function __c33(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2021-07-01",
             audience: "https://containerregistry.azure.net/.default",
+            tokenExchange: "acr",
           }),
         ),
       ).annotate({ identifier: "ContainerRegistryBlobCancelUploadRequest" });
@@ -2012,6 +2037,7 @@ function __c34(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2021-07-01",
             audience: "https://containerregistry.azure.net/.default",
+            tokenExchange: "acr",
           }),
         ),
       ).annotate({ identifier: "ContainerRegistryBlobGetUploadStatusRequest" });
@@ -2036,6 +2062,7 @@ function __c35(j: number): any {
             apiVersion: "2021-07-01",
             emptyBody: true,
             audience: "https://containerregistry.azure.net/.default",
+            tokenExchange: "acr",
           }),
         ),
       ).annotate({ identifier: "ContainerRegistryBlobMountBlobRequest" });
@@ -2068,6 +2095,7 @@ function __c37(j: number): any {
             apiVersion: "2021-07-01",
             emptyBody: true,
             audience: "https://containerregistry.azure.net/.default",
+            tokenExchange: "acr",
           }),
         ),
       ).annotate({ identifier: "ContainerRegistryBlobStartUploadRequest" });
@@ -2092,6 +2120,7 @@ function __c38(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2021-07-01",
             audience: "https://containerregistry.azure.net/.default",
+            tokenExchange: "acr",
           }),
         ),
       ).annotate({ identifier: "CreateContainerRegistryManifestRequest" });

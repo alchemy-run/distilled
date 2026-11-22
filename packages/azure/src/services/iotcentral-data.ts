@@ -3582,6 +3582,7 @@ function __c0(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateApiTokenRequest" });
@@ -3636,6 +3637,7 @@ function __c3(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateDeviceRequest" });
@@ -3683,6 +3685,7 @@ function __c6(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateOrganizationRequest" });
@@ -3727,6 +3730,7 @@ function __c8(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateScheduledJobRequest" });
@@ -3814,6 +3818,7 @@ function __c10(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateUserRequest" });
@@ -3870,6 +3875,7 @@ function __c13(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GenerateEnrollmentGroupVerificationCodeX509Request" });
@@ -3898,6 +3904,7 @@ function __c14(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetApiTokenRequest" });
@@ -3920,6 +3927,7 @@ function __c15(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetDeviceRequest" });
@@ -3942,6 +3950,7 @@ function __c16(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetDeviceAttestationRequest" });
@@ -3967,6 +3976,7 @@ function __c17(j: number): any {
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
             nextLink: "nextLink",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetDeviceCommandHistoryRequest" });
@@ -4021,6 +4031,7 @@ function __c20(j: number): any {
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
             nextLink: "nextLink",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetDeviceComponentCommandHistoryRequest" });
@@ -4044,6 +4055,7 @@ function __c21(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetDeviceComponentPropertiesRequest" });
@@ -4081,6 +4093,7 @@ function __c24(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateDeviceAttestationRequest" });
@@ -4187,6 +4200,7 @@ function __c29(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetDeviceComponentTelemetryValueRequest" });
@@ -4220,6 +4234,7 @@ function __c31(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetDeviceCredentialsRequest" });
@@ -4251,6 +4266,7 @@ function __c32(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetDeviceGroupRequest" });
@@ -4275,6 +4291,7 @@ function __c33(j: number): any {
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
             nextLink: "nextLink",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetDeviceGroupDevicesRequest" });
@@ -4314,6 +4331,7 @@ function __c35(j: number): any {
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
             nextLink: "nextLink",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetDeviceModuleCommandHistoryRequest" });
@@ -4341,6 +4359,7 @@ function __c36(j: number): any {
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
             nextLink: "nextLink",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetDeviceModuleComponentCommandHistoryRequest" });
@@ -4365,6 +4384,7 @@ function __c37(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetDeviceModuleComponentPropertiesRequest" });
@@ -4390,6 +4410,7 @@ function __c38(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetDeviceModuleComponentTelemetryValueRequest" });
@@ -4413,6 +4434,7 @@ function __c39(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetDeviceModulePropertiesRequest" });
@@ -4437,6 +4459,7 @@ function __c40(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetDeviceModuleTelemetryValueRequest" });
@@ -4464,6 +4487,7 @@ function __c41(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateDeviceGroupRequest" });
@@ -4501,6 +4525,7 @@ function __c43(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetDevicePropertiesRequest" });
@@ -4524,6 +4549,7 @@ function __c44(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetDeviceRelationshipRequest" });
@@ -4547,6 +4573,7 @@ function __c45(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetDeviceTelemetryValueRequest" });
@@ -4569,6 +4596,7 @@ function __c46(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetDeviceTemplateRequest" });
@@ -4591,6 +4619,7 @@ function __c47(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetEnrollmentGroupRequest" });
@@ -4614,6 +4643,7 @@ function __c48(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetEnrollmentGroupX509Request" });
@@ -4635,6 +4665,7 @@ function __c49(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetFileUploadRequest" });
@@ -4657,6 +4688,7 @@ function __c50(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetJobRequest" });
@@ -4681,6 +4713,7 @@ function __c51(j: number): any {
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
             nextLink: "nextLink",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetJobDevicesRequest" });
@@ -4719,6 +4752,7 @@ function __c52(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetOrganizationRequest" });
@@ -4744,6 +4778,7 @@ function __c53(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateDeviceRelationshipRequest" });
@@ -4778,6 +4813,7 @@ function __c55(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetRoleRequest" });
@@ -4811,6 +4847,7 @@ function __c57(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetScheduledJobRequest" });
@@ -4833,6 +4870,7 @@ function __c58(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetUserRequest" });
@@ -4856,6 +4894,7 @@ function __c59(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "JobsRerunRequest" });
@@ -4879,6 +4918,7 @@ function __c60(j: number): any {
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
             nextLink: "nextLink",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListApiTokensRequest" });
@@ -4910,6 +4950,7 @@ function __c61(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListDeviceComponentsRequest" });
@@ -4946,6 +4987,7 @@ function __c63(j: number): any {
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
             nextLink: "nextLink",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListDeviceGroupsRequest" });
@@ -4978,6 +5020,7 @@ function __c64(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListDeviceModuleComponentsRequest" });
@@ -5000,6 +5043,7 @@ function __c65(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListDeviceModulesRequest" });
@@ -5024,6 +5068,7 @@ function __c66(j: number): any {
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
             nextLink: "nextLink",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListDeviceRelationshipsRequest" });
@@ -5060,6 +5105,7 @@ function __c67(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateDeviceTemplateRequest" });
@@ -5098,6 +5144,7 @@ function __c69(j: number): any {
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
             nextLink: "nextLink",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListDevicesRequest" });
@@ -5121,6 +5168,7 @@ function __c70(j: number): any {
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
             nextLink: "nextLink",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListDeviceTemplatesRequest" });
@@ -5153,6 +5201,7 @@ function __c71(j: number): any {
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
             nextLink: "nextLink",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListEnrollmentGroupsRequest" });
@@ -5185,6 +5234,7 @@ function __c72(j: number): any {
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
             nextLink: "nextLink",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListJobsRequest" });
@@ -5221,6 +5271,7 @@ function __c74(j: number): any {
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
             nextLink: "nextLink",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListOrganizationsRequest" });
@@ -5253,6 +5304,7 @@ function __c75(j: number): any {
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
             nextLink: "nextLink",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListRolesRequest" });
@@ -5286,6 +5338,7 @@ function __c76(j: number): any {
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
             nextLink: "nextLink",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListScheduledJobJobsRequest" });
@@ -5309,6 +5362,7 @@ function __c77(j: number): any {
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
             nextLink: "nextLink",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListScheduledJobsRequest" });
@@ -5341,6 +5395,7 @@ function __c78(j: number): any {
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
             nextLink: "nextLink",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListUsersRequest" });
@@ -5372,6 +5427,7 @@ function __c79(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "RemoveApiTokenRequest" });
@@ -5405,6 +5461,7 @@ function __c81(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateEnrollmentGroupRequest" });
@@ -5484,6 +5541,7 @@ function __c84(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "RemoveDeviceRequest" });
@@ -5506,6 +5564,7 @@ function __c85(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "RemoveDeviceAttestationRequest" });
@@ -5528,6 +5587,7 @@ function __c86(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "RemoveDeviceGroupRequest" });
@@ -5551,6 +5611,7 @@ function __c87(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "RemoveDeviceRelationshipRequest" });
@@ -5573,6 +5634,7 @@ function __c88(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "RemoveDeviceTemplateRequest" });
@@ -5595,6 +5657,7 @@ function __c89(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "RemoveEnrollmentGroupRequest" });
@@ -5618,6 +5681,7 @@ function __c90(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "RemoveEnrollmentGroupX509Request" });
@@ -5639,6 +5703,7 @@ function __c91(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "RemoveFileUploadRequest" });
@@ -5661,6 +5726,7 @@ function __c92(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "RemoveOrganizationRequest" });
@@ -5683,6 +5749,7 @@ function __c93(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "RemoveScheduledJobRequest" });
@@ -5709,6 +5776,7 @@ function __c94(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateEnrollmentGroupX509Request" });
@@ -5731,6 +5799,7 @@ function __c95(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "RemoveUserRequest" });
@@ -5755,6 +5824,7 @@ function __c96(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "ReplaceDeviceComponentPropertiesRequest" });
@@ -5780,6 +5850,7 @@ function __c97(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "ReplaceDeviceModuleComponentPropertiesRequest" });
@@ -5804,6 +5875,7 @@ function __c98(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "ReplaceDeviceModulePropertiesRequest" });
@@ -5827,6 +5899,7 @@ function __c99(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "ReplaceDevicePropertiesRequest" });
@@ -5849,6 +5922,7 @@ function __c100(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "ResumeJobRequest" });
@@ -5875,6 +5949,7 @@ function __c101(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "RunDeviceCommandRequest" });
@@ -5902,6 +5977,7 @@ function __c102(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "RunDeviceComponentCommandRequest" });
@@ -5929,6 +6005,7 @@ function __c103(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "RunDeviceModuleCommandRequest" });
@@ -5957,6 +6034,7 @@ function __c104(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "RunDeviceModuleComponentCommandRequest" });
@@ -5983,6 +6061,7 @@ function __c105(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateFileUploadRequest" });
@@ -6020,6 +6099,7 @@ function __c107(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "StopJobRequest" });
@@ -6042,6 +6122,7 @@ function __c108(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateDeviceRequest" });
@@ -6064,6 +6145,7 @@ function __c109(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateDeviceAttestationRequest" });
@@ -6087,6 +6169,7 @@ function __c110(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateDeviceComponentPropertiesRequest" });
@@ -6109,6 +6192,7 @@ function __c111(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateDeviceGroupRequest" });
@@ -6133,6 +6217,7 @@ function __c112(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateDeviceModuleComponentPropertiesRequest" });
@@ -6156,6 +6241,7 @@ function __c113(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateDeviceModulePropertiesRequest" });
@@ -6178,6 +6264,7 @@ function __c114(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateDevicePropertiesRequest" });
@@ -6201,6 +6288,7 @@ function __c115(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateDeviceRelationshipRequest" });
@@ -6223,6 +6311,7 @@ function __c116(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateDeviceTemplateRequest" });
@@ -6253,6 +6342,7 @@ function __c117(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateJobRequest" });
@@ -6350,6 +6440,7 @@ function __c120(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateEnrollmentGroupRequest" });
@@ -6371,6 +6462,7 @@ function __c121(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateFileUploadRequest" });
@@ -6393,6 +6485,7 @@ function __c122(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateOrganizationRequest" });
@@ -6415,6 +6508,7 @@ function __c123(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateScheduledJobRequest" });
@@ -6437,6 +6531,7 @@ function __c124(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateUserRequest" });
@@ -6461,6 +6556,7 @@ function __c125(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "VerifyEnrollmentGroupX509Request" });

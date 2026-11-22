@@ -1259,6 +1259,7 @@ function __c0(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2023-10-31",
+            audience: "https://digitaltwins.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "AddDeleteJobRequest" });
@@ -1289,6 +1290,7 @@ function __c1(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2023-10-31",
+            audience: "https://digitaltwins.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "AddDigitalTwinRequest" });
@@ -1325,6 +1327,7 @@ function __c4(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2023-10-31",
+            audience: "https://digitaltwins.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteEventRouteRequest" });
@@ -1347,6 +1350,7 @@ function __c5(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2023-10-31",
+            audience: "https://digitaltwins.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteImportJobRequest" });
@@ -1369,6 +1373,7 @@ function __c6(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2023-10-31",
+            audience: "https://digitaltwins.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "GetDeleteJobByIdRequest" });
@@ -1406,6 +1411,7 @@ function __c8(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2023-10-31",
+            audience: "https://digitaltwins.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "GetDigitalTwinByIdRequest" });
@@ -1429,6 +1435,7 @@ function __c9(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2023-10-31",
+            audience: "https://digitaltwins.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "GetDigitalTwinComponentRequest" });
@@ -1452,6 +1459,7 @@ function __c10(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2023-10-31",
+            audience: "https://digitaltwins.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "GetDigitalTwinModelByIdRequest" });
@@ -1475,6 +1483,7 @@ function __c11(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2023-10-31",
+            audience: "https://digitaltwins.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "GetDigitalTwinRelationshipByIdRequest" });
@@ -1497,6 +1506,7 @@ function __c12(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2023-10-31",
+            audience: "https://digitaltwins.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "GetEventRouteByIdRequest" });
@@ -1531,6 +1541,7 @@ function __c14(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2023-10-31",
+            audience: "https://digitaltwins.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "GetImportJobByIdRequest" });
@@ -1555,6 +1566,7 @@ function __c15(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2023-10-31",
             nextLink: "nextLink",
+            audience: "https://digitaltwins.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "ListDeleteJobsRequest" });
@@ -1586,6 +1598,7 @@ function __c16(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2023-10-31",
+            audience: "https://digitaltwins.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "AddDigitalTwinModelRequest" });
@@ -1643,6 +1656,7 @@ function __c20(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2023-10-31",
             nextLink: "nextLink",
+            audience: "https://digitaltwins.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "ListDigitalTwinIncomingRelationshipsRequest" });
@@ -1689,6 +1703,7 @@ function __c21(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2023-10-31",
             nextLink: "nextLink",
+            audience: "https://digitaltwins.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "ListDigitalTwinModelsRequest" });
@@ -1721,6 +1736,7 @@ function __c22(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2023-10-31",
             nextLink: "nextLink",
+            audience: "https://digitaltwins.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "ListDigitalTwinRelationshipsRequest" });
@@ -1752,6 +1768,7 @@ function __c23(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2023-10-31",
             nextLink: "nextLink",
+            audience: "https://digitaltwins.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "ListEventRoutesRequest" });
@@ -1785,6 +1802,7 @@ function __c24(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2023-10-31",
             nextLink: "nextLink",
+            audience: "https://digitaltwins.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "ListImportJobsRequest" });
@@ -1818,6 +1836,7 @@ function __c25(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2023-10-31",
+            audience: "https://digitaltwins.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "QueryQueryTwinsRequest" });
@@ -1851,6 +1870,7 @@ function __c26(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2023-10-31",
+            audience: "https://digitaltwins.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "SendDigitalTwinComponentTelemetryRequest" });
@@ -1876,6 +1896,7 @@ function __c27(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2023-10-31",
+            audience: "https://digitaltwins.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "SendDigitalTwinTelemetryRequest" });
@@ -1901,6 +1922,7 @@ function __c28(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2023-10-31",
             jsonContentType: "application/json-patch+json",
+            audience: "https://digitaltwins.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateDigitalTwinRequest" });
@@ -1937,6 +1959,7 @@ function __c30(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2023-10-31",
             jsonContentType: "application/json-patch+json",
+            audience: "https://digitaltwins.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateDigitalTwinComponentRequest" });
@@ -1962,6 +1985,7 @@ function __c31(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2023-10-31",
+            audience: "https://digitaltwins.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "AddDigitalTwinRelationshipRequest" });
@@ -1986,6 +2010,7 @@ function __c32(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2023-10-31",
             jsonContentType: "application/json-patch+json",
+            audience: "https://digitaltwins.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateDigitalTwinModelRequest" });
@@ -2012,6 +2037,7 @@ function __c33(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2023-10-31",
             jsonContentType: "application/json-patch+json",
+            audience: "https://digitaltwins.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateDigitalTwinRelationshipRequest" });
@@ -2036,6 +2062,7 @@ function __c34(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2023-10-31",
+            audience: "https://digitaltwins.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "AddEventRouteRequest" });
@@ -2073,6 +2100,7 @@ function __c36(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2023-10-31",
+            audience: "https://digitaltwins.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "AddImportJobRequest" });
@@ -2135,6 +2163,7 @@ function __c39(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2023-10-31",
+            audience: "https://digitaltwins.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "CancelImportJobRequest" });
@@ -2158,6 +2187,7 @@ function __c40(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2023-10-31",
+            audience: "https://digitaltwins.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteDigitalTwinRequest" });
@@ -2180,6 +2210,7 @@ function __c41(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2023-10-31",
+            audience: "https://digitaltwins.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteDigitalTwinModelRequest" });
@@ -2204,6 +2235,7 @@ function __c42(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2023-10-31",
+            audience: "https://digitaltwins.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteDigitalTwinRelationshipRequest" });

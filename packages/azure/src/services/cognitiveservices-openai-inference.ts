@@ -1482,6 +1482,7 @@ function __c1(j: number): any {
             code: 200,
             host: "https://{endpoint}/openai",
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateChatCompletionRequest" });
@@ -1776,6 +1777,7 @@ function __c7(j: number): any {
             code: 200,
             host: "https://{endpoint}/openai",
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateCompletionRequest" });
@@ -1836,6 +1838,7 @@ function __c8(j: number): any {
             code: 200,
             host: "https://{endpoint}/openai",
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateEmbeddingRequest" });
@@ -1888,6 +1891,7 @@ function __c9(j: number): any {
             code: 200,
             host: "https://{endpoint}/openai",
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateImageGenerationRequest" });
@@ -1952,6 +1956,7 @@ function __c10(j: number): any {
             contentType: "multipart",
             host: "https://{endpoint}/openai",
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateTranscriptionRequest" });
@@ -2019,6 +2024,7 @@ function __c12(j: number): any {
             contentType: "multipart",
             host: "https://{endpoint}/openai",
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateTranslationRequest" });

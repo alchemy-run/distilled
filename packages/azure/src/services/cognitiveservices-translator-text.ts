@@ -451,6 +451,7 @@ function __c0(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "3.0",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "LookupTranslatorDictionaryRequest" });
@@ -524,6 +525,7 @@ function __c2(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "3.0",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "TranslatorBreakSentenceRequest" });
@@ -563,6 +565,7 @@ function __c4(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "3.0",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "TranslatorDetectRequest" });
@@ -622,6 +625,7 @@ function __c5(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "3.0",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "TranslatorDictionaryExamplesRequest" });
@@ -673,6 +677,7 @@ function __c6(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "3.0",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "TranslatorLanguagesRequest" });
@@ -782,6 +787,7 @@ function __c7(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "3.0",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "TranslatorTranslateRequest" });
@@ -862,6 +868,7 @@ function __c9(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "3.0",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "TranslatorTransliterateRequest" });

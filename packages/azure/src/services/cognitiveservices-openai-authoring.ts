@@ -1041,6 +1041,7 @@ function __c0(j: number): any {
             host: "{endpoint}/openai",
             hostRaw: ["endpoint"],
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CancelBatchRequest" });
@@ -1116,6 +1117,7 @@ function __c2(j: number): any {
             host: "{endpoint}/openai",
             hostRaw: ["endpoint"],
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CancelFineTuningRequest" });
@@ -1188,6 +1190,7 @@ function __c6(j: number): any {
             host: "{endpoint}/openai",
             hostRaw: ["endpoint"],
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetFileContentRequest" });
@@ -1212,6 +1215,7 @@ function __c7(j: number): any {
             host: "{endpoint}/openai",
             hostRaw: ["endpoint"],
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetFineTuningRequest" });
@@ -1234,6 +1238,7 @@ function __c8(j: number): any {
             host: "{endpoint}/openai",
             hostRaw: ["endpoint"],
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetFineTuningCheckpointsRequest" });
@@ -1280,6 +1285,7 @@ function __c9(j: number): any {
             host: "{endpoint}/openai",
             hostRaw: ["endpoint"],
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetFineTuningEventsRequest" });
@@ -1322,6 +1328,7 @@ function __c10(j: number): any {
             host: "{endpoint}/openai",
             hostRaw: ["endpoint"],
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetModelRequest" });
@@ -1378,6 +1385,7 @@ function __c12(j: number): any {
             host: "{endpoint}/openai",
             hostRaw: ["endpoint"],
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ImportFileRequest" });
@@ -1417,6 +1425,7 @@ function __c14(j: number): any {
             host: "{endpoint}/openai",
             hostRaw: ["endpoint"],
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListBatchRequest" });
@@ -1449,6 +1458,7 @@ function __c15(j: number): any {
             host: "{endpoint}/openai",
             hostRaw: ["endpoint"],
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListFilesRequest" });
@@ -1479,6 +1489,7 @@ function __c16(j: number): any {
             host: "{endpoint}/openai",
             hostRaw: ["endpoint"],
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListFineTuningRequest" });
@@ -1508,6 +1519,7 @@ function __c17(j: number): any {
             host: "{endpoint}/openai",
             hostRaw: ["endpoint"],
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListModelsRequest" });
@@ -1537,6 +1549,7 @@ function __c18(j: number): any {
             host: "{endpoint}/openai",
             hostRaw: ["endpoint"],
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CancelUploadFileRequest" });
@@ -1595,6 +1608,7 @@ function __c21(j: number): any {
             host: "{endpoint}/openai",
             hostRaw: ["endpoint"],
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "StartUploadFileRequest" });
@@ -1632,6 +1646,7 @@ function __c22(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2024-10-21",
             contentType: "multipart",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "UploadFileRequest" });
@@ -1654,6 +1669,7 @@ function __c23(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2024-10-21",
             contentType: "multipart",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "UploadFilePartRequest" });
@@ -1686,6 +1702,7 @@ function __c24(j: number): any {
             host: "{endpoint}/openai",
             hostRaw: ["endpoint"],
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CompleteUploadFileRequest" });
@@ -1708,6 +1725,7 @@ function __c25(j: number): any {
             host: "{endpoint}/openai",
             hostRaw: ["endpoint"],
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateBatchRequest" });
@@ -1733,6 +1751,7 @@ function __c26(j: number): any {
             host: "{endpoint}/openai",
             hostRaw: ["endpoint"],
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateFineTuningRequest" });
@@ -1776,6 +1795,7 @@ function __c27(j: number): any {
             host: "{endpoint}/openai",
             hostRaw: ["endpoint"],
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteFileRequest" });
@@ -1804,6 +1824,7 @@ function __c28(j: number): any {
             host: "{endpoint}/openai",
             hostRaw: ["endpoint"],
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteFineTuningRequest" });
@@ -1826,6 +1847,7 @@ function __c29(j: number): any {
             host: "{endpoint}/openai",
             hostRaw: ["endpoint"],
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetBatchRequest" });
@@ -1846,6 +1868,7 @@ function __c30(j: number): any {
             host: "{endpoint}/openai",
             hostRaw: ["endpoint"],
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetFileRequest" });

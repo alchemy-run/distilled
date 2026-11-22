@@ -293,6 +293,7 @@ function __c0(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2025-03-13",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateRoomRequest" });
@@ -339,6 +340,7 @@ function __c3(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2025-03-13",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteRoomRequest" });
@@ -361,6 +363,7 @@ function __c4(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2025-03-13",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetRoomRequest" });
@@ -383,6 +386,7 @@ function __c5(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-03-13",
             nextLink: "nextLink",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListParticipantsRequest" });
@@ -420,6 +424,7 @@ function __c6(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-03-13",
             nextLink: "nextLink",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListRoomsRequest" });
@@ -451,6 +456,7 @@ function __c7(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-03-13",
             jsonContentType: "application/merge-patch+json",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateParticipantRequest" });
@@ -479,6 +485,7 @@ function __c8(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-03-13",
             jsonContentType: "application/merge-patch+json",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateRoomRequest" });

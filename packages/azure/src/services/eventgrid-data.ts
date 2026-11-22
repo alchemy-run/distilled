@@ -183,6 +183,7 @@ function __c0(j: number): any {
             hostRaw: ["topicHostname"],
             apiVersion: "2018-01-01",
             jsonContentType: "application/cloudevents-batch+json; charset=utf-8",
+            audience: "https://eventgrid.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "PublishCloudEventEventsRequest" });
@@ -213,6 +214,7 @@ function __c2(j: number): any {
             host: "https://{topicHostname}",
             hostRaw: ["topicHostname"],
             apiVersion: "2018-01-01",
+            audience: "https://eventgrid.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "PublishCustomEventEventsRequest" });
@@ -247,6 +249,7 @@ function __c3(j: number): any {
             host: "https://{topicHostname}",
             hostRaw: ["topicHostname"],
             apiVersion: "2018-01-01",
+            audience: "https://eventgrid.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "PublishEventGridEventsRequest" });

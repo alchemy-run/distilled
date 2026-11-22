@@ -218,7 +218,7 @@ function __c0(j: number): any {
             host: "{vaultBaseUrl}",
             hostRaw: ["vaultBaseUrl"],
             apiVersion: "2026-04-01",
-            audience: "https://vault.azure.net/.default",
+            audience: "https://managedhsm.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "DownloadHSMSecurityDomainRequest" });
@@ -267,7 +267,7 @@ function __c2(j: number): any {
             host: "{vaultBaseUrl}",
             hostRaw: ["vaultBaseUrl"],
             apiVersion: "2026-04-01",
-            audience: "https://vault.azure.net/.default",
+            audience: "https://managedhsm.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "DownloadHSMSecurityDomainPendingRequest" });
@@ -298,7 +298,7 @@ function __c4(j: number): any {
             host: "{vaultBaseUrl}",
             hostRaw: ["vaultBaseUrl"],
             apiVersion: "2026-04-01",
-            audience: "https://vault.azure.net/.default",
+            audience: "https://managedhsm.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "TransferHSMSecurityDomainKeyRequest" });
@@ -326,7 +326,7 @@ function __c5(j: number): any {
             host: "{vaultBaseUrl}",
             hostRaw: ["vaultBaseUrl"],
             apiVersion: "2026-04-01",
-            audience: "https://vault.azure.net/.default",
+            audience: "https://managedhsm.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "UploadHSMSecurityDomainRequest" });
@@ -355,7 +355,7 @@ function __c6(j: number): any {
             host: "{vaultBaseUrl}",
             hostRaw: ["vaultBaseUrl"],
             apiVersion: "2026-04-01",
-            audience: "https://vault.azure.net/.default",
+            audience: "https://managedhsm.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "UploadHSMSecurityDomainPendingRequest" });
