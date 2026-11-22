@@ -10,6 +10,10 @@
  * production (`https://api.coinflow.cash/api`). Sandbox is the default, so a
  * missing setting never moves real money.
  *
+ * `CredentialsFromEnv` reads and checks the environment when it is built: a
+ * missing API key or an unknown `COINFLOW_ENV` is a `ConfigError` at setup,
+ * and no call fails for it.
+ *
  * End-user identity (`x-coinflow-auth-wallet`, `-blockchain`, `-user-id`,
  * `-session-key`) is per call, not per client: it is an input member of each
  * operation that needs it (`authWallet`, `authUserId`, ...).
@@ -43,7 +47,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
     "CoinflowCredentials",
   ) {}
 
@@ -61,9 +65,10 @@ const envConfig = /*@__PURE__*/ EffectConfig.all({
 /**
  * Reads `COINFLOW_API_KEY` (required), `COINFLOW_ENV` (`sandbox` |
  * `production`, default `sandbox`) and `COINFLOW_API_BASE_URL` (overrides
- * the environment's URL).
+ * the environment's URL). The environment is read, and the values checked,
+ * once: when the layer is built.
  */
-export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PURE__*/ Layer.effect(
   Credentials,
   /*@__PURE__*/ envConfig.pipe(
     /*@__PURE__*/ Effect.mapError(
@@ -86,6 +91,7 @@ export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
         apiBaseUrl: trimSlash(Option.getOrElse(apiBaseUrl, () => BASE_URLS[environment])),
       });
     }),
+    /*@__PURE__*/ Effect.map((config: Config) => Effect.succeed(config)),
   ),
 );
 
