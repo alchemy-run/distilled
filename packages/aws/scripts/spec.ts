@@ -583,6 +583,15 @@ const PROTOCOL_ANNOTATIONS = {
   "aws.protocols#ec2Query": "T.AwsProtocolsEc2Query()",
 } as const;
 
+/**
+ * The service's wire protocol, if the runtime implements one. Other
+ * `aws.protocols#` traits (`awsQueryCompatible`, ...) are not wire protocols.
+ */
+export const supportedProtocol = (serviceTraits: Record<string, unknown> | undefined) =>
+  Object.keys(serviceTraits ?? {}).find(
+    (key): key is keyof typeof PROTOCOL_ANNOTATIONS => key in PROTOCOL_ANNOTATIONS,
+  );
+
 /** Event-stream (streaming union) shape ids used as operation INPUT members. */
 function collectInputEventStreamShapeIds(model: SmithyModel): Set<string> {
   const inputEventStreams = new Set<string>();
@@ -933,11 +942,7 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
   const serviceEntry = Object.entries(shapes).find(([, s]) => s.type === "service");
   if (!serviceEntry) throw new Error("service shape not found");
   const [serviceShapeId, serviceShape] = serviceEntry as [string, any];
-  // A protocol the runtime implements; any other `aws.protocols#` trait
-  // (`awsQueryCompatible`, ...) is not a wire protocol.
-  const protocol = Object.keys(serviceShape.traits ?? {}).find(
-    (key): key is keyof typeof PROTOCOL_ANNOTATIONS => key in PROTOCOL_ANNOTATIONS,
-  );
+  const protocol = supportedProtocol(serviceShape.traits);
   if (protocol == null) {
     throw new Error(
       `${serviceShapeId}: no supported protocol in ${JSON.stringify(
