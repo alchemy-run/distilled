@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownMicrosoftGraphError } from "../errors.ts";
+import { MicrosoftGraphServiceErrors } from "../errors.ts";
 import { paginateCursor } from "../pagination.ts";
 import {
   MicrosoftGraphProtocol,
@@ -328,7 +328,8 @@ export const createSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateSubscriptionRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<CreateSubscriptionResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -345,7 +346,8 @@ export const deleteSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<DeleteSubscriptionRequest>,
   output: __S(12, __c3, 0) as any as S.Schema<DeleteSubscriptionResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -362,7 +364,8 @@ export const getSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<GetSubscriptionRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<GetSubscriptionResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -379,7 +382,8 @@ export const getVapidPublicKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c6, 0) as any as S.Schema<GetVapidPublicKeyRequest>,
   output: __S(25, __c6, 1) as any as S.Schema<GetVapidPublicKeyResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -398,7 +402,8 @@ export const listSubscription: API.PaginatedOperationMethod<
   () => ({
     input: __S(28, __c7, 0) as any as S.Schema<ListSubscriptionRequest>,
     output: __S(30, __c7, 2) as any as S.Schema<ListSubscriptionResponse>,
-    errors: [UnknownMicrosoftGraphError],
+    errors: [],
+    serviceErrors: MicrosoftGraphServiceErrors,
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -424,7 +429,8 @@ export const reauthorize: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<ReauthorizeRequest>,
   output: __S(12, __c3, 0) as any as S.Schema<ReauthorizeResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -441,7 +447,8 @@ export const updateSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36, __c9, 0) as any as S.Schema<UpdateSubscriptionRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<UpdateSubscriptionResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

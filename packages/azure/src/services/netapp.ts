@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -5483,7 +5483,8 @@ export const AccountsChangeKeyVault: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AccountsChangeKeyVaultRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<AccountsChangeKeyVaultResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5500,7 +5501,8 @@ export const AccountsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(51, __c3, 3) as any as S.Schema<AccountsCreateOrUpdateRequest>,
   output: __S(52, __c3, 4) as any as S.Schema<AccountsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5517,7 +5519,8 @@ export const AccountsTransitionToCmk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c56, 0) as any as S.Schema<AccountsTransitionToCmkRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<AccountsTransitionToCmkResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5534,7 +5537,8 @@ export const AuthorizeVolumeExternalReplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c68, 0) as any as S.Schema<AuthorizeVolumeExternalReplicationRequest>,
   output: __S(1090, __c68, 2) as any as S.Schema<SvmPeerCommandResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5551,7 +5555,8 @@ export const AuthorizeVolumeReplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1296, __c81, 0) as any as S.Schema<AuthorizeVolumeReplicationRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<AuthorizeVolumeReplicationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5568,7 +5573,8 @@ export const BackupsGetVolumeLatestRestoreStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c102, 0) as any as S.Schema<BackupsGetVolumeLatestRestoreStatusRequest>,
   output: __S(1633, __c102, 1) as any as S.Schema<RestoreStatus>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5585,7 +5591,8 @@ export const BackupVaultsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c118, 0) as any as S.Schema<BackupVaultsCreateOrUpdateRequest>,
   output: __S(1889, __c118, 1) as any as S.Schema<BackupVaultsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5602,7 +5609,8 @@ export const BucketsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2097, __c131, 1) as any as S.Schema<BucketsCreateOrUpdateRequest>,
   output: __S(2098, __c131, 2) as any as S.Schema<BucketsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5619,7 +5627,8 @@ export const CachesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2321, __c145, 1) as any as S.Schema<CachesCreateOrUpdateRequest>,
   output: __S(2322, __c145, 2) as any as S.Schema<CachesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5636,7 +5645,8 @@ export const CachesPoolChange: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2560, __c160, 0) as any as S.Schema<CachesPoolChangeRequest>,
   output: __S(2576, __c161, 0) as any as S.Schema<CachesPoolChangeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5653,7 +5663,8 @@ export const CheckNetAppResourceFilePathAvailability: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<CheckNetAppResourceFilePathAvailabilityRequest>,
   output: __S(176, __c11, 0) as any as S.Schema<CheckAvailabilityResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5670,7 +5681,8 @@ export const CheckNetAppResourceNameAvailability: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<CheckNetAppResourceNameAvailabilityRequest>,
   output: __S(176, __c11, 0) as any as S.Schema<CheckAvailabilityResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5687,7 +5699,8 @@ export const CheckNetAppResourceQuotaAvailability: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<CheckNetAppResourceQuotaAvailabilityRequest>,
   output: __S(176, __c11, 0) as any as S.Schema<CheckAvailabilityResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5704,7 +5717,8 @@ export const ClearRansomwareReportSuspects: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<ClearRansomwareReportSuspectsRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ClearRansomwareReportSuspectsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5721,7 +5735,8 @@ export const CreateBackup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(561, __c35, 1) as any as S.Schema<CreateBackupRequest>,
   output: __S(562, __c35, 2) as any as S.Schema<CreateBackupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5738,7 +5753,8 @@ export const CreateBackupPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(592, __c37, 0) as any as S.Schema<CreateBackupPolicyRequest>,
   output: __S(593, __c37, 1) as any as S.Schema<CreateBackupPolicyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5755,7 +5771,8 @@ export const CreateSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c40, 0) as any as S.Schema<CreateSnapshotRequest>,
   output: __S(656, __c41, 0) as any as S.Schema<CreateSnapshotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5772,7 +5789,8 @@ export const CreateSnapshotPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c43, 0) as any as S.Schema<CreateSnapshotPolicyRequest>,
   output: __S(720, __c45, 0) as any as S.Schema<CreateSnapshotPolicyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5789,7 +5807,8 @@ export const CreateVolumeGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(756, __c47, 4) as any as S.Schema<CreateVolumeGroupRequest>,
   output: __S(757, __c47, 5) as any as S.Schema<CreateVolumeGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5806,7 +5825,8 @@ export const CreateVolumeQuotaRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(848, __c53, 0) as any as S.Schema<CreateVolumeQuotaRuleRequest>,
   output: __S(865, __c54, 1) as any as S.Schema<CreateVolumeQuotaRuleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5823,7 +5843,8 @@ export const DeleteAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(912, __c57, 0) as any as S.Schema<DeleteAccountRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteAccountResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5840,7 +5861,8 @@ export const DeleteBackup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c58, 0) as any as S.Schema<DeleteBackupRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteBackupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5857,7 +5879,8 @@ export const DeleteBackupPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(944, __c59, 0) as any as S.Schema<DeleteBackupPolicyRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteBackupPolicyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5874,7 +5897,8 @@ export const DeleteBackupVault: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c60, 0) as any as S.Schema<DeleteBackupVaultRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteBackupVaultResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5891,7 +5915,8 @@ export const DeleteBucket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(976, __c61, 0) as any as S.Schema<DeleteBucketRequest>,
   output: __S(992, __c62, 0) as any as S.Schema<DeleteBucketResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5908,7 +5933,8 @@ export const DeleteCach: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1008, __c63, 0) as any as S.Schema<DeleteCachRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteCachResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5925,7 +5951,8 @@ export const DeletePool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c64, 0) as any as S.Schema<DeletePoolRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeletePoolResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5942,7 +5969,8 @@ export const DeleteSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1040, __c65, 0) as any as S.Schema<DeleteSnapshotRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteSnapshotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5959,7 +5987,8 @@ export const DeleteSnapshotPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c66, 0) as any as S.Schema<DeleteSnapshotPolicyRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteSnapshotPolicyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5976,7 +6005,8 @@ export const DeleteVolume: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1072, __c67, 0) as any as S.Schema<DeleteVolumeRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteVolumeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5993,7 +6023,8 @@ export const DeleteVolumeGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1104, __c69, 0) as any as S.Schema<DeleteVolumeGroupRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteVolumeGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6010,7 +6041,8 @@ export const DeleteVolumeQuotaRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c70, 0) as any as S.Schema<DeleteVolumeQuotaRuleRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteVolumeQuotaRuleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6027,7 +6059,8 @@ export const DeleteVolumeReplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1136, __c71, 0) as any as S.Schema<DeleteVolumeReplicationRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteVolumeReplicationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6044,7 +6077,8 @@ export const FinalizeVolumeExternalReplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c72, 0) as any as S.Schema<FinalizeVolumeExternalReplicationRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<FinalizeVolumeExternalReplicationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6061,7 +6095,8 @@ export const FinalizeVolumeRelocation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1168, __c73, 0) as any as S.Schema<FinalizeVolumeRelocationRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<FinalizeVolumeRelocationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6078,7 +6113,8 @@ export const GenerateBucketAkvCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c74, 0) as any as S.Schema<GenerateBucketAkvCredentialsRequest>,
   output: __S(992, __c62, 0) as any as S.Schema<GenerateBucketAkvCredentialsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6095,7 +6131,8 @@ export const GenerateBucketCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1200, __c75, 0) as any as S.Schema<GenerateBucketCredentialsRequest>,
   output: __S(1201, __c75, 1) as any as S.Schema<BucketGenerateCredentials>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6112,7 +6149,8 @@ export const GetAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c76, 0) as any as S.Schema<GetAccountRequest>,
   output: __S(1232, __c77, 0) as any as S.Schema<GetAccountResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6129,7 +6167,8 @@ export const GetAccountChangeKeyVaultInformation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c78, 0) as any as S.Schema<GetAccountChangeKeyVaultInformationRequest>,
   output: __S(1250, __c78, 2) as any as S.Schema<GetKeyVaultStatusResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6146,7 +6185,8 @@ export const GetBackup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1264, __c79, 0) as any as S.Schema<GetBackupRequest>,
   output: __S(1280, __c80, 0) as any as S.Schema<GetBackupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6163,7 +6203,8 @@ export const GetBackupLatestStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c82, 0) as any as S.Schema<GetBackupLatestStatusRequest>,
   output: __S(1313, __c82, 1) as any as S.Schema<BackupStatus>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6180,7 +6221,8 @@ export const GetBackupPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1328, __c83, 0) as any as S.Schema<GetBackupPolicyRequest>,
   output: __S(1344, __c84, 0) as any as S.Schema<GetBackupPolicyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6197,7 +6239,8 @@ export const GetBackupVault: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1360, __c85, 0) as any as S.Schema<GetBackupVaultRequest>,
   output: __S(1376, __c86, 0) as any as S.Schema<GetBackupVaultResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6214,7 +6257,8 @@ export const GetBucket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1392, __c87, 0) as any as S.Schema<GetBucketRequest>,
   output: __S(1408, __c88, 0) as any as S.Schema<GetBucketResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6231,7 +6275,8 @@ export const GetCach: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1424, __c89, 0) as any as S.Schema<GetCachRequest>,
   output: __S(1440, __c90, 0) as any as S.Schema<GetCachResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6248,7 +6293,8 @@ export const GetNetAppResourceQuotaLimit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1456, __c91, 0) as any as S.Schema<GetNetAppResourceQuotaLimitRequest>,
   output: __S(1473, __c92, 1) as any as S.Schema<GetNetAppResourceQuotaLimitResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6265,7 +6311,8 @@ export const GetNetAppResourceQuotaLimitsAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1488, __c93, 0) as any as S.Schema<GetNetAppResourceQuotaLimitsAccountRequest>,
   output: __S(1473, __c92, 1) as any as S.Schema<GetNetAppResourceQuotaLimitsAccountResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6282,7 +6329,8 @@ export const GetNetAppResourceRegionInfos: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c94, 0) as any as S.Schema<GetNetAppResourceRegionInfosRequest>,
   output: __S(1520, __c95, 0) as any as S.Schema<GetNetAppResourceRegionInfosResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6299,7 +6347,8 @@ export const GetNetAppResourceUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1552, __c97, 0) as any as S.Schema<GetNetAppResourceUsageRequest>,
   output: __S(1570, __c98, 2) as any as S.Schema<UsageResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6316,7 +6365,8 @@ export const GetPool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1584, __c99, 0) as any as S.Schema<GetPoolRequest>,
   output: __S(1600, __c100, 0) as any as S.Schema<GetPoolResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6333,7 +6383,8 @@ export const GetRansomwareReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1648, __c103, 0) as any as S.Schema<GetRansomwareReportRequest>,
   output: __S(1669, __c104, 5) as any as S.Schema<GetRansomwareReportResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6350,7 +6401,8 @@ export const GetSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1680, __c105, 0) as any as S.Schema<GetSnapshotRequest>,
   output: __S(1696, __c106, 0) as any as S.Schema<GetSnapshotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6367,7 +6419,8 @@ export const GetSnapshotPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1712, __c107, 0) as any as S.Schema<GetSnapshotPolicyRequest>,
   output: __S(720, __c45, 0) as any as S.Schema<GetSnapshotPolicyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6384,7 +6437,8 @@ export const GetVolume: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c108, 0) as any as S.Schema<GetVolumeRequest>,
   output: __S(1744, __c109, 0) as any as S.Schema<GetVolumeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6401,7 +6455,8 @@ export const GetVolumeGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c110, 0) as any as S.Schema<GetVolumeGroupRequest>,
   output: __S(1761, __c110, 1) as any as S.Schema<GetVolumeGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6418,7 +6473,8 @@ export const GetVolumeQuotaRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1776, __c111, 0) as any as S.Schema<GetVolumeQuotaRuleRequest>,
   output: __S(1792, __c112, 0) as any as S.Schema<GetVolumeQuotaRuleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6436,7 +6492,8 @@ export const ListAccountBySubscription: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1808, __c113, 0) as any as S.Schema<ListAccountBySubscriptionRequest>,
   output: __S(1825, __c114, 1) as any as S.Schema<NetAppAccountList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6460,7 +6517,8 @@ export const ListAccounts: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1840, __c115, 0) as any as S.Schema<ListAccountsRequest>,
   output: __S(1825, __c114, 1) as any as S.Schema<NetAppAccountList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6484,7 +6542,8 @@ export const ListBackupByVault: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1856, __c116, 0) as any as S.Schema<ListBackupByVaultRequest>,
   output: __S(1858, __c116, 2) as any as S.Schema<BackupsList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6508,7 +6567,8 @@ export const ListBackupPolicies: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1872, __c117, 0) as any as S.Schema<ListBackupPoliciesRequest>,
   output: __S(1874, __c117, 2) as any as S.Schema<BackupPoliciesList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6532,7 +6592,8 @@ export const ListBackupVaultByNetAppAccount: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1920, __c120, 0) as any as S.Schema<ListBackupVaultByNetAppAccountRequest>,
   output: __S(1922, __c120, 2) as any as S.Schema<BackupVaultsList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6556,7 +6617,8 @@ export const ListBuckets: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1936, __c121, 0) as any as S.Schema<ListBucketsRequest>,
   output: __S(1938, __c121, 2) as any as S.Schema<BucketList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6580,7 +6642,8 @@ export const ListCaches: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1952, __c122, 0) as any as S.Schema<ListCachesRequest>,
   output: __S(1954, __c122, 2) as any as S.Schema<CacheList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6603,7 +6666,8 @@ export const ListCachPeeringPassphrases: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1968, __c123, 0) as any as S.Schema<ListCachPeeringPassphrasesRequest>,
   output: __S(1969, __c123, 1) as any as S.Schema<PeeringPassphrases>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6621,7 +6685,8 @@ export const ListNetAppResourceQuotaLimits: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1984, __c124, 0) as any as S.Schema<ListNetAppResourceQuotaLimitsRequest>,
   output: __S(2001, __c125, 1) as any as S.Schema<QuotaItemList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6645,7 +6710,8 @@ export const ListNetAppResourceQuotaLimitsAccount: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2016, __c126, 0) as any as S.Schema<ListNetAppResourceQuotaLimitsAccountRequest>,
   output: __S(2001, __c125, 1) as any as S.Schema<QuotaItemList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6669,7 +6735,8 @@ export const ListNetAppResourceRegionInfos: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2032, __c127, 0) as any as S.Schema<ListNetAppResourceRegionInfosRequest>,
   output: __S(2034, __c127, 2) as any as S.Schema<RegionInfosList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6693,7 +6760,8 @@ export const ListNetAppResourceUsages: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2048, __c128, 0) as any as S.Schema<ListNetAppResourceUsagesRequest>,
   output: __S(2050, __c128, 2) as any as S.Schema<UsagesListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6717,7 +6785,8 @@ export const ListOperations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2064, __c129, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(2074, __c129, 10) as any as S.Schema<OperationListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6741,7 +6810,8 @@ export const ListPools: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2080, __c130, 0) as any as S.Schema<ListPoolsRequest>,
   output: __S(2082, __c130, 2) as any as S.Schema<CapacityPoolList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6765,7 +6835,8 @@ export const ListRansomwareReports: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2144, __c134, 0) as any as S.Schema<ListRansomwareReportsRequest>,
   output: __S(2146, __c134, 2) as any as S.Schema<RansomwareReportsList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6789,7 +6860,8 @@ export const ListSnapshotPolicies: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2160, __c135, 0) as any as S.Schema<ListSnapshotPoliciesRequest>,
   output: __S(2162, __c135, 2) as any as S.Schema<SnapshotPoliciesList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6812,7 +6884,8 @@ export const ListSnapshotPolicyVolumes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c136, 0) as any as S.Schema<ListSnapshotPolicyVolumesRequest>,
   output: __S(2193, __c137, 1) as any as S.Schema<SnapshotPolicyVolumeList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6830,7 +6903,8 @@ export const ListSnapshots: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2208, __c138, 0) as any as S.Schema<ListSnapshotsRequest>,
   output: __S(2210, __c138, 2) as any as S.Schema<SnapshotsList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6854,7 +6928,8 @@ export const ListVolumeGroupByNetAppAccount: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2224, __c139, 0) as any as S.Schema<ListVolumeGroupByNetAppAccountRequest>,
   output: __S(2228, __c139, 4) as any as S.Schema<VolumeGroupList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6877,7 +6952,8 @@ export const ListVolumeQuotaReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2240, __c140, 0) as any as S.Schema<ListVolumeQuotaReportRequest>,
   output: __S(2244, __c140, 4) as any as S.Schema<ListQuotaReportResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6895,7 +6971,8 @@ export const ListVolumeQuotaRuleByVolume: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2256, __c141, 0) as any as S.Schema<ListVolumeQuotaRuleByVolumeRequest>,
   output: __S(2258, __c141, 2) as any as S.Schema<VolumeQuotaRulesList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6919,7 +6996,8 @@ export const ListVolumeReplications: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2272, __c142, 0) as any as S.Schema<ListVolumeReplicationsRequest>,
   output: __S(2275, __c142, 3) as any as S.Schema<ListReplications>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6943,7 +7021,8 @@ export const ListVolumes: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2288, __c143, 0) as any as S.Schema<ListVolumesRequest>,
   output: __S(2193, __c137, 1) as any as S.Schema<VolumeList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6966,7 +7045,8 @@ export const MigrateBackupsUnderAccountBackups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2304, __c144, 0) as any as S.Schema<MigrateBackupsUnderAccountBackupsRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<MigrateBackupsUnderAccountBackupsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6983,7 +7063,8 @@ export const MigrateBackupsUnderVolumeBackups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2384, __c149, 0) as any as S.Schema<MigrateBackupsUnderVolumeBackupsRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<MigrateBackupsUnderVolumeBackupsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7000,7 +7081,8 @@ export const NetAppResourceQueryRegionInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c150, 0) as any as S.Schema<NetAppResourceQueryRegionInfoRequest>,
   output: __S(1538, __c96, 2) as any as S.Schema<RegionInfo>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7017,7 +7099,8 @@ export const PoolsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2417, __c151, 1) as any as S.Schema<PoolsCreateOrUpdateRequest>,
   output: __S(2432, __c152, 0) as any as S.Schema<PoolsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7034,7 +7117,8 @@ export const RefreshBucketCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2448, __c153, 0) as any as S.Schema<RefreshBucketCertificateRequest>,
   output: __S(992, __c62, 0) as any as S.Schema<RefreshBucketCertificateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7051,7 +7135,8 @@ export const RefreshNetAppAccountLdapBindPassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2464, __c154, 0) as any as S.Schema<RefreshNetAppAccountLdapBindPasswordRequest>,
   output: __S(992, __c62, 0) as any as S.Schema<RefreshNetAppAccountLdapBindPasswordResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7068,7 +7153,8 @@ export const RenewAccountCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2480, __c155, 0) as any as S.Schema<RenewAccountCredentialsRequest>,
   output: __S(2481, __c155, 1) as any as S.Schema<RenewAccountCredentialsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7085,7 +7171,8 @@ export const ResetCachSmbPassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2496, __c156, 0) as any as S.Schema<ResetCachSmbPasswordRequest>,
   output: __S(2576, __c161, 0) as any as S.Schema<ResetCachSmbPasswordResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7102,7 +7189,8 @@ export const ResetVolumeCifsPassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2512, __c157, 0) as any as S.Schema<ResetVolumeCifsPasswordRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ResetVolumeCifsPasswordResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7119,7 +7207,8 @@ export const RestoreBackupsUnderBackupVaultFiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2528, __c158, 0) as any as S.Schema<RestoreBackupsUnderBackupVaultFilesRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<RestoreBackupsUnderBackupVaultFilesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7136,7 +7225,8 @@ export const RestoreSnapshotFiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2544, __c159, 0) as any as S.Schema<RestoreSnapshotFilesRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<RestoreSnapshotFilesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7153,7 +7243,8 @@ export const SetNetAppResourceQueryNetworkSibling: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2592, __c162, 0) as any as S.Schema<SetNetAppResourceQueryNetworkSiblingRequest>,
   output: __S(2593, __c162, 1) as any as S.Schema<NetworkSiblingSet>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7170,7 +7261,8 @@ export const TransferVolumesPerformReplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c164, 0) as any as S.Schema<TransferVolumesPerformReplicationRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<TransferVolumesPerformReplicationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7187,7 +7279,8 @@ export const UpdateAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2645, __c165, 5) as any as S.Schema<UpdateAccountRequest>,
   output: __S(2646, __c165, 6) as any as S.Schema<UpdateAccountResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7204,7 +7297,8 @@ export const UpdateBackup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2657, __c166, 1) as any as S.Schema<UpdateBackupRequest>,
   output: __S(2658, __c166, 2) as any as S.Schema<UpdateBackupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7221,7 +7315,8 @@ export const UpdateBackupPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2672, __c167, 0) as any as S.Schema<UpdateBackupPolicyRequest>,
   output: __S(2673, __c167, 1) as any as S.Schema<UpdateBackupPolicyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7238,7 +7333,8 @@ export const UpdateBackupVault: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c168, 0) as any as S.Schema<UpdateBackupVaultRequest>,
   output: __S(2689, __c168, 1) as any as S.Schema<UpdateBackupVaultResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7255,7 +7351,8 @@ export const UpdateBucket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2705, __c169, 1) as any as S.Schema<UpdateBucketRequest>,
   output: __S(2706, __c169, 2) as any as S.Schema<UpdateBucketResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7272,7 +7369,8 @@ export const UpdateCach: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2721, __c170, 1) as any as S.Schema<UpdateCachRequest>,
   output: __S(2722, __c170, 2) as any as S.Schema<UpdateCachResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7289,7 +7387,8 @@ export const UpdateNetAppResourceNetworkSiblingSet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2736, __c171, 0) as any as S.Schema<UpdateNetAppResourceNetworkSiblingSetRequest>,
   output: __S(2737, __c171, 1) as any as S.Schema<UpdateNetAppResourceNetworkSiblingSetResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7306,7 +7405,8 @@ export const UpdatePool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2753, __c172, 1) as any as S.Schema<UpdatePoolRequest>,
   output: __S(2432, __c152, 0) as any as S.Schema<UpdatePoolResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7323,7 +7423,8 @@ export const UpdateSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<UpdateSnapshotRequest>,
   output: __S(656, __c41, 0) as any as S.Schema<UpdateSnapshotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7340,7 +7441,8 @@ export const UpdateSnapshotPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<UpdateSnapshotPolicyRequest>,
   output: __S(209, __c13, 1) as any as S.Schema<UpdateSnapshotPolicyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7357,7 +7459,8 @@ export const UpdateVolume: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(227, __c14, 3) as any as S.Schema<UpdateVolumeRequest>,
   output: __S(240, __c15, 0) as any as S.Schema<UpdateVolumeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7374,7 +7477,8 @@ export const UpdateVolumeQuotaRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<UpdateVolumeQuotaRuleRequest>,
   output: __S(865, __c54, 1) as any as S.Schema<UpdateVolumeQuotaRuleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7391,7 +7495,8 @@ export const VolumesBreakFileLocks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<VolumesBreakFileLocksRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<VolumesBreakFileLocksResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7408,7 +7513,8 @@ export const VolumesBreakReplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<VolumesBreakReplicationRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<VolumesBreakReplicationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7425,7 +7531,8 @@ export const VolumesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<VolumesCreateOrUpdateRequest>,
   output: __S(305, __c19, 1) as any as S.Schema<VolumesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7442,7 +7549,8 @@ export const VolumesListGetGroupIdListForLdapUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<VolumesListGetGroupIdListForLdapUserRequest>,
   output: __S(321, __c20, 1) as any as S.Schema<GetGroupIdListForLdapUserResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7459,7 +7567,8 @@ export const VolumesPeerExternalCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<VolumesPeerExternalClusterRequest>,
   output: __S(338, __c21, 2) as any as S.Schema<ClusterPeerCommandResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7476,7 +7585,8 @@ export const VolumesPoolChange: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<VolumesPoolChangeRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<VolumesPoolChangeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7493,7 +7603,8 @@ export const VolumesPopulateAvailabilityZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<VolumesPopulateAvailabilityZoneRequest>,
   output: __S(240, __c15, 0) as any as S.Schema<VolumesPopulateAvailabilityZoneResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7510,7 +7621,8 @@ export const VolumesReestablishReplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<VolumesReestablishReplicationRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<VolumesReestablishReplicationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7527,7 +7639,8 @@ export const VolumesReInitializeReplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<VolumesReInitializeReplicationRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<VolumesReInitializeReplicationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7544,7 +7657,8 @@ export const VolumesRelocate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<VolumesRelocateRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<VolumesRelocateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7561,7 +7675,8 @@ export const VolumesReplicationStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<VolumesReplicationStatusRequest>,
   output: __S(449, __c28, 1) as any as S.Schema<ReplicationStatus>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7578,7 +7693,8 @@ export const VolumesResyncReplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<VolumesResyncReplicationRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<VolumesResyncReplicationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7595,7 +7711,8 @@ export const VolumesRevert: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<VolumesRevertRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<VolumesRevertResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7612,7 +7729,8 @@ export const VolumesRevertRelocation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<VolumesRevertRelocationRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<VolumesRevertRelocationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7629,7 +7747,8 @@ export const VolumesSplitCloneFromParent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<VolumesSplitCloneFromParentRequest>,
   output: __S(240, __c15, 0) as any as S.Schema<VolumesSplitCloneFromParentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

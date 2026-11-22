@@ -4,7 +4,7 @@ import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -1779,7 +1779,8 @@ export const CopyDocumentClassifierClassifierTo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CopyDocumentClassifierClassifierToRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CopyDocumentClassifierClassifierToResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1796,7 +1797,8 @@ export const CopyDocumentModelModelTo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<CopyDocumentModelModelToRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CopyDocumentModelModelToResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1813,7 +1815,8 @@ export const DeleteDocumentClassifierClassifier: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<DeleteDocumentClassifierClassifierRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<DeleteDocumentClassifierClassifierResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1830,7 +1833,8 @@ export const DeleteDocumentModelAnalyzeBatchResult: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<DeleteDocumentModelAnalyzeBatchResultRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<DeleteDocumentModelAnalyzeBatchResultResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1847,7 +1851,8 @@ export const DeleteDocumentModelAnalyzeResult: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<DeleteDocumentModelAnalyzeResultRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<DeleteDocumentModelAnalyzeResultResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1864,7 +1869,8 @@ export const DeleteDocumentModelModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<DeleteDocumentModelModelRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<DeleteDocumentModelModelResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1881,7 +1887,8 @@ export const DocumentClassifiersAuthorizeClassifierCopy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<DocumentClassifiersAuthorizeClassifierCopyRequest>,
   output: __S(1473, __c46, 1) as any as S.Schema<ClassifierCopyAuthorization>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1898,7 +1905,8 @@ export const DocumentClassifiersBuildClassifier: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<DocumentClassifiersBuildClassifierRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DocumentClassifiersBuildClassifierResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1915,7 +1923,8 @@ export const DocumentClassifiersClassifyDocument: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c51, 0) as any as S.Schema<DocumentClassifiersClassifyDocumentRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DocumentClassifiersClassifyDocumentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1940,7 +1949,8 @@ export const DocumentClassifiersClassifyDocumentFromStream: API.OperationMethod<
     __c1,
     0,
   ) as any as S.Schema<DocumentClassifiersClassifyDocumentFromStreamResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1957,7 +1967,8 @@ export const DocumentModelsAnalyzeBatchDocuments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<DocumentModelsAnalyzeBatchDocumentsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DocumentModelsAnalyzeBatchDocumentsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1974,7 +1985,8 @@ export const DocumentModelsAnalyzeDocument: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<DocumentModelsAnalyzeDocumentRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DocumentModelsAnalyzeDocumentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1991,7 +2003,8 @@ export const DocumentModelsAnalyzeDocumentFromStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<DocumentModelsAnalyzeDocumentFromStreamRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DocumentModelsAnalyzeDocumentFromStreamResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2008,7 +2021,8 @@ export const DocumentModelsAuthorizeModelCopy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<DocumentModelsAuthorizeModelCopyRequest>,
   output: __S(257, __c8, 1) as any as S.Schema<ModelCopyAuthorization>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2025,7 +2039,8 @@ export const DocumentModelsBuildModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<DocumentModelsBuildModelRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DocumentModelsBuildModelResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2042,7 +2057,8 @@ export const DocumentModelsComposeModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<DocumentModelsComposeModelRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DocumentModelsComposeModelResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2059,7 +2075,8 @@ export const GetDocumentClassifierClassifier: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<GetDocumentClassifierClassifierRequest>,
   output: __S(448, __c14, 0) as any as S.Schema<DocumentClassifierDetails>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2076,7 +2093,8 @@ export const GetDocumentClassifierClassifyResult: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<GetDocumentClassifierClassifyResultRequest>,
   output: __S(587, __c18, 11) as any as S.Schema<AnalyzeOperation>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2093,7 +2111,8 @@ export const GetDocumentModelAnalyzeBatchResult: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<GetDocumentModelAnalyzeBatchResultRequest>,
   output: __S(643, __c20, 3) as any as S.Schema<AnalyzeBatchOperation>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2110,7 +2129,8 @@ export const GetDocumentModelAnalyzeResult: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<GetDocumentModelAnalyzeResultRequest>,
   output: __S(587, __c18, 11) as any as S.Schema<AnalyzeOperation>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2127,7 +2147,8 @@ export const GetDocumentModelAnalyzeResultFigure: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<GetDocumentModelAnalyzeResultFigureRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<GetDocumentModelAnalyzeResultFigureResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2144,7 +2165,8 @@ export const GetDocumentModelAnalyzeResultPdf: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<GetDocumentModelAnalyzeResultPdfRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<GetDocumentModelAnalyzeResultPdfResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2161,7 +2183,8 @@ export const GetDocumentModelModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<GetDocumentModelModelRequest>,
   output: __S(896, __c28, 0) as any as S.Schema<DocumentModelDetails>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2186,7 +2209,8 @@ export const GetMiscellaneousOperationDocumentClassifierBuildOperation: API.Oper
     __c30,
     0,
   ) as any as S.Schema<GetMiscellaneousOperationDocumentClassifierBuildOperationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2211,7 +2235,8 @@ export const GetMiscellaneousOperationDocumentModelBuildOperation: API.Operation
     __c32,
     0,
   ) as any as S.Schema<GetMiscellaneousOperationDocumentModelBuildOperationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2236,7 +2261,8 @@ export const GetMiscellaneousOperationDocumentModelComposeOperation: API.Operati
     __c32,
     0,
   ) as any as S.Schema<GetMiscellaneousOperationDocumentModelComposeOperationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2253,7 +2279,8 @@ export const GetMiscellaneousOperationOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<GetMiscellaneousOperationOperationRequest>,
   output: __S(1089, __c34, 1) as any as S.Schema<GetMiscellaneousOperationOperationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2270,7 +2297,8 @@ export const GetMiscellaneousOperationResourceDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<GetMiscellaneousOperationResourceDetailsRequest>,
   output: __S(1154, __c36, 2) as any as S.Schema<DocumentIntelligenceResourceDetails>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2288,7 +2316,8 @@ export const ListDocumentClassifierClassifiers: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<ListDocumentClassifierClassifiersRequest>,
   output: __S(1186, __c37, 2) as any as S.Schema<PagedDocumentClassifierDetails>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2312,7 +2341,8 @@ export const ListDocumentModelAnalyzeBatchResults: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<ListDocumentModelAnalyzeBatchResultsRequest>,
   output: __S(1218, __c38, 2) as any as S.Schema<PagedAnalyzeBatchOperation>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2336,7 +2366,8 @@ export const ListDocumentModelModels: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<ListDocumentModelModelsRequest>,
   output: __S(1282, __c40, 2) as any as S.Schema<PagedDocumentModelDetails>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2360,7 +2391,8 @@ export const ListMiscellaneousOperationOperations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<ListMiscellaneousOperationOperationsRequest>,
   output: __S(1314, __c41, 2) as any as S.Schema<PagedDocumentIntelligenceOperationDetails>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2391,7 +2423,8 @@ export const MiscellaneousOperationsGetDocumentClassifierCopyToOperation: API.Op
     __c30,
     0,
   ) as any as S.Schema<MiscellaneousOperationsGetDocumentClassifierCopyToOperationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2416,7 +2449,8 @@ export const MiscellaneousOperationsGetDocumentModelCopyToOperation: API.Operati
     __c32,
     0,
   ) as any as S.Schema<MiscellaneousOperationsGetDocumentModelCopyToOperationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

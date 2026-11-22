@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -2395,7 +2395,8 @@ export const CreateBot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateBotRequest>,
   output: __S(225, __c7, 1) as any as S.Schema<CreateBotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2412,7 +2413,8 @@ export const CreateBotConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<CreateBotConnectionRequest>,
   output: __S(291, __c9, 3) as any as S.Schema<CreateBotConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2429,7 +2431,8 @@ export const CreateChannel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<CreateChannelRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<CreateChannelResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2446,7 +2449,8 @@ export const CreatePrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1185, __c37, 1) as any as S.Schema<CreatePrivateEndpointConnectionRequest>,
   output: __S(163, __c5, 3) as any as S.Schema<CreatePrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2463,7 +2467,8 @@ export const DeleteBot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<DeleteBotRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<DeleteBotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2480,7 +2485,8 @@ export const DeleteBotConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<DeleteBotConnectionRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<DeleteBotConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2497,7 +2503,8 @@ export const DeleteChannel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<DeleteChannelRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<DeleteChannelResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2514,7 +2521,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c43, 0) as any as S.Schema<DeletePrivateEndpointConnectionRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<DeletePrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2531,7 +2539,8 @@ export const EmailCreateSignInUrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<EmailCreateSignInUrlRequest>,
   output: __S(1410, __c44, 2) as any as S.Schema<CreateEmailSignInUrlResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2548,7 +2557,8 @@ export const GetBot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<GetBotRequest>,
   output: __S(225, __c7, 1) as any as S.Schema<GetBotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2565,7 +2575,8 @@ export const GetBotCheckNameAvailability: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<GetBotCheckNameAvailabilityRequest>,
   output: __S(353, __c11, 1) as any as S.Schema<CheckNameAvailabilityResponseBody>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2582,7 +2593,8 @@ export const GetBotConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<GetBotConnectionRequest>,
   output: __S(291, __c9, 3) as any as S.Schema<GetBotConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2599,7 +2611,8 @@ export const GetChannel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<GetChannelRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<GetChannelResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2616,7 +2629,8 @@ export const GetHostSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<GetHostSettingsRequest>,
   output: __S(449, __c14, 1) as any as S.Schema<HostSettingsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2633,7 +2647,8 @@ export const GetOperationResult: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<GetOperationResultRequest>,
   output: __S(481, __c15, 1) as any as S.Schema<OperationResultsDescription>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2650,7 +2665,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<GetPrivateEndpointConnectionRequest>,
   output: __S(163, __c5, 3) as any as S.Schema<GetPrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2667,7 +2683,8 @@ export const GetQnAMakerEndpointKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<GetQnAMakerEndpointKeyRequest>,
   output: __S(545, __c17, 1) as any as S.Schema<QnAMakerEndpointKeysResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2685,7 +2702,8 @@ export const ListBotByResourceGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<ListBotByResourceGroupRequest>,
   output: __S(609, __c19, 1) as any as S.Schema<BotResponseList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2709,7 +2727,8 @@ export const ListBotConnectionByBotService: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<ListBotConnectionByBotServiceRequest>,
   output: __S(642, __c20, 2) as any as S.Schema<ConnectionSettingResponseList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2732,7 +2751,8 @@ export const ListBotConnectionServiceProviders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<ListBotConnectionServiceProvidersRequest>,
   output: __S(680, __c21, 8) as any as S.Schema<ServiceProviderResponseList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2749,7 +2769,8 @@ export const ListBotConnectionWithSecrets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<ListBotConnectionWithSecretsRequest>,
   output: __S(291, __c9, 3) as any as S.Schema<ListBotConnectionWithSecretsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2767,7 +2788,8 @@ export const ListBots: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<ListBotsRequest>,
   output: __S(609, __c19, 1) as any as S.Schema<BotResponseList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2791,7 +2813,8 @@ export const ListChannelByResourceGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<ListChannelByResourceGroupRequest>,
   output: __S(930, __c29, 2) as any as S.Schema<ChannelResponseList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2814,7 +2837,8 @@ export const ListChannelWithKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<ListChannelWithKeysRequest>,
   output: __S(962, __c30, 2) as any as S.Schema<ListChannelWithKeysResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2832,7 +2856,8 @@ export const ListOperations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(996, __c31, 4) as any as S.Schema<OperationEntityListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2856,7 +2881,8 @@ export const ListPrivateEndpointConnections: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<ListPrivateEndpointConnectionsRequest>,
   output: __S(1025, __c32, 1) as any as S.Schema<ListPrivateEndpointConnectionsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2874,7 +2900,8 @@ export const ListPrivateLinkResourceByBotResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<ListPrivateLinkResourceByBotResourceRequest>,
   output: __S(1060, __c33, 4) as any as S.Schema<ListPrivateLinkResourceByBotResourceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2891,7 +2918,8 @@ export const RegenerateDirectLineKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<RegenerateDirectLineKeysRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<RegenerateDirectLineKeysResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2908,7 +2936,8 @@ export const UpdateBot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<UpdateBotRequest>,
   output: __S(225, __c7, 1) as any as S.Schema<UpdateBotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2925,7 +2954,8 @@ export const UpdateBotConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<UpdateBotConnectionRequest>,
   output: __S(291, __c9, 3) as any as S.Schema<UpdateBotConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2942,7 +2972,8 @@ export const UpdateChannel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<UpdateChannelRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<UpdateChannelResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

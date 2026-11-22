@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -350,7 +350,8 @@ export const CompleteMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28, __c7, 0) as any as S.Schema<CompleteMessageRequest>,
   output: __S(32, __c8, 0) as any as S.Schema<CompleteMessageResponse>,
-  errors: [MessageLockLost, MessagingEntityNotFound, MessagingUnauthorized, UnknownAzureError],
+  errors: [MessageLockLost, MessagingEntityNotFound, MessagingUnauthorized],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -371,7 +372,8 @@ export const CompleteSubscriptionMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36, __c9, 0) as any as S.Schema<CompleteSubscriptionMessageRequest>,
   output: __S(32, __c8, 0) as any as S.Schema<CompleteSubscriptionMessageResponse>,
-  errors: [MessageLockLost, MessagingEntityNotFound, MessagingUnauthorized, UnknownAzureError],
+  errors: [MessageLockLost, MessagingEntityNotFound, MessagingUnauthorized],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -388,7 +390,8 @@ export const PeekLockMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c10, 0) as any as S.Schema<PeekLockMessageRequest>,
   output: __S(44, __c11, 0) as any as S.Schema<PeekLockMessageResponse>,
-  errors: [MessagingEntityNotFound, MessagingUnauthorized, UnknownAzureError],
+  errors: [MessagingEntityNotFound, MessagingUnauthorized],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -408,7 +411,8 @@ export const PeekLockSubscriptionMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c14, 0) as any as S.Schema<PeekLockSubscriptionMessageRequest>,
   output: __S(44, __c11, 0) as any as S.Schema<PeekLockSubscriptionMessageResponse>,
-  errors: [MessagingEntityNotFound, MessagingUnauthorized, UnknownAzureError],
+  errors: [MessagingEntityNotFound, MessagingUnauthorized],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -428,7 +432,8 @@ export const ReceiveAndDeleteMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(60, __c15, 0) as any as S.Schema<ReceiveAndDeleteMessageRequest>,
   output: __S(64, __c16, 0) as any as S.Schema<ReceiveAndDeleteMessageResponse>,
-  errors: [MessagingEntityNotFound, MessagingUnauthorized, UnknownAzureError],
+  errors: [MessagingEntityNotFound, MessagingUnauthorized],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -448,7 +453,8 @@ export const ReceiveAndDeleteSubscriptionMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<ReceiveAndDeleteSubscriptionMessageRequest>,
   output: __S(64, __c16, 0) as any as S.Schema<ReceiveAndDeleteSubscriptionMessageResponse>,
-  errors: [MessagingEntityNotFound, MessagingUnauthorized, UnknownAzureError],
+  errors: [MessagingEntityNotFound, MessagingUnauthorized],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -469,7 +475,8 @@ export const RenewMessageLock: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c1, 0) as any as S.Schema<RenewMessageLockRequest>,
   output: __S(32, __c8, 0) as any as S.Schema<RenewMessageLockResponse>,
-  errors: [MessageLockLost, MessagingEntityNotFound, MessagingUnauthorized, UnknownAzureError],
+  errors: [MessageLockLost, MessagingEntityNotFound, MessagingUnauthorized],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -490,7 +497,8 @@ export const RenewSubscriptionMessageLock: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<RenewSubscriptionMessageLockRequest>,
   output: __S(32, __c8, 0) as any as S.Schema<RenewSubscriptionMessageLockResponse>,
-  errors: [MessageLockLost, MessagingEntityNotFound, MessagingUnauthorized, UnknownAzureError],
+  errors: [MessageLockLost, MessagingEntityNotFound, MessagingUnauthorized],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -512,13 +520,8 @@ export const SendMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13, __c3, 1) as any as S.Schema<SendMessageRequest>,
   output: __S(32, __c8, 0) as any as S.Schema<SendMessageResponse>,
-  errors: [
-    MessagingEntityNotFound,
-    QuotaExceeded,
-    MessageTooLarge,
-    MessagingUnauthorized,
-    UnknownAzureError,
-  ],
+  errors: [MessagingEntityNotFound, QuotaExceeded, MessageTooLarge, MessagingUnauthorized],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -540,13 +543,8 @@ export const SendMessageBatch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19, __c4, 3) as any as S.Schema<SendMessageBatchRequest>,
   output: __S(32, __c8, 0) as any as S.Schema<SendMessageBatchResponse>,
-  errors: [
-    MessagingEntityNotFound,
-    QuotaExceeded,
-    MessageTooLarge,
-    MessagingUnauthorized,
-    UnknownAzureError,
-  ],
+  errors: [MessagingEntityNotFound, QuotaExceeded, MessageTooLarge, MessagingUnauthorized],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -567,7 +565,8 @@ export const UnlockMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20, __c5, 0) as any as S.Schema<UnlockMessageRequest>,
   output: __S(32, __c8, 0) as any as S.Schema<UnlockMessageResponse>,
-  errors: [MessageLockLost, MessagingEntityNotFound, MessagingUnauthorized, UnknownAzureError],
+  errors: [MessageLockLost, MessagingEntityNotFound, MessagingUnauthorized],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -588,7 +587,8 @@ export const UnlockSubscriptionMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c6, 0) as any as S.Schema<UnlockSubscriptionMessageRequest>,
   output: __S(32, __c8, 0) as any as S.Schema<UnlockSubscriptionMessageResponse>,
-  errors: [MessageLockLost, MessagingEntityNotFound, MessagingUnauthorized, UnknownAzureError],
+  errors: [MessageLockLost, MessagingEntityNotFound, MessagingUnauthorized],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

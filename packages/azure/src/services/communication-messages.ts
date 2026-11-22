@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -415,7 +415,8 @@ export const GetStreamOperationMedia: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<GetStreamOperationMediaRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<GetStreamOperationMediaResponse>,
-  errors: [MediaNotFound, UnknownAzureError],
+  errors: [MediaNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -433,7 +434,8 @@ export const ListTemplateOperationTemplates: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(32, __c1, 0) as any as S.Schema<ListTemplateOperationTemplatesRequest>,
   output: __S(35, __c1, 3) as any as S.Schema<PagedMessageTemplateItem>,
-  errors: [ChannelNotFound, UnknownAzureError],
+  errors: [ChannelNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -456,7 +458,8 @@ export const SendNotificationMessagesOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(84, __c2, 20) as any as S.Schema<SendNotificationMessagesOperationRequest>,
   output: __S(87, __c2, 23) as any as S.Schema<SendMessageResult>,
-  errors: [ChannelNotFound, UnknownAzureError],
+  errors: [ChannelNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

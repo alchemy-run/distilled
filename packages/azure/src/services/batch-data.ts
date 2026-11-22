@@ -5,7 +5,7 @@ import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -5082,7 +5082,8 @@ export const CreateJobJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<CreateJobJobRequest>,
   output: __S(2016, __c63, 0) as any as S.Schema<CreateJobJobResponse>,
-  errors: [BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5099,7 +5100,8 @@ export const CreateJobScheduleJobSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2848, __c89, 0) as any as S.Schema<CreateJobScheduleJobScheduleRequest>,
   output: __S(2016, __c63, 0) as any as S.Schema<CreateJobScheduleJobScheduleResponse>,
-  errors: [BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5116,7 +5118,8 @@ export const CreateNodeNodeUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3264, __c102, 0) as any as S.Schema<CreateNodeNodeUserRequest>,
   output: __S(2016, __c63, 0) as any as S.Schema<CreateNodeNodeUserResponse>,
-  errors: [BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5133,7 +5136,8 @@ export const CreatePoolPool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3552, __c111, 0) as any as S.Schema<CreatePoolPoolRequest>,
   output: __S(2016, __c63, 0) as any as S.Schema<CreatePoolPoolResponse>,
-  errors: [BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5150,7 +5154,8 @@ export const CreateTaskTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3616, __c113, 0) as any as S.Schema<CreateTaskTaskRequest>,
   output: __S(2016, __c63, 0) as any as S.Schema<CreateTaskTaskResponse>,
-  errors: [BatchJobNotFound, BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchJobNotFound, BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5167,7 +5172,8 @@ export const CreateTaskTaskCollection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2, __c0, 2) as any as S.Schema<CreateTaskTaskCollectionRequest>,
   output: __S(9, __c0, 9) as any as S.Schema<BatchCreateTaskCollectionResult>,
-  errors: [BatchJobNotFound, BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchJobNotFound, BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5184,7 +5190,8 @@ export const DeleteJobJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c1, 0) as any as S.Schema<DeleteJobJobRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<DeleteJobJobResponse>,
-  errors: [BatchJobNotFound, BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchJobNotFound, BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5204,7 +5211,8 @@ export const DeleteJobScheduleJobSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<DeleteJobScheduleJobScheduleRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<DeleteJobScheduleJobScheduleResponse>,
-  errors: [BatchJobScheduleNotFound, BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchJobScheduleNotFound, BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5221,7 +5229,8 @@ export const DeleteNodeNodeFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<DeleteNodeNodeFileRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<DeleteNodeNodeFileResponse>,
-  errors: [BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5238,7 +5247,8 @@ export const DeleteNodeNodeUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<DeleteNodeNodeUserRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<DeleteNodeNodeUserResponse>,
-  errors: [BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5255,7 +5265,8 @@ export const DeletePoolPool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<DeletePoolPoolRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<DeletePoolPoolResponse>,
-  errors: [BatchPoolNotFound, BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchPoolNotFound, BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5276,7 +5287,8 @@ export const DeleteTaskTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<DeleteTaskTaskRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<DeleteTaskTaskResponse>,
-  errors: [BatchJobNotFound, BatchTaskNotFound, BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchJobNotFound, BatchTaskNotFound, BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5297,7 +5309,8 @@ export const DeleteTaskTaskFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<DeleteTaskTaskFileRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<DeleteTaskTaskFileResponse>,
-  errors: [BatchJobNotFound, BatchTaskNotFound, BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchJobNotFound, BatchTaskNotFound, BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5314,7 +5327,8 @@ export const DisableJobJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<DisableJobJobRequest>,
   output: __S(2016, __c63, 0) as any as S.Schema<DisableJobJobResponse>,
-  errors: [BatchJobNotFound, BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchJobNotFound, BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5334,7 +5348,8 @@ export const DisableJobScheduleJobSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<DisableJobScheduleJobScheduleRequest>,
   output: __S(2016, __c63, 0) as any as S.Schema<DisableJobScheduleJobScheduleResponse>,
-  errors: [BatchJobScheduleNotFound, BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchJobScheduleNotFound, BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5351,7 +5366,8 @@ export const DisableNodeNodeScheduling: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<DisableNodeNodeSchedulingRequest>,
   output: __S(2016, __c63, 0) as any as S.Schema<DisableNodeNodeSchedulingResponse>,
-  errors: [BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5371,7 +5387,8 @@ export const DisablePoolPoolAutoScale: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<DisablePoolPoolAutoScaleRequest>,
   output: __S(2016, __c63, 0) as any as S.Schema<DisablePoolPoolAutoScaleResponse>,
-  errors: [BatchPoolNotFound, BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchPoolNotFound, BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5388,7 +5405,8 @@ export const EnableJobJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<EnableJobJobRequest>,
   output: __S(2016, __c63, 0) as any as S.Schema<EnableJobJobResponse>,
-  errors: [BatchJobNotFound, BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchJobNotFound, BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5408,7 +5426,8 @@ export const EnableJobScheduleJobSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<EnableJobScheduleJobScheduleRequest>,
   output: __S(2016, __c63, 0) as any as S.Schema<EnableJobScheduleJobScheduleResponse>,
-  errors: [BatchJobScheduleNotFound, BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchJobScheduleNotFound, BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5425,7 +5444,8 @@ export const EnableNodeNodeScheduling: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<EnableNodeNodeSchedulingRequest>,
   output: __S(2016, __c63, 0) as any as S.Schema<EnableNodeNodeSchedulingResponse>,
-  errors: [BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5442,7 +5462,8 @@ export const EnablePoolPoolAutoScale: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<EnablePoolPoolAutoScaleRequest>,
   output: __S(2016, __c63, 0) as any as S.Schema<EnablePoolPoolAutoScaleResponse>,
-  errors: [BatchPoolNotFound, BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchPoolNotFound, BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5459,7 +5480,8 @@ export const GetApplicationApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<GetApplicationApplicationRequest>,
   output: __S(545, __c17, 1) as any as S.Schema<GetApplicationApplicationResponse>,
-  errors: [BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5476,7 +5498,8 @@ export const GetJobJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<GetJobJobRequest>,
   output: __S(577, __c18, 1) as any as S.Schema<GetJobJobResponse>,
-  errors: [BatchJobNotFound, BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchJobNotFound, BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5493,7 +5516,8 @@ export const GetJobJobTaskCounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<GetJobJobTaskCountsRequest>,
   output: __S(802, __c25, 2) as any as S.Schema<BatchTaskCountsResult>,
-  errors: [BatchJobNotFound, BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchJobNotFound, BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5513,7 +5537,8 @@ export const GetJobScheduleJobSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<GetJobScheduleJobScheduleRequest>,
   output: __S(833, __c26, 1) as any as S.Schema<GetJobScheduleJobScheduleResponse>,
-  errors: [BatchJobScheduleNotFound, BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchJobScheduleNotFound, BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5530,7 +5555,8 @@ export const GetNodeNode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<GetNodeNodeRequest>,
   output: __S(897, __c28, 1) as any as S.Schema<GetNodeNodeResponse>,
-  errors: [BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5547,7 +5573,8 @@ export const GetNodeNodeExtension: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<GetNodeNodeExtensionRequest>,
   output: __S(1025, __c32, 1) as any as S.Schema<GetNodeNodeExtensionResponse>,
-  errors: [BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5564,7 +5591,8 @@ export const GetNodeNodeFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<GetNodeNodeFileRequest>,
   output: __S(1120, __c35, 0) as any as S.Schema<GetNodeNodeFileResponse>,
-  errors: [BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5581,7 +5609,8 @@ export const GetNodeNodeFileProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<GetNodeNodeFilePropertiesRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<GetNodeNodeFilePropertiesResponse>,
-  errors: [BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5598,7 +5627,8 @@ export const GetNodeNodeRemoteLoginSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<GetNodeNodeRemoteLoginSettingsRequest>,
   output: __S(1185, __c37, 1) as any as S.Schema<BatchNodeRemoteLoginSettings>,
-  errors: [BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5615,7 +5645,8 @@ export const GetPoolPool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<GetPoolPoolRequest>,
   output: __S(1217, __c38, 1) as any as S.Schema<GetPoolPoolResponse>,
-  errors: [BatchPoolNotFound, BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchPoolNotFound, BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5636,7 +5667,8 @@ export const GetTaskTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<GetTaskTaskRequest>,
   output: __S(1313, __c41, 1) as any as S.Schema<GetTaskTaskResponse>,
-  errors: [BatchJobNotFound, BatchTaskNotFound, BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchJobNotFound, BatchTaskNotFound, BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5657,7 +5689,8 @@ export const GetTaskTaskFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<GetTaskTaskFileRequest>,
   output: __S(1120, __c35, 0) as any as S.Schema<GetTaskTaskFileResponse>,
-  errors: [BatchJobNotFound, BatchTaskNotFound, BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchJobNotFound, BatchTaskNotFound, BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5678,7 +5711,8 @@ export const GetTaskTaskFileProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<GetTaskTaskFilePropertiesRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<GetTaskTaskFilePropertiesResponse>,
-  errors: [BatchJobNotFound, BatchTaskNotFound, BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchJobNotFound, BatchTaskNotFound, BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5695,7 +5729,8 @@ export const JobSchedulesJobScheduleExists: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<JobSchedulesJobScheduleExistsRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<JobSchedulesJobScheduleExistsResponse>,
-  errors: [BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5716,7 +5751,8 @@ export const JobsListJobPreparationAndReleaseTaskStatus: API.PaginatedOperationM
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1504, __c47, 0) as any as S.Schema<JobsListJobPreparationAndReleaseTaskStatusRequest>,
   output: __S(1509, __c47, 5) as any as S.Schema<BatchJobPreparationAndReleaseTaskStatusListResult>,
-  errors: [BatchJobNotFound, BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchJobNotFound, BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5740,7 +5776,8 @@ export const ListApplicationApplications: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<ListApplicationApplicationsRequest>,
   output: __S(1539, __c48, 3) as any as S.Schema<BatchApplicationListResult>,
-  errors: [BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5764,7 +5801,8 @@ export const ListJobJobs: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<ListJobJobsRequest>,
   output: __S(1602, __c50, 2) as any as S.Schema<BatchJobListResult>,
-  errors: [BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5791,7 +5829,8 @@ export const ListJobJobsFromSchedule: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1632, __c51, 0) as any as S.Schema<ListJobJobsFromScheduleRequest>,
   output: __S(1602, __c50, 2) as any as S.Schema<BatchJobListResult>,
-  errors: [BatchJobScheduleNotFound, BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchJobScheduleNotFound, BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5815,7 +5854,8 @@ export const ListJobScheduleJobSchedules: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1664, __c52, 0) as any as S.Schema<ListJobScheduleJobSchedulesRequest>,
   output: __S(1667, __c52, 3) as any as S.Schema<BatchJobScheduleListResult>,
-  errors: [BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5839,7 +5879,8 @@ export const ListNodeNodeExtensions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1696, __c53, 0) as any as S.Schema<ListNodeNodeExtensionsRequest>,
   output: __S(1699, __c53, 3) as any as S.Schema<BatchNodeVMExtensionListResult>,
-  errors: [BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5863,7 +5904,8 @@ export const ListNodeNodeFiles: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<ListNodeNodeFilesRequest>,
   output: __S(1763, __c55, 3) as any as S.Schema<BatchNodeFileListResult>,
-  errors: [BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5887,7 +5929,8 @@ export const ListNodeNodes: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<ListNodeNodesRequest>,
   output: __S(1795, __c56, 3) as any as S.Schema<BatchNodeListResult>,
-  errors: [BatchPoolNotFound, BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchPoolNotFound, BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5911,7 +5954,8 @@ export const ListPoolPoolNodeCounts: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1824, __c57, 0) as any as S.Schema<ListPoolPoolNodeCountsRequest>,
   output: __S(1828, __c57, 4) as any as S.Schema<BatchPoolNodeCountsListResult>,
-  errors: [BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5935,7 +5979,8 @@ export const ListPoolPools: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<ListPoolPoolsRequest>,
   output: __S(1859, __c58, 3) as any as S.Schema<BatchPoolListResult>,
-  errors: [BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5959,7 +6004,8 @@ export const ListPoolSupportedImages: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2528, __c79, 0) as any as S.Schema<ListPoolSupportedImagesRequest>,
   output: __S(2531, __c79, 3) as any as S.Schema<BatchAccountListSupportedImagesResult>,
-  errors: [BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5987,7 +6033,8 @@ export const ListTaskSubTasks: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2560, __c80, 0) as any as S.Schema<ListTaskSubTasksRequest>,
   output: __S(2563, __c80, 3) as any as S.Schema<BatchTaskListSubtasksResult>,
-  errors: [BatchJobNotFound, BatchTaskNotFound, BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchJobNotFound, BatchTaskNotFound, BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6015,7 +6062,8 @@ export const ListTaskTaskFiles: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2592, __c81, 0) as any as S.Schema<ListTaskTaskFilesRequest>,
   output: __S(1763, __c55, 3) as any as S.Schema<BatchNodeFileListResult>,
-  errors: [BatchJobNotFound, BatchTaskNotFound, BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchJobNotFound, BatchTaskNotFound, BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6039,7 +6087,8 @@ export const ListTaskTasks: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2624, __c82, 0) as any as S.Schema<ListTaskTasksRequest>,
   output: __S(2627, __c82, 3) as any as S.Schema<BatchTaskListResult>,
-  errors: [BatchJobNotFound, BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchJobNotFound, BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6062,7 +6111,8 @@ export const NodesDeallocateNode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2656, __c83, 0) as any as S.Schema<NodesDeallocateNodeRequest>,
   output: __S(2016, __c63, 0) as any as S.Schema<NodesDeallocateNodeResponse>,
-  errors: [BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6079,7 +6129,8 @@ export const NodesReimageNode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c84, 0) as any as S.Schema<NodesReimageNodeRequest>,
   output: __S(2016, __c63, 0) as any as S.Schema<NodesReimageNodeResponse>,
-  errors: [BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6096,7 +6147,8 @@ export const PoolsPoolExists: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c85, 0) as any as S.Schema<PoolsPoolExistsRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<PoolsPoolExistsResponse>,
-  errors: [BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6113,7 +6165,8 @@ export const PoolsStopPoolResize: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2752, __c86, 0) as any as S.Schema<PoolsStopPoolResizeRequest>,
   output: __S(2016, __c63, 0) as any as S.Schema<PoolsStopPoolResizeResponse>,
-  errors: [BatchPoolNotFound, BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchPoolNotFound, BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6130,7 +6183,8 @@ export const RebootNodeNode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2784, __c87, 0) as any as S.Schema<RebootNodeNodeRequest>,
   output: __S(2016, __c63, 0) as any as S.Schema<RebootNodeNodeResponse>,
-  errors: [BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6147,7 +6201,8 @@ export const RemovePoolNodes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2816, __c88, 0) as any as S.Schema<RemovePoolNodesRequest>,
   output: __S(2016, __c63, 0) as any as S.Schema<RemovePoolNodesResponse>,
-  errors: [BatchPoolNotFound, BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchPoolNotFound, BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6164,7 +6219,8 @@ export const ReplaceJobJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2944, __c92, 0) as any as S.Schema<ReplaceJobJobRequest>,
   output: __S(2016, __c63, 0) as any as S.Schema<ReplaceJobJobResponse>,
-  errors: [BatchJobNotFound, BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchJobNotFound, BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6184,7 +6240,8 @@ export const ReplaceJobScheduleJobSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2976, __c93, 0) as any as S.Schema<ReplaceJobScheduleJobScheduleRequest>,
   output: __S(2016, __c63, 0) as any as S.Schema<ReplaceJobScheduleJobScheduleResponse>,
-  errors: [BatchJobScheduleNotFound, BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchJobScheduleNotFound, BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6201,7 +6258,8 @@ export const ReplaceNodeNodeUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3008, __c94, 0) as any as S.Schema<ReplaceNodeNodeUserRequest>,
   output: __S(2016, __c63, 0) as any as S.Schema<ReplaceNodeNodeUserResponse>,
-  errors: [BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6221,7 +6279,8 @@ export const ReplacePoolPoolProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3040, __c95, 0) as any as S.Schema<ReplacePoolPoolPropertiesRequest>,
   output: __S(2016, __c63, 0) as any as S.Schema<ReplacePoolPoolPropertiesResponse>,
-  errors: [BatchPoolNotFound, BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchPoolNotFound, BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6242,7 +6301,8 @@ export const ReplaceTaskTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3072, __c96, 0) as any as S.Schema<ReplaceTaskTaskRequest>,
   output: __S(2016, __c63, 0) as any as S.Schema<ReplaceTaskTaskResponse>,
-  errors: [BatchJobNotFound, BatchTaskNotFound, BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchJobNotFound, BatchTaskNotFound, BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6259,7 +6319,8 @@ export const ResizePoolPool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3104, __c97, 0) as any as S.Schema<ResizePoolPoolRequest>,
   output: __S(2016, __c63, 0) as any as S.Schema<ResizePoolPoolResponse>,
-  errors: [BatchPoolNotFound, BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchPoolNotFound, BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6279,7 +6340,8 @@ export const ScalePoolsEvaluatePoolAuto: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3136, __c98, 0) as any as S.Schema<ScalePoolsEvaluatePoolAutoRequest>,
   output: __S(3137, __c98, 1) as any as S.Schema<ScalePoolsEvaluatePoolAutoResponse>,
-  errors: [BatchPoolNotFound, BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchPoolNotFound, BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6296,7 +6358,8 @@ export const StartNodeNode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3168, __c99, 0) as any as S.Schema<StartNodeNodeRequest>,
   output: __S(2016, __c63, 0) as any as S.Schema<StartNodeNodeResponse>,
-  errors: [BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6317,7 +6380,8 @@ export const TasksReactivateTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3200, __c100, 0) as any as S.Schema<TasksReactivateTaskRequest>,
   output: __S(2016, __c63, 0) as any as S.Schema<TasksReactivateTaskResponse>,
-  errors: [BatchJobNotFound, BatchTaskNotFound, BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchJobNotFound, BatchTaskNotFound, BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6334,7 +6398,8 @@ export const TerminateJobJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3232, __c101, 0) as any as S.Schema<TerminateJobJobRequest>,
   output: __S(2016, __c63, 0) as any as S.Schema<TerminateJobJobResponse>,
-  errors: [BatchJobNotFound, BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchJobNotFound, BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6354,7 +6419,8 @@ export const TerminateJobScheduleJobSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3296, __c103, 0) as any as S.Schema<TerminateJobScheduleJobScheduleRequest>,
   output: __S(2016, __c63, 0) as any as S.Schema<TerminateJobScheduleJobScheduleResponse>,
-  errors: [BatchJobScheduleNotFound, BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchJobScheduleNotFound, BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6375,7 +6441,8 @@ export const TerminateTaskTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3328, __c104, 0) as any as S.Schema<TerminateTaskTaskRequest>,
   output: __S(2016, __c63, 0) as any as S.Schema<TerminateTaskTaskResponse>,
-  errors: [BatchJobNotFound, BatchTaskNotFound, BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchJobNotFound, BatchTaskNotFound, BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6392,7 +6459,8 @@ export const UpdateJobJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3360, __c105, 0) as any as S.Schema<UpdateJobJobRequest>,
   output: __S(2016, __c63, 0) as any as S.Schema<UpdateJobJobResponse>,
-  errors: [BatchJobNotFound, BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchJobNotFound, BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6412,7 +6480,8 @@ export const UpdateJobScheduleJobSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3460, __c108, 4) as any as S.Schema<UpdateJobScheduleJobScheduleRequest>,
   output: __S(2016, __c63, 0) as any as S.Schema<UpdateJobScheduleJobScheduleResponse>,
-  errors: [BatchJobScheduleNotFound, BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchJobScheduleNotFound, BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6429,7 +6498,8 @@ export const UpdatePoolPool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3488, __c109, 0) as any as S.Schema<UpdatePoolPoolRequest>,
   output: __S(2016, __c63, 0) as any as S.Schema<UpdatePoolPoolResponse>,
-  errors: [BatchPoolNotFound, BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchPoolNotFound, BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6446,7 +6516,8 @@ export const UploadNodeNodeLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3520, __c110, 0) as any as S.Schema<UploadNodeNodeLogsRequest>,
   output: __S(3521, __c110, 1) as any as S.Schema<UploadBatchServiceLogsResult>,
-  errors: [BatchPermissionDenied, UnknownAzureError],
+  errors: [BatchPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

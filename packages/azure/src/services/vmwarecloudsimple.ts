@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -1324,7 +1324,8 @@ export const DedicatedCloudNodesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1, __c0, 1) as any as S.Schema<DedicatedCloudNodesCreateOrUpdateRequest>,
   output: __S(2, __c0, 2) as any as S.Schema<DedicatedCloudNodesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1341,7 +1342,8 @@ export const DedicatedCloudServicesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(49, __c3, 1) as any as S.Schema<DedicatedCloudServicesCreateOrUpdateRequest>,
   output: __S(65, __c4, 1) as any as S.Schema<DedicatedCloudService>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1358,7 +1360,8 @@ export const DeleteDedicatedCloudNode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<DeleteDedicatedCloudNodeRequest>,
   output: __S(320, __c20, 0) as any as S.Schema<DeleteDedicatedCloudNodeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1375,7 +1378,8 @@ export const DeleteDedicatedCloudService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<DeleteDedicatedCloudServiceRequest>,
   output: __S(320, __c20, 0) as any as S.Schema<DeleteDedicatedCloudServiceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1392,7 +1396,8 @@ export const DeleteVirtualMachine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(592, __c37, 0) as any as S.Schema<DeleteVirtualMachineRequest>,
   output: __S(608, __c38, 0) as any as S.Schema<DeleteVirtualMachineResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1409,7 +1414,8 @@ export const GetCustomizationPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(624, __c39, 0) as any as S.Schema<GetCustomizationPolicyRequest>,
   output: __S(649, __c40, 9) as any as S.Schema<CustomizationPolicy>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1426,7 +1432,8 @@ export const GetDedicatedCloudNode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c42, 0) as any as S.Schema<GetDedicatedCloudNodeRequest>,
   output: __S(688, __c43, 0) as any as S.Schema<DedicatedCloudNode>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1443,7 +1450,8 @@ export const GetDedicatedCloudService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c44, 0) as any as S.Schema<GetDedicatedCloudServiceRequest>,
   output: __S(65, __c4, 1) as any as S.Schema<DedicatedCloudService>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1460,7 +1468,8 @@ export const GetOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(720, __c45, 0) as any as S.Schema<GetOperationRequest>,
   output: __S(722, __c45, 2) as any as S.Schema<OperationResource>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1477,7 +1486,8 @@ export const GetPrivateCloud: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c46, 0) as any as S.Schema<GetPrivateCloudRequest>,
   output: __S(817, __c51, 1) as any as S.Schema<PrivateCloud>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1494,7 +1504,8 @@ export const GetResourcePool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<GetResourcePoolRequest>,
   output: __S(753, __c47, 1) as any as S.Schema<ResourcePool>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1511,7 +1522,8 @@ export const GetVirtualMachine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<GetVirtualMachineRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<VirtualMachine>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1528,7 +1540,8 @@ export const GetVirtualMachineTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<GetVirtualMachineTemplateRequest>,
   output: __S(801, __c50, 1) as any as S.Schema<VirtualMachineTemplate>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1545,7 +1558,8 @@ export const GetVirtualNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<GetVirtualNetworkRequest>,
   output: __S(769, __c48, 1) as any as S.Schema<VirtualNetwork>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1563,7 +1577,8 @@ export const ListCustomizationPolicies: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<ListCustomizationPoliciesRequest>,
   output: __S(178, __c11, 2) as any as S.Schema<CustomizationPoliciesListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1587,7 +1602,8 @@ export const ListDedicatedCloudNodeByResourceGroup: API.PaginatedOperationMethod
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<ListDedicatedCloudNodeByResourceGroupRequest>,
   output: __S(209, __c13, 1) as any as S.Schema<DedicatedCloudNodeListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1611,7 +1627,8 @@ export const ListDedicatedCloudNodeBySubscription: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<ListDedicatedCloudNodeBySubscriptionRequest>,
   output: __S(209, __c13, 1) as any as S.Schema<DedicatedCloudNodeListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1635,7 +1652,8 @@ export const ListDedicatedCloudServiceByResourceGroup: API.PaginatedOperationMet
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<ListDedicatedCloudServiceByResourceGroupRequest>,
   output: __S(257, __c16, 1) as any as S.Schema<DedicatedCloudServiceListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1659,7 +1677,8 @@ export const ListDedicatedCloudServiceBySubscription: API.PaginatedOperationMeth
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<ListDedicatedCloudServiceBySubscriptionRequest>,
   output: __S(257, __c16, 1) as any as S.Schema<DedicatedCloudServiceListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1683,7 +1702,8 @@ export const ListOperations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(296, __c18, 8) as any as S.Schema<AvailableOperationsListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1707,7 +1727,8 @@ export const ListPrivateClouds: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<ListPrivateCloudsRequest>,
   output: __S(338, __c21, 2) as any as S.Schema<PrivateCloudList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1731,7 +1752,8 @@ export const ListResourcePools: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<ListResourcePoolsRequest>,
   output: __S(353, __c22, 1) as any as S.Schema<ResourcePoolsListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1755,7 +1777,8 @@ export const ListSkusAvailability: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<ListSkusAvailabilityRequest>,
   output: __S(371, __c23, 3) as any as S.Schema<SkuAvailabilityListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1779,7 +1802,8 @@ export const ListUsages: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<ListUsagesRequest>,
   output: __S(388, __c24, 4) as any as S.Schema<UsageListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1803,7 +1827,8 @@ export const ListVirtualMachineByResourceGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<ListVirtualMachineByResourceGroupRequest>,
   output: __S(417, __c26, 1) as any as S.Schema<VirtualMachineListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1827,7 +1852,8 @@ export const ListVirtualMachineBySubscription: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<ListVirtualMachineBySubscriptionRequest>,
   output: __S(417, __c26, 1) as any as S.Schema<VirtualMachineListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1851,7 +1877,8 @@ export const ListVirtualMachineTemplates: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<ListVirtualMachineTemplatesRequest>,
   output: __S(449, __c28, 1) as any as S.Schema<VirtualMachineTemplateListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1875,7 +1902,8 @@ export const ListVirtualNetworks: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<ListVirtualNetworksRequest>,
   output: __S(465, __c29, 1) as any as S.Schema<VirtualNetworkListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1898,7 +1926,8 @@ export const StartVirtualMachine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<StartVirtualMachineRequest>,
   output: __S(608, __c38, 0) as any as S.Schema<StartVirtualMachineResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1915,7 +1944,8 @@ export const StopVirtualMachine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<StopVirtualMachineRequest>,
   output: __S(608, __c38, 0) as any as S.Schema<StopVirtualMachineResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1932,7 +1962,8 @@ export const UpdateDedicatedCloudNode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<UpdateDedicatedCloudNodeRequest>,
   output: __S(688, __c43, 0) as any as S.Schema<DedicatedCloudNode>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1949,7 +1980,8 @@ export const UpdateDedicatedCloudService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<UpdateDedicatedCloudServiceRequest>,
   output: __S(65, __c4, 1) as any as S.Schema<DedicatedCloudService>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1966,7 +1998,8 @@ export const UpdateVirtualMachine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c35, 0) as any as S.Schema<UpdateVirtualMachineRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<VirtualMachine>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1983,7 +2016,8 @@ export const VirtualMachinesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(582, __c36, 6) as any as S.Schema<VirtualMachinesCreateOrUpdateRequest>,
   output: __S(583, __c36, 7) as any as S.Schema<VirtualMachinesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

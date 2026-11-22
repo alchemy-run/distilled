@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -255,7 +255,8 @@ export const GetTimezoneTimezoneByCoordinates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1, __c0, 1) as any as S.Schema<GetTimezoneTimezoneByCoordinatesRequest>,
   output: __S(25, __c1, 9) as any as S.Schema<TimezoneResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -272,7 +273,8 @@ export const GetTimezoneTimezoneByID: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<GetTimezoneTimezoneByIDRequest>,
   output: __S(25, __c1, 9) as any as S.Schema<TimezoneResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -289,7 +291,8 @@ export const GetTimezoneTimezoneEnumIANA: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<GetTimezoneTimezoneEnumIANARequest>,
   output: __S(82, __c5, 2) as any as S.Schema<GetTimezoneTimezoneEnumIANAResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -306,7 +309,8 @@ export const GetTimezoneTimezoneEnumWindows: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<GetTimezoneTimezoneEnumWindowsRequest>,
   output: __S(99, __c6, 3) as any as S.Schema<GetTimezoneTimezoneEnumWindowsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -323,7 +327,8 @@ export const GetTimezoneTimezoneIANAVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<GetTimezoneTimezoneIANAVersionRequest>,
   output: __S(113, __c7, 1) as any as S.Schema<TimezoneIanaVersionResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -340,7 +345,8 @@ export const GetTimezoneTimezoneWindowsToIANA: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<GetTimezoneTimezoneWindowsToIANARequest>,
   output: __S(82, __c5, 2) as any as S.Schema<GetTimezoneTimezoneWindowsToIANAResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

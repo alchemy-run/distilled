@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -1289,7 +1289,8 @@ export const CreateImageFromData: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateImageFromDataRequest>,
   output: __S(10, __c1, 2) as any as S.Schema<ImageCreateSummary>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1306,7 +1307,8 @@ export const CreateImageFromFiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(50, __c6, 2) as any as S.Schema<CreateImageFromFilesRequest>,
   output: __S(10, __c1, 2) as any as S.Schema<ImageCreateSummary>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1323,7 +1325,8 @@ export const CreateImageFromPredictions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(178, __c22, 2) as any as S.Schema<CreateImageFromPredictionsRequest>,
   output: __S(10, __c1, 2) as any as S.Schema<ImageCreateSummary>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1340,7 +1343,8 @@ export const CreateImageFromUrls: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(274, __c34, 2) as any as S.Schema<CreateImageFromUrlsRequest>,
   output: __S(10, __c1, 2) as any as S.Schema<ImageCreateSummary>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1357,7 +1361,8 @@ export const CreateImageRegions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(378, __c47, 2) as any as S.Schema<CreateImageRegionsRequest>,
   output: __S(381, __c47, 5) as any as S.Schema<ImageRegionCreateSummary>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1374,7 +1379,8 @@ export const CreateImageTags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(474, __c59, 2) as any as S.Schema<CreateImageTagsRequest>,
   output: __S(475, __c59, 3) as any as S.Schema<ImageTagCreateSummary>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1391,7 +1397,8 @@ export const CreateProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c62, 0) as any as S.Schema<CreateProjectRequest>,
   output: __S(515, __c64, 3) as any as S.Schema<Project>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1408,7 +1415,8 @@ export const CreateProjectTag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(520, __c65, 0) as any as S.Schema<CreateProjectTagRequest>,
   output: __S(528, __c66, 0) as any as S.Schema<Tag>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1425,7 +1433,8 @@ export const DeleteImage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(536, __c67, 0) as any as S.Schema<DeleteImageRequest>,
   output: __S(544, __c68, 0) as any as S.Schema<DeleteImageResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1442,7 +1451,8 @@ export const DeleteImageRegions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(552, __c69, 0) as any as S.Schema<DeleteImageRegionsRequest>,
   output: __S(544, __c68, 0) as any as S.Schema<DeleteImageRegionsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1459,7 +1469,8 @@ export const DeleteImageTags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<DeleteImageTagsRequest>,
   output: __S(544, __c68, 0) as any as S.Schema<DeleteImageTagsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1476,7 +1487,8 @@ export const DeleteIteration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72, __c9, 0) as any as S.Schema<DeleteIterationRequest>,
   output: __S(544, __c68, 0) as any as S.Schema<DeleteIterationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1493,7 +1505,8 @@ export const DeletePrediction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c10, 0) as any as S.Schema<DeletePredictionRequest>,
   output: __S(544, __c68, 0) as any as S.Schema<DeletePredictionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1510,7 +1523,8 @@ export const DeleteProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<DeleteProjectRequest>,
   output: __S(544, __c68, 0) as any as S.Schema<DeleteProjectResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1527,7 +1541,8 @@ export const DeleteProjectTag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c12, 0) as any as S.Schema<DeleteProjectTagRequest>,
   output: __S(544, __c68, 0) as any as S.Schema<DeleteProjectTagResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1544,7 +1559,8 @@ export const ExportIteration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(104, __c13, 0) as any as S.Schema<ExportIterationRequest>,
   output: __S(112, __c14, 0) as any as S.Schema<Export>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1561,7 +1577,8 @@ export const ExportProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(120, __c15, 0) as any as S.Schema<ExportProjectRequest>,
   output: __S(121, __c15, 1) as any as S.Schema<ProjectExport>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1578,7 +1595,8 @@ export const GetDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<GetDomainRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<Domain>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1595,7 +1613,8 @@ export const GetImageCount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c18, 0) as any as S.Schema<GetImageCountRequest>,
   output: __S(152, __c19, 0) as any as S.Schema<GetImageCountResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1612,7 +1631,8 @@ export const GetImageRegionProposals: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c20, 0) as any as S.Schema<GetImageRegionProposalsRequest>,
   output: __S(163, __c20, 3) as any as S.Schema<ImageRegionProposal>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1629,7 +1649,8 @@ export const GetImageSuggestedCount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(184, __c23, 0) as any as S.Schema<GetImageSuggestedCountRequest>,
   output: __S(186, __c23, 2) as any as S.Schema<GetImageSuggestedCountResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1646,7 +1667,8 @@ export const GetImageTaggedCount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c24, 0) as any as S.Schema<GetImageTaggedCountRequest>,
   output: __S(152, __c19, 0) as any as S.Schema<GetImageTaggedCountResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1663,7 +1685,8 @@ export const GetImageUntaggedCount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(200, __c25, 0) as any as S.Schema<GetImageUntaggedCountRequest>,
   output: __S(152, __c19, 0) as any as S.Schema<GetImageUntaggedCountResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1680,7 +1703,8 @@ export const GetIteration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c26, 0) as any as S.Schema<GetIterationRequest>,
   output: __S(216, __c27, 0) as any as S.Schema<Iteration>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1697,7 +1721,8 @@ export const GetIterationPerformance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c28, 0) as any as S.Schema<GetIterationPerformanceRequest>,
   output: __S(227, __c28, 3) as any as S.Schema<IterationPerformance>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1714,7 +1739,8 @@ export const GetIterationPerformanceImageCount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(232, __c29, 0) as any as S.Schema<GetIterationPerformanceImageCountRequest>,
   output: __S(152, __c19, 0) as any as S.Schema<GetIterationPerformanceImageCountResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1731,7 +1757,8 @@ export const GetProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c30, 0) as any as S.Schema<GetProjectRequest>,
   output: __S(515, __c64, 3) as any as S.Schema<Project>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1748,7 +1775,8 @@ export const GetProjectArtifact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(248, __c31, 0) as any as S.Schema<GetProjectArtifactRequest>,
   output: __S(249, __c31, 1) as any as S.Schema<GetProjectArtifactResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1765,7 +1793,8 @@ export const GetProjectTag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c32, 0) as any as S.Schema<GetProjectTagRequest>,
   output: __S(528, __c66, 0) as any as S.Schema<Tag>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1782,7 +1811,8 @@ export const ImportProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(264, __c33, 0) as any as S.Schema<ImportProjectRequest>,
   output: __S(515, __c64, 3) as any as S.Schema<Project>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1799,7 +1829,8 @@ export const ListDomains: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(280, __c35, 0) as any as S.Schema<ListDomainsRequest>,
   output: __S(282, __c35, 2) as any as S.Schema<ListDomainsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1816,7 +1847,8 @@ export const ListImageByIds: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c36, 0) as any as S.Schema<ListImageByIdsRequest>,
   output: __S(297, __c37, 1) as any as S.Schema<ListImageByIdsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1833,7 +1865,8 @@ export const ListImages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c38, 0) as any as S.Schema<ListImagesRequest>,
   output: __S(297, __c37, 1) as any as S.Schema<ListImagesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1850,7 +1883,8 @@ export const ListImageSuggested: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(312, __c39, 0) as any as S.Schema<ListImageSuggestedRequest>,
   output: __S(316, __c39, 4) as any as S.Schema<SuggestedTagAndRegionQuery>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1867,7 +1901,8 @@ export const ListImageTagged: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(328, __c41, 0) as any as S.Schema<ListImageTaggedRequest>,
   output: __S(297, __c37, 1) as any as S.Schema<ListImageTaggedResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1884,7 +1919,8 @@ export const ListImageUntagged: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c42, 0) as any as S.Schema<ListImageUntaggedRequest>,
   output: __S(297, __c37, 1) as any as S.Schema<ListImageUntaggedResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1901,7 +1937,8 @@ export const ListIterationExports: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(344, __c43, 0) as any as S.Schema<ListIterationExportsRequest>,
   output: __S(346, __c43, 2) as any as S.Schema<ListIterationExportsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1918,7 +1955,8 @@ export const ListIterationPerformanceImages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c44, 0) as any as S.Schema<ListIterationPerformanceImagesRequest>,
   output: __S(355, __c44, 3) as any as S.Schema<ListIterationPerformanceImagesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1935,7 +1973,8 @@ export const ListIterations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(360, __c45, 0) as any as S.Schema<ListIterationsRequest>,
   output: __S(362, __c45, 2) as any as S.Schema<ListIterationsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1952,7 +1991,8 @@ export const ListProjects: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c46, 0) as any as S.Schema<ListProjectsRequest>,
   output: __S(370, __c46, 2) as any as S.Schema<ListProjectsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1969,7 +2009,8 @@ export const ListProjectTags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c48, 0) as any as S.Schema<ListProjectTagsRequest>,
   output: __S(386, __c48, 2) as any as S.Schema<ListProjectTagsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1986,7 +2027,8 @@ export const PredictionsQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(394, __c49, 2) as any as S.Schema<PredictionsQueryRequest>,
   output: __S(398, __c49, 6) as any as S.Schema<PredictionQueryResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2003,7 +2045,8 @@ export const ProjectsQuickTestImage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c50, 0) as any as S.Schema<ProjectsQuickTestImageRequest>,
   output: __S(408, __c51, 0) as any as S.Schema<ImagePrediction>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2020,7 +2063,8 @@ export const ProjectsQuickTestImageUrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c52, 0) as any as S.Schema<ProjectsQuickTestImageUrlRequest>,
   output: __S(408, __c51, 0) as any as S.Schema<ImagePrediction>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2037,7 +2081,8 @@ export const ProjectsSuggestTagsAndRegions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(424, __c53, 0) as any as S.Schema<ProjectsSuggestTagsAndRegionsRequest>,
   output: __S(427, __c53, 3) as any as S.Schema<ProjectsSuggestTagsAndRegionsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2054,7 +2099,8 @@ export const ProjectsTrain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c54, 0) as any as S.Schema<ProjectsTrainRequest>,
   output: __S(216, __c27, 0) as any as S.Schema<Iteration>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2071,7 +2117,8 @@ export const PublishIteration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(440, __c55, 0) as any as S.Schema<PublishIterationRequest>,
   output: __S(441, __c55, 1) as any as S.Schema<PublishIterationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2088,7 +2135,8 @@ export const UnpublishIteration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c56, 0) as any as S.Schema<UnpublishIterationRequest>,
   output: __S(544, __c68, 0) as any as S.Schema<UnpublishIterationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2105,7 +2153,8 @@ export const UpdateImageMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(456, __c57, 0) as any as S.Schema<UpdateImageMetadataRequest>,
   output: __S(459, __c57, 3) as any as S.Schema<ImageMetadataUpdateSummary>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2122,7 +2171,8 @@ export const UpdateIteration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c58, 0) as any as S.Schema<UpdateIterationRequest>,
   output: __S(216, __c27, 0) as any as S.Schema<Iteration>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2139,7 +2189,8 @@ export const UpdateProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(481, __c60, 1) as any as S.Schema<UpdateProjectRequest>,
   output: __S(515, __c64, 3) as any as S.Schema<Project>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2156,7 +2207,8 @@ export const UpdateProjectTag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(488, __c61, 0) as any as S.Schema<UpdateProjectTagRequest>,
   output: __S(528, __c66, 0) as any as S.Schema<Tag>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -294,7 +294,8 @@ export const DeleteTextBlocklistTextBlocklist: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteTextBlocklistTextBlocklistRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<DeleteTextBlocklistTextBlocklistResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -311,7 +312,8 @@ export const GetTextBlocklistTextBlocklist: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<GetTextBlocklistTextBlocklistRequest>,
   output: __S(12, __c3, 0) as any as S.Schema<TextBlocklist>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -328,7 +330,8 @@ export const GetTextBlocklistTextBlocklistItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c6, 0) as any as S.Schema<GetTextBlocklistTextBlocklistItemRequest>,
   output: __S(28, __c7, 0) as any as S.Schema<TextBlocklistItem>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -345,7 +348,8 @@ export const ImageOperationsAnalyzeImage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33, __c8, 1) as any as S.Schema<ImageOperationsAnalyzeImageRequest>,
   output: __S(34, __c8, 2) as any as S.Schema<AnalyzeImageResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -363,7 +367,8 @@ export const ListTextBlocklistTextBlocklistItems: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(40, __c10, 0) as any as S.Schema<ListTextBlocklistTextBlocklistItemsRequest>,
   output: __S(41, __c10, 1) as any as S.Schema<PagedTextBlocklistItem>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -387,7 +392,8 @@ export const ListTextBlocklistTextBlocklists: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(48, __c12, 0) as any as S.Schema<ListTextBlocklistTextBlocklistsRequest>,
   output: __S(50, __c12, 2) as any as S.Schema<PagedTextBlocklist>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -410,7 +416,8 @@ export const RemoveTextBlocklistBlocklistItems: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(52, __c13, 0) as any as S.Schema<RemoveTextBlocklistBlocklistItemsRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<RemoveTextBlocklistBlocklistItemsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -427,7 +434,8 @@ export const TextBlocklistsAddOrUpdateBlocklistItems: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(62, __c15, 2) as any as S.Schema<TextBlocklistsAddOrUpdateBlocklistItemsRequest>,
   output: __S(63, __c15, 3) as any as S.Schema<AddOrUpdateTextBlocklistItemsResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -444,7 +452,8 @@ export const TextBlocklistsCreateOrUpdateTextBlocklist: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c16, 0) as any as S.Schema<TextBlocklistsCreateOrUpdateTextBlocklistRequest>,
   output: __S(12, __c3, 0) as any as S.Schema<TextBlocklist>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -461,7 +470,8 @@ export const TextOperationsAnalyzeText: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(68, __c17, 0) as any as S.Schema<TextOperationsAnalyzeTextRequest>,
   output: __S(71, __c17, 3) as any as S.Schema<AnalyzeTextResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -478,7 +488,8 @@ export const TextOperationsDetectTextProtectedMaterial: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<TextOperationsDetectTextProtectedMaterialRequest>,
   output: __S(18, __c4, 2) as any as S.Schema<DetectTextProtectedMaterialResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -495,7 +506,8 @@ export const TextOperationsShieldPrompt: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20, __c5, 0) as any as S.Schema<TextOperationsShieldPromptRequest>,
   output: __S(23, __c5, 3) as any as S.Schema<ShieldPromptResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

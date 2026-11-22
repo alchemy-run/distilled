@@ -1,5 +1,11 @@
-import * as API from "@distilled.cloud/core/api";
-import { ConfigError, type API_ERRORS, InvalidInput } from "@distilled.cloud/core/errors";
+import { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import type {
+  DecodeArgs,
+  EncodeArgs,
+  ErrorOf,
+  Protocol,
+  ProtocolOf,
+} from "@distilled.cloud/core/protocol";
 import {
   buildRequest,
   getAnn,
@@ -17,7 +23,7 @@ import { httpSymbol } from "@distilled.cloud/core/trait";
  * The generic request/response machinery lives in
  * `@distilled.cloud/core/protocol-http`; this module supplies what is
  * Azure's own (which is why this is a bespoke protocol rather than a
- * `makeRestProtocol` instantiation). Data-plane operations use
+ * `restProtocol` instantiation). Data-plane operations use
  * `AzureDataPlaneProtocol` (`./data-plane-protocol.ts`) instead, so an
  * ARM-only program never bundles the data-plane code.
  *
@@ -42,30 +48,23 @@ import { httpSymbol } from "@distilled.cloud/core/trait";
  *               1. ARM envelope `{ error: { code, message, target } }` (flat
  *                  `{ code, message }` fallback) -> `AZURE_ERROR_CODE_MAP`
  *                  dispatch on `error.code`
- *               2. core `HTTP_STATUS_MAP` by status (Retry-After honored via
+ *               2. core's class for the status (Retry-After honored via
  *                  `parseRetryAfterForStatus`)
- *               3. unmapped 5xx -> retryable `InternalServerError`
+ *               3. any other 5xx -> retryable `InternalServerError`
  *               4. `UnknownAzureError` catch-all
+ *             The classes of steps 1 and 2 are the service's errors
+ *             (`AzureServiceErrors`): the protocol builds one only from the
+ *             classes the operation lists.
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
-import type * as HttpClientResponse from "effect/http/HttpClientResponse";
-import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import type * as AST from "effect/SchemaAST";
-import {
-  type AzureCredentialsError,
-  type Config,
-  Credentials,
-  MissingTokenAudience,
-  armScopeFor,
-} from "./credentials-service.ts";
-import { type AzureApiError, AzureParseError, type UnknownAzureError } from "./errors.ts";
+import { Credentials, armScopeFor } from "./credentials-service.ts";
+import type { AzureDataPlaneProtocol } from "./data-plane-protocol.ts";
+import { AzureParseError, type AzureServiceError } from "./errors.ts";
 import {
   configuredSubscriptionId,
-  fail,
   failResponse,
   nextLinkOf,
   parseArmError,
@@ -76,22 +75,16 @@ import {
 import type { HttpTrait } from "./traits.ts";
 
 /**
- * Error channel shared by every generated Azure operation, ARM and data
- * plane. Generated service files annotate operations with
- * `API.OperationMethod<I, O, AzureOpError, AzureOpContext>` explicitly so the
- * compiler never infers these back out of the schema generics.
+ * What every generated Azure operation, ARM and data plane, fails with
+ * besides its own errors: the service's errors, the two protocols', and
+ * what resolving the credentials fails with. Generated service files
+ * annotate operations with `API.OperationMethod<I, O, AzureOpError,
+ * AzureOpContext>` explicitly so the compiler never infers these back out
+ * of the schema generics.
  */
 export type AzureOpError =
-  | InstanceType<(typeof API_ERRORS)[number]>
-  | AzureApiError
-  | UnknownAzureError
-  | AzureParseError
-  | ConfigError
-  | AzureCredentialsError
-  | MissingTokenAudience
-  | HttpClientError.HttpClientError
-  | InvalidInput
-  | SdkError;
+  | AzureServiceError
+  | ErrorOf<typeof AzureProtocol | typeof AzureDataPlaneProtocol>;
 
 /** Context (requirements) shared by every generated Azure operation. */
 export type AzureOpContext = Credentials | HttpClient.HttpClient;
@@ -104,20 +97,18 @@ const withQuery = (url: string, pair: string): string =>
 // Encode
 // ---------------------------------------------------------------------------
 
-// The protocol layer is memoized per process by `API.make`, so the build
+// The protocol is one module-level value shared by every operation, so it
 // must not capture credentials -- `encode` resolves Credentials from the
-// calling fiber's context on every request instead. Its error channel is
-// erased at this boundary (Protocol effects carry none) and reintroduced
-// for callers by the generated AzureOpError annotations.
-const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAst: AST.AST }) =>
+// calling fiber's context on every request.
+const encode = ({ input, inputAst }: EncodeArgs) =>
   Effect.gen(function* () {
-    const creds = yield* (yield* Credentials) as Effect.Effect<Config>;
+    const creds = yield* yield* Credentials;
     const http = getAnn(inputAst, httpSymbol) as HttpTrait | undefined;
     // A data-plane operation names its own host and token audience; sent
     // here it would get the ARM token at the ARM endpoint. The generator
     // never wires one to this protocol, so this is a hand-made op's bug.
     if (http?.host !== undefined) {
-      return yield* fail(
+      return yield* Effect.fail(
         new SdkError({
           message: `${http.uri} names a host: use AzureDataPlaneProtocol for data-plane operations`,
         }),
@@ -133,7 +124,7 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
       http?.nextLink !== undefined ? withoutMember(unwrapped, http.nextLink) : unwrapped;
     const nextUrl = nextLink !== undefined ? resolveNextLink(nextLink, baseUrl) : undefined;
     if (nextLink !== undefined && nextUrl === undefined) {
-      return yield* fail(
+      return yield* Effect.fail(
         new InvalidInput({
           member: http!.nextLink!,
           message: `${http!.nextLink} must be a page link on ${baseUrl}; the credentials are only sent there`,
@@ -174,7 +165,7 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
     let url = request.url;
     if (url.includes("{subscriptionId}")) {
       const subscriptionId = configuredSubscriptionId(creds.subscriptionId, http?.uri);
-      if (subscriptionId instanceof ConfigError) return yield* fail(subscriptionId);
+      if (subscriptionId instanceof ConfigError) return yield* Effect.fail(subscriptionId);
       url = url.split("{subscriptionId}").join(subscriptionId);
     }
     for (const [key, value] of Object.entries(http?.query ?? {})) {
@@ -196,18 +187,12 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
 // Decode
 // ---------------------------------------------------------------------------
 
-const decode = ({
-  response,
-  outputAst,
-  errors,
-}: {
-  readonly response: HttpClientResponse.HttpClientResponse;
-  readonly outputAst: AST.AST;
-  readonly errors: ReadonlyArray<unknown>;
-}) =>
+const decode = ({ response, outputAst, errors }: DecodeArgs) =>
   Effect.gen(function* () {
     // Read as text and parse tolerantly -- error pages are often non-JSON.
-    const read = parseBody((yield* response.text.pipe(Effect.catch(fail))) ?? "");
+    // A body read that fails (reset or abort mid-body) fails the call with
+    // its `HttpClientError`.
+    const read = parseBody((yield* response.text) ?? "");
     const { text, json, nonJson } = read;
     const status = response.status;
     const headers = response.headers as Record<string, string | undefined>;
@@ -240,15 +225,12 @@ const decode = ({
         nonJson,
       },
       (info) => new AzureParseError(info),
-    ).pipe(Effect.catch(fail));
+    );
   });
 
-export const AzureProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.succeed(
-  API.Protocol,
-  /*@__PURE__*/ API.Protocol.of({
-    // Erase encode's Credentials requirement (resolved on the calling
-    // fiber; see the note above `encode`).
-    encode: (args) => encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
-    decode,
-  }),
-);
+const azureProtocolMethods = {
+  encode,
+  decode,
+} satisfies Protocol<unknown, unknown>;
+
+export const AzureProtocol: ProtocolOf<typeof azureProtocolMethods> = azureProtocolMethods;

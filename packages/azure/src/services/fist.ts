@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -1198,7 +1198,8 @@ export const CreateFirmware: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateFirmwareRequest>,
   output: __S(51, __c3, 3) as any as S.Schema<CreateFirmwareResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1215,7 +1216,8 @@ export const CreateWorkspace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<CreateWorkspaceRequest>,
   output: __S(99, __c6, 3) as any as S.Schema<CreateWorkspaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1232,7 +1234,8 @@ export const DeleteFirmware: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<DeleteFirmwareRequest>,
   output: __S(80, __c5, 0) as any as S.Schema<DeleteFirmwareResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1249,7 +1252,8 @@ export const DeleteWorkspace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<DeleteWorkspaceRequest>,
   output: __S(353, __c22, 1) as any as S.Schema<DeleteWorkspaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1266,7 +1270,8 @@ export const GetFirmware: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<GetFirmwareRequest>,
   output: __S(51, __c3, 3) as any as S.Schema<GetFirmwareResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1283,7 +1288,8 @@ export const GetSummary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<GetSummaryRequest>,
   output: __S(406, __c25, 6) as any as S.Schema<GetSummaryResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1300,7 +1306,8 @@ export const GetUsageMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<GetUsageMetricsRequest>,
   output: __S(433, __c27, 1) as any as S.Schema<GetUsageMetricsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1317,7 +1324,8 @@ export const GetWorkspace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<GetWorkspaceRequest>,
   output: __S(99, __c6, 3) as any as S.Schema<GetWorkspaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1335,7 +1343,8 @@ export const ListBinaryHardeningByFirmware: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<ListBinaryHardeningByFirmwareRequest>,
   output: __S(469, __c29, 5) as any as S.Schema<BinaryHardeningResourceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1359,7 +1368,8 @@ export const ListCryptoCertificateByFirmware: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<ListCryptoCertificateByFirmwareRequest>,
   output: __S(486, __c30, 6) as any as S.Schema<CryptoCertificateResourceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1383,7 +1393,8 @@ export const ListCryptoKeyByFirmware: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<ListCryptoKeyByFirmwareRequest>,
   output: __S(116, __c7, 4) as any as S.Schema<CryptoKeyResourceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1407,7 +1418,8 @@ export const ListCveByFirmware: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<ListCveByFirmwareRequest>,
   output: __S(137, __c8, 9) as any as S.Schema<CveResourceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1431,7 +1443,8 @@ export const ListFirmwareByWorkspace: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<ListFirmwareByWorkspaceRequest>,
   output: __S(146, __c9, 2) as any as S.Schema<FirmwareListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1455,7 +1468,8 @@ export const ListOperations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(164, __c10, 4) as any as S.Schema<ListOperationsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1479,7 +1493,8 @@ export const ListPasswordHashByFirmware: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<ListPasswordHashByFirmwareRequest>,
   output: __S(180, __c11, 4) as any as S.Schema<PasswordHashResourceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1503,7 +1518,8 @@ export const ListSbomComponentByFirmware: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<ListSbomComponentByFirmwareRequest>,
   output: __S(196, __c12, 4) as any as S.Schema<SbomComponentResourceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1527,7 +1543,8 @@ export const ListSummaryByFirmware: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<ListSummaryByFirmwareRequest>,
   output: __S(210, __c13, 2) as any as S.Schema<SummaryResourceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1551,7 +1568,8 @@ export const ListUsageMetricsByWorkspace: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<ListUsageMetricsByWorkspaceRequest>,
   output: __S(226, __c14, 2) as any as S.Schema<UsageMetricListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1575,7 +1593,8 @@ export const ListWorkspaceByResourceGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<ListWorkspaceByResourceGroupRequest>,
   output: __S(257, __c16, 1) as any as S.Schema<WorkspaceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1599,7 +1618,8 @@ export const ListWorkspaceBySubscription: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<ListWorkspaceBySubscriptionRequest>,
   output: __S(257, __c16, 1) as any as S.Schema<WorkspaceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1622,7 +1642,8 @@ export const UpdateFirmware: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<UpdateFirmwareRequest>,
   output: __S(51, __c3, 3) as any as S.Schema<UpdateFirmwareResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1639,7 +1660,8 @@ export const UpdateWorkspace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(321, __c20, 1) as any as S.Schema<UpdateWorkspaceRequest>,
   output: __S(99, __c6, 3) as any as S.Schema<UpdateWorkspaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1656,7 +1678,8 @@ export const WorkspacesGenerateUploadUrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<WorkspacesGenerateUploadUrlRequest>,
   output: __S(337, __c21, 1) as any as S.Schema<UrlToken>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

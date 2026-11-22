@@ -4,7 +4,7 @@ import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -701,7 +701,8 @@ export const CreateLedgerEntry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateLedgerEntryRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<LedgerWriteResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -718,7 +719,8 @@ export const CreateOrUpdateLedgerUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<CreateOrUpdateLedgerUserRequest>,
   output: __S(81, __c5, 1) as any as S.Schema<LedgerUserMultipleRoles>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -735,7 +737,8 @@ export const CreateOrUpdateUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<CreateOrUpdateUserRequest>,
   output: __S(288, __c18, 0) as any as S.Schema<LedgerUser>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -752,7 +755,8 @@ export const CreateUserDefinedEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<CreateUserDefinedEndpointRequest>,
   output: __S(512, __c32, 0) as any as S.Schema<CreateUserDefinedEndpointResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -769,7 +773,8 @@ export const CreateUserDefinedFunction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c36, 0) as any as S.Schema<CreateUserDefinedFunctionRequest>,
   output: __S(592, __c37, 0) as any as S.Schema<UserDefinedFunction>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -786,7 +791,8 @@ export const CreateUserDefinedRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<CreateUserDefinedRoleRequest>,
   output: __S(640, __c40, 0) as any as S.Schema<UserDefinedRoles>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -803,7 +809,8 @@ export const DeleteLedgerUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(656, __c41, 0) as any as S.Schema<DeleteLedgerUserRequest>,
   output: __S(512, __c32, 0) as any as S.Schema<DeleteLedgerUserResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -820,7 +827,8 @@ export const DeleteUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c42, 0) as any as S.Schema<DeleteUserRequest>,
   output: __S(512, __c32, 0) as any as S.Schema<DeleteUserResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -837,7 +845,8 @@ export const DeleteUserDefinedFunction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c43, 0) as any as S.Schema<DeleteUserDefinedFunctionRequest>,
   output: __S(512, __c32, 0) as any as S.Schema<DeleteUserDefinedFunctionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -854,7 +863,8 @@ export const DeleteUserDefinedRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c44, 0) as any as S.Schema<DeleteUserDefinedRoleRequest>,
   output: __S(512, __c32, 0) as any as S.Schema<DeleteUserDefinedRoleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -871,7 +881,8 @@ export const ExecuteUserDefinedFunction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<ExecuteUserDefinedFunctionRequest>,
   output: __S(99, __c6, 3) as any as S.Schema<UserDefinedFunctionExecutionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -888,7 +899,8 @@ export const GetConstitution: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<GetConstitutionRequest>,
   output: __S(113, __c7, 1) as any as S.Schema<Constitution>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -905,7 +917,8 @@ export const GetCurrentLedgerEntry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<GetCurrentLedgerEntryRequest>,
   output: __S(144, __c9, 0) as any as S.Schema<LedgerEntry>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -922,7 +935,8 @@ export const GetEnclaveQuotes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<GetEnclaveQuotesRequest>,
   output: __S(163, __c10, 3) as any as S.Schema<ConfidentialLedgerEnclaves>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -939,7 +953,8 @@ export const GetLedgerEntry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<GetLedgerEntryRequest>,
   output: __S(177, __c11, 1) as any as S.Schema<LedgerQueryResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -956,7 +971,8 @@ export const GetLedgerUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<GetLedgerUserRequest>,
   output: __S(81, __c5, 1) as any as S.Schema<LedgerUserMultipleRoles>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -973,7 +989,8 @@ export const GetReceipt: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<GetReceiptRequest>,
   output: __S(217, __c13, 9) as any as S.Schema<TransactionReceipt>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -990,7 +1007,8 @@ export const GetRuntimeOptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<GetRuntimeOptionsRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<JsRuntimeOptions>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1007,7 +1025,8 @@ export const GetTransactionStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<GetTransactionStatusRequest>,
   output: __S(241, __c15, 1) as any as S.Schema<TransactionStatus>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1024,7 +1043,8 @@ export const GetUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<GetUserRequest>,
   output: __S(288, __c18, 0) as any as S.Schema<LedgerUser>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1041,7 +1061,8 @@ export const GetUserDefinedEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<GetUserDefinedEndpointRequest>,
   output: __S(305, __c19, 1) as any as S.Schema<Bundle>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1058,7 +1079,8 @@ export const GetUserDefinedEndpointsModule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<GetUserDefinedEndpointsModuleRequest>,
   output: __S(496, __c31, 0) as any as S.Schema<ModuleDef>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1075,7 +1097,8 @@ export const GetUserDefinedFunction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<GetUserDefinedFunctionRequest>,
   output: __S(592, __c37, 0) as any as S.Schema<UserDefinedFunction>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1092,7 +1115,8 @@ export const GetUserDefinedRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<GetUserDefinedRoleRequest>,
   output: __S(353, __c22, 1) as any as S.Schema<UserDefinedRole>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1110,7 +1134,8 @@ export const ListCollections: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<ListCollectionsRequest>,
   output: __S(371, __c23, 3) as any as S.Schema<PagedCollections>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1134,7 +1159,8 @@ export const ListConsortiumMembers: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<ListConsortiumMembersRequest>,
   output: __S(387, __c24, 3) as any as S.Schema<Consortium>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1158,7 +1184,8 @@ export const ListLedgerEntries: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<ListLedgerEntriesRequest>,
   output: __S(402, __c25, 2) as any as S.Schema<PagedLedgerEntries>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1182,7 +1209,8 @@ export const ListLedgerUsers: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<ListLedgerUsersRequest>,
   output: __S(418, __c26, 2) as any as S.Schema<PagedLedgerUsers>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1206,7 +1234,8 @@ export const ListTags: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<ListTagsRequest>,
   output: __S(433, __c27, 1) as any as S.Schema<PagedTags>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1230,7 +1259,8 @@ export const ListUserDefinedFunctions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<ListUserDefinedFunctionsRequest>,
   output: __S(450, __c28, 2) as any as S.Schema<PagedUserDefinedFunctions>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1254,7 +1284,8 @@ export const ListUsers: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<ListUsersRequest>,
   output: __S(530, __c33, 2) as any as S.Schema<PagedUsers>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1277,7 +1308,8 @@ export const UpdateRuntimeOptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<UpdateRuntimeOptionsRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<JsRuntimeOptions>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1294,7 +1326,8 @@ export const UpdateUserDefinedRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c35, 0) as any as S.Schema<UpdateUserDefinedRoleRequest>,
   output: __S(640, __c40, 0) as any as S.Schema<UserDefinedRoles>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

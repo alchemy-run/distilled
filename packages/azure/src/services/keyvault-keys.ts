@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -698,7 +698,8 @@ export const BackupKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c12, 0) as any as S.Schema<BackupKeyRequest>,
   output: __S(104, __c13, 0) as any as S.Schema<BackupKeyResult>,
-  errors: [KeyVaultKeyNotFound, UnknownAzureError],
+  errors: [KeyVaultKeyNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -715,7 +716,8 @@ export const CreateKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c24, 0) as any as S.Schema<CreateKeyRequest>,
   output: __S(232, __c29, 0) as any as S.Schema<KeyBundle>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -732,7 +734,8 @@ export const Decrypt: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c30, 0) as any as S.Schema<DecryptRequest>,
   output: __S(248, __c31, 0) as any as S.Schema<KeyOperationResult>,
-  errors: [KeyVaultKeyNotFound, UnknownAzureError],
+  errors: [KeyVaultKeyNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -749,7 +752,8 @@ export const DeleteKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c32, 0) as any as S.Schema<DeleteKeyRequest>,
   output: __S(264, __c33, 0) as any as S.Schema<DeletedKeyBundle>,
-  errors: [KeyVaultKeyNotFound, UnknownAzureError],
+  errors: [KeyVaultKeyNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -766,7 +770,8 @@ export const Encrypt: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c34, 0) as any as S.Schema<EncryptRequest>,
   output: __S(248, __c31, 0) as any as S.Schema<KeyOperationResult>,
-  errors: [KeyVaultKeyNotFound, UnknownAzureError],
+  errors: [KeyVaultKeyNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -783,7 +788,8 @@ export const GetDeletedKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(280, __c35, 0) as any as S.Schema<GetDeletedKeyRequest>,
   output: __S(264, __c33, 0) as any as S.Schema<DeletedKeyBundle>,
-  errors: [KeyVaultKeyNotFound, UnknownAzureError],
+  errors: [KeyVaultKeyNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -801,7 +807,8 @@ export const GetDeletedKeys: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(288, __c36, 0) as any as S.Schema<GetDeletedKeysRequest>,
   output: __S(291, __c36, 3) as any as S.Schema<DeletedKeyListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -820,7 +827,8 @@ export const GetKey: API.OperationMethod<GetKeyRequest, KeyBundle, GetKeyError, 
   /*@__PURE__*/ API.make(() => ({
     input: __S(296, __c37, 0) as any as S.Schema<GetKeyRequest>,
     output: __S(232, __c29, 0) as any as S.Schema<KeyBundle>,
-    errors: [KeyVaultKeyNotFound, UnknownAzureError],
+    errors: [KeyVaultKeyNotFound],
+    serviceErrors: AzureServiceErrors,
     protocol: AzureDataPlaneProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -837,7 +845,8 @@ export const GetKeyAttestation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<GetKeyAttestationRequest>,
   output: __S(232, __c29, 0) as any as S.Schema<KeyBundle>,
-  errors: [KeyVaultKeyNotFound, UnknownAzureError],
+  errors: [KeyVaultKeyNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -854,7 +863,8 @@ export const GetKeyRotationPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c1, 0) as any as S.Schema<GetKeyRotationPolicyRequest>,
   output: __S(21, __c2, 5) as any as S.Schema<KeyRotationPolicy>,
-  errors: [KeyVaultKeyNotFound, UnknownAzureError],
+  errors: [KeyVaultKeyNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -872,7 +882,8 @@ export const GetKeys: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<GetKeysRequest>,
   output: __S(34, __c4, 2) as any as S.Schema<KeyListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -896,7 +907,8 @@ export const GetKeyVersions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<GetKeyVersionsRequest>,
   output: __S(34, __c4, 2) as any as S.Schema<KeyListResult>,
-  errors: [KeyVaultKeyNotFound, UnknownAzureError],
+  errors: [KeyVaultKeyNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -919,7 +931,8 @@ export const GetRandomBytes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<GetRandomBytesRequest>,
   output: __S(49, __c6, 1) as any as S.Schema<RandomBytes>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -936,7 +949,8 @@ export const ImportKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<ImportKeyRequest>,
   output: __S(232, __c29, 0) as any as S.Schema<KeyBundle>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -953,7 +967,8 @@ export const PurgeDeletedKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<PurgeDeletedKeyRequest>,
   output: __S(65, __c8, 1) as any as S.Schema<PurgeDeletedKeyResponse>,
-  errors: [KeyVaultKeyNotFound, UnknownAzureError],
+  errors: [KeyVaultKeyNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -970,7 +985,8 @@ export const RecoverDeletedKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72, __c9, 0) as any as S.Schema<RecoverDeletedKeyRequest>,
   output: __S(232, __c29, 0) as any as S.Schema<KeyBundle>,
-  errors: [KeyVaultKeyNotFound, UnknownAzureError],
+  errors: [KeyVaultKeyNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -987,7 +1003,8 @@ export const Release: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c10, 0) as any as S.Schema<ReleaseRequest>,
   output: __S(104, __c13, 0) as any as S.Schema<KeyReleaseResult>,
-  errors: [KeyVaultKeyNotFound, KeyReleaseAttestationRejected, UnknownAzureError],
+  errors: [KeyVaultKeyNotFound, KeyReleaseAttestationRejected],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1004,7 +1021,8 @@ export const RestoreKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<RestoreKeyRequest>,
   output: __S(232, __c29, 0) as any as S.Schema<KeyBundle>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1021,7 +1039,8 @@ export const RotateKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<RotateKeyRequest>,
   output: __S(232, __c29, 0) as any as S.Schema<KeyBundle>,
-  errors: [KeyVaultKeyNotFound, UnknownAzureError],
+  errors: [KeyVaultKeyNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1038,7 +1057,8 @@ export const Secureunwrapkey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(120, __c15, 0) as any as S.Schema<SecureunwrapkeyRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<SecureKeyOperationResult>,
-  errors: [KeyVaultKeyNotFound, UnknownAzureError],
+  errors: [KeyVaultKeyNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1055,7 +1075,8 @@ export const Securewrapkey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<SecurewrapkeyRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<SecureKeyOperationResult>,
-  errors: [KeyVaultKeyNotFound, UnknownAzureError],
+  errors: [KeyVaultKeyNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1068,7 +1089,8 @@ export const Sign: API.OperationMethod<SignRequest, KeyOperationResult, SignErro
   /*@__PURE__*/ API.make(() => ({
     input: __S(144, __c18, 0) as any as S.Schema<SignRequest>,
     output: __S(248, __c31, 0) as any as S.Schema<KeyOperationResult>,
-    errors: [KeyVaultKeyNotFound, UnknownAzureError],
+    errors: [KeyVaultKeyNotFound],
+    serviceErrors: AzureServiceErrors,
     protocol: AzureDataPlaneProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1085,7 +1107,8 @@ export const UnwrapKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(152, __c19, 0) as any as S.Schema<UnwrapKeyRequest>,
   output: __S(248, __c31, 0) as any as S.Schema<KeyOperationResult>,
-  errors: [KeyVaultKeyNotFound, UnknownAzureError],
+  errors: [KeyVaultKeyNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1102,7 +1125,8 @@ export const UpdateKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c20, 0) as any as S.Schema<UpdateKeyRequest>,
   output: __S(232, __c29, 0) as any as S.Schema<KeyBundle>,
-  errors: [KeyVaultKeyNotFound, UnknownAzureError],
+  errors: [KeyVaultKeyNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1119,7 +1143,8 @@ export const UpdateKeyRotationPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(169, __c21, 1) as any as S.Schema<UpdateKeyRotationPolicyRequest>,
   output: __S(21, __c2, 5) as any as S.Schema<KeyRotationPolicy>,
-  errors: [KeyVaultKeyNotFound, UnknownAzureError],
+  errors: [KeyVaultKeyNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1136,7 +1161,8 @@ export const Verify: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c22, 0) as any as S.Schema<VerifyRequest>,
   output: __S(177, __c22, 1) as any as S.Schema<KeyVerifyResult>,
-  errors: [KeyVaultKeyNotFound, UnknownAzureError],
+  errors: [KeyVaultKeyNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1153,7 +1179,8 @@ export const WrapKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(184, __c23, 0) as any as S.Schema<WrapKeyRequest>,
   output: __S(248, __c31, 0) as any as S.Schema<KeyOperationResult>,
-  errors: [KeyVaultKeyNotFound, UnknownAzureError],
+  errors: [KeyVaultKeyNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

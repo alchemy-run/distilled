@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -392,7 +392,8 @@ export const CreateIterationOperationIteration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateIterationOperationIterationRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<CreateIterationOperationIterationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -409,7 +410,8 @@ export const CreateTranslationOperationTranslation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<CreateTranslationOperationTranslationRequest>,
   output: __S(9, __c2, 1) as any as S.Schema<CreateTranslationOperationTranslationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -434,7 +436,8 @@ export const DeleteEventHubConfigurationOperationEventHubConfiguration: API.Oper
     __c8,
     0,
   ) as any as S.Schema<DeleteEventHubConfigurationOperationEventHubConfigurationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -451,7 +454,8 @@ export const DeleteTranslationOperationTranslation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36, __c9, 0) as any as S.Schema<DeleteTranslationOperationTranslationRequest>,
   output: __S(32, __c8, 0) as any as S.Schema<DeleteTranslationOperationTranslationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -472,7 +476,8 @@ export const EventHubConfigurationOperationsCreateOrReplaceEventHubConfiguration
     0,
   ) as any as S.Schema<EventHubConfigurationOperationsCreateOrReplaceEventHubConfigurationRequest>,
   output: __S(45, __c11, 1) as any as S.Schema<EventHubConfiguration>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -493,7 +498,8 @@ export const GetEventHubConfigurationOperationEventHubConfiguration: API.Operati
     0,
   ) as any as S.Schema<GetEventHubConfigurationOperationEventHubConfigurationRequest>,
   output: __S(45, __c11, 1) as any as S.Schema<EventHubConfiguration>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -510,7 +516,8 @@ export const GetIterationOperationIteration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(52, __c13, 0) as any as S.Schema<GetIterationOperationIterationRequest>,
   output: __S(12, __c3, 0) as any as S.Schema<Iteration>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -527,7 +534,8 @@ export const GetOperationOperationOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c14, 0) as any as S.Schema<GetOperationOperationOperationRequest>,
   output: __S(57, __c14, 1) as any as S.Schema<Operation>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -544,7 +552,8 @@ export const GetTranslationOperationTranslation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(60, __c15, 0) as any as S.Schema<GetTranslationOperationTranslationRequest>,
   output: __S(64, __c16, 0) as any as S.Schema<Translation>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -562,7 +571,8 @@ export const ListIterationOperationIteration: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(68, __c17, 0) as any as S.Schema<ListIterationOperationIterationRequest>,
   output: __S(70, __c17, 2) as any as S.Schema<PagedIteration>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -586,7 +596,8 @@ export const ListTranslationOperationTranslation: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(20, __c5, 0) as any as S.Schema<ListTranslationOperationTranslationRequest>,
   output: __S(22, __c5, 2) as any as S.Schema<PagedTranslation>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -609,7 +620,8 @@ export const PingEventHubConfigurationOperationEventHub: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c6, 0) as any as S.Schema<PingEventHubConfigurationOperationEventHubRequest>,
   output: __S(32, __c8, 0) as any as S.Schema<PingEventHubConfigurationOperationEventHubResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

@@ -5,7 +5,7 @@ import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -306,7 +306,8 @@ export const BackupSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20, __c5, 0) as any as S.Schema<BackupSecretRequest>,
   output: __S(21, __c5, 1) as any as S.Schema<BackupSecretResult>,
-  errors: [KeyVaultSecretNotFound, UnknownAzureError],
+  errors: [KeyVaultSecretNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -323,7 +324,8 @@ export const DeleteSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c6, 0) as any as S.Schema<DeleteSecretRequest>,
   output: __S(28, __c7, 0) as any as S.Schema<DeletedSecretBundle>,
-  errors: [KeyVaultSecretNotFound, UnknownAzureError],
+  errors: [KeyVaultSecretNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -340,7 +342,8 @@ export const GetDeletedSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36, __c9, 0) as any as S.Schema<GetDeletedSecretRequest>,
   output: __S(28, __c7, 0) as any as S.Schema<DeletedSecretBundle>,
-  errors: [KeyVaultSecretNotFound, UnknownAzureError],
+  errors: [KeyVaultSecretNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -358,7 +361,8 @@ export const GetDeletedSecrets: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(40, __c10, 0) as any as S.Schema<GetDeletedSecretsRequest>,
   output: __S(43, __c10, 3) as any as S.Schema<DeletedSecretListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -381,7 +385,8 @@ export const GetSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(44, __c11, 0) as any as S.Schema<GetSecretRequest>,
   output: __S(48, __c12, 0) as any as S.Schema<SecretBundle>,
-  errors: [KeyVaultSecretNotFound, UnknownAzureError],
+  errors: [KeyVaultSecretNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -399,7 +404,8 @@ export const GetSecrets: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(52, __c13, 0) as any as S.Schema<GetSecretsRequest>,
   output: __S(58, __c14, 2) as any as S.Schema<SecretListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -423,7 +429,8 @@ export const GetSecretVersions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(60, __c15, 0) as any as S.Schema<GetSecretVersionsRequest>,
   output: __S(58, __c14, 2) as any as S.Schema<SecretListResult>,
-  errors: [KeyVaultSecretNotFound, UnknownAzureError],
+  errors: [KeyVaultSecretNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -446,7 +453,8 @@ export const PurgeDeletedSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c16, 0) as any as S.Schema<PurgeDeletedSecretRequest>,
   output: __S(65, __c16, 1) as any as S.Schema<PurgeDeletedSecretResponse>,
-  errors: [KeyVaultSecretNotFound, UnknownAzureError],
+  errors: [KeyVaultSecretNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -463,7 +471,8 @@ export const RecoverDeletedSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<RecoverDeletedSecretRequest>,
   output: __S(48, __c12, 0) as any as S.Schema<SecretBundle>,
-  errors: [KeyVaultSecretNotFound, UnknownAzureError],
+  errors: [KeyVaultSecretNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -480,7 +489,8 @@ export const RestoreSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c1, 0) as any as S.Schema<RestoreSecretRequest>,
   output: __S(48, __c12, 0) as any as S.Schema<SecretBundle>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -497,7 +507,8 @@ export const SetSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<SetSecretRequest>,
   output: __S(48, __c12, 0) as any as S.Schema<SecretBundle>,
-  errors: [KeyVaultSecretDeletedButRecoverable, UnknownAzureError],
+  errors: [KeyVaultSecretDeletedButRecoverable],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -514,7 +525,8 @@ export const UpdateSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<UpdateSecretRequest>,
   output: __S(48, __c12, 0) as any as S.Schema<SecretBundle>,
-  errors: [KeyVaultSecretNotFound, UnknownAzureError],
+  errors: [KeyVaultSecretNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

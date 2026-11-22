@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -267,7 +267,8 @@ export const GetSupportedLanguages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<GetSupportedLanguagesRequest>,
   output: __S(10, __c0, 10) as any as S.Schema<GetSupportedLanguagesResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -284,7 +285,8 @@ export const Translate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22, __c1, 6) as any as S.Schema<TranslateRequest>,
   output: __S(28, __c1, 12) as any as S.Schema<TranslationResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -301,7 +303,8 @@ export const Transliterate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34, __c2, 2) as any as S.Schema<TransliterateRequest>,
   output: __S(37, __c2, 5) as any as S.Schema<TransliterateResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -402,7 +402,8 @@ export const CancelKnowledgeBaseIndexing: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CancelKnowledgeBaseIndexingRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<CancelKnowledgeBaseIndexingResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -419,7 +420,8 @@ export const DeleteKnowledgeBase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<DeleteKnowledgeBaseRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteKnowledgeBaseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -436,7 +438,8 @@ export const GetKnowledgeBase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<GetKnowledgeBaseRequest>,
   output: __S(96, __c6, 0) as any as S.Schema<KnowledgeBase>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -453,7 +456,8 @@ export const GetKnowledgeBaseOperationStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<GetKnowledgeBaseOperationStatusRequest>,
   output: __S(122, __c7, 10) as any as S.Schema<GetKnowledgeBaseOperationStatusResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -470,7 +474,8 @@ export const KnowledgeBasesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<KnowledgeBasesCreateOrUpdateRequest>,
   output: __S(129, __c8, 1) as any as S.Schema<KnowledgeBasesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -488,7 +493,8 @@ export const ListKnowledgeBases: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<ListKnowledgeBasesRequest>,
   output: __S(146, __c9, 2) as any as S.Schema<PagedKnowledgeBase>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -511,7 +517,8 @@ export const SearchKnowledgeBase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<SearchKnowledgeBaseRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<SearchKnowledgeBaseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -528,7 +535,8 @@ export const StartKnowledgeBaseIndexing: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<StartKnowledgeBaseIndexingRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<StartKnowledgeBaseIndexingResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

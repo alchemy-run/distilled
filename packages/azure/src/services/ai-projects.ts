@@ -4,7 +4,7 @@ import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -651,7 +651,8 @@ export const DatasetsCreateOrUpdateVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2, __c0, 2) as any as S.Schema<DatasetsCreateOrUpdateVersionRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<DatasetsCreateOrUpdateVersionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -668,7 +669,8 @@ export const DatasetsStartPendingUploadVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<DatasetsStartPendingUploadVersionRequest>,
   output: __S(33, __c4, 1) as any as S.Schema<PendingUploadResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -685,7 +687,8 @@ export const DeleteDatasetVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(120, __c15, 0) as any as S.Schema<DeleteDatasetVersionRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<DeleteDatasetVersionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -702,7 +705,8 @@ export const DeleteIndexVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<DeleteIndexVersionRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<DeleteIndexVersionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -719,7 +723,8 @@ export const GetConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c18, 0) as any as S.Schema<GetConnectionRequest>,
   output: __S(156, __c19, 4) as any as S.Schema<Connection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -736,7 +741,8 @@ export const GetConnectionWithCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c20, 0) as any as S.Schema<GetConnectionWithCredentialsRequest>,
   output: __S(156, __c19, 4) as any as S.Schema<Connection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -753,7 +759,8 @@ export const GetDatasetCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(168, __c21, 0) as any as S.Schema<GetDatasetCredentialsRequest>,
   output: __S(169, __c21, 1) as any as S.Schema<AssetCredentialResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -770,7 +777,8 @@ export const GetDatasetVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c22, 0) as any as S.Schema<GetDatasetVersionRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<GetDatasetVersionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -787,7 +795,8 @@ export const GetDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(184, __c23, 0) as any as S.Schema<GetDeploymentRequest>,
   output: __S(185, __c23, 1) as any as S.Schema<GetDeploymentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -804,7 +813,8 @@ export const GetIndexVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(200, __c25, 0) as any as S.Schema<GetIndexVersionRequest>,
   output: __S(208, __c26, 0) as any as S.Schema<GetIndexVersionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -821,7 +831,8 @@ export const IndexesCreateOrUpdateVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(52, __c6, 4) as any as S.Schema<IndexesCreateOrUpdateVersionRequest>,
   output: __S(208, __c26, 0) as any as S.Schema<IndexesCreateOrUpdateVersionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -839,7 +850,8 @@ export const ListConnections: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<ListConnectionsRequest>,
   output: __S(58, __c7, 2) as any as S.Schema<PagedConnection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -863,7 +875,8 @@ export const ListDatasetLatest: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<ListDatasetLatestRequest>,
   output: __S(73, __c9, 1) as any as S.Schema<PagedDatasetVersion>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -887,7 +900,8 @@ export const ListDatasetVersions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(80, __c10, 0) as any as S.Schema<ListDatasetVersionsRequest>,
   output: __S(73, __c9, 1) as any as S.Schema<PagedDatasetVersion>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -911,7 +925,8 @@ export const ListDeployments: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<ListDeploymentsRequest>,
   output: __S(90, __c11, 2) as any as S.Schema<PagedDeployment>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -935,7 +950,8 @@ export const ListIndexLatest: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(96, __c12, 0) as any as S.Schema<ListIndexLatestRequest>,
   output: __S(105, __c13, 1) as any as S.Schema<PagedIndex>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -959,7 +975,8 @@ export const ListIndexVersions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<ListIndexVersionsRequest>,
   output: __S(105, __c13, 1) as any as S.Schema<PagedIndex>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

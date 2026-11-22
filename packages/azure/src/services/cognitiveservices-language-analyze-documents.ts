@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -808,7 +808,8 @@ export const AnalyzeDocumentsCancelJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AnalyzeDocumentsCancelJobRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<AnalyzeDocumentsCancelJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -825,7 +826,8 @@ export const AnalyzeDocumentsJobStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<AnalyzeDocumentsJobStatusRequest>,
   output: __S(84, __c2, 20) as any as S.Schema<AnalyzeDocumentsJobState>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -842,7 +844,8 @@ export const AnalyzeDocumentsSubmitJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(139, __c4, 11) as any as S.Schema<AnalyzeDocumentsSubmitJobRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<AnalyzeDocumentsSubmitJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownMicrosoftGraphError } from "../errors.ts";
+import { MicrosoftGraphServiceErrors } from "../errors.ts";
 import { paginateCursor } from "../pagination.ts";
 import {
   MicrosoftGraphProtocol,
@@ -738,7 +738,8 @@ export const createInvitation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateInvitationRequest>,
   output: __S(36, __c1, 4) as any as S.Schema<CreateInvitationResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -755,7 +756,8 @@ export const getCount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<GetCountRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<GetCountResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -772,7 +774,8 @@ export const getInvitedUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<GetInvitedUserRequest>,
   output: __S(180, __c5, 20) as any as S.Schema<GetInvitedUserResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -789,7 +792,8 @@ export const getInvitedUserSponsors: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<GetInvitedUserSponsorsRequest>,
   output: __S(320, __c10, 0) as any as S.Schema<GetInvitedUserSponsorsResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -806,7 +810,8 @@ export const getInvitedUserSponsorsCount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<GetInvitedUserSponsorsCountRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<GetInvitedUserSponsorsCountResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -823,7 +828,8 @@ export const getMailboxSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<GetMailboxSettingsRequest>,
   output: __S(230, __c7, 6) as any as S.Schema<MailboxSettings>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -840,7 +846,8 @@ export const getServiceProvisioningErrorsCount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<GetServiceProvisioningErrorsCountRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<GetServiceProvisioningErrorsCountResponse>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -859,7 +866,8 @@ export const listInvitation: API.PaginatedOperationMethod<
   () => ({
     input: __S(448, __c14, 0) as any as S.Schema<ListInvitationRequest>,
     output: __S(450, __c14, 2) as any as S.Schema<ListInvitationResponse>,
-    errors: [UnknownMicrosoftGraphError],
+    errors: [],
+    serviceErrors: MicrosoftGraphServiceErrors,
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -887,7 +895,8 @@ export const listInvitedUserSponsors: API.PaginatedOperationMethod<
   () => ({
     input: __S(480, __c15, 0) as any as S.Schema<ListInvitedUserSponsorsRequest>,
     output: __S(482, __c15, 2) as any as S.Schema<ListInvitedUserSponsorsResponse>,
-    errors: [UnknownMicrosoftGraphError],
+    errors: [],
+    serviceErrors: MicrosoftGraphServiceErrors,
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -915,7 +924,8 @@ export const listServiceProvisioningErrors: API.PaginatedOperationMethod<
   () => ({
     input: __S(512, __c16, 0) as any as S.Schema<ListServiceProvisioningErrorsRequest>,
     output: __S(513, __c16, 1) as any as S.Schema<ListServiceProvisioningErrorsResponse>,
-    errors: [UnknownMicrosoftGraphError],
+    errors: [],
+    serviceErrors: MicrosoftGraphServiceErrors,
     protocol: MicrosoftGraphProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -941,7 +951,8 @@ export const updateMailboxSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<UpdateMailboxSettingsRequest>,
   output: __S(230, __c7, 6) as any as S.Schema<MailboxSettings>,
-  errors: [UnknownMicrosoftGraphError],
+  errors: [],
+  serviceErrors: MicrosoftGraphServiceErrors,
   protocol: MicrosoftGraphProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
