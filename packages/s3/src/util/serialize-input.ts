@@ -41,25 +41,6 @@ export const encodeLabel = (value: string): string =>
 export const encodeGreedyLabel = (value: string): string =>
   value.split("/").map(encodeLabel).join("/");
 
-/**
- * The refusal for a path label value that would address another resource,
- * or `undefined`: a `.` or `..` value or greedy segment (core's
- * `invalidLabel`), or an empty value, which drops the segment (S3
- * `DeleteObject` with `Key: ""` would address the bucket). The AWS SDK for
- * JavaScript refuses an empty label too.
- */
-export const invalidAwsLabel = (
-  member: string,
-  value: unknown,
-  greedy: boolean,
-): InvalidInput | undefined =>
-  String(value) === ""
-    ? new InvalidInput({
-        member,
-        message: `Input member ${member} cannot be "": as a path label it would address another resource`,
-      })
-    : invalidLabel(member, value, greedy);
-
 /** The refusal for a host label value that would move the request to another host. */
 export const invalidHostLabel = (member: string, value: string): InvalidInput =>
   new InvalidInput({
@@ -156,7 +137,8 @@ const bindingsOf = (ast: AST.AST): ReadonlyArray<MemberBinding> => {
  * This processes each input member and:
  * - Adds @httpHeader values to request.headers
  * - Substitutes @httpLabel values in request.path, or returns the
- *   {@link InvalidInput} of a value {@link invalidAwsLabel} refuses
+ *   {@link InvalidInput} of a value core's `invalidLabel` refuses (`""`,
+ *   `.`, `..`: S3 `DeleteObject` with `Key: ""` would address the bucket)
  * - Adds @httpQuery values to request.query
  * - Adds @httpPrefixHeaders values to request.headers
  * - Collects @httpPayload for body serialization
@@ -193,7 +175,7 @@ export function bindInputToRequest(
           ? toBase64Header(String(value))
           : String(value);
     } else if (member.label !== undefined) {
-      const invalid = invalidAwsLabel(name, value, member.greedy);
+      const invalid = invalidLabel(name, value, member.greedy);
       if (invalid !== undefined) return invalid;
       const encoded = member.greedy ? encodeGreedyLabel(String(value)) : encodeLabel(String(value));
       request.path = request.path.replace(member.label, () => encoded);

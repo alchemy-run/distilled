@@ -36,8 +36,10 @@ export {
 export {
   RawResponse,
   RawResponseRoot,
+  SensitiveValue,
   rawResponseSymbol,
   rawResponseRootSymbol,
+  sensitiveValueSymbol,
 } from "@distilled.cloud/core/protocol-rest";
 
 import { fromNode, type Lite } from "@distilled.cloud/core/schema-lite-impl";

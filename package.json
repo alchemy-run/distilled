@@ -28,7 +28,8 @@
     "prepare": "husky",
     "test": "node scripts/test.ts",
     "typecheck:ci": "tsrs -b --noCheck false",
-    "validate:publish-packages": "node scripts/validate-publish-packages.ts"
+    "validate:publish-packages": "node scripts/validate-publish-packages.ts",
+    "services:check": "node scripts/check-services.ts"
   },
   "devDependencies": {
     "@alchemy.run/pkg": "2.0.0-beta.85",

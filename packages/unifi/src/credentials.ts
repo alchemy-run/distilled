@@ -1,4 +1,5 @@
-import { ConfigError } from "@distilled.cloud/core/errors";
+import { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import { encodeLabel } from "@distilled.cloud/core/protocol-http";
 /**
  * UniFi credentials -- hand-written.
  *
@@ -56,15 +57,25 @@ export interface CloudConfig {
   readonly apiKey: Redacted.Redacted<string>;
 }
 
-/** Base URL (everything before `/v1/...`) of one application on a console. */
+/**
+ * Base URL (everything before `/v1/...`) of one application on a console.
+ * Throws {@link ConfigError} for a console ID that can't be a path segment
+ * (`.`, `..`, a lone UTF-16 surrogate); the protocol fails the call with it.
+ */
 export const consoleBaseUrl = (location: ConsoleLocation, app: ConsoleApp): string => {
   if (location._tag === "Local") {
     const origin = location.host.includes("://") ? location.host : `https://${location.host}`;
     return `${origin.replace(/\/+$/, "")}/proxy/${app}/integration`;
   }
   const origin = (location.apiBaseUrl ?? DEFAULT_CLOUD_BASE_URL).replace(/\/+$/, "");
+  const encoded = encodeLabel("consoleId", location.consoleId);
+  if (encoded instanceof InvalidInput) {
+    throw new ConfigError({
+      message: `The configured UniFi console ID ${JSON.stringify(location.consoleId)} cannot be a URL path segment`,
+    });
+  }
   // `:` is legal in a path segment, and console IDs are `<hex>:<number>`.
-  const id = encodeURIComponent(location.consoleId).replace(/%3A/gi, ":");
+  const id = encoded.replace(/%3A/gi, ":");
   return `${origin}/v1/connector/consoles/${id}/proxy/${app}/integration`;
 };
 

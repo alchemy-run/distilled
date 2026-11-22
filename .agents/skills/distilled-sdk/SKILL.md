@@ -167,10 +167,11 @@ plain strings.
   header, query string, body or signature is built, and never put a secret
   in an error message or an error field. Anything minted at runtime (an
   exchanged OAuth token, a signed JWT) is wrapped as soon as it exists.
-- **Concurrent calls share one refresh.** A token or credentials cache
-  re-checks inside a one-permit `Semaphore`, so a burst of calls on a cold
-  or stale cache mints once (`AGENTS.md` rule 16; copy
-  `createRefreshingProvider` in `packages/gcp/src/credentials-service.ts`).
+- **Cache tokens with core `refreshing`.** A token or credentials cache is
+  `refreshing(mint, refreshAt)` from `@distilled.cloud/core/token-cache`,
+  created once per layer value, so a burst of calls on a cold or stale
+  cache mints once and works in workerd. Give it `onTimeout`, and
+  `timeoutMs` if the mint's retries can exceed 60 s (`AGENTS.md` rule 16).
 
 This must print nothing:
 

@@ -196,7 +196,9 @@ describe("Sprites token mint coordination", () => {
       }).pipe(Effect.timeout("2 seconds")),
     ));
 
-  test("owner interruption releases all waiters and allows another mint", () =>
+  // A dropped request (workerd) interrupts its mint; the requests waiting on
+  // it must still get a token, so one of them mints again.
+  test("owner interruption lets a waiter mint again for all waiters", () =>
     Effect.runPromise(
       Effect.gen(function* () {
         const fixture = yield* mintFixture("mint-interrupted-owner");
@@ -208,15 +210,14 @@ describe("Sprites token mint coordination", () => {
         expect(fixture.credentialReads()).toBe(4);
         expect(fixture.mints).toHaveLength(1);
         yield* Fiber.interrupt(owner);
-        for (const exit of yield* Fiber.awaitAll([owner, ...waiters])) {
-          expect(Exit.hasInterrupts(exit)).toBe(true);
-        }
-        const retry = yield* fixture.encode.pipe(Effect.forkChild({ startImmediately: true }));
+        expect(Exit.hasInterrupts(yield* Fiber.await(owner))).toBe(true);
         yield* fixture.started(1);
         yield* fixture.respond({ token: "sprites-after-interruption" }, 200, 1);
-        expect((yield* Fiber.join(retry)).headers.authorization).toBe(
-          "Bearer sprites-after-interruption",
-        );
+        for (const waiter of waiters) {
+          expect((yield* Fiber.join(waiter)).headers.authorization).toBe(
+            "Bearer sprites-after-interruption",
+          );
+        }
         expect((yield* fixture.encode).headers.authorization).toBe(
           "Bearer sprites-after-interruption",
         );

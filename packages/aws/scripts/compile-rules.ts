@@ -204,10 +204,12 @@ const normalizeForHashing = (code: string): { normalized: string; templateVars: 
     }
 
     // Handle _.getAttr(varName, "path") - extract the variable reference
-    const getAttrMatch = exprContent.match(/^_\.getAttr\(([a-zA-Z_][a-zA-Z0-9_]*),\s*"([^"]+)"\)$/);
+    const getAttrMatch = exprContent.match(
+      /^_\.getAttr\(([a-zA-Z_][a-zA-Z0-9_]*),\s*("(?:[^"\\]|\\.)+")\)$/,
+    );
     if (getAttrMatch) {
-      const [, varName, path] = getAttrMatch;
-      return `\${_.getAttr(${getPlaceholder(varName)}, "${path}")}`;
+      const [, varName, quotedPath] = getAttrMatch;
+      return `\${_.getAttr(${getPlaceholder(varName)}, ${quotedPath})}`;
     }
 
     // For other complex expressions, extract all identifiers that look like variables
@@ -445,6 +447,7 @@ const isFunction = (
 
 /**
  * Compile a template string like "{Region}.{PartitionResult#dnsSuffix}" to a JS template literal.
+ * Text outside the `{…}` references is escaped so a template literal reads it as text only.
  */
 const compileTemplateString = (template: string): string => {
   // If no interpolation needed, return as regular string
@@ -452,23 +455,23 @@ const compileTemplateString = (template: string): string => {
     return JSON.stringify(template);
   }
 
-  // Escape backticks in the template before converting to JS template literal
-  // Also escape backslashes to prevent them from escaping our escapes
-  let escaped = template.replace(/\\/g, "\\\\").replace(/`/g, "\\`");
+  const text = (part: string) =>
+    part.replace(/\\/g, "\\\\").replace(/`/g, "\\`").replace(/\$\{/g, "\\${");
 
-  // Replace {var} and {var#prop} patterns with ${...} expressions
-  const compiled = escaped.replace(/\{([^}]+)\}/g, (_, expr) => {
-    const parts = expr.split("#");
-    if (parts.length === 1) {
-      // Simple reference: {Region} -> ${Region}
-      return `\${${sanitizeVarName(parts[0])}}`;
-    } else {
-      // Property access: {PartitionResult#dnsSuffix} -> ${PartitionResult.dnsSuffix}
-      const [refName, ...pathParts] = parts;
-      const path = pathParts.join(".");
-      return `\${_.getAttr(${sanitizeVarName(refName)}, "${path}")}`;
-    }
-  });
+  let compiled = "";
+  let last = 0;
+  for (const match of template.matchAll(/\{([^}]+)\}/g)) {
+    compiled += text(template.slice(last, match.index));
+    const [refName, ...pathParts] = match[1]!.split("#");
+    compiled +=
+      pathParts.length === 0
+        ? // Simple reference: {Region} -> ${Region}
+          `\${${sanitizeVarName(refName!)}}`
+        : // Property access: {PartitionResult#dnsSuffix} -> ${_.getAttr(PartitionResult, "dnsSuffix")}
+          `\${_.getAttr(${sanitizeVarName(refName!)}, ${JSON.stringify(pathParts.join("."))})}`;
+    last = match.index + match[0].length;
+  }
+  compiled += text(template.slice(last));
 
   return "`" + compiled + "`";
 };
