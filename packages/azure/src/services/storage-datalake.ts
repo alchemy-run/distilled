@@ -2276,7 +2276,7 @@ function __c17(j: number): any {
           delimiter: S.optional(S.String.pipe(T.Query())),
           marker: S.optional(S.String.pipe(T.Query())),
           maxResults: S.optional(S.Number.pipe(T.Query())),
-          include: S.optional(__S(272, __c17, 0).pipe(T.Query())),
+          include: S.optional(__S(272, __c17, 0).pipe(T.Query(), T.CommaDelimited({}))),
           showonly: S.optional(S.String.pipe(T.Query())),
           timeout: S.optional(S.Number.pipe(T.Query())),
           xMsClientRequestId: S.optional(S.String.pipe(T.Header("x-ms-client-request-id"))),

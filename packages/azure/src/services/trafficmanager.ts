@@ -1443,8 +1443,8 @@ function __c21(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           profileName: S.String.pipe(T.Label()),
           heatMapType: S.String.pipe(T.Label()),
-          topLeft: S.optional(__S(336, __c21, 0).pipe(T.Query())),
-          botRight: S.optional(__S(336, __c21, 0).pipe(T.Query())),
+          topLeft: S.optional(__S(336, __c21, 0).pipe(T.Query(), T.CommaDelimited({}))),
+          botRight: S.optional(__S(336, __c21, 0).pipe(T.Query(), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",

@@ -657,8 +657,8 @@ function __c5(j: number): any {
         S.Struct({
           endpoint: S.optional(S.String.pipe(T.HostLabel())),
           format: S.String.pipe(T.Label()),
-          mincoordinates: __S(24, __c6, 0).pipe(T.Query()),
-          maxcoordinates: __S(24, __c6, 0).pipe(T.Query()),
+          mincoordinates: __S(24, __c6, 0).pipe(T.Query(), T.CommaDelimited({})),
+          maxcoordinates: __S(24, __c6, 0).pipe(T.Query(), T.CommaDelimited({})),
           text: S.optional(S.String.pipe(T.Query())),
           xMsClientId: S.optional(S.String.pipe(T.Header("x-ms-client-id"))),
         }).pipe(
@@ -690,7 +690,7 @@ function __c7(j: number): any {
           endpoint: S.optional(S.String.pipe(T.HostLabel())),
           tilesetId: S.String.pipe(T.Query()),
           zoom: S.Number.pipe(T.Query()),
-          bounds: __S(24, __c6, 0).pipe(T.Query()),
+          bounds: __S(24, __c6, 0).pipe(T.Query(), T.CommaDelimited({})),
           xMsClientId: S.optional(S.String.pipe(T.Header("x-ms-client-id"))),
         }).pipe(
           T.Http({
@@ -756,8 +756,8 @@ function __c10(j: number): any {
           tilesetId: S.optional(S.String.pipe(T.Query())),
           trafficLayer: S.optional(S.String.pipe(T.Query())),
           zoom: S.optional(S.Number.pipe(T.Query())),
-          center: S.optional(__S(24, __c6, 0).pipe(T.Query())),
-          bbox: S.optional(__S(24, __c6, 0).pipe(T.Query())),
+          center: S.optional(__S(24, __c6, 0).pipe(T.Query(), T.CommaDelimited({}))),
+          bbox: S.optional(__S(24, __c6, 0).pipe(T.Query(), T.CommaDelimited({}))),
           height: S.optional(S.Number.pipe(T.Query())),
           width: S.optional(S.Number.pipe(T.Query())),
           language: S.optional(S.String.pipe(T.Query())),

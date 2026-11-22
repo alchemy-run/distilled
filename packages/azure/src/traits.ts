@@ -21,6 +21,8 @@ export {
   Body,
   Header,
   Query,
+  CommaDelimited,
+  commaDelimitedSymbol,
   Label,
   ResponseCode,
   HttpBody,

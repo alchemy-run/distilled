@@ -705,7 +705,7 @@ function __c5(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           category: S.String.pipe(T.Query()),
-          tags: S.optional(__S(26, __c3, 2).pipe(T.Query())),
+          tags: S.optional(__S(26, __c3, 2).pipe(T.Query(), T.CommaDelimited({}))),
           sourceId: S.optional(S.String.pipe(T.Query())),
           canFetchContent: S.optional(S.Boolean.pipe(T.Query())),
           nextLink: S.optional(S.String),
@@ -741,7 +741,7 @@ function __c7(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           category: S.String.pipe(T.Query()),
-          tags: S.optional(__S(26, __c3, 2).pipe(T.Query())),
+          tags: S.optional(__S(26, __c3, 2).pipe(T.Query(), T.CommaDelimited({}))),
           canFetchContent: S.optional(S.Boolean.pipe(T.Query())),
           nextLink: S.optional(S.String),
         }).pipe(

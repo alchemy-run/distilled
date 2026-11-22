@@ -3414,7 +3414,9 @@ function __c30(j: number): any {
           threadId: S.String.pipe(T.Label()),
           runId: S.String.pipe(T.Label()),
           stepId: S.String.pipe(T.Label()),
-          include__: S.optional(__S(1824, __c57, 0).pipe(T.Query("include[]"))),
+          include__: S.optional(
+            __S(1824, __c57, 0).pipe(T.Query("include[]"), T.CommaDelimited({})),
+          ),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3808,7 +3810,9 @@ function __c40(j: number): any {
           endpoint: S.String.pipe(T.HostLabel()),
           threadId: S.String.pipe(T.Label()),
           runId: S.String.pipe(T.Label()),
-          include__: S.optional(__S(1824, __c57, 0).pipe(T.Query("include[]"))),
+          include__: S.optional(
+            __S(1824, __c57, 0).pipe(T.Query("include[]"), T.CommaDelimited({})),
+          ),
           limit: S.optional(S.Number.pipe(T.Query())),
           order: S.optional(S.String.pipe(T.Query())),
           after: S.optional(S.String.pipe(T.Query())),
@@ -4284,7 +4288,9 @@ function __c56(j: number): any {
         S.Struct({
           endpoint: S.String.pipe(T.HostLabel()),
           threadId: S.String.pipe(T.Label()),
-          include__: S.optional(__S(1824, __c57, 0).pipe(T.Query("include[]"))),
+          include__: S.optional(
+            __S(1824, __c57, 0).pipe(T.Query("include[]"), T.CommaDelimited({})),
+          ),
           assistant_id: S.String,
           model: S.optional(S.NullOr(S.String)),
           instructions: S.optional(S.NullOr(S.String)),

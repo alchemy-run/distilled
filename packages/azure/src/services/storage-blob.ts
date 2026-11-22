@@ -5965,7 +5965,7 @@ function __c9(j: number): any {
           where: S.optional(S.String.pipe(T.Query())),
           marker: S.optional(S.String.pipe(T.Query())),
           maxresults: S.optional(S.Number.pipe(T.Query())),
-          include: S.optional(__S(176, __c11, 0).pipe(T.Query())),
+          include: S.optional(__S(176, __c11, 0).pipe(T.Query(), T.CommaDelimited({}))),
           xMsClientRequestId: S.optional(S.String.pipe(T.Header("x-ms-client-request-id"))),
         }).pipe(
           T.Http({
@@ -7675,7 +7675,7 @@ function __c51(j: number): any {
           prefix: S.optional(S.String.pipe(T.Query())),
           marker: S.optional(S.String.pipe(T.Query())),
           maxresults: S.optional(S.Number.pipe(T.Query())),
-          include: S.optional(__S(176, __c11, 0).pipe(T.Query())),
+          include: S.optional(__S(176, __c11, 0).pipe(T.Query(), T.CommaDelimited({}))),
           startFrom: S.optional(S.String.pipe(T.Query())),
           timeout: S.optional(S.Number.pipe(T.Query())),
           xMsClientRequestId: S.optional(S.String.pipe(T.Header("x-ms-client-request-id"))),
@@ -7811,7 +7811,7 @@ function __c53(j: number): any {
           prefix: S.optional(S.String.pipe(T.Query())),
           marker: S.optional(S.String.pipe(T.Query())),
           maxresults: S.optional(S.Number.pipe(T.Query())),
-          include: S.optional(__S(176, __c11, 0).pipe(T.Query())),
+          include: S.optional(__S(176, __c11, 0).pipe(T.Query(), T.CommaDelimited({}))),
           timeout: S.optional(S.Number.pipe(T.Query())),
           startFrom: S.optional(S.String.pipe(T.Query())),
           endBefore: S.optional(S.String.pipe(T.Query())),
@@ -7859,7 +7859,7 @@ function __c55(j: number): any {
           delimiter: S.String.pipe(T.Query()),
           marker: S.optional(S.String.pipe(T.Query())),
           maxresults: S.optional(S.Number.pipe(T.Query())),
-          include: S.optional(__S(176, __c11, 0).pipe(T.Query())),
+          include: S.optional(__S(176, __c11, 0).pipe(T.Query(), T.CommaDelimited({}))),
           startFrom: S.optional(S.String.pipe(T.Query())),
           timeout: S.optional(S.Number.pipe(T.Query())),
           xMsClientRequestId: S.optional(S.String.pipe(T.Header("x-ms-client-request-id"))),
@@ -7925,7 +7925,7 @@ function __c56(j: number): any {
           delimiter: S.String.pipe(T.Query()),
           marker: S.optional(S.String.pipe(T.Query())),
           maxresults: S.optional(S.Number.pipe(T.Query())),
-          include: S.optional(__S(176, __c11, 0).pipe(T.Query())),
+          include: S.optional(__S(176, __c11, 0).pipe(T.Query(), T.CommaDelimited({}))),
           timeout: S.optional(S.Number.pipe(T.Query())),
           startFrom: S.optional(S.String.pipe(T.Query())),
           endBefore: S.optional(S.String.pipe(T.Query())),
@@ -7956,7 +7956,7 @@ function __c57(j: number): any {
           prefix: S.optional(S.String.pipe(T.Query())),
           marker: S.optional(S.String.pipe(T.Query())),
           maxresults: S.optional(S.Number.pipe(T.Query())),
-          include: S.optional(__S(176, __c11, 0).pipe(T.Query())),
+          include: S.optional(__S(176, __c11, 0).pipe(T.Query(), T.CommaDelimited({}))),
           timeout: S.optional(S.Number.pipe(T.Query())),
           xMsClientRequestId: S.optional(S.String.pipe(T.Header("x-ms-client-request-id"))),
         }).pipe(
@@ -8466,7 +8466,7 @@ function __c68(j: number): any {
           where: S.optional(S.String.pipe(T.Query())),
           marker: S.optional(S.String.pipe(T.Query())),
           maxresults: S.optional(S.Number.pipe(T.Query())),
-          include: S.optional(__S(176, __c11, 0).pipe(T.Query())),
+          include: S.optional(__S(176, __c11, 0).pipe(T.Query(), T.CommaDelimited({}))),
           xMsClientRequestId: S.optional(S.String.pipe(T.Header("x-ms-client-request-id"))),
         }).pipe(
           T.Http({

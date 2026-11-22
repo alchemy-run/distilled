@@ -4136,7 +4136,7 @@ function __c7(j: number): any {
           marker: S.optional(S.String.pipe(T.Query())),
           maxresults: S.optional(S.Number.pipe(T.Query())),
           timeout: S.optional(S.Number.pipe(T.Query())),
-          include: S.optional(__S(144, __c9, 0).pipe(T.Query())),
+          include: S.optional(__S(144, __c9, 0).pipe(T.Query(), T.CommaDelimited({}))),
           xMsFileExtendedInfo: S.optional(S.Boolean.pipe(T.Header("x-ms-file-extended-info"))),
           xMsAllowTrailingDot: S.optional(S.Boolean.pipe(T.Header("x-ms-allow-trailing-dot"))),
           xMsFileRequestIntent: S.optional(S.String.pipe(T.Header("x-ms-file-request-intent"))),
@@ -5564,7 +5564,7 @@ function __c41(j: number): any {
           prefix: S.optional(S.String.pipe(T.Query())),
           marker: S.optional(S.String.pipe(T.Query())),
           maxresults: S.optional(S.Number.pipe(T.Query())),
-          include: S.optional(__S(144, __c9, 0).pipe(T.Query())),
+          include: S.optional(__S(144, __c9, 0).pipe(T.Query(), T.CommaDelimited({}))),
           timeout: S.optional(S.Number.pipe(T.Query())),
           xMsFileRequestIntent: S.optional(S.String.pipe(T.Header("x-ms-file-request-intent"))),
         }).pipe(

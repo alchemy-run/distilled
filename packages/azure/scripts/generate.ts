@@ -35,6 +35,7 @@ const SENSITIVE_TRAIT = "smithy.api#sensitive";
 /** Data-plane traits written by convert.ts (see its "Data planes" section). */
 const HOST_LABEL_TRAIT = "com.azure.protocols#hostLabel";
 const DATA_PLANE_PROTOCOL = "AzureDataPlaneProtocol";
+const COMMA_DELIMITED_TRAIT = "com.azure.protocols#commaDelimited";
 const AUDIENCE_TRAIT = "com.azure.protocols#audience";
 const TOKEN_EXCHANGE_TRAIT = "com.azure.protocols#tokenExchange";
 const ANONYMOUS_TRAIT = "com.azure.protocols#anonymous";
@@ -81,6 +82,8 @@ const azureSpec: SdkSpec = {
   // values and accepts string | Redacted on input.
   memberTraitPipes: {
     [SENSITIVE_TRAIT]: "T.SensitiveValue",
+    // A list query member sent as one comma-separated value (`collectionFormat: csv`).
+    [COMMA_DELIMITED_TRAIT]: "T.CommaDelimited",
     // Storage: XML element/attribute naming and `x-ms-meta-*` header maps.
     "smithy.api#xmlName": "T.XmlName",
     "smithy.api#xmlAttribute": "T.XmlAttribute",

@@ -1459,7 +1459,7 @@ function __c20(j: number): any {
           prefix: S.optional(S.String.pipe(T.Query())),
           marker: S.optional(S.String.pipe(T.Query())),
           maxresults: S.optional(S.Number.pipe(T.Query())),
-          include: S.optional(__S(160, __c20, 0).pipe(T.Query())),
+          include: S.optional(__S(160, __c20, 0).pipe(T.Query(), T.CommaDelimited({}))),
           timeout: S.optional(S.Number.pipe(T.Query())),
           xMsClientRequestId: S.optional(S.String.pipe(T.Header("x-ms-client-request-id"))),
         }).pipe(

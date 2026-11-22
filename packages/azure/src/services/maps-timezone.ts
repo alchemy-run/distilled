@@ -361,7 +361,7 @@ function __c0(j: number): any {
           timeStamp: S.optional(S.String.pipe(T.Query())),
           transitionsFrom: S.optional(S.String.pipe(T.Query())),
           transitionsYears: S.optional(S.Number.pipe(T.Query())),
-          query: __S(0, __c0, 0).pipe(T.Query()),
+          query: __S(0, __c0, 0).pipe(T.Query(), T.CommaDelimited({})),
           xMsClientId: S.optional(S.String.pipe(T.Header("x-ms-client-id"))),
           acceptLanguage: S.optional(S.String.pipe(T.Header("Accept-Language"))),
         }).pipe(

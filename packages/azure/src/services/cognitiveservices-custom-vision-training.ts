@@ -2171,7 +2171,7 @@ function __c0(j: number): any {
         S.Struct({
           endpoint: S.String.pipe(T.HostLabel()),
           projectId: S.String.pipe(T.Label()),
-          tagIds: S.optional(__S(40, __c5, 0).pipe(T.Query())),
+          tagIds: S.optional(__S(40, __c5, 0).pipe(T.Query(), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2321,8 +2321,8 @@ function __c8(j: number): any {
         S.Struct({
           endpoint: S.String.pipe(T.HostLabel()),
           projectId: S.String.pipe(T.Label()),
-          imageIds: __S(40, __c5, 0).pipe(T.Query()),
-          tagIds: __S(40, __c5, 0).pipe(T.Query()),
+          imageIds: __S(40, __c5, 0).pipe(T.Query(), T.CommaDelimited({})),
+          tagIds: __S(40, __c5, 0).pipe(T.Query(), T.CommaDelimited({})),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -2362,7 +2362,7 @@ function __c10(j: number): any {
         S.Struct({
           endpoint: S.String.pipe(T.HostLabel()),
           projectId: S.String.pipe(T.Label()),
-          ids: __S(40, __c5, 0).pipe(T.Query()),
+          ids: __S(40, __c5, 0).pipe(T.Query(), T.CommaDelimited({})),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -2523,7 +2523,7 @@ function __c18(j: number): any {
           iterationId: S.optional(S.String.pipe(T.Query())),
           taggingStatus: S.optional(S.String.pipe(T.Query())),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
-          tagIds: S.optional(__S(40, __c5, 0).pipe(T.Query())),
+          tagIds: S.optional(__S(40, __c5, 0).pipe(T.Query(), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2662,7 +2662,7 @@ function __c24(j: number): any {
           endpoint: S.String.pipe(T.HostLabel()),
           projectId: S.String.pipe(T.Label()),
           iterationId: S.optional(S.String.pipe(T.Query())),
-          tagIds: S.optional(__S(40, __c5, 0).pipe(T.Query())),
+          tagIds: S.optional(__S(40, __c5, 0).pipe(T.Query(), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2795,7 +2795,7 @@ function __c29(j: number): any {
           endpoint: S.String.pipe(T.HostLabel()),
           projectId: S.String.pipe(T.Label()),
           iterationId: S.String.pipe(T.Label()),
-          tagIds: S.optional(__S(40, __c5, 0).pipe(T.Query())),
+          tagIds: S.optional(__S(40, __c5, 0).pipe(T.Query(), T.CommaDelimited({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2955,7 +2955,7 @@ function __c36(j: number): any {
         S.Struct({
           endpoint: S.String.pipe(T.HostLabel()),
           projectId: S.String.pipe(T.Label()),
-          imageIds: S.optional(__S(40, __c5, 0).pipe(T.Query())),
+          imageIds: S.optional(__S(40, __c5, 0).pipe(T.Query(), T.CommaDelimited({}))),
           iterationId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -2987,7 +2987,7 @@ function __c38(j: number): any {
           endpoint: S.String.pipe(T.HostLabel()),
           projectId: S.String.pipe(T.Label()),
           iterationId: S.optional(S.String.pipe(T.Query())),
-          tagIds: S.optional(__S(40, __c5, 0).pipe(T.Query())),
+          tagIds: S.optional(__S(40, __c5, 0).pipe(T.Query(), T.CommaDelimited({}))),
           taggingStatus: S.optional(S.String.pipe(T.Query())),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           orderBy: S.optional(S.String.pipe(T.Query())),
@@ -3092,7 +3092,7 @@ function __c41(j: number): any {
           endpoint: S.String.pipe(T.HostLabel()),
           projectId: S.String.pipe(T.Label()),
           iterationId: S.optional(S.String.pipe(T.Query())),
-          tagIds: S.optional(__S(40, __c5, 0).pipe(T.Query())),
+          tagIds: S.optional(__S(40, __c5, 0).pipe(T.Query(), T.CommaDelimited({}))),
           orderBy: S.optional(S.String.pipe(T.Query())),
           take: S.optional(S.Number.pipe(T.Query())),
           skip: S.optional(S.Number.pipe(T.Query())),
@@ -3165,7 +3165,7 @@ function __c44(j: number): any {
           endpoint: S.String.pipe(T.HostLabel()),
           projectId: S.String.pipe(T.Label()),
           iterationId: S.String.pipe(T.Label()),
-          tagIds: S.optional(__S(40, __c5, 0).pipe(T.Query())),
+          tagIds: S.optional(__S(40, __c5, 0).pipe(T.Query(), T.CommaDelimited({}))),
           orderBy: S.optional(S.String.pipe(T.Query())),
           take: S.optional(S.Number.pipe(T.Query())),
           skip: S.optional(S.Number.pipe(T.Query())),
@@ -3473,7 +3473,7 @@ function __c53(j: number): any {
           endpoint: S.String.pipe(T.HostLabel()),
           projectId: S.String.pipe(T.Label()),
           iterationId: S.String.pipe(T.Query()),
-          imageIds: __S(40, __c5, 0).pipe(T.Query()),
+          imageIds: __S(40, __c5, 0).pipe(T.Query(), T.CommaDelimited({})),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3581,7 +3581,7 @@ function __c57(j: number): any {
         S.Struct({
           endpoint: S.String.pipe(T.HostLabel()),
           projectId: S.String.pipe(T.Label()),
-          imageIds: __S(40, __c5, 0).pipe(T.Query()),
+          imageIds: __S(40, __c5, 0).pipe(T.Query(), T.CommaDelimited({})),
           body: __S(32, __c4, 0).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
@@ -3735,7 +3735,9 @@ function __c62(j: number): any {
           description: S.optional(S.String.pipe(T.Query())),
           domainId: S.optional(S.String.pipe(T.Query())),
           classificationType: S.optional(S.String.pipe(T.Query())),
-          targetExportPlatforms: S.optional(__S(504, __c63, 0).pipe(T.Query())),
+          targetExportPlatforms: S.optional(
+            __S(504, __c63, 0).pipe(T.Query(), T.CommaDelimited({})),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3834,7 +3836,7 @@ function __c67(j: number): any {
         S.Struct({
           endpoint: S.String.pipe(T.HostLabel()),
           projectId: S.String.pipe(T.Label()),
-          imageIds: S.optional(__S(40, __c5, 0).pipe(T.Query())),
+          imageIds: S.optional(__S(40, __c5, 0).pipe(T.Query(), T.CommaDelimited({}))),
           allImages: S.optional(S.Boolean.pipe(T.Query())),
           allIterations: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
@@ -3862,7 +3864,7 @@ function __c69(j: number): any {
         S.Struct({
           endpoint: S.String.pipe(T.HostLabel()),
           projectId: S.String.pipe(T.Label()),
-          regionIds: __S(40, __c5, 0).pipe(T.Query()),
+          regionIds: __S(40, __c5, 0).pipe(T.Query(), T.CommaDelimited({})),
         }).pipe(
           T.Http({
             method: "DELETE",

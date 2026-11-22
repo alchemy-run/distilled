@@ -184,6 +184,20 @@ const cases: readonly Case[] = [
     auth: "Bearer aad:https://search.azure.com/.default",
   },
   {
+    // `collectionFormat: csv` query arrays go out as one comma-joined value.
+    module: "search-data (csv query)",
+    run: () =>
+      search.DocumentsSearchGet({
+        endpoint: "https://my-search.search.windows.net",
+        indexName: "hotels",
+        searchFields: ["name", "city"],
+        _select: ["id", "name"],
+      }),
+    method: "GET",
+    url: "https://my-search.search.windows.net/indexes('hotels')/docs?searchFields=name%2Ccity&%24select=id%2Cname&api-version=2026-10-01",
+    auth: "Bearer aad:https://search.azure.com/.default",
+  },
+  {
     module: "monitor-ingestion",
     run: () =>
       ingestion.Upload({

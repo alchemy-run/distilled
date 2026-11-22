@@ -3410,8 +3410,8 @@ function __c27(j: number): any {
           executionTo: S.optional(S.String.pipe(T.Query())),
           status: S.optional(S.String.pipe(T.Query())),
           maxpagesize: S.optional(S.Number.pipe(T.Query())),
-          createdByTypes: S.optional(__S(960, __c60, 0).pipe(T.Query())),
-          testIds: S.optional(__S(960, __c60, 0).pipe(T.Query())),
+          createdByTypes: S.optional(__S(960, __c60, 0).pipe(T.Query(), T.CommaDelimited({}))),
+          testIds: S.optional(__S(960, __c60, 0).pipe(T.Query(), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({

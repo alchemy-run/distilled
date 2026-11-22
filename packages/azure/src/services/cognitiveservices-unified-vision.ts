@@ -362,11 +362,11 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           endpoint: S.String.pipe(T.HostLabel()),
-          features: S.optional(__S(32, __c1, 0).pipe(T.Query())),
+          features: S.optional(__S(32, __c1, 0).pipe(T.Query(), T.CommaDelimited({}))),
           language: S.optional(S.String.pipe(T.Query())),
           model_version: S.optional(S.String.pipe(T.Query("model-version"))),
           smartcrops_aspect_ratios: S.optional(
-            __S(33, __c1, 1).pipe(T.Query("smartcrops-aspect-ratios")),
+            __S(33, __c1, 1).pipe(T.Query("smartcrops-aspect-ratios"), T.CommaDelimited({})),
           ),
           gender_neutral_caption: S.optional(S.Boolean.pipe(T.Query("gender-neutral-caption"))),
           url: S.String,
@@ -554,10 +554,10 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           endpoint: S.String.pipe(T.HostLabel()),
-          features: S.optional(__S(32, __c1, 0).pipe(T.Query())),
+          features: S.optional(__S(32, __c1, 0).pipe(T.Query(), T.CommaDelimited({}))),
           language: S.optional(S.String.pipe(T.Query())),
           smartcrops_aspect_ratios: S.optional(
-            __S(33, __c1, 1).pipe(T.Query("smartcrops-aspect-ratios")),
+            __S(33, __c1, 1).pipe(T.Query("smartcrops-aspect-ratios"), T.CommaDelimited({})),
           ),
           gender_neutral_caption: S.optional(S.Boolean.pipe(T.Query("gender-neutral-caption"))),
           body: S.String.pipe(T.HttpBody()),

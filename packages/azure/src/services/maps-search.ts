@@ -972,11 +972,11 @@ function __c0(j: number): any {
         S.Struct({
           endpoint: S.optional(S.String.pipe(T.HostLabel())),
           query: S.String.pipe(T.Query()),
-          coordinates: S.optional(__S(16, __c1, 0).pipe(T.Query())),
-          bbox: S.optional(__S(16, __c1, 0).pipe(T.Query())),
+          coordinates: S.optional(__S(16, __c1, 0).pipe(T.Query(), T.CommaDelimited({}))),
+          bbox: S.optional(__S(16, __c1, 0).pipe(T.Query(), T.CommaDelimited({}))),
           top: S.optional(S.Number.pipe(T.Query())),
-          resultTypeGroups: S.optional(__S(32, __c2, 0).pipe(T.Query())),
-          resultTypes: S.optional(__S(32, __c2, 0).pipe(T.Query())),
+          resultTypeGroups: S.optional(__S(32, __c2, 0).pipe(T.Query(), T.CommaDelimited({}))),
+          resultTypes: S.optional(__S(32, __c2, 0).pipe(T.Query(), T.CommaDelimited({}))),
           view: S.optional(S.String.pipe(T.Query())),
           countryRegion: S.optional(S.String.pipe(T.Query())),
           xMsClientId: S.optional(S.String.pipe(T.Header("x-ms-client-id"))),
@@ -1094,9 +1094,9 @@ function __c3(j: number): any {
           query: S.optional(S.String.pipe(T.Query())),
           addressLine: S.optional(S.String.pipe(T.Query())),
           countryRegion: S.optional(S.String.pipe(T.Query())),
-          bbox: S.optional(__S(16, __c1, 0).pipe(T.Query())),
+          bbox: S.optional(__S(16, __c1, 0).pipe(T.Query(), T.CommaDelimited({}))),
           view: S.optional(S.String.pipe(T.Query())),
-          coordinates: S.optional(__S(16, __c1, 0).pipe(T.Query())),
+          coordinates: S.optional(__S(16, __c1, 0).pipe(T.Query(), T.CommaDelimited({}))),
           adminDistrict: S.optional(S.String.pipe(T.Query())),
           adminDistrict2: S.optional(S.String.pipe(T.Query())),
           adminDistrict3: S.optional(S.String.pipe(T.Query())),
@@ -1271,7 +1271,7 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           endpoint: S.optional(S.String.pipe(T.HostLabel())),
-          coordinates: __S(16, __c1, 0).pipe(T.Query()),
+          coordinates: __S(16, __c1, 0).pipe(T.Query(), T.CommaDelimited({})),
           view: S.optional(S.String.pipe(T.Query())),
           resultType: S.optional(S.String.pipe(T.Query())),
           resolution: S.optional(S.String.pipe(T.Query())),
@@ -1374,8 +1374,8 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           endpoint: S.optional(S.String.pipe(T.HostLabel())),
-          coordinates: __S(16, __c1, 0).pipe(T.Query()),
-          resultTypes: S.optional(__S(32, __c2, 0).pipe(T.Query())),
+          coordinates: __S(16, __c1, 0).pipe(T.Query(), T.CommaDelimited({})),
+          resultTypes: S.optional(__S(32, __c2, 0).pipe(T.Query(), T.CommaDelimited({}))),
           view: S.optional(S.String.pipe(T.Query())),
           xMsClientId: S.optional(S.String.pipe(T.Header("x-ms-client-id"))),
           acceptLanguage: S.optional(S.String.pipe(T.Header("Accept-Language"))),

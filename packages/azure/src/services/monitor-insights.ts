@@ -195,7 +195,7 @@ function __c0(j: number): any {
           endtime: S.optional(S.String.pipe(T.Query())),
           interval: S.optional(S.String.pipe(T.Query())),
           metricnamespace: S.String.pipe(T.Query()),
-          metricnames: __S(0, __c0, 0).pipe(T.Query()),
+          metricnames: __S(0, __c0, 0).pipe(T.Query(), T.CommaDelimited({})),
           aggregation: S.optional(S.String.pipe(T.Query())),
           top: S.optional(S.Number.pipe(T.Query())),
           orderby: S.optional(S.String.pipe(T.Query())),

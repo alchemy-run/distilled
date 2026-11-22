@@ -20911,7 +20911,7 @@ function __c54(j: number): any {
           _skip: S.optional(S.String.pipe(T.Query("$skip"))),
           count: S.optional(S.Number.pipe(T.Query())),
           isDefault: S.optional(S.Boolean.pipe(T.Query())),
-          names: S.optional(__S(6176, __c193, 0).pipe(T.Query())),
+          names: S.optional(__S(6176, __c193, 0).pipe(T.Query(), T.CommaDelimited({}))),
           searchText: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
           orderByAsc: S.optional(S.Boolean.pipe(T.Query())),

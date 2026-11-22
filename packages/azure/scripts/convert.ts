@@ -1805,6 +1805,62 @@ const pageMemberIdent = (name: string): string => {
   return out || "_";
 };
 
+/** Member trait: a list query member sent as ONE comma-separated value. */
+const COMMA_DELIMITED_TRAIT = "com.azure.protocols#commaDelimited";
+
+/**
+ * Query arrays the document sends as one comma-separated value
+ * (`collectionFormat: csv`, e.g. Storage's `include=metadata,snapshots`,
+ * Search's `$select`): the names that are `csv` wherever the document
+ * declares them. An absent `collectionFormat` (Swagger 2's `csv` default)
+ * stays repeated: Translator documents `to=de&to=fr` for its unmarked arrays.
+ */
+function csvQueryNames(doc: any): Set<string> {
+  const formats = new Map<string, Set<string>>();
+  const resolve = (p: any): any =>
+    typeof p?.$ref === "string" && p.$ref.startsWith("#/parameters/")
+      ? doc.parameters?.[p.$ref.slice("#/parameters/".length)]
+      : p;
+  const items: Array<[string, any]> = [
+    ...Object.entries<any>(doc.paths ?? {}),
+    ...Object.entries<any>(doc["x-ms-paths"] ?? {}),
+  ];
+  for (const [, item] of items) {
+    if (!item || typeof item !== "object") continue;
+    const shared = Array.isArray(item.parameters) ? item.parameters : [];
+    for (const method of HTTP_METHOD_KEYS) {
+      const op = item[method];
+      if (!op) continue;
+      for (const raw of [...shared, ...(Array.isArray(op.parameters) ? op.parameters : [])]) {
+        const param = resolve(raw);
+        if (param?.in !== "query" || param.type !== "array" || typeof param.name !== "string") {
+          continue;
+        }
+        const set = formats.get(param.name) ?? new Set<string>();
+        set.add(param.collectionFormat ?? "csv-default");
+        formats.set(param.name, set);
+      }
+    }
+  }
+  return new Set(
+    [...formats].filter(([, f]) => f.size === 1 && f.has("csv")).map(([name]) => name),
+  );
+}
+
+/** Stamp {@link COMMA_DELIMITED_TRAIT} on the list query members named in `names`. */
+function stampCommaDelimited(model: SmithyModel, names: ReadonlySet<string>): void {
+  if (names.size === 0) return;
+  for (const shape of Object.values<any>(model.shapes)) {
+    if (shape.type !== "structure") continue;
+    for (const member of Object.values<any>(shape.members ?? {})) {
+      const query = member.traits?.["smithy.api#httpQuery"];
+      if (typeof query !== "string" || !names.has(query)) continue;
+      if (model.shapes[member.target]?.type !== "list") continue;
+      member.traits[COMMA_DELIMITED_TRAIT] = {};
+    }
+  }
+}
+
 /** Tag every `x-ms-pageable` operation of a swagger document; returns their facts by marker index. */
 function markPageableOps(doc: any): PageableOp[] {
   const facts: PageableOp[] = [];
@@ -2021,6 +2077,7 @@ async function main() {
         });
         const upstreamOf = applyDeferredNames(model);
         foldApiVersion(model);
+        stampCommaDelimited(model, csvQueryNames(resolved));
         stampPageable(model, pageable);
         mergeSpecModel(merged, model, upstreamOf);
 
@@ -2106,6 +2163,7 @@ async function main() {
         });
         const upstreamOf = applyDeferredNames(model);
         stampDataPlaneModel(model, host, ops, resolved);
+        stampCommaDelimited(model, csvQueryNames(resolved));
         stampPageable(model, pageable);
         mergeSpecModel(merged, model, upstreamOf);
         specSuccessCount++;

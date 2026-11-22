@@ -653,11 +653,11 @@ function __c4(j: number): any {
           top: S.optional(S.Number.pipe(T.Query())),
           skip: S.optional(S.Number.pipe(T.Query())),
           maxpagesize: S.optional(S.Number.pipe(T.Query())),
-          ids: S.optional(__S(96, __c6, 0).pipe(T.Query())),
-          statuses: S.optional(__S(96, __c6, 0).pipe(T.Query())),
+          ids: S.optional(__S(96, __c6, 0).pipe(T.Query(), T.CommaDelimited({}))),
+          statuses: S.optional(__S(96, __c6, 0).pipe(T.Query(), T.CommaDelimited({}))),
           createdDateTimeUtcStart: S.optional(S.String.pipe(T.Query())),
           createdDateTimeUtcEnd: S.optional(S.String.pipe(T.Query())),
-          orderby: S.optional(__S(96, __c6, 0).pipe(T.Query())),
+          orderby: S.optional(__S(96, __c6, 0).pipe(T.Query(), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -784,11 +784,11 @@ function __c9(j: number): any {
           top: S.optional(S.Number.pipe(T.Query())),
           skip: S.optional(S.Number.pipe(T.Query())),
           maxpagesize: S.optional(S.Number.pipe(T.Query())),
-          ids: S.optional(__S(96, __c6, 0).pipe(T.Query())),
-          statuses: S.optional(__S(96, __c6, 0).pipe(T.Query())),
+          ids: S.optional(__S(96, __c6, 0).pipe(T.Query(), T.CommaDelimited({}))),
+          statuses: S.optional(__S(96, __c6, 0).pipe(T.Query(), T.CommaDelimited({}))),
           createdDateTimeUtcStart: S.optional(S.String.pipe(T.Query())),
           createdDateTimeUtcEnd: S.optional(S.String.pipe(T.Query())),
-          orderby: S.optional(__S(96, __c6, 0).pipe(T.Query())),
+          orderby: S.optional(__S(96, __c6, 0).pipe(T.Query(), T.CommaDelimited({}))),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({

@@ -8323,20 +8323,20 @@ function __c19(j: number): any {
           _count: S.optional(S.Boolean.pipe(T.Query("$count"))),
           facet: S.optional(__S(64, __c2, 0).pipe(T.Query())),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
-          highlight: S.optional(__S(64, __c2, 0).pipe(T.Query())),
+          highlight: S.optional(__S(64, __c2, 0).pipe(T.Query(), T.CommaDelimited({}))),
           highlightPostTag: S.optional(S.String.pipe(T.Query())),
           highlightPreTag: S.optional(S.String.pipe(T.Query())),
           minimumCoverage: S.optional(S.Number.pipe(T.Query())),
           moreLikeThis: S.optional(S.String.pipe(T.Query())),
-          _orderby: S.optional(__S(64, __c2, 0).pipe(T.Query("$orderby"))),
+          _orderby: S.optional(__S(64, __c2, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
           queryType: S.optional(S.String.pipe(T.Query())),
           scoringParameter: S.optional(__S(64, __c2, 0).pipe(T.Query())),
           scoringProfile: S.optional(S.String.pipe(T.Query())),
-          searchFields: S.optional(__S(64, __c2, 0).pipe(T.Query())),
+          searchFields: S.optional(__S(64, __c2, 0).pipe(T.Query(), T.CommaDelimited({}))),
           searchMode: S.optional(S.String.pipe(T.Query())),
           scoringStatistics: S.optional(S.String.pipe(T.Query())),
           sessionId: S.optional(S.String.pipe(T.Query())),
-          _select: S.optional(__S(64, __c2, 0).pipe(T.Query("$select"))),
+          _select: S.optional(__S(64, __c2, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
           _skip: S.optional(S.Number.pipe(T.Query("$skip"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           semanticConfiguration: S.optional(S.String.pipe(T.Query())),
@@ -8662,7 +8662,7 @@ function __c24(j: number): any {
           endpoint: S.String.pipe(T.HostLabel()),
           indexName: S.String.pipe(T.Label()),
           key: S.String.pipe(T.Label()),
-          _select: S.optional(__S(64, __c2, 0).pipe(T.Query("$select"))),
+          _select: S.optional(__S(64, __c2, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
           xMsClientRequestId: S.optional(S.String.pipe(T.Header("x-ms-client-request-id"))),
           xMsQuerySourceAuthorization: S.optional(
             S.String.pipe(T.Header("x-ms-query-source-authorization")),
@@ -8701,7 +8701,7 @@ function __c25(j: number): any {
           highlightPostTag: S.optional(S.String.pipe(T.Query())),
           highlightPreTag: S.optional(S.String.pipe(T.Query())),
           minimumCoverage: S.optional(S.Number.pipe(T.Query())),
-          searchFields: S.optional(__S(64, __c2, 0).pipe(T.Query())),
+          searchFields: S.optional(__S(64, __c2, 0).pipe(T.Query(), T.CommaDelimited({}))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           xMsClientRequestId: S.optional(S.String.pipe(T.Header("x-ms-client-request-id"))),
         }).pipe(
@@ -8752,9 +8752,9 @@ function __c27(j: number): any {
           highlightPostTag: S.optional(S.String.pipe(T.Query())),
           highlightPreTag: S.optional(S.String.pipe(T.Query())),
           minimumCoverage: S.optional(S.Number.pipe(T.Query())),
-          _orderby: S.optional(__S(64, __c2, 0).pipe(T.Query("$orderby"))),
-          searchFields: S.optional(__S(64, __c2, 0).pipe(T.Query())),
-          _select: S.optional(__S(64, __c2, 0).pipe(T.Query("$select"))),
+          _orderby: S.optional(__S(64, __c2, 0).pipe(T.Query("$orderby"), T.CommaDelimited({}))),
+          searchFields: S.optional(__S(64, __c2, 0).pipe(T.Query(), T.CommaDelimited({}))),
+          _select: S.optional(__S(64, __c2, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           xMsClientRequestId: S.optional(S.String.pipe(T.Header("x-ms-client-request-id"))),
         }).pipe(
@@ -10884,7 +10884,7 @@ function __c62(j: number): any {
       return S.suspend(() =>
         S.Struct({
           endpoint: S.String.pipe(T.HostLabel()),
-          _select: S.optional(__S(64, __c2, 0).pipe(T.Query("$select"))),
+          _select: S.optional(__S(64, __c2, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
           search: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           searchType: S.optional(S.String.pipe(T.Query())),
@@ -10971,7 +10971,7 @@ function __c64(j: number): any {
       return S.suspend(() =>
         S.Struct({
           endpoint: S.String.pipe(T.HostLabel()),
-          _select: S.optional(__S(64, __c2, 0).pipe(T.Query("$select"))),
+          _select: S.optional(__S(64, __c2, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
           search: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           searchType: S.optional(S.String.pipe(T.Query())),
@@ -11131,7 +11131,7 @@ function __c71(j: number): any {
       return S.suspend(() =>
         S.Struct({
           endpoint: S.String.pipe(T.HostLabel()),
-          _select: S.optional(__S(64, __c2, 0).pipe(T.Query("$select"))),
+          _select: S.optional(__S(64, __c2, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
           search: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           searchType: S.optional(S.String.pipe(T.Query())),
@@ -11317,7 +11317,7 @@ function __c76(j: number): any {
       return S.suspend(() =>
         S.Struct({
           endpoint: S.String.pipe(T.HostLabel()),
-          _select: S.optional(__S(64, __c2, 0).pipe(T.Query("$select"))),
+          _select: S.optional(__S(64, __c2, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
           search: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           searchType: S.optional(S.String.pipe(T.Query())),
@@ -11353,7 +11353,7 @@ function __c77(j: number): any {
       return S.suspend(() =>
         S.Struct({
           endpoint: S.String.pipe(T.HostLabel()),
-          _select: S.optional(__S(64, __c2, 0).pipe(T.Query("$select"))),
+          _select: S.optional(__S(64, __c2, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
           search: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           searchType: S.optional(S.String.pipe(T.Query())),

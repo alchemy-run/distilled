@@ -153,7 +153,7 @@ function __c0(j: number): any {
         S.Struct({
           endpoint: S.optional(S.String.pipe(T.HostLabel())),
           incidentType: S.optional(S.String.pipe(T.Query())),
-          bbox: __S(0, __c0, 0).pipe(T.Query()),
+          bbox: __S(0, __c0, 0).pipe(T.Query(), T.CommaDelimited({})),
           xMsClientId: S.optional(S.String.pipe(T.Header("x-ms-client-id"))),
           acceptLanguage: S.optional(S.String.pipe(T.Header("Accept-Language"))),
         }).pipe(

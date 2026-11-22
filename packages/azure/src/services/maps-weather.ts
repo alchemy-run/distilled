@@ -1851,7 +1851,7 @@ function __c0(j: number): any {
           endpoint: S.optional(S.String.pipe(T.HostLabel())),
           format: S.String.pipe(T.Label()),
           language: S.optional(S.String.pipe(T.Query())),
-          query: __S(16, __c1, 0).pipe(T.Query()),
+          query: __S(16, __c1, 0).pipe(T.Query(), T.CommaDelimited({})),
           duration: S.optional(S.Number.pipe(T.Query())),
           xMsClientId: S.optional(S.String.pipe(T.Header("x-ms-client-id"))),
         }).pipe(
@@ -1904,7 +1904,7 @@ function __c2(j: number): any {
           endpoint: S.optional(S.String.pipe(T.HostLabel())),
           format: S.String.pipe(T.Label()),
           language: S.optional(S.String.pipe(T.Query())),
-          query: __S(16, __c1, 0).pipe(T.Query()),
+          query: __S(16, __c1, 0).pipe(T.Query(), T.CommaDelimited({})),
           duration: S.optional(S.Number.pipe(T.Query())),
           pollutants: S.optional(S.Boolean.pipe(T.Query())),
           xMsClientId: S.optional(S.String.pipe(T.Header("x-ms-client-id"))),
@@ -1980,7 +1980,7 @@ function __c5(j: number): any {
         S.Struct({
           endpoint: S.optional(S.String.pipe(T.HostLabel())),
           format: S.String.pipe(T.Label()),
-          query: __S(16, __c1, 0).pipe(T.Query()),
+          query: __S(16, __c1, 0).pipe(T.Query(), T.CommaDelimited({})),
           interval: S.optional(S.Number.pipe(T.Query())),
           language: S.optional(S.String.pipe(T.Query())),
           xMsClientId: S.optional(S.String.pipe(T.Header("x-ms-client-id"))),
@@ -2064,7 +2064,7 @@ function __c6(j: number): any {
         S.Struct({
           endpoint: S.optional(S.String.pipe(T.HostLabel())),
           format: S.String.pipe(T.Label()),
-          query: __S(16, __c1, 0).pipe(T.Query()),
+          query: __S(16, __c1, 0).pipe(T.Query(), T.CommaDelimited({})),
           unit: S.optional(S.String.pipe(T.Query())),
           duration: S.optional(S.Number.pipe(T.Query())),
           language: S.optional(S.String.pipe(T.Query())),
@@ -2127,7 +2127,7 @@ function __c7(j: number): any {
         S.Struct({
           endpoint: S.optional(S.String.pipe(T.HostLabel())),
           format: S.String.pipe(T.Label()),
-          query: __S(16, __c1, 0).pipe(T.Query()),
+          query: __S(16, __c1, 0).pipe(T.Query(), T.CommaDelimited({})),
           language: S.optional(S.String.pipe(T.Query())),
           details: S.optional(S.String.pipe(T.Query())),
           xMsClientId: S.optional(S.String.pipe(T.Header("x-ms-client-id"))),
@@ -2600,7 +2600,7 @@ function __c14(j: number): any {
           endpoint: S.optional(S.String.pipe(T.HostLabel())),
           format: S.String.pipe(T.Label()),
           language: S.optional(S.String.pipe(T.Query())),
-          query: __S(16, __c1, 0).pipe(T.Query()),
+          query: __S(16, __c1, 0).pipe(T.Query(), T.CommaDelimited({})),
           pollutants: S.optional(S.Boolean.pipe(T.Query())),
           xMsClientId: S.optional(S.String.pipe(T.Header("x-ms-client-id"))),
         }).pipe(
@@ -2625,7 +2625,7 @@ function __c15(j: number): any {
         S.Struct({
           endpoint: S.optional(S.String.pipe(T.HostLabel())),
           format: S.String.pipe(T.Label()),
-          query: __S(16, __c1, 0).pipe(T.Query()),
+          query: __S(16, __c1, 0).pipe(T.Query(), T.CommaDelimited({})),
           unit: S.optional(S.String.pipe(T.Query())),
           details: S.optional(S.String.pipe(T.Query())),
           duration: S.optional(S.Number.pipe(T.Query())),
@@ -2748,7 +2748,7 @@ function __c18(j: number): any {
         S.Struct({
           endpoint: S.optional(S.String.pipe(T.HostLabel())),
           format: S.String.pipe(T.Label()),
-          query: __S(16, __c1, 0).pipe(T.Query()),
+          query: __S(16, __c1, 0).pipe(T.Query(), T.CommaDelimited({})),
           unit: S.optional(S.String.pipe(T.Query())),
           duration: S.optional(S.Number.pipe(T.Query())),
           language: S.optional(S.String.pipe(T.Query())),
@@ -2871,7 +2871,7 @@ function __c20(j: number): any {
         S.Struct({
           endpoint: S.optional(S.String.pipe(T.HostLabel())),
           format: S.String.pipe(T.Label()),
-          query: __S(16, __c1, 0).pipe(T.Query()),
+          query: __S(16, __c1, 0).pipe(T.Query(), T.CommaDelimited({})),
           startDate: S.String.pipe(T.Query()),
           endDate: S.String.pipe(T.Query()),
           unit: S.optional(S.String.pipe(T.Query())),
@@ -2930,7 +2930,7 @@ function __c22(j: number): any {
         S.Struct({
           endpoint: S.optional(S.String.pipe(T.HostLabel())),
           format: S.String.pipe(T.Label()),
-          query: __S(16, __c1, 0).pipe(T.Query()),
+          query: __S(16, __c1, 0).pipe(T.Query(), T.CommaDelimited({})),
           startDate: S.String.pipe(T.Query()),
           endDate: S.String.pipe(T.Query()),
           unit: S.optional(S.String.pipe(T.Query())),
@@ -2975,7 +2975,7 @@ function __c23(j: number): any {
         S.Struct({
           endpoint: S.optional(S.String.pipe(T.HostLabel())),
           format: S.String.pipe(T.Label()),
-          query: __S(16, __c1, 0).pipe(T.Query()),
+          query: __S(16, __c1, 0).pipe(T.Query(), T.CommaDelimited({})),
           startDate: S.String.pipe(T.Query()),
           endDate: S.String.pipe(T.Query()),
           unit: S.optional(S.String.pipe(T.Query())),
@@ -3043,7 +3043,7 @@ function __c24(j: number): any {
         S.Struct({
           endpoint: S.optional(S.String.pipe(T.HostLabel())),
           format: S.String.pipe(T.Label()),
-          query: __S(16, __c1, 0).pipe(T.Query()),
+          query: __S(16, __c1, 0).pipe(T.Query(), T.CommaDelimited({})),
           language: S.optional(S.String.pipe(T.Query())),
           duration: S.optional(S.Number.pipe(T.Query())),
           indexId: S.optional(S.Number.pipe(T.Query())),
@@ -3092,7 +3092,7 @@ function __c25(j: number): any {
         S.Struct({
           endpoint: S.optional(S.String.pipe(T.HostLabel())),
           format: S.String.pipe(T.Label()),
-          query: __S(16, __c1, 0).pipe(T.Query()),
+          query: __S(16, __c1, 0).pipe(T.Query(), T.CommaDelimited({})),
           unit: S.optional(S.String.pipe(T.Query())),
           duration: S.optional(S.Number.pipe(T.Query())),
           language: S.optional(S.String.pipe(T.Query())),
