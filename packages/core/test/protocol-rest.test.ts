@@ -780,6 +780,57 @@ describe("makeRestProtocol label refusals", () => {
     expect(error.member).toBe("id");
     expect(sent).toBe(0);
   });
+
+  // `DELETE /things/` would address the collection `/things`.
+  test('a required `""` label fails with InvalidInput and sends nothing', async () => {
+    let sent = 0;
+    const error = await failWith(
+      createThingWithErrors({ id: "" }),
+      fakeClient(() => {
+        sent++;
+        return json({});
+      }),
+      creds(),
+    );
+    expect(error._tag).toBe("InvalidInput");
+    expect(error.member).toBe("id");
+    expect(sent).toBe(0);
+  });
+
+  test('a required `""` greedy label fails with InvalidInput', async () => {
+    const deleteObject = API.make(() => ({
+      input: L.Struct({ key: L.String.pipe(T.Label()) }).pipe(
+        T.Http({ method: "DELETE", uri: "/objects/{key+}" }),
+      ),
+      output: L.Struct({}),
+      protocol: DefaultProtocol,
+    })) as unknown as (input: Record<string, unknown>) => Effect.Effect<any, any, any>;
+    const error = await failWith(
+      deleteObject({ key: "" }),
+      fakeClient(() => json({})),
+      creds(),
+    );
+    expect(error._tag).toBe("InvalidInput");
+    expect(error.member).toBe("key");
+  });
+
+  test('an optional `""` label sends an empty segment', async () => {
+    const getSecret = API.make(() => ({
+      input: L.Struct({
+        name: L.String.pipe(T.Label()),
+        version: L.optional(L.String.pipe(T.Label())),
+      }).pipe(T.Http({ method: "GET", uri: "/secrets/{name}/{version}" })),
+      output: L.Struct({}),
+      protocol: DefaultProtocol,
+    })) as unknown as (input: Record<string, unknown>) => Effect.Effect<any, any, any>;
+    const recorded: Recorded = { requests: [] };
+    await succeed(
+      getSecret({ name: "db", version: "" }),
+      fakeClient(() => json({}), recorded),
+      creds(),
+    );
+    expect(recorded.requests[0]!.url).toBe("https://api.test/secrets/db/");
+  });
 });
 
 // =============================================================================
