@@ -66,7 +66,7 @@ const spec: SdkSpec = {
   operationDecl: {
     contextType: "MollieOpContext",
     commonErrorType: "MollieOpError",
-    commonErrorClasses: ["UnknownMollieError"],
+    serviceErrors: "MollieServiceErrors",
     protocol: "MollieProtocol",
     retry: "Retry.Retry",
   },

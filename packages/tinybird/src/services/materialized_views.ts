@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownTinybirdError } from "../errors.ts";
+import { TinybirdServiceErrors } from "../errors.ts";
 import { TinybirdProtocol, type TinybirdOpError, type TinybirdOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -79,7 +79,8 @@ export const createPipeNodeMaterialization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreatePipeNodeMaterializationRequest>,
   output: __S(3, __c1, 1) as any as S.Schema<CreatePipeNodeMaterializationResponse>,
-  errors: [UnknownTinybirdError],
+  errors: [],
+  serviceErrors: TinybirdServiceErrors,
   protocol: TinybirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96,7 +97,8 @@ export const deletePipeNodeMaterialization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c2, 0) as any as S.Schema<DeletePipeNodeMaterializationRequest>,
   output: __S(3, __c1, 1) as any as S.Schema<DeletePipeNodeMaterializationResponse>,
-  errors: [UnknownTinybirdError],
+  errors: [],
+  serviceErrors: TinybirdServiceErrors,
   protocol: TinybirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -113,7 +115,8 @@ export const populatePipeNode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6, __c3, 0) as any as S.Schema<PopulatePipeNodeRequest>,
   output: __S(3, __c1, 1) as any as S.Schema<PopulatePipeNodeResponse>,
-  errors: [UnknownTinybirdError],
+  errors: [],
+  serviceErrors: TinybirdServiceErrors,
   protocol: TinybirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

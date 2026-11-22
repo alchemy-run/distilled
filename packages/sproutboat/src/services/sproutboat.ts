@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownSproutboatError } from "../errors.ts";
+import { SproutboatServiceErrors } from "../errors.ts";
 import {
   SproutboatProtocol,
   type SproutboatOpError,
@@ -997,7 +997,8 @@ export const addDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<AddDomainRequest>,
   output: __S(67, __c4, 3) as any as S.Schema<DomainClaim>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownSproutboatError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1014,7 +1015,8 @@ export const cancelBuild: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<CancelBuildRequest>,
   output: __S(99, __c6, 3) as any as S.Schema<Build>,
-  errors: [Forbidden, NotFound, UnknownSproutboatError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1047,8 +1049,8 @@ export const createBuild: API.OperationMethod<
     HostNotYours,
     RouteTaken,
     SourceMissing,
-    UnknownSproutboatError,
   ],
+  serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1065,7 +1067,8 @@ export const deleteApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<DeleteAppRequest>,
   output: __S(161, __c10, 1) as any as S.Schema<DeleteAppResponse>,
-  errors: [Forbidden, NotFound, UnknownSproutboatError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1082,7 +1085,8 @@ export const deleteDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<DeleteDomainRequest>,
   output: __S(177, __c11, 1) as any as S.Schema<DeleteDomainResponse>,
-  errors: [Forbidden, NotFound, Conflict, DomainInUse, UnknownSproutboatError],
+  errors: [Forbidden, NotFound, Conflict, DomainInUse],
+  serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1099,7 +1103,8 @@ export const deleteR2Object: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<DeleteR2ObjectRequest>,
   output: __S(193, __c12, 1) as any as S.Schema<DeleteR2ObjectResponse>,
-  errors: [Forbidden, NotFound, UnknownSproutboatError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1116,7 +1121,8 @@ export const deleteSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<DeleteSecretRequest>,
   output: __S(224, __c14, 0) as any as S.Schema<SecretWritten>,
-  errors: [Forbidden, NotFound, UnknownSproutboatError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1133,7 +1139,8 @@ export const findMissingAssets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<FindMissingAssetsRequest>,
   output: __S(256, __c16, 0) as any as S.Schema<MissingList>,
-  errors: [BadRequest, Forbidden, UnknownSproutboatError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1150,7 +1157,8 @@ export const findMissingSources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<FindMissingSourcesRequest>,
   output: __S(256, __c16, 0) as any as S.Schema<MissingList>,
-  errors: [BadRequest, Forbidden, UnknownSproutboatError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1163,7 +1171,8 @@ export const getApp: API.OperationMethod<GetAppRequest, App, GetAppError, Sprout
   /*@__PURE__*/ API.make(() => ({
     input: __S(288, __c18, 0) as any as S.Schema<GetAppRequest>,
     output: __S(295, __c18, 7) as any as S.Schema<App>,
-    errors: [Forbidden, NotFound, UnknownSproutboatError],
+    errors: [Forbidden, NotFound],
+    serviceErrors: SproutboatServiceErrors,
     protocol: SproutboatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1180,7 +1189,8 @@ export const getAppEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<GetAppEventsRequest>,
   output: __S(323, __c20, 3) as any as S.Schema<GetAppEventsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownSproutboatError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1197,7 +1207,8 @@ export const getAppMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<GetAppMetricsRequest>,
   output: __S(337, __c21, 1) as any as S.Schema<GetAppMetricsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownSproutboatError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1214,7 +1225,8 @@ export const getAssetManifest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<GetAssetManifestRequest>,
   output: __S(369, __c23, 1) as any as S.Schema<AssetManifest>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownSproutboatError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1231,7 +1243,8 @@ export const getBuild: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<GetBuildRequest>,
   output: __S(99, __c6, 3) as any as S.Schema<Build>,
-  errors: [Forbidden, NotFound, UnknownSproutboatError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1248,7 +1261,8 @@ export const getDomainStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<GetDomainStatusRequest>,
   output: __S(418, __c26, 2) as any as S.Schema<GetDomainStatusResponse>,
-  errors: [Forbidden, NotFound, UnknownSproutboatError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1265,7 +1279,8 @@ export const getHealth: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<GetHealthRequest>,
   output: __S(433, __c27, 1) as any as S.Schema<GetHealthResponse>,
-  errors: [UnknownSproutboatError],
+  errors: [],
+  serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1282,7 +1297,8 @@ export const getLimits: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<GetLimitsRequest>,
   output: __S(452, __c28, 4) as any as S.Schema<GetLimitsResponse>,
-  errors: [Forbidden, UnknownSproutboatError],
+  errors: [Forbidden],
+  serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1299,7 +1315,8 @@ export const getR2Object: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<GetR2ObjectRequest>,
   output: __S(465, __c29, 1) as any as S.Codec<GetR2ObjectResponse>,
-  errors: [Forbidden, NotFound, UnknownSproutboatError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1316,7 +1333,8 @@ export const getWhoami: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<GetWhoamiRequest>,
   output: __S(484, __c30, 4) as any as S.Schema<Whoami>,
-  errors: [UnknownSproutboatError],
+  errors: [],
+  serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1333,7 +1351,8 @@ export const listApps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<ListAppsRequest>,
   output: __S(499, __c31, 3) as any as S.Schema<ListAppsResponse>,
-  errors: [Forbidden, UnknownSproutboatError],
+  errors: [Forbidden],
+  serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1350,7 +1369,8 @@ export const listBuilds: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<ListBuildsRequest>,
   output: __S(514, __c32, 2) as any as S.Schema<ListBuildsResponse>,
-  errors: [BadRequest, Forbidden, UnknownSproutboatError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1367,7 +1387,8 @@ export const listDomains: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<ListDomainsRequest>,
   output: __S(530, __c33, 2) as any as S.Schema<ListDomainsResponse>,
-  errors: [Forbidden, UnknownSproutboatError],
+  errors: [Forbidden],
+  serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1384,7 +1405,8 @@ export const listNotices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<ListNoticesRequest>,
   output: __S(547, __c34, 3) as any as S.Schema<ListNoticesResponse>,
-  errors: [Forbidden, UnknownSproutboatError],
+  errors: [Forbidden],
+  serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1401,7 +1423,8 @@ export const listSecrets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c35, 0) as any as S.Schema<ListSecretsRequest>,
   output: __S(561, __c35, 1) as any as S.Schema<ListSecretsResponse>,
-  errors: [Forbidden, NotFound, UnknownSproutboatError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1425,15 +1448,8 @@ export const patchRoutes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c36, 0) as any as S.Schema<PatchRoutesRequest>,
   output: __S(577, __c36, 1) as any as S.Schema<PatchRoutesResponse>,
-  errors: [
-    BadRequest,
-    Forbidden,
-    NotFound,
-    Conflict,
-    HostNotYours,
-    RouteTaken,
-    UnknownSproutboatError,
-  ],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, HostNotYours, RouteTaken],
+  serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1450,7 +1466,8 @@ export const patchSecrets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(592, __c37, 0) as any as S.Schema<PatchSecretsRequest>,
   output: __S(593, __c37, 1) as any as S.Schema<PatchSecretsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownSproutboatError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1474,15 +1491,8 @@ export const putApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(626, __c39, 2) as any as S.Schema<PutAppRequest>,
   output: __S(627, __c39, 3) as any as S.Schema<GenerationWritten>,
-  errors: [
-    BadRequest,
-    Forbidden,
-    Conflict,
-    HostNotYours,
-    ModuleUploadDisabled,
-    RouteTaken,
-    UnknownSproutboatError,
-  ],
+  errors: [BadRequest, Forbidden, Conflict, HostNotYours, ModuleUploadDisabled, RouteTaken],
+  serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1499,7 +1509,8 @@ export const putAssetBlob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c40, 0) as any as S.Schema<PutAssetBlobRequest>,
   output: __S(656, __c41, 0) as any as S.Schema<Stored>,
-  errors: [BadRequest, Forbidden, PayloadTooLarge, UnknownSproutboatError],
+  errors: [BadRequest, Forbidden, PayloadTooLarge],
+  serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1522,7 +1533,8 @@ export const putAssetManifest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c42, 0) as any as S.Schema<PutAssetManifestRequest>,
   output: __S(673, __c42, 1) as any as S.Schema<PutAssetManifestResponse>,
-  errors: [BadRequest, Forbidden, Conflict, PayloadTooLarge, BlobsMissing, UnknownSproutboatError],
+  errors: [BadRequest, Forbidden, Conflict, PayloadTooLarge, BlobsMissing],
+  serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1544,7 +1556,8 @@ export const putR2Object: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c43, 0) as any as S.Schema<PutR2ObjectRequest>,
   output: __S(689, __c43, 1) as any as S.Schema<PutR2ObjectResponse>,
-  errors: [BadRequest, Forbidden, NotFound, PayloadTooLarge, UnknownSproutboatError],
+  errors: [BadRequest, Forbidden, NotFound, PayloadTooLarge],
+  serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1561,7 +1574,8 @@ export const putSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c44, 0) as any as S.Schema<PutSecretRequest>,
   output: __S(224, __c14, 0) as any as S.Schema<SecretWritten>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownSproutboatError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1578,7 +1592,8 @@ export const putSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(720, __c45, 0) as any as S.Schema<PutSourceRequest>,
   output: __S(656, __c41, 0) as any as S.Schema<Stored>,
-  errors: [BadRequest, Forbidden, PayloadTooLarge, UnknownSproutboatError],
+  errors: [BadRequest, Forbidden, PayloadTooLarge],
+  serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1595,7 +1610,8 @@ export const queryD1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(739, __c46, 3) as any as S.Schema<QueryD1Request>,
   output: __S(742, __c46, 6) as any as S.Schema<QueryD1Response>,
-  errors: [BadRequest, Forbidden, NotFound, PayloadTooLarge, UnknownSproutboatError],
+  errors: [BadRequest, Forbidden, NotFound, PayloadTooLarge],
+  serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1612,7 +1628,8 @@ export const revokeSelf: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(752, __c47, 0) as any as S.Schema<RevokeSelfRequest>,
   output: __S(753, __c47, 1) as any as S.Schema<RevokeSelfResponse>,
-  errors: [UnknownSproutboatError],
+  errors: [],
+  serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1629,7 +1646,8 @@ export const verifyDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c48, 0) as any as S.Schema<VerifyDomainRequest>,
   output: __S(67, __c4, 3) as any as S.Schema<DomainClaim>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownSproutboatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
