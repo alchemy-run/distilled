@@ -6,6 +6,7 @@ import type {
   EncodeArgs,
   Operation as ProtocolOperation,
   Protocol,
+  ProtocolOf,
 } from "@distilled.cloud/core/protocol";
 import type { InvalidInput } from "@distilled.cloud/core/protocol-http";
 import { SdkError } from "@distilled.cloud/core/sdk-error";
@@ -73,13 +74,7 @@ import {
 import type { Response } from "./client/response.ts";
 import * as Credentials from "./credentials.ts";
 import * as Endpoint from "./endpoint.ts";
-import {
-  EndpointError,
-  type InternalError,
-  type NoMatchingRuleError,
-  type ParseError,
-  type UnknownAwsError,
-} from "./errors.ts";
+import { EndpointError, type ParseError } from "./errors.ts";
 import * as Region from "./region.ts";
 import { dnsSuffix } from "./rules-engine/aws-functions.ts";
 import { makeEndpointResolver } from "./rules-engine/endpoint-resolver.ts";
@@ -110,36 +105,6 @@ import { bodyStream, isOneShotBody, isStreamBody, type StreamBody } from "./util
  * it again.
  */
 export type AwsOpContext = Credentials.Credentials | HttpClient.HttpClient;
-
-/**
- * The errors declared on the AWS protocol: what the code that builds
- * requests and reads responses fails with, besides the errors an operation
- * and its service declare.
- *
- * - `ParseError`: an input or a response that does not match its schema, or
- *   an error response the wire protocol can't read.
- * - `UnknownAwsError`: an error code that no declared class answers to.
- * - `InternalError`: a 5xx without an error code.
- * - `InvalidInput`: a path or host label that would address another
- *   resource, refused before anything is signed.
- * - `SdkError`: this SDK can't make the call (a protocol, middleware or
- *   codec module that did not load, an operation without a protocol).
- * - `EndpointError`, `NoMatchingRuleError`: the endpoint rules reject the
- *   call's parameters.
- * - `SigV4.SigningError`: the request can't be signed.
- * - `HttpClientError`: the request failed, or the response body could not
- *   be read.
- */
-export type AwsProtocolError =
-  | ParseError
-  | UnknownAwsError
-  | InternalError
-  | InvalidInput
-  | SdkError
-  | EndpointError
-  | NoMatchingRuleError
-  | SigV4.SigningError
-  | HttpClientError.HttpClientError;
 
 /** What a response parser fails with. */
 type ParseFailure = DeclaredError | ResponseParseError;
@@ -813,21 +778,7 @@ const call = (op: ProtocolOperation, input: unknown) =>
         );
   });
 
-/**
- * The protocol every generated AWS operation references. The annotation is
- * the check: everything its methods fail with, besides the errors an
- * operation and its service declare, must be in {@link AwsProtocolError} or
- * come from the provided `Credentials`, `Region` and `Endpoint`
- * (`Credentials.ProviderError`).
- *
- * It is one module-level value shared by every operation, so nothing here
- * captures credentials: they, the region and the endpoint are read from the
- * calling fiber's context on every request.
- */
-export const AwsProtocol: Protocol<
-  AwsProtocolError | Credentials.ProviderError,
-  Credentials.Credentials
-> = {
+const awsProtocolMethods = {
   encode: ({ input, config }: EncodeArgs) =>
     Effect.withFiber((fiber) => {
       const prepared = prepare(config);
@@ -845,4 +796,31 @@ export const AwsProtocol: Protocol<
       );
     }),
   call,
-};
+} satisfies Protocol<unknown, unknown>;
+
+/**
+ * The protocol every generated AWS operation references. Its type is read
+ * from its methods ({@link ProtocolOf}): what they fail with, besides the
+ * errors an operation and its service declare, is what the protocol
+ * declares.
+ *
+ * - `ParseError`: an input or a response that does not match its schema, or
+ *   an error response the wire protocol can't read.
+ * - `UnknownAwsError`: an error code that no declared class answers to.
+ * - `InternalError`: a 5xx without an error code.
+ * - `InvalidInput`: a path or host label that would address another
+ *   resource, refused before anything is signed.
+ * - `SdkError`: this SDK can't make the call (a protocol, middleware or
+ *   codec module that did not load, an operation without a protocol).
+ * - `EndpointError`: the endpoint rules reject the call's parameters.
+ * - `SigV4.SigningError`: the request can't be signed.
+ * - `HttpClientError`: the request failed, or the response body could not
+ *   be read.
+ * - `Credentials.ProviderError`: what the provided `Credentials`, `Region`
+ *   and `Endpoint` fail with.
+ *
+ * It is one module-level value shared by every operation, so nothing here
+ * captures credentials: they, the region and the endpoint are read from the
+ * calling fiber's context on every request.
+ */
+export const AwsProtocol: ProtocolOf<typeof awsProtocolMethods> = awsProtocolMethods;
