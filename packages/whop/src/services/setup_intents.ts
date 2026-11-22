@@ -725,7 +725,9 @@ function __c1(j: number): any {
           payment_method_id: S.optional(S.NullOr(S.String)),
           purpose: S.optional(S.NullOr(S.String)),
           return_url: S.optional(S.NullOr(S.String)),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/setup_intents", code: 200 })),
       ).annotate({ identifier: "CreateSetupIntentRequest" });
   }

@@ -1311,7 +1311,9 @@ function __c0(j: number): any {
           repo_id: S.String.pipe(T.Label()),
           number: S.String.pipe(T.Label()),
           review_id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           comments: S.optional(S.NullOr(__S(35, __c2, 3))),
           summary: S.optional(S.NullOr(S.String)),
         }).pipe(
@@ -1561,7 +1563,9 @@ function __c5(j: number): any {
           repo_id: S.String.pipe(T.Label()),
           number: S.String.pipe(T.Label()),
           review_id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           comments: S.optional(S.NullOr(__S(35, __c2, 3))),
           summary: S.optional(S.NullOr(S.String)),
         }).pipe(
@@ -1868,7 +1872,9 @@ function __c19(j: number): any {
           repo: S.String.pipe(T.Label()),
           number: S.String.pipe(T.Label()),
           review_id: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           comments: S.optional(S.NullOr(__S(35, __c2, 3))),
           summary: S.optional(S.NullOr(S.String)),
         }).pipe(
@@ -1895,7 +1901,9 @@ function __c20(j: number): any {
         S.Struct({
           repo_id: S.String.pipe(T.Label()),
           number: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           actor_id: S.optional(S.String),
           base_ref: S.optional(S.String),
           base_sha: S.optional(S.NullOr(S.String)),
@@ -1944,7 +1952,9 @@ function __c22(j: number): any {
         S.Struct({
           repo_id: S.String.pipe(T.Label()),
           number: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           actor_id: S.optional(S.String),
           base_ref: S.optional(S.String),
           base_sha: S.optional(S.NullOr(S.String)),
@@ -1969,7 +1979,9 @@ function __c23(j: number): any {
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
           number: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           actor_id: S.optional(S.String),
           base_ref: S.optional(S.String),
           base_sha: S.optional(S.NullOr(S.String)),

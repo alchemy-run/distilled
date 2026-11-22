@@ -238,7 +238,7 @@ export interface CreateExperimentTemplateReportConfigurationInput {
   postExperimentDuration?: string | undefined;
 }
 export interface CreateExperimentTemplateRequest {
-  clientToken: string;
+  clientToken?: string | undefined;
   description: string;
   stopConditions: CreateExperimentTemplateStopConditionInput[];
   targets?: { [key: string]: CreateExperimentTemplateTargetInput | undefined } | undefined;
@@ -775,7 +775,7 @@ export interface StartExperimentExperimentOptionsInput {
   actionsMode?: ActionsMode | undefined;
 }
 export interface StartExperimentRequest {
-  clientToken: string;
+  clientToken?: string | undefined;
   experimentTemplateId: string;
   experimentOptions?: StartExperimentExperimentOptionsInput | undefined;
   tags?: { [key: string]: string | undefined } | undefined;
@@ -1906,7 +1906,7 @@ function __c15(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           experimentTemplateId: S.String,
           experimentOptions: S.optional(__S(240, __c15, 0)),
           tags: S.optional(__S(416, __c26, 0)),
@@ -2089,7 +2089,7 @@ function __c23(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           description: S.String,
           stopConditions: __S(385, __c24, 1),
           targets: S.optional(__S(389, __c24, 5)),

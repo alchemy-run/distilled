@@ -1,0 +1,101 @@
+{
+  "description": "createToken also creates JWTs (https://www.tinybird.co/docs/api-reference/token-api, \"Creating a new JWT Token\"): \"If we provide an `expiration_time` in the URL, the token will be created as a JWT Token\", and the example sends the scopes as a JSON body: `POST /v0/tokens?name=jwt_token&expiration_time=1710000000 -d '{\"scopes\": [{\"type\": \"PIPES:READ\", \"resource\": \"requests_per_day\", \"fixed_params\": {\"user_id\": 3}}]}'`. The request parameters table lists neither, so `expiration_time` is added as a query parameter (Unix seconds) and `scopes` as a JSON body member whose `fixed_params` are caller-named template parameters pinned into the token. The JWT response adds `exp` and per-scope `fixed_params` to the token shape. Live (2026-11-18): POST /v0/tokens?name=...&expiration_time=<now+300> with that body answered 200 `{token, name, exp, scopes: [{type, resource, fixed_params: {city: \"Oslo\"}}]}`; createToken passes ResponseValidation.strict; queryPipe on distilled_endpoint (default city Chicago) with the returned JWT answered only the Oslo row, and the same JWT on another pipe answered 403 (Forbidden).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.token#PostV0TokensRequest/members/expiration_time",
+      "value": {
+        "target": "smithy.api#Long",
+        "traits": {
+          "smithy.api#httpQuery": "expiration_time",
+          "smithy.api#documentation": "Optional. Expiry as a Unix timestamp in seconds. When set, the token is created as a JWT with the `scopes` of the body."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.token#PostV0TokensRequest/members/scopes",
+      "value": {
+        "target": "com.tinybird.token#JwtScopeList",
+        "traits": {
+          "smithy.api#documentation": "JWT scopes, sent as the JSON body. Only used with `expiration_time`; static tokens take `scope`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.token#JwtScopeList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.tinybird.token#JwtScope"
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.token#JwtScope",
+      "value": {
+        "type": "structure",
+        "members": {
+          "type": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "Scope type, e.g. `PIPES:READ` or `DATASOURCES:READ`."
+            }
+          },
+          "resource": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The Pipe or Data Source the scope grants."
+            }
+          },
+          "fixed_params": {
+            "target": "com.tinybird.token#JwtFixedParams",
+            "traits": {
+              "smithy.api#documentation": "Template parameters pinned into the token: every query made with it uses these values, whatever the caller sends."
+            }
+          }
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.token#JwtFixedParams",
+      "value": {
+        "type": "map",
+        "key": {
+          "target": "smithy.api#String"
+        },
+        "value": {
+          "target": "smithy.api#Document"
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.token#Token/members/exp",
+      "value": {
+        "target": "smithy.api#Long",
+        "traits": {
+          "smithy.api#documentation": "JWT expiry as a Unix timestamp in seconds. Only on JWTs."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.token#TokenScope/members/fixed_params",
+      "value": {
+        "target": "com.tinybird.token#JwtFixedParams",
+        "traits": {
+          "smithy.api#documentation": "Template parameters pinned into a JWT scope."
+        }
+      }
+    }
+  ]
+}

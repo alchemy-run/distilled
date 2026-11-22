@@ -1,0 +1,14 @@
+{
+  "description": "GET /v0/pipes/<name>.pipe answers with the Pipe's datafile as text/plain, not JSON. Live: GET /v0/pipes/distilled_endpoint.pipe 200 text/plain `NODE events_by_city\\nSQL >\\n...`.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.pipe#GetV0PipesPipePipeResponse/members/body/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.tinybird.pipe#GetV0PipesPipePipeResponseBodyMap"
+    }
+  ]
+}
