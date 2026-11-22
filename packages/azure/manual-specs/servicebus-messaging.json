@@ -1,0 +1,1524 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "note": "Hand-authored: Service Bus has no Swagger for its messaging runtime. Transcribed from learn.microsoft.com/rest/api/servicebus (send-message-to-queue, send-message-batch, peek-lock-message-non-destructive-read, receive-and-delete-message-destructive-read, unlock-message, delete-message, renew-lock-for-a-message). Error matchers checked against the live service on 2026-10-23.",
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ]
+  },
+  "shapes": {
+    "com.azure.servicebus_messaging#BatchMessage": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#jsonName": "Body",
+            "smithy.api#documentation": "The message body: UTF-8 text, or base64 when `isBodyBase64` is true."
+          }
+        },
+        "isBodyBase64": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#jsonName": "IsBodyBase64",
+            "smithy.api#documentation": "The body is base64-encoded binary."
+          }
+        },
+        "brokerProperties": {
+          "target": "com.azure.servicebus_messaging#BrokerProperties",
+          "traits": {
+            "smithy.api#jsonName": "BrokerProperties",
+            "smithy.api#documentation": "The message's broker properties."
+          }
+        },
+        "userProperties": {
+          "target": "com.azure.servicebus_messaging#UserProperties",
+          "traits": {
+            "smithy.api#jsonName": "UserProperties",
+            "smithy.api#documentation": "The message's custom properties."
+          }
+        }
+      }
+    },
+    "com.azure.servicebus_messaging#BatchMessageList": {
+      "type": "list",
+      "member": {
+        "target": "com.azure.servicebus_messaging#BatchMessage"
+      }
+    },
+    "com.azure.servicebus_messaging#BrokerProperties": {
+      "type": "structure",
+      "members": {
+        "contentType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#jsonName": "ContentType",
+            "smithy.api#documentation": "The message's content type."
+          }
+        },
+        "correlationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#jsonName": "CorrelationId",
+            "smithy.api#documentation": "The correlation identifier."
+          }
+        },
+        "sessionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#jsonName": "SessionId",
+            "smithy.api#documentation": "The session identifier, for session-aware entities."
+          }
+        },
+        "deliveryCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#jsonName": "DeliveryCount",
+            "smithy.api#documentation": "How many times the message was delivered (receive only)."
+          }
+        },
+        "lockedUntilUtc": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#jsonName": "LockedUntilUtc",
+            "smithy.api#documentation": "When the lock expires, RFC 1123 (peek-lock only)."
+          }
+        },
+        "lockToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#jsonName": "LockToken",
+            "smithy.api#documentation": "The lock token of a peek-locked message; settle the message with it."
+          }
+        },
+        "messageId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#jsonName": "MessageId",
+            "smithy.api#documentation": "The message identifier."
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#jsonName": "Label",
+            "smithy.api#documentation": "The application-specific label (subject)."
+          }
+        },
+        "replyTo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#jsonName": "ReplyTo",
+            "smithy.api#documentation": "The address to reply to."
+          }
+        },
+        "replyToSessionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#jsonName": "ReplyToSessionId",
+            "smithy.api#documentation": "The session identifier to reply to."
+          }
+        },
+        "enqueuedTimeUtc": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#jsonName": "EnqueuedTimeUtc",
+            "smithy.api#documentation": "When the message was enqueued, RFC 1123 (receive only)."
+          }
+        },
+        "enqueuedSequenceNumber": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#jsonName": "EnqueuedSequenceNumber",
+            "smithy.api#documentation": "The sequence number assigned when the message was enqueued (receive only)."
+          }
+        },
+        "sequenceNumber": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#jsonName": "SequenceNumber",
+            "smithy.api#documentation": "The message's sequence number (receive only); the lock URI's message reference."
+          }
+        },
+        "timeToLive": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#jsonName": "TimeToLive",
+            "smithy.api#documentation": "The time to live, in seconds."
+          }
+        },
+        "timeToLiveTimeSpan": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#jsonName": "TimeToLiveTimeSpan",
+            "smithy.api#documentation": "The time to live as a TimeSpan string (`0.00:00:40`), batch messages only."
+          }
+        },
+        "to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#jsonName": "To",
+            "smithy.api#documentation": "The address to send to."
+          }
+        },
+        "scheduledEnqueueTimeUtc": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#jsonName": "ScheduledEnqueueTimeUtc",
+            "smithy.api#documentation": "When to enqueue the message, RFC 1123."
+          }
+        },
+        "partitionKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#jsonName": "PartitionKey",
+            "smithy.api#documentation": "The partition key, for partitioned entities."
+          }
+        },
+        "viaPartitionKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#jsonName": "ViaPartitionKey",
+            "smithy.api#documentation": "The partition key of a transfer queue."
+          }
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#jsonName": "State",
+            "smithy.api#documentation": "The message state: `Active`, `Deferred` or `Scheduled` (receive only)."
+          }
+        },
+        "deadLetterSource": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#jsonName": "DeadLetterSource",
+            "smithy.api#documentation": "The entity the message was dead-lettered from (receive only)."
+          }
+        },
+        "forcePersistence": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#jsonName": "ForcePersistence",
+            "smithy.api#documentation": "Persist the message to disk before acknowledging (Premium)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Broker properties, sent and returned as the JSON `BrokerProperties` header."
+      }
+    },
+    "com.azure.servicebus_messaging#CompleteMessage": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.servicebus_messaging#CompleteMessageRequest"
+      },
+      "output": {
+        "target": "com.azure.servicebus_messaging#CompleteMessageResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/{queueName+}/messages/{messageId}/{lockToken}",
+          "code": 200,
+          "host": "https://{namespaceName}.servicebus.windows.net",
+          "accept": "*/*"
+        },
+        "smithy.api#documentation": "Complete a peek-locked message of a queue: delete it after processing succeeded (`DELETE /{queueName+}/messages/{messageId}/{lockToken}`, the REST reference's Delete Message)."
+      },
+      "errors": [
+        {
+          "target": "com.azure.servicebus_messaging#MessageLockLost"
+        },
+        {
+          "target": "com.azure.servicebus_messaging#MessagingEntityNotFound"
+        },
+        {
+          "target": "com.azure.servicebus_messaging#MessagingUnauthorized"
+        }
+      ]
+    },
+    "com.azure.servicebus_messaging#CompleteMessageRequest": {
+      "type": "structure",
+      "members": {
+        "namespaceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.azure.protocols#hostLabel": {},
+            "smithy.api#documentation": "The Service Bus namespace name (`<namespaceName>.servicebus.windows.net`)."
+          }
+        },
+        "queueName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The queue name."
+          }
+        },
+        "messageId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The message reference of the lock URI (`location`): the message's sequence number."
+          }
+        },
+        "lockToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The lock token (`brokerProperties.lockToken`)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.servicebus_messaging#CompleteMessageResponse": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.servicebus_messaging#CompleteSubscriptionMessage": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.servicebus_messaging#CompleteSubscriptionMessageRequest"
+      },
+      "output": {
+        "target": "com.azure.servicebus_messaging#CompleteSubscriptionMessageResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/{topicName+}/subscriptions/{subscriptionName}/messages/{messageId}/{lockToken}",
+          "code": 200,
+          "host": "https://{namespaceName}.servicebus.windows.net",
+          "accept": "*/*"
+        },
+        "smithy.api#documentation": "Complete a peek-locked message of a topic subscription: delete it after processing succeeded (`DELETE /{topicName+}/subscriptions/{subscriptionName}/messages/{messageId}/{lockToken}`, the REST reference's Delete Message)."
+      },
+      "errors": [
+        {
+          "target": "com.azure.servicebus_messaging#MessageLockLost"
+        },
+        {
+          "target": "com.azure.servicebus_messaging#MessagingEntityNotFound"
+        },
+        {
+          "target": "com.azure.servicebus_messaging#MessagingUnauthorized"
+        }
+      ]
+    },
+    "com.azure.servicebus_messaging#CompleteSubscriptionMessageRequest": {
+      "type": "structure",
+      "members": {
+        "namespaceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.azure.protocols#hostLabel": {},
+            "smithy.api#documentation": "The Service Bus namespace name (`<namespaceName>.servicebus.windows.net`)."
+          }
+        },
+        "topicName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The topic name."
+          }
+        },
+        "subscriptionName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The subscription name."
+          }
+        },
+        "messageId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The message reference of the lock URI (`location`): the message's sequence number."
+          }
+        },
+        "lockToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The lock token (`brokerProperties.lockToken`)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.servicebus_messaging#CompleteSubscriptionMessageResponse": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.servicebus_messaging#HeaderMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.azure.servicebus_messaging#MessageBody": {
+      "type": "union",
+      "members": {
+        "text": {
+          "target": "smithy.api#String"
+        },
+        "bytes": {
+          "target": "smithy.api#Blob"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The message payload: text is sent as UTF-8, bytes as they are."
+      }
+    },
+    "com.azure.servicebus_messaging#MessageLockLost": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The service's error detail."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "smithy.api#documentation": "No locked message matches the lock token: the lock expired, or the message was already settled (HTTP 404 `The lock supplied is invalid`).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404,
+            "message": {
+              "includes": "The lock supplied is invalid"
+            }
+          }
+        ]
+      }
+    },
+    "com.azure.servicebus_messaging#MessageTooLarge": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The service's error detail."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "The message body exceeds the namespace's maximum message size, 256 KB on Standard (HTTP 400 `The body of the message is too large`).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "is too large"
+            }
+          },
+          {
+            "status": 413
+          }
+        ]
+      }
+    },
+    "com.azure.servicebus_messaging#MessagingEntityNotFound": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The service's error detail."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "smithy.api#documentation": "The queue, topic or subscription does not exist (HTTP 404 `No service is hosted at the specified address`, or 410).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404,
+            "message": {
+              "includes": "No service is hosted at the specified address"
+            }
+          },
+          {
+            "status": 410
+          }
+        ]
+      }
+    },
+    "com.azure.servicebus_messaging#MessagingUnauthorized": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The service's error detail."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 401,
+        "smithy.api#documentation": "The token is missing, expired, for another audience, or the principal lacks the Send/Listen data role (HTTP 401).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 401
+          }
+        ]
+      }
+    },
+    "com.azure.servicebus_messaging#PeekLockMessage": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.servicebus_messaging#PeekLockMessageRequest"
+      },
+      "output": {
+        "target": "com.azure.servicebus_messaging#PeekLockMessageResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/{queueName+}/messages/head",
+          "code": 201,
+          "host": "https://{namespaceName}.servicebus.windows.net",
+          "accept": "*/*",
+          "emptyBody": true
+        },
+        "smithy.api#documentation": "Receive and lock the next message of a queue (`POST /{queueName+}/messages/head`). Settle it with Complete, Unlock or Renew using its sequence number and lock token."
+      },
+      "errors": [
+        {
+          "target": "com.azure.servicebus_messaging#MessagingEntityNotFound"
+        },
+        {
+          "target": "com.azure.servicebus_messaging#MessagingUnauthorized"
+        }
+      ]
+    },
+    "com.azure.servicebus_messaging#PeekLockMessageRequest": {
+      "type": "structure",
+      "members": {
+        "namespaceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.azure.protocols#hostLabel": {},
+            "smithy.api#documentation": "The Service Bus namespace name (`<namespaceName>.servicebus.windows.net`)."
+          }
+        },
+        "queueName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The queue name."
+          }
+        },
+        "timeout": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "timeout",
+            "smithy.api#documentation": "Seconds to wait for a message; without one in time the service answers 204 and the response has no `body`. Default 5."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.servicebus_messaging#PeekLockMessageResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "The message payload. Absent when no message arrived within the timeout (HTTP 204)."
+          }
+        },
+        "contentType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Content-Type",
+            "smithy.api#documentation": "The content type stored with the message."
+          }
+        },
+        "brokerProperties": {
+          "target": "com.azure.servicebus_messaging#BrokerProperties",
+          "traits": {
+            "com.azure.protocols#jsonHeader": "BrokerProperties",
+            "smithy.api#documentation": "The message's broker properties. Absent when no message arrived."
+          }
+        },
+        "headers": {
+          "target": "com.azure.servicebus_messaging#HeaderMap",
+          "traits": {
+            "smithy.api#httpPrefixHeaders": "",
+            "smithy.api#documentation": "Every response header by lower-case name; the message's custom properties are among them, JSON-quoted (`\"High\"`)."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The lock URI of the message: `…/messages/{sequenceNumber}/{lockToken}`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.servicebus_messaging#PeekLockSubscriptionMessage": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.servicebus_messaging#PeekLockSubscriptionMessageRequest"
+      },
+      "output": {
+        "target": "com.azure.servicebus_messaging#PeekLockSubscriptionMessageResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/{topicName+}/subscriptions/{subscriptionName}/messages/head",
+          "code": 201,
+          "host": "https://{namespaceName}.servicebus.windows.net",
+          "accept": "*/*",
+          "emptyBody": true
+        },
+        "smithy.api#documentation": "Receive and lock the next message of a topic subscription (`POST /{topicName+}/subscriptions/{subscriptionName}/messages/head`). Settle it with Complete, Unlock or Renew using its sequence number and lock token."
+      },
+      "errors": [
+        {
+          "target": "com.azure.servicebus_messaging#MessagingEntityNotFound"
+        },
+        {
+          "target": "com.azure.servicebus_messaging#MessagingUnauthorized"
+        }
+      ]
+    },
+    "com.azure.servicebus_messaging#PeekLockSubscriptionMessageRequest": {
+      "type": "structure",
+      "members": {
+        "namespaceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.azure.protocols#hostLabel": {},
+            "smithy.api#documentation": "The Service Bus namespace name (`<namespaceName>.servicebus.windows.net`)."
+          }
+        },
+        "topicName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The topic name."
+          }
+        },
+        "subscriptionName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The subscription name."
+          }
+        },
+        "timeout": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "timeout",
+            "smithy.api#documentation": "Seconds to wait for a message; without one in time the service answers 204 and the response has no `body`. Default 5."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.servicebus_messaging#PeekLockSubscriptionMessageResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "The message payload. Absent when no message arrived within the timeout (HTTP 204)."
+          }
+        },
+        "contentType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Content-Type",
+            "smithy.api#documentation": "The content type stored with the message."
+          }
+        },
+        "brokerProperties": {
+          "target": "com.azure.servicebus_messaging#BrokerProperties",
+          "traits": {
+            "com.azure.protocols#jsonHeader": "BrokerProperties",
+            "smithy.api#documentation": "The message's broker properties. Absent when no message arrived."
+          }
+        },
+        "headers": {
+          "target": "com.azure.servicebus_messaging#HeaderMap",
+          "traits": {
+            "smithy.api#httpPrefixHeaders": "",
+            "smithy.api#documentation": "Every response header by lower-case name; the message's custom properties are among them, JSON-quoted (`\"High\"`)."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The lock URI of the message: `…/messages/{sequenceNumber}/{lockToken}`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.servicebus_messaging#QuotaExceeded": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The service's error detail."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "smithy.api#documentation": "The entity reached its maximum size or another namespace quota (HTTP 403).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.azure.servicebus_messaging#ReceiveAndDeleteMessage": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.servicebus_messaging#ReceiveAndDeleteMessageRequest"
+      },
+      "output": {
+        "target": "com.azure.servicebus_messaging#ReceiveAndDeleteMessageResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/{queueName+}/messages/head",
+          "code": 200,
+          "host": "https://{namespaceName}.servicebus.windows.net",
+          "accept": "*/*"
+        },
+        "smithy.api#documentation": "Receive the next message of a queue and remove it in one step (`DELETE /{queueName+}/messages/head`)."
+      },
+      "errors": [
+        {
+          "target": "com.azure.servicebus_messaging#MessagingEntityNotFound"
+        },
+        {
+          "target": "com.azure.servicebus_messaging#MessagingUnauthorized"
+        }
+      ]
+    },
+    "com.azure.servicebus_messaging#ReceiveAndDeleteMessageRequest": {
+      "type": "structure",
+      "members": {
+        "namespaceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.azure.protocols#hostLabel": {},
+            "smithy.api#documentation": "The Service Bus namespace name (`<namespaceName>.servicebus.windows.net`)."
+          }
+        },
+        "queueName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The queue name."
+          }
+        },
+        "timeout": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "timeout",
+            "smithy.api#documentation": "Seconds to wait for a message; without one in time the service answers 204 and the response has no `body`. Default 5."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.servicebus_messaging#ReceiveAndDeleteMessageResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "The message payload. Absent when no message arrived within the timeout (HTTP 204)."
+          }
+        },
+        "contentType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Content-Type",
+            "smithy.api#documentation": "The content type stored with the message."
+          }
+        },
+        "brokerProperties": {
+          "target": "com.azure.servicebus_messaging#BrokerProperties",
+          "traits": {
+            "com.azure.protocols#jsonHeader": "BrokerProperties",
+            "smithy.api#documentation": "The message's broker properties. Absent when no message arrived."
+          }
+        },
+        "headers": {
+          "target": "com.azure.servicebus_messaging#HeaderMap",
+          "traits": {
+            "smithy.api#httpPrefixHeaders": "",
+            "smithy.api#documentation": "Every response header by lower-case name; the message's custom properties are among them, JSON-quoted (`\"High\"`)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.servicebus_messaging#ReceiveAndDeleteSubscriptionMessage": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.servicebus_messaging#ReceiveAndDeleteSubscriptionMessageRequest"
+      },
+      "output": {
+        "target": "com.azure.servicebus_messaging#ReceiveAndDeleteSubscriptionMessageResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/{topicName+}/subscriptions/{subscriptionName}/messages/head",
+          "code": 200,
+          "host": "https://{namespaceName}.servicebus.windows.net",
+          "accept": "*/*"
+        },
+        "smithy.api#documentation": "Receive the next message of a topic subscription and remove it in one step (`DELETE /{topicName+}/subscriptions/{subscriptionName}/messages/head`)."
+      },
+      "errors": [
+        {
+          "target": "com.azure.servicebus_messaging#MessagingEntityNotFound"
+        },
+        {
+          "target": "com.azure.servicebus_messaging#MessagingUnauthorized"
+        }
+      ]
+    },
+    "com.azure.servicebus_messaging#ReceiveAndDeleteSubscriptionMessageRequest": {
+      "type": "structure",
+      "members": {
+        "namespaceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.azure.protocols#hostLabel": {},
+            "smithy.api#documentation": "The Service Bus namespace name (`<namespaceName>.servicebus.windows.net`)."
+          }
+        },
+        "topicName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The topic name."
+          }
+        },
+        "subscriptionName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The subscription name."
+          }
+        },
+        "timeout": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "timeout",
+            "smithy.api#documentation": "Seconds to wait for a message; without one in time the service answers 204 and the response has no `body`. Default 5."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.servicebus_messaging#ReceiveAndDeleteSubscriptionMessageResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "The message payload. Absent when no message arrived within the timeout (HTTP 204)."
+          }
+        },
+        "contentType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Content-Type",
+            "smithy.api#documentation": "The content type stored with the message."
+          }
+        },
+        "brokerProperties": {
+          "target": "com.azure.servicebus_messaging#BrokerProperties",
+          "traits": {
+            "com.azure.protocols#jsonHeader": "BrokerProperties",
+            "smithy.api#documentation": "The message's broker properties. Absent when no message arrived."
+          }
+        },
+        "headers": {
+          "target": "com.azure.servicebus_messaging#HeaderMap",
+          "traits": {
+            "smithy.api#httpPrefixHeaders": "",
+            "smithy.api#documentation": "Every response header by lower-case name; the message's custom properties are among them, JSON-quoted (`\"High\"`)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.servicebus_messaging#RenewMessageLock": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.servicebus_messaging#RenewMessageLockRequest"
+      },
+      "output": {
+        "target": "com.azure.servicebus_messaging#RenewMessageLockResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/{queueName+}/messages/{messageId}/{lockToken}",
+          "code": 200,
+          "host": "https://{namespaceName}.servicebus.windows.net",
+          "accept": "*/*",
+          "emptyBody": true
+        },
+        "smithy.api#documentation": "Extend the lock on a peek-locked message of a queue (`POST /{queueName+}/messages/{messageId}/{lockToken}`)."
+      },
+      "errors": [
+        {
+          "target": "com.azure.servicebus_messaging#MessageLockLost"
+        },
+        {
+          "target": "com.azure.servicebus_messaging#MessagingEntityNotFound"
+        },
+        {
+          "target": "com.azure.servicebus_messaging#MessagingUnauthorized"
+        }
+      ]
+    },
+    "com.azure.servicebus_messaging#RenewMessageLockRequest": {
+      "type": "structure",
+      "members": {
+        "namespaceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.azure.protocols#hostLabel": {},
+            "smithy.api#documentation": "The Service Bus namespace name (`<namespaceName>.servicebus.windows.net`)."
+          }
+        },
+        "queueName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The queue name."
+          }
+        },
+        "messageId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The message reference of the lock URI (`location`): the message's sequence number."
+          }
+        },
+        "lockToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The lock token (`brokerProperties.lockToken`)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.servicebus_messaging#RenewMessageLockResponse": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.servicebus_messaging#RenewSubscriptionMessageLock": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.servicebus_messaging#RenewSubscriptionMessageLockRequest"
+      },
+      "output": {
+        "target": "com.azure.servicebus_messaging#RenewSubscriptionMessageLockResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/{topicName+}/subscriptions/{subscriptionName}/messages/{messageId}/{lockToken}",
+          "code": 200,
+          "host": "https://{namespaceName}.servicebus.windows.net",
+          "accept": "*/*",
+          "emptyBody": true
+        },
+        "smithy.api#documentation": "Extend the lock on a peek-locked message of a topic subscription (`POST /{topicName+}/subscriptions/{subscriptionName}/messages/{messageId}/{lockToken}`)."
+      },
+      "errors": [
+        {
+          "target": "com.azure.servicebus_messaging#MessageLockLost"
+        },
+        {
+          "target": "com.azure.servicebus_messaging#MessagingEntityNotFound"
+        },
+        {
+          "target": "com.azure.servicebus_messaging#MessagingUnauthorized"
+        }
+      ]
+    },
+    "com.azure.servicebus_messaging#RenewSubscriptionMessageLockRequest": {
+      "type": "structure",
+      "members": {
+        "namespaceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.azure.protocols#hostLabel": {},
+            "smithy.api#documentation": "The Service Bus namespace name (`<namespaceName>.servicebus.windows.net`)."
+          }
+        },
+        "topicName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The topic name."
+          }
+        },
+        "subscriptionName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The subscription name."
+          }
+        },
+        "messageId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The message reference of the lock URI (`location`): the message's sequence number."
+          }
+        },
+        "lockToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The lock token (`brokerProperties.lockToken`)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.servicebus_messaging#RenewSubscriptionMessageLockResponse": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.servicebus_messaging#SendMessage": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.servicebus_messaging#SendMessageRequest"
+      },
+      "output": {
+        "target": "com.azure.servicebus_messaging#SendMessageResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/{entityPath+}/messages",
+          "code": 201,
+          "host": "https://{namespaceName}.servicebus.windows.net",
+          "accept": "*/*",
+          "bodyMediaType": "application/atom+xml;type=entry;charset=utf-8"
+        },
+        "smithy.api#documentation": "Send one message to a queue or topic (`POST /{entityPath}/messages`). The body is the payload; `brokerProperties` and `customProperties` travel as headers."
+      },
+      "errors": [
+        {
+          "target": "com.azure.servicebus_messaging#MessagingEntityNotFound"
+        },
+        {
+          "target": "com.azure.servicebus_messaging#QuotaExceeded"
+        },
+        {
+          "target": "com.azure.servicebus_messaging#MessageTooLarge"
+        },
+        {
+          "target": "com.azure.servicebus_messaging#MessagingUnauthorized"
+        }
+      ]
+    },
+    "com.azure.servicebus_messaging#SendMessageBatch": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.servicebus_messaging#SendMessageBatchRequest"
+      },
+      "output": {
+        "target": "com.azure.servicebus_messaging#SendMessageBatchResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/{entityPath+}/messages",
+          "code": 201,
+          "host": "https://{namespaceName}.servicebus.windows.net",
+          "accept": "*/*",
+          "jsonContentType": "application/vnd.microsoft.servicebus.json"
+        },
+        "smithy.api#documentation": "Send several messages to a queue or topic in one request (`POST /{entityPath}/messages`, `application/vnd.microsoft.servicebus.json`). Custom properties go on each message as `userProperties`."
+      },
+      "errors": [
+        {
+          "target": "com.azure.servicebus_messaging#MessagingEntityNotFound"
+        },
+        {
+          "target": "com.azure.servicebus_messaging#QuotaExceeded"
+        },
+        {
+          "target": "com.azure.servicebus_messaging#MessageTooLarge"
+        },
+        {
+          "target": "com.azure.servicebus_messaging#MessagingUnauthorized"
+        }
+      ]
+    },
+    "com.azure.servicebus_messaging#SendMessageBatchRequest": {
+      "type": "structure",
+      "members": {
+        "namespaceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.azure.protocols#hostLabel": {},
+            "smithy.api#documentation": "The Service Bus namespace name (`<namespaceName>.servicebus.windows.net`)."
+          }
+        },
+        "entityPath": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The queue or topic name."
+          }
+        },
+        "messages": {
+          "target": "com.azure.servicebus_messaging#BatchMessageList",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "The messages."
+          }
+        },
+        "timeout": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "timeout",
+            "smithy.api#documentation": "Seconds the service waits for the send to complete."
+          }
+        },
+        "retryPolicy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-retrypolicy",
+            "smithy.api#documentation": "`NoRetry` disables the service's automatic retry of a transient send failure."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.servicebus_messaging#SendMessageBatchResponse": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.servicebus_messaging#SendMessageRequest": {
+      "type": "structure",
+      "members": {
+        "namespaceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.azure.protocols#hostLabel": {},
+            "smithy.api#documentation": "The Service Bus namespace name (`<namespaceName>.servicebus.windows.net`)."
+          }
+        },
+        "entityPath": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The queue or topic name."
+          }
+        },
+        "body": {
+          "target": "com.azure.servicebus_messaging#MessageBody",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "The message payload."
+          }
+        },
+        "contentType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Content-Type",
+            "smithy.api#documentation": "The payload's content type, stored with the message and returned on receive. Default `application/atom+xml;type=entry;charset=utf-8`."
+          }
+        },
+        "brokerProperties": {
+          "target": "com.azure.servicebus_messaging#BrokerProperties",
+          "traits": {
+            "com.azure.protocols#jsonHeader": "BrokerProperties",
+            "smithy.api#documentation": "Broker properties of the message (`BrokerProperties` header)."
+          }
+        },
+        "customProperties": {
+          "target": "com.azure.servicebus_messaging#HeaderMap",
+          "traits": {
+            "smithy.api#httpPrefixHeaders": "",
+            "smithy.api#documentation": "Custom message properties, one header each. A value is sent as given; receive returns it JSON-quoted."
+          }
+        },
+        "timeout": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "timeout",
+            "smithy.api#documentation": "Seconds the service waits for the send to complete."
+          }
+        },
+        "retryPolicy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-retrypolicy",
+            "smithy.api#documentation": "`NoRetry` disables the service's automatic retry of a transient send failure."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.servicebus_messaging#SendMessageResponse": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.servicebus_messaging#ServicebusMessaging": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.azure.servicebus_messaging#SendMessage"
+        },
+        {
+          "target": "com.azure.servicebus_messaging#SendMessageBatch"
+        },
+        {
+          "target": "com.azure.servicebus_messaging#PeekLockMessage"
+        },
+        {
+          "target": "com.azure.servicebus_messaging#ReceiveAndDeleteMessage"
+        },
+        {
+          "target": "com.azure.servicebus_messaging#UnlockMessage"
+        },
+        {
+          "target": "com.azure.servicebus_messaging#CompleteMessage"
+        },
+        {
+          "target": "com.azure.servicebus_messaging#RenewMessageLock"
+        },
+        {
+          "target": "com.azure.servicebus_messaging#PeekLockSubscriptionMessage"
+        },
+        {
+          "target": "com.azure.servicebus_messaging#ReceiveAndDeleteSubscriptionMessage"
+        },
+        {
+          "target": "com.azure.servicebus_messaging#UnlockSubscriptionMessage"
+        },
+        {
+          "target": "com.azure.servicebus_messaging#CompleteSubscriptionMessage"
+        },
+        {
+          "target": "com.azure.servicebus_messaging#RenewSubscriptionMessageLock"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Azure Service Bus messaging",
+        "smithy.api#documentation": "Azure Service Bus messaging runtime (send, receive, settle) over HTTPS. Hand-authored from the Service Bus REST reference; authenticates with a Microsoft Entra token for https://servicebus.azure.net/.default.",
+        "com.azure.protocols#host": {
+          "template": "https://{namespaceName}.servicebus.windows.net",
+          "parameters": [
+            {
+              "name": "namespaceName"
+            }
+          ]
+        },
+        "com.azure.protocols#audience": "https://servicebus.azure.net/.default"
+      }
+    },
+    "com.azure.servicebus_messaging#UnlockMessage": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.servicebus_messaging#UnlockMessageRequest"
+      },
+      "output": {
+        "target": "com.azure.servicebus_messaging#UnlockMessageResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/{queueName+}/messages/{messageId}/{lockToken}",
+          "code": 200,
+          "host": "https://{namespaceName}.servicebus.windows.net",
+          "accept": "*/*",
+          "emptyBody": true
+        },
+        "smithy.api#documentation": "Release the lock on a peek-locked message of a queue, so other receivers can take it (`PUT /{queueName+}/messages/{messageId}/{lockToken}`)."
+      },
+      "errors": [
+        {
+          "target": "com.azure.servicebus_messaging#MessageLockLost"
+        },
+        {
+          "target": "com.azure.servicebus_messaging#MessagingEntityNotFound"
+        },
+        {
+          "target": "com.azure.servicebus_messaging#MessagingUnauthorized"
+        }
+      ]
+    },
+    "com.azure.servicebus_messaging#UnlockMessageRequest": {
+      "type": "structure",
+      "members": {
+        "namespaceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.azure.protocols#hostLabel": {},
+            "smithy.api#documentation": "The Service Bus namespace name (`<namespaceName>.servicebus.windows.net`)."
+          }
+        },
+        "queueName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The queue name."
+          }
+        },
+        "messageId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The message reference of the lock URI (`location`): the message's sequence number."
+          }
+        },
+        "lockToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The lock token (`brokerProperties.lockToken`)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.servicebus_messaging#UnlockMessageResponse": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.servicebus_messaging#UnlockSubscriptionMessage": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.servicebus_messaging#UnlockSubscriptionMessageRequest"
+      },
+      "output": {
+        "target": "com.azure.servicebus_messaging#UnlockSubscriptionMessageResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/{topicName+}/subscriptions/{subscriptionName}/messages/{messageId}/{lockToken}",
+          "code": 200,
+          "host": "https://{namespaceName}.servicebus.windows.net",
+          "accept": "*/*",
+          "emptyBody": true
+        },
+        "smithy.api#documentation": "Release the lock on a peek-locked message of a topic subscription, so other receivers can take it (`PUT /{topicName+}/subscriptions/{subscriptionName}/messages/{messageId}/{lockToken}`)."
+      },
+      "errors": [
+        {
+          "target": "com.azure.servicebus_messaging#MessageLockLost"
+        },
+        {
+          "target": "com.azure.servicebus_messaging#MessagingEntityNotFound"
+        },
+        {
+          "target": "com.azure.servicebus_messaging#MessagingUnauthorized"
+        }
+      ]
+    },
+    "com.azure.servicebus_messaging#UnlockSubscriptionMessageRequest": {
+      "type": "structure",
+      "members": {
+        "namespaceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.azure.protocols#hostLabel": {},
+            "smithy.api#documentation": "The Service Bus namespace name (`<namespaceName>.servicebus.windows.net`)."
+          }
+        },
+        "topicName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The topic name."
+          }
+        },
+        "subscriptionName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The subscription name."
+          }
+        },
+        "messageId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The message reference of the lock URI (`location`): the message's sequence number."
+          }
+        },
+        "lockToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The lock token (`brokerProperties.lockToken`)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.servicebus_messaging#UnlockSubscriptionMessageResponse": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.servicebus_messaging#UserProperties": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    }
+  }
+}
