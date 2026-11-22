@@ -20,6 +20,7 @@
  */
 import * as EffectConfig from "@distilled.cloud/core/config";
 import { ConfigError } from "@distilled.cloud/core/errors";
+import { isHostLabel } from "@distilled.cloud/core/protocol-http";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
@@ -158,6 +159,20 @@ export const envdBaseUrlFor = (config: SandboxConnectionConfig): string => {
   return SHARED_SANDBOX_HOST_DOMAINS.has(domain)
     ? `https://sandbox.${domain}`
     : `https://${port}-${config.sandboxId}.${domain}`;
+};
+
+/**
+ * {@link envdBaseUrlFor}, or a {@link ConfigError} when `<port>-<sandboxId>`
+ * would not be one host-name label, so the request would go to another host.
+ */
+export const checkedEnvdBaseUrl = (config: SandboxConnectionConfig): string | ConfigError => {
+  const domain = config.domain ?? DEFAULT_DOMAIN;
+  const label = `${config.port ?? ENVD_PORT}-${config.sandboxId}`;
+  return SHARED_SANDBOX_HOST_DOMAINS.has(domain) || isHostLabel(label)
+    ? envdBaseUrlFor(config)
+    : new ConfigError({
+        message: `The sandbox ${JSON.stringify(config.sandboxId)} on port ${config.port ?? ENVD_PORT} is not a host-name label, so it cannot address a sandbox on ${domain}`,
+      });
 };
 
 // =============================================================================

@@ -27,6 +27,7 @@
  * );
  * ```
  */
+import { isHostLabel } from "@distilled.cloud/core/protocol-http";
 import { Credentials as S3Keys, type ResolvedCredentials } from "@distilled.cloud/s3/Credentials";
 import { Endpoint } from "@distilled.cloud/s3/Endpoint";
 import * as Data from "effect/Data";
@@ -141,5 +142,14 @@ export const layerS3 = (
 ): Layer.Layer<S3Keys | Endpoint, never, Credentials | HttpClient.HttpClient> =>
   Layer.merge(
     layerS3Keys(options),
-    Layer.succeed(Endpoint, Effect.succeed(endpointFor(options.region))),
+    Layer.succeed(
+      Endpoint,
+      isHostLabel(options.region)
+        ? Effect.succeed(endpointFor(options.region))
+        : Effect.fail(
+            new SpacesCredentialsError({
+              message: `The Spaces region ${JSON.stringify(options.region)} is not a region (one host-name label, e.g. \`nyc3\`)`,
+            }),
+          ),
+    ),
   );

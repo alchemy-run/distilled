@@ -765,6 +765,17 @@ export const invalidLabel = (
     : undefined;
 };
 
+const HOST_LABEL = /^[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?$/;
+
+/**
+ * Whether `value` is one DNS label (RFC 1123): 1 to 63 letters, digits and
+ * hyphens, with no hyphen at either end. Check a value before it becomes
+ * part of a host name (`https://<region>.example.com`): a `.`, `/`, `@`,
+ * `?` or `#` in it would send the request, with its credentials, to a
+ * different host.
+ */
+export const isHostLabel = (value: string): boolean => HOST_LABEL.test(value);
+
 /**
  * A path label value, percent-encoded, or the {@link InvalidInput} that
  * {@link invalidLabel} refuses it with. A greedy label keeps its `/` and

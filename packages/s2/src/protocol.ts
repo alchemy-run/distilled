@@ -1,6 +1,7 @@
 import type * as API from "@distilled.cloud/core/api";
 import { ConfigError, type InvalidInput } from "@distilled.cloud/core/errors";
 import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
+import { isHostLabel } from "@distilled.cloud/core/protocol-http";
 import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
@@ -59,9 +60,6 @@ export type S2OpContext = Credentials | HttpClient.HttpClient;
  */
 const isBasinScoped = (uri: string): boolean => uri === "/streams" || uri.startsWith("/streams/");
 
-/** The basin becomes a label of the host name, so it must be one DNS label. */
-const DNS_LABEL = /^[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?$/;
-
 const baseUrlFor = (creds: Config, uri: string): string => {
   if (!isBasinScoped(uri)) return creds.accountBaseUrl;
   if (creds.basin === undefined || creds.basin === "") {
@@ -71,7 +69,8 @@ const baseUrlFor = (creds: Config, uri: string): string => {
         `configure a basin (S2_BASIN or credentials({ basin })) to call it`,
     });
   }
-  if (!DNS_LABEL.test(creds.basin)) {
+  // The basin becomes a label of the host name, so it must be one DNS label.
+  if (!isHostLabel(creds.basin)) {
     throw new ConfigError({
       message:
         `S2 basin ${JSON.stringify(creds.basin)} is not a valid basin name ` +

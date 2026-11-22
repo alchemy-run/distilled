@@ -1,4 +1,5 @@
 import { ConfigError } from "@distilled.cloud/core/errors";
+import { isHostLabel } from "@distilled.cloud/core/protocol-http";
 /**
  * Mailchimp credentials -- hand-written.
  *
@@ -57,6 +58,13 @@ const resolve = (config: {
       new ConfigError({
         message:
           "Mailchimp API key has no data-centre suffix (expected `<key>-<dc>`, e.g. `...-us21`); pass serverPrefix",
+      }),
+    );
+  }
+  if (!isHostLabel(server)) {
+    return Effect.fail(
+      new ConfigError({
+        message: `Mailchimp serverPrefix ${JSON.stringify(server)} is not a data centre (one host-name label, e.g. \`us21\`)`,
       }),
     );
   }

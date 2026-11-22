@@ -30,7 +30,7 @@ import type * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as Redacted from "effect/Redacted";
 import * as Stream from "effect/Stream";
-import { ENVD_PORT, envdBaseUrlFor, SandboxConnection } from "./credentials.ts";
+import { checkedEnvdBaseUrl, ENVD_PORT, SandboxConnection } from "./credentials.ts";
 import {
   BadRequest,
   Conflict,
@@ -268,6 +268,8 @@ export const serverStream = (
       const sandbox = yield* Effect.flatMap(Effect.serviceOption(SandboxConnection), (option) =>
         option._tag === "Some" ? Effect.succeed(option.value) : missingSandbox,
       );
+      const baseUrl = checkedEnvdBaseUrl(sandbox);
+      if (baseUrl instanceof ConfigError) return yield* baseUrl;
       const client = yield* HttpClient.HttpClient;
       const headers: Record<string, string> = {
         "Connect-Protocol-Version": "1",
@@ -278,7 +280,7 @@ export const serverStream = (
         headers["X-Access-Token"] = Redacted.value(sandbox.accessToken);
       }
       const response = yield* client.execute(
-        HttpClientRequest.post(`${envdBaseUrlFor(sandbox)}/${method}`).pipe(
+        HttpClientRequest.post(`${baseUrl}/${method}`).pipe(
           HttpClientRequest.setHeaders(headers),
           HttpClientRequest.bodyUint8Array(encodeEnvelope(request), "application/connect+json"),
         ),

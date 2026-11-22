@@ -36,7 +36,7 @@ import {
   Credentials,
   DEFAULT_DOMAIN,
   ENVD_PORT,
-  envdBaseUrlFor,
+  checkedEnvdBaseUrl,
   SandboxConnection,
   type Config,
   type SandboxConnectionConfig,
@@ -97,7 +97,12 @@ export const EnvdProtocol: Layer.Layer<API.Protocol> =
     credentials: /*@__PURE__*/ Effect.flatMap(Effect.serviceOption(SandboxConnection), (option) =>
       option._tag === "Some" ? Effect.succeed(option.value) : missingSandbox,
     ),
-    baseUrl: (sandbox) => envdBaseUrlFor(sandbox),
+    baseUrl: (sandbox) => {
+      // makeRestProtocol fails the call with an error thrown here.
+      const url = checkedEnvdBaseUrl(sandbox);
+      if (url instanceof ConfigError) throw url;
+      return url;
+    },
     headers: (sandbox) => {
       const headers: Record<string, string> = {
         // The shared sandbox host routes by these two headers.
