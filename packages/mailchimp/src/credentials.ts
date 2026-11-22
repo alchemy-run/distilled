@@ -1,4 +1,5 @@
 import { ConfigError } from "@distilled.cloud/core/errors";
+import { invalidHostLabelConfig } from "@distilled.cloud/core/protocol-http";
 /**
  * Mailchimp credentials -- hand-written.
  *
@@ -60,6 +61,9 @@ const resolve = (config: {
       }),
     );
   }
+  // The data centre becomes a label of the host name.
+  const invalid = invalidHostLabelConfig("Mailchimp serverPrefix", server);
+  if (invalid !== undefined) return Effect.fail(invalid);
   return Effect.succeed({ apiKey, apiBaseUrl: apiBaseUrlFor(server) });
 };
 

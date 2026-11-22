@@ -15,6 +15,7 @@ import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import type * as AST from "effect/SchemaAST";
 import { getAnn, getProps, resolveNode } from "./annotations.ts";
 import * as Category from "./category.ts";
+import { ConfigError } from "./config.ts";
 import { isOpaqueValue } from "./plain-values.ts";
 import { parseServerRetryHint } from "./retry-after.ts";
 import * as Schema from "./schema-lite-typed.ts";
@@ -717,7 +718,8 @@ export const makeRequest = (
 /**
  * The input cannot be sent: a path label whose value would address another
  * resource (`.` or `..`, which the URL parser resolves to the parent path,
- * or `""`, which addresses the parent path). Raised before anything is sent.
+ * or `""`, which addresses the parent path), or a host label that would
+ * address another host. Raised before anything is sent.
  */
 export class InvalidInput
   extends /*@__PURE__*/ Schema.TaggedError<InvalidInput>()("InvalidInput", {
@@ -779,6 +781,53 @@ export const encodeLabel = (
 ): string | InvalidInput =>
   invalidLabel(member, value, greedy, optional) ??
   (greedy ? encodeGreedyLabel(String(value)) : encodeURIComponent(String(value)));
+
+/** One RFC 1123 DNS label: 1-63 letters, digits and `-`, no `-` at either end. */
+const HOST_LABEL = /^[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?$/;
+
+/**
+ * Whether `value` is one DNS host label (RFC 1123), or with
+ * `allowSubDomains` a dot-separated name made of them. A value that goes into
+ * a URL host must pass it: any other character (`/`, `@`, `#`, `?`, `:`)
+ * can move the request to another host, and no encoding fixes a host.
+ */
+export const isHostLabel = (value: unknown, allowSubDomains?: boolean): boolean =>
+  typeof value === "string" &&
+  (allowSubDomains ? value.split(".") : [value]).every((label) => HOST_LABEL.test(label));
+
+/**
+ * The refusal for a value that goes into a URL host but is not a host label
+ * ({@link isHostLabel}), or `undefined`. The host-side counterpart of
+ * {@link invalidLabel}. A value read from credentials config fails with
+ * {@link invalidHostLabelConfig} instead.
+ */
+export const invalidHostLabel = (
+  member: string,
+  value: unknown,
+  allowSubDomains?: boolean,
+): InvalidInput | undefined =>
+  isHostLabel(value, allowSubDomains)
+    ? undefined
+    : new InvalidInput({
+        member,
+        message: `Input member ${member} cannot be ${JSON.stringify(String(value))}: as a host label it would address another host`,
+      });
+
+/**
+ * {@link invalidHostLabel} for a value read from credentials config: the
+ * refusal is a `ConfigError` naming the setting (`"S2 basin"`,
+ * `"STACKIT region"`), or `undefined`.
+ */
+export const invalidHostLabelConfig = (
+  name: string,
+  value: unknown,
+  allowSubDomains?: boolean,
+): ConfigError | undefined =>
+  isHostLabel(value, allowSubDomains)
+    ? undefined
+    : new ConfigError({
+        message: `${name} ${JSON.stringify(String(value))} cannot go into a host name: it must be ${allowSubDomains ? "DNS labels separated by dots, each" : "one DNS label:"} letters, digits and hyphens, at most 63 characters`,
+      });
 
 /**
  * Build an HTTP request from an operation input and its schema, driven by

@@ -31,21 +31,13 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
-/** Type of managed service identity (either system assigned, or none). */
-export type SystemAssignedServiceIdentityType = "None" | "SystemAssigned";
-/** Managed service identity (either system assigned, or none) */
-export interface DataScannersCreateOrUpdateRequestIdentity {
-  type: SystemAssignedServiceIdentityType | (string & {});
-}
-export interface DataScannersCreateOrUpdateRequest {
-  /** The scope of the data scanner. Valid scopes are a subscription (format: 'subscriptions/{subscriptionId}') or a resource group (format: 'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}'). */
-  scopeId: string;
-  /** The name of the data scanner. */
-  scannerName: string;
-  /** Data scanner resource properties. */
-  properties?: unknown | undefined;
-  /** Managed service identity (either system assigned, or none) */
-  identity?: DataScannersCreateOrUpdateRequestIdentity | undefined;
+export interface CancelDefenderForStorageMalwareScanRequest {
+  /** The fully qualified Azure Resource manager identifier of the resource. */
+  resourceId: string;
+  /** The Defender for Storage setting name. Only 'current' is supported. */
+  settingName: string;
+  /** The identifier of the scan. Can be either 'latest' or a GUID. */
+  scanId: string;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -66,15 +58,66 @@ export interface SystemData {
   /** The timestamp of resource last modification (UTC) */
   lastModifiedAt?: string | undefined;
 }
-/** Managed service identity (either system assigned, or none) */
-export interface DataScannersCreateOrUpdateResponseIdentity {
-  /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string | undefined;
-  /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string | undefined;
-  type: SystemAssignedServiceIdentityType;
+/** A status code of the malware scan operation. */
+export type MalwareScanStatus =
+  | "Queued"
+  | "InProgress"
+  | "WaitingForCompletion"
+  | "Canceling"
+  | "Canceled"
+  | "Failed"
+  | "Completed";
+/** A summary of the scan results of the blobs that were scanned. */
+export interface BlobsScanSummary {
+  /** The total number of blobs that were scanned. */
+  totalBlobsScanned?: number | undefined;
+  /** The number of malicious blobs that were detected during the scan. */
+  maliciousBlobsCount?: number | undefined;
+  /** The number of blobs that were skipped. */
+  skippedBlobsCount?: number | undefined;
+  /** The number of failed blob scans. */
+  failedBlobsCount?: number | undefined;
+  /** The number of gigabytes of data that were scanned. */
+  scannedBlobsInGB?: number | undefined;
 }
-export interface DataScannersCreateOrUpdateResponse {
+/** A summary of the scan results of the files that were scanned. */
+export interface FilesScanSummary {
+  /** The total number of files that were scanned. */
+  totalFilesScanned?: number | undefined;
+  /** The number of malicious files that were detected during the scan. */
+  maliciousFilesCount?: number | undefined;
+  /** The number of files that were skipped. */
+  skippedFilesCount?: number | undefined;
+  /** The number of failed file scans. */
+  failedFilesCount?: number | undefined;
+  /** The number of gigabytes of data that were scanned. */
+  scannedFilesInGB?: number | undefined;
+}
+/** A summary of the scan results. */
+export interface ScanSummary {
+  /** A summary of the scan results of the blobs that were scanned. */
+  blobs?: BlobsScanSummary | undefined;
+  /** A summary of the scan results of the files that were scanned. */
+  files?: FilesScanSummary | undefined;
+  /** The estimated cost of the scan. Only available for a scan which has terminated. */
+  estimatedScanCostUSD?: number | undefined;
+}
+/** Properties of a malware scan operation. */
+export interface MalwareScanProperties {
+  /** The identifier of the scan. */
+  scanId?: string | undefined;
+  /** A status code of the scan operation. */
+  scanStatus?: MalwareScanStatus | undefined;
+  /** A description of the status of the scan. */
+  scanStatusMessage?: string | undefined;
+  /** The time at which the scan had been initiated. */
+  scanStartTime?: string | undefined;
+  /** The time at which the scan has ended. Only available for a scan which has terminated. */
+  scanEndTime?: string | undefined;
+  /** A summary of the scan results. */
+  scanSummary?: ScanSummary | undefined;
+}
+export interface CancelDefenderForStorageMalwareScanResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string | undefined;
   /** The name of the resource */
@@ -83,27 +126,93 @@ export interface DataScannersCreateOrUpdateResponse {
   type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
   systemData?: SystemData | undefined;
-  /** Data scanner resource properties. */
-  properties?: unknown | undefined;
-  /** Managed service identity (either system assigned, or none) */
-  identity?: DataScannersCreateOrUpdateResponseIdentity | undefined;
+  /** The resource-specific properties for this resource. */
+  properties?: MalwareScanProperties | undefined;
 }
-export interface DeleteDataScannerRequest {
-  /** The scope of the data scanner. Valid scopes are a subscription (format: 'subscriptions/{subscriptionId}') or a resource group (format: 'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}'). */
-  scopeId: string;
-  /** The name of the data scanner. */
-  scannerName: string;
+/** Optional. A list of prefixes to exclude from on-upload malware scanning. Format: `container-name/blob-name` (start with the container name; do not include the storage account name). Exclude entire containers: Use prefix of container names you want to exclude without a trailing `/`. Exclude a single container: Add a trailing slash `/` after the container name to avoid excluding other containers with similar prefixes. */
+export type OnUploadFiltersExcludeBlobsWithPrefixList = Array<string>;
+/** Optional. A list of suffixes to exclude from on-upload malware scanning. Suffixes match only the end of blob names, and should be used for file extensions or blob name endings only. */
+export type OnUploadFiltersExcludeBlobsWithSuffixList = Array<string>;
+/** Optional. Determine which blobs get scanned by On Upload malware scanning. An Or operation is performed between each filter type. */
+export interface OnUploadFilters {
+  /** Optional. A list of prefixes to exclude from on-upload malware scanning. Format: `container-name/blob-name` (start with the container name; do not include the storage account name). Exclude entire containers: Use prefix of container names you want to exclude without a trailing `/`. Exclude a single container: Add a trailing slash `/` after the container name to avoid excluding other containers with similar prefixes. */
+  excludeBlobsWithPrefix?: OnUploadFiltersExcludeBlobsWithPrefixList | null | undefined;
+  /** Optional. A list of suffixes to exclude from on-upload malware scanning. Suffixes match only the end of blob names, and should be used for file extensions or blob name endings only. */
+  excludeBlobsWithSuffix?: OnUploadFiltersExcludeBlobsWithSuffixList | null | undefined;
+  /** Optional. Specifies the maximum size in bytes for blobs to be scanned. This parameter accepts a single positive integer value. Blobs larger than this value will be excluded from scanning. */
+  excludeBlobsLargerThan?: number | null | undefined;
 }
-export interface DeleteDataScannerResponse {}
-export interface GetDataScannerRequest {
-  /** The scope of the data scanner. Valid scopes are a subscription (format: 'subscriptions/{subscriptionId}') or a resource group (format: 'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}'). */
-  scopeId: string;
-  /** The name of the data scanner. */
-  scannerName: string;
+/** Properties of On Upload malware scanning. */
+export interface OnUploadProperties {
+  /** Indicates whether On Upload malware scanning should be enabled. */
+  isEnabled?: boolean | undefined;
+  /** Defines the max GB to be scanned per Month. Set to -1 if no capping is needed. If not specified, the default value is -1. */
+  capGBPerMonth?: number | undefined;
+  /** Optional. Determine which blobs get scanned by On Upload malware scanning. An Or operation is performed between each filter type. */
+  filters?: OnUploadFilters | null | undefined;
 }
-/** Managed service identity (either system assigned, or none) */
-export type GetDataScannerResponseIdentity = DataScannersCreateOrUpdateResponseIdentity;
-export interface GetDataScannerResponse {
+/** Optional. Write scan result on BlobIndexTags by default. */
+export type MalwareScanningPropertiesBlobScanResultsOptions = "BlobIndexTags" | "None";
+/** Optional. Specifies the automated response action to take when malware is detected. */
+export type MalwareScanningPropertiesAutomatedResponse = "None" | "BlobSoftDelete";
+/** A status describing the success/failure of the enablement/disablement operation. */
+export interface CommonOperationStatus {
+  /** The operation status code. */
+  code?: string | undefined;
+  /** Additional information regarding the success/failure of the operation. */
+  message?: string | undefined;
+}
+/** Properties of Malware Scanning. */
+export interface MalwareScanningProperties {
+  /** Properties of On Upload malware scanning. */
+  onUpload?: OnUploadProperties | undefined;
+  /** Optional. Resource id of an Event Grid Topic to send scan results to. */
+  scanResultsEventGridTopicResourceId?: string | undefined;
+  /** Optional. Write scan result on BlobIndexTags by default. */
+  blobScanResultsOptions?:
+    | MalwareScanningPropertiesBlobScanResultsOptions
+    | (string & {})
+    | undefined;
+  /** Optional. Specifies the automated response action to take when malware is detected. */
+  automatedResponse?: MalwareScanningPropertiesAutomatedResponse | (string & {}) | undefined;
+  /** Optional. Resource id of the scanner resource (e.g., securityOperator or dataScanner) whose identity will be used for malware scanning. */
+  scannerResourceId?: string | null | undefined;
+  /** Upon failure or partial success. Additional data describing Malware Scanning enable/disable operation. */
+  operationStatus?: CommonOperationStatus | undefined;
+}
+/** Properties of Sensitive Data Discovery. */
+export interface SensitiveDataDiscoveryProperties {
+  /** Indicates whether Sensitive Data Discovery should be enabled. */
+  isEnabled?: boolean | undefined;
+  /** Optional. Resource id of the scanner resource (e.g., securityOperator or dataScanner) whose identity will be used for sensitive data discovery. */
+  scannerResourceId?: string | null | undefined;
+  /** Upon failure or partial success. Additional data describing Sensitive Data Discovery enable/disable operation. */
+  operationStatus?: CommonOperationStatus | undefined;
+}
+/** Indicates whether this resource's Defender for Storage settings are managed by a higher MDC enforcement scope and which component is managing them. */
+export type ManagedByType = "None" | "MicrosoftDefenderXDR" | "SubscriptionSettingsEnforcer";
+/** Defender for Storage resource properties. */
+export interface DefenderForStorageSettingProperties {
+  /** Indicates whether Defender for Storage is enabled on this storage account. */
+  isEnabled?: boolean | undefined;
+  /** Properties of Malware Scanning. */
+  malwareScanning?: MalwareScanningProperties | undefined;
+  /** Properties of Sensitive Data Discovery. */
+  sensitiveDataDiscovery?: SensitiveDataDiscoveryProperties | undefined;
+  /** Indicates whether the settings defined for this storage account should override the settings defined for the subscription. */
+  overrideSubscriptionLevelSettings?: boolean | undefined;
+  /** Indicates whether this resource's Defender for Storage settings are managed by a higher MDC enforcement scope and which component is managing them. When set to a value other than 'None', the resource-level settings become read-only and can only be modified by the managing component. Possible values: 'None' (not managed), 'MicrosoftDefenderXDR' (managed by Microsoft Defender XDR), 'SubscriptionSettingsEnforcer' (managed by subscription-level settings enforcer). */
+  managedBy?: ManagedByType | (string & {}) | undefined;
+}
+export interface CreateDefenderForStorageRequest {
+  /** The fully qualified Azure Resource manager identifier of the resource. */
+  resourceId: string;
+  /** The Defender for Storage setting name. Only 'current' is supported. */
+  settingName: string;
+  /** Defender for Storage resource properties. */
+  properties?: DefenderForStorageSettingProperties | undefined;
+}
+export interface CreateDefenderForStorageResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string | undefined;
   /** The name of the resource */
@@ -112,21 +221,55 @@ export interface GetDataScannerResponse {
   type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
   systemData?: SystemData | undefined;
-  /** Data scanner resource properties. */
-  properties?: unknown | undefined;
-  /** Managed service identity (either system assigned, or none) */
-  identity?: DataScannersCreateOrUpdateResponseIdentity | undefined;
+  /** Defender for Storage resource properties. */
+  properties?: DefenderForStorageSettingProperties | undefined;
 }
-export interface ListDataScannersRequest {
-  /** The scope of the data scanner. Valid scopes are a subscription (format: 'subscriptions/{subscriptionId}') or a resource group (format: 'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}'). */
-  scopeId: string;
+export interface GetDefenderForStorageRequest {
+  /** The fully qualified Azure Resource manager identifier of the resource. */
+  resourceId: string;
+  /** The Defender for Storage setting name. Only 'current' is supported. */
+  settingName: string;
+}
+export interface GetDefenderForStorageResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** Defender for Storage resource properties. */
+  properties?: DefenderForStorageSettingProperties | undefined;
+}
+export interface GetDefenderForStorageMalwareScanRequest {
+  /** The fully qualified Azure Resource manager identifier of the resource. */
+  resourceId: string;
+  /** The Defender for Storage setting name. Only 'current' is supported. */
+  settingName: string;
+  /** The identifier of the scan. Can be either 'latest' or a GUID. */
+  scanId: string;
+}
+export interface GetDefenderForStorageMalwareScanResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** The resource-specific properties for this resource. */
+  properties?: MalwareScanProperties | undefined;
+}
+export interface ListDefenderForStorageRequest {
+  /** The fully qualified Azure Resource manager identifier of the resource. */
+  resourceId: string;
   /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
   nextLink?: string | undefined;
 }
-/** Managed service identity (either system assigned, or none) */
-export type DataScannerIdentity = DataScannersCreateOrUpdateResponseIdentity;
-/** The data scanner resource used by Defender for Storage to scan data for malware and sensitive data discovery. */
-export interface DataScanner {
+/** The Defender for Storage resource. */
+export interface DefenderForStorageSetting {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string | undefined;
   /** The name of the resource */
@@ -135,108 +278,190 @@ export interface DataScanner {
   type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
   systemData?: SystemData | undefined;
-  /** Data scanner resource properties. */
-  properties?: unknown | undefined;
-  /** Managed service identity (either system assigned, or none) */
-  identity?: DataScannersCreateOrUpdateResponseIdentity | undefined;
+  /** Defender for Storage resource properties. */
+  properties?: DefenderForStorageSettingProperties | undefined;
 }
-/** The list of data scanner resources. */
-export type DataScannerListValueList = Array<DataScanner>;
-/** List of data scanner resources. */
-export interface DataScannerList {
-  /** The list of data scanner resources. */
-  value: DataScannerListValueList;
+/** List of Defender for Storage settings. */
+export type DefenderForStorageSettingListValueList = Array<DefenderForStorageSetting>;
+/** List of Defender for Storage settings. */
+export interface DefenderForStorageSettingList {
+  /** List of Defender for Storage settings. */
+  value: DefenderForStorageSettingListValueList;
   /** The URI to fetch the next page. */
   nextLink?: string | undefined;
 }
-export type DataScannersCreateOrUpdateError = AzureOpError;
-/** Creates or updates a data scanner resource for the specified scope. */
-export const DataScannersCreateOrUpdate: API.OperationMethod<
-  DataScannersCreateOrUpdateRequest,
-  DataScannersCreateOrUpdateResponse,
-  DataScannersCreateOrUpdateError,
+/** The matching strategy for the filter. */
+export type MatchType = "Prefix" | "Exact";
+/** Filter with value and matching strategy. */
+export interface MatchFilter {
+  /** The value to match against. */
+  value: string;
+  /** The matching strategy for the filter. */
+  match: MatchType | (string & {});
+}
+/** Filter for blob scanning. At least one of 'container' or 'blob' must be specified; a request with neither is rejected by the service. If only container is provided, all blobs in that container are scanned. If only blob is provided, blobs matching the filter across all containers are scanned. */
+export interface BlobScanFilter {
+  /** Optional filter for the blob container to scan. If not provided, the blob filter will apply across all containers. */
+  container?: MatchFilter | undefined;
+  /** Optional filter for specific blob(s). If container is specified, this filters blobs within that container. If container is not specified, this filters blobs across all containers. */
+  blob?: MatchFilter | undefined;
+}
+/** Filter for file scanning. At least one of 'share' or 'file' must be specified; a request with neither is rejected by the service. If only share is provided, all files in that share are scanned. If only file is provided, files matching the filter across all shares are scanned. */
+export interface FileScanFilter {
+  /** Optional filter for the file share to scan. If not provided, the file filter will apply across all shares. */
+  share?: MatchFilter | undefined;
+  /** Optional filter for specific file(s). If share is specified, this filters files within that share. If share is not specified, this filters files across all shares. */
+  file?: MatchFilter | undefined;
+}
+/** Filters to scope the malware scan. */
+export interface MalwareScanFilters {
+  /** Optional filter for blob scanning. Specifies which blobs to scan. */
+  blobs?: BlobScanFilter | undefined;
+  /** Optional filter for file scanning. Specifies which files to scan. */
+  files?: FileScanFilter | undefined;
+}
+/** Properties for the malware scan request. */
+export interface StartMalwareScanRequestProperties {
+  /** Optional filters to scope the malware scan to specific blobs or files. */
+  filters?: MalwareScanFilters | undefined;
+}
+export interface StartDefenderForStorageMalwareScanRequest {
+  /** The fully qualified Azure Resource manager identifier of the resource. */
+  resourceId: string;
+  /** The Defender for Storage setting name. Only 'current' is supported. */
+  settingName: string;
+  /** Properties for the malware scan request. */
+  properties?: StartMalwareScanRequestProperties | undefined;
+}
+export interface StartDefenderForStorageMalwareScanResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** The resource-specific properties for this resource. */
+  properties?: MalwareScanProperties | undefined;
+}
+export type CancelDefenderForStorageMalwareScanError = AzureOpError;
+/** Cancels a Defender for Storage malware scan for the specified storage account. */
+export const CancelDefenderForStorageMalwareScan: API.OperationMethod<
+  CancelDefenderForStorageMalwareScanRequest,
+  CancelDefenderForStorageMalwareScanResponse,
+  CancelDefenderForStorageMalwareScanError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1, __c0, 1) as any as S.Schema<DataScannersCreateOrUpdateRequest>,
-  output: __S(6, __c1, 2) as any as S.Schema<DataScannersCreateOrUpdateResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<CancelDefenderForStorageMalwareScanRequest>,
+  output: __S(20, __c2, 4) as any as S.Schema<CancelDefenderForStorageMalwareScanResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: {
-    op: "DataScannersCreateOrUpdate",
+    op: "CancelDefenderForStorageMalwareScan",
     attributes: {
-      "url.template": "/{scopeId}/providers/Microsoft.Security/dataScanners/{scannerName}",
+      "url.template":
+        "/{resourceId}/providers/Microsoft.Security/defenderForStorageSettings/{settingName}/malwareScans/{scanId}/cancelMalwareScan",
     },
   },
 }));
 
-export type DeleteDataScannerError = AzureOpError;
-/** Deletes a data scanner resource for the specified scope. */
-export const DeleteDataScanner: API.OperationMethod<
-  DeleteDataScannerRequest,
-  DeleteDataScannerResponse,
-  DeleteDataScannerError,
+export type CreateDefenderForStorageError = AzureOpError;
+/** Creates or updates the Defender for Storage settings on a specified storage account. */
+export const CreateDefenderForStorage: API.OperationMethod<
+  CreateDefenderForStorageRequest,
+  CreateDefenderForStorageResponse,
+  CreateDefenderForStorageError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<DeleteDataScannerRequest>,
-  output: __S(9, __c2, 1) as any as S.Schema<DeleteDataScannerResponse>,
+  input: __S(24, __c3, 0) as any as S.Schema<CreateDefenderForStorageRequest>,
+  output: __S(39, __c4, 7) as any as S.Schema<CreateDefenderForStorageResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: {
-    op: "DeleteDataScanner",
+    op: "CreateDefenderForStorage",
     attributes: {
-      "url.template": "/{scopeId}/providers/Microsoft.Security/dataScanners/{scannerName}",
+      "url.template":
+        "/{resourceId}/providers/Microsoft.Security/defenderForStorageSettings/{settingName}",
     },
   },
 }));
 
-export type GetDataScannerError = AzureOpError;
-/** Gets a data scanner resource for the specified scope. */
-export const GetDataScanner: API.OperationMethod<
-  GetDataScannerRequest,
-  GetDataScannerResponse,
-  GetDataScannerError,
+export type GetDefenderForStorageError = AzureOpError;
+/** Gets the Defender for Storage settings for the specified storage account. */
+export const GetDefenderForStorage: API.OperationMethod<
+  GetDefenderForStorageRequest,
+  GetDefenderForStorageResponse,
+  GetDefenderForStorageError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<GetDataScannerRequest>,
-  output: __S(6, __c1, 2) as any as S.Schema<GetDataScannerResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<GetDefenderForStorageRequest>,
+  output: __S(39, __c4, 7) as any as S.Schema<GetDefenderForStorageResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: {
-    op: "GetDataScanner",
+    op: "GetDefenderForStorage",
     attributes: {
-      "url.template": "/{scopeId}/providers/Microsoft.Security/dataScanners/{scannerName}",
+      "url.template":
+        "/{resourceId}/providers/Microsoft.Security/defenderForStorageSettings/{settingName}",
     },
   },
 }));
 
-export type ListDataScannersError = AzureOpError;
-/** Lists all data scanner resources for the specified scope. */
-export const ListDataScanners: API.PaginatedOperationMethod<
-  ListDataScannersRequest,
-  DataScannerList,
-  ListDataScannersError,
+export type GetDefenderForStorageMalwareScanError = AzureOpError;
+/** Gets the Defender for Storage malware scan for the specified storage resource. */
+export const GetDefenderForStorageMalwareScan: API.OperationMethod<
+  GetDefenderForStorageMalwareScanRequest,
+  GetDefenderForStorageMalwareScanResponse,
+  GetDefenderForStorageMalwareScanError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(48, __c6, 0) as any as S.Schema<GetDefenderForStorageMalwareScanRequest>,
+  output: __S(20, __c2, 4) as any as S.Schema<GetDefenderForStorageMalwareScanResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetDefenderForStorageMalwareScan",
+    attributes: {
+      "url.template":
+        "/{resourceId}/providers/Microsoft.Security/defenderForStorageSettings/{settingName}/malwareScans/{scanId}",
+    },
+  },
+}));
+
+export type ListDefenderForStorageError = AzureOpError;
+/** Lists the Defender for Storage settings for the specified storage account. */
+export const ListDefenderForStorage: API.PaginatedOperationMethod<
+  ListDefenderForStorageRequest,
+  DefenderForStorageSettingList,
+  ListDefenderForStorageError,
   AzureOpContext,
-  DataScanner
+  DefenderForStorageSetting
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<ListDataScannersRequest>,
-  output: __S(18, __c4, 2) as any as S.Schema<DataScannerList>,
+  input: __S(56, __c7, 0) as any as S.Schema<ListDefenderForStorageRequest>,
+  output: __S(58, __c7, 2) as any as S.Schema<DefenderForStorageSettingList>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: {
-    op: "ListDataScanners",
-    attributes: { "url.template": "/{scopeId}/providers/Microsoft.Security/dataScanners" },
+    op: "ListDefenderForStorage",
+    attributes: {
+      "url.template": "/{resourceId}/providers/Microsoft.Security/defenderForStorageSettings",
+    },
   },
   pagination: {
     mode: "cursor",
@@ -246,31 +471,48 @@ export const ListDataScanners: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
+export type StartDefenderForStorageMalwareScanError = AzureOpError;
+/** Initiate a Defender for Storage malware scan for the specified storage account. Blobs and Files will be scanned for malware. */
+export const StartDefenderForStorageMalwareScan: API.OperationMethod<
+  StartDefenderForStorageMalwareScanRequest,
+  StartDefenderForStorageMalwareScanResponse,
+  StartDefenderForStorageMalwareScanError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(69, __c8, 5) as any as S.Schema<StartDefenderForStorageMalwareScanRequest>,
+  output: __S(20, __c2, 4) as any as S.Schema<StartDefenderForStorageMalwareScanResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "StartDefenderForStorageMalwareScan",
+    attributes: {
+      "url.template":
+        "/{resourceId}/providers/Microsoft.Security/defenderForStorageSettings/{settingName}/startMalwareScan",
+    },
+  },
+}));
+
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          type: S.String,
-        }),
-      ).annotate({ identifier: "DataScannersCreateOrUpdateRequestIdentity" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          scopeId: S.String.pipe(T.Label()),
-          scannerName: S.String.pipe(T.Label()),
-          properties: S.optional(S.Unknown),
-          identity: S.optional(__S(0, __c0, 0)),
+          resourceId: S.String.pipe(T.Label()),
+          settingName: S.String.pipe(T.Label()),
+          scanId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
-            method: "PUT",
-            uri: "/{scopeId+}/providers/Microsoft.Security/dataScanners/{scannerName}",
+            method: "POST",
+            uri: "/{resourceId+}/providers/Microsoft.Security/defenderForStorageSettings/{settingName}/malwareScans/{scanId}/cancelMalwareScan",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
-      ).annotate({ identifier: "DataScannersCreateOrUpdateRequest" });
+      ).annotate({ identifier: "CancelDefenderForStorageMalwareScanRequest" });
   }
 }
 function __c1(j: number): any {
@@ -286,25 +528,6 @@ function __c1(j: number): any {
           lastModifiedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "SystemData" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          principalId: S.optional(S.String),
-          tenantId: S.optional(S.String),
-          type: S.String,
-        }),
-      ).annotate({ identifier: "DataScannersCreateOrUpdateResponseIdentity" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          systemData: S.optional(__S(4, __c1, 0)),
-          properties: S.optional(S.Unknown),
-          identity: S.optional(__S(5, __c1, 1)),
-        }),
-      ).annotate({ identifier: "DataScannersCreateOrUpdateResponse" });
   }
 }
 function __c2(j: number): any {
@@ -312,19 +535,52 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          scopeId: S.String.pipe(T.Label()),
-          scannerName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/{scopeId+}/providers/Microsoft.Security/dataScanners/{scannerName}",
-            code: 200,
-            apiVersion: "2026-08-01",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteDataScannerRequest" });
+          totalBlobsScanned: S.optional(S.Number),
+          maliciousBlobsCount: S.optional(S.Number),
+          skippedBlobsCount: S.optional(S.Number),
+          failedBlobsCount: S.optional(S.Number),
+          scannedBlobsInGB: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "BlobsScanSummary" });
     case 1:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteDataScannerResponse" });
+      return S.suspend(() =>
+        S.Struct({
+          totalFilesScanned: S.optional(S.Number),
+          maliciousFilesCount: S.optional(S.Number),
+          skippedFilesCount: S.optional(S.Number),
+          failedFilesCount: S.optional(S.Number),
+          scannedFilesInGB: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "FilesScanSummary" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          blobs: S.optional(__S(16, __c2, 0)),
+          files: S.optional(__S(17, __c2, 1)),
+          estimatedScanCostUSD: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ScanSummary" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          scanId: S.optional(S.String),
+          scanStatus: S.optional(S.String),
+          scanStatusMessage: S.optional(S.String),
+          scanStartTime: S.optional(S.String),
+          scanEndTime: S.optional(S.String),
+          scanSummary: S.optional(__S(18, __c2, 2)),
+        }),
+      ).annotate({ identifier: "MalwareScanProperties" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(8, __c1, 0)),
+          properties: S.optional(__S(19, __c2, 3)),
+        }),
+      ).annotate({ identifier: "CancelDefenderForStorageMalwareScanResponse" });
   }
 }
 function __c3(j: number): any {
@@ -332,45 +588,204 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          scopeId: S.String.pipe(T.Label()),
-          scannerName: S.String.pipe(T.Label()),
+          resourceId: S.String.pipe(T.Label()),
+          settingName: S.String.pipe(T.Label()),
+          properties: S.optional(__S(38, __c4, 6)),
         }).pipe(
           T.Http({
-            method: "GET",
-            uri: "/{scopeId+}/providers/Microsoft.Security/dataScanners/{scannerName}",
+            method: "PUT",
+            uri: "/{resourceId+}/providers/Microsoft.Security/defenderForStorageSettings/{settingName}",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
           }),
         ),
-      ).annotate({ identifier: "GetDataScannerRequest" });
+      ).annotate({ identifier: "CreateDefenderForStorageRequest" });
   }
 }
 function __c4(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.String);
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          scopeId: S.String.pipe(T.Label()),
+          excludeBlobsWithPrefix: S.optional(S.NullOr(__S(32, __c4, 0))),
+          excludeBlobsWithSuffix: S.optional(S.NullOr(__S(32, __c4, 0))),
+          excludeBlobsLargerThan: S.optional(S.NullOr(S.Number)),
+        }),
+      ).annotate({ identifier: "OnUploadFilters" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          isEnabled: S.optional(S.Boolean),
+          capGBPerMonth: S.optional(S.Number),
+          filters: S.optional(S.NullOr(__S(33, __c4, 1))),
+        }),
+      ).annotate({ identifier: "OnUploadProperties" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CommonOperationStatus" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          onUpload: S.optional(__S(34, __c4, 2)),
+          scanResultsEventGridTopicResourceId: S.optional(S.String),
+          blobScanResultsOptions: S.optional(S.String),
+          automatedResponse: S.optional(S.String),
+          scannerResourceId: S.optional(S.NullOr(S.String)),
+          operationStatus: S.optional(__S(35, __c4, 3)),
+        }),
+      ).annotate({ identifier: "MalwareScanningProperties" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          isEnabled: S.optional(S.Boolean),
+          scannerResourceId: S.optional(S.NullOr(S.String)),
+          operationStatus: S.optional(__S(35, __c4, 3)),
+        }),
+      ).annotate({ identifier: "SensitiveDataDiscoveryProperties" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          isEnabled: S.optional(S.Boolean),
+          malwareScanning: S.optional(__S(36, __c4, 4)),
+          sensitiveDataDiscovery: S.optional(__S(37, __c4, 5)),
+          overrideSubscriptionLevelSettings: S.optional(S.Boolean),
+          managedBy: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DefenderForStorageSettingProperties" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(8, __c1, 0)),
+          properties: S.optional(__S(38, __c4, 6)),
+        }),
+      ).annotate({ identifier: "CreateDefenderForStorageResponse" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resourceId: S.String.pipe(T.Label()),
+          settingName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/{resourceId+}/providers/Microsoft.Security/defenderForStorageSettings/{settingName}",
+            code: 200,
+            apiVersion: "2026-09-01",
+          }),
+        ),
+      ).annotate({ identifier: "GetDefenderForStorageRequest" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resourceId: S.String.pipe(T.Label()),
+          settingName: S.String.pipe(T.Label()),
+          scanId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/{resourceId+}/providers/Microsoft.Security/defenderForStorageSettings/{settingName}/malwareScans/{scanId}",
+            code: 200,
+            apiVersion: "2026-09-01",
+          }),
+        ),
+      ).annotate({ identifier: "GetDefenderForStorageMalwareScanRequest" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resourceId: S.String.pipe(T.Label()),
           nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/{scopeId+}/providers/Microsoft.Security/dataScanners",
+            uri: "/{resourceId+}/providers/Microsoft.Security/defenderForStorageSettings",
             code: 200,
-            apiVersion: "2026-08-01",
+            apiVersion: "2026-09-01",
             nextLink: "nextLink",
           }),
         ),
-      ).annotate({ identifier: "ListDataScannersRequest" });
+      ).annotate({ identifier: "ListDefenderForStorageRequest" });
     case 1:
-      return S.Array(__S(6, __c1, 2));
+      return S.Array(__S(39, __c4, 7));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(17, __c4, 1),
+          value: __S(57, __c7, 1),
           nextLink: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DataScannerList" });
+      ).annotate({ identifier: "DefenderForStorageSettingList" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          value: S.String,
+          match: S.String,
+        }),
+      ).annotate({ identifier: "MatchFilter" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          container: S.optional(__S(64, __c8, 0)),
+          blob: S.optional(__S(64, __c8, 0)),
+        }),
+      ).annotate({ identifier: "BlobScanFilter" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          share: S.optional(__S(64, __c8, 0)),
+          file: S.optional(__S(64, __c8, 0)),
+        }),
+      ).annotate({ identifier: "FileScanFilter" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          blobs: S.optional(__S(65, __c8, 1)),
+          files: S.optional(__S(66, __c8, 2)),
+        }),
+      ).annotate({ identifier: "MalwareScanFilters" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          filters: S.optional(__S(67, __c8, 3)),
+        }),
+      ).annotate({ identifier: "StartMalwareScanRequestProperties" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          resourceId: S.String.pipe(T.Label()),
+          settingName: S.String.pipe(T.Label()),
+          properties: S.optional(__S(68, __c8, 4)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/{resourceId+}/providers/Microsoft.Security/defenderForStorageSettings/{settingName}/startMalwareScan",
+            code: 200,
+            apiVersion: "2026-09-01",
+          }),
+        ),
+      ).annotate({ identifier: "StartDefenderForStorageMalwareScanRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.
