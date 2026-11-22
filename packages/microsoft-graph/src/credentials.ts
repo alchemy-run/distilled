@@ -19,6 +19,7 @@
  */
 import * as EffectConfig from "@distilled.cloud/core/config";
 import { ConfigError } from "@distilled.cloud/core/errors";
+import { encodeLabel, InvalidInput } from "@distilled.cloud/core/protocol-http";
 import { refreshing } from "@distilled.cloud/core/token-cache";
 import * as Clock from "effect/Clock";
 import * as Context from "effect/Context";
@@ -112,9 +113,18 @@ const clientSecretCredentials = (
 ): Effect.Effect<Config, CredentialsError, HttpClient.HttpClient> => {
   const apiBaseUrl = config.apiBaseUrl ?? DEFAULT_API_BASE_URL;
   const authority = (config.authorityHost ?? DEFAULT_AUTHORITY_HOST).replace(/\/+$/, "");
-  const tokenUrl = `${authority}/${encodeURIComponent(config.tenantId)}/oauth2/v2.0/token`;
+  // A tenant that can't be a path segment (`""`, `.`, `..`, a lone UTF-16
+  // surrogate) is a ConfigError: the value comes from the credentials.
+  const tenant = encodeLabel("tenantId", config.tenantId);
+  const tokenUrl =
+    tenant instanceof InvalidInput
+      ? new ConfigError({
+          message: `The configured tenantId ${JSON.stringify(config.tenantId)} cannot be a URL path segment`,
+        })
+      : `${authority}/${tenant}/oauth2/v2.0/token`;
 
   const mint = Effect.gen(function* () {
+    if (tokenUrl instanceof ConfigError) return yield* tokenUrl;
     const client = yield* HttpClient.HttpClient;
     const request = HttpClientRequest.post(tokenUrl).pipe(
       HttpClientRequest.bodyUrlParams({

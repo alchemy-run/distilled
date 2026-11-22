@@ -27,6 +27,7 @@
  */
 import * as EffectConfig from "@distilled.cloud/core/config";
 import { ConfigError } from "@distilled.cloud/core/errors";
+import { encodeLabel, InvalidInput } from "@distilled.cloud/core/protocol-http";
 import { refreshing } from "@distilled.cloud/core/token-cache";
 import * as Clock from "effect/Clock";
 import * as Effect from "effect/Effect";
@@ -268,6 +269,20 @@ export interface ClientSecretOptions {
 /** Entra ID error codes that mean the client credentials themselves are wrong. */
 const INVALID_CLIENT_ERRORS = new Set(["invalid_client", "unauthorized_client"]);
 
+/**
+ * The Entra ID token endpoint of `tenantId`, or a {@link ConfigError} for a
+ * tenant that can't be a URL path segment (`""`, `.`, `..`, a lone UTF-16
+ * surrogate): the value comes from the credentials, not the call.
+ */
+const tokenEndpoint = (authorityHost: string, tenantId: string): string | ConfigError => {
+  const tenant = encodeLabel("tenantId", tenantId);
+  return tenant instanceof InvalidInput
+    ? new ConfigError({
+        message: `The configured tenantId ${JSON.stringify(tenantId)} cannot be a URL path segment`,
+      })
+    : `${authorityHost.replace(/\/+$/, "")}/${tenant}/oauth2/v2.0/token`;
+};
+
 /** Request one token with the OAuth2 client-credentials grant. */
 export const requestClientSecretToken = (
   options: ClientSecretOptions,
@@ -275,11 +290,9 @@ export const requestClientSecretToken = (
 ): Effect.Effect<AccessToken, AzureCredentialsError | ConfigError> =>
   Effect.gen(function* () {
     const issuedAt = yield* Clock.currentTimeMillis;
-    const authority = (options.authorityHost ?? DEFAULT_AUTHORITY_HOST).replace(/\/+$/, "");
-    const request = HttpClientRequest.post(
-      `${authority}/${encodeURIComponent(options.tenantId)}/oauth2/v2.0/token`,
-      { acceptJson: true },
-    ).pipe(
+    const url = tokenEndpoint(options.authorityHost ?? DEFAULT_AUTHORITY_HOST, options.tenantId);
+    if (url instanceof ConfigError) return yield* url;
+    const request = HttpClientRequest.post(url, { acceptJson: true }).pipe(
       HttpClientRequest.bodyUrlParams({
         grant_type: "client_credentials",
         client_id: options.clientId,
@@ -485,11 +498,9 @@ const requestWorkloadIdentityToken = (
   Effect.gen(function* () {
     const issuedAt = yield* Clock.currentTimeMillis;
     const assertion = yield* readFederatedToken(identity.tokenFile, scope);
-    const authority = identity.authorityHost.replace(/\/+$/, "");
-    const request = HttpClientRequest.post(
-      `${authority}/${encodeURIComponent(identity.tenantId)}/oauth2/v2.0/token`,
-      { acceptJson: true },
-    ).pipe(
+    const url = tokenEndpoint(identity.authorityHost, identity.tenantId);
+    if (url instanceof ConfigError) return yield* url;
+    const request = HttpClientRequest.post(url, { acceptJson: true }).pipe(
       HttpClientRequest.bodyUrlParams({
         grant_type: "client_credentials",
         client_id: identity.clientId,
