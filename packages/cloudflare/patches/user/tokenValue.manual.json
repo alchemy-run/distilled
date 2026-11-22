@@ -1,9 +1,19 @@
 {
-  "description": "The user API token value that createToken returns is a secret: mark CreateTokenResponse.value sensitive so it decodes as Redacted. The docs type it as the shared TokenValue model, a string documented as 'The token value'.",
+  "description": "The user API token value is a secret: mark it sensitive so it decodes as Redacted. The docs type both CreateTokenResponse.value and the roll (PUT .../tokens/{token_id}/value) result as the shared TokenValue model, a string documented as 'The token value' (the roll example is \"result\": \"8M7wS6hCpXVc-DoRnPPY_UCWPgy8aea4Wy6kCe5T\"). The roll result converts as an untyped document, so it is also typed string here.",
   "patches": [
     {
       "op": "add",
       "path": "/shapes/com.cloudflare.user#CreateTokenResponse/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.user#PutTokenValueResponse/members/result/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.user#PutTokenValueResponse/members/result/traits/smithy.api#sensitive",
       "value": {}
     }
   ]

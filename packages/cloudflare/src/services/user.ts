@@ -1268,7 +1268,7 @@ export interface PutTokenValueRequest {
   /** Token identifier tag. */
   tokenId: string;
 }
-export type PutTokenValueResponse = unknown;
+export type PutTokenValueResponse = string | Redacted.Redacted<string>;
 export type TokensUpdateRequestPoliciesItemEffect = "allow" | "deny";
 export type TokensUpdateRequestPoliciesItemPermissionGroupsItemMeta =
   TokensCreateRequestPoliciesItemPermissionGroupsItemMeta;
@@ -1847,7 +1847,7 @@ export const putTokenValue: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<PutTokenValueRequest>,
-  output: __S(160, __c5, 0) as any as S.Schema<PutTokenValueResponse>,
+  output: __S(705, __c22, 1) as any as S.Schema<PutTokenValueResponse>,
   errors: [InvalidRoute, TokenNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -2746,6 +2746,14 @@ function __c22(j: number): any {
           .pipe(T.Http({ method: "PUT", uri: "/user/tokens/{token_id}/value", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "PutTokenValueRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.String.pipe(
+          T.EnvelopePayloadRoot(),
+          T.SensitiveValue({}),
+          T.KeyDictionary(KEY_DICTIONARY),
+        ),
+      ).annotate({ identifier: "PutTokenValueResponse" });
   }
 }
 function __c23(j: number): any {
