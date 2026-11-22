@@ -103,6 +103,13 @@ const BotAppId = Config.String("ALCHEMY_VERSION_BOT_ID").pipe(Config.withDefault
 const GITHUB_ACTIONS_APP_ID = 15368;
 
 /**
+ * Zone id of distilled.cloud, the only zone the CI token may touch. The
+ * account holds other zones (alchemy.run, pkg.ing, ...) that this
+ * repository's CI must not be able to change.
+ */
+const DISTILLED_CLOUD_ZONE_ID = "2e80fe5bd72a3ccafab000cd8e066233";
+
+/**
  * The checks a pull request must pass before it can enter main's merge
  * queue, and again on the queue's merge commit before it lands: every job of
  * `ci.yml`, plus the benchmark. A job of a reusable workflow reports as
@@ -277,7 +284,7 @@ export default Alchemy.Stack(
     //                             Read alone the edge-preview call is
     //                             rejected and every CI deploy fails.
     //
-    // Every zone in the account, nested under the account resource as
+    // The distilled.cloud zone only, nested under the account resource as
     // account-owned tokens require, for the website's custom domains:
     //   - Zone Read               alchemy resolves `distilled.cloud` by name
     //                             (Cloudflare/Zone/lookup.ts); there is no
@@ -303,7 +310,7 @@ export default Alchemy.Stack(
           permissionGroups: ["Zone Read", "Workers Routes Write", "DNS Write"],
           resources: {
             [`com.cloudflare.api.account.${accountId}`]: {
-              "com.cloudflare.api.account.zone.*": "*",
+              [`com.cloudflare.api.account.zone.${DISTILLED_CLOUD_ZONE_ID}`]: "*",
             },
           },
         },
