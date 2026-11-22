@@ -754,6 +754,20 @@ export const invalidLabel = (
 };
 
 /**
+ * A path label value, percent-encoded, or the {@link InvalidInput} that
+ * {@link invalidLabel} refuses it with. A greedy label keeps its `/` and
+ * encodes each segment ({@link encodeGreedyLabel}). Use it wherever a
+ * caller's value goes into a URL path, so the check can't be skipped.
+ */
+export const encodeLabel = (
+  member: string,
+  value: unknown,
+  greedy?: boolean,
+): string | InvalidInput =>
+  invalidLabel(member, value, greedy) ??
+  (greedy ? encodeGreedyLabel(String(value)) : encodeURIComponent(String(value)));
+
+/**
  * Build an HTTP request from an operation input and its schema, driven by
  * the trait annotations: `Http()` supplies method + URI template, `Label()`
  * members fill URI placeholders, `Header()`/`Query()` members bind to
@@ -813,20 +827,17 @@ const requestOrInvalid = ({
     if (value === undefined) continue;
     switch (m.bind) {
       case "label": {
-        const invalid = invalidLabel(m.key, value, m.greedy);
-        if (invalid) return invalid;
-        const encoded = encodeURIComponent(String(value));
+        const encoded = encodeLabel(m.key, value, m.greedy);
+        if (encoded instanceof InvalidInput) return encoded;
         const preserve = m.preserve;
         const label =
-          preserve !== undefined
+          preserve !== undefined && !m.greedy
             ? encoded.replace(/%[0-9A-F]{2}/g, (escape) => {
                 const character = String.fromCharCode(Number.parseInt(escape.slice(1), 16));
                 return preserve.includes(character) ? character : escape;
               })
             : encoded;
-        uri = m.greedy
-          ? uri.replace(`{${m.name}+}`, () => encodeGreedyLabel(String(value)))
-          : uri.replace(`{${m.name}}`, () => label);
+        uri = uri.replace(m.greedy ? `{${m.name}+}` : `{${m.name}}`, () => label);
         break;
       }
       case "header": {

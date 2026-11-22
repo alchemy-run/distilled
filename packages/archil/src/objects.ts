@@ -15,13 +15,14 @@
  * per request), CopyObject (same bucket), ListObjectsV2 (`/` delimiter only),
  * and multipart upload (create, upload part, complete, abort, list parts,
  * list uploads). Writes that conflict with a FUSE mount's write delegation
- * fail with {@link ObjectConflict}. A key with a `.` or `..` segment fails
- * with {@link InvalidInput} before anything is sent.
+ * fail with {@link ObjectConflict}. A key, disk or branch with a `.` or `..`
+ * segment, and an empty key or disk, fail with {@link InvalidInput} before
+ * anything is sent.
  */
 import * as AwsClient from "@distilled.cloud/aws4signer/AwsClient";
 import * as Category from "@distilled.cloud/core/category";
 import { ConfigError } from "@distilled.cloud/core/errors";
-import { InvalidInput, invalidLabel } from "@distilled.cloud/core/protocol-http";
+import { encodeLabel, InvalidInput } from "@distilled.cloud/core/protocol-http";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as HttpClient from "effect/http/HttpClient";
@@ -138,15 +139,35 @@ export interface DiskRef {
 
 const bucketOf = (ref: DiskRef) => (ref.branch ? `${ref.disk}.${ref.branch}` : ref.disk);
 
+const namesNothing = (member: string, value: string) =>
+  new InvalidInput({
+    member,
+    message: `Input member ${member} cannot be ${JSON.stringify(value)}: the request would address the disk instead`,
+  });
+
+/**
+ * The bucket path segment, `<disk>` or `<disk>.<branch>`, each part
+ * percent-encoded, or the {@link InvalidInput} of an empty disk or a part
+ * core's `encodeLabel` refuses.
+ */
+const encodeBucket = (ref: DiskRef): string | InvalidInput => {
+  const disk = encodeLabel("disk", ref.disk);
+  if (disk === "") return namesNothing("disk", ref.disk);
+  if (disk instanceof InvalidInput || !ref.branch) return disk;
+  const branch = encodeLabel("branch", ref.branch);
+  return branch instanceof InvalidInput ? branch : `${disk}.${branch}`;
+};
+
 /**
  * The key as URL path segments, each percent-encoded, or the
- * {@link InvalidInput} of a key that has a `.` or `..` segment (the URL
- * parser resolves one, so the request would reach another path) or a lone
- * UTF-16 surrogate.
+ * {@link InvalidInput} of a key that core's `encodeLabel` refuses (a `.` or
+ * `..` segment, a lone UTF-16 surrogate) or that names no object (`""`,
+ * `/`), which would address the disk itself.
  */
-const encodeKey = (member: string, key: string): string | InvalidInput =>
-  invalidLabel(member, key, true) ??
-  key.replace(/^\//, "").split("/").map(encodeURIComponent).join("/");
+const encodeKey = (member: string, key: string): string | InvalidInput => {
+  const encoded = encodeLabel(member, key, true);
+  return encoded === "" ? namesNothing(member, key) : encoded;
+};
 
 const xmlText = (xml: string, tag: string) => {
   const match = xml.match(new RegExp(`<${tag}>([\\s\\S]*?)</${tag}>`));
@@ -205,9 +226,11 @@ const objectUrl = (
   base: string,
   options: Pick<RequestOptions, "ref" | "key" | "query">,
 ): string | InvalidInput => {
-  const key = options.key ? encodeKey("key", options.key) : undefined;
+  const bucket = encodeBucket(options.ref);
+  if (bucket instanceof InvalidInput) return bucket;
+  const key = options.key !== undefined ? encodeKey("key", options.key) : undefined;
   if (key instanceof InvalidInput) return key;
-  const path = key !== undefined ? `/${bucketOf(options.ref)}/${key}` : `/${bucketOf(options.ref)}`;
+  const path = key !== undefined ? `/${bucket}/${key}` : `/${bucket}`;
   const params = new URLSearchParams();
   for (const [k, v] of Object.entries(options.query ?? {})) {
     if (v !== undefined) params.set(k, String(v));
@@ -392,6 +415,8 @@ export const deleteObject = Effect.fn(function* (ref: DiskRef, key: string) {
 
 /** Copy an object within the same disk. */
 export const copyObject = Effect.fn(function* (ref: DiskRef, sourceKey: string, key: string) {
+  const bucket = encodeBucket(ref);
+  if (bucket instanceof InvalidInput) return yield* bucket;
   const source = encodeKey("sourceKey", sourceKey);
   if (source instanceof InvalidInput) return yield* source;
   const response = yield* request({
@@ -399,7 +424,7 @@ export const copyObject = Effect.fn(function* (ref: DiskRef, sourceKey: string, 
     method: "PUT",
     ref,
     key,
-    headers: { "x-amz-copy-source": `/${bucketOf(ref)}/${source}` },
+    headers: { "x-amz-copy-source": `/${bucket}/${source}` },
   });
   return { etag: xmlText(yield* response.text, "ETag") };
 });
