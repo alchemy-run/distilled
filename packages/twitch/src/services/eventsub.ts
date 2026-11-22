@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownTwitchError } from "../errors.ts";
+import { TwitchServiceErrors } from "../errors.ts";
 import { paginateCursor } from "../pagination.ts";
 import { TwitchProtocol, type TwitchOpError, type TwitchOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -180,7 +180,8 @@ export const createEventsubSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1, __c0, 1) as any as S.Schema<CreateEventsubSubscriptionRequest>,
   output: __S(5, __c0, 5) as any as S.Schema<CreateEventsubSubscriptionResponse>,
-  errors: [UnknownTwitchError],
+  errors: [],
+  serviceErrors: TwitchServiceErrors,
   protocol: TwitchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -197,7 +198,8 @@ export const deleteEventsubSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c1, 0) as any as S.Schema<DeleteEventsubSubscriptionRequest>,
   output: __S(9, __c1, 1) as any as S.Schema<DeleteEventsubSubscriptionResponse>,
-  errors: [UnknownTwitchError],
+  errors: [],
+  serviceErrors: TwitchServiceErrors,
   protocol: TwitchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -216,7 +218,8 @@ export const getEventsubSubscriptions: API.PaginatedOperationMethod<
   () => ({
     input: __S(16, __c2, 0) as any as S.Schema<GetEventsubSubscriptionsRequest>,
     output: __S(21, __c2, 5) as any as S.Schema<GetEventsubSubscriptionsResponse>,
-    errors: [UnknownTwitchError],
+    errors: [],
+    serviceErrors: TwitchServiceErrors,
     protocol: TwitchProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
