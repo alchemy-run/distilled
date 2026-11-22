@@ -37,7 +37,8 @@ import {
   DEFAULT_DOMAIN,
   ENVD_PORT,
   envdBaseUrlFor,
-  SandboxConnection,
+  resolveSandboxConnection,
+  type SandboxConnection,
   type Config,
   type SandboxConnectionConfig,
   VolumeConnection,
@@ -85,18 +86,9 @@ export const E2BProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProt
   parseError,
 });
 
-const missingSandbox = /*@__PURE__*/ Effect.fail(
-  new ConfigError({
-    message:
-      "E2B envd operations address one sandbox -- provide E2B.sandboxConnection({ sandboxId, accessToken })",
-  }),
-);
-
 export const EnvdProtocol: Layer.Layer<API.Protocol> =
   /*@__PURE__*/ makeRestProtocol<SandboxConnectionConfig>({
-    credentials: /*@__PURE__*/ Effect.flatMap(Effect.serviceOption(SandboxConnection), (option) =>
-      option._tag === "Some" ? Effect.succeed(option.value) : missingSandbox,
-    ),
+    credentials: resolveSandboxConnection,
     baseUrl: (sandbox) => envdBaseUrlFor(sandbox),
     headers: (sandbox) => {
       const headers: Record<string, string> = {
