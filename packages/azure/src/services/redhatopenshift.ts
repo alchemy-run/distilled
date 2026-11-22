@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { AzureServiceErrors } from "../errors.ts";
+import { UnknownAzureError } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -1288,6 +1288,8 @@ export interface ListExternalAuthByParentRequest {
   resourceGroupName: string;
   /** The name of the HcpOpenShiftCluster */
   hcpOpenShiftClusterName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** ExternalAuth resource */
 export interface ExternalAuth {
@@ -1316,6 +1318,8 @@ export interface ListHcpOpenShiftClusterByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type HcpOpenShiftClusterTagsMap = { [key: string]: string | undefined };
@@ -1364,12 +1368,16 @@ export interface HcpOpenShiftClusterListResult {
 export interface ListHcpOpenShiftClusterBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListHcpOpenShiftVersionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the Azure region. */
   location: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** HcpOpenShiftVersion represents a location based available HCP OpenShift version */
 export interface HcpOpenShiftVersion {
@@ -1398,6 +1406,8 @@ export interface ListHcpOperatorIdentityRoleSetsRequest {
   subscriptionId: string;
   /** The name of the Azure region. */
   location: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** HcpOperatorIdentityRoles represents a location based representation of the required platform workload identities and their required roles for a given OpenShift version */
 export interface HcpOperatorIdentityRoleSet {
@@ -1428,6 +1438,8 @@ export interface ListNodePoolByParentRequest {
   resourceGroupName: string;
   /** The name of the HcpOpenShiftCluster */
   hcpOpenShiftClusterName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type NodePoolTagsMap = { [key: string]: string | undefined };
@@ -1491,6 +1503,8 @@ export interface ListOpenShiftClusterByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type OpenShiftClusterTagsMap = { [key: string]: string | undefined };
@@ -1554,12 +1568,16 @@ export interface OpenShiftClusterCredentials {
 export interface ListOpenShiftClustersRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListOpenShiftVersionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the Azure region. */
   location: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** OpenShiftVersion represents an OpenShift version that can be installed. */
 export interface OpenShiftVersion {
@@ -1583,7 +1601,10 @@ export interface OpenShiftVersionList {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Display represents the display details of an operation. */
 export interface Display {
   /** Friendly name of the resource provider. */
@@ -1618,6 +1639,8 @@ export interface ListPlatformWorkloadIdentityRoleSetsRequest {
   subscriptionId: string;
   /** The name of the Azure region. */
   location: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** PlatformWorkloadIdentityRoleSet represents a mapping from the names of OCP operators to the built-in roles that should be assigned to those operator's corresponding managed identities for a particular OCP version. */
 export interface PlatformWorkloadIdentityRoleSet {
@@ -2319,8 +2342,7 @@ export const DeleteExternalAuth: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteExternalAuthRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteExternalAuthResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2337,8 +2359,7 @@ export const DeleteHcpOpenShiftCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<DeleteHcpOpenShiftClusterRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteHcpOpenShiftClusterResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2355,8 +2376,7 @@ export const DeleteNodePool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<DeleteNodePoolRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteNodePoolResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2373,8 +2393,7 @@ export const DeleteOpenShiftCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<DeleteOpenShiftClusterRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteOpenShiftClusterResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2391,8 +2410,7 @@ export const ExternalAuthsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1313, __c41, 1) as any as S.Schema<ExternalAuthsCreateOrUpdateRequest>,
   output: __S(1314, __c41, 2) as any as S.Schema<ExternalAuthsCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2409,8 +2427,7 @@ export const GetExternalAuth: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<GetExternalAuthRequest>,
   output: __S(1504, __c47, 0) as any as S.Schema<GetExternalAuthResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2427,8 +2444,7 @@ export const GetHcpOpenShiftCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<GetHcpOpenShiftClusterRequest>,
   output: __S(1600, __c50, 0) as any as S.Schema<GetHcpOpenShiftClusterResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2445,8 +2461,7 @@ export const GetHcpOpenShiftVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c53, 0) as any as S.Schema<GetHcpOpenShiftVersionRequest>,
   output: __S(1729, __c54, 1) as any as S.Schema<GetHcpOpenShiftVersionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2463,8 +2478,7 @@ export const GetHcpOperatorIdentityRoleSet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<GetHcpOperatorIdentityRoleSetRequest>,
   output: __S(1797, __c56, 5) as any as S.Schema<GetHcpOperatorIdentityRoleSetResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2481,8 +2495,7 @@ export const GetNodePool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c57, 0) as any as S.Schema<GetNodePoolRequest>,
   output: __S(1856, __c58, 0) as any as S.Schema<GetNodePoolResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2499,8 +2512,7 @@ export const GetOpenShiftCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<GetOpenShiftClusterRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<GetOpenShiftClusterResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2517,8 +2529,7 @@ export const GetOpenShiftVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<GetOpenShiftVersionRequest>,
   output: __S(224, __c7, 0) as any as S.Schema<GetOpenShiftVersionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2535,8 +2546,7 @@ export const GetPlatformWorkloadIdentityRoleSet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<GetPlatformWorkloadIdentityRoleSetRequest>,
   output: __S(323, __c10, 3) as any as S.Schema<GetPlatformWorkloadIdentityRoleSetResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2553,8 +2563,7 @@ export const HcpOpenShiftClustersCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(356, __c11, 4) as any as S.Schema<HcpOpenShiftClustersCreateOrUpdateRequest>,
   output: __S(357, __c11, 5) as any as S.Schema<HcpOpenShiftClustersCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2571,8 +2580,7 @@ export const HcpOpenShiftClustersRequestAdminCredential: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<HcpOpenShiftClustersRequestAdminCredentialRequest>,
   output: __S(449, __c14, 1) as any as S.Schema<HcpOpenShiftClusterAdminCredential>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2581,111 +2589,147 @@ export const HcpOpenShiftClustersRequestAdminCredential: API.OperationMethod<
 
 export type ListExternalAuthByParentError = AzureOpError;
 /** List ExternalAuth resources by HcpOpenShiftCluster */
-export const ListExternalAuthByParent: API.OperationMethod<
+export const ListExternalAuthByParent: API.PaginatedOperationMethod<
   ListExternalAuthByParentRequest,
   ExternalAuthListResult,
   ListExternalAuthByParentError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ExternalAuth
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<ListExternalAuthByParentRequest>,
   output: __S(482, __c15, 2) as any as S.Schema<ExternalAuthListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListExternalAuthByParent",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListHcpOpenShiftClusterByResourceGroupError = AzureOpError;
 /** List HcpOpenShiftCluster resources by resource group */
-export const ListHcpOpenShiftClusterByResourceGroup: API.OperationMethod<
+export const ListHcpOpenShiftClusterByResourceGroup: API.PaginatedOperationMethod<
   ListHcpOpenShiftClusterByResourceGroupRequest,
   HcpOpenShiftClusterListResult,
   ListHcpOpenShiftClusterByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  HcpOpenShiftCluster
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<ListHcpOpenShiftClusterByResourceGroupRequest>,
   output: __S(545, __c17, 1) as any as S.Schema<HcpOpenShiftClusterListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListHcpOpenShiftClusterByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListHcpOpenShiftClusterBySubscriptionError = AzureOpError;
 /** List HcpOpenShiftCluster resources by subscription ID */
-export const ListHcpOpenShiftClusterBySubscription: API.OperationMethod<
+export const ListHcpOpenShiftClusterBySubscription: API.PaginatedOperationMethod<
   ListHcpOpenShiftClusterBySubscriptionRequest,
   HcpOpenShiftClusterListResult,
   ListHcpOpenShiftClusterBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  HcpOpenShiftCluster
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<ListHcpOpenShiftClusterBySubscriptionRequest>,
   output: __S(545, __c17, 1) as any as S.Schema<HcpOpenShiftClusterListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListHcpOpenShiftClusterBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListHcpOpenShiftVersionsError = AzureOpError;
 /** List HcpOpenShiftVersion resources by SubscriptionLocationResource */
-export const ListHcpOpenShiftVersions: API.OperationMethod<
+export const ListHcpOpenShiftVersions: API.PaginatedOperationMethod<
   ListHcpOpenShiftVersionsRequest,
   HcpOpenShiftVersionListResult,
   ListHcpOpenShiftVersionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  HcpOpenShiftVersion
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<ListHcpOpenShiftVersionsRequest>,
   output: __S(610, __c19, 2) as any as S.Schema<HcpOpenShiftVersionListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListHcpOpenShiftVersions",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListHcpOperatorIdentityRoleSetsError = AzureOpError;
 /** List HcpOperatorIdentityRoleSet resources by SubscriptionLocationResource */
-export const ListHcpOperatorIdentityRoleSets: API.OperationMethod<
+export const ListHcpOperatorIdentityRoleSets: API.PaginatedOperationMethod<
   ListHcpOperatorIdentityRoleSetsRequest,
   HcpOperatorIdentityRoleSetListResult,
   ListHcpOperatorIdentityRoleSetsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  HcpOperatorIdentityRoleSet
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<ListHcpOperatorIdentityRoleSetsRequest>,
   output: __S(642, __c20, 2) as any as S.Schema<HcpOperatorIdentityRoleSetListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListHcpOperatorIdentityRoleSets",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListNodePoolByParentError = AzureOpError;
 /** List NodePool resources by HcpOpenShiftCluster */
-export const ListNodePoolByParent: API.OperationMethod<
+export const ListNodePoolByParent: API.PaginatedOperationMethod<
   ListNodePoolByParentRequest,
   NodePoolListResult,
   ListNodePoolByParentError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  NodePool
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<ListNodePoolByParentRequest>,
   output: __S(706, __c22, 2) as any as S.Schema<NodePoolListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNodePoolByParent",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOpenShiftClusterAdminCredentialsError = AzureOpError;
 /** Lists admin kubeconfig of an OpenShift cluster with the specified subscription, resource group and resource name. The operation returns the admin kubeconfig. */
@@ -2697,8 +2741,7 @@ export const ListOpenShiftClusterAdminCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<ListOpenShiftClusterAdminCredentialsRequest>,
   output: __S(737, __c23, 1) as any as S.Schema<OpenShiftClusterAdminKubeconfig>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2707,21 +2750,27 @@ export const ListOpenShiftClusterAdminCredentials: API.OperationMethod<
 
 export type ListOpenShiftClusterByResourceGroupError = AzureOpError;
 /** Lists OpenShift clusters in the specified subscription and resource group. The operation returns properties of each OpenShift cluster. */
-export const ListOpenShiftClusterByResourceGroup: API.OperationMethod<
+export const ListOpenShiftClusterByResourceGroup: API.PaginatedOperationMethod<
   ListOpenShiftClusterByResourceGroupRequest,
   OpenShiftClusterList,
   ListOpenShiftClusterByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  OpenShiftCluster
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<ListOpenShiftClusterByResourceGroupRequest>,
   output: __S(801, __c25, 1) as any as S.Schema<OpenShiftClusterList>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOpenShiftClusterByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOpenShiftClusterCredentialsError = AzureOpError;
 /** Lists credentials of an OpenShift cluster with the specified subscription, resource group and resource name. The operation returns the credentials. */
@@ -2733,8 +2782,7 @@ export const ListOpenShiftClusterCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<ListOpenShiftClusterCredentialsRequest>,
   output: __S(833, __c26, 1) as any as S.Schema<OpenShiftClusterCredentials>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2743,75 +2791,99 @@ export const ListOpenShiftClusterCredentials: API.OperationMethod<
 
 export type ListOpenShiftClustersError = AzureOpError;
 /** Lists OpenShift clusters in the specified subscription. The operation returns properties of each OpenShift cluster. */
-export const ListOpenShiftClusters: API.OperationMethod<
+export const ListOpenShiftClusters: API.PaginatedOperationMethod<
   ListOpenShiftClustersRequest,
   OpenShiftClusterList,
   ListOpenShiftClustersError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  OpenShiftCluster
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<ListOpenShiftClustersRequest>,
   output: __S(801, __c25, 1) as any as S.Schema<OpenShiftClusterList>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOpenShiftClusters",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOpenShiftVersionsError = AzureOpError;
 /** Lists all OpenShift versions available to install in the specified location. The operation returns the installable OpenShift versions as a string. */
-export const ListOpenShiftVersions: API.OperationMethod<
+export const ListOpenShiftVersions: API.PaginatedOperationMethod<
   ListOpenShiftVersionsRequest,
   OpenShiftVersionList,
   ListOpenShiftVersionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  OpenShiftVersion
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<ListOpenShiftVersionsRequest>,
   output: __S(898, __c28, 2) as any as S.Schema<OpenShiftVersionList>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOpenShiftVersions",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   OperationList,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(932, __c29, 4) as any as S.Schema<OperationList>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPlatformWorkloadIdentityRoleSetsError = AzureOpError;
 /** Lists a mapping of OpenShift versions to identity requirements, which include operatorName, roleDefinitionName, roleDefinitionId, and serviceAccounts. This operation returns a list of Platform Workload Identity Role Sets as a string */
-export const ListPlatformWorkloadIdentityRoleSets: API.OperationMethod<
+export const ListPlatformWorkloadIdentityRoleSets: API.PaginatedOperationMethod<
   ListPlatformWorkloadIdentityRoleSetsRequest,
   PlatformWorkloadIdentityRoleSetList,
   ListPlatformWorkloadIdentityRoleSetsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PlatformWorkloadIdentityRoleSet
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<ListPlatformWorkloadIdentityRoleSetsRequest>,
   output: __S(962, __c30, 2) as any as S.Schema<PlatformWorkloadIdentityRoleSetList>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPlatformWorkloadIdentityRoleSets",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type NodePoolsCreateOrUpdateError = AzureOpError;
 /** Create a NodePool */
@@ -2823,8 +2895,7 @@ export const NodePoolsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(993, __c31, 1) as any as S.Schema<NodePoolsCreateOrUpdateRequest>,
   output: __S(994, __c31, 2) as any as S.Schema<NodePoolsCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2841,8 +2912,7 @@ export const OpenShiftClustersCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<OpenShiftClustersCreateOrUpdateRequest>,
   output: __S(1066, __c33, 10) as any as S.Schema<OpenShiftClustersCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2859,8 +2929,7 @@ export const RevokeHcpOpenShiftClusterCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<RevokeHcpOpenShiftClusterCredentialsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<RevokeHcpOpenShiftClusterCredentialsResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2877,8 +2946,7 @@ export const UpdateExternalAuth: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1158, __c36, 6) as any as S.Schema<UpdateExternalAuthRequest>,
   output: __S(1159, __c36, 7) as any as S.Schema<UpdateExternalAuthResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2895,8 +2963,7 @@ export const UpdateHcpOpenShiftCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1193, __c37, 9) as any as S.Schema<UpdateHcpOpenShiftClusterRequest>,
   output: __S(1194, __c37, 10) as any as S.Schema<UpdateHcpOpenShiftClusterResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2913,8 +2980,7 @@ export const UpdateNodePool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1249, __c39, 1) as any as S.Schema<UpdateNodePoolRequest>,
   output: __S(1250, __c39, 2) as any as S.Schema<UpdateNodePoolResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2931,8 +2997,7 @@ export const UpdateOpenShiftCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<UpdateOpenShiftClusterRequest>,
   output: __S(1066, __c33, 10) as any as S.Schema<UpdateOpenShiftClusterResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3388,12 +3453,14 @@ function __c15(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           hcpOpenShiftClusterName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/hcpOpenShiftClusters/{hcpOpenShiftClusterName}/externalAuths",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListExternalAuthByParentRequest" });
@@ -3415,12 +3482,14 @@ function __c16(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/hcpOpenShiftClusters",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListHcpOpenShiftClusterByResourceGroupRequest" });
@@ -3445,12 +3514,14 @@ function __c18(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.RedHatOpenShift/hcpOpenShiftClusters",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListHcpOpenShiftClusterBySubscriptionRequest" });
@@ -3463,12 +3534,14 @@ function __c19(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.RedHatOpenShift/locations/{location}/hcpOpenShiftVersions",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListHcpOpenShiftVersionsRequest" });
@@ -3490,12 +3563,14 @@ function __c20(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.RedHatOpenShift/locations/{location}/hcpOperatorIdentityRoleSets",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListHcpOperatorIdentityRoleSetsRequest" });
@@ -3538,12 +3613,14 @@ function __c22(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           hcpOpenShiftClusterName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/hcpOpenShiftClusters/{hcpOpenShiftClusterName}/nodePools",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListNodePoolByParentRequest" });
@@ -3590,12 +3667,14 @@ function __c24(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/openShiftClusters",
             code: 200,
             apiVersion: "2025-07-25",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOpenShiftClusterByResourceGroupRequest" });
@@ -3646,12 +3725,14 @@ function __c27(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.RedHatOpenShift/openShiftClusters",
             code: 200,
             apiVersion: "2025-07-25",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOpenShiftClustersRequest" });
@@ -3664,12 +3745,14 @@ function __c28(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.RedHatOpenShift/locations/{location}/openShiftVersions",
             code: 200,
             apiVersion: "2025-07-25",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOpenShiftVersionsRequest" });
@@ -3688,12 +3771,15 @@ function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.RedHatOpenShift/operations",
             code: 200,
             apiVersion: "2025-07-25",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -3732,12 +3818,14 @@ function __c30(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.RedHatOpenShift/locations/{location}/platformWorkloadIdentityRoleSets",
             code: 200,
             apiVersion: "2025-07-25",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPlatformWorkloadIdentityRoleSetsRequest" });

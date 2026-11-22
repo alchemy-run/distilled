@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { AzureServiceErrors } from "../errors.ts";
+import { UnknownAzureError } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -283,6 +283,8 @@ export interface GetPublisherResponse {
 export interface ListOfferBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** An offer. */
 export interface Offer {
@@ -319,8 +321,13 @@ export interface ListOffersRequest {
   _filter?: string | undefined;
   /** Skip over when retrieving results. */
   _skipToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -353,13 +360,15 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
 export interface ListPublisherBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A publisher who provides offers. */
 export interface Publisher {
@@ -396,6 +405,8 @@ export interface ListPublishersRequest {
   _filter?: string | undefined;
   /** Skip over when retrieving results. */
   _skipToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export type GenerateOfferAccessTokenError = AzureOpError;
 /** A long-running resource action. */
@@ -407,8 +418,7 @@ export const GenerateOfferAccessToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<GenerateOfferAccessTokenRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<GenerateOfferAccessTokenResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -431,8 +441,7 @@ export const GetOffer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c1, 0) as any as S.Schema<GetOfferRequest>,
   output: __S(59, __c3, 11) as any as S.Schema<GetOfferResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -454,8 +463,7 @@ export const GetOfferAccessToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<GetOfferAccessTokenRequest>,
   output: __S(65, __c4, 1) as any as S.Schema<DiskAccessToken>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -478,8 +486,7 @@ export const GetPublisher: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<GetPublisherRequest>,
   output: __S(97, __c6, 1) as any as S.Schema<GetPublisherResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -494,34 +501,40 @@ export const GetPublisher: API.OperationMethod<
 
 export type ListOfferBySubscriptionError = AzureOpError;
 /** List Offer resources by subscription ID */
-export const ListOfferBySubscription: API.OperationMethod<
+export const ListOfferBySubscription: API.PaginatedOperationMethod<
   ListOfferBySubscriptionRequest,
   OfferListResult,
   ListOfferBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Offer
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<ListOfferBySubscriptionRequest>,
   output: __S(129, __c8, 1) as any as S.Schema<OfferListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOfferBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOffersError = AzureOpError;
 /** List Offer resources by parent */
-export const ListOffers: API.OperationMethod<
+export const ListOffers: API.PaginatedOperationMethod<
   ListOffersRequest,
   OfferListResult,
   ListOffersError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Offer
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<ListOffersRequest>,
   output: __S(129, __c8, 1) as any as S.Schema<OfferListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -529,56 +542,74 @@ export const ListOffers: API.OperationMethod<
     op: "ListOffers",
     attributes: { "url.template": "/{resourceUri}/providers/Microsoft.EdgeMarketplace/offers" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(164, __c10, 4) as any as S.Schema<ListOperationsResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPublisherBySubscriptionError = AzureOpError;
 /** List Publisher resources by subscription ID */
-export const ListPublisherBySubscription: API.OperationMethod<
+export const ListPublisherBySubscription: API.PaginatedOperationMethod<
   ListPublisherBySubscriptionRequest,
   PublisherListResult,
   ListPublisherBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Publisher
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<ListPublisherBySubscriptionRequest>,
   output: __S(193, __c12, 1) as any as S.Schema<PublisherListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPublisherBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPublishersError = AzureOpError;
 /** List Publisher resources by parent */
-export const ListPublishers: API.OperationMethod<
+export const ListPublishers: API.PaginatedOperationMethod<
   ListPublishersRequest,
   PublisherListResult,
   ListPublishersError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Publisher
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<ListPublishersRequest>,
   output: __S(193, __c12, 1) as any as S.Schema<PublisherListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -586,7 +617,13 @@ export const ListPublishers: API.OperationMethod<
     op: "ListPublishers",
     attributes: { "url.template": "/{resourceUri}/providers/Microsoft.EdgeMarketplace/publishers" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
@@ -837,12 +874,14 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.EdgeMarketplace/offers",
             code: 200,
             apiVersion: "2024-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOfferBySubscriptionRequest" });
@@ -872,12 +911,14 @@ function __c9(j: number): any {
           maxpagesize: S.optional(S.Number.pipe(T.Query())),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{resourceUri+}/providers/Microsoft.EdgeMarketplace/offers",
             code: 200,
             apiVersion: "2024-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOffersRequest" });
@@ -887,12 +928,15 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.EdgeMarketplace/operations",
             code: 200,
             apiVersion: "2024-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -920,7 +964,7 @@ function __c10(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(163, __c10, 3)),
+          value: __S(163, __c10, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -932,12 +976,14 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.EdgeMarketplace/publishers",
             code: 200,
             apiVersion: "2024-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPublisherBySubscriptionRequest" });
@@ -967,12 +1013,14 @@ function __c13(j: number): any {
           maxpagesize: S.optional(S.Number.pipe(T.Query())),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{resourceUri+}/providers/Microsoft.EdgeMarketplace/publishers",
             code: 200,
             apiVersion: "2024-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPublishersRequest" });

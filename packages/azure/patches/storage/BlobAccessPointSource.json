@@ -1,0 +1,156 @@
+{
+  "description": "BlobAccessPointSourceProperties is polymorphic (discriminator sourceType; every subtype carries `connection` + `auth`), and its `connection` (discriminator connectionType: Endpoint | PrivateLink) and `auth` (discriminator authType: AccessKey) are polymorphic too. The converter kept only the base discriminators, so a configuration could not send its endpoint or credentials. Flatten the subtypes onto the base shapes for both the create and update source.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storage#BlobAccessPointConnection",
+      "value": {
+        "type": "structure",
+        "members": {
+          "connectionType": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The connection type: `Endpoint` or `PrivateLink`. This value determines the remaining members.",
+              "smithy.api#required": {}
+            }
+          },
+          "endpoint": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The endpoint URL of the S3-compatible data source. Fixed once the configuration is created."
+            }
+          },
+          "tlsVerification": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "TLS certificate verification behavior: `Perform` or `Skip`."
+            }
+          },
+          "privateLinkIdType": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "PrivateLink only. The type of `privateLinkId`; only `ResourceId` is supported."
+            }
+          },
+          "privateLinkId": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "PrivateLink only. ARM resource ID of the Microsoft.Network/privateLinkServices resource."
+            }
+          },
+          "privateLinkGroupId": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "PrivateLink only. The group ID of the private link resource."
+            }
+          },
+          "privateLinkLocation": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "PrivateLink only. The Azure region of the private link service."
+            }
+          },
+          "requestMessage": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "PrivateLink only. The message sent with the private endpoint connection request."
+            }
+          },
+          "privateEndpointName": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "PrivateLink only. The name of the private endpoint the service created (read-only)."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Details for connecting to a backing data source."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storage#BlobAccessPointRemoteAuth",
+      "value": {
+        "type": "structure",
+        "members": {
+          "authType": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The authentication type; only `AccessKey` is supported.",
+              "smithy.api#required": {}
+            }
+          },
+          "accessKeyId": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The access key ID."
+            }
+          },
+          "secretAccessKey": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The secret access key. This value is never returned by read or list operations.",
+              "smithy.api#sensitive": {}
+            }
+          },
+          "signingRegion": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The region used by the request-signing algorithm. Defaults to 'us-east-1' when not specified."
+            }
+          },
+          "hostOverride": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The host used when computing request signatures. The endpoint host is used by default."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Details for authenticating to a backing data source."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storage#BlobAccessPointSourceProperties/members/connection",
+      "value": {
+        "target": "com.azure.storage#BlobAccessPointConnection",
+        "traits": {
+          "smithy.api#documentation": "Details for connecting to the backing data source. The connection target is fixed when the configuration is created; only the TLS verification behavior can be changed afterwards."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storage#BlobAccessPointSourceProperties/members/auth",
+      "value": {
+        "target": "com.azure.storage#BlobAccessPointRemoteAuth",
+        "traits": {
+          "smithy.api#documentation": "Details for authenticating to the backing data source."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storage#BlobAccessPointSourcePropertiesUpdate/members/connection",
+      "value": {
+        "target": "com.azure.storage#BlobAccessPointConnection",
+        "traits": {
+          "smithy.api#documentation": "Details for connecting to the backing data source. Only the TLS verification behavior can be changed."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storage#BlobAccessPointSourcePropertiesUpdate/members/auth",
+      "value": {
+        "target": "com.azure.storage#BlobAccessPointRemoteAuth",
+        "traits": {
+          "smithy.api#documentation": "Details for authenticating to the backing data source."
+        }
+      }
+    }
+  ]
+}

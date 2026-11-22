@@ -1,0 +1,80 @@
+{
+  "description": "The spec's 2026-11-01 service API is not deployed yet: every service-API call answers 400 \"Unsupported API version 2026-11-01\". Pin the service operations to 2021-10-01, the live GA version.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceprovisioning_data#EnrollmentGroupRunBulkOperation/traits/smithy.api#http/apiVersion",
+      "value": "2021-10-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceprovisioning_data#EnrollmentGroupGet/traits/smithy.api#http/apiVersion",
+      "value": "2021-10-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceprovisioning_data#EnrollmentGroupCreateOrUpdate/traits/smithy.api#http/apiVersion",
+      "value": "2021-10-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceprovisioning_data#EnrollmentGroupDelete/traits/smithy.api#http/apiVersion",
+      "value": "2021-10-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceprovisioning_data#EnrollmentGroupGetAttestationMechanism/traits/smithy.api#http/apiVersion",
+      "value": "2021-10-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceprovisioning_data#EnrollmentGroupQuery/traits/smithy.api#http/apiVersion",
+      "value": "2021-10-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceprovisioning_data#IndividualEnrollmentRunBulkOperation/traits/smithy.api#http/apiVersion",
+      "value": "2021-10-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceprovisioning_data#IndividualEnrollmentGet/traits/smithy.api#http/apiVersion",
+      "value": "2021-10-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceprovisioning_data#IndividualEnrollmentCreateOrUpdate/traits/smithy.api#http/apiVersion",
+      "value": "2021-10-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceprovisioning_data#IndividualEnrollmentDelete/traits/smithy.api#http/apiVersion",
+      "value": "2021-10-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceprovisioning_data#IndividualEnrollmentGetAttestationMechanism/traits/smithy.api#http/apiVersion",
+      "value": "2021-10-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceprovisioning_data#IndividualEnrollmentQuery/traits/smithy.api#http/apiVersion",
+      "value": "2021-10-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceprovisioning_data#DeviceRegistrationStateGet/traits/smithy.api#http/apiVersion",
+      "value": "2021-10-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceprovisioning_data#DeviceRegistrationStateDelete/traits/smithy.api#http/apiVersion",
+      "value": "2021-10-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceprovisioning_data#DeviceRegistrationStateQuery/traits/smithy.api#http/apiVersion",
+      "value": "2021-10-01"
+    }
+  ]
+}

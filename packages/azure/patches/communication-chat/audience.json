@@ -1,0 +1,10 @@
+{
+  "description": "The spec declares no OAuth2 scope. Azure Communication Services accept Microsoft Entra ID tokens for the `https://communication.azure.com` resource (Microsoft Learn: \"Authenticate to Azure Communication Services\").",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_chat#CommunicationChat/traits/com.azure.protocols#audience",
+      "value": "https://communication.azure.com/.default"
+    }
+  ]
+}
