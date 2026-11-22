@@ -3,21 +3,25 @@
 A git mirror of the slice of
 [Azure/azure-rest-api-specs](https://github.com/Azure/azure-rest-api-specs) the
 [`@distilled.cloud/azure`](https://github.com/alchemy-run/distilled) generator
-reads — roughly **780 documents / 56 MB**, out of an upstream repository of
-338,000+ files and tens of gigabytes checked out.
+reads — roughly **930 documents / 74 MB**, out of an upstream repository of
+377,000+ files and tens of gigabytes checked out.
 
 What is kept:
 
 - `specs/specification/<service>/resource-manager/<Microsoft.Provider>/[<sub>/]stable/<latest>/*.json`
   — the swagger documents of the LATEST stable api-version of every ARM
   resource provider
+- `specs/specification/<service>/data-plane/<group>/[<sub>/]stable/<latest>/*.json`
+  — the swagger documents of the LATEST stable api-version of every data-plane
+  group (Key Vault, Storage, App Configuration, …); groups with only preview
+  versions are skipped
 - every document those `$ref`, transitively — `common-types`, siblings, other
   providers — so the mirror is self-contained and the converter's off-disk ref
   resolution works against it
 
-What is dropped: preview api-versions, data-plane specs, superseded stable
-versions, and `x-ms-examples` payloads (~16,000 files / 40 MB that no step of
-the pipeline reads).
+What is dropped: preview api-versions, superseded stable versions, and
+`x-ms-examples` payloads (~16,000 files / 40 MB that no step of the pipeline
+reads).
 
 The upstream layout is preserved under `specs/specification/` so relative
 `$ref`s resolve unchanged.

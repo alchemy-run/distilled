@@ -120,6 +120,8 @@ export interface GetDataScannerResponse {
 export interface ListDataScannersRequest {
   /** The scope of the data scanner. Valid scopes are a subscription (format: 'subscriptions/{subscriptionId}') or a resource group (format: 'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}'). */
   scopeId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Managed service identity (either system assigned, or none) */
 export type DataScannerIdentity = DataScannersCreateOrUpdateResponseIdentity;
@@ -215,12 +217,13 @@ export const GetDataScanner: API.OperationMethod<
 
 export type ListDataScannersError = AzureOpError;
 /** Lists all data scanner resources for the specified scope. */
-export const ListDataScanners: API.OperationMethod<
+export const ListDataScanners: API.PaginatedOperationMethod<
   ListDataScannersRequest,
   DataScannerList,
   ListDataScannersError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DataScanner
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<ListDataScannersRequest>,
   output: __S(18, __c4, 2) as any as S.Schema<DataScannerList>,
   errors: [UnknownAzureError],
@@ -231,7 +234,13 @@ export const ListDataScanners: API.OperationMethod<
     op: "ListDataScanners",
     attributes: { "url.template": "/{scopeId}/providers/Microsoft.Security/dataScanners" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
@@ -338,12 +347,14 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           scopeId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{scopeId+}/providers/Microsoft.Security/dataScanners",
             code: 200,
             apiVersion: "2026-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDataScannersRequest" });

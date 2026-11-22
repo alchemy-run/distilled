@@ -860,6 +860,8 @@ export interface ListEvidenceByReportRequest {
   offerGuid?: string | undefined;
   /** The tenant id of the report creator. */
   reportCreatorTenantId?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
   /** The caller's Microsoft Entra token, `Bearer <token>`. Microsoft.AppComplianceAutomation acts on behalf of this token and refuses requests without it (HTTP 502 `BearerFallbackDisabled`). */
   userToken?: string | Redacted.Redacted<string> | undefined;
 }
@@ -885,7 +887,10 @@ export interface EvidenceResourceListResult {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -918,7 +923,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -952,6 +957,8 @@ export interface ListReportRequest {
   offerGuid?: string | undefined;
   /** The tenant id of the report creator. */
   reportCreatorTenantId?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
   /** The caller's Microsoft Entra token, `Bearer <token>`. Microsoft.AppComplianceAutomation acts on behalf of this token and refuses requests without it (HTTP 502 `BearerFallbackDisabled`). */
   userToken?: string | Redacted.Redacted<string> | undefined;
 }
@@ -980,6 +987,8 @@ export interface ReportResourceListResult {
 export interface ListScopingConfigurationRequest {
   /** Report Name. */
   reportName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
   /** The caller's Microsoft Entra token, `Bearer <token>`. Microsoft.AppComplianceAutomation acts on behalf of this token and refuses requests without it (HTTP 502 `BearerFallbackDisabled`). */
   userToken?: string | Redacted.Redacted<string> | undefined;
 }
@@ -1022,6 +1031,8 @@ export interface ListSnapshotRequest {
   offerGuid?: string | undefined;
   /** The tenant id of the report creator. */
   reportCreatorTenantId?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
   /** The caller's Microsoft Entra token, `Bearer <token>`. Microsoft.AppComplianceAutomation acts on behalf of this token and refuses requests without it (HTTP 502 `BearerFallbackDisabled`). */
   userToken?: string | Redacted.Redacted<string> | undefined;
 }
@@ -1064,6 +1075,8 @@ export interface ListWebhookRequest {
   offerGuid?: string | undefined;
   /** The tenant id of the report creator. */
   reportCreatorTenantId?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
   /** The caller's Microsoft Entra token, `Bearer <token>`. Microsoft.AppComplianceAutomation acts on behalf of this token and refuses requests without it (HTTP 502 `BearerFallbackDisabled`). */
   userToken?: string | Redacted.Redacted<string> | undefined;
 }
@@ -1674,12 +1687,13 @@ export const GetWebhook: API.OperationMethod<
 
 export type ListEvidenceByReportError = AzureOpError;
 /** Returns a paginated list of evidences for a specified report. */
-export const ListEvidenceByReport: API.OperationMethod<
+export const ListEvidenceByReport: API.PaginatedOperationMethod<
   ListEvidenceByReportRequest,
   EvidenceResourceListResult,
   ListEvidenceByReportError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EvidenceResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<ListEvidenceByReportRequest>,
   output: __S(610, __c19, 2) as any as S.Schema<EvidenceResourceListResult>,
   errors: [UnknownAzureError],
@@ -1687,16 +1701,23 @@ export const ListEvidenceByReport: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEvidenceByReport",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(644, __c20, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
@@ -1704,7 +1725,13 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListProviderActionInUseStorageAccountsError = AzureOpError;
 /** List the storage accounts which are in use by related reports */
@@ -1725,12 +1752,13 @@ export const ListProviderActionInUseStorageAccounts: API.OperationMethod<
 
 export type ListReportError = AzureOpError;
 /** Get the AppComplianceAutomation report list for the tenant. */
-export const ListReport: API.OperationMethod<
+export const ListReport: API.PaginatedOperationMethod<
   ListReportRequest,
   ReportResourceListResult,
   ListReportError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ReportResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<ListReportRequest>,
   output: __S(706, __c22, 2) as any as S.Schema<ReportResourceListResult>,
   errors: [UnknownAzureError],
@@ -1738,16 +1766,23 @@ export const ListReport: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListReport",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListScopingConfigurationError = AzureOpError;
 /** Returns a list format of the singleton scopingConfiguration for a specified report. */
-export const ListScopingConfiguration: API.OperationMethod<
+export const ListScopingConfiguration: API.PaginatedOperationMethod<
   ListScopingConfigurationRequest,
   ScopingConfigurationResourceListResult,
   ListScopingConfigurationError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ScopingConfigurationResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<ListScopingConfigurationRequest>,
   output: __S(770, __c24, 2) as any as S.Schema<ScopingConfigurationResourceListResult>,
   errors: [UnknownAzureError],
@@ -1755,16 +1790,23 @@ export const ListScopingConfiguration: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListScopingConfiguration",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSnapshotError = AzureOpError;
 /** Get the AppComplianceAutomation snapshot list. */
-export const ListSnapshot: API.OperationMethod<
+export const ListSnapshot: API.PaginatedOperationMethod<
   ListSnapshotRequest,
   SnapshotResourceListResult,
   ListSnapshotError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SnapshotResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<ListSnapshotRequest>,
   output: __S(802, __c25, 2) as any as S.Schema<SnapshotResourceListResult>,
   errors: [UnknownAzureError],
@@ -1772,16 +1814,23 @@ export const ListSnapshot: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSnapshot",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWebhookError = AzureOpError;
 /** Get the AppComplianceAutomation webhook list. */
-export const ListWebhook: API.OperationMethod<
+export const ListWebhook: API.PaginatedOperationMethod<
   ListWebhookRequest,
   WebhookResourceListResult,
   ListWebhookError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  WebhookResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<ListWebhookRequest>,
   output: __S(834, __c26, 2) as any as S.Schema<WebhookResourceListResult>,
   errors: [UnknownAzureError],
@@ -1789,7 +1838,13 @@ export const ListWebhook: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWebhook",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ProviderActionsOnboardError = AzureOpError;
 /** Onboard given subscriptions to Microsoft.AppComplianceAutomation provider. */
@@ -2508,6 +2563,7 @@ function __c19(j: number): any {
           _orderby: S.optional(S.String.pipe(T.Query("$orderby"))),
           offerGuid: S.optional(S.String.pipe(T.Query())),
           reportCreatorTenantId: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
           userToken: S.optional(
             S.String.pipe(T.Header("x-ms-aad-user-token"), T.SensitiveValue({})),
           ),
@@ -2517,6 +2573,7 @@ function __c19(j: number): any {
             uri: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/evidences",
             code: 200,
             apiVersion: "2024-06-27",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEvidenceByReportRequest" });
@@ -2535,12 +2592,15 @@ function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.AppComplianceAutomation/operations",
             code: 200,
             apiVersion: "2024-06-27",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -2568,7 +2628,7 @@ function __c20(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(643, __c20, 3)),
+          value: __S(643, __c20, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -2614,6 +2674,7 @@ function __c22(j: number): any {
           _orderby: S.optional(S.String.pipe(T.Query("$orderby"))),
           offerGuid: S.optional(S.String.pipe(T.Query())),
           reportCreatorTenantId: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
           userToken: S.optional(
             S.String.pipe(T.Header("x-ms-aad-user-token"), T.SensitiveValue({})),
           ),
@@ -2623,6 +2684,7 @@ function __c22(j: number): any {
             uri: "/providers/Microsoft.AppComplianceAutomation/reports",
             code: 200,
             apiVersion: "2024-06-27",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListReportRequest" });
@@ -2670,6 +2732,7 @@ function __c24(j: number): any {
       return S.suspend(() =>
         S.Struct({
           reportName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
           userToken: S.optional(
             S.String.pipe(T.Header("x-ms-aad-user-token"), T.SensitiveValue({})),
           ),
@@ -2679,6 +2742,7 @@ function __c24(j: number): any {
             uri: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/scopingConfigurations",
             code: 200,
             apiVersion: "2024-06-27",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListScopingConfigurationRequest" });
@@ -2706,6 +2770,7 @@ function __c25(j: number): any {
           _orderby: S.optional(S.String.pipe(T.Query("$orderby"))),
           offerGuid: S.optional(S.String.pipe(T.Query())),
           reportCreatorTenantId: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
           userToken: S.optional(
             S.String.pipe(T.Header("x-ms-aad-user-token"), T.SensitiveValue({})),
           ),
@@ -2715,6 +2780,7 @@ function __c25(j: number): any {
             uri: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/snapshots",
             code: 200,
             apiVersion: "2024-06-27",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSnapshotRequest" });
@@ -2742,6 +2808,7 @@ function __c26(j: number): any {
           _orderby: S.optional(S.String.pipe(T.Query("$orderby"))),
           offerGuid: S.optional(S.String.pipe(T.Query())),
           reportCreatorTenantId: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
           userToken: S.optional(
             S.String.pipe(T.Header("x-ms-aad-user-token"), T.SensitiveValue({})),
           ),
@@ -2751,6 +2818,7 @@ function __c26(j: number): any {
             uri: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/webhooks",
             code: 200,
             apiVersion: "2024-06-27",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWebhookRequest" });

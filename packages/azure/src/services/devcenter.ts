@@ -2603,6 +2603,8 @@ export interface ListAttachedNetworkByDevCenterRequest {
   devCenterName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Represents an attached NetworkConnection. */
 export interface AttachedNetworkConnection {
@@ -2622,7 +2624,7 @@ export type AttachedNetworkListResultValueList = Array<AttachedNetworkConnection
 /** Results of the Attached Networks list operation. */
 export interface AttachedNetworkListResult {
   /** Current page of results. */
-  value?: AttachedNetworkListResultValueList | undefined;
+  value: AttachedNetworkListResultValueList;
   /** URL to get the next set of results if there are any. */
   nextLink?: string | undefined;
 }
@@ -2635,6 +2637,8 @@ export interface ListAttachedNetworkByProjectRequest {
   projectName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListCatalogByDevCenterRequest {
   /** The ID of the target subscription. */
@@ -2645,6 +2649,8 @@ export interface ListCatalogByDevCenterRequest {
   devCenterName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Represents a catalog. */
 export interface Catalog {
@@ -2664,7 +2670,7 @@ export type CatalogListResultValueList = Array<Catalog>;
 /** Results of the catalog list operation. */
 export interface CatalogListResult {
   /** Current page of results. */
-  value?: CatalogListResultValueList | undefined;
+  value: CatalogListResultValueList;
   /** URL to get the next set of results if there are any. */
   nextLink?: string | undefined;
 }
@@ -2679,6 +2685,8 @@ export interface ListCustomizationTaskByCatalogRequest {
   catalogName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Represents a Task to be used in customizing a Dev Box. */
 export interface CustomizationTask {
@@ -2698,7 +2706,7 @@ export type CustomizationTaskListResultValueList = Array<CustomizationTask>;
 /** Results of the Task list operation. */
 export interface CustomizationTaskListResult {
   /** Current page of results. */
-  value?: CustomizationTaskListResultValueList | undefined;
+  value: CustomizationTaskListResultValueList;
   /** URL to get the next set of results if there are any. */
   nextLink?: string | undefined;
 }
@@ -2711,6 +2719,8 @@ export interface ListDevBoxDefinitionByDevCenterRequest {
   devCenterName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type DevBoxDefinitionTagsMap = { [key: string]: string | undefined };
@@ -2736,7 +2746,7 @@ export type DevBoxDefinitionListResultValueList = Array<DevBoxDefinition>;
 /** Results of the Dev Box definition list operation. */
 export interface DevBoxDefinitionListResult {
   /** Current page of results. */
-  value?: DevBoxDefinitionListResultValueList | undefined;
+  value: DevBoxDefinitionListResultValueList;
   /** URL to get the next set of results if there are any. */
   nextLink?: string | undefined;
 }
@@ -2749,6 +2759,8 @@ export interface ListDevBoxDefinitionByProjectRequest {
   projectName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListDevCenterByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -2757,6 +2769,8 @@ export interface ListDevCenterByResourceGroupRequest {
   resourceGroupName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type DevCenterTagsMap = { [key: string]: string | undefined };
@@ -2786,7 +2800,7 @@ export type DevCenterListResultValueList = Array<DevCenter>;
 /** Result of the list devcenters operation */
 export interface DevCenterListResult {
   /** Current page of results. */
-  value?: DevCenterListResultValueList | undefined;
+  value: DevCenterListResultValueList;
   /** URL to get the next set of results if there are any. */
   nextLink?: string | undefined;
 }
@@ -2795,6 +2809,8 @@ export interface ListDevCenterBySubscriptionRequest {
   subscriptionId: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListEnvironmentDefinitionByCatalogRequest {
   /** The ID of the target subscription. */
@@ -2807,6 +2823,8 @@ export interface ListEnvironmentDefinitionByCatalogRequest {
   catalogName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Represents an environment definition catalog item. */
 export interface EnvironmentDefinition {
@@ -2826,7 +2844,7 @@ export type EnvironmentDefinitionListResultValueList = Array<EnvironmentDefiniti
 /** Results of the environment definition list operation. */
 export interface EnvironmentDefinitionListResult {
   /** Current page of results. */
-  value?: EnvironmentDefinitionListResultValueList | undefined;
+  value: EnvironmentDefinitionListResultValueList;
   /** URL to get the next set of results if there are any. */
   nextLink?: string | undefined;
 }
@@ -2839,6 +2857,8 @@ export interface ListEnvironmentDefinitionByProjectCatalogRequest {
   projectName: string;
   /** The name of the Catalog. */
   catalogName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListEnvironmentTypeByDevCenterRequest {
   /** The ID of the target subscription. */
@@ -2849,6 +2869,8 @@ export interface ListEnvironmentTypeByDevCenterRequest {
   devCenterName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type EnvironmentTypeTagsMap = { [key: string]: string | undefined };
@@ -2872,7 +2894,7 @@ export type EnvironmentTypeListResultValueList = Array<EnvironmentType>;
 /** Result of the environment type list operation. */
 export interface EnvironmentTypeListResult {
   /** Current page of results. */
-  value?: EnvironmentTypeListResultValueList | undefined;
+  value: EnvironmentTypeListResultValueList;
   /** URL to get the next set of results if there are any. */
   nextLink?: string | undefined;
 }
@@ -2885,6 +2907,8 @@ export interface ListGalleryByDevCenterRequest {
   devCenterName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Represents a gallery. */
 export interface Gallery {
@@ -2904,7 +2928,7 @@ export type GalleryListResultValueList = Array<Gallery>;
 /** Results of the gallery list operation. */
 export interface GalleryListResult {
   /** Current page of results. */
-  value?: GalleryListResultValueList | undefined;
+  value: GalleryListResultValueList;
   /** URL to get the next set of results if there are any. */
   nextLink?: string | undefined;
 }
@@ -2917,6 +2941,8 @@ export interface ListImageByDevCenterRequest {
   devCenterName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Represents an image. */
 export interface Image {
@@ -2936,7 +2962,7 @@ export type ImageListResultValueList = Array<Image>;
 /** Results of the image list operation. */
 export interface ImageListResult {
   /** Current page of results. */
-  value?: ImageListResultValueList | undefined;
+  value: ImageListResultValueList;
   /** URL to get the next set of results if there are any. */
   nextLink?: string | undefined;
 }
@@ -2951,6 +2977,8 @@ export interface ListImageByGalleryRequest {
   galleryName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListImageByProjectRequest {
   /** The ID of the target subscription. */
@@ -2959,6 +2987,8 @@ export interface ListImageByProjectRequest {
   resourceGroupName: string;
   /** The name of the project. */
   projectName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListImageVersionByImageRequest {
   /** The ID of the target subscription. */
@@ -2971,6 +3001,8 @@ export interface ListImageVersionByImageRequest {
   galleryName: string;
   /** The name of the image. */
   imageName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Represents an image version. */
 export interface ImageVersion {
@@ -2990,7 +3022,7 @@ export type ImageVersionListResultValueList = Array<ImageVersion>;
 /** Results of the image version list operation. */
 export interface ImageVersionListResult {
   /** Current page of results. */
-  value?: ImageVersionListResultValueList | undefined;
+  value: ImageVersionListResultValueList;
   /** URL to get the next set of results if there are any. */
   nextLink?: string | undefined;
 }
@@ -3003,6 +3035,8 @@ export interface ListImageVersionByProjectRequest {
   projectName: string;
   /** The name of the image. */
   imageName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListNetworkConnectionByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -3011,6 +3045,8 @@ export interface ListNetworkConnectionByResourceGroupRequest {
   resourceGroupName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type NetworkConnectionTagsMap = { [key: string]: string | undefined };
@@ -3036,7 +3072,7 @@ export type NetworkConnectionListResultValueList = Array<NetworkConnection>;
 /** Result of the network connection list operation. */
 export interface NetworkConnectionListResult {
   /** Current page of results. */
-  value?: NetworkConnectionListResultValueList | undefined;
+  value: NetworkConnectionListResultValueList;
   /** URL to get the next set of results if there are any. */
   nextLink?: string | undefined;
 }
@@ -3045,6 +3081,8 @@ export interface ListNetworkConnectionBySubscriptionRequest {
   subscriptionId: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListNetworkConnectionHealthDetailsRequest {
   /** The ID of the target subscription. */
@@ -3074,7 +3112,7 @@ export type HealthCheckStatusDetailsListResultValueList = Array<HealthCheckStatu
 /** Result of the network health check list operation. */
 export interface HealthCheckStatusDetailsListResult {
   /** Current page of results. */
-  value?: HealthCheckStatusDetailsListResultValueList | undefined;
+  value: HealthCheckStatusDetailsListResultValueList;
   /** URL to get the next set of results if there are any. */
   nextLink?: string | undefined;
 }
@@ -3087,6 +3125,8 @@ export interface ListNetworkConnectionOutboundNetworkDependenciesEndpointsReques
   networkConnectionName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Details about the connection between the Batch service and the endpoint. */
 export interface EndpointDetail {
@@ -3118,11 +3158,14 @@ export type OutboundEnvironmentEndpointCollectionValueList = Array<OutboundEnvir
 /** Values returned by the List operation. */
 export interface OutboundEnvironmentEndpointCollection {
   /** The collection of outbound network dependency endpoints returned by the listing operation. */
-  value?: OutboundEnvironmentEndpointCollectionValueList | undefined;
+  value: OutboundEnvironmentEndpointCollectionValueList;
   /** The continuation token. */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -3155,7 +3198,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -3168,6 +3211,8 @@ export interface ListPoolByProjectRequest {
   projectName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type PoolTagsMap = { [key: string]: string | undefined };
@@ -3193,7 +3238,7 @@ export type PoolListResultValueList = Array<Pool>;
 /** Results of the machine pool list operation. */
 export interface PoolListResult {
   /** Current page of results. */
-  value?: PoolListResultValueList | undefined;
+  value: PoolListResultValueList;
   /** URL to get the next set of results if there are any. */
   nextLink?: string | undefined;
 }
@@ -3206,6 +3251,8 @@ export interface ListProjectAllowedEnvironmentTypesRequest {
   projectName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Represents an allowed environment type. */
 export interface AllowedEnvironmentType {
@@ -3225,7 +3272,7 @@ export type AllowedEnvironmentTypeListResultValueList = Array<AllowedEnvironment
 /** Result of the allowed environment type list operation. */
 export interface AllowedEnvironmentTypeListResult {
   /** Current page of results. */
-  value?: AllowedEnvironmentTypeListResultValueList | undefined;
+  value: AllowedEnvironmentTypeListResultValueList;
   /** URL to get the next set of results if there are any. */
   nextLink?: string | undefined;
 }
@@ -3236,6 +3283,8 @@ export interface ListProjectByResourceGroupRequest {
   resourceGroupName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ProjectTagsMap = { [key: string]: string | undefined };
@@ -3265,7 +3314,7 @@ export type ProjectListResultValueList = Array<Project>;
 /** Results of the project list operation. */
 export interface ProjectListResult {
   /** Current page of results. */
-  value?: ProjectListResultValueList | undefined;
+  value: ProjectListResultValueList;
   /** URL to get the next set of results if there are any. */
   nextLink?: string | undefined;
 }
@@ -3274,6 +3323,8 @@ export interface ListProjectBySubscriptionRequest {
   subscriptionId: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListProjectCatalogImageDefinitionBuildByImageDefinitionRequest {
   /** The ID of the target subscription. */
@@ -3286,6 +3337,8 @@ export interface ListProjectCatalogImageDefinitionBuildByImageDefinitionRequest 
   catalogName: string;
   /** The name of the Image Definition. */
   imageDefinitionName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Represents a specific build of an Image Definition. */
 export interface ImageDefinitionBuild {
@@ -3305,7 +3358,7 @@ export type ImageDefinitionBuildListResultValueList = Array<ImageDefinitionBuild
 /** Results of the Image Definition Build list operation. */
 export interface ImageDefinitionBuildListResult {
   /** Current page of results. */
-  value?: ImageDefinitionBuildListResultValueList | undefined;
+  value: ImageDefinitionBuildListResultValueList;
   /** URL to get the next set of results if there are any. */
   nextLink?: string | undefined;
 }
@@ -3320,6 +3373,8 @@ export interface ListProjectCatalogImageDefinitionByProjectCatalogRequest {
   catalogName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Represents a definition for an Image. */
 export interface ImageDefinition {
@@ -3339,7 +3394,7 @@ export type ImageDefinitionListResultValueList = Array<ImageDefinition>;
 /** Results of the Image Definition list operation. */
 export interface ImageDefinitionListResult {
   /** Current page of results. */
-  value?: ImageDefinitionListResultValueList | undefined;
+  value: ImageDefinitionListResultValueList;
   /** URL to get the next set of results if there are any. */
   nextLink?: string | undefined;
 }
@@ -3352,6 +3407,8 @@ export interface ListProjectCatalogsRequest {
   projectName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListProjectEnvironmentTypesRequest {
   /** The ID of the target subscription. */
@@ -3362,6 +3419,8 @@ export interface ListProjectEnvironmentTypesRequest {
   projectName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ProjectEnvironmentTypeTagsMap = { [key: string]: string | undefined };
@@ -3391,7 +3450,7 @@ export type ProjectEnvironmentTypeListResultValueList = Array<ProjectEnvironment
 /** Result of the project environment type list operation. */
 export interface ProjectEnvironmentTypeListResult {
   /** Current page of results. */
-  value?: ProjectEnvironmentTypeListResultValueList | undefined;
+  value: ProjectEnvironmentTypeListResultValueList;
   /** URL to get the next set of results if there are any. */
   nextLink?: string | undefined;
 }
@@ -3404,6 +3463,8 @@ export interface ListProjectPolicyByDevCenterRequest {
   devCenterName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Represents an project policy resource. */
 export interface ProjectPolicy {
@@ -3423,7 +3484,7 @@ export type ProjectPolicyListResultValueList = Array<ProjectPolicy>;
 /** Results of the project policy list operation. */
 export interface ProjectPolicyListResult {
   /** Current page of results. */
-  value?: ProjectPolicyListResultValueList | undefined;
+  value: ProjectPolicyListResultValueList;
   /** URL to get the next set of results if there are any. */
   nextLink?: string | undefined;
 }
@@ -3438,6 +3499,8 @@ export interface ListScheduleByPoolRequest {
   poolName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Represents a Schedule to execute a task. */
 export interface Schedule {
@@ -3457,7 +3520,7 @@ export type ScheduleListResultValueList = Array<Schedule>;
 /** Result of the schedule list operation. */
 export interface ScheduleListResult {
   /** Current page of results. */
-  value?: ScheduleListResultValueList | undefined;
+  value: ScheduleListResultValueList;
   /** URL to get the next set of results if there are any. */
   nextLink?: string | undefined;
 }
@@ -3468,6 +3531,8 @@ export interface ListSkusByProjectRequest {
   resourceGroupName: string;
   /** The name of the project. */
   projectName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** SKU supported locations. */
 export type ListSkusByProjectResponseValueItemLocationsList = Array<string>;
@@ -3502,7 +3567,7 @@ export interface ListSkusByProjectResponseValueItem {
 export type ListSkusByProjectResponseValueList = Array<ListSkusByProjectResponseValueItem>;
 export interface ListSkusByProjectResponse {
   /** Current page of results. */
-  value?: ListSkusByProjectResponseValueList | undefined;
+  value: ListSkusByProjectResponseValueList;
   /** URL to get the next set of results if there are any. */
   nextLink?: string | undefined;
 }
@@ -3511,6 +3576,8 @@ export interface ListSkusBySubscriptionRequest {
   subscriptionId: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** SKU supported locations. */
 export type SkuListResultValueItemLocationsList = Array<string>;
@@ -3539,7 +3606,7 @@ export type SkuListResultValueList = Array<SkuListResultValueItem>;
 /** Results of the Microsoft.DevCenter SKU list operation. */
 export interface SkuListResult {
   /** Current page of results. */
-  value?: SkuListResultValueList | undefined;
+  value: SkuListResultValueList;
   /** URL to get the next set of results if there are any. */
   nextLink?: string | undefined;
 }
@@ -3548,6 +3615,8 @@ export interface ListUsageByLocationRequest {
   subscriptionId: string;
   /** The Azure region */
   location: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The unit details. */
 export type UsageUnit = "Count";
@@ -3576,7 +3645,7 @@ export type ListUsagesResultValueList = Array<Usage>;
 /** List of Core Usages. */
 export interface ListUsagesResult {
   /** The array page of Usages. */
-  value?: ListUsagesResultValueList | undefined;
+  value: ListUsagesResultValueList;
   /** The link to get the next page of Usage result. */
   nextLink?: string | undefined;
 }
@@ -5576,12 +5645,13 @@ export const GetSchedule: API.OperationMethod<
 
 export type ListAttachedNetworkByDevCenterError = AzureOpError;
 /** Lists the attached NetworkConnections for a DevCenter. */
-export const ListAttachedNetworkByDevCenter: API.OperationMethod<
+export const ListAttachedNetworkByDevCenter: API.PaginatedOperationMethod<
   ListAttachedNetworkByDevCenterRequest,
   AttachedNetworkListResult,
   ListAttachedNetworkByDevCenterError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AttachedNetworkConnection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1952, __c122, 0) as any as S.Schema<ListAttachedNetworkByDevCenterRequest>,
   output: __S(1969, __c123, 1) as any as S.Schema<AttachedNetworkListResult>,
   errors: [UnknownAzureError],
@@ -5589,16 +5659,23 @@ export const ListAttachedNetworkByDevCenter: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAttachedNetworkByDevCenter",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListAttachedNetworkByProjectError = AzureOpError;
 /** Lists the attached NetworkConnections for a Project. */
-export const ListAttachedNetworkByProject: API.OperationMethod<
+export const ListAttachedNetworkByProject: API.PaginatedOperationMethod<
   ListAttachedNetworkByProjectRequest,
   AttachedNetworkListResult,
   ListAttachedNetworkByProjectError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AttachedNetworkConnection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2000, __c125, 0) as any as S.Schema<ListAttachedNetworkByProjectRequest>,
   output: __S(1969, __c123, 1) as any as S.Schema<AttachedNetworkListResult>,
   errors: [UnknownAzureError],
@@ -5606,16 +5683,23 @@ export const ListAttachedNetworkByProject: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAttachedNetworkByProject",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCatalogByDevCenterError = AzureOpError;
 /** Lists catalogs for a devcenter. */
-export const ListCatalogByDevCenter: API.OperationMethod<
+export const ListCatalogByDevCenter: API.PaginatedOperationMethod<
   ListCatalogByDevCenterRequest,
   CatalogListResult,
   ListCatalogByDevCenterError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Catalog
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2016, __c126, 0) as any as S.Schema<ListCatalogByDevCenterRequest>,
   output: __S(2033, __c127, 1) as any as S.Schema<CatalogListResult>,
   errors: [UnknownAzureError],
@@ -5623,16 +5707,23 @@ export const ListCatalogByDevCenter: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCatalogByDevCenter",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCustomizationTaskByCatalogError = AzureOpError;
 /** List Tasks in the catalog. */
-export const ListCustomizationTaskByCatalog: API.OperationMethod<
+export const ListCustomizationTaskByCatalog: API.PaginatedOperationMethod<
   ListCustomizationTaskByCatalogRequest,
   CustomizationTaskListResult,
   ListCustomizationTaskByCatalogError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CustomizationTask
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2048, __c128, 0) as any as S.Schema<ListCustomizationTaskByCatalogRequest>,
   output: __S(2050, __c128, 2) as any as S.Schema<CustomizationTaskListResult>,
   errors: [UnknownAzureError],
@@ -5640,16 +5731,23 @@ export const ListCustomizationTaskByCatalog: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCustomizationTaskByCatalog",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDevBoxDefinitionByDevCenterError = AzureOpError;
 /** List Dev Box definitions for a devcenter. */
-export const ListDevBoxDefinitionByDevCenter: API.OperationMethod<
+export const ListDevBoxDefinitionByDevCenter: API.PaginatedOperationMethod<
   ListDevBoxDefinitionByDevCenterRequest,
   DevBoxDefinitionListResult,
   ListDevBoxDefinitionByDevCenterError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DevBoxDefinition
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2064, __c129, 0) as any as S.Schema<ListDevBoxDefinitionByDevCenterRequest>,
   output: __S(2081, __c130, 1) as any as S.Schema<DevBoxDefinitionListResult>,
   errors: [UnknownAzureError],
@@ -5657,16 +5755,23 @@ export const ListDevBoxDefinitionByDevCenter: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDevBoxDefinitionByDevCenter",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDevBoxDefinitionByProjectError = AzureOpError;
 /** List Dev Box definitions configured for a project. */
-export const ListDevBoxDefinitionByProject: API.OperationMethod<
+export const ListDevBoxDefinitionByProject: API.PaginatedOperationMethod<
   ListDevBoxDefinitionByProjectRequest,
   DevBoxDefinitionListResult,
   ListDevBoxDefinitionByProjectError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DevBoxDefinition
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2096, __c131, 0) as any as S.Schema<ListDevBoxDefinitionByProjectRequest>,
   output: __S(2081, __c130, 1) as any as S.Schema<DevBoxDefinitionListResult>,
   errors: [UnknownAzureError],
@@ -5674,16 +5779,23 @@ export const ListDevBoxDefinitionByProject: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDevBoxDefinitionByProject",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDevCenterByResourceGroupError = AzureOpError;
 /** Lists all devcenters in a resource group. */
-export const ListDevCenterByResourceGroup: API.OperationMethod<
+export const ListDevCenterByResourceGroup: API.PaginatedOperationMethod<
   ListDevCenterByResourceGroupRequest,
   DevCenterListResult,
   ListDevCenterByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DevCenter
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2112, __c132, 0) as any as S.Schema<ListDevCenterByResourceGroupRequest>,
   output: __S(2129, __c133, 1) as any as S.Schema<DevCenterListResult>,
   errors: [UnknownAzureError],
@@ -5691,16 +5803,23 @@ export const ListDevCenterByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDevCenterByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDevCenterBySubscriptionError = AzureOpError;
 /** Lists all devcenters in a subscription. */
-export const ListDevCenterBySubscription: API.OperationMethod<
+export const ListDevCenterBySubscription: API.PaginatedOperationMethod<
   ListDevCenterBySubscriptionRequest,
   DevCenterListResult,
   ListDevCenterBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DevCenter
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2144, __c134, 0) as any as S.Schema<ListDevCenterBySubscriptionRequest>,
   output: __S(2129, __c133, 1) as any as S.Schema<DevCenterListResult>,
   errors: [UnknownAzureError],
@@ -5708,16 +5827,23 @@ export const ListDevCenterBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDevCenterBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEnvironmentDefinitionByCatalogError = AzureOpError;
 /** List environment definitions in the catalog. */
-export const ListEnvironmentDefinitionByCatalog: API.OperationMethod<
+export const ListEnvironmentDefinitionByCatalog: API.PaginatedOperationMethod<
   ListEnvironmentDefinitionByCatalogRequest,
   EnvironmentDefinitionListResult,
   ListEnvironmentDefinitionByCatalogError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EnvironmentDefinition
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2160, __c135, 0) as any as S.Schema<ListEnvironmentDefinitionByCatalogRequest>,
   output: __S(2177, __c136, 1) as any as S.Schema<EnvironmentDefinitionListResult>,
   errors: [UnknownAzureError],
@@ -5725,16 +5851,23 @@ export const ListEnvironmentDefinitionByCatalog: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEnvironmentDefinitionByCatalog",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEnvironmentDefinitionByProjectCatalogError = AzureOpError;
 /** Lists the environment definitions in this project catalog. */
-export const ListEnvironmentDefinitionByProjectCatalog: API.OperationMethod<
+export const ListEnvironmentDefinitionByProjectCatalog: API.PaginatedOperationMethod<
   ListEnvironmentDefinitionByProjectCatalogRequest,
   EnvironmentDefinitionListResult,
   ListEnvironmentDefinitionByProjectCatalogError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EnvironmentDefinition
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2192, __c137, 0) as any as S.Schema<ListEnvironmentDefinitionByProjectCatalogRequest>,
   output: __S(2177, __c136, 1) as any as S.Schema<EnvironmentDefinitionListResult>,
   errors: [UnknownAzureError],
@@ -5742,16 +5875,23 @@ export const ListEnvironmentDefinitionByProjectCatalog: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEnvironmentDefinitionByProjectCatalog",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEnvironmentTypeByDevCenterError = AzureOpError;
 /** Lists environment types for the devcenter. */
-export const ListEnvironmentTypeByDevCenter: API.OperationMethod<
+export const ListEnvironmentTypeByDevCenter: API.PaginatedOperationMethod<
   ListEnvironmentTypeByDevCenterRequest,
   EnvironmentTypeListResult,
   ListEnvironmentTypeByDevCenterError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EnvironmentType
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2208, __c138, 0) as any as S.Schema<ListEnvironmentTypeByDevCenterRequest>,
   output: __S(2210, __c138, 2) as any as S.Schema<EnvironmentTypeListResult>,
   errors: [UnknownAzureError],
@@ -5759,16 +5899,23 @@ export const ListEnvironmentTypeByDevCenter: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEnvironmentTypeByDevCenter",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListGalleryByDevCenterError = AzureOpError;
 /** Lists galleries for a devcenter. */
-export const ListGalleryByDevCenter: API.OperationMethod<
+export const ListGalleryByDevCenter: API.PaginatedOperationMethod<
   ListGalleryByDevCenterRequest,
   GalleryListResult,
   ListGalleryByDevCenterError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Gallery
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2240, __c140, 0) as any as S.Schema<ListGalleryByDevCenterRequest>,
   output: __S(2242, __c140, 2) as any as S.Schema<GalleryListResult>,
   errors: [UnknownAzureError],
@@ -5776,16 +5923,23 @@ export const ListGalleryByDevCenter: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListGalleryByDevCenter",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListImageByDevCenterError = AzureOpError;
 /** Lists images for a devcenter. */
-export const ListImageByDevCenter: API.OperationMethod<
+export const ListImageByDevCenter: API.PaginatedOperationMethod<
   ListImageByDevCenterRequest,
   ImageListResult,
   ListImageByDevCenterError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Image
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2256, __c141, 0) as any as S.Schema<ListImageByDevCenterRequest>,
   output: __S(2273, __c142, 1) as any as S.Schema<ImageListResult>,
   errors: [UnknownAzureError],
@@ -5793,16 +5947,23 @@ export const ListImageByDevCenter: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListImageByDevCenter",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListImageByGalleryError = AzureOpError;
 /** Lists images for a gallery. */
-export const ListImageByGallery: API.OperationMethod<
+export const ListImageByGallery: API.PaginatedOperationMethod<
   ListImageByGalleryRequest,
   ImageListResult,
   ListImageByGalleryError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Image
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2288, __c143, 0) as any as S.Schema<ListImageByGalleryRequest>,
   output: __S(2273, __c142, 1) as any as S.Schema<ImageListResult>,
   errors: [UnknownAzureError],
@@ -5810,16 +5971,23 @@ export const ListImageByGallery: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListImageByGallery",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListImageByProjectError = AzureOpError;
 /** Lists images for a project. */
-export const ListImageByProject: API.OperationMethod<
+export const ListImageByProject: API.PaginatedOperationMethod<
   ListImageByProjectRequest,
   ImageListResult,
   ListImageByProjectError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Image
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2304, __c144, 0) as any as S.Schema<ListImageByProjectRequest>,
   output: __S(2273, __c142, 1) as any as S.Schema<ImageListResult>,
   errors: [UnknownAzureError],
@@ -5827,16 +5995,23 @@ export const ListImageByProject: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListImageByProject",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListImageVersionByImageError = AzureOpError;
 /** Lists versions for an image. */
-export const ListImageVersionByImage: API.OperationMethod<
+export const ListImageVersionByImage: API.PaginatedOperationMethod<
   ListImageVersionByImageRequest,
   ImageVersionListResult,
   ListImageVersionByImageError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ImageVersion
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2320, __c145, 0) as any as S.Schema<ListImageVersionByImageRequest>,
   output: __S(2337, __c146, 1) as any as S.Schema<ImageVersionListResult>,
   errors: [UnknownAzureError],
@@ -5844,16 +6019,23 @@ export const ListImageVersionByImage: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListImageVersionByImage",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListImageVersionByProjectError = AzureOpError;
 /** Lists versions for an image. */
-export const ListImageVersionByProject: API.OperationMethod<
+export const ListImageVersionByProject: API.PaginatedOperationMethod<
   ListImageVersionByProjectRequest,
   ImageVersionListResult,
   ListImageVersionByProjectError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ImageVersion
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2352, __c147, 0) as any as S.Schema<ListImageVersionByProjectRequest>,
   output: __S(2337, __c146, 1) as any as S.Schema<ImageVersionListResult>,
   errors: [UnknownAzureError],
@@ -5861,16 +6043,23 @@ export const ListImageVersionByProject: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListImageVersionByProject",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListNetworkConnectionByResourceGroupError = AzureOpError;
 /** Lists network connections in a resource group */
-export const ListNetworkConnectionByResourceGroup: API.OperationMethod<
+export const ListNetworkConnectionByResourceGroup: API.PaginatedOperationMethod<
   ListNetworkConnectionByResourceGroupRequest,
   NetworkConnectionListResult,
   ListNetworkConnectionByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  NetworkConnection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2368, __c148, 0) as any as S.Schema<ListNetworkConnectionByResourceGroupRequest>,
   output: __S(2385, __c149, 1) as any as S.Schema<NetworkConnectionListResult>,
   errors: [UnknownAzureError],
@@ -5878,16 +6067,23 @@ export const ListNetworkConnectionByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNetworkConnectionByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListNetworkConnectionBySubscriptionError = AzureOpError;
 /** Lists network connections in a subscription */
-export const ListNetworkConnectionBySubscription: API.OperationMethod<
+export const ListNetworkConnectionBySubscription: API.PaginatedOperationMethod<
   ListNetworkConnectionBySubscriptionRequest,
   NetworkConnectionListResult,
   ListNetworkConnectionBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  NetworkConnection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2400, __c150, 0) as any as S.Schema<ListNetworkConnectionBySubscriptionRequest>,
   output: __S(2385, __c149, 1) as any as S.Schema<NetworkConnectionListResult>,
   errors: [UnknownAzureError],
@@ -5895,16 +6091,23 @@ export const ListNetworkConnectionBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNetworkConnectionBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListNetworkConnectionHealthDetailsError = AzureOpError;
 /** Lists health check status details */
-export const ListNetworkConnectionHealthDetails: API.OperationMethod<
+export const ListNetworkConnectionHealthDetails: API.PaginatedOperationMethod<
   ListNetworkConnectionHealthDetailsRequest,
   HealthCheckStatusDetailsListResult,
   ListNetworkConnectionHealthDetailsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  HealthCheckStatusDetails
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2416, __c151, 0) as any as S.Schema<ListNetworkConnectionHealthDetailsRequest>,
   output: __S(2418, __c151, 2) as any as S.Schema<HealthCheckStatusDetailsListResult>,
   errors: [UnknownAzureError],
@@ -5912,16 +6115,18 @@ export const ListNetworkConnectionHealthDetails: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNetworkConnectionHealthDetails",
-}));
+  pagination: { mode: "single", items: "value" } as const,
+})) as any;
 
 export type ListNetworkConnectionOutboundNetworkDependenciesEndpointsError = AzureOpError;
 /** Lists the endpoints that agents may call as part of Dev Box service administration. These FQDNs should be allowed for outbound access in order for the Dev Box service to function. */
-export const ListNetworkConnectionOutboundNetworkDependenciesEndpoints: API.OperationMethod<
+export const ListNetworkConnectionOutboundNetworkDependenciesEndpoints: API.PaginatedOperationMethod<
   ListNetworkConnectionOutboundNetworkDependenciesEndpointsRequest,
   OutboundEnvironmentEndpointCollection,
   ListNetworkConnectionOutboundNetworkDependenciesEndpointsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  OutboundEnvironmentEndpoint
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     2432,
     __c152,
@@ -5933,16 +6138,23 @@ export const ListNetworkConnectionOutboundNetworkDependenciesEndpoints: API.Oper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNetworkConnectionOutboundNetworkDependenciesEndpoints",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** Lists all of the available resource provider operations. */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2464, __c154, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(2468, __c154, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
@@ -5950,16 +6162,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPoolByProjectError = AzureOpError;
 /** Lists pools for a project */
-export const ListPoolByProject: API.OperationMethod<
+export const ListPoolByProject: API.PaginatedOperationMethod<
   ListPoolByProjectRequest,
   PoolListResult,
   ListPoolByProjectError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Pool
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2480, __c155, 0) as any as S.Schema<ListPoolByProjectRequest>,
   output: __S(2482, __c155, 2) as any as S.Schema<PoolListResult>,
   errors: [UnknownAzureError],
@@ -5967,16 +6186,23 @@ export const ListPoolByProject: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPoolByProject",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListProjectAllowedEnvironmentTypesError = AzureOpError;
 /** Lists allowed environment types for a project. */
-export const ListProjectAllowedEnvironmentTypes: API.OperationMethod<
+export const ListProjectAllowedEnvironmentTypes: API.PaginatedOperationMethod<
   ListProjectAllowedEnvironmentTypesRequest,
   AllowedEnvironmentTypeListResult,
   ListProjectAllowedEnvironmentTypesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AllowedEnvironmentType
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2496, __c156, 0) as any as S.Schema<ListProjectAllowedEnvironmentTypesRequest>,
   output: __S(2498, __c156, 2) as any as S.Schema<AllowedEnvironmentTypeListResult>,
   errors: [UnknownAzureError],
@@ -5984,16 +6210,23 @@ export const ListProjectAllowedEnvironmentTypes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectAllowedEnvironmentTypes",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListProjectByResourceGroupError = AzureOpError;
 /** Lists all projects in the resource group. */
-export const ListProjectByResourceGroup: API.OperationMethod<
+export const ListProjectByResourceGroup: API.PaginatedOperationMethod<
   ListProjectByResourceGroupRequest,
   ProjectListResult,
   ListProjectByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Project
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2512, __c157, 0) as any as S.Schema<ListProjectByResourceGroupRequest>,
   output: __S(2529, __c158, 1) as any as S.Schema<ProjectListResult>,
   errors: [UnknownAzureError],
@@ -6001,16 +6234,23 @@ export const ListProjectByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListProjectBySubscriptionError = AzureOpError;
 /** Lists all projects in the subscription. */
-export const ListProjectBySubscription: API.OperationMethod<
+export const ListProjectBySubscription: API.PaginatedOperationMethod<
   ListProjectBySubscriptionRequest,
   ProjectListResult,
   ListProjectBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Project
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2544, __c159, 0) as any as S.Schema<ListProjectBySubscriptionRequest>,
   output: __S(2529, __c158, 1) as any as S.Schema<ProjectListResult>,
   errors: [UnknownAzureError],
@@ -6018,16 +6258,23 @@ export const ListProjectBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListProjectCatalogImageDefinitionBuildByImageDefinitionError = AzureOpError;
 /** Lists builds for a specified image definition. */
-export const ListProjectCatalogImageDefinitionBuildByImageDefinition: API.OperationMethod<
+export const ListProjectCatalogImageDefinitionBuildByImageDefinition: API.PaginatedOperationMethod<
   ListProjectCatalogImageDefinitionBuildByImageDefinitionRequest,
   ImageDefinitionBuildListResult,
   ListProjectCatalogImageDefinitionBuildByImageDefinitionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ImageDefinitionBuild
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     2560,
     __c160,
@@ -6039,16 +6286,23 @@ export const ListProjectCatalogImageDefinitionBuildByImageDefinition: API.Operat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectCatalogImageDefinitionBuildByImageDefinition",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListProjectCatalogImageDefinitionByProjectCatalogError = AzureOpError;
 /** List Image Definitions in the catalog. */
-export const ListProjectCatalogImageDefinitionByProjectCatalog: API.OperationMethod<
+export const ListProjectCatalogImageDefinitionByProjectCatalog: API.PaginatedOperationMethod<
   ListProjectCatalogImageDefinitionByProjectCatalogRequest,
   ImageDefinitionListResult,
   ListProjectCatalogImageDefinitionByProjectCatalogError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ImageDefinition
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     2576,
     __c161,
@@ -6060,16 +6314,23 @@ export const ListProjectCatalogImageDefinitionByProjectCatalog: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectCatalogImageDefinitionByProjectCatalog",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListProjectCatalogsError = AzureOpError;
 /** Lists the catalogs associated with a project. */
-export const ListProjectCatalogs: API.OperationMethod<
+export const ListProjectCatalogs: API.PaginatedOperationMethod<
   ListProjectCatalogsRequest,
   CatalogListResult,
   ListProjectCatalogsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Catalog
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2592, __c162, 0) as any as S.Schema<ListProjectCatalogsRequest>,
   output: __S(2033, __c127, 1) as any as S.Schema<CatalogListResult>,
   errors: [UnknownAzureError],
@@ -6077,16 +6338,23 @@ export const ListProjectCatalogs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectCatalogs",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListProjectEnvironmentTypesError = AzureOpError;
 /** Lists environment types for a project. */
-export const ListProjectEnvironmentTypes: API.OperationMethod<
+export const ListProjectEnvironmentTypes: API.PaginatedOperationMethod<
   ListProjectEnvironmentTypesRequest,
   ProjectEnvironmentTypeListResult,
   ListProjectEnvironmentTypesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ProjectEnvironmentType
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2608, __c163, 0) as any as S.Schema<ListProjectEnvironmentTypesRequest>,
   output: __S(2610, __c163, 2) as any as S.Schema<ProjectEnvironmentTypeListResult>,
   errors: [UnknownAzureError],
@@ -6094,16 +6362,23 @@ export const ListProjectEnvironmentTypes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectEnvironmentTypes",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListProjectPolicyByDevCenterError = AzureOpError;
 /** Lists all project policies in the dev center */
-export const ListProjectPolicyByDevCenter: API.OperationMethod<
+export const ListProjectPolicyByDevCenter: API.PaginatedOperationMethod<
   ListProjectPolicyByDevCenterRequest,
   ProjectPolicyListResult,
   ListProjectPolicyByDevCenterError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ProjectPolicy
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2624, __c164, 0) as any as S.Schema<ListProjectPolicyByDevCenterRequest>,
   output: __S(2626, __c164, 2) as any as S.Schema<ProjectPolicyListResult>,
   errors: [UnknownAzureError],
@@ -6111,16 +6386,23 @@ export const ListProjectPolicyByDevCenter: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectPolicyByDevCenter",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListScheduleByPoolError = AzureOpError;
 /** Lists schedules for a pool */
-export const ListScheduleByPool: API.OperationMethod<
+export const ListScheduleByPool: API.PaginatedOperationMethod<
   ListScheduleByPoolRequest,
   ScheduleListResult,
   ListScheduleByPoolError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Schedule
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2672, __c167, 0) as any as S.Schema<ListScheduleByPoolRequest>,
   output: __S(2674, __c167, 2) as any as S.Schema<ScheduleListResult>,
   errors: [UnknownAzureError],
@@ -6128,16 +6410,23 @@ export const ListScheduleByPool: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListScheduleByPool",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSkusByProjectError = AzureOpError;
 /** Lists SKUs available to the project */
-export const ListSkusByProject: API.OperationMethod<
+export const ListSkusByProject: API.PaginatedOperationMethod<
   ListSkusByProjectRequest,
   ListSkusByProjectResponse,
   ListSkusByProjectError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ListSkusByProjectResponseValueItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2688, __c168, 0) as any as S.Schema<ListSkusByProjectRequest>,
   output: __S(2708, __c169, 4) as any as S.Schema<ListSkusByProjectResponse>,
   errors: [UnknownAzureError],
@@ -6145,16 +6434,23 @@ export const ListSkusByProject: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSkusByProject",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSkusBySubscriptionError = AzureOpError;
 /** Lists the Microsoft.DevCenter SKUs available in a subscription */
-export const ListSkusBySubscription: API.OperationMethod<
+export const ListSkusBySubscription: API.PaginatedOperationMethod<
   ListSkusBySubscriptionRequest,
   SkuListResult,
   ListSkusBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SkuListResultValueItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2720, __c170, 0) as any as S.Schema<ListSkusBySubscriptionRequest>,
   output: __S(2708, __c169, 4) as any as S.Schema<SkuListResult>,
   errors: [UnknownAzureError],
@@ -6162,16 +6458,23 @@ export const ListSkusBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSkusBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListUsageByLocationError = AzureOpError;
 /** Lists the current usages and limits in this location for the provided subscription. */
-export const ListUsageByLocation: API.OperationMethod<
+export const ListUsageByLocation: API.PaginatedOperationMethod<
   ListUsageByLocationRequest,
   ListUsagesResult,
   ListUsageByLocationError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Usage
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2736, __c171, 0) as any as S.Schema<ListUsageByLocationRequest>,
   output: __S(2740, __c171, 4) as any as S.Schema<ListUsagesResult>,
   errors: [UnknownAzureError],
@@ -6179,7 +6482,13 @@ export const ListUsageByLocation: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListUsageByLocation",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type NetworkConnectionsCreateOrUpdateError = AzureOpError;
 /** Creates or updates a Network Connections resource */
@@ -9343,12 +9652,14 @@ function __c122(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           devCenterName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/attachednetworks",
             code: 200,
             apiVersion: "2025-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAttachedNetworkByDevCenterRequest" });
@@ -9361,7 +9672,7 @@ function __c123(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1968, __c123, 0)),
+          value: __S(1968, __c123, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AttachedNetworkListResult" });
@@ -9396,12 +9707,14 @@ function __c125(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           projectName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/attachednetworks",
             code: 200,
             apiVersion: "2025-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAttachedNetworkByProjectRequest" });
@@ -9416,12 +9729,14 @@ function __c126(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           devCenterName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/catalogs",
             code: 200,
             apiVersion: "2025-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCatalogByDevCenterRequest" });
@@ -9434,7 +9749,7 @@ function __c127(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2032, __c127, 0)),
+          value: __S(2032, __c127, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "CatalogListResult" });
@@ -9450,12 +9765,14 @@ function __c128(j: number): any {
           devCenterName: S.String.pipe(T.Label()),
           catalogName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/catalogs/{catalogName}/tasks",
             code: 200,
             apiVersion: "2025-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCustomizationTaskByCatalogRequest" });
@@ -9464,7 +9781,7 @@ function __c128(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2049, __c128, 1)),
+          value: __S(2049, __c128, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomizationTaskListResult" });
@@ -9479,12 +9796,14 @@ function __c129(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           devCenterName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/devboxdefinitions",
             code: 200,
             apiVersion: "2025-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDevBoxDefinitionByDevCenterRequest" });
@@ -9497,7 +9816,7 @@ function __c130(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2080, __c130, 0)),
+          value: __S(2080, __c130, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DevBoxDefinitionListResult" });
@@ -9512,12 +9831,14 @@ function __c131(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           projectName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/devboxdefinitions",
             code: 200,
             apiVersion: "2025-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDevBoxDefinitionByProjectRequest" });
@@ -9531,12 +9852,14 @@ function __c132(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters",
             code: 200,
             apiVersion: "2025-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDevCenterByResourceGroupRequest" });
@@ -9549,7 +9872,7 @@ function __c133(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2128, __c133, 0)),
+          value: __S(2128, __c133, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DevCenterListResult" });
@@ -9562,12 +9885,14 @@ function __c134(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DevCenter/devcenters",
             code: 200,
             apiVersion: "2025-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDevCenterBySubscriptionRequest" });
@@ -9583,12 +9908,14 @@ function __c135(j: number): any {
           devCenterName: S.String.pipe(T.Label()),
           catalogName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/catalogs/{catalogName}/environmentDefinitions",
             code: 200,
             apiVersion: "2025-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEnvironmentDefinitionByCatalogRequest" });
@@ -9601,7 +9928,7 @@ function __c136(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2176, __c136, 0)),
+          value: __S(2176, __c136, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "EnvironmentDefinitionListResult" });
@@ -9616,12 +9943,14 @@ function __c137(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           projectName: S.String.pipe(T.Label()),
           catalogName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/catalogs/{catalogName}/environmentDefinitions",
             code: 200,
             apiVersion: "2025-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEnvironmentDefinitionByProjectCatalogRequest" });
@@ -9636,12 +9965,14 @@ function __c138(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           devCenterName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/environmentTypes",
             code: 200,
             apiVersion: "2025-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEnvironmentTypeByDevCenterRequest" });
@@ -9650,7 +9981,7 @@ function __c138(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2209, __c138, 1)),
+          value: __S(2209, __c138, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "EnvironmentTypeListResult" });
@@ -9685,12 +10016,14 @@ function __c140(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           devCenterName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/galleries",
             code: 200,
             apiVersion: "2025-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListGalleryByDevCenterRequest" });
@@ -9699,7 +10032,7 @@ function __c140(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2241, __c140, 1)),
+          value: __S(2241, __c140, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "GalleryListResult" });
@@ -9714,12 +10047,14 @@ function __c141(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           devCenterName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/images",
             code: 200,
             apiVersion: "2025-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListImageByDevCenterRequest" });
@@ -9732,7 +10067,7 @@ function __c142(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2272, __c142, 0)),
+          value: __S(2272, __c142, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ImageListResult" });
@@ -9748,12 +10083,14 @@ function __c143(j: number): any {
           devCenterName: S.String.pipe(T.Label()),
           galleryName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/galleries/{galleryName}/images",
             code: 200,
             apiVersion: "2025-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListImageByGalleryRequest" });
@@ -9767,12 +10104,14 @@ function __c144(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           projectName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/images",
             code: 200,
             apiVersion: "2025-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListImageByProjectRequest" });
@@ -9788,12 +10127,14 @@ function __c145(j: number): any {
           devCenterName: S.String.pipe(T.Label()),
           galleryName: S.String.pipe(T.Label()),
           imageName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/galleries/{galleryName}/images/{imageName}/versions",
             code: 200,
             apiVersion: "2025-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListImageVersionByImageRequest" });
@@ -9806,7 +10147,7 @@ function __c146(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2336, __c146, 0)),
+          value: __S(2336, __c146, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ImageVersionListResult" });
@@ -9821,12 +10162,14 @@ function __c147(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           projectName: S.String.pipe(T.Label()),
           imageName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/images/{imageName}/versions",
             code: 200,
             apiVersion: "2025-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListImageVersionByProjectRequest" });
@@ -9840,12 +10183,14 @@ function __c148(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/networkConnections",
             code: 200,
             apiVersion: "2025-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListNetworkConnectionByResourceGroupRequest" });
@@ -9858,7 +10203,7 @@ function __c149(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2384, __c149, 0)),
+          value: __S(2384, __c149, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "NetworkConnectionListResult" });
@@ -9871,12 +10216,14 @@ function __c150(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DevCenter/networkConnections",
             code: 200,
             apiVersion: "2025-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListNetworkConnectionBySubscriptionRequest" });
@@ -9905,7 +10252,7 @@ function __c151(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2417, __c151, 1)),
+          value: __S(2417, __c151, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "HealthCheckStatusDetailsListResult" });
@@ -9920,12 +10267,14 @@ function __c152(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           networkConnectionName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/networkConnections/{networkConnectionName}/outboundNetworkDependenciesEndpoints",
             code: 200,
             apiVersion: "2025-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({
@@ -9961,7 +10310,7 @@ function __c152(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2438, __c152, 6)),
+          value: __S(2438, __c152, 6),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OutboundEnvironmentEndpointCollection" });
@@ -9990,12 +10339,15 @@ function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.DevCenter/operations",
             code: 200,
             apiVersion: "2025-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -10023,7 +10375,7 @@ function __c154(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2467, __c154, 3)),
+          value: __S(2467, __c154, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -10038,12 +10390,14 @@ function __c155(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           projectName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/pools",
             code: 200,
             apiVersion: "2025-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPoolByProjectRequest" });
@@ -10052,7 +10406,7 @@ function __c155(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2481, __c155, 1)),
+          value: __S(2481, __c155, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PoolListResult" });
@@ -10067,12 +10421,14 @@ function __c156(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           projectName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/allowedEnvironmentTypes",
             code: 200,
             apiVersion: "2025-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListProjectAllowedEnvironmentTypesRequest" });
@@ -10081,7 +10437,7 @@ function __c156(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2497, __c156, 1)),
+          value: __S(2497, __c156, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AllowedEnvironmentTypeListResult" });
@@ -10095,12 +10451,14 @@ function __c157(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects",
             code: 200,
             apiVersion: "2025-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListProjectByResourceGroupRequest" });
@@ -10113,7 +10471,7 @@ function __c158(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2528, __c158, 0)),
+          value: __S(2528, __c158, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProjectListResult" });
@@ -10126,12 +10484,14 @@ function __c159(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DevCenter/projects",
             code: 200,
             apiVersion: "2025-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListProjectBySubscriptionRequest" });
@@ -10147,12 +10507,14 @@ function __c160(j: number): any {
           projectName: S.String.pipe(T.Label()),
           catalogName: S.String.pipe(T.Label()),
           imageDefinitionName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/catalogs/{catalogName}/imageDefinitions/{imageDefinitionName}/builds",
             code: 200,
             apiVersion: "2025-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListProjectCatalogImageDefinitionBuildByImageDefinitionRequest" });
@@ -10161,7 +10523,7 @@ function __c160(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2561, __c160, 1)),
+          value: __S(2561, __c160, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ImageDefinitionBuildListResult" });
@@ -10177,12 +10539,14 @@ function __c161(j: number): any {
           projectName: S.String.pipe(T.Label()),
           catalogName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/catalogs/{catalogName}/imageDefinitions",
             code: 200,
             apiVersion: "2025-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListProjectCatalogImageDefinitionByProjectCatalogRequest" });
@@ -10191,7 +10555,7 @@ function __c161(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2577, __c161, 1)),
+          value: __S(2577, __c161, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ImageDefinitionListResult" });
@@ -10206,12 +10570,14 @@ function __c162(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           projectName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/catalogs",
             code: 200,
             apiVersion: "2025-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListProjectCatalogsRequest" });
@@ -10226,12 +10592,14 @@ function __c163(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           projectName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/environmentTypes",
             code: 200,
             apiVersion: "2025-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListProjectEnvironmentTypesRequest" });
@@ -10240,7 +10608,7 @@ function __c163(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2609, __c163, 1)),
+          value: __S(2609, __c163, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProjectEnvironmentTypeListResult" });
@@ -10255,12 +10623,14 @@ function __c164(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           devCenterName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/projectPolicies",
             code: 200,
             apiVersion: "2025-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListProjectPolicyByDevCenterRequest" });
@@ -10269,7 +10639,7 @@ function __c164(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2625, __c164, 1)),
+          value: __S(2625, __c164, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProjectPolicyListResult" });
@@ -10313,12 +10683,14 @@ function __c167(j: number): any {
           projectName: S.String.pipe(T.Label()),
           poolName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/pools/{poolName}/schedules",
             code: 200,
             apiVersion: "2025-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListScheduleByPoolRequest" });
@@ -10327,7 +10699,7 @@ function __c167(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2673, __c167, 1)),
+          value: __S(2673, __c167, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ScheduleListResult" });
@@ -10341,12 +10713,14 @@ function __c168(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           projectName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/listSkus",
             code: 200,
             apiVersion: "2025-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSkusByProjectRequest" });
@@ -10381,7 +10755,7 @@ function __c169(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2707, __c169, 3)),
+          value: __S(2707, __c169, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListSkusByProjectResponse" });
@@ -10394,12 +10768,14 @@ function __c170(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DevCenter/skus",
             code: 200,
             apiVersion: "2025-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSkusBySubscriptionRequest" });
@@ -10412,12 +10788,14 @@ function __c171(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DevCenter/locations/{location}/usages",
             code: 200,
             apiVersion: "2025-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListUsageByLocationRequest" });
@@ -10443,7 +10821,7 @@ function __c171(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2739, __c171, 3)),
+          value: __S(2739, __c171, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListUsagesResult" });

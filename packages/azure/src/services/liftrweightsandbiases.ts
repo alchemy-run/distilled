@@ -280,6 +280,8 @@ export interface ListInstanceByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type InstanceResourceTagsMap = { [key: string]: string | undefined };
@@ -316,8 +318,13 @@ export interface InstanceResourceListResult {
 export interface ListInstanceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -350,7 +357,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -467,12 +474,13 @@ export const InstancesCreateOrUpdate: API.OperationMethod<
 
 export type ListInstanceByResourceGroupError = AzureOpError;
 /** List InstanceResource resources by resource group */
-export const ListInstanceByResourceGroup: API.OperationMethod<
+export const ListInstanceByResourceGroup: API.PaginatedOperationMethod<
   ListInstanceByResourceGroupRequest,
   InstanceResourceListResult,
   ListInstanceByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  InstanceResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<ListInstanceByResourceGroupRequest>,
   output: __S(113, __c7, 1) as any as S.Schema<InstanceResourceListResult>,
   errors: [UnknownAzureError],
@@ -480,16 +488,23 @@ export const ListInstanceByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListInstanceByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListInstanceBySubscriptionError = AzureOpError;
 /** List InstanceResource resources by subscription ID */
-export const ListInstanceBySubscription: API.OperationMethod<
+export const ListInstanceBySubscription: API.PaginatedOperationMethod<
   ListInstanceBySubscriptionRequest,
   InstanceResourceListResult,
   ListInstanceBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  InstanceResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<ListInstanceBySubscriptionRequest>,
   output: __S(113, __c7, 1) as any as S.Schema<InstanceResourceListResult>,
   errors: [UnknownAzureError],
@@ -497,16 +512,23 @@ export const ListInstanceBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListInstanceBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(148, __c9, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
@@ -514,7 +536,13 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type UpdateInstanceError = AzureOpError;
 /** Update a InstanceResource */
@@ -758,12 +786,14 @@ function __c6(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.WeightsAndBiases/instances",
             code: 200,
             apiVersion: "2024-09-18",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListInstanceByResourceGroupRequest" });
@@ -788,12 +818,14 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.WeightsAndBiases/instances",
             code: 200,
             apiVersion: "2024-09-18",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListInstanceBySubscriptionRequest" });
@@ -803,12 +835,15 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.WeightsAndBiases/operations",
             code: 200,
             apiVersion: "2024-09-18",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -836,7 +871,7 @@ function __c9(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(147, __c9, 3)),
+          value: __S(147, __c9, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });

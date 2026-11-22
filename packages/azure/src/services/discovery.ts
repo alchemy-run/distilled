@@ -1158,6 +1158,8 @@ export interface ListBookshelfPrivateEndpointConnectionByBookshelfRequest {
   resourceGroupName: string;
   /** The name of the Bookshelf */
   bookshelfName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The group ids for the private endpoint resource. */
 export type BookshelfPrivateEndpointConnectionPropertiesGroupIdsList = Array<string>;
@@ -1202,6 +1204,8 @@ export interface ListBookshelfPrivateLinkResourceByBookshelfRequest {
   resourceGroupName: string;
   /** The name of the Bookshelf */
   bookshelfName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The private link resource required member names. */
 export type BookshelfPrivateLinkResourcePropertiesRequiredMembersList = Array<string>;
@@ -1243,6 +1247,8 @@ export interface ListBookshelveByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type BookshelfTagsMap = { [key: string]: string | undefined };
@@ -1275,6 +1281,8 @@ export interface BookshelfListResult {
 export interface ListBookshelveBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListChatModelDeploymentByWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1283,6 +1291,8 @@ export interface ListChatModelDeploymentByWorkspaceRequest {
   resourceGroupName: string;
   /** The name of the Workspace */
   workspaceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ChatModelDeploymentTagsMap = { [key: string]: string | undefined };
@@ -1319,6 +1329,8 @@ export interface ListNodePoolBySupercomputerRequest {
   resourceGroupName: string;
   /** The name of the Supercomputer */
   supercomputerName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type NodePoolTagsMap = { [key: string]: string | undefined };
@@ -1348,7 +1360,10 @@ export interface NodePoolListResult {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -1381,7 +1396,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -1392,6 +1407,8 @@ export interface ListProjectByWorkspaceRequest {
   resourceGroupName: string;
   /** The name of the Workspace */
   workspaceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ProjectTagsMap = { [key: string]: string | undefined };
@@ -1428,6 +1445,8 @@ export interface ListStorageAssetByStorageContainerRequest {
   resourceGroupName: string;
   /** The name of the StorageContainer */
   storageContainerName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type StorageAssetTagsMap = { [key: string]: string | undefined };
@@ -1462,6 +1481,8 @@ export interface ListStorageContainerByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type StorageContainerTagsMap = { [key: string]: string | undefined };
@@ -1494,12 +1515,16 @@ export interface StorageContainerListResult {
 export interface ListStorageContainerBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListSupercomputerByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type SupercomputerTagsMap = { [key: string]: string | undefined };
@@ -1536,12 +1561,16 @@ export interface SupercomputerListResult {
 export interface ListSupercomputerBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListToolByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ToolTagsMap = { [key: string]: string | undefined };
@@ -1574,12 +1603,16 @@ export interface ToolListResult {
 export interface ListToolBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type WorkspaceTagsMap = { [key: string]: string | undefined };
@@ -1612,6 +1645,8 @@ export interface WorkspaceListResult {
 export interface ListWorkspaceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListWorkspacePrivateEndpointConnectionByWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1620,6 +1655,8 @@ export interface ListWorkspacePrivateEndpointConnectionByWorkspaceRequest {
   resourceGroupName: string;
   /** The name of the Workspace */
   workspaceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The group ids for the private endpoint resource. */
 export type WorkspacePrivateEndpointConnectionPropertiesGroupIdsList = Array<string>;
@@ -1664,6 +1701,8 @@ export interface ListWorkspacePrivateLinkResourceByWorkspaceRequest {
   resourceGroupName: string;
   /** The name of the Workspace */
   workspaceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The private link resource required member names. */
 export type WorkspacePrivateLinkResourcePropertiesRequiredMembersList = Array<string>;
@@ -3035,12 +3074,13 @@ export const GetWorkspacePrivateLinkResource: API.OperationMethod<
 
 export type ListBookshelfPrivateEndpointConnectionByBookshelfError = AzureOpError;
 /** Lists all private endpoint connections for a bookshelf. */
-export const ListBookshelfPrivateEndpointConnectionByBookshelf: API.OperationMethod<
+export const ListBookshelfPrivateEndpointConnectionByBookshelf: API.PaginatedOperationMethod<
   ListBookshelfPrivateEndpointConnectionByBookshelfRequest,
   BookshelfPrivateEndpointConnectionListResult,
   ListBookshelfPrivateEndpointConnectionByBookshelfError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  BookshelfPrivateEndpointConnection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     416,
     __c52,
@@ -3052,16 +3092,23 @@ export const ListBookshelfPrivateEndpointConnectionByBookshelf: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBookshelfPrivateEndpointConnectionByBookshelf",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBookshelfPrivateLinkResourceByBookshelfError = AzureOpError;
 /** Lists all private link resources for the bookshelf. */
-export const ListBookshelfPrivateLinkResourceByBookshelf: API.OperationMethod<
+export const ListBookshelfPrivateLinkResourceByBookshelf: API.PaginatedOperationMethod<
   ListBookshelfPrivateLinkResourceByBookshelfRequest,
   BookshelfPrivateLinkResourceListResult,
   ListBookshelfPrivateLinkResourceByBookshelfError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  BookshelfPrivateLinkResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(432, __c54, 0) as any as S.Schema<ListBookshelfPrivateLinkResourceByBookshelfRequest>,
   output: __S(441, __c55, 1) as any as S.Schema<BookshelfPrivateLinkResourceListResult>,
   errors: [UnknownAzureError],
@@ -3069,16 +3116,23 @@ export const ListBookshelfPrivateLinkResourceByBookshelf: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBookshelfPrivateLinkResourceByBookshelf",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBookshelveByResourceGroupError = AzureOpError;
 /** List Bookshelf resources by resource group */
-export const ListBookshelveByResourceGroup: API.OperationMethod<
+export const ListBookshelveByResourceGroup: API.PaginatedOperationMethod<
   ListBookshelveByResourceGroupRequest,
   BookshelfListResult,
   ListBookshelveByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Bookshelf
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(448, __c56, 0) as any as S.Schema<ListBookshelveByResourceGroupRequest>,
   output: __S(457, __c57, 1) as any as S.Schema<BookshelfListResult>,
   errors: [UnknownAzureError],
@@ -3086,16 +3140,23 @@ export const ListBookshelveByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBookshelveByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBookshelveBySubscriptionError = AzureOpError;
 /** List Bookshelf resources by subscription ID */
-export const ListBookshelveBySubscription: API.OperationMethod<
+export const ListBookshelveBySubscription: API.PaginatedOperationMethod<
   ListBookshelveBySubscriptionRequest,
   BookshelfListResult,
   ListBookshelveBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Bookshelf
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(480, __c60, 0) as any as S.Schema<ListBookshelveBySubscriptionRequest>,
   output: __S(457, __c57, 1) as any as S.Schema<BookshelfListResult>,
   errors: [UnknownAzureError],
@@ -3103,16 +3164,23 @@ export const ListBookshelveBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBookshelveBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListChatModelDeploymentByWorkspaceError = AzureOpError;
 /** List ChatModelDeployment resources by Workspace */
-export const ListChatModelDeploymentByWorkspace: API.OperationMethod<
+export const ListChatModelDeploymentByWorkspace: API.PaginatedOperationMethod<
   ListChatModelDeploymentByWorkspaceRequest,
   ChatModelDeploymentListResult,
   ListChatModelDeploymentByWorkspaceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ChatModelDeployment
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(488, __c61, 0) as any as S.Schema<ListChatModelDeploymentByWorkspaceRequest>,
   output: __S(490, __c61, 2) as any as S.Schema<ChatModelDeploymentListResult>,
   errors: [UnknownAzureError],
@@ -3120,16 +3188,23 @@ export const ListChatModelDeploymentByWorkspace: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListChatModelDeploymentByWorkspace",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListNodePoolBySupercomputerError = AzureOpError;
 /** List NodePool resources by Supercomputer */
-export const ListNodePoolBySupercomputer: API.OperationMethod<
+export const ListNodePoolBySupercomputer: API.PaginatedOperationMethod<
   ListNodePoolBySupercomputerRequest,
   NodePoolListResult,
   ListNodePoolBySupercomputerError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  NodePool
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(496, __c62, 0) as any as S.Schema<ListNodePoolBySupercomputerRequest>,
   output: __S(498, __c62, 2) as any as S.Schema<NodePoolListResult>,
   errors: [UnknownAzureError],
@@ -3137,16 +3212,23 @@ export const ListNodePoolBySupercomputer: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNodePoolBySupercomputer",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(504, __c63, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(508, __c63, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
@@ -3154,16 +3236,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListProjectByWorkspaceError = AzureOpError;
 /** List Project resources by Workspace */
-export const ListProjectByWorkspace: API.OperationMethod<
+export const ListProjectByWorkspace: API.PaginatedOperationMethod<
   ListProjectByWorkspaceRequest,
   ProjectListResult,
   ListProjectByWorkspaceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Project
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(512, __c64, 0) as any as S.Schema<ListProjectByWorkspaceRequest>,
   output: __S(514, __c64, 2) as any as S.Schema<ProjectListResult>,
   errors: [UnknownAzureError],
@@ -3171,16 +3260,23 @@ export const ListProjectByWorkspace: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectByWorkspace",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListStorageAssetByStorageContainerError = AzureOpError;
 /** List StorageAsset resources by StorageContainer */
-export const ListStorageAssetByStorageContainer: API.OperationMethod<
+export const ListStorageAssetByStorageContainer: API.PaginatedOperationMethod<
   ListStorageAssetByStorageContainerRequest,
   StorageAssetListResult,
   ListStorageAssetByStorageContainerError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  StorageAsset
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(520, __c65, 0) as any as S.Schema<ListStorageAssetByStorageContainerRequest>,
   output: __S(522, __c65, 2) as any as S.Schema<StorageAssetListResult>,
   errors: [UnknownAzureError],
@@ -3188,16 +3284,23 @@ export const ListStorageAssetByStorageContainer: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListStorageAssetByStorageContainer",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListStorageContainerByResourceGroupError = AzureOpError;
 /** List StorageContainer resources by resource group */
-export const ListStorageContainerByResourceGroup: API.OperationMethod<
+export const ListStorageContainerByResourceGroup: API.PaginatedOperationMethod<
   ListStorageContainerByResourceGroupRequest,
   StorageContainerListResult,
   ListStorageContainerByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  StorageContainer
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(528, __c66, 0) as any as S.Schema<ListStorageContainerByResourceGroupRequest>,
   output: __S(537, __c67, 1) as any as S.Schema<StorageContainerListResult>,
   errors: [UnknownAzureError],
@@ -3205,16 +3308,23 @@ export const ListStorageContainerByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListStorageContainerByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListStorageContainerBySubscriptionError = AzureOpError;
 /** List StorageContainer resources by subscription ID */
-export const ListStorageContainerBySubscription: API.OperationMethod<
+export const ListStorageContainerBySubscription: API.PaginatedOperationMethod<
   ListStorageContainerBySubscriptionRequest,
   StorageContainerListResult,
   ListStorageContainerBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  StorageContainer
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(544, __c68, 0) as any as S.Schema<ListStorageContainerBySubscriptionRequest>,
   output: __S(537, __c67, 1) as any as S.Schema<StorageContainerListResult>,
   errors: [UnknownAzureError],
@@ -3222,16 +3332,23 @@ export const ListStorageContainerBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListStorageContainerBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSupercomputerByResourceGroupError = AzureOpError;
 /** List Supercomputer resources by resource group */
-export const ListSupercomputerByResourceGroup: API.OperationMethod<
+export const ListSupercomputerByResourceGroup: API.PaginatedOperationMethod<
   ListSupercomputerByResourceGroupRequest,
   SupercomputerListResult,
   ListSupercomputerByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Supercomputer
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(552, __c69, 0) as any as S.Schema<ListSupercomputerByResourceGroupRequest>,
   output: __S(561, __c70, 1) as any as S.Schema<SupercomputerListResult>,
   errors: [UnknownAzureError],
@@ -3239,16 +3356,23 @@ export const ListSupercomputerByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSupercomputerByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSupercomputerBySubscriptionError = AzureOpError;
 /** List Supercomputer resources by subscription ID */
-export const ListSupercomputerBySubscription: API.OperationMethod<
+export const ListSupercomputerBySubscription: API.PaginatedOperationMethod<
   ListSupercomputerBySubscriptionRequest,
   SupercomputerListResult,
   ListSupercomputerBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Supercomputer
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(568, __c71, 0) as any as S.Schema<ListSupercomputerBySubscriptionRequest>,
   output: __S(561, __c70, 1) as any as S.Schema<SupercomputerListResult>,
   errors: [UnknownAzureError],
@@ -3256,16 +3380,23 @@ export const ListSupercomputerBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSupercomputerBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListToolByResourceGroupError = AzureOpError;
 /** List Tool resources by resource group */
-export const ListToolByResourceGroup: API.OperationMethod<
+export const ListToolByResourceGroup: API.PaginatedOperationMethod<
   ListToolByResourceGroupRequest,
   ToolListResult,
   ListToolByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Tool
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(584, __c73, 0) as any as S.Schema<ListToolByResourceGroupRequest>,
   output: __S(593, __c74, 1) as any as S.Schema<ToolListResult>,
   errors: [UnknownAzureError],
@@ -3273,16 +3404,23 @@ export const ListToolByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListToolByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListToolBySubscriptionError = AzureOpError;
 /** List Tool resources by subscription ID */
-export const ListToolBySubscription: API.OperationMethod<
+export const ListToolBySubscription: API.PaginatedOperationMethod<
   ListToolBySubscriptionRequest,
   ToolListResult,
   ListToolBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Tool
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(600, __c75, 0) as any as S.Schema<ListToolBySubscriptionRequest>,
   output: __S(593, __c74, 1) as any as S.Schema<ToolListResult>,
   errors: [UnknownAzureError],
@@ -3290,16 +3428,23 @@ export const ListToolBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListToolBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWorkspaceByResourceGroupError = AzureOpError;
 /** List Workspace resources by resource group */
-export const ListWorkspaceByResourceGroup: API.OperationMethod<
+export const ListWorkspaceByResourceGroup: API.PaginatedOperationMethod<
   ListWorkspaceByResourceGroupRequest,
   WorkspaceListResult,
   ListWorkspaceByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Workspace
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(608, __c76, 0) as any as S.Schema<ListWorkspaceByResourceGroupRequest>,
   output: __S(617, __c77, 1) as any as S.Schema<WorkspaceListResult>,
   errors: [UnknownAzureError],
@@ -3307,16 +3452,23 @@ export const ListWorkspaceByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWorkspaceByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWorkspaceBySubscriptionError = AzureOpError;
 /** List Workspace resources by subscription ID */
-export const ListWorkspaceBySubscription: API.OperationMethod<
+export const ListWorkspaceBySubscription: API.PaginatedOperationMethod<
   ListWorkspaceBySubscriptionRequest,
   WorkspaceListResult,
   ListWorkspaceBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Workspace
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(624, __c78, 0) as any as S.Schema<ListWorkspaceBySubscriptionRequest>,
   output: __S(617, __c77, 1) as any as S.Schema<WorkspaceListResult>,
   errors: [UnknownAzureError],
@@ -3324,16 +3476,23 @@ export const ListWorkspaceBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWorkspaceBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWorkspacePrivateEndpointConnectionByWorkspaceError = AzureOpError;
 /** Lists all private endpoint connections for a workspace. */
-export const ListWorkspacePrivateEndpointConnectionByWorkspace: API.OperationMethod<
+export const ListWorkspacePrivateEndpointConnectionByWorkspace: API.PaginatedOperationMethod<
   ListWorkspacePrivateEndpointConnectionByWorkspaceRequest,
   WorkspacePrivateEndpointConnectionListResult,
   ListWorkspacePrivateEndpointConnectionByWorkspaceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  WorkspacePrivateEndpointConnection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     632,
     __c79,
@@ -3345,16 +3504,23 @@ export const ListWorkspacePrivateEndpointConnectionByWorkspace: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWorkspacePrivateEndpointConnectionByWorkspace",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWorkspacePrivateLinkResourceByWorkspaceError = AzureOpError;
 /** Lists all private link resources for the workspace. */
-export const ListWorkspacePrivateLinkResourceByWorkspace: API.OperationMethod<
+export const ListWorkspacePrivateLinkResourceByWorkspace: API.PaginatedOperationMethod<
   ListWorkspacePrivateLinkResourceByWorkspaceRequest,
   WorkspacePrivateLinkResourceListResult,
   ListWorkspacePrivateLinkResourceByWorkspaceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  WorkspacePrivateLinkResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(640, __c80, 0) as any as S.Schema<ListWorkspacePrivateLinkResourceByWorkspaceRequest>,
   output: __S(441, __c55, 1) as any as S.Schema<WorkspacePrivateLinkResourceListResult>,
   errors: [UnknownAzureError],
@@ -3362,7 +3528,13 @@ export const ListWorkspacePrivateLinkResourceByWorkspace: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWorkspacePrivateLinkResourceByWorkspace",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type NodePoolsCreateOrUpdateError = AzureOpError;
 /** Create a NodePool */
@@ -4645,12 +4817,14 @@ function __c52(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           bookshelfName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Discovery/bookshelves/{bookshelfName}/privateEndpointConnections",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBookshelfPrivateEndpointConnectionByBookshelfRequest" });
@@ -4675,12 +4849,14 @@ function __c54(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           bookshelfName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Discovery/bookshelves/{bookshelfName}/privateLinkResources",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBookshelfPrivateLinkResourceByBookshelfRequest" });
@@ -4706,12 +4882,14 @@ function __c56(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Discovery/bookshelves",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBookshelveByResourceGroupRequest" });
@@ -4767,12 +4945,14 @@ function __c60(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Discovery/bookshelves",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBookshelveBySubscriptionRequest" });
@@ -4786,12 +4966,14 @@ function __c61(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Discovery/workspaces/{workspaceName}/chatModelDeployments",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListChatModelDeploymentByWorkspaceRequest" });
@@ -4814,12 +4996,14 @@ function __c62(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           supercomputerName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Discovery/supercomputers/{supercomputerName}/nodePools",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListNodePoolBySupercomputerRequest" });
@@ -4838,12 +5022,15 @@ function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Discovery/operations",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -4871,7 +5058,7 @@ function __c63(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(507, __c63, 3)),
+          value: __S(507, __c63, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -4885,12 +5072,14 @@ function __c64(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Discovery/workspaces/{workspaceName}/projects",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListProjectByWorkspaceRequest" });
@@ -4913,12 +5102,14 @@ function __c65(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           storageContainerName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Discovery/storageContainers/{storageContainerName}/storageAssets",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListStorageAssetByStorageContainerRequest" });
@@ -4940,12 +5131,14 @@ function __c66(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Discovery/storageContainers",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListStorageContainerByResourceGroupRequest" });
@@ -4970,12 +5163,14 @@ function __c68(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Discovery/storageContainers",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListStorageContainerBySubscriptionRequest" });
@@ -4988,12 +5183,14 @@ function __c69(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Discovery/supercomputers",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSupercomputerByResourceGroupRequest" });
@@ -5018,12 +5215,14 @@ function __c71(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Discovery/supercomputers",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSupercomputerBySubscriptionRequest" });
@@ -5055,12 +5254,14 @@ function __c73(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Discovery/tools",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListToolByResourceGroupRequest" });
@@ -5085,12 +5286,14 @@ function __c75(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Discovery/tools",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListToolBySubscriptionRequest" });
@@ -5103,12 +5306,14 @@ function __c76(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Discovery/workspaces",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWorkspaceByResourceGroupRequest" });
@@ -5133,12 +5338,14 @@ function __c78(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Discovery/workspaces",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWorkspaceBySubscriptionRequest" });
@@ -5152,12 +5359,14 @@ function __c79(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Discovery/workspaces/{workspaceName}/privateEndpointConnections",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWorkspacePrivateEndpointConnectionByWorkspaceRequest" });
@@ -5171,12 +5380,14 @@ function __c80(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Discovery/workspaces/{workspaceName}/privateLinkResources",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWorkspacePrivateLinkResourceByWorkspaceRequest" });

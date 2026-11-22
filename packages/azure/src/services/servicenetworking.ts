@@ -566,6 +566,8 @@ export interface ListAssociationsInterfaceByTrafficControllerRequest {
   resourceGroupName: string;
   /** traffic controller name for path */
   trafficControllerName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type AssociationTagsMap = { [key: string]: string | undefined };
@@ -602,6 +604,8 @@ export interface ListFrontendsInterfaceByTrafficControllerRequest {
   resourceGroupName: string;
   /** traffic controller name for path */
   trafficControllerName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type FrontendTagsMap = { [key: string]: string | undefined };
@@ -631,7 +635,10 @@ export interface FrontendListResult {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -664,7 +671,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -675,6 +682,8 @@ export interface ListPrivateEndpointConnectionsInterfaceByTrafficControllerReque
   resourceGroupName: string;
   /** traffic controller name for path */
   trafficControllerName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Private Endpoint Connection resource of Traffic Controller. */
 export interface PrivateEndpointConnection {
@@ -705,6 +714,8 @@ export interface ListPrivateLinkResourcesInterfaceByTrafficControllerRequest {
   resourceGroupName: string;
   /** traffic controller name for path */
   trafficControllerName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A private link resource. */
 export interface PrivateLinkResource {
@@ -735,6 +746,8 @@ export interface ListSecurityPoliciesInterfaceByTrafficControllerRequest {
   resourceGroupName: string;
   /** traffic controller name for path */
   trafficControllerName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type SecurityPolicyTagsMap = { [key: string]: string | undefined };
@@ -769,6 +782,8 @@ export interface ListTrafficControllerInterfaceByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type TrafficControllerTagsMap = { [key: string]: string | undefined };
@@ -801,6 +816,8 @@ export interface TrafficControllerListResult {
 export interface ListTrafficControllerInterfaceBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type SecurityPoliciesInterfaceCreateOrUpdateRequestTagsMap = {
@@ -1346,12 +1363,13 @@ export const GetTrafficControllerInterface: API.OperationMethod<
 
 export type ListAssociationsInterfaceByTrafficControllerError = AzureOpError;
 /** List Association resources by TrafficController */
-export const ListAssociationsInterfaceByTrafficController: API.OperationMethod<
+export const ListAssociationsInterfaceByTrafficController: API.PaginatedOperationMethod<
   ListAssociationsInterfaceByTrafficControllerRequest,
   AssociationListResult,
   ListAssociationsInterfaceByTrafficControllerError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Association
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(120, __c15, 0) as any as S.Schema<ListAssociationsInterfaceByTrafficControllerRequest>,
   output: __S(122, __c15, 2) as any as S.Schema<AssociationListResult>,
   errors: [UnknownAzureError],
@@ -1359,16 +1377,23 @@ export const ListAssociationsInterfaceByTrafficController: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAssociationsInterfaceByTrafficController",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListFrontendsInterfaceByTrafficControllerError = AzureOpError;
 /** List Frontend resources by TrafficController */
-export const ListFrontendsInterfaceByTrafficController: API.OperationMethod<
+export const ListFrontendsInterfaceByTrafficController: API.PaginatedOperationMethod<
   ListFrontendsInterfaceByTrafficControllerRequest,
   FrontendListResult,
   ListFrontendsInterfaceByTrafficControllerError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Frontend
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<ListFrontendsInterfaceByTrafficControllerRequest>,
   output: __S(130, __c16, 2) as any as S.Schema<FrontendListResult>,
   errors: [UnknownAzureError],
@@ -1376,16 +1401,23 @@ export const ListFrontendsInterfaceByTrafficController: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFrontendsInterfaceByTrafficController",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(140, __c17, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
@@ -1393,16 +1425,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateEndpointConnectionsInterfaceByTrafficControllerError = AzureOpError;
 /** List PrivateEndpointConnection resources by TrafficController */
-export const ListPrivateEndpointConnectionsInterfaceByTrafficController: API.OperationMethod<
+export const ListPrivateEndpointConnectionsInterfaceByTrafficController: API.PaginatedOperationMethod<
   ListPrivateEndpointConnectionsInterfaceByTrafficControllerRequest,
   PrivateEndpointConnectionListResult,
   ListPrivateEndpointConnectionsInterfaceByTrafficControllerError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateEndpointConnection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     144,
     __c18,
@@ -1414,16 +1453,23 @@ export const ListPrivateEndpointConnectionsInterfaceByTrafficController: API.Ope
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateEndpointConnectionsInterfaceByTrafficController",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateLinkResourcesInterfaceByTrafficControllerError = AzureOpError;
 /** List PrivateLinkResource resources by TrafficController */
-export const ListPrivateLinkResourcesInterfaceByTrafficController: API.OperationMethod<
+export const ListPrivateLinkResourcesInterfaceByTrafficController: API.PaginatedOperationMethod<
   ListPrivateLinkResourcesInterfaceByTrafficControllerRequest,
   PrivateLinkResourceListResult,
   ListPrivateLinkResourcesInterfaceByTrafficControllerError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateLinkResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     152,
     __c19,
@@ -1435,16 +1481,23 @@ export const ListPrivateLinkResourcesInterfaceByTrafficController: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateLinkResourcesInterfaceByTrafficController",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSecurityPoliciesInterfaceByTrafficControllerError = AzureOpError;
 /** List SecurityPolicy resources by TrafficController */
-export const ListSecurityPoliciesInterfaceByTrafficController: API.OperationMethod<
+export const ListSecurityPoliciesInterfaceByTrafficController: API.PaginatedOperationMethod<
   ListSecurityPoliciesInterfaceByTrafficControllerRequest,
   SecurityPolicyListResult,
   ListSecurityPoliciesInterfaceByTrafficControllerError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SecurityPolicy
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     160,
     __c20,
@@ -1456,16 +1509,23 @@ export const ListSecurityPoliciesInterfaceByTrafficController: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSecurityPoliciesInterfaceByTrafficController",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListTrafficControllerInterfaceByResourceGroupError = AzureOpError;
 /** List TrafficController resources by resource group */
-export const ListTrafficControllerInterfaceByResourceGroup: API.OperationMethod<
+export const ListTrafficControllerInterfaceByResourceGroup: API.PaginatedOperationMethod<
   ListTrafficControllerInterfaceByResourceGroupRequest,
   TrafficControllerListResult,
   ListTrafficControllerInterfaceByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  TrafficController
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     168,
     __c21,
@@ -1477,16 +1537,23 @@ export const ListTrafficControllerInterfaceByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTrafficControllerInterfaceByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListTrafficControllerInterfaceBySubscriptionError = AzureOpError;
 /** List TrafficController resources by subscription ID */
-export const ListTrafficControllerInterfaceBySubscription: API.OperationMethod<
+export const ListTrafficControllerInterfaceBySubscription: API.PaginatedOperationMethod<
   ListTrafficControllerInterfaceBySubscriptionRequest,
   TrafficControllerListResult,
   ListTrafficControllerInterfaceBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  TrafficController
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(192, __c24, 0) as any as S.Schema<ListTrafficControllerInterfaceBySubscriptionRequest>,
   output: __S(177, __c22, 1) as any as S.Schema<TrafficControllerListResult>,
   errors: [UnknownAzureError],
@@ -1494,7 +1561,13 @@ export const ListTrafficControllerInterfaceBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTrafficControllerInterfaceBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type SecurityPoliciesInterfaceCreateOrUpdateError = AzureOpError;
 /** Create a SecurityPolicy */
@@ -1905,12 +1978,14 @@ function __c15(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           trafficControllerName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/associations",
             code: 200,
             apiVersion: "2026-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAssociationsInterfaceByTrafficControllerRequest" });
@@ -1933,12 +2008,14 @@ function __c16(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           trafficControllerName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/frontends",
             code: 200,
             apiVersion: "2026-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListFrontendsInterfaceByTrafficControllerRequest" });
@@ -1957,12 +2034,15 @@ function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.ServiceNetworking/operations",
             code: 200,
             apiVersion: "2026-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -1990,7 +2070,7 @@ function __c17(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(139, __c17, 3)),
+          value: __S(139, __c17, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -2004,12 +2084,14 @@ function __c18(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           trafficControllerName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/privateEndpointConnections",
             code: 200,
             apiVersion: "2026-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({
@@ -2034,12 +2116,14 @@ function __c19(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           trafficControllerName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/privateLinkResources",
             code: 200,
             apiVersion: "2026-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateLinkResourcesInterfaceByTrafficControllerRequest" });
@@ -2062,12 +2146,14 @@ function __c20(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           trafficControllerName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/securityPolicies",
             code: 200,
             apiVersion: "2026-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSecurityPoliciesInterfaceByTrafficControllerRequest" });
@@ -2089,12 +2175,14 @@ function __c21(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers",
             code: 200,
             apiVersion: "2026-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListTrafficControllerInterfaceByResourceGroupRequest" });
@@ -2139,12 +2227,14 @@ function __c24(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ServiceNetworking/trafficControllers",
             code: 200,
             apiVersion: "2026-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListTrafficControllerInterfaceBySubscriptionRequest" });

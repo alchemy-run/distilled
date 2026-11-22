@@ -2598,6 +2598,8 @@ export interface ListDrillResourcesRequest {
   _skipToken?: string | undefined;
   /** Number of elements to return when retrieving results. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Drill Resource */
 export interface DrillResource {
@@ -2628,6 +2630,8 @@ export interface ListDrillRunResourcesRequest {
   drillName: string;
   /** The name of the DrillRun (GUID). */
   drillRunName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Represents a Drill Run job resource in the Azure Resilience Management provider namespace. */
 export interface DrillRunResource {
@@ -2656,6 +2660,8 @@ export interface ListDrillRunsRequest {
   serviceGroupName: string;
   /** The name of the Drill */
   drillName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** DrillRun resource. */
 export interface DrillRun {
@@ -2686,6 +2692,8 @@ export interface ListDrillsRequest {
   _skipToken?: string | undefined;
   /** Number of elements to return when retrieving results. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type DrillIdentityUserAssignedIdentitiesMap = {
@@ -2732,6 +2740,8 @@ export interface ListEnrollmentsRequest {
   resourceGroupName: string;
   /** The name of the usage plan. */
   usagePlanName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** An enrollment that links a usage plan to a service group. */
 export interface Enrollment {
@@ -2762,6 +2772,8 @@ export interface ListGoalAssignmentsRequest {
   _skipToken?: string | undefined;
   /** Number of elements to return when retrieving results. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A goal assignment resource in the Azure Resilience Management provider. */
 export interface GoalAssignment {
@@ -2794,6 +2806,8 @@ export interface ListGoalResourcesRequest {
   _skipToken?: string | undefined;
   /** Number of elements to return when retrieving results. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A goal resource in the Azure Resilience Management provider. */
 export interface GoalResource {
@@ -2817,7 +2831,10 @@ export interface GoalResourceListResult {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -2850,7 +2867,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -2861,6 +2878,8 @@ export interface ListRecoveryJobResourcesRequest {
   recoveryPlanName: string;
   /** The unique name (GUID) of the recovery job. */
   recoveryJobName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Represents a recovery orchestration job resource in the Azure Resilience Management provider namespace. */
 export interface RecoveryJobResource {
@@ -2889,6 +2908,8 @@ export interface ListRecoveryJobsRequest {
   serviceGroupName: string;
   /** The name of the recovery orchestration plan. */
   recoveryPlanName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Represents a recovery job resource in the Azure Resilience Management provider namespace. */
 export interface RecoveryJob {
@@ -2919,6 +2940,8 @@ export interface ListRecoveryPlansRequest {
   _skipToken?: string | undefined;
   /** Number of elements to return when retrieving results. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type RecoveryPlanIdentityUserAssignedIdentitiesMap = {
@@ -2963,6 +2986,8 @@ export interface ListRecoveryResourcesRequest {
   serviceGroupName: string;
   /** The name of the recovery orchestration plan. */
   recoveryPlanName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** RecoveryPlan Resource a AzureResilienceProviderHub resource */
 export interface RecoveryResource {
@@ -2993,6 +3018,8 @@ export interface ListUnifiedResilienceItemsRequest {
   _skipToken?: string | undefined;
   /** Number of elements to return when retrieving results. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A unified resilience item represents a computed and aggregated resilience information of Azure Applications. */
 export interface UnifiedResilienceItem {
@@ -3021,6 +3048,8 @@ export interface ListUsagePlanByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type UsagePlanTagsMap = { [key: string]: string | undefined };
@@ -3053,6 +3082,8 @@ export interface UsagePlanListResult {
 export interface ListUsagePlanBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface RecoveryPlanActionsFailoverRequest {
   /** The name of the service group. */
@@ -4528,12 +4559,13 @@ export const GoalAssignmentsRecommendCapacity: API.OperationMethod<
 
 export type ListDrillResourcesError = AzureOpError;
 /** List DrillResource resources by Drill */
-export const ListDrillResources: API.OperationMethod<
+export const ListDrillResources: API.PaginatedOperationMethod<
   ListDrillResourcesRequest,
   DrillResourceListResult,
   ListDrillResourcesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DrillResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1984, __c62, 0) as any as S.Schema<ListDrillResourcesRequest>,
   output: __S(1986, __c62, 2) as any as S.Schema<DrillResourceListResult>,
   errors: [UnknownAzureError],
@@ -4541,16 +4573,23 @@ export const ListDrillResources: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDrillResources",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDrillRunResourcesError = AzureOpError;
 /** List DrillRunResource resources by DrillRun */
-export const ListDrillRunResources: API.OperationMethod<
+export const ListDrillRunResources: API.PaginatedOperationMethod<
   ListDrillRunResourcesRequest,
   DrillRunResourceListResult,
   ListDrillRunResourcesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DrillRunResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2016, __c63, 0) as any as S.Schema<ListDrillRunResourcesRequest>,
   output: __S(2018, __c63, 2) as any as S.Schema<DrillRunResourceListResult>,
   errors: [UnknownAzureError],
@@ -4558,16 +4597,23 @@ export const ListDrillRunResources: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDrillRunResources",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDrillRunsError = AzureOpError;
 /** List DrillRun resources by Drill */
-export const ListDrillRuns: API.OperationMethod<
+export const ListDrillRuns: API.PaginatedOperationMethod<
   ListDrillRunsRequest,
   DrillRunListResult,
   ListDrillRunsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DrillRun
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2048, __c64, 0) as any as S.Schema<ListDrillRunsRequest>,
   output: __S(2050, __c64, 2) as any as S.Schema<DrillRunListResult>,
   errors: [UnknownAzureError],
@@ -4575,16 +4621,23 @@ export const ListDrillRuns: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDrillRuns",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDrillsError = AzureOpError;
 /** List Drill resources by tenant */
-export const ListDrills: API.OperationMethod<
+export const ListDrills: API.PaginatedOperationMethod<
   ListDrillsRequest,
   DrillListResult,
   ListDrillsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Drill
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<ListDrillsRequest>,
   output: __S(2082, __c65, 2) as any as S.Schema<DrillListResult>,
   errors: [UnknownAzureError],
@@ -4592,16 +4645,23 @@ export const ListDrills: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDrills",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEnrollmentsError = AzureOpError;
 /** List Enrollments by Usage Plan. */
-export const ListEnrollments: API.OperationMethod<
+export const ListEnrollments: API.PaginatedOperationMethod<
   ListEnrollmentsRequest,
   EnrollmentListResult,
   ListEnrollmentsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Enrollment
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2144, __c67, 0) as any as S.Schema<ListEnrollmentsRequest>,
   output: __S(2146, __c67, 2) as any as S.Schema<EnrollmentListResult>,
   errors: [UnknownAzureError],
@@ -4609,16 +4669,23 @@ export const ListEnrollments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEnrollments",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListGoalAssignmentsError = AzureOpError;
 /** Lists goal assignments in a service group. */
-export const ListGoalAssignments: API.OperationMethod<
+export const ListGoalAssignments: API.PaginatedOperationMethod<
   ListGoalAssignmentsRequest,
   GoalAssignmentListResult,
   ListGoalAssignmentsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  GoalAssignment
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2176, __c68, 0) as any as S.Schema<ListGoalAssignmentsRequest>,
   output: __S(2178, __c68, 2) as any as S.Schema<GoalAssignmentListResult>,
   errors: [UnknownAzureError],
@@ -4626,16 +4693,23 @@ export const ListGoalAssignments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListGoalAssignments",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListGoalResourcesError = AzureOpError;
 /** Lists goal resources under a goal assignment. */
-export const ListGoalResources: API.OperationMethod<
+export const ListGoalResources: API.PaginatedOperationMethod<
   ListGoalResourcesRequest,
   GoalResourceListResult,
   ListGoalResourcesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  GoalResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2208, __c69, 0) as any as S.Schema<ListGoalResourcesRequest>,
   output: __S(2209, __c69, 1) as any as S.Schema<GoalResourceListResult>,
   errors: [UnknownAzureError],
@@ -4643,16 +4717,23 @@ export const ListGoalResources: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListGoalResources",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2272, __c71, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(2276, __c71, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
@@ -4660,16 +4741,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRecoveryJobResourcesError = AzureOpError;
 /** List RecoveryJobResource resources by RecoveryJob */
-export const ListRecoveryJobResources: API.OperationMethod<
+export const ListRecoveryJobResources: API.PaginatedOperationMethod<
   ListRecoveryJobResourcesRequest,
   RecoveryJobResourceListResult,
   ListRecoveryJobResourcesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RecoveryJobResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2304, __c72, 0) as any as S.Schema<ListRecoveryJobResourcesRequest>,
   output: __S(2306, __c72, 2) as any as S.Schema<RecoveryJobResourceListResult>,
   errors: [UnknownAzureError],
@@ -4677,16 +4765,23 @@ export const ListRecoveryJobResources: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRecoveryJobResources",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRecoveryJobsError = AzureOpError;
 /** List RecoveryJob resources by RecoveryPlan */
-export const ListRecoveryJobs: API.OperationMethod<
+export const ListRecoveryJobs: API.PaginatedOperationMethod<
   ListRecoveryJobsRequest,
   RecoveryJobListResult,
   ListRecoveryJobsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RecoveryJob
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<ListRecoveryJobsRequest>,
   output: __S(2338, __c73, 2) as any as S.Schema<RecoveryJobListResult>,
   errors: [UnknownAzureError],
@@ -4694,16 +4789,23 @@ export const ListRecoveryJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRecoveryJobs",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRecoveryPlansError = AzureOpError;
 /** List RecoveryPlan resources by tenant */
-export const ListRecoveryPlans: API.OperationMethod<
+export const ListRecoveryPlans: API.PaginatedOperationMethod<
   ListRecoveryPlansRequest,
   RecoveryPlanListResult,
   ListRecoveryPlansError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RecoveryPlan
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2368, __c74, 0) as any as S.Schema<ListRecoveryPlansRequest>,
   output: __S(2370, __c74, 2) as any as S.Schema<RecoveryPlanListResult>,
   errors: [UnknownAzureError],
@@ -4711,16 +4813,23 @@ export const ListRecoveryPlans: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRecoveryPlans",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRecoveryResourcesError = AzureOpError;
 /** List RecoveryResource resources by RecoveryPlan */
-export const ListRecoveryResources: API.OperationMethod<
+export const ListRecoveryResources: API.PaginatedOperationMethod<
   ListRecoveryResourcesRequest,
   RecoveryResourceListResult,
   ListRecoveryResourcesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RecoveryResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2400, __c75, 0) as any as S.Schema<ListRecoveryResourcesRequest>,
   output: __S(2401, __c75, 1) as any as S.Schema<RecoveryResourceListResult>,
   errors: [UnknownAzureError],
@@ -4728,16 +4837,23 @@ export const ListRecoveryResources: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRecoveryResources",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListUnifiedResilienceItemsError = AzureOpError;
 /** List UnifiedResilienceItem resources by tenant */
-export const ListUnifiedResilienceItems: API.OperationMethod<
+export const ListUnifiedResilienceItems: API.PaginatedOperationMethod<
   ListUnifiedResilienceItemsRequest,
   UnifiedResilienceItemListResult,
   ListUnifiedResilienceItemsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  UnifiedResilienceItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2464, __c77, 0) as any as S.Schema<ListUnifiedResilienceItemsRequest>,
   output: __S(2466, __c77, 2) as any as S.Schema<UnifiedResilienceItemListResult>,
   errors: [UnknownAzureError],
@@ -4745,16 +4861,23 @@ export const ListUnifiedResilienceItems: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListUnifiedResilienceItems",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListUsagePlanByResourceGroupError = AzureOpError;
 /** List UsagePlan resources by resource group */
-export const ListUsagePlanByResourceGroup: API.OperationMethod<
+export const ListUsagePlanByResourceGroup: API.PaginatedOperationMethod<
   ListUsagePlanByResourceGroupRequest,
   UsagePlanListResult,
   ListUsagePlanByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  UsagePlan
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2496, __c78, 0) as any as S.Schema<ListUsagePlanByResourceGroupRequest>,
   output: __S(2529, __c79, 1) as any as S.Schema<UsagePlanListResult>,
   errors: [UnknownAzureError],
@@ -4762,16 +4885,23 @@ export const ListUsagePlanByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListUsagePlanByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListUsagePlanBySubscriptionError = AzureOpError;
 /** List UsagePlan resources by subscription ID */
-export const ListUsagePlanBySubscription: API.OperationMethod<
+export const ListUsagePlanBySubscription: API.PaginatedOperationMethod<
   ListUsagePlanBySubscriptionRequest,
   UsagePlanListResult,
   ListUsagePlanBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  UsagePlan
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2656, __c83, 0) as any as S.Schema<ListUsagePlanBySubscriptionRequest>,
   output: __S(2529, __c79, 1) as any as S.Schema<UsagePlanListResult>,
   errors: [UnknownAzureError],
@@ -4779,7 +4909,13 @@ export const ListUsagePlanBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListUsagePlanBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type RecoveryPlanActionsFailoverError = AzureOpError;
 /** This action triggers the failover operation on the recovery orchestration plan for the qualified resources. */
@@ -6857,12 +6993,14 @@ function __c62(j: number): any {
           drillName: S.String.pipe(T.Label()),
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Management/serviceGroups/{serviceGroupName}/providers/Microsoft.AzureResilienceManagement/drills/{drillName}/drillResources",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDrillResourcesRequest" });
@@ -6885,12 +7023,14 @@ function __c63(j: number): any {
           serviceGroupName: S.String.pipe(T.Label()),
           drillName: S.String.pipe(T.Label()),
           drillRunName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Management/serviceGroups/{serviceGroupName}/providers/Microsoft.AzureResilienceManagement/drills/{drillName}/drillRuns/{drillRunName}/drillRunResources",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDrillRunResourcesRequest" });
@@ -6912,12 +7052,14 @@ function __c64(j: number): any {
         S.Struct({
           serviceGroupName: S.String.pipe(T.Label()),
           drillName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Management/serviceGroups/{serviceGroupName}/providers/Microsoft.AzureResilienceManagement/drills/{drillName}/drillRuns",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDrillRunsRequest" });
@@ -6940,12 +7082,14 @@ function __c65(j: number): any {
           serviceGroupName: S.String.pipe(T.Label()),
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Management/serviceGroups/{serviceGroupName}/providers/Microsoft.AzureResilienceManagement/drills",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDrillsRequest" });
@@ -6986,12 +7130,14 @@ function __c67(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           usagePlanName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureResilienceManagement/usagePlans/{usagePlanName}/enrollments",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEnrollmentsRequest" });
@@ -7014,12 +7160,14 @@ function __c68(j: number): any {
           serviceGroupName: S.String.pipe(T.Label()),
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Management/serviceGroups/{serviceGroupName}/providers/Microsoft.AzureResilienceManagement/goalAssignments",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListGoalAssignmentsRequest" });
@@ -7043,12 +7191,14 @@ function __c69(j: number): any {
           goalAssignmentName: S.String.pipe(T.Label()),
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Management/serviceGroups/{serviceGroupName}/providers/Microsoft.AzureResilienceManagement/goalAssignments/{goalAssignmentName}/goalResources",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListGoalResourcesRequest" });
@@ -7071,12 +7221,15 @@ function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.AzureResilienceManagement/operations",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -7104,7 +7257,7 @@ function __c71(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2275, __c71, 3)),
+          value: __S(2275, __c71, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -7118,12 +7271,14 @@ function __c72(j: number): any {
           serviceGroupName: S.String.pipe(T.Label()),
           recoveryPlanName: S.String.pipe(T.Label()),
           recoveryJobName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Management/serviceGroups/{serviceGroupName}/providers/Microsoft.AzureResilienceManagement/recoveryPlans/{recoveryPlanName}/recoveryJobs/{recoveryJobName}/recoveryJobResources",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRecoveryJobResourcesRequest" });
@@ -7145,12 +7300,14 @@ function __c73(j: number): any {
         S.Struct({
           serviceGroupName: S.String.pipe(T.Label()),
           recoveryPlanName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Management/serviceGroups/{serviceGroupName}/providers/Microsoft.AzureResilienceManagement/recoveryPlans/{recoveryPlanName}/recoveryJobs",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRecoveryJobsRequest" });
@@ -7173,12 +7330,14 @@ function __c74(j: number): any {
           serviceGroupName: S.String.pipe(T.Label()),
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Management/serviceGroups/{serviceGroupName}/providers/Microsoft.AzureResilienceManagement/recoveryPlans",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRecoveryPlansRequest" });
@@ -7200,12 +7359,14 @@ function __c75(j: number): any {
         S.Struct({
           serviceGroupName: S.String.pipe(T.Label()),
           recoveryPlanName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Management/serviceGroups/{serviceGroupName}/providers/Microsoft.AzureResilienceManagement/recoveryPlans/{recoveryPlanName}/recoveryResources",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRecoveryResourcesRequest" });
@@ -7232,12 +7393,14 @@ function __c77(j: number): any {
           serviceGroupName: S.String.pipe(T.Label()),
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Management/serviceGroups/{serviceGroupName}/providers/Microsoft.AzureResilienceManagement/unifiedResilienceItems",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListUnifiedResilienceItemsRequest" });
@@ -7259,12 +7422,14 @@ function __c78(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureResilienceManagement/usagePlans",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListUsagePlanByResourceGroupRequest" });
@@ -7337,12 +7502,14 @@ function __c83(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AzureResilienceManagement/usagePlans",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListUsagePlanBySubscriptionRequest" });
