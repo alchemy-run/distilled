@@ -4921,6 +4921,7 @@ function __c79(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2025-02-01",
+            jsonContentType: "application/merge-patch+json",
             audience: "https://devcenter.azure.com/.default",
           }),
         ),

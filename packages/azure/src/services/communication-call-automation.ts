@@ -185,7 +185,23 @@ export interface AddCallConnectionParticipantRequest {
   operationCallbackUri?: string | undefined;
   customCallingContext?: CustomCallingContext | undefined;
 }
-export interface AddCallConnectionParticipantResponse {}
+/** A call participant. */
+export interface CallParticipant {
+  identifier?: CommunicationIdentifierModel | undefined;
+  /** Is participant muted */
+  isMuted?: boolean | undefined;
+  /** Is participant on hold. */
+  isOnHold?: boolean | undefined;
+}
+/** The AddCallConnectionParticipant response (HTTP 202 body). */
+export interface AddParticipantResponse {
+  /** The participant being invited. */
+  participant?: CallParticipant | undefined;
+  /** The operation context passed with the request. */
+  operationContext?: string | undefined;
+  /** Invitation ID used to cancel the add participant action. */
+  invitationId?: string | undefined;
+}
 /** AI options for the call. */
 export interface CallIntelligenceOptions {
   /** The identifier of the Cognitive Service resource assigned to this call. */
@@ -327,7 +343,13 @@ export interface CallConnectionCancelAddParticipantRequest {
   /** Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation. This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used. */
   operationCallbackUri?: string | undefined;
 }
-export interface CallConnectionCancelAddParticipantResponse {}
+/** The CallConnectionCancelAddParticipant response (HTTP 202 body). */
+export interface CancelAddParticipantResponse {
+  /** Invitation ID of the cancelled add participant action. */
+  invitationId?: string | undefined;
+  /** The operation context passed with the request. */
+  operationContext?: string | undefined;
+}
 export interface CallConnectionHangupCallRequest {
   /** The endpoint of the Azure Communication Service resource. */
   endpoint: string;
@@ -574,14 +596,6 @@ export interface GetCallConnectionParticipantRequest {
   /** Raw id of the participant to retrieve. */
   participantRawId: string;
 }
-/** A call participant. */
-export interface CallParticipant {
-  identifier?: CommunicationIdentifierModel | undefined;
-  /** Is participant muted */
-  isMuted?: boolean | undefined;
-  /** Is participant on hold. */
-  isOnHold?: boolean | undefined;
-}
 export interface GetCallConnectionParticipantsRequest {
   /** The endpoint of the Azure Communication Service resource. */
   endpoint: string;
@@ -633,7 +647,16 @@ export interface MoveCallConnectionParticipantsRequest {
   /** The CallConnectionId for the call you want to move the participant from */
   fromCall: string;
 }
-export interface MoveCallConnectionParticipantsResponse {}
+export type MoveParticipantsResponseParticipantsList = Array<CallParticipant>;
+/** The MoveCallConnectionParticipants response (HTTP 202 body). */
+export interface MoveParticipantsResponse {
+  /** The participants moved into the call. */
+  participants?: MoveParticipantsResponseParticipantsList | undefined;
+  /** The operation context passed with the request. */
+  operationContext?: string | undefined;
+  /** The call the participants moved from. */
+  fromCall?: string | undefined;
+}
 /** Participants to be muted from the call. Only ACS Users are supported. */
 export type MuteCallConnectionRequestTargetParticipantsList = Array<CommunicationIdentifierModel>;
 export interface MuteCallConnectionRequest {
@@ -703,7 +726,11 @@ export interface RemoveCallConnectionParticipantRequest {
   /** Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation. This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used. */
   operationCallbackUri?: string | undefined;
 }
-export interface RemoveCallConnectionParticipantResponse {}
+/** The RemoveCallConnectionParticipant response (HTTP 202 body). */
+export interface RemoveParticipantResponse {
+  /** The operation context passed with the request. */
+  operationContext?: string | undefined;
+}
 export interface ResumeCallRecordingRecordingRequest {
   /** The endpoint of the Azure Communication Service resource. */
   endpoint: string;
@@ -730,7 +757,11 @@ export interface SendCallMediaDtmfTonesRequest {
   /** Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation. This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used. */
   operationCallbackUri?: string | undefined;
 }
-export interface SendCallMediaDtmfTonesResponse {}
+/** The SendCallMediaDtmfTones response (HTTP 202 body). */
+export interface SendDtmfTonesResult {
+  /** The operation context passed with the request. */
+  operationContext?: string | undefined;
+}
 export interface StartCallMediaContinuousDtmfRecognitionRequest {
   /** The endpoint of the Azure Communication Service resource. */
   endpoint: string;
@@ -888,7 +919,11 @@ export interface TransferCallConnectionToParticipantRequest {
   customCallingContext?: CustomCallingContext | undefined;
   sourceCallerIdNumber?: PhoneNumberIdentifierModel | undefined;
 }
-export interface TransferCallConnectionToParticipantResponse {}
+/** The TransferCallConnectionToParticipant response (HTTP 202 body). */
+export interface TransferCallResponse {
+  /** The operation context passed with the request. */
+  operationContext?: string | undefined;
+}
 export interface UpdateCallMediaTranscriptionRequest {
   /** The endpoint of the Azure Communication Service resource. */
   endpoint: string;
@@ -908,12 +943,12 @@ export type AddCallConnectionParticipantError = AzureOpError;
 /** Add a participant to the call. Add a participant to the call. */
 export const AddCallConnectionParticipant: API.OperationMethod<
   AddCallConnectionParticipantRequest,
-  AddCallConnectionParticipantResponse,
+  AddParticipantResponse,
   AddCallConnectionParticipantError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AddCallConnectionParticipantRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<AddCallConnectionParticipantResponse>,
+  output: __S(1, __c0, 1) as any as S.Schema<AddParticipantResponse>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -942,12 +977,12 @@ export type CallConnectionCancelAddParticipantError = AzureOpError;
 /** Cancel add participant operation. Cancel add participant operation. */
 export const CallConnectionCancelAddParticipant: API.OperationMethod<
   CallConnectionCancelAddParticipantRequest,
-  CallConnectionCancelAddParticipantResponse,
+  CancelAddParticipantResponse,
   CallConnectionCancelAddParticipantError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<CallConnectionCancelAddParticipantRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<CallConnectionCancelAddParticipantResponse>,
+  input: __S(176, __c22, 0) as any as S.Schema<CallConnectionCancelAddParticipantRequest>,
+  output: __S(177, __c22, 1) as any as S.Schema<CancelAddParticipantResponse>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -963,8 +998,8 @@ export const CallConnectionHangupCall: API.OperationMethod<
   CallConnectionHangupCallError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c32, 0) as any as S.Schema<CallConnectionHangupCallRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<CallConnectionHangupCallResponse>,
+  input: __S(264, __c33, 0) as any as S.Schema<CallConnectionHangupCallRequest>,
+  output: __S(272, __c34, 0) as any as S.Schema<CallConnectionHangupCallResponse>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -980,8 +1015,8 @@ export const CallMediaHold: API.OperationMethod<
   CallMediaHoldError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(296, __c37, 0) as any as S.Schema<CallMediaHoldRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<CallMediaHoldResponse>,
+  input: __S(312, __c39, 0) as any as S.Schema<CallMediaHoldRequest>,
+  output: __S(272, __c34, 0) as any as S.Schema<CallMediaHoldResponse>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -997,8 +1032,8 @@ export const CallMediaPlay: API.OperationMethod<
   CallMediaPlayError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(313, __c39, 1) as any as S.Schema<CallMediaPlayRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<CallMediaPlayResponse>,
+  input: __S(329, __c41, 1) as any as S.Schema<CallMediaPlayRequest>,
+  output: __S(272, __c34, 0) as any as S.Schema<CallMediaPlayResponse>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -1014,8 +1049,8 @@ export const CallMediaRecognize: API.OperationMethod<
   CallMediaRecognizeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(334, __c41, 6) as any as S.Schema<CallMediaRecognizeRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<CallMediaRecognizeResponse>,
+  input: __S(350, __c43, 6) as any as S.Schema<CallMediaRecognizeRequest>,
+  output: __S(272, __c34, 0) as any as S.Schema<CallMediaRecognizeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -1031,8 +1066,8 @@ export const CallMediaUnhold: API.OperationMethod<
   CallMediaUnholdError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c42, 0) as any as S.Schema<CallMediaUnholdRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<CallMediaUnholdResponse>,
+  input: __S(352, __c44, 0) as any as S.Schema<CallMediaUnholdRequest>,
+  output: __S(272, __c34, 0) as any as S.Schema<CallMediaUnholdResponse>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -1048,8 +1083,8 @@ export const CancelCallMediaAllMediaOperations: API.OperationMethod<
   CancelCallMediaAllMediaOperationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(344, __c43, 0) as any as S.Schema<CancelCallMediaAllMediaOperationsRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<CancelCallMediaAllMediaOperationsResponse>,
+  input: __S(360, __c45, 0) as any as S.Schema<CancelCallMediaAllMediaOperationsRequest>,
+  output: __S(272, __c34, 0) as any as S.Schema<CancelCallMediaAllMediaOperationsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -1065,7 +1100,7 @@ export const Connect: API.OperationMethod<
   ConnectError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c44, 0) as any as S.Schema<ConnectRequest>,
+  input: __S(368, __c46, 0) as any as S.Schema<ConnectRequest>,
   output: __S(66, __c8, 2) as any as S.Schema<CallConnectionProperties>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
@@ -1117,7 +1152,7 @@ export const GetCallConnectionParticipant: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<GetCallConnectionParticipantRequest>,
-  output: __S(96, __c12, 0) as any as S.Schema<CallParticipant>,
+  output: __S(16, __c2, 0) as any as S.Schema<CallParticipant>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -1134,8 +1169,8 @@ export const GetCallConnectionParticipants: API.PaginatedOperationMethod<
   AzureOpContext,
   CallParticipant
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<GetCallConnectionParticipantsRequest>,
-  output: __S(106, __c13, 2) as any as S.Schema<GetParticipantsResponse>,
+  input: __S(96, __c12, 0) as any as S.Schema<GetCallConnectionParticipantsRequest>,
+  output: __S(97, __c12, 1) as any as S.Schema<GetParticipantsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -1170,12 +1205,12 @@ export type MoveCallConnectionParticipantsError = AzureOpError;
 /** Move a participant to the call. Move a participant to the call. */
 export const MoveCallConnectionParticipants: API.OperationMethod<
   MoveCallConnectionParticipantsRequest,
-  MoveCallConnectionParticipantsResponse,
+  MoveParticipantsResponse,
   MoveCallConnectionParticipantsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<MoveCallConnectionParticipantsRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<MoveCallConnectionParticipantsResponse>,
+  output: __S(129, __c16, 1) as any as S.Schema<MoveParticipantsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -1192,7 +1227,7 @@ export const MuteCallConnection: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<MuteCallConnectionRequest>,
-  output: __S(137, __c17, 1) as any as S.Schema<MuteParticipantsResult>,
+  output: __S(144, __c18, 0) as any as S.Schema<MuteParticipantsResult>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -1208,8 +1243,8 @@ export const PauseCallRecordingRecording: API.OperationMethod<
   PauseCallRecordingRecordingError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<PauseCallRecordingRecordingRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<PauseCallRecordingRecordingResponse>,
+  input: __S(152, __c19, 0) as any as S.Schema<PauseCallRecordingRecordingRequest>,
+  output: __S(272, __c34, 0) as any as S.Schema<PauseCallRecordingRecordingResponse>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -1225,8 +1260,8 @@ export const RedirectCall: API.OperationMethod<
   RedirectCallError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<RedirectCallRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<RedirectCallResponse>,
+  input: __S(160, __c20, 0) as any as S.Schema<RedirectCallRequest>,
+  output: __S(272, __c34, 0) as any as S.Schema<RedirectCallResponse>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -1242,8 +1277,8 @@ export const RejectCall: API.OperationMethod<
   RejectCallError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<RejectCallRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<RejectCallResponse>,
+  input: __S(168, __c21, 0) as any as S.Schema<RejectCallRequest>,
+  output: __S(272, __c34, 0) as any as S.Schema<RejectCallResponse>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -1255,12 +1290,12 @@ export type RemoveCallConnectionParticipantError = AzureOpError;
 /** Remove a participant from the call using identifier. Remove a participant from the call using identifier. */
 export const RemoveCallConnectionParticipant: API.OperationMethod<
   RemoveCallConnectionParticipantRequest,
-  RemoveCallConnectionParticipantResponse,
+  RemoveParticipantResponse,
   RemoveCallConnectionParticipantError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<RemoveCallConnectionParticipantRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<RemoveCallConnectionParticipantResponse>,
+  input: __S(184, __c23, 0) as any as S.Schema<RemoveCallConnectionParticipantRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<RemoveParticipantResponse>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -1276,8 +1311,8 @@ export const ResumeCallRecordingRecording: API.OperationMethod<
   ResumeCallRecordingRecordingError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<ResumeCallRecordingRecordingRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<ResumeCallRecordingRecordingResponse>,
+  input: __S(192, __c24, 0) as any as S.Schema<ResumeCallRecordingRecordingRequest>,
+  output: __S(272, __c34, 0) as any as S.Schema<ResumeCallRecordingRecordingResponse>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -1289,12 +1324,12 @@ export type SendCallMediaDtmfTonesError = AzureOpError;
 /** Send dtmf tones. Send dtmf tones. */
 export const SendCallMediaDtmfTones: API.OperationMethod<
   SendCallMediaDtmfTonesRequest,
-  SendCallMediaDtmfTonesResponse,
+  SendDtmfTonesResult,
   SendCallMediaDtmfTonesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<SendCallMediaDtmfTonesRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<SendCallMediaDtmfTonesResponse>,
+  input: __S(200, __c25, 0) as any as S.Schema<SendCallMediaDtmfTonesRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<SendDtmfTonesResult>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -1310,8 +1345,8 @@ export const StartCallMediaContinuousDtmfRecognition: API.OperationMethod<
   StartCallMediaContinuousDtmfRecognitionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<StartCallMediaContinuousDtmfRecognitionRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<StartCallMediaContinuousDtmfRecognitionResponse>,
+  input: __S(208, __c26, 0) as any as S.Schema<StartCallMediaContinuousDtmfRecognitionRequest>,
+  output: __S(272, __c34, 0) as any as S.Schema<StartCallMediaContinuousDtmfRecognitionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -1327,8 +1362,8 @@ export const StartCallMediaMediaStreaming: API.OperationMethod<
   StartCallMediaMediaStreamingError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c26, 0) as any as S.Schema<StartCallMediaMediaStreamingRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<StartCallMediaMediaStreamingResponse>,
+  input: __S(216, __c27, 0) as any as S.Schema<StartCallMediaMediaStreamingRequest>,
+  output: __S(272, __c34, 0) as any as S.Schema<StartCallMediaMediaStreamingResponse>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -1344,8 +1379,8 @@ export const StartCallMediaTranscription: API.OperationMethod<
   StartCallMediaTranscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<StartCallMediaTranscriptionRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<StartCallMediaTranscriptionResponse>,
+  input: __S(224, __c28, 0) as any as S.Schema<StartCallMediaTranscriptionRequest>,
+  output: __S(272, __c34, 0) as any as S.Schema<StartCallMediaTranscriptionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -1361,7 +1396,7 @@ export const StartCallRecordingRecording: API.OperationMethod<
   StartCallRecordingRecordingError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(227, __c28, 3) as any as S.Schema<StartCallRecordingRecordingRequest>,
+  input: __S(235, __c29, 3) as any as S.Schema<StartCallRecordingRecordingRequest>,
   output: __S(120, __c15, 0) as any as S.Schema<RecordingStateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
@@ -1378,8 +1413,8 @@ export const StopCallMediaContinuousDtmfRecognition: API.OperationMethod<
   StopCallMediaContinuousDtmfRecognitionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<StopCallMediaContinuousDtmfRecognitionRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<StopCallMediaContinuousDtmfRecognitionResponse>,
+  input: __S(240, __c30, 0) as any as S.Schema<StopCallMediaContinuousDtmfRecognitionRequest>,
+  output: __S(272, __c34, 0) as any as S.Schema<StopCallMediaContinuousDtmfRecognitionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -1395,8 +1430,8 @@ export const StopCallMediaMediaStreaming: API.OperationMethod<
   StopCallMediaMediaStreamingError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c30, 0) as any as S.Schema<StopCallMediaMediaStreamingRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<StopCallMediaMediaStreamingResponse>,
+  input: __S(248, __c31, 0) as any as S.Schema<StopCallMediaMediaStreamingRequest>,
+  output: __S(272, __c34, 0) as any as S.Schema<StopCallMediaMediaStreamingResponse>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -1412,8 +1447,8 @@ export const StopCallMediaTranscription: API.OperationMethod<
   StopCallMediaTranscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(248, __c31, 0) as any as S.Schema<StopCallMediaTranscriptionRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<StopCallMediaTranscriptionResponse>,
+  input: __S(256, __c32, 0) as any as S.Schema<StopCallMediaTranscriptionRequest>,
+  output: __S(272, __c34, 0) as any as S.Schema<StopCallMediaTranscriptionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -1429,8 +1464,8 @@ export const StopCallRecordingRecording: API.OperationMethod<
   StopCallRecordingRecordingError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(264, __c33, 0) as any as S.Schema<StopCallRecordingRecordingRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<StopCallRecordingRecordingResponse>,
+  input: __S(280, __c35, 0) as any as S.Schema<StopCallRecordingRecordingRequest>,
+  output: __S(272, __c34, 0) as any as S.Schema<StopCallRecordingRecordingResponse>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -1446,8 +1481,8 @@ export const TerminateCallConnectionCall: API.OperationMethod<
   TerminateCallConnectionCallError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<TerminateCallConnectionCallRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<TerminateCallConnectionCallResponse>,
+  input: __S(288, __c36, 0) as any as S.Schema<TerminateCallConnectionCallRequest>,
+  output: __S(272, __c34, 0) as any as S.Schema<TerminateCallConnectionCallResponse>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -1459,12 +1494,12 @@ export type TransferCallConnectionToParticipantError = AzureOpError;
 /** Transfer the call to a participant. Transfer the call to a participant. */
 export const TransferCallConnectionToParticipant: API.OperationMethod<
   TransferCallConnectionToParticipantRequest,
-  TransferCallConnectionToParticipantResponse,
+  TransferCallResponse,
   TransferCallConnectionToParticipantError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(280, __c35, 0) as any as S.Schema<TransferCallConnectionToParticipantRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<TransferCallConnectionToParticipantResponse>,
+  input: __S(296, __c37, 0) as any as S.Schema<TransferCallConnectionToParticipantRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<TransferCallResponse>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -1480,8 +1515,8 @@ export const UpdateCallMediaTranscription: API.OperationMethod<
   UpdateCallMediaTranscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c36, 0) as any as S.Schema<UpdateCallMediaTranscriptionRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<UpdateCallMediaTranscriptionResponse>,
+  input: __S(304, __c38, 0) as any as S.Schema<UpdateCallMediaTranscriptionRequest>,
+  output: __S(272, __c34, 0) as any as S.Schema<UpdateCallMediaTranscriptionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -1517,6 +1552,14 @@ function __c0(j: number): any {
           }),
         ),
       ).annotate({ identifier: "AddCallConnectionParticipantRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          participant: S.optional(__S(16, __c2, 0)),
+          operationContext: S.optional(S.String),
+          invitationId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AddParticipantResponse" });
   }
 }
 function __c1(j: number): any {
@@ -1576,9 +1619,13 @@ function __c1(j: number): any {
 function __c2(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({})).annotate({
-        identifier: "AddCallConnectionParticipantResponse",
-      });
+      return S.suspend(() =>
+        S.Struct({
+          identifier: S.optional(__S(13, __c1, 5)),
+          isMuted: S.optional(S.Boolean),
+          isOnHold: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "CallParticipant" });
   }
 }
 function __c3(j: number): any {
@@ -1822,18 +1869,6 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          identifier: S.optional(__S(13, __c1, 5)),
-          isMuted: S.optional(S.Boolean),
-          isOnHold: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "CallParticipant" });
-  }
-}
-function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           endpoint: S.String.pipe(T.HostLabel()),
           callConnectionId: S.String.pipe(T.Label()),
           nextLink: S.optional(S.String),
@@ -1850,14 +1885,18 @@ function __c13(j: number): any {
         ),
       ).annotate({ identifier: "GetCallConnectionParticipantsRequest" });
     case 1:
-      return S.Array(__S(96, __c12, 0));
-    case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(105, __c13, 1),
+          value: __S(104, __c13, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetParticipantsResponse" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(16, __c2, 0));
   }
 }
 function __c14(j: number): any {
@@ -1916,6 +1955,14 @@ function __c16(j: number): any {
           }),
         ),
       ).annotate({ identifier: "MoveCallConnectionParticipantsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          participants: S.optional(__S(104, __c13, 0)),
+          operationContext: S.optional(S.String),
+          fromCall: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MoveParticipantsResponse" });
   }
 }
 function __c17(j: number): any {
@@ -1940,7 +1987,11 @@ function __c17(j: number): any {
           }),
         ),
       ).annotate({ identifier: "MuteCallConnectionRequest" });
-    case 1:
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           operationContext: S.optional(S.String),
@@ -1948,7 +1999,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "MuteParticipantsResult" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1968,7 +2019,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "PauseCallRecordingRecordingRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1991,7 +2042,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "RedirectCallRequest" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2014,7 +2065,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "RejectCallRequest" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2037,9 +2088,16 @@ function __c21(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CallConnectionCancelAddParticipantRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          invitationId: S.optional(S.String),
+          operationContext: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CancelAddParticipantResponse" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2064,7 +2122,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "RemoveCallConnectionParticipantRequest" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2084,7 +2142,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "ResumeCallRecordingRecordingRequest" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2110,7 +2168,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "SendCallMediaDtmfTonesRequest" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2133,7 +2191,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "StartCallMediaContinuousDtmfRecognitionRequest" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2155,7 +2213,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "StartCallMediaMediaStreamingRequest" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2179,7 +2237,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "StartCallMediaTranscriptionRequest" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2189,7 +2247,7 @@ function __c28(j: number): any {
         }),
       ).annotate({ identifier: "ChannelAffinity" });
     case 1:
-      return S.Array(__S(224, __c28, 0));
+      return S.Array(__S(232, __c29, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -2203,16 +2261,16 @@ function __c28(j: number): any {
           endpoint: S.String.pipe(T.HostLabel()),
           repeatabilityRequestID: S.optional(S.String.pipe(T.Header("Repeatability-Request-ID"))),
           repeatabilityFirstSent: S.optional(S.String.pipe(T.Header("Repeatability-First-Sent"))),
-          callLocator: S.optional(__S(360, __c45, 0)),
+          callLocator: S.optional(__S(376, __c47, 0)),
           callConnectionId: S.optional(S.String),
           recordingStateCallbackUri: S.optional(S.String),
           recordingContentType: S.optional(S.String),
           recordingChannelType: S.optional(S.String),
           recordingFormatType: S.optional(S.String),
           audioChannelParticipantOrdering: S.optional(__S(40, __c5, 0)),
-          channelAffinity: S.optional(__S(225, __c28, 1)),
+          channelAffinity: S.optional(__S(233, __c29, 1)),
           pauseOnStart: S.optional(S.Boolean),
-          externalStorage: S.optional(__S(226, __c28, 2)),
+          externalStorage: S.optional(__S(234, __c29, 2)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2226,7 +2284,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "StartCallRecordingRecordingRequest" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2249,7 +2307,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "StopCallMediaContinuousDtmfRecognitionRequest" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2271,7 +2329,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "StopCallMediaMediaStreamingRequest" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2293,7 +2351,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "StopCallMediaTranscriptionRequest" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2313,7 +2371,15 @@ function __c32(j: number): any {
       ).annotate({ identifier: "CallConnectionHangupCallRequest" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({
+        identifier: "CallConnectionHangupCallResponse",
+      });
+  }
+}
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2333,7 +2399,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "StopCallRecordingRecordingRequest" });
   }
 }
-function __c34(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2355,7 +2421,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "TerminateCallConnectionCallRequest" });
   }
 }
-function __c35(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2383,7 +2449,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "TransferCallConnectionToParticipantRequest" });
   }
 }
-function __c36(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2407,7 +2473,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "UpdateCallMediaTranscriptionRequest" });
   }
 }
-function __c37(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2415,7 +2481,7 @@ function __c37(j: number): any {
           endpoint: S.String.pipe(T.HostLabel()),
           callConnectionId: S.String.pipe(T.Label()),
           targetParticipant: __S(13, __c1, 5),
-          playSourceInfo: S.optional(__S(307, __c38, 3)),
+          playSourceInfo: S.optional(__S(323, __c40, 3)),
           operationContext: S.optional(S.String),
           operationCallbackUri: S.optional(S.String),
         }).pipe(
@@ -2431,7 +2497,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "CallMediaHoldRequest" });
   }
 }
-function __c38(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2461,14 +2527,14 @@ function __c38(j: number): any {
         S.Struct({
           kind: S.String,
           playSourceCacheId: S.optional(S.String),
-          file: S.optional(__S(304, __c38, 0)),
-          text: S.optional(__S(305, __c38, 1)),
-          ssml: S.optional(__S(306, __c38, 2)),
+          file: S.optional(__S(320, __c40, 0)),
+          text: S.optional(__S(321, __c40, 1)),
+          ssml: S.optional(__S(322, __c40, 2)),
         }),
       ).annotate({ identifier: "PlaySource" });
   }
 }
-function __c39(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2481,10 +2547,10 @@ function __c39(j: number): any {
         S.Struct({
           endpoint: S.String.pipe(T.HostLabel()),
           callConnectionId: S.String.pipe(T.Label()),
-          playSources: __S(320, __c40, 0),
+          playSources: __S(336, __c42, 0),
           playTo: S.optional(__S(40, __c5, 0)),
           interruptCallMediaOperation: S.optional(S.Boolean),
-          playOptions: S.optional(__S(312, __c39, 0)),
+          playOptions: S.optional(__S(328, __c41, 0)),
           operationContext: S.optional(S.String),
           operationCallbackUri: S.optional(S.String),
         }).pipe(
@@ -2500,13 +2566,13 @@ function __c39(j: number): any {
       ).annotate({ identifier: "CallMediaPlayRequest" });
   }
 }
-function __c40(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(307, __c38, 3));
+      return S.Array(__S(323, __c40, 3));
   }
 }
-function __c41(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2522,12 +2588,12 @@ function __c41(j: number): any {
       return S.suspend(() =>
         S.Struct({
           label: S.String,
-          phrases: __S(329, __c41, 1),
+          phrases: __S(345, __c43, 1),
           tone: S.optional(S.String),
         }),
       ).annotate({ identifier: "Choice" });
     case 3:
-      return S.Array(__S(330, __c41, 2));
+      return S.Array(__S(346, __c43, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -2542,9 +2608,9 @@ function __c41(j: number): any {
           targetParticipant: __S(13, __c1, 5),
           speechLanguage: S.optional(S.String),
           speechRecognitionModelEndpointId: S.optional(S.String),
-          dtmfOptions: S.optional(__S(328, __c41, 0)),
-          choices: S.optional(__S(331, __c41, 3)),
-          speechOptions: S.optional(__S(332, __c41, 4)),
+          dtmfOptions: S.optional(__S(344, __c43, 0)),
+          choices: S.optional(__S(347, __c43, 3)),
+          speechOptions: S.optional(__S(348, __c43, 4)),
         }),
       ).annotate({ identifier: "RecognizeOptions" });
     case 6:
@@ -2553,10 +2619,10 @@ function __c41(j: number): any {
           endpoint: S.String.pipe(T.HostLabel()),
           callConnectionId: S.String.pipe(T.Label()),
           recognizeInputType: S.String,
-          playPrompt: S.optional(__S(307, __c38, 3)),
-          playPrompts: S.optional(__S(320, __c40, 0)),
+          playPrompt: S.optional(__S(323, __c40, 3)),
+          playPrompts: S.optional(__S(336, __c42, 0)),
           interruptCallMediaOperation: S.optional(S.Boolean),
-          recognizeOptions: __S(333, __c41, 5),
+          recognizeOptions: __S(349, __c43, 5),
           operationContext: S.optional(S.String),
           operationCallbackUri: S.optional(S.String),
         }).pipe(
@@ -2572,7 +2638,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "CallMediaRecognizeRequest" });
   }
 }
-function __c42(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2595,7 +2661,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "CallMediaUnholdRequest" });
   }
 }
-function __c43(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2615,7 +2681,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "CancelCallMediaAllMediaOperationsRequest" });
   }
 }
-function __c44(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2623,7 +2689,7 @@ function __c44(j: number): any {
           endpoint: S.String.pipe(T.HostLabel()),
           repeatabilityRequestID: S.optional(S.String.pipe(T.Header("Repeatability-Request-ID"))),
           repeatabilityFirstSent: S.optional(S.String.pipe(T.Header("Repeatability-First-Sent"))),
-          callLocator: __S(360, __c45, 0),
+          callLocator: __S(376, __c47, 0),
           callbackUri: S.String,
           operationContext: S.optional(S.String),
           callIntelligenceOptions: S.optional(__S(56, __c7, 0)),
@@ -2642,7 +2708,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "ConnectRequest" });
   }
 }
-function __c45(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

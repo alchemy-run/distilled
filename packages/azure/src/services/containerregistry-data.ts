@@ -110,11 +110,15 @@ export interface CreateContainerRegistryManifestRequest {
   name: string;
   /** A tag or a digest, pointing to a specific image */
   reference: string;
-  /** Schema version */
-  schemaVersion?: number | undefined;
+  /** The manifest document, as the exact bytes whose digest the registry stores. */
+  payload: Uint8Array;
+  /** Media type of the manifest, e.g. `application/vnd.oci.image.manifest.v1+json`. */
+  contentType: string;
 }
 export interface CreateContainerRegistryManifestResponse {
   location?: string | undefined;
+  /** Digest of the content the registry stored or returned. */
+  dockerContentDigest?: string | undefined;
 }
 export interface DeleteContainerRegistryBlobBlobRequest {
   endpoint: string;
@@ -160,7 +164,9 @@ export interface GetContainerRegistryBlobBlobRequest {
   /** Digest of a BLOB */
   digest: string;
 }
-export type GetContainerRegistryBlobBlobResponse = unknown;
+export interface GetContainerRegistryBlobBlobResponse {
+  body: Uint8Array;
+}
 export interface GetContainerRegistryBlobChunkRequest {
   endpoint: string;
   /** Name of the image (including the namespace) */
@@ -325,6 +331,8 @@ export interface GetContainerRegistryManifestResponse {
   history?: GetContainerRegistryManifestResponseHistoryList | undefined;
   /** (V1) Image signature */
   signatures?: GetContainerRegistryManifestResponseSignaturesList | undefined;
+  /** Digest of the content the registry stored or returned. */
+  dockerContentDigest?: string | undefined;
 }
 export interface GetContainerRegistryManifestPropertiesRequest {
   endpoint: string;
@@ -594,7 +602,7 @@ export interface UploadContainerRegistryBlobChunkRequest {
   endpoint: string;
   /** Link acquired from upload start or previous chunk. Note, do not include initial / (must do substring(1) ) */
   nextBlobUuidLink: string;
-  body: string;
+  body: Uint8Array;
 }
 export interface UploadContainerRegistryBlobChunkResponse {
   /** Provided location for blob */
@@ -606,11 +614,13 @@ export interface UploadContainerRegistryBlobCompleteRequest {
   nextBlobUuidLink: string;
   /** Digest of a BLOB */
   digest: string;
-  body?: string | undefined;
+  body?: Uint8Array | undefined;
 }
 export interface UploadContainerRegistryBlobCompleteResponse {
   /** Provided location for blob */
   location?: string | undefined;
+  /** Digest of the content the registry stored or returned. */
+  dockerContentDigest?: string | undefined;
 }
 export type AuthenticationExchangeAadAccessTokenForAcrRefreshTokenError = AzureOpError;
 /** Exchange AAD tokens for an ACR refresh Token */
@@ -782,7 +792,7 @@ export const CreateContainerRegistryManifest: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<CreateContainerRegistryManifestRequest>,
-  output: __S(576, __c36, 0) as any as S.Schema<CreateContainerRegistryManifestResponse>,
+  output: __S(624, __c39, 0) as any as S.Schema<CreateContainerRegistryManifestResponse>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -1112,7 +1122,7 @@ export const UploadContainerRegistryBlobComplete: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<UploadContainerRegistryBlobCompleteRequest>,
-  output: __S(576, __c36, 0) as any as S.Schema<UploadContainerRegistryBlobCompleteResponse>,
+  output: __S(624, __c39, 0) as any as S.Schema<UploadContainerRegistryBlobCompleteResponse>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -1305,9 +1315,11 @@ function __c8(j: number): any {
         ),
       ).annotate({ identifier: "GetContainerRegistryBlobBlobRequest" });
     case 1:
-      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetContainerRegistryBlobBlobResponse",
-      });
+      return S.suspend(() =>
+        S.Struct({
+          body: S.instanceOf(Uint8Array).pipe(T.HttpBody()),
+        }),
+      ).annotate({ identifier: "GetContainerRegistryBlobBlobResponse" });
   }
 }
 function __c9(j: number): any {
@@ -1349,6 +1361,8 @@ function __c10(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2021-07-01",
+            accept:
+              "application/vnd.oci.image.manifest.v1+json, application/vnd.oci.image.index.v1+json, application/vnd.docker.distribution.manifest.v2+json, application/vnd.docker.distribution.manifest.list.v2+json",
             audience: "https://containerregistry.azure.net/.default",
           }),
         ),
@@ -1489,6 +1503,7 @@ function __c10(j: number): any {
           fsLayers: S.optional(__S(168, __c10, 8)),
           history: S.optional(__S(170, __c10, 10)),
           signatures: S.optional(__S(174, __c10, 14)),
+          dockerContentDigest: S.optional(S.String.pipe(T.Header("Docker-Content-Digest"))),
         }),
       ).annotate({ identifier: "GetContainerRegistryManifestResponse" });
   }
@@ -1877,7 +1892,7 @@ function __c29(j: number): any {
         S.Struct({
           endpoint: S.String.pipe(T.HostLabel()),
           nextBlobUuidLink: S.String.pipe(T.Label()),
-          body: S.String.pipe(T.HttpBody()),
+          body: S.instanceOf(Uint8Array).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1886,6 +1901,7 @@ function __c29(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2021-07-01",
+            bodyMediaType: "application/octet-stream",
             audience: "https://containerregistry.azure.net/.default",
           }),
         ),
@@ -1900,7 +1916,7 @@ function __c30(j: number): any {
           endpoint: S.String.pipe(T.HostLabel()),
           nextBlobUuidLink: S.String.pipe(T.Label()),
           digest: S.String.pipe(T.Query()),
-          body: S.optional(S.String.pipe(T.HttpBody())),
+          body: S.optional(S.instanceOf(Uint8Array).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -1909,6 +1925,7 @@ function __c30(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2021-07-01",
+            bodyMediaType: "application/octet-stream",
             audience: "https://containerregistry.azure.net/.default",
           }),
         ),
@@ -2017,6 +2034,7 @@ function __c35(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2021-07-01",
+            emptyBody: true,
             audience: "https://containerregistry.azure.net/.default",
           }),
         ),
@@ -2048,6 +2066,7 @@ function __c37(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2021-07-01",
+            emptyBody: true,
             audience: "https://containerregistry.azure.net/.default",
           }),
         ),
@@ -2062,7 +2081,8 @@ function __c38(j: number): any {
           endpoint: S.String.pipe(T.HostLabel()),
           name: S.String.pipe(T.Label()),
           reference: S.String.pipe(T.Label()),
-          schemaVersion: S.optional(S.Number),
+          payload: S.instanceOf(Uint8Array).pipe(T.HttpBody()),
+          contentType: S.String.pipe(T.Header("Content-Type")),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -2075,6 +2095,17 @@ function __c38(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CreateContainerRegistryManifestRequest" });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(S.String.pipe(T.Header("Location"))),
+          dockerContentDigest: S.optional(S.String.pipe(T.Header("Docker-Content-Digest"))),
+        }),
+      ).annotate({ identifier: "CreateContainerRegistryManifestResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

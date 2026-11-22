@@ -231,18 +231,6 @@ export interface FullBackupRequest {
   /** Indicates which authentication method should be used. If set to true, Managed HSM will use the configured user-assigned managed identity to authenticate with Azure Storage. Otherwise, a SAS token has to be specified. */
   useManagedIdentity?: boolean | undefined;
 }
-export interface FullBackupResponse {
-  /** The URI to poll for completion status. */
-  azureAsyncOperation?: string | undefined;
-  /** The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation. */
-  retryAfter?: number | undefined;
-}
-export interface FullBackupStatusRequest {
-  /** The base URL of the Key Vault instance (e.g. https://myvault.vault.azure.net/) */
-  vaultBaseUrl: string;
-  /** The id returned as part of the backup request */
-  jobId: string;
-}
 /** The status of a long-running operation. */
 export type OperationStatus = "InProgress" | "Succeeded" | "Canceled" | "Failed";
 export interface Error {
@@ -252,6 +240,32 @@ export interface Error {
   message?: string | undefined;
   /** The key vault server error. */
   innererror?: Error | undefined;
+}
+export interface FullBackupResponse {
+  /** The URI to poll for completion status. */
+  azureAsyncOperation?: string | undefined;
+  /** The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation. */
+  retryAfter?: number | undefined;
+  /** Status of the operation. */
+  status?: OperationStatus | undefined;
+  /** The status details of the operation. */
+  statusDetails?: string | undefined;
+  /** Error encountered, if any, during the operation. */
+  error?: Error | null | undefined;
+  /** The start time of the operation in UTC */
+  startTime?: number | undefined;
+  /** The end time of the operation in UTC */
+  endTime?: number | null | undefined;
+  /** Identifier for the operation. */
+  jobId?: string | undefined;
+  /** The Azure blob storage container Uri which contains the full backup */
+  azureStorageBlobContainerUri?: string | undefined;
+}
+export interface FullBackupStatusRequest {
+  /** The base URL of the Key Vault instance (e.g. https://myvault.vault.azure.net/) */
+  vaultBaseUrl: string;
+  /** The id returned as part of the backup request */
+  jobId: string;
 }
 /** Full backup operation */
 export interface FullBackupOperation {
@@ -292,6 +306,18 @@ export interface FullRestoreOperationResponse {
   azureAsyncOperation?: string | undefined;
   /** The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation. */
   retryAfter?: number | undefined;
+  /** Status of the operation. */
+  status?: OperationStatus | undefined;
+  /** The status details of the operation. */
+  statusDetails?: string | undefined;
+  /** Error encountered, if any, during the operation. */
+  error?: Error | null | undefined;
+  /** The start time of the operation in UTC */
+  startTime?: number | undefined;
+  /** The end time of the operation in UTC */
+  endTime?: number | null | undefined;
+  /** Identifier for the operation. */
+  jobId?: string | undefined;
 }
 export interface GetEkmCertificateRequest {
   /** The base URL of the Key Vault instance (e.g. https://myvault.vault.azure.net/) */
@@ -407,6 +433,20 @@ export interface PreFullBackupResponse {
   azureAsyncOperation?: string | undefined;
   /** The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation. */
   retryAfter?: number | undefined;
+  /** Status of the operation. */
+  status?: OperationStatus | undefined;
+  /** The status details of the operation. */
+  statusDetails?: string | undefined;
+  /** Error encountered, if any, during the operation. */
+  error?: Error | null | undefined;
+  /** The start time of the operation in UTC */
+  startTime?: number | undefined;
+  /** The end time of the operation in UTC */
+  endTime?: number | null | undefined;
+  /** Identifier for the operation. */
+  jobId?: string | undefined;
+  /** The Azure blob storage container Uri which contains the full backup */
+  azureStorageBlobContainerUri?: string | undefined;
 }
 export interface PreFullRestoreOperationRequest {
   /** The base URL of the Key Vault instance (e.g. https://myvault.vault.azure.net/) */
@@ -421,6 +461,18 @@ export interface PreFullRestoreOperationResponse {
   azureAsyncOperation?: string | undefined;
   /** The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation. */
   retryAfter?: number | undefined;
+  /** Status of the operation. */
+  status?: OperationStatus | undefined;
+  /** The status details of the operation. */
+  statusDetails?: string | undefined;
+  /** Error encountered, if any, during the operation. */
+  error?: Error | null | undefined;
+  /** The start time of the operation in UTC */
+  startTime?: number | undefined;
+  /** The end time of the operation in UTC */
+  endTime?: number | null | undefined;
+  /** Identifier for the operation. */
+  jobId?: string | undefined;
 }
 export interface RestoreStatusRequest {
   /** The base URL of the Key Vault instance (e.g. https://myvault.vault.azure.net/) */
@@ -468,6 +520,18 @@ export interface SelectiveKeyRestoreOperationResponse {
   azureAsyncOperation?: string | undefined;
   /** The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation. */
   retryAfter?: number | undefined;
+  /** Status of the operation. */
+  status?: OperationStatus | undefined;
+  /** The status details of the operation. */
+  statusDetails?: string | undefined;
+  /** Error encountered, if any, during the operation. */
+  error?: Error | null | undefined;
+  /** The start time of the operation in UTC */
+  startTime?: number | undefined;
+  /** The end time of the operation in UTC */
+  endTime?: number | null | undefined;
+  /** Identifier for the operation. */
+  jobId?: string | undefined;
 }
 export interface SelectiveKeyRestoreStatusRequest {
   /** The base URL of the Key Vault instance (e.g. https://myvault.vault.azure.net/) */
@@ -648,8 +712,8 @@ export const FullBackupStatus: API.OperationMethod<
   FullBackupStatusError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<FullBackupStatusRequest>,
-  output: __S(233, __c29, 1) as any as S.Schema<FullBackupOperation>,
+  input: __S(240, __c30, 0) as any as S.Schema<FullBackupStatusRequest>,
+  output: __S(241, __c30, 1) as any as S.Schema<FullBackupOperation>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -666,7 +730,7 @@ export const FullRestoreOperation: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(248, __c31, 0) as any as S.Schema<FullRestoreOperationRequest>,
-  output: __S(224, __c28, 0) as any as S.Schema<FullRestoreOperationResponse>,
+  output: __S(257, __c32, 1) as any as S.Schema<FullRestoreOperationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -862,7 +926,7 @@ export const PreFullRestoreOperation: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(104, __c13, 0) as any as S.Schema<PreFullRestoreOperationRequest>,
-  output: __S(224, __c28, 0) as any as S.Schema<PreFullRestoreOperationResponse>,
+  output: __S(257, __c32, 1) as any as S.Schema<PreFullRestoreOperationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -916,7 +980,7 @@ export const SelectiveKeyRestoreOperation: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(152, __c19, 0) as any as S.Schema<SelectiveKeyRestoreOperationRequest>,
-  output: __S(224, __c28, 0) as any as S.Schema<SelectiveKeyRestoreOperationResponse>,
+  output: __S(257, __c32, 1) as any as S.Schema<SelectiveKeyRestoreOperationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
@@ -1253,7 +1317,7 @@ function __c12(j: number): any {
           T.Http({
             method: "POST",
             uri: "/prebackup",
-            code: 200,
+            code: 202,
             host: "{vaultBaseUrl}",
             hostRaw: ["vaultBaseUrl"],
             apiVersion: "2026-04-01",
@@ -1275,7 +1339,7 @@ function __c13(j: number): any {
           T.Http({
             method: "PUT",
             uri: "/prerestore",
-            code: 200,
+            code: 202,
             host: "{vaultBaseUrl}",
             hostRaw: ["vaultBaseUrl"],
             apiVersion: "2026-04-01",
@@ -1313,7 +1377,7 @@ function __c15(j: number): any {
         S.Struct({
           status: S.optional(S.String),
           statusDetails: S.optional(S.String),
-          error: S.optional(S.NullOr(__S(240, __c30, 0))),
+          error: S.optional(S.NullOr(__S(232, __c29, 0))),
           jobId: S.optional(S.String),
           startTime: S.optional(S.Number),
           endTime: S.optional(S.NullOr(S.Number)),
@@ -1408,7 +1472,7 @@ function __c19(j: number): any {
           T.Http({
             method: "PUT",
             uri: "/keys/{keyName}/restore",
-            code: 200,
+            code: 202,
             host: "{vaultBaseUrl}",
             hostRaw: ["vaultBaseUrl"],
             apiVersion: "2026-04-01",
@@ -1598,7 +1662,7 @@ function __c27(j: number): any {
           T.Http({
             method: "POST",
             uri: "/backup",
-            code: 200,
+            code: 202,
             host: "{vaultBaseUrl}",
             hostRaw: ["vaultBaseUrl"],
             apiVersion: "2026-04-01",
@@ -1615,11 +1679,30 @@ function __c28(j: number): any {
         S.Struct({
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+          status: S.optional(S.String),
+          statusDetails: S.optional(S.String),
+          error: S.optional(S.NullOr(__S(232, __c29, 0))),
+          startTime: S.optional(S.Number),
+          endTime: S.optional(S.NullOr(S.Number)),
+          jobId: S.optional(S.String),
+          azureStorageBlobContainerUri: S.optional(S.String),
         }),
       ).annotate({ identifier: "FullBackupResponse" });
   }
 }
 function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          message: S.optional(S.String),
+          innererror: S.optional(__S(232, __c29, 0)),
+        }),
+      ).annotate({ identifier: "Error" });
+  }
+}
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1643,25 +1726,13 @@ function __c29(j: number): any {
         S.Struct({
           status: S.optional(S.String),
           statusDetails: S.optional(S.String),
-          error: S.optional(S.NullOr(__S(240, __c30, 0))),
+          error: S.optional(S.NullOr(__S(232, __c29, 0))),
           startTime: S.optional(S.Number),
           endTime: S.optional(S.NullOr(S.Number)),
           jobId: S.optional(S.String),
           azureStorageBlobContainerUri: S.optional(S.String),
         }),
       ).annotate({ identifier: "FullBackupOperation" });
-  }
-}
-function __c30(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          code: S.optional(S.String),
-          message: S.optional(S.String),
-          innererror: S.optional(__S(240, __c30, 0)),
-        }),
-      ).annotate({ identifier: "Error" });
   }
 }
 function __c31(j: number): any {
@@ -1676,7 +1747,7 @@ function __c31(j: number): any {
           T.Http({
             method: "PUT",
             uri: "/restore",
-            code: 200,
+            code: 202,
             host: "{vaultBaseUrl}",
             hostRaw: ["vaultBaseUrl"],
             apiVersion: "2026-04-01",
@@ -1696,6 +1767,19 @@ function __c32(j: number): any {
           useManagedIdentity: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "SASTokenParameter" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+          status: S.optional(S.String),
+          statusDetails: S.optional(S.String),
+          error: S.optional(S.NullOr(__S(232, __c29, 0))),
+          startTime: S.optional(S.Number),
+          endTime: S.optional(S.NullOr(S.Number)),
+          jobId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FullRestoreOperationResponse" });
   }
 }
 function __c33(j: number): any {

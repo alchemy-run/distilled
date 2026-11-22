@@ -2813,8 +2813,8 @@ export type ObjectReplicationMetadata = { [key: string]: string | undefined };
 /** An Azure Storage blob */
 export interface BlobItemInternal {
   Name: BlobName;
-  Deleted: boolean;
-  Snapshot: string;
+  Deleted?: boolean | undefined;
+  Snapshot?: string | undefined;
   VersionId?: string | undefined;
   IsCurrentVersion?: boolean | undefined;
   Properties: BlobPropertiesInternal;
@@ -7786,8 +7786,8 @@ function __c52(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Name: __S(832, __c52, 0),
-          Deleted: S.Boolean,
-          Snapshot: S.String,
+          Deleted: S.optional(S.Boolean),
+          Snapshot: S.optional(S.String),
           VersionId: S.optional(S.String),
           IsCurrentVersion: S.optional(S.Boolean),
           Properties: __S(833, __c52, 1),

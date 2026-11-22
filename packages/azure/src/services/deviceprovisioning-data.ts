@@ -1048,7 +1048,7 @@ function __c0(j: number): any {
             uri: "/registrations/{id}",
             code: 200,
             host: "https://{dpsName}.azure-devices-provisioning.net",
-            apiVersion: "2026-11-01",
+            apiVersion: "2021-10-01",
           }),
         ),
       ).annotate({ identifier: "DeleteDeviceRegistrationStateRequest" });
@@ -1076,7 +1076,7 @@ function __c2(j: number): any {
             uri: "/enrollmentGroups/{id}",
             code: 200,
             host: "https://{dpsName}.azure-devices-provisioning.net",
-            apiVersion: "2026-11-01",
+            apiVersion: "2021-10-01",
           }),
         ),
       ).annotate({ identifier: "DeleteEnrollmentGroupRequest" });
@@ -1095,7 +1095,7 @@ function __c3(j: number): any {
             uri: "/enrollments/{id}",
             code: 200,
             host: "https://{dpsName}.azure-devices-provisioning.net",
-            apiVersion: "2026-11-01",
+            apiVersion: "2021-10-01",
           }),
         ),
       ).annotate({ identifier: "GetIndividualEnrollmentRequest" });
@@ -1142,7 +1142,7 @@ function __c5(j: number): any {
             uri: "/enrollments/{id}/attestationmechanism",
             code: 200,
             host: "https://{dpsName}.azure-devices-provisioning.net",
-            apiVersion: "2026-11-01",
+            apiVersion: "2021-10-01",
           }),
         ),
       ).annotate({ identifier: "GetIndividualEnrollmentAttestationMechanismRequest" });
@@ -1178,7 +1178,7 @@ function __c6(j: number): any {
             uri: "/enrollments/{id}",
             code: 200,
             host: "https://{dpsName}.azure-devices-provisioning.net",
-            apiVersion: "2026-11-01",
+            apiVersion: "2021-10-01",
           }),
         ),
       ).annotate({ identifier: "IndividualEnrollmentCreateOrUpdateRequest" });
@@ -1199,7 +1199,7 @@ function __c7(j: number): any {
             uri: "/enrollments/query",
             code: 200,
             host: "https://{dpsName}.azure-devices-provisioning.net",
-            apiVersion: "2026-11-01",
+            apiVersion: "2021-10-01",
           }),
         ),
       ).annotate({ identifier: "IndividualEnrollmentQueryRequest" });
@@ -1248,7 +1248,7 @@ function __c8(j: number): any {
             uri: "/enrollments",
             code: 200,
             host: "https://{dpsName}.azure-devices-provisioning.net",
-            apiVersion: "2026-11-01",
+            apiVersion: "2021-10-01",
           }),
         ),
       ).annotate({ identifier: "IndividualEnrollmentRunBulkOperationRequest" });
@@ -1407,7 +1407,7 @@ function __c14(j: number): any {
             uri: "/enrollments/{id}",
             code: 200,
             host: "https://{dpsName}.azure-devices-provisioning.net",
-            apiVersion: "2026-11-01",
+            apiVersion: "2021-10-01",
           }),
         ),
       ).annotate({ identifier: "DeleteIndividualEnrollmentRequest" });
@@ -1428,7 +1428,7 @@ function __c15(j: number): any {
             uri: "/registrations/{id}/query",
             code: 200,
             host: "https://{dpsName}.azure-devices-provisioning.net",
-            apiVersion: "2026-11-01",
+            apiVersion: "2021-10-01",
           }),
         ),
       ).annotate({ identifier: "DeviceRegistrationStateQueryRequest" });
@@ -1494,7 +1494,7 @@ function __c18(j: number): any {
             uri: "/enrollmentGroups/{id}",
             code: 200,
             host: "https://{dpsName}.azure-devices-provisioning.net",
-            apiVersion: "2026-11-01",
+            apiVersion: "2021-10-01",
           }),
         ),
       ).annotate({ identifier: "EnrollmentGroupCreateOrUpdateRequest" });
@@ -1678,7 +1678,7 @@ function __c25(j: number): any {
             uri: "/enrollmentGroups/query",
             code: 200,
             host: "https://{dpsName}.azure-devices-provisioning.net",
-            apiVersion: "2026-11-01",
+            apiVersion: "2021-10-01",
           }),
         ),
       ).annotate({ identifier: "EnrollmentGroupQueryRequest" });
@@ -1725,7 +1725,7 @@ function __c26(j: number): any {
             uri: "/enrollmentGroups",
             code: 200,
             host: "https://{dpsName}.azure-devices-provisioning.net",
-            apiVersion: "2026-11-01",
+            apiVersion: "2021-10-01",
           }),
         ),
       ).annotate({ identifier: "EnrollmentGroupRunBulkOperationRequest" });
@@ -1761,7 +1761,7 @@ function __c27(j: number): any {
             uri: "/registrations/{id}",
             code: 200,
             host: "https://{dpsName}.azure-devices-provisioning.net",
-            apiVersion: "2026-11-01",
+            apiVersion: "2021-10-01",
           }),
         ),
       ).annotate({ identifier: "GetDeviceRegistrationStateRequest" });
@@ -1780,7 +1780,7 @@ function __c28(j: number): any {
             uri: "/enrollmentGroups/{id}",
             code: 200,
             host: "https://{dpsName}.azure-devices-provisioning.net",
-            apiVersion: "2026-11-01",
+            apiVersion: "2021-10-01",
           }),
         ),
       ).annotate({ identifier: "GetEnrollmentGroupRequest" });
@@ -1799,7 +1799,7 @@ function __c29(j: number): any {
             uri: "/enrollmentGroups/{id}/attestationmechanism",
             code: 200,
             host: "https://{dpsName}.azure-devices-provisioning.net",
-            apiVersion: "2026-11-01",
+            apiVersion: "2021-10-01",
           }),
         ),
       ).annotate({ identifier: "GetEnrollmentGroupAttestationMechanismRequest" });
