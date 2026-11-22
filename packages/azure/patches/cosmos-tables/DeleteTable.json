@@ -1,0 +1,17 @@
+{
+  "description": "Attach the observed Table service errors to DeleteTable.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cosmos_tables#TableDelete/errors",
+      "value": [
+        {
+          "target": "com.azure.cosmos_tables#TableNotFound"
+        },
+        {
+          "target": "com.azure.cosmos_tables#TablePermissionDenied"
+        }
+      ]
+    }
+  ]
+}

@@ -433,6 +433,85 @@ describe("Storage responses", () => {
   });
 });
 
+describe("Storage errors", () => {
+  const xmlError = (code: string, status: number): Canned => ({
+    status,
+    headers: { "Content-Type": "application/xml", "x-ms-error-code": code },
+    body:
+      `<?xml version="1.0" encoding="utf-8"?><Error><Code>${code}</Code>` +
+      `<Message>${code} happened.\nRequestId:r-1</Message></Error>`,
+  });
+
+  test.each([
+    ["BlobNotFound", 404],
+    ["ContainerNotFound", 404],
+    ["BlobAlreadyExists", 409],
+    ["ContainerBeingDeleted", 409],
+    ["ConditionNotMet", 412],
+    ["AuthorizationPermissionMismatch", 403],
+    ["AuthenticationFailed", 403],
+  ])("an XML %s body is typed", async (code, status) => {
+    const { exit } = await run(
+      blob.DownloadBlob({ url: BLOB, containerName: "c", blob: "b" }),
+      xmlError(code, status),
+    );
+    const expected: Record<string, string> = {
+      ContainerBeingDeleted: "StorageBeingDeleted",
+      ConditionNotMet: "PreconditionFailed",
+      AuthorizationPermissionMismatch: "SchemaRegistryStorageAccessDenied",
+      AuthenticationFailed: "StorageAuthenticationFailed",
+    };
+    expect(failureTag(exit)).toBe(expected[code] ?? code);
+  });
+
+  test("the message of an XML error is kept", async () => {
+    const { exit } = await run(
+      queue.DeleteMessageId({ url: QUEUE, queueName: "q", messageid: "m", popreceipt: "p" }),
+      xmlError("MessageNotFound", 404),
+    );
+    expect(failureTag(exit)).toBe("MessageNotFound");
+    if (Exit.isFailure(exit)) {
+      const reason = exit.cause.reasons.find((r) => r._tag === "Fail") as unknown as {
+        error: { message?: string; headers?: Record<string, string> };
+      };
+      expect(reason.error.message).toBe("MessageNotFound happened.\nRequestId:r-1");
+      expect(reason.error.headers?.["x-ms-error-code"]).toBe("MessageNotFound");
+    }
+  });
+
+  test("a HEAD failure is typed from x-ms-error-code", async () => {
+    const { exit } = await run(blob.GetContainerProperties({ url: BLOB, containerName: "gone" }), {
+      status: 404,
+      headers: { "x-ms-error-code": "ContainerNotFound" },
+    });
+    expect(failureTag(exit)).toBe("ContainerNotFound");
+  });
+
+  test("a Data Lake JSON error is typed", async () => {
+    const { exit } = await run(datalake.ReadPath({ url: DFS, filesystem: "lake", path: "x" }), {
+      status: 404,
+      headers: { "Content-Type": "application/json", "x-ms-error-code": "PathNotFound" },
+      body: JSON.stringify({
+        error: { code: "PathNotFound", message: "The specified path does not exist." },
+      }),
+    });
+    expect(failureTag(exit)).toBe("PathNotFound");
+  });
+
+  test("File and Queue not-found codes are typed", async () => {
+    const share = await run(file.GetShareProperties({ url: FILE, shareName: "gone" }), {
+      status: 404,
+      headers: { "x-ms-error-code": "ShareNotFound" },
+    });
+    expect(failureTag(share.exit)).toBe("ShareNotFound");
+    const q = await run(queue.GetQueueProperties({ url: QUEUE, queueName: "gone" }), {
+      status: 404,
+      headers: { "x-ms-error-code": "QueueNotFound" },
+    });
+    expect(failureTag(q.exit)).toBe("QueueNotFound");
+  });
+});
+
 describe("SAS URLs", () => {
   test("an account SAS on the url authenticates by itself", async () => {
     const { request, exit } = await run(
