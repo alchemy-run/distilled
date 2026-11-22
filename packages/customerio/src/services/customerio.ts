@@ -4625,7 +4625,7 @@ export interface GetBroadcastActionLanguageRequest {
   /** The action you want to lookup or act on. */
   action_id: number;
   /** A [language tag](/journeys/channels/subscriptions/unsubscribe-faqs/#currently-supported-languages) of a language variant. If you don't provide a language (an empty string), we'll use your default language. If the language variant does not exist, we'll return an error. */
-  language: string;
+  language?: string | undefined;
 }
 /** If CSS pre-processing is enabled, this key is populated with `premailer`. Note, Juice replaced Premailer as the pre-processor, but you will only see `premailer` as the value. */
 export type GetBroadcastActionLanguageResponseActionCase0Preprocessor = "premailer";
@@ -5033,7 +5033,7 @@ export interface GetCampaignActionTranslationRequest {
   /** The action you want to lookup or act on. */
   action_id: number;
   /** A [language tag](/journeys/channels/subscriptions/unsubscribe-faqs/#currently-supported-languages) of a language variant. If you don't provide a language (an empty string), we'll use your default language. If the language variant does not exist, we'll return an error. */
-  language: string;
+  language?: string | undefined;
 }
 /** If CSS pre-processing is enabled, this key is populated with `premailer`. Note, Juice replaced Premailer as the pre-processor, but you will only see `premailer` as the value. */
 export type GetCampaignActionTranslationResponseActionCase0Preprocessor = "premailer";
@@ -6717,7 +6717,7 @@ export interface GetNewsletterVariantTranslationRequest {
   /** The identifier of a one-time send. */
   newsletter_id: number;
   /** A [language tag](/journeys/channels/subscriptions/unsubscribe-faqs/#currently-supported-languages) of a language variant. If you don't provide a language (an empty string), we'll use your default language. If the language variant does not exist, we'll return an error. */
-  language: string;
+  language?: string | undefined;
 }
 /** If CSS pre-processing is enabled, this key is populated with `premailer`. Note, Juice replaced Premailer as the pre-processor, but you will only see `premailer` as the value. */
 export type GetNewsletterVariantTranslationResponseContentPreprocessor = "premailer";
@@ -6782,7 +6782,7 @@ export interface GetNewsletterVariantTranslationTestRequest {
   /** The ID of the A/B test group. */
   test_group_id: string;
   /** A [language tag](/journeys/channels/subscriptions/unsubscribe-faqs/#currently-supported-languages) of a language variant. If you don't provide a language (an empty string), we'll use your default language. If the language variant does not exist, we'll return an error. */
-  language: string;
+  language?: string | undefined;
 }
 /** If CSS pre-processing is enabled, this key is populated with `premailer`. Note, Juice replaced Premailer as the pre-processor, but you will only see `premailer` as the value. */
 export type GetNewsletterVariantTranslationTestResponseContentPreprocessor = "premailer";
@@ -9046,7 +9046,7 @@ export interface GetTransactionalVariantRequest {
   /** The identifier of your transactional message. You'll find this in the UI or URL of your transactional message. For example, if this is the path of a transactional message URL - `/transactional/3/templates/139` - the `transactional_id` is 3. */
   transactional_id: number;
   /** A [language tag](/journeys/channels/subscriptions/unsubscribe-faqs/#currently-supported-languages) of a language variant. If you don't provide a language (an empty string), we'll use your default language. If the language variant does not exist, we'll return an error. */
-  language: string;
+  language?: string | undefined;
 }
 /** If CSS pre-processing is enabled, this key is populated with `premailer`. Note, Juice replaced Premailer as the pre-processor, but you will only see `premailer` as the value. */
 export type GetTransactionalVariantResponseContentItemPreprocessor = "premailer";
@@ -21285,7 +21285,7 @@ export interface UpdateBroadcastActionLanguageRequest {
   /** The action you want to lookup or act on. */
   action_id: number;
   /** A [language tag](/journeys/channels/subscriptions/unsubscribe-faqs/#currently-supported-languages) of a language variant. If you don't provide a language (an empty string), we'll use your default language. If the language variant does not exist, we'll return an error. */
-  language: string;
+  language?: string | undefined;
   body?: UpdateBroadcastActionLanguageRequestBody | undefined;
 }
 /** If CSS pre-processing is enabled, this key is populated with `premailer`. Note, Juice replaced Premailer as the pre-processor, but you will only see `premailer` as the value. */
@@ -21907,7 +21907,7 @@ export interface UpdateCampaignActionTranslationRequest {
   /** The action you want to lookup or act on. */
   action_id: number;
   /** A [language tag](/journeys/channels/subscriptions/unsubscribe-faqs/#currently-supported-languages) of a language variant. If you don't provide a language (an empty string), we'll use your default language. If the language variant does not exist, we'll return an error. */
-  language: string;
+  language?: string | undefined;
   body?: UpdateCampaignActionTranslationRequestBody | undefined;
 }
 /** If CSS pre-processing is enabled, this key is populated with `premailer`. Note, Juice replaced Premailer as the pre-processor, but you will only see `premailer` as the value. */
@@ -22327,7 +22327,7 @@ export interface UpdateNewsletterTestTranslationRequest {
   /** The ID of the A/B test group. */
   test_group_id: string;
   /** A [language tag](/journeys/channels/subscriptions/unsubscribe-faqs/#currently-supported-languages) of a language variant. If you don't provide a language (an empty string), we'll use your default language. If the language variant does not exist, we'll return an error. */
-  language: string;
+  language?: string | undefined;
   body?: UpdateNewsletterTestTranslationRequestBody | undefined;
 }
 /** If CSS pre-processing is enabled, this key is populated with `premailer`. Note, Juice replaced Premailer as the pre-processor, but you will only see `premailer` as the value. */
@@ -22523,7 +22523,7 @@ export interface UpdateNewsletterVariantTranslationRequest {
   /** The identifier of a one-time send. */
   newsletter_id: number;
   /** A [language tag](/journeys/channels/subscriptions/unsubscribe-faqs/#currently-supported-languages) of a language variant. If you don't provide a language (an empty string), we'll use your default language. If the language variant does not exist, we'll return an error. */
-  language: string;
+  language?: string | undefined;
   body?: UpdateNewsletterVariantTranslationRequestBody | undefined;
 }
 /** If CSS pre-processing is enabled, this key is populated with `premailer`. Note, Juice replaced Premailer as the pre-processor, but you will only see `premailer` as the value. */
@@ -22705,7 +22705,7 @@ export interface UpdateTransactionalVariantRequest {
   /** The identifier of your transactional message. You'll find this in the UI or URL of your transactional message. For example, if this is the path of a transactional message URL - `/transactional/3/templates/139` - the `transactional_id` is 3. */
   transactional_id: number;
   /** A [language tag](/journeys/channels/subscriptions/unsubscribe-faqs/#currently-supported-languages) of a language variant. If you don't provide a language (an empty string), we'll use your default language. If the language variant does not exist, we'll return an error. */
-  language: string;
+  language?: string | undefined;
   /** The body of the transactional message. You cannot modify the body if you created it with our drag-and-drop editor. */
   body?: string | undefined;
   /** AMP-enabled content for your email. If a recipient's email client doesn't support AMP, they receive your `body` content instead. Make sure you're [set up to send AMP](/journeys/channels/email/layouts/amp-for-email/) first. */
@@ -26419,7 +26419,7 @@ function __c16(j: number): any {
       return S.suspend(() =>
         S.Struct({
           transactional_id: S.Number.pipe(T.Label()),
-          language: S.String.pipe(T.Label()),
+          language: S.optional(S.String.pipe(T.Label())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -27677,7 +27677,7 @@ function __c76(j: number): any {
         S.Struct({
           broadcast_id: S.Number.pipe(T.Label()),
           action_id: S.Number.pipe(T.Label()),
-          language: S.String.pipe(T.Label()),
+          language: S.optional(S.String.pipe(T.Label())),
           body: S.optional(S.Unknown.pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -27726,7 +27726,7 @@ function __c78(j: number): any {
         S.Struct({
           campaign_id: S.Number.pipe(T.Label()),
           action_id: S.Number.pipe(T.Label()),
-          language: S.String.pipe(T.Label()),
+          language: S.optional(S.String.pipe(T.Label())),
           body: S.optional(S.Unknown.pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -27803,7 +27803,7 @@ function __c83(j: number): any {
         S.Struct({
           newsletter_id: S.Number.pipe(T.Label()),
           test_group_id: S.String.pipe(T.Label()),
-          language: S.String.pipe(T.Label()),
+          language: S.optional(S.String.pipe(T.Label())),
           body: S.optional(S.Unknown.pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -27872,7 +27872,7 @@ function __c86(j: number): any {
       return S.suspend(() =>
         S.Struct({
           newsletter_id: S.Number.pipe(T.Label()),
-          language: S.String.pipe(T.Label()),
+          language: S.optional(S.String.pipe(T.Label())),
           body: S.optional(S.Unknown.pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -27961,7 +27961,7 @@ function __c91(j: number): any {
       return S.suspend(() =>
         S.Struct({
           transactional_id: S.Number.pipe(T.Label()),
-          language: S.String.pipe(T.Label()),
+          language: S.optional(S.String.pipe(T.Label())),
           body: S.optional(S.String),
           body_amp: S.optional(S.String),
           from_id: S.optional(S.Number),
@@ -28882,7 +28882,7 @@ function __c152(j: number): any {
         S.Struct({
           broadcast_id: S.Number.pipe(T.Label()),
           action_id: S.Number.pipe(T.Label()),
-          language: S.String.pipe(T.Label()),
+          language: S.optional(S.String.pipe(T.Label())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -28929,7 +28929,7 @@ function __c154(j: number): any {
         S.Struct({
           campaign_id: S.Number.pipe(T.Label()),
           action_id: S.Number.pipe(T.Label()),
-          language: S.String.pipe(T.Label()),
+          language: S.optional(S.String.pipe(T.Label())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -29671,7 +29671,7 @@ function __c189(j: number): any {
       return S.suspend(() =>
         S.Struct({
           newsletter_id: S.Number.pipe(T.Label()),
-          language: S.String.pipe(T.Label()),
+          language: S.optional(S.String.pipe(T.Label())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -29689,7 +29689,7 @@ function __c190(j: number): any {
         S.Struct({
           newsletter_id: S.Number.pipe(T.Label()),
           test_group_id: S.String.pipe(T.Label()),
-          language: S.String.pipe(T.Label()),
+          language: S.optional(S.String.pipe(T.Label())),
         }).pipe(
           T.Http({
             method: "GET",

@@ -221,7 +221,7 @@ export interface ApiKeyCredentials {
   /** The type of credential used by the connection */
   type: ApiKeyCredentialsType;
   /** API Key */
-  key?: string | undefined;
+  key?: string | Redacted.Redacted<string> | undefined;
 }
 /** The type of credential used by the connection */
 export type CustomCredentialType = "CustomKeys";
@@ -251,7 +251,7 @@ export interface SASCredentials {
   /** The type of credential used by the connection */
   type: SASCredentialsType;
   /** SAS token */
-  SAS?: string | undefined;
+  SAS?: string | Redacted.Redacted<string> | undefined;
 }
 /** A base class for connection credentials */
 export type BaseCredentials =
@@ -259,9 +259,7 @@ export type BaseCredentials =
   | CustomCredential
   | EntraIDCredentials
   | NoAuthenticationCredentials
-  | SASCredentials
-  | string
-  | string;
+  | SASCredentials;
 /** Metadata of the connection */
 export type ConnectionMetadataMap = { [key: string]: string | undefined };
 /** Response from the list and get connections operations */
@@ -1418,7 +1416,7 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          key: S.optional(S.String),
+          key: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "ApiKeyCredentials" });
     case 1:
@@ -1431,7 +1429,7 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          SAS: S.optional(S.String),
+          SAS: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "SASCredentials" });
     case 3:
@@ -1441,8 +1439,6 @@ function __c19(j: number): any {
         __S(153, __c19, 1),
         __S(153, __c19, 1),
         __S(154, __c19, 2),
-        S.String,
-        S.String,
       ]);
     case 4:
       return S.suspend(() =>

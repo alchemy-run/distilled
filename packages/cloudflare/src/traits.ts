@@ -47,6 +47,7 @@ export {
   unionCasesSymbol,
   errorMatchersSymbol,
 } from "@distilled.cloud/core/trait";
+export { SensitiveValue, sensitiveValueSymbol } from "@distilled.cloud/core/protocol-rest";
 
 // =============================================================================
 // Cloudflare v4 envelope traits

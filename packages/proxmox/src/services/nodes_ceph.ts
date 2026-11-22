@@ -360,7 +360,7 @@ export type GetNodesByNodeCephStatusResult = { [key: string]: unknown | undefine
 export type GetNodesByNodeCephStatusResponse = GetNodesByNodeCephStatusResult;
 export interface PostNodesByNodeCephFsByNameRequest {
   "add-storage"?: boolean | 0 | 1 | undefined;
-  name?: string | undefined;
+  name: string;
   node: string;
   pg_num?: number | undefined;
 }
@@ -377,18 +377,18 @@ export interface PostNodesByNodeCephInitRequest {
 export type PostNodesByNodeCephInitResponse = null;
 export interface PostNodesByNodeCephMdsByNameRequest {
   hotstandby?: boolean | 0 | 1 | undefined;
-  name?: string | undefined;
+  name: string;
   node: string;
 }
 export type PostNodesByNodeCephMdsByNameResponse = string;
 export interface PostNodesByNodeCephMgrByIdRequest {
-  id?: string | undefined;
+  id: string;
   node: string;
 }
 export type PostNodesByNodeCephMgrByIdResponse = string;
 export interface PostNodesByNodeCephMonByMonidRequest {
   "mon-address"?: string | undefined;
-  monid?: string | undefined;
+  monid: string;
   node: string;
 }
 export type PostNodesByNodeCephMonByMonidResponse = string;
@@ -1737,7 +1737,7 @@ function __c24(j: number): any {
       return S.suspend(() =>
         S.Struct({
           "add-storage": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
-          name: S.optional(S.String.pipe(T.Label())),
+          name: S.String.pipe(T.Label()),
           node: S.String.pipe(T.Label()),
           pg_num: S.optional(S.Number),
         }).pipe(T.Http({ method: "POST", uri: "/nodes/{node}/ceph/fs/{name}", code: 200 })),
@@ -1785,7 +1785,7 @@ function __c28(j: number): any {
       return S.suspend(() =>
         S.Struct({
           hotstandby: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
-          name: S.optional(S.String.pipe(T.Label())),
+          name: S.String.pipe(T.Label()),
           node: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "POST", uri: "/nodes/{node}/ceph/mds/{name}", code: 200 })),
       ).annotate({ identifier: "PostNodesByNodeCephMdsByNameRequest" });
@@ -1796,7 +1796,7 @@ function __c29(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String.pipe(T.Label())),
+          id: S.String.pipe(T.Label()),
           node: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "POST", uri: "/nodes/{node}/ceph/mgr/{id}", code: 200 })),
       ).annotate({ identifier: "PostNodesByNodeCephMgrByIdRequest" });
@@ -1808,7 +1808,7 @@ function __c30(j: number): any {
       return S.suspend(() =>
         S.Struct({
           "mon-address": S.optional(S.String),
-          monid: S.optional(S.String.pipe(T.Label())),
+          monid: S.String.pipe(T.Label()),
           node: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "POST", uri: "/nodes/{node}/ceph/mon/{monid}", code: 200 })),
       ).annotate({ identifier: "PostNodesByNodeCephMonByMonidRequest" });

@@ -24,12 +24,12 @@
  */
 import * as EffectConfig from "@distilled.cloud/core/config";
 import { ConfigError } from "@distilled.cloud/core/errors";
+import { refreshing } from "@distilled.cloud/core/token-cache";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
-import * as Semaphore from "effect/Semaphore";
 
 /** The live login server; `https://practicelogin.questrade.com` serves practice accounts. */
 export const DEFAULT_LOGIN_URL = "https://login.questrade.com";
@@ -117,41 +117,33 @@ export const redeemRefreshToken = (
  * access token until shortly before it expires, and then redeems the
  * refresh token the last redemption returned.
  */
-const refreshing = (
+const redeemingResolver = (
   load: Effect.Effect<RefreshTokenConfig, ConfigError>,
 ): Effect.Effect<Config, ConfigError> => {
-  const lock = Semaphore.makeUnsafe(1);
   let next: Redacted.Redacted<string> | undefined;
-  let cached: Config | undefined;
-  let refreshAt = 0;
-  const fresh = (): Config | undefined =>
-    cached !== undefined && Date.now() < refreshAt ? cached : undefined;
-  return Effect.suspend(() => {
-    const hit = fresh();
-    if (hit !== undefined) return Effect.succeed(hit);
-    return Semaphore.withPermit(
-      lock,
-      Effect.gen(function* () {
-        // Another fiber may have redeemed while this one waited.
-        const raced = fresh();
-        if (raced !== undefined) return raced;
-        const config = yield* load;
-        const tokens = yield* redeemRefreshToken(next ?? config.refreshToken, config.loginUrl);
-        next = tokens.refreshToken;
-        cached = { accessToken: tokens.accessToken, apiServer: tokens.apiServer };
-        refreshAt =
-          Date.now() +
-          Math.max(tokens.expiresInSeconds * 1000 - REFRESH_WINDOW_MS, REFRESH_WINDOW_MS);
-        if (config.onRefresh) yield* config.onRefresh(tokens);
-        return cached;
-      }),
-    );
+  const redeem = Effect.gen(function* () {
+    const config = yield* load;
+    const tokens = yield* redeemRefreshToken(next ?? config.refreshToken, config.loginUrl);
+    next = tokens.refreshToken;
+    if (config.onRefresh) yield* config.onRefresh(tokens);
+    return {
+      config: { accessToken: tokens.accessToken, apiServer: tokens.apiServer } satisfies Config,
+      refreshAt:
+        Date.now() +
+        Math.max(tokens.expiresInSeconds * 1000 - REFRESH_WINDOW_MS, REFRESH_WINDOW_MS),
+    };
   });
+  return refreshing(redeem, (redeemed) => redeemed.refreshAt, {
+    onTimeout: (timeoutMs) =>
+      new ConfigError({
+        message: `Questrade refresh token redemption timed out after ${timeoutMs / 1000} s`,
+      }),
+  }).pipe(Effect.map((redeemed) => redeemed.config));
 };
 
 /** Credentials from a refresh token, redeemed on first use and again before each expiry. */
 export const fromRefreshToken = (config: RefreshTokenConfig): Layer.Layer<Credentials> =>
-  Layer.succeed(Credentials, refreshing(Effect.succeed(config)));
+  Layer.succeed(Credentials, redeemingResolver(Effect.succeed(config)));
 
 /** Credentials from an access token and the API server it was issued for (no refresh). */
 export const fromAccessToken = (config: {
@@ -182,7 +174,7 @@ const envConfig = /*@__PURE__*/ EffectConfig.all({
 const MISSING =
   "QUESTRADE_REFRESH_TOKEN, or QUESTRADE_ACCESS_TOKEN with QUESTRADE_API_SERVER, is required";
 
-const fromEnvRefreshToken = /*@__PURE__*/ refreshing(
+const fromEnvRefreshToken = /*@__PURE__*/ redeemingResolver(
   /*@__PURE__*/ envConfig.pipe(
     /*@__PURE__*/ Effect.mapError(() => new ConfigError({ message: MISSING })),
     /*@__PURE__*/ Effect.flatMap(({ refreshToken, loginUrl }) =>
