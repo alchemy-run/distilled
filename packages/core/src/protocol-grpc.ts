@@ -51,11 +51,13 @@ import * as Layer from "effect/Layer";
 import * as Stream from "effect/Stream";
 import * as API from "./api.ts";
 import { GrpcTransport, hasTrailers, trailersOf, type Trailers } from "./grpc-transport.ts";
+import * as MaxMessageBytes from "./max-message-bytes.ts";
 import {
   decodeMessage,
   encodeMessage,
   frame,
   FrameReader,
+  FrameTooLargeError,
   type ProtoDescriptors,
 } from "./protobuf.ts";
 import { InvalidInput, matchTypedError } from "./protocol-http.ts";
@@ -136,6 +138,12 @@ export interface GrpcProtocolOptions<C> extends RestProtocolOptions<C> {
    * carries its trailers in its body, so `fetch` sees every status.
    */
   readonly web?: boolean;
+  /**
+   * The largest message the server may send, when neither the call's
+   * `maxMessageBytes` nor the `MaxMessageBytes` layer sets one. Default
+   * `DEFAULT_MAX_MESSAGE_BYTES` (16 MiB). See `max-message-bytes.ts`.
+   */
+  readonly maxMessageBytes?: number;
 }
 
 /** A non-OK gRPC status, as `statusError` receives it. */
@@ -508,8 +516,35 @@ export const makeGrpcProtocol = <C>(options: GrpcProtocolOptions<C>): Layer.Laye
           },
         );
 
+      /**
+       * The call's message size limit, or the `InvalidInput` for a bad
+       * `maxMessageBytes`. Protocol effects carry no error type.
+       */
+      const withLimit = <A>(
+        context: Context.Context<any>,
+        input: unknown,
+        f: (limit: number) => A,
+      ): A | Effect.Effect<never> => {
+        const limit = MaxMessageBytes.resolve(context, input, options.maxMessageBytes);
+        return typeof limit === "number"
+          ? f(limit)
+          : (Effect.fail(
+              new InvalidInput({ member: "maxMessageBytes", message: limit.invalid }),
+            ) as unknown as Effect.Effect<never>);
+      };
+
+      /** A frame the reader refused: over the size limit, or malformed. */
+      const frameFailure = (
+        args: DecodeArgs,
+        response: HttpClientResponse.HttpClientResponse,
+        cause: unknown,
+      ) =>
+        cause instanceof FrameTooLargeError
+          ? parseFailure(undefined, cause.message)
+          : badFrame(args, response, cause);
+
       /** Decode a whole reply (its body read to the end). */
-      const decode: API.ProtocolShape["decode"] = (args) => {
+      const decodeWith = (args: Parameters<API.ProtocolShape["decode"]>[0], limit: number) => {
         const { response } = args;
         const failed = notGrpc(args, response);
         if (failed) return failed;
@@ -520,13 +555,13 @@ export const makeGrpcProtocol = <C>(options: GrpcProtocolOptions<C>): Layer.Laye
         // Protocol effects carry no error type: callers see the operation's.
         return Effect.flatMap(response.arrayBuffer as Effect.Effect<ArrayBuffer>, (buffer) =>
           Effect.flatMap(readTrailers(response), (trailers) => {
-            const reader = new FrameReader();
+            const reader = new FrameReader(limit);
             let frames: Uint8Array[];
             try {
               frames = reader.push(new Uint8Array(buffer));
             } catch (cause) {
               return Effect.flatMap(endOf(args, response, trailers, true), () =>
-                badFrame(args, response, cause),
+                frameFailure(args, response, cause),
               );
             }
             const all = { ...trailers, ...reader.trailers };
@@ -556,6 +591,13 @@ export const makeGrpcProtocol = <C>(options: GrpcProtocolOptions<C>): Layer.Laye
         );
       };
 
+      const decode: API.ProtocolShape["decode"] = (args) =>
+        Effect.withFiber((fiber) =>
+          withLimit(fiber.context as Context.Context<any>, undefined, (limit) =>
+            decodeWith(args, limit),
+          ),
+        );
+
       const deadlineExceeded = (args: DecodeArgs, url: string) =>
         failWith(args, HttpClientRequest.post(url), {}, 4, "Deadline Exceeded");
 
@@ -571,21 +613,23 @@ export const makeGrpcProtocol = <C>(options: GrpcProtocolOptions<C>): Layer.Laye
               config: operation.config,
             };
             const ms = deadlineMillis(context);
-            const run = Effect.flatMap(
-              send(
-                context,
-                operation,
-                input,
-                ms,
-              ) as Effect.Effect<HttpClientResponse.HttpClientResponse>,
-              (response) => decode({ ...args, response }),
-            );
-            return ms === undefined
-              ? run
-              : Effect.timeoutOrElse(run, {
-                  duration: ms,
-                  orElse: () => deadlineExceeded(args, ""),
-                });
+            return withLimit(context, input, (limit) => {
+              const run = Effect.flatMap(
+                send(
+                  context,
+                  operation,
+                  input,
+                  ms,
+                ) as Effect.Effect<HttpClientResponse.HttpClientResponse>,
+                (response) => decodeWith({ ...args, response }, limit),
+              );
+              return ms === undefined
+                ? run
+                : Effect.timeoutOrElse(run, {
+                    duration: ms,
+                    orElse: () => deadlineExceeded(args, ""),
+                  });
+            });
           }),
         stream: (operation, input) =>
           Stream.unwrap(
@@ -597,6 +641,12 @@ export const makeGrpcProtocol = <C>(options: GrpcProtocolOptions<C>): Layer.Laye
                 config: operation.config,
               };
               const ms = deadlineMillis(context);
+              const limit = MaxMessageBytes.resolve(context, input, options.maxMessageBytes);
+              if (typeof limit !== "number") {
+                return Effect.fail(
+                  new InvalidInput({ member: "maxMessageBytes", message: limit.invalid }),
+                );
+              }
               const messages = Effect.map(
                 send(
                   context,
@@ -604,7 +654,7 @@ export const makeGrpcProtocol = <C>(options: GrpcProtocolOptions<C>): Layer.Laye
                   input,
                   ms,
                 ) as Effect.Effect<HttpClientResponse.HttpClientResponse>,
-                (response) => streamReply(args, response),
+                (response) => streamReply(args, response, limit),
               );
               const stream = Stream.unwrap(messages);
               return Effect.succeed(
@@ -623,6 +673,7 @@ export const makeGrpcProtocol = <C>(options: GrpcProtocolOptions<C>): Layer.Laye
       function streamReply(
         args: DecodeArgs,
         response: HttpClientResponse.HttpClientResponse,
+        limit: number,
       ): Stream.Stream<unknown, unknown> {
         const headers = response.headers as Headers;
         const request = response.request;
@@ -631,7 +682,7 @@ export const makeGrpcProtocol = <C>(options: GrpcProtocolOptions<C>): Layer.Laye
         const method = methodOf(request.url);
         if (!method) return Stream.fromEffect(sdkFailure(`no gRPC descriptor for ${request.url}`));
         const [, responseType] = method;
-        const reader = new FrameReader();
+        const reader = new FrameReader(limit);
         const item = (payload: Uint8Array) => {
           let value: unknown;
           try {
@@ -652,7 +703,7 @@ export const makeGrpcProtocol = <C>(options: GrpcProtocolOptions<C>): Layer.Laye
               try {
                 frames = reader.push(chunk);
               } catch (cause) {
-                return badFrame(args, response, cause);
+                return frameFailure(args, response, cause);
               }
               return Effect.forEach(frames, item);
             }),
