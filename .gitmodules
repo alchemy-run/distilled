@@ -583,3 +583,33 @@ shallow = true
 	url = https://github.com/distilled-mirror/spec-mirror-hydradb.git
 	ignore = dirty
 	shallow = true
+[submodule "packages/mux/specs/spec-mirror-mux"]
+	path = packages/mux/specs/spec-mirror-mux
+	url = https://github.com/distilled-mirror/spec-mirror-mux.git
+	ignore = dirty
+	shallow = true
+[submodule "packages/tinybird/specs/spec-mirror-tinybird"]
+	path = packages/tinybird/specs/spec-mirror-tinybird
+	url = https://github.com/distilled-mirror/spec-mirror-tinybird.git
+	ignore = dirty
+	shallow = true
+[submodule "packages/twitch/specs/spec-mirror-twitch"]
+	path = packages/twitch/specs/spec-mirror-twitch
+	url = https://github.com/distilled-mirror/spec-mirror-twitch.git
+	ignore = dirty
+	shallow = true
+[submodule "packages/whatsapp/specs/spec-mirror-whatsapp"]
+	path = packages/whatsapp/specs/spec-mirror-whatsapp
+	url = https://github.com/distilled-mirror/spec-mirror-whatsapp.git
+	ignore = dirty
+	shallow = true
+[submodule "packages/browserbase/specs/spec-mirror-browserbase"]
+	path = packages/browserbase/specs/spec-mirror-browserbase
+	url = https://github.com/distilled-mirror/spec-mirror-browserbase.git
+	ignore = dirty
+	shallow = true
+[submodule "packages/mollie/specs/spec-mirror-mollie"]
+	path = packages/mollie/specs/spec-mirror-mollie
+	url = https://github.com/distilled-mirror/spec-mirror-mollie.git
+	ignore = dirty
+	shallow = true

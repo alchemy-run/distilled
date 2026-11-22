@@ -42847,7 +42847,9 @@ function __c14(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           size_limit_gib: S.Number,
           name: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/v2/agents/workspaces", code: 200 })),

@@ -9,6 +9,7 @@
 export {
   Body,
   Header,
+  IdempotencyToken,
   Query,
   Label,
   Http,

@@ -6,6 +6,7 @@ import {
   nextLink,
   paginateCursor,
   paginateKeyset,
+  paginateToken,
   type PaginatedTrait,
 } from "../src/pagination.ts";
 
@@ -180,6 +181,35 @@ describe("cursor pagination", () => {
         });
         expect(concurrent.map((result) => Array.from(result))).toEqual([pages, pages]);
         expect(calls).toBe(12);
+      }),
+    ));
+});
+
+describe("token pagination", () => {
+  // CloudWatch Logs GetLogEvents: empty pages advance, and the end of the
+  // stream echoes the token that was sent.
+  test("follows advancing empty pages and stops when the token repeats", () =>
+    Effect.runPromise(
+      Effect.gen(function* () {
+        const pages = [
+          { events: [], nextForwardToken: "a" },
+          { events: [1], nextForwardToken: "b" },
+          { events: [], nextForwardToken: "b" },
+        ];
+        const sent: unknown[] = [];
+        const stream = paginateToken(
+          (input: { nextToken?: string }) =>
+            Effect.sync(() => {
+              const page = pages[sent.length];
+              sent.push(input.nextToken);
+              if (!page) throw new Error("Paginator made an unexpected extra request");
+              return page;
+            }),
+          {},
+          { inputToken: "nextToken", outputToken: "nextForwardToken", items: "events" },
+        );
+        expect(Array.from(yield* collect(stream))).toEqual(pages);
+        expect(sent).toEqual([undefined, "a", "b"]);
       }),
     ));
 });

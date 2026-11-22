@@ -538,7 +538,9 @@ function __c2(j: number): any {
           bounty_id: S.String,
           deliverable: S.optional(S.NullOr(__S(32, __c2, 0))),
           metadata: S.optional(S.NullOr(__S(33, __c2, 1))),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/bounty_submissions", code: 200 })),
       ).annotate({ identifier: "CreateBountySubmissionRequest" });
   }
@@ -704,7 +706,9 @@ function __c6(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           deliverable: S.optional(S.NullOr(__S(96, __c6, 0))),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/bounty_submissions/{id}/submit", code: 200 })),
       ).annotate({ identifier: "SubmitBountySubmissionRequest" });
   }

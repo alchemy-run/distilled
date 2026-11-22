@@ -16,6 +16,7 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
+import * as Semaphore from "effect/Semaphore";
 
 export const DEFAULT_API_BASE_URL = "https://api.cloudflare.com/client/v4";
 
@@ -148,21 +149,28 @@ const isExpired = (expiresAt?: number): boolean =>
 const createCachedCredentialsEffect = <E>(
   resolve: Effect.Effect<ResolvedCredentials, E>,
 ): Effect.Effect<ResolvedCredentials, E> => {
+  // Concurrent calls on a cold or stale cache share one refresh.
+  const lock = Semaphore.makeUnsafe(1);
   let cachedCreds: ResolvedCredentials | undefined;
   let refreshAt = 0;
+  const fresh = () => cachedCreds !== undefined && Date.now() < refreshAt;
 
-  return Effect.suspend(() => {
-    const now = Date.now();
-    if (cachedCreds && now < refreshAt) {
-      return Effect.succeed(cachedCreds);
-    }
-
-    return Effect.map(resolve, (credentials) => {
-      cachedCreds = credentials;
-      refreshAt = getRefreshAt(credentials);
-      return credentials;
-    });
-  });
+  return Effect.suspend(() =>
+    fresh()
+      ? Effect.succeed(cachedCreds!)
+      : Semaphore.withPermit(
+          lock,
+          Effect.suspend(() =>
+            fresh()
+              ? Effect.succeed(cachedCreds!)
+              : Effect.map(resolve, (credentials) => {
+                  cachedCreds = credentials;
+                  refreshAt = getRefreshAt(credentials);
+                  return credentials;
+                }),
+          ),
+        ),
+  );
 };
 
 const wrapOAuthError = <A>(

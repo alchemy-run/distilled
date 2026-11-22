@@ -486,6 +486,85 @@ const memberNs = (prop: AST.PropertySignature): string =>
 const memberXmlName = (prop: AST.PropertySignature): string =>
   getMemberAnnotation<string>(prop, xmlNameSymbol) ?? String(prop.name);
 
+/** How a structure member serializes, read from the schema once per structure. */
+interface MemberWritePlan {
+  readonly key: string;
+  readonly type: AST.AST;
+  readonly xmlName: string;
+  readonly attribute: boolean;
+  readonly ns: string;
+  readonly map: boolean;
+  readonly flattened: boolean;
+  readonly elementAST: AST.AST | undefined;
+}
+
+const structPlans = /*@__PURE__*/ new WeakMap<AST.AST, ReadonlyArray<MemberWritePlan>>();
+const structPlanOf = (ast: AST.AST): ReadonlyArray<MemberWritePlan> => {
+  let plan = structPlans.get(ast);
+  if (plan === undefined) {
+    plan = getEncodedPropertySignatures(ast).map((prop) => ({
+      key: String(prop.name),
+      type: prop.type,
+      xmlName: memberXmlName(prop),
+      attribute: hasXmlAttribute(prop),
+      ns: memberNs(prop),
+      map: isMapAST(prop.type),
+      flattened: hasXmlFlattened(prop),
+      elementAST: getArrayElementAST(prop.type),
+    }));
+    structPlans.set(ast, plan);
+  }
+  return plan;
+};
+
+/** How a list's items serialize, read from the schema once per list. */
+interface ListWritePlan {
+  readonly elementAST: AST.AST | undefined;
+  readonly itemTag: string;
+  readonly itemNs: string;
+}
+
+const listPlans = /*@__PURE__*/ new WeakMap<AST.AST, ListWritePlan>();
+const listPlanOf = (ast: AST.AST): ListWritePlan => {
+  let plan = listPlans.get(ast);
+  if (plan === undefined) {
+    const elementAST = getArrayElementAST(ast);
+    plan = {
+      elementAST,
+      itemTag: (elementAST && getXmlNameFromAST(elementAST)) ?? "member",
+      itemNs: elementAST ? ownNs(elementAST) : "",
+    };
+    listPlans.set(ast, plan);
+  }
+  return plan;
+};
+
+/** How a map's entries serialize, read from the schema once per map. */
+interface MapWritePlan {
+  readonly kv: { keyAST: AST.AST; valueAST: AST.AST } | undefined;
+  readonly keyTag: string;
+  readonly valueTag: string;
+  readonly keyNs: string;
+  readonly valueNs: string;
+}
+
+const mapPlans = /*@__PURE__*/ new WeakMap<AST.AST, MapWritePlan>();
+const mapPlanOf = (ast: AST.AST): MapWritePlan => {
+  let plan = mapPlans.get(ast);
+  if (plan === undefined) {
+    const kv = getMapKeyValueAST(ast);
+    plan = {
+      kv,
+      keyTag: (kv && getXmlNameFromAST(kv.keyAST)) ?? "key",
+      valueTag: (kv && getXmlNameFromAST(kv.valueAST)) ?? "value",
+      keyNs: kv ? ownNs(kv.keyAST) : "",
+      valueNs: kv ? ownNs(kv.valueAST) : "",
+    };
+    mapPlans.set(ast, plan);
+  }
+  return plan;
+};
+
 const element = (tag: string, content: string, ns = ""): string =>
   `<${tag}${ns}>${content}</${tag}>`;
 
@@ -512,9 +591,7 @@ function serializeValue(ast: AST.AST, value: unknown, tagName?: string, ns = "")
   // Lists: <List><member>a</member><member>b</member></List>, the member
   // renamed by its `@xmlName`
   if (tagName && Array.isArray(value)) {
-    const elementAST = getArrayElementAST(ast);
-    const itemTag = (elementAST && getXmlNameFromAST(elementAST)) ?? "member";
-    const itemNs = elementAST ? ownNs(elementAST) : "";
+    const { elementAST, itemTag, itemNs } = listPlanOf(ast);
     const items = value.map((item) => serializeValue(elementAST ?? ast, item, itemTag, itemNs));
     return element(tagName, items.join(""), ns);
   }
@@ -542,46 +619,36 @@ function serializeObject(
   tagName?: string,
   ns = "",
 ): string {
-  const props = getEncodedPropertySignatures(ast);
   const attrs: string[] = [];
   const elems: string[] = [];
 
-  for (const prop of props) {
-    const key = String(prop.name);
-    const v = value[key];
+  for (const m of structPlanOf(ast)) {
+    const v = value[m.key];
     if (v === undefined) continue;
 
-    const xmlName = memberXmlName(prop);
-    if (hasXmlAttribute(prop)) {
+    const xmlName = m.xmlName;
+    if (m.attribute) {
       attrs.push(`${xmlName}="${escapeXml(String(v))}"`);
       continue;
     }
 
-    const propNs = memberNs(prop);
-    if (isMapAST(prop.type)) {
-      elems.push(
-        serializeMap(
-          prop.type,
-          v as Record<string, unknown>,
-          xmlName,
-          hasXmlFlattened(prop),
-          propNs,
-        ),
-      );
+    const propNs = m.ns;
+    if (m.map) {
+      elems.push(serializeMap(m.type, v as Record<string, unknown>, xmlName, m.flattened, propNs));
       continue;
     }
     if (!Array.isArray(v)) {
-      elems.push(serializeValue(prop.type, v, xmlName, propNs));
+      elems.push(serializeValue(m.type, v, xmlName, propNs));
       continue;
     }
 
-    if (hasXmlFlattened(prop)) {
-      const elementAST = getArrayElementAST(prop.type);
+    if (m.flattened) {
+      const elementAST = m.elementAST;
       elems.push(
-        v.map((item) => serializeValue(elementAST ?? prop.type, item, xmlName, propNs)).join(""),
+        v.map((item) => serializeValue(elementAST ?? m.type, item, xmlName, propNs)).join(""),
       );
     } else {
-      elems.push(serializeValue(prop.type, v, xmlName, propNs));
+      elems.push(serializeValue(m.type, v, xmlName, propNs));
     }
   }
 
@@ -604,11 +671,7 @@ function serializeMap(
   flattened: boolean,
   ns = "",
 ): string {
-  const kv = getMapKeyValueAST(ast);
-  const keyTag = (kv && getXmlNameFromAST(kv.keyAST)) ?? "key";
-  const valueTag = (kv && getXmlNameFromAST(kv.valueAST)) ?? "value";
-  const keyNs = kv ? ownNs(kv.keyAST) : "";
-  const valueNs = kv ? ownNs(kv.valueAST) : "";
+  const { kv, keyTag, valueTag, keyNs, valueNs } = mapPlanOf(ast);
   const entries: string[] = [];
   for (const [k, v] of Object.entries(value)) {
     if (v === undefined) continue;

@@ -1,0 +1,63 @@
+{
+  "description": "POST /v0/datasources uploads local files as multipart parts named after their format -- `-F csv=@local_file.csv`, `-F ndjson=@local_file.log` -- with the other parameters in the query string (https://www.tinybird.co/docs/api-reference/datasource-api). Its `engine_*` row names a family of parameters; the three the reference's examples send are `engine_sorting_key`, `engine_ver` and `engine_settings`. Live (Forward workspace): POST /v0/datasources?name=distilled_events&mode=append&format=ndjson with an `ndjson` part appended the rows.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.datasource#PostV0Datasources/traits/smithy.api#http/contentType",
+      "value": "multipart"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.datasource#PostV0DatasourcesRequest/members/csv",
+      "value": {
+        "target": "smithy.api#Blob",
+        "traits": {
+          "smithy.api#documentation": "A local CSV file to import (multipart part `csv`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.datasource#PostV0DatasourcesRequest/members/ndjson",
+      "value": {
+        "target": "smithy.api#Blob",
+        "traits": {
+          "smithy.api#documentation": "A local NDJSON file to import (multipart part `ndjson`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.datasource#PostV0DatasourcesRequest/members/engine_sorting_key",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "engine_sorting_key",
+          "smithy.api#documentation": "Engine sorting key (`ORDER BY`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.datasource#PostV0DatasourcesRequest/members/engine_ver",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "engine_ver",
+          "smithy.api#documentation": "ReplacingMergeTree version column."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.datasource#PostV0DatasourcesRequest/members/engine_settings",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "engine_settings",
+          "smithy.api#documentation": "Engine settings, e.g. `index_granularity=2048, ttl_only_drop_parts=false`."
+        }
+      }
+    }
+  ]
+}

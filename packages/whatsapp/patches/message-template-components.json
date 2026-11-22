@@ -1,0 +1,55 @@
+{
+  "description": "POST /{WABA-ID}/message_templates models its components from one example (an OTP template with a FLOW button): a component has only `type`, `text` and `buttons`, and a button only `type`, `text`, `flow_id`, `flow_action` and `navigate_screen`. Templates take more (https://developers.facebook.com/documentation/business-messaging/whatsapp/templates/overview). Live on 2026-11-18 (v23.0) a UTILITY template with a `HEADER` (`format: TEXT`, `example: { header_text }`), a `BODY` (`example: { body_text }`) and `BUTTONS` holding a `URL` button (`url`, `example`) and a `PHONE_NUMBER` button (`phone_number`) was created, and GET /{TEMPLATE_ID} returned every one of those members as sent. A component gains `format` and `example`; a button gains `url`, `phone_number` and `example`. `example` stays a document: its shape depends on the component (`header_text`, `body_text`, `header_handle`) and the button type.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#CreateAuthenticationTemplateWOtpCopyCodeButtonRequestComponentsItem/members/format",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Header format: `TEXT`, `IMAGE`, `VIDEO`, `DOCUMENT` or `LOCATION`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#CreateAuthenticationTemplateWOtpCopyCodeButtonRequestComponentsItem/members/example",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Sample values for the component's variables, e.g. `{ header_text: [\"A-123\"] }` or `{ body_text: [[\"Ana\", \"A-123\"]] }`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#CreateAuthenticationTemplateWOtpCopyCodeButtonRequestComponentsItemButtonsItem/members/url",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "`URL` button target; may end in one `{{1}}` variable."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#CreateAuthenticationTemplateWOtpCopyCodeButtonRequestComponentsItemButtonsItem/members/phone_number",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "`PHONE_NUMBER` button: the number to call, in international format."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#CreateAuthenticationTemplateWOtpCopyCodeButtonRequestComponentsItemButtonsItem/members/example",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Sample values for the button's variable, e.g. `[\"https://example.com/o/A-123\"]` for a `URL` button."
+        }
+      }
+    }
+  ]
+}

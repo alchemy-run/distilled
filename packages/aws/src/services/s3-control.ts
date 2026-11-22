@@ -1559,7 +1559,7 @@ export interface CreateJobRequest {
   ConfirmationRequired?: boolean | undefined;
   Operation: JobOperation;
   Report: JobReport;
-  ClientRequestToken: string;
+  ClientRequestToken?: string | undefined;
   Manifest?: JobManifest | undefined;
   Description?: string | undefined;
   Priority: number;
@@ -1586,7 +1586,7 @@ export interface CreateMultiRegionAccessPointInput {
 }
 export interface CreateMultiRegionAccessPointRequest {
   AccountId: string;
-  ClientToken: string;
+  ClientToken?: string | undefined;
   Details: CreateMultiRegionAccessPointInput;
 }
 export type AsyncRequestTokenARN = string;
@@ -1721,7 +1721,7 @@ export interface DeleteMultiRegionAccessPointInput {
 }
 export interface DeleteMultiRegionAccessPointRequest {
   AccountId: string;
-  ClientToken: string;
+  ClientToken?: string | undefined;
   Details: DeleteMultiRegionAccessPointInput;
 }
 export interface DeleteMultiRegionAccessPointResult {
@@ -2790,7 +2790,7 @@ export interface PutJobTaggingRequest {
 export interface PutJobTaggingResult {}
 export interface PutMultiRegionAccessPointPolicyRequest {
   AccountId: string;
-  ClientToken: string;
+  ClientToken?: string | undefined;
   Details: PutMultiRegionAccessPointPolicyInput;
 }
 export interface PutMultiRegionAccessPointPolicyResult {
@@ -6830,7 +6830,7 @@ function __c8(j: number): any {
             T.ContextParam("AccountId"),
             T.HostLabel(),
           ),
-          ClientToken: S.String.pipe(T.IdempotencyToken()),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           Details: __S(2176, __c68, 0),
         }).pipe(
           T.all(
@@ -7580,7 +7580,7 @@ function __c35(j: number): any {
           ConfirmationRequired: S.optional(S.Boolean),
           Operation: __S(1210, __c37, 26),
           Report: __S(1211, __c37, 27),
-          ClientRequestToken: S.String.pipe(T.IdempotencyToken()),
+          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           Manifest: S.optional(__S(1215, __c37, 31)),
           Description: S.optional(S.String),
           Priority: S.Number,
@@ -7949,7 +7949,7 @@ function __c40(j: number): any {
             T.ContextParam("AccountId"),
             T.HostLabel(),
           ),
-          ClientToken: S.String.pipe(T.IdempotencyToken()),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           Details: __S(1313, __c41, 1),
         }).pipe(
           T.all(
@@ -8556,7 +8556,7 @@ function __c59(j: number): any {
             T.ContextParam("AccountId"),
             T.HostLabel(),
           ),
-          ClientToken: S.String.pipe(T.IdempotencyToken()),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           Details: __S(1920, __c60, 0),
         }).pipe(
           T.all(
