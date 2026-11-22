@@ -76,7 +76,7 @@ export type DeleteNodesByNodeLxcByVmidFirewallIpsetByNameByCidrResponse = null;
 export interface DeleteNodesByNodeLxcByVmidFirewallRulesByPosRequest {
   digest?: string | undefined;
   node: string;
-  pos?: number | undefined;
+  pos: number;
   vmid: number;
 }
 export type DeleteNodesByNodeLxcByVmidFirewallRulesByPosResponse = null;
@@ -395,7 +395,7 @@ export type GetNodesByNodeLxcByVmidFirewallRulesResponse =
   GetNodesByNodeLxcByVmidFirewallRulesResult;
 export interface GetNodesByNodeLxcByVmidFirewallRulesByPosRequest {
   node: string;
-  pos?: number | undefined;
+  pos: number;
   vmid: number;
 }
 export type GetNodesByNodeLxcByVmidFirewallRulesByPosResultLog =
@@ -2109,7 +2109,7 @@ export interface PutNodesByNodeLxcByVmidFirewallRulesByPosRequest {
   macro?: string | undefined;
   moveto?: number | undefined;
   node: string;
-  pos?: number | undefined;
+  pos: number;
   proto?: string | undefined;
   source?: string | undefined;
   sport?: string | undefined;
@@ -3898,7 +3898,7 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           node: S.String.pipe(T.Label()),
-          pos: S.optional(S.Number.pipe(T.Label())),
+          pos: S.Number.pipe(T.Label()),
           vmid: S.Number.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -4611,7 +4611,7 @@ function __c50(j: number): any {
         S.Struct({
           digest: S.optional(S.String.pipe(T.Query())),
           node: S.String.pipe(T.Label()),
-          pos: S.optional(S.Number.pipe(T.Label())),
+          pos: S.Number.pipe(T.Label()),
           vmid: S.Number.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -4884,7 +4884,7 @@ function __c62(j: number): any {
           macro: S.optional(S.String),
           moveto: S.optional(S.Number),
           node: S.String.pipe(T.Label()),
-          pos: S.optional(S.Number.pipe(T.Label())),
+          pos: S.Number.pipe(T.Label()),
           proto: S.optional(S.String),
           source: S.optional(S.String),
           sport: S.optional(S.String),

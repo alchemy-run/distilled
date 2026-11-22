@@ -1,0 +1,56 @@
+{
+  "description": "PUT /v1/sources/{sha256} (putSource), PUT /v1/assets/blobs/{sha256} (putAssetBlob) and PUT /v1/apps/{project}/r2/{bucket}/objects/{key} (putR2Object) take their bytes as the whole request body: the spec declares `requestBody: application/octet-stream` with `{type: string, format: binary}` on each. The converter reads JSON, form and multipart bodies only, so the three operations generated with no body member and could not upload anything. Give each input a required `body` Blob payload and send it as application/octet-stream, as Sproutboat's own walk-through does (`curl -X PUT ... -H 'content-type: application/octet-stream' --data-binary @file`, https://sproutboat.com/docs/api/build-a-provider).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.sproutboat#PutSourceRequest/members/body",
+      "value": {
+        "target": "smithy.api#Blob",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#required": {},
+          "smithy.api#documentation": "The app's generated JavaScript: at most 8 MiB, non-empty, valid UTF-8. `sha256` must be the SHA-256 of exactly these bytes."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.sproutboat#PutSource/traits/smithy.api#http/bodyMediaType",
+      "value": "application/octet-stream"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.sproutboat#PutAssetBlobRequest/members/body",
+      "value": {
+        "target": "smithy.api#Blob",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#required": {},
+          "smithy.api#documentation": "The file's bytes, at most 64 MiB. `sha256` must be the SHA-256 of exactly these bytes."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.sproutboat#PutAssetBlob/traits/smithy.api#http/bodyMediaType",
+      "value": "application/octet-stream"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.sproutboat#PutR2ObjectRequest/members/body",
+      "value": {
+        "target": "smithy.api#Blob",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#required": {},
+          "smithy.api#documentation": "The object's bytes, at most 64 MiB."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.sproutboat#PutR2Object/traits/smithy.api#http/bodyMediaType",
+      "value": "application/octet-stream"
+    }
+  ]
+}

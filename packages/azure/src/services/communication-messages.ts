@@ -391,14 +391,6 @@ export interface SendNotificationMessagesOperationRequest {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   xMsClientRequestId?: string | undefined;
   body: NotificationContent;
-  /** `text` message: the message text. */
-  content?: string | undefined;
-  /** `image`, `video`, `audio`, or `document` message: public URL of the media. */
-  mediaUri?: string | undefined;
-  /** `image`, `video`, or `document` message: the caption. */
-  caption?: string | undefined;
-  /** `document` message: the file name shown to the user. */
-  fileName?: string | undefined;
 }
 /** Receipt of the sending one message. */
 export interface MessageReceipt {
@@ -707,10 +699,6 @@ function __c2(j: number): any {
           repeatabilityFirstSent: S.optional(S.String.pipe(T.Header("Repeatability-First-Sent"))),
           xMsClientRequestId: S.optional(S.String.pipe(T.Header("x-ms-client-request-id"))),
           body: __S(83, __c2, 19).pipe(T.HttpBody()),
-          content: S.optional(S.String),
-          mediaUri: S.optional(S.String),
-          caption: S.optional(S.String),
-          fileName: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
