@@ -91,12 +91,6 @@ const clickHouseCloudSpec: SdkSpec = {
   operationDecl: {
     contextType: "ClickHouseCloudOpContext",
     commonErrorType: "ClickHouseCloudOpError",
-    // No per-operation error classes: every failure is the shared envelope,
-    // so every status rides ClickHouseCloudOpError and the protocol picks
-    // the class (see src/errors.ts).
-    // UnknownClickHouseCloudError is declared on the protocol, whose type adds
-    // it.
-    commonErrorClasses: [],
     serviceErrors: "ClickHouseCloudServiceErrors",
     protocol: "ClickHouseCloudProtocol",
     retry: "Retry.Retry",

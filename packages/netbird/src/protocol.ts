@@ -1,9 +1,5 @@
-import type { Protocol } from "@distilled.cloud/core/protocol";
-import {
-  restProtocol,
-  unknownErrorProps,
-  type RestProtocolError,
-} from "@distilled.cloud/core/protocol-rest";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
+import { restProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 /**
  * NetBirdProtocol -- hand-written.
  *
@@ -22,18 +18,8 @@ import {
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type CredentialsError } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import { UnknownNetBirdError, NetBirdParseError, type NetBirdServiceError } from "./errors.ts";
-
-/**
- * The errors declared on NetBird's protocol: what the code that builds
- * requests and reads responses fails with. A response that does not match its
- * schema ({@link NetBirdParseError}), a failed response that neither the
- * operation nor the service declares ({@link UnknownNetBirdError}), and core's
- * REST errors (a bad path label, a request that can't be built, the
- * transport).
- */
-export type NetBirdProtocolError = RestProtocolError | NetBirdParseError | UnknownNetBirdError;
 
 /**
  * What every generated NetBird operation fails with besides its own errors:
@@ -42,24 +28,21 @@ export type NetBirdProtocolError = RestProtocolError | NetBirdParseError | Unkno
  * `API.OperationMethod<I, O, NetBirdOpError, NetBirdOpContext>` explicitly so
  * the compiler never infers these back out of the schema generics.
  */
-export type NetBirdOpError = NetBirdServiceError | NetBirdProtocolError | CredentialsError;
+export type NetBirdOpError = NetBirdServiceError | ErrorOf<typeof NetBirdProtocol>;
 
 /** Context (requirements) shared by every generated NetBird operation. */
 export type NetBirdOpContext = Credentials | HttpClient.HttpClient;
 
-// The annotation is the check: everything the protocol fails with, besides
-// the errors an operation and the service declare, must be listed here.
-export const NetBirdProtocol: Protocol<NetBirdProtocolError | CredentialsError, Credentials> =
-  /*@__PURE__*/ restProtocol({
-    // The Credentials service holds an effect -- resolving it here (per
-    // request, on the calling fiber) picks up context-provided credentials.
-    credentials: /*@__PURE__*/ Effect.flatten(Credentials),
-    baseUrl: (creds) => creds.apiBaseUrl,
-    headers: (creds) => ({
-      Authorization: `Token ${Redacted.value(creds.apiToken)}`,
-    }),
-    // NetBird's error body is `{ message, code }` -- the factory's default
-    // lenient envelope covers it.
-    unknownError: (info) => new UnknownNetBirdError(unknownErrorProps(info)),
-    parseError: ({ body, cause }) => new NetBirdParseError({ body, cause }),
-  });
+export const NetBirdProtocol = /*@__PURE__*/ restProtocol({
+  // The Credentials service holds an effect -- resolving it here (per
+  // request, on the calling fiber) picks up context-provided credentials.
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
+  baseUrl: (creds) => creds.apiBaseUrl,
+  headers: (creds) => ({
+    Authorization: `Token ${Redacted.value(creds.apiToken)}`,
+  }),
+  // NetBird's error body is `{ message, code }` -- the factory's default
+  // lenient envelope covers it.
+  unknownError: (info) => new UnknownNetBirdError(unknownErrorProps(info)),
+  parseError: ({ body, cause }) => new NetBirdParseError({ body, cause }),
+});

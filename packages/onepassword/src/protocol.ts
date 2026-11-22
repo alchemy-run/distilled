@@ -1,10 +1,9 @@
-import type { Protocol } from "@distilled.cloud/core/protocol";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
 import {
   restProtocol,
   type RestErrorInfo,
   type RestParseErrorInfo,
   unknownErrorProps,
-  type RestProtocolError,
 } from "@distilled.cloud/core/protocol-rest";
 /**
  * 1Password protocols -- hand-written. Every 1Password API is plain JSON
@@ -37,30 +36,12 @@ import {
   OAuthCredentials,
   PartnershipCredentials,
   UsersCredentials,
-  type ConnectCredentialsError,
-  type EventsCredentialsError,
-  type OAuthCredentialsError,
-  type UsersCredentialsError,
-  type PartnershipCredentialsError,
 } from "./credentials.ts";
 import {
   UnknownOnepasswordError,
   OnepasswordParseError,
   type OnepasswordServiceError,
 } from "./errors.ts";
-
-/**
- * The errors declared on 1Password's protocols: what the code that builds
- * requests and reads responses fails with. A response that does not match its
- * schema ({@link OnepasswordParseError}), a failed response that neither the
- * operation nor the service declares ({@link UnknownOnepasswordError}), and
- * core's REST errors (a bad path label, a request that can't be built, the
- * transport).
- */
-export type OnepasswordProtocolError =
-  | RestProtocolError
-  | OnepasswordParseError
-  | UnknownOnepasswordError;
 
 /**
  * What every generated 1Password operation fails with besides its own errors:
@@ -72,12 +53,13 @@ export type OnepasswordProtocolError =
  */
 export type OnepasswordOpError =
   | OnepasswordServiceError
-  | OnepasswordProtocolError
-  | ConnectCredentialsError
-  | EventsCredentialsError
-  | OAuthCredentialsError
-  | UsersCredentialsError
-  | PartnershipCredentialsError;
+  | ErrorOf<
+      | typeof ConnectProtocol
+      | typeof EventsProtocol
+      | typeof UsersProtocol
+      | typeof OAuthProtocol
+      | typeof PartnershipProtocol
+    >;
 
 /** Context (requirements) of every generated Connect operation. */
 export type ConnectOpContext = ConnectCredentials | HttpClient.HttpClient;
@@ -104,10 +86,7 @@ const trimBase = (url: string) => url.replace(/\/+$/, "");
 // the errors an operation and the service declare, must be listed there.
 
 /** Connect server API (default `http://localhost:8080/v1`). */
-export const ConnectProtocol: Protocol<
-  OnepasswordProtocolError | ConnectCredentialsError,
-  ConnectCredentials
-> = /*@__PURE__*/ restProtocol({
+export const ConnectProtocol = /*@__PURE__*/ restProtocol({
   credentials: ConnectCredentials,
   baseUrl: (creds) => trimBase(creds.apiBaseUrl),
   headers: (creds) => ({
@@ -120,10 +99,7 @@ export const ConnectProtocol: Protocol<
 });
 
 /** Events API at `https://events.1password.com` (or the account's regional host). */
-export const EventsProtocol: Protocol<
-  OnepasswordProtocolError | EventsCredentialsError,
-  EventsCredentials
-> = /*@__PURE__*/ restProtocol({
+export const EventsProtocol = /*@__PURE__*/ restProtocol({
   credentials: EventsCredentials,
   baseUrl: (creds) => trimBase(creds.apiBaseUrl),
   headers: (creds) => ({
@@ -139,10 +115,7 @@ export const EventsProtocol: Protocol<
 });
 
 /** Users API at `https://api.1password.com` (or the account's regional host). */
-export const UsersProtocol: Protocol<
-  OnepasswordProtocolError | UsersCredentialsError,
-  UsersCredentials
-> = /*@__PURE__*/ restProtocol({
+export const UsersProtocol = /*@__PURE__*/ restProtocol({
   credentials: UsersCredentials,
   baseUrl: (creds) => trimBase(creds.apiBaseUrl),
   headers: (creds) => ({
@@ -154,10 +127,7 @@ export const UsersProtocol: Protocol<
 });
 
 /** OAuth API (token, introspect, revoke) with the application's client credentials. */
-export const OAuthProtocol: Protocol<
-  OnepasswordProtocolError | OAuthCredentialsError,
-  OAuthCredentials
-> = /*@__PURE__*/ restProtocol({
+export const OAuthProtocol = /*@__PURE__*/ restProtocol({
   credentials: OAuthCredentials,
   baseUrl: (creds) => trimBase(creds.apiBaseUrl),
   headers: (creds) => ({
@@ -181,10 +151,7 @@ export const OAuthProtocol: Protocol<
 });
 
 /** Partnership API at `https://billing.1password.com`. */
-export const PartnershipProtocol: Protocol<
-  OnepasswordProtocolError | PartnershipCredentialsError,
-  PartnershipCredentials
-> = /*@__PURE__*/ restProtocol({
+export const PartnershipProtocol = /*@__PURE__*/ restProtocol({
   credentials: PartnershipCredentials,
   baseUrl: (creds) => trimBase(creds.apiBaseUrl),
   headers: (creds) => ({

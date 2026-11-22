@@ -71,8 +71,6 @@ const polarSpec: SdkSpec = {
   operationDecl: {
     contextType: "PolarOpContext",
     commonErrorType: "PolarOpError",
-    // UnknownPolarError is declared on the protocol, whose type adds it.
-    commonErrorClasses: [],
     serviceErrors: "PolarServiceErrors",
     protocol: "PolarProtocol",
     retry: "Retry.Retry",

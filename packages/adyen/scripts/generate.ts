@@ -57,8 +57,6 @@ const adyenSpec: SdkSpec = {
   operationDecl: {
     contextType: "AdyenOpContext",
     commonErrorType: "AdyenOpError",
-    // UnknownAdyenError is declared on the protocol, whose type adds it.
-    commonErrorClasses: [],
     serviceErrors: "AdyenServiceErrors",
     protocol: "AdyenProtocol",
     retry: "Retry.Retry",

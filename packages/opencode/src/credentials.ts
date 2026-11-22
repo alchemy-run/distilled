@@ -26,9 +26,6 @@ export class Credentials
     "OpencodeCredentials",
   ) {}
 
-/** What resolving the credentials can fail with: declared on {@link Credentials}. */
-export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
-
 /** Layer from an optional password + optional base URL. */
 export const fromPassword = (config: {
   readonly password?: Redacted.Redacted<string>;

@@ -1,9 +1,8 @@
-import type { Protocol } from "@distilled.cloud/core/protocol";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
 import {
   restProtocol,
   type RestErrorEnvelope,
   unknownErrorProps,
-  type RestProtocolError,
 } from "@distilled.cloud/core/protocol-rest";
 /**
  * InngestProtocol -- hand-written.
@@ -33,23 +32,13 @@ import { Environment } from "./environment.ts";
 import { UnknownInngestError, InngestParseError, type InngestServiceError } from "./errors.ts";
 
 /**
- * The errors declared on Inngest's protocol: what the code that builds
- * requests and reads responses fails with. A response that does not match its
- * schema ({@link InngestParseError}), a failed response that neither the
- * operation nor the service declares ({@link UnknownInngestError}), and core's
- * REST errors (a bad path label, a request that can't be built, the
- * transport).
- */
-export type InngestProtocolError = RestProtocolError | InngestParseError | UnknownInngestError;
-
-/**
  * What every generated Inngest operation fails with besides its own errors:
  * the service's errors, the protocol's, and what resolving the credentials
  * fails with. Generated service files annotate operations with
  * `API.OperationMethod<I, O, InngestOpError, InngestOpContext>` explicitly so
  * the compiler never infers these back out of the schema generics.
  */
-export type InngestOpError = InngestServiceError | InngestProtocolError | CredentialsError;
+export type InngestOpError = InngestServiceError | ErrorOf<typeof InngestProtocol>;
 
 /** Context (requirements) shared by every generated Inngest operation. */
 export type InngestOpContext = Credentials | HttpClient.HttpClient;
@@ -92,36 +81,33 @@ interface Resolved extends Config {
 
 const resolveCredentials = /*@__PURE__*/ Effect.flatten(Credentials);
 
-// The annotation is the check: everything the protocol fails with, besides
-// the errors an operation and the service declare, must be listed here.
-export const InngestProtocol: Protocol<InngestProtocolError | CredentialsError, Credentials> =
-  /*@__PURE__*/ restProtocol({
-    // The Credentials service holds an effect -- resolving it here (per
-    // request, on the calling fiber) picks up context-provided credentials
-    // and the `Environment` layer.
-    credentials: /*@__PURE__*/ Effect.withFiber(
-      (fiber): Effect.Effect<Resolved, CredentialsError, Credentials> => {
-        const environment = Context.getOrUndefined(fiber.context, Environment);
-        return environment === undefined
-          ? resolveCredentials
-          : Effect.map(resolveCredentials, (creds): Resolved => ({ ...creds, environment }));
-      },
-    ),
-    // v1 routes carry their own `/v1/` prefix and live at the base URL's
-    // origin. URL.parse never throws: a malformed base URL fails like v2 calls.
-    baseUrl: (creds, target) =>
-      target.uri.startsWith("/v1/")
-        ? (URL.parse(creds.apiBaseUrl)?.origin ?? creds.apiBaseUrl)
-        : creds.apiBaseUrl,
-    // Lowercase, so a call's own `xInngestEnv` header member replaces it.
-    headers: (creds) => {
-      const headers: Record<string, string> = {
-        Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
-      };
-      if (creds.environment !== undefined) headers["x-inngest-env"] = creds.environment;
-      return headers;
+export const InngestProtocol = /*@__PURE__*/ restProtocol({
+  // The Credentials service holds an effect -- resolving it here (per
+  // request, on the calling fiber) picks up context-provided credentials
+  // and the `Environment` layer.
+  credentials: /*@__PURE__*/ Effect.withFiber(
+    (fiber): Effect.Effect<Resolved, CredentialsError, Credentials> => {
+      const environment = Context.getOrUndefined(fiber.context, Environment);
+      return environment === undefined
+        ? resolveCredentials
+        : Effect.map(resolveCredentials, (creds): Resolved => ({ ...creds, environment }));
     },
-    errorEnvelope,
-    unknownError: (info) => new UnknownInngestError(unknownErrorProps(info)),
-    parseError: ({ body, cause }) => new InngestParseError({ body, cause }),
-  });
+  ),
+  // v1 routes carry their own `/v1/` prefix and live at the base URL's
+  // origin. URL.parse never throws: a malformed base URL fails like v2 calls.
+  baseUrl: (creds, target) =>
+    target.uri.startsWith("/v1/")
+      ? (URL.parse(creds.apiBaseUrl)?.origin ?? creds.apiBaseUrl)
+      : creds.apiBaseUrl,
+  // Lowercase, so a call's own `xInngestEnv` header member replaces it.
+  headers: (creds) => {
+    const headers: Record<string, string> = {
+      Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+    };
+    if (creds.environment !== undefined) headers["x-inngest-env"] = creds.environment;
+    return headers;
+  },
+  errorEnvelope,
+  unknownError: (info) => new UnknownInngestError(unknownErrorProps(info)),
+  parseError: ({ body, cause }) => new InngestParseError({ body, cause }),
+});

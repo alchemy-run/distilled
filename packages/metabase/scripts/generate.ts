@@ -57,8 +57,6 @@ const metabaseSpec: SdkSpec = {
   operationDecl: {
     contextType: "MetabaseOpContext",
     commonErrorType: "MetabaseOpError",
-    // UnknownMetabaseError is declared on the protocol, whose type adds it.
-    commonErrorClasses: [],
     serviceErrors: "MetabaseServiceErrors",
     protocol: "MetabaseProtocol",
     retry: "Retry.Retry",

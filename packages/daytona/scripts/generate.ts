@@ -121,11 +121,6 @@ const spec: SdkSpec = {
   operationDecl: {
     contextType: "DaytonaOpContext",
     commonErrorType: "DaytonaOpError",
-    // No per-operation error classes: the specs type failures only as a
-    // status list against a shared `{ message }` envelope, so every status
-    // rides DaytonaOpError and the protocol picks the class.
-    // UnknownDaytonaError is declared on the protocol, whose type adds it.
-    commonErrorClasses: [],
     serviceErrors: "DaytonaServiceErrors",
     protocol: "DaytonaProtocol",
     retry: "Retry.Retry",

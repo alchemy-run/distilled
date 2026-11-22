@@ -34,9 +34,6 @@ export class Credentials
     "OvhCredentials",
   ) {}
 
-/** What resolving the credentials can fail with: declared on {@link Credentials}. */
-export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
-
 const baseUrlFromEnv = (): string => {
   const explicit = process.env.OVH_API_BASE_URL;
   if (explicit) return explicit;

@@ -79,8 +79,6 @@ const spec: SdkSpec = {
   operationDecl: {
     contextType: "DiscordOpContext",
     commonErrorType: "DiscordOpError",
-    // UnknownDiscordError is declared on the protocol, whose type adds it.
-    commonErrorClasses: [],
     serviceErrors: "DiscordServiceErrors",
     protocol: "DiscordProtocol",
     retry: "Retry.Retry",

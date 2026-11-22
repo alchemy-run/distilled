@@ -28,9 +28,6 @@ export class Credentials
     "SteelCredentials",
   ) {}
 
-/** What resolving the credentials can fail with: declared on {@link Credentials}. */
-export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
-
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   apiKey: /*@__PURE__*/ EffectConfig.Redacted("STEEL_API_KEY"),
   baseUrl: /*@__PURE__*/ EffectConfig.String("STEEL_BASE_URL").pipe(

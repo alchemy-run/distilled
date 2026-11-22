@@ -1,9 +1,5 @@
-import type { Protocol } from "@distilled.cloud/core/protocol";
-import {
-  restProtocol,
-  unknownErrorProps,
-  type RestProtocolError,
-} from "@distilled.cloud/core/protocol-rest";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
+import { restProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 /**
  * DokployProtocol -- the shared REST protocol instantiated for the Dokploy
  * API.
@@ -22,18 +18,8 @@ import {
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type CredentialsError } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import { DokployParseError, UnknownDokployError, type DokployServiceError } from "./errors.ts";
-
-/**
- * The errors declared on Dokploy's protocol: what the code that builds
- * requests and reads responses fails with. A response that does not match its
- * schema ({@link DokployParseError}), a failed response that neither the
- * operation nor the service declares ({@link UnknownDokployError}), and core's
- * REST errors (a bad path label, a request that can't be built, the
- * transport).
- */
-export type DokployProtocolError = RestProtocolError | DokployParseError | UnknownDokployError;
 
 /**
  * What every generated Dokploy operation fails with besides its own errors:
@@ -42,21 +28,18 @@ export type DokployProtocolError = RestProtocolError | DokployParseError | Unkno
  * `API.OperationMethod<I, O, DokployOpError, DokployOpContext>` explicitly so
  * the compiler never infers these back out of the schema generics.
  */
-export type DokployOpError = DokployServiceError | DokployProtocolError | CredentialsError;
+export type DokployOpError = DokployServiceError | ErrorOf<typeof DokployProtocol>;
 
 /** Context (requirements) shared by every generated Dokploy operation. */
 export type DokployOpContext = Credentials | HttpClient.HttpClient;
 
-// The annotation is the check: everything the protocol fails with, besides
-// the errors an operation and the service declare, must be listed here.
-export const DokployProtocol: Protocol<DokployProtocolError | CredentialsError, Credentials> =
-  /*@__PURE__*/ restProtocol({
-    // Resolved on the calling fiber per request, so a rotated key is picked up.
-    credentials: /*@__PURE__*/ Effect.flatten(Credentials),
-    baseUrl: (creds) => `${creds.url}/api`,
-    headers: (creds) => ({
-      "x-api-key": Redacted.value(creds.apiKey),
-    }),
-    unknownError: (info) => new UnknownDokployError(unknownErrorProps(info)),
-    parseError: ({ body, cause }) => new DokployParseError({ body, cause }),
-  });
+export const DokployProtocol = /*@__PURE__*/ restProtocol({
+  // Resolved on the calling fiber per request, so a rotated key is picked up.
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
+  baseUrl: (creds) => `${creds.url}/api`,
+  headers: (creds) => ({
+    "x-api-key": Redacted.value(creds.apiKey),
+  }),
+  unknownError: (info) => new UnknownDokployError(unknownErrorProps(info)),
+  parseError: ({ body, cause }) => new DokployParseError({ body, cause }),
+});

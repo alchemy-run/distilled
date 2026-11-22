@@ -55,9 +55,6 @@ export class Credentials
     "PlanetScaleCredentials",
   ) {}
 
-/** What resolving the credentials can fail with: declared on {@link Credentials}. */
-export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
-
 /**
  * Build the `Authorization` header for a resolved set of credentials.
  * Service tokens use PlanetScale's `<id>:<secret>` scheme; OAuth access

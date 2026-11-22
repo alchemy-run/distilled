@@ -30,9 +30,6 @@ export class Credentials
     "TypesenseCredentials",
   ) {}
 
-/** What resolving the credentials can fail with: declared on {@link Credentials}. */
-export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
-
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   apiKey: /*@__PURE__*/ EffectConfig.String("TYPESENSE_API_KEY"),
   apiBaseUrl: /*@__PURE__*/ EffectConfig.String("TYPESENSE_API_URL"),

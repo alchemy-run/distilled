@@ -1,9 +1,8 @@
-import type { Protocol } from "@distilled.cloud/core/protocol";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
 import {
   restProtocol,
   type RestErrorEnvelope,
   unknownErrorProps,
-  type RestProtocolError,
 } from "@distilled.cloud/core/protocol-rest";
 /**
  * PrismaProtocol -- hand-written.
@@ -27,17 +26,8 @@ import {
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type CredentialsError } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import { UnknownPrismaError, PrismaParseError, type PrismaServiceError } from "./errors.ts";
-
-/**
- * The errors declared on Prisma's protocol: what the code that builds requests
- * and reads responses fails with. A response that does not match its schema
- * ({@link PrismaParseError}), a failed response that neither the operation nor
- * the service declares ({@link UnknownPrismaError}), and core's REST errors (a
- * bad path label, a request that can't be built, the transport).
- */
-export type PrismaProtocolError = RestProtocolError | PrismaParseError | UnknownPrismaError;
 
 /**
  * What every generated Prisma operation fails with besides its own errors: the
@@ -46,7 +36,7 @@ export type PrismaProtocolError = RestProtocolError | PrismaParseError | Unknown
  * `API.OperationMethod<I, O, PrismaOpError, PrismaOpContext>` explicitly so
  * the compiler never infers these back out of the schema generics.
  */
-export type PrismaOpError = PrismaServiceError | PrismaProtocolError | CredentialsError;
+export type PrismaOpError = PrismaServiceError | ErrorOf<typeof PrismaProtocol>;
 
 /** Context (requirements) shared by every generated Prisma operation. */
 export type PrismaOpContext = Credentials | HttpClient.HttpClient;
@@ -71,32 +61,29 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   return env && { code: env.code, message: env.message };
 };
 
-// The annotation is the check: everything the protocol fails with, besides
-// the errors an operation and the service declare, must be listed here.
-export const PrismaProtocol: Protocol<PrismaProtocolError | CredentialsError, Credentials> =
-  /*@__PURE__*/ restProtocol({
-    // Resolved per request on the calling fiber -- the Credentials service
-    // holds an effect, so rotated tokens are picked up. Its ConfigError
-    // channel is erased at this boundary (Protocol effects carry none) and
-    // reintroduced for callers by `PrismaOpError`.
-    credentials: /*@__PURE__*/ Effect.flatten(Credentials),
-    baseUrl: (creds) => creds.apiBaseUrl,
-    headers: (creds) => {
-      const headers: Record<string, string> = {};
-      if (creds.apiToken !== undefined) {
-        headers.Authorization = `Bearer ${Redacted.value(creds.apiToken)}`;
-      }
-      return headers;
-    },
-    errorEnvelope,
-    unknownError: (info) => {
-      const env = envelopeOf(info.body);
-      return new UnknownPrismaError({
-        ...unknownErrorProps(info),
-        code: env?.code,
-        message: env?.message ?? info.message,
-        hint: env?.hint,
-      });
-    },
-    parseError: ({ body, cause }) => new PrismaParseError({ body, cause }),
-  });
+export const PrismaProtocol = /*@__PURE__*/ restProtocol({
+  // Resolved per request on the calling fiber -- the Credentials service
+  // holds an effect, so rotated tokens are picked up. Its ConfigError
+  // channel is erased at this boundary (Protocol effects carry none) and
+  // reintroduced for callers by `PrismaOpError`.
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
+  baseUrl: (creds) => creds.apiBaseUrl,
+  headers: (creds) => {
+    const headers: Record<string, string> = {};
+    if (creds.apiToken !== undefined) {
+      headers.Authorization = `Bearer ${Redacted.value(creds.apiToken)}`;
+    }
+    return headers;
+  },
+  errorEnvelope,
+  unknownError: (info) => {
+    const env = envelopeOf(info.body);
+    return new UnknownPrismaError({
+      ...unknownErrorProps(info),
+      code: env?.code,
+      message: env?.message ?? info.message,
+      hint: env?.hint,
+    });
+  },
+  parseError: ({ body, cause }) => new PrismaParseError({ body, cause }),
+});

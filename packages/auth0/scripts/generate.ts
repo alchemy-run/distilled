@@ -70,8 +70,6 @@ const auth0Spec: SdkSpec = {
   operationDecl: {
     contextType: "Auth0OpContext",
     commonErrorType: "Auth0OpError",
-    // UnknownAuth0Error is declared on the protocol, whose type adds it.
-    commonErrorClasses: [],
     serviceErrors: "Auth0ServiceErrors",
     protocol: "Auth0Protocol",
     retry: "Retry.Retry",

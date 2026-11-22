@@ -66,8 +66,6 @@ const temporalSpec: SdkSpec = {
   operationDecl: {
     contextType: "TemporalOpContext",
     commonErrorType: "TemporalOpError",
-    // UnknownTemporalError is declared on the protocol, whose type adds it.
-    commonErrorClasses: [],
     serviceErrors: "TemporalServiceErrors",
     protocol: "TemporalProtocol",
     retry: "Retry.Retry",

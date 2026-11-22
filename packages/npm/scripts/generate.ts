@@ -86,8 +86,6 @@ const spec: SdkSpec = {
   operationDecl: {
     contextType: "NpmOpContext",
     commonErrorType: "NpmOpError",
-    // UnknownNpmError is declared on the protocol, whose type adds it.
-    commonErrorClasses: [],
     serviceErrors: "NpmServiceErrors",
     protocol: "NpmProtocol",
     retry: "Retry.Retry",

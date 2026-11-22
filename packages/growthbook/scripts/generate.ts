@@ -73,8 +73,6 @@ const growthbookSpec: SdkSpec = {
   operationDecl: {
     contextType: "GrowthBookOpContext",
     commonErrorType: "GrowthBookOpError",
-    // UnknownGrowthBookError is declared on the protocol, whose type adds it.
-    commonErrorClasses: [],
     serviceErrors: "GrowthBookServiceErrors",
     protocol: "GrowthBookProtocol",
     retry: "Retry.Retry",

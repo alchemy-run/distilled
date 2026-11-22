@@ -35,9 +35,6 @@ export class Credentials
     "ConvexCredentials",
   ) {}
 
-/** What resolving the credentials can fail with: declared on {@link Credentials}. */
-export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
-
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   token: /*@__PURE__*/ EffectConfig.Redacted("CONVEX_ACCESS_TOKEN"),
   apiBaseUrl: /*@__PURE__*/ EffectConfig.String("CONVEX_API_BASE_URL").pipe(

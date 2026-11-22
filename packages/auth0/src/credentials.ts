@@ -29,9 +29,6 @@ export class Credentials
     "Auth0Credentials",
   ) {}
 
-/** What resolving the credentials can fail with: declared on {@link Credentials}. */
-export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
-
 /** Layer from a Management API token + tenant domain. */
 export const fromToken = (config: {
   readonly token: Redacted.Redacted<string>;

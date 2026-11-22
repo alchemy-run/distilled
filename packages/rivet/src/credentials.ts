@@ -33,9 +33,6 @@ export class Credentials
     "RivetCredentials",
   ) {}
 
-/** What resolving the credentials can fail with: declared on {@link Credentials}. */
-export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
-
 /**
  * Split an endpoint URL into its base URL and the token in its userinfo
  * password, if any (`https://<namespace>:<token>@host`).

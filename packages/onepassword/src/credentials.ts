@@ -43,9 +43,6 @@ export class ConnectCredentials
     Effect.Effect<ConnectConfig, ConfigError>
   >()("OnepasswordConnectCredentials") {}
 
-/** What resolving the credentials can fail with: declared on {@link ConnectCredentials}. */
-export type ConnectCredentialsError = Effect.Error<(typeof ConnectCredentials)["Service"]>;
-
 /** `OP_CONNECT_HOST` is the server root without `/v1`; append it when missing. */
 const connectHostToBaseUrl = (host: string): string => {
   const trimmed = host.replace(/\/+$/, "");
@@ -112,9 +109,6 @@ export class EventsCredentials
     Effect.Effect<EventsConfig, ConfigError>
   >()("OnepasswordEventsCredentials") {}
 
-/** What resolving the credentials can fail with: declared on {@link EventsCredentials}. */
-export type EventsCredentialsError = Effect.Error<(typeof EventsCredentials)["Service"]>;
-
 /** Layer from an Events Reporting bearer token + optional regional host. */
 export const eventsCredentials = (config: {
   readonly token: Redacted.Redacted<string>;
@@ -171,9 +165,6 @@ export class OAuthCredentials
     OAuthCredentials,
     Effect.Effect<OAuthConfig, ConfigError>
   >()("OnepasswordOAuthCredentials") {}
-
-/** What resolving the credentials can fail with: declared on {@link OAuthCredentials}. */
-export type OAuthCredentialsError = Effect.Error<(typeof OAuthCredentials)["Service"]>;
 
 /** Layer from OAuth application client credentials + optional regional host. */
 export const oauthCredentials = (config: {
@@ -234,9 +225,6 @@ export class UsersCredentials
     UsersCredentials,
     Effect.Effect<UsersConfig, ConfigError>
   >()("OnepasswordUsersCredentials") {}
-
-/** What resolving the credentials can fail with: declared on {@link UsersCredentials}. */
-export type UsersCredentialsError = Effect.Error<(typeof UsersCredentials)["Service"]>;
 
 const TokenResponse = /*@__PURE__*/ Schema.Struct({
   access_token: Schema.String,
@@ -428,9 +416,6 @@ export class PartnershipCredentials
     PartnershipCredentials,
     Effect.Effect<PartnershipConfig, ConfigError>
   >()("OnepasswordPartnershipCredentials") {}
-
-/** What resolving the credentials can fail with: declared on {@link PartnershipCredentials}. */
-export type PartnershipCredentialsError = Effect.Error<(typeof PartnershipCredentials)["Service"]>;
 
 /** Layer from a partner bearer token + optional host. */
 export const partnershipCredentials = (config: {

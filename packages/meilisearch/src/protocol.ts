@@ -1,9 +1,5 @@
-import type { Protocol } from "@distilled.cloud/core/protocol";
-import {
-  restProtocol,
-  unknownErrorProps,
-  type RestProtocolError,
-} from "@distilled.cloud/core/protocol-rest";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
+import { restProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 /**
  * MeilisearchProtocol -- hand-written.
  *
@@ -23,25 +19,12 @@ import {
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type CredentialsError } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import {
   UnknownMeilisearchError,
   MeilisearchParseError,
   type MeilisearchServiceError,
 } from "./errors.ts";
-
-/**
- * The errors declared on Meilisearch's protocol: what the code that builds
- * requests and reads responses fails with. A response that does not match its
- * schema ({@link MeilisearchParseError}), a failed response that neither the
- * operation nor the service declares ({@link UnknownMeilisearchError}), and
- * core's REST errors (a bad path label, a request that can't be built, the
- * transport).
- */
-export type MeilisearchProtocolError =
-  | RestProtocolError
-  | MeilisearchParseError
-  | UnknownMeilisearchError;
 
 /**
  * What every generated Meilisearch operation fails with besides its own
@@ -51,20 +34,12 @@ export type MeilisearchProtocolError =
  * explicitly so the compiler never infers these back out of the schema
  * generics.
  */
-export type MeilisearchOpError =
-  | MeilisearchServiceError
-  | MeilisearchProtocolError
-  | CredentialsError;
+export type MeilisearchOpError = MeilisearchServiceError | ErrorOf<typeof MeilisearchProtocol>;
 
 /** Context (requirements) shared by every generated Meilisearch operation. */
 export type MeilisearchOpContext = Credentials | HttpClient.HttpClient;
 
-// The annotation is the check: everything the protocol fails with, besides
-// the errors an operation and the service declare, must be listed here.
-export const MeilisearchProtocol: Protocol<
-  MeilisearchProtocolError | CredentialsError,
-  Credentials
-> = /*@__PURE__*/ restProtocol({
+export const MeilisearchProtocol = /*@__PURE__*/ restProtocol({
   // The Credentials service holds an effect -- resolving it here (per
   // request, on the calling fiber) picks up context-provided credentials.
   credentials: /*@__PURE__*/ Effect.flatten(Credentials),

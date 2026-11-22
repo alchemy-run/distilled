@@ -1,9 +1,5 @@
-import type { Protocol } from "@distilled.cloud/core/protocol";
-import {
-  restProtocol,
-  unknownErrorProps,
-  type RestProtocolError,
-} from "@distilled.cloud/core/protocol-rest";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
+import { restProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 /**
  * ClickHouseCloudProtocol -- the shared REST protocol instantiated for the
  * ClickHouse Cloud API.
@@ -32,25 +28,12 @@ import * as Effect from "effect/Effect";
 import * as Base64 from "effect/encoding/Base64";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type CredentialsError } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import {
   ClickHouseCloudParseError,
   UnknownClickHouseCloudError,
   type ClickHouseCloudServiceError,
 } from "./errors.ts";
-
-/**
- * The errors declared on ClickHouse Cloud's protocol: what the code that
- * builds requests and reads responses fails with. A response that does not
- * match its schema ({@link ClickHouseCloudParseError}), a failed response that
- * neither the operation nor the service declares ({@link
- * UnknownClickHouseCloudError}), and core's REST errors (a bad path label, a
- * request that can't be built, the transport).
- */
-export type ClickHouseCloudProtocolError =
-  | RestProtocolError
-  | ClickHouseCloudParseError
-  | UnknownClickHouseCloudError;
 
 /**
  * What every generated ClickHouse Cloud operation fails with besides its own
@@ -62,8 +45,7 @@ export type ClickHouseCloudProtocolError =
  */
 export type ClickHouseCloudOpError =
   | ClickHouseCloudServiceError
-  | ClickHouseCloudProtocolError
-  | CredentialsError;
+  | ErrorOf<typeof ClickHouseCloudProtocol | typeof ClickHouseCloudPaginatedProtocol>;
 
 /** Context (requirements) shared by every generated ClickHouse Cloud operation. */
 export type ClickHouseCloudOpContext = Credentials | HttpClient.HttpClient;
@@ -74,11 +56,7 @@ const isObject = (value: unknown): value is Record<string, unknown> =>
 const unwrapResult = (body: unknown): unknown =>
   isObject(body) && "result" in body ? body.result : body;
 
-// The annotation is the check: everything a protocol fails with, besides the
-// errors an operation and the service declare, must be listed here.
-const makeProtocol = (
-  unwrap: boolean,
-): Protocol<ClickHouseCloudProtocolError | CredentialsError, Credentials> =>
+const makeProtocol = (unwrap: boolean) =>
   restProtocol({
     // Resolved on the CALLING fiber per request, so a key rotated between
     // calls is picked up.
@@ -92,13 +70,7 @@ const makeProtocol = (
     parseError: ({ body, cause }) => new ClickHouseCloudParseError({ body, cause }),
   });
 
-export const ClickHouseCloudProtocol: Protocol<
-  ClickHouseCloudProtocolError | CredentialsError,
-  Credentials
-> = /*@__PURE__*/ makeProtocol(true);
+export const ClickHouseCloudProtocol = /*@__PURE__*/ makeProtocol(true);
 
 /** The protocol for cursor-paginated operations: the envelope stays whole. */
-export const ClickHouseCloudPaginatedProtocol: Protocol<
-  ClickHouseCloudProtocolError | CredentialsError,
-  Credentials
-> = /*@__PURE__*/ makeProtocol(false);
+export const ClickHouseCloudPaginatedProtocol = /*@__PURE__*/ makeProtocol(false);
