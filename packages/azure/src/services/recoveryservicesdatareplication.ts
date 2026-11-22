@@ -2296,6 +2296,8 @@ export interface ListEmailConfigurationRequest {
   resourceGroupName: string;
   /** The vault name. */
   vaultName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Email configuration model. */
 export interface EmailConfigurationModel {
@@ -2332,6 +2334,8 @@ export interface ListEventRequest {
   continuationToken?: string | undefined;
   /** Page size. */
   pageSize?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Event model. */
 export interface EventModel {
@@ -2362,6 +2366,8 @@ export interface ListFabricRequest {
   resourceGroupName: string;
   /** Continuation token from the previous call. */
   continuationToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type FabricModelTagsMap = { [key: string]: string | undefined };
@@ -2398,6 +2404,8 @@ export interface ListFabricAgentRequest {
   resourceGroupName: string;
   /** The fabric name. */
   fabricName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Fabric agent model. */
 export interface FabricAgentModel {
@@ -2424,6 +2432,8 @@ export interface FabricAgentModelListResult {
 export interface ListFabricBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListJobRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2438,6 +2448,8 @@ export interface ListJobRequest {
   continuationToken?: string | undefined;
   /** Page size. */
   pageSize?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The JobModel items on this page */
 export type JobModelListResultValueList = Array<JobModel>;
@@ -2448,7 +2460,10 @@ export interface JobModelListResult {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -2481,7 +2496,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -2492,6 +2507,8 @@ export interface ListPolicyRequest {
   resourceGroupName: string;
   /** The vault name. */
   vaultName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Policy model. */
 export interface PolicyModel {
@@ -2522,6 +2539,8 @@ export interface ListPrivateEndpointConnectionsRequest {
   resourceGroupName: string;
   /** The vault name. */
   vaultName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The PrivateEndpointConnection items on this page */
 export type PrivateEndpointConnectionListResultValueList = Array<PrivateEndpointConnection>;
@@ -2539,6 +2558,8 @@ export interface ListPrivateLinkResourcesRequest {
   resourceGroupName: string;
   /** The vault name. */
   vaultName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Represents private link resource. */
 export interface PrivateLinkResource {
@@ -2575,6 +2596,8 @@ export interface ListProtectedItemRequest {
   continuationToken?: string | undefined;
   /** Page size. */
   pageSize?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Protected item model. */
 export interface ProtectedItemModel {
@@ -2607,6 +2630,8 @@ export interface ListRecoveryPointRequest {
   vaultName: string;
   /** The protected item name. */
   protectedItemName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Recovery point model. */
 export interface RecoveryPointModel {
@@ -2637,6 +2662,8 @@ export interface ListReplicationExtensionRequest {
   resourceGroupName: string;
   /** The vault name. */
   vaultName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Replication extension model. */
 export interface ReplicationExtensionModel {
@@ -2667,6 +2694,8 @@ export interface ListVaultRequest {
   resourceGroupName: string;
   /** Continuation token from the previous call. */
   continuationToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type VaultModelTagsMap = { [key: string]: string | undefined };
@@ -2715,6 +2744,8 @@ export interface VaultModelListResult {
 export interface ListVaultBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface PostCheckNameAvailabilityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3522,12 +3553,13 @@ export const GetVault: API.OperationMethod<
 
 export type ListEmailConfigurationError = AzureOpError;
 /** Gets the list of alert configuration settings for the given vault. */
-export const ListEmailConfiguration: API.OperationMethod<
+export const ListEmailConfiguration: API.PaginatedOperationMethod<
   ListEmailConfigurationRequest,
   EmailConfigurationModelListResult,
   ListEmailConfigurationError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EmailConfigurationModel
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<ListEmailConfigurationRequest>,
   output: __S(1282, __c40, 2) as any as S.Schema<EmailConfigurationModelListResult>,
   errors: [UnknownAzureError],
@@ -3535,16 +3567,23 @@ export const ListEmailConfiguration: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEmailConfiguration",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEventError = AzureOpError;
 /** Gets the list of events in the given vault. */
-export const ListEvent: API.OperationMethod<
+export const ListEvent: API.PaginatedOperationMethod<
   ListEventRequest,
   EventModelListResult,
   ListEventError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EventModel
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<ListEventRequest>,
   output: __S(1314, __c41, 2) as any as S.Schema<EventModelListResult>,
   errors: [UnknownAzureError],
@@ -3552,16 +3591,23 @@ export const ListEvent: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEvent",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListFabricError = AzureOpError;
 /** Gets the list of fabrics in the given subscription and resource group. */
-export const ListFabric: API.OperationMethod<
+export const ListFabric: API.PaginatedOperationMethod<
   ListFabricRequest,
   FabricModelListResult,
   ListFabricError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  FabricModel
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<ListFabricRequest>,
   output: __S(1441, __c45, 1) as any as S.Schema<FabricModelListResult>,
   errors: [UnknownAzureError],
@@ -3569,16 +3615,23 @@ export const ListFabric: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFabric",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListFabricAgentError = AzureOpError;
 /** Gets the list of fabric agents in the given fabric. */
-export const ListFabricAgent: API.OperationMethod<
+export const ListFabricAgent: API.PaginatedOperationMethod<
   ListFabricAgentRequest,
   FabricAgentModelListResult,
   ListFabricAgentError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  FabricAgentModel
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<ListFabricAgentRequest>,
   output: __S(1474, __c46, 2) as any as S.Schema<FabricAgentModelListResult>,
   errors: [UnknownAzureError],
@@ -3586,16 +3639,23 @@ export const ListFabricAgent: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFabricAgent",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListFabricBySubscriptionError = AzureOpError;
 /** Gets the list of fabrics in the given subscription. */
-export const ListFabricBySubscription: API.OperationMethod<
+export const ListFabricBySubscription: API.PaginatedOperationMethod<
   ListFabricBySubscriptionRequest,
   FabricModelListResult,
   ListFabricBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  FabricModel
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1504, __c47, 0) as any as S.Schema<ListFabricBySubscriptionRequest>,
   output: __S(1441, __c45, 1) as any as S.Schema<FabricModelListResult>,
   errors: [UnknownAzureError],
@@ -3603,16 +3663,23 @@ export const ListFabricBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFabricBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListJobError = AzureOpError;
 /** Gets the list of jobs in the given vault. */
-export const ListJob: API.OperationMethod<
+export const ListJob: API.PaginatedOperationMethod<
   ListJobRequest,
   JobModelListResult,
   ListJobError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  JobModel
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<ListJobRequest>,
   output: __S(1537, __c48, 1) as any as S.Schema<JobModelListResult>,
   errors: [UnknownAzureError],
@@ -3620,16 +3687,23 @@ export const ListJob: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListJob",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(1572, __c49, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
@@ -3637,16 +3711,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPolicyError = AzureOpError;
 /** Gets the list of policies in the given vault. */
-export const ListPolicy: API.OperationMethod<
+export const ListPolicy: API.PaginatedOperationMethod<
   ListPolicyRequest,
   PolicyModelListResult,
   ListPolicyError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PolicyModel
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<ListPolicyRequest>,
   output: __S(1602, __c50, 2) as any as S.Schema<PolicyModelListResult>,
   errors: [UnknownAzureError],
@@ -3654,16 +3735,23 @@ export const ListPolicy: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPolicy",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateEndpointConnectionsError = AzureOpError;
 /** Gets the all private endpoint connections configured on the vault. */
-export const ListPrivateEndpointConnections: API.OperationMethod<
+export const ListPrivateEndpointConnections: API.PaginatedOperationMethod<
   ListPrivateEndpointConnectionsRequest,
   PrivateEndpointConnectionListResult,
   ListPrivateEndpointConnectionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateEndpointConnection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1632, __c51, 0) as any as S.Schema<ListPrivateEndpointConnectionsRequest>,
   output: __S(1633, __c51, 1) as any as S.Schema<PrivateEndpointConnectionListResult>,
   errors: [UnknownAzureError],
@@ -3671,16 +3759,23 @@ export const ListPrivateEndpointConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateEndpointConnections",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateLinkResourcesError = AzureOpError;
 /** Gets the list of private link resources. */
-export const ListPrivateLinkResources: API.OperationMethod<
+export const ListPrivateLinkResources: API.PaginatedOperationMethod<
   ListPrivateLinkResourcesRequest,
   PrivateLinkResourceListResult,
   ListPrivateLinkResourcesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateLinkResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1664, __c52, 0) as any as S.Schema<ListPrivateLinkResourcesRequest>,
   output: __S(1666, __c52, 2) as any as S.Schema<PrivateLinkResourceListResult>,
   errors: [UnknownAzureError],
@@ -3688,16 +3783,23 @@ export const ListPrivateLinkResources: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateLinkResources",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListProtectedItemError = AzureOpError;
 /** Gets the list of protected items in the given vault. */
-export const ListProtectedItem: API.OperationMethod<
+export const ListProtectedItem: API.PaginatedOperationMethod<
   ListProtectedItemRequest,
   ProtectedItemModelListResult,
   ListProtectedItemError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ProtectedItemModel
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1696, __c53, 0) as any as S.Schema<ListProtectedItemRequest>,
   output: __S(1698, __c53, 2) as any as S.Schema<ProtectedItemModelListResult>,
   errors: [UnknownAzureError],
@@ -3705,16 +3807,23 @@ export const ListProtectedItem: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProtectedItem",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRecoveryPointError = AzureOpError;
 /** Gets the list of recovery points of the given protected item. */
-export const ListRecoveryPoint: API.OperationMethod<
+export const ListRecoveryPoint: API.PaginatedOperationMethod<
   ListRecoveryPointRequest,
   RecoveryPointModelListResult,
   ListRecoveryPointError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RecoveryPointModel
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<ListRecoveryPointRequest>,
   output: __S(1730, __c54, 2) as any as S.Schema<RecoveryPointModelListResult>,
   errors: [UnknownAzureError],
@@ -3722,16 +3831,23 @@ export const ListRecoveryPoint: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRecoveryPoint",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListReplicationExtensionError = AzureOpError;
 /** Gets the list of replication extensions in the given vault. */
-export const ListReplicationExtension: API.OperationMethod<
+export const ListReplicationExtension: API.PaginatedOperationMethod<
   ListReplicationExtensionRequest,
   ReplicationExtensionModelListResult,
   ListReplicationExtensionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ReplicationExtensionModel
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<ListReplicationExtensionRequest>,
   output: __S(1858, __c58, 2) as any as S.Schema<ReplicationExtensionModelListResult>,
   errors: [UnknownAzureError],
@@ -3739,16 +3855,23 @@ export const ListReplicationExtension: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListReplicationExtension",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListVaultError = AzureOpError;
 /** Gets the list of vaults in the given subscription and resource group. */
-export const ListVault: API.OperationMethod<
+export const ListVault: API.PaginatedOperationMethod<
   ListVaultRequest,
   VaultModelListResult,
   ListVaultError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  VaultModel
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<ListVaultRequest>,
   output: __S(1921, __c60, 1) as any as S.Schema<VaultModelListResult>,
   errors: [UnknownAzureError],
@@ -3756,16 +3879,23 @@ export const ListVault: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVault",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListVaultBySubscriptionError = AzureOpError;
 /** Gets the list of vaults in the given subscription. */
-export const ListVaultBySubscription: API.OperationMethod<
+export const ListVaultBySubscription: API.PaginatedOperationMethod<
   ListVaultBySubscriptionRequest,
   VaultModelListResult,
   ListVaultBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  VaultModel
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<ListVaultBySubscriptionRequest>,
   output: __S(1921, __c60, 1) as any as S.Schema<VaultModelListResult>,
   errors: [UnknownAzureError],
@@ -3773,7 +3903,13 @@ export const ListVaultBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVaultBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type PostCheckNameAvailabilityError = AzureOpError;
 /** Performs the resource name availability check. Checks the resource name availability. */
@@ -4918,12 +5054,14 @@ function __c40(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           vaultName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/alertSettings",
             code: 200,
             apiVersion: "2026-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEmailConfigurationRequest" });
@@ -4949,12 +5087,14 @@ function __c41(j: number): any {
           odataOptions: S.optional(S.String.pipe(T.Query())),
           continuationToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/events",
             code: 200,
             apiVersion: "2026-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEventRequest" });
@@ -5038,12 +5178,14 @@ function __c44(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           continuationToken: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationFabrics",
             code: 200,
             apiVersion: "2026-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListFabricRequest" });
@@ -5070,12 +5212,14 @@ function __c46(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           fabricName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationFabrics/{fabricName}/fabricAgents",
             code: 200,
             apiVersion: "2026-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListFabricAgentRequest" });
@@ -5096,12 +5240,14 @@ function __c47(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DataReplication/replicationFabrics",
             code: 200,
             apiVersion: "2026-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListFabricBySubscriptionRequest" });
@@ -5118,12 +5264,14 @@ function __c48(j: number): any {
           odataOptions: S.optional(S.String.pipe(T.Query())),
           continuationToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/jobs",
             code: 200,
             apiVersion: "2026-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListJobRequest" });
@@ -5140,12 +5288,15 @@ function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.DataReplication/operations",
             code: 200,
             apiVersion: "2026-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -5173,7 +5324,7 @@ function __c49(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1571, __c49, 3)),
+          value: __S(1571, __c49, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -5187,12 +5338,14 @@ function __c50(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           vaultName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/replicationPolicies",
             code: 200,
             apiVersion: "2026-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPolicyRequest" });
@@ -5215,12 +5368,14 @@ function __c51(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           vaultName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/privateEndpointConnections",
             code: 200,
             apiVersion: "2026-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateEndpointConnectionsRequest" });
@@ -5241,12 +5396,14 @@ function __c52(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           vaultName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/privateLinkResources",
             code: 200,
             apiVersion: "2026-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateLinkResourcesRequest" });
@@ -5272,12 +5429,14 @@ function __c53(j: number): any {
           odataOptions: S.optional(S.String.pipe(T.Query())),
           continuationToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/protectedItems",
             code: 200,
             apiVersion: "2026-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListProtectedItemRequest" });
@@ -5301,12 +5460,14 @@ function __c54(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           vaultName: S.String.pipe(T.Label()),
           protectedItemName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/protectedItems/{protectedItemName}/recoveryPoints",
             code: 200,
             apiVersion: "2026-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRecoveryPointRequest" });
@@ -5727,12 +5888,14 @@ function __c58(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           vaultName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/replicationExtensions",
             code: 200,
             apiVersion: "2026-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListReplicationExtensionRequest" });
@@ -5755,12 +5918,14 @@ function __c59(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           continuationToken: S.optional(S.String.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults",
             code: 200,
             apiVersion: "2026-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListVaultRequest" });
@@ -5785,12 +5950,14 @@ function __c61(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DataReplication/replicationVaults",
             code: 200,
             apiVersion: "2026-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListVaultBySubscriptionRequest" });
