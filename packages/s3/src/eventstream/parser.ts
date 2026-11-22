@@ -18,6 +18,7 @@ import {
   EventParseError,
   EventStreamDecodeError,
   getMessageLength,
+  MAX_MESSAGE_LENGTH,
   parseEvent,
   type StreamEvent,
 } from "./codec.ts";
@@ -72,6 +73,20 @@ export const parseEventStream = (
             let buffer = yield* Ref.get(bufferRef);
 
             while (true) {
+              // Refuse an oversized message as soon as its length arrives,
+              // before buffering the rest of it.
+              if (buffer.length >= 4) {
+                const announced = new DataView(
+                  buffer.buffer,
+                  buffer.byteOffset,
+                  buffer.byteLength,
+                ).getUint32(0, false);
+                if (announced > MAX_MESSAGE_LENGTH) {
+                  return yield* new EventStreamDecodeError({
+                    message: `Message length ${announced} is over the ${MAX_MESSAGE_LENGTH}-byte maximum`,
+                  });
+                }
+              }
               const messageLength = getMessageLength(buffer);
               if (messageLength === 0) {
                 break;
