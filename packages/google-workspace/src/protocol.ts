@@ -2,11 +2,10 @@ import * as API from "@distilled.cloud/core/api";
 import { HTTP_STATUS_MAP, InternalServerError } from "@distilled.cloud/core/errors";
 import type { ConfigError, DefaultErrors, InvalidInput } from "@distilled.cloud/core/errors";
 import {
-  encodeGreedyLabel,
+  encodeLabel,
   getAnn,
   getProps,
   hasPropAnn,
-  invalidLabel,
   matchTypedError,
   nameOf,
   responseErrorFields,
@@ -34,7 +33,7 @@ import {
  *             extended `T.Http({ ... baseUrl })` trait; `{+param}`
  *             path tokens (Google discovery paths like `v1/{+name}` carry
  *             multi-segment resource names) keep their `/` and encode
- *             each segment, with core's `invalidLabel` checks;
+ *             each segment, with core's `encodeLabel` checks;
  *             query params (arrays as repeated `k=v`); a single
  *             `HttpBody()` member as the whole JSON request body.
  *
@@ -171,11 +170,9 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
         // like core's greedy `{name+}`, each segment is encoded and the `/`
         // kept (google/api/http.proto). Plain `{name}` is fully encoded.
         const greedy = uri.includes(`{+${token}}`);
-        const invalid = invalidLabel(String(prop.name), value, greedy);
-        if (invalid) return yield* fail(invalid);
-        uri = greedy
-          ? uri.replace(`{+${token}}`, () => encodeGreedyLabel(String(value)))
-          : uri.replace(`{${token}}`, () => encodeURIComponent(String(value)));
+        const label = encodeLabel(String(prop.name), value, greedy);
+        if (typeof label !== "string") return yield* fail(label);
+        uri = uri.replace(greedy ? `{+${token}}` : `{${token}}`, () => label);
       } else if (hasPropAnn(prop, querySymbol)) {
         appendQuery(query, nameOf(prop, querySymbol), value);
       } else if (hasPropAnn(prop, headerSymbol)) {
