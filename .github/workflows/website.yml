@@ -115,15 +115,10 @@ jobs:
       - name: Install Node 24
         run: pnpm runtime set node 24 -g
 
+      # The deploy runs the alchemy build pinned in pnpm-lock.yaml (by
+      # integrity hash); alchemy-main.yml moves that pin through a PR.
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --filter "./website..."
-
-      # The Cloudflare state store is shared with alchemy's own CI, which
-      # deploys alchemy main and upgrades the store as soon as main moves to a
-      # new store version. An older alchemy then refuses the store, so deploy
-      # with whatever is on alchemy main right now, not the locked build.
-      - name: Use the latest alchemy main
-        run: pnpm run alchemy:main
 
       # The build renders one social card per provider with a local headless
       # browser (`website/scripts/og.ts --all`). The runner image ships Chrome;
@@ -210,11 +205,6 @@ jobs:
         # Destroy evaluates the stack and calls providers; it does not build or
         # bundle anything. Skip native postinstalls and the root prepare build.
         run: pnpm install --frozen-lockfile --ignore-scripts --filter "./website..."
-
-      # Same reason as in the deploy job: the shared state store follows
-      # alchemy main.
-      - name: Use the latest alchemy main
-        run: pnpm run alchemy:main --ignore-scripts
 
       - name: Check current preview state
         id: preview-state

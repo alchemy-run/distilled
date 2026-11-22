@@ -45,12 +45,10 @@ jobs:
           install: true
           require-lockfile: true
 
-      # The Cloudflare state store is shared with alchemy's own CI, which
-      # deploys alchemy main and upgrades the store as soon as main moves to a
-      # new store version. An older alchemy then refuses the store, so deploy
-      # with whatever is on alchemy main right now, not the locked build.
-      - name: Use the latest alchemy main
-        run: pnpm run alchemy:main
+      # The deploy runs the alchemy build pinned in pnpm-lock.yaml (by
+      # integrity hash). alchemy-main.yml moves that pin to alchemy main
+      # through a PR once a day; dispatch it to move it sooner, for example
+      # when the shared state store needs a newer alchemy.
 
       - name: Deploy the spec-mirror repositories
         working-directory: stacks/distilled-submodules
