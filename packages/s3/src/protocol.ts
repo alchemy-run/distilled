@@ -1,5 +1,5 @@
 import * as API from "@distilled.cloud/core/api";
-import type { InvalidInput } from "@distilled.cloud/core/protocol-http";
+import { invalidHostLabel, type InvalidInput } from "@distilled.cloud/core/protocol-http";
 import { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Send from "@distilled.cloud/core/send";
 import * as Telemetry from "@distilled.cloud/core/telemetry";
@@ -65,7 +65,6 @@ import { EndpointError, ParseError } from "./errors.ts";
 import * as Region from "./region.ts";
 import { dnsSuffix } from "./rules-engine/aws-functions.ts";
 import { makeEndpointResolver } from "./rules-engine/endpoint-resolver.ts";
-import { isValidHostLabel } from "./rules-engine/standard-functions.ts";
 import * as SigV4 from "./sigv4.ts";
 import {
   type AwsAuthSigv2Trait,
@@ -80,7 +79,7 @@ import {
   protocolSymbol,
 } from "./traits.ts";
 import { getIdentifier, getPropertySignatures } from "./util/ast.ts";
-import { invalidHostLabel, invalidRegion } from "./util/serialize-input.ts";
+import { invalidRegion } from "./util/serialize-input.ts";
 import { bodyStream, isOneShotBody, isStreamBody, type StreamBody } from "./util/stream.ts";
 
 /**
@@ -299,9 +298,8 @@ const toHttpRequest = (
     let resolvedPrefix = prepared.hostPrefix;
     for (const [label, member = ""] of prepared.hostPrefix.matchAll(/\{(\w+)\}/g)) {
       const value = String((input as Record<string, unknown>)?.[member] ?? "");
-      if (!isValidHostLabel(value, true)) {
-        return Effect.fail(invalidHostLabel(member, value));
-      }
+      const invalid = invalidHostLabel(member, value, true);
+      if (invalid !== undefined) return Effect.fail(invalid);
       resolvedPrefix = resolvedPrefix.replace(label, value);
     }
     // The endpoint rules engine may already have baked the same label into
